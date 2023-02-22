@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -94,9 +94,10 @@ func (client *AnomalyDetectionClient) ConfigurationProvider() *common.Configurat
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
+// A default retry strategy applies to this operation CancelWorkRequest()
 func (client AnomalyDetectionClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -137,7 +138,7 @@ func (client AnomalyDetectionClient) cancelWorkRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -151,9 +152,10 @@ func (client AnomalyDetectionClient) cancelWorkRequest(ctx context.Context, requ
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeAiPrivateEndpointCompartment.go.html to see an example of how to use ChangeAiPrivateEndpointCompartment API.
+// A default retry strategy applies to this operation ChangeAiPrivateEndpointCompartment()
 func (client AnomalyDetectionClient) ChangeAiPrivateEndpointCompartment(ctx context.Context, request ChangeAiPrivateEndpointCompartmentRequest) (response ChangeAiPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -199,7 +201,7 @@ func (client AnomalyDetectionClient) changeAiPrivateEndpointCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpoint/ChangeAiPrivateEndpointCompartment"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeAiPrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -213,9 +215,10 @@ func (client AnomalyDetectionClient) changeAiPrivateEndpointCompartment(ctx cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeDataAssetCompartment.go.html to see an example of how to use ChangeDataAssetCompartment API.
+// A default retry strategy applies to this operation ChangeDataAssetCompartment()
 func (client AnomalyDetectionClient) ChangeDataAssetCompartment(ctx context.Context, request ChangeDataAssetCompartmentRequest) (response ChangeDataAssetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -261,8 +264,66 @@ func (client AnomalyDetectionClient) changeDataAssetCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAsset/ChangeDataAssetCompartment"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeDataAssetCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeDetectAnomalyJobCompartment Moves a asynchronous anomaly detect job resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeDetectAnomalyJobCompartment.go.html to see an example of how to use ChangeDetectAnomalyJobCompartment API.
+// A default retry strategy applies to this operation ChangeDetectAnomalyJobCompartment()
+func (client AnomalyDetectionClient) ChangeDetectAnomalyJobCompartment(ctx context.Context, request ChangeDetectAnomalyJobCompartmentRequest) (response ChangeDetectAnomalyJobCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeDetectAnomalyJobCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDetectAnomalyJobCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDetectAnomalyJobCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDetectAnomalyJobCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDetectAnomalyJobCompartmentResponse")
+	}
+	return
+}
+
+// changeDetectAnomalyJobCompartment implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) changeDetectAnomalyJobCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/detectAnomalyJobs/{detectAnomalyJobId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDetectAnomalyJobCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJob/ChangeDetectAnomalyJobCompartment"
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeDetectAnomalyJobCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -275,9 +336,10 @@ func (client AnomalyDetectionClient) changeDataAssetCompartment(ctx context.Cont
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
+// A default retry strategy applies to this operation ChangeModelCompartment()
 func (client AnomalyDetectionClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -323,7 +385,7 @@ func (client AnomalyDetectionClient) changeModelCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/ChangeModelCompartment"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeModelCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -337,9 +399,10 @@ func (client AnomalyDetectionClient) changeModelCompartment(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
+// A default retry strategy applies to this operation ChangeProjectCompartment()
 func (client AnomalyDetectionClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -385,7 +448,7 @@ func (client AnomalyDetectionClient) changeProjectCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/ChangeProjectCompartment"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ChangeProjectCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -399,9 +462,10 @@ func (client AnomalyDetectionClient) changeProjectCompartment(ctx context.Contex
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateAiPrivateEndpoint.go.html to see an example of how to use CreateAiPrivateEndpoint API.
+// A default retry strategy applies to this operation CreateAiPrivateEndpoint()
 func (client AnomalyDetectionClient) CreateAiPrivateEndpoint(ctx context.Context, request CreateAiPrivateEndpointRequest) (response CreateAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -447,7 +511,7 @@ func (client AnomalyDetectionClient) createAiPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpoint/CreateAiPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -461,9 +525,10 @@ func (client AnomalyDetectionClient) createAiPrivateEndpoint(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateDataAsset.go.html to see an example of how to use CreateDataAsset API.
+// A default retry strategy applies to this operation CreateDataAsset()
 func (client AnomalyDetectionClient) CreateDataAsset(ctx context.Context, request CreateDataAssetRequest) (response CreateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -509,8 +574,71 @@ func (client AnomalyDetectionClient) createDataAsset(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAsset/CreateDataAsset"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateDataAsset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateDetectAnomalyJob Creates a job to perform anomaly detection.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateDetectAnomalyJob.go.html to see an example of how to use CreateDetectAnomalyJob API.
+// A default retry strategy applies to this operation CreateDetectAnomalyJob()
+func (client AnomalyDetectionClient) CreateDetectAnomalyJob(ctx context.Context, request CreateDetectAnomalyJobRequest) (response CreateDetectAnomalyJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDetectAnomalyJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDetectAnomalyJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDetectAnomalyJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDetectAnomalyJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDetectAnomalyJobResponse")
+	}
+	return
+}
+
+// createDetectAnomalyJob implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) createDetectAnomalyJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/detectAnomalyJobs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDetectAnomalyJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJob/CreateDetectAnomalyJob"
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateDetectAnomalyJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -523,9 +651,10 @@ func (client AnomalyDetectionClient) createDataAsset(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateModel.go.html to see an example of how to use CreateModel API.
+// A default retry strategy applies to this operation CreateModel()
 func (client AnomalyDetectionClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -571,7 +700,7 @@ func (client AnomalyDetectionClient) createModel(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/CreateModel"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateModel", apiReferenceLink)
 		return response, err
 	}
@@ -585,9 +714,10 @@ func (client AnomalyDetectionClient) createModel(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateProject.go.html to see an example of how to use CreateProject API.
+// A default retry strategy applies to this operation CreateProject()
 func (client AnomalyDetectionClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -633,7 +763,7 @@ func (client AnomalyDetectionClient) createProject(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/CreateProject"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "CreateProject", apiReferenceLink)
 		return response, err
 	}
@@ -647,9 +777,10 @@ func (client AnomalyDetectionClient) createProject(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteAiPrivateEndpoint.go.html to see an example of how to use DeleteAiPrivateEndpoint API.
+// A default retry strategy applies to this operation DeleteAiPrivateEndpoint()
 func (client AnomalyDetectionClient) DeleteAiPrivateEndpoint(ctx context.Context, request DeleteAiPrivateEndpointRequest) (response DeleteAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -690,7 +821,7 @@ func (client AnomalyDetectionClient) deleteAiPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpoint/DeleteAiPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -704,9 +835,10 @@ func (client AnomalyDetectionClient) deleteAiPrivateEndpoint(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteDataAsset.go.html to see an example of how to use DeleteDataAsset API.
+// A default retry strategy applies to this operation DeleteDataAsset()
 func (client AnomalyDetectionClient) DeleteDataAsset(ctx context.Context, request DeleteDataAssetRequest) (response DeleteDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -747,8 +879,66 @@ func (client AnomalyDetectionClient) deleteDataAsset(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAsset/DeleteDataAsset"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteDataAsset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDetectAnomalyJob Deletes an accepted, but not started detect anomaly asynchronous job.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteDetectAnomalyJob.go.html to see an example of how to use DeleteDetectAnomalyJob API.
+// A default retry strategy applies to this operation DeleteDetectAnomalyJob()
+func (client AnomalyDetectionClient) DeleteDetectAnomalyJob(ctx context.Context, request DeleteDetectAnomalyJobRequest) (response DeleteDetectAnomalyJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDetectAnomalyJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDetectAnomalyJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDetectAnomalyJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDetectAnomalyJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDetectAnomalyJobResponse")
+	}
+	return
+}
+
+// deleteDetectAnomalyJob implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) deleteDetectAnomalyJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/detectAnomalyJobs/{detectAnomalyJobId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDetectAnomalyJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJob/DeleteDetectAnomalyJob"
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteDetectAnomalyJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -761,9 +951,10 @@ func (client AnomalyDetectionClient) deleteDataAsset(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteModel.go.html to see an example of how to use DeleteModel API.
+// A default retry strategy applies to this operation DeleteModel()
 func (client AnomalyDetectionClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -804,7 +995,7 @@ func (client AnomalyDetectionClient) deleteModel(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/DeleteModel"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteModel", apiReferenceLink)
 		return response, err
 	}
@@ -818,9 +1009,10 @@ func (client AnomalyDetectionClient) deleteModel(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteProject.go.html to see an example of how to use DeleteProject API.
+// A default retry strategy applies to this operation DeleteProject()
 func (client AnomalyDetectionClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -861,7 +1053,7 @@ func (client AnomalyDetectionClient) deleteProject(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/DeleteProject"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DeleteProject", apiReferenceLink)
 		return response, err
 	}
@@ -875,9 +1067,10 @@ func (client AnomalyDetectionClient) deleteProject(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DetectAnomalies.go.html to see an example of how to use DetectAnomalies API.
+// A default retry strategy applies to this operation DetectAnomalies()
 func (client AnomalyDetectionClient) DetectAnomalies(ctx context.Context, request DetectAnomaliesRequest) (response DetectAnomaliesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -923,7 +1116,7 @@ func (client AnomalyDetectionClient) detectAnomalies(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/DetectAnomalies"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "DetectAnomalies", apiReferenceLink)
 		return response, err
 	}
@@ -937,9 +1130,10 @@ func (client AnomalyDetectionClient) detectAnomalies(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetAiPrivateEndpoint.go.html to see an example of how to use GetAiPrivateEndpoint API.
+// A default retry strategy applies to this operation GetAiPrivateEndpoint()
 func (client AnomalyDetectionClient) GetAiPrivateEndpoint(ctx context.Context, request GetAiPrivateEndpointRequest) (response GetAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -980,7 +1174,7 @@ func (client AnomalyDetectionClient) getAiPrivateEndpoint(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpoint/GetAiPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -994,9 +1188,10 @@ func (client AnomalyDetectionClient) getAiPrivateEndpoint(ctx context.Context, r
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetDataAsset.go.html to see an example of how to use GetDataAsset API.
+// A default retry strategy applies to this operation GetDataAsset()
 func (client AnomalyDetectionClient) GetDataAsset(ctx context.Context, request GetDataAssetRequest) (response GetDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1037,8 +1232,66 @@ func (client AnomalyDetectionClient) getDataAsset(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAsset/GetDataAsset"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetDataAsset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDetectAnomalyJob Gets a detect anomaly asynchronous job by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetDetectAnomalyJob.go.html to see an example of how to use GetDetectAnomalyJob API.
+// A default retry strategy applies to this operation GetDetectAnomalyJob()
+func (client AnomalyDetectionClient) GetDetectAnomalyJob(ctx context.Context, request GetDetectAnomalyJobRequest) (response GetDetectAnomalyJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDetectAnomalyJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDetectAnomalyJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDetectAnomalyJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDetectAnomalyJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDetectAnomalyJobResponse")
+	}
+	return
+}
+
+// getDetectAnomalyJob implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) getDetectAnomalyJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectAnomalyJobs/{detectAnomalyJobId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDetectAnomalyJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJob/GetDetectAnomalyJob"
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetDetectAnomalyJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1051,9 +1304,10 @@ func (client AnomalyDetectionClient) getDataAsset(ctx context.Context, request c
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetModel.go.html to see an example of how to use GetModel API.
+// A default retry strategy applies to this operation GetModel()
 func (client AnomalyDetectionClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1094,7 +1348,7 @@ func (client AnomalyDetectionClient) getModel(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/GetModel"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetModel", apiReferenceLink)
 		return response, err
 	}
@@ -1108,9 +1362,10 @@ func (client AnomalyDetectionClient) getModel(ctx context.Context, request commo
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetProject.go.html to see an example of how to use GetProject API.
+// A default retry strategy applies to this operation GetProject()
 func (client AnomalyDetectionClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1151,7 +1406,7 @@ func (client AnomalyDetectionClient) getProject(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/GetProject"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetProject", apiReferenceLink)
 		return response, err
 	}
@@ -1165,9 +1420,10 @@ func (client AnomalyDetectionClient) getProject(ctx context.Context, request com
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client AnomalyDetectionClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1208,7 +1464,7 @@ func (client AnomalyDetectionClient) getWorkRequest(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1222,9 +1478,10 @@ func (client AnomalyDetectionClient) getWorkRequest(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListAiPrivateEndpoints.go.html to see an example of how to use ListAiPrivateEndpoints API.
+// A default retry strategy applies to this operation ListAiPrivateEndpoints()
 func (client AnomalyDetectionClient) ListAiPrivateEndpoints(ctx context.Context, request ListAiPrivateEndpointsRequest) (response ListAiPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1265,7 +1522,7 @@ func (client AnomalyDetectionClient) listAiPrivateEndpoints(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpointCollection/ListAiPrivateEndpoints"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListAiPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -1279,9 +1536,10 @@ func (client AnomalyDetectionClient) listAiPrivateEndpoints(ctx context.Context,
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListDataAssets.go.html to see an example of how to use ListDataAssets API.
+// A default retry strategy applies to this operation ListDataAssets()
 func (client AnomalyDetectionClient) ListDataAssets(ctx context.Context, request ListDataAssetsRequest) (response ListDataAssetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1322,8 +1580,66 @@ func (client AnomalyDetectionClient) listDataAssets(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAssetCollection/ListDataAssets"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListDataAssets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDetectAnomalyJobs Returns a list of all the Anomaly Detection jobs in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListDetectAnomalyJobs.go.html to see an example of how to use ListDetectAnomalyJobs API.
+// A default retry strategy applies to this operation ListDetectAnomalyJobs()
+func (client AnomalyDetectionClient) ListDetectAnomalyJobs(ctx context.Context, request ListDetectAnomalyJobsRequest) (response ListDetectAnomalyJobsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDetectAnomalyJobs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDetectAnomalyJobsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDetectAnomalyJobsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDetectAnomalyJobsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDetectAnomalyJobsResponse")
+	}
+	return
+}
+
+// listDetectAnomalyJobs implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) listDetectAnomalyJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/detectAnomalyJobs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDetectAnomalyJobsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJobCollection/ListDetectAnomalyJobs"
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListDetectAnomalyJobs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1336,9 +1652,10 @@ func (client AnomalyDetectionClient) listDataAssets(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListModels.go.html to see an example of how to use ListModels API.
+// A default retry strategy applies to this operation ListModels()
 func (client AnomalyDetectionClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1379,7 +1696,7 @@ func (client AnomalyDetectionClient) listModels(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/ListModels"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListModels", apiReferenceLink)
 		return response, err
 	}
@@ -1393,9 +1710,10 @@ func (client AnomalyDetectionClient) listModels(ctx context.Context, request com
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListProjects.go.html to see an example of how to use ListProjects API.
+// A default retry strategy applies to this operation ListProjects()
 func (client AnomalyDetectionClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1436,7 +1754,7 @@ func (client AnomalyDetectionClient) listProjects(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/ListProjects"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListProjects", apiReferenceLink)
 		return response, err
 	}
@@ -1450,9 +1768,10 @@ func (client AnomalyDetectionClient) listProjects(ctx context.Context, request c
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client AnomalyDetectionClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1493,7 +1812,7 @@ func (client AnomalyDetectionClient) listWorkRequestErrors(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1507,9 +1826,10 @@ func (client AnomalyDetectionClient) listWorkRequestErrors(ctx context.Context, 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client AnomalyDetectionClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1550,7 +1870,7 @@ func (client AnomalyDetectionClient) listWorkRequestLogs(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1564,9 +1884,10 @@ func (client AnomalyDetectionClient) listWorkRequestLogs(ctx context.Context, re
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client AnomalyDetectionClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1607,7 +1928,7 @@ func (client AnomalyDetectionClient) listWorkRequests(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1621,9 +1942,10 @@ func (client AnomalyDetectionClient) listWorkRequests(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateAiPrivateEndpoint.go.html to see an example of how to use UpdateAiPrivateEndpoint API.
+// A default retry strategy applies to this operation UpdateAiPrivateEndpoint()
 func (client AnomalyDetectionClient) UpdateAiPrivateEndpoint(ctx context.Context, request UpdateAiPrivateEndpointRequest) (response UpdateAiPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1664,7 +1986,7 @@ func (client AnomalyDetectionClient) updateAiPrivateEndpoint(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/AiPrivateEndpoint/UpdateAiPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateAiPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -1678,9 +2000,10 @@ func (client AnomalyDetectionClient) updateAiPrivateEndpoint(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateDataAsset.go.html to see an example of how to use UpdateDataAsset API.
+// A default retry strategy applies to this operation UpdateDataAsset()
 func (client AnomalyDetectionClient) UpdateDataAsset(ctx context.Context, request UpdateDataAssetRequest) (response UpdateDataAssetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1721,8 +2044,66 @@ func (client AnomalyDetectionClient) updateDataAsset(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DataAsset/UpdateDataAsset"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateDataAsset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDetectAnomalyJob Updates the detect anomaly asynchronous job by identifier.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateDetectAnomalyJob.go.html to see an example of how to use UpdateDetectAnomalyJob API.
+// A default retry strategy applies to this operation UpdateDetectAnomalyJob()
+func (client AnomalyDetectionClient) UpdateDetectAnomalyJob(ctx context.Context, request UpdateDetectAnomalyJobRequest) (response UpdateDetectAnomalyJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDetectAnomalyJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDetectAnomalyJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDetectAnomalyJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDetectAnomalyJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDetectAnomalyJobResponse")
+	}
+	return
+}
+
+// updateDetectAnomalyJob implements the OCIOperation interface (enables retrying operations)
+func (client AnomalyDetectionClient) updateDetectAnomalyJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/detectAnomalyJobs/{detectAnomalyJobId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDetectAnomalyJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/DetectAnomalyJob/UpdateDetectAnomalyJob"
+		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateDetectAnomalyJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1735,9 +2116,10 @@ func (client AnomalyDetectionClient) updateDataAsset(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateModel.go.html to see an example of how to use UpdateModel API.
+// A default retry strategy applies to this operation UpdateModel()
 func (client AnomalyDetectionClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1778,7 +2160,7 @@ func (client AnomalyDetectionClient) updateModel(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Model/UpdateModel"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateModel", apiReferenceLink)
 		return response, err
 	}
@@ -1792,9 +2174,10 @@ func (client AnomalyDetectionClient) updateModel(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateProject.go.html to see an example of how to use UpdateProject API.
+// A default retry strategy applies to this operation UpdateProject()
 func (client AnomalyDetectionClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1835,7 +2218,7 @@ func (client AnomalyDetectionClient) updateProject(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/anomalydetection/20210101/Project/UpdateProject"
 		err = common.PostProcessServiceError(err, "AnomalyDetection", "UpdateProject", apiReferenceLink)
 		return response, err
 	}

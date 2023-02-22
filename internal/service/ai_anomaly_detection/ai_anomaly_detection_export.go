@@ -61,6 +61,17 @@ var exportAiAnomalyDetectionAiPrivateEndpointHints = &tf_export.TerraformResourc
 	},
 }
 
+var exportAiAnomalyDetectionDetectAnomalyJobHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_ai_anomaly_detection_detect_anomaly_job",
+	DatasourceClass:      "oci_ai_anomaly_detection_detect_anomaly_jobs",
+	DatasourceItemsAttr:  "detect_anomaly_job_collection",
+	ResourceAbbreviation: "detect_anomaly_job",
+	DiscoverableLifecycleStates: []string{
+		string(oci_ai_anomaly_detection.DetectAnomalyJobLifecycleStateSucceeded),
+		string(oci_ai_anomaly_detection.DetectAnomalyJobLifecycleStateInProgress),
+	},
+}
+
 var aiAnomalyDetectionResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportAiAnomalyDetectionDataAssetHints},

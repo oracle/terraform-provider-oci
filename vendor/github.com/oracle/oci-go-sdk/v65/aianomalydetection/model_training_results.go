@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud AI Services API
+// Anomaly Detection API
 //
 // OCI AI Service solutions can help Enterprise customers integrate AI into their products immediately by using our proven,
 // pre-trained/custom models or containers, and without a need to set up in house team of AI and ML experts.
@@ -26,6 +26,12 @@ type ModelTrainingResults struct {
 	// The model accuracy metric on timestamp level.
 	MultivariateFap *float32 `mandatory:"false" json:"multivariateFap"`
 
+	// Actual algorithm used to train the model
+	Algorithm ModelTrainingResultsAlgorithmEnum `mandatory:"false" json:"algorithm,omitempty"`
+
+	// Window size defined during training or deduced by the algorithm.
+	WindowSize *int `mandatory:"false" json:"windowSize"`
+
 	// A boolean value to indicate if train goal/targetFap is achieved for trained model
 	IsTrainingGoalAchieved *bool `mandatory:"false" json:"isTrainingGoalAchieved"`
 
@@ -48,8 +54,53 @@ func (m ModelTrainingResults) String() string {
 func (m ModelTrainingResults) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingModelTrainingResultsAlgorithmEnum(string(m.Algorithm)); !ok && m.Algorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Algorithm: %s. Supported values are: %s.", m.Algorithm, strings.Join(GetModelTrainingResultsAlgorithmEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ModelTrainingResultsAlgorithmEnum Enum with underlying type: string
+type ModelTrainingResultsAlgorithmEnum string
+
+// Set of constants representing the allowable values for ModelTrainingResultsAlgorithmEnum
+const (
+	ModelTrainingResultsAlgorithmMultivariateMset ModelTrainingResultsAlgorithmEnum = "MULTIVARIATE_MSET"
+	ModelTrainingResultsAlgorithmUnivariateOcsvm  ModelTrainingResultsAlgorithmEnum = "UNIVARIATE_OCSVM"
+)
+
+var mappingModelTrainingResultsAlgorithmEnum = map[string]ModelTrainingResultsAlgorithmEnum{
+	"MULTIVARIATE_MSET": ModelTrainingResultsAlgorithmMultivariateMset,
+	"UNIVARIATE_OCSVM":  ModelTrainingResultsAlgorithmUnivariateOcsvm,
+}
+
+var mappingModelTrainingResultsAlgorithmEnumLowerCase = map[string]ModelTrainingResultsAlgorithmEnum{
+	"multivariate_mset": ModelTrainingResultsAlgorithmMultivariateMset,
+	"univariate_ocsvm":  ModelTrainingResultsAlgorithmUnivariateOcsvm,
+}
+
+// GetModelTrainingResultsAlgorithmEnumValues Enumerates the set of values for ModelTrainingResultsAlgorithmEnum
+func GetModelTrainingResultsAlgorithmEnumValues() []ModelTrainingResultsAlgorithmEnum {
+	values := make([]ModelTrainingResultsAlgorithmEnum, 0)
+	for _, v := range mappingModelTrainingResultsAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetModelTrainingResultsAlgorithmEnumStringValues Enumerates the set of values in String for ModelTrainingResultsAlgorithmEnum
+func GetModelTrainingResultsAlgorithmEnumStringValues() []string {
+	return []string{
+		"MULTIVARIATE_MSET",
+		"UNIVARIATE_OCSVM",
+	}
+}
+
+// GetMappingModelTrainingResultsAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingModelTrainingResultsAlgorithmEnum(val string) (ModelTrainingResultsAlgorithmEnum, bool) {
+	enum, ok := mappingModelTrainingResultsAlgorithmEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

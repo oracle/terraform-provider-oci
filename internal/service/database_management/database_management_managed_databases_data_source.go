@@ -74,6 +74,10 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"db_system_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"deployment_type": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -120,6 +124,10 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"parent_container_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"storage_system_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -247,6 +255,10 @@ func ManagedDatabaseSummaryToMap(obj oci_database_management.ManagedDatabaseSumm
 
 	result["database_type"] = string(obj.DatabaseType)
 
+	if obj.DbSystemId != nil {
+		result["db_system_id"] = string(*obj.DbSystemId)
+	}
+
 	result["deployment_type"] = string(obj.DeploymentType)
 
 	if obj.Id != nil {
@@ -265,6 +277,10 @@ func ManagedDatabaseSummaryToMap(obj oci_database_management.ManagedDatabaseSumm
 
 	if obj.ParentContainerId != nil {
 		result["parent_container_id"] = string(*obj.ParentContainerId)
+	}
+
+	if obj.StorageSystemId != nil {
+		result["storage_system_id"] = string(*obj.StorageSystemId)
 	}
 
 	if obj.TimeCreated != nil {

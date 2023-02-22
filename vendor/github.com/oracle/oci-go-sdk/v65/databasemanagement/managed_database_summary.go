@@ -54,6 +54,13 @@ type ManagedDatabaseSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the parent Container Database
 	// if the Managed Database is a Pluggable Database.
 	ParentContainerId *string `mandatory:"false" json:"parentContainerId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external
+	// DB system that this Managed Database is part of.
+	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the storage DB system.
+	StorageSystemId *string `mandatory:"false" json:"storageSystemId"`
 }
 
 func (m ManagedDatabaseSummary) String() string {

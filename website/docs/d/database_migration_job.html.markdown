@@ -42,11 +42,13 @@ The following attributes are exported:
 	* `current_phase` - Current phase of the job. 
 	* `current_status` - Current status of the job. 
 	* `phases` - List of phase status for the job. 
+		* `action` - The text describing the action required to fix the issue 
 		* `duration_in_ms` - Duration of the phase in milliseconds 
 		* `extract` - Summary of phase status results. 
 			* `message` - Message in entry. 
 			* `type` - Type of extract. 
 		* `is_advisor_report_available` - True if a Pre-Migration Advisor report is available for this phase. False or null if no report is available. 
+		* `issue` - The text describing the root cause of the reported issue 
 		* `log_location` - Details to access log file in the specified Object Storage bucket, if any. 
 			* `bucket` - Name of the bucket containing the log file. 
 			* `namespace` - Object Storage namespace. 

@@ -89,6 +89,10 @@ func DatabaseMigrationJobResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"action": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"duration_in_ms": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -116,6 +120,10 @@ func DatabaseMigrationJobResource() *schema.Resource {
 									},
 									"is_advisor_report_available": {
 										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"issue": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"log_location": {
@@ -535,6 +543,10 @@ func PhaseExtractEntryToMap(obj oci_database_migration.PhaseExtractEntry) map[st
 func PhaseStatusToMap(obj oci_database_migration.PhaseStatus) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.Action != nil {
+		result["action"] = string(*obj.Action)
+	}
+
 	if obj.DurationInMs != nil {
 		result["duration_in_ms"] = int(*obj.DurationInMs)
 	}
@@ -547,6 +559,10 @@ func PhaseStatusToMap(obj oci_database_migration.PhaseStatus) map[string]interfa
 
 	if obj.IsAdvisorReportAvailable != nil {
 		result["is_advisor_report_available"] = bool(*obj.IsAdvisorReportAvailable)
+	}
+
+	if obj.Issue != nil {
+		result["issue"] = string(*obj.Issue)
 	}
 
 	if obj.LogLocation != nil {

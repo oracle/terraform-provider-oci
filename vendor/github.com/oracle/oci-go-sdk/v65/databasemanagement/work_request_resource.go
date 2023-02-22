@@ -34,6 +34,13 @@ type WorkRequestResource struct {
 
 	// The URI path that is used in a GET request to access the resource metadata.
 	EntityUri *string `mandatory:"false" json:"entityUri"`
+
+	// The name of the WorkRequest resource entity.
+	EntityName *string `mandatory:"false" json:"entityName"`
+
+	// The dependent resources of this work request resource, these can only be provisioned
+	// when primary resource successfully completes.
+	EntityDependencies []WorkRequestSubResource `mandatory:"false" json:"entityDependencies"`
 }
 
 func (m WorkRequestResource) String() string {

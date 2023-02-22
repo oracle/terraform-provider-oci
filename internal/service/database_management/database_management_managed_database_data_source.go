@@ -43,6 +43,10 @@ func DatabaseManagementManagedDatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"db_system_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"deployment_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -85,6 +89,10 @@ func DatabaseManagementManagedDatabaseDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"parent_container_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_system_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -156,6 +164,10 @@ func (s *DatabaseManagementManagedDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("database_type", s.Res.DatabaseType)
 
+	if s.Res.DbSystemId != nil {
+		s.D.Set("db_system_id", *s.Res.DbSystemId)
+	}
+
 	s.D.Set("deployment_type", s.Res.DeploymentType)
 
 	if s.Res.IsCluster != nil {
@@ -176,6 +188,10 @@ func (s *DatabaseManagementManagedDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.ParentContainerId != nil {
 		s.D.Set("parent_container_id", *s.Res.ParentContainerId)
+	}
+
+	if s.Res.StorageSystemId != nil {
+		s.D.Set("storage_system_id", *s.Res.StorageSystemId)
 	}
 
 	if s.Res.TimeCreated != nil {

@@ -68,11 +68,15 @@ resource "oci_database_migration_migration" "test_migration" {
 		export_directory_object {
 			#Required
 			name = var.migration_datapump_settings_export_directory_object_name
+
+			#Optional
 			path = var.migration_datapump_settings_export_directory_object_path
 		}
 		import_directory_object {
 			#Required
 			name = var.migration_datapump_settings_import_directory_object_name
+
+			#Optional
 			path = var.migration_datapump_settings_import_directory_object_path
 		}
 		job_mode = var.migration_datapump_settings_job_mode
@@ -210,10 +214,10 @@ The following arguments are supported:
 		* `table_exists_action` - (Optional) (Updatable) IMPORT: Specifies the action to be performed when data is loaded into a preexisting table. 
 	* `export_directory_object` - (Optional) (Updatable) Directory object details, used to define either import or export directory objects in Data Pump Settings. Import directory is required for Non-Autonomous target connections. If specified for an autonomous target, it will show an error. Export directory will error if there are database link details specified. 
 		* `name` - (Required) (Updatable) Name of directory object in database 
-		* `path` - (Required) (Updatable) Absolute path of directory on database server 
+		* `path` - (Optional) (Updatable) Absolute path of directory on database server 
 	* `import_directory_object` - (Optional) (Updatable) Directory object details, used to define either import or export directory objects in Data Pump Settings. Import directory is required for Non-Autonomous target connections. If specified for an autonomous target, it will show an error. Export directory will error if there are database link details specified. 
 		* `name` - (Required) (Updatable) Name of directory object in database 
-		* `path` - (Required) (Updatable) Absolute path of directory on database server 
+		* `path` - (Optional) (Updatable) Absolute path of directory on database server 
 	* `job_mode` - (Optional) (Updatable) Data Pump job mode. Refer to [link text](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-data-pump-export-utility.html#GUID-8E497131-6B9B-4CC8-AA50-35F480CAC2C4) 
 	* `metadata_remaps` - (Optional) (Updatable) Defines remapping to be applied to objects as they are processed. Refer to [DATA_REMAP](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_DATAPUMP.html#GUID-E75AAE6F-4EA6-4737-A752-6B62F5E9D460) 
 		* `new_value` - (Required) (Updatable) Specifies the new value that oldValue should be translated into. 

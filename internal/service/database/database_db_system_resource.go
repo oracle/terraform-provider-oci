@@ -308,7 +308,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 							Type:             schema.TypeMap,
 							Optional:         true,
 							Computed:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 							Elem:             schema.TypeString,
 						},
@@ -322,7 +321,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 							Type:     schema.TypeMap,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem:     schema.TypeString,
 						},
 
