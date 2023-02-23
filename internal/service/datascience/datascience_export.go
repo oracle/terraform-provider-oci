@@ -95,6 +95,17 @@ var exportDatascienceJobRunHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatascienceModelVersionSetHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_datascience_model_version_set",
+	DatasourceClass:        "oci_datascience_model_version_sets",
+	DatasourceItemsAttr:    "model_version_sets",
+	ResourceAbbreviation:   "model_version_set",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_datascience.ModelVersionSetLifecycleStateActive),
+	},
+}
+
 var exportDatasciencePipelineRunHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_datascience_pipeline_run",
 	DatasourceClass:        "oci_datascience_pipeline_runs",
@@ -126,6 +137,7 @@ var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatascienceJobHints},
 		{TerraformResourceHints: exportDatascienceJobRunHints},
 		{TerraformResourceHints: exportDatasciencePipelineRunHints},
+		{TerraformResourceHints: exportDatascienceModelVersionSetHints},
 		{TerraformResourceHints: exportDatasciencePipelineHints},
 	},
 	"oci_datascience_model": {
