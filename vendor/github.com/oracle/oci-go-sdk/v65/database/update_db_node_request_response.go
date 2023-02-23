@@ -11,24 +11,21 @@ import (
 	"strings"
 )
 
-// CreateConsoleConnectionRequest wrapper for the CreateConsoleConnection operation
-type CreateConsoleConnectionRequest struct {
-
-	// Request object for creating an CreateConsoleConnection
-	CreateConsoleConnectionDetails `contributesTo:"body"`
+// UpdateDbNodeRequest wrapper for the UpdateDbNode operation
+type UpdateDbNodeRequest struct {
 
 	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DbNodeId *string `mandatory:"true" contributesTo:"path" name:"dbNodeId"`
 
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations (for example, if a resource
-	// has been deleted and purged from the system, then a retry of the original creation request
-	// may be rejected).
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+	// Request to update the specified database node.
+	UpdateDbNodeDetails `contributesTo:"body"`
 
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
+	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -36,12 +33,12 @@ type CreateConsoleConnectionRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreateConsoleConnectionRequest) String() string {
+func (request UpdateDbNodeRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateConsoleConnectionRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request UpdateDbNodeRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -51,21 +48,21 @@ func (request CreateConsoleConnectionRequest) HTTPRequest(method, path string, b
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request CreateConsoleConnectionRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request UpdateDbNodeRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateConsoleConnectionRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateDbNodeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request CreateConsoleConnectionRequest) ValidateEnumValue() (bool, error) {
+func (request UpdateDbNodeRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -73,14 +70,17 @@ func (request CreateConsoleConnectionRequest) ValidateEnumValue() (bool, error) 
 	return false, nil
 }
 
-// CreateConsoleConnectionResponse wrapper for the CreateConsoleConnection operation
-type CreateConsoleConnectionResponse struct {
+// UpdateDbNodeResponse wrapper for the UpdateDbNode operation
+type UpdateDbNodeResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The ConsoleConnection instance
-	ConsoleConnection `presentIn:"body"`
+	// The DbNode instance
+	DbNode `presentIn:"body"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
@@ -88,16 +88,13 @@ type CreateConsoleConnectionResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
-func (response CreateConsoleConnectionResponse) String() string {
+func (response UpdateDbNodeResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreateConsoleConnectionResponse) HTTPResponse() *http.Response {
+func (response UpdateDbNodeResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

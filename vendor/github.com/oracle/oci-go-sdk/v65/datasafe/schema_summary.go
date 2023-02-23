@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// SchemaSummary Details of a schema fetched from the database.
+// SchemaSummary The details of a schema fetched from the database.
 type SchemaSummary struct {
 
 	// Name of the schema.

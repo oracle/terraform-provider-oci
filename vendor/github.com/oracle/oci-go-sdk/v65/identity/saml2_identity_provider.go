@@ -55,9 +55,9 @@ type Saml2IdentityProvider struct {
 	// contains information required for federating.
 	MetadataUrl *string `mandatory:"true" json:"metadataUrl"`
 
-	// The identity provider's signing certificates used by the IAM Service
+	// The identity provider's signing certificate used by the IAM Service
 	// to validate the SAML2 token.
-	SigningCerts []string `mandatory:"true" json:"signingCerts"`
+	SigningCertificate *string `mandatory:"true" json:"signingCertificate"`
 
 	// The URL to redirect federated users to for authentication with the
 	// identity provider.

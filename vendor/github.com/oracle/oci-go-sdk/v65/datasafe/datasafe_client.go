@@ -501,7 +501,7 @@ func (client DataSafeClient) calculateAuditVolumeCollected(ctx context.Context, 
 	return response, err
 }
 
-// CancelWorkRequest Cancel the given work request.
+// CancelWorkRequest Cancel the specified work request.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client DataSafeClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse

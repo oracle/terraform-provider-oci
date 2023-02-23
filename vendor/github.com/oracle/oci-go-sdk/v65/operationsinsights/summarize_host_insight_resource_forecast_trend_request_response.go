@@ -126,6 +126,18 @@ type SummarizeHostInsightResourceForecastTrendRequest struct {
 	// Optional list of Exadata Insight VM cluster name.
 	VmclusterName []string `contributesTo:"query" name:"vmclusterName" collectionFormat:"multi"`
 
+	// Percent value in which a resource metric is considered highly utilized.
+	HighUtilizationThreshold *int `mandatory:"false" contributesTo:"query" name:"highUtilizationThreshold"`
+
+	// Percent value in which a resource metric is considered low utilized.
+	LowUtilizationThreshold *int `mandatory:"false" contributesTo:"query" name:"lowUtilizationThreshold"`
+
+	// Mount points are specialized NTFS filesystem objects.
+	MountPoint *string `mandatory:"false" contributesTo:"query" name:"mountPoint"`
+
+	// Name of the network interface.
+	InterfaceName *string `mandatory:"false" contributesTo:"query" name:"interfaceName"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

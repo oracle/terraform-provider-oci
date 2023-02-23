@@ -113,6 +113,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateMicrosoftSqlserverConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "JAVA_MESSAGE_SERVICE":
+		mm := CreateJavaMessageServiceConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SNOWFLAKE":
 		mm := CreateSnowflakeConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

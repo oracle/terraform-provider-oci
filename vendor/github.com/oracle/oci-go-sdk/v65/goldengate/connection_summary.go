@@ -152,6 +152,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := KafkaSchemaRegistryConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "JAVA_MESSAGE_SERVICE":
+		mm := JavaMessageServiceConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MICROSOFT_SQLSERVER":
 		mm := MicrosoftSqlserverConnectionSummary{}
 		err = json.Unmarshal(data, &mm)

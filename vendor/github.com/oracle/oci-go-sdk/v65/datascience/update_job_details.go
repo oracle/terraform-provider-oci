@@ -27,6 +27,9 @@ type UpdateJobDetails struct {
 
 	JobInfrastructureConfigurationDetails JobInfrastructureConfigurationDetails `mandatory:"false" json:"jobInfrastructureConfigurationDetails"`
 
+	// Collection of JobStorageMountConfigurationDetails.
+	JobStorageMountConfigurationDetailsList []JobStorageMountConfigurationDetails `mandatory:"false" json:"jobStorageMountConfigurationDetailsList"`
+
 	JobEnvironmentConfigurationDetails JobEnvironmentConfigurationDetails `mandatory:"false" json:"jobEnvironmentConfigurationDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -57,12 +60,13 @@ func (m UpdateJobDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateJobDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                           *string                               `json:"displayName"`
-		Description                           *string                               `json:"description"`
-		JobInfrastructureConfigurationDetails jobinfrastructureconfigurationdetails `json:"jobInfrastructureConfigurationDetails"`
-		JobEnvironmentConfigurationDetails    jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationDetails"`
-		FreeformTags                          map[string]string                     `json:"freeformTags"`
-		DefinedTags                           map[string]map[string]interface{}     `json:"definedTags"`
+		DisplayName                             *string                               `json:"displayName"`
+		Description                             *string                               `json:"description"`
+		JobInfrastructureConfigurationDetails   jobinfrastructureconfigurationdetails `json:"jobInfrastructureConfigurationDetails"`
+		JobStorageMountConfigurationDetailsList []jobstoragemountconfigurationdetails `json:"jobStorageMountConfigurationDetailsList"`
+		JobEnvironmentConfigurationDetails      jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationDetails"`
+		FreeformTags                            map[string]string                     `json:"freeformTags"`
+		DefinedTags                             map[string]map[string]interface{}     `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -82,6 +86,19 @@ func (m *UpdateJobDetails) UnmarshalJSON(data []byte) (e error) {
 		m.JobInfrastructureConfigurationDetails = nn.(JobInfrastructureConfigurationDetails)
 	} else {
 		m.JobInfrastructureConfigurationDetails = nil
+	}
+
+	m.JobStorageMountConfigurationDetailsList = make([]JobStorageMountConfigurationDetails, len(model.JobStorageMountConfigurationDetailsList))
+	for i, n := range model.JobStorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.JobStorageMountConfigurationDetailsList[i] = nn.(JobStorageMountConfigurationDetails)
+		} else {
+			m.JobStorageMountConfigurationDetailsList[i] = nil
+		}
 	}
 
 	nn, e = model.JobEnvironmentConfigurationDetails.UnmarshalPolymorphicJSON(model.JobEnvironmentConfigurationDetails.JsonData)

@@ -27,6 +27,7 @@ const (
 	TechnologyTypeOracleDatabase                   TechnologyTypeEnum = "ORACLE_DATABASE"
 	TechnologyTypeOracleExadata                    TechnologyTypeEnum = "ORACLE_EXADATA"
 	TechnologyTypeOracleNosql                      TechnologyTypeEnum = "ORACLE_NOSQL"
+	TechnologyTypeOracleWeblogicJms                TechnologyTypeEnum = "ORACLE_WEBLOGIC_JMS"
 	TechnologyTypeAmazonRdsOracle                  TechnologyTypeEnum = "AMAZON_RDS_ORACLE"
 	TechnologyTypeAmazonRdsSqlserver               TechnologyTypeEnum = "AMAZON_RDS_SQLSERVER"
 	TechnologyTypeAmazonS3                         TechnologyTypeEnum = "AMAZON_S3"
@@ -67,6 +68,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"ORACLE_DATABASE":                      TechnologyTypeOracleDatabase,
 	"ORACLE_EXADATA":                       TechnologyTypeOracleExadata,
 	"ORACLE_NOSQL":                         TechnologyTypeOracleNosql,
+	"ORACLE_WEBLOGIC_JMS":                  TechnologyTypeOracleWeblogicJms,
 	"AMAZON_RDS_ORACLE":                    TechnologyTypeAmazonRdsOracle,
 	"AMAZON_RDS_SQLSERVER":                 TechnologyTypeAmazonRdsSqlserver,
 	"AMAZON_S3":                            TechnologyTypeAmazonS3,
@@ -107,6 +109,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"oracle_database":                      TechnologyTypeOracleDatabase,
 	"oracle_exadata":                       TechnologyTypeOracleExadata,
 	"oracle_nosql":                         TechnologyTypeOracleNosql,
+	"oracle_weblogic_jms":                  TechnologyTypeOracleWeblogicJms,
 	"amazon_rds_oracle":                    TechnologyTypeAmazonRdsOracle,
 	"amazon_rds_sqlserver":                 TechnologyTypeAmazonRdsSqlserver,
 	"amazon_s3":                            TechnologyTypeAmazonS3,
@@ -158,6 +161,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"ORACLE_DATABASE",
 		"ORACLE_EXADATA",
 		"ORACLE_NOSQL",
+		"ORACLE_WEBLOGIC_JMS",
 		"AMAZON_RDS_ORACLE",
 		"AMAZON_RDS_SQLSERVER",
 		"AMAZON_S3",

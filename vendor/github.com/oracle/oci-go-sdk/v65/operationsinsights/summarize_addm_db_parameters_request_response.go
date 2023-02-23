@@ -56,6 +56,10 @@ type SummarizeAddmDbParametersRequest struct {
 	// or was specified in the parameter file (FALSE). Valid values include: TRUE, FALSE
 	IsDefault SummarizeAddmDbParametersIsDefaultEnum `mandatory:"false" contributesTo:"query" name:"isDefault" omitEmpty:"true"`
 
+	// Optional filter to return only parameters which have recommendations in the specified time period.
+	// Valid values include: TRUE, FALSE
+	HasRecommendations SummarizeAddmDbParametersHasRecommendationsEnum `mandatory:"false" contributesTo:"query" name:"hasRecommendations" omitEmpty:"true"`
+
 	// For list pagination. The maximum number of results per page, or items to
 	// return in a paginated "List" call.
 	// For important details about how pagination works, see
@@ -147,6 +151,9 @@ func (request SummarizeAddmDbParametersRequest) ValidateEnumValue() (bool, error
 	}
 	if _, ok := GetMappingSummarizeAddmDbParametersIsDefaultEnum(string(request.IsDefault)); !ok && request.IsDefault != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsDefault: %s. Supported values are: %s.", request.IsDefault, strings.Join(GetSummarizeAddmDbParametersIsDefaultEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSummarizeAddmDbParametersHasRecommendationsEnum(string(request.HasRecommendations)); !ok && request.HasRecommendations != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HasRecommendations: %s. Supported values are: %s.", request.HasRecommendations, strings.Join(GetSummarizeAddmDbParametersHasRecommendationsEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingSummarizeAddmDbParametersSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetSummarizeAddmDbParametersSortOrderEnumStringValues(), ",")))
@@ -269,6 +276,48 @@ func GetSummarizeAddmDbParametersIsDefaultEnumStringValues() []string {
 // GetMappingSummarizeAddmDbParametersIsDefaultEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeAddmDbParametersIsDefaultEnum(val string) (SummarizeAddmDbParametersIsDefaultEnum, bool) {
 	enum, ok := mappingSummarizeAddmDbParametersIsDefaultEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SummarizeAddmDbParametersHasRecommendationsEnum Enum with underlying type: string
+type SummarizeAddmDbParametersHasRecommendationsEnum string
+
+// Set of constants representing the allowable values for SummarizeAddmDbParametersHasRecommendationsEnum
+const (
+	SummarizeAddmDbParametersHasRecommendationsTrue  SummarizeAddmDbParametersHasRecommendationsEnum = "true"
+	SummarizeAddmDbParametersHasRecommendationsFalse SummarizeAddmDbParametersHasRecommendationsEnum = "false"
+)
+
+var mappingSummarizeAddmDbParametersHasRecommendationsEnum = map[string]SummarizeAddmDbParametersHasRecommendationsEnum{
+	"true":  SummarizeAddmDbParametersHasRecommendationsTrue,
+	"false": SummarizeAddmDbParametersHasRecommendationsFalse,
+}
+
+var mappingSummarizeAddmDbParametersHasRecommendationsEnumLowerCase = map[string]SummarizeAddmDbParametersHasRecommendationsEnum{
+	"true":  SummarizeAddmDbParametersHasRecommendationsTrue,
+	"false": SummarizeAddmDbParametersHasRecommendationsFalse,
+}
+
+// GetSummarizeAddmDbParametersHasRecommendationsEnumValues Enumerates the set of values for SummarizeAddmDbParametersHasRecommendationsEnum
+func GetSummarizeAddmDbParametersHasRecommendationsEnumValues() []SummarizeAddmDbParametersHasRecommendationsEnum {
+	values := make([]SummarizeAddmDbParametersHasRecommendationsEnum, 0)
+	for _, v := range mappingSummarizeAddmDbParametersHasRecommendationsEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeAddmDbParametersHasRecommendationsEnumStringValues Enumerates the set of values in String for SummarizeAddmDbParametersHasRecommendationsEnum
+func GetSummarizeAddmDbParametersHasRecommendationsEnumStringValues() []string {
+	return []string{
+		"true",
+		"false",
+	}
+}
+
+// GetMappingSummarizeAddmDbParametersHasRecommendationsEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeAddmDbParametersHasRecommendationsEnum(val string) (SummarizeAddmDbParametersHasRecommendationsEnum, bool) {
+	enum, ok := mappingSummarizeAddmDbParametersHasRecommendationsEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -20,11 +20,11 @@ type ListWorkRequestsRequest struct {
 	// A filter to return only work requests that match the specific operation type.
 	OperationType *string `mandatory:"false" contributesTo:"query" name:"operationType"`
 
-	// The field used for sorting. Only one sorting order (sortOrder) can be specified.
+	// The field used for sorting. Only one sorting parameter can be specified.
 	// The default order is descending.
 	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The sort order to use, either ascending (ASC) or descending (DESC).
+	// The sorting order for the work requests, either ascending (ASC) or descending (DESC).
 	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// A filter to return only work requests that match the specified resource OCID.

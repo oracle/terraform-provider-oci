@@ -25,6 +25,9 @@ type ChangeDisasterRecoveryConfigurationDetails struct {
 
 	// Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database.
 	TimeSnapshotStandbyEnabledTill *common.SDKTime `mandatory:"false" json:"timeSnapshotStandbyEnabledTill"`
+
+	// Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database.
+	IsSnapshotStandby *bool `mandatory:"false" json:"isSnapshotStandby"`
 }
 
 func (m ChangeDisasterRecoveryConfigurationDetails) String() string {
@@ -51,21 +54,18 @@ type ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum string
 
 // Set of constants representing the allowable values for ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum
 const (
-	ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeAdg             ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum = "ADG"
-	ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeBackupBased     ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum = "BACKUP_BASED"
-	ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeSnapshotStandby ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum = "SNAPSHOT_STANDBY"
+	ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeAdg         ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum = "ADG"
+	ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeBackupBased ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum = "BACKUP_BASED"
 )
 
 var mappingChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum = map[string]ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum{
-	"ADG":              ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeAdg,
-	"BACKUP_BASED":     ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeBackupBased,
-	"SNAPSHOT_STANDBY": ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeSnapshotStandby,
+	"ADG":          ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeAdg,
+	"BACKUP_BASED": ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeBackupBased,
 }
 
 var mappingChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnumLowerCase = map[string]ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum{
-	"adg":              ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeAdg,
-	"backup_based":     ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeBackupBased,
-	"snapshot_standby": ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeSnapshotStandby,
+	"adg":          ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeAdg,
+	"backup_based": ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeBackupBased,
 }
 
 // GetChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnumValues Enumerates the set of values for ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum
@@ -82,7 +82,6 @@ func GetChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnumString
 	return []string{
 		"ADG",
 		"BACKUP_BASED",
-		"SNAPSHOT_STANDBY",
 	}
 }
 

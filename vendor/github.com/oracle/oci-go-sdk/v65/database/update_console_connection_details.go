@@ -15,12 +15,8 @@ import (
 	"strings"
 )
 
-// CreateConsoleConnectionDetails The details for creating a Db node console connection.
-// The Db node console connection is created in the same compartment as the dbNode.
-type CreateConsoleConnectionDetails struct {
-
-	// The SSH public key used to authenticate the console connection.
-	PublicKey *string `mandatory:"true" json:"publicKey"`
+// UpdateConsoleConnectionDetails The details for updating a Db node console connection.
+type UpdateConsoleConnectionDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -32,14 +28,14 @@ type CreateConsoleConnectionDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m CreateConsoleConnectionDetails) String() string {
+func (m UpdateConsoleConnectionDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateConsoleConnectionDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateConsoleConnectionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

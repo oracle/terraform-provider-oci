@@ -141,6 +141,10 @@ type OpensearchCluster struct {
 
 	// The password hash of the master user that are used to manage security config
 	SecurityMasterUserPasswordHash *string `mandatory:"false" json:"securityMasterUserPasswordHash"`
+
+	SecuritySamlConfig *SecuritySamlConfig `mandatory:"false" json:"securitySamlConfig"`
+
+	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
 }
 
 func (m OpensearchCluster) String() string {

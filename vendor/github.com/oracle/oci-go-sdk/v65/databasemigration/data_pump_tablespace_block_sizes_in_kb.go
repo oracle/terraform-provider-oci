@@ -18,18 +18,18 @@ type DataPumpTablespaceBlockSizesInKbEnum string
 
 // Set of constants representing the allowable values for DataPumpTablespaceBlockSizesInKbEnum
 const (
-	DataPumpTablespaceBlockSizesInKb8  DataPumpTablespaceBlockSizesInKbEnum = "8"
-	DataPumpTablespaceBlockSizesInKb16 DataPumpTablespaceBlockSizesInKbEnum = "16"
+	DataPumpTablespaceBlockSizesInKbSize8K  DataPumpTablespaceBlockSizesInKbEnum = "SIZE_8K"
+	DataPumpTablespaceBlockSizesInKbSize16K DataPumpTablespaceBlockSizesInKbEnum = "SIZE_16K"
 )
 
 var mappingDataPumpTablespaceBlockSizesInKbEnum = map[string]DataPumpTablespaceBlockSizesInKbEnum{
-	"8":  DataPumpTablespaceBlockSizesInKb8,
-	"16": DataPumpTablespaceBlockSizesInKb16,
+	"SIZE_8K":  DataPumpTablespaceBlockSizesInKbSize8K,
+	"SIZE_16K": DataPumpTablespaceBlockSizesInKbSize16K,
 }
 
 var mappingDataPumpTablespaceBlockSizesInKbEnumLowerCase = map[string]DataPumpTablespaceBlockSizesInKbEnum{
-	"8":  DataPumpTablespaceBlockSizesInKb8,
-	"16": DataPumpTablespaceBlockSizesInKb16,
+	"size_8k":  DataPumpTablespaceBlockSizesInKbSize8K,
+	"size_16k": DataPumpTablespaceBlockSizesInKbSize16K,
 }
 
 // GetDataPumpTablespaceBlockSizesInKbEnumValues Enumerates the set of values for DataPumpTablespaceBlockSizesInKbEnum
@@ -44,8 +44,8 @@ func GetDataPumpTablespaceBlockSizesInKbEnumValues() []DataPumpTablespaceBlockSi
 // GetDataPumpTablespaceBlockSizesInKbEnumStringValues Enumerates the set of values in String for DataPumpTablespaceBlockSizesInKbEnum
 func GetDataPumpTablespaceBlockSizesInKbEnumStringValues() []string {
 	return []string{
-		"8",
-		"16",
+		"SIZE_8K",
+		"SIZE_16K",
 	}
 }
 

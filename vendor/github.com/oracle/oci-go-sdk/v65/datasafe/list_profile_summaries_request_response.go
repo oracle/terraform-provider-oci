@@ -230,6 +230,7 @@ const (
 	ListProfileSummariesSortByUsercount                    ListProfileSummariesSortByEnum = "userCount"
 	ListProfileSummariesSortBySessionsperuser              ListProfileSummariesSortByEnum = "sessionsPerUser"
 	ListProfileSummariesSortByInactiveaccounttime          ListProfileSummariesSortByEnum = "inactiveAccountTime"
+	ListProfileSummariesSortByPasswordlocktime             ListProfileSummariesSortByEnum = "passwordLockTime"
 	ListProfileSummariesSortByFailedloginattempts          ListProfileSummariesSortByEnum = "failedLoginAttempts"
 )
 
@@ -241,6 +242,7 @@ var mappingListProfileSummariesSortByEnum = map[string]ListProfileSummariesSortB
 	"userCount":                    ListProfileSummariesSortByUsercount,
 	"sessionsPerUser":              ListProfileSummariesSortBySessionsperuser,
 	"inactiveAccountTime":          ListProfileSummariesSortByInactiveaccounttime,
+	"passwordLockTime":             ListProfileSummariesSortByPasswordlocktime,
 	"failedLoginAttempts":          ListProfileSummariesSortByFailedloginattempts,
 }
 
@@ -252,6 +254,7 @@ var mappingListProfileSummariesSortByEnumLowerCase = map[string]ListProfileSumma
 	"usercount":                    ListProfileSummariesSortByUsercount,
 	"sessionsperuser":              ListProfileSummariesSortBySessionsperuser,
 	"inactiveaccounttime":          ListProfileSummariesSortByInactiveaccounttime,
+	"passwordlocktime":             ListProfileSummariesSortByPasswordlocktime,
 	"failedloginattempts":          ListProfileSummariesSortByFailedloginattempts,
 }
 
@@ -274,6 +277,7 @@ func GetListProfileSummariesSortByEnumStringValues() []string {
 		"userCount",
 		"sessionsPerUser",
 		"inactiveAccountTime",
+		"passwordLockTime",
 		"failedLoginAttempts",
 	}
 }

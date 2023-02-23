@@ -45,6 +45,15 @@ type AddmDbParameterAggregation struct {
 	// Indicates whether the parameter's end value was set to the default value (TRUE) or was
 	// specified in the parameter file (FALSE)
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
+
+	// Indicates whether the parameter has been modified after instance starup
+	// MODIFIED - Parameter has been modified with ALTER SESSION
+	// SYSTEM_MOD - Parameter has been modified with ALTER SYSTEM
+	// FALSE - Parameter has not been modified after instance starup
+	ValueModified *string `mandatory:"false" json:"valueModified"`
+
+	// Indicates whether the parameter is a high impact parameter (TRUE) or not (FALSE)
+	IsHighImpact *bool `mandatory:"false" json:"isHighImpact"`
 }
 
 func (m AddmDbParameterAggregation) String() string {

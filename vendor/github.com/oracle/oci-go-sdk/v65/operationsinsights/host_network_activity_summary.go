@@ -25,6 +25,9 @@ type HostNetworkActivitySummary struct {
 	// Example: `"2020-05-06T00:00:00.000Z"`
 	TimeCollected *common.SDKTime `mandatory:"true" json:"timeCollected"`
 
+	// Name of the network interface
+	InterfaceName *string `mandatory:"false" json:"interfaceName"`
+
 	// All network interfaces read rate in Mbps
 	AllNetworkReadInMbps *float64 `mandatory:"false" json:"allNetworkReadInMbps"`
 

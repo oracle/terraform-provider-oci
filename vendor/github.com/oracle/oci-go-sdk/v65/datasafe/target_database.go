@@ -33,7 +33,7 @@ type TargetDatabase struct {
 	// The current state of the target database in Data Safe.
 	LifecycleState TargetDatabaseLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time of target database registration and creation in Data Safe.
+	// The date and time of the target database registration and creation in Data Safe.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The description of the target database in Data Safe.
@@ -45,7 +45,7 @@ type TargetDatabase struct {
 
 	ConnectionOption ConnectionOption `mandatory:"false" json:"connectionOption"`
 
-	// The OCIDs of associated resources like Database, Data Safe private endpoint etc.
+	// The OCIDs of associated resources like database, Data Safe private endpoint etc.
 	AssociatedResourceIds []string `mandatory:"false" json:"associatedResourceIds"`
 
 	// Details about the current state of the target database in Data Safe.

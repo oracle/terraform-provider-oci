@@ -107,6 +107,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateAzureDataLakeStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "JAVA_MESSAGE_SERVICE":
+		mm := UpdateJavaMessageServiceConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GOLDENGATE":
 		mm := UpdateGoldenGateConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

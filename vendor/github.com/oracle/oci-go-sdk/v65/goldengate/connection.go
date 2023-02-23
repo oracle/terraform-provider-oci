@@ -152,6 +152,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := PostgresqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "JAVA_MESSAGE_SERVICE":
+		mm := JavaMessageServiceConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SNOWFLAKE":
 		mm := SnowflakeConnection{}
 		err = json.Unmarshal(data, &mm)

@@ -44,6 +44,9 @@ type AddmDbRecommendationAggregation struct {
 	// Maximum estimated benefit in terms of percentage of total activity
 	MaxBenefitPercent *float64 `mandatory:"false" json:"maxBenefitPercent"`
 
+	// Overall estimated benefit in terms of percentage of total activity
+	OverallBenefitPercent *float64 `mandatory:"false" json:"overallBenefitPercent"`
+
 	// Maximum estimated benefit in terms of average active sessions
 	MaxBenefitAvgActiveSessions *float64 `mandatory:"false" json:"maxBenefitAvgActiveSessions"`
 
@@ -77,6 +80,7 @@ func (m *AddmDbRecommendationAggregation) UnmarshalJSON(data []byte) (e error) {
 		ImplementActions            []string                 `json:"implementActions"`
 		Rationale                   *string                  `json:"rationale"`
 		MaxBenefitPercent           *float64                 `json:"maxBenefitPercent"`
+		OverallBenefitPercent       *float64                 `json:"overallBenefitPercent"`
 		MaxBenefitAvgActiveSessions *float64                 `json:"maxBenefitAvgActiveSessions"`
 		FrequencyCount              *int                     `json:"frequencyCount"`
 		RelatedObject               relatedobjecttypedetails `json:"relatedObject"`
@@ -101,6 +105,8 @@ func (m *AddmDbRecommendationAggregation) UnmarshalJSON(data []byte) (e error) {
 	m.Rationale = model.Rationale
 
 	m.MaxBenefitPercent = model.MaxBenefitPercent
+
+	m.OverallBenefitPercent = model.OverallBenefitPercent
 
 	m.MaxBenefitAvgActiveSessions = model.MaxBenefitAvgActiveSessions
 

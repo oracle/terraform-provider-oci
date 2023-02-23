@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Migration API
+// OpenSearch Service API
 //
-// Use the Oracle Cloud Infrastructure Database Migration APIs to perform database migration operations.
+// The OpenSearch service API provides access to OCI Search Service with OpenSearch.
 //
 
-package databasemigration
+package opensearch
 
 import (
 	"fmt"
@@ -15,30 +15,27 @@ import (
 	"strings"
 )
 
-// ResultError Error Information.
-type ResultError struct {
+// BackupPolicy Backup policy as optionally used for Opensearch cluster.
+type BackupPolicy struct {
 
-	// A short error code that defines the error, meant for programmatic parsing.
-	Code *string `mandatory:"true" json:"code"`
+	// Specifies if automatic backups are enabled.
+	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// A human-readable error string.
-	Message *string `mandatory:"true" json:"message"`
+	// Specifies how long backup copy should remain on Storage in days
+	RetentionInDays *int `mandatory:"false" json:"retentionInDays"`
 
-	// The text describing the root cause of the reported issue
-	Issue *string `mandatory:"false" json:"issue"`
-
-	// The text describing the action required to fix the issue
-	Action *string `mandatory:"false" json:"action"`
+	// Specifies how often backup should be performed
+	FrequencyInHours *int `mandatory:"false" json:"frequencyInHours"`
 }
 
-func (m ResultError) String() string {
+func (m BackupPolicy) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ResultError) ValidateEnumValue() (bool, error) {
+func (m BackupPolicy) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
