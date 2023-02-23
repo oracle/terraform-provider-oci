@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_cloud_autonomous_vm_cluster"
 sidebar_current: "docs-oci-resource-database-cloud_autonomous_vm_cluster"
 description: |-
-Provides the Cloud Autonomous Vm Cluster resource in Oracle Cloud Infrastructure Database service
+  Provides the Cloud Autonomous Vm Cluster resource in Oracle Cloud Infrastructure Database service
 ---
 
 # oci_database_cloud_autonomous_vm_cluster
