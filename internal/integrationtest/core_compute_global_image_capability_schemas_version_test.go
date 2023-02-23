@@ -16,11 +16,13 @@ import (
 
 var (
 	CoreCoreComputeGlobalImageCapabilitySchemasVersionSingularDataSourceRepresentation = map[string]interface{}{
+
 		"compute_global_image_capability_schema_id":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_global_image_capability_schemas.test_compute_global_image_capability_schemas.compute_global_image_capability_schemas.0.id}`},
 		"compute_global_image_capability_schema_version_name": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_global_image_capability_schemas_versions.test_compute_global_image_capability_schemas_versions.compute_global_image_capability_schema_versions.0.name}`},
 	}
 
 	CoreCoreComputeGlobalImageCapabilitySchemasVersionDataSourceRepresentation = map[string]interface{}{
+
 		"compute_global_image_capability_schema_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_global_image_capability_schemas.test_compute_global_image_capability_schemas.compute_global_image_capability_schemas.0.id}`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	}
