@@ -274,5 +274,35 @@
         "realmKey": "oc1",
         "regionIdentifier": "us-chicago-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "mxp",
+        "realmKey": "oc14",
+        "regionIdentifier": "eu-dcc-milan-2",
+        "realmDomainComponent": "oraclecloud14.com"
+    },
+    {
+        "regionKey": "snn",
+        "realmKey": "oc14",
+        "regionIdentifier": "eu-dcc-dublin-2",
+        "realmDomainComponent": "oraclecloud14.com"
+    },
+    {
+        "regionKey": "dtm",
+        "realmKey": "oc14",
+        "regionIdentifier": "eu-dcc-rating-2",
+        "realmDomainComponent": "oraclecloud14.com"
+    },
+    {
+        "regionKey": "dus",
+        "realmKey": "oc14",
+        "regionIdentifier": "eu-dcc-rating-1",
+        "realmDomainComponent": "oraclecloud14.com"
+    },
+    {
+        "regionKey": "ork",
+        "realmKey": "oc14",
+        "regionIdentifier": "eu-dcc-dublin-1",
+        "realmDomainComponent": "oraclecloud14.com"
     }
 ]
