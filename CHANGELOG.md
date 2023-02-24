@@ -1,3 +1,13 @@
+## 4.110.0 (Unreleased)
+
+### Added
+- adding examples for ADG and CADG, fixing is_dataguard_enabled appearing twice
+### Bug Fix
+- Added Resource discovery support for datascience model resource
+- fix list repositories failure
+- Enabling resource discovery for core - Compute Imaging CP resources
+- Reverted oci_marketplace_listing_package_agreement back to resource from data source
+
 ## 4.109.0 (Unreleased)
 
 ### Added
