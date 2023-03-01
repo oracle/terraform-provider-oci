@@ -32,14 +32,16 @@ var (
 
 	CoreCoreComputeImageCapabilitySchemaSingularDataSourceRepresentation = map[string]interface{}{
 		"compute_image_capability_schema_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.id}`},
-		"is_merge_enabled":                   acctest.Representation{RepType: acctest.Required, Create: `false`},
+
+		"is_merge_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
 	}
 
 	CoreCoreComputeImageCapabilitySchemaDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"image_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.image_id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreComputeImageCapabilitySchemaDataSourceFilterRepresentation}}
+
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"image_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.image_id}`},
+		"filter":       acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreComputeImageCapabilitySchemaDataSourceFilterRepresentation}}
 	CoreComputeImageCapabilitySchemaDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_compute_image_capability_schema.test_compute_image_capability_schema.id}`}},
@@ -92,6 +94,7 @@ resource "oci_core_image" "custom_image" {
 
 // issue-routing-tag: core/computeImaging
 func TestCoreComputeImageCapabilitySchemaResource_basic(t *testing.T) {
+
 	t.Skip("Skip test for Windows image")
 	httpreplay.SetScenario("TestCoreComputeImageCapabilitySchemaResource_basic")
 	defer httpreplay.SaveScenario()

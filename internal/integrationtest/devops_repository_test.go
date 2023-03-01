@@ -57,7 +57,6 @@ var (
 	}
 
 	DevopsRepositoryResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, DevopsConnectionRepresentation) +
 		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
 )
@@ -72,22 +71,19 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	githubAccessTokenVaultId := utils.GetEnvSettingWithBlankDefault("github_access_token_vault_id")
-	githubAccessTokenVaultIdStr := fmt.Sprintf("variable \"github_access_token_vault_id\" { default = \"%s\" }\n", githubAccessTokenVaultId)
-
 	resourceName := "oci_devops_repository.test_repository"
 	datasourceName := "data.oci_devops_repositories.test_repositories"
 	singularDatasourceName := "data.oci_devops_repository.test_repository"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+githubAccessTokenVaultIdStr+DevopsRepositoryResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DevopsRepositoryResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Create, DevopsRepositoryRepresentation), "devops", "repository", t)
 
 	acctest.ResourceTest(t, testAccCheckDevopsRepositoryDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsRepositoryResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "name", "name"),
@@ -103,11 +99,11 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceDependencies,
+			Config: config + compartmentIdVariableStr + DevopsRepositoryResourceDependencies,
 		},
 		//verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsRepositoryResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Create, DevopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -133,7 +129,7 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceDependencies +
+			Config: config + compartmentIdVariableStr + DevopsRepositoryResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Update, DevopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -158,7 +154,7 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repositories", "test_repositories", acctest.Optional, acctest.Update, DevopsDevopsRepositoryDataSourceRepresentation) +
-				compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceDependencies +
+				compartmentIdVariableStr + DevopsRepositoryResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Update, DevopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "repository_collection.#", "1"),
@@ -169,7 +165,7 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Required, acctest.Create, DevopsDevopsRepositorySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + githubAccessTokenVaultIdStr + DevopsRepositoryResourceConfig,
+				compartmentIdVariableStr + DevopsRepositoryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repository_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "branch_count"),

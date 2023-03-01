@@ -135,7 +135,7 @@ func (s *CoreComputeImageCapabilitySchemasDataSourceCrud) SetData() error {
 			computeImageCapabilitySchema["image_id"] = *r.ImageId
 		}
 
-		computeImageCapabilitySchema["schema_data"] = r.SchemaData
+		computeImageCapabilitySchema["schema_data"] = schemaDataToMap(r.SchemaData)
 
 		if r.TimeCreated != nil {
 			computeImageCapabilitySchema["time_created"] = r.TimeCreated.String()

@@ -16,6 +16,7 @@ import (
 
 var (
 	CoreCoreComputeGlobalImageCapabilitySchemaSingularDataSourceRepresentation = map[string]interface{}{
+
 		"compute_global_image_capability_schema_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_global_image_capability_schemas.test_compute_global_image_capability_schemas.compute_global_image_capability_schemas.0.id}`},
 	}
 
@@ -26,7 +27,9 @@ var (
 
 // issue-routing-tag: core/computeImaging
 func TestCoreComputeGlobalImageCapabilitySchemaResource_basic(t *testing.T) {
+
 	httpreplay.SetScenario("TestCoreComputeGlobalImageCapabilitySchemaResource_basic")
+
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()

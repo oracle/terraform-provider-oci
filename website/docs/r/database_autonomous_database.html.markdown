@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_database"
 sidebar_current: "docs-oci-resource-database-autonomous_database"
 description: |-
-Provides the Autonomous Database resource in Oracle Cloud Infrastructure Database service
+  Provides the Autonomous Database resource in Oracle Cloud Infrastructure Database service
 ---
 
 # oci_database_autonomous_database
@@ -110,8 +110,12 @@ The following arguments are supported:
 * `compute_count` - (Optional) (Updatable) The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
 * `compute_model` - (Optional) The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
 * `cpu_core_count` - (Optional) (Updatable) The number of OCPU cores to be made available to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
-
-  **Note:** This parameter cannot be used with the `ocpuCount` parameter. This input is ignored for Always Free resources.
+  **Note:** This parameter cannot be used with the `ocpuCount` parameter.
+    * The data type must be an *integer*.
+    * The minimum number of cores for all types of autonomous database is *1*
+    * The maximum number of cores is as follows:
+        * Autonomous Databases on shared Exadata infrastructure: The maximum number of cores is *128*.
+        * Autonomous Databases on dedicated Exadata infrastructure: The maximum number of cores is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 * `customer_contacts` - (Optional) (Updatable) Customer Contacts.
 	* `email` - (Optional) (Updatable) The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `data_safe_status` - (Optional) (Updatable) Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
@@ -124,7 +128,7 @@ The following arguments are supported:
 
   **Note:** This parameter cannot be used with the `dataStorageSizeInGBs` parameter. This input is ignored for Always Free resources.
 * `database_edition` - (Optional) (Updatable) The Oracle Database Edition that applies to the Autonomous databases.
-* `db_name` - (Required) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
+* `db_name` - (Required) (Updatable) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
 * `db_version` - (Optional) (Updatable) A valid Oracle Database version for Autonomous Database.`db_workload` AJD and APEX are only supported for `db_version` `19c` and above.
 * `db_workload` - (Optional) (Updatable) The Autonomous Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous Transaction Processing database
@@ -140,7 +144,6 @@ The following arguments are supported:
 * `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Autonomous Database OCPU core count. The default value is `FALSE`.
 * `is_data_guard_enabled` - (Optional) (Updatable) **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 * `is_local_data_guard_enabled` - (Optional) (Updatable) Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
-* `is_data_guard_enabled` - (Optional) (Updatable) Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to  Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 * `is_auto_scaling_for_storage_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
 * `is_dedicated` - (Optional) True if the database is on [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm).
 * `is_free_tier` - (Optional) (Updatable) Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled. When `db_workload` is `AJD` or `APEX` it cannot be `true`.
@@ -256,9 +259,14 @@ The following attributes are exported:
     * `mongo_db_url` - The URL of the MongoDB API for the Autonomous Database.
     * `ords_url` - The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous Database.
     * `sql_dev_web_url` - Oracle SQL Developer Web URL.
-* `cpu_core_count` - The number of OCPU cores to be made available to the database. When the ECPU is selected, the value for cpuCoreCount is 0. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+* `cpu_core_count` - The number of OCPU cores to be made available to the database. 
 
-  **Note:** This parameter cannot be used with the `ocpuCount` parameter.
+    **Note:** This parameter cannot be used with the `ocpuCount` parameter.
+    * The data type must be an *integer*.
+    * The minimum number of cores for all types of autonomous database is *1*
+    * The maximum number of cores is as follows:
+      * Autonomous Databases on shared Exadata infrastructure: The maximum number of cores is *128*.
+      * Autonomous Databases on dedicated Exadata infrastructure: The maximum number of cores is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 * `customer_contacts` - Customer Contacts.
     * `email` - The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `data_safe_status` - Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
@@ -342,7 +350,7 @@ The following attributes are exported:
     * `scheduled_start_time` - auto start time. value must be of ISO-8601 format "HH:mm"
     * `scheduled_stop_time` - auto stop time. value must be of ISO-8601 format "HH:mm"
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
-* `source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that was cloned to create the current Autonomous Database.
+* `source_id` - (Required when source=CLONE_TO_REFRESHABLE | CROSS_REGION_DATAGUARD | DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new standby database for the Data Guard association.
 * `standby_db` - **Deprecated** Autonomous Data Guard standby database details.
     * `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
     * `lifecycle_details` - Additional information about the current lifecycle state.
@@ -385,7 +393,6 @@ The following attributes are exported:
   For shared Exadata infrastructure, this is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID. Use a semicolon (;) as a deliminator between the VCN-specific subnets or IPs. Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.<unique_id>","ocid1.vcn.oc1.sea.<unique_id1>;1.1.1.1","ocid1.vcn.oc1.sea.<unique_id2>;1.1.0.0/16"]` For Exadata Cloud@Customer, this is an array of IP addresses or CIDR (Classless Inter-Domain Routing) notations. Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
 
   For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
-
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:

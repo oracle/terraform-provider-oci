@@ -96,6 +96,16 @@ const (
 	RegionAPDccCanberra1 Region = "ap-dcc-canberra-1"
 	//RegionEUDccMilan1 region Milan
 	RegionEUDccMilan1 Region = "eu-dcc-milan-1"
+	//RegionEUDccMilan2 region Milan
+	RegionEUDccMilan2 Region = "eu-dcc-milan-2"
+	//RegionEUDccDublin2 region Dublin
+	RegionEUDccDublin2 Region = "eu-dcc-dublin-2"
+	//RegionEUDccRating2 region Rating
+	RegionEUDccRating2 Region = "eu-dcc-rating-2"
+	//RegionEUDccRating1 region Rating
+	RegionEUDccRating1 Region = "eu-dcc-rating-1"
+	//RegionEUDccDublin1 region Dublin
+	RegionEUDccDublin1 Region = "eu-dcc-dublin-1"
 )
 
 var shortNameRegion = map[string]Region{
@@ -145,6 +155,11 @@ var shortNameRegion = map[string]Region{
 	"mct": RegionMEDccMuscat1,
 	"wga": RegionAPDccCanberra1,
 	"bgy": RegionEUDccMilan1,
+	"mxp": RegionEUDccMilan2,
+	"snn": RegionEUDccDublin2,
+	"dtm": RegionEUDccRating2,
+	"dus": RegionEUDccRating1,
+	"ork": RegionEUDccDublin1,
 }
 
 var realm = map[string]string{
@@ -211,5 +226,10 @@ var regionRealm = map[Region]string{
 
 	RegionAPDccCanberra1: "oc10",
 
-	RegionEUDccMilan1: "oc14",
+	RegionEUDccMilan1:  "oc14",
+	RegionEUDccMilan2:  "oc14",
+	RegionEUDccDublin2: "oc14",
+	RegionEUDccRating2: "oc14",
+	RegionEUDccRating1: "oc14",
+	RegionEUDccDublin1: "oc14",
 }
