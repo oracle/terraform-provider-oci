@@ -1,4 +1,4 @@
-## 4.110.0 (Unreleased)
+## 4.110.0 (March 01, 2023)
 
 ### Added
 - adding examples for ADG and CADG, fixing is_dataguard_enabled appearing twice
