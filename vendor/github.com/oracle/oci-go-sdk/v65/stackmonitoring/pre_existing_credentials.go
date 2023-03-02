@@ -16,10 +16,11 @@ import (
 	"strings"
 )
 
-// PreExistingCredentials Plain text credentials [indicated by the type property in CredentialStore].
+// PreExistingCredentials Pre existing credentials [indicated by the type property in CredentialStore].
 type PreExistingCredentials struct {
 
-	// The source type and source name combination,delimited with (.) separator. {source type}.{source name} and source type max char limit is 63.
+	// The source type and source name combination, delimited with (.) separator.
+	// {source type}.{source name} and source type max char limit is 63.
 	Source *string `mandatory:"false" json:"source"`
 
 	// The name of the credential, within the context of the source.

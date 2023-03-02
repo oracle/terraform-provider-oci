@@ -15,14 +15,17 @@ import (
 	"strings"
 )
 
-// AssociationResourceDetails Association Resource Details
+// AssociationResourceDetails Association Resource Details.
 type AssociationResourceDetails struct {
 
-	// Monitored Resource Name
+	// Monitored Resource Name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Monitored Resource Type
+	// Monitored Resource Type.
 	Type *string `mandatory:"false" json:"type"`
+
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 
 func (m AssociationResourceDetails) String() string {

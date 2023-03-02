@@ -126,6 +126,10 @@ func (m *assetsourcesummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := VmWareAssetSourceSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AWS":
+		mm := AwsAssetSourceSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_DB":
 		mm := OracleDbAssetSourceSummary{}
 		err = json.Unmarshal(data, &mm)

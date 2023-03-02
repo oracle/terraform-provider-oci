@@ -701,6 +701,60 @@ func (client DiscoveryClient) listDiscoverySchedules(ctx context.Context, reques
 	return response, err
 }
 
+// ListSupportedCloudRegions Returns a list of supported cloud regions related to AssetSourceTypeParam.
+// A default retry strategy applies to this operation ListSupportedCloudRegions()
+func (client DiscoveryClient) ListSupportedCloudRegions(ctx context.Context, request ListSupportedCloudRegionsRequest) (response ListSupportedCloudRegionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSupportedCloudRegions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSupportedCloudRegionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSupportedCloudRegionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSupportedCloudRegionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSupportedCloudRegionsResponse")
+	}
+	return
+}
+
+// listSupportedCloudRegions implements the OCIOperation interface (enables retrying operations)
+func (client DiscoveryClient) listSupportedCloudRegions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedCloudRegions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSupportedCloudRegionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/SupportedCloudRegionSummary/ListSupportedCloudRegions"
+		err = common.PostProcessServiceError(err, "Discovery", "ListSupportedCloudRegions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RefreshAssetSource Initiates the process of asset metadata synchronization with the related asset source.
 // A default retry strategy applies to this operation RefreshAssetSource()
 func (client DiscoveryClient) RefreshAssetSource(ctx context.Context, request RefreshAssetSourceRequest) (response RefreshAssetSourceResponse, err error) {

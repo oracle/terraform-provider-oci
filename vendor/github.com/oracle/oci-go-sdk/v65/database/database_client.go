@@ -14428,6 +14428,122 @@ func (client DatabaseClient) rotateAutonomousDatabaseEncryptionKey(ctx context.C
 	return response, err
 }
 
+// RotateAutonomousVmClusterOrdsCerts Rotates the Oracle REST Data Services (ORDS) certificates for Autonomous Exadata VM cluster.
+func (client DatabaseClient) RotateAutonomousVmClusterOrdsCerts(ctx context.Context, request RotateAutonomousVmClusterOrdsCertsRequest) (response RotateAutonomousVmClusterOrdsCertsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rotateAutonomousVmClusterOrdsCerts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RotateAutonomousVmClusterOrdsCertsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RotateAutonomousVmClusterOrdsCertsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RotateAutonomousVmClusterOrdsCertsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RotateAutonomousVmClusterOrdsCertsResponse")
+	}
+	return
+}
+
+// rotateAutonomousVmClusterOrdsCerts implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) rotateAutonomousVmClusterOrdsCerts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousVmClusters/{autonomousVmClusterId}/actions/rotateOrdsCerts", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RotateAutonomousVmClusterOrdsCertsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/RotateAutonomousVmClusterOrdsCerts"
+		err = common.PostProcessServiceError(err, "Database", "RotateAutonomousVmClusterOrdsCerts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RotateAutonomousVmClusterSslCerts Rotates the SSL certificates for Autonomous Exadata VM cluster.
+func (client DatabaseClient) RotateAutonomousVmClusterSslCerts(ctx context.Context, request RotateAutonomousVmClusterSslCertsRequest) (response RotateAutonomousVmClusterSslCertsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rotateAutonomousVmClusterSslCerts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RotateAutonomousVmClusterSslCertsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RotateAutonomousVmClusterSslCertsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RotateAutonomousVmClusterSslCertsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RotateAutonomousVmClusterSslCertsResponse")
+	}
+	return
+}
+
+// rotateAutonomousVmClusterSslCerts implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) rotateAutonomousVmClusterSslCerts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousVmClusters/{autonomousVmClusterId}/actions/rotateSslCerts", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RotateAutonomousVmClusterSslCertsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/RotateAutonomousVmClusterSslCerts"
+		err = common.PostProcessServiceError(err, "Database", "RotateAutonomousVmClusterSslCerts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RotateCloudAutonomousVmClusterOrdsCerts Rotates the Oracle REST Data Services (ORDS) certificates for a cloud Autonomous Exadata VM cluster.
 func (client DatabaseClient) RotateCloudAutonomousVmClusterOrdsCerts(ctx context.Context, request RotateCloudAutonomousVmClusterOrdsCertsRequest) (response RotateCloudAutonomousVmClusterOrdsCertsResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -60,6 +60,9 @@ type AutoScalingConfiguration struct {
 	// Whether the autoscaling configuration is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
+	// An immutable field that delegates the scaling action when set to True.
+	IsScalingActionDelegated *bool `mandatory:"false" json:"isScalingActionDelegated"`
+
 	// The maximum number of resources to scale out to.
 	MaxResourceCount *int `mandatory:"false" json:"maxResourceCount"`
 
@@ -86,18 +89,19 @@ func (m AutoScalingConfiguration) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *AutoScalingConfiguration) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName       *string                           `json:"displayName"`
-		FreeformTags      map[string]string                 `json:"freeformTags"`
-		CoolDownInSeconds *int                              `json:"coolDownInSeconds"`
-		IsEnabled         *bool                             `json:"isEnabled"`
-		MaxResourceCount  *int                              `json:"maxResourceCount"`
-		MinResourceCount  *int                              `json:"minResourceCount"`
-		CompartmentId     *string                           `json:"compartmentId"`
-		Id                *string                           `json:"id"`
-		Resource          resource                          `json:"resource"`
-		Policies          []autoscalingpolicy               `json:"policies"`
-		TimeCreated       *common.SDKTime                   `json:"timeCreated"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName              *string                           `json:"displayName"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		CoolDownInSeconds        *int                              `json:"coolDownInSeconds"`
+		IsEnabled                *bool                             `json:"isEnabled"`
+		IsScalingActionDelegated *bool                             `json:"isScalingActionDelegated"`
+		MaxResourceCount         *int                              `json:"maxResourceCount"`
+		MinResourceCount         *int                              `json:"minResourceCount"`
+		CompartmentId            *string                           `json:"compartmentId"`
+		Id                       *string                           `json:"id"`
+		Resource                 resource                          `json:"resource"`
+		Policies                 []autoscalingpolicy               `json:"policies"`
+		TimeCreated              *common.SDKTime                   `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -114,6 +118,8 @@ func (m *AutoScalingConfiguration) UnmarshalJSON(data []byte) (e error) {
 	m.CoolDownInSeconds = model.CoolDownInSeconds
 
 	m.IsEnabled = model.IsEnabled
+
+	m.IsScalingActionDelegated = model.IsScalingActionDelegated
 
 	m.MaxResourceCount = model.MaxResourceCount
 

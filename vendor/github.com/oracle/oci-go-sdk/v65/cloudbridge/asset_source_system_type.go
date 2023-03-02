@@ -19,6 +19,7 @@ type AssetSourceSystemTypeEnum string
 // Set of constants representing the allowable values for AssetSourceSystemTypeEnum
 const (
 	AssetSourceSystemTypeVcenter      AssetSourceSystemTypeEnum = "VCENTER"
+	AssetSourceSystemTypeAws          AssetSourceSystemTypeEnum = "AWS"
 	AssetSourceSystemTypeOracleCdb    AssetSourceSystemTypeEnum = "ORACLE_CDB"
 	AssetSourceSystemTypeOraclePdb    AssetSourceSystemTypeEnum = "ORACLE_PDB"
 	AssetSourceSystemTypeOracleNonCdb AssetSourceSystemTypeEnum = "ORACLE_NON_CDB"
@@ -26,6 +27,7 @@ const (
 
 var mappingAssetSourceSystemTypeEnum = map[string]AssetSourceSystemTypeEnum{
 	"VCENTER":        AssetSourceSystemTypeVcenter,
+	"AWS":            AssetSourceSystemTypeAws,
 	"ORACLE_CDB":     AssetSourceSystemTypeOracleCdb,
 	"ORACLE_PDB":     AssetSourceSystemTypeOraclePdb,
 	"ORACLE_NON_CDB": AssetSourceSystemTypeOracleNonCdb,
@@ -33,6 +35,7 @@ var mappingAssetSourceSystemTypeEnum = map[string]AssetSourceSystemTypeEnum{
 
 var mappingAssetSourceSystemTypeEnumLowerCase = map[string]AssetSourceSystemTypeEnum{
 	"vcenter":        AssetSourceSystemTypeVcenter,
+	"aws":            AssetSourceSystemTypeAws,
 	"oracle_cdb":     AssetSourceSystemTypeOracleCdb,
 	"oracle_pdb":     AssetSourceSystemTypeOraclePdb,
 	"oracle_non_cdb": AssetSourceSystemTypeOracleNonCdb,
@@ -51,6 +54,7 @@ func GetAssetSourceSystemTypeEnumValues() []AssetSourceSystemTypeEnum {
 func GetAssetSourceSystemTypeEnumStringValues() []string {
 	return []string{
 		"VCENTER",
+		"AWS",
 		"ORACLE_CDB",
 		"ORACLE_PDB",
 		"ORACLE_NON_CDB",

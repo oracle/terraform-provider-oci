@@ -14,7 +14,7 @@ import (
 // SearchMonitoredResourcesRequest wrapper for the SearchMonitoredResources operation
 type SearchMonitoredResourcesRequest struct {
 
-	// Property Search Criteria for the listing the monitored resources.
+	// Search Criteria for listing monitored resources.
 	SearchMonitoredResourcesDetails `contributesTo:"body"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a

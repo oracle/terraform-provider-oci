@@ -18,21 +18,30 @@ type AssetTypeEnum string
 
 // Set of constants representing the allowable values for AssetTypeEnum
 const (
-	AssetTypeVmwareVm AssetTypeEnum = "VMWARE_VM"
-	AssetTypeVm       AssetTypeEnum = "VM"
-	AssetTypeOracleDb AssetTypeEnum = "ORACLE_DB"
+	AssetTypeVmwareVm       AssetTypeEnum = "VMWARE_VM"
+	AssetTypeVm             AssetTypeEnum = "VM"
+	AssetTypeOracleDb       AssetTypeEnum = "ORACLE_DB"
+	AssetTypeInventoryAsset AssetTypeEnum = "INVENTORY_ASSET"
+	AssetTypeAwsEc2         AssetTypeEnum = "AWS_EC2"
+	AssetTypeAwsEbs         AssetTypeEnum = "AWS_EBS"
 )
 
 var mappingAssetTypeEnum = map[string]AssetTypeEnum{
-	"VMWARE_VM": AssetTypeVmwareVm,
-	"VM":        AssetTypeVm,
-	"ORACLE_DB": AssetTypeOracleDb,
+	"VMWARE_VM":       AssetTypeVmwareVm,
+	"VM":              AssetTypeVm,
+	"ORACLE_DB":       AssetTypeOracleDb,
+	"INVENTORY_ASSET": AssetTypeInventoryAsset,
+	"AWS_EC2":         AssetTypeAwsEc2,
+	"AWS_EBS":         AssetTypeAwsEbs,
 }
 
 var mappingAssetTypeEnumLowerCase = map[string]AssetTypeEnum{
-	"vmware_vm": AssetTypeVmwareVm,
-	"vm":        AssetTypeVm,
-	"oracle_db": AssetTypeOracleDb,
+	"vmware_vm":       AssetTypeVmwareVm,
+	"vm":              AssetTypeVm,
+	"oracle_db":       AssetTypeOracleDb,
+	"inventory_asset": AssetTypeInventoryAsset,
+	"aws_ec2":         AssetTypeAwsEc2,
+	"aws_ebs":         AssetTypeAwsEbs,
 }
 
 // GetAssetTypeEnumValues Enumerates the set of values for AssetTypeEnum
@@ -50,6 +59,9 @@ func GetAssetTypeEnumStringValues() []string {
 		"VMWARE_VM",
 		"VM",
 		"ORACLE_DB",
+		"INVENTORY_ASSET",
+		"AWS_EC2",
+		"AWS_EBS",
 	}
 }
 

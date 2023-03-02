@@ -92,7 +92,8 @@ type CreateSddcDetails struct {
 	// ListSupportedSkus.
 	InitialSku SkuEnum `mandatory:"false" json:"initialSku,omitempty"`
 
-	// Indicates whether to enable HCX for this SDDC.
+	// For SDDC with dense compute shapes, this parameter indicates whether to enable HCX Advanced for this SDDC.
+	// For SDDC with standard compute shapes, this parameter is equivalent to `isHcxEnterpriseEnabled`.
 	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the HCX

@@ -14,7 +14,7 @@ import (
 // SearchMonitoredResourceAssociationsRequest wrapper for the SearchMonitoredResourceAssociations operation
 type SearchMonitoredResourceAssociationsRequest struct {
 
-	// Search Criteria for the listing the monitored resource associations.
+	// Search criteria for listing monitored resource associations.
 	SearchMonitoredResourceAssociationsDetails `contributesTo:"body"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a

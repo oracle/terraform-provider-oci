@@ -36,7 +36,7 @@ type UpdateInstanceShapeConfigDetails struct {
 	// The total number of VCPUs available to the instance. This can be used instead of OCPUs in the case of
 	// platform-agnostic launch, in which case the actual number of OCPUs will be calculated based on this value
 	// and the actual hardware. This must be a multiple of 2.
-	Vcpus *float32 `mandatory:"false" json:"vcpus"`
+	Vcpus *int `mandatory:"false" json:"vcpus"`
 
 	// The total amount of memory available to the instance, in gigabytes.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`

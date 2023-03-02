@@ -132,6 +132,12 @@ type AutonomousVmCluster struct {
 
 	// Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
 	IsMtlsEnabled *bool `mandatory:"false" json:"isMtlsEnabled"`
+
+	// The date and time of Database SSL certificate expiration.
+	TimeDatabaseSslCertificateExpires *common.SDKTime `mandatory:"false" json:"timeDatabaseSslCertificateExpires"`
+
+	// The date and time of ORDS certificate expiration.
+	TimeOrdsCertificateExpires *common.SDKTime `mandatory:"false" json:"timeOrdsCertificateExpires"`
 }
 
 func (m AutonomousVmCluster) String() string {

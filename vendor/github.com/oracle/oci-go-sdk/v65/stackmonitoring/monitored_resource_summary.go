@@ -18,40 +18,38 @@ import (
 // MonitoredResourceSummary The information about monitored resource.
 type MonitoredResourceSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource.
+	// Monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
-	// Name of the monitored resource
+	// Monitored Resource Name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Type of the monitored resource
+	// Monitored Resource Type.
 	Type *string `mandatory:"true" json:"type"`
 
 	// Monitored resource display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Resource Host Name
+	// Monitored Resource Host Name.
 	HostName *string `mandatory:"false" json:"hostName"`
 
 	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	// which is not a Stack Monitoring service resource.
-	// Currently supports only following resource type identifiers - externalcontainerdatabase,
-	// externalnoncontainerdatabase, externalpluggabledatabase and OCI compute instance.
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
 	// Management Agent Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ManagementAgentId *string `mandatory:"false" json:"managementAgentId"`
 
-	// Monitored resource creation time. An RFC3339 formatted datetime string
+	// Monitored resource creation time. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// Monitored resource updation time. An RFC3339 formatted datetime string
+	// Monitored resource update time. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// The current state of the monitored resource.
 	LifecycleState ResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// List of monitored resource properties
+	// List of monitored resource properties.
 	Properties []MonitoredResourceProperty `mandatory:"false" json:"properties"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

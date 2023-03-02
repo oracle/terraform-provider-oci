@@ -16,22 +16,24 @@ import (
 	"strings"
 )
 
-// MonitoredResource The information about monitored resource.
+// MonitoredResource The response object for create monitored resource and get monitored resource operations.
+// This contains information about the monitored resource. Credentials and credential aliases attributes
+// will be returned as null due to security reasons.
 type MonitoredResource struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource.
+	// Monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// Monitored resource name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Monitored resource type
+	// Monitored Resource Type.
 	Type *string `mandatory:"true" json:"type"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Tenancy Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Tenancy Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	TenantId *string `mandatory:"true" json:"tenantId"`
 
 	// Monitored resource display name.
@@ -40,10 +42,10 @@ type MonitoredResource struct {
 	// Monitored resource host name.
 	HostName *string `mandatory:"false" json:"hostName"`
 
-	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
-	// which is not a Stack Monitoring service resource.
-	// Currently supports only following resource type identifiers - externalcontainerdatabase,
-	// externalnoncontainerdatabase, externalpluggabledatabase and OCI compute instance.
+	// The external resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// External resource is any OCI resource which is not a Stack Monitoring service resource.
+	// Currently supports only following resource types - Container database, non-container database,
+	// pluggable database and OCI compute instance.
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
 	// Management Agent Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -52,16 +54,18 @@ type MonitoredResource struct {
 	// Time zone in the form of tz database canonical zone ID.
 	ResourceTimeZone *string `mandatory:"false" json:"resourceTimeZone"`
 
-	// The time the the resource was created. An RFC3339 formatted datetime string
+	// The date and time when the monitored resource was created, expressed in
+	// RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the the resource was updated. An RFC3339 formatted datetime string
+	// The date and time when the monitored resource was last updated, expressed in
+	// RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Lifecycle state of the monitored resource.
 	LifecycleState ResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// List of monitored resource properties
+	// List of monitored resource properties.
 	Properties []MonitoredResourceProperty `mandatory:"false" json:"properties"`
 
 	DatabaseConnectionDetails *ConnectionDetails `mandatory:"false" json:"databaseConnectionDetails"`

@@ -33,11 +33,26 @@ type AddmDbRecommendationsTimeSeriesSummary struct {
 	// Timestamp when recommendation was generated
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 
+	// Start Timestamp of snapshot
+	TimeAnalysisStarted *common.SDKTime `mandatory:"false" json:"timeAnalysisStarted"`
+
+	// End Timestamp of snapshot
+	TimeAnalysisEnded *common.SDKTime `mandatory:"false" json:"timeAnalysisEnded"`
+
 	// Type of recommendation
 	Type *string `mandatory:"false" json:"type"`
 
+	// DB time in seconds for the snapshot
+	AnalysisDbTimeInSecs *float64 `mandatory:"false" json:"analysisDbTimeInSecs"`
+
+	// DB avg active sessions for the snapshot
+	AnalysisAvgActiveSessions *float64 `mandatory:"false" json:"analysisAvgActiveSessions"`
+
 	// Maximum estimated benefit in terms of percentage of total activity
 	MaxBenefitPercent *float64 `mandatory:"false" json:"maxBenefitPercent"`
+
+	// Maximum estimated benefit in terms of seconds
+	MaxBenefitDbTimeInSecs *float64 `mandatory:"false" json:"maxBenefitDbTimeInSecs"`
 
 	// Maximum estimated benefit in terms of average active sessions
 	MaxBenefitAvgActiveSessions *float64 `mandatory:"false" json:"maxBenefitAvgActiveSessions"`
@@ -64,8 +79,13 @@ func (m AddmDbRecommendationsTimeSeriesSummary) ValidateEnumValue() (bool, error
 // UnmarshalJSON unmarshals from json
 func (m *AddmDbRecommendationsTimeSeriesSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		TimeAnalysisStarted         *common.SDKTime          `json:"timeAnalysisStarted"`
+		TimeAnalysisEnded           *common.SDKTime          `json:"timeAnalysisEnded"`
 		Type                        *string                  `json:"type"`
+		AnalysisDbTimeInSecs        *float64                 `json:"analysisDbTimeInSecs"`
+		AnalysisAvgActiveSessions   *float64                 `json:"analysisAvgActiveSessions"`
 		MaxBenefitPercent           *float64                 `json:"maxBenefitPercent"`
+		MaxBenefitDbTimeInSecs      *float64                 `json:"maxBenefitDbTimeInSecs"`
 		MaxBenefitAvgActiveSessions *float64                 `json:"maxBenefitAvgActiveSessions"`
 		RelatedObject               relatedobjecttypedetails `json:"relatedObject"`
 		Id                          *string                  `json:"id"`
@@ -79,9 +99,19 @@ func (m *AddmDbRecommendationsTimeSeriesSummary) UnmarshalJSON(data []byte) (e e
 		return
 	}
 	var nn interface{}
+	m.TimeAnalysisStarted = model.TimeAnalysisStarted
+
+	m.TimeAnalysisEnded = model.TimeAnalysisEnded
+
 	m.Type = model.Type
 
+	m.AnalysisDbTimeInSecs = model.AnalysisDbTimeInSecs
+
+	m.AnalysisAvgActiveSessions = model.AnalysisAvgActiveSessions
+
 	m.MaxBenefitPercent = model.MaxBenefitPercent
+
+	m.MaxBenefitDbTimeInSecs = model.MaxBenefitDbTimeInSecs
 
 	m.MaxBenefitAvgActiveSessions = model.MaxBenefitAvgActiveSessions
 

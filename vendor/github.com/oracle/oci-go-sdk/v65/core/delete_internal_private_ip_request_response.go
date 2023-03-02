@@ -17,9 +17,6 @@ type DeleteInternalPrivateIpRequest struct {
 	// The internal private IP's OCID.
 	InternalPrivateIpId *string `mandatory:"true" contributesTo:"path" name:"internalPrivateIpId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
-
 	// Automatically unmap floating private IP from the current VNIC when deleting.
 	AutoUnmap *bool `mandatory:"false" contributesTo:"query" name:"autoUnmap"`
 

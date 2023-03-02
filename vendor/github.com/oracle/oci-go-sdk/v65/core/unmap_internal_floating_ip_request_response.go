@@ -17,9 +17,6 @@ type UnmapInternalFloatingIpRequest struct {
 	// The floating IP's OCID.
 	InternalFloatingIpId *string `mandatory:"true" contributesTo:"path" name:"internalFloatingIpId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
-
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
 	// parameter to the value of the etag from a previous GET or POST response for that resource. The resource
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.

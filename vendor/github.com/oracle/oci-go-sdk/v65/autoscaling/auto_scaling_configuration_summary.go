@@ -45,6 +45,9 @@ type AutoScalingConfigurationSummary struct {
 	// Whether the autoscaling configuration is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
+	// An immutable field that delegates the scaling action when set to True.
+	IsScalingActionDelegated *bool `mandatory:"false" json:"isScalingActionDelegated"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -75,15 +78,16 @@ func (m AutoScalingConfigurationSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *AutoScalingConfigurationSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName       *string                           `json:"displayName"`
-		CoolDownInSeconds *int                              `json:"coolDownInSeconds"`
-		IsEnabled         *bool                             `json:"isEnabled"`
-		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags      map[string]string                 `json:"freeformTags"`
-		CompartmentId     *string                           `json:"compartmentId"`
-		Id                *string                           `json:"id"`
-		Resource          resource                          `json:"resource"`
-		TimeCreated       *common.SDKTime                   `json:"timeCreated"`
+		DisplayName              *string                           `json:"displayName"`
+		CoolDownInSeconds        *int                              `json:"coolDownInSeconds"`
+		IsEnabled                *bool                             `json:"isEnabled"`
+		IsScalingActionDelegated *bool                             `json:"isScalingActionDelegated"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		CompartmentId            *string                           `json:"compartmentId"`
+		Id                       *string                           `json:"id"`
+		Resource                 resource                          `json:"resource"`
+		TimeCreated              *common.SDKTime                   `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -96,6 +100,8 @@ func (m *AutoScalingConfigurationSummary) UnmarshalJSON(data []byte) (e error) {
 	m.CoolDownInSeconds = model.CoolDownInSeconds
 
 	m.IsEnabled = model.IsEnabled
+
+	m.IsScalingActionDelegated = model.IsScalingActionDelegated
 
 	m.DefinedTags = model.DefinedTags
 

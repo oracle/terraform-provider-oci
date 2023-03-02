@@ -6,7 +6,8 @@
 //
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
 // Endpoints vary by operation. For PostMetric, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
-// For information about monitoring, see Monitoring Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm).
+// For more information, see
+// the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
 //
 
 package monitoring
@@ -43,6 +44,7 @@ type ListMetricsDetails struct {
 
 	// Group metrics by these fields in the response. For example, to list all metric namespaces available
 	//           in a compartment, groupBy the "namespace" field. Supported fields: namespace, name, resourceGroup.
+	// If `groupBy` is used, then `dimensionFilters` is ignored.
 	// Example - group by namespace:
 	// `[ "namespace" ]`
 	GroupBy []string `mandatory:"false" json:"groupBy"`

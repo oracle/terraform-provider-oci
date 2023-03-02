@@ -87,7 +87,9 @@ func (client *StackMonitoringClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
-// AssociateMonitoredResources Create an association between two monitored resources.
+// AssociateMonitoredResources Create an association between two monitored resources. Associations can be created
+// between resources from different compartments as long they are in same tenancy.
+// User should have required access in both the compartments.
 func (client StackMonitoringClient) AssociateMonitoredResources(ctx context.Context, request AssociateMonitoredResourcesRequest) (response AssociateMonitoredResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,7 +147,8 @@ func (client StackMonitoringClient) associateMonitoredResources(ctx context.Cont
 	return response, err
 }
 
-// ChangeMonitoredResourceCompartment Moves a MonitoredResource resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeMonitoredResourceCompartment Moves a monitored resource from one compartment to another.
+// When provided, If-Match is checked against ETag values of the resource.
 func (client StackMonitoringClient) ChangeMonitoredResourceCompartment(ctx context.Context, request ChangeMonitoredResourceCompartmentRequest) (response ChangeMonitoredResourceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -261,7 +264,9 @@ func (client StackMonitoringClient) createDiscoveryJob(ctx context.Context, requ
 	return response, err
 }
 
-// CreateMonitoredResource Creates a new monitored resource for the given resource type
+// CreateMonitoredResource Creates a new monitored resource for the given resource type with the details and submits
+// a work request for promoting the resource to agent. Once the resource is successfully
+// added to agent, resource state will be marked active.
 func (client StackMonitoringClient) CreateMonitoredResource(ctx context.Context, request CreateMonitoredResourceRequest) (response CreateMonitoredResourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -373,7 +378,10 @@ func (client StackMonitoringClient) deleteDiscoveryJob(ctx context.Context, requ
 	return response, err
 }
 
-// DeleteMonitoredResource Deletes a monitored resource by identifier
+// DeleteMonitoredResource Delete monitored resource by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// By default, only the specified resource is deleted. If the parameter 'isDeleteMembers' is set to true,
+// then the member resources will be deleted too. If the operation fails partially, the deleted entries
+// will not be rolled back.
 func (client StackMonitoringClient) DeleteMonitoredResource(ctx context.Context, request DeleteMonitoredResourceRequest) (response DeleteMonitoredResourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -426,7 +434,8 @@ func (client StackMonitoringClient) deleteMonitoredResource(ctx context.Context,
 	return response, err
 }
 
-// DisableExternalDatabase Disable external database resource monitoring.
+// DisableExternalDatabase Disable external database resource monitoring. All the references in DBaaS,
+// DBM and resource service will be deleted as part of this operation.
 func (client StackMonitoringClient) DisableExternalDatabase(ctx context.Context, request DisableExternalDatabaseRequest) (response DisableExternalDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -596,7 +605,7 @@ func (client StackMonitoringClient) getDiscoveryJob(ctx context.Context, request
 	return response, err
 }
 
-// GetMonitoredResource Gets a monitored resource by identifier
+// GetMonitoredResource Get monitored resource for the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation GetMonitoredResource()
 func (client StackMonitoringClient) GetMonitoredResource(ctx context.Context, request GetMonitoredResourceRequest) (response GetMonitoredResourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -974,7 +983,8 @@ func (client StackMonitoringClient) listWorkRequests(ctx context.Context, reques
 	return response, err
 }
 
-// SearchAssociatedResources List associated monitored resources.
+// SearchAssociatedResources List all associated resources recursively up-to a specified level,
+// for the monitored resources of type specified.
 // A default retry strategy applies to this operation SearchAssociatedResources()
 func (client StackMonitoringClient) SearchAssociatedResources(ctx context.Context, request SearchAssociatedResourcesRequest) (response SearchAssociatedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1033,7 +1043,7 @@ func (client StackMonitoringClient) searchAssociatedResources(ctx context.Contex
 	return response, err
 }
 
-// SearchMonitoredResourceAssociations Returns a list of monitored resource associations.
+// SearchMonitoredResourceAssociations Search associations in the given compartment based on the search criteria.
 // A default retry strategy applies to this operation SearchMonitoredResourceAssociations()
 func (client StackMonitoringClient) SearchMonitoredResourceAssociations(ctx context.Context, request SearchMonitoredResourceAssociationsRequest) (response SearchMonitoredResourceAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1092,7 +1102,7 @@ func (client StackMonitoringClient) searchMonitoredResourceAssociations(ctx cont
 	return response, err
 }
 
-// SearchMonitoredResourceMembers List resources which are members of the given monitored resource
+// SearchMonitoredResourceMembers List the member resources for the given monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation SearchMonitoredResourceMembers()
 func (client StackMonitoringClient) SearchMonitoredResourceMembers(ctx context.Context, request SearchMonitoredResourceMembersRequest) (response SearchMonitoredResourceMembersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1151,7 +1161,7 @@ func (client StackMonitoringClient) searchMonitoredResourceMembers(ctx context.C
 	return response, err
 }
 
-// SearchMonitoredResources Returns a list of monitored resources.
+// SearchMonitoredResources Gets a list of all monitored resources in a compartment for the given search criteria.
 // A default retry strategy applies to this operation SearchMonitoredResources()
 func (client StackMonitoringClient) SearchMonitoredResources(ctx context.Context, request SearchMonitoredResourcesRequest) (response SearchMonitoredResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1210,7 +1220,71 @@ func (client StackMonitoringClient) searchMonitoredResources(ctx context.Context
 	return response, err
 }
 
-// UpdateMonitoredResource Updates the Monitored Resource
+// UpdateAndPropagateTags Provided tags will be added or updated in the existing list of tags for the affected resources.
+// Resources to be updated are identified based on association types specified.
+// If association types not specified, then tags will be updated only for the resource identified by
+// the given monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// A default retry strategy applies to this operation UpdateAndPropagateTags()
+func (client StackMonitoringClient) UpdateAndPropagateTags(ctx context.Context, request UpdateAndPropagateTagsRequest) (response UpdateAndPropagateTagsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateAndPropagateTags, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAndPropagateTagsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAndPropagateTagsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAndPropagateTagsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAndPropagateTagsResponse")
+	}
+	return
+}
+
+// updateAndPropagateTags implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) updateAndPropagateTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/monitoredResources/{monitoredResourceId}/actions/updateAndPropagateTags", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAndPropagateTagsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/UpdateAndPropagateTags"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateAndPropagateTags", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateMonitoredResource Update monitored resource by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// Note that "properties" object, if specified, will entirely replace the existing object,
+// as part this operation.
 func (client StackMonitoringClient) UpdateMonitoredResource(ctx context.Context, request UpdateMonitoredResourceRequest) (response UpdateMonitoredResourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

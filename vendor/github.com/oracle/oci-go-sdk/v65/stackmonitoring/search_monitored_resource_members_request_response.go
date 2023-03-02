@@ -17,7 +17,7 @@ type SearchMonitoredResourceMembersRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource.
 	MonitoredResourceId *string `mandatory:"true" contributesTo:"path" name:"monitoredResourceId"`
 
-	// Search criteria for the listing the member monitored resources.
+	// Search criteria for listing member monitored resources.
 	SearchMonitoredResourceMembersDetails `contributesTo:"body"`
 
 	// If this query parameter is specified, the result is sorted by this query parameter value.

@@ -134,21 +134,30 @@ type AnalyzeAssetsAssetTypeEnum string
 
 // Set of constants representing the allowable values for AnalyzeAssetsAssetTypeEnum
 const (
-	AnalyzeAssetsAssetTypeVmwareVm AnalyzeAssetsAssetTypeEnum = "VMWARE_VM"
-	AnalyzeAssetsAssetTypeVm       AnalyzeAssetsAssetTypeEnum = "VM"
-	AnalyzeAssetsAssetTypeOracleDb AnalyzeAssetsAssetTypeEnum = "ORACLE_DB"
+	AnalyzeAssetsAssetTypeVmwareVm       AnalyzeAssetsAssetTypeEnum = "VMWARE_VM"
+	AnalyzeAssetsAssetTypeVm             AnalyzeAssetsAssetTypeEnum = "VM"
+	AnalyzeAssetsAssetTypeOracleDb       AnalyzeAssetsAssetTypeEnum = "ORACLE_DB"
+	AnalyzeAssetsAssetTypeInventoryAsset AnalyzeAssetsAssetTypeEnum = "INVENTORY_ASSET"
+	AnalyzeAssetsAssetTypeAwsEc2         AnalyzeAssetsAssetTypeEnum = "AWS_EC2"
+	AnalyzeAssetsAssetTypeAwsEbs         AnalyzeAssetsAssetTypeEnum = "AWS_EBS"
 )
 
 var mappingAnalyzeAssetsAssetTypeEnum = map[string]AnalyzeAssetsAssetTypeEnum{
-	"VMWARE_VM": AnalyzeAssetsAssetTypeVmwareVm,
-	"VM":        AnalyzeAssetsAssetTypeVm,
-	"ORACLE_DB": AnalyzeAssetsAssetTypeOracleDb,
+	"VMWARE_VM":       AnalyzeAssetsAssetTypeVmwareVm,
+	"VM":              AnalyzeAssetsAssetTypeVm,
+	"ORACLE_DB":       AnalyzeAssetsAssetTypeOracleDb,
+	"INVENTORY_ASSET": AnalyzeAssetsAssetTypeInventoryAsset,
+	"AWS_EC2":         AnalyzeAssetsAssetTypeAwsEc2,
+	"AWS_EBS":         AnalyzeAssetsAssetTypeAwsEbs,
 }
 
 var mappingAnalyzeAssetsAssetTypeEnumLowerCase = map[string]AnalyzeAssetsAssetTypeEnum{
-	"vmware_vm": AnalyzeAssetsAssetTypeVmwareVm,
-	"vm":        AnalyzeAssetsAssetTypeVm,
-	"oracle_db": AnalyzeAssetsAssetTypeOracleDb,
+	"vmware_vm":       AnalyzeAssetsAssetTypeVmwareVm,
+	"vm":              AnalyzeAssetsAssetTypeVm,
+	"oracle_db":       AnalyzeAssetsAssetTypeOracleDb,
+	"inventory_asset": AnalyzeAssetsAssetTypeInventoryAsset,
+	"aws_ec2":         AnalyzeAssetsAssetTypeAwsEc2,
+	"aws_ebs":         AnalyzeAssetsAssetTypeAwsEbs,
 }
 
 // GetAnalyzeAssetsAssetTypeEnumValues Enumerates the set of values for AnalyzeAssetsAssetTypeEnum
@@ -166,6 +175,9 @@ func GetAnalyzeAssetsAssetTypeEnumStringValues() []string {
 		"VMWARE_VM",
 		"VM",
 		"ORACLE_DB",
+		"INVENTORY_ASSET",
+		"AWS_EC2",
+		"AWS_EBS",
 	}
 }
 

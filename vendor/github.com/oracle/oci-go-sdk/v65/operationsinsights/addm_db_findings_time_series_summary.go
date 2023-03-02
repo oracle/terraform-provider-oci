@@ -52,6 +52,21 @@ type AddmDbFindingsTimeSeriesSummary struct {
 
 	// Impact in terms of average active sessions
 	ImpactAvgActiveSessions *float64 `mandatory:"true" json:"impactAvgActiveSessions"`
+
+	// Start Timestamp of snapshot
+	TimeAnalysisStarted *common.SDKTime `mandatory:"false" json:"timeAnalysisStarted"`
+
+	// End Timestamp of snapshot
+	TimeAnalysisEnded *common.SDKTime `mandatory:"false" json:"timeAnalysisEnded"`
+
+	// DB time in seconds for the snapshot
+	AnalysisDbTimeInSecs *float64 `mandatory:"false" json:"analysisDbTimeInSecs"`
+
+	// DB avg active sessions for the snapshot
+	AnalysisAvgActiveSessions *float64 `mandatory:"false" json:"analysisAvgActiveSessions"`
+
+	// Impact in seconds
+	ImpactDbTimeInSecs *float64 `mandatory:"false" json:"impactDbTimeInSecs"`
 }
 
 func (m AddmDbFindingsTimeSeriesSummary) String() string {

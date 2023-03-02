@@ -56,6 +56,9 @@ type ListEsxiHostsRequest struct {
 	// If this flag/param is set to True, we return only deleted hosts with LeftOver billingCycle.
 	IsBillingDonorsOnly *bool `mandatory:"false" contributesTo:"query" name:"isBillingDonorsOnly"`
 
+	// If this flag/param is set to True, we return only active hosts.
+	IsSwapBillingOnly *bool `mandatory:"false" contributesTo:"query" name:"isSwapBillingOnly"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment as optional parameter.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 

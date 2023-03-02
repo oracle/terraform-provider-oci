@@ -95,6 +95,10 @@ func (m *updateassetsourcedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := UpdateOracleDbAssetSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AWS":
+		mm := UpdateAwsAssetSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for UpdateAssetSourceDetails: %s.", m.Type)
 		return *m, nil
