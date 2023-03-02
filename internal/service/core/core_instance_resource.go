@@ -593,6 +593,10 @@ func CoreInstanceResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"update_operation_constraint": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"source_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -1124,6 +1128,10 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	}
 
 	request := oci_core.UpdateInstanceRequest{}
+
+	if updateOperationConstraint, ok := s.D.GetOkExists("update_operation_constraint"); ok {
+		request.UpdateOperationConstraint = oci_core.UpdateInstanceDetailsUpdateOperationConstraintEnum(updateOperationConstraint.(string))
+	}
 
 	if agentConfig, ok := s.D.GetOkExists("agent_config"); ok {
 		if tmpList := agentConfig.([]interface{}); len(tmpList) > 0 {
@@ -2912,6 +2920,10 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 			}
 			request.ShapeConfig = &tmp
 		}
+	}
+
+	if updateOperationConstraint, ok := s.D.GetOkExists("update_operation_constraint"); ok {
+		request.UpdateOperationConstraint = oci_core.UpdateInstanceDetailsUpdateOperationConstraintEnum(updateOperationConstraint.(string))
 	}
 
 	if request.Shape == nil && request.ShapeConfig == nil && request.LaunchOptions == nil && request.FaultDomain == nil {
