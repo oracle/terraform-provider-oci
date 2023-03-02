@@ -14,6 +14,9 @@ Lists the instances in the specified compartment and the specified availability 
 You can filter the results by specifying an instance name (the list will include all the identically-named
 instances in the compartment).
 
+**Note:** To retrieve public and private IP addresses for an instance, use the [ListVnicAttachments](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/VnicAttachment/ListVnicAttachments)
+operation to get the VNIC ID for the instance, and then call [GetVnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vnic/GetVnic) with the VNIC ID.
+
 
 ## Example Usage
 
@@ -218,9 +221,9 @@ The following attributes are exported:
 		* `20`: Represents Higher Performance option.
 		* `30`-`120`: Represents the Ultra High Performance option.
 
-		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB. 
-	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
-	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
+		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB.
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	* `source_id` - The OCID of the boot volume used to boot the instance.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - The current state of the instance.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
