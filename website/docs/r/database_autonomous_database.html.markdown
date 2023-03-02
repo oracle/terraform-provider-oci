@@ -314,14 +314,20 @@ The following attributes are exported:
 * `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
 * `license_model` - The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud. License Included allows you to subscribe to new Oracle Database software licenses and the Database service. Note that when provisioning an Autonomous Database on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the Autonomous Exadata Infrastructure level. When using [shared Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 * `lifecycle_details` - Information about the current lifecycle state.
-* `local_standby_db` - Autonomous Data Guard standby database details.
-    * `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
-    * `lifecycle_details` - Additional information about the current lifecycle state.
-    * `state` - The current state of the Autonomous Database.
-    * `time_data_guard_role_changed` - The date and time the Autonomous Data Guard role was switched for the standby Autonomous Database.
+* `local_standby_db` - Autonomous Data Guard standby database details. 
+	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
+	* `lifecycle_details` - Additional information about the current lifecycle state.
+	* `state` - The current state of the Autonomous Database.
+	* `time_data_guard_role_changed` - The date and time the Autonomous Data Guard role was switched for the standby Autonomous Database.
+* `long_term_backup_schedule` - Details for the long-term backup schedule.
+	* `is_disabled` - Indicates if the long-term backup schedule should be deleted. The default value is `FALSE`. 
+	* `repeat_cadence` - The frequency of the long-term backup schedule
+	* `retention_period_in_days` - Retention period, in days, for long-term backups
+	* `time_of_backup` - The timestamp for the long-term backup schedule. For a MONTHLY cadence, months having fewer days than the provided date will have the backup taken on the last day of that month.
+* `max_cpu_core_count` - The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled. 
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
-* `max_cpu_core_count` - The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
-* `ncharacter_set` - The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8.
+* `ncharacter_set` - The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
+* `next_long_term_backup_time_stamp` - The date and time when the next long-term backup would be created.
 * `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
     * A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 * `ocpu_count` - The number of OCPU cores to be made available to the database.
