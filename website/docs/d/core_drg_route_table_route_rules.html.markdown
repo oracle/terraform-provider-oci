@@ -48,7 +48,7 @@ The following attributes are exported:
 	Potential values:
 	* An IP address range (IPv4 or IPv6) in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`.
 	* When you're setting up a security rule for traffic destined for a particular `Service` through a service gateway, this is the `cidrBlock` value associated with that [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/). For example: `oci-phx-objectstorage`. 
-* `destination_type` - The type of destination for the rule. the type is required if `direction` = `EGRESS`.
+* `destination_type` - The type of destination for the rule.
 
 	Allowed values:
 	* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
