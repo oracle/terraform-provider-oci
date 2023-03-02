@@ -38,6 +38,13 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"gateway_id": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"host_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -127,6 +134,19 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok {
+		interfaces := gatewayId.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("gateway_id") {
+			request.GatewayId = tmp
+		}
 	}
 
 	if hostId, ok := s.D.GetOkExists("host_id"); ok {
