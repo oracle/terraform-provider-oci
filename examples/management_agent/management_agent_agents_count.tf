@@ -6,4 +6,3 @@ data "oci_management_agent_management_agent_count" "test_management_agent_count"
   compartment_id = var.compartment_ocid
   group_by = ["version"]
 }
-

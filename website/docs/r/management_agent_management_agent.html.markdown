@@ -52,6 +52,10 @@ The following attributes are exported:
 * `is_agent_auto_upgradable` - true if the agent can be upgraded automatically; false if it must be upgraded manually. This flag is derived from the tenancy level auto upgrade preference.
 * `is_customer_deployed` - true, if the agent image is manually downloaded and installed. false, if the agent is deployed as a plugin in Oracle Cloud Agent.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `management_agent_properties` - Additional properties for this Management Agent
+	* `name` - Name of the property
+	* `units` - Unit for the property
+	* `values` - Values of the property
 * `platform_name` - Platform Name
 * `platform_type` - Platform Type
 * `platform_version` - Platform Version

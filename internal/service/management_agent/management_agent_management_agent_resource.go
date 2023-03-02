@@ -106,6 +106,34 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"management_agent_properties": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"units": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"values": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+					},
+				},
+			},
 			"platform_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -523,6 +551,12 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	managementAgentProperties := []interface{}{}
+	for _, item := range s.Res.ManagementAgentProperties {
+		managementAgentProperties = append(managementAgentProperties, ManagementAgentPropertyToMap(item))
+	}
+	s.D.Set("management_agent_properties", managementAgentProperties)
+
 	if s.Res.PlatformName != nil {
 		s.D.Set("platform_name", *s.Res.PlatformName)
 	}
@@ -592,6 +626,21 @@ func ManagementAgentPluginDetailsToMap(obj oci_management_agent.ManagementAgentP
 	if obj.PluginVersion != nil {
 		result["plugin_version"] = string(*obj.PluginVersion)
 	}
+
+	return result
+}
+
+func ManagementAgentPropertyToMap(obj oci_management_agent.ManagementAgentProperty) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	result["units"] = string(obj.Units)
+
+	result["values"] = obj.Values
+	result["values"] = obj.Values
 
 	return result
 }
