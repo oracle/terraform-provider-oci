@@ -56,9 +56,10 @@ var (
 		"object_storage_namespace": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"tenancy_id":               acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.id}`},
 		"tenancy_name":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}`},
-		"add_on_features":          acctest.Representation{RepType: acctest.Optional, Create: []string{`ENABLE_SAUCE`}, Update: []string{`ENABLE_SA`}},
+		"add_on_features":          acctest.Representation{RepType: acctest.Optional, Create: []string{`ENABLE_ADVANCED_HOSTING`, `CROSS_REGION_DR`}, Update: []string{`ENABLE_ADVANCED_HOSTING`, `CROSS_REGION_DR`}},
 		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"dr_region":                acctest.Representation{RepType: acctest.Optional, Create: `us-phoenix-1`, Update: `us-phoenix-1`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"instance_access_type":     acctest.Representation{RepType: acctest.Optional, Create: `PUBLIC`},
 		"instance_license_type":    acctest.Representation{RepType: acctest.Optional, Create: `PREMIUM`},
@@ -134,10 +135,11 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceOceInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", acctest.Optional, acctest.Create, OceOceInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "add_on_features.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "add_on_features.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "dr_region", "us-phoenix-1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "guid"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -172,10 +174,11 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "add_on_features.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "add_on_features.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "dr_region", "us-phoenix-1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "guid"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -205,10 +208,11 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + adminEmailVariableStr + idcsAccessTokenVariableStr + OceOceInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_oce_oce_instance", "test_oce_instance", acctest.Optional, acctest.Update, OceOceInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "add_on_features.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "add_on_features.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "admin_email"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "dr_region", "us-phoenix-1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "guid"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -244,10 +248,11 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "tenancy_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.add_on_features.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.add_on_features.#", "2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.admin_email"),
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.description", "description2"),
+				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.dr_region", ""),
 				resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.guid"),
 				resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.id"),
@@ -274,7 +279,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oce_instance_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "add_on_features.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "add_on_features.#", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "admin_email"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
@@ -301,6 +306,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"idcs_access_token",
+				"dr_region",
 			},
 			ResourceName: resourceName,
 		},
