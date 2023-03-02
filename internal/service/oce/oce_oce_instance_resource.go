@@ -26,9 +26,9 @@ func OceOceInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("30m"),
-			Update: tfresource.GetTimeoutDuration("20m"),
-			Delete: tfresource.GetTimeoutDuration("20m"),
+			Create: tfresource.GetTimeoutDuration("2h"),
+			Update: tfresource.GetTimeoutDuration("60m"),
+			Delete: tfresource.GetTimeoutDuration("1h"),
 		},
 		Create: createOceOceInstance,
 		Read:   readOceOceInstance,
@@ -89,6 +89,11 @@ func OceOceInstanceResource() *schema.Resource {
 				Elem:             schema.TypeString,
 			},
 			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"dr_region": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -275,6 +280,11 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if drRegion, ok := s.D.GetOkExists("dr_region"); ok {
+		tmp := drRegion.(string)
+		request.DrRegion = &tmp
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -513,6 +523,11 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 		request.Description = &tmp
 	}
 
+	if drRegion, ok := s.D.GetOkExists("dr_region"); ok {
+		tmp := drRegion.(string)
+		request.DrRegion = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -523,6 +538,10 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 
 	if instanceUsageType, ok := s.D.GetOkExists("instance_usage_type"); ok {
 		request.InstanceUsageType = oci_oce.UpdateOceInstanceDetailsInstanceUsageTypeEnum(instanceUsageType.(string))
+	}
+
+	if lifecycleDetails, ok := s.D.GetOkExists("lifecycle_details"); ok {
+		request.LifecycleDetails = oci_oce.LifecycleDetailsEnum(lifecycleDetails.(string))
 	}
 
 	tmp := s.D.Id()
@@ -581,6 +600,10 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.DrRegion != nil {
+		s.D.Set("dr_region", *s.Res.DrRegion)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
