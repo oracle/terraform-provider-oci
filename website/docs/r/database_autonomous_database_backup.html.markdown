@@ -22,6 +22,8 @@ resource "oci_database_autonomous_database_backup" "test_autonomous_database_bac
 
 	#Optional
 	display_name = var.autonomous_database_backup_display_name
+	is_long_term_backup = var.autonomous_database_backup_is_long_term_backup
+	retention_period_in_days = var.autonomous_database_backup_retention_period_in_days
 }
 ```
 
@@ -31,6 +33,8 @@ The following arguments are supported:
 
 * `autonomous_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 * `display_name` - (Optional) The user-friendly name for the backup. The name does not have to be unique.
+* `is_long_term_backup` - (Optional) Indicates whether the backup is long-term
+* `retention_period_in_days` - (Optional) (Updatable) Retention period, in days, for long-term backups
 
 
 ** IMPORTANT **
@@ -43,6 +47,7 @@ The following attributes are exported:
 * `autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `database_size_in_tbs` - The size of the database in terabytes at the time the backup was taken. 
+* `db_version` - A valid Oracle Database version for Autonomous Database.
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 * `is_automatic` - Indicates whether the backup is user-initiated or automatic.
@@ -52,7 +57,10 @@ The following attributes are exported:
 * `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `retention_period_in_days` - Retention period, in days, for long-term backups
+* `size_in_tbs` - The backup size in terrabytes (TB).
 * `state` - The current state of the backup.
+* `time_available_till` - Timestamp until when the backup will be available
 * `time_ended` - The date and time the backup completed.
 * `time_started` - The date and time the backup started.
 * `type` - The type of backup.
