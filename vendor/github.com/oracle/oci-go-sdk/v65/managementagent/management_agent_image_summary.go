@@ -46,6 +46,8 @@ type ManagementAgentImageSummary struct {
 	// Object storage URL for download
 	ObjectUrl *string `mandatory:"false" json:"objectUrl"`
 
+	ImageObjectStorageDetails *ObjectDetails `mandatory:"false" json:"imageObjectStorageDetails"`
+
 	// The current state of Management Agent Image
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }

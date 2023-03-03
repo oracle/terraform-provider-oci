@@ -21,21 +21,21 @@ const (
 	LifecycleDetailsStandby  LifecycleDetailsEnum = "STANDBY"
 	LifecycleDetailsFailover LifecycleDetailsEnum = "FAILOVER"
 	LifecycleDetailsDown     LifecycleDetailsEnum = "DOWN"
-	LifecycleDetailsActive   LifecycleDetailsEnum = "ACTIVE"
+	LifecycleDetailsPrimary  LifecycleDetailsEnum = "PRIMARY"
 )
 
 var mappingLifecycleDetailsEnum = map[string]LifecycleDetailsEnum{
 	"STANDBY":  LifecycleDetailsStandby,
 	"FAILOVER": LifecycleDetailsFailover,
 	"DOWN":     LifecycleDetailsDown,
-	"ACTIVE":   LifecycleDetailsActive,
+	"PRIMARY":  LifecycleDetailsPrimary,
 }
 
 var mappingLifecycleDetailsEnumLowerCase = map[string]LifecycleDetailsEnum{
 	"standby":  LifecycleDetailsStandby,
 	"failover": LifecycleDetailsFailover,
 	"down":     LifecycleDetailsDown,
-	"active":   LifecycleDetailsActive,
+	"primary":  LifecycleDetailsPrimary,
 }
 
 // GetLifecycleDetailsEnumValues Enumerates the set of values for LifecycleDetailsEnum
@@ -53,7 +53,7 @@ func GetLifecycleDetailsEnumStringValues() []string {
 		"STANDBY",
 		"FAILOVER",
 		"DOWN",
-		"ACTIVE",
+		"PRIMARY",
 	}
 }
 

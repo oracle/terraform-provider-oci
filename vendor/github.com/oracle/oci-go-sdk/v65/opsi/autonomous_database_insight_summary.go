@@ -75,6 +75,9 @@ type AutonomousDatabaseInsightSummary struct {
 	// OCI database resource type
 	DatabaseResourceType *string `mandatory:"false" json:"databaseResourceType"`
 
+	// Flag is to identify if advanced features for autonomous database is enabled or not
+	IsAdvancedFeaturesEnabled *bool `mandatory:"false" json:"isAdvancedFeaturesEnabled"`
+
 	// Indicates the status of a database insight in Operations Insights
 	Status ResourceStatusEnum `mandatory:"false" json:"status,omitempty"`
 

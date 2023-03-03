@@ -83,6 +83,14 @@ type UpdateInstanceDetails struct {
 
 	ShapeConfig *UpdateInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
+	// The parameter acts as a fail-safe to prevent unwanted downtime when updating a running instance.
+	// The default is ALLOW_DOWNTIME.
+	// * `ALLOW_DOWNTIME` - Compute might reboot the instance while updating the instance if a reboot is required.
+	// * `AVOID_DOWNTIME` - If the instance is in running state, Compute tries to update the instance without rebooting
+	//                   it. If the instance requires a reboot to be updated, an error is returned and the instance
+	//                   is not updated. If the instance is stopped, it is updated and remains in the stopped state.
+	UpdateOperationConstraint UpdateInstanceDetailsUpdateOperationConstraintEnum `mandatory:"false" json:"updateOperationConstraint,omitempty"`
+
 	InstanceOptions *InstanceOptions `mandatory:"false" json:"instanceOptions"`
 
 	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
@@ -125,8 +133,53 @@ func (m UpdateInstanceDetails) String() string {
 func (m UpdateInstanceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingUpdateInstanceDetailsUpdateOperationConstraintEnum(string(m.UpdateOperationConstraint)); !ok && m.UpdateOperationConstraint != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateOperationConstraint: %s. Supported values are: %s.", m.UpdateOperationConstraint, strings.Join(GetUpdateInstanceDetailsUpdateOperationConstraintEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UpdateInstanceDetailsUpdateOperationConstraintEnum Enum with underlying type: string
+type UpdateInstanceDetailsUpdateOperationConstraintEnum string
+
+// Set of constants representing the allowable values for UpdateInstanceDetailsUpdateOperationConstraintEnum
+const (
+	UpdateInstanceDetailsUpdateOperationConstraintAllowDowntime UpdateInstanceDetailsUpdateOperationConstraintEnum = "ALLOW_DOWNTIME"
+	UpdateInstanceDetailsUpdateOperationConstraintAvoidDowntime UpdateInstanceDetailsUpdateOperationConstraintEnum = "AVOID_DOWNTIME"
+)
+
+var mappingUpdateInstanceDetailsUpdateOperationConstraintEnum = map[string]UpdateInstanceDetailsUpdateOperationConstraintEnum{
+	"ALLOW_DOWNTIME": UpdateInstanceDetailsUpdateOperationConstraintAllowDowntime,
+	"AVOID_DOWNTIME": UpdateInstanceDetailsUpdateOperationConstraintAvoidDowntime,
+}
+
+var mappingUpdateInstanceDetailsUpdateOperationConstraintEnumLowerCase = map[string]UpdateInstanceDetailsUpdateOperationConstraintEnum{
+	"allow_downtime": UpdateInstanceDetailsUpdateOperationConstraintAllowDowntime,
+	"avoid_downtime": UpdateInstanceDetailsUpdateOperationConstraintAvoidDowntime,
+}
+
+// GetUpdateInstanceDetailsUpdateOperationConstraintEnumValues Enumerates the set of values for UpdateInstanceDetailsUpdateOperationConstraintEnum
+func GetUpdateInstanceDetailsUpdateOperationConstraintEnumValues() []UpdateInstanceDetailsUpdateOperationConstraintEnum {
+	values := make([]UpdateInstanceDetailsUpdateOperationConstraintEnum, 0)
+	for _, v := range mappingUpdateInstanceDetailsUpdateOperationConstraintEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateInstanceDetailsUpdateOperationConstraintEnumStringValues Enumerates the set of values in String for UpdateInstanceDetailsUpdateOperationConstraintEnum
+func GetUpdateInstanceDetailsUpdateOperationConstraintEnumStringValues() []string {
+	return []string{
+		"ALLOW_DOWNTIME",
+		"AVOID_DOWNTIME",
+	}
+}
+
+// GetMappingUpdateInstanceDetailsUpdateOperationConstraintEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateInstanceDetailsUpdateOperationConstraintEnum(val string) (UpdateInstanceDetailsUpdateOperationConstraintEnum, bool) {
+	enum, ok := mappingUpdateInstanceDetailsUpdateOperationConstraintEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -24,6 +24,9 @@ type SummarizeManagementAgentPluginCountsRequest struct {
 	// The field by which to group Management Agent Plugins
 	GroupBy SummarizeManagementAgentPluginCountsGroupByEnum `mandatory:"true" contributesTo:"query" name:"groupBy" omitEmpty:"true"`
 
+	// if set to true then it fetches resources for all compartments where user has access to else only on the compartment specified.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
