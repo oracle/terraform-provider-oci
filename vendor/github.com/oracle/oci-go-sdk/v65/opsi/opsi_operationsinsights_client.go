@@ -152,6 +152,69 @@ func (client OperationsInsightsClient) addExadataInsightMembers(ctx context.Cont
 	return response, err
 }
 
+// ChangeAutonomousDatabaseInsightAdvancedFeatures Update connection detail for advanced features of Autonomous Database in Operations Insights.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeAutonomousDatabaseInsightAdvancedFeatures.go.html to see an example of how to use ChangeAutonomousDatabaseInsightAdvancedFeatures API.
+// A default retry strategy applies to this operation ChangeAutonomousDatabaseInsightAdvancedFeatures()
+func (client OperationsInsightsClient) ChangeAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request ChangeAutonomousDatabaseInsightAdvancedFeaturesRequest) (response ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeAutonomousDatabaseInsightAdvancedFeatures, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse")
+	}
+	return
+}
+
+// changeAutonomousDatabaseInsightAdvancedFeatures implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/changeAutonomousDatabaseInsightAdvancedFeatures", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ChangeAutonomousDatabaseInsightAdvancedFeatures"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeAutonomousDatabaseInsightAdvancedFeatures", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDatabaseInsightCompartment Moves a DatabaseInsight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 //
 // See also
@@ -1685,6 +1748,69 @@ func (client OperationsInsightsClient) deleteOpsiConfiguration(ctx context.Conte
 	return response, err
 }
 
+// DisableAutonomousDatabaseInsightAdvancedFeatures Disable advanced features for an Autonomous Database in Operations Insights. The connection detail and advanced features will be removed.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DisableAutonomousDatabaseInsightAdvancedFeatures.go.html to see an example of how to use DisableAutonomousDatabaseInsightAdvancedFeatures API.
+// A default retry strategy applies to this operation DisableAutonomousDatabaseInsightAdvancedFeatures()
+func (client OperationsInsightsClient) DisableAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request DisableAutonomousDatabaseInsightAdvancedFeaturesRequest) (response DisableAutonomousDatabaseInsightAdvancedFeaturesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableAutonomousDatabaseInsightAdvancedFeatures, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableAutonomousDatabaseInsightAdvancedFeaturesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableAutonomousDatabaseInsightAdvancedFeaturesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableAutonomousDatabaseInsightAdvancedFeaturesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableAutonomousDatabaseInsightAdvancedFeaturesResponse")
+	}
+	return
+}
+
+// disableAutonomousDatabaseInsightAdvancedFeatures implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) disableAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/disableAutonomousDatabaseInsightAdvancedFeatures", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableAutonomousDatabaseInsightAdvancedFeaturesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/DisableAutonomousDatabaseInsightAdvancedFeatures"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "DisableAutonomousDatabaseInsightAdvancedFeatures", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisableDatabaseInsight Disables a database in Operations Insights. Database metric collection and analysis will be stopped.
 //
 // See also
@@ -1929,6 +2055,69 @@ func (client OperationsInsightsClient) downloadOperationsInsightsWarehouseWallet
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/DownloadOperationsInsightsWarehouseWallet"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "DownloadOperationsInsightsWarehouseWallet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableAutonomousDatabaseInsightAdvancedFeatures Enables advanced features for an Autonomous Database in Operations Insights. A direct connection will be available for further collection.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/EnableAutonomousDatabaseInsightAdvancedFeatures.go.html to see an example of how to use EnableAutonomousDatabaseInsightAdvancedFeatures API.
+// A default retry strategy applies to this operation EnableAutonomousDatabaseInsightAdvancedFeatures()
+func (client OperationsInsightsClient) EnableAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request EnableAutonomousDatabaseInsightAdvancedFeaturesRequest) (response EnableAutonomousDatabaseInsightAdvancedFeaturesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableAutonomousDatabaseInsightAdvancedFeatures, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableAutonomousDatabaseInsightAdvancedFeaturesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableAutonomousDatabaseInsightAdvancedFeaturesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableAutonomousDatabaseInsightAdvancedFeaturesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableAutonomousDatabaseInsightAdvancedFeaturesResponse")
+	}
+	return
+}
+
+// enableAutonomousDatabaseInsightAdvancedFeatures implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) enableAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/enableAutonomousDatabaseInsightAdvancedFeatures", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableAutonomousDatabaseInsightAdvancedFeaturesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/EnableAutonomousDatabaseInsightAdvancedFeatures"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "EnableAutonomousDatabaseInsightAdvancedFeatures", apiReferenceLink)
 		return response, err
 	}
 

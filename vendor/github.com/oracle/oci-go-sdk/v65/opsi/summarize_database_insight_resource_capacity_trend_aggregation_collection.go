@@ -26,6 +26,12 @@ type SummarizeDatabaseInsightResourceCapacityTrendAggregationCollection struct {
 	// The end timestamp that was passed into the request.
 	TimeIntervalEnd *common.SDKTime `mandatory:"true" json:"timeIntervalEnd"`
 
+	// Percent value in which a resource metric is considered highly utilized.
+	HighUtilizationThreshold *int `mandatory:"true" json:"highUtilizationThreshold"`
+
+	// Percent value in which a resource metric is considered lowly utilized.
+	LowUtilizationThreshold *int `mandatory:"true" json:"lowUtilizationThreshold"`
+
 	// Defines the type of resource metric (example: CPU, STORAGE)
 	ResourceMetric SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionResourceMetricEnum `mandatory:"true" json:"resourceMetric"`
 

@@ -19,6 +19,8 @@ import (
 // SingleModelDeploymentConfigurationDetails The single model type deployment.
 type SingleModelDeploymentConfigurationDetails struct {
 	ModelConfigurationDetails *ModelConfigurationDetails `mandatory:"true" json:"modelConfigurationDetails"`
+
+	EnvironmentConfigurationDetails ModelDeploymentEnvironmentConfigurationDetails `mandatory:"false" json:"environmentConfigurationDetails"`
 }
 
 func (m SingleModelDeploymentConfigurationDetails) String() string {
@@ -49,4 +51,31 @@ func (m SingleModelDeploymentConfigurationDetails) MarshalJSON() (buff []byte, e
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *SingleModelDeploymentConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		EnvironmentConfigurationDetails modeldeploymentenvironmentconfigurationdetails `json:"environmentConfigurationDetails"`
+		ModelConfigurationDetails       *ModelConfigurationDetails                     `json:"modelConfigurationDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.EnvironmentConfigurationDetails.UnmarshalPolymorphicJSON(model.EnvironmentConfigurationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EnvironmentConfigurationDetails = nn.(ModelDeploymentEnvironmentConfigurationDetails)
+	} else {
+		m.EnvironmentConfigurationDetails = nil
+	}
+
+	m.ModelConfigurationDetails = model.ModelConfigurationDetails
+
+	return
 }

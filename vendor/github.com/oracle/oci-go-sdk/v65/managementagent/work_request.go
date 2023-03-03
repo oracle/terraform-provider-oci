@@ -41,11 +41,11 @@ type WorkRequest struct {
 	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
 
 	// The date and time the request was created, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 5.6.
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
 	// The date and time the request was started, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339),
-	// section 14.29.
+	// section 5.6.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
 	// The date and time the object was finished, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339).

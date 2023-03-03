@@ -33,6 +33,12 @@ type UpdateOceInstanceDetails struct {
 	// a list of add-on features for the ocm instance
 	AddOnFeatures []string `mandatory:"false" json:"addOnFeatures"`
 
+	// Details of the current state of the instance lifecycle
+	LifecycleDetails LifecycleDetailsEnum `mandatory:"false" json:"lifecycleDetails,omitempty"`
+
+	// disaster recovery paired ragion name
+	DrRegion *string `mandatory:"false" json:"drRegion"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -57,6 +63,9 @@ func (m UpdateOceInstanceDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingUpdateOceInstanceDetailsInstanceUsageTypeEnum(string(m.InstanceUsageType)); !ok && m.InstanceUsageType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceUsageType: %s. Supported values are: %s.", m.InstanceUsageType, strings.Join(GetUpdateOceInstanceDetailsInstanceUsageTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLifecycleDetailsEnum(string(m.LifecycleDetails)); !ok && m.LifecycleDetails != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleDetails: %s. Supported values are: %s.", m.LifecycleDetails, strings.Join(GetLifecycleDetailsEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
