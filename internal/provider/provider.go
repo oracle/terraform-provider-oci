@@ -424,7 +424,15 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		}
 		configProviders = append(configProviders, securityTokenBasedAuthConfigProvider)
 	case strings.ToLower(globalvar.ResourcePrincipal):
-		resourcePrincipalAuthConfigProvider, err := oci_common_auth.ResourcePrincipalConfigurationProvider()
+		var err error
+		var resourcePrincipalAuthConfigProvider oci_common_auth.ConfigurationProviderWithClaimAccess
+		region, ok := d.GetOk(globalvar.RegionAttrName)
+		if !ok {
+			log.Printf("did not get %s from Terraform configuration (ResourcePrincipal), falling back to environment variable", globalvar.RegionAttrName)
+			resourcePrincipalAuthConfigProvider, err = oci_common_auth.ResourcePrincipalConfigurationProvider()
+		} else {
+			resourcePrincipalAuthConfigProvider, err = oci_common_auth.ResourcePrincipalConfigurationProviderForRegion(oci_common.StringToRegion(region.(string)))
+		}
 		if err != nil {
 			return nil, err
 		}
