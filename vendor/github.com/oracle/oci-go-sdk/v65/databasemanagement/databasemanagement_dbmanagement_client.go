@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//DbManagementClient a client for DbManagement
+// DbManagementClient a client for DbManagement
 type DbManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -28,6 +28,9 @@ type DbManagementClient struct {
 // NewDbManagementClientWithConfigurationProvider Creates a new default DbManagement client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDbManagementClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DbManagementClient, err error) {
+	if enabled := common.CheckForEnabledServices("databasemanagement"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -41,7 +44,8 @@ func NewDbManagementClientWithConfigurationProvider(configProvider common.Config
 
 // NewDbManagementClientWithOboToken Creates a new default DbManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDbManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DbManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

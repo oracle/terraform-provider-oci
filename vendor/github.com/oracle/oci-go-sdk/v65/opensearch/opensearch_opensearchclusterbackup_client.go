@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//OpensearchClusterBackupClient a client for OpensearchClusterBackup
+// OpensearchClusterBackupClient a client for OpensearchClusterBackup
 type OpensearchClusterBackupClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type OpensearchClusterBackupClient struct {
 // NewOpensearchClusterBackupClientWithConfigurationProvider Creates a new default OpensearchClusterBackup client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewOpensearchClusterBackupClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client OpensearchClusterBackupClient, err error) {
+	if enabled := common.CheckForEnabledServices("opensearch"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewOpensearchClusterBackupClientWithConfigurationProvider(configProvider co
 
 // NewOpensearchClusterBackupClientWithOboToken Creates a new default OpensearchClusterBackup client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewOpensearchClusterBackupClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OpensearchClusterBackupClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -131,7 +135,7 @@ func (client OpensearchClusterBackupClient) deleteOpensearchClusterBackup(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackup/DeleteOpensearchClusterBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "DeleteOpensearchClusterBackup", apiReferenceLink)
 		return response, err
 	}
@@ -184,7 +188,7 @@ func (client OpensearchClusterBackupClient) getOpensearchClusterBackup(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackup/GetOpensearchClusterBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "GetOpensearchClusterBackup", apiReferenceLink)
 		return response, err
 	}
@@ -237,7 +241,7 @@ func (client OpensearchClusterBackupClient) listOpensearchClusterBackups(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackupCollection/ListOpensearchClusterBackups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "ListOpensearchClusterBackups", apiReferenceLink)
 		return response, err
 	}
@@ -290,7 +294,7 @@ func (client OpensearchClusterBackupClient) updateOpensearchClusterBackup(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackup/UpdateOpensearchClusterBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "UpdateOpensearchClusterBackup", apiReferenceLink)
 		return response, err
 	}

@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//ReplicasClient a client for Replicas
+// ReplicasClient a client for Replicas
 type ReplicasClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type ReplicasClient struct {
 // NewReplicasClientWithConfigurationProvider Creates a new default Replicas client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewReplicasClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client ReplicasClient, err error) {
+	if enabled := common.CheckForEnabledServices("mysql"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewReplicasClientWithConfigurationProvider(configProvider common.Configurat
 
 // NewReplicasClientWithOboToken Creates a new default Replicas client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewReplicasClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ReplicasClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

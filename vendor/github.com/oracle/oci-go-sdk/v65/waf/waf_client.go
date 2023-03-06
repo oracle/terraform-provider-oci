@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//WafClient a client for Waf
+// WafClient a client for Waf
 type WafClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -27,6 +27,9 @@ type WafClient struct {
 // NewWafClientWithConfigurationProvider Creates a new default Waf client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewWafClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client WafClient, err error) {
+	if enabled := common.CheckForEnabledServices("waf"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -40,7 +43,8 @@ func NewWafClientWithConfigurationProvider(configProvider common.ConfigurationPr
 
 // NewWafClientWithOboToken Creates a new default Waf client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewWafClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client WafClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

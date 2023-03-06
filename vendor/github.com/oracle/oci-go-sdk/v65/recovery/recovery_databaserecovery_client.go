@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//DatabaseRecoveryClient a client for DatabaseRecovery
+// DatabaseRecoveryClient a client for DatabaseRecovery
 type DatabaseRecoveryClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type DatabaseRecoveryClient struct {
 // NewDatabaseRecoveryClientWithConfigurationProvider Creates a new default DatabaseRecovery client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDatabaseRecoveryClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DatabaseRecoveryClient, err error) {
+	if enabled := common.CheckForEnabledServices("recovery"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewDatabaseRecoveryClientWithConfigurationProvider(configProvider common.Co
 
 // NewDatabaseRecoveryClientWithOboToken Creates a new default DatabaseRecovery client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDatabaseRecoveryClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DatabaseRecoveryClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -132,7 +136,7 @@ func (client DatabaseRecoveryClient) changeProtectedDatabaseCompartment(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/ChangeProtectedDatabaseCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ChangeProtectedDatabaseCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -186,7 +190,7 @@ func (client DatabaseRecoveryClient) changeProtectionPolicyCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicy/ChangeProtectionPolicyCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ChangeProtectionPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -240,7 +244,7 @@ func (client DatabaseRecoveryClient) changeRecoveryServiceSubnetCompartment(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnet/ChangeRecoveryServiceSubnetCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ChangeRecoveryServiceSubnetCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -299,7 +303,7 @@ func (client DatabaseRecoveryClient) createProtectedDatabase(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/CreateProtectedDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CreateProtectedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -358,7 +362,7 @@ func (client DatabaseRecoveryClient) createProtectionPolicy(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicy/CreateProtectionPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CreateProtectionPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -417,7 +421,7 @@ func (client DatabaseRecoveryClient) createRecoveryServiceSubnet(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnet/CreateRecoveryServiceSubnet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CreateRecoveryServiceSubnet", apiReferenceLink)
 		return response, err
 	}
@@ -471,7 +475,7 @@ func (client DatabaseRecoveryClient) deleteProtectedDatabase(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/DeleteProtectedDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "DeleteProtectedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -526,7 +530,7 @@ func (client DatabaseRecoveryClient) deleteProtectionPolicy(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicy/DeleteProtectionPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "DeleteProtectionPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -580,7 +584,7 @@ func (client DatabaseRecoveryClient) deleteRecoveryServiceSubnet(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnet/DeleteRecoveryServiceSubnet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "DeleteRecoveryServiceSubnet", apiReferenceLink)
 		return response, err
 	}
@@ -633,7 +637,7 @@ func (client DatabaseRecoveryClient) fetchProtectedDatabaseConfiguration(ctx con
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/FetchProtectedDatabaseConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "FetchProtectedDatabaseConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -687,7 +691,7 @@ func (client DatabaseRecoveryClient) getProtectedDatabase(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/GetProtectedDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "GetProtectedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -741,7 +745,7 @@ func (client DatabaseRecoveryClient) getProtectionPolicy(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicy/GetProtectionPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "GetProtectionPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -795,7 +799,7 @@ func (client DatabaseRecoveryClient) getRecoveryServiceSubnet(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnet/GetRecoveryServiceSubnet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "GetRecoveryServiceSubnet", apiReferenceLink)
 		return response, err
 	}
@@ -849,7 +853,7 @@ func (client DatabaseRecoveryClient) getWorkRequest(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -903,7 +907,7 @@ func (client DatabaseRecoveryClient) listProtectedDatabases(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabaseCollection/ListProtectedDatabases"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListProtectedDatabases", apiReferenceLink)
 		return response, err
 	}
@@ -957,7 +961,7 @@ func (client DatabaseRecoveryClient) listProtectionPolicies(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicyCollection/ListProtectionPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListProtectionPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -1011,7 +1015,7 @@ func (client DatabaseRecoveryClient) listRecoveryServiceSubnets(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnetCollection/ListRecoveryServiceSubnets"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListRecoveryServiceSubnets", apiReferenceLink)
 		return response, err
 	}
@@ -1065,7 +1069,7 @@ func (client DatabaseRecoveryClient) listWorkRequestErrors(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/WorkRequestErrorCollection/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1119,7 +1123,7 @@ func (client DatabaseRecoveryClient) listWorkRequestLogs(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/WorkRequestLogEntryCollection/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1173,7 +1177,7 @@ func (client DatabaseRecoveryClient) listWorkRequests(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/WorkRequestSummaryCollection/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1227,7 +1231,7 @@ func (client DatabaseRecoveryClient) updateProtectedDatabase(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/UpdateProtectedDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "UpdateProtectedDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -1281,7 +1285,7 @@ func (client DatabaseRecoveryClient) updateProtectionPolicy(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectionPolicy/UpdateProtectionPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "UpdateProtectionPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1335,7 +1339,7 @@ func (client DatabaseRecoveryClient) updateRecoveryServiceSubnet(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/RecoveryServiceSubnet/UpdateRecoveryServiceSubnet"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "UpdateRecoveryServiceSubnet", apiReferenceLink)
 		return response, err
 	}

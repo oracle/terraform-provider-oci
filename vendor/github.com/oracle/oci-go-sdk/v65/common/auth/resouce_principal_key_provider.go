@@ -143,6 +143,45 @@ func OkeWorkloadIdentityConfigurationProvider() (ConfigurationProviderWithClaimA
 	return nil, resourcePrincipalError{err: err}
 }
 
+// ResourcePrincipalConfigurationProviderForRegion returns a resource principal configuration provider using well known
+// environment variables to look up token information, for a given region. The environment variables can either paths or contain the material value
+// of the keys. However, in the case of the keys and tokens paths and values can not be mixed
+func ResourcePrincipalConfigurationProviderForRegion(region common.Region) (ConfigurationProviderWithClaimAccess, error) {
+	var version string
+	var ok bool
+	if version, ok = os.LookupEnv(ResourcePrincipalVersionEnvVar); !ok {
+		err := fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalVersionEnvVar)
+		return nil, resourcePrincipalError{err: err}
+	}
+
+	switch version {
+	case ResourcePrincipalVersion2_2:
+		rpst := requireEnv(ResourcePrincipalRPSTEnvVar)
+		if rpst == nil {
+			err := fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalVersionEnvVar)
+			return nil, resourcePrincipalError{err: err}
+		}
+		private := requireEnv(ResourcePrincipalPrivatePEMEnvVar)
+		if private == nil {
+			err := fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalVersionEnvVar)
+			return nil, resourcePrincipalError{err: err}
+		}
+		passphrase := requireEnv(ResourcePrincipalPrivatePEMPassphraseEnvVar)
+		region := string(region)
+		if region == "" {
+			err := fmt.Errorf("can not create resource principal, region cannot be empty")
+			return nil, resourcePrincipalError{err: err}
+		}
+		return newResourcePrincipalKeyProvider22(
+			*rpst, *private, passphrase, region)
+	case ResourcePrincipalVersion1_1:
+		return newResourcePrincipalKeyProvider11(DefaultRptPathProvider{})
+	default:
+		err := fmt.Errorf("can not create resource principal, environment variable: %s, must be valid", ResourcePrincipalVersionEnvVar)
+		return nil, resourcePrincipalError{err: err}
+	}
+}
+
 // ResourcePrincipalConfigurationProviderWithPathProvider returns a resource principal configuration provider using path provider.
 func ResourcePrincipalConfigurationProviderWithPathProvider(pathProvider PathProvider) (ConfigurationProviderWithClaimAccess, error) {
 	var version string

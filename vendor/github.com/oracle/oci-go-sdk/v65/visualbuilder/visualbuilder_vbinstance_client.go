@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//VbInstanceClient a client for VbInstance
+// VbInstanceClient a client for VbInstance
 type VbInstanceClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -27,6 +27,9 @@ type VbInstanceClient struct {
 // NewVbInstanceClientWithConfigurationProvider Creates a new default VbInstance client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewVbInstanceClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client VbInstanceClient, err error) {
+	if enabled := common.CheckForEnabledServices("visualbuilder"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -40,7 +43,8 @@ func NewVbInstanceClientWithConfigurationProvider(configProvider common.Configur
 
 // NewVbInstanceClientWithOboToken Creates a new default VbInstance client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewVbInstanceClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client VbInstanceClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

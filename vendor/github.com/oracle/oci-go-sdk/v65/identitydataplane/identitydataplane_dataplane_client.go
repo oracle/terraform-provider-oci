@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//DataplaneClient a client for Dataplane
+// DataplaneClient a client for Dataplane
 type DataplaneClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type DataplaneClient struct {
 // NewDataplaneClientWithConfigurationProvider Creates a new default Dataplane client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDataplaneClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DataplaneClient, err error) {
+	if enabled := common.CheckForEnabledServices("identitydataplane"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewDataplaneClientWithConfigurationProvider(configProvider common.Configura
 
 // NewDataplaneClientWithOboToken Creates a new default Dataplane client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDataplaneClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DataplaneClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -131,7 +135,7 @@ func (client DataplaneClient) generateScopedAccessToken(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-dp/v1/SecurityToken/GenerateScopedAccessToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Dataplane", "GenerateScopedAccessToken", apiReferenceLink)
 		return response, err
 	}
@@ -184,7 +188,7 @@ func (client DataplaneClient) generateUserSecurityToken(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-dp/v1/SecurityToken/GenerateUserSecurityToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Dataplane", "GenerateUserSecurityToken", apiReferenceLink)
 		return response, err
 	}

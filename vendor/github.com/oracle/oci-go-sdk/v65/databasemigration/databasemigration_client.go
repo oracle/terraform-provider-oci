@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//DatabaseMigrationClient a client for DatabaseMigration
+// DatabaseMigrationClient a client for DatabaseMigration
 type DatabaseMigrationClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type DatabaseMigrationClient struct {
 // NewDatabaseMigrationClientWithConfigurationProvider Creates a new default DatabaseMigration client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDatabaseMigrationClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DatabaseMigrationClient, err error) {
+	if enabled := common.CheckForEnabledServices("databasemigration"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewDatabaseMigrationClientWithConfigurationProvider(configProvider common.C
 
 // NewDatabaseMigrationClientWithOboToken Creates a new default DatabaseMigration client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDatabaseMigrationClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DatabaseMigrationClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

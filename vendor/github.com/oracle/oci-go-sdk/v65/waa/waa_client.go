@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//WaaClient a client for Waa
+// WaaClient a client for Waa
 type WaaClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -28,6 +28,9 @@ type WaaClient struct {
 // NewWaaClientWithConfigurationProvider Creates a new default Waa client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewWaaClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client WaaClient, err error) {
+	if enabled := common.CheckForEnabledServices("waa"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -41,7 +44,8 @@ func NewWaaClientWithConfigurationProvider(configProvider common.ConfigurationPr
 
 // NewWaaClientWithOboToken Creates a new default Waa client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewWaaClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client WaaClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -134,7 +138,7 @@ func (client WaaClient) changeWebAppAccelerationCompartment(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/ChangeWebAppAccelerationCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "ChangeWebAppAccelerationCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -188,7 +192,7 @@ func (client WaaClient) changeWebAppAccelerationPolicyCompartment(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/ChangeWebAppAccelerationPolicyCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "ChangeWebAppAccelerationPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -246,7 +250,7 @@ func (client WaaClient) createWebAppAcceleration(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/CreateWebAppAcceleration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "CreateWebAppAcceleration", apiReferenceLink)
 		return response, err
 	}
@@ -304,7 +308,7 @@ func (client WaaClient) createWebAppAccelerationPolicy(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/CreateWebAppAccelerationPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "CreateWebAppAccelerationPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +361,7 @@ func (client WaaClient) deleteWebAppAcceleration(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/DeleteWebAppAcceleration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "DeleteWebAppAcceleration", apiReferenceLink)
 		return response, err
 	}
@@ -410,7 +414,7 @@ func (client WaaClient) deleteWebAppAccelerationPolicy(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/DeleteWebAppAccelerationPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "DeleteWebAppAccelerationPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -463,7 +467,7 @@ func (client WaaClient) getWebAppAcceleration(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/GetWebAppAcceleration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "GetWebAppAcceleration", apiReferenceLink)
 		return response, err
 	}
@@ -516,7 +520,7 @@ func (client WaaClient) getWebAppAccelerationPolicy(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/GetWebAppAccelerationPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "GetWebAppAccelerationPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -569,7 +573,7 @@ func (client WaaClient) listWebAppAccelerationPolicies(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/ListWebAppAccelerationPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "ListWebAppAccelerationPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -622,7 +626,7 @@ func (client WaaClient) listWebAppAccelerations(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/ListWebAppAccelerations"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "ListWebAppAccelerations", apiReferenceLink)
 		return response, err
 	}
@@ -676,7 +680,7 @@ func (client WaaClient) purgeWebAppAccelerationCache(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/PurgeWebAppAccelerationCache"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "PurgeWebAppAccelerationCache", apiReferenceLink)
 		return response, err
 	}
@@ -729,7 +733,7 @@ func (client WaaClient) updateWebAppAcceleration(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAcceleration/UpdateWebAppAcceleration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "UpdateWebAppAcceleration", apiReferenceLink)
 		return response, err
 	}
@@ -782,7 +786,7 @@ func (client WaaClient) updateWebAppAccelerationPolicy(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/waa/20211230/WebAppAccelerationPolicy/UpdateWebAppAccelerationPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Waa", "UpdateWebAppAccelerationPolicy", apiReferenceLink)
 		return response, err
 	}

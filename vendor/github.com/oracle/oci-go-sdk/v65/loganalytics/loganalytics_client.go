@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//LogAnalyticsClient a client for LogAnalytics
+// LogAnalyticsClient a client for LogAnalytics
 type LogAnalyticsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type LogAnalyticsClient struct {
 // NewLogAnalyticsClientWithConfigurationProvider Creates a new default LogAnalytics client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewLogAnalyticsClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client LogAnalyticsClient, err error) {
+	if enabled := common.CheckForEnabledServices("loganalytics"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewLogAnalyticsClientWithConfigurationProvider(configProvider common.Config
 
 // NewLogAnalyticsClientWithOboToken Creates a new default LogAnalytics client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewLogAnalyticsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client LogAnalyticsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

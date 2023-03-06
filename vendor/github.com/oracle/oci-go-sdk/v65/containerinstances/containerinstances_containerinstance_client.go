@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//ContainerInstanceClient a client for ContainerInstance
+// ContainerInstanceClient a client for ContainerInstance
 type ContainerInstanceClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type ContainerInstanceClient struct {
 // NewContainerInstanceClientWithConfigurationProvider Creates a new default ContainerInstance client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewContainerInstanceClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client ContainerInstanceClient, err error) {
+	if enabled := common.CheckForEnabledServices("containerinstances"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewContainerInstanceClientWithConfigurationProvider(configProvider common.C
 
 // NewContainerInstanceClientWithOboToken Creates a new default ContainerInstance client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewContainerInstanceClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ContainerInstanceClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -132,7 +136,7 @@ func (client ContainerInstanceClient) changeContainerInstanceCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerInstance/ChangeContainerInstanceCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "ChangeContainerInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -191,7 +195,7 @@ func (client ContainerInstanceClient) createContainerInstance(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerInstance/CreateContainerInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "CreateContainerInstance", apiReferenceLink)
 		return response, err
 	}
@@ -245,7 +249,7 @@ func (client ContainerInstanceClient) deleteContainerInstance(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerInstance/DeleteContainerInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "DeleteContainerInstance", apiReferenceLink)
 		return response, err
 	}
@@ -299,7 +303,7 @@ func (client ContainerInstanceClient) getContainer(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/Container/GetContainer"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "GetContainer", apiReferenceLink)
 		return response, err
 	}
@@ -353,7 +357,7 @@ func (client ContainerInstanceClient) getContainerInstance(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerInstance/GetContainerInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "GetContainerInstance", apiReferenceLink)
 		return response, err
 	}
@@ -407,7 +411,7 @@ func (client ContainerInstanceClient) getWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -461,7 +465,7 @@ func (client ContainerInstanceClient) listContainerInstanceShapes(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerInstanceShapeCollection/ListContainerInstanceShapes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "ListContainerInstanceShapes", apiReferenceLink)
 		return response, err
 	}
@@ -515,7 +519,7 @@ func (client ContainerInstanceClient) listContainerInstances(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerInstanceCollection/ListContainerInstances"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "ListContainerInstances", apiReferenceLink)
 		return response, err
 	}
@@ -569,7 +573,7 @@ func (client ContainerInstanceClient) listContainers(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerCollection/ListContainers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "ListContainers", apiReferenceLink)
 		return response, err
 	}
@@ -623,7 +627,7 @@ func (client ContainerInstanceClient) listWorkRequestErrors(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/WorkRequestErrorCollection/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -677,7 +681,7 @@ func (client ContainerInstanceClient) listWorkRequestLogs(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/WorkRequestLogEntryCollection/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -731,7 +735,7 @@ func (client ContainerInstanceClient) listWorkRequests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/WorkRequestSummaryCollection/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -785,7 +789,7 @@ func (client ContainerInstanceClient) restartContainerInstance(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerInstance/RestartContainerInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "RestartContainerInstance", apiReferenceLink)
 		return response, err
 	}
@@ -838,7 +842,7 @@ func (client ContainerInstanceClient) retrieveLogs(ctx context.Context, request 
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/Container/RetrieveLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "RetrieveLogs", apiReferenceLink)
 		return response, err
 	}
@@ -892,7 +896,7 @@ func (client ContainerInstanceClient) startContainerInstance(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerInstance/StartContainerInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "StartContainerInstance", apiReferenceLink)
 		return response, err
 	}
@@ -946,7 +950,7 @@ func (client ContainerInstanceClient) stopContainerInstance(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerInstance/StopContainerInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "StopContainerInstance", apiReferenceLink)
 		return response, err
 	}
@@ -1000,7 +1004,7 @@ func (client ContainerInstanceClient) updateContainer(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/Container/UpdateContainer"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "UpdateContainer", apiReferenceLink)
 		return response, err
 	}
@@ -1054,7 +1058,7 @@ func (client ContainerInstanceClient) updateContainerInstance(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/container-instances/20210415/ContainerInstance/UpdateContainerInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ContainerInstance", "UpdateContainerInstance", apiReferenceLink)
 		return response, err
 	}

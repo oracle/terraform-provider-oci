@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//KmsManagementClient a client for KmsManagement
+// KmsManagementClient a client for KmsManagement
 type KmsManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type KmsManagementClient struct {
 // NewKmsManagementClientWithConfigurationProvider Creates a new default KmsManagement client with the given configuration provider.
 // the configuration provider will be used for the default signer
 func NewKmsManagementClientWithConfigurationProvider(configProvider common.ConfigurationProvider, endpoint string) (client KmsManagementClient, err error) {
+	if enabled := common.CheckForEnabledServices("keymanagement"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,6 @@ func NewKmsManagementClientWithConfigurationProvider(configProvider common.Confi
 
 // NewKmsManagementClientWithOboToken Creates a new default KmsManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
 func NewKmsManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client KmsManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

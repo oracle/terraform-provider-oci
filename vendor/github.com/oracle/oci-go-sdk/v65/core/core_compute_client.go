@@ -23,7 +23,7 @@ import (
 	"net/http"
 )
 
-//ComputeClient a client for Compute
+// ComputeClient a client for Compute
 type ComputeClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -32,6 +32,9 @@ type ComputeClient struct {
 // NewComputeClientWithConfigurationProvider Creates a new default Compute client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewComputeClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client ComputeClient, err error) {
+	if enabled := common.CheckForEnabledServices("core"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -45,7 +48,8 @@ func NewComputeClientWithConfigurationProvider(configProvider common.Configurati
 
 // NewComputeClientWithOboToken Creates a new default Compute client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewComputeClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ComputeClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -5095,10 +5099,10 @@ func (client ComputeClient) listVnicAttachments(ctx context.Context, request com
 	return response, err
 }
 
-//listvolumeattachment allows to unmarshal list of polymorphic VolumeAttachment
+// listvolumeattachment allows to unmarshal list of polymorphic VolumeAttachment
 type listvolumeattachment []volumeattachment
 
-//UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
+// UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
 func (m *listvolumeattachment) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	res := make([]VolumeAttachment, len(*m))
 	for i, v := range *m {

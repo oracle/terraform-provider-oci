@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//NetworkValidationClient a client for NetworkValidation
+// NetworkValidationClient a client for NetworkValidation
 type NetworkValidationClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type NetworkValidationClient struct {
 // NewNetworkValidationClientWithConfigurationProvider Creates a new default NetworkValidation client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewNetworkValidationClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client NetworkValidationClient, err error) {
+	if enabled := common.CheckForEnabledServices("dataconnectivity"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewNetworkValidationClientWithConfigurationProvider(configProvider common.C
 
 // NewNetworkValidationClientWithOboToken Creates a new default NetworkValidation client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewNetworkValidationClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client NetworkValidationClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

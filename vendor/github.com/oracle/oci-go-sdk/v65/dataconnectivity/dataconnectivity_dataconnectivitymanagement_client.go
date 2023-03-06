@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//DataConnectivityManagementClient a client for DataConnectivityManagement
+// DataConnectivityManagementClient a client for DataConnectivityManagement
 type DataConnectivityManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type DataConnectivityManagementClient struct {
 // NewDataConnectivityManagementClientWithConfigurationProvider Creates a new default DataConnectivityManagement client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDataConnectivityManagementClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DataConnectivityManagementClient, err error) {
+	if enabled := common.CheckForEnabledServices("dataconnectivity"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewDataConnectivityManagementClientWithConfigurationProvider(configProvider
 
 // NewDataConnectivityManagementClientWithOboToken Creates a new default DataConnectivityManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDataConnectivityManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DataConnectivityManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

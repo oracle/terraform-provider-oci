@@ -23,7 +23,7 @@ import (
 	"net/http"
 )
 
-//ComputeManagementClient a client for ComputeManagement
+// ComputeManagementClient a client for ComputeManagement
 type ComputeManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -32,6 +32,9 @@ type ComputeManagementClient struct {
 // NewComputeManagementClientWithConfigurationProvider Creates a new default ComputeManagement client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewComputeManagementClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client ComputeManagementClient, err error) {
+	if enabled := common.CheckForEnabledServices("core"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -45,7 +48,8 @@ func NewComputeManagementClientWithConfigurationProvider(configProvider common.C
 
 // NewComputeManagementClientWithOboToken Creates a new default ComputeManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewComputeManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ComputeManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

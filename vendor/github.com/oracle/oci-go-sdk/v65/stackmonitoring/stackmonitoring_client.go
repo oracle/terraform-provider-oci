@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//StackMonitoringClient a client for StackMonitoring
+// StackMonitoringClient a client for StackMonitoring
 type StackMonitoringClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type StackMonitoringClient struct {
 // NewStackMonitoringClientWithConfigurationProvider Creates a new default StackMonitoring client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewStackMonitoringClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client StackMonitoringClient, err error) {
+	if enabled := common.CheckForEnabledServices("stackmonitoring"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewStackMonitoringClientWithConfigurationProvider(configProvider common.Con
 
 // NewStackMonitoringClientWithOboToken Creates a new default StackMonitoring client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewStackMonitoringClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client StackMonitoringClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -138,7 +142,7 @@ func (client StackMonitoringClient) associateMonitoredResources(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/AssociateMonitoredResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "AssociateMonitoredResources", apiReferenceLink)
 		return response, err
 	}
@@ -197,7 +201,7 @@ func (client StackMonitoringClient) changeMonitoredResourceCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/ChangeMonitoredResourceCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ChangeMonitoredResourceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -255,7 +259,7 @@ func (client StackMonitoringClient) createDiscoveryJob(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiscoveryJob/CreateDiscoveryJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateDiscoveryJob", apiReferenceLink)
 		return response, err
 	}
@@ -315,7 +319,7 @@ func (client StackMonitoringClient) createMonitoredResource(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/CreateMonitoredResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateMonitoredResource", apiReferenceLink)
 		return response, err
 	}
@@ -369,7 +373,7 @@ func (client StackMonitoringClient) deleteDiscoveryJob(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiscoveryJob/DeleteDiscoveryJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteDiscoveryJob", apiReferenceLink)
 		return response, err
 	}
@@ -425,7 +429,7 @@ func (client StackMonitoringClient) deleteMonitoredResource(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/DeleteMonitoredResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteMonitoredResource", apiReferenceLink)
 		return response, err
 	}
@@ -484,7 +488,7 @@ func (client StackMonitoringClient) disableExternalDatabase(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/DisableExternalDatabase"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "DisableExternalDatabase", apiReferenceLink)
 		return response, err
 	}
@@ -542,7 +546,7 @@ func (client StackMonitoringClient) disassociateMonitoredResources(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/DisassociateMonitoredResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "DisassociateMonitoredResources", apiReferenceLink)
 		return response, err
 	}
@@ -596,7 +600,7 @@ func (client StackMonitoringClient) getDiscoveryJob(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiscoveryJob/GetDiscoveryJob"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "GetDiscoveryJob", apiReferenceLink)
 		return response, err
 	}
@@ -650,7 +654,7 @@ func (client StackMonitoringClient) getMonitoredResource(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/GetMonitoredResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "GetMonitoredResource", apiReferenceLink)
 		return response, err
 	}
@@ -704,7 +708,7 @@ func (client StackMonitoringClient) getWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -758,7 +762,7 @@ func (client StackMonitoringClient) listDiscoveryJobLogs(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiscoveryJobLogCollection/ListDiscoveryJobLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListDiscoveryJobLogs", apiReferenceLink)
 		return response, err
 	}
@@ -812,7 +816,7 @@ func (client StackMonitoringClient) listDiscoveryJobs(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiscoveryJobCollection/ListDiscoveryJobs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListDiscoveryJobs", apiReferenceLink)
 		return response, err
 	}
@@ -866,7 +870,7 @@ func (client StackMonitoringClient) listWorkRequestErrors(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/WorkRequestErrorCollection/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -920,7 +924,7 @@ func (client StackMonitoringClient) listWorkRequestLogs(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/WorkRequestLogEntryCollection/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -974,7 +978,7 @@ func (client StackMonitoringClient) listWorkRequests(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/WorkRequestSummaryCollection/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1034,7 +1038,7 @@ func (client StackMonitoringClient) searchAssociatedResources(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/SearchAssociatedResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "SearchAssociatedResources", apiReferenceLink)
 		return response, err
 	}
@@ -1093,7 +1097,7 @@ func (client StackMonitoringClient) searchMonitoredResourceAssociations(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/SearchMonitoredResourceAssociations"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "SearchMonitoredResourceAssociations", apiReferenceLink)
 		return response, err
 	}
@@ -1152,7 +1156,7 @@ func (client StackMonitoringClient) searchMonitoredResourceMembers(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/SearchMonitoredResourceMembers"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "SearchMonitoredResourceMembers", apiReferenceLink)
 		return response, err
 	}
@@ -1211,7 +1215,7 @@ func (client StackMonitoringClient) searchMonitoredResources(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/SearchMonitoredResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "SearchMonitoredResources", apiReferenceLink)
 		return response, err
 	}
@@ -1273,7 +1277,7 @@ func (client StackMonitoringClient) updateAndPropagateTags(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/UpdateAndPropagateTags"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateAndPropagateTags", apiReferenceLink)
 		return response, err
 	}
@@ -1328,7 +1332,7 @@ func (client StackMonitoringClient) updateMonitoredResource(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/UpdateMonitoredResource"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateMonitoredResource", apiReferenceLink)
 		return response, err
 	}

@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//ComputeInstanceAgentClient a client for ComputeInstanceAgent
+// ComputeInstanceAgentClient a client for ComputeInstanceAgent
 type ComputeInstanceAgentClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -27,6 +27,9 @@ type ComputeInstanceAgentClient struct {
 // NewComputeInstanceAgentClientWithConfigurationProvider Creates a new default ComputeInstanceAgent client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewComputeInstanceAgentClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client ComputeInstanceAgentClient, err error) {
+	if enabled := common.CheckForEnabledServices("computeinstanceagent"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -40,7 +43,8 @@ func NewComputeInstanceAgentClientWithConfigurationProvider(configProvider commo
 
 // NewComputeInstanceAgentClientWithOboToken Creates a new default ComputeInstanceAgent client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewComputeInstanceAgentClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ComputeInstanceAgentClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

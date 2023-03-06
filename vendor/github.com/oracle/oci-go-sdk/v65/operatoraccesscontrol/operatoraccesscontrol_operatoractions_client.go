@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//OperatorActionsClient a client for OperatorActions
+// OperatorActionsClient a client for OperatorActions
 type OperatorActionsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -28,6 +28,9 @@ type OperatorActionsClient struct {
 // NewOperatorActionsClientWithConfigurationProvider Creates a new default OperatorActions client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewOperatorActionsClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client OperatorActionsClient, err error) {
+	if enabled := common.CheckForEnabledServices("operatoraccesscontrol"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -41,7 +44,8 @@ func NewOperatorActionsClientWithConfigurationProvider(configProvider common.Con
 
 // NewOperatorActionsClientWithOboToken Creates a new default OperatorActions client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewOperatorActionsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OperatorActionsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//GoldenGateClient a client for GoldenGate
+// GoldenGateClient a client for GoldenGate
 type GoldenGateClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type GoldenGateClient struct {
 // NewGoldenGateClientWithConfigurationProvider Creates a new default GoldenGate client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewGoldenGateClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client GoldenGateClient, err error) {
+	if enabled := common.CheckForEnabledServices("goldengate"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewGoldenGateClientWithConfigurationProvider(configProvider common.Configur
 
 // NewGoldenGateClientWithOboToken Creates a new default GoldenGate client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewGoldenGateClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client GoldenGateClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

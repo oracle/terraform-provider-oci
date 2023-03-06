@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//DnsClient a client for Dns
+// DnsClient a client for Dns
 type DnsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -27,6 +27,9 @@ type DnsClient struct {
 // NewDnsClientWithConfigurationProvider Creates a new default Dns client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDnsClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DnsClient, err error) {
+	if enabled := common.CheckForEnabledServices("dns"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -40,7 +43,8 @@ func NewDnsClientWithConfigurationProvider(configProvider common.ConfigurationPr
 
 // NewDnsClientWithOboToken Creates a new default Dns client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDnsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DnsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -1855,10 +1859,10 @@ func (client DnsClient) getZoneRecords(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-//listresolverendpointsummary allows to unmarshal list of polymorphic ResolverEndpointSummary
+// listresolverendpointsummary allows to unmarshal list of polymorphic ResolverEndpointSummary
 type listresolverendpointsummary []resolverendpointsummary
 
-//UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
+// UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
 func (m *listresolverendpointsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	res := make([]ResolverEndpointSummary, len(*m))
 	for i, v := range *m {

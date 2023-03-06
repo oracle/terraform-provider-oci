@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//MigrationClient a client for Migration
+// MigrationClient a client for Migration
 type MigrationClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type MigrationClient struct {
 // NewMigrationClientWithConfigurationProvider Creates a new default Migration client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewMigrationClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client MigrationClient, err error) {
+	if enabled := common.CheckForEnabledServices("cloudmigrations"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewMigrationClientWithConfigurationProvider(configProvider common.Configura
 
 // NewMigrationClientWithOboToken Creates a new default Migration client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewMigrationClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client MigrationClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -132,7 +136,7 @@ func (client MigrationClient) cancelWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -191,7 +195,7 @@ func (client MigrationClient) changeMigrationCompartment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/Migration/ChangeMigrationCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ChangeMigrationCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -250,7 +254,7 @@ func (client MigrationClient) changeMigrationPlanCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlan/ChangeMigrationPlanCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ChangeMigrationPlanCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -309,7 +313,7 @@ func (client MigrationClient) changeReplicationScheduleCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/ReplicationSchedule/ChangeReplicationScheduleCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ChangeReplicationScheduleCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -368,7 +372,7 @@ func (client MigrationClient) createMigration(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/Migration/CreateMigration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "CreateMigration", apiReferenceLink)
 		return response, err
 	}
@@ -427,7 +431,7 @@ func (client MigrationClient) createMigrationAsset(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationAsset/CreateMigrationAsset"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "CreateMigrationAsset", apiReferenceLink)
 		return response, err
 	}
@@ -486,7 +490,7 @@ func (client MigrationClient) createMigrationPlan(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlan/CreateMigrationPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "CreateMigrationPlan", apiReferenceLink)
 		return response, err
 	}
@@ -545,7 +549,7 @@ func (client MigrationClient) createReplicationSchedule(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/ReplicationSchedule/CreateReplicationSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "CreateReplicationSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -604,7 +608,7 @@ func (client MigrationClient) createTargetAsset(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/TargetAsset/CreateTargetAsset"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "CreateTargetAsset", apiReferenceLink)
 		return response, err
 	}
@@ -658,7 +662,7 @@ func (client MigrationClient) deleteMigration(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/Migration/DeleteMigration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "DeleteMigration", apiReferenceLink)
 		return response, err
 	}
@@ -712,7 +716,7 @@ func (client MigrationClient) deleteMigrationAsset(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationAsset/DeleteMigrationAsset"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "DeleteMigrationAsset", apiReferenceLink)
 		return response, err
 	}
@@ -766,7 +770,7 @@ func (client MigrationClient) deleteMigrationPlan(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlan/DeleteMigrationPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "DeleteMigrationPlan", apiReferenceLink)
 		return response, err
 	}
@@ -820,7 +824,7 @@ func (client MigrationClient) deleteReplicationSchedule(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/ReplicationSchedule/DeleteReplicationSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "DeleteReplicationSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -874,7 +878,7 @@ func (client MigrationClient) deleteTargetAsset(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/TargetAsset/DeleteTargetAsset"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "DeleteTargetAsset", apiReferenceLink)
 		return response, err
 	}
@@ -933,7 +937,7 @@ func (client MigrationClient) executeMigrationPlan(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlan/ExecuteMigrationPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ExecuteMigrationPlan", apiReferenceLink)
 		return response, err
 	}
@@ -986,7 +990,7 @@ func (client MigrationClient) exportMigrationPlan(ctx context.Context, request c
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlan/ExportMigrationPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ExportMigrationPlan", apiReferenceLink)
 		return response, err
 	}
@@ -1040,7 +1044,7 @@ func (client MigrationClient) getMigration(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/Migration/GetMigration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "GetMigration", apiReferenceLink)
 		return response, err
 	}
@@ -1094,7 +1098,7 @@ func (client MigrationClient) getMigrationAsset(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationAsset/GetMigrationAsset"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "GetMigrationAsset", apiReferenceLink)
 		return response, err
 	}
@@ -1148,7 +1152,7 @@ func (client MigrationClient) getMigrationPlan(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlan/GetMigrationPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "GetMigrationPlan", apiReferenceLink)
 		return response, err
 	}
@@ -1202,7 +1206,7 @@ func (client MigrationClient) getReplicationProgress(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationAsset/GetReplicationProgress"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "GetReplicationProgress", apiReferenceLink)
 		return response, err
 	}
@@ -1256,7 +1260,7 @@ func (client MigrationClient) getReplicationSchedule(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/ReplicationSchedule/GetReplicationSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "GetReplicationSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -1310,7 +1314,7 @@ func (client MigrationClient) getTargetAsset(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/TargetAsset/GetTargetAsset"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "GetTargetAsset", apiReferenceLink)
 		return response, err
 	}
@@ -1364,7 +1368,7 @@ func (client MigrationClient) getWorkRequest(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1423,7 +1427,7 @@ func (client MigrationClient) importMigrationPlan(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlan/ImportMigrationPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ImportMigrationPlan", apiReferenceLink)
 		return response, err
 	}
@@ -1477,7 +1481,7 @@ func (client MigrationClient) listAvailableShapes(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/AvailableShapesCollection/ListAvailableShapes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ListAvailableShapes", apiReferenceLink)
 		return response, err
 	}
@@ -1531,7 +1535,7 @@ func (client MigrationClient) listMigrationAssets(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationAssetCollection/ListMigrationAssets"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ListMigrationAssets", apiReferenceLink)
 		return response, err
 	}
@@ -1585,7 +1589,7 @@ func (client MigrationClient) listMigrationPlans(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlanCollection/ListMigrationPlans"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ListMigrationPlans", apiReferenceLink)
 		return response, err
 	}
@@ -1639,7 +1643,7 @@ func (client MigrationClient) listMigrations(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationCollection/ListMigrations"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ListMigrations", apiReferenceLink)
 		return response, err
 	}
@@ -1693,7 +1697,7 @@ func (client MigrationClient) listReplicationSchedules(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/ReplicationScheduleCollection/ListReplicationSchedules"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ListReplicationSchedules", apiReferenceLink)
 		return response, err
 	}
@@ -1747,7 +1751,7 @@ func (client MigrationClient) listTargetAssets(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/TargetAssetCollection/ListTargetAssets"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ListTargetAssets", apiReferenceLink)
 		return response, err
 	}
@@ -1801,7 +1805,7 @@ func (client MigrationClient) listWorkRequestErrors(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1855,7 +1859,7 @@ func (client MigrationClient) listWorkRequestLogs(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1909,7 +1913,7 @@ func (client MigrationClient) listWorkRequests(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1968,7 +1972,7 @@ func (client MigrationClient) refreshMigration(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/Migration/RefreshMigration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "RefreshMigration", apiReferenceLink)
 		return response, err
 	}
@@ -2027,7 +2031,7 @@ func (client MigrationClient) refreshMigrationAsset(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationAsset/RefreshMigrationAsset"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "RefreshMigrationAsset", apiReferenceLink)
 		return response, err
 	}
@@ -2086,7 +2090,7 @@ func (client MigrationClient) refreshMigrationPlan(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlan/RefreshMigrationPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "RefreshMigrationPlan", apiReferenceLink)
 		return response, err
 	}
@@ -2145,7 +2149,7 @@ func (client MigrationClient) startAssetReplication(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationAsset/StartAssetReplication"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "StartAssetReplication", apiReferenceLink)
 		return response, err
 	}
@@ -2204,7 +2208,7 @@ func (client MigrationClient) startMigrationReplication(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/Migration/StartMigrationReplication"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "StartMigrationReplication", apiReferenceLink)
 		return response, err
 	}
@@ -2258,7 +2262,7 @@ func (client MigrationClient) updateMigration(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/Migration/UpdateMigration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "UpdateMigration", apiReferenceLink)
 		return response, err
 	}
@@ -2312,7 +2316,7 @@ func (client MigrationClient) updateMigrationAsset(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationAsset/UpdateMigrationAsset"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "UpdateMigrationAsset", apiReferenceLink)
 		return response, err
 	}
@@ -2371,7 +2375,7 @@ func (client MigrationClient) updateMigrationPlan(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/MigrationPlan/UpdateMigrationPlan"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "UpdateMigrationPlan", apiReferenceLink)
 		return response, err
 	}
@@ -2430,7 +2434,7 @@ func (client MigrationClient) updateReplicationSchedule(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/ReplicationSchedule/UpdateReplicationSchedule"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "UpdateReplicationSchedule", apiReferenceLink)
 		return response, err
 	}
@@ -2489,7 +2493,7 @@ func (client MigrationClient) updateTargetAsset(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocm/20220919/TargetAsset/UpdateTargetAsset"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Migration", "UpdateTargetAsset", apiReferenceLink)
 		return response, err
 	}

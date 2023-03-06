@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//NetworkLoadBalancerClient a client for NetworkLoadBalancer
+// NetworkLoadBalancerClient a client for NetworkLoadBalancer
 type NetworkLoadBalancerClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -26,6 +26,9 @@ type NetworkLoadBalancerClient struct {
 // NewNetworkLoadBalancerClientWithConfigurationProvider Creates a new default NetworkLoadBalancer client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewNetworkLoadBalancerClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client NetworkLoadBalancerClient, err error) {
+	if enabled := common.CheckForEnabledServices("networkloadbalancer"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -39,7 +42,8 @@ func NewNetworkLoadBalancerClientWithConfigurationProvider(configProvider common
 
 // NewNetworkLoadBalancerClientWithOboToken Creates a new default NetworkLoadBalancer client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewNetworkLoadBalancerClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client NetworkLoadBalancerClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
