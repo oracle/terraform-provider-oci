@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"reflect"
@@ -675,6 +676,38 @@ func TestUnitResourcePrincipal_basic(t *testing.T) {
 	// Assert that this auth type can successfully authenticate and authorize list regions
 	_, err = client.ListRegions(context.Background())
 	assert.NoError(t, err)
+}
+
+func TestUnitResourcePrincipal_regionOverride(t *testing.T) {
+	httpreplay.SetScenario("TestUnitResourcePrincipal_regionOverride")
+	defer httpreplay.SaveScenario()
+
+	r := &schema.Resource{
+		Schema: SchemaMap(),
+	}
+	d := r.Data(nil)
+	d.Set("auth", globalvar.ResourcePrincipal)
+	d.Set(globalvar.RegionAttrName, "test-region")
+
+	os.Setenv("OCI_RESOURCE_PRINCIPAL_VERSION", "2.2")
+	os.Setenv("OCI_RESOURCE_PRINCIPAL_RPST", "$ST")
+	os.Setenv("OCI_RESOURCE_PRINCIPAL_PRIVATE_PEM", "")
+	os.Setenv("OCI_RESOURCE_PRINCIPAL_PRIVATE_PEM_PASSPHRASE", "")
+	os.Setenv("OCI_RESOURCE_PRINCIPAL_REGION", "us-ashburn-1")
+
+	clients := &tf_client.OracleClients{
+		SdkClientMap:  make(map[string]interface{}, len(tf_client.OracleClientRegistrationsVar.RegisteredClients)),
+		Configuration: make(map[string]string),
+	}
+	sdkConfigProvider, err := GetSdkConfigProvider(d, clients)
+	if err != nil {
+		log.Println(err)
+	}
+
+	// Assert that the region is being overridden
+	region, _ := sdkConfigProvider.Region()
+	assert.Equal(t, region, "test-region")
+
 }
 
 type mockResourceData struct {
