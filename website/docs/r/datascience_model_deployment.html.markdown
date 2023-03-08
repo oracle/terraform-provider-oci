@@ -45,6 +45,21 @@ resource "oci_datascience_model_deployment" "test_model_deployment" {
 				policy_type = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_policy_type
 			}
 		}
+
+		#Optional
+		environment_configuration_details {
+			#Required
+			environment_configuration_type = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_environment_configuration_type
+
+			#Optional
+			cmd = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_cmd
+			entrypoint = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_entrypoint
+			environment_variables = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_environment_variables
+			health_check_port = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_health_check_port
+			image = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_image
+			image_digest = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_image_digest
+			server_port = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_server_port
+		}
 	}
 	project_id = oci_datascience_project.test_project.id
 
@@ -88,6 +103,15 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}`
 * `model_deployment_configuration_details` - (Required) (Updatable) The model deployment configuration details.
 	* `deployment_type` - (Required) (Updatable) The type of the model deployment.
+	* `environment_configuration_details` - (Optional) (Updatable) The configuration to carry the environment details thats used in Model Deployment creation
+		* `cmd` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `entrypoint` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
+		* `environment_configuration_type` - (Required) (Updatable) The environment configuration type
+		* `environment_variables` - (Optional) (Updatable) Environment variables to set for the web server container. The size of envVars must be less than 2048 bytes. Key should be under 32 characters. Key should contain only letters, digits and underscore (_) Key should start with a letter. Key should have at least 2 characters. Key should not end with underscore eg. `TEST_` Key if added cannot be empty. Value can be empty. No specific size limits on individual Values. But overall environment variables is limited to 2048 bytes. Key can't be reserved Model Deployment environment variables. 
+		* `health_check_port` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The port on which the container [HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#healthcheck) would listen. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
+		* `image` - (Required when environment_configuration_type=OCIR_CONTAINER) (Updatable) The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. Acceptable format: `<region>.ocir.io/<registry>/<image>:<tag>` `<region>.ocir.io/<registry>/<image>:<tag>@digest` 
+		* `image_digest` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+		* `server_port` - (Applicable when environment_configuration_type=OCIR_CONTAINER) (Updatable) The port on which the web server serving the inference is running. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
 	* `model_configuration_details` - (Required) (Updatable) The model configuration details.
 		* `bandwidth_mbps` - (Optional) (Updatable) The network bandwidth for the model.
 		* `instance_configuration` - (Required) (Updatable) The model deployment instance configuration
@@ -127,6 +151,15 @@ The following attributes are exported:
 * `lifecycle_details` - Details about the state of the model deployment.
 * `model_deployment_configuration_details` - The model deployment configuration details.
 	* `deployment_type` - The type of the model deployment.
+	* `environment_configuration_details` - The configuration to carry the environment details thats used in Model Deployment creation
+		* `cmd` - The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `entrypoint` - The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
+		* `environment_configuration_type` - The environment configuration type
+		* `environment_variables` - Environment variables to set for the web server container. The size of envVars must be less than 2048 bytes. Key should be under 32 characters. Key should contain only letters, digits and underscore (_) Key should start with a letter. Key should have at least 2 characters. Key should not end with underscore eg. `TEST_` Key if added cannot be empty. Value can be empty. No specific size limits on individual Values. But overall environment variables is limited to 2048 bytes. Key can't be reserved Model Deployment environment variables. 
+		* `health_check_port` - The port on which the container [HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#healthcheck) would listen. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
+		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. Acceptable format: `<region>.ocir.io/<registry>/<image>:<tag>` `<region>.ocir.io/<registry>/<image>:<tag>@digest` 
+		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+		* `server_port` - The port on which the web server serving the inference is running. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
 	* `model_configuration_details` - The model configuration details.
 		* `bandwidth_mbps` - The network bandwidth for the model.
 		* `instance_configuration` - The model deployment instance configuration

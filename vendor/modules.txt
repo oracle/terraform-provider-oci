@@ -248,7 +248,7 @@ github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 ## explicit
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v65 v65.31.1
+# github.com/oracle/oci-go-sdk/v65 v65.32.0
 ## explicit; go 1.13
 github.com/oracle/oci-go-sdk/v65/adm
 github.com/oracle/oci-go-sdk/v65/aianomalydetection
@@ -274,6 +274,7 @@ github.com/oracle/oci-go-sdk/v65/cloudguard
 github.com/oracle/oci-go-sdk/v65/cloudmigrations
 github.com/oracle/oci-go-sdk/v65/common
 github.com/oracle/oci-go-sdk/v65/common/auth
+github.com/oracle/oci-go-sdk/v65/common/utils
 github.com/oracle/oci-go-sdk/v65/computeinstanceagent
 github.com/oracle/oci-go-sdk/v65/containerengine
 github.com/oracle/oci-go-sdk/v65/containerinstances

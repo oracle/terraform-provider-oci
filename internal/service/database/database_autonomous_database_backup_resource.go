@@ -25,6 +25,7 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 		Timeouts: tfresource.DefaultTimeout,
 		Create:   createDatabaseAutonomousDatabaseBackup,
 		Read:     readDatabaseAutonomousDatabaseBackup,
+		Update:   updateDatabaseAutonomousDatabaseBackup,
 		Delete:   deleteDatabaseAutonomousDatabaseBackup,
 		Schema: map[string]*schema.Schema{
 			// Required
@@ -35,8 +36,19 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 			},
 			"display_name": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+				Computed: true,
+			},
+			"is_long_term_backup": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 				ForceNew: true,
+			},
+			"retention_period_in_days": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Optional
@@ -48,6 +60,10 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 			},
 			"database_size_in_tbs": {
 				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"db_version": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"is_automatic": {
@@ -78,7 +94,15 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_available_till": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -120,8 +144,23 @@ func readDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{})
 	return tfresource.ReadResource(sync)
 }
 
+func updateDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseBackupResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
+
+	return tfresource.UpdateResource(d, sync)
+}
+
 func deleteDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
-	return nil
+	sync := &DatabaseAutonomousDatabaseBackupResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
+
+	return tfresource.DeleteResource(d, sync)
 }
 
 type DatabaseAutonomousDatabaseBackupResourceCrud struct {
@@ -173,6 +212,16 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if isLongTermBackup, ok := s.D.GetOkExists("is_long_term_backup"); ok {
+		tmp := isLongTermBackup.(bool)
+		request.IsLongTermBackup = &tmp
+	}
+
+	if retentionPeriodInDays, ok := s.D.GetOkExists("retention_period_in_days"); ok {
+		tmp := retentionPeriodInDays.(int)
+		request.RetentionPeriodInDays = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateAutonomousDatabaseBackup(context.Background(), request)
@@ -209,6 +258,47 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Get() error {
 	return nil
 }
 
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Update() error {
+	request := oci_database.UpdateAutonomousDatabaseBackupRequest{}
+
+	tmp := s.D.Id()
+	request.AutonomousDatabaseBackupId = &tmp
+
+	if retentionPeriodInDays, ok := s.D.GetOkExists("retention_period_in_days"); ok {
+		tmp := retentionPeriodInDays.(int)
+		request.RetentionPeriodInDays = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateAutonomousDatabaseBackup(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousDatabaseBackup", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	return s.Get()
+}
+
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Delete() error {
+	request := oci_database.DeleteAutonomousDatabaseBackupRequest{}
+
+	tmp := s.D.Id()
+	request.AutonomousDatabaseBackupId = &tmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.DeleteAutonomousDatabaseBackup(context.Background(), request)
+	return err
+}
+
 func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 	if s.Res.AutonomousDatabaseId != nil {
 		s.D.Set("autonomous_database_id", *s.Res.AutonomousDatabaseId)
@@ -220,6 +310,10 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.DatabaseSizeInTBs != nil {
 		s.D.Set("database_size_in_tbs", *s.Res.DatabaseSizeInTBs)
+	}
+
+	if s.Res.DbVersion != nil {
+		s.D.Set("db_version", *s.Res.DbVersion)
 	}
 
 	if s.Res.DisplayName != nil {
@@ -254,7 +348,19 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.RetentionPeriodInDays != nil {
+		s.D.Set("retention_period_in_days", *s.Res.RetentionPeriodInDays)
+	}
+
+	if s.Res.SizeInTBs != nil {
+		s.D.Set("size_in_tbs", *s.Res.SizeInTBs)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TimeAvailableTill != nil {
+		s.D.Set("time_available_till", s.Res.TimeAvailableTill.String())
+	}
 
 	if s.Res.TimeEnded != nil {
 		s.D.Set("time_ended", s.Res.TimeEnded.Format(time.RFC3339Nano))

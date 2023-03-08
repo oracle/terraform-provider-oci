@@ -30,6 +30,7 @@ resource "oci_oce_oce_instance" "test_oce_instance" {
 	add_on_features = var.oce_instance_add_on_features
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.oce_instance_description
+	dr_region = var.oce_instance_dr_region
 	freeform_tags = {"bar-key"= "value"}
 	instance_access_type = var.oce_instance_instance_access_type
 	instance_license_type = var.oce_instance_instance_license_type
@@ -48,6 +49,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) Compartment Identifier
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) OceInstance description
+* `dr_region` - (Optional) (Updatable) disaster recovery paired ragion name
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `idcs_access_token` - (Required) Identity Cloud Service access token identifying a stripe and service administrator user
 * `instance_access_type` - (Optional) Flag indicating whether the instance access is private or public
@@ -73,6 +75,7 @@ The following attributes are exported:
 * `compartment_id` - Compartment Identifier
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - OceInstance description, can be updated
+* `dr_region` - disaster recovery paired ragion name
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `guid` - Unique GUID identifier that is immutable on creation
 * `id` - Unique identifier that is immutable on creation

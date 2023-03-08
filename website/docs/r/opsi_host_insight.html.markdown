@@ -30,7 +30,7 @@ resource "oci_opsi_host_insight" "test_host_insight" {
 	exadata_insight_id = oci_opsi_exadata_insight.test_exadata_insight.id
 	freeform_tags = {"bar-key"= "value"}
 	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
-	status = 'DISABLED'
+	status = "DISABLED"
 }
 ```
 

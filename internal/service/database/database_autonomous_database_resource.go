@@ -706,8 +706,41 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"long_term_backup_schedule": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_disabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"repeat_cadence": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"retention_period_in_days": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"time_of_backup": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"memory_per_oracle_compute_unit_in_gbs": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"next_long_term_backup_time_stamp": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"open_mode": {
@@ -1368,6 +1401,17 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.LicenseModel = oci_database.UpdateAutonomousDatabaseDetailsLicenseModelEnum(licenseModel.(string))
 	}
 
+	if longTermBackupSchedule, ok := s.D.GetOkExists("long_term_backup_schedule"); ok {
+		if tmpList := longTermBackupSchedule.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "long_term_backup_schedule", 0)
+			tmp, err := s.mapToLongTermBackUpScheduleDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LongTermBackupSchedule = &tmp
+		}
+	}
+
 	if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok && s.D.HasChange("max_cpu_core_count") {
 		tmp := maxCpuCoreCount.(int)
 		request.MaxCpuCoreCount = &tmp
@@ -1711,6 +1755,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("local_standby_db", nil)
 	}
 
+	if s.Res.LongTermBackupSchedule != nil {
+		s.D.Set("long_term_backup_schedule", []interface{}{LongTermBackUpScheduleDetailsToMap(s.Res.LongTermBackupSchedule)})
+	} else {
+		s.D.Set("long_term_backup_schedule", nil)
+	}
+
+	if s.Res.MaxCpuCoreCount != nil {
+		s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
+	}
+
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
@@ -1721,6 +1775,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.NcharacterSet != nil {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
+	}
+
+	if s.Res.NextLongTermBackupTimeStamp != nil {
+		s.D.Set("next_long_term_backup_time_stamp", s.Res.NextLongTermBackupTimeStamp.String())
 	}
 
 	nsgIds := []interface{}{}
@@ -2054,6 +2112,34 @@ func AdbDayOfWeekToMap(obj *oci_database.DayOfWeek) map[string]interface{} {
 	result["name"] = string(obj.Name)
 
 	return result
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) mapToLongTermBackUpScheduleDetails(fieldKeyFormat string) (oci_database.LongTermBackUpScheduleDetails, error) {
+	result := oci_database.LongTermBackUpScheduleDetails{}
+
+	if isDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_disabled")); ok {
+		tmp := isDisabled.(bool)
+		result.IsDisabled = &tmp
+	}
+
+	if repeatCadence, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "repeat_cadence")); ok {
+		result.RepeatCadence = oci_database.LongTermBackUpScheduleDetailsRepeatCadenceEnum(repeatCadence.(string))
+	}
+
+	if retentionPeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_period_in_days")); ok {
+		tmp := retentionPeriodInDays.(int)
+		result.RetentionPeriodInDays = &tmp
+	}
+
+	if timeOfBackup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_of_backup")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeOfBackup.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeOfBackup = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) mapToScheduledOperationDetails(fieldKeyFormat string) (oci_database.ScheduledOperationDetails, error) {

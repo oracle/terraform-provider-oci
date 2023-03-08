@@ -133,6 +133,10 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 			oceInstance["description"] = *r.Description
 		}
 
+		if r.DrRegion != nil {
+			oceInstance["dr_region"] = *r.DrRegion
+		}
+
 		oceInstance["freeform_tags"] = r.FreeformTags
 
 		if r.Guid != nil {

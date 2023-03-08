@@ -73,7 +73,7 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `is_auto_tune_enabled` - (Optional) (Updatable) Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
-* `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management key to assign as the master encryption key for the boot volume. 
+* `kms_key_id` - (Optional) (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `source_details` - (Required) 
 	* `id` - (Required) The OCID of the boot volume replica.
@@ -112,7 +112,7 @@ The following attributes are exported:
 * `image_id` - The image OCID used to create the boot volume.
 * `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
 * `is_hydrated` - Specifies whether the boot volume's data has finished copying from the source boot volume or boot volume backup. 
-* `kms_key_id` - The OCID of the Key Management master encryption key assigned to the boot volume.
+* `kms_key_id` - The OCID of the Vault service master encryption key assigned to the boot volume.
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - 

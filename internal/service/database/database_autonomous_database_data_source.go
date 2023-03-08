@@ -266,6 +266,16 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("local_standby_db", nil)
 	}
 
+	if s.Res.LongTermBackupSchedule != nil {
+		s.D.Set("long_term_backup_schedule", []interface{}{LongTermBackUpScheduleDetailsToMap(s.Res.LongTermBackupSchedule)})
+	} else {
+		s.D.Set("long_term_backup_schedule", nil)
+	}
+
+	if s.Res.MaxCpuCoreCount != nil {
+		s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
+	}
+
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
@@ -276,6 +286,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.NcharacterSet != nil {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
+	}
+
+	if s.Res.NextLongTermBackupTimeStamp != nil {
+		s.D.Set("next_long_term_backup_time_stamp", s.Res.NextLongTermBackupTimeStamp.String())
 	}
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)

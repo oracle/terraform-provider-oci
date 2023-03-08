@@ -136,6 +136,7 @@ var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatascienceModelDeploymentHints},
 		{TerraformResourceHints: exportDatascienceJobHints},
 		{TerraformResourceHints: exportDatascienceJobRunHints},
+		{TerraformResourceHints: exportDatascienceModelVersionSetHints},
 		{TerraformResourceHints: exportDatasciencePipelineRunHints},
 		{TerraformResourceHints: exportDatascienceModelVersionSetHints},
 		{TerraformResourceHints: exportDatasciencePipelineHints},

@@ -466,11 +466,44 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"long_term_backup_schedule": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"is_disabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"repeat_cadence": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"retention_period_in_days": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"time_of_backup": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"max_cpu_core_count": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"ncharacter_set": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"next_long_term_backup_time_stamp": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -987,6 +1020,16 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["local_standby_db"] = nil
 		}
 
+		if r.LongTermBackupSchedule != nil {
+			autonomousDatabasesClone["long_term_backup_schedule"] = []interface{}{LongTermBackUpScheduleDetailsToMap(r.LongTermBackupSchedule)}
+		} else {
+			autonomousDatabasesClone["long_term_backup_schedule"] = nil
+		}
+
+		if r.MaxCpuCoreCount != nil {
+			autonomousDatabasesClone["max_cpu_core_count"] = *r.MaxCpuCoreCount
+		}
+
 		if r.MemoryPerOracleComputeUnitInGBs != nil {
 			autonomousDatabasesClone["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}
@@ -997,6 +1040,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.NcharacterSet != nil {
 			autonomousDatabasesClone["ncharacter_set"] = *r.NcharacterSet
+		}
+
+		if r.NextLongTermBackupTimeStamp != nil {
+			autonomousDatabasesClone["next_long_term_backup_time_stamp"] = r.NextLongTermBackupTimeStamp.String()
 		}
 
 		autonomousDatabasesClone["nsg_ids"] = r.NsgIds
@@ -1141,4 +1188,24 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func LongTermBackUpScheduleDetailsToMap(obj *oci_database.LongTermBackUpScheduleDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsDisabled != nil {
+		result["is_disabled"] = bool(*obj.IsDisabled)
+	}
+
+	result["repeat_cadence"] = string(obj.RepeatCadence)
+
+	if obj.RetentionPeriodInDays != nil {
+		result["retention_period_in_days"] = int(*obj.RetentionPeriodInDays)
+	}
+
+	if obj.TimeOfBackup != nil {
+		result["time_of_backup"] = obj.TimeOfBackup.String()
+	}
+
+	return result
 }
