@@ -81,6 +81,7 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
   lifecycle {
     ignore_changes = [
       autonomous_data_storage_size_in_tbs,
+      db_servers,
     ]
   }
 }
