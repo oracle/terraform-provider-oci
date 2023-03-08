@@ -15,7 +15,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   display_name                         = "example-container-database"
   patch_model                          = "RELEASE_UPDATES"
   db_version                           = "19.18.0.1.0"
-  db_name                              = "acdname"
+  db_name                              = "ACDNAME"
 
   #Optional
   backup_config {
@@ -56,7 +56,6 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   }
   rotate_key_trigger = "true"
   version_preference = "LATEST_RELEASE_UPDATE"
-  db_version          = "19.18.0.1.0"
 }
 
 variable "cloud_exadata_infrastructure_un_allocated_resource_db_servers" {
