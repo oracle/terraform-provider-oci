@@ -11,6 +11,7 @@ import (
 
 func init() {
 	RegisterOracleClient("oci_database_management.DbManagementClient", &OracleClient{InitClientFn: initDatabasemanagementDbManagementClient})
+	RegisterOracleClient("oci_database_management.ManagedMySqlDatabasesClient", &OracleClient{InitClientFn: initDatabasemanagementManagedMySqlDatabasesClient})
 	RegisterOracleClient("oci_database_management.DiagnosabilityClient", &OracleClient{InitClientFn: initDatabasemanagementDiagnosabilityClient})
 	RegisterOracleClient("oci_database_management.SqlTuningClient", &OracleClient{InitClientFn: initDatabasemanagementSqlTuningClient})
 }
@@ -53,6 +54,26 @@ func initDatabasemanagementDiagnosabilityClient(configProvider oci_common.Config
 
 func (m *OracleClients) DiagnosabilityClient() *oci_database_management.DiagnosabilityClient {
 	return m.GetClient("oci_database_management.DiagnosabilityClient").(*oci_database_management.DiagnosabilityClient)
+}
+
+func initDatabasemanagementManagedMySqlDatabasesClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_database_management.NewManagedMySqlDatabasesClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) ManagedMySqlDatabasesClient() *oci_database_management.ManagedMySqlDatabasesClient {
+	return m.GetClient("oci_database_management.ManagedMySqlDatabasesClient").(*oci_database_management.ManagedMySqlDatabasesClient)
 }
 
 func initDatabasemanagementSqlTuningClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
