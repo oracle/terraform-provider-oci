@@ -1,3 +1,12 @@
+## 4.111.0 (March 08, 2023)
+
+### Added
+- Support for OCI Data Science Custom Container Images for Model Deployment
+- Support for OCM - Add Disaster Recovery Feature
+- Support for Management Agent API changes
+- Support for ADB-S: Long-Term Automatic Backup Retention
+- Support for UpdateInstanceConstraint in Terraform
+
 ## 4.110.0 (March 01, 2023)
 
 ### Added

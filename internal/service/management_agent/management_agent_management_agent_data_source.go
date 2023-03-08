@@ -112,6 +112,12 @@ func (s *ManagementAgentManagementAgentDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	managementAgentProperties := []interface{}{}
+	for _, item := range s.Res.ManagementAgentProperties {
+		managementAgentProperties = append(managementAgentProperties, ManagementAgentPropertyToMap(item))
+	}
+	s.D.Set("management_agent_properties", managementAgentProperties)
+
 	if s.Res.PlatformName != nil {
 		s.D.Set("platform_name", *s.Res.PlatformName)
 	}

@@ -49,6 +49,12 @@ The following attributes are exported:
 
 * `checksum` - Agent image content SHA256 Hash
 * `id` - Agent image resource id
+* `image_object_storage_details` - Details of the Objectstorage object
+	* `checksum` - Object content SHA256 Hash
+	* `object` - Objectstorage object name reference providing the original location of this object
+	* `object_bucket` - Objectstorage bucket reference providing the original location of this object
+	* `object_namespace` - Objectstorage namespace reference providing the original location of this object
+	* `object_url` - Object storage URL for download
 * `object_url` - Object storage URL for download
 * `package_architecture_type` - The installation package target architecture type
 * `package_type` - The installation package type

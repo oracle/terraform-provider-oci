@@ -48,6 +48,9 @@ type ListManagementAgentsRequest struct {
 	// A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.
 	InstallType ListManagementAgentsInstallTypeEnum `mandatory:"false" contributesTo:"query" name:"installType" omitEmpty:"true"`
 
+	// Filter to return only results having the particular gatewayId.
+	GatewayId []string `contributesTo:"query" name:"gatewayId" collectionFormat:"multi"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

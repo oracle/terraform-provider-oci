@@ -61,7 +61,7 @@ The following attributes are exported:
 * `image_id` - The image OCID used to create the boot volume.
 * `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
 * `is_hydrated` - Specifies whether the boot volume's data has finished copying from the source boot volume or boot volume backup. 
-* `kms_key_id` - The OCID of the Key Management master encryption key assigned to the boot volume.
+* `kms_key_id` - The OCID of the Vault service master encryption key assigned to the boot volume.
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - 

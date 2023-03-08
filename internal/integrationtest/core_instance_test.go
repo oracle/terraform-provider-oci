@@ -55,15 +55,16 @@ var (
 		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
 	CoreInstanceRepresentation = map[string]interface{}{
-		"availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"shape":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"agent_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAgentConfigRepresentation},
-		"availability_config":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAvailabilityConfigRepresentation},
-		"create_vnic_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceCreateVnicDetailsRepresentation},
-		"dedicated_vm_host_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"availability_domain":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"update_operation_constraint": acctest.Representation{RepType: acctest.Optional, Create: `ALLOW_DOWNTIME`, Update: `ALLOW_DOWNTIME`},
+		"agent_config":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAgentConfigRepresentation},
+		"availability_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAvailabilityConfigRepresentation},
+		"create_vnic_details":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceCreateVnicDetailsRepresentation},
+		"dedicated_vm_host_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"extended_metadata": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{
 			"some_string":   "stringA",
 			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
@@ -673,6 +674,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "update_operation_constraint", "ALLOW_DOWNTIME"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -687,7 +689,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, CoreInstanceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, acctest.GetUpdatedRepresentationCopy("update_operation_constraint", acctest.Representation{RepType: acctest.Optional, Update: `ALLOW_DOWNTIME`}, CoreInstanceRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
@@ -742,6 +744,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "update_operation_constraint", "ALLOW_DOWNTIME"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -914,6 +917,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "update_operation_constraint", "ALLOW_DOWNTIME"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -935,6 +939,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				// and so it may complain that values are different.
 				"extended_metadata",
 				"hostname_label",
+				"update_operation_constraint",
 				"is_pv_encryption_in_transit_enabled",
 				"create_vnic_details.0.assign_private_dns_record",
 				"subnet_id",

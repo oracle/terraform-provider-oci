@@ -237,7 +237,7 @@ The following arguments are supported:
 			* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 			* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-			* `kms_key_id` - (Optional) The OCID of the Key Management key to assign as the master encryption key for the volume. 
+			* `kms_key_id` - (Optional) The OCID of the Vault service key to assign as the master encryption key for the volume. 
 			* `size_in_gbs` - (Optional) The size of the volume in GBs.
 			* `source_details` - (Optional) 
 				* `id` - (Optional) The OCID of the volume backup.
@@ -493,7 +493,7 @@ The following attributes are exported:
 			* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 			* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-			* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the volume. 
+			* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the volume. 
 			* `size_in_gbs` - The size of the volume in GBs.
 			* `source_details` - 
 				* `id` - The OCID of the volume backup.

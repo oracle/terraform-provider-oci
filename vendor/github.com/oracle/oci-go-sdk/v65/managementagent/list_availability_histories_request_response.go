@@ -26,12 +26,12 @@ type ListAvailabilityHistoriesRequest struct {
 
 	// Filter to limit the availability history results to that of time after the input time including the boundary record.
 	// Defaulted to current date minus one year.
-	// The date and time to be given as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time to be given as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 5.6.
 	TimeAvailabilityStatusEndedGreaterThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeAvailabilityStatusEndedGreaterThan"`
 
 	// Filter to limit the availability history results to that of time before the input time including the boundary record
 	// Defaulted to current date.
-	// The date and time to be given as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time to be given as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 5.6.
 	TimeAvailabilityStatusStartedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeAvailabilityStatusStartedLessThan"`
 
 	// The maximum number of items to return.

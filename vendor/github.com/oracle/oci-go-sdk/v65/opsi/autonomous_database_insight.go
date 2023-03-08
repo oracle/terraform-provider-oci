@@ -75,6 +75,16 @@ type AutonomousDatabaseInsight struct {
 	// Additional details of a database in JSON format. For autonomous databases, this is the AutonomousDatabase object serialized as a JSON string as defined in https://docs.cloud.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabase/. For EM, pass in null or an empty string. Note that this string needs to be escaped when specified in the curl command.
 	DbAdditionalDetails *interface{} `mandatory:"false" json:"dbAdditionalDetails"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+	OpsiPrivateEndpointId *string `mandatory:"false" json:"opsiPrivateEndpointId"`
+
+	// Flag is to identify if advanced features for autonomous database is enabled or not
+	IsAdvancedFeaturesEnabled *bool `mandatory:"false" json:"isAdvancedFeaturesEnabled"`
+
+	ConnectionDetails *ConnectionDetails `mandatory:"false" json:"connectionDetails"`
+
+	CredentialDetails CredentialDetails `mandatory:"false" json:"credentialDetails"`
+
 	// Indicates the status of a database insight in Operations Insights
 	Status ResourceStatusEnum `mandatory:"true" json:"status"`
 
@@ -186,4 +196,94 @@ func (m AutonomousDatabaseInsight) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *AutonomousDatabaseInsight) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DatabaseType                    *string                           `json:"databaseType"`
+		DatabaseVersion                 *string                           `json:"databaseVersion"`
+		ProcessorCount                  *int                              `json:"processorCount"`
+		SystemTags                      map[string]map[string]interface{} `json:"systemTags"`
+		TimeUpdated                     *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleDetails                *string                           `json:"lifecycleDetails"`
+		DatabaseConnectionStatusDetails *string                           `json:"databaseConnectionStatusDetails"`
+		DatabaseDisplayName             *string                           `json:"databaseDisplayName"`
+		DbAdditionalDetails             *interface{}                      `json:"dbAdditionalDetails"`
+		OpsiPrivateEndpointId           *string                           `json:"opsiPrivateEndpointId"`
+		IsAdvancedFeaturesEnabled       *bool                             `json:"isAdvancedFeaturesEnabled"`
+		ConnectionDetails               *ConnectionDetails                `json:"connectionDetails"`
+		CredentialDetails               credentialdetails                 `json:"credentialDetails"`
+		Id                              *string                           `json:"id"`
+		CompartmentId                   *string                           `json:"compartmentId"`
+		Status                          ResourceStatusEnum                `json:"status"`
+		FreeformTags                    map[string]string                 `json:"freeformTags"`
+		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
+		TimeCreated                     *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState                  LifecycleStateEnum                `json:"lifecycleState"`
+		DatabaseId                      *string                           `json:"databaseId"`
+		DatabaseName                    *string                           `json:"databaseName"`
+		DatabaseResourceType            *string                           `json:"databaseResourceType"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DatabaseType = model.DatabaseType
+
+	m.DatabaseVersion = model.DatabaseVersion
+
+	m.ProcessorCount = model.ProcessorCount
+
+	m.SystemTags = model.SystemTags
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.DatabaseConnectionStatusDetails = model.DatabaseConnectionStatusDetails
+
+	m.DatabaseDisplayName = model.DatabaseDisplayName
+
+	m.DbAdditionalDetails = model.DbAdditionalDetails
+
+	m.OpsiPrivateEndpointId = model.OpsiPrivateEndpointId
+
+	m.IsAdvancedFeaturesEnabled = model.IsAdvancedFeaturesEnabled
+
+	m.ConnectionDetails = model.ConnectionDetails
+
+	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CredentialDetails = nn.(CredentialDetails)
+	} else {
+		m.CredentialDetails = nil
+	}
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.Status = model.Status
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.TimeCreated = model.TimeCreated
+
+	m.LifecycleState = model.LifecycleState
+
+	m.DatabaseId = model.DatabaseId
+
+	m.DatabaseName = model.DatabaseName
+
+	m.DatabaseResourceType = model.DatabaseResourceType
+
+	return
 }

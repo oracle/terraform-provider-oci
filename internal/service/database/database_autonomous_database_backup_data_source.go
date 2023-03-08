@@ -78,6 +78,10 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) SetData() error {
 		s.D.Set("database_size_in_tbs", *s.Res.DatabaseSizeInTBs)
 	}
 
+	if s.Res.DbVersion != nil {
+		s.D.Set("db_version", *s.Res.DbVersion)
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -110,7 +114,19 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.RetentionPeriodInDays != nil {
+		s.D.Set("retention_period_in_days", *s.Res.RetentionPeriodInDays)
+	}
+
+	if s.Res.SizeInTBs != nil {
+		s.D.Set("size_in_tbs", *s.Res.SizeInTBs)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TimeAvailableTill != nil {
+		s.D.Set("time_available_till", s.Res.TimeAvailableTill.String())
+	}
 
 	if s.Res.TimeEnded != nil {
 		s.D.Set("time_ended", s.Res.TimeEnded.String())

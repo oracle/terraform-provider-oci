@@ -14,7 +14,7 @@ Lists a subset of images available in the specified compartment, including
 [platform images](https://docs.cloud.oracle.com/iaas/Content/Compute/References/images.htm) and
 [custom images](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm).
 The list of platform images includes the three most recently published versions
-of each major distribution.
+of each major distribution. The list does not support filtering based on image tags.
 
 The list of images returned is ordered to first show the recent platform images,
 then all of the custom images.

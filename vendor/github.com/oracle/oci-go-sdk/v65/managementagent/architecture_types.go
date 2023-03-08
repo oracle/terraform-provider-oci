@@ -22,18 +22,21 @@ const (
 	ArchitectureTypesX8664 ArchitectureTypesEnum = "X86_64"
 	ArchitectureTypesSparc ArchitectureTypesEnum = "SPARC"
 	ArchitectureTypesX86   ArchitectureTypesEnum = "X86"
+	ArchitectureTypesM1    ArchitectureTypesEnum = "M1"
 )
 
 var mappingArchitectureTypesEnum = map[string]ArchitectureTypesEnum{
 	"X86_64": ArchitectureTypesX8664,
 	"SPARC":  ArchitectureTypesSparc,
 	"X86":    ArchitectureTypesX86,
+	"M1":     ArchitectureTypesM1,
 }
 
 var mappingArchitectureTypesEnumLowerCase = map[string]ArchitectureTypesEnum{
 	"x86_64": ArchitectureTypesX8664,
 	"sparc":  ArchitectureTypesSparc,
 	"x86":    ArchitectureTypesX86,
+	"m1":     ArchitectureTypesM1,
 }
 
 // GetArchitectureTypesEnumValues Enumerates the set of values for ArchitectureTypesEnum
@@ -51,6 +54,7 @@ func GetArchitectureTypesEnumStringValues() []string {
 		"X86_64",
 		"SPARC",
 		"X86",
+		"M1",
 	}
 }
 
