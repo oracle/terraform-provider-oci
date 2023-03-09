@@ -6,6 +6,10 @@ package core
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/url"
+	"regexp"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -18,6 +22,9 @@ import (
 
 func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: tfresource.DefaultTimeout,
 		Create:   createCoreIpSecConnectionTunnelManagement,
 		Read:     readCoreIpSecConnectionTunnelManagement,
@@ -46,6 +53,8 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -154,44 +163,62 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 			},
 			"nat_translation_enabled": {
 				Type:     schema.TypeString,
+				Optional: true,
 				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsNatTranslationEnabledEnabled),
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsNatTranslationEnabledDisabled),
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsNatTranslationEnabledAuto),
+				}, true),
 			},
 			"oracle_can_initiate": {
 				Type:     schema.TypeString,
+				Optional: true,
 				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsOracleInitiationInitiatorOrResponder),
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsOracleInitiationResponderOnly),
+				}, true),
 			},
 			"phase_one_details": {
 				Type:     schema.TypeList,
+				Optional: true,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 
 						// Optional
-
-						// Computed
 						"custom_authentication_algorithm": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
+							// add validation
 						},
 						"custom_dh_group": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"custom_encryption_algorithm": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"is_custom_phase_one_config": {
 							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"is_ike_established": {
-							Type:     schema.TypeBool,
+							Optional: true,
 							Computed: true,
 						},
 						"lifetime": {
 							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"is_ike_established": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"negotiated_authentication_algorithm": {
@@ -219,40 +246,50 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 			},
 			"phase_two_details": {
 				Type:     schema.TypeList,
+				Optional: true,
 				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 
 						// Optional
 
-						// Computed
 						"custom_authentication_algorithm": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"custom_encryption_algorithm": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"dh_group": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"is_custom_phase_two_config": {
 							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"is_esp_established": {
-							Type:     schema.TypeBool,
+							Optional: true,
 							Computed: true,
 						},
 						"is_pfs_enabled": {
 							Type:     schema.TypeBool,
+							Optional: true,
 							Computed: true,
 						},
 						"lifetime": {
 							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"is_esp_established": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"negotiated_authentication_algorithm": {
@@ -282,6 +319,7 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Type:         schema.TypeString,
 				Optional:     true,
 				Computed:     true,
+				Sensitive:    true,
 				ValidateFunc: tfresource.ValidateNotEmptyString(),
 			},
 			// Computed
@@ -352,6 +390,7 @@ type CoreIpSecConnectionTunnelManagementResourceCrud struct {
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.IpSecConnectionTunnel
 	ResSecret              *oci_core.IpSecConnectionTunnelSharedSecret
+	IpscId                 *string
 	DisableNotFoundRetries bool
 }
 
@@ -400,6 +439,14 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) Get() error {
 		request.TunnelId = &tmp
 	}
 
+	ipsecId, tunnelId, err := parseTunnelCompositeId(s.D.Id())
+	if err == nil {
+		request.IpscId = &ipsecId
+		request.TunnelId = &tunnelId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
 	response, err := s.Client.GetIPSecConnectionTunnel(context.Background(), request)
@@ -408,6 +455,8 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) Get() error {
 	}
 
 	s.Res = &response.IpSecConnectionTunnel
+
+	s.IpscId = request.IpscId
 
 	secretRequest := oci_core.GetIPSecConnectionTunnelSharedSecretRequest{}
 
@@ -635,6 +684,15 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) SetData() error {
 		return nil
 	}
 
+	ipSecId, tunnnelId, err := parseTunnelCompositeId(s.D.Id())
+	if err == nil {
+		s.D.SetId(tunnnelId)
+		s.D.Set("tunnel_id", &tunnnelId)
+		s.D.Set("ipsec_id", &ipSecId)
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.BgpSessionInfo != nil {
@@ -716,4 +774,24 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func GetTunnelCompisteId(ipSecId string, tunnnelId string) string {
+	ipSecId = url.PathEscape(ipSecId)
+	tunnnelId = url.PathEscape(tunnnelId)
+	compositeId := "ipSecId/" + ipSecId + "/tunnelId/" + tunnnelId
+	return compositeId
+}
+
+func parseTunnelCompositeId(compositeId string) (ipSecId string, tunnnelId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("ipSecId/.*/tunnelId/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	ipSecId, _ = url.PathUnescape(parts[1])
+	tunnnelId, _ = url.PathUnescape(parts[3])
+
+	return
 }

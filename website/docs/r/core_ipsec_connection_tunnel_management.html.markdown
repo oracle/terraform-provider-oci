@@ -43,13 +43,40 @@ resource "oci_core_ipsec_connection_tunnel_management" "test_ip_sec_connection_t
 	}
 	display_name = var.ip_sec_connection_tunnel_management_display_name
 
-    encryption_domain_config {
+  encryption_domain_config {
 		#Optional
 		cpe_traffic_selector = var.ip_sec_connection_tunnel_management_encryption_domain_config_cpe_traffic_selector
 		oracle_traffic_selector = var.ip_sec_connection_tunnel_management_encryption_domain_config_oracle_traffic_selector
 	}
 	shared_secret = var.ip_sec_connection_tunnel_management_shared_secret
-    ike_version = "V1"
+	ike_version = "V1"
+	nat_translation_enabled = "AUTO"
+	oracle_can_initiate = "INITIATOR_OR_RESPONDER"
+
+	dpd_config {
+		# Optional
+		dpd_mode = var.ip_sec_connection_tunnel_management_dpd_config_dpd_mode
+		dpd_timeout_in_sec = var.ip_sec_connection_tunnel_management_dpd_timeout_in_sec
+	}
+
+  phase_one_details {
+		# Optional
+    lifetime  = var.ip_sec_connection_tunnel_management_phase_one_details_lifetime
+    is_custom_phase_one_config = var.ip_sec_connection_tunnel_management_phase_one_details_is_custom_phase_one_config
+    custom_authentication_algorithm = var.ip_sec_connection_tunnel_management_phase_one_details_custom_authentication_algorithm
+    custom_dh_group = var.ip_sec_connection_tunnel_management_phase_one_details_custom_dh_group
+    custom_encryption_algorithm = var.ip_sec_connection_tunnel_management_phase_one_details_custom_encryption_algorithm
+  }
+
+  phase_two_details {
+		# Optional
+    is_custom_phase_two_config        = var.ip_sec_connection_tunnel_management_phase_two_details_is_custom_phase_two_config
+    lifetime                          = var.ip_sec_connection_tunnel_management_phase_two_details_lifetime
+    custom_authentication_algorithm   = var.ip_sec_connection_tunnel_management_phase_two_details_custom_authentication_algorithm
+    custom_encryption_algorithm       = var.ip_sec_connection_tunnel_management_phase_two_details_custom_encryption_algorithm
+    is_pfs_enabled                    = var.ip_sec_connection_tunnel_management_phase_two_details_is_pfs_enabled
+    dh_group                          = var.ip_sec_connection_tunnel_management_phase_two_details_dh_group
+  }
 }
 ```
 
@@ -86,12 +113,37 @@ The following arguments are supported:
 		The value must be a /30 or /31.
 
 		Example: `10.0.0.4/31` 
-  * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-  * `encryption_domain_config` - (Optional) Configuration information used by the encryption domain policy. Required if the tunnel uses POLICY routing.
-  	* `cpe_traffic_selector` - (Optional) Lists IPv4 or IPv6-enabled subnets in your on-premises network.
-  	* `oracle_traffic_selector` - (Optional) Lists IPv4 or IPv6-enabled subnets in your Oracle tenancy.
-  * `ike_version` - (Optional) Internet Key Exchange protocol version. 
-  * `shared_secret` - (Optional) The shared secret (pre-shared key) to use for the IPSec tunnel. If you don't provide a value, Oracle generates a value for you. You can specify your own shared secret later if you like with [UpdateIPSecConnectionTunnelSharedSecret](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnelSharedSecret/UpdateIPSecConnectionTunnelSharedSecret).  Example: `EXAMPLEToUis6j1c.p8G.dVQxcmdfMO0yXMLi.lZTbYCMDGu4V8o`
+* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `dpd_config` - Dead peer detection 
+	* `dpd_mode` - (Optional) Dead peer detection (DPD) mode set on the Oracle side of the connection. This mode sets whether Oracle can only respond to a request from the CPE device to start DPD, or both respond to and initiate requests.
+	* `dpd_timeout_in_sec` - (Optional) DPD timeout in seconds.
+* `encryption_domain_config` - (Optional) Configuration information used by the encryption domain policy. Required if the tunnel uses POLICY routing.
+  * `cpe_traffic_selector` - (Optional) Lists IPv4 or IPv6-enabled subnets in your on-premises network.
+  * `oracle_traffic_selector` - (Optional) Lists IPv4 or IPv6-enabled subnets in your Oracle tenancy.
+* `ike_version` - (Optional) Internet Key Exchange protocol version. 
+* `shared_secret` - (Optional) The shared secret (pre-shared key) to use for the IPSec tunnel. If you don't provide a value, Oracle generates a value for you. You can specify your own shared secret later if you like with [UpdateIPSecConnectionTunnelSharedSecret](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnelSharedSecret/UpdateIPSecConnectionTunnelSharedSecret).  Example: `EXAMPLEToUis6j1c.p8G.dVQxcmdfMO0yXMLi.lZTbYCMDGu4V8o`
+* `nat_translation_enabled` - By default (the `AUTO` setting), IKE sends packets with a source and destination port set to 500, and when it detects that the port used to forward packets has changed (most likely because a NAT device is between the CPE device and the Oracle VPN headend) it will try to negotiate the use of NAT-T.
+
+	The `ENABLED` option sets the IKE protocol to use port 4500 instead of 500 and forces encapsulating traffic with the ESP protocol inside UDP packets.
+
+	The `DISABLED` option directs IKE to completely refuse to negotiate NAT-T even if it senses there may be a NAT device in use.
+* `phase_one_details` -  IPSec tunnel details specific to ISAKMP phase one.
+
+	* `custom_authentication_algorithm` - (Optional) The proposed custom authentication algorithm.
+	* `custom_dh_group` - (Optional) - The proposed custom Diffie-Hellman group.
+	* `is_custom_phase_one_config` - (Optional) - Indicates whether custom phase one configuration is enabled. If this option is not enabled, default settings are proposed.
+	* `custom_encryption_algorithm` - (Optional) - The proposed custom encryption algorithm.
+	* `lifetime` - (Optional) - The total configured lifetime of the IKE security association.
+
+* `phase_two_details` - IPsec tunnel detail information specific to phase two.
+
+	* `custom_authentication_algorithm` - (Optional) Phase two authentication algorithm proposed during tunnel negotiation.
+	* `custom_encryption_algorithm` - (Optional) The proposed custom phase two encryption algorithm.
+	* `dh_group` - (Optional) - The proposed Diffie-Hellman group.
+	* `is_custom_phase_two_config` - (Optional) Indicates whether custom phase two configuration is enabled. If this option is not enabled, default settings are proposed.
+	* `is_esp_established` - (Optional) Indicates that ESP phase two is established.
+	* `is_pfs_enabled` - (Optional) - Indicates that PFS (perfect forward secrecy) is enabled.
+	* `lifetime` - (Optional) - The total configured lifetime of the IKE security association.
 
 ## Attributes Reference
 
@@ -117,3 +169,39 @@ The following attributes are exported:
 * `time_created` - The date and time the IPSec connection tunnel was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_status_updated` - When the status of the tunnel last changed, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `vpn_ip` - The IP address of Oracle's VPN headend.  Example: `129.146.17.50` 
+* `dpd_mode` - Dead peer detection (DPD) mode set on the Oracle side of the connection. This mode sets whether Oracle can only respond to a request from the CPE device to start DPD, or both respond to and initiate requests.
+* `dpd_timeout_in_sec` - DPD timeout in seconds.
+* `phase_one_details` - IPSec tunnel details specific to ISAKMP phase one.
+	* `custom_authentication_algorithm` - The proposed custom authentication algorithm.
+	* `custom_dh_group` - The proposed custom Diffie-Hellman group.
+	* `custom_encryption_algorithm` - The proposed custom encryption algorithm.
+	* `is_custom_phase_one_config` - Indicates whether custom phase one configuration is enabled. If this option is not enabled, default settings are proposed. 
+	* `is_ike_established` - Indicates whether IKE phase one is established.
+	* `lifetime` - The total configured lifetime of the IKE security association.
+	* `negotiated_authentication_algorithm` - The negotiated authentication algorithm.
+	* `negotiated_dh_group` - The negotiated Diffie-Hellman group.
+	* `negotiated_encryption_algorithm` - The negotiated encryption algorithm.
+	* `remaining_lifetime` - The remaining lifetime before the key is refreshed.
+	* `remaining_lifetime_last_retrieved` - The date and time we retrieved the remaining lifetime, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `phase_two_details` - IPsec tunnel detail information specific to phase two.
+	* `custom_authentication_algorithm` - Phase two authentication algorithm proposed during tunnel negotiation. 
+	* `custom_encryption_algorithm` - The proposed custom phase two encryption algorithm. 
+	* `dh_group` - The proposed Diffie-Hellman group. 
+	* `is_custom_phase_two_config` - Indicates whether custom phase two configuration is enabled. If this option is not enabled, default settings are proposed. 
+	* `is_esp_established` - Indicates that ESP phase two is established.
+	* `is_pfs_enabled` - Indicates that PFS (perfect forward secrecy) is enabled.
+	* `lifetime` - The total configured lifetime of the IKE security association.
+	* `negotiated_authentication_algorithm` - The negotiated phase two authentication algorithm.
+	* `negotiated_dh_group` - The negotiated Diffie-Hellman group.
+	* `negotiated_encryption_algorithm` - The negotiated encryption algorithm.
+	* `remaining_lifetime` - The remaining lifetime before the key is refreshed.
+	* `remaining_lifetime_last_retrieved` - The date and time the remaining lifetime was last retrieved, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+
+## Import
+
+
+IPsecConnectionTunnelmanagement can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_core_ipsec_connection_tunnel_management.test_ip_sec_connection_tunnel "ipSecId/{ipSecId}/tunnelId/{tunnelId}"
+```

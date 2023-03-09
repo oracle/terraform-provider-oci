@@ -101,6 +101,17 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ike_version", "V1"),
 				resource.TestCheckResourceAttr(resourceName, "shared_secret", "sharedsecret1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnectionTunnel"),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.0.is_custom_phase_one_config", true),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.0.custom_authentication_algorithm", "SHA2_256"),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.0.custom_dh_group", "GROUP5"),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.0.custom_encryption_algorithm", "AES_256_CBC"),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.0.custom_encryption_algorithm", "28800"),
+				resource.TestCheckResourceAttr(resourceName, "phase_two_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "phase_two_details.0.custom_authentication_algorithm", "AES_192_CBC"),
+				resource.TestCheckResourceAttr(resourceName, "phase_two_details.0.custom_encryption_algorithm", "AES_256_GCM"),
+				resource.TestCheckResourceAttr(resourceName, "phase_two_details.0.is_pfs_enabled", true),
+				resource.TestCheckResourceAttr(resourceName, "phase_two_details.0.custom_authentication_algorithm", "GROUP5"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -126,6 +137,16 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "bgp_session_info.0.oracle_interface_ip", "10.0.0.17/31"),
 				resource.TestCheckResourceAttr(resourceName, "dpd_config.0.dpd_mode", "RESPOND_ONLY"),
 				resource.TestCheckResourceAttr(resourceName, "dpd_config.0.dpd_timeout_in_sec", "200"),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.0.is_custom_phase_one_config", true),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.0.custom_authentication_algorithm", "SHA2_256"),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.0.custom_dh_group", "GROUP14"),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.0.custom_encryption_algorithm", "AES_256_CBC"),
+				resource.TestCheckResourceAttr(resourceName, "phase_one_details.0.custom_encryption_algorithm", "28800"),
+				resource.TestCheckResourceAttr(resourceName, "phase_two_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "phase_two_details.0.custom_authentication_algorithm", "AES_192_CBC"),
+				resource.TestCheckResourceAttr(resourceName, "phase_two_details.0.custom_encryption_algorithm", "AES_256_GCM"),
+				resource.TestCheckResourceAttr(resourceName, "phase_two_details.0.is_pfs_enabled", true),
+				resource.TestCheckResourceAttr(resourceName, "phase_two_details.0.custom_authentication_algorithm", "GROUP5"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
