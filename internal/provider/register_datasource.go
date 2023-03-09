@@ -23,6 +23,7 @@ import (
 	tf_bds "github.com/oracle/terraform-provider-oci/internal/service/bds"
 	tf_blockchain "github.com/oracle/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/oracle/terraform-provider-oci/internal/service/budget"
+	tf_certificates "github.com/oracle/terraform-provider-oci/internal/service/certificates"
 	tf_certificates_management "github.com/oracle/terraform-provider-oci/internal/service/certificates_management"
 	tf_cloud_bridge "github.com/oracle/terraform-provider-oci/internal/service/cloud_bridge"
 	tf_cloud_guard "github.com/oracle/terraform-provider-oci/internal/service/cloud_guard"
@@ -132,6 +133,7 @@ func init() {
 	tf_bds.RegisterDatasource()
 	tf_blockchain.RegisterDatasource()
 	tf_budget.RegisterDatasource()
+	tf_certificates.RegisterDatasource()
 	tf_certificates_management.RegisterDatasource()
 	tf_cloud_bridge.RegisterDatasource()
 	tf_cloud_guard.RegisterDatasource()
