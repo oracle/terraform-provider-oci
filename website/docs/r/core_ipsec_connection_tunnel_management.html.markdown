@@ -43,7 +43,7 @@ resource "oci_core_ipsec_connection_tunnel_management" "test_ip_sec_connection_t
 	}
 	display_name = var.ip_sec_connection_tunnel_management_display_name
 
-  encryption_domain_config {
+	encryption_domain_config {
 		#Optional
 		cpe_traffic_selector = var.ip_sec_connection_tunnel_management_encryption_domain_config_cpe_traffic_selector
 		oracle_traffic_selector = var.ip_sec_connection_tunnel_management_encryption_domain_config_oracle_traffic_selector
@@ -59,24 +59,24 @@ resource "oci_core_ipsec_connection_tunnel_management" "test_ip_sec_connection_t
 		dpd_timeout_in_sec = var.ip_sec_connection_tunnel_management_dpd_timeout_in_sec
 	}
 
-  phase_one_details {
+	phase_one_details {
 		# Optional
-    lifetime  = var.ip_sec_connection_tunnel_management_phase_one_details_lifetime
-    is_custom_phase_one_config = var.ip_sec_connection_tunnel_management_phase_one_details_is_custom_phase_one_config
-    custom_authentication_algorithm = var.ip_sec_connection_tunnel_management_phase_one_details_custom_authentication_algorithm
-    custom_dh_group = var.ip_sec_connection_tunnel_management_phase_one_details_custom_dh_group
-    custom_encryption_algorithm = var.ip_sec_connection_tunnel_management_phase_one_details_custom_encryption_algorithm
-  }
+		lifetime  = var.ip_sec_connection_tunnel_management_phase_one_details_lifetime
+		is_custom_phase_one_config = var.ip_sec_connection_tunnel_management_phase_one_details_is_custom_phase_one_config
+		custom_authentication_algorithm = var.ip_sec_connection_tunnel_management_phase_one_details_custom_authentication_algorithm
+		custom_dh_group = var.ip_sec_connection_tunnel_management_phase_one_details_custom_dh_group
+		custom_encryption_algorithm = var.ip_sec_connection_tunnel_management_phase_one_details_custom_encryption_algorithm
+	}
 
-  phase_two_details {
+	phase_two_details {
 		# Optional
-    is_custom_phase_two_config        = var.ip_sec_connection_tunnel_management_phase_two_details_is_custom_phase_two_config
-    lifetime                          = var.ip_sec_connection_tunnel_management_phase_two_details_lifetime
-    custom_authentication_algorithm   = var.ip_sec_connection_tunnel_management_phase_two_details_custom_authentication_algorithm
-    custom_encryption_algorithm       = var.ip_sec_connection_tunnel_management_phase_two_details_custom_encryption_algorithm
-    is_pfs_enabled                    = var.ip_sec_connection_tunnel_management_phase_two_details_is_pfs_enabled
-    dh_group                          = var.ip_sec_connection_tunnel_management_phase_two_details_dh_group
-  }
+		is_custom_phase_two_config        = var.ip_sec_connection_tunnel_management_phase_two_details_is_custom_phase_two_config
+		lifetime                          = var.ip_sec_connection_tunnel_management_phase_two_details_lifetime
+		custom_authentication_algorithm   = var.ip_sec_connection_tunnel_management_phase_two_details_custom_authentication_algorithm
+		custom_encryption_algorithm       = var.ip_sec_connection_tunnel_management_phase_two_details_custom_encryption_algorithm
+		is_pfs_enabled                    = var.ip_sec_connection_tunnel_management_phase_two_details_is_pfs_enabled
+		dh_group                          = var.ip_sec_connection_tunnel_management_phase_two_details_dh_group
+	}
 }
 ```
 
