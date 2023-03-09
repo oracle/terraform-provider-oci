@@ -145,6 +145,10 @@ func (m *unifiedagentparser) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := UnifiedAgentTsvParser{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CRI":
+		mm := UnifiedAgentCriParser{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "APACHE_ERROR":
 		mm := UnifiedAgentApacheErrorParser{}
 		err = json.Unmarshal(data, &mm)
@@ -220,6 +224,7 @@ type UnifiedAgentParserParserTypeEnum string
 // Set of constants representing the allowable values for UnifiedAgentParserParserTypeEnum
 const (
 	UnifiedAgentParserParserTypeAuditd        UnifiedAgentParserParserTypeEnum = "AUDITD"
+	UnifiedAgentParserParserTypeCri           UnifiedAgentParserParserTypeEnum = "CRI"
 	UnifiedAgentParserParserTypeJson          UnifiedAgentParserParserTypeEnum = "JSON"
 	UnifiedAgentParserParserTypeTsv           UnifiedAgentParserParserTypeEnum = "TSV"
 	UnifiedAgentParserParserTypeCsv           UnifiedAgentParserParserTypeEnum = "CSV"
@@ -236,6 +241,7 @@ const (
 
 var mappingUnifiedAgentParserParserTypeEnum = map[string]UnifiedAgentParserParserTypeEnum{
 	"AUDITD":         UnifiedAgentParserParserTypeAuditd,
+	"CRI":            UnifiedAgentParserParserTypeCri,
 	"JSON":           UnifiedAgentParserParserTypeJson,
 	"TSV":            UnifiedAgentParserParserTypeTsv,
 	"CSV":            UnifiedAgentParserParserTypeCsv,
@@ -252,6 +258,7 @@ var mappingUnifiedAgentParserParserTypeEnum = map[string]UnifiedAgentParserParse
 
 var mappingUnifiedAgentParserParserTypeEnumLowerCase = map[string]UnifiedAgentParserParserTypeEnum{
 	"auditd":         UnifiedAgentParserParserTypeAuditd,
+	"cri":            UnifiedAgentParserParserTypeCri,
 	"json":           UnifiedAgentParserParserTypeJson,
 	"tsv":            UnifiedAgentParserParserTypeTsv,
 	"csv":            UnifiedAgentParserParserTypeCsv,
@@ -279,6 +286,7 @@ func GetUnifiedAgentParserParserTypeEnumValues() []UnifiedAgentParserParserTypeE
 func GetUnifiedAgentParserParserTypeEnumStringValues() []string {
 	return []string{
 		"AUDITD",
+		"CRI",
 		"JSON",
 		"TSV",
 		"CSV",

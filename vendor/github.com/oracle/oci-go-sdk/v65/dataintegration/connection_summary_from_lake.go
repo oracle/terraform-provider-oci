@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// ConnectionFromLakehouseDetails The connection details for a Lakehouse connection.
-type ConnectionFromLakehouseDetails struct {
+// ConnectionSummaryFromLake The connection summary details for a Lake connection.
+type ConnectionSummaryFromLake struct {
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
 	Key *string `mandatory:"false" json:"key"`
@@ -39,7 +39,7 @@ type ConnectionFromLakehouseDetails struct {
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	PrimarySchema *Schema `mandatory:"false" json:"primarySchema"`
@@ -51,76 +51,84 @@ type ConnectionFromLakehouseDetails struct {
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
+
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
+	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 }
 
 //GetKey returns Key
-func (m ConnectionFromLakehouseDetails) GetKey() *string {
+func (m ConnectionSummaryFromLake) GetKey() *string {
 	return m.Key
 }
 
 //GetModelVersion returns ModelVersion
-func (m ConnectionFromLakehouseDetails) GetModelVersion() *string {
+func (m ConnectionSummaryFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
 //GetParentRef returns ParentRef
-func (m ConnectionFromLakehouseDetails) GetParentRef() *ParentReference {
+func (m ConnectionSummaryFromLake) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
 //GetName returns Name
-func (m ConnectionFromLakehouseDetails) GetName() *string {
+func (m ConnectionSummaryFromLake) GetName() *string {
 	return m.Name
 }
 
 //GetDescription returns Description
-func (m ConnectionFromLakehouseDetails) GetDescription() *string {
+func (m ConnectionSummaryFromLake) GetDescription() *string {
 	return m.Description
 }
 
 //GetObjectVersion returns ObjectVersion
-func (m ConnectionFromLakehouseDetails) GetObjectVersion() *int {
+func (m ConnectionSummaryFromLake) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
 //GetObjectStatus returns ObjectStatus
-func (m ConnectionFromLakehouseDetails) GetObjectStatus() *int {
+func (m ConnectionSummaryFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
 //GetIdentifier returns Identifier
-func (m ConnectionFromLakehouseDetails) GetIdentifier() *string {
+func (m ConnectionSummaryFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
 //GetPrimarySchema returns PrimarySchema
-func (m ConnectionFromLakehouseDetails) GetPrimarySchema() *Schema {
+func (m ConnectionSummaryFromLake) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
 //GetConnectionProperties returns ConnectionProperties
-func (m ConnectionFromLakehouseDetails) GetConnectionProperties() []ConnectionProperty {
+func (m ConnectionSummaryFromLake) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
 //GetIsDefault returns IsDefault
-func (m ConnectionFromLakehouseDetails) GetIsDefault() *bool {
+func (m ConnectionSummaryFromLake) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
 //GetMetadata returns Metadata
-func (m ConnectionFromLakehouseDetails) GetMetadata() *ObjectMetadata {
+func (m ConnectionSummaryFromLake) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-func (m ConnectionFromLakehouseDetails) String() string {
+//GetKeyMap returns KeyMap
+func (m ConnectionSummaryFromLake) GetKeyMap() map[string]string {
+	return m.KeyMap
+}
+
+func (m ConnectionSummaryFromLake) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ConnectionFromLakehouseDetails) ValidateEnumValue() (bool, error) {
+func (m ConnectionSummaryFromLake) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -130,14 +138,14 @@ func (m ConnectionFromLakehouseDetails) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m ConnectionFromLakehouseDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeConnectionFromLakehouseDetails ConnectionFromLakehouseDetails
+func (m ConnectionSummaryFromLake) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeConnectionSummaryFromLake ConnectionSummaryFromLake
 	s := struct {
 		DiscriminatorParam string `json:"modelType"`
-		MarshalTypeConnectionFromLakehouseDetails
+		MarshalTypeConnectionSummaryFromLake
 	}{
 		"LAKE_CONNECTION",
-		(MarshalTypeConnectionFromLakehouseDetails)(m),
+		(MarshalTypeConnectionSummaryFromLake)(m),
 	}
 
 	return json.Marshal(&s)

@@ -25,6 +25,7 @@ type UnifiedAgentWindowsEventSource struct {
 	// unique name for the source
 	Name *string `mandatory:"true" json:"name"`
 
+	// Windows event log channels.
 	Channels []string `mandatory:"true" json:"channels"`
 }
 

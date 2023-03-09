@@ -145,6 +145,12 @@ type OpensearchCluster struct {
 	SecuritySamlConfig *SecuritySamlConfig `mandatory:"false" json:"securitySamlConfig"`
 
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
+
+	// The customer IP addresses of the endpoint in customer VCN
+	ReverseConnectionEndpointCustomerIps []string `mandatory:"false" json:"reverseConnectionEndpointCustomerIps"`
+
+	// The list of reverse connection endpoints.
+	ReverseConnectionEndpoints []ReverseConnectionEndpoint `mandatory:"false" json:"reverseConnectionEndpoints"`
 }
 
 func (m OpensearchCluster) String() string {

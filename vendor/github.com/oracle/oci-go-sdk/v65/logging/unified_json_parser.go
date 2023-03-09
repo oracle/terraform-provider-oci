@@ -60,8 +60,10 @@ type UnifiedJsonParser struct {
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 
+	// Process time value using the specified format.
 	TimeFormat *string `mandatory:"false" json:"timeFormat"`
 
+	// Time type of JSON parser.
 	TimeType UnifiedJsonParserTimeTypeEnum `mandatory:"false" json:"timeType,omitempty"`
 }
 

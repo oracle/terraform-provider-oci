@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-// PhoneManagementClient a client for PhoneManagement
+//PhoneManagementClient a client for PhoneManagement
 type PhoneManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -43,8 +43,7 @@ func NewPhoneManagementClientWithConfigurationProvider(configProvider common.Con
 
 // NewPhoneManagementClientWithOboToken Creates a new default PhoneManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewPhoneManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client PhoneManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

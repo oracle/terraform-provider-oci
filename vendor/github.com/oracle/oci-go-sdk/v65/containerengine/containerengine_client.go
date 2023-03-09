@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-// ContainerEngineClient a client for ContainerEngine
+//ContainerEngineClient a client for ContainerEngine
 type ContainerEngineClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -44,8 +44,7 @@ func NewContainerEngineClientWithConfigurationProvider(configProvider common.Con
 
 // NewContainerEngineClientWithOboToken Creates a new default ContainerEngine client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewContainerEngineClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ContainerEngineClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -140,6 +139,65 @@ func (client ContainerEngineClient) clusterMigrateToNativeVcn(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/ClusterMigrateToNativeVcn"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ClusterMigrateToNativeVcn", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CompleteCredentialRotation Complete cluster credential rotation. Retire old credentials from kubernetes components.
+// A default retry strategy applies to this operation CompleteCredentialRotation()
+func (client ContainerEngineClient) CompleteCredentialRotation(ctx context.Context, request CompleteCredentialRotationRequest) (response CompleteCredentialRotationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.completeCredentialRotation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CompleteCredentialRotationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CompleteCredentialRotationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CompleteCredentialRotationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CompleteCredentialRotationResponse")
+	}
+	return
+}
+
+// completeCredentialRotation implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) completeCredentialRotation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/actions/completeCredentialRotation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CompleteCredentialRotationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/CompleteCredentialRotation"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "CompleteCredentialRotation", apiReferenceLink)
 		return response, err
 	}
 
@@ -910,6 +968,60 @@ func (client ContainerEngineClient) getClusterOptions(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/ClusterOptions/GetClusterOptions"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetClusterOptions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCredentialRotationStatus Get cluster credential rotation status.
+// A default retry strategy applies to this operation GetCredentialRotationStatus()
+func (client ContainerEngineClient) GetCredentialRotationStatus(ctx context.Context, request GetCredentialRotationStatusRequest) (response GetCredentialRotationStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCredentialRotationStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCredentialRotationStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCredentialRotationStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCredentialRotationStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCredentialRotationStatusResponse")
+	}
+	return
+}
+
+// getCredentialRotationStatus implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) getCredentialRotationStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusters/{clusterId}/credentialRotationStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCredentialRotationStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/CredentialRotationStatus/GetCredentialRotationStatus"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "GetCredentialRotationStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -1779,6 +1891,65 @@ func (client ContainerEngineClient) listWorkRequests(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkRequestSummary/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StartCredentialRotation Start cluster credential rotation by adding new credentials, old credentials will still work after this operation.
+// A default retry strategy applies to this operation StartCredentialRotation()
+func (client ContainerEngineClient) StartCredentialRotation(ctx context.Context, request StartCredentialRotationRequest) (response StartCredentialRotationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startCredentialRotation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartCredentialRotationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartCredentialRotationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartCredentialRotationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartCredentialRotationResponse")
+	}
+	return
+}
+
+// startCredentialRotation implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) startCredentialRotation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/actions/startCredentialRotation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartCredentialRotationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/StartCredentialRotation"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "StartCredentialRotation", apiReferenceLink)
 		return response, err
 	}
 

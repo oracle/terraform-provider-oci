@@ -21,14 +21,6 @@ type CreateOciCliDumpTransferDetails struct {
 
 	// Path to the OCI CLI installation in the node.
 	OciHome *string `mandatory:"true" json:"ociHome"`
-
-	// Directory path to OCI SSL wallet location on Db server node.
-	WalletLocation *string `mandatory:"false" json:"walletLocation"`
-}
-
-//GetWalletLocation returns WalletLocation
-func (m CreateOciCliDumpTransferDetails) GetWalletLocation() *string {
-	return m.WalletLocation
 }
 
 func (m CreateOciCliDumpTransferDetails) String() string {

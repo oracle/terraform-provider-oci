@@ -197,7 +197,15 @@ type UpdateAutonomousDatabaseDetails struct {
 	// Customer Contacts. Setting this to an empty list removes all customer contacts of an Oracle Autonomous Database.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 
-	// Indicates whether the Autonomous Database requires mTLS connections.
+	// Specifies if the Autonomous Database requires mTLS connections.
+	// This may not be updated in parallel with any of the following: licenseModel, databaseEdition, cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, whitelistedIps, openMode, permissionLevel, db-workload, privateEndpointLabel, nsgIds, customerContacts, dbVersion, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
+	// Service Change: The default value of the isMTLSConnectionRequired attribute will change from true to false on July 1, 2023 in the following APIs:
+	// - CreateAutonomousDatabase
+	// - GetAutonomousDatabase
+	// - UpdateAutonomousDatabase
+	// Details: Prior to the July 1, 2023 change, the isMTLSConnectionRequired attribute default value was true. This applies to Autonomous Databases on shared Exadata infrastructure.
+	// Does this impact me? If you use or maintain custom scripts or Terraform scripts referencing the CreateAutonomousDatabase, GetAutonomousDatabase, or UpdateAutonomousDatabase APIs, you want to check, and possibly modify, the scripts for the changed default value of the attribute. Should you choose not to leave your scripts unchanged, the API calls containing this attribute will continue to work, but the default value will switch from true to false.
+	// How do I make this change? Using either OCI SDKs or command line tools, update your custom scripts to explicitly set the isMTLSConnectionRequired attribute to true.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 
 	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.

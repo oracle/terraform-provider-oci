@@ -24,7 +24,7 @@ type DbmResource interface {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata resource.
 	GetId() *string
 
-	// The name of the resource. English letters and "-", "." only.
+	// The name of the resource. English letters, numbers, "-", "_" and "." only.
 	GetDisplayName() *string
 
 	// The version of the resource.

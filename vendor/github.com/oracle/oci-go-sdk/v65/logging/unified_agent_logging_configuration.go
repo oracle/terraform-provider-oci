@@ -21,6 +21,8 @@ import (
 
 // UnifiedAgentLoggingConfiguration Unified Agent logging service configuration object.
 type UnifiedAgentLoggingConfiguration struct {
+
+	// Logging source object.
 	Sources []UnifiedAgentLoggingSource `mandatory:"true" json:"sources"`
 
 	Destination *UnifiedAgentLoggingDestination `mandatory:"true" json:"destination"`

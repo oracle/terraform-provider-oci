@@ -18,15 +18,11 @@ import (
 
 // HostDumpTransferDetails Optional additional properties for dump transfer in source or target host. Default kind is CURL
 type HostDumpTransferDetails interface {
-
-	// Directory path to OCI SSL wallet location on Db server node.
-	GetWalletLocation() *string
 }
 
 type hostdumptransferdetails struct {
-	JsonData       []byte
-	WalletLocation *string `mandatory:"false" json:"walletLocation"`
-	Kind           string  `json:"kind"`
+	JsonData []byte
+	Kind     string `json:"kind"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -40,7 +36,6 @@ func (m *hostdumptransferdetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.WalletLocation = s.Model.WalletLocation
 	m.Kind = s.Model.Kind
 
 	return err
@@ -67,11 +62,6 @@ func (m *hostdumptransferdetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		common.Logf("Recieved unsupported enum value for HostDumpTransferDetails: %s.", m.Kind)
 		return *m, nil
 	}
-}
-
-//GetWalletLocation returns WalletLocation
-func (m hostdumptransferdetails) GetWalletLocation() *string {
-	return m.WalletLocation
 }
 
 func (m hostdumptransferdetails) String() string {

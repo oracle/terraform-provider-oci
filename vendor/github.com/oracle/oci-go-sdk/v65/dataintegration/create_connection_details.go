@@ -101,10 +101,6 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateConnectionFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "LAKE_CONNECTION":
-		mm := CreateConnectionFromLakehouse{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "GENERIC_JDBC_CONNECTION":
 		mm := CreateConnectionFromJdbc{}
 		err = json.Unmarshal(data, &mm)
@@ -139,6 +135,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "ORACLE_OBJECT_STORAGE_CONNECTION":
 		mm := CreateConnectionFromObjectStorage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_CONNECTION":
+		mm := CreateConnectionFromLake{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

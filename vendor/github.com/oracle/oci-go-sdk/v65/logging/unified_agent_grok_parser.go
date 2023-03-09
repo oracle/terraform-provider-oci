@@ -21,6 +21,8 @@ import (
 
 // UnifiedAgentGrokParser grok parser.
 type UnifiedAgentGrokParser struct {
+
+	// grok pattern object.
 	Patterns []GrokPattern `mandatory:"true" json:"patterns"`
 
 	// Specify time field for the event time. If the event doesn't have this field, the current time is used.
@@ -61,8 +63,10 @@ type UnifiedAgentGrokParser struct {
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 
+	// grok name key.
 	GrokNameKey *string `mandatory:"false" json:"grokNameKey"`
 
+	// grok failure key.
 	GrokFailureKey *string `mandatory:"false" json:"grokFailureKey"`
 }
 

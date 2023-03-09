@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// OcbAgentSvcClient a client for OcbAgentSvc
+//OcbAgentSvcClient a client for OcbAgentSvc
 type OcbAgentSvcClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewOcbAgentSvcClientWithConfigurationProvider(configProvider common.Configu
 
 // NewOcbAgentSvcClientWithOboToken Creates a new default OcbAgentSvc client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewOcbAgentSvcClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OcbAgentSvcClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -141,7 +140,7 @@ func (client OcbAgentSvcClient) addAgentDependency(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Environment/AddAgentDependency"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "AddAgentDependency", apiReferenceLink)
 		return response, err
 	}
@@ -200,7 +199,7 @@ func (client OcbAgentSvcClient) changeAgentCompartment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Agent/ChangeAgentCompartment"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "ChangeAgentCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -259,7 +258,7 @@ func (client OcbAgentSvcClient) changeAgentDependencyCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AgentDependency/ChangeAgentDependencyCompartment"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "ChangeAgentDependencyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -318,7 +317,7 @@ func (client OcbAgentSvcClient) changeEnvironmentCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Environment/ChangeEnvironmentCompartment"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "ChangeEnvironmentCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -377,7 +376,7 @@ func (client OcbAgentSvcClient) createAgent(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Agent/CreateAgent"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "CreateAgent", apiReferenceLink)
 		return response, err
 	}
@@ -436,7 +435,7 @@ func (client OcbAgentSvcClient) createAgentDependency(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AgentDependency/CreateAgentDependency"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "CreateAgentDependency", apiReferenceLink)
 		return response, err
 	}
@@ -495,7 +494,7 @@ func (client OcbAgentSvcClient) createEnvironment(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Environment/CreateEnvironment"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "CreateEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -554,7 +553,7 @@ func (client OcbAgentSvcClient) deleteAgent(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Agent/DeleteAgent"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "DeleteAgent", apiReferenceLink)
 		return response, err
 	}
@@ -608,7 +607,7 @@ func (client OcbAgentSvcClient) deleteAgentDependency(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AgentDependency/DeleteAgentDependency"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "DeleteAgentDependency", apiReferenceLink)
 		return response, err
 	}
@@ -662,7 +661,7 @@ func (client OcbAgentSvcClient) deleteEnvironment(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Environment/DeleteEnvironment"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "DeleteEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -716,7 +715,7 @@ func (client OcbAgentSvcClient) getAgent(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Agent/GetAgent"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "GetAgent", apiReferenceLink)
 		return response, err
 	}
@@ -770,7 +769,7 @@ func (client OcbAgentSvcClient) getAgentDependency(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AgentDependency/GetAgentDependency"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "GetAgentDependency", apiReferenceLink)
 		return response, err
 	}
@@ -824,7 +823,7 @@ func (client OcbAgentSvcClient) getEnvironment(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Environment/GetEnvironment"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "GetEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -878,7 +877,7 @@ func (client OcbAgentSvcClient) getPlugin(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Plugin/GetPlugin"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "GetPlugin", apiReferenceLink)
 		return response, err
 	}
@@ -932,7 +931,7 @@ func (client OcbAgentSvcClient) listAgentDependencies(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AgentDependencyCollection/ListAgentDependencies"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "ListAgentDependencies", apiReferenceLink)
 		return response, err
 	}
@@ -986,7 +985,7 @@ func (client OcbAgentSvcClient) listAgents(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AgentCollection/ListAgents"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "ListAgents", apiReferenceLink)
 		return response, err
 	}
@@ -1040,7 +1039,7 @@ func (client OcbAgentSvcClient) listApplianceImages(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/ApplianceImageCollection/ListApplianceImages"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "ListApplianceImages", apiReferenceLink)
 		return response, err
 	}
@@ -1094,7 +1093,7 @@ func (client OcbAgentSvcClient) listEnvironments(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/EnvironmentCollection/ListEnvironments"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "ListEnvironments", apiReferenceLink)
 		return response, err
 	}
@@ -1153,7 +1152,7 @@ func (client OcbAgentSvcClient) removeAgentDependency(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Environment/RemoveAgentDependency"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "RemoveAgentDependency", apiReferenceLink)
 		return response, err
 	}
@@ -1212,7 +1211,7 @@ func (client OcbAgentSvcClient) updateAgent(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Agent/UpdateAgent"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "UpdateAgent", apiReferenceLink)
 		return response, err
 	}
@@ -1271,7 +1270,7 @@ func (client OcbAgentSvcClient) updateAgentDependency(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/AgentDependency/UpdateAgentDependency"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "UpdateAgentDependency", apiReferenceLink)
 		return response, err
 	}
@@ -1330,7 +1329,7 @@ func (client OcbAgentSvcClient) updateEnvironment(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Environment/UpdateEnvironment"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "UpdateEnvironment", apiReferenceLink)
 		return response, err
 	}
@@ -1384,7 +1383,7 @@ func (client OcbAgentSvcClient) updatePlugin(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Plugin/UpdatePlugin"
 		err = common.PostProcessServiceError(err, "OcbAgentSvc", "UpdatePlugin", apiReferenceLink)
 		return response, err
 	}

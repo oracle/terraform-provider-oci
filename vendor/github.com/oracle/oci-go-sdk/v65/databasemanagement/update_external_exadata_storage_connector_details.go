@@ -20,14 +20,11 @@ import (
 // UpdateExternalExadataStorageConnectorDetails The connector details of the storage server to be updated.
 type UpdateExternalExadataStorageConnectorDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent for the Exadata storage server.
-	AgentId *string `mandatory:"true" json:"agentId"`
-
 	// The connector name if OCI connector is created.
-	ConnectorName *string `mandatory:"true" json:"connectorName"`
+	ConnectorName *string `mandatory:"false" json:"connectorName"`
 
 	// The unique connection string of the connection. For example, "https://slcm21celadm02.us.oracle.com:443/MS/RESTService/".
-	ConnectionUri *string `mandatory:"true" json:"connectionUri"`
+	ConnectionUri *string `mandatory:"false" json:"connectionUri"`
 
 	CredentialInfo *RestCredential `mandatory:"false" json:"credentialInfo"`
 }

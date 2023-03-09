@@ -132,6 +132,12 @@ type CloudAutonomousVmClusterSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The date and time of Database SSL certificate expiration.
+	TimeDatabaseSslCertificateExpires *common.SDKTime `mandatory:"false" json:"timeDatabaseSslCertificateExpires"`
+
+	// The date and time of ORDS certificate expiration.
+	TimeOrdsCertificateExpires *common.SDKTime `mandatory:"false" json:"timeOrdsCertificateExpires"`
+
 	// CPU cores available for allocation to Autonomous Databases.
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
 
@@ -157,6 +163,9 @@ type CloudAutonomousVmClusterSummary struct {
 
 	// The amount of memory (in GBs) enabled per each CPU core.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db servers.
+	DbServers []string `mandatory:"false" json:"dbServers"`
 }
 
 func (m CloudAutonomousVmClusterSummary) String() string {

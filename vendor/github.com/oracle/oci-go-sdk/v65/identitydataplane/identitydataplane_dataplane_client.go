@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// DataplaneClient a client for Dataplane
+//DataplaneClient a client for Dataplane
 type DataplaneClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewDataplaneClientWithConfigurationProvider(configProvider common.Configura
 
 // NewDataplaneClientWithOboToken Creates a new default Dataplane client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewDataplaneClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DataplaneClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -135,7 +134,7 @@ func (client DataplaneClient) generateScopedAccessToken(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-dp/v1/SecurityToken/GenerateScopedAccessToken"
 		err = common.PostProcessServiceError(err, "Dataplane", "GenerateScopedAccessToken", apiReferenceLink)
 		return response, err
 	}
@@ -144,7 +143,9 @@ func (client DataplaneClient) generateScopedAccessToken(ctx context.Context, req
 	return response, err
 }
 
-// GenerateUserSecurityToken Exchanges a valid user signature for a short-lived UPST of the authenticated user principal. The default token time-to-live (TTL) is set to 1 hour in commercial realms and to 15 minutes in all other realms.
+// GenerateUserSecurityToken Exchanges a valid user token-based signature (API key, UPST, OBO, and delegation) for a short-lived UPST of the authenticated
+// user principal. When not specified, the user session duration is set to a default of 1 hour in commercial realms and of 15 minutes
+// in all other realms. Resulting UPSTs are refreshable while the user session has not expired.
 func (client DataplaneClient) GenerateUserSecurityToken(ctx context.Context, request GenerateUserSecurityTokenRequest) (response GenerateUserSecurityTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -188,7 +189,7 @@ func (client DataplaneClient) generateUserSecurityToken(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-dp/v1/SecurityToken/GenerateUserSecurityToken"
 		err = common.PostProcessServiceError(err, "Dataplane", "GenerateUserSecurityToken", apiReferenceLink)
 		return response, err
 	}

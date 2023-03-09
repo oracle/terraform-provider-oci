@@ -102,6 +102,10 @@ func (m *createdataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := CreateDataAssetFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "LAKE_DATA_ASSET":
+		mm := CreateDataAssetFromLake{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_DATA_ASSET":
 		mm := CreateDataAssetFromOracle{}
 		err = json.Unmarshal(data, &mm)
@@ -120,10 +124,6 @@ func (m *createdataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		return mm, err
 	case "FUSION_APP_DATA_ASSET":
 		mm := CreateDataAssetFromFusionApp{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "LAKE_DATA_ASSET":
-		mm := CreateDataAssetFromLakehouse{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ATP_DATA_ASSET":

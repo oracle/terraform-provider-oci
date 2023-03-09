@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// DataIntegrationClient a client for DataIntegration
+//DataIntegrationClient a client for DataIntegration
 type DataIntegrationClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewDataIntegrationClientWithConfigurationProvider(configProvider common.Con
 
 // NewDataIntegrationClientWithOboToken Creates a new default DataIntegration client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewDataIntegrationClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DataIntegrationClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

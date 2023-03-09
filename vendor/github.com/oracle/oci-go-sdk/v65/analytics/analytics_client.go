@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// AnalyticsClient a client for Analytics
+//AnalyticsClient a client for Analytics
 type AnalyticsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewAnalyticsClientWithConfigurationProvider(configProvider common.Configura
 
 // NewAnalyticsClientWithOboToken Creates a new default Analytics client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewAnalyticsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client AnalyticsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

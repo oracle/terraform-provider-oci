@@ -60,6 +60,7 @@ type UnifiedAgentNoneParser struct {
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 
+	// Specifies the field name to contain logs.
 	MessageKey *string `mandatory:"false" json:"messageKey"`
 }
 

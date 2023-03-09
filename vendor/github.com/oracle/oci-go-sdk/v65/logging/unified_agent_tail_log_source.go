@@ -25,6 +25,7 @@ type UnifiedAgentTailLogSource struct {
 	// unique name for the source
 	Name *string `mandatory:"true" json:"name"`
 
+	// Absolute paths for log source files. Wildcard can be used.
 	Paths []string `mandatory:"true" json:"paths"`
 
 	Parser UnifiedAgentParser `mandatory:"false" json:"parser"`

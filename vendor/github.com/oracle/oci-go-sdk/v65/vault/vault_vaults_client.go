@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// VaultsClient a client for Vaults
+//VaultsClient a client for Vaults
 type VaultsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewVaultsClientWithConfigurationProvider(configProvider common.Configuratio
 
 // NewVaultsClientWithOboToken Creates a new default Vaults client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewVaultsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client VaultsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

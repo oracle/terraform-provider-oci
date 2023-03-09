@@ -17,26 +17,23 @@ import (
 	"strings"
 )
 
-// UpdateVirtualNodeDetails The properties that define a request to update a virtual node.
-type UpdateVirtualNodeDetails struct {
+// StartCredentialRotationDetails Properties that define a request to start credential rotation on a kubernetes cluster.
+type StartCredentialRotationDetails struct {
 
-	// The state of the Virtual Node.
-	LifecycleState VirtualNodeLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	// The duration in days(in ISO 8601 notation eg. P5D) after which the old credentials should be retired. Maximum delay duration is 14 days.
+	AutoCompletionDelayDuration *string `mandatory:"true" json:"autoCompletionDelayDuration"`
 }
 
-func (m UpdateVirtualNodeDetails) String() string {
+func (m StartCredentialRotationDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateVirtualNodeDetails) ValidateEnumValue() (bool, error) {
+func (m StartCredentialRotationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingVirtualNodeLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVirtualNodeLifecycleStateEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-// ManagedMySqlDatabasesClient a client for ManagedMySqlDatabases
+//ManagedMySqlDatabasesClient a client for ManagedMySqlDatabases
 type ManagedMySqlDatabasesClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -44,8 +44,7 @@ func NewManagedMySqlDatabasesClientWithConfigurationProvider(configProvider comm
 
 // NewManagedMySqlDatabasesClientWithOboToken Creates a new default ManagedMySqlDatabases client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewManagedMySqlDatabasesClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ManagedMySqlDatabasesClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

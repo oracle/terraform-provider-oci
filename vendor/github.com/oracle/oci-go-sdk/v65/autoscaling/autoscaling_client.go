@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-// AutoScalingClient a client for AutoScaling
+//AutoScalingClient a client for AutoScaling
 type AutoScalingClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -44,8 +44,7 @@ func NewAutoScalingClientWithConfigurationProvider(configProvider common.Configu
 
 // NewAutoScalingClientWithOboToken Creates a new default AutoScaling client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewAutoScalingClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client AutoScalingClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

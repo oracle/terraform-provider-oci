@@ -21,6 +21,8 @@ import (
 
 // UnifiedAgentCsvParser CSV Parser.
 type UnifiedAgentCsvParser struct {
+
+	// csv keys.
 	Keys []string `mandatory:"true" json:"keys"`
 
 	// Specify time field for the event time. If the event doesn't have this field, the current time is used.
@@ -61,6 +63,7 @@ type UnifiedAgentCsvParser struct {
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 
+	// csv delimiter.
 	Delimiter *string `mandatory:"false" json:"delimiter"`
 }
 

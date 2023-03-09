@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-// EsxiHostClient a client for EsxiHost
+//EsxiHostClient a client for EsxiHost
 type EsxiHostClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -43,8 +43,7 @@ func NewEsxiHostClientWithConfigurationProvider(configProvider common.Configurat
 
 // NewEsxiHostClientWithOboToken Creates a new default EsxiHost client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewEsxiHostClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client EsxiHostClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

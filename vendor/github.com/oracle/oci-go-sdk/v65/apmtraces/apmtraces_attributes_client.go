@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// AttributesClient a client for Attributes
+//AttributesClient a client for Attributes
 type AttributesClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewAttributesClientWithConfigurationProvider(configProvider common.Configur
 
 // NewAttributesClientWithOboToken Creates a new default Attributes client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewAttributesClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client AttributesClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

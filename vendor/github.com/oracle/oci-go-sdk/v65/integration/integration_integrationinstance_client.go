@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// IntegrationInstanceClient a client for IntegrationInstance
+//IntegrationInstanceClient a client for IntegrationInstance
 type IntegrationInstanceClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewIntegrationInstanceClientWithConfigurationProvider(configProvider common
 
 // NewIntegrationInstanceClientWithOboToken Creates a new default IntegrationInstance client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewIntegrationInstanceClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client IntegrationInstanceClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

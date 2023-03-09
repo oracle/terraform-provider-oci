@@ -19,16 +19,8 @@ import (
 // OciCliDumpTransferDetails Optional dump transfer details for OCI-CLI-based dump transfer in source or target host.
 type OciCliDumpTransferDetails struct {
 
-	// Directory path to OCI SSL wallet location on Db server node.
-	WalletLocation *string `mandatory:"false" json:"walletLocation"`
-
 	// Path to the OCI CLI installation in the node.
 	OciHome *string `mandatory:"false" json:"ociHome"`
-}
-
-//GetWalletLocation returns WalletLocation
-func (m OciCliDumpTransferDetails) GetWalletLocation() *string {
-	return m.WalletLocation
 }
 
 func (m OciCliDumpTransferDetails) String() string {

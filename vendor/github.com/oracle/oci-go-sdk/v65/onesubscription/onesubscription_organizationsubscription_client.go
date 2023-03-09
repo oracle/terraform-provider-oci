@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// OrganizationSubscriptionClient a client for OrganizationSubscription
+//OrganizationSubscriptionClient a client for OrganizationSubscription
 type OrganizationSubscriptionClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewOrganizationSubscriptionClientWithConfigurationProvider(configProvider c
 
 // NewOrganizationSubscriptionClientWithOboToken Creates a new default OrganizationSubscription client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewOrganizationSubscriptionClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OrganizationSubscriptionClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

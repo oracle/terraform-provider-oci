@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// QueryClient a client for Query
+//QueryClient a client for Query
 type QueryClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewQueryClientWithConfigurationProvider(configProvider common.Configuration
 
 // NewQueryClientWithOboToken Creates a new default Query client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewQueryClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client QueryClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

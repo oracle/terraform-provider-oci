@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// NetworkValidationClient a client for NetworkValidation
+//NetworkValidationClient a client for NetworkValidation
 type NetworkValidationClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewNetworkValidationClientWithConfigurationProvider(configProvider common.C
 
 // NewNetworkValidationClientWithOboToken Creates a new default NetworkValidation client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewNetworkValidationClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client NetworkValidationClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

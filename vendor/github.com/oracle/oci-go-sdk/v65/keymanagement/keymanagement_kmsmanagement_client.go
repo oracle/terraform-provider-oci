@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// KmsManagementClient a client for KmsManagement
+//KmsManagementClient a client for KmsManagement
 type KmsManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,6 +42,7 @@ func NewKmsManagementClientWithConfigurationProvider(configProvider common.Confi
 
 // NewKmsManagementClientWithOboToken Creates a new default KmsManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//
 func NewKmsManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client KmsManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

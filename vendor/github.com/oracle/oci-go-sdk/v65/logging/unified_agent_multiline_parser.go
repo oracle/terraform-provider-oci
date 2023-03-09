@@ -21,6 +21,8 @@ import (
 
 // UnifiedAgentMultilineParser Multiline parser.
 type UnifiedAgentMultilineParser struct {
+
+	// Mutiline pattern format.
 	Format []string `mandatory:"true" json:"format"`
 
 	// Specify time field for the event time. If the event doesn't have this field, the current time is used.
@@ -61,6 +63,7 @@ type UnifiedAgentMultilineParser struct {
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 
+	// First line pattern format.
 	FormatFirstline *string `mandatory:"false" json:"formatFirstline"`
 }
 

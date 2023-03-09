@@ -107,10 +107,6 @@ func (m *updatedataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := UpdateDataAssetFromAtp{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "LAKE_DATA_ASSET":
-		mm := UpdateDataAssetFromLakehouse{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "ORACLE_ADWC_DATA_ASSET":
 		mm := UpdateDataAssetFromAdwc{}
 		err = json.Unmarshal(data, &mm)
@@ -137,6 +133,10 @@ func (m *updatedataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		return mm, err
 	case "ORACLE_DATA_ASSET":
 		mm := UpdateDataAssetFromOracle{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_DATA_ASSET":
+		mm := UpdateDataAssetFromLake{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

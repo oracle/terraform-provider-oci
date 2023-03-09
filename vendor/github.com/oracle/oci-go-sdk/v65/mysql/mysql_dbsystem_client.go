@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// DbSystemClient a client for DbSystem
+//DbSystemClient a client for DbSystem
 type DbSystemClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewDbSystemClientWithConfigurationProvider(configProvider common.Configurat
 
 // NewDbSystemClientWithOboToken Creates a new default DbSystem client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewDbSystemClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DbSystemClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

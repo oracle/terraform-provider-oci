@@ -60,16 +60,22 @@ type UnifiedAgentSyslogParser struct {
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 
+	// Time format.
 	TimeFormat *string `mandatory:"false" json:"timeFormat"`
 
+	// rfc5424 time format.
 	Rfc5424TimeFormat *string `mandatory:"false" json:"rfc5424TimeFormat"`
 
+	// With priority or not.
 	IsWithPriority *bool `mandatory:"false" json:"isWithPriority"`
 
+	// Support colonless ident or not.
 	IsSupportColonlessIdent *bool `mandatory:"false" json:"isSupportColonlessIdent"`
 
+	// Message format of syslog.
 	MessageFormat UnifiedAgentSyslogParserMessageFormatEnum `mandatory:"false" json:"messageFormat,omitempty"`
 
+	// Syslog parser type.
 	SyslogParserType UnifiedAgentSyslogParserSyslogParserTypeEnum `mandatory:"false" json:"syslogParserType,omitempty"`
 }
 

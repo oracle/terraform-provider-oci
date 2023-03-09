@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// RedirectClient a client for Redirect
+//RedirectClient a client for Redirect
 type RedirectClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewRedirectClientWithConfigurationProvider(configProvider common.Configurat
 
 // NewRedirectClientWithOboToken Creates a new default Redirect client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewRedirectClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client RedirectClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

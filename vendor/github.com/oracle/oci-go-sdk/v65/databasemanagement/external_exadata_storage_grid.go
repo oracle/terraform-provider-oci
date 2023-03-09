@@ -24,7 +24,7 @@ type ExternalExadataStorageGrid struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the resource. English letters and "-", "." only.
+	// The name of the resource. English letters, numbers, "-", "_" and "." only.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The version of the resource.

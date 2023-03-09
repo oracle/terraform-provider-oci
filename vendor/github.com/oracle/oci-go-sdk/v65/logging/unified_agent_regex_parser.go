@@ -21,6 +21,8 @@ import (
 
 // UnifiedAgentRegexParser regexp parser.
 type UnifiedAgentRegexParser struct {
+
+	// Regex pattern.
 	Expression *string `mandatory:"true" json:"expression"`
 
 	// Specify time field for the event time. If the event doesn't have this field, the current time is used.
@@ -61,6 +63,7 @@ type UnifiedAgentRegexParser struct {
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 
+	// Time format.
 	TimeFormat *string `mandatory:"false" json:"timeFormat"`
 }
 

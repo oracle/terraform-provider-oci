@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-// OperatorActionsClient a client for OperatorActions
+//OperatorActionsClient a client for OperatorActions
 type OperatorActionsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -44,8 +44,7 @@ func NewOperatorActionsClientWithConfigurationProvider(configProvider common.Con
 
 // NewOperatorActionsClientWithOboToken Creates a new default OperatorActions client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewOperatorActionsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OperatorActionsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

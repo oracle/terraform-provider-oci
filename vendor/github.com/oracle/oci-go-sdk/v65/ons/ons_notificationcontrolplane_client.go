@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-// NotificationControlPlaneClient a client for NotificationControlPlane
+//NotificationControlPlaneClient a client for NotificationControlPlane
 type NotificationControlPlaneClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -43,8 +43,7 @@ func NewNotificationControlPlaneClientWithConfigurationProvider(configProvider c
 
 // NewNotificationControlPlaneClientWithOboToken Creates a new default NotificationControlPlane client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewNotificationControlPlaneClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client NotificationControlPlaneClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

@@ -16,34 +16,31 @@ import (
 	"strings"
 )
 
-// UpdateDataAssetFromLakehouse Details for the Lakehouse data asset type.
-type UpdateDataAssetFromLakehouse struct {
+// CreateDataAssetFromLake Details for the Lake data asset type.
+type CreateDataAssetFromLake struct {
 
-	// Generated key that can be used in API calls to identify data asset.
-	Key *string `mandatory:"true" json:"key"`
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	Name *string `mandatory:"true" json:"name"`
 
-	// The version of the object that is used to track changes in the object instance.
-	ObjectVersion *int `mandatory:"true" json:"objectVersion"`
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	Identifier *string `mandatory:"true" json:"identifier"`
 
-	// The Lakehouse Ocid.
+	// The Lake Ocid.
 	LakeId *string `mandatory:"true" json:"lakeId"`
 
-	DefaultConnection *UpdateConnectionFromLakehouse `mandatory:"true" json:"defaultConnection"`
+	DefaultConnection *CreateConnectionFromLake `mandatory:"true" json:"defaultConnection"`
+
+	// Currently not used on data asset creation. Reserved for future.
+	Key *string `mandatory:"false" json:"key"`
 
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
-	Name *string `mandatory:"false" json:"name"`
-
-	// The user-defined description of the data asset.
+	// User-defined description of the data asset.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
-
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
-	Identifier *string `mandatory:"false" json:"identifier"`
 
 	// The external key for the object.
 	ExternalKey *string `mandatory:"false" json:"externalKey"`
@@ -53,71 +50,66 @@ type UpdateDataAssetFromLakehouse struct {
 
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 
-	// The metastoreId for the specified Lakehouse Resource.
+	// The metastoreId for the specified Lake Resource.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
 
-	// The lakeProxyEndpoint for the specified Lakehouse Resource.
+	// The lakeProxyEndpoint for the specified Lake Resource.
 	LakeProxyEndpoint *string `mandatory:"false" json:"lakeProxyEndpoint"`
 }
 
 //GetKey returns Key
-func (m UpdateDataAssetFromLakehouse) GetKey() *string {
+func (m CreateDataAssetFromLake) GetKey() *string {
 	return m.Key
 }
 
 //GetModelVersion returns ModelVersion
-func (m UpdateDataAssetFromLakehouse) GetModelVersion() *string {
+func (m CreateDataAssetFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
 //GetName returns Name
-func (m UpdateDataAssetFromLakehouse) GetName() *string {
+func (m CreateDataAssetFromLake) GetName() *string {
 	return m.Name
 }
 
 //GetDescription returns Description
-func (m UpdateDataAssetFromLakehouse) GetDescription() *string {
+func (m CreateDataAssetFromLake) GetDescription() *string {
 	return m.Description
 }
 
 //GetObjectStatus returns ObjectStatus
-func (m UpdateDataAssetFromLakehouse) GetObjectStatus() *int {
+func (m CreateDataAssetFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetObjectVersion returns ObjectVersion
-func (m UpdateDataAssetFromLakehouse) GetObjectVersion() *int {
-	return m.ObjectVersion
-}
-
 //GetIdentifier returns Identifier
-func (m UpdateDataAssetFromLakehouse) GetIdentifier() *string {
+func (m CreateDataAssetFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
 //GetExternalKey returns ExternalKey
-func (m UpdateDataAssetFromLakehouse) GetExternalKey() *string {
+func (m CreateDataAssetFromLake) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
 //GetAssetProperties returns AssetProperties
-func (m UpdateDataAssetFromLakehouse) GetAssetProperties() map[string]string {
+func (m CreateDataAssetFromLake) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
 //GetRegistryMetadata returns RegistryMetadata
-func (m UpdateDataAssetFromLakehouse) GetRegistryMetadata() *RegistryMetadata {
+func (m CreateDataAssetFromLake) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }
 
-func (m UpdateDataAssetFromLakehouse) String() string {
+func (m CreateDataAssetFromLake) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateDataAssetFromLakehouse) ValidateEnumValue() (bool, error) {
+func (m CreateDataAssetFromLake) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -127,14 +119,14 @@ func (m UpdateDataAssetFromLakehouse) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m UpdateDataAssetFromLakehouse) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeUpdateDataAssetFromLakehouse UpdateDataAssetFromLakehouse
+func (m CreateDataAssetFromLake) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateDataAssetFromLake CreateDataAssetFromLake
 	s := struct {
 		DiscriminatorParam string `json:"modelType"`
-		MarshalTypeUpdateDataAssetFromLakehouse
+		MarshalTypeCreateDataAssetFromLake
 	}{
 		"LAKE_DATA_ASSET",
-		(MarshalTypeUpdateDataAssetFromLakehouse)(m),
+		(MarshalTypeCreateDataAssetFromLake)(m),
 	}
 
 	return json.Marshal(&s)

@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-// WafClient a client for Waf
+//WafClient a client for Waf
 type WafClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -43,8 +43,7 @@ func NewWafClientWithConfigurationProvider(configProvider common.ConfigurationPr
 
 // NewWafClientWithOboToken Creates a new default Waf client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewWafClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client WafClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

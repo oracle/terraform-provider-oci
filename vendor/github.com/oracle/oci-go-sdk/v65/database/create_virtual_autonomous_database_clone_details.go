@@ -35,7 +35,7 @@ type CreateVirtualAutonomousDatabaseCloneDetails struct {
 	// AL16UTF16 or UTF8.
 	NcharacterSet *string `mandatory:"false" json:"ncharacterSet"`
 
-	// Database name. The database name must start with an alphabetic character followed with up to 13 alphanumeric characters. Special characters are prohibited. The database name must be unique within the compartment in the region.
+	// Database name. It must start with an alphabetic character followed by up to 13 alphanumeric characters, and special characters are prohibited. It must be unique within the compartment in the region. It is required in all cases except when creating a cross-region Autonomous Data Guard standby instance or a cross-region disaster recovery standby instance.
 	DbName *string `mandatory:"false" json:"dbName"`
 
 	// The number of OCPU cores to be made available to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
@@ -168,7 +168,15 @@ type CreateVirtualAutonomousDatabaseCloneDetails struct {
 	// Customer Contacts.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 
-	// Indicates whether the Autonomous Database requires mTLS connections.
+	// Specifies if the Autonomous Database requires mTLS connections.
+	// This may not be updated in parallel with any of the following: licenseModel, databaseEdition, cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, whitelistedIps, openMode, permissionLevel, db-workload, privateEndpointLabel, nsgIds, customerContacts, dbVersion, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
+	// Service Change: The default value of the isMTLSConnectionRequired attribute will change from true to false on July 1, 2023 in the following APIs:
+	// - CreateAutonomousDatabase
+	// - GetAutonomousDatabase
+	// - UpdateAutonomousDatabase
+	// Details: Prior to the July 1, 2023 change, the isMTLSConnectionRequired attribute default value was true. This applies to Autonomous Databases on shared Exadata infrastructure.
+	// Does this impact me? If you use or maintain custom scripts or Terraform scripts referencing the CreateAutonomousDatabase, GetAutonomousDatabase, or UpdateAutonomousDatabase APIs, you want to check, and possibly modify, the scripts for the changed default value of the attribute. Should you choose not to leave your scripts unchanged, the API calls containing this attribute will continue to work, but the default value will switch from true to false.
+	// How do I make this change? Using either OCI SDKs or command line tools, update your custom scripts to explicitly set the isMTLSConnectionRequired attribute to true.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 
 	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.

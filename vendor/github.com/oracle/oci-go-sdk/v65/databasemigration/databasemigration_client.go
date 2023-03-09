@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// DatabaseMigrationClient a client for DatabaseMigration
+//DatabaseMigrationClient a client for DatabaseMigration
 type DatabaseMigrationClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewDatabaseMigrationClientWithConfigurationProvider(configProvider common.C
 
 // NewDatabaseMigrationClientWithOboToken Creates a new default DatabaseMigration client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewDatabaseMigrationClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DatabaseMigrationClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

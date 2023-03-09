@@ -23,7 +23,7 @@ import (
 	"net/http"
 )
 
-// BlockstorageClient a client for Blockstorage
+//BlockstorageClient a client for Blockstorage
 type BlockstorageClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -48,8 +48,7 @@ func NewBlockstorageClientWithConfigurationProvider(configProvider common.Config
 
 // NewBlockstorageClientWithOboToken Creates a new default Blockstorage client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewBlockstorageClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client BlockstorageClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

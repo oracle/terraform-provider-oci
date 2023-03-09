@@ -131,6 +131,10 @@ func (m *dataassetsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := DataAssetSummaryFromObjectStorage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "LAKE_DATA_ASSET":
+		mm := DataAssetSummaryFromLake{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "REST_DATA_ASSET":
 		mm := DataAssetSummaryFromRest{}
 		err = json.Unmarshal(data, &mm)
@@ -141,10 +145,6 @@ func (m *dataassetsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		return mm, err
 	case "FUSION_APP_DATA_ASSET":
 		mm := DataAssetSummaryFromFusionApp{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "LAKE_DATA_ASSET":
-		mm := DataAssetSummaryFromLakehouse{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

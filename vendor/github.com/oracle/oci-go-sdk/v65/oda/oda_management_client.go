@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// ManagementClient a client for Management
+//ManagementClient a client for Management
 type ManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewManagementClientWithConfigurationProvider(configProvider common.Configur
 
 // NewManagementClientWithOboToken Creates a new default Management client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

@@ -94,6 +94,9 @@ type CreateOpensearchClusterDetails struct {
 
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
 
+	// The customer IP addresses of the endpoint in customer VCN
+	ReverseConnectionEndpointCustomerIps []string `mandatory:"false" json:"reverseConnectionEndpointCustomerIps"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

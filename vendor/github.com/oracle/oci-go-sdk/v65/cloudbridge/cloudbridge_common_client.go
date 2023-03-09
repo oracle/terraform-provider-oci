@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// CommonClient a client for Common
+//CommonClient a client for Common
 type CommonClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewCommonClientWithConfigurationProvider(configProvider common.Configuratio
 
 // NewCommonClientWithOboToken Creates a new default Common client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewCommonClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client CommonClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -136,7 +135,7 @@ func (client CommonClient) cancelWorkRequest(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "Common", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -190,7 +189,7 @@ func (client CommonClient) getWorkRequest(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "Common", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -244,7 +243,7 @@ func (client CommonClient) listWorkRequestErrors(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "Common", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -298,7 +297,7 @@ func (client CommonClient) listWorkRequestLogs(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "Common", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -352,7 +351,7 @@ func (client CommonClient) listWorkRequests(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "Common", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}

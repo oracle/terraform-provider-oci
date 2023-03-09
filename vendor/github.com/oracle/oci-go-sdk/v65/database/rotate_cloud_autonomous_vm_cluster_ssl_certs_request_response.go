@@ -17,6 +17,9 @@ type RotateCloudAutonomousVmClusterSslCertsRequest struct {
 	// The Cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CloudAutonomousVmClusterId *string `mandatory:"true" contributesTo:"path" name:"cloudAutonomousVmClusterId"`
 
+	// Request to rotate the SSL certificates on Cloud Autonomous Exadata VM cluster.
+	RotateCloudAutonomousVmClusterSslCertsDetails `contributesTo:"body"`
+
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
 	// hours, but can be invalidated before then due to conflicting operations (for example, if a resource

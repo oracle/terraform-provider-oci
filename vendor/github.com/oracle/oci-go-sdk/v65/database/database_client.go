@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// DatabaseClient a client for Database
+//DatabaseClient a client for Database
 type DatabaseClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewDatabaseClientWithConfigurationProvider(configProvider common.Configurat
 
 // NewDatabaseClientWithOboToken Creates a new default Database client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewDatabaseClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DatabaseClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -8805,6 +8804,59 @@ func (client DatabaseClient) getExadataInfrastructureOcpus(ctx context.Context, 
 	return response, err
 }
 
+// GetExadataInfrastructureUnAllocatedResources Gets un allocated resources information for the specified Exadata infrastructure. Applies to Exadata Cloud@Customer instances only.
+func (client DatabaseClient) GetExadataInfrastructureUnAllocatedResources(ctx context.Context, request GetExadataInfrastructureUnAllocatedResourcesRequest) (response GetExadataInfrastructureUnAllocatedResourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getExadataInfrastructureUnAllocatedResources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetExadataInfrastructureUnAllocatedResourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetExadataInfrastructureUnAllocatedResourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetExadataInfrastructureUnAllocatedResourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetExadataInfrastructureUnAllocatedResourcesResponse")
+	}
+	return
+}
+
+// getExadataInfrastructureUnAllocatedResources implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getExadataInfrastructureUnAllocatedResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadataInfrastructures/{exadataInfrastructureId}/unAllocatedResources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetExadataInfrastructureUnAllocatedResourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructureUnAllocatedResources/GetExadataInfrastructureUnAllocatedResources"
+		err = common.PostProcessServiceError(err, "Database", "GetExadataInfrastructureUnAllocatedResources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetExadataIormConfig Gets the IORM configuration settings for the specified cloud Exadata DB system.
 // All Exadata service instances have default IORM settings.
 // **Note:** Deprecated for Exadata Cloud Service systems. Use the new resource model APIs (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) instead.
@@ -12390,10 +12442,10 @@ func (client DatabaseClient) listExternalContainerDatabases(ctx context.Context,
 	return response, err
 }
 
-// listexternaldatabaseconnectorsummary allows to unmarshal list of polymorphic ExternalDatabaseConnectorSummary
+//listexternaldatabaseconnectorsummary allows to unmarshal list of polymorphic ExternalDatabaseConnectorSummary
 type listexternaldatabaseconnectorsummary []externaldatabaseconnectorsummary
 
-// UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
+//UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
 func (m *listexternaldatabaseconnectorsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	res := make([]ExternalDatabaseConnectorSummary, len(*m))
 	for i, v := range *m {

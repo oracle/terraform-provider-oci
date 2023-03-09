@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// FunctionsInvokeClient a client for FunctionsInvoke
+//FunctionsInvokeClient a client for FunctionsInvoke
 type FunctionsInvokeClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,6 +42,7 @@ func NewFunctionsInvokeClientWithConfigurationProvider(configProvider common.Con
 
 // NewFunctionsInvokeClientWithOboToken Creates a new default FunctionsInvoke client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//
 func NewFunctionsInvokeClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client FunctionsInvokeClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

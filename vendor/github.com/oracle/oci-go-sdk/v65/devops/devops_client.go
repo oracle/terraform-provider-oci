@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// DevopsClient a client for Devops
+//DevopsClient a client for Devops
 type DevopsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewDevopsClientWithConfigurationProvider(configProvider common.Configuratio
 
 // NewDevopsClientWithOboToken Creates a new default Devops client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewDevopsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DevopsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

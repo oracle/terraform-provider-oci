@@ -149,7 +149,7 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "LAKE_CONNECTION":
-		mm := ConnectionSummaryFromLakehouse{}
+		mm := ConnectionSummaryFromLake{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "BIP_CONNECTION":

@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-// ServiceManagerProxyClient a client for ServiceManagerProxy
+//ServiceManagerProxyClient a client for ServiceManagerProxy
 type ServiceManagerProxyClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -43,8 +43,7 @@ func NewServiceManagerProxyClientWithConfigurationProvider(configProvider common
 
 // NewServiceManagerProxyClientWithOboToken Creates a new default ServiceManagerProxy client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewServiceManagerProxyClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ServiceManagerProxyClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

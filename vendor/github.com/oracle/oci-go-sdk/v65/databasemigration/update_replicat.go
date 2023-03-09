@@ -19,9 +19,6 @@ import (
 // If an empty object is specified, the stored Replicat details will be removed.
 type UpdateReplicat struct {
 
-	// Replicat performance.
-	PerformanceProfile ReplicatPerformanceProfileEnum `mandatory:"false" json:"performanceProfile,omitempty"`
-
 	// Number of threads used to read trail files (valid for Parallel Replicat)
 	MapParallelism *int `mandatory:"false" json:"mapParallelism"`
 
@@ -42,9 +39,6 @@ func (m UpdateReplicat) String() string {
 func (m UpdateReplicat) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingReplicatPerformanceProfileEnum(string(m.PerformanceProfile)); !ok && m.PerformanceProfile != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PerformanceProfile: %s. Supported values are: %s.", m.PerformanceProfile, strings.Join(GetReplicatPerformanceProfileEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

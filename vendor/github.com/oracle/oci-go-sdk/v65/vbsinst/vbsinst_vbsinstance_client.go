@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// VbsInstanceClient a client for VbsInstance
+//VbsInstanceClient a client for VbsInstance
 type VbsInstanceClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewVbsInstanceClientWithConfigurationProvider(configProvider common.Configu
 
 // NewVbsInstanceClientWithOboToken Creates a new default VbsInstance client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewVbsInstanceClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client VbsInstanceClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

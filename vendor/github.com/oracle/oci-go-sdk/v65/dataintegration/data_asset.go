@@ -128,16 +128,16 @@ func (m *dataasset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := DataAssetFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "LAKE_DATA_ASSET":
-		mm := DataAssetFromLakehouseDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "ORACLE_OBJECT_STORAGE_DATA_ASSET":
 		mm := DataAssetFromObjectStorageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "FUSION_APP_DATA_ASSET":
 		mm := DataAssetFromFusionApp{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_DATA_ASSET":
+		mm := DataAssetFromLakeDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ATP_DATA_ASSET":

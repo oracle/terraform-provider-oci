@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-// MysqlaasClient a client for Mysqlaas
+//MysqlaasClient a client for Mysqlaas
 type MysqlaasClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,8 +42,7 @@ func NewMysqlaasClientWithConfigurationProvider(configProvider common.Configurat
 
 // NewMysqlaasClientWithOboToken Creates a new default Mysqlaas client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewMysqlaasClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client MysqlaasClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

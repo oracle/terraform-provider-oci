@@ -98,6 +98,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ModelType {
+	case "LAKE_CONNECTION":
+		mm := UpdateConnectionFromLake{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GENERIC_JDBC_CONNECTION":
 		mm := UpdateConnectionFromJdbc{}
 		err = json.Unmarshal(data, &mm)
@@ -124,10 +128,6 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "REST_BASIC_AUTH_CONNECTION":
 		mm := UpdateConnectionFromRestBasicAuth{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "LAKE_CONNECTION":
-		mm := UpdateConnectionFromLakehouse{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLEDB_CONNECTION":

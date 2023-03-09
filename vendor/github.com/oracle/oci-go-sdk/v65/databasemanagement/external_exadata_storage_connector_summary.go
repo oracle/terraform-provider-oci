@@ -24,7 +24,7 @@ type ExternalExadataStorageConnectorSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the resource. English letters and "-", "." only.
+	// The name of the resource. English letters, numbers, "-", "_" and "." only.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The version of the resource.
@@ -54,6 +54,9 @@ type ExternalExadataStorageConnectorSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata storage server.
 	StorageServerId *string `mandatory:"false" json:"storageServerId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent for the Exadata storage server.
+	AgentId *string `mandatory:"false" json:"agentId"`
 
 	// The current lifecycle state of the database resource.
 	LifecycleState DbmResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

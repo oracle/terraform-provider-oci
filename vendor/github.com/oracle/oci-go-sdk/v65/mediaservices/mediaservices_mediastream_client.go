@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-// MediaStreamClient a client for MediaStream
+//MediaStreamClient a client for MediaStream
 type MediaStreamClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -43,8 +43,7 @@ func NewMediaStreamClientWithConfigurationProvider(configProvider common.Configu
 
 // NewMediaStreamClientWithOboToken Creates a new default MediaStream client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
-//	as well as reading the region
+//  as well as reading the region
 func NewMediaStreamClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client MediaStreamClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -136,7 +135,7 @@ func (client MediaStreamClient) generatePlaylist(ctx context.Context, request co
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/GeneratePlaylist"
 		err = common.PostProcessServiceError(err, "MediaStream", "GeneratePlaylist", apiReferenceLink)
 		return response, err
 	}
@@ -190,7 +189,7 @@ func (client MediaStreamClient) generateSessionToken(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/GenerateSessionToken"
 		err = common.PostProcessServiceError(err, "MediaStream", "GenerateSessionToken", apiReferenceLink)
 		return response, err
 	}

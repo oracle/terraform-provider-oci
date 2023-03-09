@@ -23,9 +23,9 @@ type GenerateUserSecurityTokenDetails struct {
 	// security token by the auth service after successful validation of the request.
 	PublicKey *string `mandatory:"true" json:"publicKey"`
 
-	// Token expiry in minutes for the requested user principal session token (UPST), ranging from 1 to 60 for
-	// commercial realms and from 1 to 15 for all other realms.
-	ExpiryInMinutes *int `mandatory:"false" json:"expiryInMinutes"`
+	// User session expiration in minutes to which the requested user principal session token (UPST) is bounded.
+	// Valid values are from 5 to 60 for all realms.
+	SessionExpirationInMinutes *int `mandatory:"false" json:"sessionExpirationInMinutes"`
 }
 
 func (m GenerateUserSecurityTokenDetails) String() string {

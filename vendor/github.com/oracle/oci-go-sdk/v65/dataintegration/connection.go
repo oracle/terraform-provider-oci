@@ -128,10 +128,6 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := ConnectionFromOracle{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "LAKE_CONNECTION":
-		mm := ConnectionFromLakehouse{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "AMAZON_S3_CONNECTION":
 		mm := ConnectionFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
@@ -154,6 +150,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "REST_NO_AUTH_CONNECTION":
 		mm := ConnectionFromRestNoAuth{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_CONNECTION":
+		mm := ConnectionFromLake{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "REST_BASIC_AUTH_CONNECTION":

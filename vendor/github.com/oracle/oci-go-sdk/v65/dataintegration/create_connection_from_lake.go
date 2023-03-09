@@ -16,31 +16,28 @@ import (
 	"strings"
 )
 
-// UpdateConnectionFromLakehouse The details to update a Lakehouse connection.
-type UpdateConnectionFromLakehouse struct {
+// CreateConnectionFromLake The details to create a Lake connection.
+type CreateConnectionFromLake struct {
+
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	Name *string `mandatory:"true" json:"name"`
+
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
-	Key *string `mandatory:"true" json:"key"`
-
-	// The version of the object that is used to track changes in the object instance.
-	ObjectVersion *int `mandatory:"true" json:"objectVersion"`
+	Key *string `mandatory:"false" json:"key"`
 
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
-	Name *string `mandatory:"false" json:"name"`
-
 	// User-defined description for the connection.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
-
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
-	Identifier *string `mandatory:"false" json:"identifier"`
 
 	// The properties for the connection.
 	ConnectionProperties []ConnectionProperty `mandatory:"false" json:"connectionProperties"`
@@ -49,63 +46,58 @@ type UpdateConnectionFromLakehouse struct {
 }
 
 //GetKey returns Key
-func (m UpdateConnectionFromLakehouse) GetKey() *string {
+func (m CreateConnectionFromLake) GetKey() *string {
 	return m.Key
 }
 
 //GetModelVersion returns ModelVersion
-func (m UpdateConnectionFromLakehouse) GetModelVersion() *string {
+func (m CreateConnectionFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
 //GetParentRef returns ParentRef
-func (m UpdateConnectionFromLakehouse) GetParentRef() *ParentReference {
+func (m CreateConnectionFromLake) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
 //GetName returns Name
-func (m UpdateConnectionFromLakehouse) GetName() *string {
+func (m CreateConnectionFromLake) GetName() *string {
 	return m.Name
 }
 
 //GetDescription returns Description
-func (m UpdateConnectionFromLakehouse) GetDescription() *string {
+func (m CreateConnectionFromLake) GetDescription() *string {
 	return m.Description
 }
 
 //GetObjectStatus returns ObjectStatus
-func (m UpdateConnectionFromLakehouse) GetObjectStatus() *int {
+func (m CreateConnectionFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetObjectVersion returns ObjectVersion
-func (m UpdateConnectionFromLakehouse) GetObjectVersion() *int {
-	return m.ObjectVersion
-}
-
 //GetIdentifier returns Identifier
-func (m UpdateConnectionFromLakehouse) GetIdentifier() *string {
+func (m CreateConnectionFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
 //GetConnectionProperties returns ConnectionProperties
-func (m UpdateConnectionFromLakehouse) GetConnectionProperties() []ConnectionProperty {
+func (m CreateConnectionFromLake) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
 //GetRegistryMetadata returns RegistryMetadata
-func (m UpdateConnectionFromLakehouse) GetRegistryMetadata() *RegistryMetadata {
+func (m CreateConnectionFromLake) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }
 
-func (m UpdateConnectionFromLakehouse) String() string {
+func (m CreateConnectionFromLake) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateConnectionFromLakehouse) ValidateEnumValue() (bool, error) {
+func (m CreateConnectionFromLake) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -115,14 +107,14 @@ func (m UpdateConnectionFromLakehouse) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m UpdateConnectionFromLakehouse) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeUpdateConnectionFromLakehouse UpdateConnectionFromLakehouse
+func (m CreateConnectionFromLake) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateConnectionFromLake CreateConnectionFromLake
 	s := struct {
 		DiscriminatorParam string `json:"modelType"`
-		MarshalTypeUpdateConnectionFromLakehouse
+		MarshalTypeCreateConnectionFromLake
 	}{
 		"LAKE_CONNECTION",
-		(MarshalTypeUpdateConnectionFromLakehouse)(m),
+		(MarshalTypeCreateConnectionFromLake)(m),
 	}
 
 	return json.Marshal(&s)
