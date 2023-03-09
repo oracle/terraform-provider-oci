@@ -35,11 +35,7 @@ The following attributes are exported:
 * `autonomous_exadata_infrastructure_id` - **No longer used.** For Autonomous Database on dedicated Exadata infrastructure, the container database is created within a specified `cloudAutonomousVmCluster`. 
 * `autonomous_vm_cluster_id` - The OCID of the Autonomous VM Cluster.
 * `availability_domain` - The availability domain of the Autonomous Container Database.
-<<<<<<< HEAD
-* `available_cpus` - Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.<br> For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.  
-=======
 * `available_cpus` - Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.<br> For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
->>>>>>> 8f97e70da6 (Added - Support for Terraform for Serial Console Phase 1 ExaDB-C@C (EXACC) Serial Console Access to VM)
 * `backup_config` - Backup options for the Autonomous Container Database. 
 	* `backup_destination_details` - Backup destination details.
 		* `dbrs_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
