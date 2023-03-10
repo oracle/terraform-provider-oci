@@ -41,13 +41,23 @@ The following attributes are exported:
 * `display_name` - An object's Display Name. 
 * `freeform_tags` - A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment upgrade being referenced. 
+* `is_rollback_allowed` - Indicates if rollback is allowed. In practice only the last upgrade can be rolled back.
+	* Manual upgrade is allowed to rollback only until the old version isn't deprecated yet.
+	* Automatic upgrade by default is not allowed, unless a serious issue does not justify. 
+* `is_security_fix` - Indicates if OGG release contains security fix. 
+* `is_snoozed` - Indicates if upgrade notifications are snoozed or not. 
 * `lifecycle_details` - Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state. 
 * `lifecycle_sub_state` - Possible GGS lifecycle sub-states. 
 * `ogg_version` - Version of OGG 
+* `previous_ogg_version` - Version of OGG 
+* `release_type` - The type of release. 
 * `state` - Possible lifecycle states. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_finished` - The date and time the request was finished. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_released` - The time the resource was released. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_schedule` - The time of upgrade schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_snoozed_until` - The time the upgrade notifications are snoozed until. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_started` - The date and time the request was started. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 
