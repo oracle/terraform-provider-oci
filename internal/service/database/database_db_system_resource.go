@@ -859,6 +859,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"os_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"point_in_time_data_disk_clone_timestamp": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1363,6 +1367,10 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+	}
+
+	if s.Res.OsVersion != nil {
+		s.D.Set("os_version", *s.Res.OsVersion)
 	}
 
 	if s.Res.PointInTimeDataDiskCloneTimestamp != nil {

@@ -43,6 +43,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch history entry.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically contains additional displayable text. 
 * `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch.
+* `patch_type` - The type of Patch operation.
 * `state` - The current state of the action.
 * `time_ended` - The date and time when the patch action completed
 * `time_started` - The date and time when the patch action started.
