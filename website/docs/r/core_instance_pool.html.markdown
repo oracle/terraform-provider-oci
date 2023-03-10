@@ -10,7 +10,8 @@ description: |-
 # oci_core_instance_pool
 This resource provides the Instance Pool resource in Oracle Cloud Infrastructure Core service.
 
-Create an instance pool.
+Creates an instance pool.
+
 
 ## Example Usage
 
@@ -79,7 +80,7 @@ The following arguments are supported:
 		Example: `[FAULT-DOMAIN-1, FAULT-DOMAIN-2, FAULT-DOMAIN-3]` 
 	* `primary_subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. 
 	* `secondary_vnic_subnets` - (Optional) (Updatable) The set of secondary VNIC data for instances in the pool.
-		* `display_name` - (Optional) (Updatable) The display name of the VNIC. This is also use to match against the instance configuration defined secondary VNIC. 
+		* `display_name` - (Optional) (Updatable) The display name of the VNIC. This is also used to match against the instance configuration defined secondary VNIC. 
 		* `subnet_id` - (Required) (Updatable) The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 * `size` - (Required) (Updatable) The number of instances that should be in the instance pool. Modifying this value will override the size of the instance pool. If the instance pool is linked with autoscaling configuration, autoscaling configuration could resize the instance pool at a later point. The instance pool's actual size may differ from the configured size if it is associated with an autoscaling configuration, instance pool's actual size will be reflected in this size attribute. 
 * `state` - (Optional) (Updatable) The target state for the instance pool update operation (ignored at create time and should not be set). Could be set to RUNNING or STOPPED.
@@ -119,7 +120,7 @@ The following attributes are exported:
 		Example: `[FAULT-DOMAIN-1, FAULT-DOMAIN-2, FAULT-DOMAIN-3]` 
 	* `primary_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. 
 	* `secondary_vnic_subnets` - The set of secondary VNIC data for instances in the pool.
-		* `display_name` - The display name of the VNIC. This is also use to match against the instance configuration defined secondary VNIC. 
+		* `display_name` - The display name of the VNIC. This is also used to match against the instance configuration defined secondary VNIC. 
 		* `subnet_id` - The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 * `size` - The number of instances that should be in the instance pool.
 * `actual_size` - The number of actual instances in the instance pool on the cloud. This attribute will be different when instance pool is used along with autoScaling Configuration.
