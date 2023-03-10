@@ -11,6 +11,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -102,6 +104,30 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"maintenance_window": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"day": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"start_hour": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -146,12 +172,13 @@ func GoldenGateDeploymentResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 						"ogg_version": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
+
+						// Computed
 					},
 				},
 			},
@@ -218,6 +245,14 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"next_maintenance_action_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"next_maintenance_description": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"private_ip_address": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -227,8 +262,14 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:             schema.TypeString,
+				Computed:         true,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_golden_gate.LifecycleStateInactive),
+					string(oci_golden_gate.LifecycleStateActive),
+				}, true),
 			},
 			"storage_utilization_in_bytes": {
 				Type:     schema.TypeString,
@@ -240,6 +281,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_of_next_maintenance": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -260,7 +305,22 @@ func createGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.CreateResource(d, sync)
+	var stopDeployment = false
+	if state, ok := sync.D.GetOkExists("state"); ok {
+		if oci_golden_gate.LifecycleStateEnum(strings.ToUpper(state.(string))) == oci_golden_gate.LifecycleStateInactive {
+			stopDeployment = true
+		}
+	}
+
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if stopDeployment {
+		return sync.stopDeployment()
+	}
+
+	return nil
 }
 
 func readGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
@@ -276,7 +336,83 @@ func updateGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.UpdateResource(d, sync)
+	var stopDeployment = false
+	var startDeployment = false
+
+	if _, ok := sync.D.GetOkExists("state"); ok && sync.D.HasChange("state") {
+		oldStateStr, newStateStr := sync.D.GetChange("state")
+		oldState := oci_golden_gate.LifecycleStateEnum(strings.ToUpper(oldStateStr.(string)))
+		newState := oci_golden_gate.LifecycleStateEnum(strings.ToUpper(newStateStr.(string)))
+
+		if newState == oci_golden_gate.LifecycleStateInactive {
+			stopDeployment = true
+		} else if oldState != oci_golden_gate.LifecycleStateFailed && oldState != oci_golden_gate.LifecycleStateNeedsAttention &&
+			newState == oci_golden_gate.LifecycleStateActive {
+			startDeployment = true
+		}
+	}
+
+	/* Note, that "update" allowed only on running deployment, so if there is a "start", we need to start first, then update.
+	If there is a "stop", we need to update first, then stop the deployment.
+	Upgrade is much faster if the deployment is not running, therefore
+	if we need to stop/start the deployment and upgrade it at the same time it worth to change the execution order.
+
+	Here are the possible cases:
+	a. Deployment has to be started (current state is Inactive):
+	  1. let's do the upgrade first (if needed)
+	  2. then start
+	  3. then update
+	b. Deployment has to be stopped (current state is Active):
+	  1. update first
+	  2. then stop
+	  3. then upgrade (if needed)
+	c. No stop/start needed:
+	  1. upgrade first (if needed)
+	  2. then update
+	*/
+
+	if startDeployment {
+		if err := upgradeGoldenGateDeploymentIfNeeded(d, m); err != nil {
+			return err
+		}
+		if err := sync.startDeployment(); err != nil {
+			return err
+		}
+		return tfresource.UpdateResource(d, sync)
+
+	} else if stopDeployment {
+		if err := tfresource.UpdateResource(d, sync); err != nil {
+			return err
+		}
+		if err := sync.stopDeployment(); err != nil {
+			return err
+		}
+		return upgradeGoldenGateDeploymentIfNeeded(d, m)
+
+	} else {
+		if err := upgradeGoldenGateDeploymentIfNeeded(d, m); err != nil {
+			return err
+		}
+		return tfresource.UpdateResource(d, sync)
+	}
+}
+
+func upgradeGoldenGateDeploymentIfNeeded(d *schema.ResourceData, m interface{}) error {
+	sync := &GoldenGateDeploymentResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).GoldenGateClient()
+
+	// add support to upgrade
+	oggVersionKeyFormat := fmt.Sprintf("%s.%d.%s", "ogg_data", 0, "ogg_version")
+	if _, ok := sync.D.GetOkExists(oggVersionKeyFormat); ok && sync.D.HasChange(oggVersionKeyFormat) {
+		oldVersion, newVersion := sync.D.GetChange(oggVersionKeyFormat)
+		if newVersion != "" && oldVersion != newVersion {
+			if err := sync.upgradeToSpecificVersion(newVersion); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
 
 func deleteGoldenGateDeployment(d *schema.ResourceData, m interface{}) error {
@@ -387,6 +523,17 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_golden_gate.LicenseModelEnum(licenseModel.(string))
+	}
+
+	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
+		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
+			tmp, err := s.mapToCreateMaintenanceWindowDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindow = &tmp
+		}
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -624,6 +771,17 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 		request.LicenseModel = oci_golden_gate.LicenseModelEnum(licenseModel.(string))
 	}
 
+	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
+		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
+			tmp, err := s.mapToUpdateMaintenanceWindowDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindow = &tmp
+		}
+	}
+
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -756,6 +914,18 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 
 	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
 
+	if s.Res.MaintenanceWindow != nil {
+		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
+	} else {
+		s.D.Set("maintenance_window", nil)
+	}
+
+	s.D.Set("next_maintenance_action_type", s.Res.NextMaintenanceActionType)
+
+	if s.Res.NextMaintenanceDescription != nil {
+		s.D.Set("next_maintenance_description", *s.Res.NextMaintenanceDescription)
+	}
+
 	nsgIds := []interface{}{}
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
@@ -794,6 +964,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeOfNextMaintenance != nil {
+		s.D.Set("time_of_next_maintenance", s.Res.TimeOfNextMaintenance.String())
+	}
+
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
@@ -803,6 +977,48 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *GoldenGateDeploymentResourceCrud) mapToUpdateMaintenanceWindowDetails(fieldKeyFormat string) (oci_golden_gate.UpdateMaintenanceWindowDetails, error) {
+	result := oci_golden_gate.UpdateMaintenanceWindowDetails{}
+
+	if day, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "day")); ok {
+		result.Day = oci_golden_gate.DayEnum(day.(string))
+	}
+
+	if startHour, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "start_hour")); ok {
+		tmp := startHour.(int)
+		result.StartHour = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *GoldenGateDeploymentResourceCrud) mapToCreateMaintenanceWindowDetails(fieldKeyFormat string) (oci_golden_gate.CreateMaintenanceWindowDetails, error) {
+	result := oci_golden_gate.CreateMaintenanceWindowDetails{}
+
+	if day, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "day")); ok {
+		result.Day = oci_golden_gate.DayEnum(day.(string))
+	}
+
+	if startHour, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "start_hour")); ok {
+		tmp := startHour.(int)
+		result.StartHour = &tmp
+	}
+
+	return result, nil
+}
+
+func MaintenanceWindowToMap(obj *oci_golden_gate.MaintenanceWindow) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["day"] = string(obj.Day)
+
+	if obj.StartHour != nil {
+		result["start_hour"] = int(*obj.StartHour)
+	}
+
+	return result
 }
 
 func (s *GoldenGateDeploymentResourceCrud) mapToCreateOggDeploymentDetails(fieldKeyFormat string) (oci_golden_gate.CreateOggDeploymentDetails, error) {
@@ -831,6 +1047,11 @@ func (s *GoldenGateDeploymentResourceCrud) mapToCreateOggDeploymentDetails(field
 	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
 		tmp := key.(string)
 		result.Key = &tmp
+	}
+
+	if oggVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ogg_version")); ok {
+		tmp := oggVersion.(string)
+		result.OggVersion = &tmp
 	}
 
 	return result, nil
@@ -1048,4 +1269,113 @@ func (s *GoldenGateDeploymentResourceCrud) updateCompartment(compartment interfa
 	_, changeWorkRequestErr := goldenGateDeploymentWaitForWorkRequest(workId, "deployment",
 		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	return changeWorkRequestErr
+}
+
+func (s *GoldenGateDeploymentResourceCrud) upgradeToSpecificVersion(oggVersion interface{}) error {
+	upgradeDeploymentRequest := oci_golden_gate.UpgradeDeploymentRequest{}
+	upgradeDetails := oci_golden_gate.UpgradeDeploymentSpecificReleaseDetails{}
+
+	oggVersionTmp := oggVersion.(string)
+	upgradeDetails.OggVersion = &oggVersionTmp
+
+	idTmp := s.D.Id()
+	upgradeDeploymentRequest.DeploymentId = &idTmp
+	upgradeDeploymentRequest.UpgradeDeploymentDetails = upgradeDetails
+
+	upgradeDeploymentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+
+	response, err := s.Client.UpgradeDeployment(context.Background(), upgradeDeploymentRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, upgradeWorkRequestErr := goldenGateDeploymentWaitForWorkRequest(workId, "deployment",
+		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+	if upgradeWorkRequestErr != nil {
+		return upgradeWorkRequestErr
+	}
+
+	// set changed parameters
+	if err := s.getAndSaveStateChanges(); err != nil {
+		return err
+	}
+
+	if s.Res.OggData != nil {
+		if oggData, ok := s.D.GetOkExists("ogg_data"); ok {
+			oggDataMap := oggData.([]interface{})[0].(map[string]interface{})
+			oggDataMap["ogg_version"] = *s.Res.OggData.OggVersion
+			s.D.Set("ogg_data", []interface{}{oggDataMap})
+		}
+	}
+
+	if s.Res.IsLatestVersion != nil {
+		s.D.Set("is_latest_version", *s.Res.IsLatestVersion)
+	}
+
+	return nil
+}
+
+func (s *GoldenGateDeploymentResourceCrud) startDeployment() error {
+	startDeploymentRequest := oci_golden_gate.StartDeploymentRequest{}
+
+	idTmp := s.D.Id()
+	startDeploymentRequest.DeploymentId = &idTmp
+	startDeploymentRequest.StartDeploymentDetails = oci_golden_gate.DefaultStartDeploymentDetails{}
+	startDeploymentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+
+	response, err := s.Client.StartDeployment(context.Background(), startDeploymentRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, startWorkRequestErr := goldenGateDeploymentWaitForWorkRequest(workId, "deployment",
+		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+	if startWorkRequestErr != nil {
+		return startWorkRequestErr
+	}
+	// set changed parameters
+	return s.getAndSaveStateChanges()
+}
+
+func (s *GoldenGateDeploymentResourceCrud) stopDeployment() error {
+	stopDeploymentRequest := oci_golden_gate.StopDeploymentRequest{}
+
+	idTmp := s.D.Id()
+	stopDeploymentRequest.DeploymentId = &idTmp
+	stopDeploymentRequest.StopDeploymentDetails = oci_golden_gate.DefaultStopDeploymentDetails{}
+	stopDeploymentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
+
+	response, err := s.Client.StopDeployment(context.Background(), stopDeploymentRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, stopWorkRequestErr := goldenGateDeploymentWaitForWorkRequest(workId, "deployment",
+		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+	if stopWorkRequestErr != nil {
+		return stopWorkRequestErr
+	}
+
+	// set changed parameters
+	return s.getAndSaveStateChanges()
+}
+
+func (s *GoldenGateDeploymentResourceCrud) getAndSaveStateChanges() error {
+	if e := s.Get(); e != nil {
+		return e
+	}
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+	return nil
 }

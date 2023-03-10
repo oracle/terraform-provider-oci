@@ -5,8 +5,9 @@ package client
 
 import (
 	"fmt"
-	oci_identity_domains "github.com/oracle/oci-go-sdk/v65/identitydomains"
 	"strings"
+
+	oci_identity_domains "github.com/oracle/oci-go-sdk/v65/identitydomains"
 
 	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
 

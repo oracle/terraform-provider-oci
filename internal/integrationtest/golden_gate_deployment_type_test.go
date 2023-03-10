@@ -4,7 +4,6 @@
 package integrationtest
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -22,25 +21,30 @@ var (
 	}
 
 	GoldenGateGoldenGateDeploymentTypeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`},
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"deployment_type": acctest.Representation{RepType: acctest.Optional, Create: `DATABASE_ORACLE`},
 	}
 
 	GoldenGateDeploymentTypeResourceConfig = ""
 )
 
+/*
+ Note:
+ Set the following environmentVariables in order to make it work:
+  TF_VAR_compartment_id=com
+*/
 // issue-routing-tag: golden_gate/default
 func TestGoldenGateDeploymentTypeResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestGoldenGateDeploymentTypeResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := acctest.ProviderTestConfig()
+	const CompartmentId = "compartment_id"
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	config := acctest.ProviderTestConfig() + makeVariableStr(CompartmentId, t)
+
+	var compartmentId = utils.GetEnvSettingWithBlankDefault(CompartmentId)
 
 	datasourceName := "data.oci_golden_gate_deployment_types.test_deployment_types"
-	singularDatasourceName := "data.oci_golden_gate_deployment_type.test_deployment_type"
 
 	acctest.SaveConfigContent("", "", "", t)
 
@@ -48,26 +52,15 @@ func TestGoldenGateDeploymentTypeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_types", "test_deployment_types", acctest.Required, acctest.Create, GoldenGateGoldenGateDeploymentTypeDataSourceRepresentation) +
-				compartmentIdVariableStr + GoldenGateDeploymentTypeResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_types", "test_deployment_types", acctest.Optional, acctest.Create, GoldenGateGoldenGateDeploymentTypeDataSourceRepresentation) +
+				GoldenGateDeploymentTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
-
+				resource.TestCheckResourceAttr(datasourceName, "deployment_type", "DATABASE_ORACLE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "deployment_type_collection.0.items.0.ogg_version"),
+				resource.TestCheckResourceAttr(datasourceName, "deployment_type_collection.0.items.0.deployment_type", "DATABASE_ORACLE"),
+				resource.TestCheckResourceAttr(datasourceName, "deployment_type_collection.0.items.0.category", "DATA_REPLICATION"),
 				resource.TestCheckResourceAttrSet(datasourceName, "deployment_type_collection.#"),
-				resource.TestCheckResourceAttr(datasourceName, "deployment_type_collection.0.items.#", "3"),
-			),
-		},
-		// verify singular datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_type", "test_deployment_type", acctest.Required, acctest.Create, GoldenGateGoldenGateDeploymentTypeSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + GoldenGateDeploymentTypeResourceConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
-
-				resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "3"),
 			),
 		},
 	})
