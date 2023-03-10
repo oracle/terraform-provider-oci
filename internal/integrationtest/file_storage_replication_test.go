@@ -356,7 +356,7 @@ func getFileStorageReplicationIds(compartment string) ([]string, error) {
 		listReplicationsResponse, err := fileStorageClient.ListReplications(context.Background(), listReplicationsRequest)
 
 		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting Replication list for compartment id : %s , %s \n", compartmentId, err)
+			return resourceIds, fmt.Errorf("Error getting Replication list for compartment id testing : %s , %s \n", compartmentId, err)
 		}
 		for _, replication := range listReplicationsResponse.Items {
 			id := *replication.Id
