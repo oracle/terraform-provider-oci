@@ -48,6 +48,10 @@ func DatabaseDbHomePatchHistoryEntriesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"patch_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -140,6 +144,8 @@ func (s *DatabaseDbHomePatchHistoryEntriesDataSourceCrud) SetData() error {
 		if r.PatchId != nil {
 			dbHomePatchHistoryEntry["patch_id"] = *r.PatchId
 		}
+
+		dbHomePatchHistoryEntry["patch_type"] = r.PatchType
 
 		dbHomePatchHistoryEntry["state"] = r.LifecycleState
 
