@@ -304,6 +304,7 @@ github.com/oracle/oci-go-sdk/v65/goldengate
 github.com/oracle/oci-go-sdk/v65/healthchecks
 github.com/oracle/oci-go-sdk/v65/identity
 github.com/oracle/oci-go-sdk/v65/identitydataplane
+github.com/oracle/oci-go-sdk/v65/identitydomains
 github.com/oracle/oci-go-sdk/v65/integration
 github.com/oracle/oci-go-sdk/v65/jms
 github.com/oracle/oci-go-sdk/v65/keymanagement
