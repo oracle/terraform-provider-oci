@@ -55,6 +55,7 @@ import (
 	tf_health_checks "github.com/oracle/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/oracle/terraform-provider-oci/internal/service/identity"
 	tf_identity_data_plane "github.com/oracle/terraform-provider-oci/internal/service/identity_data_plane"
+	tf_identity_domains "github.com/oracle/terraform-provider-oci/internal/service/identity_domains"
 	tf_integration "github.com/oracle/terraform-provider-oci/internal/service/integration"
 	tf_jms "github.com/oracle/terraform-provider-oci/internal/service/jms"
 	tf_kms "github.com/oracle/terraform-provider-oci/internal/service/kms"
@@ -163,6 +164,7 @@ func init() {
 	tf_health_checks.RegisterDatasource()
 	tf_identity.RegisterDatasource()
 	tf_identity_data_plane.RegisterDatasource()
+	tf_identity_domains.RegisterDatasource()
 	tf_integration.RegisterDatasource()
 	tf_jms.RegisterDatasource()
 	tf_kms.RegisterDatasource()
