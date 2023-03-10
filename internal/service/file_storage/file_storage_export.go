@@ -87,6 +87,12 @@ var customAssociationFileStorageIdentityAvailabilityDwomain = []tf_export.Terraf
 			"availability_domain": "name",
 		},
 	},
+	{
+		TerraformResourceHints: exportFileStorageReplicationHints,
+		DatasourceQueryParams: map[string]string{
+			"availability_domain": "name",
+		},
+	},
 }
 
 var customAssociationFileStorageFileSystem = []tf_export.TerraformResourceAssociation{
