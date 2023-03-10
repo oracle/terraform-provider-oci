@@ -149,7 +149,7 @@ resource "oci_core_instance" "test_instance" {
 data "oci_kms_keys" "test_keys_dependency" {
     #Required
     compartment_id = "${var.tenancy_ocid}"
-    management_endpoint = "${var.management_endpoint}"
+    management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
     algorithm = "AES"
 
     filter {
@@ -160,7 +160,7 @@ data "oci_kms_keys" "test_keys_dependency" {
 data "oci_kms_keys" "test_keys_dependency_RSA" {
     #Required
     compartment_id = "${var.tenancy_ocid}"
-    management_endpoint = "${var.management_endpoint}"
+    management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
     algorithm = "RSA"
 
     filter {

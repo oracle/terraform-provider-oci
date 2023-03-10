@@ -71,7 +71,7 @@ The following attributes are exported:
 		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/), if you're setting up a route rule for traffic destined for a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`. 
 	* `destination_type` - Type of destination for the rule. Required if you provide a `destination`.
 		* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
-		* `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/) (the rule is for traffic destined for a particular `Service` through a service gateway). 
+		* `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/) (the rule is for traffic destined for a particular `Service` through a service gateway).
 	* `network_entity_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
 	* `route_type` - A route rule can be STATIC if manually added to the route table, LOCAL if added by Oracle Cloud Infrastructure to the route table.
 * `state` - The route table's current state.
