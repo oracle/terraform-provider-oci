@@ -52,6 +52,18 @@ func GoldenGateDeploymentUpgradeDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_rollback_allowed": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_security_fix": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_snoozed": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -61,6 +73,14 @@ func GoldenGateDeploymentUpgradeDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"ogg_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"previous_ogg_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"release_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -78,6 +98,18 @@ func GoldenGateDeploymentUpgradeDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"time_finished": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_released": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_schedule": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_snoozed_until": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -161,6 +193,18 @@ func (s *GoldenGateDeploymentUpgradeDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsRollbackAllowed != nil {
+		s.D.Set("is_rollback_allowed", *s.Res.IsRollbackAllowed)
+	}
+
+	if s.Res.IsSecurityFix != nil {
+		s.D.Set("is_security_fix", *s.Res.IsSecurityFix)
+	}
+
+	if s.Res.IsSnoozed != nil {
+		s.D.Set("is_snoozed", *s.Res.IsSnoozed)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -170,6 +214,12 @@ func (s *GoldenGateDeploymentUpgradeDataSourceCrud) SetData() error {
 	if s.Res.OggVersion != nil {
 		s.D.Set("ogg_version", *s.Res.OggVersion)
 	}
+
+	if s.Res.PreviousOggVersion != nil {
+		s.D.Set("previous_ogg_version", *s.Res.PreviousOggVersion)
+	}
+
+	s.D.Set("release_type", s.Res.ReleaseType)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -183,6 +233,18 @@ func (s *GoldenGateDeploymentUpgradeDataSourceCrud) SetData() error {
 
 	if s.Res.TimeFinished != nil {
 		s.D.Set("time_finished", s.Res.TimeFinished.String())
+	}
+
+	if s.Res.TimeReleased != nil {
+		s.D.Set("time_released", s.Res.TimeReleased.String())
+	}
+
+	if s.Res.TimeSchedule != nil {
+		s.D.Set("time_schedule", s.Res.TimeSchedule.String())
+	}
+
+	if s.Res.TimeSnoozedUntil != nil {
+		s.D.Set("time_snoozed_until", s.Res.TimeSnoozedUntil.String())
 	}
 
 	if s.Res.TimeStarted != nil {

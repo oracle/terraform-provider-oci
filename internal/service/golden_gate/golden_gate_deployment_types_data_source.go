@@ -22,7 +22,15 @@ func GoldenGateDeploymentTypesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"deployment_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"ogg_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -57,6 +65,10 @@ func GoldenGateDeploymentTypesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ogg_version": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -110,9 +122,18 @@ func (s *GoldenGateDeploymentTypesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if deploymentType, ok := s.D.GetOkExists("deployment_type"); ok {
+		request.DeploymentType = oci_golden_gate.ListDeploymentTypesDeploymentTypeEnum(deploymentType.(string))
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if oggVersion, ok := s.D.GetOkExists("ogg_version"); ok {
+		tmp := oggVersion.(string)
+		request.OggVersion = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
@@ -172,7 +193,6 @@ func DeploymentTypeSummaryToMap(obj oci_golden_gate.DeploymentTypeSummary) map[s
 	result["category"] = string(obj.Category)
 
 	result["connection_types"] = obj.ConnectionTypes
-	result["connection_types"] = obj.ConnectionTypes
 
 	result["deployment_type"] = string(obj.DeploymentType)
 
@@ -180,10 +200,11 @@ func DeploymentTypeSummaryToMap(obj oci_golden_gate.DeploymentTypeSummary) map[s
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["source_technologies"] = obj.SourceTechnologies
-	result["source_technologies"] = obj.SourceTechnologies
+	if obj.OggVersion != nil {
+		result["ogg_version"] = string(*obj.OggVersion)
+	}
 
-	result["target_technologies"] = obj.TargetTechnologies
+	result["source_technologies"] = obj.SourceTechnologies
 	result["target_technologies"] = obj.TargetTechnologies
 
 	return result
