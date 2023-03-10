@@ -418,7 +418,7 @@ func getManagementAgentIds(compartment string) ([]string, error) {
 func managementAgentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if managementAgentResponse, ok := response.Response.(oci_management_agent.GetManagementAgentResponse); ok {
-		return managementAgentResponse.LifecycleState != oci_management_agent.LifecycleStatesTerminated
+		return managementAgentResponse.LifecycleState != oci_management_agent.LifecycleStatesTerminated && managementAgentResponse.LifecycleState != oci_management_agent.LifecycleStatesDeleted
 	}
 	return false
 }
