@@ -385,7 +385,7 @@ func getOperatorAccessControlOperatorControlIds(compartment string) ([]string, e
 func OperatorAccessControlOperatorControlSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if operatorControlResponse, ok := response.Response.(oci_operator_access_control.GetOperatorControlResponse); ok {
-		return operatorControlResponse.LifecycleState != oci_operator_access_control.OperatorControlLifecycleStatesDeleted
+		return operatorControlResponse.LifecycleState != oci_operator_access_control.OperatorControlLifecycleStatesUnassigned && operatorControlResponse.LifecycleState != oci_operator_access_control.OperatorControlLifecycleStatesDeleted
 	}
 	return false
 }
