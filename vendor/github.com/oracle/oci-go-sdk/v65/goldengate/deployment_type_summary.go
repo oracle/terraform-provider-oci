@@ -42,6 +42,9 @@ type DeploymentTypeSummary struct {
 	// of a description of the technology and optionally the speific version(s) support.  For example,
 	// [ "Oracle Database 19c", "Oracle Exadata", "OCI Streaming" ]
 	TargetTechnologies []string `mandatory:"false" json:"targetTechnologies"`
+
+	// Version of OGG
+	OggVersion *string `mandatory:"false" json:"oggVersion"`
 }
 
 func (m DeploymentTypeSummary) String() string {

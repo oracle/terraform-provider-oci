@@ -18,33 +18,36 @@ type LifecycleSubStateEnum string
 
 // Set of constants representing the allowable values for LifecycleSubStateEnum
 const (
-	LifecycleSubStateRecovering       LifecycleSubStateEnum = "RECOVERING"
-	LifecycleSubStateStarting         LifecycleSubStateEnum = "STARTING"
-	LifecycleSubStateStopping         LifecycleSubStateEnum = "STOPPING"
-	LifecycleSubStateMoving           LifecycleSubStateEnum = "MOVING"
-	LifecycleSubStateUpgrading        LifecycleSubStateEnum = "UPGRADING"
-	LifecycleSubStateRestoring        LifecycleSubStateEnum = "RESTORING"
-	LifecycleSubStateBackupInProgress LifecycleSubStateEnum = "BACKUP_IN_PROGRESS"
+	LifecycleSubStateRecovering         LifecycleSubStateEnum = "RECOVERING"
+	LifecycleSubStateStarting           LifecycleSubStateEnum = "STARTING"
+	LifecycleSubStateStopping           LifecycleSubStateEnum = "STOPPING"
+	LifecycleSubStateMoving             LifecycleSubStateEnum = "MOVING"
+	LifecycleSubStateUpgrading          LifecycleSubStateEnum = "UPGRADING"
+	LifecycleSubStateRestoring          LifecycleSubStateEnum = "RESTORING"
+	LifecycleSubStateBackupInProgress   LifecycleSubStateEnum = "BACKUP_IN_PROGRESS"
+	LifecycleSubStateRollbackInProgress LifecycleSubStateEnum = "ROLLBACK_IN_PROGRESS"
 )
 
 var mappingLifecycleSubStateEnum = map[string]LifecycleSubStateEnum{
-	"RECOVERING":         LifecycleSubStateRecovering,
-	"STARTING":           LifecycleSubStateStarting,
-	"STOPPING":           LifecycleSubStateStopping,
-	"MOVING":             LifecycleSubStateMoving,
-	"UPGRADING":          LifecycleSubStateUpgrading,
-	"RESTORING":          LifecycleSubStateRestoring,
-	"BACKUP_IN_PROGRESS": LifecycleSubStateBackupInProgress,
+	"RECOVERING":           LifecycleSubStateRecovering,
+	"STARTING":             LifecycleSubStateStarting,
+	"STOPPING":             LifecycleSubStateStopping,
+	"MOVING":               LifecycleSubStateMoving,
+	"UPGRADING":            LifecycleSubStateUpgrading,
+	"RESTORING":            LifecycleSubStateRestoring,
+	"BACKUP_IN_PROGRESS":   LifecycleSubStateBackupInProgress,
+	"ROLLBACK_IN_PROGRESS": LifecycleSubStateRollbackInProgress,
 }
 
 var mappingLifecycleSubStateEnumLowerCase = map[string]LifecycleSubStateEnum{
-	"recovering":         LifecycleSubStateRecovering,
-	"starting":           LifecycleSubStateStarting,
-	"stopping":           LifecycleSubStateStopping,
-	"moving":             LifecycleSubStateMoving,
-	"upgrading":          LifecycleSubStateUpgrading,
-	"restoring":          LifecycleSubStateRestoring,
-	"backup_in_progress": LifecycleSubStateBackupInProgress,
+	"recovering":           LifecycleSubStateRecovering,
+	"starting":             LifecycleSubStateStarting,
+	"stopping":             LifecycleSubStateStopping,
+	"moving":               LifecycleSubStateMoving,
+	"upgrading":            LifecycleSubStateUpgrading,
+	"restoring":            LifecycleSubStateRestoring,
+	"backup_in_progress":   LifecycleSubStateBackupInProgress,
+	"rollback_in_progress": LifecycleSubStateRollbackInProgress,
 }
 
 // GetLifecycleSubStateEnumValues Enumerates the set of values for LifecycleSubStateEnum
@@ -66,6 +69,7 @@ func GetLifecycleSubStateEnumStringValues() []string {
 		"UPGRADING",
 		"RESTORING",
 		"BACKUP_IN_PROGRESS",
+		"ROLLBACK_IN_PROGRESS",
 	}
 }
 

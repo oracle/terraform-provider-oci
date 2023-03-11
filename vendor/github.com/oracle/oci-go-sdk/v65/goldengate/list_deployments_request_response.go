@@ -232,6 +232,7 @@ const (
 	ListDeploymentsLifecycleStateCanceling      ListDeploymentsLifecycleStateEnum = "CANCELING"
 	ListDeploymentsLifecycleStateCanceled       ListDeploymentsLifecycleStateEnum = "CANCELED"
 	ListDeploymentsLifecycleStateSucceeded      ListDeploymentsLifecycleStateEnum = "SUCCEEDED"
+	ListDeploymentsLifecycleStateWaiting        ListDeploymentsLifecycleStateEnum = "WAITING"
 )
 
 var mappingListDeploymentsLifecycleStateEnum = map[string]ListDeploymentsLifecycleStateEnum{
@@ -247,6 +248,7 @@ var mappingListDeploymentsLifecycleStateEnum = map[string]ListDeploymentsLifecyc
 	"CANCELING":       ListDeploymentsLifecycleStateCanceling,
 	"CANCELED":        ListDeploymentsLifecycleStateCanceled,
 	"SUCCEEDED":       ListDeploymentsLifecycleStateSucceeded,
+	"WAITING":         ListDeploymentsLifecycleStateWaiting,
 }
 
 var mappingListDeploymentsLifecycleStateEnumLowerCase = map[string]ListDeploymentsLifecycleStateEnum{
@@ -262,6 +264,7 @@ var mappingListDeploymentsLifecycleStateEnumLowerCase = map[string]ListDeploymen
 	"canceling":       ListDeploymentsLifecycleStateCanceling,
 	"canceled":        ListDeploymentsLifecycleStateCanceled,
 	"succeeded":       ListDeploymentsLifecycleStateSucceeded,
+	"waiting":         ListDeploymentsLifecycleStateWaiting,
 }
 
 // GetListDeploymentsLifecycleStateEnumValues Enumerates the set of values for ListDeploymentsLifecycleStateEnum
@@ -288,6 +291,7 @@ func GetListDeploymentsLifecycleStateEnumStringValues() []string {
 		"CANCELING",
 		"CANCELED",
 		"SUCCEEDED",
+		"WAITING",
 	}
 }
 
@@ -302,33 +306,36 @@ type ListDeploymentsLifecycleSubStateEnum string
 
 // Set of constants representing the allowable values for ListDeploymentsLifecycleSubStateEnum
 const (
-	ListDeploymentsLifecycleSubStateRecovering       ListDeploymentsLifecycleSubStateEnum = "RECOVERING"
-	ListDeploymentsLifecycleSubStateStarting         ListDeploymentsLifecycleSubStateEnum = "STARTING"
-	ListDeploymentsLifecycleSubStateStopping         ListDeploymentsLifecycleSubStateEnum = "STOPPING"
-	ListDeploymentsLifecycleSubStateMoving           ListDeploymentsLifecycleSubStateEnum = "MOVING"
-	ListDeploymentsLifecycleSubStateUpgrading        ListDeploymentsLifecycleSubStateEnum = "UPGRADING"
-	ListDeploymentsLifecycleSubStateRestoring        ListDeploymentsLifecycleSubStateEnum = "RESTORING"
-	ListDeploymentsLifecycleSubStateBackupInProgress ListDeploymentsLifecycleSubStateEnum = "BACKUP_IN_PROGRESS"
+	ListDeploymentsLifecycleSubStateRecovering         ListDeploymentsLifecycleSubStateEnum = "RECOVERING"
+	ListDeploymentsLifecycleSubStateStarting           ListDeploymentsLifecycleSubStateEnum = "STARTING"
+	ListDeploymentsLifecycleSubStateStopping           ListDeploymentsLifecycleSubStateEnum = "STOPPING"
+	ListDeploymentsLifecycleSubStateMoving             ListDeploymentsLifecycleSubStateEnum = "MOVING"
+	ListDeploymentsLifecycleSubStateUpgrading          ListDeploymentsLifecycleSubStateEnum = "UPGRADING"
+	ListDeploymentsLifecycleSubStateRestoring          ListDeploymentsLifecycleSubStateEnum = "RESTORING"
+	ListDeploymentsLifecycleSubStateBackupInProgress   ListDeploymentsLifecycleSubStateEnum = "BACKUP_IN_PROGRESS"
+	ListDeploymentsLifecycleSubStateRollbackInProgress ListDeploymentsLifecycleSubStateEnum = "ROLLBACK_IN_PROGRESS"
 )
 
 var mappingListDeploymentsLifecycleSubStateEnum = map[string]ListDeploymentsLifecycleSubStateEnum{
-	"RECOVERING":         ListDeploymentsLifecycleSubStateRecovering,
-	"STARTING":           ListDeploymentsLifecycleSubStateStarting,
-	"STOPPING":           ListDeploymentsLifecycleSubStateStopping,
-	"MOVING":             ListDeploymentsLifecycleSubStateMoving,
-	"UPGRADING":          ListDeploymentsLifecycleSubStateUpgrading,
-	"RESTORING":          ListDeploymentsLifecycleSubStateRestoring,
-	"BACKUP_IN_PROGRESS": ListDeploymentsLifecycleSubStateBackupInProgress,
+	"RECOVERING":           ListDeploymentsLifecycleSubStateRecovering,
+	"STARTING":             ListDeploymentsLifecycleSubStateStarting,
+	"STOPPING":             ListDeploymentsLifecycleSubStateStopping,
+	"MOVING":               ListDeploymentsLifecycleSubStateMoving,
+	"UPGRADING":            ListDeploymentsLifecycleSubStateUpgrading,
+	"RESTORING":            ListDeploymentsLifecycleSubStateRestoring,
+	"BACKUP_IN_PROGRESS":   ListDeploymentsLifecycleSubStateBackupInProgress,
+	"ROLLBACK_IN_PROGRESS": ListDeploymentsLifecycleSubStateRollbackInProgress,
 }
 
 var mappingListDeploymentsLifecycleSubStateEnumLowerCase = map[string]ListDeploymentsLifecycleSubStateEnum{
-	"recovering":         ListDeploymentsLifecycleSubStateRecovering,
-	"starting":           ListDeploymentsLifecycleSubStateStarting,
-	"stopping":           ListDeploymentsLifecycleSubStateStopping,
-	"moving":             ListDeploymentsLifecycleSubStateMoving,
-	"upgrading":          ListDeploymentsLifecycleSubStateUpgrading,
-	"restoring":          ListDeploymentsLifecycleSubStateRestoring,
-	"backup_in_progress": ListDeploymentsLifecycleSubStateBackupInProgress,
+	"recovering":           ListDeploymentsLifecycleSubStateRecovering,
+	"starting":             ListDeploymentsLifecycleSubStateStarting,
+	"stopping":             ListDeploymentsLifecycleSubStateStopping,
+	"moving":               ListDeploymentsLifecycleSubStateMoving,
+	"upgrading":            ListDeploymentsLifecycleSubStateUpgrading,
+	"restoring":            ListDeploymentsLifecycleSubStateRestoring,
+	"backup_in_progress":   ListDeploymentsLifecycleSubStateBackupInProgress,
+	"rollback_in_progress": ListDeploymentsLifecycleSubStateRollbackInProgress,
 }
 
 // GetListDeploymentsLifecycleSubStateEnumValues Enumerates the set of values for ListDeploymentsLifecycleSubStateEnum
@@ -350,6 +357,7 @@ func GetListDeploymentsLifecycleSubStateEnumStringValues() []string {
 		"UPGRADING",
 		"RESTORING",
 		"BACKUP_IN_PROGRESS",
+		"ROLLBACK_IN_PROGRESS",
 	}
 }
 

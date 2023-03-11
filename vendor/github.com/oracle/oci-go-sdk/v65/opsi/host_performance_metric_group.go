@@ -70,6 +70,10 @@ func (m *hostperformancemetricgroup) UnmarshalPolymorphicJSON(data []byte) (inte
 		mm := HostCpuUsage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HOST_FILESYSTEM_USAGE":
+		mm := HostFilesystemUsage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HOST_NETWORK_ACTIVITY_SUMMARY":
 		mm := HostNetworkActivitySummary{}
 		err = json.Unmarshal(data, &mm)
@@ -109,6 +113,7 @@ const (
 	HostPerformanceMetricGroupMetricNameMemoryUsage            HostPerformanceMetricGroupMetricNameEnum = "HOST_MEMORY_USAGE"
 	HostPerformanceMetricGroupMetricNameNetworkActivitySummary HostPerformanceMetricGroupMetricNameEnum = "HOST_NETWORK_ACTIVITY_SUMMARY"
 	HostPerformanceMetricGroupMetricNameTopProcesses           HostPerformanceMetricGroupMetricNameEnum = "HOST_TOP_PROCESSES"
+	HostPerformanceMetricGroupMetricNameFilesystemUsage        HostPerformanceMetricGroupMetricNameEnum = "HOST_FILESYSTEM_USAGE"
 )
 
 var mappingHostPerformanceMetricGroupMetricNameEnum = map[string]HostPerformanceMetricGroupMetricNameEnum{
@@ -116,6 +121,7 @@ var mappingHostPerformanceMetricGroupMetricNameEnum = map[string]HostPerformance
 	"HOST_MEMORY_USAGE":             HostPerformanceMetricGroupMetricNameMemoryUsage,
 	"HOST_NETWORK_ACTIVITY_SUMMARY": HostPerformanceMetricGroupMetricNameNetworkActivitySummary,
 	"HOST_TOP_PROCESSES":            HostPerformanceMetricGroupMetricNameTopProcesses,
+	"HOST_FILESYSTEM_USAGE":         HostPerformanceMetricGroupMetricNameFilesystemUsage,
 }
 
 var mappingHostPerformanceMetricGroupMetricNameEnumLowerCase = map[string]HostPerformanceMetricGroupMetricNameEnum{
@@ -123,6 +129,7 @@ var mappingHostPerformanceMetricGroupMetricNameEnumLowerCase = map[string]HostPe
 	"host_memory_usage":             HostPerformanceMetricGroupMetricNameMemoryUsage,
 	"host_network_activity_summary": HostPerformanceMetricGroupMetricNameNetworkActivitySummary,
 	"host_top_processes":            HostPerformanceMetricGroupMetricNameTopProcesses,
+	"host_filesystem_usage":         HostPerformanceMetricGroupMetricNameFilesystemUsage,
 }
 
 // GetHostPerformanceMetricGroupMetricNameEnumValues Enumerates the set of values for HostPerformanceMetricGroupMetricNameEnum
@@ -141,6 +148,7 @@ func GetHostPerformanceMetricGroupMetricNameEnumStringValues() []string {
 		"HOST_MEMORY_USAGE",
 		"HOST_NETWORK_ACTIVITY_SUMMARY",
 		"HOST_TOP_PROCESSES",
+		"HOST_FILESYSTEM_USAGE",
 	}
 }
 

@@ -18,15 +18,18 @@ type UpgradeDeploymentTypeEnum string
 
 // Set of constants representing the allowable values for UpgradeDeploymentTypeEnum
 const (
-	UpgradeDeploymentTypeCurrentRelease UpgradeDeploymentTypeEnum = "CURRENT_RELEASE"
+	UpgradeDeploymentTypeCurrentRelease  UpgradeDeploymentTypeEnum = "CURRENT_RELEASE"
+	UpgradeDeploymentTypeSpecificRelease UpgradeDeploymentTypeEnum = "SPECIFIC_RELEASE"
 )
 
 var mappingUpgradeDeploymentTypeEnum = map[string]UpgradeDeploymentTypeEnum{
-	"CURRENT_RELEASE": UpgradeDeploymentTypeCurrentRelease,
+	"CURRENT_RELEASE":  UpgradeDeploymentTypeCurrentRelease,
+	"SPECIFIC_RELEASE": UpgradeDeploymentTypeSpecificRelease,
 }
 
 var mappingUpgradeDeploymentTypeEnumLowerCase = map[string]UpgradeDeploymentTypeEnum{
-	"current_release": UpgradeDeploymentTypeCurrentRelease,
+	"current_release":  UpgradeDeploymentTypeCurrentRelease,
+	"specific_release": UpgradeDeploymentTypeSpecificRelease,
 }
 
 // GetUpgradeDeploymentTypeEnumValues Enumerates the set of values for UpgradeDeploymentTypeEnum
@@ -42,6 +45,7 @@ func GetUpgradeDeploymentTypeEnumValues() []UpgradeDeploymentTypeEnum {
 func GetUpgradeDeploymentTypeEnumStringValues() []string {
 	return []string{
 		"CURRENT_RELEASE",
+		"SPECIFIC_RELEASE",
 	}
 }
 
