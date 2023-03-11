@@ -1,3 +1,14 @@
+## 4.112.0 (Unreleased)
+
+### Added
+- Support for GoldenGate Maintenance
+- Platform Config support for AMD Milan GPU
+- Support for SDK generation for IDCS APIs
+- Support for BM/VM | OS Patching Support
+### Bug Fix
+- Investigate Replication Resource Discovery
+- Fixed response reordering issue in Network Firewall
+
 ## 4.111.0 (Unreleased)
 
 ### Added
