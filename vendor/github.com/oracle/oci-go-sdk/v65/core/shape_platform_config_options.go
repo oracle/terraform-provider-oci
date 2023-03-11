@@ -73,6 +73,7 @@ type ShapePlatformConfigOptionsTypeEnum string
 // Set of constants representing the allowable values for ShapePlatformConfigOptionsTypeEnum
 const (
 	ShapePlatformConfigOptionsTypeAmdMilanBm     ShapePlatformConfigOptionsTypeEnum = "AMD_MILAN_BM"
+	ShapePlatformConfigOptionsTypeAmdMilanBmGpu  ShapePlatformConfigOptionsTypeEnum = "AMD_MILAN_BM_GPU"
 	ShapePlatformConfigOptionsTypeAmdRomeBm      ShapePlatformConfigOptionsTypeEnum = "AMD_ROME_BM"
 	ShapePlatformConfigOptionsTypeAmdRomeBmGpu   ShapePlatformConfigOptionsTypeEnum = "AMD_ROME_BM_GPU"
 	ShapePlatformConfigOptionsTypeIntelIcelakeBm ShapePlatformConfigOptionsTypeEnum = "INTEL_ICELAKE_BM"
@@ -83,6 +84,7 @@ const (
 
 var mappingShapePlatformConfigOptionsTypeEnum = map[string]ShapePlatformConfigOptionsTypeEnum{
 	"AMD_MILAN_BM":     ShapePlatformConfigOptionsTypeAmdMilanBm,
+	"AMD_MILAN_BM_GPU": ShapePlatformConfigOptionsTypeAmdMilanBmGpu,
 	"AMD_ROME_BM":      ShapePlatformConfigOptionsTypeAmdRomeBm,
 	"AMD_ROME_BM_GPU":  ShapePlatformConfigOptionsTypeAmdRomeBmGpu,
 	"INTEL_ICELAKE_BM": ShapePlatformConfigOptionsTypeIntelIcelakeBm,
@@ -93,6 +95,7 @@ var mappingShapePlatformConfigOptionsTypeEnum = map[string]ShapePlatformConfigOp
 
 var mappingShapePlatformConfigOptionsTypeEnumLowerCase = map[string]ShapePlatformConfigOptionsTypeEnum{
 	"amd_milan_bm":     ShapePlatformConfigOptionsTypeAmdMilanBm,
+	"amd_milan_bm_gpu": ShapePlatformConfigOptionsTypeAmdMilanBmGpu,
 	"amd_rome_bm":      ShapePlatformConfigOptionsTypeAmdRomeBm,
 	"amd_rome_bm_gpu":  ShapePlatformConfigOptionsTypeAmdRomeBmGpu,
 	"intel_icelake_bm": ShapePlatformConfigOptionsTypeIntelIcelakeBm,
@@ -114,6 +117,7 @@ func GetShapePlatformConfigOptionsTypeEnumValues() []ShapePlatformConfigOptionsT
 func GetShapePlatformConfigOptionsTypeEnumStringValues() []string {
 	return []string{
 		"AMD_MILAN_BM",
+		"AMD_MILAN_BM_GPU",
 		"AMD_ROME_BM",
 		"AMD_ROME_BM_GPU",
 		"INTEL_ICELAKE_BM",

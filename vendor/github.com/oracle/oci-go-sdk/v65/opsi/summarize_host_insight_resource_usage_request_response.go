@@ -22,6 +22,7 @@ type SummarizeHostInsightResourceUsageRequest struct {
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Filter by host resource metric.
+	// Supported values are CPU, MEMORY, LOGICAL_MEMORY, STORAGE and NETWORK.
 	ResourceMetric *string `mandatory:"true" contributesTo:"query" name:"resourceMetric"`
 
 	// Specify time period in ISO 8601 format with respect to current time.
