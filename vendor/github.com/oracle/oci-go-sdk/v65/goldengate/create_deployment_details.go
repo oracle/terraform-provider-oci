@@ -66,6 +66,8 @@ type CreateDeploymentDetails struct {
 	IsPublic *bool `mandatory:"false" json:"isPublic"`
 
 	OggData *CreateOggDeploymentDetails `mandatory:"false" json:"oggData"`
+
+	MaintenanceWindow *CreateMaintenanceWindowDetails `mandatory:"false" json:"maintenanceWindow"`
 }
 
 func (m CreateDeploymentDetails) String() string {

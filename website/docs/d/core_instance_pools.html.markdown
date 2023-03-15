@@ -71,7 +71,7 @@ The following attributes are exported:
 		Example: `[FAULT-DOMAIN-1, FAULT-DOMAIN-2, FAULT-DOMAIN-3]` 
 	* `primary_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. 
 	* `secondary_vnic_subnets` - The set of secondary VNIC data for instances in the pool.
-		* `display_name` - The display name of the VNIC. This is also use to match against the instance configuration defined secondary VNIC. 
+		* `display_name` - The display name of the VNIC. This is also used to match against the instance configuration defined secondary VNIC. 
 		* `subnet_id` - The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 * `size` - The number of actual instances in the instance pool on the cloud. This attribute will be different when instance pool is used along with autoScaling Configuration.
 * `state` - The current state of the instance pool.

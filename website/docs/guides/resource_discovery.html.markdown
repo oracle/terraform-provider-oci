@@ -167,6 +167,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
     * `identity_data_plane` - Discovers identity_data_plane resources within the specified compartment
+    * `identity_domains` - Discovers identity_domains resources within the specified compartment
     * `integration` - Discovers integration resources within the specified compartment
     * `jms` - Discovers jms resources within the specified compartment
     * `kms` - Discovers kms resources within the specified compartment
@@ -733,6 +734,29 @@ identity
 identity_data_plane
     
 * oci\_identity\_data\_plane\_generate\_scoped\_access\_token
+
+identity_domains
+    
+* oci\_identity\_domains\_user
+* oci\_identity\_domains\_group
+* oci\_identity\_domains\_dynamic\_resource\_group
+* oci\_identity\_domains\_password\_policy
+* oci\_identity\_domains\_identity\_provider
+* oci\_identity\_domains\_api\_key
+* oci\_identity\_domains\_auth\_token
+* oci\_identity\_domains\_customer\_secret\_key
+* oci\_identity\_domains\_oauth2client\_credential
+* oci\_identity\_domains\_smtp\_credential
+* oci\_identity\_domains\_user\_db\_credential
+* oci\_identity\_domains\_my\_api\_key
+* oci\_identity\_domains\_my\_auth\_token
+* oci\_identity\_domains\_my\_customer\_secret\_key
+* oci\_identity\_domains\_my\_oauth2client\_credential
+* oci\_identity\_domains\_my\_smtp\_credential
+* oci\_identity\_domains\_my\_user\_db\_credential
+* oci\_identity\_domains\_my\_support\_account
+* oci\_identity\_domains\_authentication\_factor\_setting
+* oci\_identity\_domains\_kmsi\_setting
 
 integration
     

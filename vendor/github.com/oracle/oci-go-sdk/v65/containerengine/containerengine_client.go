@@ -330,6 +330,69 @@ func (client ContainerEngineClient) createNodePool(ctx context.Context, request 
 	return response, err
 }
 
+// CreateVirtualNodePool Create a new virtual node pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CreateVirtualNodePool.go.html to see an example of how to use CreateVirtualNodePool API.
+// A default retry strategy applies to this operation CreateVirtualNodePool()
+func (client ContainerEngineClient) CreateVirtualNodePool(ctx context.Context, request CreateVirtualNodePoolRequest) (response CreateVirtualNodePoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createVirtualNodePool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVirtualNodePoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVirtualNodePoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateVirtualNodePoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateVirtualNodePoolResponse")
+	}
+	return
+}
+
+// createVirtualNodePool implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) createVirtualNodePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/virtualNodePools", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateVirtualNodePoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/CreateVirtualNodePool"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "CreateVirtualNodePool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteCluster Delete a cluster.
 //
 // See also
@@ -504,6 +567,64 @@ func (client ContainerEngineClient) deleteNodePool(ctx context.Context, request 
 	return response, err
 }
 
+// DeleteVirtualNodePool Delete a virtual node pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/DeleteVirtualNodePool.go.html to see an example of how to use DeleteVirtualNodePool API.
+// A default retry strategy applies to this operation DeleteVirtualNodePool()
+func (client ContainerEngineClient) DeleteVirtualNodePool(ctx context.Context, request DeleteVirtualNodePoolRequest) (response DeleteVirtualNodePoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteVirtualNodePool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVirtualNodePoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVirtualNodePoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteVirtualNodePoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteVirtualNodePoolResponse")
+	}
+	return
+}
+
+// deleteVirtualNodePool implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) deleteVirtualNodePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/virtualNodePools/{virtualNodePoolId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteVirtualNodePoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/DeleteVirtualNodePool"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteVirtualNodePool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteWorkRequest Cancel a work request that has not started.
 //
 // See also
@@ -555,6 +676,122 @@ func (client ContainerEngineClient) deleteWorkRequest(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkRequest/DeleteWorkRequest"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "DeleteWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableAddon Disable addon for a provisioned cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/DisableAddon.go.html to see an example of how to use DisableAddon API.
+// A default retry strategy applies to this operation DisableAddon()
+func (client ContainerEngineClient) DisableAddon(ctx context.Context, request DisableAddonRequest) (response DisableAddonResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.disableAddon, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableAddonResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableAddonResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableAddonResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableAddonResponse")
+	}
+	return
+}
+
+// disableAddon implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) disableAddon(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/clusters/{clusterId}/addons/{addonName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableAddonResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/DisableAddon"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "DisableAddon", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAddon Get the specified addon for a cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetAddon.go.html to see an example of how to use GetAddon API.
+// A default retry strategy applies to this operation GetAddon()
+func (client ContainerEngineClient) GetAddon(ctx context.Context, request GetAddonRequest) (response GetAddonResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAddon, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAddonResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAddonResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAddonResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAddonResponse")
+	}
+	return
+}
+
+// getAddon implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) getAddon(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusters/{clusterId}/addons/{addonName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAddonResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/GetAddon"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "GetAddon", apiReferenceLink)
 		return response, err
 	}
 
@@ -852,6 +1089,122 @@ func (client ContainerEngineClient) getNodePoolOptions(ctx context.Context, requ
 	return response, err
 }
 
+// GetVirtualNode Get the details of a virtual node.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetVirtualNode.go.html to see an example of how to use GetVirtualNode API.
+// A default retry strategy applies to this operation GetVirtualNode()
+func (client ContainerEngineClient) GetVirtualNode(ctx context.Context, request GetVirtualNodeRequest) (response GetVirtualNodeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getVirtualNode, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVirtualNodeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVirtualNodeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVirtualNodeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVirtualNodeResponse")
+	}
+	return
+}
+
+// getVirtualNode implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) getVirtualNode(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/virtualNodePools/{virtualNodePoolId}/virtualNodes/{virtualNodeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVirtualNodeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/GetVirtualNode"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "GetVirtualNode", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetVirtualNodePool Get the details of a virtual node pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetVirtualNodePool.go.html to see an example of how to use GetVirtualNodePool API.
+// A default retry strategy applies to this operation GetVirtualNodePool()
+func (client ContainerEngineClient) GetVirtualNodePool(ctx context.Context, request GetVirtualNodePoolRequest) (response GetVirtualNodePoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getVirtualNodePool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVirtualNodePoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVirtualNodePoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVirtualNodePoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVirtualNodePoolResponse")
+	}
+	return
+}
+
+// getVirtualNodePool implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) getVirtualNodePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/virtualNodePools/{virtualNodePoolId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVirtualNodePoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/GetVirtualNodePool"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "GetVirtualNodePool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Get the details of a work request.
 //
 // See also
@@ -903,6 +1256,185 @@ func (client ContainerEngineClient) getWorkRequest(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// InstallAddon Install the specified addon for a cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/InstallAddon.go.html to see an example of how to use InstallAddon API.
+// A default retry strategy applies to this operation InstallAddon()
+func (client ContainerEngineClient) InstallAddon(ctx context.Context, request InstallAddonRequest) (response InstallAddonResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.installAddon, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallAddonResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallAddonResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallAddonResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallAddonResponse")
+	}
+	return
+}
+
+// installAddon implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) installAddon(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/addons", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallAddonResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/InstallAddon"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "InstallAddon", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAddonOptions Get list of supported addons for a specific kubernetes version.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListAddonOptions.go.html to see an example of how to use ListAddonOptions API.
+// A default retry strategy applies to this operation ListAddonOptions()
+func (client ContainerEngineClient) ListAddonOptions(ctx context.Context, request ListAddonOptionsRequest) (response ListAddonOptionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddonOptions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddonOptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddonOptionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddonOptionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddonOptionsResponse")
+	}
+	return
+}
+
+// listAddonOptions implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) listAddonOptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/addonOptions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddonOptionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/AddonOptionSummary/ListAddonOptions"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "ListAddonOptions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAddons List addon for a provisioned cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListAddons.go.html to see an example of how to use ListAddons API.
+// A default retry strategy applies to this operation ListAddons()
+func (client ContainerEngineClient) ListAddons(ctx context.Context, request ListAddonsRequest) (response ListAddonsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddons, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddonsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddonsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddonsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddonsResponse")
+	}
+	return
+}
+
+// listAddons implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) listAddons(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/clusters/{clusterId}/addons", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddonsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/ListAddons"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "ListAddons", apiReferenceLink)
 		return response, err
 	}
 
@@ -1019,6 +1551,180 @@ func (client ContainerEngineClient) listNodePools(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/NodePoolSummary/ListNodePools"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "ListNodePools", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListPodShapes List all the Pod Shapes in a compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListPodShapes.go.html to see an example of how to use ListPodShapes API.
+// A default retry strategy applies to this operation ListPodShapes()
+func (client ContainerEngineClient) ListPodShapes(ctx context.Context, request ListPodShapesRequest) (response ListPodShapesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPodShapes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPodShapesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPodShapesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPodShapesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPodShapesResponse")
+	}
+	return
+}
+
+// listPodShapes implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) listPodShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/podShapes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPodShapesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/PodShapeSummary/ListPodShapes"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "ListPodShapes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListVirtualNodePools List all the virtual node pools in a compartment, and optionally filter by cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListVirtualNodePools.go.html to see an example of how to use ListVirtualNodePools API.
+// A default retry strategy applies to this operation ListVirtualNodePools()
+func (client ContainerEngineClient) ListVirtualNodePools(ctx context.Context, request ListVirtualNodePoolsRequest) (response ListVirtualNodePoolsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listVirtualNodePools, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVirtualNodePoolsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVirtualNodePoolsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVirtualNodePoolsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVirtualNodePoolsResponse")
+	}
+	return
+}
+
+// listVirtualNodePools implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) listVirtualNodePools(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/virtualNodePools", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVirtualNodePoolsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePoolSummary/ListVirtualNodePools"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "ListVirtualNodePools", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListVirtualNodes List virtual nodes in a virtual node pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListVirtualNodes.go.html to see an example of how to use ListVirtualNodes API.
+// A default retry strategy applies to this operation ListVirtualNodes()
+func (client ContainerEngineClient) ListVirtualNodes(ctx context.Context, request ListVirtualNodesRequest) (response ListVirtualNodesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listVirtualNodes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVirtualNodesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVirtualNodesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVirtualNodesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVirtualNodesResponse")
+	}
+	return
+}
+
+// listVirtualNodes implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) listVirtualNodes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/virtualNodePools/{virtualNodePoolId}/virtualNodes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVirtualNodesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/ListVirtualNodes"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "ListVirtualNodes", apiReferenceLink)
 		return response, err
 	}
 
@@ -1200,6 +1906,64 @@ func (client ContainerEngineClient) listWorkRequests(ctx context.Context, reques
 	return response, err
 }
 
+// UpdateAddon Update addon details for a cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateAddon.go.html to see an example of how to use UpdateAddon API.
+// A default retry strategy applies to this operation UpdateAddon()
+func (client ContainerEngineClient) UpdateAddon(ctx context.Context, request UpdateAddonRequest) (response UpdateAddonResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAddon, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAddonResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAddonResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAddonResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAddonResponse")
+	}
+	return
+}
+
+// updateAddon implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) updateAddon(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/clusters/{clusterId}/addons/{addonName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAddonResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/UpdateAddon"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateAddon", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateCluster Update the details of a cluster.
 //
 // See also
@@ -1367,6 +2131,64 @@ func (client ContainerEngineClient) updateNodePool(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/NodePool/UpdateNodePool"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateNodePool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateVirtualNodePool Update the details of a virtual node pool.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateVirtualNodePool.go.html to see an example of how to use UpdateVirtualNodePool API.
+// A default retry strategy applies to this operation UpdateVirtualNodePool()
+func (client ContainerEngineClient) UpdateVirtualNodePool(ctx context.Context, request UpdateVirtualNodePoolRequest) (response UpdateVirtualNodePoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateVirtualNodePool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVirtualNodePoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVirtualNodePoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateVirtualNodePoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateVirtualNodePoolResponse")
+	}
+	return
+}
+
+// updateVirtualNodePool implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) updateVirtualNodePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/virtualNodePools/{virtualNodePoolId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateVirtualNodePoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/VirtualNodePool/UpdateVirtualNodePool"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "UpdateVirtualNodePool", apiReferenceLink)
 		return response, err
 	}
 

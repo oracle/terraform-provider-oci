@@ -81,6 +81,11 @@ The following attributes are exported:
 * `license_model` - The Oracle license model that applies to a Deployment. 
 * `lifecycle_details` - Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state. 
 * `lifecycle_sub_state` - Possible GGS lifecycle sub-states. 
+* `maintenance_window` - Defines the maintenance window, when automatic actions can be performed. 
+	* `day` - Days of the week. 
+	* `start_hour` - Start hour for maintenance period. Hour is in UTC. 
+* `next_maintenance_action_type` - Type of the next maintenance. 
+* `next_maintenance_description` - Description of the next maintenance. 
 * `nsg_ids` - An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
 * `ogg_data` - Deployment Data for an OggDeployment 
 	* `admin_username` - The GoldenGate deployment console username. 
@@ -94,6 +99,7 @@ The following attributes are exported:
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet being referenced. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_of_next_maintenance` - The time of next maintenance schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
-* `time_upgrade_required` - The date the existing version in use will no longer be considered as usable and an upgrade will be required.  This date is typically 6 months after the version was released for use by GGS.  The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_upgrade_required` - Note: Deprecated: Use timeOfNextMaintenance instead, or related upgrade records  to check, when deployment will be forced to upgrade to a newer version. Old description: The date the existing version in use will no longer be considered as usable and an upgrade will be required.  This date is typically 6 months after the version was released for use by GGS.  The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 

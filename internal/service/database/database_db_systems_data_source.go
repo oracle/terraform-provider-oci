@@ -236,6 +236,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 
 		dbSystem["nsg_ids"] = r.NsgIds
 
+		if r.OsVersion != nil {
+			dbSystem["os_version"] = *r.OsVersion
+		}
+
 		if r.PointInTimeDataDiskCloneTimestamp != nil {
 			dbSystem["point_in_time_data_disk_clone_timestamp"] = r.PointInTimeDataDiskCloneTimestamp.String()
 		}

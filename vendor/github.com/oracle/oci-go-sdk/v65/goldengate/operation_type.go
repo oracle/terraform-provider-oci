@@ -42,7 +42,9 @@ const (
 	OperationTypeGoldengateDeploymentDiagnosticCollect OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT"
 	OperationTypeGoldengateDeploymentWalletExport      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_WALLET_EXPORT"
 	OperationTypeGoldengateDeploymentWalletImport      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_WALLET_IMPORT"
-	OperationTypeGoldengateDeploymentPatch             OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_PATCH"
+	OperationTypeGoldengateDeploymentUpgradeUpgrade    OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE"
+	OperationTypeGoldengateDeploymentUpgradeRollback   OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_ROLLBACK"
+	OperationTypeGoldengateDeploymentUpgradeSnooze     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -70,7 +72,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT": OperationTypeGoldengateDeploymentDiagnosticCollect,
 	"GOLDENGATE_DEPLOYMENT_WALLET_EXPORT":      OperationTypeGoldengateDeploymentWalletExport,
 	"GOLDENGATE_DEPLOYMENT_WALLET_IMPORT":      OperationTypeGoldengateDeploymentWalletImport,
-	"GOLDENGATE_DEPLOYMENT_PATCH":              OperationTypeGoldengateDeploymentPatch,
+	"GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE":    OperationTypeGoldengateDeploymentUpgradeUpgrade,
+	"GOLDENGATE_DEPLOYMENT_UPGRADE_ROLLBACK":   OperationTypeGoldengateDeploymentUpgradeRollback,
+	"GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE":     OperationTypeGoldengateDeploymentUpgradeSnooze,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -98,7 +102,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_deployment_diagnostic_collect": OperationTypeGoldengateDeploymentDiagnosticCollect,
 	"goldengate_deployment_wallet_export":      OperationTypeGoldengateDeploymentWalletExport,
 	"goldengate_deployment_wallet_import":      OperationTypeGoldengateDeploymentWalletImport,
-	"goldengate_deployment_patch":              OperationTypeGoldengateDeploymentPatch,
+	"goldengate_deployment_upgrade_upgrade":    OperationTypeGoldengateDeploymentUpgradeUpgrade,
+	"goldengate_deployment_upgrade_rollback":   OperationTypeGoldengateDeploymentUpgradeRollback,
+	"goldengate_deployment_upgrade_snooze":     OperationTypeGoldengateDeploymentUpgradeSnooze,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -137,7 +143,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT",
 		"GOLDENGATE_DEPLOYMENT_WALLET_EXPORT",
 		"GOLDENGATE_DEPLOYMENT_WALLET_IMPORT",
-		"GOLDENGATE_DEPLOYMENT_PATCH",
+		"GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE",
+		"GOLDENGATE_DEPLOYMENT_UPGRADE_ROLLBACK",
+		"GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE",
 	}
 }
 

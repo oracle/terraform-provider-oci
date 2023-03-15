@@ -79,6 +79,35 @@ type DeploymentUpgrade struct {
 	// information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Version of OGG
+	PreviousOggVersion *string `mandatory:"false" json:"previousOggVersion"`
+
+	// The time of upgrade schedule. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeSchedule *common.SDKTime `mandatory:"false" json:"timeSchedule"`
+
+	// Indicates if upgrade notifications are snoozed or not.
+	IsSnoozed *bool `mandatory:"false" json:"isSnoozed"`
+
+	// The time the upgrade notifications are snoozed until. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeSnoozedUntil *common.SDKTime `mandatory:"false" json:"timeSnoozedUntil"`
+
+	// The time the resource was released. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeReleased *common.SDKTime `mandatory:"false" json:"timeReleased"`
+
+	// The type of release.
+	ReleaseType ReleaseTypeEnum `mandatory:"false" json:"releaseType,omitempty"`
+
+	// Indicates if OGG release contains security fix.
+	IsSecurityFix *bool `mandatory:"false" json:"isSecurityFix"`
+
+	// Indicates if rollback is allowed. In practice only the last upgrade can be rolled back.
+	// - Manual upgrade is allowed to rollback only until the old version isn't deprecated yet.
+	// - Automatic upgrade by default is not allowed, unless a serious issue does not justify.
+	IsRollbackAllowed *bool `mandatory:"false" json:"isRollbackAllowed"`
 }
 
 func (m DeploymentUpgrade) String() string {
@@ -99,6 +128,9 @@ func (m DeploymentUpgrade) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingLifecycleSubStateEnum(string(m.LifecycleSubState)); !ok && m.LifecycleSubState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetLifecycleSubStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingReleaseTypeEnum(string(m.ReleaseType)); !ok && m.ReleaseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReleaseType: %s. Supported values are: %s.", m.ReleaseType, strings.Join(GetReleaseTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

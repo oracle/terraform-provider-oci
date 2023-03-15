@@ -83,6 +83,18 @@ func GoldenGateDeploymentUpgradesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_rollback_allowed": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_security_fix": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_snoozed": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"lifecycle_details": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -92,6 +104,14 @@ func GoldenGateDeploymentUpgradesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"ogg_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"previous_ogg_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"release_type": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -109,6 +129,18 @@ func GoldenGateDeploymentUpgradesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"time_finished": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_released": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_schedule": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_snoozed_until": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -252,6 +284,18 @@ func DeploymentUpgradeSummaryToMap(obj oci_golden_gate.DeploymentUpgradeSummary)
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsRollbackAllowed != nil {
+		result["is_rollback_allowed"] = bool(*obj.IsRollbackAllowed)
+	}
+
+	if obj.IsSecurityFix != nil {
+		result["is_security_fix"] = bool(*obj.IsSecurityFix)
+	}
+
+	if obj.IsSnoozed != nil {
+		result["is_snoozed"] = bool(*obj.IsSnoozed)
+	}
+
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
@@ -261,6 +305,12 @@ func DeploymentUpgradeSummaryToMap(obj oci_golden_gate.DeploymentUpgradeSummary)
 	if obj.OggVersion != nil {
 		result["ogg_version"] = string(*obj.OggVersion)
 	}
+
+	if obj.PreviousOggVersion != nil {
+		result["previous_ogg_version"] = string(*obj.PreviousOggVersion)
+	}
+
+	result["release_type"] = string(obj.ReleaseType)
 
 	result["state"] = string(obj.LifecycleState)
 
@@ -274,6 +324,18 @@ func DeploymentUpgradeSummaryToMap(obj oci_golden_gate.DeploymentUpgradeSummary)
 
 	if obj.TimeFinished != nil {
 		result["time_finished"] = obj.TimeFinished.String()
+	}
+
+	if obj.TimeReleased != nil {
+		result["time_released"] = obj.TimeReleased.String()
+	}
+
+	if obj.TimeSchedule != nil {
+		result["time_schedule"] = obj.TimeSchedule.String()
+	}
+
+	if obj.TimeSnoozedUntil != nil {
+		result["time_snoozed_until"] = obj.TimeSnoozedUntil.String()
 	}
 
 	if obj.TimeStarted != nil {

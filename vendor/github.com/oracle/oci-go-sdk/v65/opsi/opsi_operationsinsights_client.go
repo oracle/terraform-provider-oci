@@ -6851,6 +6851,64 @@ func (client OperationsInsightsClient) summarizeExadataMembers(ctx context.Conte
 	return response, err
 }
 
+// SummarizeHostInsightNetworkUsageTrend Returns response with usage time series data with breakdown by network interface for the time period specified.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightNetworkUsageTrend.go.html to see an example of how to use SummarizeHostInsightNetworkUsageTrend API.
+// A default retry strategy applies to this operation SummarizeHostInsightNetworkUsageTrend()
+func (client OperationsInsightsClient) SummarizeHostInsightNetworkUsageTrend(ctx context.Context, request SummarizeHostInsightNetworkUsageTrendRequest) (response SummarizeHostInsightNetworkUsageTrendResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightNetworkUsageTrend, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeHostInsightNetworkUsageTrendResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeHostInsightNetworkUsageTrendResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeHostInsightNetworkUsageTrendResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeHostInsightNetworkUsageTrendResponse")
+	}
+	return
+}
+
+// summarizeHostInsightNetworkUsageTrend implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeHostInsightNetworkUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/networkUsageTrend", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeHostInsightNetworkUsageTrendResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightNetworkUsageTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightNetworkUsageTrend", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SummarizeHostInsightResourceCapacityTrend Returns response with time series data (endTimestamp, capacity) for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
@@ -7202,6 +7260,64 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUtilizationIn
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightResourceUtilizationInsight"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightResourceUtilizationInsight", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeHostInsightStorageUsageTrend Returns response with usage time series data with breakdown by filesystem for the time period specified.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightStorageUsageTrend.go.html to see an example of how to use SummarizeHostInsightStorageUsageTrend API.
+// A default retry strategy applies to this operation SummarizeHostInsightStorageUsageTrend()
+func (client OperationsInsightsClient) SummarizeHostInsightStorageUsageTrend(ctx context.Context, request SummarizeHostInsightStorageUsageTrendRequest) (response SummarizeHostInsightStorageUsageTrendResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeHostInsightStorageUsageTrend, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeHostInsightStorageUsageTrendResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeHostInsightStorageUsageTrendResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeHostInsightStorageUsageTrendResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeHostInsightStorageUsageTrendResponse")
+	}
+	return
+}
+
+// summarizeHostInsightStorageUsageTrend implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) summarizeHostInsightStorageUsageTrend(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/hostInsights/storageUsageTrend", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeHostInsightStorageUsageTrendResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightStorageUsageTrend"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeHostInsightStorageUsageTrend", apiReferenceLink)
 		return response, err
 	}
 

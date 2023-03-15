@@ -26,6 +26,12 @@ type SummarizeHostInsightResourceForecastTrendAggregation struct {
 	// The end timestamp that was passed into the request.
 	TimeIntervalEnd *common.SDKTime `mandatory:"true" json:"timeIntervalEnd"`
 
+	// Percent value in which a resource metric is considered highly utilized.
+	HighUtilizationThreshold *int `mandatory:"true" json:"highUtilizationThreshold"`
+
+	// Percent value in which a resource metric is considered lowly utilized.
+	LowUtilizationThreshold *int `mandatory:"true" json:"lowUtilizationThreshold"`
+
 	// Defines the type of resource metric (CPU, Physical Memory, Logical Memory)
 	ResourceMetric SummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnum `mandatory:"true" json:"resourceMetric"`
 
@@ -75,18 +81,24 @@ const (
 	SummarizeHostInsightResourceForecastTrendAggregationResourceMetricCpu           SummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnum = "CPU"
 	SummarizeHostInsightResourceForecastTrendAggregationResourceMetricMemory        SummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnum = "MEMORY"
 	SummarizeHostInsightResourceForecastTrendAggregationResourceMetricLogicalMemory SummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnum = "LOGICAL_MEMORY"
+	SummarizeHostInsightResourceForecastTrendAggregationResourceMetricStorage       SummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnum = "STORAGE"
+	SummarizeHostInsightResourceForecastTrendAggregationResourceMetricNetwork       SummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnum = "NETWORK"
 )
 
 var mappingSummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnum = map[string]SummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnum{
 	"CPU":            SummarizeHostInsightResourceForecastTrendAggregationResourceMetricCpu,
 	"MEMORY":         SummarizeHostInsightResourceForecastTrendAggregationResourceMetricMemory,
 	"LOGICAL_MEMORY": SummarizeHostInsightResourceForecastTrendAggregationResourceMetricLogicalMemory,
+	"STORAGE":        SummarizeHostInsightResourceForecastTrendAggregationResourceMetricStorage,
+	"NETWORK":        SummarizeHostInsightResourceForecastTrendAggregationResourceMetricNetwork,
 }
 
 var mappingSummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnumLowerCase = map[string]SummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnum{
 	"cpu":            SummarizeHostInsightResourceForecastTrendAggregationResourceMetricCpu,
 	"memory":         SummarizeHostInsightResourceForecastTrendAggregationResourceMetricMemory,
 	"logical_memory": SummarizeHostInsightResourceForecastTrendAggregationResourceMetricLogicalMemory,
+	"storage":        SummarizeHostInsightResourceForecastTrendAggregationResourceMetricStorage,
+	"network":        SummarizeHostInsightResourceForecastTrendAggregationResourceMetricNetwork,
 }
 
 // GetSummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnumValues Enumerates the set of values for SummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnum
@@ -104,6 +116,8 @@ func GetSummarizeHostInsightResourceForecastTrendAggregationResourceMetricEnumSt
 		"CPU",
 		"MEMORY",
 		"LOGICAL_MEMORY",
+		"STORAGE",
+		"NETWORK",
 	}
 }
 

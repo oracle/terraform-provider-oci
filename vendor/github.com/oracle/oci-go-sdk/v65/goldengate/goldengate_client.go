@@ -150,6 +150,69 @@ func (client GoldenGateClient) cancelDeploymentBackup(ctx context.Context, reque
 	return response, err
 }
 
+// CancelSnoozeDeploymentUpgrade Cancel snooze of a DeploymentUpgrade. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelSnoozeDeploymentUpgrade.go.html to see an example of how to use CancelSnoozeDeploymentUpgrade API.
+// A default retry strategy applies to this operation CancelSnoozeDeploymentUpgrade()
+func (client GoldenGateClient) CancelSnoozeDeploymentUpgrade(ctx context.Context, request CancelSnoozeDeploymentUpgradeRequest) (response CancelSnoozeDeploymentUpgradeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.cancelSnoozeDeploymentUpgrade, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CancelSnoozeDeploymentUpgradeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CancelSnoozeDeploymentUpgradeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CancelSnoozeDeploymentUpgradeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CancelSnoozeDeploymentUpgradeResponse")
+	}
+	return
+}
+
+// cancelSnoozeDeploymentUpgrade implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) cancelSnoozeDeploymentUpgrade(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deploymentUpgrades/{deploymentUpgradeId}/actions/cancelSnooze", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CancelSnoozeDeploymentUpgradeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentUpgrade/CancelSnoozeDeploymentUpgrade"
+		err = common.PostProcessServiceError(err, "GoldenGate", "CancelSnoozeDeploymentUpgrade", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeConnectionCompartment Moves the Connection into a different compartment within the same tenancy. When
 // provided, If-Match is checked against ETag values of the resource.  For information about
 // moving resources between compartments, see Moving Resources Between
@@ -2025,6 +2088,64 @@ func (client GoldenGateClient) listDeploymentUpgrades(ctx context.Context, reque
 	return response, err
 }
 
+// ListDeploymentVersions Returns the list of available deployment versions.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentVersions.go.html to see an example of how to use ListDeploymentVersions API.
+// A default retry strategy applies to this operation ListDeploymentVersions()
+func (client GoldenGateClient) ListDeploymentVersions(ctx context.Context, request ListDeploymentVersionsRequest) (response ListDeploymentVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDeploymentVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDeploymentVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDeploymentVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDeploymentVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDeploymentVersionsResponse")
+	}
+	return
+}
+
+// listDeploymentVersions implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) listDeploymentVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deploymentVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDeploymentVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentVersionCollection/ListDeploymentVersions"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListDeploymentVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDeploymentWalletsOperations Lists the wallets export/import operations to/from a deployment.
 //
 // See also
@@ -2552,6 +2673,132 @@ func (client GoldenGateClient) restoreDeployment(ctx context.Context, request co
 	return response, err
 }
 
+// RollbackDeploymentUpgrade Rollback a deployment to it's previous version. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RollbackDeploymentUpgrade.go.html to see an example of how to use RollbackDeploymentUpgrade API.
+// A default retry strategy applies to this operation RollbackDeploymentUpgrade()
+func (client GoldenGateClient) RollbackDeploymentUpgrade(ctx context.Context, request RollbackDeploymentUpgradeRequest) (response RollbackDeploymentUpgradeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rollbackDeploymentUpgrade, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RollbackDeploymentUpgradeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RollbackDeploymentUpgradeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RollbackDeploymentUpgradeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RollbackDeploymentUpgradeResponse")
+	}
+	return
+}
+
+// rollbackDeploymentUpgrade implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) rollbackDeploymentUpgrade(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deploymentUpgrades/{deploymentUpgradeId}/actions/rollback", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RollbackDeploymentUpgradeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentUpgrade/RollbackDeploymentUpgrade"
+		err = common.PostProcessServiceError(err, "GoldenGate", "RollbackDeploymentUpgrade", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SnoozeDeploymentUpgrade Snooze a DeploymentUpgrade. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/SnoozeDeploymentUpgrade.go.html to see an example of how to use SnoozeDeploymentUpgrade API.
+// A default retry strategy applies to this operation SnoozeDeploymentUpgrade()
+func (client GoldenGateClient) SnoozeDeploymentUpgrade(ctx context.Context, request SnoozeDeploymentUpgradeRequest) (response SnoozeDeploymentUpgradeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.snoozeDeploymentUpgrade, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SnoozeDeploymentUpgradeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SnoozeDeploymentUpgradeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SnoozeDeploymentUpgradeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SnoozeDeploymentUpgradeResponse")
+	}
+	return
+}
+
+// snoozeDeploymentUpgrade implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) snoozeDeploymentUpgrade(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deploymentUpgrades/{deploymentUpgradeId}/actions/snooze", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SnoozeDeploymentUpgradeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentUpgrade/SnoozeDeploymentUpgrade"
+		err = common.PostProcessServiceError(err, "GoldenGate", "SnoozeDeploymentUpgrade", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StartDeployment Starts a Deployment. When provided, If-Match is checked against ETag values of the resource.
 //
 // See also
@@ -2967,6 +3214,69 @@ func (client GoldenGateClient) upgradeDeployment(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/UpgradeDeployment"
 		err = common.PostProcessServiceError(err, "GoldenGate", "UpgradeDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpgradeDeploymentUpgrade Upgrade a deployment. When provided, If-Match is checked against ETag values of the resource.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpgradeDeploymentUpgrade.go.html to see an example of how to use UpgradeDeploymentUpgrade API.
+// A default retry strategy applies to this operation UpgradeDeploymentUpgrade()
+func (client GoldenGateClient) UpgradeDeploymentUpgrade(ctx context.Context, request UpgradeDeploymentUpgradeRequest) (response UpgradeDeploymentUpgradeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.upgradeDeploymentUpgrade, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpgradeDeploymentUpgradeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpgradeDeploymentUpgradeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpgradeDeploymentUpgradeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpgradeDeploymentUpgradeResponse")
+	}
+	return
+}
+
+// upgradeDeploymentUpgrade implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) upgradeDeploymentUpgrade(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deploymentUpgrades/{deploymentUpgradeId}/actions/upgrade", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpgradeDeploymentUpgradeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentUpgrade/UpgradeDeploymentUpgrade"
+		err = common.PostProcessServiceError(err, "GoldenGate", "UpgradeDeploymentUpgrade", apiReferenceLink)
 		return response, err
 	}
 

@@ -52,16 +52,16 @@ var (
 
 	networkFirewallPolicyRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"application_lists":   []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallApplicationListsRepresentation}},
-		"decryption_profiles": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallPolicyDecryptionProfilesRepresentation1}},
-		"decryption_rules":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: networkFirewallPolicyDecryptionRulesRepresentation},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName`},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"bar-key": "value"}},
-		"ip_address_lists":    []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallIpAddressListsRepresentation}},
-		"mapped_secrets":      []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallPolicyMappedSecretsRepresentation}},
-		"security_rules":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: networkFirewallPolicySecurityRulesRepresentation},
-		"url_lists":           []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallUrlListsRepresentation}},
+		"application_lists":   []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallApplicationListsRepresentation}, {RepType: acctest.Optional, Group: networkFirewallApplicationListsRepresentation2}},
+		"decryption_profiles": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallPolicyDecryptionProfilesRepresentation1}, {RepType: acctest.Optional, Group: networkFirewallPolicyDecryptionProfilesRepresentation2}},
+		"decryption_rules":    []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallPolicyDecryptionRulesRepresentation}, {RepType: acctest.Optional, Group: networkFirewallPolicyDecryptionRulesRepresentation2}},
+		//"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"bar-key": "value"}},
+		"ip_address_lists": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallIpAddressListsRepresentation}, {RepType: acctest.Optional, Group: networkFirewallIpAddressListsRepresentation2}},
+		"mapped_secrets":   []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallPolicyMappedSecretsRepresentation}, {RepType: acctest.Optional, Group: networkFirewallPolicyMappedSecretsRepresentation2}},
+		"security_rules":   []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallPolicySecurityRulesRepresentation}, {RepType: acctest.Optional, Group: networkFirewallPolicySecurityRulesRepresentation2}},
+		"url_lists":        []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallUrlListsRepresentation}, {RepType: acctest.Optional, Group: networkFirewallUrlListsRepresentation2}},
 	}
 
 	networkFirewallIpAddressListsRepresentation = map[string]interface{}{
@@ -70,13 +70,26 @@ var (
 			"10.22.2.2"}, Update: []string{"10.2.3.4/24",
 			"10.22.2.2"}},
 	}
+	networkFirewallIpAddressListsRepresentation2 = map[string]interface{}{
+		"ip_address_list_name": acctest.Representation{RepType: acctest.Required, Create: `hr_source2`, Update: `hr_source2`},
+		"ip_address_list_value": acctest.Representation{RepType: acctest.Optional, Create: []string{"10.3.3.4/24"}, Update: []string{"10.2.3.4/24",
+			"10.22.2.2"}},
+	}
 	networkFirewallUrlListsRepresentation = map[string]interface{}{
 		"url_list_name":   acctest.Representation{RepType: acctest.Required, Create: `hr`},
 		"url_list_values": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallUrlRepresentation}},
 	}
+	networkFirewallUrlListsRepresentation2 = map[string]interface{}{
+		"url_list_name":   acctest.Representation{RepType: acctest.Required, Create: `hr1`},
+		"url_list_values": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallUrlRepresentation2}},
+	}
 	networkFirewallUrlRepresentation = map[string]interface{}{
 		"type":    acctest.Representation{RepType: acctest.Required, Create: `SIMPLE`},
 		"pattern": acctest.Representation{RepType: acctest.Optional, Create: `google.com`},
+	}
+	networkFirewallUrlRepresentation2 = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `SIMPLE`},
+		"pattern": acctest.Representation{RepType: acctest.Optional, Create: `facebook.com`},
 	}
 	networkFirewallApplicationListsRepresentation = map[string]interface{}{
 		"application_list_name": acctest.Representation{RepType: acctest.Required, Create: `app-1`},
@@ -90,8 +103,12 @@ var (
 	}
 
 	networkFirewallApplicationListsRepresentation2 = map[string]interface{}{
+		"application_list_name": acctest.Representation{RepType: acctest.Required, Create: `app-2`},
+		"application_values":    []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: networkFirewallApplicationRepresentation2}},
+	}
+
+	networkFirewallApplicationRepresentation2 = map[string]interface{}{
 		"type":      acctest.Representation{RepType: acctest.Required, Create: "ICMP"},
-		"key":       acctest.Representation{RepType: acctest.Required, Create: `app-2`},
 		"icmp_type": acctest.Representation{RepType: acctest.Optional, Create: `5`},
 		"icmp_code": acctest.Representation{RepType: acctest.Optional, Create: `2`},
 	}
@@ -108,12 +125,32 @@ var (
 		"is_unknown_revocation_status_blocked":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_untrusted_issuer_blocked":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 	}
+	networkFirewallPolicyDecryptionProfilesRepresentation2 = map[string]interface{}{
+		"key":                                   acctest.Representation{RepType: acctest.Required, Create: `ssl-outbound-1`, Update: `ssl-outbound-1`},
+		"is_out_of_capacity_blocked":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_unsupported_cipher_blocked":         acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_unsupported_version_blocked":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"type":                                  acctest.Representation{RepType: acctest.Required, Create: `SSL_FORWARD_PROXY`, Update: `SSL_FORWARD_PROXY`},
+		"are_certificate_extensions_restricted": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_auto_include_alt_name":              acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_expired_certificate_blocked":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_revocation_status_timeout_blocked":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_unknown_revocation_status_blocked":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_untrusted_issuer_blocked":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+	}
 	networkFirewallPolicyDecryptionRulesRepresentation = map[string]interface{}{
 		"action":             acctest.Representation{RepType: acctest.Required, Create: `DECRYPT`}, // Update: `DECRYPT`
 		"condition":          acctest.RepresentationGroup{RepType: acctest.Required, Group: networkFirewallPolicyDecryptionRulesConditionRepresentation},
-		"name":               acctest.Representation{RepType: acctest.Required, Create: `hr-inbound-inspect`, Update: `hr-inbound-inspect`},
+		"name":               acctest.Representation{RepType: acctest.Required, Create: `hr-inbound-decrypt`, Update: `hr-inbound-decrypt`},
 		"decryption_profile": acctest.Representation{RepType: acctest.Optional, Create: `ssl-inbound-1`, Update: `ssl-inbound-1`},
 		"secret":             acctest.Representation{RepType: acctest.Optional, Create: `cert-inbound`, Update: `cert-inbound`},
+	}
+	networkFirewallPolicyDecryptionRulesRepresentation2 = map[string]interface{}{
+		"action":             acctest.Representation{RepType: acctest.Required, Create: `DECRYPT`}, // Update: `DECRYPT`
+		"condition":          acctest.RepresentationGroup{RepType: acctest.Required, Group: networkFirewallPolicyDecryptionRulesConditionRepresentation2},
+		"name":               acctest.Representation{RepType: acctest.Required, Create: `hr-inbound-inspect`, Update: `hr-inbound-inspect`},
+		"decryption_profile": acctest.Representation{RepType: acctest.Optional, Create: `ssl-outbound-1`, Update: `ssl-outbound-1`},
+		"secret":             acctest.Representation{RepType: acctest.Optional, Create: `outbound-1`, Update: `outbound-3`},
 	}
 	networkFirewallPolicyMappedSecretsRepresentation = map[string]interface{}{
 		"key":             acctest.Representation{RepType: acctest.Required, Create: `cert-inbound`, Update: `cert-inbound`},
@@ -121,23 +158,44 @@ var (
 		"vault_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id}`},
 		"version_number":  acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `10`},
 	}
+	networkFirewallPolicyMappedSecretsRepresentation2 = map[string]interface{}{
+		"key":             acctest.Representation{RepType: acctest.Required, Create: `outbound-1`, Update: `outbound-3`},
+		"type":            acctest.Representation{RepType: acctest.Required, Create: `SSL_FORWARD_PROXY`, Update: `SSL_FORWARD_PROXY`},
+		"vault_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id}`},
+		"version_number":  acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `10`},
+	}
 	networkFirewallPolicySecurityRulesRepresentation = map[string]interface{}{
-		"action":     acctest.Representation{RepType: acctest.Required, Create: `INSPECT`, Update: `INSPECT`},
+		"action":     acctest.Representation{RepType: acctest.Required, Create: `ALLOW`, Update: `DROP`},
 		"condition":  acctest.RepresentationGroup{RepType: acctest.Required, Group: networkFirewallPolicySecurityRulesConditionRepresentation},
 		"name":       acctest.Representation{RepType: acctest.Required, Create: `hr_access`, Update: `hr_access`},
+		"inspection": acctest.Representation{RepType: acctest.Optional, Create: ``, Update: ``},
+	}
+	networkFirewallPolicySecurityRulesRepresentation2 = map[string]interface{}{
+		"action":     acctest.Representation{RepType: acctest.Required, Create: `INSPECT`, Update: `INSPECT`},
+		"condition":  acctest.RepresentationGroup{RepType: acctest.Required, Group: networkFirewallPolicySecurityRulesConditionRepresentation},
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `hr_access2`, Update: `hr_access2`},
 		"inspection": acctest.Representation{RepType: acctest.Optional, Create: `INTRUSION_DETECTION`, Update: `INTRUSION_DETECTION`},
 	}
 	networkFirewallPolicyDecryptionRulesConditionRepresentation = map[string]interface{}{
-		"destinations": acctest.Representation{RepType: acctest.Optional, Create: []string{`hr_source`}, Update: []string{`hr_source`}},
-		"sources":      acctest.Representation{RepType: acctest.Optional, Create: []string{`hr_source`}, Update: []string{`hr_source`}},
+		"destinations": acctest.Representation{RepType: acctest.Optional, Create: []string{`hr_source`}, Update: []string{`hr_source2`}},
+		"sources":      acctest.Representation{RepType: acctest.Optional, Create: []string{`hr_source`}, Update: []string{`hr_source2`}},
+	}
+	networkFirewallPolicyDecryptionRulesConditionRepresentation2 = map[string]interface{}{
+		"destinations": acctest.Representation{RepType: acctest.Optional, Create: []string{`hr_source2`}, Update: []string{`hr_source`}},
+		"sources":      acctest.Representation{RepType: acctest.Optional, Create: []string{`hr_source2`}, Update: []string{`hr_source`}},
 	}
 	networkFirewallPolicySecurityRulesConditionRepresentation = map[string]interface{}{
-		"applications": acctest.Representation{RepType: acctest.Optional, Create: []string{`app-1`}, Update: []string{`app-1`}},
+		"applications": acctest.Representation{RepType: acctest.Optional, Create: []string{`app-1`}, Update: []string{`app-2`}},
 		"destinations": acctest.Representation{RepType: acctest.Optional, Create: []string{`hr_source`}, Update: []string{`hr_source`}},
 		"sources":      acctest.Representation{RepType: acctest.Optional, Create: []string{`hr_source`}, Update: []string{`hr_source`}},
 		"urls":         acctest.Representation{RepType: acctest.Optional, Create: []string{`hr`}, Update: []string{`hr`}},
 	}
-
+	networkFirewallPolicySecurityRulesConditionRepresentation2 = map[string]interface{}{
+		"applications": acctest.Representation{RepType: acctest.Optional, Create: []string{`app-2`}, Update: []string{`app-2`}},
+		"destinations": acctest.Representation{RepType: acctest.Optional, Create: []string{`hr_source2`}, Update: []string{`hr_source2`}},
+		"sources":      acctest.Representation{RepType: acctest.Optional, Create: []string{`hr_source2`}, Update: []string{`hr_source2`}},
+		"urls":         acctest.Representation{RepType: acctest.Optional, Create: []string{`hr1`}, Update: []string{`hr1`}},
+	}
 	NetworkFirewallPolicyResourceDependencies = "" //DefinedTagsDependencies +
 	//acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, vaultRepresentation) +
 	//acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, secretRepresentation)
@@ -195,37 +253,37 @@ func TestNetworkFirewallNetworkFirewallPolicyResource_basic(t *testing.T) {
 			Config: config + vaultIdVariableStr + keyIdVariableStr + compartmentIdVariableStr + NetworkFirewallPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall_policy", "test_network_firewall_policy", acctest.Optional, acctest.Create, networkFirewallPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "application_lists.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "application_lists.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "application_lists.0.application_list_name", "app-1"),
 				resource.TestCheckResourceAttr(resourceName, "application_lists.0.application_values.0.icmp_type", "5"),
 				resource.TestCheckResourceAttr(resourceName, "application_lists.0.application_values.0.icmp_code", "2"),
-				resource.TestCheckResourceAttr(resourceName, "url_lists.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "url_lists.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "url_lists.0.url_list_values.0.pattern", "google.com"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "decryption_profiles.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "decryption_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "decryption_profiles.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "decryption_rules.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.action", "DECRYPT"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.condition.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.condition.0.destinations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.condition.0.sources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.decryption_profile", "ssl-inbound-1"),
-				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.name", "hr-inbound-inspect"),
+				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.name", "hr-inbound-decrypt"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.secret", "cert-inbound"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "ip_address_lists.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address_lists.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address_lists.0.ip_address_list_name", "hr_source"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_firewall_attached"),
-				resource.TestCheckResourceAttr(resourceName, "mapped_secrets.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "security_rules.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "security_rules.0.action", "INSPECT"),
+				resource.TestCheckResourceAttr(resourceName, "mapped_secrets.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_rules.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_rules.0.action", "ALLOW"),
+				resource.TestCheckResourceAttr(resourceName, "security_rules.1.action", "INSPECT"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.applications.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.destinations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.sources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.urls.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "security_rules.0.inspection", "INTRUSION_DETECTION"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.name", "hr_access"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -252,27 +310,29 @@ func TestNetworkFirewallNetworkFirewallPolicyResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "decryption_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "decryption_rules.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.action", "DECRYPT"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.condition.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.condition.0.destinations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.condition.0.sources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.decryption_profile", "ssl-inbound-1"),
-				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.name", "hr-inbound-inspect"),
+				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.name", "hr-inbound-decrypt"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.secret", "cert-inbound"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "ip_address_lists.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address_lists.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_firewall_attached"),
-				resource.TestCheckResourceAttr(resourceName, "security_rules.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "security_rules.0.action", "INSPECT"),
+				resource.TestCheckResourceAttr(resourceName, "security_rules.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_rules.0.action", "ALLOW"),
+				resource.TestCheckResourceAttr(resourceName, "security_rules.1.action", "INSPECT"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.applications.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.destinations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.sources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.urls.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "security_rules.0.inspection", "INTRUSION_DETECTION"),
+				resource.TestCheckResourceAttr(resourceName, "security_rules.0.inspection", ""),
+				resource.TestCheckResourceAttr(resourceName, "security_rules.1.inspection", "INTRUSION_DETECTION"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.name", "hr_access"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -294,26 +354,25 @@ func TestNetworkFirewallNetworkFirewallPolicyResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall_policy", "test_network_firewall_policy", acctest.Optional, acctest.Update, networkFirewallPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "decryption_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "decryption_rules.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.action", "DECRYPT"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.condition.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.condition.0.destinations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.condition.0.sources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.decryption_profile", "ssl-inbound-1"),
-				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.name", "hr-inbound-inspect"),
+				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.name", "hr-inbound-decrypt"),
 				resource.TestCheckResourceAttr(resourceName, "decryption_rules.0.secret", "cert-inbound"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_firewall_attached"),
-				resource.TestCheckResourceAttr(resourceName, "security_rules.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "security_rules.0.action", "INSPECT"),
+				resource.TestCheckResourceAttr(resourceName, "security_rules.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_rules.0.action", "DROP"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.applications.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.destinations.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.sources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.condition.0.urls.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "security_rules.0.inspection", "INTRUSION_DETECTION"),
 				resource.TestCheckResourceAttr(resourceName, "security_rules.0.name", "hr_access"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -352,27 +411,28 @@ func TestNetworkFirewallNetworkFirewallPolicyResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "decryption_rules.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "decryption_rules.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "decryption_rules.0.action", "DECRYPT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "decryption_rules.0.condition.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "decryption_rules.0.condition.0.destinations.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "decryption_rules.0.condition.0.sources.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "decryption_rules.0.decryption_profile", "ssl-inbound-1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "decryption_rules.0.name", "hr-inbound-inspect"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "decryption_rules.0.name", "hr-inbound-decrypt"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "decryption_rules.0.secret", "cert-inbound"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "ip_address_lists.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_address_lists.#", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_firewall_attached"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.0.action", "INSPECT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.0.action", "DROP"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.0.condition.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.0.condition.0.applications.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.0.condition.0.destinations.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.0.condition.0.sources.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.0.condition.0.urls.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.0.inspection", "INTRUSION_DETECTION"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.0.inspection", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.1.inspection", "INTRUSION_DETECTION"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "security_rules.0.name", "hr_access"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

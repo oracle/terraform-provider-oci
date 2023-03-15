@@ -216,8 +216,6 @@ resource "oci_network_firewall_network_firewall_policy" "test_network_firewall_p
     application_values {
       type                           = var.network_firewall_policy_application_lists_type
       #Optional
-      icmp_type                      = var.network_firewall_policy_application_lists_icmp_type
-      icmp_code                      = var.network_firewall_policy_application_lists_icmp_code
       minimum_port                   = var.network_firewall_policy_application_lists_minimum_port
       maximum_port                   = var.network_firewall_policy_application_lists_maximum_port
     }
@@ -278,6 +276,13 @@ resource "oci_network_firewall_network_firewall_policy" "test_network_firewall_p
   ip_address_lists {
     ip_address_list_name = var.network_firewall_policy_ip_address_lists_name
     ip_address_list_value = var.network_firewall_policy_ip_address_lists_value
+  }
+  mapped_secrets {
+    #Required
+    type            = var.network_firewall_policy_mapped_secrets_type
+    key             = var.network_firewall_policy_mapped_secrets_key
+    vault_secret_id = oci_vault_secret.test_secret.id
+    version_number  = var.network_firewall_policy_mapped_secrets_version_number
   }
   mapped_secrets {
     #Required
