@@ -144,6 +144,7 @@ const (
 	ListDeploymentBackupsLifecycleStateCanceling      ListDeploymentBackupsLifecycleStateEnum = "CANCELING"
 	ListDeploymentBackupsLifecycleStateCanceled       ListDeploymentBackupsLifecycleStateEnum = "CANCELED"
 	ListDeploymentBackupsLifecycleStateSucceeded      ListDeploymentBackupsLifecycleStateEnum = "SUCCEEDED"
+	ListDeploymentBackupsLifecycleStateWaiting        ListDeploymentBackupsLifecycleStateEnum = "WAITING"
 )
 
 var mappingListDeploymentBackupsLifecycleStateEnum = map[string]ListDeploymentBackupsLifecycleStateEnum{
@@ -159,6 +160,7 @@ var mappingListDeploymentBackupsLifecycleStateEnum = map[string]ListDeploymentBa
 	"CANCELING":       ListDeploymentBackupsLifecycleStateCanceling,
 	"CANCELED":        ListDeploymentBackupsLifecycleStateCanceled,
 	"SUCCEEDED":       ListDeploymentBackupsLifecycleStateSucceeded,
+	"WAITING":         ListDeploymentBackupsLifecycleStateWaiting,
 }
 
 var mappingListDeploymentBackupsLifecycleStateEnumLowerCase = map[string]ListDeploymentBackupsLifecycleStateEnum{
@@ -174,6 +176,7 @@ var mappingListDeploymentBackupsLifecycleStateEnumLowerCase = map[string]ListDep
 	"canceling":       ListDeploymentBackupsLifecycleStateCanceling,
 	"canceled":        ListDeploymentBackupsLifecycleStateCanceled,
 	"succeeded":       ListDeploymentBackupsLifecycleStateSucceeded,
+	"waiting":         ListDeploymentBackupsLifecycleStateWaiting,
 }
 
 // GetListDeploymentBackupsLifecycleStateEnumValues Enumerates the set of values for ListDeploymentBackupsLifecycleStateEnum
@@ -200,6 +203,7 @@ func GetListDeploymentBackupsLifecycleStateEnumStringValues() []string {
 		"CANCELING",
 		"CANCELED",
 		"SUCCEEDED",
+		"WAITING",
 	}
 }
 

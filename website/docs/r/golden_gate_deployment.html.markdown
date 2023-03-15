@@ -33,6 +33,11 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 	fqdn = var.deployment_fqdn
 	freeform_tags = {"bar-key"= "value"}
 	is_public = var.deployment_is_public
+	maintenance_window {
+		#Required
+		day = var.deployment_maintenance_window_day
+		start_hour = var.deployment_maintenance_window_start_hour
+	}
 	nsg_ids = var.deployment_nsg_ids
 	ogg_data {
 		#Required
@@ -43,7 +48,9 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 		#Optional
 		certificate = var.deployment_ogg_data_certificate
 		key = var.deployment_ogg_data_key
+		ogg_version = var.deployment_ogg_data_ogg_version
 	}
+	state = var.deployment_state
 }
 ```
 
@@ -63,6 +70,9 @@ The following arguments are supported:
 * `is_auto_scaling_enabled` - (Required) (Updatable) Indicates if auto scaling is enabled for the Deployment's CPU core count. 
 * `is_public` - (Optional) (Updatable) True if this object is publicly available. 
 * `license_model` - (Required) (Updatable) The Oracle license model that applies to a Deployment. 
+* `maintenance_window` - (Optional) (Updatable) Defines the maintenance window for create operation, when automatic actions can be performed. 
+	* `day` - (Required) (Updatable) Days of the week. 
+	* `start_hour` - (Required) (Updatable) Start hour for maintenance period. Hour is in UTC. 
 * `nsg_ids` - (Optional) (Updatable) An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
 * `ogg_data` - (Optional) (Updatable) Deployment Data for creating an OggDeployment 
 	* `admin_password` - (Required) (Updatable) The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as ‘$’, ‘^’, or ‘?’ are not allowed. This field will be deprecated and replaced by "passwordSecretId". 
@@ -70,7 +80,9 @@ The following arguments are supported:
 	* `certificate` - (Optional) (Updatable) A PEM-encoded SSL certificate. 
 	* `deployment_name` - (Required) The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
 	* `key` - (Optional) (Updatable) A PEM-encoded private key. 
-* `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet being referenced. 
+	* `ogg_version` - (Optional) (Updatable) Version of ogg to use by deployment. By updating version you can upgrade your deployment to a newer version. Downgrade to older version is not supported.
+* `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+* `state` - (Optional) (Updatable) The target state for the deployment. Could be set to ACTIVE or INACTIVE. By setting this value to ACTIVE terraform will perform start operation, if your deployment is not ACTIVE already. Setting value to INACTIVE will stop your deployment.
 
 
 ** IMPORTANT **
@@ -106,6 +118,11 @@ The following attributes are exported:
 * `license_model` - The Oracle license model that applies to a Deployment. 
 * `lifecycle_details` - Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state. 
 * `lifecycle_sub_state` - Possible GGS lifecycle sub-states. 
+* `maintenance_window` - Defines the maintenance window, when automatic actions can be performed. 
+	* `day` - Days of the week. 
+	* `start_hour` - Start hour for maintenance period. Hour is in UTC. 
+* `next_maintenance_action_type` - Type of the next maintenance. 
+* `next_maintenance_description` - Description of the next maintenance. 
 * `nsg_ids` - An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
 * `ogg_data` - Deployment Data for an OggDeployment 
 	* `admin_username` - The GoldenGate deployment console username. 
@@ -119,8 +136,9 @@ The following attributes are exported:
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet being referenced. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_of_next_maintenance` - The time of next maintenance schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
-* `time_upgrade_required` - The date the existing version in use will no longer be considered as usable and an upgrade will be required.  This date is typically 6 months after the version was released for use by GGS.  The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_upgrade_required` - Note: Deprecated: Use timeOfNextMaintenance instead, or related upgrade records  to check, when deployment will be forced to upgrade to a newer version. Old description: The date the existing version in use will no longer be considered as usable and an upgrade will be required.  This date is typically 6 months after the version was released for use by GGS.  The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 
 ## Timeouts
 

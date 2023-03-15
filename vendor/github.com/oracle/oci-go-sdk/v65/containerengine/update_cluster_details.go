@@ -42,6 +42,9 @@ type UpdateClusterDetails struct {
 	// one or more kms keys, the policy will ensure all images deployed has been signed with the key(s)
 	// attached to the policy.
 	ImagePolicyConfig *UpdateImagePolicyConfigDetails `mandatory:"false" json:"imagePolicyConfig"`
+
+	// Type of cluster
+	Type ClusterTypeEnum `mandatory:"false" json:"type,omitempty"`
 }
 
 func (m UpdateClusterDetails) String() string {
@@ -54,6 +57,9 @@ func (m UpdateClusterDetails) String() string {
 func (m UpdateClusterDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingClusterTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetClusterTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

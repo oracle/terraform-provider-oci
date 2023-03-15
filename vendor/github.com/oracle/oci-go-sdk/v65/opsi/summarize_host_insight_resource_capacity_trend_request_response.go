@@ -22,6 +22,7 @@ type SummarizeHostInsightResourceCapacityTrendRequest struct {
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Filter by host resource metric.
+	// Supported values are CPU, MEMORY, LOGICAL_MEMORY, STORAGE and NETWORK.
 	ResourceMetric *string `mandatory:"true" contributesTo:"query" name:"resourceMetric"`
 
 	// Specify time period in ISO 8601 format with respect to current time.
@@ -114,6 +115,12 @@ type SummarizeHostInsightResourceCapacityTrendRequest struct {
 
 	// Optional list of Exadata Insight VM cluster name.
 	VmclusterName []string `contributesTo:"query" name:"vmclusterName" collectionFormat:"multi"`
+
+	// Percent value in which a resource metric is considered highly utilized.
+	HighUtilizationThreshold *int `mandatory:"false" contributesTo:"query" name:"highUtilizationThreshold"`
+
+	// Percent value in which a resource metric is considered low utilized.
+	LowUtilizationThreshold *int `mandatory:"false" contributesTo:"query" name:"lowUtilizationThreshold"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

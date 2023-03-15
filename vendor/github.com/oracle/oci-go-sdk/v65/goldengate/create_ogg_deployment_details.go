@@ -36,6 +36,9 @@ type CreateOggDeploymentDetails struct {
 
 	// A PEM-encoded private key.
 	Key *string `mandatory:"false" json:"key"`
+
+	// Version of OGG
+	OggVersion *string `mandatory:"false" json:"oggVersion"`
 }
 
 func (m CreateOggDeploymentDetails) String() string {

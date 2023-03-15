@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// SummarizeDatabaseInsightResourceStatisticsAggregationCollection Returns list of the Databases with resource statistics like usage,capacity,utilization and usage change percent.
+// SummarizeDatabaseInsightResourceStatisticsAggregationCollection Returns list of the Databases with resource statistics like usage, capacity, utilization and usage change percent.
 type SummarizeDatabaseInsightResourceStatisticsAggregationCollection struct {
 
 	// The start timestamp that was passed into the request.

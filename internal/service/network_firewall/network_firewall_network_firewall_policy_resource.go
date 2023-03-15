@@ -4,11 +4,14 @@
 package network_firewall
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"strings"
 	"time"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -41,9 +44,10 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 				Required: true,
 			},
 			"application_lists": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      applicationListsHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						//Required
@@ -90,10 +94,10 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 				},
 			},
 			"decryption_profiles": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				//Set:      originsHashCodeForProfiles,
+				Set:      decryptionProfilesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -228,9 +232,10 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"ip_address_lists": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      ipAddressListsHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -250,10 +255,10 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 				},
 			},
 			"mapped_secrets": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				//Set:      mappedSecretsHashCodeForSets,
+				Set:      mappedSecretsHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -355,9 +360,10 @@ func NetworkFirewallNetworkFirewallPolicyResource() *schema.Resource {
 				},
 			},
 			"url_lists": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      urlListsHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"url_list_name": {
@@ -600,32 +606,21 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Create() error {
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToDecryptionProfileMap(decryptionProfiles interface{}) (map[string]oci_network_firewall.DecryptionProfile, error) {
 
 	resultMap := map[string]oci_network_firewall.DecryptionProfile{}
-	tmpList := decryptionProfiles.([]interface{})
-	i := 0
+	set := decryptionProfiles.(*schema.Set)
+	tmpList := set.List()
 	for _, ifc := range tmpList {
-		fmt.Printf("current index %q", ifc)
-		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "decryption_profiles", i)
+		stateDataIndex := decryptionProfilesHashCodeForSets(ifc)
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "decryption_profiles", stateDataIndex)
 		converted, err := s.mapToDecryptionProfile(fieldKeyFormat)
 		if err != nil {
 			return nil, err
 		}
 
-		if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
-			tmp := type_.(string)
-			switch tmp {
-			case "SSL_INBOUND_INSPECTION":
-				if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
-					keyV := key.(string)
-					resultMap[keyV] = converted
-				}
-			case "SSL_FORWARD_PROXY":
-				if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
-					keyV := key.(string)
-					resultMap[keyV] = converted
-				}
-			}
+		if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+			keyV := key.(string)
+			resultMap[keyV] = converted
 		}
-		i++
+
 	}
 
 	return resultMap, nil
@@ -634,34 +629,23 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToDecryption
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToMappedSecrets(mappedSecrets interface{}) (map[string]oci_network_firewall.MappedSecret, error) {
 
 	resultMap := map[string]oci_network_firewall.MappedSecret{}
-	tmpList := mappedSecrets.([]interface{})
-	i := 0
+	set := mappedSecrets.(*schema.Set)
+	tmpList := set.List()
+
 	for _, ifc := range tmpList {
-		fmt.Printf("Current secret %q", ifc)
-		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mapped_secrets", i)
+		stateDataIndex := mappedSecretsHashCodeForSets(ifc)
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "mapped_secrets", stateDataIndex)
 		converted, err := s.mapToMappedSecret(fieldKeyFormat)
 		if err != nil {
 			return nil, err
 		}
 
-		if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
-			tmp := type_.(string)
-			switch tmp {
-			case "SSL_INBOUND_INSPECTION":
-				if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
-					keyV := key.(string)
-					resultMap[keyV] = converted
-				}
-			case "SSL_FORWARD_PROXY":
-				if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
-					keyV := key.(string)
-					resultMap[keyV] = converted
-				}
-			}
+		if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+			keyV := key.(string)
+			resultMap[keyV] = converted
 		}
-		i++
-	}
 
+	}
 	return resultMap, nil
 }
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) mapToDecryptionProfile(fieldKeyFormat string) (oci_network_firewall.DecryptionProfile, error) {
@@ -1037,13 +1021,13 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) Delete() error {
 
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) SetData() error {
 	if s.Res.ApplicationLists != nil {
-		s.D.Set("application_lists", propertyApplicationListsToMap(s.Res.ApplicationLists))
+		s.D.Set("application_lists", schema.NewSet(applicationListsHashCodeForSets, propertyApplicationListsToMap(s.Res.ApplicationLists)))
 	} else {
 		s.D.Set("application_lists", nil)
 	}
 
 	if s.Res.UrlLists != nil {
-		s.D.Set("url_lists", propertyUrlListsToMap(s.Res.UrlLists))
+		s.D.Set("url_lists", schema.NewSet(urlListsHashCodeForSets, propertyUrlListsToMap(s.Res.UrlLists)))
 	} else {
 		s.D.Set("url_lists", nil)
 	}
@@ -1053,13 +1037,13 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) SetData() error {
 	}
 
 	if s.Res.DecryptionProfiles != nil {
-		s.D.Set("decryption_profiles", DecryptionProfileMapToMap(s.Res.DecryptionProfiles))
+		s.D.Set("decryption_profiles", schema.NewSet(decryptionProfilesHashCodeForSets, DecryptionProfileMapToMap(s.Res.DecryptionProfiles)))
 	} else {
 		s.D.Set("decryption_profiles", nil)
 	}
 
 	if s.Res.MappedSecrets != nil {
-		s.D.Set("mapped_secrets", MappedSecretsToMap(s.Res.MappedSecrets))
+		s.D.Set("mapped_secrets", schema.NewSet(mappedSecretsHashCodeForSets, MappedSecretsToMap(s.Res.MappedSecrets)))
 	} else {
 		s.D.Set("mapped_secrets", nil)
 	}
@@ -1081,7 +1065,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IpAddressLists != nil {
-		s.D.Set("ip_address_lists", ipAddressListsToMap(s.Res.IpAddressLists))
+		s.D.Set("ip_address_lists", schema.NewSet(ipAddressListsHashCodeForSets, ipAddressListsToMap(s.Res.IpAddressLists)))
 	} else {
 		s.D.Set("ip_address_lists", nil)
 	}
@@ -1248,6 +1232,136 @@ func MappedSecretToMap(obj oci_network_firewall.MappedSecret) map[string]interfa
 	return result
 }
 
+func ipAddressListsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if listName, ok := m["ip_address_list_name"]; ok && listName != "" {
+		buf.WriteString(fmt.Sprintf("%v-", listName))
+	}
+	if listValue, ok := m["ip_address_list_value"]; ok && listValue != "" {
+		buf.WriteString(fmt.Sprintf("%v-", listValue))
+	}
+
+	return utils.GetStringHashcode(buf.String())
+}
+
+func mappedSecretsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if key, ok := m["key"]; ok && key != "" {
+		buf.WriteString(fmt.Sprintf("%v-", key))
+	}
+	if type_, ok := m["type"]; ok && type_ != "" {
+		buf.WriteString(fmt.Sprintf("%v-", type_))
+	}
+	if versionNumber, ok := m["is_out_of_capacity_blocked"]; ok && versionNumber != "" {
+		buf.WriteString(fmt.Sprintf("%v-", versionNumber))
+	}
+	if versionSecretId, ok := m["vault_secret_id"]; ok && versionSecretId != "" {
+		buf.WriteString(fmt.Sprintf("%v-", versionSecretId))
+	}
+
+	return utils.GetStringHashcode(buf.String())
+}
+
+func decryptionProfilesHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if key, ok := m["key"]; ok && key != "" {
+		buf.WriteString(fmt.Sprintf("%v-", key))
+	}
+	if type_, ok := m["type"]; ok && type_ != "" {
+		buf.WriteString(fmt.Sprintf("%v-", type_))
+	}
+	if isOutOfCapacityBlocked, ok := m["is_out_of_capacity_blocked"]; ok && isOutOfCapacityBlocked != "" {
+		buf.WriteString(fmt.Sprintf("%v-", isOutOfCapacityBlocked))
+	}
+	if isAutoIncludeAltName, ok := m["is_auto_include_alt_name"]; ok && isAutoIncludeAltName != "" {
+		buf.WriteString(fmt.Sprintf("%v-", isAutoIncludeAltName))
+	}
+	if areCertificateExtensionsRestricted, ok := m["are_certificate_extensions_restricted"]; ok && areCertificateExtensionsRestricted != "" {
+		buf.WriteString(fmt.Sprintf("%v-", areCertificateExtensionsRestricted))
+	}
+	if isUnknownRevocationStatusBlocked, ok := m["is_unknown_revocation_status_blocked"]; ok && isUnknownRevocationStatusBlocked != "" {
+		buf.WriteString(fmt.Sprintf("%v-", isUnknownRevocationStatusBlocked))
+	}
+	if isUnsupportedCipherBlocked, ok := m["is_unsupported_cipher_blocked"]; ok && isUnsupportedCipherBlocked != "" {
+		buf.WriteString(fmt.Sprintf("%v-", isUnsupportedCipherBlocked))
+	}
+	if isUnsupportedVersionBlocked, ok := m["is_unsupported_version_blocked"]; ok && isUnsupportedVersionBlocked != "" {
+		buf.WriteString(fmt.Sprintf("%v-", isUnsupportedVersionBlocked))
+	}
+	if isRevocationStatusTimeoutBlocked, ok := m["is_revocation_status_timeout_blocked"]; ok && isRevocationStatusTimeoutBlocked != "" {
+		buf.WriteString(fmt.Sprintf("%v-", isRevocationStatusTimeoutBlocked))
+	}
+	if isUntrustedIssuerBlocked, ok := m["is_untrusted_issuer_blocked"]; ok && isUntrustedIssuerBlocked != "" {
+		buf.WriteString(fmt.Sprintf("%v-", isUntrustedIssuerBlocked))
+	}
+	if isExpiredCertificateBlocked, ok := m["is_expired_certificate_blocked"]; ok && isExpiredCertificateBlocked != "" {
+		buf.WriteString(fmt.Sprintf("%v-", isExpiredCertificateBlocked))
+	}
+
+	return utils.GetStringHashcode(buf.String())
+}
+
+func urlListsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if urlListName, ok := m["url_list_name"]; ok && urlListName != "" {
+		buf.WriteString(fmt.Sprintf("%v-", urlListName))
+	}
+
+	if urlListValues, ok := m["url_list_values"]; ok && urlListValues != "" {
+		if tmpList := urlListValues.([]interface{}); len(tmpList) > 0 {
+			buf.WriteString("url_list_values-")
+			for _, urlListValuesRaw := range tmpList {
+				tmpMap := urlListValuesRaw.(map[string]interface{})
+				if type_, ok := tmpMap["type"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", type_))
+				}
+				if pattern, ok := tmpMap["pattern"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", pattern))
+				}
+			}
+		}
+	}
+
+	return utils.GetStringHashcode(buf.String())
+}
+
+func applicationListsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if applicationListName, ok := m["application_list_name"]; ok && applicationListName != "" {
+		buf.WriteString(fmt.Sprintf("%v-", applicationListName))
+	}
+
+	if applicationListValues, ok := m["application_values"]; ok && applicationListValues != "" {
+		if tmpList := applicationListValues.([]interface{}); len(tmpList) > 0 {
+			buf.WriteString("application_values-")
+			for _, appListValuesRaw := range tmpList {
+				tmpMap := appListValuesRaw.(map[string]interface{})
+				if type_, ok := tmpMap["type"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", type_))
+				}
+				if icmpType, ok := tmpMap["icmp_type"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", icmpType))
+				}
+				if icmpCode, ok := tmpMap["icmp_code"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", icmpCode))
+				}
+				if minPort, ok := tmpMap["minimum_port"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", minPort))
+				}
+				if maxPort, ok := tmpMap["maximum_port"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", maxPort))
+				}
+			}
+		}
+	}
+
+	return utils.GetStringHashcode(buf.String())
+}
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) mapToDecryptionRule(fieldKeyFormat string) (oci_network_firewall.DecryptionRule, error) {
 	result := oci_network_firewall.DecryptionRule{}
 
@@ -1544,7 +1658,9 @@ type IpAddressObject struct {
 
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToStringListMap(obj interface{}) map[string][]string {
 	resultMap := make(map[string][]string)
-	IpAddrObjList := obj.([]interface{})
+
+	set := obj.(*schema.Set)
+	IpAddrObjList := set.List()
 
 	for _, ipAddrObj := range IpAddrObjList {
 		ipAddrActualObj := ipAddrObj.(map[string]interface{})
@@ -1562,9 +1678,10 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToStringList
 
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToUrlListsMap(urlLists interface{}) (map[string][]oci_network_firewall.UrlPattern, error) {
 	resultMap := make(map[string][]oci_network_firewall.UrlPattern)
-	urlList := urlLists.([]interface{})
-
+	set := urlLists.(*schema.Set)
+	urlList := set.List()
 	for _, list := range urlList {
+
 		urlListK := list.(map[string]interface{})
 		urlPatterns := urlListK["url_list_values"].([]interface{})
 		listKey := urlListK["url_list_name"].(string)
@@ -1581,8 +1698,9 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToUrlListsMa
 
 func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) objectMapToApplicationListsMap(applicationLists interface{}) (map[string][]oci_network_firewall.Application, error) {
 	resultMap := make(map[string][]oci_network_firewall.Application)
-	applicationList := applicationLists.([]interface{})
 
+	set := applicationLists.(*schema.Set)
+	applicationList := set.List()
 	for _, list := range applicationList {
 		applicationListK := list.(map[string]interface{})
 		applications := applicationListK["application_values"].([]interface{})
