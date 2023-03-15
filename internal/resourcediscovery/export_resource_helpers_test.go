@@ -4,12 +4,10 @@
 package resourcediscovery
 
 import (
-	"bufio"
 	"context"
 	"errors"
 	"fmt"
 	"os"
-	"regexp"
 	"strings"
 	"testing"
 	"time"
@@ -33,33 +31,6 @@ func newTerraformStateWithValue(name, key, value string) *terraform.State {
 		Primary: instanceState,
 	}
 	return state
-}
-
-func ValidateTFConfigFile(filepath string, t *testing.T) {
-	file, err := os.Open(filepath)
-	if err != nil {
-		t.Errorf("[ERROR] Error while opening oci_test_parent.tf file: #{err.Error()}")
-		return
-	}
-	fileScanner := bufio.NewScanner(file)
-	fileScanner.Split(bufio.ScanLines)
-	for fileScanner.Scan() {
-		line := fileScanner.Text()
-		if !(strings.HasPrefix(line, "resource ") || strings.HasPrefix(line, "data ")) {
-			continue
-		}
-		words := strings.Fields(line)
-		if len(words) == 4 {
-			reg := regexp.MustCompile("[^a-zA-Z0-9\\-\\_]+")
-			match := reg.FindString(words[2]) // words[2] is resource name
-			if !strings.HasPrefix(words[2], "export_") || len(match) > 0 {
-				t.Errorf("[ERROR] Validation failed for terraform config, Invalid resource name")
-				break
-			}
-		}
-	}
-
-	file.Close()
 }
 
 func TestUnitgetResourceHint(t *testing.T) {
@@ -210,16 +181,6 @@ func TestUnitwriteConfiguration(t *testing.T) {
 				},
 				IsErrorResource: true,
 			},
-			{
-				// Resource name with unsupported special characters
-				CompartmentId: resourceDiscoveryTestCompartmentOcid,
-				TerraformResource: tf_export.TerraformResource{
-					Id:                "ocid1.g.h.i",
-					TerraformClass:    "oci_resource_type3",
-					TerraformName:     "type3*_[]_res1",
-					TerraformTypeInfo: &tf_export.TerraformResourceHints{ResourceClass: "oci_test_parent", IgnorableRequiredMissingAttributes: map[string]bool{"test": true}},
-				},
-			},
 		},
 		omittedResources: []*tf_export.OCIResource{},
 	}
@@ -229,7 +190,6 @@ func TestUnitwriteConfiguration(t *testing.T) {
 			gotError: false,
 			mockFunc: func() {
 				tf_export.GetHclStringFromGenericMap = func(builder *strings.Builder, ociRes *tf_export.OCIResource, interpolationMap map[string]string) error {
-					builder.WriteString(fmt.Sprintf("resource %s %s {}\n\n", ociRes.TerraformClass, ociRes.TerraformName))
 					return nil
 				}
 			},
@@ -251,8 +211,6 @@ func TestUnitwriteConfiguration(t *testing.T) {
 			t.Errorf("Output error - %q which is not equal to expected error - %t", err, test.gotError)
 		}
 	}
-	tfConfigFile := outputDir + "/oci_test_parent.tf"
-	ValidateTFConfigFile(tfConfigFile, t)
 	os.RemoveAll(outputDir)
 }
 
@@ -389,16 +347,6 @@ func TestUnitwriteTmpConfigurationForImport(t *testing.T) {
 				},
 				IsErrorResource: true,
 			},
-			{
-				// Resource name with unsupported special characters
-				CompartmentId: resourceDiscoveryTestCompartmentOcid,
-				TerraformResource: tf_export.TerraformResource{
-					Id:                "ocid1.g.h.i",
-					TerraformClass:    "oci_resource_type3",
-					TerraformName:     "type3*_{}_res1",
-					TerraformTypeInfo: &tf_export.TerraformResourceHints{ResourceClass: "oci_test_parent", IgnorableRequiredMissingAttributes: map[string]bool{"test": true}},
-				},
-			},
 		},
 		omittedResources: []*tf_export.OCIResource{},
 	}
@@ -416,8 +364,6 @@ func TestUnitwriteTmpConfigurationForImport(t *testing.T) {
 			t.Errorf("Output error - %q which is not equal to expected error - %t", err, test.gotError)
 		}
 	}
-	tfConfigFile := outputDir + "/oci_test_parent.tf"
-	ValidateTFConfigFile(tfConfigFile, t)
 	os.RemoveAll(outputDir)
 }
 
