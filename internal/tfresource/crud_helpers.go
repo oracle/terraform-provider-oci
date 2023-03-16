@@ -527,6 +527,38 @@ func loadBalancersSuppressDiff(d schemaResourceData) bool {
 func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
 	return strings.EqualFold(old, new)
 }
+func ListEqualIgnoreOrderSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
+	return listEqualIgnoreOrderSuppressDiff(key, d)
+}
+
+func listEqualIgnoreOrderSuppressDiff(key string, d schemaResourceData) bool {
+	// Take only the field name, key might be field.#
+	oldRaw, newRaw := d.GetChange(strings.Split(key, ".")[0])
+	if newRaw == nil || oldRaw == nil {
+		return false
+	}
+	oldList := oldRaw.([]interface{})
+	newList := newRaw.([]interface{})
+
+	if len(oldList) != len(newList) {
+		return false
+	}
+	tmp1 := make([]string, len(oldList))
+	tmp2 := make([]string, len(newList))
+
+	for i := range oldList {
+		tmp1[i] = oldList[i].(string)
+		tmp2[i] = newList[i].(string)
+	}
+	sort.Strings(tmp1)
+	sort.Strings(tmp2)
+	for i := range oldList {
+		if tmp1[i] != tmp2[i] {
+			return false
+		}
+	}
+	return true
+}
 
 func FieldDeprecatedAndAvoidReferences(deprecatedFieldName string) string {
 	return fmt.Sprintf("The '%s' field has been deprecated and may be removed in a future version. Do not use this field.", deprecatedFieldName)
