@@ -46,8 +46,8 @@ type Function struct {
 
 	SourceDetails FunctionSourceDetails `mandatory:"false" json:"sourceDetails"`
 
-	// The processor architecture (x86/arm) on which to run functions in the application, extracted from the image manifest.
-	Architectures []string `mandatory:"false" json:"architectures"`
+	// The processor shape ("GENERIC_X86"/"GENERIC_ARM") on which to run functions in the application, extracted from the image manifest.
+	Shape FunctionShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
 	// Maximum usable memory for the function (MiB).
 	MemoryInMBs *int64 `mandatory:"false" json:"memoryInMBs"`
@@ -101,6 +101,9 @@ func (m Function) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingFunctionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFunctionLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingFunctionShapeEnum(string(m.Shape)); !ok && m.Shape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shape: %s. Supported values are: %s.", m.Shape, strings.Join(GetFunctionShapeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -117,7 +120,7 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		Image                        *string                              `json:"image"`
 		ImageDigest                  *string                              `json:"imageDigest"`
 		SourceDetails                functionsourcedetails                `json:"sourceDetails"`
-		Architectures                []string                             `json:"architectures"`
+		Shape                        FunctionShapeEnum                    `json:"shape"`
 		MemoryInMBs                  *int64                               `json:"memoryInMBs"`
 		Config                       map[string]string                    `json:"config"`
 		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
@@ -158,10 +161,7 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		m.SourceDetails = nil
 	}
 
-	m.Architectures = make([]string, len(model.Architectures))
-	for i, n := range model.Architectures {
-		m.Architectures[i] = n
-	}
+	m.Shape = model.Shape
 
 	m.MemoryInMBs = model.MemoryInMBs
 
@@ -255,5 +255,51 @@ func GetFunctionLifecycleStateEnumStringValues() []string {
 // GetMappingFunctionLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingFunctionLifecycleStateEnum(val string) (FunctionLifecycleStateEnum, bool) {
 	enum, ok := mappingFunctionLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// FunctionShapeEnum Enum with underlying type: string
+type FunctionShapeEnum string
+
+// Set of constants representing the allowable values for FunctionShapeEnum
+const (
+	FunctionShapeX86    FunctionShapeEnum = "GENERIC_X86"
+	FunctionShapeArm    FunctionShapeEnum = "GENERIC_ARM"
+	FunctionShapeX86Arm FunctionShapeEnum = "GENERIC_X86_ARM"
+)
+
+var mappingFunctionShapeEnum = map[string]FunctionShapeEnum{
+	"GENERIC_X86":     FunctionShapeX86,
+	"GENERIC_ARM":     FunctionShapeArm,
+	"GENERIC_X86_ARM": FunctionShapeX86Arm,
+}
+
+var mappingFunctionShapeEnumLowerCase = map[string]FunctionShapeEnum{
+	"generic_x86":     FunctionShapeX86,
+	"generic_arm":     FunctionShapeArm,
+	"generic_x86_arm": FunctionShapeX86Arm,
+}
+
+// GetFunctionShapeEnumValues Enumerates the set of values for FunctionShapeEnum
+func GetFunctionShapeEnumValues() []FunctionShapeEnum {
+	values := make([]FunctionShapeEnum, 0)
+	for _, v := range mappingFunctionShapeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetFunctionShapeEnumStringValues Enumerates the set of values in String for FunctionShapeEnum
+func GetFunctionShapeEnumStringValues() []string {
+	return []string{
+		"GENERIC_X86",
+		"GENERIC_ARM",
+		"GENERIC_X86_ARM",
+	}
+}
+
+// GetMappingFunctionShapeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingFunctionShapeEnum(val string) (FunctionShapeEnum, bool) {
+	enum, ok := mappingFunctionShapeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

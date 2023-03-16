@@ -35,6 +35,12 @@ type RecallArchivedDataDetails struct {
 
 	// This is the query that identifies the recalled data.
 	Query *string `mandatory:"false" json:"query"`
+
+	// This is the purpose of the recall
+	Purpose *string `mandatory:"false" json:"purpose"`
+
+	// This indicates if only new data has to be recalled in this recall request
+	IsRecallNewDataOnly *bool `mandatory:"false" json:"isRecallNewDataOnly"`
 }
 
 func (m RecallArchivedDataDetails) String() string {

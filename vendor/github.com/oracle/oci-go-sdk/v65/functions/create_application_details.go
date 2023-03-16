@@ -33,9 +33,12 @@ type CreateApplicationDetails struct {
 	// The maximum size for all configuration keys and values is limited to 4KB. This is measured as the sum of octets necessary to represent each key and value in UTF-8.
 	Config map[string]string `mandatory:"false" json:"config"`
 
-	// The processor architecture (x86/arm) on which to run functions in the application.
-	// The values can be either of "x86", "arm" or both. Values are case sensitive. If nothing is provided, it will be defaulted to "x86".
-	Architectures []string `mandatory:"false" json:"architectures"`
+	// Valid values are "GENERIC_X86", "GENERIC_ARM" and "GENERIC_X86_ARM". Default is "GENERIC_X86". Setting this to "GENERIC_X86", will run the functions in the application on X86 processor architecture.
+	// Setting this to "GENERIC_ARM", will run the functions in the application on ARM processor architecture.
+	// When set to "GENERIC_X86_ARM", functions in the application are run on either X86 or ARM processor architecture.
+	// Accepted values are:
+	// "GENERIC_X86", "GENERIC_ARM", "GENERIC_X86_ARM"
+	Shape CreateApplicationDetailsShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Network Security Groups to add the application to.
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
@@ -70,8 +73,57 @@ func (m CreateApplicationDetails) String() string {
 func (m CreateApplicationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateApplicationDetailsShapeEnum(string(m.Shape)); !ok && m.Shape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shape: %s. Supported values are: %s.", m.Shape, strings.Join(GetCreateApplicationDetailsShapeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateApplicationDetailsShapeEnum Enum with underlying type: string
+type CreateApplicationDetailsShapeEnum string
+
+// Set of constants representing the allowable values for CreateApplicationDetailsShapeEnum
+const (
+	CreateApplicationDetailsShapeX86    CreateApplicationDetailsShapeEnum = "GENERIC_X86"
+	CreateApplicationDetailsShapeArm    CreateApplicationDetailsShapeEnum = "GENERIC_ARM"
+	CreateApplicationDetailsShapeX86Arm CreateApplicationDetailsShapeEnum = "GENERIC_X86_ARM"
+)
+
+var mappingCreateApplicationDetailsShapeEnum = map[string]CreateApplicationDetailsShapeEnum{
+	"GENERIC_X86":     CreateApplicationDetailsShapeX86,
+	"GENERIC_ARM":     CreateApplicationDetailsShapeArm,
+	"GENERIC_X86_ARM": CreateApplicationDetailsShapeX86Arm,
+}
+
+var mappingCreateApplicationDetailsShapeEnumLowerCase = map[string]CreateApplicationDetailsShapeEnum{
+	"generic_x86":     CreateApplicationDetailsShapeX86,
+	"generic_arm":     CreateApplicationDetailsShapeArm,
+	"generic_x86_arm": CreateApplicationDetailsShapeX86Arm,
+}
+
+// GetCreateApplicationDetailsShapeEnumValues Enumerates the set of values for CreateApplicationDetailsShapeEnum
+func GetCreateApplicationDetailsShapeEnumValues() []CreateApplicationDetailsShapeEnum {
+	values := make([]CreateApplicationDetailsShapeEnum, 0)
+	for _, v := range mappingCreateApplicationDetailsShapeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateApplicationDetailsShapeEnumStringValues Enumerates the set of values in String for CreateApplicationDetailsShapeEnum
+func GetCreateApplicationDetailsShapeEnumStringValues() []string {
+	return []string{
+		"GENERIC_X86",
+		"GENERIC_ARM",
+		"GENERIC_X86_ARM",
+	}
+}
+
+// GetMappingCreateApplicationDetailsShapeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateApplicationDetailsShapeEnum(val string) (CreateApplicationDetailsShapeEnum, bool) {
+	enum, ok := mappingCreateApplicationDetailsShapeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

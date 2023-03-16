@@ -24,10 +24,6 @@ type UpdateApplicationDetails struct {
 	// The maximum size for all configuration keys and values is limited to 4KB. This is measured as the sum of octets necessary to represent each key and value in UTF-8.
 	Config map[string]string `mandatory:"false" json:"config"`
 
-	// The processor architecture (x86/arm) on which to run functions in the application.
-	// The values can be either of "x86", "arm" or both. Values are case sensitive. If nothing is provided, it will be defaulted to "x86".
-	Architectures []string `mandatory:"false" json:"architectures"`
-
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Network Security Groups to add the application to.
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 

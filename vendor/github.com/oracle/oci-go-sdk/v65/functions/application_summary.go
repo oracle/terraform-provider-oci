@@ -33,9 +33,12 @@ type ApplicationSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the subnets in which to run functions in the application.
 	SubnetIds []string `mandatory:"false" json:"subnetIds"`
 
-	// The processor architecture (x86/arm) on which to run functions in the application.
-	// The values can be either of "x86", "arm" or both. Values are case sensitive. If nothing is provided, it will be defaulted to "x86".
-	Architectures []string `mandatory:"false" json:"architectures"`
+	// Valid values are "GENERIC_X86", "GENERIC_ARM" and "GENERIC_X86_ARM". Default is "GENERIC_X86". Setting this to "GENERIC_X86", will run the functions in the application on X86 processor architecture.
+	// Setting this to "GENERIC_ARM", will run the functions in the application on ARM processor architecture.
+	// When set to "GENERIC_X86_ARM", functions in the application are run on either X86 or ARM processor architecture.
+	// Accepted values are:
+	// "GENERIC_X86", "GENERIC_ARM", "GENERIC_X86_ARM"
+	Shape ApplicationSummaryShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Network Security Groups to add the application to.
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
@@ -77,8 +80,57 @@ func (m ApplicationSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingApplicationLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetApplicationLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingApplicationSummaryShapeEnum(string(m.Shape)); !ok && m.Shape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shape: %s. Supported values are: %s.", m.Shape, strings.Join(GetApplicationSummaryShapeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ApplicationSummaryShapeEnum Enum with underlying type: string
+type ApplicationSummaryShapeEnum string
+
+// Set of constants representing the allowable values for ApplicationSummaryShapeEnum
+const (
+	ApplicationSummaryShapeX86    ApplicationSummaryShapeEnum = "GENERIC_X86"
+	ApplicationSummaryShapeArm    ApplicationSummaryShapeEnum = "GENERIC_ARM"
+	ApplicationSummaryShapeX86Arm ApplicationSummaryShapeEnum = "GENERIC_X86_ARM"
+)
+
+var mappingApplicationSummaryShapeEnum = map[string]ApplicationSummaryShapeEnum{
+	"GENERIC_X86":     ApplicationSummaryShapeX86,
+	"GENERIC_ARM":     ApplicationSummaryShapeArm,
+	"GENERIC_X86_ARM": ApplicationSummaryShapeX86Arm,
+}
+
+var mappingApplicationSummaryShapeEnumLowerCase = map[string]ApplicationSummaryShapeEnum{
+	"generic_x86":     ApplicationSummaryShapeX86,
+	"generic_arm":     ApplicationSummaryShapeArm,
+	"generic_x86_arm": ApplicationSummaryShapeX86Arm,
+}
+
+// GetApplicationSummaryShapeEnumValues Enumerates the set of values for ApplicationSummaryShapeEnum
+func GetApplicationSummaryShapeEnumValues() []ApplicationSummaryShapeEnum {
+	values := make([]ApplicationSummaryShapeEnum, 0)
+	for _, v := range mappingApplicationSummaryShapeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetApplicationSummaryShapeEnumStringValues Enumerates the set of values in String for ApplicationSummaryShapeEnum
+func GetApplicationSummaryShapeEnumStringValues() []string {
+	return []string{
+		"GENERIC_X86",
+		"GENERIC_ARM",
+		"GENERIC_X86_ARM",
+	}
+}
+
+// GetMappingApplicationSummaryShapeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingApplicationSummaryShapeEnum(val string) (ApplicationSummaryShapeEnum, bool) {
+	enum, ok := mappingApplicationSummaryShapeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -15,9 +15,12 @@ import (
 	"strings"
 )
 
-// UpdateStorageDetails This is the input to update storage configuration of a tenancy in Logan Analytics application
+// UpdateStorageDetails This is the input to update storage configuration of a tenancy in Logging Analytics application
 type UpdateStorageDetails struct {
 	ArchivingConfiguration *ArchivingConfiguration `mandatory:"true" json:"archivingConfiguration"`
+
+	// This defines the log sets specific archiving configuration
+	LogSetArchivingConfiguration []LogSetArchivingDetail `mandatory:"false" json:"logSetArchivingConfiguration"`
 }
 
 func (m UpdateStorageDetails) String() string {

@@ -34,9 +34,6 @@ type RestMonitorConfiguration struct {
 
 	ClientCertificateDetails *ClientCertificateDetails `mandatory:"false" json:"clientCertificateDetails"`
 
-	// If accept self-signed certificate is enabled, it will skip errors related to self-signed certificates.
-	IsSelfSignedCertificateAccepted *bool `mandatory:"false" json:"isSelfSignedCertificateAccepted"`
-
 	// List of request headers. Example: `[{"headerName": "content-type", "headerValue":"json"}]`
 	RequestHeaders []Header `mandatory:"false" json:"requestHeaders"`
 

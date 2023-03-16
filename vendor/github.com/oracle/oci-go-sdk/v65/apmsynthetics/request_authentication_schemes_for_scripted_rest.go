@@ -18,14 +18,17 @@ type RequestAuthenticationSchemesForScriptedRestEnum string
 
 // Set of constants representing the allowable values for RequestAuthenticationSchemesForScriptedRestEnum
 const (
+	RequestAuthenticationSchemesForScriptedRestNone              RequestAuthenticationSchemesForScriptedRestEnum = "NONE"
 	RequestAuthenticationSchemesForScriptedRestResourcePrincipal RequestAuthenticationSchemesForScriptedRestEnum = "RESOURCE_PRINCIPAL"
 )
 
 var mappingRequestAuthenticationSchemesForScriptedRestEnum = map[string]RequestAuthenticationSchemesForScriptedRestEnum{
+	"NONE":               RequestAuthenticationSchemesForScriptedRestNone,
 	"RESOURCE_PRINCIPAL": RequestAuthenticationSchemesForScriptedRestResourcePrincipal,
 }
 
 var mappingRequestAuthenticationSchemesForScriptedRestEnumLowerCase = map[string]RequestAuthenticationSchemesForScriptedRestEnum{
+	"none":               RequestAuthenticationSchemesForScriptedRestNone,
 	"resource_principal": RequestAuthenticationSchemesForScriptedRestResourcePrincipal,
 }
 
@@ -41,6 +44,7 @@ func GetRequestAuthenticationSchemesForScriptedRestEnumValues() []RequestAuthent
 // GetRequestAuthenticationSchemesForScriptedRestEnumStringValues Enumerates the set of values in String for RequestAuthenticationSchemesForScriptedRestEnum
 func GetRequestAuthenticationSchemesForScriptedRestEnumStringValues() []string {
 	return []string{
+		"NONE",
 		"RESOURCE_PRINCIPAL",
 	}
 }
