@@ -94,6 +94,9 @@ type DeploymentSummary struct {
 	// Indicates if the resource is the the latest available version.
 	IsLatestVersion *bool `mandatory:"false" json:"isLatestVersion"`
 
+	// Note: Deprecated: Use timeOfNextMaintenance instead, or related upgrade records
+	// to check, when deployment will be forced to upgrade to a newer version.
+	// Old description:
 	// The date the existing version in use will no longer be considered as usable
 	// and an upgrade will be required.  This date is typically 6 months after the
 	// version was released for use by GGS.  The format is defined by

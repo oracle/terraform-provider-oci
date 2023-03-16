@@ -1,3 +1,23 @@
+## 4.112.0 (March 15, 2023)
+
+### Added
+- Support for GoldenGate Maintenance
+- Platform Config support for AMD Milan GPU
+- Support for SDK generation for IDCS APIs
+- Support for BM/VM | OS Patching Support
+### Bug Fix
+- Investigate Replication Resource Discovery
+- Fixed response reordering issue in Network Firewall
+
+## 4.111.0 (March 08, 2023)
+
+### Added
+- Support for OCI Data Science Custom Container Images for Model Deployment
+- Support for OCM - Add Disaster Recovery Feature
+- Support for Management Agent API changes
+- Support for ADB-S: Long-Term Automatic Backup Retention
+- Support for UpdateInstanceConstraint in Terraform
+
 ## 4.110.0 (March 01, 2023)
 
 ### Added

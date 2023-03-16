@@ -60,6 +60,9 @@ type CreateClusterDetails struct {
 
 	// Available CNIs and network options for existing and new node pools of the cluster
 	ClusterPodNetworkOptions []ClusterPodNetworkOptionDetails `mandatory:"false" json:"clusterPodNetworkOptions"`
+
+	// Type of cluster
+	Type ClusterTypeEnum `mandatory:"false" json:"type,omitempty"`
 }
 
 func (m CreateClusterDetails) String() string {
@@ -72,6 +75,9 @@ func (m CreateClusterDetails) String() string {
 func (m CreateClusterDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingClusterTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetClusterTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -88,6 +94,7 @@ func (m *CreateClusterDetails) UnmarshalJSON(data []byte) (e error) {
 		Options                  *ClusterCreateOptions               `json:"options"`
 		ImagePolicyConfig        *CreateImagePolicyConfigDetails     `json:"imagePolicyConfig"`
 		ClusterPodNetworkOptions []clusterpodnetworkoptiondetails    `json:"clusterPodNetworkOptions"`
+		Type                     ClusterTypeEnum                     `json:"type"`
 		Name                     *string                             `json:"name"`
 		CompartmentId            *string                             `json:"compartmentId"`
 		VcnId                    *string                             `json:"vcnId"`
@@ -123,6 +130,8 @@ func (m *CreateClusterDetails) UnmarshalJSON(data []byte) (e error) {
 			m.ClusterPodNetworkOptions[i] = nil
 		}
 	}
+
+	m.Type = model.Type
 
 	m.Name = model.Name
 

@@ -76,6 +76,9 @@ type ClusterSummary struct {
 
 	// Available CNIs and network options for existing and new node pools of the cluster
 	ClusterPodNetworkOptions []ClusterPodNetworkOptionDetails `mandatory:"false" json:"clusterPodNetworkOptions"`
+
+	// Type of cluster
+	Type ClusterTypeEnum `mandatory:"false" json:"type,omitempty"`
 }
 
 func (m ClusterSummary) String() string {
@@ -90,6 +93,9 @@ func (m ClusterSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingClusterLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetClusterLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingClusterTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetClusterTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -117,6 +123,7 @@ func (m *ClusterSummary) UnmarshalJSON(data []byte) (e error) {
 		AvailableKubernetesUpgrades []string                          `json:"availableKubernetesUpgrades"`
 		ImagePolicyConfig           *ImagePolicyConfig                `json:"imagePolicyConfig"`
 		ClusterPodNetworkOptions    []clusterpodnetworkoptiondetails  `json:"clusterPodNetworkOptions"`
+		Type                        ClusterTypeEnum                   `json:"type"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -171,6 +178,8 @@ func (m *ClusterSummary) UnmarshalJSON(data []byte) (e error) {
 			m.ClusterPodNetworkOptions[i] = nil
 		}
 	}
+
+	m.Type = model.Type
 
 	return
 }

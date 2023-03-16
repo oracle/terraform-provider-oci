@@ -84,6 +84,10 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 		s.D.Set("description", *s.Res.Description)
 	}
 
+	if s.Res.DrRegion != nil {
+		s.D.Set("dr_region", *s.Res.DrRegion)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Guid != nil {

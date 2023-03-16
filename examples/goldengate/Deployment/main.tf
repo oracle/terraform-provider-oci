@@ -21,7 +21,7 @@ variable "deployment_description" {
 }
 
 variable "deployment_display_name" {
-  	default = "displayName"
+  	default = "TERRAFORM_backward_compatibility_test"
 }
 
 variable "deployment_fqdn" {

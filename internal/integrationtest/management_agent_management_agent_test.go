@@ -66,6 +66,7 @@ func TestManagementAgentManagementAgentResource_dataInSubcompartment(t *testing.
 	managementAgentDataSourceRepresentationInSubtree := map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: rootCompartmentId},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `terraformTest`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`}}
 	datasourceName := "data.oci_management_agent_management_agents.test_management_agents"
 
@@ -95,6 +96,57 @@ func TestManagementAgentManagementAgentResource_dataInSubcompartment(t *testing.
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_last_heartbeat"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.version"),
 				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_updated"),
+			),
+		},
+	})
+}
+func TestManagementAgentManagementAgentResource_gatewayId(t *testing.T) {
+	// This test searches for a specific agent (terraformGWTest) which is known to have a gatewayId set
+	// and validates the management_agent_properties are set for that agent
+	httpreplay.SetScenario("TestManagementAgentManagementAgentResource_gatewayId")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	rootCompartmentId := utils.GetEnvSettingWithBlankDefault("root_compartment_ocid")
+	if rootCompartmentId == "" {
+		rootCompartmentId = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	}
+	rootCompartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", rootCompartmentId)
+	managementAgentDataSourceRepresentationWithGW := map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: rootCompartmentId},
+		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `terraformGWTest`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`}}
+	datasourceName := "data.oci_management_agent_management_agents.test_management_agents"
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify datasource with compartment_id_in_subtree
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agents", "test_management_agents", acctest.Optional, acctest.Update, managementAgentDataSourceRepresentationWithGW) +
+				rootCompartmentIdVariableStr,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", rootCompartmentId),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.availability_status"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.host"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_key_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.install_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_customer_deployed"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.is_agent_auto_upgradable"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.platform_version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_last_heartbeat"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.version"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.time_updated"),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_agents.0.management_agent_properties.#"),
 			),
 		},
 	})

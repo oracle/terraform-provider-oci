@@ -14,6 +14,9 @@ Lists the instances in the specified compartment and the specified availability 
 You can filter the results by specifying an instance name (the list will include all the identically-named
 instances in the compartment).
 
+**Note:** To retrieve public and private IP addresses for an instance, use the [ListVnicAttachments](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/VnicAttachment/ListVnicAttachments)
+operation to get the VNIC ID for the instance, and then call [GetVnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vnic/GetVnic) with the VNIC ID.
+
 
 ## Example Usage
 
@@ -83,7 +86,7 @@ The following attributes are exported:
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.
 * `capacity_reservation_id` - The OCID of the compute capacity reservation this instance is launched under. When this field contains an empty string or is null, the instance is not currently in a capacity reservation. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 * `compartment_id` - The OCID of the compartment that contains the instance.
-* `dedicated_vm_host_id` - The OCID of dedicated VM host. 
+* `dedicated_vm_host_id` - The OCID of the dedicated virtual machine host that the instance is placed on. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the `metadata` object.
@@ -218,9 +221,9 @@ The following attributes are exported:
 		* `20`: Represents Higher Performance option.
 		* `30`-`120`: Represents the Ultra High Performance option.
 
-		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB. 
-	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
-	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
+		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB.
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	* `source_id` - The OCID of the boot volume used to boot the instance.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - The current state of the instance.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 

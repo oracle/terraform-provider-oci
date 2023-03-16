@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// SummarizeDatabaseInsightResourceStatisticsAggregationCollection Returns list of the Databases with resource statistics like usage,capacity,utilization and usage change percent.
+// SummarizeDatabaseInsightResourceStatisticsAggregationCollection Returns list of the Databases with resource statistics like usage, capacity, utilization and usage change percent.
 type SummarizeDatabaseInsightResourceStatisticsAggregationCollection struct {
 
 	// The start timestamp that was passed into the request.
@@ -25,6 +25,12 @@ type SummarizeDatabaseInsightResourceStatisticsAggregationCollection struct {
 
 	// The end timestamp that was passed into the request.
 	TimeIntervalEnd *common.SDKTime `mandatory:"true" json:"timeIntervalEnd"`
+
+	// Percent value in which a resource metric is considered highly utilized.
+	HighUtilizationThreshold *int `mandatory:"true" json:"highUtilizationThreshold"`
+
+	// Percent value in which a resource metric is considered lowly utilized.
+	LowUtilizationThreshold *int `mandatory:"true" json:"lowUtilizationThreshold"`
 
 	// Defines the type of resource metric (example: CPU, STORAGE)
 	ResourceMetric SummarizeDatabaseInsightResourceStatisticsAggregationCollectionResourceMetricEnum `mandatory:"true" json:"resourceMetric"`

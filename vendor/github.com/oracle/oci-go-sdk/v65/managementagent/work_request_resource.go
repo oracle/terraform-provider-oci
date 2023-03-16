@@ -44,15 +44,15 @@ type WorkRequestResource struct {
 	EntityUri *string `mandatory:"false" json:"entityUri"`
 
 	// The date and time the request was created, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339),
-	// section 14.29.
+	// section 5.6.
 	TimeAccepted *common.SDKTime `mandatory:"false" json:"timeAccepted"`
 
 	// The date and time the request was started, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339),
-	// section 14.29.
+	// section 5.6.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
 	// The date and time the request was finished, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339),
-	// section 14.29.
+	// section 5.6.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
 	// Additional metadata about the resource that has been operated upon by

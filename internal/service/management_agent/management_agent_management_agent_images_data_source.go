@@ -52,6 +52,39 @@ func ManagementAgentManagementAgentImagesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"image_object_storage_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"checksum": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"object": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"object_bucket": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"object_namespace": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"object_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"object_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -172,6 +205,12 @@ func (s *ManagementAgentManagementAgentImagesDataSourceCrud) SetData() error {
 			managementAgentImage["id"] = *r.Id
 		}
 
+		if r.ImageObjectStorageDetails != nil {
+			managementAgentImage["image_object_storage_details"] = []interface{}{ObjectDetailsToMap(r.ImageObjectStorageDetails)}
+		} else {
+			managementAgentImage["image_object_storage_details"] = nil
+		}
+
 		if r.ObjectUrl != nil {
 			managementAgentImage["object_url"] = *r.ObjectUrl
 		}
@@ -208,4 +247,30 @@ func (s *ManagementAgentManagementAgentImagesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func ObjectDetailsToMap(obj *oci_management_agent.ObjectDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Checksum != nil {
+		result["checksum"] = string(*obj.Checksum)
+	}
+
+	if obj.ObjectName != nil {
+		result["object"] = string(*obj.ObjectName)
+	}
+
+	if obj.ObjectBucket != nil {
+		result["object_bucket"] = string(*obj.ObjectBucket)
+	}
+
+	if obj.ObjectNamespace != nil {
+		result["object_namespace"] = string(*obj.ObjectNamespace)
+	}
+
+	if obj.ObjectUrl != nil {
+		result["object_url"] = string(*obj.ObjectUrl)
+	}
+
+	return result
 }

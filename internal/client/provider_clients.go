@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"strings"
 
+	oci_identity_domains "github.com/oracle/oci-go-sdk/v65/identitydomains"
+
 	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
 
 	oci_kms "github.com/oracle/oci-go-sdk/v65/keymanagement"
@@ -84,6 +86,17 @@ func (m *OracleClients) KmsCryptoClientWithEndpoint(endpoint string) (*oci_kms.K
 
 func (m *OracleClients) KmsManagementClientWithEndpoint(endpoint string) (*oci_kms.KmsManagementClient, error) {
 	if client, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(*m.KmsManagementClient().ConfigurationProvider(), endpoint); err == nil {
+		if err = ConfigureClientVar(&client.BaseClient); err != nil {
+			return nil, err
+		}
+		return &client, nil
+	} else {
+		return nil, err
+	}
+}
+
+func (m *OracleClients) IdentityDomainsClientWithEndpoint(endpoint string) (*oci_identity_domains.IdentityDomainsClient, error) {
+	if client, err := oci_identity_domains.NewIdentityDomainsClientWithConfigurationProvider(*m.IdentityDomainsClient().ConfigurationProvider(), endpoint); err == nil {
 		if err = ConfigureClientVar(&client.BaseClient); err != nil {
 			return nil, err
 		}
