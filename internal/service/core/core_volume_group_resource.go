@@ -179,8 +179,12 @@ func CoreVolumeGroupResource() *schema.Resource {
 				Computed: true,
 			},
 			"volume_ids": {
-				Type:     schema.TypeList,
-				Computed: true,
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				MaxItems:         64,
+				MinItems:         0,
+				DiffSuppressFunc: tfresource.ListEqualIgnoreOrderSuppressDiff,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -303,6 +307,12 @@ func (s *CoreVolumeGroupResourceCrud) Create() error {
 		}
 	}
 
+	if volumeIds, ok := s.D.GetOkExists("volume_ids"); ok {
+		if tmp := volumeIds.([]interface{}); len(tmp) > 0 {
+			return fmt.Errorf("volume_ids under resource is not supported during creation")
+		}
+	}
+
 	if volumeGroupReplicas, ok := s.D.GetOkExists("volume_group_replicas"); ok {
 		interfaces := volumeGroupReplicas.([]interface{})
 		tmp := make([]oci_core.VolumeGroupReplicaDetails, len(interfaces))
@@ -403,14 +413,17 @@ func (s *CoreVolumeGroupResourceCrud) Update() error {
 		}
 	}
 
+	// Indicate if current update is disabling volume group replica
 	disableReplication := false
 	if volumeGroupReplicasDeletion, ok := s.D.GetOkExists("volume_group_replicas_deletion"); ok {
 		disableReplication = volumeGroupReplicasDeletion.(bool)
 		if disableReplication == true {
 			request.VolumeGroupReplicas = []oci_core.VolumeGroupReplicaDetails{}
 		}
+		disableReplication = s.D.HasChange("volume_group_replicas_deletion") && disableReplication
 	}
 
+	// We don't want customers to disable volume group replica and update volume list at the same time
 	if !disableReplication {
 		if volumeIds, ok := s.D.GetOkExists("volume_ids"); ok {
 			interfaces := volumeIds.([]interface{})
