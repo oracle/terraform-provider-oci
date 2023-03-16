@@ -3,6 +3,7 @@ package dns
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -50,6 +51,16 @@ func processDnsRrset(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_ex
 		}
 	}
 	return resources, nil
+}
+
+func getDnsRrsetTerraformName(parentTerraformName string, domain string, rtype string) string {
+
+	terraformName := fmt.Sprintf("%s_%s_%s", parentTerraformName, strings.Replace(strings.Replace(domain, "-", "--", -1), ".", "-", -1), rtype)
+	reg := regexp.MustCompile(`[^a-zA-Z0-9\-\_]+`)
+	terraformName = reg.ReplaceAllString(terraformName, "-")
+	terraformName = tf_export.CheckDuplicateResourceName(terraformName)
+
+	return terraformName
 }
 
 func findDnsRrset(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.TerraformResourceAssociation, parent *tf_export.OCIResource, resourceGraph *tf_export.TerraformResourceGraph) (resources []*tf_export.OCIResource, err error) {
@@ -111,7 +122,7 @@ func findDnsRrset(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.Ter
 				ctx.AddErrorToList(rdError)
 				continue
 			}
-			resource.TerraformName = fmt.Sprintf("%s_%s_%s", parent.TerraformName, strings.Replace(strings.Replace(domain, "-", "--", -1), ".", "-", -1), rtype)
+			resource.TerraformName = getDnsRrsetTerraformName(parent.TerraformName, domain, rtype)
 			resource.RawResource = rrset
 			resource.Parent = parent
 
