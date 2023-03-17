@@ -44,6 +44,8 @@ type UpdateBuildStageDetails struct {
 	// Name of the build source where the build_spec.yml file is located. If not specified, the first entry in the build source collection is chosen as primary build source.
 	PrimaryBuildSource *string `mandatory:"false" json:"primaryBuildSource"`
 
+	BuildRunnerShapeConfig BuildRunnerShapeConfig `mandatory:"false" json:"buildRunnerShapeConfig"`
+
 	PrivateAccessConfig NetworkChannel `mandatory:"false" json:"privateAccessConfig"`
 
 	// Image name for the build environment.
@@ -121,6 +123,7 @@ func (m *UpdateBuildStageDetails) UnmarshalJSON(data []byte) (e error) {
 		StageExecutionTimeoutInSeconds          *int                                     `json:"stageExecutionTimeoutInSeconds"`
 		BuildSourceCollection                   *BuildSourceCollection                   `json:"buildSourceCollection"`
 		PrimaryBuildSource                      *string                                  `json:"primaryBuildSource"`
+		BuildRunnerShapeConfig                  buildrunnershapeconfig                   `json:"buildRunnerShapeConfig"`
 		PrivateAccessConfig                     networkchannel                           `json:"privateAccessConfig"`
 	}{}
 
@@ -148,6 +151,16 @@ func (m *UpdateBuildStageDetails) UnmarshalJSON(data []byte) (e error) {
 	m.BuildSourceCollection = model.BuildSourceCollection
 
 	m.PrimaryBuildSource = model.PrimaryBuildSource
+
+	nn, e = model.BuildRunnerShapeConfig.UnmarshalPolymorphicJSON(model.BuildRunnerShapeConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.BuildRunnerShapeConfig = nn.(BuildRunnerShapeConfig)
+	} else {
+		m.BuildRunnerShapeConfig = nil
+	}
 
 	nn, e = model.PrivateAccessConfig.UnmarshalPolymorphicJSON(model.PrivateAccessConfig.JsonData)
 	if e != nil {

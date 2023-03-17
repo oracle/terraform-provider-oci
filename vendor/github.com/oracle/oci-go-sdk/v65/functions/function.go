@@ -44,6 +44,8 @@ type Function struct {
 	// Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
 	ImageDigest *string `mandatory:"false" json:"imageDigest"`
 
+	SourceDetails FunctionSourceDetails `mandatory:"false" json:"sourceDetails"`
+
 	// Maximum usable memory for the function (MiB).
 	MemoryInMBs *int64 `mandatory:"false" json:"memoryInMBs"`
 
@@ -111,6 +113,7 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		CompartmentId                *string                              `json:"compartmentId"`
 		Image                        *string                              `json:"image"`
 		ImageDigest                  *string                              `json:"imageDigest"`
+		SourceDetails                functionsourcedetails                `json:"sourceDetails"`
 		MemoryInMBs                  *int64                               `json:"memoryInMBs"`
 		Config                       map[string]string                    `json:"config"`
 		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
@@ -140,6 +143,16 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 	m.Image = model.Image
 
 	m.ImageDigest = model.ImageDigest
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceDetails = nn.(FunctionSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
 
 	m.MemoryInMBs = model.MemoryInMBs
 

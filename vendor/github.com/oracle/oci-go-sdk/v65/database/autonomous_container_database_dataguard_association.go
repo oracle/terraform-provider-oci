@@ -119,6 +119,7 @@ const (
 	AutonomousContainerDatabaseDataguardAssociationRolePrimary         AutonomousContainerDatabaseDataguardAssociationRoleEnum = "PRIMARY"
 	AutonomousContainerDatabaseDataguardAssociationRoleStandby         AutonomousContainerDatabaseDataguardAssociationRoleEnum = "STANDBY"
 	AutonomousContainerDatabaseDataguardAssociationRoleDisabledStandby AutonomousContainerDatabaseDataguardAssociationRoleEnum = "DISABLED_STANDBY"
+	AutonomousContainerDatabaseDataguardAssociationRoleBackupCopy      AutonomousContainerDatabaseDataguardAssociationRoleEnum = "BACKUP_COPY"
 	AutonomousContainerDatabaseDataguardAssociationRoleSnapshotStandby AutonomousContainerDatabaseDataguardAssociationRoleEnum = "SNAPSHOT_STANDBY"
 )
 
@@ -126,6 +127,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationRoleEnum = map[string]
 	"PRIMARY":          AutonomousContainerDatabaseDataguardAssociationRolePrimary,
 	"STANDBY":          AutonomousContainerDatabaseDataguardAssociationRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseDataguardAssociationRoleDisabledStandby,
+	"BACKUP_COPY":      AutonomousContainerDatabaseDataguardAssociationRoleBackupCopy,
 	"SNAPSHOT_STANDBY": AutonomousContainerDatabaseDataguardAssociationRoleSnapshotStandby,
 }
 
@@ -133,6 +135,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationRoleEnumLowerCase = ma
 	"primary":          AutonomousContainerDatabaseDataguardAssociationRolePrimary,
 	"standby":          AutonomousContainerDatabaseDataguardAssociationRoleStandby,
 	"disabled_standby": AutonomousContainerDatabaseDataguardAssociationRoleDisabledStandby,
+	"backup_copy":      AutonomousContainerDatabaseDataguardAssociationRoleBackupCopy,
 	"snapshot_standby": AutonomousContainerDatabaseDataguardAssociationRoleSnapshotStandby,
 }
 
@@ -151,6 +154,7 @@ func GetAutonomousContainerDatabaseDataguardAssociationRoleEnumStringValues() []
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"BACKUP_COPY",
 		"SNAPSHOT_STANDBY",
 	}
 }
@@ -235,6 +239,7 @@ const (
 	AutonomousContainerDatabaseDataguardAssociationPeerRolePrimary         AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "PRIMARY"
 	AutonomousContainerDatabaseDataguardAssociationPeerRoleStandby         AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "STANDBY"
 	AutonomousContainerDatabaseDataguardAssociationPeerRoleDisabledStandby AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "DISABLED_STANDBY"
+	AutonomousContainerDatabaseDataguardAssociationPeerRoleBackupCopy      AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "BACKUP_COPY"
 	AutonomousContainerDatabaseDataguardAssociationPeerRoleSnapshotStandby AutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = "SNAPSHOT_STANDBY"
 )
 
@@ -242,6 +247,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationPeerRoleEnum = map[str
 	"PRIMARY":          AutonomousContainerDatabaseDataguardAssociationPeerRolePrimary,
 	"STANDBY":          AutonomousContainerDatabaseDataguardAssociationPeerRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseDataguardAssociationPeerRoleDisabledStandby,
+	"BACKUP_COPY":      AutonomousContainerDatabaseDataguardAssociationPeerRoleBackupCopy,
 	"SNAPSHOT_STANDBY": AutonomousContainerDatabaseDataguardAssociationPeerRoleSnapshotStandby,
 }
 
@@ -249,6 +255,7 @@ var mappingAutonomousContainerDatabaseDataguardAssociationPeerRoleEnumLowerCase 
 	"primary":          AutonomousContainerDatabaseDataguardAssociationPeerRolePrimary,
 	"standby":          AutonomousContainerDatabaseDataguardAssociationPeerRoleStandby,
 	"disabled_standby": AutonomousContainerDatabaseDataguardAssociationPeerRoleDisabledStandby,
+	"backup_copy":      AutonomousContainerDatabaseDataguardAssociationPeerRoleBackupCopy,
 	"snapshot_standby": AutonomousContainerDatabaseDataguardAssociationPeerRoleSnapshotStandby,
 }
 
@@ -267,6 +274,7 @@ func GetAutonomousContainerDatabaseDataguardAssociationPeerRoleEnumStringValues(
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"BACKUP_COPY",
 		"SNAPSHOT_STANDBY",
 	}
 }

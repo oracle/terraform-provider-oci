@@ -274,7 +274,7 @@ func (client GoldenGateClient) changeConnectionCompartment(ctx context.Context, 
 	return response, err
 }
 
-// ChangeDatabaseRegistrationCompartment Note: Deprecated. Use the new resource model APIs instead.
+// ChangeDatabaseRegistrationCompartment Note: Deprecated. Use the /connections API instead.
 // Moves the DatabaseRegistration into a different compartment within the same tenancy. When
 // provided, If-Match is checked against ETag values of the resource.  For information about
 // moving resources between compartments, see Moving Resources Between
@@ -662,7 +662,7 @@ func (client GoldenGateClient) createConnectionAssignment(ctx context.Context, r
 	return response, err
 }
 
-// CreateDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
+// CreateDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Creates a new DatabaseRegistration.
 //
 // See also
@@ -968,7 +968,7 @@ func (client GoldenGateClient) deleteConnectionAssignment(ctx context.Context, r
 	return response, err
 }
 
-// DeleteDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
+// DeleteDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Deletes a DatabaseRegistration.
 //
 // See also
@@ -1385,7 +1385,7 @@ func (client GoldenGateClient) getConnectionAssignment(ctx context.Context, requ
 	return response, err
 }
 
-// GetDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
+// GetDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Retrieves a DatabaseRegistration.
 //
 // See also
@@ -1855,7 +1855,7 @@ func (client GoldenGateClient) listConnections(ctx context.Context, request comm
 	return response, err
 }
 
-// ListDatabaseRegistrations Note: Deprecated. Use the new resource model APIs instead.
+// ListDatabaseRegistrations Note: Deprecated. Use the /connections API instead.
 // Lists the DatabaseRegistrations in the compartment.
 //
 // See also
@@ -2983,7 +2983,7 @@ func (client GoldenGateClient) updateConnection(ctx context.Context, request com
 	return response, err
 }
 
-// UpdateDatabaseRegistration Note: Deprecated. Use the new resource model APIs instead.
+// UpdateDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Updates the DatabaseRegistration.
 //
 // See also

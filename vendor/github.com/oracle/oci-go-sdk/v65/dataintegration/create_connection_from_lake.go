@@ -16,8 +16,14 @@ import (
 	"strings"
 )
 
-// ConnectionFromLakehouse The connection details for a Lakehouse connection.
-type ConnectionFromLakehouse struct {
+// CreateConnectionFromLake The details to create a Lake connection.
+type CreateConnectionFromLake struct {
+
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	Name *string `mandatory:"true" json:"name"`
+
+	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
 	Key *string `mandatory:"false" json:"key"`
@@ -27,108 +33,71 @@ type ConnectionFromLakehouse struct {
 
 	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
 
-	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
-	Name *string `mandatory:"false" json:"name"`
-
 	// User-defined description for the connection.
 	Description *string `mandatory:"false" json:"description"`
-
-	// The version of the object that is used to track changes in the object instance.
-	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
-	Identifier *string `mandatory:"false" json:"identifier"`
-
-	PrimarySchema *Schema `mandatory:"false" json:"primarySchema"`
-
 	// The properties for the connection.
 	ConnectionProperties []ConnectionProperty `mandatory:"false" json:"connectionProperties"`
 
-	// The default property for the connection.
-	IsDefault *bool `mandatory:"false" json:"isDefault"`
-
-	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
-
-	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
-	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
+	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 }
 
 //GetKey returns Key
-func (m ConnectionFromLakehouse) GetKey() *string {
+func (m CreateConnectionFromLake) GetKey() *string {
 	return m.Key
 }
 
 //GetModelVersion returns ModelVersion
-func (m ConnectionFromLakehouse) GetModelVersion() *string {
+func (m CreateConnectionFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
 //GetParentRef returns ParentRef
-func (m ConnectionFromLakehouse) GetParentRef() *ParentReference {
+func (m CreateConnectionFromLake) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
 //GetName returns Name
-func (m ConnectionFromLakehouse) GetName() *string {
+func (m CreateConnectionFromLake) GetName() *string {
 	return m.Name
 }
 
 //GetDescription returns Description
-func (m ConnectionFromLakehouse) GetDescription() *string {
+func (m CreateConnectionFromLake) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
-func (m ConnectionFromLakehouse) GetObjectVersion() *int {
-	return m.ObjectVersion
-}
-
 //GetObjectStatus returns ObjectStatus
-func (m ConnectionFromLakehouse) GetObjectStatus() *int {
+func (m CreateConnectionFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
 //GetIdentifier returns Identifier
-func (m ConnectionFromLakehouse) GetIdentifier() *string {
+func (m CreateConnectionFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetPrimarySchema returns PrimarySchema
-func (m ConnectionFromLakehouse) GetPrimarySchema() *Schema {
-	return m.PrimarySchema
-}
-
 //GetConnectionProperties returns ConnectionProperties
-func (m ConnectionFromLakehouse) GetConnectionProperties() []ConnectionProperty {
+func (m CreateConnectionFromLake) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetIsDefault returns IsDefault
-func (m ConnectionFromLakehouse) GetIsDefault() *bool {
-	return m.IsDefault
+//GetRegistryMetadata returns RegistryMetadata
+func (m CreateConnectionFromLake) GetRegistryMetadata() *RegistryMetadata {
+	return m.RegistryMetadata
 }
 
-//GetMetadata returns Metadata
-func (m ConnectionFromLakehouse) GetMetadata() *ObjectMetadata {
-	return m.Metadata
-}
-
-//GetKeyMap returns KeyMap
-func (m ConnectionFromLakehouse) GetKeyMap() map[string]string {
-	return m.KeyMap
-}
-
-func (m ConnectionFromLakehouse) String() string {
+func (m CreateConnectionFromLake) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ConnectionFromLakehouse) ValidateEnumValue() (bool, error) {
+func (m CreateConnectionFromLake) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -138,14 +107,14 @@ func (m ConnectionFromLakehouse) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m ConnectionFromLakehouse) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeConnectionFromLakehouse ConnectionFromLakehouse
+func (m CreateConnectionFromLake) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateConnectionFromLake CreateConnectionFromLake
 	s := struct {
 		DiscriminatorParam string `json:"modelType"`
-		MarshalTypeConnectionFromLakehouse
+		MarshalTypeCreateConnectionFromLake
 	}{
-		"LAKE_HOUSE_CONNECTION",
-		(MarshalTypeConnectionFromLakehouse)(m),
+		"LAKE_CONNECTION",
+		(MarshalTypeCreateConnectionFromLake)(m),
 	}
 
 	return json.Marshal(&s)

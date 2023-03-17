@@ -59,24 +59,20 @@ type KafkaConnection struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer vault being
-	// referenced.
-	// If provided, this will reference a vault which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to manage secrets contained
-	// within this vault.
+	// Refers to the customer's vault OCID.
+	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
+	// to manage secrets contained within this vault.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer "Master" key being
-	// referenced.
-	// If provided, this will reference a key which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to utilize this key to
-	// manage secrets.
+	// Refers to the customer's master key OCID.
+	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// List of ingress IP addresses, from where the GoldenGate deployment connects to this connection's privateIp.
+	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
+	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
@@ -91,9 +87,9 @@ type KafkaConnection struct {
 	// Example: `"server1.example.com:9092,server2.example.com:9092"`
 	BootstrapServers []KafkaBootstrapServer `mandatory:"false" json:"bootstrapServers"`
 
-	// The username Oracle GoldenGate uses to connect the associated RDBMS.  This username must
-	// already exist and be available for use by the database.  It must conform to the security
-	// requirements implemented by the database including length, case sensitivity, and so on.
+	// The username Oracle GoldenGate uses to connect the associated system of the given technology.
+	// This username must already exist and be available by the system/application to be connected to
+	// and must conform to the case sensitivty requirments defined in it.
 	Username *string `mandatory:"false" json:"username"`
 
 	// The Kafka technology type.

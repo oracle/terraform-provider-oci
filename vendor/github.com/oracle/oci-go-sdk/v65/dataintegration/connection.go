@@ -128,10 +128,6 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := ConnectionFromOracle{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "LAKE_HOUSE_CONNECTION":
-		mm := ConnectionFromLakehouse{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "AMAZON_S3_CONNECTION":
 		mm := ConnectionFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
@@ -154,6 +150,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "REST_NO_AUTH_CONNECTION":
 		mm := ConnectionFromRestNoAuth{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_CONNECTION":
+		mm := ConnectionFromLake{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "REST_BASIC_AUTH_CONNECTION":
@@ -260,7 +260,7 @@ const (
 	ConnectionModelTypeBiccConnection                ConnectionModelTypeEnum = "BICC_CONNECTION"
 	ConnectionModelTypeAmazonS3Connection            ConnectionModelTypeEnum = "AMAZON_S3_CONNECTION"
 	ConnectionModelTypeBipConnection                 ConnectionModelTypeEnum = "BIP_CONNECTION"
-	ConnectionModelTypeLakeHouseConnection           ConnectionModelTypeEnum = "LAKE_HOUSE_CONNECTION"
+	ConnectionModelTypeLakeConnection                ConnectionModelTypeEnum = "LAKE_CONNECTION"
 	ConnectionModelTypeRestNoAuthConnection          ConnectionModelTypeEnum = "REST_NO_AUTH_CONNECTION"
 	ConnectionModelTypeRestBasicAuthConnection       ConnectionModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
 )
@@ -275,7 +275,7 @@ var mappingConnectionModelTypeEnum = map[string]ConnectionModelTypeEnum{
 	"BICC_CONNECTION":                  ConnectionModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             ConnectionModelTypeAmazonS3Connection,
 	"BIP_CONNECTION":                   ConnectionModelTypeBipConnection,
-	"LAKE_HOUSE_CONNECTION":            ConnectionModelTypeLakeHouseConnection,
+	"LAKE_CONNECTION":                  ConnectionModelTypeLakeConnection,
 	"REST_NO_AUTH_CONNECTION":          ConnectionModelTypeRestNoAuthConnection,
 	"REST_BASIC_AUTH_CONNECTION":       ConnectionModelTypeRestBasicAuthConnection,
 }
@@ -290,7 +290,7 @@ var mappingConnectionModelTypeEnumLowerCase = map[string]ConnectionModelTypeEnum
 	"bicc_connection":                  ConnectionModelTypeBiccConnection,
 	"amazon_s3_connection":             ConnectionModelTypeAmazonS3Connection,
 	"bip_connection":                   ConnectionModelTypeBipConnection,
-	"lake_house_connection":            ConnectionModelTypeLakeHouseConnection,
+	"lake_connection":                  ConnectionModelTypeLakeConnection,
 	"rest_no_auth_connection":          ConnectionModelTypeRestNoAuthConnection,
 	"rest_basic_auth_connection":       ConnectionModelTypeRestBasicAuthConnection,
 }
@@ -316,7 +316,7 @@ func GetConnectionModelTypeEnumStringValues() []string {
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
 		"BIP_CONNECTION",
-		"LAKE_HOUSE_CONNECTION",
+		"LAKE_CONNECTION",
 		"REST_NO_AUTH_CONNECTION",
 		"REST_BASIC_AUTH_CONNECTION",
 	}

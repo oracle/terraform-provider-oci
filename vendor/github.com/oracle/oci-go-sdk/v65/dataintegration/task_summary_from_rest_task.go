@@ -66,6 +66,7 @@ type TaskSummaryFromRestTask struct {
 
 	Endpoint *Expression `mandatory:"false" json:"endpoint"`
 
+	// Headers for payload.
 	Headers *interface{} `mandatory:"false" json:"headers"`
 
 	// JSON data for payload body. This property is deprecated, use ExecuteRestCallConfig's payload config param instead.
