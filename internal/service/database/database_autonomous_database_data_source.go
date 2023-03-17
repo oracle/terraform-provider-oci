@@ -168,6 +168,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	s.D.Set("disaster_recovery_region_type", s.Res.DisasterRecoveryRegionType)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -260,6 +262,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("local_disaster_recovery_type", s.Res.LocalDisasterRecoveryType)
+
 	if s.Res.LocalStandbyDb != nil {
 		s.D.Set("local_standby_db", []interface{}{AutonomousDatabaseStandbySummaryToMap(s.Res.LocalStandbyDb)})
 	} else {
@@ -324,6 +328,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("refreshable_status", s.Res.RefreshableStatus)
 
+	if s.Res.RemoteDisasterRecoveryConfiguration != nil {
+		s.D.Set("remote_disaster_recovery_configuration", []interface{}{DisasterRecoveryConfigurationToMap(s.Res.RemoteDisasterRecoveryConfiguration)})
+	} else {
+		s.D.Set("remote_disaster_recovery_configuration", nil)
+	}
+
 	s.D.Set("role", s.Res.Role)
 
 	scheduledOperations := []interface{}{}
@@ -370,6 +380,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeDeletionOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_deletion_of_free_autonomous_database", s.Res.TimeDeletionOfFreeAutonomousDatabase.String())
+	}
+
+	if s.Res.TimeDisasterRecoveryRoleChanged != nil {
+		s.D.Set("time_disaster_recovery_role_changed", s.Res.TimeDisasterRecoveryRoleChanged.String())
 	}
 
 	if s.Res.TimeLocalDataGuardEnabled != nil {
