@@ -6,13 +6,15 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 	"time"
 
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -25,12 +27,19 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
+const pbfFunctionDisplayName = "ExampleFunctionFromPbf"
+
 var (
+	// Uncomment this when running test in a Tenancy created after 2019 as they will have Oracle internal tags
+	//for Creator and Created time added automatically
+	/*fnDefinedTagsIgnoreRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}*/
 	FunctionsFunctionRequiredOnlyResource = FunctionsFunctionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionImageSourceRepresentation)
 
 	FunctionsFunctionResourceConfig = FunctionsFunctionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Update, FunctionsFunctionRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Update, FunctionsFunctionImageSourceRepresentation)
 
 	FunctionsFunctionsFunctionSingularDataSourceRepresentation = map[string]interface{}{
 		"function_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_function.test_function.id}`},
@@ -50,19 +59,34 @@ var (
 	FunctionsFunctionRepresentation = map[string]interface{}{
 		"application_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_application.test_application.id}`},
 		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `ExampleFunction`},
-		"image":                          acctest.Representation{RepType: acctest.Required, Create: `${var.image}`, Update: `${var.image_for_update}`},
 		"memory_in_mbs":                  acctest.Representation{RepType: acctest.Required, Create: `128`, Update: `256`},
 		"config":                         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
 		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"image":                          acctest.Representation{RepType: acctest.Required, Create: `${var.image}`, Update: `${var.image_for_update}`},
 		"image_digest":                   acctest.Representation{RepType: acctest.Optional, Create: `${var.image_digest}`, Update: `${var.image_digest_for_update}`},
 		"provisioned_concurrency_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsFunctionProvisionedConcurrencyConfigRepresentation},
+		"source_details":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: FunctionsFunctionSourceDetailsRepresentation},
 		"timeout_in_seconds":             acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `31`},
 		"trace_config":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: FunctionsFunctionTraceConfigRepresentation},
+		//"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: fnDefinedTagsIgnoreRepresentation},
 	}
+
+	FunctionsFunctionImageSourceRepresentation            = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"source_details"}, FunctionsFunctionRepresentation)
+	FunctionsFunctionPbfSourceRepresentationWithoutConfig = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"image", "image_digest", "config", "display_name"},
+		FunctionsFunctionRepresentation)
+	FunctionsFunctionPbfSourceRepresentation = acctest.RepresentationCopyWithNewProperties(FunctionsFunctionPbfSourceRepresentationWithoutConfig, map[string]interface{}{
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: pbfFunctionDisplayName},
+		"config":       acctest.Representation{RepType: acctest.Required, Create: map[string]string{`${var.function_config_key}`: `${var.function_config_value}`}},
+	})
+
 	FunctionsFunctionProvisionedConcurrencyConfigRepresentation = map[string]interface{}{
 		"strategy": acctest.Representation{RepType: acctest.Required, Create: `CONSTANT`, Update: `NONE`},
 		"count":    acctest.Representation{RepType: acctest.Optional, Create: `40`, Update: `0`},
+	}
+	FunctionsFunctionSourceDetailsRepresentation = map[string]interface{}{
+		"pbf_listing_id": acctest.Representation{RepType: acctest.Required, Create: `${var.pbf_listing_id}`},
+		"source_type":    acctest.Representation{RepType: acctest.Required, Create: `PRE_BUILT_FUNCTIONS`},
 	}
 	FunctionsFunctionTraceConfigRepresentation = map[string]interface{}{
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -99,20 +123,88 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 	imageDigestU := utils.GetEnvSettingWithBlankDefault("image_digest_for_update")
 	imageDigestUVariableStr := fmt.Sprintf("variable \"image_digest_for_update\" { default = \"%s\" }\n", imageDigestU)
 
+	pbfListingId := utils.GetEnvSettingWithBlankDefault("pbf_listing_id")
+	pbfListingIdVariableStr := fmt.Sprintf("variable \"pbf_listing_id\" { default = \"%s\" }\n", pbfListingId)
+
+	functionConfigKey := utils.GetEnvSettingWithDefault("function_config_key", "MY_FUNCTION_CONFIG")
+	functionConfigKeyVariableStr := fmt.Sprintf("variable \"function_config_key\" { default = \"%s\" }\n", functionConfigKey)
+
+	functionConfigValue := utils.GetEnvSettingWithDefault("function_config_value", "ConfVal")
+	functionConfigValueVariableStr := fmt.Sprintf("variable \"function_config_value\" { default = \"%s\" }\n", functionConfigValue)
+
 	resourceName := "oci_functions_function.test_function"
 	datasourceName := "data.oci_functions_functions.test_functions"
 	singularDatasourceName := "data.oci_functions_function.test_function"
 
+	log.Printf("imageDigest value is: %s", imageDigest)
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+FunctionsFunctionResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Create, FunctionsFunctionRepresentation), "functions", "function", t)
 
 	acctest.ResourceTest(t, testAccCheckFunctionsFunctionDestroy, []resource.TestStep{
+		// verify Create with PBF
+		{
+			Config: config + compartmentIdVariableStr + pbfListingIdVariableStr + functionConfigKeyVariableStr + functionConfigValueVariableStr + FunctionsFunctionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionPbfSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", pbfFunctionDisplayName),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.pbf_listing_id", pbfListingId),
+				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
+				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies,
+		},
+		// verify Create with PBF with optionals
+		{
+			Config: config + compartmentIdVariableStr + pbfListingIdVariableStr + functionConfigKeyVariableStr + functionConfigValueVariableStr + FunctionsFunctionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Create, FunctionsFunctionPbfSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
+				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", pbfFunctionDisplayName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.pbf_listing_id", pbfListingId),
+				resource.TestCheckResourceAttr(resourceName, "memory_in_mbs", "128"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.0.count", "40"),
+				resource.TestCheckResourceAttr(resourceName, "provisioned_concurrency_config.0.strategy", "CONSTANT"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.pbf_listing_id"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "PRE_BUILT_FUNCTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "30"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "trace_config.0.is_enabled", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies,
+		},
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsFunctionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionImageSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "ExampleFunction"),
@@ -125,7 +217,6 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 				},
 			),
 		},
-
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + FunctionsFunctionResourceDependencies,
@@ -133,7 +224,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + imageVariableStr + imageDigestVariableStr + FunctionsFunctionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Create, FunctionsFunctionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Create, FunctionsFunctionImageSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
@@ -152,6 +243,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					log.Printf("enable_export_compartment : %s", utils.GetEnvSettingWithDefault("enable_export_compartment", "true"))
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
@@ -165,7 +257,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionsFunctionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Update, FunctionsFunctionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Update, FunctionsFunctionImageSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "application_id"),
 				resource.TestCheckResourceAttr(resourceName, "config.%", "1"),
@@ -196,7 +288,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_functions_functions", "test_functions", acctest.Optional, acctest.Update, FunctionsFunctionsFunctionDataSourceRepresentation) +
 				compartmentIdVariableStr + imageUVariableStr + imageDigestUVariableStr + FunctionsFunctionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Update, FunctionsFunctionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Optional, acctest.Update, FunctionsFunctionImageSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "ExampleFunction"),

@@ -113,6 +113,16 @@ func (s *FunctionsFunctionDataSourceCrud) SetData() error {
 		s.D.Set("provisioned_concurrency_config", nil)
 	}
 
+	if s.Res.SourceDetails != nil {
+		sourceDetailsArray := []interface{}{}
+		if sourceDetailsMap := FunctionSourceDetailsToMap(&s.Res.SourceDetails); sourceDetailsMap != nil {
+			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+		}
+		s.D.Set("source_details", sourceDetailsArray)
+	} else {
+		s.D.Set("source_details", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

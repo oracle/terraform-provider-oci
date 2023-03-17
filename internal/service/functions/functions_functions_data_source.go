@@ -164,6 +164,16 @@ func (s *FunctionsFunctionsDataSourceCrud) SetData() error {
 			function["provisioned_concurrency_config"] = nil
 		}
 
+		if r.SourceDetails != nil {
+			sourceDetailsArray := []interface{}{}
+			if sourceDetailsMap := FunctionSourceDetailsToMap(&r.SourceDetails); sourceDetailsMap != nil {
+				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+			}
+			function["source_details"] = sourceDetailsArray
+		} else {
+			function["source_details"] = nil
+		}
+
 		function["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

@@ -48,6 +48,9 @@ The following attributes are exported:
 * `provisioned_concurrency_config` - Define the strategy for provisioned concurrency for the function. 
 	* `count` - 
 	* `strategy` - The strategy for provisioned concurrency to be used. 
+* `source_details` - The source details for the Function. The function can be created from various sources. 
+	* `pbf_listing_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PbfListing this function is sourced from. 
+	* `source_type` - Type of the Function Source. Possible values: PRE_BUILT_FUNCTIONS. 
 * `state` - The current state of the function. 
 * `time_created` - The time the function was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 * `time_updated` - The time the function was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
