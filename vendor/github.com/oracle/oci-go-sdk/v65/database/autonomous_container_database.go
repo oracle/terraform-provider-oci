@@ -438,6 +438,7 @@ const (
 	AutonomousContainerDatabaseRolePrimary         AutonomousContainerDatabaseRoleEnum = "PRIMARY"
 	AutonomousContainerDatabaseRoleStandby         AutonomousContainerDatabaseRoleEnum = "STANDBY"
 	AutonomousContainerDatabaseRoleDisabledStandby AutonomousContainerDatabaseRoleEnum = "DISABLED_STANDBY"
+	AutonomousContainerDatabaseRoleBackupCopy      AutonomousContainerDatabaseRoleEnum = "BACKUP_COPY"
 	AutonomousContainerDatabaseRoleSnapshotStandby AutonomousContainerDatabaseRoleEnum = "SNAPSHOT_STANDBY"
 )
 
@@ -445,6 +446,7 @@ var mappingAutonomousContainerDatabaseRoleEnum = map[string]AutonomousContainerD
 	"PRIMARY":          AutonomousContainerDatabaseRolePrimary,
 	"STANDBY":          AutonomousContainerDatabaseRoleStandby,
 	"DISABLED_STANDBY": AutonomousContainerDatabaseRoleDisabledStandby,
+	"BACKUP_COPY":      AutonomousContainerDatabaseRoleBackupCopy,
 	"SNAPSHOT_STANDBY": AutonomousContainerDatabaseRoleSnapshotStandby,
 }
 
@@ -452,6 +454,7 @@ var mappingAutonomousContainerDatabaseRoleEnumLowerCase = map[string]AutonomousC
 	"primary":          AutonomousContainerDatabaseRolePrimary,
 	"standby":          AutonomousContainerDatabaseRoleStandby,
 	"disabled_standby": AutonomousContainerDatabaseRoleDisabledStandby,
+	"backup_copy":      AutonomousContainerDatabaseRoleBackupCopy,
 	"snapshot_standby": AutonomousContainerDatabaseRoleSnapshotStandby,
 }
 
@@ -470,6 +473,7 @@ func GetAutonomousContainerDatabaseRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"BACKUP_COPY",
 		"SNAPSHOT_STANDBY",
 	}
 }

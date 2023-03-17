@@ -109,9 +109,8 @@ type ListTrailSequencesResponse struct {
 	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the
-	// response, then a partial list might have been returned. Include this value as the `page`
-	// parameter for the subsequent GET request to get the next batch of items.
+	// The page token represents the page to start retrieving results. This is usually retrieved
+	// from a previous list call.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

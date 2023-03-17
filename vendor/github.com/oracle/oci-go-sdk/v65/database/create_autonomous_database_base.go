@@ -342,6 +342,10 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := CreateAutonomousDatabaseFromBackupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CROSS_REGION_DISASTER_RECOVERY":
+		mm := CreateCrossRegionDisasterRecoveryDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "BACKUP_FROM_TIMESTAMP":
 		mm := CreateAutonomousDatabaseFromBackupTimestampDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -791,30 +795,33 @@ type CreateAutonomousDatabaseBaseSourceEnum string
 
 // Set of constants representing the allowable values for CreateAutonomousDatabaseBaseSourceEnum
 const (
-	CreateAutonomousDatabaseBaseSourceNone                 CreateAutonomousDatabaseBaseSourceEnum = "NONE"
-	CreateAutonomousDatabaseBaseSourceDatabase             CreateAutonomousDatabaseBaseSourceEnum = "DATABASE"
-	CreateAutonomousDatabaseBaseSourceBackupFromId         CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_ID"
-	CreateAutonomousDatabaseBaseSourceBackupFromTimestamp  CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_TIMESTAMP"
-	CreateAutonomousDatabaseBaseSourceCloneToRefreshable   CreateAutonomousDatabaseBaseSourceEnum = "CLONE_TO_REFRESHABLE"
-	CreateAutonomousDatabaseBaseSourceCrossRegionDataguard CreateAutonomousDatabaseBaseSourceEnum = "CROSS_REGION_DATAGUARD"
+	CreateAutonomousDatabaseBaseSourceNone                        CreateAutonomousDatabaseBaseSourceEnum = "NONE"
+	CreateAutonomousDatabaseBaseSourceDatabase                    CreateAutonomousDatabaseBaseSourceEnum = "DATABASE"
+	CreateAutonomousDatabaseBaseSourceBackupFromId                CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_ID"
+	CreateAutonomousDatabaseBaseSourceBackupFromTimestamp         CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_TIMESTAMP"
+	CreateAutonomousDatabaseBaseSourceCloneToRefreshable          CreateAutonomousDatabaseBaseSourceEnum = "CLONE_TO_REFRESHABLE"
+	CreateAutonomousDatabaseBaseSourceCrossRegionDataguard        CreateAutonomousDatabaseBaseSourceEnum = "CROSS_REGION_DATAGUARD"
+	CreateAutonomousDatabaseBaseSourceCrossRegionDisasterRecovery CreateAutonomousDatabaseBaseSourceEnum = "CROSS_REGION_DISASTER_RECOVERY"
 )
 
 var mappingCreateAutonomousDatabaseBaseSourceEnum = map[string]CreateAutonomousDatabaseBaseSourceEnum{
-	"NONE":                   CreateAutonomousDatabaseBaseSourceNone,
-	"DATABASE":               CreateAutonomousDatabaseBaseSourceDatabase,
-	"BACKUP_FROM_ID":         CreateAutonomousDatabaseBaseSourceBackupFromId,
-	"BACKUP_FROM_TIMESTAMP":  CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
-	"CLONE_TO_REFRESHABLE":   CreateAutonomousDatabaseBaseSourceCloneToRefreshable,
-	"CROSS_REGION_DATAGUARD": CreateAutonomousDatabaseBaseSourceCrossRegionDataguard,
+	"NONE":                           CreateAutonomousDatabaseBaseSourceNone,
+	"DATABASE":                       CreateAutonomousDatabaseBaseSourceDatabase,
+	"BACKUP_FROM_ID":                 CreateAutonomousDatabaseBaseSourceBackupFromId,
+	"BACKUP_FROM_TIMESTAMP":          CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
+	"CLONE_TO_REFRESHABLE":           CreateAutonomousDatabaseBaseSourceCloneToRefreshable,
+	"CROSS_REGION_DATAGUARD":         CreateAutonomousDatabaseBaseSourceCrossRegionDataguard,
+	"CROSS_REGION_DISASTER_RECOVERY": CreateAutonomousDatabaseBaseSourceCrossRegionDisasterRecovery,
 }
 
 var mappingCreateAutonomousDatabaseBaseSourceEnumLowerCase = map[string]CreateAutonomousDatabaseBaseSourceEnum{
-	"none":                   CreateAutonomousDatabaseBaseSourceNone,
-	"database":               CreateAutonomousDatabaseBaseSourceDatabase,
-	"backup_from_id":         CreateAutonomousDatabaseBaseSourceBackupFromId,
-	"backup_from_timestamp":  CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
-	"clone_to_refreshable":   CreateAutonomousDatabaseBaseSourceCloneToRefreshable,
-	"cross_region_dataguard": CreateAutonomousDatabaseBaseSourceCrossRegionDataguard,
+	"none":                           CreateAutonomousDatabaseBaseSourceNone,
+	"database":                       CreateAutonomousDatabaseBaseSourceDatabase,
+	"backup_from_id":                 CreateAutonomousDatabaseBaseSourceBackupFromId,
+	"backup_from_timestamp":          CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
+	"clone_to_refreshable":           CreateAutonomousDatabaseBaseSourceCloneToRefreshable,
+	"cross_region_dataguard":         CreateAutonomousDatabaseBaseSourceCrossRegionDataguard,
+	"cross_region_disaster_recovery": CreateAutonomousDatabaseBaseSourceCrossRegionDisasterRecovery,
 }
 
 // GetCreateAutonomousDatabaseBaseSourceEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseSourceEnum
@@ -835,6 +842,7 @@ func GetCreateAutonomousDatabaseBaseSourceEnumStringValues() []string {
 		"BACKUP_FROM_TIMESTAMP",
 		"CLONE_TO_REFRESHABLE",
 		"CROSS_REGION_DATAGUARD",
+		"CROSS_REGION_DISASTER_RECOVERY",
 	}
 }
 

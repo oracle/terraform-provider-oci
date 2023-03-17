@@ -34,18 +34,13 @@ type UpdateGoldenGateConnectionDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer vault being
-	// referenced.
-	// If provided, this will reference a vault which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to manage secrets contained
-	// within this vault.
+	// Refers to the customer's vault OCID.
+	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
+	// to manage secrets contained within this vault.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer "Master" key being
-	// referenced.
-	// If provided, this will reference a key which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to utilize this key to
-	// manage secrets.
+	// Refers to the customer's master key OCID.
+	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
@@ -59,6 +54,12 @@ type UpdateGoldenGateConnectionDetails struct {
 
 	// The port of an endpoint usually specified for a connection.
 	Port *int `mandatory:"false" json:"port"`
+
+	// The username credential existing in the Oracle GoldenGate used to be connected to.
+	Username *string `mandatory:"false" json:"username"`
+
+	// The password used to connect to the Oracle GoldenGate accessed trough this connection.
+	Password *string `mandatory:"false" json:"password"`
 
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a
 	// database endpoint or a big data endpoint (e.g. Kafka bootstrap server).

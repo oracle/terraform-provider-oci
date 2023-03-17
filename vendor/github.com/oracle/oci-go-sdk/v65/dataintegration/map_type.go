@@ -42,6 +42,7 @@ type MapType struct {
 	// Seeded type
 	ValueElementType *string `mandatory:"false" json:"valueElementType"`
 
+	// Defines whether null values are allowed.
 	ContainsNull *bool `mandatory:"false" json:"containsNull"`
 }
 

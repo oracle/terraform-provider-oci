@@ -98,6 +98,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ModelType {
+	case "LAKE_CONNECTION":
+		mm := UpdateConnectionFromLake{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GENERIC_JDBC_CONNECTION":
 		mm := UpdateConnectionFromJdbc{}
 		err = json.Unmarshal(data, &mm)
@@ -124,10 +128,6 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "REST_BASIC_AUTH_CONNECTION":
 		mm := UpdateConnectionFromRestBasicAuth{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "LAKE_HOUSE_CONNECTION":
-		mm := UpdateConnectionFromLakehouse{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLEDB_CONNECTION":
@@ -231,7 +231,7 @@ const (
 	UpdateConnectionDetailsModelTypeBiccConnection                UpdateConnectionDetailsModelTypeEnum = "BICC_CONNECTION"
 	UpdateConnectionDetailsModelTypeAmazonS3Connection            UpdateConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
 	UpdateConnectionDetailsModelTypeBipConnection                 UpdateConnectionDetailsModelTypeEnum = "BIP_CONNECTION"
-	UpdateConnectionDetailsModelTypeLakeHouseConnection           UpdateConnectionDetailsModelTypeEnum = "LAKE_HOUSE_CONNECTION"
+	UpdateConnectionDetailsModelTypeLakeConnection                UpdateConnectionDetailsModelTypeEnum = "LAKE_CONNECTION"
 	UpdateConnectionDetailsModelTypeRestNoAuthConnection          UpdateConnectionDetailsModelTypeEnum = "REST_NO_AUTH_CONNECTION"
 	UpdateConnectionDetailsModelTypeRestBasicAuthConnection       UpdateConnectionDetailsModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
 )
@@ -246,7 +246,7 @@ var mappingUpdateConnectionDetailsModelTypeEnum = map[string]UpdateConnectionDet
 	"BICC_CONNECTION":                  UpdateConnectionDetailsModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             UpdateConnectionDetailsModelTypeAmazonS3Connection,
 	"BIP_CONNECTION":                   UpdateConnectionDetailsModelTypeBipConnection,
-	"LAKE_HOUSE_CONNECTION":            UpdateConnectionDetailsModelTypeLakeHouseConnection,
+	"LAKE_CONNECTION":                  UpdateConnectionDetailsModelTypeLakeConnection,
 	"REST_NO_AUTH_CONNECTION":          UpdateConnectionDetailsModelTypeRestNoAuthConnection,
 	"REST_BASIC_AUTH_CONNECTION":       UpdateConnectionDetailsModelTypeRestBasicAuthConnection,
 }
@@ -261,7 +261,7 @@ var mappingUpdateConnectionDetailsModelTypeEnumLowerCase = map[string]UpdateConn
 	"bicc_connection":                  UpdateConnectionDetailsModelTypeBiccConnection,
 	"amazon_s3_connection":             UpdateConnectionDetailsModelTypeAmazonS3Connection,
 	"bip_connection":                   UpdateConnectionDetailsModelTypeBipConnection,
-	"lake_house_connection":            UpdateConnectionDetailsModelTypeLakeHouseConnection,
+	"lake_connection":                  UpdateConnectionDetailsModelTypeLakeConnection,
 	"rest_no_auth_connection":          UpdateConnectionDetailsModelTypeRestNoAuthConnection,
 	"rest_basic_auth_connection":       UpdateConnectionDetailsModelTypeRestBasicAuthConnection,
 }
@@ -287,7 +287,7 @@ func GetUpdateConnectionDetailsModelTypeEnumStringValues() []string {
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
 		"BIP_CONNECTION",
-		"LAKE_HOUSE_CONNECTION",
+		"LAKE_CONNECTION",
 		"REST_NO_AUTH_CONNECTION",
 		"REST_BASIC_AUTH_CONNECTION",
 	}

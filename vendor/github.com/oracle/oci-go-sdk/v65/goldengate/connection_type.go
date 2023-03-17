@@ -22,11 +22,18 @@ const (
 	ConnectionTypeKafka                 ConnectionTypeEnum = "KAFKA"
 	ConnectionTypeKafkaSchemaRegistry   ConnectionTypeEnum = "KAFKA_SCHEMA_REGISTRY"
 	ConnectionTypeMysql                 ConnectionTypeEnum = "MYSQL"
+	ConnectionTypeJavaMessageService    ConnectionTypeEnum = "JAVA_MESSAGE_SERVICE"
+	ConnectionTypeMicrosoftSqlserver    ConnectionTypeEnum = "MICROSOFT_SQLSERVER"
 	ConnectionTypeOciObjectStorage      ConnectionTypeEnum = "OCI_OBJECT_STORAGE"
 	ConnectionTypeOracle                ConnectionTypeEnum = "ORACLE"
 	ConnectionTypeAzureDataLakeStorage  ConnectionTypeEnum = "AZURE_DATA_LAKE_STORAGE"
 	ConnectionTypePostgresql            ConnectionTypeEnum = "POSTGRESQL"
 	ConnectionTypeAzureSynapseAnalytics ConnectionTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
+	ConnectionTypeSnowflake             ConnectionTypeEnum = "SNOWFLAKE"
+	ConnectionTypeAmazonS3              ConnectionTypeEnum = "AMAZON_S3"
+	ConnectionTypeHdfs                  ConnectionTypeEnum = "HDFS"
+	ConnectionTypeOracleNosql           ConnectionTypeEnum = "ORACLE_NOSQL"
+	ConnectionTypeMongodb               ConnectionTypeEnum = "MONGODB"
 )
 
 var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
@@ -34,11 +41,18 @@ var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
 	"KAFKA":                   ConnectionTypeKafka,
 	"KAFKA_SCHEMA_REGISTRY":   ConnectionTypeKafkaSchemaRegistry,
 	"MYSQL":                   ConnectionTypeMysql,
+	"JAVA_MESSAGE_SERVICE":    ConnectionTypeJavaMessageService,
+	"MICROSOFT_SQLSERVER":     ConnectionTypeMicrosoftSqlserver,
 	"OCI_OBJECT_STORAGE":      ConnectionTypeOciObjectStorage,
 	"ORACLE":                  ConnectionTypeOracle,
 	"AZURE_DATA_LAKE_STORAGE": ConnectionTypeAzureDataLakeStorage,
 	"POSTGRESQL":              ConnectionTypePostgresql,
 	"AZURE_SYNAPSE_ANALYTICS": ConnectionTypeAzureSynapseAnalytics,
+	"SNOWFLAKE":               ConnectionTypeSnowflake,
+	"AMAZON_S3":               ConnectionTypeAmazonS3,
+	"HDFS":                    ConnectionTypeHdfs,
+	"ORACLE_NOSQL":            ConnectionTypeOracleNosql,
+	"MONGODB":                 ConnectionTypeMongodb,
 }
 
 var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
@@ -46,11 +60,18 @@ var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
 	"kafka":                   ConnectionTypeKafka,
 	"kafka_schema_registry":   ConnectionTypeKafkaSchemaRegistry,
 	"mysql":                   ConnectionTypeMysql,
+	"java_message_service":    ConnectionTypeJavaMessageService,
+	"microsoft_sqlserver":     ConnectionTypeMicrosoftSqlserver,
 	"oci_object_storage":      ConnectionTypeOciObjectStorage,
 	"oracle":                  ConnectionTypeOracle,
 	"azure_data_lake_storage": ConnectionTypeAzureDataLakeStorage,
 	"postgresql":              ConnectionTypePostgresql,
 	"azure_synapse_analytics": ConnectionTypeAzureSynapseAnalytics,
+	"snowflake":               ConnectionTypeSnowflake,
+	"amazon_s3":               ConnectionTypeAmazonS3,
+	"hdfs":                    ConnectionTypeHdfs,
+	"oracle_nosql":            ConnectionTypeOracleNosql,
+	"mongodb":                 ConnectionTypeMongodb,
 }
 
 // GetConnectionTypeEnumValues Enumerates the set of values for ConnectionTypeEnum
@@ -69,11 +90,18 @@ func GetConnectionTypeEnumStringValues() []string {
 		"KAFKA",
 		"KAFKA_SCHEMA_REGISTRY",
 		"MYSQL",
+		"JAVA_MESSAGE_SERVICE",
+		"MICROSOFT_SQLSERVER",
 		"OCI_OBJECT_STORAGE",
 		"ORACLE",
 		"AZURE_DATA_LAKE_STORAGE",
 		"POSTGRESQL",
 		"AZURE_SYNAPSE_ANALYTICS",
+		"SNOWFLAKE",
+		"AMAZON_S3",
+		"HDFS",
+		"ORACLE_NOSQL",
+		"MONGODB",
 	}
 }
 

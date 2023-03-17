@@ -16,16 +16,19 @@ import (
 	"strings"
 )
 
-// DataAssetSummaryFromLakehouse Summary details for the Lakehouse data asset type.
-type DataAssetSummaryFromLakehouse struct {
-
-	// The Lakehouse Ocid.
-	LakehouseOcid *string `mandatory:"true" json:"lakehouseOcid"`
-
-	DefaultConnection *ConnectionSummaryFromLakehouse `mandatory:"true" json:"defaultConnection"`
+// UpdateDataAssetFromLake Details for the Lake data asset type.
+type UpdateDataAssetFromLake struct {
 
 	// Generated key that can be used in API calls to identify data asset.
-	Key *string `mandatory:"false" json:"key"`
+	Key *string `mandatory:"true" json:"key"`
+
+	// The version of the object that is used to track changes in the object instance.
+	ObjectVersion *int `mandatory:"true" json:"objectVersion"`
+
+	// The Lake Ocid.
+	LakeId *string `mandatory:"true" json:"lakeId"`
+
+	DefaultConnection *UpdateConnectionFromLake `mandatory:"true" json:"defaultConnection"`
 
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
@@ -48,90 +51,73 @@ type DataAssetSummaryFromLakehouse struct {
 	// Additional properties for the data asset.
 	AssetProperties map[string]string `mandatory:"false" json:"assetProperties"`
 
-	NativeTypeSystem *TypeSystem `mandatory:"false" json:"nativeTypeSystem"`
+	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 
-	// The version of the object that is used to track changes in the object instance.
-	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
-
-	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
-
-	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
-
-	// The metastoreId for the specified Lakehouse Resource.
+	// The metastoreId for the specified Lake Resource.
 	MetastoreId *string `mandatory:"false" json:"metastoreId"`
 
-	// The rangerEndpoint for the specified Lakehouse Resource.
-	RangerEndpoint *string `mandatory:"false" json:"rangerEndpoint"`
+	// The rangerEndpoint for the specified Lake Resource.
+	LakeProxyEndpoint *string `mandatory:"false" json:"lakeProxyEndpoint"`
 }
 
 //GetKey returns Key
-func (m DataAssetSummaryFromLakehouse) GetKey() *string {
+func (m UpdateDataAssetFromLake) GetKey() *string {
 	return m.Key
 }
 
 //GetModelVersion returns ModelVersion
-func (m DataAssetSummaryFromLakehouse) GetModelVersion() *string {
+func (m UpdateDataAssetFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
 //GetName returns Name
-func (m DataAssetSummaryFromLakehouse) GetName() *string {
+func (m UpdateDataAssetFromLake) GetName() *string {
 	return m.Name
 }
 
 //GetDescription returns Description
-func (m DataAssetSummaryFromLakehouse) GetDescription() *string {
+func (m UpdateDataAssetFromLake) GetDescription() *string {
 	return m.Description
 }
 
 //GetObjectStatus returns ObjectStatus
-func (m DataAssetSummaryFromLakehouse) GetObjectStatus() *int {
+func (m UpdateDataAssetFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
+//GetObjectVersion returns ObjectVersion
+func (m UpdateDataAssetFromLake) GetObjectVersion() *int {
+	return m.ObjectVersion
+}
+
 //GetIdentifier returns Identifier
-func (m DataAssetSummaryFromLakehouse) GetIdentifier() *string {
+func (m UpdateDataAssetFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
 //GetExternalKey returns ExternalKey
-func (m DataAssetSummaryFromLakehouse) GetExternalKey() *string {
+func (m UpdateDataAssetFromLake) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
 //GetAssetProperties returns AssetProperties
-func (m DataAssetSummaryFromLakehouse) GetAssetProperties() map[string]string {
+func (m UpdateDataAssetFromLake) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetNativeTypeSystem returns NativeTypeSystem
-func (m DataAssetSummaryFromLakehouse) GetNativeTypeSystem() *TypeSystem {
-	return m.NativeTypeSystem
+//GetRegistryMetadata returns RegistryMetadata
+func (m UpdateDataAssetFromLake) GetRegistryMetadata() *RegistryMetadata {
+	return m.RegistryMetadata
 }
 
-//GetObjectVersion returns ObjectVersion
-func (m DataAssetSummaryFromLakehouse) GetObjectVersion() *int {
-	return m.ObjectVersion
-}
-
-//GetParentRef returns ParentRef
-func (m DataAssetSummaryFromLakehouse) GetParentRef() *ParentReference {
-	return m.ParentRef
-}
-
-//GetMetadata returns Metadata
-func (m DataAssetSummaryFromLakehouse) GetMetadata() *ObjectMetadata {
-	return m.Metadata
-}
-
-func (m DataAssetSummaryFromLakehouse) String() string {
+func (m UpdateDataAssetFromLake) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DataAssetSummaryFromLakehouse) ValidateEnumValue() (bool, error) {
+func (m UpdateDataAssetFromLake) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -141,14 +127,14 @@ func (m DataAssetSummaryFromLakehouse) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m DataAssetSummaryFromLakehouse) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeDataAssetSummaryFromLakehouse DataAssetSummaryFromLakehouse
+func (m UpdateDataAssetFromLake) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeUpdateDataAssetFromLake UpdateDataAssetFromLake
 	s := struct {
 		DiscriminatorParam string `json:"modelType"`
-		MarshalTypeDataAssetSummaryFromLakehouse
+		MarshalTypeUpdateDataAssetFromLake
 	}{
-		"LAKE_HOUSE_DATA_ASSET",
-		(MarshalTypeDataAssetSummaryFromLakehouse)(m),
+		"LAKE_DATA_ASSET",
+		(MarshalTypeUpdateDataAssetFromLake)(m),
 	}
 
 	return json.Marshal(&s)

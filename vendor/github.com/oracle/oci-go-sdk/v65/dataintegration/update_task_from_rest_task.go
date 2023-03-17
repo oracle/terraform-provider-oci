@@ -63,6 +63,7 @@ type UpdateTaskFromRestTask struct {
 
 	Endpoint *Expression `mandatory:"false" json:"endpoint"`
 
+	// Headers data for the request.
 	Headers *interface{} `mandatory:"false" json:"headers"`
 
 	// Header value.
