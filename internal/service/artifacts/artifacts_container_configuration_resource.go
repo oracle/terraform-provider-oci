@@ -165,5 +165,7 @@ func (s *ArtifactsContainerConfigurationResourceCrud) SetData() error {
 		s.D.Set("namespace", *s.Res.Namespace)
 	}
 
+	s.D.Set("compartment_id", s.D.Id())
+
 	return nil
 }
