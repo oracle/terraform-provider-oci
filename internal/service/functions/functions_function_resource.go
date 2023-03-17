@@ -55,8 +55,11 @@ func FunctionsFunctionResource() *schema.Resource {
 					return (old.(string) != new.(string)) && old.(string) != ""
 				},
 				func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+					//Image and image_digest are not used for PBFs. Image digest should be empty and should not be computed for PBF Functions.
+					if isSourceTypePbf(d) {
+						return nil
+					}
 					o, n := d.GetChange("image_digest")
-
 					if o == n || n == requireRecompute || n == "" {
 						// The user's changing the image.
 						// Mark image_digest as "known after apply" if there is no corresponding
@@ -72,6 +75,10 @@ func FunctionsFunctionResource() *schema.Resource {
 					return v.(string) == "" || v.(string) == requireRecompute
 				},
 				func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) error {
+					//Image and image_digest are not used for PBFs. Image digest should be empty and should not be computed for PBF Functions.
+					if isSourceTypePbf(d) {
+						return nil
+					}
 					d.SetNewComputed("image_digest")
 					return nil
 				}),
@@ -87,10 +94,6 @@ func FunctionsFunctionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
-			},
-			"image": {
-				Type:     schema.TypeString,
-				Required: true,
 			},
 			"memory_in_mbs": {
 				Type:             schema.TypeString,
@@ -118,6 +121,11 @@ func FunctionsFunctionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"image": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"image_digest": {
 				Type:     schema.TypeString,
@@ -153,6 +161,37 @@ func FunctionsFunctionResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+
+						// Computed
+					},
+				},
+			},
+			"source_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"pbf_listing_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"source_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"PRE_BUILT_FUNCTIONS",
+							}, true),
+						},
+
+						// Optional
 
 						// Computed
 					},
@@ -208,6 +247,20 @@ func FunctionsFunctionResource() *schema.Resource {
 			},
 		},
 	}
+}
+func isSourceTypePbf(d *schema.ResourceDiff) bool {
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+	sourceTypeRaw, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
+	var sourceType string
+	if ok {
+		sourceType = sourceTypeRaw.(string)
+	} else {
+		sourceType = "" // default value
+	}
+	if strings.EqualFold(sourceType, "PRE_BUILT_FUNCTIONS") {
+		return true
+	}
+	return false
 }
 
 func createFunctionsFunction(d *schema.ResourceData, m interface{}) error {
@@ -338,6 +391,17 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 				return err
 			}
 			request.ProvisionedConcurrencyConfig = tmp
+		}
+	}
+
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
+		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+			tmp, err := s.mapToFunctionSourceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SourceDetails = tmp
 		}
 	}
 
@@ -526,6 +590,19 @@ func (s *FunctionsFunctionResourceCrud) SetData() error {
 		s.D.Set("provisioned_concurrency_config", nil)
 	}
 
+	if s.Res.SourceDetails != nil {
+		sourceDetailsArray := []interface{}{}
+		if sourceDetailsMap := FunctionSourceDetailsToMap(&s.Res.SourceDetails); sourceDetailsMap != nil {
+			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+			// image_digest is computed field when only image is passed. For PBF image is not required
+			//and hence image_digest will be not computed. Set the value to empty string to avoid showing as computed for PBF
+			//s.D.Set("image_digest", "")
+		}
+		s.D.Set("source_details", sourceDetailsArray)
+	} else {
+		s.D.Set("source_details", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -589,6 +666,47 @@ func FunctionProvisionedConcurrencyConfigToMap(obj *oci_functions.FunctionProvis
 		result["strategy"] = "NONE"
 	default:
 		log.Printf("[WARN] Received 'strategy' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *FunctionsFunctionResourceCrud) mapToFunctionSourceDetails(fieldKeyFormat string) (oci_functions.FunctionSourceDetails, error) {
+	var baseObject oci_functions.FunctionSourceDetails
+	//discriminator
+	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
+	var sourceType string
+	if ok {
+		sourceType = sourceTypeRaw.(string)
+	} else {
+		sourceType = "" // default value
+	}
+	switch strings.ToLower(sourceType) {
+	case strings.ToLower("PRE_BUILT_FUNCTIONS"):
+		details := oci_functions.PreBuiltFunctionSourceDetails{}
+		if pbfListingId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pbf_listing_id")); ok {
+			tmp := pbfListingId.(string)
+			details.PbfListingId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
+	}
+	return baseObject, nil
+}
+
+func FunctionSourceDetailsToMap(obj *oci_functions.FunctionSourceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_functions.PreBuiltFunctionSourceDetails:
+		result["source_type"] = "PRE_BUILT_FUNCTIONS"
+
+		if v.PbfListingId != nil {
+			result["pbf_listing_id"] = string(*v.PbfListingId)
+		}
+	default:
+		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
 	}
 
