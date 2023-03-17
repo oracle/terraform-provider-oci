@@ -1,4 +1,4 @@
-## 4.112.0 (Unreleased)
+## 4.112.0 (March 15, 2023)
 
 ### Added
 - Support for GoldenGate Maintenance
