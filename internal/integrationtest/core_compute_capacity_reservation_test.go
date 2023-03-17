@@ -55,6 +55,7 @@ var (
 		"instance_reservation_configs": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreComputeCapacityReservationInstanceReservationConfigsRepresentation},
 		"is_default_reservation":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
+
 	CoreComputeCapacityReservationInstanceReservationConfigsRepresentation = map[string]interface{}{
 		"instance_shape":        acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
 		"fault_domain":          acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-1`},
