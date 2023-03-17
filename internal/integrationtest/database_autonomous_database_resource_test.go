@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 	"testing"
 	"time"
@@ -99,6 +100,20 @@ var (
 		"timeouts":         acctest.RepresentationGroup{RepType: acctest.Required, Group: autonomousDatabaseTimeoutsRepresentation},
 	}
 
+	DatabaseAutonomousDatabaseBackupRepresentationNew = map[string]interface{}{
+		"autonomous_database_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `LongTerm Backup`},
+		"is_long_term_backup":      acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"retention_period_in_days": acctest.Representation{RepType: acctest.Required, Create: `90`, Update: `91`},
+	}
+
+	AutonomousDatabaseFromBackupDependenciesLongTerm = DatabaseAutonomousDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseBackupRepresentationNew) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+				"db_name": acctest.Representation{RepType: acctest.Required, Create: adbBackupSourceName},
+			}))
+
 	autonomousDatabaseRepresentationForSourceFromBackupId = acctest.RepresentationCopyWithNewProperties(
 		acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbBackupIdName}, DatabaseAutonomousDatabaseRepresentation),
 		map[string]interface{}{
@@ -189,6 +204,7 @@ var (
 			"whitelisted_ips":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`1.1.1.1/28`}, Update: []string{`1.1.1.1/28`, `2.2.2.2/28`}},
 			"admin_password":                   acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		})
+
 	autonomousDatabaseDGExaccRepresentation = acctest.RepresentationCopyWithNewProperties(
 		acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbExaccName}, DatabaseAutonomousDatabaseRepresentation), []string{"license_model", "db_version", "is_auto_scaling_enabled", "operations_insights_status", "admin_password", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type", "customer_contacts", "scheduled_operations"}),
 		map[string]interface{}{
@@ -239,6 +255,12 @@ var (
 
 // issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
+	shouldSkipADBDtest := os.Getenv("TF_VAR_should_skip_adbd_test")
+
+	if shouldSkipADBDtest == "true" {
+		t.Skip("Skipping TestDatabaseCrossRegionDisasterRecovery_basic test.\n" + "Current TF_VAR_should_skip_adbd_test=" + shouldSkipADBDtest)
+	}
+
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseDedicated")
 	defer httpreplay.SaveScenario()
 
@@ -1091,11 +1113,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
 		//0. Create dependencies
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependenciesLongTerm,
 		},
 		//1. verify create
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependenciesLongTerm +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backupid", acctest.Required, acctest.Create, autonomousDatabaseRepresentationForSourceFromBackupId),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -1116,11 +1138,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 		},
 		//2. delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependenciesLongTerm,
 		},
 		//3. verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependenciesLongTerm +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backupid", acctest.Optional, acctest.Create, autonomousDatabaseRepresentationForSourceFromBackupId),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -1155,13 +1177,13 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 	resourceName := "oci_database_autonomous_database.test_autonomous_database_from_backuptimestamp"
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		//1. Create dependencies
+		//0. Create dependencies
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependenciesLongTerm,
 		},
-		//2. verify create
+		//1. verify create
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependenciesLongTerm +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backuptimestamp", acctest.Required, acctest.Create, autonomousDatabaseRepresentationForSourceFromBackupTimestamp),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -1180,13 +1202,13 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 				},
 			),
 		},
-		//3. delete before next Create
+		//2. delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependenciesLongTerm,
 		},
-		//4. verify Create with optionals
+		//3. verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependenciesLongTerm +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backuptimestamp", acctest.Optional, acctest.Create, autonomousDatabaseRepresentationForSourceFromBackupTimestamp),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -1623,7 +1645,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create with optionals
+		//0. verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabaseDbVersionUpdateRepresentation),
@@ -1648,16 +1670,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
 		},
-		// verify Update to only db_version
+		//1. verify Update to only db_version
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, autonomousDatabaseDbVersionUpdateRepresentation),
@@ -1689,7 +1706,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dbVersion(t *testing.T) {
 				},
 			),
 		},
-		// verify Update of parameters except db_version
+		//2. verify Update of parameters except db_version
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
@@ -1771,11 +1788,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataGuard(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
@@ -2089,11 +2101,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_switchover(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
@@ -2409,7 +2416,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.refreshable_mode"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.refreshable_status"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.source_id"),
-				//resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.standby_db.#", "0"),
+				resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.standby_db.#", "1"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_created"),
 				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_deletion_of_free_autonomous_database"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_maintenance_begin"),
@@ -3142,11 +3149,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_ConfigureKey(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
@@ -3284,7 +3286,7 @@ func TestDatabaseAutonomousDatabaseResource_ecpu(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabaseRepresentationEcpu), "database", "autonomousDatabase", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
-		// verify Create
+		//0. verify Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentationEcpu),
@@ -3304,12 +3306,11 @@ func TestDatabaseAutonomousDatabaseResource_ecpu(t *testing.T) {
 				},
 			),
 		},
-
-		// delete before next Create
+		//1. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies,
 		},
-		// verify Create with optionals and long dbName
+		//2. verify Create with optionals and long dbName
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, autonomousDatabaseRepresentationEcpu),
@@ -3342,16 +3343,11 @@ func TestDatabaseAutonomousDatabaseResource_ecpu(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
 		},
-		// verify ecpu update
+		//3. verify ecpu update
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create,
