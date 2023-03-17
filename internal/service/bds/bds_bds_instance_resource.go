@@ -1262,6 +1262,11 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		}
 	}
 
+	err := s.ExecuteBootstrapScript()
+	if err != nil {
+		return err
+	}
+
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -1717,6 +1722,36 @@ func (s *BdsBdsInstanceResourceCrud) StopBdsInstance() error {
 	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
+func (s *BdsBdsInstanceResourceCrud) ExecuteBootstrapScript() error {
+	request := oci_bds.ExecuteBootstrapScriptRequest{}
+
+	idTmp := s.D.Id()
+	request.BdsInstanceId = &idTmp
+
+	if bootstrapScriptUrl, ok := s.D.GetOkExists("bootstrap_script_url"); ok {
+		tmp := bootstrapScriptUrl.(string)
+		request.BootstrapScriptUrl = &tmp
+	}
+
+	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+		tmp := clusterAdminPassword.(string)
+		request.ClusterAdminPassword = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
+
+	response, err := s.Client.ExecuteBootstrapScript(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	workId := response.OpcWorkRequestId
+	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
 func (s *BdsBdsInstanceResourceCrud) deleteShapeConfigIfMissingInInput(node_type string, node_map map[string]interface{}) {
 	if _, ok := s.D.GetOkExists(node_type); ok {
 		fieldKey := fmt.Sprintf("%s.%d.%s", node_type, 0, "shape_config")
