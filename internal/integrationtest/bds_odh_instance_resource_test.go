@@ -60,7 +60,7 @@ var (
 		"master_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		"util_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		"worker_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhWorkerRepresentation},
-		"bootstrap_script_url":     acctest.Representation{RepType: acctest.Optional, Create: `${var.bootstrap_script_url}`},
+		"bootstrap_script_url":     acctest.Representation{RepType: acctest.Optional, Create: `${var.bootstrap_script_url}`, Update: `${var.bootstrap_script_urlU}`},
 		"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 
@@ -167,6 +167,9 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 	bootstrapScriptUrl := utils.GetEnvSettingWithBlankDefault("bootstrap_script_url")
 	bootstrapScriptUrlVariableStr := fmt.Sprintf("variable \"bootstrap_script_url\" { default = \"%s\" }\n", bootstrapScriptUrl)
 
+	bootstrapScriptUrlU := utils.GetEnvSettingWithBlankDefault("bootstrap_script_urlU")
+	bootstrapScriptUrlUVariableStr := fmt.Sprintf("variable \"bootstrap_script_urlU\" { default = \"%s\" }\n", bootstrapScriptUrlU)
+
 	resourceName := "oci_bds_bds_instance.test_bds_instance"
 	datasourceName := "data.oci_bds_bds_instances.test_bds_instances"
 	singularDatasourceName := "data.oci_bds_bds_instance.test_bds_instance"
@@ -177,10 +180,42 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, bdsInstanceOdhRepresentation), "bds", "bdsInstanceOdh", t)
 
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceOdhDestroy, []resource.TestStep{
-		// verify Create, cluster will be force stopped after create
+
+		// verify Create with required fields
 		{
 			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create,
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "nodes.#", "11"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr,
+		},
+		// verify Create, cluster will be force stopped after create
+		{
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation, map[string]interface{}{
 						"is_force_stop_jobs": acctest.Representation{RepType: acctest.Required, Create: `true`},
 						"state":              acctest.Representation{RepType: acctest.Required, Create: `INACTIVE`},
@@ -207,8 +242,8 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 
 		// start the cluster
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create,
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation, map[string]interface{}{
 						"is_force_stop_jobs": acctest.Representation{RepType: acctest.Required, Create: `true`},
 						"state":              acctest.Representation{RepType: acctest.Required, Create: `ACTIVE`},
@@ -335,7 +370,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 
 		// verify updates to updatable parameters, add a worker, update compute worker flex->regular, update util regular -> flex
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies +
+			Config: config + compartmentIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, bdsInstanceOdhWithRegularComputeAndFlexMasterUtilRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
@@ -384,7 +419,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instances", "test_bds_instances", acctest.Optional, acctest.Update, bdsInstanceOdhDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdUVariableStr + subnetIdVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
+				compartmentIdVariableStr + kmsKeyIdUVariableStr + subnetIdVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr + BdsInstanceOdhResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, bdsInstanceOdhWithRegularComputeAndFlexMasterUtilRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -409,7 +444,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhWithRegularComputeWorkerResourceConfig,
+				compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr + BdsInstanceOdhWithRegularComputeWorkerResourceConfig,
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
 
