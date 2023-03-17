@@ -1,3 +1,16 @@
+## 4.113.0 (Unreleased)
+
+### Added
+- Support for GoldenGate Additional Connection Types R3
+- Support for Custom shapes for the build runner
+- Support for ADB-S: Cheaper Autonomous Data Guard
+- Support for Pre Built Functions
+### Bug Fix
+- Set compartment_id for oci_artifacts_container_configuration to fix state file inconsistency
+- Test enabling resource discovery for core resources: oci_core_compute_capacity_reservation
+- Edit Volume ID inside a VolumeGroup results the VG gets destoried
+- Resource Discovery failing for DNS service with oci_dns_rrset resource
+
 ## 4.112.0 (March 15, 2023)
 
 ### Added
