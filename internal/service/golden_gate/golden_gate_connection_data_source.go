@@ -67,6 +67,74 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.GetId())
 	switch v := (s.Res.Connection).(type) {
+	case oci_golden_gate.AmazonS3Connection:
+		s.D.Set("connection_type", "AMAZON_S3")
+
+		if v.AccessKeyId != nil {
+			s.D.Set("access_key_id", *v.AccessKeyId)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
 	case oci_golden_gate.AzureDataLakeStorageConnection:
 		s.D.Set("connection_type", "AZURE_DATA_LAKE_STORAGE")
 
@@ -106,7 +174,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("display_name", *v.DisplayName)
 		}
 
-		s.D.Set("freeform_tags", v.FreeformTags)
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
@@ -182,7 +249,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
 		for _, item := range v.IngressIps {
@@ -213,8 +279,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
-
-		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -248,6 +312,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("technology_type", v.TechnologyType)
 
+		if v.Username != nil {
+			s.D.Set("username", *v.Username)
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
@@ -264,7 +332,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("display_name", *v.DisplayName)
 		}
 
-		s.D.Set("freeform_tags", v.FreeformTags)
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
@@ -297,7 +364,169 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
 
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.HdfsConnection:
+		s.D.Set("connection_type", "HDFS")
+
 		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.JavaMessageServiceConnection:
+		s.D.Set("connection_type", "JAVA_MESSAGE_SERVICE")
+
+		if v.ConnectionFactory != nil {
+			s.D.Set("connection_factory", *v.ConnectionFactory)
+		}
+
+		if v.ConnectionUrl != nil {
+			s.D.Set("connection_url", *v.ConnectionUrl)
+		}
+
+		if v.JndiConnectionFactory != nil {
+			s.D.Set("jndi_connection_factory", *v.JndiConnectionFactory)
+		}
+
+		if v.JndiInitialContextFactory != nil {
+			s.D.Set("jndi_initial_context_factory", *v.JndiInitialContextFactory)
+		}
+
+		if v.JndiProviderUrl != nil {
+			s.D.Set("jndi_provider_url", *v.JndiProviderUrl)
+		}
+
+		if v.JndiSecurityPrincipal != nil {
+			s.D.Set("jndi_security_principal", *v.JndiSecurityPrincipal)
+		}
+
+		if v.PrivateIp != nil {
+			s.D.Set("private_ip", *v.PrivateIp)
+		}
+
+		if v.ShouldUseJndi != nil {
+			s.D.Set("should_use_jndi", *v.ShouldUseJndi)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.Username != nil {
+			s.D.Set("username", *v.Username)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -348,7 +577,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
 		for _, item := range v.IngressIps {
@@ -379,8 +607,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
-
-		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -429,6 +655,105 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.MicrosoftSqlserverConnection:
+		s.D.Set("connection_type", "MICROSOFT_SQLSERVER")
+
+		additionalAttributes := []interface{}{}
+		for _, item := range v.AdditionalAttributes {
+			additionalAttributes = append(additionalAttributes, NameValuePairToMap(item))
+		}
+		s.D.Set("additional_attributes", additionalAttributes)
+
+		if v.DatabaseName != nil {
+			s.D.Set("database_name", *v.DatabaseName)
+		}
+
+		if v.Host != nil {
+			s.D.Set("host", *v.Host)
+		}
+
+		if v.Port != nil {
+			s.D.Set("port", *v.Port)
+		}
+
+		if v.PrivateIp != nil {
+			s.D.Set("private_ip", *v.PrivateIp)
+		}
+
+		s.D.Set("security_protocol", v.SecurityProtocol)
+
+		if v.ShouldValidateServerCertificate != nil {
+			s.D.Set("should_validate_server_certificate", *v.ShouldValidateServerCertificate)
+		}
+
+		if v.SslCa != nil {
+			s.D.Set("ssl_ca", *v.SslCa)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.Username != nil {
+			s.D.Set("username", *v.Username)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
@@ -461,7 +786,81 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
 
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.MongoDbConnection:
+		s.D.Set("connection_type", "MONGODB")
+
+		if v.ConnectionString != nil {
+			s.D.Set("connection_string", *v.ConnectionString)
+		}
+
+		if v.DatabaseId != nil {
+			s.D.Set("database_id", *v.DatabaseId)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.Username != nil {
+			s.D.Set("username", *v.Username)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -530,7 +929,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
 		for _, item := range v.IngressIps {
@@ -561,8 +959,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
-
-		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -609,7 +1005,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
 		for _, item := range v.IngressIps {
@@ -639,8 +1034,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
-
-		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -693,7 +1086,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
 		for _, item := range v.IngressIps {
@@ -725,7 +1117,81 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
 
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.OracleNosqlConnection:
+		s.D.Set("connection_type", "ORACLE_NOSQL")
+
+		if v.Region != nil {
+			s.D.Set("region", *v.Region)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.TenancyId != nil {
+			s.D.Set("tenancy_id", *v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			s.D.Set("user_id", *v.UserId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -790,7 +1256,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		ingressIps := []interface{}{}
 		for _, item := range v.IngressIps {
@@ -822,7 +1287,79 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
 
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.SnowflakeConnection:
+		s.D.Set("connection_type", "SNOWFLAKE")
+
+		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.ConnectionUrl != nil {
+			s.D.Set("connection_url", *v.ConnectionUrl)
+		}
+
 		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.Username != nil {
+			s.D.Set("username", *v.Username)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
