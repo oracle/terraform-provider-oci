@@ -37,6 +37,10 @@ The following attributes are exported:
 	* `items` - A list of build pipeline stage predecessors for a stage.
 		* `id` - The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID. 
 * `build_pipeline_stage_type` - Defines the stage type, which is one of the following: BUILD, DELIVER_ARTIFACT, WAIT, and TRIGGER_DEPLOYMENT_PIPELINE. 
+* `build_runner_shape_config` - The information about build runner.
+	* `build_runner_type` - Name of the build runner shape in which the execution occurs. If not specified, the default shape is chosen.
+	* `memory_in_gbs` - The total amount of memory set for the instance in gigabytes.
+	* `ocpus` - The total number of OCPUs set for the instance.
 * `build_source_collection` - Collection of build sources.
 	* `items` - Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 		* `branch` - Branch name.

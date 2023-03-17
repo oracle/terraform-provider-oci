@@ -275,6 +275,42 @@ func DevopsBuildPipelineStagesDataSource() *schema.Resource {
 											},
 										},
 									},
+									// Optional
+									"build_runner_shape_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"build_runner_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CUSTOM",
+														"DEFAULT",
+													}, true),
+												},
+
+												// Optional
+												"memory_in_gbs": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"ocpus": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"stage_execution_timeout_in_seconds": {
 										Type:     schema.TypeInt,
 										Optional: true,
