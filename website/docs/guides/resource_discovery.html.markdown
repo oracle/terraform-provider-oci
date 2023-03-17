@@ -474,6 +474,7 @@ core
 * oci\_core\_console\_history
 * oci\_core\_cluster\_network
 * oci\_core\_compute\_image\_capability\_schema
+* oci\_core\_compute\_capacity\_reservation
 * oci\_core\_cpe
 * oci\_core\_cross\_connect\_group
 * oci\_core\_cross\_connect
