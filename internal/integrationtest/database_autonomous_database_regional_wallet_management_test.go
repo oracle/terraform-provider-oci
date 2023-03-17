@@ -64,12 +64,11 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 				},
 			),
 		},
-
-		// delete before next Create
+		//1. delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies,
 		},
-		// verify Create with optionals
+		//2. verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation),
@@ -88,7 +87,7 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 				},
 			),
 		},
-		//1. verify updates to updatable parameters
+		//3. verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRegionalWalletManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseRegionalWalletManagementRepresentation),
@@ -106,7 +105,7 @@ func TestDatabaseAutonomousDatabaseRegionalWalletManagementResource_basic(t *tes
 				},
 			),
 		},
-		//2. verify singular datasource
+		//4. verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_regional_wallet_management", "test_autonomous_database_regional_wallet_management", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDatabaseRegionalWalletManagementSingularDataSourceRepresentation) +

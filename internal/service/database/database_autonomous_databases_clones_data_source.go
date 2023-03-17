@@ -307,6 +307,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"disaster_recovery_region_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -433,6 +437,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"local_disaster_recovery_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"local_standby_db": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -456,6 +464,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"time_data_guard_role_changed": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_disaster_recovery_role_changed": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -556,6 +568,23 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"remote_disaster_recovery_configuration": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"disaster_recovery_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"role": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -632,6 +661,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"time_disaster_recovery_role_changed": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -671,6 +704,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"time_deletion_of_free_autonomous_database": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_disaster_recovery_role_changed": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -918,6 +955,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
+		autonomousDatabasesClone["disaster_recovery_region_type"] = r.DisasterRecoveryRegionType
+
 		if r.DisplayName != nil {
 			autonomousDatabasesClone["display_name"] = *r.DisplayName
 		}
@@ -1014,6 +1053,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		autonomousDatabasesClone["local_disaster_recovery_type"] = r.LocalDisasterRecoveryType
+
 		if r.LocalStandbyDb != nil {
 			autonomousDatabasesClone["local_standby_db"] = []interface{}{AutonomousDatabaseStandbySummaryToMap(r.LocalStandbyDb)}
 		} else {
@@ -1074,6 +1115,12 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		autonomousDatabasesClone["refreshable_status"] = r.RefreshableStatus
 
+		if r.RemoteDisasterRecoveryConfiguration != nil {
+			autonomousDatabasesClone["remote_disaster_recovery_configuration"] = []interface{}{DisasterRecoveryConfigurationToMap(r.RemoteDisasterRecoveryConfiguration)}
+		} else {
+			autonomousDatabasesClone["remote_disaster_recovery_configuration"] = nil
+		}
+
 		autonomousDatabasesClone["role"] = r.Role
 
 		scheduledOperations := []interface{}{}
@@ -1120,6 +1167,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.TimeDeletionOfFreeAutonomousDatabase != nil {
 			autonomousDatabasesClone["time_deletion_of_free_autonomous_database"] = r.TimeDeletionOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeDisasterRecoveryRoleChanged != nil {
+			autonomousDatabasesClone["time_disaster_recovery_role_changed"] = r.TimeDisasterRecoveryRoleChanged.String()
 		}
 
 		if r.TimeLocalDataGuardEnabled != nil {

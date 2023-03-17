@@ -97,6 +97,27 @@ func updateAdbInRegion(clients *tf_client.OracleClients, region string, autonomo
 	return *updateAdbResponse.Id, nil
 }
 
+func changeDisasterRecoveryConfiguration(clients *tf_client.OracleClients, region string, autonomousDatabaseId string, disasterRecoveryType oci_database.ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum) (string, error) {
+	databaseClient, err := createDatabaseClient(clients, region)
+	if err != nil {
+		return "", err
+	}
+
+	changeDrConfigResponse, err := databaseClient.ChangeDisasterRecoveryConfiguration(context.Background(), oci_database.ChangeDisasterRecoveryConfigurationRequest{
+		AutonomousDatabaseId: &autonomousDatabaseId,
+		ChangeDisasterRecoveryConfigurationDetails: oci_database.ChangeDisasterRecoveryConfigurationDetails{
+			DisasterRecoveryType: disasterRecoveryType,
+		},
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: tfresource.GetRetryPolicy(false, "database"),
+		},
+	})
+	if err != nil {
+		return "", fmt.Errorf("[WARN] failed to change disaster recovery type of standby autonomous database with the error %v", err)
+	}
+	return *changeDrConfigResponse.Id, nil
+}
+
 func deleteAdbInRegion(clients *tf_client.OracleClients, region string, autonomousDatabaseId string) error {
 	databaseClient, err := createDatabaseClient(clients, region)
 	if err != nil {

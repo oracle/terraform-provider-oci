@@ -292,6 +292,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					"",
 				}, false),
 			},
+			"remote_disaster_recovery_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"scheduled_operations": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -356,6 +362,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					"BACKUP_FROM_TIMESTAMP",
 					"CLONE_TO_REFRESHABLE",
 					"CROSS_REGION_DATAGUARD",
+					"CROSS_REGION_DISASTER_RECOVERY",
 					"DATABASE",
 					"NONE",
 				}, true),
@@ -608,6 +615,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"disaster_recovery_region_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"failed_data_recovery_in_seconds": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -677,6 +688,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"local_disaster_recovery_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"local_standby_db": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -700,6 +715,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"time_data_guard_role_changed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_disaster_recovery_role_changed": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -781,6 +800,23 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"remote_disaster_recovery_configuration": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"disaster_recovery_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"role": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -812,6 +848,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"time_data_guard_role_changed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_disaster_recovery_role_changed": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -849,6 +889,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_deletion_of_free_autonomous_database": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_disaster_recovery_role_changed": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -1657,6 +1701,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	s.D.Set("disaster_recovery_region_type", s.Res.DisasterRecoveryRegionType)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -1749,6 +1795,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("local_disaster_recovery_type", s.Res.LocalDisasterRecoveryType)
+
 	if s.Res.LocalStandbyDb != nil {
 		s.D.Set("local_standby_db", []interface{}{AutonomousDatabaseStandbySummaryToMap(s.Res.LocalStandbyDb)})
 	} else {
@@ -1821,6 +1869,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("refreshable_status", s.Res.RefreshableStatus)
 
+	if s.Res.RemoteDisasterRecoveryConfiguration != nil {
+		s.D.Set("remote_disaster_recovery_configuration", []interface{}{DisasterRecoveryConfigurationToMap(s.Res.RemoteDisasterRecoveryConfiguration)})
+	} else {
+		s.D.Set("remote_disaster_recovery_configuration", nil)
+	}
+
 	s.D.Set("role", s.Res.Role)
 
 	scheduledOperations := []interface{}{}
@@ -1867,6 +1921,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeDeletionOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_deletion_of_free_autonomous_database", s.Res.TimeDeletionOfFreeAutonomousDatabase.String())
+	}
+
+	if s.Res.TimeDisasterRecoveryRoleChanged != nil {
+		s.D.Set("time_disaster_recovery_role_changed", s.Res.TimeDisasterRecoveryRoleChanged.String())
 	}
 
 	if s.Res.TimeLocalDataGuardEnabled != nil {
@@ -2046,6 +2104,10 @@ func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseS
 		result["time_data_guard_role_changed"] = obj.TimeDataGuardRoleChanged.String()
 	}
 
+	if obj.TimeDisasterRecoveryRoleChanged != nil {
+		result["time_disaster_recovery_role_changed"] = obj.TimeDisasterRecoveryRoleChanged.String()
+	}
+
 	return result
 }
 
@@ -2140,6 +2202,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) mapToLongTermBackUpScheduleDeta
 	}
 
 	return result, nil
+}
+
+func DisasterRecoveryConfigurationToMap(obj *oci_database.DisasterRecoveryConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["disaster_recovery_type"] = string(obj.DisasterRecoveryType)
+
+	return result
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) mapToScheduledOperationDetails(fieldKeyFormat string) (oci_database.ScheduledOperationDetails, error) {
@@ -3061,6 +3131,216 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if secretVersionNumber, ok := s.D.GetOkExists("secret_version_number"); ok {
 			tmp := secretVersionNumber.(int)
 			details.SecretVersionNumber = &tmp
+		}
+		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+			interfaces := standbyWhitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("standby_whitelisted_ips") {
+				details.StandbyWhitelistedIps = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
+			set := whitelistedIps.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("whitelisted_ips") {
+				details.WhitelistedIps = tmp
+			}
+		}
+		request.CreateAutonomousDatabaseDetails = details
+	case strings.ToLower("CROSS_REGION_DISASTER_RECOVERY"):
+		details := oci_database.CreateCrossRegionDisasterRecoveryDetails{}
+		if remoteDisasterRecoveryType, ok := s.D.GetOkExists("remote_disaster_recovery_type"); ok {
+			details.RemoteDisasterRecoveryType = oci_database.DisasterRecoveryConfigurationDisasterRecoveryTypeEnum(remoteDisasterRecoveryType.(string))
+		}
+		if sourceId, ok := s.D.GetOkExists("source_id"); ok {
+			tmp := sourceId.(string)
+			details.SourceId = &tmp
+		}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			details.AdminPassword = &tmp
+		}
+		if arePrimaryWhitelistedIpsUsed, ok := s.D.GetOkExists("are_primary_whitelisted_ips_used"); ok {
+			tmp := arePrimaryWhitelistedIpsUsed.(bool)
+			details.ArePrimaryWhitelistedIpsUsed = &tmp
+		}
+		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
+			tmp := autonomousContainerDatabaseId.(string)
+			details.AutonomousContainerDatabaseId = &tmp
+		}
+		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
+			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
+		}
+		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
+			tmp := characterSet.(string)
+			details.CharacterSet = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok {
+			interfaces := customerContacts.([]interface{})
+			tmp := make([]oci_database.CustomerContact, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+				converted, err := s.mapToCustomerContact(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("customer_contacts") {
+				details.CustomerContacts = tmp
+			}
+		}
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+			tmp := dataStorageSizeInGB.(int)
+			details.DataStorageSizeInGBs = &tmp
+		}
+		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+			tmp := dataStorageSizeInTBs.(int)
+			details.DataStorageSizeInTBs = &tmp
+		}
+		if databaseEdition, ok := s.D.GetOkExists("database_edition"); ok {
+			details.DatabaseEdition = oci_database.AutonomousDatabaseSummaryDatabaseEditionEnum(databaseEdition.(string))
+		}
+		if dbName, ok := s.D.GetOkExists("db_name"); ok {
+			tmp := dbName.(string)
+			details.DbName = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
+		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
+			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
+			tmp := isAccessControlEnabled.(bool)
+			details.IsAccessControlEnabled = &tmp
+		}
+		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
+			tmp := isAutoScalingEnabled.(bool)
+			details.IsAutoScalingEnabled = &tmp
+		}
+		if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
+			tmp := isAutoScalingForStorageEnabled.(bool)
+			details.IsAutoScalingForStorageEnabled = &tmp
+		}
+		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			tmp := isDataGuardEnabled.(bool)
+			details.IsDataGuardEnabled = &tmp
+		}
+		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
+			tmp := isDedicated.(bool)
+			details.IsDedicated = &tmp
+		}
+		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
+			tmp := isFreeTier.(bool)
+			details.IsFreeTier = &tmp
+		}
+		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			tmp := isLocalDataGuardEnabled.(bool)
+			details.IsLocalDataGuardEnabled = &tmp
+		}
+		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
+			tmp := isMtlsConnectionRequired.(bool)
+			details.IsMtlsConnectionRequired = &tmp
+		}
+		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
+			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
+			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
+		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+			tmp := maxCpuCoreCount.(int)
+			details.MaxCpuCoreCount = &tmp
+		}
+		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
+			tmp := ncharacterSet.(string)
+			details.NcharacterSet = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+			tmp := ocpuCount.(float32)
+			details.OcpuCount = &tmp
+		}
+		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
+			tmp := privateEndpointLabel.(string)
+			details.PrivateEndpointLabel = &tmp
+		}
+		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
+			interfaces := scheduledOperations.([]interface{})
+			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
+				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("scheduled_operations") {
+				details.ScheduledOperations = tmp
+			}
 		}
 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
 			interfaces := standbyWhitelistedIps.([]interface{})
