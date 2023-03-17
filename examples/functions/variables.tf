@@ -20,8 +20,9 @@ variable "compartment_ocid" {
 }
 
 variable "config" {
+  type = map(string) 
   default = {
-    "MY_FUNCTION_CONFIG" = "ConfVal"
+    "MEDIA_WORKFLOW_ID" = "someworkflowid"
   }
 }
 
@@ -85,11 +86,17 @@ variable "function_timeout_in_seconds" {
   default = 30
 }
 
-variable "invoke_function_body" {
-}
-
-variable "invoke_function_body_source_path" {
-}
-
 variable "kms_key_ocid" {
+}
+
+variable "pbf_listing_name" {
+}
+
+variable "pbf_listing_id" {
+}
+
+variable "pbf_listing_version_id" {
+}
+
+variable "pbf_trigger_name" {
 }

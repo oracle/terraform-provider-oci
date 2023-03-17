@@ -55,7 +55,7 @@ resource "oci_core_subnet" "test_subnet" {
 resource "oci_functions_application" "test_application" {
   #Required
   compartment_id = var.compartment_ocid
-  display_name   = "example-application"
+  display_name   = "example-application-test"
   subnet_ids     = [oci_core_subnet.test_subnet.id]
 
   #Optional
@@ -83,7 +83,7 @@ data "oci_functions_applications" "test_applications" {
   compartment_id = var.compartment_ocid
 
   #Optional
-  display_name = "example-application"
+  display_name = "example-application-test"
   id           = oci_functions_application.test_application.id
   state        = var.application_state
 }
@@ -91,7 +91,7 @@ data "oci_functions_applications" "test_applications" {
 resource "oci_functions_function" "test_function" {
   #Required
   application_id = oci_functions_application.test_application.id
-  display_name   = "example-function"
+  display_name   = "example-function-test"
   image          = var.function_image
   memory_in_mbs  = "128"
 
@@ -109,12 +109,60 @@ resource "oci_functions_function" "test_function" {
   }
 }
 
+data "oci_functions_pbf_listings" "test_listings" {
+  #Optional
+  name = var.pbf_listing_name
+}
+
+data "oci_functions_pbf_listing" "test_listing" {
+  #Required
+  pbf_listing_id = var.pbf_listing_id
+}
+
+data "oci_functions_pbf_listing_versions" "test_versions" {
+  #Required
+  pbf_listing_id = var.pbf_listing_id
+
+  #Optional
+  is_current_version = true
+}
+
+data "oci_functions_pbf_listing_version" "test_version" {
+  #Required
+  pbf_listing_version_id = var.pbf_listing_version_id
+}
+
+data "oci_functions_pbf_listing_triggers" "test_triggers" {
+  #Optional
+  name = var.pbf_trigger_name
+}
+
+resource "oci_functions_function" "test_pre_built_function" {
+  application_id = oci_functions_application.test_application.id
+  display_name = "example-pre-built-function"
+  memory_in_mbs = "128"
+  source_details {
+    pbf_listing_id = var.pbf_listing_id
+    source_type = "PRE_BUILT_FUNCTIONS"
+  }
+}
+
+data "oci_functions_functions" "test_pre_built_functions" {
+  #Required
+  application_id = oci_functions_application.test_application.id
+
+  #Optional
+  display_name = "example-pre-built-function"
+  id           = oci_functions_function.test_pre_built_function.id
+  state        = "ACTIVE"
+}
+
 data "oci_functions_functions" "test_functions" {
   #Required
   application_id = oci_functions_application.test_application.id
 
   #Optional
-  display_name = "example-function"
+  display_name = "example-function-test"
   id           = oci_functions_function.test_function.id
   state        = "ACTIVE"
 }
@@ -123,70 +171,4 @@ resource "time_sleep" "wait_function_provisioning" {
   depends_on      = [oci_functions_function.test_function]
 
   create_duration = "5s"
-}
-
-resource "oci_functions_invoke_function" "test_invoke_function" {
-  depends_on           = [time_sleep.wait_function_provisioning]
-  fn_intent            = "httprequest"
-  fn_invoke_type       = "sync"
-  function_id          = oci_functions_function.test_function.id
-  invoke_function_body = var.invoke_function_body
-}
-
-resource "oci_functions_invoke_function" "test_invoke_function_source_path" {
-  depends_on             = [time_sleep.wait_function_provisioning]
-  fn_intent              = "httprequest"
-  fn_invoke_type         = "sync"
-  function_id            = oci_functions_function.test_function.id
-  input_body_source_path = var.invoke_function_body_source_path
-}
-
-resource "oci_functions_invoke_function" "test_invoke_function_detached" {
-  depends_on           = [time_sleep.wait_function_provisioning]
-  fn_intent            = "httprequest"
-  fn_invoke_type       = "detached"
-  function_id          = oci_functions_function.test_function.id
-  invoke_function_body = var.invoke_function_body
-}
-
-resource "oci_functions_invoke_function" "test_invoke_function_encoded_body" {
-  depends_on                          = [time_sleep.wait_function_provisioning]
-  fn_intent                           = "cloudevent"
-  fn_invoke_type                      = "sync"
-  function_id                         = oci_functions_function.test_function.id
-  invoke_function_body_base64_encoded = base64encode(var.invoke_function_body)
-}
-
-resource "oci_functions_invoke_function" "test_invoke_function_encoded_body_detached" {
-  depends_on                          = [time_sleep.wait_function_provisioning]
-  fn_intent                           = "httprequest"
-  fn_invoke_type                      = "detached"
-  function_id                         = oci_functions_function.test_function.id
-  invoke_function_body_base64_encoded = base64encode(var.invoke_function_body)
-}
-
-resource "oci_functions_invoke_function" "test_invoke_function_encoded_content" {
-  depends_on            = [time_sleep.wait_function_provisioning]
-  fn_intent             = "httprequest"
-  fn_invoke_type        = "sync"
-  function_id           = oci_functions_function.test_function.id
-  base64_encode_content = true
-}
-
-output "test_invoke_function_content" {
-  value = oci_functions_invoke_function.test_invoke_function.content
-}
-
-output "test_invoke_function_source_path_content" {
-  value = oci_functions_invoke_function.test_invoke_function_source_path.content
-}
-
-output "test_invoke_function_encoded_body" {
-  value = oci_functions_invoke_function.test_invoke_function_encoded_body.content
-}
-
-output "test_invoke_function_encoded_content" {
-  value = base64decode(
-    oci_functions_invoke_function.test_invoke_function_encoded_content.content,
-  )
 }
