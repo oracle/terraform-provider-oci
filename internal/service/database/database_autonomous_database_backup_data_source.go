@@ -70,6 +70,12 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) SetData() error {
 		s.D.Set("autonomous_database_id", *s.Res.AutonomousDatabaseId)
 	}
 
+	if s.Res.BackupDestinationDetails != nil {
+		s.D.Set("backup_destination_details", []interface{}{AutonomousBackupDestinationDetailsToMap(s.Res.BackupDestinationDetails)})
+	} else {
+		s.D.Set("backup_destination_details", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

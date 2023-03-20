@@ -5,6 +5,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -51,9 +52,51 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 				Computed: true,
 			},
 
-			// Optional
-
 			// Computed
+			"backup_destination_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"internet_proxy": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"vpc_password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							ForceNew:  true,
+							Sensitive: true,
+						},
+						"vpc_user": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+					},
+				},
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -222,6 +265,17 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Create() error {
 		request.RetentionPeriodInDays = &tmp
 	}
 
+	if backupDestinationDetails, ok := s.D.GetOkExists("backup_destination_details"); ok {
+		if tmpList := backupDestinationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_destination_details", 0)
+			tmp, err := s.mapToAutonomousBackupDestinationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.BackupDestinationDetails = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateAutonomousDatabaseBackup(context.Background(), request)
@@ -304,6 +358,16 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 		s.D.Set("autonomous_database_id", *s.Res.AutonomousDatabaseId)
 	}
 
+	if s.Res.BackupDestinationDetails != nil {
+		s.D.Set("backup_destination_details", []interface{}{AutonomousBackupDestinationDetailsToMap(s.Res.BackupDestinationDetails)})
+	} else {
+		s.D.Set("backup_destination_details", nil)
+	}
+
+	//if s.Res.DbVersion != nil {
+	//	s.D.Set("db_version", *s.Res.DbVersion)
+	//}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -377,4 +441,58 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) mapToAutonomousBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
+	result := oci_database.BackupDestinationDetails{}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if internetProxy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "internet_proxy")); ok {
+		tmp := internetProxy.(string)
+		result.InternetProxy = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
+	}
+
+	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok {
+		tmp := vpcPassword.(string)
+		result.VpcPassword = &tmp
+	}
+
+	if vpcUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_user")); ok {
+		tmp := vpcUser.(string)
+		result.VpcUser = &tmp
+	}
+
+	return result, nil
+}
+
+func AutonomousBackupDestinationDetailsToMap(obj *oci_database.BackupDestinationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.InternetProxy != nil {
+		result["internet_proxy"] = string(*obj.InternetProxy)
+	}
+
+	result["type"] = string(obj.Type)
+
+	if obj.VpcPassword != nil {
+		result["vpc_password"] = string(*obj.VpcPassword)
+	}
+
+	if obj.VpcUser != nil {
+		result["vpc_user"] = string(*obj.VpcUser)
+	}
+
+	return result
 }

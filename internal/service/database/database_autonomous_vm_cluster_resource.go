@@ -112,10 +112,6 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"preference": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 						"custom_action_timeout_in_mins": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -182,6 +178,11 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 							},
 						},
 						"patching_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"preference": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
