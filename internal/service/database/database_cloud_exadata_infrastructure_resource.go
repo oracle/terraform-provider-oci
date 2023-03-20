@@ -101,10 +101,6 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"preference": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 
 						// Optional
 						"custom_action_timeout_in_mins": {
@@ -174,6 +170,11 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 							},
 						},
 						"patching_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"preference": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
