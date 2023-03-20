@@ -5,6 +5,7 @@
 - Support for Custom shapes for the build runner
 - Support for ADB-S: Cheaper Autonomous Data Guard
 - Support for Pre Built Functions
+- Support for ADB on ExaCC | Long Term Backup Retention
 ### Bug Fix
 - Set compartment_id for oci_artifacts_container_configuration to fix state file inconsistency
 - Test enabling resource discovery for core resources: oci_core_compute_capacity_reservation
