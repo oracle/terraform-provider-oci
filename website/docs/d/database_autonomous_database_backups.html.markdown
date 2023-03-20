@@ -23,6 +23,7 @@ data "oci_database_autonomous_database_backups" "test_autonomous_database_backup
 	compartment_id = var.compartment_id
 	display_name = var.autonomous_database_backup_display_name
 	state = var.autonomous_database_backup_state
+	type = var.autonomous_database_backup_type
 }
 ```
 
@@ -34,6 +35,7 @@ The following arguments are supported:
 * `compartment_id` - (Optional) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
+* `type` - (Optional) A filter to return only backups that matches with the given type of Backup.
 
 
 ## Attributes Reference
@@ -47,6 +49,12 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+* `backup_destination_details` - Backup destination details
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+	* `internet_proxy` - Proxy URL to connect to object store.
+	* `type` - Type of the database backup destination.
+	* `vpc_password` - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
+	* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `database_size_in_tbs` - The size of the database in terabytes at the time the backup was taken. 
 * `db_version` - A valid Oracle Database version for Autonomous Database.
