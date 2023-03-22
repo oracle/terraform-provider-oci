@@ -1,4 +1,4 @@
-## 4.113.0 (Unreleased)
+## 4.113.0 (March 22, 2023)
 
 ### Added
 - Support for GoldenGate Additional Connection Types R3
