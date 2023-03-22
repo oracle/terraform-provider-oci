@@ -25,9 +25,9 @@ type DeploymentTypeSummary struct {
 	// An object's Display Name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The type of deployment, the value determines the exact 'type' of service executed in the Deployment.
-	// NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged
-	//       in favor of the equivalent 'DATABASE_ORACLE' value.
+	// The type of deployment, which can be any one of the Allowed values.
+	// NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.
+	//     Its use is discouraged in favor of 'DATABASE_ORACLE'.
 	DeploymentType DeploymentTypeEnum `mandatory:"true" json:"deploymentType"`
 
 	// An array of connectionTypes.

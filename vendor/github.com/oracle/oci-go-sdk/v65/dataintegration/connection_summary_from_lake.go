@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// ConnectionSummaryFromLakehouse The connection summary details for a Lakehouse connection.
-type ConnectionSummaryFromLakehouse struct {
+// ConnectionSummaryFromLake The connection summary details for a Lake connection.
+type ConnectionSummaryFromLake struct {
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
 	Key *string `mandatory:"false" json:"key"`
@@ -57,78 +57,78 @@ type ConnectionSummaryFromLakehouse struct {
 }
 
 //GetKey returns Key
-func (m ConnectionSummaryFromLakehouse) GetKey() *string {
+func (m ConnectionSummaryFromLake) GetKey() *string {
 	return m.Key
 }
 
 //GetModelVersion returns ModelVersion
-func (m ConnectionSummaryFromLakehouse) GetModelVersion() *string {
+func (m ConnectionSummaryFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
 //GetParentRef returns ParentRef
-func (m ConnectionSummaryFromLakehouse) GetParentRef() *ParentReference {
+func (m ConnectionSummaryFromLake) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
 //GetName returns Name
-func (m ConnectionSummaryFromLakehouse) GetName() *string {
+func (m ConnectionSummaryFromLake) GetName() *string {
 	return m.Name
 }
 
 //GetDescription returns Description
-func (m ConnectionSummaryFromLakehouse) GetDescription() *string {
+func (m ConnectionSummaryFromLake) GetDescription() *string {
 	return m.Description
 }
 
 //GetObjectVersion returns ObjectVersion
-func (m ConnectionSummaryFromLakehouse) GetObjectVersion() *int {
+func (m ConnectionSummaryFromLake) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
 //GetObjectStatus returns ObjectStatus
-func (m ConnectionSummaryFromLakehouse) GetObjectStatus() *int {
+func (m ConnectionSummaryFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
 //GetIdentifier returns Identifier
-func (m ConnectionSummaryFromLakehouse) GetIdentifier() *string {
+func (m ConnectionSummaryFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
 //GetPrimarySchema returns PrimarySchema
-func (m ConnectionSummaryFromLakehouse) GetPrimarySchema() *Schema {
+func (m ConnectionSummaryFromLake) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
 //GetConnectionProperties returns ConnectionProperties
-func (m ConnectionSummaryFromLakehouse) GetConnectionProperties() []ConnectionProperty {
+func (m ConnectionSummaryFromLake) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
 //GetIsDefault returns IsDefault
-func (m ConnectionSummaryFromLakehouse) GetIsDefault() *bool {
+func (m ConnectionSummaryFromLake) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
 //GetMetadata returns Metadata
-func (m ConnectionSummaryFromLakehouse) GetMetadata() *ObjectMetadata {
+func (m ConnectionSummaryFromLake) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
 //GetKeyMap returns KeyMap
-func (m ConnectionSummaryFromLakehouse) GetKeyMap() map[string]string {
+func (m ConnectionSummaryFromLake) GetKeyMap() map[string]string {
 	return m.KeyMap
 }
 
-func (m ConnectionSummaryFromLakehouse) String() string {
+func (m ConnectionSummaryFromLake) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ConnectionSummaryFromLakehouse) ValidateEnumValue() (bool, error) {
+func (m ConnectionSummaryFromLake) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -138,14 +138,14 @@ func (m ConnectionSummaryFromLakehouse) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m ConnectionSummaryFromLakehouse) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeConnectionSummaryFromLakehouse ConnectionSummaryFromLakehouse
+func (m ConnectionSummaryFromLake) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeConnectionSummaryFromLake ConnectionSummaryFromLake
 	s := struct {
 		DiscriminatorParam string `json:"modelType"`
-		MarshalTypeConnectionSummaryFromLakehouse
+		MarshalTypeConnectionSummaryFromLake
 	}{
-		"LAKE_HOUSE_CONNECTION",
-		(MarshalTypeConnectionSummaryFromLakehouse)(m),
+		"LAKE_CONNECTION",
+		(MarshalTypeConnectionSummaryFromLake)(m),
 	}
 
 	return json.Marshal(&s)

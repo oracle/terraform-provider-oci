@@ -62,13 +62,12 @@ var (
 	}
 	DevopsBuildPipelineBuildPipelineParametersItemsRepresentation = map[string]interface{}{
 		"name":          acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
-		"default_value": acctest.Representation{RepType: acctest.Optional, Create: `defaultValue`, Update: `defaultValue2`},
+		"default_value": acctest.Representation{RepType: acctest.Required, Create: `defaultValue`, Update: `defaultValue2`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 	}
 
 	DevopsBuildPipelineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
-		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: devops/default

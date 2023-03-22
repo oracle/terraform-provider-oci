@@ -466,6 +466,17 @@ var exportCoreComputeImageCapabilitySchemaHints = &tf_export.TerraformResourceHi
 	RequireResourceRefresh: true,
 }
 
+var exportCoreComputeCapacityReservationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_core_compute_capacity_reservation",
+	DatasourceClass:        "oci_core_compute_capacity_reservations",
+	DatasourceItemsAttr:    "compute_capacity_reservations",
+	ResourceAbbreviation:   "compute_capacity_reservation",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.ComputeCapacityReservationLifecycleStateActive),
+	},
+}
+
 var exportCoreCpeHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_core_cpe",
 	DatasourceClass:      "oci_core_cpes",
@@ -897,6 +908,7 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreConsoleHistoryHints},
 		{TerraformResourceHints: exportCoreClusterNetworkHints},
 		{TerraformResourceHints: exportCoreComputeImageCapabilitySchemaHints},
+		{TerraformResourceHints: exportCoreComputeCapacityReservationHints},
 		{TerraformResourceHints: exportCoreCpeHints},
 		{TerraformResourceHints: exportCoreCrossConnectGroupHints},
 		{TerraformResourceHints: exportCoreCrossConnectHints},

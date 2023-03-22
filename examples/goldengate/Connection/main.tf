@@ -6,7 +6,7 @@ variable "private_key_path" {}
 variable "compartment_id" {}
 variable "region" {}
 variable "subnet_id" {}
-variable "kms_vault_id" {}
+variable "vault_id" {}
 variable "kms_key_id" {}
 
 variable "username" {
@@ -71,7 +71,7 @@ resource "oci_golden_gate_connection" "test_connection"{
   description = var.description
   freeform_tags = var.freeform_tags
   subnet_id = var.subnet_id
-  vault_id = var.kms_vault_id
+  vault_id = var.vault_id
   key_id = var.kms_key_id
 
   #Optional for Postgresql connection_type

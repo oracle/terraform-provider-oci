@@ -109,6 +109,7 @@ The following attributes are exported:
 	* AJD - indicates an Autonomous JSON Database
 	* APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+* `disaster_recovery_region_type` - The disaster recovery (DR) region type of the Autonomous Database. For Shared Autonomous Databases, DR associations have designated primary and standby regions. These region types do not change when the database changes roles. The standby region in DR associations can be the same region as the primary region, or they can be in a remote regions. Some database administration operations may be available only in the primary region of the DR association, and cannot be performed when the database using the primary role is operating in a remote region.
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -140,6 +141,7 @@ The following attributes are exported:
 * `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
 * `license_model` - The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud. License Included allows you to subscribe to new Oracle Database software licenses and the Database service. Note that when provisioning an Autonomous Database on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the Autonomous Exadata Infrastructure level. When using [shared Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`. 
 * `lifecycle_details` - Information about the current lifecycle state.
+* `local_disaster_recovery_type` - Indicates the local disaster recovery (DR) type of the Shared Autonomous Database. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. 
 * `local_standby_db` - Autonomous Data Guard standby database details. 
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
 	* `lifecycle_details` - Additional information about the current lifecycle state.
@@ -150,6 +152,7 @@ The following attributes are exported:
 	* `repeat_cadence` - The frequency of the long-term backup schedule
 	* `retention_period_in_days` - Retention period, in days, for long-term backups
 	* `time_of_backup` - The timestamp for the long-term backup schedule. For a MONTHLY cadence, months having fewer days than the provided date will have the backup taken on the last day of that month.
+	* `time_disaster_recovery_role_changed` - The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
 * `max_cpu_core_count` - The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled. 
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
 * `ncharacter_set` - The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
@@ -175,6 +178,8 @@ The following attributes are exported:
 * `provisionable_cpus` - An array of CPU values that an Autonomous Database can be scaled to.
 * `refreshable_mode` - The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 * `refreshable_status` - The refresh status of the clone. REFRESHING indicates that the clone is currently being refreshed with data from the source Autonomous Database.
+* `remote_disaster_recovery_configuration` - Configurations of a Disaster Recovery.
+	* `disaster_recovery_type` - Indicates the disaster recovery (DR) type of the Shared Autonomous Database. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. 
 * `role` - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. 
 * `scheduled_operations` - list of scheduled operations
 	* `day_of_week` - Day of the week.
@@ -188,6 +193,7 @@ The following attributes are exported:
 	* `lifecycle_details` - Additional information about the current lifecycle state.
 	* `state` - The current state of the Autonomous Database.
 	* `time_data_guard_role_changed` - The date and time the Autonomous Data Guard role was switched for the standby Autonomous Database.
+	* `time_disaster_recovery_role_changed` - The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
 * `standby_whitelisted_ips` - The client IP access control list (ACL). This feature is available for autonomous databases on [shared Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer. Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
 
 	For shared Exadata infrastructure, this is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID. Use a semicolon (;) as a deliminator between the VCN-specific subnets or IPs. Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.<unique_id>","ocid1.vcn.oc1.sea.<unique_id1>;1.1.1.1","ocid1.vcn.oc1.sea.<unique_id2>;1.1.0.0/16"]` For Exadata Cloud@Customer, this is an array of IP addresses or CIDR (Classless Inter-Domain Routing) notations. Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
@@ -207,6 +213,7 @@ The following attributes are exported:
 * `time_created` - The date and time the Autonomous Database was created.
 * `time_data_guard_role_changed` - The date and time the Autonomous Data Guard role was switched for the Autonomous Database. For databases that have standbys in both the primary Data Guard region and a remote Data Guard standby region, this is the latest timestamp of either the database using the "primary" role in the primary Data Guard region, or database located in the remote Data Guard standby region.
 * `time_deletion_of_free_autonomous_database` - The date and time the Always Free database will be automatically deleted because of inactivity. If the database is in the STOPPED state and without activity until this time, it will be deleted. 
+* `time_disaster_recovery_role_changed` - The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
 * `time_local_data_guard_enabled` - The date and time that Autonomous Data Guard was enabled for an Autonomous Database where the standby was provisioned in the same region as the primary database.
 * `time_maintenance_begin` - The date and time when maintenance will begin.
 * `time_maintenance_end` - The date and time when maintenance will end.

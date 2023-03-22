@@ -22,10 +22,9 @@ type DeploymentWalletsOperationSummary struct {
 	// If provided, this will reference a key which the customer can use to query or search a particular wallet operation
 	WalletOperationId *string `mandatory:"true" json:"walletOperationId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer GGS Secret being
-	// referenced.
-	// If provided, this will reference a key which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to utilize this Secret
+	// The OCID of the customer's GoldenGate Service Secret.
+	// If provided, it references a key that customers will be required to ensure the policies are established
+	// to permit GoldenGate to use this Secret.
 	WalletSecretId *string `mandatory:"true" json:"walletSecretId"`
 
 	// The operation type of the deployment wallet.

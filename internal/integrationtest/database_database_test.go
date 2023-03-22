@@ -62,7 +62,7 @@ var (
 		"cidr_block":          acctest.Representation{RepType: acctest.Required, Create: `10.1.22.0/24`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
-		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.2.name}")}`},
+		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}")}`},
 		"dhcp_options_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `ExadataSubnet`},
 		"dns_label":           acctest.Representation{RepType: acctest.Optional, Create: `subnetexadata1`},
@@ -73,7 +73,7 @@ var (
 		"cidr_block":          acctest.Representation{RepType: acctest.Required, Create: `10.1.23.0/24`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
-		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.2.name}")}`},
+		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}")}`},
 		"dhcp_options_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `ExadataBackupSubnet`},
 		"dns_label":           acctest.Representation{RepType: acctest.Optional, Create: `subnetexadata2`},
@@ -82,7 +82,7 @@ var (
 	}
 
 	exadbSystemRepresentation = map[string]interface{}{
-		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.2.name}")}`},
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}")}`},
 		"backup_subnet_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.exadata_backup_subnet.id}`},
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"database_edition":        acctest.Representation{RepType: acctest.Required, Create: `ENTERPRISE_EDITION_EXTREME_PERFORMANCE`},
@@ -114,8 +114,11 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "exadata_subnet", acctest.Optional, acctest.Create, exaSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "exadata_backup_subnet", acctest.Optional, acctest.Create, exaBackupSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_db_system", acctest.Optional, acctest.Create, exadbSystemRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "exadata_route_table", acctest.Optional, acctest.Create, CoreRouteTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create, CoreInternetGatewayRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, CoreRouteTableWithoutRouteRulesRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create, CoreInternetGatewayRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "exadata_route_table", acctest.Optional, acctest.Create, CoreRouteTableRepresentation)
+
+	CoreRouteTableWithoutRouteRulesRepresentation = acctest.RepresentationCopyWithRemovedProperties(CoreRouteTableRepresentation, []string{"route_rules"})
 
 	DatabaseRequiredOnlyResource = DatabaseDatabaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseRepresentation)
@@ -152,6 +155,13 @@ var (
 		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home_vm_cluster_no_db.id}`},
 		"source":     acctest.Representation{RepType: acctest.Required, Create: `NONE`},
 	}
+	DatabaseDatabaseDbrsRepresentation = acctest.GetMultipleUpdatedRepresenationCopy(
+		[]string{"database", "db_home_id", "db_version"},
+		[]interface{}{
+			acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseDatabaseDbrsRepresentation},
+			acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home_dbrs.id}`},
+			acctest.Representation{RepType: acctest.Optional, Create: `19.16.0.0`}},
+		DatabaseDatabaseRepresentation)
 
 	databaseRepresentationMigration = map[string]interface{}{
 		"database":          acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseDatabaseRepresentation},
@@ -174,6 +184,30 @@ var (
 		"pdb_name":         acctest.Representation{RepType: acctest.Optional, Create: `pdbName`},
 		// "tde_wallet_password": acctest.Representation{RepType: acctest.Optional, Create: `tdeWalletPassword`},	exadata doesn't support it.
 	}
+
+	databaseDatabaseDbrsRepresentation = acctest.GetUpdatedRepresentationCopy("db_backup_config",
+		acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseDbBackupConfigDbrsRepresentation},
+		databaseDatabaseRepresentation)
+
+	DatabaseDatabaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
+		"auto_backup_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"auto_backup_window":         acctest.Representation{RepType: acctest.Optional, Create: `SLOT_TWO`},
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseDatabaseDbBackupConfigBackupDestinationDetailsRepresentation},
+		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+
+	DatabaseDatabaseDatabaseDbBackupConfigDbrsRepresentation = map[string]interface{}{
+		"auto_backup_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"auto_backup_window":         acctest.Representation{RepType: acctest.Optional, Create: `SLOT_TWO`},
+		"backup_deletion_policy":     acctest.Representation{RepType: acctest.Optional, Create: `DELETE_IMMEDIATELY`},
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseDbBackupConfigDbrsBackupDestinationDetailsRepresentation},
+	}
+
+	DatabaseDatabaseDatabaseDbBackupConfigDbrsBackupDestinationDetailsRepresentation = map[string]interface{}{
+		"dbrs_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `DbrsPolicyId`},
+		"type":           acctest.Representation{RepType: acctest.Optional, Create: `DBRS`},
+	}
+
 	databaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
 		"auto_backup_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"auto_backup_window":      acctest.Representation{RepType: acctest.Optional, Create: `SLOT_TWO`, Update: `SLOT_THREE`},
@@ -184,12 +218,24 @@ var (
 		"id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
 	}
 
+	dbHomeDatabaseDbrsRepresentation = acctest.RepresentationCopyWithNewProperties(dbHomeDatabaseRepresentationSourceNone, map[string]interface{}{
+		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseDbBackupConfigDbrsRepresentation},
+	})
+
+	dbHomeDbrsRepresentation = acctest.RepresentationCopyWithNewProperties(dbHomeRepresentationSourceNone, map[string]interface{}{
+		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: dbHomeDatabaseDbrsRepresentation},
+		"db_version": acctest.Representation{RepType: acctest.Required, Create: `19.16.0.0`},
+	})
+
 	DatabaseDatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone)
 
 	DatabaseExacsDatabaseResourceDependencies = DbHomeResourceVmClusterDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Required, acctest.Create, dbHomeRepresentationSourceVmCluster)
+
+	DatabaseDatabaseResourceDbrsDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_dbrs", acctest.Required, acctest.Create, dbHomeDbrsRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -213,6 +259,29 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseRepresentation), "database", "database", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
+
+		// verify create DBRS Db
+		{
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDbrsDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseDbrsRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "DBRS"),
+				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.dbrs_policy_id"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_deletion_policy", "DELETE_IMMEDIATELY"),
+			),
+		},
+		// delete dbrs db
+		{
+			Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig,
+		},
+
 		// verify create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
@@ -225,6 +294,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
 			),
 		},
+
 		// verify migrate kms_key
 		{
 			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
@@ -250,17 +320,17 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
-				resource.TestCheckResourceAttr(resourceName, "db_backup_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_window", "SLOT_TWO"),
-				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.recovery_window_in_days", "10"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", "myTestDb"),
-				resource.TestCheckResourceAttr(resourceName, "db_unique_name", "myTestDb_13"),
-				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "ncharacter_set", "AL16UTF16"),
-				resource.TestCheckResourceAttr(resourceName, "pdb_name", "pdbName"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_unique_name", "myTestDb_13"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.ncharacter_set", "AL16UTF16"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.pdb_name", "pdbName"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_unique_name"),
@@ -341,6 +411,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.is_cdb"),
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.kms_key_id"),
+
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.ncharacter_set"),
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.pdb_name"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "databases.0.source_database_point_in_time_recovery_timestamp"),
@@ -350,9 +421,8 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseDatabaseResourceConfig,
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseDatabaseSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),
 
@@ -364,8 +434,6 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_unique_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_workload"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "is_cdb"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "last_backup_timestamp"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ncharacter_set"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "pdb_name"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "source_database_point_in_time_recovery_timestamp"),

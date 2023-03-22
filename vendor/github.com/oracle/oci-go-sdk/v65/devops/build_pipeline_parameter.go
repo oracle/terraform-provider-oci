@@ -23,7 +23,7 @@ type BuildPipelineParameter struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// Default value of the parameter.
-	DefaultValue *string `mandatory:"false" json:"defaultValue"`
+	DefaultValue *string `mandatory:"true" json:"defaultValue"`
 
 	// Description of the parameter.
 	Description *string `mandatory:"false" json:"description"`

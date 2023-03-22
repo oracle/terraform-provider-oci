@@ -104,18 +104,6 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *GoldenGateConnectionAssignmentResourceCrud) CreatedPending() []string {
-	return []string{
-		string(oci_golden_gate.ConnectionAssignmentLifecycleStateCreating),
-	}
-}
-
-func (s *GoldenGateConnectionAssignmentResourceCrud) CreatedTarget() []string {
-	return []string{
-		string(oci_golden_gate.ConnectionAssignmentLifecycleStateActive),
-	}
-}
-
 func (s *GoldenGateConnectionAssignmentResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_golden_gate.ConnectionAssignmentLifecycleStateDeleting),

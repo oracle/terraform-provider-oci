@@ -108,13 +108,11 @@ func TestArtifactsContainerConfigurationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ArtifactsContainerConfigurationRequiredOnlyResource,
-			ImportState:       true,
-			ImportStateVerify: true,
-			ImportStateVerifyIgnore: []string{
-				"compartment_id",
-			},
-			ResourceName: resourceName,
+			Config:                  config + ArtifactsContainerConfigurationRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

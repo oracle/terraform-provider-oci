@@ -123,6 +123,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
+												"backup_deletion_policy": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"backup_destination_details": {
 													Type:     schema.TypeList,
 													Optional: true,
@@ -132,6 +138,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 															// Required
 
 															// Optional
+															"dbrs_policy_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"id": {
 																Type:     schema.TypeString,
 																Optional: true,
@@ -1441,6 +1453,11 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 func (s *DatabaseDbSystemResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 
+	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok {
+		tmp := dbrsPolicyId.(string)
+		result.DbrsPolicyId = &tmp
+	}
+
 	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 		tmp := id.(string)
 		result.Id = &tmp
@@ -2044,6 +2061,10 @@ func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 		}
 	}
 
+	if backupDeletionPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_deletion_policy")); ok {
+		result.BackupDeletionPolicy = oci_database.DbBackupConfigBackupDeletionPolicyEnum(backupDeletionPolicy.(string))
+	}
+
 	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
 		interfaces := backupDestinationDetails.([]interface{})
 		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
@@ -2077,6 +2098,8 @@ func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{
 	}
 
 	result["auto_backup_window"] = string(obj.AutoBackupWindow)
+
+	result["backup_deletion_policy"] = string(obj.BackupDeletionPolicy)
 
 	backupDestinationDetails := []interface{}{}
 	for _, item := range obj.BackupDestinationDetails {

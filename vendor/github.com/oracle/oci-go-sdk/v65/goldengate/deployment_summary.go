@@ -103,9 +103,9 @@ type DeploymentSummary struct {
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeUpgradeRequired *common.SDKTime `mandatory:"false" json:"timeUpgradeRequired"`
 
-	// The type of deployment, the value determines the exact 'type' of service executed in the Deployment.
-	// NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged
-	//       in favor of the equivalent 'DATABASE_ORACLE' value.
+	// The type of deployment, which can be any one of the Allowed values.
+	// NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.
+	//     Its use is discouraged in favor of 'DATABASE_ORACLE'.
 	DeploymentType DeploymentTypeEnum `mandatory:"false" json:"deploymentType,omitempty"`
 
 	// The amount of storage being utilized (in bytes)

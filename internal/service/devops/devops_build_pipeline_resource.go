@@ -53,17 +53,16 @@ func DevopsBuildPipelineResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
+									"default_value": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
 									"name": {
 										Type:     schema.TypeString,
 										Required: true,
 									},
 
 									// Optional
-									"default_value": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
 									"description": {
 										Type:     schema.TypeString,
 										Optional: true,

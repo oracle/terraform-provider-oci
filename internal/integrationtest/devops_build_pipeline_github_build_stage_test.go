@@ -45,6 +45,7 @@ var (
 		"build_pipeline_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_build_pipeline.test_build_pipeline.id}`},
 		"build_pipeline_stage_predecessor_collection": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineBuildStageBuildPipelineStagePredecessorCollectionRepresentation},
 		"build_pipeline_stage_type":                   acctest.Representation{RepType: acctest.Required, Create: `BUILD`},
+		"build_runner_shape_config":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: buildPipelineStageBuildRunnerShapeConfigRepresentation},
 		"defined_tags":                                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":                                 acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -58,6 +59,12 @@ var (
 	}
 	buildPipelineBuildStageBuildPipelineStagePredecessorCollectionRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: buildPipelineBuildStageBuildPipelineStagePredecessorCollectionItemsRepresentation},
+	}
+
+	buildPipelineStageBuildRunnerShapeConfigRepresentation = map[string]interface{}{
+		"build_runner_type": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`, Update: `DEFAULT`},
+		"memory_in_gbs":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `0`},
+		"ocpus":             acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `0`},
 	}
 
 	buildPipelineBuildStageBuildPipelineStagePredecessorCollectionItemsRepresentation = map[string]interface{}{
@@ -85,7 +92,6 @@ var (
 	BuildPipelineBuildStageResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_build_pipeline", "test_build_pipeline", acctest.Required, acctest.Create, DevopsBuildPipelineRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation) +
 		githubAccessTokenVaultIdStr +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_connection", "test_connection", acctest.Required, acctest.Create, DevopsConnectionRepresentation)
 )
@@ -162,6 +168,10 @@ func TestDevopsBuildPipelineBuildStageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_predecessor_collection.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_predecessor_collection.0.items.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_type", "BUILD"),
+					resource.TestCheckResourceAttr(resourceName, "build_runner_shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "build_runner_shape_config.0.build_runner_type", "CUSTOM"),
+					resource.TestCheckResourceAttr(resourceName, "build_runner_shape_config.0.memory_in_gbs", "10"),
+					resource.TestCheckResourceAttr(resourceName, "build_runner_shape_config.0.ocpus", "10"),
 
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -202,6 +212,8 @@ func TestDevopsBuildPipelineBuildStageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_predecessor_collection.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_predecessor_collection.0.items.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "build_pipeline_stage_type", "BUILD"),
+					resource.TestCheckResourceAttr(resourceName, "build_runner_shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "build_runner_shape_config.0.build_runner_type", "DEFAULT"),
 
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -253,6 +265,8 @@ func TestDevopsBuildPipelineBuildStageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_pipeline_stage_predecessor_collection.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_pipeline_stage_predecessor_collection.0.items.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_pipeline_stage_type", "BUILD"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "build_runner_shape_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "build_runner_shape_config.0.build_runner_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "build_source_collection.0.items.0.branch", "branch2"),

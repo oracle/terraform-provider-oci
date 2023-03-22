@@ -148,8 +148,8 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := ConnectionSummaryFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "LAKE_HOUSE_CONNECTION":
-		mm := ConnectionSummaryFromLakehouse{}
+	case "LAKE_CONNECTION":
+		mm := ConnectionSummaryFromLake{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "BIP_CONNECTION":
@@ -260,7 +260,7 @@ const (
 	ConnectionSummaryModelTypeBiccConnection                ConnectionSummaryModelTypeEnum = "BICC_CONNECTION"
 	ConnectionSummaryModelTypeAmazonS3Connection            ConnectionSummaryModelTypeEnum = "AMAZON_S3_CONNECTION"
 	ConnectionSummaryModelTypeBipConnection                 ConnectionSummaryModelTypeEnum = "BIP_CONNECTION"
-	ConnectionSummaryModelTypeLakeHouseConnection           ConnectionSummaryModelTypeEnum = "LAKE_HOUSE_CONNECTION"
+	ConnectionSummaryModelTypeLakeConnection                ConnectionSummaryModelTypeEnum = "LAKE_CONNECTION"
 	ConnectionSummaryModelTypeRestNoAuthConnection          ConnectionSummaryModelTypeEnum = "REST_NO_AUTH_CONNECTION"
 	ConnectionSummaryModelTypeRestBasicAuthConnection       ConnectionSummaryModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
 )
@@ -275,7 +275,7 @@ var mappingConnectionSummaryModelTypeEnum = map[string]ConnectionSummaryModelTyp
 	"BICC_CONNECTION":                  ConnectionSummaryModelTypeBiccConnection,
 	"AMAZON_S3_CONNECTION":             ConnectionSummaryModelTypeAmazonS3Connection,
 	"BIP_CONNECTION":                   ConnectionSummaryModelTypeBipConnection,
-	"LAKE_HOUSE_CONNECTION":            ConnectionSummaryModelTypeLakeHouseConnection,
+	"LAKE_CONNECTION":                  ConnectionSummaryModelTypeLakeConnection,
 	"REST_NO_AUTH_CONNECTION":          ConnectionSummaryModelTypeRestNoAuthConnection,
 	"REST_BASIC_AUTH_CONNECTION":       ConnectionSummaryModelTypeRestBasicAuthConnection,
 }
@@ -290,7 +290,7 @@ var mappingConnectionSummaryModelTypeEnumLowerCase = map[string]ConnectionSummar
 	"bicc_connection":                  ConnectionSummaryModelTypeBiccConnection,
 	"amazon_s3_connection":             ConnectionSummaryModelTypeAmazonS3Connection,
 	"bip_connection":                   ConnectionSummaryModelTypeBipConnection,
-	"lake_house_connection":            ConnectionSummaryModelTypeLakeHouseConnection,
+	"lake_connection":                  ConnectionSummaryModelTypeLakeConnection,
 	"rest_no_auth_connection":          ConnectionSummaryModelTypeRestNoAuthConnection,
 	"rest_basic_auth_connection":       ConnectionSummaryModelTypeRestBasicAuthConnection,
 }
@@ -316,7 +316,7 @@ func GetConnectionSummaryModelTypeEnumStringValues() []string {
 		"BICC_CONNECTION",
 		"AMAZON_S3_CONNECTION",
 		"BIP_CONNECTION",
-		"LAKE_HOUSE_CONNECTION",
+		"LAKE_CONNECTION",
 		"REST_NO_AUTH_CONNECTION",
 		"REST_BASIC_AUTH_CONNECTION",
 	}

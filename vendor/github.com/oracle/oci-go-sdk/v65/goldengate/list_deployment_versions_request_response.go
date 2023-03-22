@@ -18,7 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentVersions.go.html to see an example of how to use ListDeploymentVersionsRequest.
 type ListDeploymentVersionsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID of the compartment that contains the work request. Work requests should be scoped
+	// to the same compartment as the resource the work request affects. If the work request concerns
+	// multiple resources, and those resources are not in the same compartment, it is up to the service team
+	// to pick the primary resource whose compartment should be used.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment in which to list resources.
@@ -109,9 +112,8 @@ type ListDeploymentVersionsResponse struct {
 	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the
-	// response, then a partial list might have been returned. Include this value as the `page`
-	// parameter for the subsequent GET request to get the next batch of items.
+	// The page token represents the page to start retrieving results. This is usually retrieved
+	// from a previous list call.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
@@ -129,27 +131,30 @@ type ListDeploymentVersionsDeploymentTypeEnum string
 
 // Set of constants representing the allowable values for ListDeploymentVersionsDeploymentTypeEnum
 const (
-	ListDeploymentVersionsDeploymentTypeOgg                ListDeploymentVersionsDeploymentTypeEnum = "OGG"
-	ListDeploymentVersionsDeploymentTypeDatabaseOracle     ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_ORACLE"
-	ListDeploymentVersionsDeploymentTypeBigdata            ListDeploymentVersionsDeploymentTypeEnum = "BIGDATA"
-	ListDeploymentVersionsDeploymentTypeDatabaseMysql      ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_MYSQL"
-	ListDeploymentVersionsDeploymentTypeDatabasePostgresql ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_POSTGRESQL"
+	ListDeploymentVersionsDeploymentTypeOgg                        ListDeploymentVersionsDeploymentTypeEnum = "OGG"
+	ListDeploymentVersionsDeploymentTypeDatabaseOracle             ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_ORACLE"
+	ListDeploymentVersionsDeploymentTypeBigdata                    ListDeploymentVersionsDeploymentTypeEnum = "BIGDATA"
+	ListDeploymentVersionsDeploymentTypeDatabaseMicrosoftSqlserver ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_MICROSOFT_SQLSERVER"
+	ListDeploymentVersionsDeploymentTypeDatabaseMysql              ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_MYSQL"
+	ListDeploymentVersionsDeploymentTypeDatabasePostgresql         ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_POSTGRESQL"
 )
 
 var mappingListDeploymentVersionsDeploymentTypeEnum = map[string]ListDeploymentVersionsDeploymentTypeEnum{
-	"OGG":                 ListDeploymentVersionsDeploymentTypeOgg,
-	"DATABASE_ORACLE":     ListDeploymentVersionsDeploymentTypeDatabaseOracle,
-	"BIGDATA":             ListDeploymentVersionsDeploymentTypeBigdata,
-	"DATABASE_MYSQL":      ListDeploymentVersionsDeploymentTypeDatabaseMysql,
-	"DATABASE_POSTGRESQL": ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
+	"OGG":                          ListDeploymentVersionsDeploymentTypeOgg,
+	"DATABASE_ORACLE":              ListDeploymentVersionsDeploymentTypeDatabaseOracle,
+	"BIGDATA":                      ListDeploymentVersionsDeploymentTypeBigdata,
+	"DATABASE_MICROSOFT_SQLSERVER": ListDeploymentVersionsDeploymentTypeDatabaseMicrosoftSqlserver,
+	"DATABASE_MYSQL":               ListDeploymentVersionsDeploymentTypeDatabaseMysql,
+	"DATABASE_POSTGRESQL":          ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
 }
 
 var mappingListDeploymentVersionsDeploymentTypeEnumLowerCase = map[string]ListDeploymentVersionsDeploymentTypeEnum{
-	"ogg":                 ListDeploymentVersionsDeploymentTypeOgg,
-	"database_oracle":     ListDeploymentVersionsDeploymentTypeDatabaseOracle,
-	"bigdata":             ListDeploymentVersionsDeploymentTypeBigdata,
-	"database_mysql":      ListDeploymentVersionsDeploymentTypeDatabaseMysql,
-	"database_postgresql": ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
+	"ogg":                          ListDeploymentVersionsDeploymentTypeOgg,
+	"database_oracle":              ListDeploymentVersionsDeploymentTypeDatabaseOracle,
+	"bigdata":                      ListDeploymentVersionsDeploymentTypeBigdata,
+	"database_microsoft_sqlserver": ListDeploymentVersionsDeploymentTypeDatabaseMicrosoftSqlserver,
+	"database_mysql":               ListDeploymentVersionsDeploymentTypeDatabaseMysql,
+	"database_postgresql":          ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
 }
 
 // GetListDeploymentVersionsDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentVersionsDeploymentTypeEnum
@@ -167,6 +172,7 @@ func GetListDeploymentVersionsDeploymentTypeEnumStringValues() []string {
 		"OGG",
 		"DATABASE_ORACLE",
 		"BIGDATA",
+		"DATABASE_MICROSOFT_SQLSERVER",
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
 	}
