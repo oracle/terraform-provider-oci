@@ -18,7 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeployments.go.html to see an example of how to use ListDeploymentsRequest.
 type ListDeploymentsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID of the compartment that contains the work request. Work requests should be scoped
+	// to the same compartment as the resource the work request affects. If the work request concerns
+	// multiple resources, and those resources are not in the same compartment, it is up to the service team
+	// to pick the primary resource whose compartment should be used.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The connection type which the deployment must support.
@@ -27,7 +30,7 @@ type ListDeploymentsRequest struct {
 	// The OCID of the connection which for the deployment must be assigned.
 	AssignedConnectionId *string `mandatory:"false" contributesTo:"query" name:"assignedConnectionId"`
 
-	// Filters for compatible deployments which can be, but currently not assigned to the connection specified by its id.
+	// Return the deployments to which the specified connectionId may be assigned.
 	AssignableConnectionId *string `mandatory:"false" contributesTo:"query" name:"assignableConnectionId"`
 
 	// A filter to return only the resources that match the 'lifecycleState' given.
@@ -130,9 +133,8 @@ type ListDeploymentsResponse struct {
 	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the
-	// response, then a partial list might have been returned. Include this value as the `page`
-	// parameter for the subsequent GET request to get the next batch of items.
+	// The page token represents the page to start retrieving results. This is usually retrieved
+	// from a previous list call.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
@@ -154,11 +156,18 @@ const (
 	ListDeploymentsSupportedConnectionTypeKafka                 ListDeploymentsSupportedConnectionTypeEnum = "KAFKA"
 	ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry   ListDeploymentsSupportedConnectionTypeEnum = "KAFKA_SCHEMA_REGISTRY"
 	ListDeploymentsSupportedConnectionTypeMysql                 ListDeploymentsSupportedConnectionTypeEnum = "MYSQL"
+	ListDeploymentsSupportedConnectionTypeJavaMessageService    ListDeploymentsSupportedConnectionTypeEnum = "JAVA_MESSAGE_SERVICE"
+	ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver    ListDeploymentsSupportedConnectionTypeEnum = "MICROSOFT_SQLSERVER"
 	ListDeploymentsSupportedConnectionTypeOciObjectStorage      ListDeploymentsSupportedConnectionTypeEnum = "OCI_OBJECT_STORAGE"
 	ListDeploymentsSupportedConnectionTypeOracle                ListDeploymentsSupportedConnectionTypeEnum = "ORACLE"
 	ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage  ListDeploymentsSupportedConnectionTypeEnum = "AZURE_DATA_LAKE_STORAGE"
 	ListDeploymentsSupportedConnectionTypePostgresql            ListDeploymentsSupportedConnectionTypeEnum = "POSTGRESQL"
 	ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics ListDeploymentsSupportedConnectionTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
+	ListDeploymentsSupportedConnectionTypeSnowflake             ListDeploymentsSupportedConnectionTypeEnum = "SNOWFLAKE"
+	ListDeploymentsSupportedConnectionTypeAmazonS3              ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_S3"
+	ListDeploymentsSupportedConnectionTypeHdfs                  ListDeploymentsSupportedConnectionTypeEnum = "HDFS"
+	ListDeploymentsSupportedConnectionTypeOracleNosql           ListDeploymentsSupportedConnectionTypeEnum = "ORACLE_NOSQL"
+	ListDeploymentsSupportedConnectionTypeMongodb               ListDeploymentsSupportedConnectionTypeEnum = "MONGODB"
 )
 
 var mappingListDeploymentsSupportedConnectionTypeEnum = map[string]ListDeploymentsSupportedConnectionTypeEnum{
@@ -166,11 +175,18 @@ var mappingListDeploymentsSupportedConnectionTypeEnum = map[string]ListDeploymen
 	"KAFKA":                   ListDeploymentsSupportedConnectionTypeKafka,
 	"KAFKA_SCHEMA_REGISTRY":   ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry,
 	"MYSQL":                   ListDeploymentsSupportedConnectionTypeMysql,
+	"JAVA_MESSAGE_SERVICE":    ListDeploymentsSupportedConnectionTypeJavaMessageService,
+	"MICROSOFT_SQLSERVER":     ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver,
 	"OCI_OBJECT_STORAGE":      ListDeploymentsSupportedConnectionTypeOciObjectStorage,
 	"ORACLE":                  ListDeploymentsSupportedConnectionTypeOracle,
 	"AZURE_DATA_LAKE_STORAGE": ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage,
 	"POSTGRESQL":              ListDeploymentsSupportedConnectionTypePostgresql,
 	"AZURE_SYNAPSE_ANALYTICS": ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics,
+	"SNOWFLAKE":               ListDeploymentsSupportedConnectionTypeSnowflake,
+	"AMAZON_S3":               ListDeploymentsSupportedConnectionTypeAmazonS3,
+	"HDFS":                    ListDeploymentsSupportedConnectionTypeHdfs,
+	"ORACLE_NOSQL":            ListDeploymentsSupportedConnectionTypeOracleNosql,
+	"MONGODB":                 ListDeploymentsSupportedConnectionTypeMongodb,
 }
 
 var mappingListDeploymentsSupportedConnectionTypeEnumLowerCase = map[string]ListDeploymentsSupportedConnectionTypeEnum{
@@ -178,11 +194,18 @@ var mappingListDeploymentsSupportedConnectionTypeEnumLowerCase = map[string]List
 	"kafka":                   ListDeploymentsSupportedConnectionTypeKafka,
 	"kafka_schema_registry":   ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry,
 	"mysql":                   ListDeploymentsSupportedConnectionTypeMysql,
+	"java_message_service":    ListDeploymentsSupportedConnectionTypeJavaMessageService,
+	"microsoft_sqlserver":     ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver,
 	"oci_object_storage":      ListDeploymentsSupportedConnectionTypeOciObjectStorage,
 	"oracle":                  ListDeploymentsSupportedConnectionTypeOracle,
 	"azure_data_lake_storage": ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage,
 	"postgresql":              ListDeploymentsSupportedConnectionTypePostgresql,
 	"azure_synapse_analytics": ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics,
+	"snowflake":               ListDeploymentsSupportedConnectionTypeSnowflake,
+	"amazon_s3":               ListDeploymentsSupportedConnectionTypeAmazonS3,
+	"hdfs":                    ListDeploymentsSupportedConnectionTypeHdfs,
+	"oracle_nosql":            ListDeploymentsSupportedConnectionTypeOracleNosql,
+	"mongodb":                 ListDeploymentsSupportedConnectionTypeMongodb,
 }
 
 // GetListDeploymentsSupportedConnectionTypeEnumValues Enumerates the set of values for ListDeploymentsSupportedConnectionTypeEnum
@@ -201,11 +224,18 @@ func GetListDeploymentsSupportedConnectionTypeEnumStringValues() []string {
 		"KAFKA",
 		"KAFKA_SCHEMA_REGISTRY",
 		"MYSQL",
+		"JAVA_MESSAGE_SERVICE",
+		"MICROSOFT_SQLSERVER",
 		"OCI_OBJECT_STORAGE",
 		"ORACLE",
 		"AZURE_DATA_LAKE_STORAGE",
 		"POSTGRESQL",
 		"AZURE_SYNAPSE_ANALYTICS",
+		"SNOWFLAKE",
+		"AMAZON_S3",
+		"HDFS",
+		"ORACLE_NOSQL",
+		"MONGODB",
 	}
 }
 

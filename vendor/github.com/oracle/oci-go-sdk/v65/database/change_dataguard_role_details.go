@@ -58,6 +58,7 @@ const (
 	ChangeDataguardRoleDetailsRolePrimary         ChangeDataguardRoleDetailsRoleEnum = "PRIMARY"
 	ChangeDataguardRoleDetailsRoleStandby         ChangeDataguardRoleDetailsRoleEnum = "STANDBY"
 	ChangeDataguardRoleDetailsRoleDisabledStandby ChangeDataguardRoleDetailsRoleEnum = "DISABLED_STANDBY"
+	ChangeDataguardRoleDetailsRoleBackupCopy      ChangeDataguardRoleDetailsRoleEnum = "BACKUP_COPY"
 	ChangeDataguardRoleDetailsRoleSnapshotStandby ChangeDataguardRoleDetailsRoleEnum = "SNAPSHOT_STANDBY"
 )
 
@@ -65,6 +66,7 @@ var mappingChangeDataguardRoleDetailsRoleEnum = map[string]ChangeDataguardRoleDe
 	"PRIMARY":          ChangeDataguardRoleDetailsRolePrimary,
 	"STANDBY":          ChangeDataguardRoleDetailsRoleStandby,
 	"DISABLED_STANDBY": ChangeDataguardRoleDetailsRoleDisabledStandby,
+	"BACKUP_COPY":      ChangeDataguardRoleDetailsRoleBackupCopy,
 	"SNAPSHOT_STANDBY": ChangeDataguardRoleDetailsRoleSnapshotStandby,
 }
 
@@ -72,6 +74,7 @@ var mappingChangeDataguardRoleDetailsRoleEnumLowerCase = map[string]ChangeDatagu
 	"primary":          ChangeDataguardRoleDetailsRolePrimary,
 	"standby":          ChangeDataguardRoleDetailsRoleStandby,
 	"disabled_standby": ChangeDataguardRoleDetailsRoleDisabledStandby,
+	"backup_copy":      ChangeDataguardRoleDetailsRoleBackupCopy,
 	"snapshot_standby": ChangeDataguardRoleDetailsRoleSnapshotStandby,
 }
 
@@ -90,6 +93,7 @@ func GetChangeDataguardRoleDetailsRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"BACKUP_COPY",
 		"SNAPSHOT_STANDBY",
 	}
 }

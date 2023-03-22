@@ -21,11 +21,10 @@ type CreateConnectionRequest struct {
 	// Specification of the Connection to create.
 	CreateConnectionDetails `contributesTo:"body"`
 
-	// A token that uniquely identifies a request so it can be retried, in case of a timeout or
-	// server error, without risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations. For example, if a
-	// resource has been deleted and purged from the system, then a retry of the original creation
-	// request is rejected.
+	// A token that uniquely identifies a request so it can be retried, in case of a timeout or server error,
+	// without the risk of executing that same action again. Retry tokens expire after 24 hours but can be
+	// invalidated before then due to conflicting operations. For example, if a resource was deleted and purged
+	// from the system, then a retry of the original creation request is rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// The client request ID for tracing.

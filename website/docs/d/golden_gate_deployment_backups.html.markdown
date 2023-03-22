@@ -31,7 +31,7 @@ data "oci_golden_gate_deployment_backups" "test_deployment_backups" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources. 
+* `compartment_id` - (Required) The OCID of the compartment that contains the work request. Work requests should be scoped  to the same compartment as the resource the work request affects. If the work request concerns  multiple resources, and those resources are not in the same compartment, it is up to the service team  to pick the primary resource whose compartment should be used. 
 * `deployment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment in which to list resources. 
 * `display_name` - (Optional) A filter to return only the resources that match the entire 'displayName' given. 
 * `state` - (Optional) A filter to return only the resources that match the 'lifecycleState' given. 

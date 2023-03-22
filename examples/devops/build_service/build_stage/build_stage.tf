@@ -48,7 +48,7 @@ variable "base_url" {
 resource "oci_ons_notification_topic" "test_notification_topic" {
   #Required
   compartment_id = var.compartment_ocid
-  name           = random_string.topicname.result
+  name           = join("", ["A", random_string.topicname.result])
 }
 
 resource "oci_devops_project" "test_project" {
@@ -177,6 +177,11 @@ resource "oci_devops_build_pipeline_stage" "test_build_pipeline_build_github_sta
   image                              = "OL7_X86_64_STANDARD_10"
   primary_build_source               = "primaryBuildSource"
   stage_execution_timeout_in_seconds = "10"
+  build_runner_shape_config {
+    build_runner_type = "CUSTOM"
+    memory_in_gbs = 4
+    ocpus = 1
+  }
   build_source_collection {
     items {
       connection_type   = "GITHUB"

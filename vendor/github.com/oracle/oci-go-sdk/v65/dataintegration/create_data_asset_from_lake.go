@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// CreateConnectionFromLakehouse The details to create a Lakehouse connection.
-type CreateConnectionFromLakehouse struct {
+// CreateDataAssetFromLake Details for the Lake data asset type.
+type CreateDataAssetFromLake struct {
 
 	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
 	Name *string `mandatory:"true" json:"name"`
@@ -25,79 +25,91 @@ type CreateConnectionFromLakehouse struct {
 	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
-	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
+	// The Lake Ocid.
+	LakeId *string `mandatory:"true" json:"lakeId"`
+
+	DefaultConnection *CreateConnectionFromLake `mandatory:"true" json:"defaultConnection"`
+
+	// Currently not used on data asset creation. Reserved for future.
 	Key *string `mandatory:"false" json:"key"`
 
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
 
-	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
-
-	// User-defined description for the connection.
+	// User-defined description of the data asset.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
-	// The properties for the connection.
-	ConnectionProperties []ConnectionProperty `mandatory:"false" json:"connectionProperties"`
+	// The external key for the object.
+	ExternalKey *string `mandatory:"false" json:"externalKey"`
+
+	// Additional properties for the data asset.
+	AssetProperties map[string]string `mandatory:"false" json:"assetProperties"`
 
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
+
+	// The metastoreId for the specified Lake Resource.
+	MetastoreId *string `mandatory:"false" json:"metastoreId"`
+
+	// The lakeProxyEndpoint for the specified Lake Resource.
+	LakeProxyEndpoint *string `mandatory:"false" json:"lakeProxyEndpoint"`
 }
 
 //GetKey returns Key
-func (m CreateConnectionFromLakehouse) GetKey() *string {
+func (m CreateDataAssetFromLake) GetKey() *string {
 	return m.Key
 }
 
 //GetModelVersion returns ModelVersion
-func (m CreateConnectionFromLakehouse) GetModelVersion() *string {
+func (m CreateDataAssetFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
-func (m CreateConnectionFromLakehouse) GetParentRef() *ParentReference {
-	return m.ParentRef
-}
-
 //GetName returns Name
-func (m CreateConnectionFromLakehouse) GetName() *string {
+func (m CreateDataAssetFromLake) GetName() *string {
 	return m.Name
 }
 
 //GetDescription returns Description
-func (m CreateConnectionFromLakehouse) GetDescription() *string {
+func (m CreateDataAssetFromLake) GetDescription() *string {
 	return m.Description
 }
 
 //GetObjectStatus returns ObjectStatus
-func (m CreateConnectionFromLakehouse) GetObjectStatus() *int {
+func (m CreateDataAssetFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
 //GetIdentifier returns Identifier
-func (m CreateConnectionFromLakehouse) GetIdentifier() *string {
+func (m CreateDataAssetFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetConnectionProperties returns ConnectionProperties
-func (m CreateConnectionFromLakehouse) GetConnectionProperties() []ConnectionProperty {
-	return m.ConnectionProperties
+//GetExternalKey returns ExternalKey
+func (m CreateDataAssetFromLake) GetExternalKey() *string {
+	return m.ExternalKey
+}
+
+//GetAssetProperties returns AssetProperties
+func (m CreateDataAssetFromLake) GetAssetProperties() map[string]string {
+	return m.AssetProperties
 }
 
 //GetRegistryMetadata returns RegistryMetadata
-func (m CreateConnectionFromLakehouse) GetRegistryMetadata() *RegistryMetadata {
+func (m CreateDataAssetFromLake) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }
 
-func (m CreateConnectionFromLakehouse) String() string {
+func (m CreateDataAssetFromLake) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateConnectionFromLakehouse) ValidateEnumValue() (bool, error) {
+func (m CreateDataAssetFromLake) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -107,14 +119,14 @@ func (m CreateConnectionFromLakehouse) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m CreateConnectionFromLakehouse) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreateConnectionFromLakehouse CreateConnectionFromLakehouse
+func (m CreateDataAssetFromLake) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateDataAssetFromLake CreateDataAssetFromLake
 	s := struct {
 		DiscriminatorParam string `json:"modelType"`
-		MarshalTypeCreateConnectionFromLakehouse
+		MarshalTypeCreateDataAssetFromLake
 	}{
-		"LAKE_HOUSE_CONNECTION",
-		(MarshalTypeCreateConnectionFromLakehouse)(m),
+		"LAKE_DATA_ASSET",
+		(MarshalTypeCreateDataAssetFromLake)(m),
 	}
 
 	return json.Marshal(&s)

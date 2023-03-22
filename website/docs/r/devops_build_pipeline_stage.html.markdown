@@ -29,6 +29,14 @@ resource "oci_devops_build_pipeline_stage" "test_build_pipeline_stage" {
 	build_pipeline_stage_type = var.build_pipeline_stage_build_pipeline_stage_type
 
 	#Optional
+	build_runner_shape_config {
+		#Required
+		build_runner_type = var.build_pipeline_stage_build_runner_shape_config_build_runner_type
+
+		#Optional
+		memory_in_gbs = var.build_pipeline_stage_build_runner_shape_config_memory_in_gbs
+		ocpus = var.build_pipeline_stage_build_runner_shape_config_ocpus
+	}
 	build_source_collection {
 
 		#Optional
@@ -89,6 +97,10 @@ The following arguments are supported:
 	* `items` - (Required) (Updatable) A list of build pipeline stage predecessors for a stage.
 		* `id` - (Required) (Updatable) The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID. 
 * `build_pipeline_stage_type` - (Required) (Updatable) Defines the stage type, which is one of the following: BUILD, DELIVER_ARTIFACT, WAIT, and TRIGGER_DEPLOYMENT_PIPELINE. 
+* `build_runner_shape_config` - (Applicable when build_pipeline_stage_type=BUILD) (Updatable) The information about build runner.
+	* `build_runner_type` - (Required) (Updatable) Name of the build runner shape in which the execution occurs. If not specified, the default shape is chosen.
+	* `memory_in_gbs` - (Required when build_runner_type=CUSTOM) (Updatable) The total amount of memory set for the instance in gigabytes.
+	* `ocpus` - (Required when build_runner_type=CUSTOM) (Updatable) The total number of OCPUs set for the instance.
 * `build_source_collection` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Collection of build sources.
 	* `items` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 		* `branch` - (Required when build_pipeline_stage_type=BUILD) (Updatable) Branch name.
@@ -132,6 +144,10 @@ The following attributes are exported:
 	* `items` - A list of build pipeline stage predecessors for a stage.
 		* `id` - The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID. 
 * `build_pipeline_stage_type` - Defines the stage type, which is one of the following: BUILD, DELIVER_ARTIFACT, WAIT, and TRIGGER_DEPLOYMENT_PIPELINE. 
+* `build_runner_shape_config` - The information about build runner.
+	* `build_runner_type` - Name of the build runner shape in which the execution occurs. If not specified, the default shape is chosen.
+	* `memory_in_gbs` - The total amount of memory set for the instance in gigabytes.
+	* `ocpus` - The total number of OCPUs set for the instance.
 * `build_source_collection` - Collection of build sources.
 	* `items` - Collection of build sources. In case of UPDATE operation, replaces existing build sources list. Merging with existing build sources is not supported.
 		* `branch` - Branch name.

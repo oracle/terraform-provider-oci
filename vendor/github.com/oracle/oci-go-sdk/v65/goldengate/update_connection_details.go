@@ -34,18 +34,13 @@ type UpdateConnectionDetails interface {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer vault being
-	// referenced.
-	// If provided, this will reference a vault which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to manage secrets contained
-	// within this vault.
+	// Refers to the customer's vault OCID.
+	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
+	// to manage secrets contained within this vault.
 	GetVaultId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer "Master" key being
-	// referenced.
-	// If provided, this will reference a key which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to utilize this key to
-	// manage secrets.
+	// Refers to the customer's master key OCID.
+	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	GetKeyId() *string
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
@@ -96,20 +91,56 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ConnectionType {
+	case "ORACLE":
+		mm := UpdateOracleConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_OBJECT_STORAGE":
+		mm := UpdateOciObjectStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MONGODB":
+		mm := UpdateMongoDbConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_DATA_LAKE_STORAGE":
+		mm := UpdateAzureDataLakeStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "JAVA_MESSAGE_SERVICE":
+		mm := UpdateJavaMessageServiceConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOLDENGATE":
+		mm := UpdateGoldenGateConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "POSTGRESQL":
 		mm := UpdatePostgresqlConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "ORACLE":
-		mm := UpdateOracleConnectionDetails{}
+	case "MICROSOFT_SQLSERVER":
+		mm := UpdateMicrosoftSqlserverConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_NOSQL":
+		mm := UpdateOracleNosqlConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "KAFKA_SCHEMA_REGISTRY":
 		mm := UpdateKafkaSchemaRegistryConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "OCI_OBJECT_STORAGE":
-		mm := UpdateOciObjectStorageConnectionDetails{}
+	case "AMAZON_S3":
+		mm := UpdateAmazonS3ConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SNOWFLAKE":
+		mm := UpdateSnowflakeConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HDFS":
+		mm := UpdateHdfsConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MYSQL":
@@ -118,14 +149,6 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "KAFKA":
 		mm := UpdateKafkaConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "AZURE_DATA_LAKE_STORAGE":
-		mm := UpdateAzureDataLakeStorageConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "GOLDENGATE":
-		mm := UpdateGoldenGateConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":

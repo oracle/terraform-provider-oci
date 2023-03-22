@@ -759,6 +759,14 @@ func GetTestClients(data *schema.ResourceData) *tf_client.OracleClients {
 
 // wrapper over resource.ComposeAggregateTestCheckFunc to use customErrorFormat for multierror
 func ComposeAggregateTestCheckFuncWrapper(fs ...resource.TestCheckFunc) resource.TestCheckFunc {
+	testFunctions := make([]resource.TestCheckFunc, len(fs))
+	for index, val := range fs {
+		testFunctions[index] = val
+	}
+	return ComposeAggregateTestCheckFuncArrayWrapper(testFunctions)
+}
+
+func ComposeAggregateTestCheckFuncArrayWrapper(fs []resource.TestCheckFunc) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		var result *multierror.Error
 

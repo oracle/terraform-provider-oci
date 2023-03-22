@@ -268,6 +268,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
+		autonomousDatabase["disaster_recovery_region_type"] = r.DisasterRecoveryRegionType
+
 		if r.DisplayName != nil {
 			autonomousDatabase["display_name"] = *r.DisplayName
 		}
@@ -364,6 +366,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		autonomousDatabase["local_disaster_recovery_type"] = r.LocalDisasterRecoveryType
+
 		if r.LocalStandbyDb != nil {
 			autonomousDatabase["local_standby_db"] = []interface{}{AutonomousDatabaseStandbySummaryToMap(r.LocalStandbyDb)}
 		} else {
@@ -428,6 +432,12 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["refreshable_status"] = r.RefreshableStatus
 
+		if r.RemoteDisasterRecoveryConfiguration != nil {
+			autonomousDatabase["remote_disaster_recovery_configuration"] = []interface{}{DisasterRecoveryConfigurationToMap(r.RemoteDisasterRecoveryConfiguration)}
+		} else {
+			autonomousDatabase["remote_disaster_recovery_configuration"] = nil
+		}
+
 		autonomousDatabase["role"] = r.Role
 
 		scheduledOperations := []interface{}{}
@@ -474,6 +484,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeDeletionOfFreeAutonomousDatabase != nil {
 			autonomousDatabase["time_deletion_of_free_autonomous_database"] = r.TimeDeletionOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeDisasterRecoveryRoleChanged != nil {
+			autonomousDatabase["time_disaster_recovery_role_changed"] = r.TimeDisasterRecoveryRoleChanged.String()
 		}
 
 		if r.TimeLocalDataGuardEnabled != nil {

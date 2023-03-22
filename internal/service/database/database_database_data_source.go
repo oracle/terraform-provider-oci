@@ -134,8 +134,16 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
 	}
 
+	if s.Res.LastBackupDurationInSeconds != nil {
+		s.D.Set("last_backup_duration_in_seconds", *s.Res.LastBackupDurationInSeconds)
+	}
+
 	if s.Res.LastBackupTimestamp != nil {
 		s.D.Set("last_backup_timestamp", s.Res.LastBackupTimestamp.String())
+	}
+
+	if s.Res.LastFailedBackupTimestamp != nil {
+		s.D.Set("last_failed_backup_timestamp", s.Res.LastFailedBackupTimestamp.String())
 	}
 
 	if s.Res.LifecycleDetails != nil {

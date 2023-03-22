@@ -80,12 +80,16 @@ var (
 	})
 
 	DatabaseAutonomousVmClusterMaintenanceWindowDetailsRepresentation = map[string]interface{}{
-		"preference":         acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
-		"days_of_week":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsDaysOfWeekRepresentation},
-		"hours_of_day":       acctest.Representation{RepType: acctest.Optional, Create: []string{`0`}, Update: []string{`4`}},
-		"lead_time_in_weeks": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
-		"months":             []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation}, {RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation2}, {RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation3}, {RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation4}},
-		"weeks_of_month":     acctest.Representation{RepType: acctest.Optional, Create: []string{`1`}, Update: []string{`2`}},
+		"preference":                       acctest.Representation{RepType: acctest.Optional, Create: `CUSTOM_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
+		"days_of_week":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsDaysOfWeekRepresentation},
+		"hours_of_day":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`0`}, Update: []string{`4`}},
+		"lead_time_in_weeks":               acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
+		"months":                           []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation}, {RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation2}, {RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation3}, {RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsMonthsRepresentation4}},
+		"weeks_of_month":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`1`}, Update: []string{`2`}},
+		"custom_action_timeout_in_mins":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"is_custom_action_timeout_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_monthly_patching_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"patching_mode":                    acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
 	}
 	DatabaseAutonomousVmClusterMaintenanceWindowDetailsDaysOfWeekRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `MONDAY`, Update: `TUESDAY`},
@@ -338,6 +342,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.available_container_databases"),
 				//resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.autonomous_data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.available_cpus"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.compute_model", "OCPU"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.available_data_storage_size_in_tbs"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.compute_model", "OCPU"),
@@ -383,6 +388,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_cpus"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_data_storage_size_in_tbs"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count_per_node", "10"),

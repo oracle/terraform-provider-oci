@@ -34,6 +34,10 @@ func DatabaseAutonomousDatabaseBackupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"autonomous_database_backups": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -83,6 +87,12 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.AutonomousDatabaseBackupSummaryLifecycleStateEnum(state.(string))
 	}
 
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		tmp := type_.(string)
+		request.DisplayName = &tmp
+
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
 	response, err := s.Client.ListAutonomousDatabaseBackups(context.Background(), request)
@@ -119,6 +129,12 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 
 		if r.AutonomousDatabaseId != nil {
 			autonomousDatabaseBackup["autonomous_database_id"] = *r.AutonomousDatabaseId
+		}
+
+		if r.BackupDestinationDetails != nil {
+			autonomousDatabaseBackup["backup_destination_details"] = []interface{}{AutonomousBackupDestinationDetailsToMap(r.BackupDestinationDetails)}
+		} else {
+			autonomousDatabaseBackup["backup_destination_details"] = nil
 		}
 
 		if r.CompartmentId != nil {

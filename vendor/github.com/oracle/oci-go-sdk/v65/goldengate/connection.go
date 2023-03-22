@@ -62,24 +62,20 @@ type Connection interface {
 	// actionable information for a resource in a Failed state.
 	GetLifecycleDetails() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer vault being
-	// referenced.
-	// If provided, this will reference a vault which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to manage secrets contained
-	// within this vault.
+	// Refers to the customer's vault OCID.
+	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
+	// to manage secrets contained within this vault.
 	GetVaultId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer "Master" key being
-	// referenced.
-	// If provided, this will reference a key which the customer will be required to ensure
-	// the policies are established to permit the GoldenGate Service to utilize this key to
-	// manage secrets.
+	// Refers to the customer's master key OCID.
+	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	GetKeyId() *string
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 	GetSubnetId() *string
 
-	// List of ingress IP addresses, from where the GoldenGate deployment connects to this connection's privateIp.
+	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
+	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	GetIngressIps() []IngressIpDetails
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
@@ -156,12 +152,12 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := PostgresqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "OCI_OBJECT_STORAGE":
-		mm := OciObjectStorageConnection{}
+	case "JAVA_MESSAGE_SERVICE":
+		mm := JavaMessageServiceConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "KAFKA_SCHEMA_REGISTRY":
-		mm := KafkaSchemaRegistryConnection{}
+	case "SNOWFLAKE":
+		mm := SnowflakeConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GOLDENGATE":
@@ -172,12 +168,40 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := MysqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_S3":
+		mm := AmazonS3Connection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE":
 		mm := OracleConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := AzureDataLakeStorageConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MONGODB":
+		mm := MongoDbConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HDFS":
+		mm := HdfsConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_OBJECT_STORAGE":
+		mm := OciObjectStorageConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KAFKA_SCHEMA_REGISTRY":
+		mm := KafkaSchemaRegistryConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MICROSOFT_SQLSERVER":
+		mm := MicrosoftSqlserverConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_NOSQL":
+		mm := OracleNosqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":

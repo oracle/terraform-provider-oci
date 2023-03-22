@@ -35,9 +35,9 @@ data "oci_golden_gate_deployments" "test_deployments" {
 
 The following arguments are supported:
 
-* `assignable_connection_id` - (Optional) Filters for compatible deployments which can be, but currently not assigned to the connection specified by its id. 
+* `assignable_connection_id` - (Optional) Return the deployments to which the specified connectionId may be assigned. 
 * `assigned_connection_id` - (Optional) The OCID of the connection which for the deployment must be assigned. 
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources. 
+* `compartment_id` - (Required) The OCID of the compartment that contains the work request. Work requests should be scoped  to the same compartment as the resource the work request affects. If the work request concerns  multiple resources, and those resources are not in the same compartment, it is up to the service team  to pick the primary resource whose compartment should be used. 
 * `display_name` - (Optional) A filter to return only the resources that match the entire 'displayName' given. 
 * `fqdn` - (Optional) A filter to return only the resources that match the 'fqdn' given. 
 * `lifecycle_sub_state` - (Optional) A filter to return only the resources that match the 'lifecycleSubState' given. 
@@ -66,7 +66,7 @@ The following attributes are exported:
 	* `object` - Name of the diagnostic collected and uploaded to object storage
 	* `time_diagnostic_end` - The time until which the diagnostic collection should collect the logs. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	* `time_diagnostic_start` - The time from which the diagnostic collection should collect the logs. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
-* `deployment_type` - The type of deployment, the value determines the exact 'type' of service executed in the Deployment. NOTE: Use of the value OGG is maintained for backward compatibility purposes.  Its use is discouraged in favor of the equivalent DATABASE_ORACLE value.
+* `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'.
 * `deployment_url` - The URL of a resource. 
 * `description` - Metadata about this specific object. 
 * `display_name` - An object's Display Name. 

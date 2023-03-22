@@ -151,6 +151,16 @@ func (s *DevopsBuildPipelineStageDataSourceCrud) SetData() error {
 			s.D.Set("build_spec_file", v.BuildSpecFile)
 		}
 
+		if v.BuildRunnerShapeConfig != nil {
+			buildRunnerShapeConfigArray := []interface{}{}
+			if buildRunnerShapeConfigMap := BuildRunnerShapeConfigToMap(&v.BuildRunnerShapeConfig); buildRunnerShapeConfigMap != nil {
+				buildRunnerShapeConfigArray = append(buildRunnerShapeConfigArray, buildRunnerShapeConfigMap)
+			}
+			s.D.Set("build_runner_shape_config", buildRunnerShapeConfigArray)
+		} else {
+			s.D.Set("build_runner_shape_config", nil)
+		}
+
 		if v.PrivateAccessConfig != nil {
 			privateAccessConfigArray := []interface{}{}
 			if privateAccessConfigMap := NetworkChannelToMapForBuildStage(&v.PrivateAccessConfig, true); privateAccessConfigMap != nil {

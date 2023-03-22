@@ -83,6 +83,41 @@ func DevopsBuildPipelineStageResource() *schema.Resource {
 			},
 
 			// Optional
+			"build_runner_shape_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"build_runner_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"CUSTOM",
+								"DEFAULT",
+							}, true),
+						},
+
+						// Optional
+						"memory_in_gbs": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"ocpus": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"build_source_collection": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -608,6 +643,16 @@ func (s *DevopsBuildPipelineStageResourceCrud) SetData() error {
 	case oci_devops.BuildStage:
 		s.D.Set("build_pipeline_stage_type", "BUILD")
 
+		if v.BuildRunnerShapeConfig != nil {
+			buildRunnerShapeConfigArray := []interface{}{}
+			if buildRunnerShapeConfigMap := BuildRunnerShapeConfigToMap(&v.BuildRunnerShapeConfig); buildRunnerShapeConfigMap != nil {
+				buildRunnerShapeConfigArray = append(buildRunnerShapeConfigArray, buildRunnerShapeConfigMap)
+			}
+			s.D.Set("build_runner_shape_config", buildRunnerShapeConfigArray)
+		} else {
+			s.D.Set("build_runner_shape_config", nil)
+		}
+
 		if v.BuildSourceCollection != nil {
 			s.D.Set("build_source_collection", []interface{}{BuildSourceCollectionToMap(v.BuildSourceCollection)})
 		} else {
@@ -957,6 +1002,14 @@ func BuildPipelineStageSummaryToMap(obj oci_devops.BuildPipelineStageSummary) ma
 	case oci_devops.BuildStageSummary:
 		result["build_pipeline_stage_type"] = "BUILD"
 
+		if v.BuildRunnerShapeConfig != nil {
+			buildRunnerShapeConfigArray := []interface{}{}
+			if buildRunnerShapeConfigMap := BuildRunnerShapeConfigToMap(&v.BuildRunnerShapeConfig); buildRunnerShapeConfigMap != nil {
+				buildRunnerShapeConfigArray = append(buildRunnerShapeConfigArray, buildRunnerShapeConfigMap)
+			}
+			result["build_runner_shape_config"] = buildRunnerShapeConfigArray
+		}
+
 		if v.BuildSourceCollection != nil {
 			result["build_source_collection"] = []interface{}{BuildSourceCollectionToMap(v.BuildSourceCollection)}
 		}
@@ -1010,6 +1063,60 @@ func BuildPipelineStageSummaryToMap(obj oci_devops.BuildPipelineStageSummary) ma
 		}
 	default:
 		log.Printf("[WARN] Received 'build_pipeline_stage_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *DevopsBuildPipelineStageResourceCrud) mapToBuildRunnerShapeConfig(fieldKeyFormat string) (oci_devops.BuildRunnerShapeConfig, error) {
+	var baseObject oci_devops.BuildRunnerShapeConfig
+	//discriminator
+	buildRunnerTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "build_runner_type"))
+	var buildRunnerType string
+	if ok {
+		buildRunnerType = buildRunnerTypeRaw.(string)
+	} else {
+		buildRunnerType = "DEFAULT" // default value
+	}
+	switch strings.ToLower(buildRunnerType) {
+	case strings.ToLower("CUSTOM"):
+		details := oci_devops.CustomBuildRunnerShapeConfig{}
+		if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+			tmp := memoryInGBs.(int)
+			details.MemoryInGBs = &tmp
+		}
+		if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+			tmp := ocpus.(int)
+			details.Ocpus = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DEFAULT"):
+		details := oci_devops.DefaultBuildRunnerShapeConfig{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown build_runner_type '%v' was specified", buildRunnerType)
+	}
+	return baseObject, nil
+}
+
+func BuildRunnerShapeConfigToMap(obj *oci_devops.BuildRunnerShapeConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_devops.CustomBuildRunnerShapeConfig:
+		result["build_runner_type"] = "CUSTOM"
+
+		if v.MemoryInGBs != nil {
+			result["memory_in_gbs"] = int(*v.MemoryInGBs)
+		}
+
+		if v.Ocpus != nil {
+			result["ocpus"] = int(*v.Ocpus)
+		}
+	case oci_devops.DefaultBuildRunnerShapeConfig:
+		result["build_runner_type"] = "DEFAULT"
+	default:
+		log.Printf("[WARN] Received 'build_runner_type' of unknown type %v", *obj)
 		return nil
 	}
 
@@ -1524,6 +1631,16 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicCreate
 	switch strings.ToLower(buildPipelineStageType) {
 	case strings.ToLower("BUILD"):
 		details := oci_devops.CreateBuildStageDetails{}
+		if buildRunnerShapeConfig, ok := s.D.GetOkExists("build_runner_shape_config"); ok {
+			if tmpList := buildRunnerShapeConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "build_runner_shape_config", 0)
+				tmp, err := s.mapToBuildRunnerShapeConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.BuildRunnerShapeConfig = tmp
+			}
+		}
 		if buildSourceCollection, ok := s.D.GetOkExists("build_source_collection"); ok {
 			if tmpList := buildSourceCollection.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "build_source_collection", 0)
@@ -1743,6 +1860,16 @@ func (s *DevopsBuildPipelineStageResourceCrud) populateTopLevelPolymorphicUpdate
 	switch strings.ToLower(buildPipelineStageType) {
 	case strings.ToLower("BUILD"):
 		details := oci_devops.UpdateBuildStageDetails{}
+		if buildRunnerShapeConfig, ok := s.D.GetOkExists("build_runner_shape_config"); ok {
+			if tmpList := buildRunnerShapeConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "build_runner_shape_config", 0)
+				tmp, err := s.mapToBuildRunnerShapeConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.BuildRunnerShapeConfig = tmp
+			}
+		}
 		if buildSourceCollection, ok := s.D.GetOkExists("build_source_collection"); ok {
 			if tmpList := buildSourceCollection.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "build_source_collection", 0)

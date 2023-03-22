@@ -18,7 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentTypes.go.html to see an example of how to use ListDeploymentTypesRequest.
 type ListDeploymentTypesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+	// The OCID of the compartment that contains the work request. Work requests should be scoped
+	// to the same compartment as the resource the work request affects. If the work request concerns
+	// multiple resources, and those resources are not in the same compartment, it is up to the service team
+	// to pick the primary resource whose compartment should be used.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The type of deployment, the value determines the exact 'type' of the service executed in the deployment. Default value is DATABASE_ORACLE.
@@ -112,9 +115,8 @@ type ListDeploymentTypesResponse struct {
 	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the
-	// response, then a partial list might have been returned. Include this value as the `page`
-	// parameter for the subsequent GET request to get the next batch of items.
+	// The page token represents the page to start retrieving results. This is usually retrieved
+	// from a previous list call.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
@@ -132,27 +134,30 @@ type ListDeploymentTypesDeploymentTypeEnum string
 
 // Set of constants representing the allowable values for ListDeploymentTypesDeploymentTypeEnum
 const (
-	ListDeploymentTypesDeploymentTypeOgg                ListDeploymentTypesDeploymentTypeEnum = "OGG"
-	ListDeploymentTypesDeploymentTypeDatabaseOracle     ListDeploymentTypesDeploymentTypeEnum = "DATABASE_ORACLE"
-	ListDeploymentTypesDeploymentTypeBigdata            ListDeploymentTypesDeploymentTypeEnum = "BIGDATA"
-	ListDeploymentTypesDeploymentTypeDatabaseMysql      ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MYSQL"
-	ListDeploymentTypesDeploymentTypeDatabasePostgresql ListDeploymentTypesDeploymentTypeEnum = "DATABASE_POSTGRESQL"
+	ListDeploymentTypesDeploymentTypeOgg                        ListDeploymentTypesDeploymentTypeEnum = "OGG"
+	ListDeploymentTypesDeploymentTypeDatabaseOracle             ListDeploymentTypesDeploymentTypeEnum = "DATABASE_ORACLE"
+	ListDeploymentTypesDeploymentTypeBigdata                    ListDeploymentTypesDeploymentTypeEnum = "BIGDATA"
+	ListDeploymentTypesDeploymentTypeDatabaseMicrosoftSqlserver ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MICROSOFT_SQLSERVER"
+	ListDeploymentTypesDeploymentTypeDatabaseMysql              ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MYSQL"
+	ListDeploymentTypesDeploymentTypeDatabasePostgresql         ListDeploymentTypesDeploymentTypeEnum = "DATABASE_POSTGRESQL"
 )
 
 var mappingListDeploymentTypesDeploymentTypeEnum = map[string]ListDeploymentTypesDeploymentTypeEnum{
-	"OGG":                 ListDeploymentTypesDeploymentTypeOgg,
-	"DATABASE_ORACLE":     ListDeploymentTypesDeploymentTypeDatabaseOracle,
-	"BIGDATA":             ListDeploymentTypesDeploymentTypeBigdata,
-	"DATABASE_MYSQL":      ListDeploymentTypesDeploymentTypeDatabaseMysql,
-	"DATABASE_POSTGRESQL": ListDeploymentTypesDeploymentTypeDatabasePostgresql,
+	"OGG":                          ListDeploymentTypesDeploymentTypeOgg,
+	"DATABASE_ORACLE":              ListDeploymentTypesDeploymentTypeDatabaseOracle,
+	"BIGDATA":                      ListDeploymentTypesDeploymentTypeBigdata,
+	"DATABASE_MICROSOFT_SQLSERVER": ListDeploymentTypesDeploymentTypeDatabaseMicrosoftSqlserver,
+	"DATABASE_MYSQL":               ListDeploymentTypesDeploymentTypeDatabaseMysql,
+	"DATABASE_POSTGRESQL":          ListDeploymentTypesDeploymentTypeDatabasePostgresql,
 }
 
 var mappingListDeploymentTypesDeploymentTypeEnumLowerCase = map[string]ListDeploymentTypesDeploymentTypeEnum{
-	"ogg":                 ListDeploymentTypesDeploymentTypeOgg,
-	"database_oracle":     ListDeploymentTypesDeploymentTypeDatabaseOracle,
-	"bigdata":             ListDeploymentTypesDeploymentTypeBigdata,
-	"database_mysql":      ListDeploymentTypesDeploymentTypeDatabaseMysql,
-	"database_postgresql": ListDeploymentTypesDeploymentTypeDatabasePostgresql,
+	"ogg":                          ListDeploymentTypesDeploymentTypeOgg,
+	"database_oracle":              ListDeploymentTypesDeploymentTypeDatabaseOracle,
+	"bigdata":                      ListDeploymentTypesDeploymentTypeBigdata,
+	"database_microsoft_sqlserver": ListDeploymentTypesDeploymentTypeDatabaseMicrosoftSqlserver,
+	"database_mysql":               ListDeploymentTypesDeploymentTypeDatabaseMysql,
+	"database_postgresql":          ListDeploymentTypesDeploymentTypeDatabasePostgresql,
 }
 
 // GetListDeploymentTypesDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentTypesDeploymentTypeEnum
@@ -170,6 +175,7 @@ func GetListDeploymentTypesDeploymentTypeEnumStringValues() []string {
 		"OGG",
 		"DATABASE_ORACLE",
 		"BIGDATA",
+		"DATABASE_MICROSOFT_SQLSERVER",
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
 	}

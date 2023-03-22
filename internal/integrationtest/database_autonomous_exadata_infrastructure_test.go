@@ -61,7 +61,6 @@ var (
 		"nsg_ids":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
 	}
 	DatabaseAutonomousExadataInfrastructureMaintenanceWindowDetailsRepresentation = map[string]interface{}{
-		"preference":                       acctest.Representation{RepType: acctest.Required, Create: `NO_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
 		"custom_action_timeout_in_mins":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"days_of_week":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousExadataInfrastructureMaintenanceWindowDetailsDaysOfWeekRepresentation},
 		"hours_of_day":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`4`}, Update: []string{`8`}},
@@ -70,6 +69,7 @@ var (
 		"lead_time_in_weeks":               acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"months":                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation},
 		"patching_mode":                    acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
+		"preference":                       acctest.Representation{RepType: acctest.Optional, Create: `NO_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
 		"weeks_of_month":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`1`}, Update: []string{`2`}},
 	}
 	DatabaseAutonomousExadataInfrastructureMaintenanceWindowDetailsDaysOfWeekRepresentation = map[string]interface{}{

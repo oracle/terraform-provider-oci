@@ -528,7 +528,7 @@ func (client DevopsClient) createBuildPipelineStage(ctx context.Context, request
 	return response, err
 }
 
-// CreateBuildRun Starts a build pipeline run for a predefined build pipeline.
+// CreateBuildRun Starts a build pipeline run for a predefined build pipeline. Please ensure the completion of any work request for creation/updation of Build Pipeline before starting a Build Run.
 //
 // See also
 //

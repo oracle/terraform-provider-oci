@@ -248,6 +248,15 @@ func (d *mockResourceData) GetChange(_ string) (interface{}, interface{}) {
 	if d.state == "3" {
 		return []interface{}{map[string]interface{}{"load_balancer_id": "1"}}, []interface{}{map[string]interface{}{"load_balancer_id": "2"}}
 	}
+	if d.state == "4" {
+		return []interface{}{"foo", "bar"}, []interface{}{"bar", "foo"}
+	}
+	if d.state == "5" {
+		return []interface{}{"foo", "foo", "bar"}, []interface{}{"bar", "bar", "foo"}
+	}
+	if d.state == "6" {
+		return []interface{}{"foo", "bar"}, []interface{}{"foo"}
+	}
 	return []interface{}{map[string]interface{}{"load_balancer_id": "1"}}, []interface{}{map[string]interface{}{"load_balancer_id": "1"}}
 }
 
@@ -609,6 +618,47 @@ func TestUnitGetTimeoutDuration(t *testing.T) {
 		t.Logf("Running %s", test.name)
 		if res := GetTimeoutDuration(test.args.timeout); *res != *test.output {
 			t.Errorf("Output %q not equal to expected %q", *res, *test.output)
+		}
+	}
+}
+
+func TestListEqualIgnoreOrderSuppressDiff(t *testing.T) {
+	type args struct {
+		d *mockResourceData
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output bool
+	}
+	changeReqResourceData := func(k string) *mockResourceData {
+		reqResourceData := &mockResourceData{
+			state: k,
+		}
+		return reqResourceData
+	}
+	tests := []testFormat{
+		{
+			name:   "Test same lists with diff order",
+			args:   args{d: changeReqResourceData("4")},
+			output: true,
+		},
+		{
+			name:   "Test diff lists with duplicated elements",
+			args:   args{d: changeReqResourceData("5")},
+			output: false,
+		},
+		{
+			name:   "Test diff lists with diff length",
+			args:   args{d: changeReqResourceData("6")},
+			output: false,
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		t.Logf("Running %s", fmt.Sprint(test.args.d))
+		if res := listEqualIgnoreOrderSuppressDiff("volume_id", test.args.d); res != test.output {
+			t.Errorf("Output %t not equal to expected %t", res, test.output)
 		}
 	}
 }

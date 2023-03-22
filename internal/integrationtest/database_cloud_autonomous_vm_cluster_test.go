@@ -69,7 +69,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Optional, Create: []string{`autonomous_data_storage_size_in_tbs`, `cpu_core_count_per_node`}},
 	}
 	DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsRepresentation = map[string]interface{}{
-		"preference":                       acctest.Representation{RepType: acctest.Required, Create: `NO_PREFERENCE`, Update: `NO_PREFERENCE`},
+		"preference":                       acctest.Representation{RepType: acctest.Optional, Create: `NO_PREFERENCE`, Update: `NO_PREFERENCE`},
 		"custom_action_timeout_in_mins":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"days_of_week":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsDaysOfWeekRepresentation},
 		"hours_of_day":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`0`}, Update: []string{`4`}},

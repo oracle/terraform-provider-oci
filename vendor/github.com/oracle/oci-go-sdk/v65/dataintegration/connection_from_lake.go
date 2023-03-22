@@ -16,14 +16,11 @@ import (
 	"strings"
 )
 
-// UpdateConnectionFromLakehouse The details to update a Lakehouse connection.
-type UpdateConnectionFromLakehouse struct {
+// ConnectionFromLake The connection details for a Lake connection.
+type ConnectionFromLake struct {
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
-	Key *string `mandatory:"true" json:"key"`
-
-	// The version of the object that is used to track changes in the object instance.
-	ObjectVersion *int `mandatory:"true" json:"objectVersion"`
+	Key *string `mandatory:"false" json:"key"`
 
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`
@@ -36,76 +33,102 @@ type UpdateConnectionFromLakehouse struct {
 	// User-defined description for the connection.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The version of the object that is used to track changes in the object instance.
+	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
+
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 
 	// Value can only contain upper case letters, underscore, and numbers. It should begin with upper case letter or underscore. The value can be modified.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
+	PrimarySchema *Schema `mandatory:"false" json:"primarySchema"`
+
 	// The properties for the connection.
 	ConnectionProperties []ConnectionProperty `mandatory:"false" json:"connectionProperties"`
 
-	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
+	// The default property for the connection.
+	IsDefault *bool `mandatory:"false" json:"isDefault"`
+
+	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
+
+	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
+	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 }
 
 //GetKey returns Key
-func (m UpdateConnectionFromLakehouse) GetKey() *string {
+func (m ConnectionFromLake) GetKey() *string {
 	return m.Key
 }
 
 //GetModelVersion returns ModelVersion
-func (m UpdateConnectionFromLakehouse) GetModelVersion() *string {
+func (m ConnectionFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
 //GetParentRef returns ParentRef
-func (m UpdateConnectionFromLakehouse) GetParentRef() *ParentReference {
+func (m ConnectionFromLake) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
 //GetName returns Name
-func (m UpdateConnectionFromLakehouse) GetName() *string {
+func (m ConnectionFromLake) GetName() *string {
 	return m.Name
 }
 
 //GetDescription returns Description
-func (m UpdateConnectionFromLakehouse) GetDescription() *string {
+func (m ConnectionFromLake) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
-func (m UpdateConnectionFromLakehouse) GetObjectStatus() *int {
-	return m.ObjectStatus
-}
-
 //GetObjectVersion returns ObjectVersion
-func (m UpdateConnectionFromLakehouse) GetObjectVersion() *int {
+func (m ConnectionFromLake) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
+//GetObjectStatus returns ObjectStatus
+func (m ConnectionFromLake) GetObjectStatus() *int {
+	return m.ObjectStatus
+}
+
 //GetIdentifier returns Identifier
-func (m UpdateConnectionFromLakehouse) GetIdentifier() *string {
+func (m ConnectionFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
+//GetPrimarySchema returns PrimarySchema
+func (m ConnectionFromLake) GetPrimarySchema() *Schema {
+	return m.PrimarySchema
+}
+
 //GetConnectionProperties returns ConnectionProperties
-func (m UpdateConnectionFromLakehouse) GetConnectionProperties() []ConnectionProperty {
+func (m ConnectionFromLake) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
-func (m UpdateConnectionFromLakehouse) GetRegistryMetadata() *RegistryMetadata {
-	return m.RegistryMetadata
+//GetIsDefault returns IsDefault
+func (m ConnectionFromLake) GetIsDefault() *bool {
+	return m.IsDefault
 }
 
-func (m UpdateConnectionFromLakehouse) String() string {
+//GetMetadata returns Metadata
+func (m ConnectionFromLake) GetMetadata() *ObjectMetadata {
+	return m.Metadata
+}
+
+//GetKeyMap returns KeyMap
+func (m ConnectionFromLake) GetKeyMap() map[string]string {
+	return m.KeyMap
+}
+
+func (m ConnectionFromLake) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateConnectionFromLakehouse) ValidateEnumValue() (bool, error) {
+func (m ConnectionFromLake) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -115,14 +138,14 @@ func (m UpdateConnectionFromLakehouse) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m UpdateConnectionFromLakehouse) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeUpdateConnectionFromLakehouse UpdateConnectionFromLakehouse
+func (m ConnectionFromLake) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeConnectionFromLake ConnectionFromLake
 	s := struct {
 		DiscriminatorParam string `json:"modelType"`
-		MarshalTypeUpdateConnectionFromLakehouse
+		MarshalTypeConnectionFromLake
 	}{
-		"LAKE_HOUSE_CONNECTION",
-		(MarshalTypeUpdateConnectionFromLakehouse)(m),
+		"LAKE_CONNECTION",
+		(MarshalTypeConnectionFromLake)(m),
 	}
 
 	return json.Marshal(&s)

@@ -110,6 +110,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"backup_deletion_policy": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"backup_destination_details": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -120,6 +126,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"dbrs_policy_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -341,6 +353,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"backup_deletion_policy": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"backup_destination_details": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -351,6 +367,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"dbrs_policy_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -403,7 +423,15 @@ func DatabaseDatabaseResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"last_backup_duration_in_seconds": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"last_backup_timestamp": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"last_failed_backup_timestamp": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -659,8 +687,16 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
 	}
 
+	if s.Res.LastBackupDurationInSeconds != nil {
+		s.D.Set("last_backup_duration_in_seconds", *s.Res.LastBackupDurationInSeconds)
+	}
+
 	if s.Res.LastBackupTimestamp != nil {
 		s.D.Set("last_backup_timestamp", s.Res.LastBackupTimestamp.String())
+	}
+
+	if s.Res.LastFailedBackupTimestamp != nil {
+		s.D.Set("last_failed_backup_timestamp", s.Res.LastFailedBackupTimestamp.String())
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -703,6 +739,11 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 
+	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok {
+		tmp := dbrsPolicyId.(string)
+		result.DbrsPolicyId = &tmp
+	}
+
 	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 		tmp := id.(string)
 		result.Id = &tmp
@@ -727,6 +768,10 @@ func (s *DatabaseDatabaseResourceCrud) mapToBackupDestinationDetails(fieldKeyFor
 
 func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.DbrsPolicyId != nil {
+		result["dbrs_policy_id"] = string(*obj.DbrsPolicyId)
+	}
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -910,6 +955,10 @@ func (s *DatabaseDatabaseResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 
 	if autoBackupWindow, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_window")); ok {
 		result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
+	}
+
+	if backupDeletionPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_deletion_policy")); ok {
+		result.BackupDeletionPolicy = oci_database.DbBackupConfigBackupDeletionPolicyEnum(backupDeletionPolicy.(string))
 	}
 
 	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
