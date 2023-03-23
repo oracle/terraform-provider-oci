@@ -66,6 +66,7 @@ type CreateAutonomousDatabaseBase interface {
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum
 
 	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. For Autonomous Databases on dedicated Exadata infrastructure, the maximum storage value is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
@@ -79,6 +80,7 @@ type CreateAutonomousDatabaseBase interface {
 	GetDataStorageSizeInGBs() *int
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isLocalDataGuardEnabled
 	GetIsFreeTier() *bool
 
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
@@ -97,6 +99,7 @@ type CreateAutonomousDatabaseBase interface {
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
 	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the
 	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum
 
 	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for databases on shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
@@ -127,6 +130,7 @@ type CreateAutonomousDatabaseBase interface {
 	// For Exadata Cloud@Customer, this is an array of IP addresses or CIDR (Classless Inter-Domain Routing) notations.
 	// Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	GetWhitelistedIps() []string
 
 	// This field will be null if the Autonomous Database is not Data Guard enabled or Access Control is disabled.
@@ -142,6 +146,7 @@ type CreateAutonomousDatabaseBase interface {
 	// For Exadata Cloud@Customer, this is an array of IP addresses or CIDR (Classless Inter-Domain Routing) notations.
 	// Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	GetStandbyWhitelistedIps() []string
 
 	// **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
@@ -165,7 +170,8 @@ type CreateAutonomousDatabaseBase interface {
 	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	GetNsgIds() []string
 
-	// The private endpoint label for the resource. Setting this to an empty string, after the private endpoint database gets created, will change the same private endpoint database to the public endpoint database.
+	// The resource's private endpoint label. Setting this to an empty string, after the creation of the private endpoint database, changes the private endpoint database to a public endpoint database.
+	// This setting cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	GetPrivateEndpointLabel() *string
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -204,7 +210,8 @@ type CreateAutonomousDatabaseBase interface {
 	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.
 	GetIsOracleServiceGatewayAllowed() *bool
 
-	// list of scheduled operations
+	// The list of scheduled operations.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	GetScheduledOperations() []ScheduledOperationDetails
 
 	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
@@ -216,7 +223,8 @@ type CreateAutonomousDatabaseBase interface {
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum
 
-	// List of database tools details.
+	// The list of database tools details.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	GetDbToolsDetails() []DatabaseTool
 
 	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.

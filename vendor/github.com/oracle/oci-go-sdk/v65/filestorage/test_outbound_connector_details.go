@@ -19,7 +19,7 @@ import (
 // TestOutboundConnectorDetails Details for testing outbound connector.
 type TestOutboundConnectorDetails struct {
 
-	// OCID of outbound connector which needs to be tested.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the outbound connector which needs to be tested.
 	OutboundConnectorId *string `mandatory:"true" json:"outboundConnectorId"`
 }
 

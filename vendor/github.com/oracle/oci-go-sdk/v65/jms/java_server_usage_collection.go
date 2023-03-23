@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// JavaServerUsageCollection Results of an Java Server usage search.  Contains Java Server usage items.
+// JavaServerUsageCollection Results of a Java Server usage search. Contains Java Server usage items.
 type JavaServerUsageCollection struct {
 
 	// A list of Java Server usages.

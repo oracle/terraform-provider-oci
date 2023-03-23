@@ -23,7 +23,8 @@ type CreateDatabaseBase interface {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Home.
 	GetDbHomeId() *string
 
-	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
+	// A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	GetDbVersion() *string
 
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.

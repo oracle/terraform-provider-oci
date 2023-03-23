@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// OutboundConnectorSummary Summary information for a outbound connector.
+// OutboundConnectorSummary Summary information for an outbound connector.
 type OutboundConnectorSummary interface {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the outbound connector.

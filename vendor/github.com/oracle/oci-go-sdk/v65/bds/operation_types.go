@@ -49,6 +49,12 @@ const (
 	OperationTypesActivateLakehouseConfig   OperationTypesEnum = "ACTIVATE_LAKEHOUSE_CONFIG"
 	OperationTypesDeactivateLakehouseConfig OperationTypesEnum = "DEACTIVATE_LAKEHOUSE_CONFIG"
 	OperationTypesTestLakehouseConfig       OperationTypesEnum = "TEST_LAKEHOUSE_CONFIG"
+	OperationTypesCreateLakeConfig          OperationTypesEnum = "CREATE_LAKE_CONFIG"
+	OperationTypesDeleteLakeConfig          OperationTypesEnum = "DELETE_LAKE_CONFIG"
+	OperationTypesUpdateLakeConfig          OperationTypesEnum = "UPDATE_LAKE_CONFIG"
+	OperationTypesActivateLakeConfig        OperationTypesEnum = "ACTIVATE_LAKE_CONFIG"
+	OperationTypesDeactivateLakeConfig      OperationTypesEnum = "DEACTIVATE_LAKE_CONFIG"
+	OperationTypesTestLakeConfig            OperationTypesEnum = "TEST_LAKE_CONFIG"
 	OperationTypesPatchBds                  OperationTypesEnum = "PATCH_BDS"
 	OperationTypesPatchOdh                  OperationTypesEnum = "PATCH_ODH"
 	OperationTypesStopBds                   OperationTypesEnum = "STOP_BDS"
@@ -89,6 +95,12 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"ACTIVATE_LAKEHOUSE_CONFIG":    OperationTypesActivateLakehouseConfig,
 	"DEACTIVATE_LAKEHOUSE_CONFIG":  OperationTypesDeactivateLakehouseConfig,
 	"TEST_LAKEHOUSE_CONFIG":        OperationTypesTestLakehouseConfig,
+	"CREATE_LAKE_CONFIG":           OperationTypesCreateLakeConfig,
+	"DELETE_LAKE_CONFIG":           OperationTypesDeleteLakeConfig,
+	"UPDATE_LAKE_CONFIG":           OperationTypesUpdateLakeConfig,
+	"ACTIVATE_LAKE_CONFIG":         OperationTypesActivateLakeConfig,
+	"DEACTIVATE_LAKE_CONFIG":       OperationTypesDeactivateLakeConfig,
+	"TEST_LAKE_CONFIG":             OperationTypesTestLakeConfig,
 	"PATCH_BDS":                    OperationTypesPatchBds,
 	"PATCH_ODH":                    OperationTypesPatchOdh,
 	"STOP_BDS":                     OperationTypesStopBds,
@@ -129,6 +141,12 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"activate_lakehouse_config":    OperationTypesActivateLakehouseConfig,
 	"deactivate_lakehouse_config":  OperationTypesDeactivateLakehouseConfig,
 	"test_lakehouse_config":        OperationTypesTestLakehouseConfig,
+	"create_lake_config":           OperationTypesCreateLakeConfig,
+	"delete_lake_config":           OperationTypesDeleteLakeConfig,
+	"update_lake_config":           OperationTypesUpdateLakeConfig,
+	"activate_lake_config":         OperationTypesActivateLakeConfig,
+	"deactivate_lake_config":       OperationTypesDeactivateLakeConfig,
+	"test_lake_config":             OperationTypesTestLakeConfig,
 	"patch_bds":                    OperationTypesPatchBds,
 	"patch_odh":                    OperationTypesPatchOdh,
 	"stop_bds":                     OperationTypesStopBds,
@@ -180,6 +198,12 @@ func GetOperationTypesEnumStringValues() []string {
 		"ACTIVATE_LAKEHOUSE_CONFIG",
 		"DEACTIVATE_LAKEHOUSE_CONFIG",
 		"TEST_LAKEHOUSE_CONFIG",
+		"CREATE_LAKE_CONFIG",
+		"DELETE_LAKE_CONFIG",
+		"UPDATE_LAKE_CONFIG",
+		"ACTIVATE_LAKE_CONFIG",
+		"DEACTIVATE_LAKE_CONFIG",
+		"TEST_LAKE_CONFIG",
 		"PATCH_BDS",
 		"PATCH_ODH",
 		"STOP_BDS",

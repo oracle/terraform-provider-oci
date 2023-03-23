@@ -36,7 +36,7 @@ type LibraryUsage struct {
 	// The approximate count of applications using the library.
 	ApproximateApplicationCount *int `mandatory:"false" json:"approximateApplicationCount"`
 
-	// The approximate count of Java server instances using the library.
+	// The approximate count of Java Server instances using the library.
 	ApproximateJavaServerInstanceCount *int `mandatory:"false" json:"approximateJavaServerInstanceCount"`
 
 	// The approximate count of deployed applications using the library.

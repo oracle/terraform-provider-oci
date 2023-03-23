@@ -33,7 +33,7 @@ type HostImportableAgentEntitySummary struct {
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType HostImportableAgentEntitySummaryPlatformTypeEnum `mandatory:"true" json:"platformType"`
 }
 
@@ -90,6 +90,7 @@ const (
 	HostImportableAgentEntitySummaryPlatformTypeSunos   HostImportableAgentEntitySummaryPlatformTypeEnum = "SUNOS"
 	HostImportableAgentEntitySummaryPlatformTypeZlinux  HostImportableAgentEntitySummaryPlatformTypeEnum = "ZLINUX"
 	HostImportableAgentEntitySummaryPlatformTypeWindows HostImportableAgentEntitySummaryPlatformTypeEnum = "WINDOWS"
+	HostImportableAgentEntitySummaryPlatformTypeAix     HostImportableAgentEntitySummaryPlatformTypeEnum = "AIX"
 )
 
 var mappingHostImportableAgentEntitySummaryPlatformTypeEnum = map[string]HostImportableAgentEntitySummaryPlatformTypeEnum{
@@ -98,6 +99,7 @@ var mappingHostImportableAgentEntitySummaryPlatformTypeEnum = map[string]HostImp
 	"SUNOS":   HostImportableAgentEntitySummaryPlatformTypeSunos,
 	"ZLINUX":  HostImportableAgentEntitySummaryPlatformTypeZlinux,
 	"WINDOWS": HostImportableAgentEntitySummaryPlatformTypeWindows,
+	"AIX":     HostImportableAgentEntitySummaryPlatformTypeAix,
 }
 
 var mappingHostImportableAgentEntitySummaryPlatformTypeEnumLowerCase = map[string]HostImportableAgentEntitySummaryPlatformTypeEnum{
@@ -106,6 +108,7 @@ var mappingHostImportableAgentEntitySummaryPlatformTypeEnumLowerCase = map[strin
 	"sunos":   HostImportableAgentEntitySummaryPlatformTypeSunos,
 	"zlinux":  HostImportableAgentEntitySummaryPlatformTypeZlinux,
 	"windows": HostImportableAgentEntitySummaryPlatformTypeWindows,
+	"aix":     HostImportableAgentEntitySummaryPlatformTypeAix,
 }
 
 // GetHostImportableAgentEntitySummaryPlatformTypeEnumValues Enumerates the set of values for HostImportableAgentEntitySummaryPlatformTypeEnum
@@ -125,6 +128,7 @@ func GetHostImportableAgentEntitySummaryPlatformTypeEnumStringValues() []string 
 		"SUNOS",
 		"ZLINUX",
 		"WINDOWS",
+		"AIX",
 	}
 }
 

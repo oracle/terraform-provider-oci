@@ -17,8 +17,8 @@ import (
 	"strings"
 )
 
-// OutboundConnector resource that includes all the information needed to connect, authenticate and gain authorization
-// to perform the account's required functions.
+// OutboundConnector Outbound connectors are used to help File Storage communicate with an external server, such as an LDAP server.
+// An outbound connector contains all the information needed to connect, authenticate, and gain authorization to perform the account's required functions.
 type OutboundConnector interface {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the outbound connector.

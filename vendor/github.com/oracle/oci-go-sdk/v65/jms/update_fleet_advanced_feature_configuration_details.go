@@ -15,14 +15,14 @@ import (
 	"strings"
 )
 
-// UpdateFleetAdvancedFeatureConfigurationDetails Details object containing advanced feature configurations to be updated
-// Ensure that the namespace and bucket storage are created prior to turning on the JfrRecording or CryptoEventAnalysis feature
+// UpdateFleetAdvancedFeatureConfigurationDetails Details object containing advanced feature configurations to be updated.
+// Ensure that the namespace and bucket storage are created prior to turning on the JfrRecording or CryptoEventAnalysis feature.
 type UpdateFleetAdvancedFeatureConfigurationDetails struct {
 
-	// Namespace for the fleet advanced feature
+	// Namespace for the Fleet advanced feature.
 	AnalyticNamespace *string `mandatory:"false" json:"analyticNamespace"`
 
-	// Bucket name required to store jfr and related data
+	// Bucket name required to store JFR and related data.
 	AnalyticBucketName *string `mandatory:"false" json:"analyticBucketName"`
 
 	Lcm *Lcm `mandatory:"false" json:"lcm"`
@@ -32,6 +32,10 @@ type UpdateFleetAdvancedFeatureConfigurationDetails struct {
 	AdvancedUsageTracking *AdvancedUsageTracking `mandatory:"false" json:"advancedUsageTracking"`
 
 	JfrRecording *JfrRecording `mandatory:"false" json:"jfrRecording"`
+
+	PerformanceTuningAnalysis *PerformanceTuningAnalysis `mandatory:"false" json:"performanceTuningAnalysis"`
+
+	JavaMigrationAnalysis *JavaMigrationAnalysis `mandatory:"false" json:"javaMigrationAnalysis"`
 }
 
 func (m UpdateFleetAdvancedFeatureConfigurationDetails) String() string {

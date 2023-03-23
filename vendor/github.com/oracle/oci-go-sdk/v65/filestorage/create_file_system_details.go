@@ -51,7 +51,7 @@ type CreateFileSystemDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated file system snapshot policy, which
 	// controls the frequency of snapshot creation and retention period of the taken snapshots.
-	// May be unset as a blank or NULL value.
+	// May be unset as a blank value.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" json:"filesystemSnapshotPolicyId"`
 }
 

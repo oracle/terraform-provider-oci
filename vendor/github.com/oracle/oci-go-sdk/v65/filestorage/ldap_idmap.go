@@ -16,25 +16,25 @@ import (
 	"strings"
 )
 
-// LdapIdmap Mount Target details about the LDAP ID Map configuration.
+// LdapIdmap Mount target details about the LDAP ID mapping configuration.
 type LdapIdmap struct {
 
-	// Schema type of LDAP account.
+	// Schema type of the LDAP account.
 	SchemaType LdapIdmapSchemaTypeEnum `mandatory:"false" json:"schemaType,omitempty"`
 
-	// Integer for how often the mount target should recheck LDAP for updates.
+	// The amount of time that the mount target should allow an entry to persist in its cache before attempting to refresh the entry.
 	CacheRefreshIntervalSeconds *int `mandatory:"false" json:"cacheRefreshIntervalSeconds"`
 
-	// Integer for how long cached entries may be used.
+	// The maximum amount of time the mount target is allowed to use a cached entry.
 	CacheLifetimeSeconds *int `mandatory:"false" json:"cacheLifetimeSeconds"`
 
-	// Integer for how long to cache if idmap information is missing.
+	// The amount of time that a mount target will maintain information that a user is not found in the ID mapping configuration.
 	NegativeCacheLifetimeSeconds *int `mandatory:"false" json:"negativeCacheLifetimeSeconds"`
 
-	// All LDAP searches are recursive starting at this Base Distinguished user name.
+	// All LDAP searches are recursive starting at this user.
 	BaseDistinguishedUserName *string `mandatory:"false" json:"baseDistinguishedUserName"`
 
-	// All LDAP searches are recursive starting at this Base Distinguished group name.
+	// All LDAP searches are recursive starting at this group.
 	BaseDistinguishedGroupName *string `mandatory:"false" json:"baseDistinguishedGroupName"`
 
 	// All LDAP searches are recursive starting at this user.
@@ -45,10 +45,10 @@ type LdapIdmap struct {
 	// Example: `CN=Group,DC=domain,DC=com`
 	GroupSearchBase *string `mandatory:"false" json:"groupSearchBase"`
 
-	// OCID of the first LDAP Account
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the first connector to use to communicate with the LDAP server.
 	OutboundConnector1Id *string `mandatory:"false" json:"outboundConnector1Id"`
 
-	// OCID of the second LDAP Account
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the second connector to use to communicate with the LDAP server.
 	OutboundConnector2Id *string `mandatory:"false" json:"outboundConnector2Id"`
 }
 

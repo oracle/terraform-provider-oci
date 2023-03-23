@@ -201,6 +201,8 @@ const (
 	UpdateVnicShapeDetailsVnicShapeFixed3800E450g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED3800_E4_50G"
 	UpdateVnicShapeDetailsVnicShapeFixed3900E450g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED3900_E4_50G"
 	UpdateVnicShapeDetailsVnicShapeFixed4000E450g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED4000_E4_50G"
+	UpdateVnicShapeDetailsVnicShapeFixed4700E450g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED4700_E4_50G"
+	UpdateVnicShapeDetailsVnicShapeFixed4960E450g                  UpdateVnicShapeDetailsVnicShapeEnum = "FIXED4960_E4_50G"
 	UpdateVnicShapeDetailsVnicShapeEntirehostE450g                 UpdateVnicShapeDetailsVnicShapeEnum = "ENTIREHOST_E4_50G"
 	UpdateVnicShapeDetailsVnicShapeVnumaVmFixed01001E450g          UpdateVnicShapeDetailsVnicShapeEnum = "VNUMA_VM_FIXED0100_1_E4_50G"
 	UpdateVnicShapeDetailsVnicShapeVnumaVmFixed02002E450g          UpdateVnicShapeDetailsVnicShapeEnum = "VNUMA_VM_FIXED0200_2_E4_50G"
@@ -1776,6 +1778,8 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnum = map[string]UpdateVnicShapeDetai
 	"FIXED3800_E4_50G":                     UpdateVnicShapeDetailsVnicShapeFixed3800E450g,
 	"FIXED3900_E4_50G":                     UpdateVnicShapeDetailsVnicShapeFixed3900E450g,
 	"FIXED4000_E4_50G":                     UpdateVnicShapeDetailsVnicShapeFixed4000E450g,
+	"FIXED4700_E4_50G":                     UpdateVnicShapeDetailsVnicShapeFixed4700E450g,
+	"FIXED4960_E4_50G":                     UpdateVnicShapeDetailsVnicShapeFixed4960E450g,
 	"ENTIREHOST_E4_50G":                    UpdateVnicShapeDetailsVnicShapeEntirehostE450g,
 	"VNUMA_VM_FIXED0100_1_E4_50G":          UpdateVnicShapeDetailsVnicShapeVnumaVmFixed01001E450g,
 	"VNUMA_VM_FIXED0200_2_E4_50G":          UpdateVnicShapeDetailsVnicShapeVnumaVmFixed02002E450g,
@@ -3351,6 +3355,8 @@ var mappingUpdateVnicShapeDetailsVnicShapeEnumLowerCase = map[string]UpdateVnicS
 	"fixed3800_e4_50g":                     UpdateVnicShapeDetailsVnicShapeFixed3800E450g,
 	"fixed3900_e4_50g":                     UpdateVnicShapeDetailsVnicShapeFixed3900E450g,
 	"fixed4000_e4_50g":                     UpdateVnicShapeDetailsVnicShapeFixed4000E450g,
+	"fixed4700_e4_50g":                     UpdateVnicShapeDetailsVnicShapeFixed4700E450g,
+	"fixed4960_e4_50g":                     UpdateVnicShapeDetailsVnicShapeFixed4960E450g,
 	"entirehost_e4_50g":                    UpdateVnicShapeDetailsVnicShapeEntirehostE450g,
 	"vnuma_vm_fixed0100_1_e4_50g":          UpdateVnicShapeDetailsVnicShapeVnumaVmFixed01001E450g,
 	"vnuma_vm_fixed0200_2_e4_50g":          UpdateVnicShapeDetailsVnicShapeVnumaVmFixed02002E450g,
@@ -4937,6 +4943,8 @@ func GetUpdateVnicShapeDetailsVnicShapeEnumStringValues() []string {
 		"FIXED3800_E4_50G",
 		"FIXED3900_E4_50G",
 		"FIXED4000_E4_50G",
+		"FIXED4700_E4_50G",
+		"FIXED4960_E4_50G",
 		"ENTIREHOST_E4_50G",
 		"VNUMA_VM_FIXED0100_1_E4_50G",
 		"VNUMA_VM_FIXED0200_2_E4_50G",

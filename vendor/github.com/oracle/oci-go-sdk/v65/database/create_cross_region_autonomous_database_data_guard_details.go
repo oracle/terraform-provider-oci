@@ -109,6 +109,7 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isLocalDataGuardEnabled
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
@@ -151,6 +152,7 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// For Exadata Cloud@Customer, this is an array of IP addresses or CIDR (Classless Inter-Domain Routing) notations.
 	// Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	WhitelistedIps []string `mandatory:"false" json:"whitelistedIps"`
 
 	// This field will be null if the Autonomous Database is not Data Guard enabled or Access Control is disabled.
@@ -166,6 +168,7 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// For Exadata Cloud@Customer, this is an array of IP addresses or CIDR (Classless Inter-Domain Routing) notations.
 	// Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
 	// For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	StandbyWhitelistedIps []string `mandatory:"false" json:"standbyWhitelistedIps"`
 
 	// **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
@@ -189,7 +192,8 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The private endpoint label for the resource. Setting this to an empty string, after the private endpoint database gets created, will change the same private endpoint database to the public endpoint database.
+	// The resource's private endpoint label. Setting this to an empty string, after the creation of the private endpoint database, changes the private endpoint database to a public endpoint database.
+	// This setting cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	PrivateEndpointLabel *string `mandatory:"false" json:"privateEndpointLabel"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -224,7 +228,8 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.
 	IsOracleServiceGatewayAllowed *bool `mandatory:"false" json:"isOracleServiceGatewayAllowed"`
 
-	// list of scheduled operations
+	// The list of scheduled operations.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
 
 	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
@@ -233,7 +238,8 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
 	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
 
-	// List of database tools details.
+	// The list of database tools details.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
 
 	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
@@ -253,12 +259,14 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload CreateAutonomousDatabaseBaseDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle PaaS and IaaS services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
 	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the
 	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	LicenseModel CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database

@@ -54,11 +54,6 @@ type MountTargetSummary struct {
 	// this mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`
 
-	// Describes whether Idmapping is turned on or off. If on, describes method used to perform ID Mapping
-	IdmapType MountTargetIdmapTypeEnum `mandatory:"false" json:"idmapType,omitempty"`
-
-	LdapIdmap *LdapIdmap `mandatory:"false" json:"ldapIdmap"`
-
 	// A list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this mount target.
 	// A maximum of 5 is allowed.
 	// Setting this to an empty array after the list is created removes the mount target from all NSGs.
@@ -100,9 +95,6 @@ func (m MountTargetSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMountTargetSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingMountTargetIdmapTypeEnum(string(m.IdmapType)); !ok && m.IdmapType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IdmapType: %s. Supported values are: %s.", m.IdmapType, strings.Join(GetMountTargetIdmapTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

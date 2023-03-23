@@ -20,7 +20,7 @@ type SummarizeJavaServerInstanceUsageRequest struct {
 	// The server key.
 	ServerKey *string `mandatory:"false" contributesTo:"query" name:"serverKey"`
 
-	// The Java server instance key.
+	// The Java Server instance key.
 	ServerInstanceKey *string `mandatory:"false" contributesTo:"query" name:"serverInstanceKey"`
 
 	// The Fleet-unique identifier of the managed instance.
@@ -32,10 +32,10 @@ type SummarizeJavaServerInstanceUsageRequest struct {
 	// The library key.
 	LibraryKey *string `mandatory:"false" contributesTo:"query" name:"libraryKey"`
 
-	// Filter the list with Java server instance name contains the given value.
+	// Filter the list with the Java Server instance name contains the given value.
 	ServerInstanceNameContains *string `mandatory:"false" contributesTo:"query" name:"serverInstanceNameContains"`
 
-	// The Java server instance name.
+	// The Java Server instance name.
 	ServerInstanceName *string `mandatory:"false" contributesTo:"query" name:"serverInstanceName"`
 
 	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
@@ -53,7 +53,7 @@ type SummarizeJavaServerInstanceUsageRequest struct {
 	// The sort order, either 'asc' or 'desc'.
 	SortOrder SummarizeJavaServerInstanceUsageSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort Java server instances.  Only one sort order may be provided.
+	// The field to sort the Java Server instances. Only one sort order can be provided.
 	// If no value is specified _timeLastSeen_ is default.
 	SortBy SummarizeJavaServerInstanceUsageSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 

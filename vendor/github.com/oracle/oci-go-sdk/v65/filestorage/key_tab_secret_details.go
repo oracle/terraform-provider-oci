@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// KeyTabSecretDetails Secret details of KeyTabs in Vault.
+// KeyTabSecretDetails Secret details of keytabs in Vault.
 type KeyTabSecretDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KeyTab secret in the Vault.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the keytab secret in the Vault.
 	KeyTabSecretId *string `mandatory:"true" json:"keyTabSecretId"`
 
-	// Version of the KeyTab secret in the Vault to use.
+	// Version of the keytab secret in the Vault to use.
 	CurrentKeyTabSecretVersion *int `mandatory:"true" json:"currentKeyTabSecretVersion"`
 
-	// Version of the KeyTab secret in the Vault to use as a backup.
+	// Version of the keytab secret in the Vault to use as a backup.
 	BackupKeyTabSecretVersion *int `mandatory:"false" json:"backupKeyTabSecretVersion"`
 }
 

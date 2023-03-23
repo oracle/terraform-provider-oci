@@ -72,7 +72,7 @@ type MacsManagedCloudHostInsightSummary struct {
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType MacsManagedCloudHostInsightSummaryPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -206,6 +206,7 @@ const (
 	MacsManagedCloudHostInsightSummaryPlatformTypeSunos   MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "SUNOS"
 	MacsManagedCloudHostInsightSummaryPlatformTypeZlinux  MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "ZLINUX"
 	MacsManagedCloudHostInsightSummaryPlatformTypeWindows MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "WINDOWS"
+	MacsManagedCloudHostInsightSummaryPlatformTypeAix     MacsManagedCloudHostInsightSummaryPlatformTypeEnum = "AIX"
 )
 
 var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnum = map[string]MacsManagedCloudHostInsightSummaryPlatformTypeEnum{
@@ -214,6 +215,7 @@ var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnum = map[string]MacsM
 	"SUNOS":   MacsManagedCloudHostInsightSummaryPlatformTypeSunos,
 	"ZLINUX":  MacsManagedCloudHostInsightSummaryPlatformTypeZlinux,
 	"WINDOWS": MacsManagedCloudHostInsightSummaryPlatformTypeWindows,
+	"AIX":     MacsManagedCloudHostInsightSummaryPlatformTypeAix,
 }
 
 var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnumLowerCase = map[string]MacsManagedCloudHostInsightSummaryPlatformTypeEnum{
@@ -222,6 +224,7 @@ var mappingMacsManagedCloudHostInsightSummaryPlatformTypeEnumLowerCase = map[str
 	"sunos":   MacsManagedCloudHostInsightSummaryPlatformTypeSunos,
 	"zlinux":  MacsManagedCloudHostInsightSummaryPlatformTypeZlinux,
 	"windows": MacsManagedCloudHostInsightSummaryPlatformTypeWindows,
+	"aix":     MacsManagedCloudHostInsightSummaryPlatformTypeAix,
 }
 
 // GetMacsManagedCloudHostInsightSummaryPlatformTypeEnumValues Enumerates the set of values for MacsManagedCloudHostInsightSummaryPlatformTypeEnum
@@ -241,6 +244,7 @@ func GetMacsManagedCloudHostInsightSummaryPlatformTypeEnumStringValues() []strin
 		"SUNOS",
 		"ZLINUX",
 		"WINDOWS",
+		"AIX",
 	}
 }
 

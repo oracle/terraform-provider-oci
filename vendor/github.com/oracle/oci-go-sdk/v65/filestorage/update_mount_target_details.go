@@ -24,7 +24,7 @@ type UpdateMountTargetDetails struct {
 	// Example: `My mount target`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Describes whether Idmapping is turned on or off. If on, describes method used to perform ID Mapping
+	// The method used to map a Unix UID to secondary groups, if any.
 	IdmapType MountTargetIdmapTypeEnum `mandatory:"false" json:"idmapType,omitempty"`
 
 	LdapIdmap *UpdateLdapIdmapDetails `mandatory:"false" json:"ldapIdmap"`

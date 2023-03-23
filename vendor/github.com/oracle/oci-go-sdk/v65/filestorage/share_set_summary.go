@@ -63,7 +63,7 @@ type ShareSetSummary struct {
 	// A read-only property for the connection status between the
 	// mount target and the customer-provided domain controller which
 	// is the domain based on the customFQDN.
-	DomainConnectionStatus *string `mandatory:"true" json:"domainConnectionStatus"`
+	DomainConnectionStatus ShareSetDomainConnectionStatusEnum `mandatory:"true" json:"domainConnectionStatus"`
 
 	// The current state of the share set.
 	LifecycleState ShareSetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -73,21 +73,17 @@ type ShareSetSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// A read-only property that emits the status of the join domain operation
+	// of the mount target share set to a domain controller for SMB access.
+	JoinDomainResult *string `mandatory:"true" json:"joinDomainResult"`
+
 	// The availability domain the share set is in. May be unset
 	// as a blank or NULL value.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// Free-form tags for this resource. Each tag is a simple key-value pair
-	//  with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Department": "Finance"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	// A read-only field that's only populated when the join domain operation FAILED.
+	JoinDomainErrorMessage *string `mandatory:"false" json:"joinDomainErrorMessage"`
 }
 
 func (m ShareSetSummary) String() string {
@@ -99,6 +95,9 @@ func (m ShareSetSummary) String() string {
 // Not recommended for calling this function directly
 func (m ShareSetSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingShareSetDomainConnectionStatusEnum(string(m.DomainConnectionStatus)); !ok && m.DomainConnectionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DomainConnectionStatus: %s. Supported values are: %s.", m.DomainConnectionStatus, strings.Join(GetShareSetDomainConnectionStatusEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingShareSetLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetShareSetLifecycleStateEnumStringValues(), ",")))
 	}

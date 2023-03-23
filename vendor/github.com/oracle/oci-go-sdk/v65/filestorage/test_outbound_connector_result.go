@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// TestOutboundConnectorResult Result of connecting to a single endpoint
+// TestOutboundConnectorResult Result of connecting to a single endpoint.
 type TestOutboundConnectorResult struct {
 
-	// Endpoint used while trying to connect while using LDAP bind account
+	// Endpoint used while testing the outbound connector using the LDAP bind account.
 	Endpoint *interface{} `mandatory:"true" json:"endpoint"`
 
-	// Status of connection to given endpoint
+	// Status of the connection attempt to given endpoint.
 	Result TestOutboundConnectorResultResultEnum `mandatory:"true" json:"result"`
 
 	// Error from the perspective of the mount target.

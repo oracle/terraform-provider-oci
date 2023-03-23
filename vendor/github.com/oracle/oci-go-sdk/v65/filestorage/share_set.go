@@ -65,7 +65,7 @@ type ShareSet struct {
 	// A read-only property for the connection status between the
 	// mount target and the customer-provided domain controller which
 	// is the domain based on the customFQDN.
-	DomainConnectionStatus *string `mandatory:"true" json:"domainConnectionStatus"`
+	DomainConnectionStatus ShareSetDomainConnectionStatusEnum `mandatory:"true" json:"domainConnectionStatus"`
 
 	// The current state of the share set.
 	LifecycleState ShareSetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -75,24 +75,30 @@ type ShareSet struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// A read-only property that emits the status of the join domain operation
+	// of the mount target share set to a domain controller for SMB access.
+	JoinDomainResult *string `mandatory:"true" json:"joinDomainResult"`
+
 	// The availability domain the share set is in. May be unset
 	// as a blank or NULL value.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
 	// Turn on this flag to allow unsigned SMB traffic.
-	AllowUnsignedTraffic *string `mandatory:"false" json:"allowUnsignedTraffic"`
+	IsUnsignedTrafficAllowed *bool `mandatory:"false" json:"isUnsignedTrafficAllowed"`
 
-	// Free-form tags for this resource. Each tag is a simple key-value pair
-	//  with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Department": "Finance"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+	// Describes the mount target's policy on SMB encryption
+	SmbEncryption ShareSetSmbEncryptionEnum `mandatory:"false" json:"smbEncryption,omitempty"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	// A read-only field that's only populated when the join domain operation FAILED.
+	JoinDomainErrorMessage *string `mandatory:"false" json:"joinDomainErrorMessage"`
+
+	// The organizational unit (OU) is a container in an Active Directory that can
+	// hold user accounts, service accounts, computer accounts, and other OUs and
+	// this parameter specifies the OU that the mount target will join within the
+	// AD domain. You can then assign administrators to specific OUs, and apply
+	// group policy to enforce targeted configuration settings.
+	OrganizationalUnit *string `mandatory:"false" json:"organizationalUnit"`
 }
 
 func (m ShareSet) String() string {
@@ -104,14 +110,136 @@ func (m ShareSet) String() string {
 // Not recommended for calling this function directly
 func (m ShareSet) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingShareSetDomainConnectionStatusEnum(string(m.DomainConnectionStatus)); !ok && m.DomainConnectionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DomainConnectionStatus: %s. Supported values are: %s.", m.DomainConnectionStatus, strings.Join(GetShareSetDomainConnectionStatusEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingShareSetLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetShareSetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingShareSetSmbEncryptionEnum(string(m.SmbEncryption)); !ok && m.SmbEncryption != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SmbEncryption: %s. Supported values are: %s.", m.SmbEncryption, strings.Join(GetShareSetSmbEncryptionEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ShareSetSmbEncryptionEnum Enum with underlying type: string
+type ShareSetSmbEncryptionEnum string
+
+// Set of constants representing the allowable values for ShareSetSmbEncryptionEnum
+const (
+	ShareSetSmbEncryptionNever     ShareSetSmbEncryptionEnum = "NEVER"
+	ShareSetSmbEncryptionSupported ShareSetSmbEncryptionEnum = "SUPPORTED"
+	ShareSetSmbEncryptionRequired  ShareSetSmbEncryptionEnum = "REQUIRED"
+)
+
+var mappingShareSetSmbEncryptionEnum = map[string]ShareSetSmbEncryptionEnum{
+	"NEVER":     ShareSetSmbEncryptionNever,
+	"SUPPORTED": ShareSetSmbEncryptionSupported,
+	"REQUIRED":  ShareSetSmbEncryptionRequired,
+}
+
+var mappingShareSetSmbEncryptionEnumLowerCase = map[string]ShareSetSmbEncryptionEnum{
+	"never":     ShareSetSmbEncryptionNever,
+	"supported": ShareSetSmbEncryptionSupported,
+	"required":  ShareSetSmbEncryptionRequired,
+}
+
+// GetShareSetSmbEncryptionEnumValues Enumerates the set of values for ShareSetSmbEncryptionEnum
+func GetShareSetSmbEncryptionEnumValues() []ShareSetSmbEncryptionEnum {
+	values := make([]ShareSetSmbEncryptionEnum, 0)
+	for _, v := range mappingShareSetSmbEncryptionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetShareSetSmbEncryptionEnumStringValues Enumerates the set of values in String for ShareSetSmbEncryptionEnum
+func GetShareSetSmbEncryptionEnumStringValues() []string {
+	return []string{
+		"NEVER",
+		"SUPPORTED",
+		"REQUIRED",
+	}
+}
+
+// GetMappingShareSetSmbEncryptionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingShareSetSmbEncryptionEnum(val string) (ShareSetSmbEncryptionEnum, bool) {
+	enum, ok := mappingShareSetSmbEncryptionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ShareSetDomainConnectionStatusEnum Enum with underlying type: string
+type ShareSetDomainConnectionStatusEnum string
+
+// Set of constants representing the allowable values for ShareSetDomainConnectionStatusEnum
+const (
+	ShareSetDomainConnectionStatusSuccess                           ShareSetDomainConnectionStatusEnum = "SUCCESS"
+	ShareSetDomainConnectionStatusFailed                            ShareSetDomainConnectionStatusEnum = "FAILED"
+	ShareSetDomainConnectionStatusJoinDomainNeeded                  ShareSetDomainConnectionStatusEnum = "JOIN_DOMAIN_NEEDED"
+	ShareSetDomainConnectionStatusJoinDomainStarted                 ShareSetDomainConnectionStatusEnum = "JOIN_DOMAIN_STARTED"
+	ShareSetDomainConnectionStatusUnableToLocateDomainController    ShareSetDomainConnectionStatusEnum = "UNABLE_TO_LOCATE_DOMAIN_CONTROLLER"
+	ShareSetDomainConnectionStatusUnableToConnectToDomainController ShareSetDomainConnectionStatusEnum = "UNABLE_TO_CONNECT_TO_DOMAIN_CONTROLLER"
+	ShareSetDomainConnectionStatusUnableToLocateKerberosServer      ShareSetDomainConnectionStatusEnum = "UNABLE_TO_LOCATE_KERBEROS_SERVER"
+	ShareSetDomainConnectionStatusUnableToConnectToKerberosServer   ShareSetDomainConnectionStatusEnum = "UNABLE_TO_CONNECT_TO_KERBEROS_SERVER"
+	ShareSetDomainConnectionStatusBadCredential                     ShareSetDomainConnectionStatusEnum = "BAD_CREDENTIAL"
+)
+
+var mappingShareSetDomainConnectionStatusEnum = map[string]ShareSetDomainConnectionStatusEnum{
+	"SUCCESS":                                ShareSetDomainConnectionStatusSuccess,
+	"FAILED":                                 ShareSetDomainConnectionStatusFailed,
+	"JOIN_DOMAIN_NEEDED":                     ShareSetDomainConnectionStatusJoinDomainNeeded,
+	"JOIN_DOMAIN_STARTED":                    ShareSetDomainConnectionStatusJoinDomainStarted,
+	"UNABLE_TO_LOCATE_DOMAIN_CONTROLLER":     ShareSetDomainConnectionStatusUnableToLocateDomainController,
+	"UNABLE_TO_CONNECT_TO_DOMAIN_CONTROLLER": ShareSetDomainConnectionStatusUnableToConnectToDomainController,
+	"UNABLE_TO_LOCATE_KERBEROS_SERVER":       ShareSetDomainConnectionStatusUnableToLocateKerberosServer,
+	"UNABLE_TO_CONNECT_TO_KERBEROS_SERVER":   ShareSetDomainConnectionStatusUnableToConnectToKerberosServer,
+	"BAD_CREDENTIAL":                         ShareSetDomainConnectionStatusBadCredential,
+}
+
+var mappingShareSetDomainConnectionStatusEnumLowerCase = map[string]ShareSetDomainConnectionStatusEnum{
+	"success":                                ShareSetDomainConnectionStatusSuccess,
+	"failed":                                 ShareSetDomainConnectionStatusFailed,
+	"join_domain_needed":                     ShareSetDomainConnectionStatusJoinDomainNeeded,
+	"join_domain_started":                    ShareSetDomainConnectionStatusJoinDomainStarted,
+	"unable_to_locate_domain_controller":     ShareSetDomainConnectionStatusUnableToLocateDomainController,
+	"unable_to_connect_to_domain_controller": ShareSetDomainConnectionStatusUnableToConnectToDomainController,
+	"unable_to_locate_kerberos_server":       ShareSetDomainConnectionStatusUnableToLocateKerberosServer,
+	"unable_to_connect_to_kerberos_server":   ShareSetDomainConnectionStatusUnableToConnectToKerberosServer,
+	"bad_credential":                         ShareSetDomainConnectionStatusBadCredential,
+}
+
+// GetShareSetDomainConnectionStatusEnumValues Enumerates the set of values for ShareSetDomainConnectionStatusEnum
+func GetShareSetDomainConnectionStatusEnumValues() []ShareSetDomainConnectionStatusEnum {
+	values := make([]ShareSetDomainConnectionStatusEnum, 0)
+	for _, v := range mappingShareSetDomainConnectionStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetShareSetDomainConnectionStatusEnumStringValues Enumerates the set of values in String for ShareSetDomainConnectionStatusEnum
+func GetShareSetDomainConnectionStatusEnumStringValues() []string {
+	return []string{
+		"SUCCESS",
+		"FAILED",
+		"JOIN_DOMAIN_NEEDED",
+		"JOIN_DOMAIN_STARTED",
+		"UNABLE_TO_LOCATE_DOMAIN_CONTROLLER",
+		"UNABLE_TO_CONNECT_TO_DOMAIN_CONTROLLER",
+		"UNABLE_TO_LOCATE_KERBEROS_SERVER",
+		"UNABLE_TO_CONNECT_TO_KERBEROS_SERVER",
+		"BAD_CREDENTIAL",
+	}
+}
+
+// GetMappingShareSetDomainConnectionStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingShareSetDomainConnectionStatusEnum(val string) (ShareSetDomainConnectionStatusEnum, bool) {
+	enum, ok := mappingShareSetDomainConnectionStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ShareSetLifecycleStateEnum Enum with underlying type: string

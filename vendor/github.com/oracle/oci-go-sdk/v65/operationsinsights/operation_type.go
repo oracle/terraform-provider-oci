@@ -66,6 +66,9 @@ const (
 	OperationTypeCreateOpsiConfiguration                 OperationTypeEnum = "CREATE_OPSI_CONFIGURATION"
 	OperationTypeMoveOpsiConfiguration                   OperationTypeEnum = "MOVE_OPSI_CONFIGURATION"
 	OperationTypeDeleteOpsiConfiguration                 OperationTypeEnum = "DELETE_OPSI_CONFIGURATION"
+	OperationTypeEnableAdbAdvancedFeatures               OperationTypeEnum = "ENABLE_ADB_ADVANCED_FEATURES"
+	OperationTypeDisableAdbAdvancedFeatures              OperationTypeEnum = "DISABLE_ADB_ADVANCED_FEATURES"
+	OperationTypeUpdateAdbAdvancedFeatures               OperationTypeEnum = "UPDATE_ADB_ADVANCED_FEATURES"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -115,6 +118,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_OPSI_CONFIGURATION":                    OperationTypeCreateOpsiConfiguration,
 	"MOVE_OPSI_CONFIGURATION":                      OperationTypeMoveOpsiConfiguration,
 	"DELETE_OPSI_CONFIGURATION":                    OperationTypeDeleteOpsiConfiguration,
+	"ENABLE_ADB_ADVANCED_FEATURES":                 OperationTypeEnableAdbAdvancedFeatures,
+	"DISABLE_ADB_ADVANCED_FEATURES":                OperationTypeDisableAdbAdvancedFeatures,
+	"UPDATE_ADB_ADVANCED_FEATURES":                 OperationTypeUpdateAdbAdvancedFeatures,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -164,6 +170,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"create_opsi_configuration":                    OperationTypeCreateOpsiConfiguration,
 	"move_opsi_configuration":                      OperationTypeMoveOpsiConfiguration,
 	"delete_opsi_configuration":                    OperationTypeDeleteOpsiConfiguration,
+	"enable_adb_advanced_features":                 OperationTypeEnableAdbAdvancedFeatures,
+	"disable_adb_advanced_features":                OperationTypeDisableAdbAdvancedFeatures,
+	"update_adb_advanced_features":                 OperationTypeUpdateAdbAdvancedFeatures,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -224,6 +233,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"CREATE_OPSI_CONFIGURATION",
 		"MOVE_OPSI_CONFIGURATION",
 		"DELETE_OPSI_CONFIGURATION",
+		"ENABLE_ADB_ADVANCED_FEATURES",
+		"DISABLE_ADB_ADVANCED_FEATURES",
+		"UPDATE_ADB_ADVANCED_FEATURES",
 	}
 }
 

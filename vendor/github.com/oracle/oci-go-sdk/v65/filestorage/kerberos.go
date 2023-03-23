@@ -16,26 +16,26 @@ import (
 	"strings"
 )
 
-// Kerberos Allows administrator to configure a mount target to interact with the administrator's Kerberos Infrastructure.
+// Kerberos Allows administrator to configure a mount target to interact with the administrator's Kerberos infrastructure.
 type Kerberos struct {
 
-	// The realm of the kerberos server a mount target interacts with.
+	// The Kerberos realm that the mount target will join.
 	KerberosRealm *string `mandatory:"true" json:"kerberosRealm"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KeyTab secret in the Vault.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the keytab secret in the Vault.
 	KeyTabSecretId *string `mandatory:"false" json:"keyTabSecretId"`
 
-	// Version of the KeyTab secret in the Vault to use.
+	// Version of the keytab secret in the Vault to use.
 	CurrentKeyTabSecretVersion *int `mandatory:"false" json:"currentKeyTabSecretVersion"`
 
-	// Version of the KeyTab secert in the Vault to use as a backup.
+	// Version of the keytab secert in the Vault to use as a backup.
 	BackupKeyTabSecretVersion *int `mandatory:"false" json:"backupKeyTabSecretVersion"`
 
-	// Specifies whether to Enable or Disbale Kerberos.
+	// Specifies whether to enable or disable Kerberos.
 	IsKerberosEnabled *bool `mandatory:"false" json:"isKerberosEnabled"`
 
-	// Specifies to allow the use of weaker ciphers if true.
-	// If false only aes256-cts-hmac-sha384-192, aes128-cts-hmac-sha256-128 are allowed.
+	// Specifies whether or not to allow the use of weaker ciphers.
+	// If false, only aes256-cts-hmac-sha384-192 and aes128-cts-hmac-sha256-128 are allowed.
 	IsWeakCiphersAllowed *bool `mandatory:"false" json:"isWeakCiphersAllowed"`
 }
 

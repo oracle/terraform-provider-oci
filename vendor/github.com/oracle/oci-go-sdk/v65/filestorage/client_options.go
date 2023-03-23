@@ -36,7 +36,7 @@ type ClientOptions struct {
 	RequirePrivilegedSourcePort *bool `mandatory:"false" json:"requirePrivilegedSourcePort"`
 
 	// Type of access to grant clients using the file system
-	// through this export. If unspecified defaults to `READ_ONLY`.
+	// through this export. If unspecified defaults to `READ_WRITE`.
 	Access ClientOptionsAccessEnum `mandatory:"false" json:"access,omitempty"`
 
 	// Used when clients accessing the file system through this export
@@ -57,7 +57,8 @@ type ClientOptions struct {
 	// to `65534`.
 	AnonymousGid *int64 `mandatory:"false" json:"anonymousGid"`
 
-	// Allow principals with no entry in ID mapping to access this export with SquashUID and SquashGID privileges.
+	// Whether or not to enable anonymous access to the file system through this export in cases where a user isn't found in the LDAP server used for ID mapping.
+	// If true, and the user is not found in the LDAP directory, the operation uses the Squash UID and Squash GID.
 	IsAnonymousAccessAllowed *bool `mandatory:"false" json:"isAnonymousAccessAllowed"`
 
 	// Array of allowed NFS authentication types.

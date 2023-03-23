@@ -33,6 +33,12 @@ type ListBucketsRequest struct {
 	// and 'etag' fields. This parameter can also include 'tags' (freeformTags and definedTags). The only supported value of this parameter is 'tags' for now. Example 'tags'.
 	Fields []ListBucketsFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"csv"`
 
+	// The field to sort by. Only one sort order can be provided. Default order for timeCreated is descending. Default order for name is ascending.
+	SortBy ListBucketsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// The sort order to use, either 'asc' or 'desc'.
+	SortOrder ListBucketsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
@@ -103,6 +109,12 @@ func (request ListBucketsRequest) ValidateEnumValue() (bool, error) {
 		}
 	}
 
+	if _, ok := GetMappingListBucketsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListBucketsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListBucketsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBucketsSortOrderEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -179,5 +191,89 @@ func GetListBucketsFieldsEnumStringValues() []string {
 // GetMappingListBucketsFieldsEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListBucketsFieldsEnum(val string) (ListBucketsFieldsEnum, bool) {
 	enum, ok := mappingListBucketsFieldsEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListBucketsSortByEnum Enum with underlying type: string
+type ListBucketsSortByEnum string
+
+// Set of constants representing the allowable values for ListBucketsSortByEnum
+const (
+	ListBucketsSortByTimecreated ListBucketsSortByEnum = "TIMECREATED"
+	ListBucketsSortByName        ListBucketsSortByEnum = "NAME"
+)
+
+var mappingListBucketsSortByEnum = map[string]ListBucketsSortByEnum{
+	"TIMECREATED": ListBucketsSortByTimecreated,
+	"NAME":        ListBucketsSortByName,
+}
+
+var mappingListBucketsSortByEnumLowerCase = map[string]ListBucketsSortByEnum{
+	"timecreated": ListBucketsSortByTimecreated,
+	"name":        ListBucketsSortByName,
+}
+
+// GetListBucketsSortByEnumValues Enumerates the set of values for ListBucketsSortByEnum
+func GetListBucketsSortByEnumValues() []ListBucketsSortByEnum {
+	values := make([]ListBucketsSortByEnum, 0)
+	for _, v := range mappingListBucketsSortByEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListBucketsSortByEnumStringValues Enumerates the set of values in String for ListBucketsSortByEnum
+func GetListBucketsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
+}
+
+// GetMappingListBucketsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListBucketsSortByEnum(val string) (ListBucketsSortByEnum, bool) {
+	enum, ok := mappingListBucketsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListBucketsSortOrderEnum Enum with underlying type: string
+type ListBucketsSortOrderEnum string
+
+// Set of constants representing the allowable values for ListBucketsSortOrderEnum
+const (
+	ListBucketsSortOrderAsc  ListBucketsSortOrderEnum = "ASC"
+	ListBucketsSortOrderDesc ListBucketsSortOrderEnum = "DESC"
+)
+
+var mappingListBucketsSortOrderEnum = map[string]ListBucketsSortOrderEnum{
+	"ASC":  ListBucketsSortOrderAsc,
+	"DESC": ListBucketsSortOrderDesc,
+}
+
+var mappingListBucketsSortOrderEnumLowerCase = map[string]ListBucketsSortOrderEnum{
+	"asc":  ListBucketsSortOrderAsc,
+	"desc": ListBucketsSortOrderDesc,
+}
+
+// GetListBucketsSortOrderEnumValues Enumerates the set of values for ListBucketsSortOrderEnum
+func GetListBucketsSortOrderEnumValues() []ListBucketsSortOrderEnum {
+	values := make([]ListBucketsSortOrderEnum, 0)
+	for _, v := range mappingListBucketsSortOrderEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListBucketsSortOrderEnumStringValues Enumerates the set of values in String for ListBucketsSortOrderEnum
+func GetListBucketsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
+}
+
+// GetMappingListBucketsSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListBucketsSortOrderEnum(val string) (ListBucketsSortOrderEnum, bool) {
+	enum, ok := mappingListBucketsSortOrderEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

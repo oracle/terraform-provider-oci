@@ -258,6 +258,8 @@ const (
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed3800E450g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED3800_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed3900E450g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED3900_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeFixed4000E450g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED4000_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeFixed4700E450g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED4700_E4_50G"
+	CreateInternalVnicAttachmentDetailsVnicShapeFixed4960E450g                  CreateInternalVnicAttachmentDetailsVnicShapeEnum = "FIXED4960_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeEntirehostE450g                 CreateInternalVnicAttachmentDetailsVnicShapeEnum = "ENTIREHOST_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed01001E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0100_1_E4_50G"
 	CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed02002E450g          CreateInternalVnicAttachmentDetailsVnicShapeEnum = "VNUMA_VM_FIXED0200_2_E4_50G"
@@ -1833,6 +1835,8 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnum = map[string]CreateI
 	"FIXED3800_E4_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed3800E450g,
 	"FIXED3900_E4_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed3900E450g,
 	"FIXED4000_E4_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed4000E450g,
+	"FIXED4700_E4_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed4700E450g,
+	"FIXED4960_E4_50G":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed4960E450g,
 	"ENTIREHOST_E4_50G":                    CreateInternalVnicAttachmentDetailsVnicShapeEntirehostE450g,
 	"VNUMA_VM_FIXED0100_1_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed01001E450g,
 	"VNUMA_VM_FIXED0200_2_E4_50G":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed02002E450g,
@@ -3408,6 +3412,8 @@ var mappingCreateInternalVnicAttachmentDetailsVnicShapeEnumLowerCase = map[strin
 	"fixed3800_e4_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed3800E450g,
 	"fixed3900_e4_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed3900E450g,
 	"fixed4000_e4_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed4000E450g,
+	"fixed4700_e4_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed4700E450g,
+	"fixed4960_e4_50g":                     CreateInternalVnicAttachmentDetailsVnicShapeFixed4960E450g,
 	"entirehost_e4_50g":                    CreateInternalVnicAttachmentDetailsVnicShapeEntirehostE450g,
 	"vnuma_vm_fixed0100_1_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed01001E450g,
 	"vnuma_vm_fixed0200_2_e4_50g":          CreateInternalVnicAttachmentDetailsVnicShapeVnumaVmFixed02002E450g,
@@ -4994,6 +5000,8 @@ func GetCreateInternalVnicAttachmentDetailsVnicShapeEnumStringValues() []string 
 		"FIXED3800_E4_50G",
 		"FIXED3900_E4_50G",
 		"FIXED4000_E4_50G",
+		"FIXED4700_E4_50G",
+		"FIXED4960_E4_50G",
 		"ENTIREHOST_E4_50G",
 		"VNUMA_VM_FIXED0100_1_E4_50G",
 		"VNUMA_VM_FIXED0200_2_E4_50G",

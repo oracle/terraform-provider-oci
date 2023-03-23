@@ -54,7 +54,7 @@ type ListFileSystemsRequest struct {
 	ParentFileSystemId *string `mandatory:"false" contributesTo:"query" name:"parentFileSystemId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy
-	// that is associated with the file systems or used to create the snapshots.
+	// that is associated with the file systems.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" contributesTo:"query" name:"filesystemSnapshotPolicyId"`
 
 	// The field to sort by. You can provide either value, but not both.

@@ -14,7 +14,7 @@ import (
 // ValidateKeyTabsRequest wrapper for the ValidateKeyTabs operation
 type ValidateKeyTabsRequest struct {
 
-	// Keytab secret details or mount target id for validating keytabs.
+	// Keytab secret details or mount target ID for validating keytabs.
 	ValidateKeyTabsDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

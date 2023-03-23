@@ -16,10 +16,11 @@ import (
 	"strings"
 )
 
-// ChangeOutboundConnectorCompartmentDetails Details for changing the compartment.
+// ChangeOutboundConnectorCompartmentDetails Details for changing the compartment of the outbound connector.
 type ChangeOutboundConnectorCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the outbound connector to
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// to move the outbound connector to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

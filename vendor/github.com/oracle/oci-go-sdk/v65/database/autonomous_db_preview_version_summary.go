@@ -32,6 +32,7 @@ type AutonomousDbPreviewVersionSummary struct {
 	// - DW - indicates an Autonomous Data Warehouse database
 	// - AJD - indicates an Autonomous JSON Database
 	// - APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload AutonomousDbPreviewVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
 	// A URL that points to a detailed description of the preview version.

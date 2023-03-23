@@ -59,7 +59,7 @@ type MountTarget struct {
 	// mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`
 
-	// Describes whether Idmapping is turned on or off. If on, describes method used to perform ID Mapping
+	// The method used to map a Unix UID to secondary groups. If NONE, the mount target will not use the Unix UID for ID mapping.
 	IdmapType MountTargetIdmapTypeEnum `mandatory:"false" json:"idmapType,omitempty"`
 
 	LdapIdmap *LdapIdmap `mandatory:"false" json:"ldapIdmap"`

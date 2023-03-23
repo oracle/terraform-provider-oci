@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// LdapBindAccount Account details for LDAP bind account from outbound connector.
+// LdapBindAccount Account details for the LDAP bind account used by the outbound connector.
 type LdapBindAccount struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the outbound connector.
@@ -36,10 +36,10 @@ type LdapBindAccount struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// Array of server endpoints to use while trying to connect while using LDAP bind account
+	// Array of server endpoints to use when connecting with the LDAP bind account.
 	Endpoints []Endpoint `mandatory:"true" json:"endpoints"`
 
-	// The LDAP Distinguished name of the account.
+	// The LDAP Distinguished Name of the account.
 	BindDistinguishedName *string `mandatory:"true" json:"bindDistinguishedName"`
 
 	// The availability domain the outbound connector is in. May be unset

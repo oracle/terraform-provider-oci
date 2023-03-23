@@ -20,7 +20,7 @@ type SummarizeDeployedApplicationUsageRequest struct {
 	// The server key.
 	ServerKey *string `mandatory:"false" contributesTo:"query" name:"serverKey"`
 
-	// The Java server instance key.
+	// The Java Server instance key.
 	ServerInstanceKey *string `mandatory:"false" contributesTo:"query" name:"serverInstanceKey"`
 
 	// The Fleet-unique identifier of the managed instance.
@@ -53,7 +53,7 @@ type SummarizeDeployedApplicationUsageRequest struct {
 	// The sort order, either 'asc' or 'desc'.
 	SortOrder SummarizeDeployedApplicationUsageSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort deployed applications.  Only one sort order may be provided.
+	// The field to sort the deployed applications. Only one sort order can be provided.
 	// If no value is specified _timeLastSeen_ is default.
 	SortBy SummarizeDeployedApplicationUsageSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 

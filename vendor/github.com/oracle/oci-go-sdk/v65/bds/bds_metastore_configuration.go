@@ -73,18 +73,21 @@ const (
 	BdsMetastoreConfigurationMetastoreTypeLocal     BdsMetastoreConfigurationMetastoreTypeEnum = "LOCAL"
 	BdsMetastoreConfigurationMetastoreTypeExternal  BdsMetastoreConfigurationMetastoreTypeEnum = "EXTERNAL"
 	BdsMetastoreConfigurationMetastoreTypeLakehouse BdsMetastoreConfigurationMetastoreTypeEnum = "LAKEHOUSE"
+	BdsMetastoreConfigurationMetastoreTypeLake      BdsMetastoreConfigurationMetastoreTypeEnum = "LAKE"
 )
 
 var mappingBdsMetastoreConfigurationMetastoreTypeEnum = map[string]BdsMetastoreConfigurationMetastoreTypeEnum{
 	"LOCAL":     BdsMetastoreConfigurationMetastoreTypeLocal,
 	"EXTERNAL":  BdsMetastoreConfigurationMetastoreTypeExternal,
 	"LAKEHOUSE": BdsMetastoreConfigurationMetastoreTypeLakehouse,
+	"LAKE":      BdsMetastoreConfigurationMetastoreTypeLake,
 }
 
 var mappingBdsMetastoreConfigurationMetastoreTypeEnumLowerCase = map[string]BdsMetastoreConfigurationMetastoreTypeEnum{
 	"local":     BdsMetastoreConfigurationMetastoreTypeLocal,
 	"external":  BdsMetastoreConfigurationMetastoreTypeExternal,
 	"lakehouse": BdsMetastoreConfigurationMetastoreTypeLakehouse,
+	"lake":      BdsMetastoreConfigurationMetastoreTypeLake,
 }
 
 // GetBdsMetastoreConfigurationMetastoreTypeEnumValues Enumerates the set of values for BdsMetastoreConfigurationMetastoreTypeEnum
@@ -102,6 +105,7 @@ func GetBdsMetastoreConfigurationMetastoreTypeEnumStringValues() []string {
 		"LOCAL",
 		"EXTERNAL",
 		"LAKEHOUSE",
+		"LAKE",
 	}
 }
 

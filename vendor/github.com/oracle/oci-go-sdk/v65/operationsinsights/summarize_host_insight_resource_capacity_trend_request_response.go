@@ -43,7 +43,7 @@ type SummarizeHostInsightResourceCapacityTrendRequest struct {
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType []SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -213,6 +213,7 @@ const (
 	SummarizeHostInsightResourceCapacityTrendPlatformTypeSunos   SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "SUNOS"
 	SummarizeHostInsightResourceCapacityTrendPlatformTypeZlinux  SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "ZLINUX"
 	SummarizeHostInsightResourceCapacityTrendPlatformTypeWindows SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "WINDOWS"
+	SummarizeHostInsightResourceCapacityTrendPlatformTypeAix     SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "AIX"
 )
 
 var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = map[string]SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum{
@@ -221,6 +222,7 @@ var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = map[strin
 	"SUNOS":   SummarizeHostInsightResourceCapacityTrendPlatformTypeSunos,
 	"ZLINUX":  SummarizeHostInsightResourceCapacityTrendPlatformTypeZlinux,
 	"WINDOWS": SummarizeHostInsightResourceCapacityTrendPlatformTypeWindows,
+	"AIX":     SummarizeHostInsightResourceCapacityTrendPlatformTypeAix,
 }
 
 var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumLowerCase = map[string]SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum{
@@ -229,6 +231,7 @@ var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumLowerCase = 
 	"sunos":   SummarizeHostInsightResourceCapacityTrendPlatformTypeSunos,
 	"zlinux":  SummarizeHostInsightResourceCapacityTrendPlatformTypeZlinux,
 	"windows": SummarizeHostInsightResourceCapacityTrendPlatformTypeWindows,
+	"aix":     SummarizeHostInsightResourceCapacityTrendPlatformTypeAix,
 }
 
 // GetSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum
@@ -248,6 +251,7 @@ func GetSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumStringValues() 
 		"SUNOS",
 		"ZLINUX",
 		"WINDOWS",
+		"AIX",
 	}
 }
 

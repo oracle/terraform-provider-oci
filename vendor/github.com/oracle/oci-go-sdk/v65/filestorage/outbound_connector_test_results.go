@@ -21,11 +21,11 @@ type OutboundConnectorTestResults struct {
 
 	// Status of overall connection test against all endpoints.
 	// Success represents all endpoints tested and functioning.
-	// PartialSuccess represents all endpoints tested, some function properly, some do not.
-	// Fail represents no endpoints are functioning properly, MT cannot communicate with LDAP server.
+	// A PartialSuccess means that all endpoints tested, and some function properly, but some do not.
+	// Fail means that no endpoints are functioning properly; the mount target can't communicate with the LDAP server.
 	OverallResult OutboundConnectorTestResultsOverallResultEnum `mandatory:"true" json:"overallResult"`
 
-	// Array of result of connecting to each endpoint
+	// Array of the result of connecting to each endpoint.
 	ResultsDetail []TestOutboundConnectorResult `mandatory:"true" json:"resultsDetail"`
 }
 

@@ -90,6 +90,64 @@ func (client *BdsClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
 }
 
+// ActivateBdsLakeConfiguration Activate the specified lake configuration.
+func (client BdsClient) ActivateBdsLakeConfiguration(ctx context.Context, request ActivateBdsLakeConfigurationRequest) (response ActivateBdsLakeConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.activateBdsLakeConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ActivateBdsLakeConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ActivateBdsLakeConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ActivateBdsLakeConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ActivateBdsLakeConfigurationResponse")
+	}
+	return
+}
+
+// activateBdsLakeConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) activateBdsLakeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/lakeConfigs/{lakeConfigId}/actions/activate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ActivateBdsLakeConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsLakeConfiguration/ActivateBdsLakeConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "ActivateBdsLakeConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ActivateBdsLakehouseConfiguration Activate the specified lakehouse configuration.
 func (client BdsClient) ActivateBdsLakehouseConfiguration(ctx context.Context, request ActivateBdsLakehouseConfigurationRequest) (response ActivateBdsLakehouseConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -728,6 +786,64 @@ func (client BdsClient) createBdsInstance(ctx context.Context, request common.OC
 	return response, err
 }
 
+// CreateBdsLakeConfiguration Create and activate the lake configuration.
+func (client BdsClient) CreateBdsLakeConfiguration(ctx context.Context, request CreateBdsLakeConfigurationRequest) (response CreateBdsLakeConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createBdsLakeConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateBdsLakeConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateBdsLakeConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateBdsLakeConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateBdsLakeConfigurationResponse")
+	}
+	return
+}
+
+// createBdsLakeConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) createBdsLakeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/lakeConfigs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateBdsLakeConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsLakeConfiguration/CreateBdsLakeConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "CreateBdsLakeConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateBdsLakehouseConfiguration Create and activate the lakehouse configuration.
 func (client BdsClient) CreateBdsLakehouseConfiguration(ctx context.Context, request CreateBdsLakehouseConfigurationRequest) (response CreateBdsLakehouseConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -837,6 +953,64 @@ func (client BdsClient) createBdsMetastoreConfiguration(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsMetastoreConfiguration/CreateBdsMetastoreConfiguration"
 		err = common.PostProcessServiceError(err, "Bds", "CreateBdsMetastoreConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeactivateBdsLakeConfiguration Deactivate the specified lake configuration.
+func (client BdsClient) DeactivateBdsLakeConfiguration(ctx context.Context, request DeactivateBdsLakeConfigurationRequest) (response DeactivateBdsLakeConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deactivateBdsLakeConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeactivateBdsLakeConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeactivateBdsLakeConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeactivateBdsLakeConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeactivateBdsLakeConfigurationResponse")
+	}
+	return
+}
+
+// deactivateBdsLakeConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) deactivateBdsLakeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/lakeConfigs/{lakeConfigId}/actions/deactivate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeactivateBdsLakeConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsLakeConfiguration/DeactivateBdsLakeConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "DeactivateBdsLakeConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1001,6 +1175,64 @@ func (client BdsClient) deleteBdsInstance(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/DeleteBdsInstance"
 		err = common.PostProcessServiceError(err, "Bds", "DeleteBdsInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteBdsLakeConfiguration Delete the BDS lake configuration for the given ID.
+func (client BdsClient) DeleteBdsLakeConfiguration(ctx context.Context, request DeleteBdsLakeConfigurationRequest) (response DeleteBdsLakeConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteBdsLakeConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteBdsLakeConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteBdsLakeConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteBdsLakeConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteBdsLakeConfigurationResponse")
+	}
+	return
+}
+
+// deleteBdsLakeConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) deleteBdsLakeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/lakeConfigs/{lakeConfigId}/actions/delete", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteBdsLakeConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsLakeConfiguration/DeleteBdsLakeConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "DeleteBdsLakeConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1329,6 +1561,59 @@ func (client BdsClient) getBdsInstance(ctx context.Context, request common.OCIRe
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/GetBdsInstance"
 		err = common.PostProcessServiceError(err, "Bds", "GetBdsInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetBdsLakeConfiguration Returns the BDS lake configuration information for the given ID.
+func (client BdsClient) GetBdsLakeConfiguration(ctx context.Context, request GetBdsLakeConfigurationRequest) (response GetBdsLakeConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBdsLakeConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBdsLakeConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBdsLakeConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBdsLakeConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBdsLakeConfigurationResponse")
+	}
+	return
+}
+
+// getBdsLakeConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) getBdsLakeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/lakeConfigs/{lakeConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBdsLakeConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsLakeConfiguration/GetBdsLakeConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "GetBdsLakeConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1758,6 +2043,59 @@ func (client BdsClient) listBdsInstances(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstanceSummary/ListBdsInstances"
 		err = common.PostProcessServiceError(err, "Bds", "ListBdsInstances", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListBdsLakeConfigurations Returns a list of lake configurations associated with this Big Data Service cluster.
+func (client BdsClient) ListBdsLakeConfigurations(ctx context.Context, request ListBdsLakeConfigurationsRequest) (response ListBdsLakeConfigurationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBdsLakeConfigurations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBdsLakeConfigurationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBdsLakeConfigurationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListBdsLakeConfigurationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBdsLakeConfigurationsResponse")
+	}
+	return
+}
+
+// listBdsLakeConfigurations implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) listBdsLakeConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/lakeConfigs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBdsLakeConfigurationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsLakeConfiguration/ListBdsLakeConfigurations"
+		err = common.PostProcessServiceError(err, "Bds", "ListBdsLakeConfigurations", apiReferenceLink)
 		return response, err
 	}
 
@@ -2585,6 +2923,59 @@ func (client BdsClient) stopBdsInstance(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// TestBdsLakeConfiguration Test the specified lake configuration.
+func (client BdsClient) TestBdsLakeConfiguration(ctx context.Context, request TestBdsLakeConfigurationRequest) (response TestBdsLakeConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.testBdsLakeConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TestBdsLakeConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TestBdsLakeConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TestBdsLakeConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TestBdsLakeConfigurationResponse")
+	}
+	return
+}
+
+// testBdsLakeConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) testBdsLakeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/lakeConfigs/{lakeConfigId}/actions/test", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TestBdsLakeConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsLakeConfiguration/TestBdsLakeConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "TestBdsLakeConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // TestBdsLakehouseConfiguration Test the specified lakehouse configuration.
 func (client BdsClient) TestBdsLakehouseConfiguration(ctx context.Context, request TestBdsLakehouseConfigurationRequest) (response TestBdsLakehouseConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2848,6 +3239,59 @@ func (client BdsClient) updateBdsInstance(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/UpdateBdsInstance"
 		err = common.PostProcessServiceError(err, "Bds", "UpdateBdsInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateBdsLakeConfiguration Update the BDS lake configuration.
+func (client BdsClient) UpdateBdsLakeConfiguration(ctx context.Context, request UpdateBdsLakeConfigurationRequest) (response UpdateBdsLakeConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateBdsLakeConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateBdsLakeConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateBdsLakeConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateBdsLakeConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateBdsLakeConfigurationResponse")
+	}
+	return
+}
+
+// updateBdsLakeConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) updateBdsLakeConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bdsInstances/{bdsInstanceId}/lakeConfigs/{lakeConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateBdsLakeConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsLakeConfiguration/UpdateBdsLakeConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "UpdateBdsLakeConfiguration", apiReferenceLink)
 		return response, err
 	}
 

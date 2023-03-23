@@ -36,8 +36,12 @@ type CreateExportDetails struct {
 	//          {
 	//             "source" : "0.0.0.0/0",
 	//             "requirePrivilegedSourcePort" : false,
-	//             "access" : "READ_WRITE",
-	//             "identitySquash" : "NONE"
+	//             "access": "READ_WRITE",
+	//             "identitySquash": "NONE",
+	//             "anonymousUid": 65534,
+	//             "anonymousGid": 65534,
+	//             "isAnonymousAccessAllowed": false,
+	//             "allowedAuth": ["SYS"]
 	//           }
 	//        ]
 	//   **Note:** Mount targets do not have Internet-routable IP
@@ -50,7 +54,7 @@ type CreateExportDetails struct {
 	//   using the `UpdateExport` operation.
 	ExportOptions []ClientOptions `mandatory:"false" json:"exportOptions"`
 
-	// The export is modified to include a boolean to use ID mapping for Unix Groups rather than the group list provided within an NFS Request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable or cannot be used to determine a list of secondary groups then the data path uses an empty secondary group list for authorization. If the number of groups exceeds the current limit of 256 groups the list retrieved from LDAP is truncated to the first 256 groups read.
+	// Whether or not the export should use ID mapping for Unix groups rather than the group list provided within an NFS request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable, or cannot be used to determine a list of secondary groups then an empty secondary group list is used for authorization. If the number of groups exceeds the limit of 256 groups, the list retrieved from LDAP is truncated to the first 256 groups read.
 	IsIdmapGroupsForSysAuth *bool `mandatory:"false" json:"isIdmapGroupsForSysAuth"`
 }
 

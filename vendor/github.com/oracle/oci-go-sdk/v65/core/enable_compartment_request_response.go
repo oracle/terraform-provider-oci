@@ -14,8 +14,8 @@ import (
 // EnableCompartmentRequest wrapper for the EnableCompartment operation
 type EnableCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+	// The OCID of the compartment.
+	CompartmentId *string `mandatory:"true" contributesTo:"path" name:"compartmentId"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.

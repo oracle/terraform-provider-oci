@@ -18,7 +18,7 @@ type UploadKerberosKeytabRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target.
 	MountTargetId *string `mandatory:"true" contributesTo:"path" name:"mountTargetId"`
 
-	// The kerberos keytab file to be uploaded.
+	// The Kerberos keytab file to be uploaded.
 	KerberosKeytabDetails io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
 
 	// Unique identifier for the request.

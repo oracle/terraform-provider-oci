@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// KerberosKeytabEntry Details of each keytab entry read from Keytab file.
+// KerberosKeytabEntry Details of each keytab entry read from the keytab file.
 type KerberosKeytabEntry struct {
 
 	// Keytab principal.
@@ -29,7 +29,7 @@ type KerberosKeytabEntry struct {
 	// Less Secure: aes256-cts-hmac-sha1-96
 	EncryptionType KerberosKeytabEntryEncryptionTypeEnum `mandatory:"true" json:"encryptionType"`
 
-	// Kerberos kvno (key version number) for key in keytab entry.
+	// Kerberos KVNO (key version number) for key in keytab entry.
 	KeyVersionNumber *int64 `mandatory:"true" json:"keyVersionNumber"`
 }
 

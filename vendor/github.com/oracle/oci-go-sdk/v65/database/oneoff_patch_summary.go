@@ -29,7 +29,8 @@ type OneoffPatchSummary struct {
 	// One-off patch name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
+	// A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
 	// The PSU or PBP or Release Updates. To get a list of supported versions, use the ListDbVersions operation.

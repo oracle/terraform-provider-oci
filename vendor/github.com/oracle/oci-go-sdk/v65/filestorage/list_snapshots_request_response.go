@@ -43,7 +43,7 @@ type ListSnapshotsRequest struct {
 	SortBy ListSnapshotsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy
-	// that is associated with the file systems or used to create the snapshots.
+	// that is used to create the snapshots.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" contributesTo:"query" name:"filesystemSnapshotPolicyId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

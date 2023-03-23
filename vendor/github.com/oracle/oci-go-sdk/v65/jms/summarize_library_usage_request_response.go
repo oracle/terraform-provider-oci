@@ -17,7 +17,7 @@ type SummarizeLibraryUsageRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
-	// The Java server instance key.
+	// The Java Server instance key.
 	ServerInstanceKey *string `mandatory:"false" contributesTo:"query" name:"serverInstanceKey"`
 
 	// The Fleet-unique identifier of the managed instance.

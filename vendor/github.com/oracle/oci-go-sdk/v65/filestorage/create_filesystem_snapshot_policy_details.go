@@ -36,6 +36,11 @@ type CreateFilesystemSnapshotPolicyDetails struct {
 	PolicyPrefix *string `mandatory:"false" json:"policyPrefix"`
 
 	// The list of associated snapshot schedules. A maximum of 10 schedules can be associated with a policy.
+	// If using the CLI, provide the schedule as a list of JSON strings, with the list wrapped in
+	// quotation marks, i.e.
+	// ```
+	//   --schedules '[{"timeZone":"UTC","period":"DAILY","hourOfDay":18},{"timeZone":"UTC","period":"HOURLY"}]'
+	// ```
 	Schedules []SnapshotSchedule `mandatory:"false" json:"schedules"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair

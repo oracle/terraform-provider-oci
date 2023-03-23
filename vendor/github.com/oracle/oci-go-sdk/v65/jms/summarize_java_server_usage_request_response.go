@@ -44,7 +44,7 @@ type SummarizeJavaServerUsageRequest struct {
 	// The sort order, either 'asc' or 'desc'.
 	SortOrder SummarizeJavaServerUsageSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort Java servers.  Only one sort order may be provided.
+	// The field to sort a Java Server. Only one sort order can be provided.
 	// If no value is specified _timeLastSeen_ is default.
 	SortBy SummarizeJavaServerUsageSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 

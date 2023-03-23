@@ -19,23 +19,24 @@ import (
 // CreateKerberosDetails Kerberos details needed to create configuration.
 type CreateKerberosDetails struct {
 
-	// The realm of the kerberos server Mount Target interacts with.
+	// The Kerberos realm that the mount target will join.
 	KerberosRealm *string `mandatory:"true" json:"kerberosRealm"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KeyTab Secret in the Vault.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the keytab Secret in the Vault.
 	KeyTabSecretId *string `mandatory:"false" json:"keyTabSecretId"`
 
-	// Version of the KeyTab Secret in the Vault to use.
+	// Version of the keytab Secret in the Vault to use.
 	CurrentKeyTabSecretVersion *int `mandatory:"false" json:"currentKeyTabSecretVersion"`
 
-	// Version of the KeyTab Secret in the Vault to use as a backup.
+	// Version of the keytab Secret in the Vault to use as a backup.
 	BackupKeyTabSecretVersion *int `mandatory:"false" json:"backupKeyTabSecretVersion"`
 
-	// Specifies whether to Enable or Disbale Kerberos.
+	// Specifies whether to enable or disable Kerberos.
 	IsKerberosEnabled *bool `mandatory:"false" json:"isKerberosEnabled"`
 
-	// Specifies to allow the use of weaker ciphers if true.
-	// If false only aes256-cts-hmac-sha384-192, aes128-cts-hmac-sha256-128 are allowed.
+	// Specifies whether or not to allow the use of weaker ciphers.
+	// If false, only aes256-cts-hmac-sha384-192 and aes128-cts-hmac-sha256-128 are allowed.
+	// If true, aes128-cts-hmac-sha1-96 and aes256-cts-hmac-sha1-96 are also allowed.
 	IsWeakCiphersAllowed *bool `mandatory:"false" json:"isWeakCiphersAllowed"`
 }
 

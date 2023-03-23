@@ -26,6 +26,15 @@ type NewInstallationSite struct {
 
 	// Artifact content type for the Java version.
 	ArtifactContentType ArtifactContentTypeEnum `mandatory:"false" json:"artifactContentType,omitempty"`
+
+	// Custom path to install new Java installation site.
+	InstallationPath *string `mandatory:"false" json:"installationPath"`
+
+	// Flag to install headless or headful Java installation. Only valid for Oracle Linux in OCI.
+	HeadlessMode *bool `mandatory:"false" json:"headlessMode"`
+
+	// Forces the installation request even if a more recent release is already present in the host.
+	ForceInstall *bool `mandatory:"false" json:"forceInstall"`
 }
 
 func (m NewInstallationSite) String() string {

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// CreateLdapBindAccountDetails Account details for LDAP bind account to be used in creating outbound connector.
+// CreateLdapBindAccountDetails Account details for the LDAP bind account to be used by mount targets that use this outbound connector.
 type CreateLdapBindAccountDetails struct {
 
 	// The availability domain the outbound connector is in. May be unset
@@ -28,10 +28,10 @@ type CreateLdapBindAccountDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the outbound connector.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Array of server endpoints to use while trying to connect while using LDAP bind account.
+	// Array of server endpoints to use when connecting with the LDAP bind account.
 	Endpoints []Endpoint `mandatory:"true" json:"endpoints"`
 
-	// The LDAP Distinguished name of the bind account.
+	// The LDAP Distinguished Name of the bind account.
 	BindDistinguishedName *string `mandatory:"true" json:"bindDistinguishedName"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.

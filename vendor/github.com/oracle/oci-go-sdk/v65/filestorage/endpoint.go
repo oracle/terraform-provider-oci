@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// Endpoint Combination of server dns and port
+// Endpoint Combination of DNS server name and port.
 type Endpoint struct {
 
-	// String consisting of domain name server for endpoint
+	// Name of the DNS server.
 	Hostname *string `mandatory:"true" json:"hostname"`
 
-	// integer value of server endpoint
+	// Port of the DNS server.
 	Port *int64 `mandatory:"true" json:"port"`
 }
 

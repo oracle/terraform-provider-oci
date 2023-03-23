@@ -19,7 +19,7 @@ import (
 // ValidateKeyTabsDetails Validate keytabs request details.
 type ValidateKeyTabsDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the MountTarget whose KeyTabs to be validated.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target whose keytabs are to be validated.
 	MountTargetId *string `mandatory:"false" json:"mountTargetId"`
 
 	KeyTabSecretDetails *KeyTabSecretDetails `mandatory:"false" json:"keyTabSecretDetails"`

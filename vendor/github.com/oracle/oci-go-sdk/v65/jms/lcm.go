@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// Lcm Enable lifecycle management and set post action configurations
+// Lcm Enable lifecycle management and set post action configurations.
 type Lcm struct {
 
-	// Lcm flag to store enabled or disabled status
+	// Lifecycle management flag to store enabled or disabled status.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	PostInstallationActions *PostInstallationActionSettings `mandatory:"false" json:"postInstallationActions"`

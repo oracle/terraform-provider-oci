@@ -72,7 +72,7 @@ type MacsManagedExternalHostInsight struct {
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType MacsManagedExternalHostInsightPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -201,6 +201,7 @@ const (
 	MacsManagedExternalHostInsightPlatformTypeSunos   MacsManagedExternalHostInsightPlatformTypeEnum = "SUNOS"
 	MacsManagedExternalHostInsightPlatformTypeZlinux  MacsManagedExternalHostInsightPlatformTypeEnum = "ZLINUX"
 	MacsManagedExternalHostInsightPlatformTypeWindows MacsManagedExternalHostInsightPlatformTypeEnum = "WINDOWS"
+	MacsManagedExternalHostInsightPlatformTypeAix     MacsManagedExternalHostInsightPlatformTypeEnum = "AIX"
 )
 
 var mappingMacsManagedExternalHostInsightPlatformTypeEnum = map[string]MacsManagedExternalHostInsightPlatformTypeEnum{
@@ -209,6 +210,7 @@ var mappingMacsManagedExternalHostInsightPlatformTypeEnum = map[string]MacsManag
 	"SUNOS":   MacsManagedExternalHostInsightPlatformTypeSunos,
 	"ZLINUX":  MacsManagedExternalHostInsightPlatformTypeZlinux,
 	"WINDOWS": MacsManagedExternalHostInsightPlatformTypeWindows,
+	"AIX":     MacsManagedExternalHostInsightPlatformTypeAix,
 }
 
 var mappingMacsManagedExternalHostInsightPlatformTypeEnumLowerCase = map[string]MacsManagedExternalHostInsightPlatformTypeEnum{
@@ -217,6 +219,7 @@ var mappingMacsManagedExternalHostInsightPlatformTypeEnumLowerCase = map[string]
 	"sunos":   MacsManagedExternalHostInsightPlatformTypeSunos,
 	"zlinux":  MacsManagedExternalHostInsightPlatformTypeZlinux,
 	"windows": MacsManagedExternalHostInsightPlatformTypeWindows,
+	"aix":     MacsManagedExternalHostInsightPlatformTypeAix,
 }
 
 // GetMacsManagedExternalHostInsightPlatformTypeEnumValues Enumerates the set of values for MacsManagedExternalHostInsightPlatformTypeEnum
@@ -236,6 +239,7 @@ func GetMacsManagedExternalHostInsightPlatformTypeEnumStringValues() []string {
 		"SUNOS",
 		"ZLINUX",
 		"WINDOWS",
+		"AIX",
 	}
 }
 

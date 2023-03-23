@@ -72,7 +72,7 @@ type PeComanagedHostInsight struct {
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType PeComanagedHostInsightPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -201,6 +201,7 @@ const (
 	PeComanagedHostInsightPlatformTypeSunos   PeComanagedHostInsightPlatformTypeEnum = "SUNOS"
 	PeComanagedHostInsightPlatformTypeZlinux  PeComanagedHostInsightPlatformTypeEnum = "ZLINUX"
 	PeComanagedHostInsightPlatformTypeWindows PeComanagedHostInsightPlatformTypeEnum = "WINDOWS"
+	PeComanagedHostInsightPlatformTypeAix     PeComanagedHostInsightPlatformTypeEnum = "AIX"
 )
 
 var mappingPeComanagedHostInsightPlatformTypeEnum = map[string]PeComanagedHostInsightPlatformTypeEnum{
@@ -209,6 +210,7 @@ var mappingPeComanagedHostInsightPlatformTypeEnum = map[string]PeComanagedHostIn
 	"SUNOS":   PeComanagedHostInsightPlatformTypeSunos,
 	"ZLINUX":  PeComanagedHostInsightPlatformTypeZlinux,
 	"WINDOWS": PeComanagedHostInsightPlatformTypeWindows,
+	"AIX":     PeComanagedHostInsightPlatformTypeAix,
 }
 
 var mappingPeComanagedHostInsightPlatformTypeEnumLowerCase = map[string]PeComanagedHostInsightPlatformTypeEnum{
@@ -217,6 +219,7 @@ var mappingPeComanagedHostInsightPlatformTypeEnumLowerCase = map[string]PeComana
 	"sunos":   PeComanagedHostInsightPlatformTypeSunos,
 	"zlinux":  PeComanagedHostInsightPlatformTypeZlinux,
 	"windows": PeComanagedHostInsightPlatformTypeWindows,
+	"aix":     PeComanagedHostInsightPlatformTypeAix,
 }
 
 // GetPeComanagedHostInsightPlatformTypeEnumValues Enumerates the set of values for PeComanagedHostInsightPlatformTypeEnum
@@ -236,6 +239,7 @@ func GetPeComanagedHostInsightPlatformTypeEnumStringValues() []string {
 		"SUNOS",
 		"ZLINUX",
 		"WINDOWS",
+		"AIX",
 	}
 }
 

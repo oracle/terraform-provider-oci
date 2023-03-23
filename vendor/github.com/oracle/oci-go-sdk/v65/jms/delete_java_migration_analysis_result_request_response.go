@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package filestorage
+package jms
 
 import (
 	"fmt"
@@ -11,21 +11,23 @@ import (
 	"strings"
 )
 
-// DeleteShareSetRequest wrapper for the DeleteShareSet operation
-type DeleteShareSetRequest struct {
+// DeleteJavaMigrationAnalysisResultRequest wrapper for the DeleteJavaMigrationAnalysisResult operation
+type DeleteJavaMigrationAnalysisResultRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the share set.
-	ShareSetId *string `mandatory:"true" contributesTo:"path" name:"shareSetId"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
+	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
+
+	// The OCID of the analysis result.
+	JavaMigrationAnalysisResultId *string `mandatory:"true" contributesTo:"path" name:"javaMigrationAnalysisResultId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
-	// etag from a previous GET or POST response for that resource.
-	// The resource will be updated or deleted only if the etag you
-	// provide matches the resource's current etag value.
+	// ETag from a previous GET or POST response for that resource.
+	// The resource will be updated or deleted only if the ETag you
+	// provide matches the resource's current ETag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// Unique identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
+	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -33,12 +35,12 @@ type DeleteShareSetRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request DeleteShareSetRequest) String() string {
+func (request DeleteJavaMigrationAnalysisResultRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request DeleteShareSetRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request DeleteJavaMigrationAnalysisResultRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -48,21 +50,21 @@ func (request DeleteShareSetRequest) HTTPRequest(method, path string, binaryRequ
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request DeleteShareSetRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request DeleteJavaMigrationAnalysisResultRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteShareSetRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteJavaMigrationAnalysisResultRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request DeleteShareSetRequest) ValidateEnumValue() (bool, error) {
+func (request DeleteJavaMigrationAnalysisResultRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -70,23 +72,26 @@ func (request DeleteShareSetRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// DeleteShareSetResponse wrapper for the DeleteShareSet operation
-type DeleteShareSetResponse struct {
+// DeleteJavaMigrationAnalysisResultResponse wrapper for the DeleteJavaMigrationAnalysisResult operation
+type DeleteJavaMigrationAnalysisResultResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique Oracle-assigned identifier for the asynchronous request.
+	// You can use this to query the status of the asynchronous operation.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
+
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response DeleteShareSetResponse) String() string {
+func (response DeleteJavaMigrationAnalysisResultResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response DeleteShareSetResponse) HTTPResponse() *http.Response {
+func (response DeleteJavaMigrationAnalysisResultResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

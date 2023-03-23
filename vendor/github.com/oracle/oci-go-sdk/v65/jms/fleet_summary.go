@@ -32,23 +32,23 @@ type FleetSummary struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The approximate count of all unique Java Runtimes in the Fleet in the past seven days.
-	// This metric is provided on a best-effort manner, and is not taken into account when computing the resource ETag.
+	// This metric is provided on a best-effort manner, and isn't taken into account when computing the resource ETag.
 	ApproximateJreCount *int `mandatory:"true" json:"approximateJreCount"`
 
 	// The approximate count of all unique Java Installations in the Fleet in the past seven days.
-	// This metric is provided on a best-effort manner, and is not taken into account when computing the resource ETag.
+	// This metric is provided on a best-effort manner, and isn't taken into account when computing the resource ETag.
 	ApproximateInstallationCount *int `mandatory:"true" json:"approximateInstallationCount"`
 
 	// The approximate count of all unique applications in the Fleet in the past seven days.
-	// This metric is provided on a best-effort manner, and is not taken into account when computing the resource ETag.
+	// This metric is provided on a best-effort manner, and isn't taken into account when computing the resource ETag.
 	ApproximateApplicationCount *int `mandatory:"true" json:"approximateApplicationCount"`
 
 	// The approximate count of all unique managed instances in the Fleet in the past seven days.
-	// This metric is provided on a best-effort manner, and is not taken into account when computing the resource ETag.
+	// This metric is provided on a best-effort manner, and isn't taken into account when computing the resource ETag.
 	ApproximateManagedInstanceCount *int `mandatory:"true" json:"approximateManagedInstanceCount"`
 
 	// The approximate count of all unique Java servers in the Fleet in the past seven days.
-	// This metric is provided on a best-effort manner, and is not taken into account when computing the resource ETag.
+	// This metric is provided on a best-effort manner, and isn't taken into account when computing the resource ETag.
 	ApproximateJavaServerCount *int `mandatory:"true" json:"approximateJavaServerCount"`
 
 	// The creation date and time of the Fleet (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
@@ -61,7 +61,7 @@ type FleetSummary struct {
 
 	OperationLog *CustomLog `mandatory:"false" json:"operationLog"`
 
-	// Whether or not advanced features are enabled in this fleet.
+	// Whether or not advanced features are enabled in this Fleet.
 	// This flag is true if any one of the advanced features is turned on.
 	IsAdvancedFeaturesEnabled *bool `mandatory:"false" json:"isAdvancedFeaturesEnabled"`
 
@@ -69,7 +69,7 @@ type FleetSummary struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`. (See Managing Tags and Tag Namespaces (https://docs.cloud.oracle.com/Content/Tagging/Concepts/understandingfreeformtags.htm).)
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

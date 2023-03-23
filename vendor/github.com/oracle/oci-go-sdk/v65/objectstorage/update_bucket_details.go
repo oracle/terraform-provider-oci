@@ -78,6 +78,9 @@ type UpdateBucketDetails struct {
 	// automatically between the 'Standard' and 'InfrequentAccess' tiers based on the access pattern of the objects.
 	// When auto tiering is `Disabled`, there will be no automatic transitions between storage tiers.
 	AutoTiering BucketAutoTieringEnum `mandatory:"false" json:"autoTiering,omitempty"`
+
+	// The ID of the ACL Group that contains the network restriction rules to be applied to this bucket.
+	AclGroupId *string `mandatory:"false" json:"aclGroupId"`
 }
 
 func (m UpdateBucketDetails) String() string {

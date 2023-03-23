@@ -18,6 +18,7 @@ type JreSecurityStatusEnum string
 
 // Set of constants representing the allowable values for JreSecurityStatusEnum
 const (
+	JreSecurityStatusEarlyAccess     JreSecurityStatusEnum = "EARLY_ACCESS"
 	JreSecurityStatusUnknown         JreSecurityStatusEnum = "UNKNOWN"
 	JreSecurityStatusUpToDate        JreSecurityStatusEnum = "UP_TO_DATE"
 	JreSecurityStatusUpdateRequired  JreSecurityStatusEnum = "UPDATE_REQUIRED"
@@ -25,6 +26,7 @@ const (
 )
 
 var mappingJreSecurityStatusEnum = map[string]JreSecurityStatusEnum{
+	"EARLY_ACCESS":     JreSecurityStatusEarlyAccess,
 	"UNKNOWN":          JreSecurityStatusUnknown,
 	"UP_TO_DATE":       JreSecurityStatusUpToDate,
 	"UPDATE_REQUIRED":  JreSecurityStatusUpdateRequired,
@@ -32,6 +34,7 @@ var mappingJreSecurityStatusEnum = map[string]JreSecurityStatusEnum{
 }
 
 var mappingJreSecurityStatusEnumLowerCase = map[string]JreSecurityStatusEnum{
+	"early_access":     JreSecurityStatusEarlyAccess,
 	"unknown":          JreSecurityStatusUnknown,
 	"up_to_date":       JreSecurityStatusUpToDate,
 	"update_required":  JreSecurityStatusUpdateRequired,
@@ -50,6 +53,7 @@ func GetJreSecurityStatusEnumValues() []JreSecurityStatusEnum {
 // GetJreSecurityStatusEnumStringValues Enumerates the set of values in String for JreSecurityStatusEnum
 func GetJreSecurityStatusEnumStringValues() []string {
 	return []string{
+		"EARLY_ACCESS",
 		"UNKNOWN",
 		"UP_TO_DATE",
 		"UPDATE_REQUIRED",

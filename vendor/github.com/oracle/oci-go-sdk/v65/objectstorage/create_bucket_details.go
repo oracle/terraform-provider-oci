@@ -79,6 +79,9 @@ type CreateBucketDetails struct {
 	// `InfrequentAccess` are transitioned automatically between the 'Standard' and 'InfrequentAccess'
 	// tiers based on the access pattern of the objects.
 	AutoTiering BucketAutoTieringEnum `mandatory:"false" json:"autoTiering,omitempty"`
+
+	// The ID of the ACL Group that contains the network restriction rules to be applied to this bucket.
+	AclGroupId *string `mandatory:"false" json:"aclGroupId"`
 }
 
 func (m CreateBucketDetails) String() string {
