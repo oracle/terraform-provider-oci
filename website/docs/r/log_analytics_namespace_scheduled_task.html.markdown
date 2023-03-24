@@ -29,6 +29,14 @@ resource "oci_log_analytics_namespace_scheduled_task" "test_namespace_scheduled_
 		#Optional
 		compartment_id_in_subtree = var.namespace_scheduled_task_action_compartment_id_in_subtree
 		data_type = var.namespace_scheduled_task_action_data_type
+		metric_extraction {
+
+			#Optional
+			compartment_id = var.compartment_id
+			metric_name = oci_monitoring_metric.test_metric.name
+			namespace = var.namespace_scheduled_task_action_metric_extraction_namespace
+			resource_group = var.namespace_scheduled_task_action_metric_extraction_resource_group
+		}
 		purge_compartment_id = oci_identity_compartment.test_compartment.id
 		purge_duration = var.namespace_scheduled_task_action_purge_duration
 		query_string = var.namespace_scheduled_task_action_query_string
@@ -60,6 +68,11 @@ The following arguments are supported:
 * `action` - (Required when kind=STANDARD) Action for scheduled task.
 	* `compartment_id_in_subtree` - (Applicable when type=PURGE) if true, purge child compartments data
 	* `data_type` - (Required when type=PURGE) the type of the log data to be purged
+	* `metric_extraction` - (Applicable when type=STREAM) Specify metric extraction for SAVED_SEARCH scheduled task execution to post to Oracle Cloud Infrastructure Monitoring. 
+		* `compartment_id` - (Required when type=STREAM) (Updatable) The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the extracted metric. 
+		* `metric_name` - (Required when type=STREAM) The metric name of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). 
+		* `namespace` - (Required when type=STREAM) The namespace of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters and underscores (_). 
+		* `resource_group` - (Applicable when type=STREAM) The resource group of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). 
 	* `purge_compartment_id` - (Required when type=PURGE) the compartment OCID under which the data will be purged
 	* `purge_duration` - (Required when type=PURGE) The duration of data to be retained, which is used to calculate the timeDataEnded when the task fires. The value should be negative. Purge duration in ISO 8601 extended format as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. -P365D (not -P1Y) or -P14D (not -P2W). 
 	* `query_string` - (Required when type=PURGE) Purge query string.
@@ -69,7 +82,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name that is changeable and that does not have to be unique. Format: a leading alphanumeric, followed by zero or more alphanumerics, underscores, spaces, backslashes, or hyphens in any order). No trailing spaces allowed. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `kind` - (Required) Discriminator.
+* `kind` - (Required) (Updatable) Discriminator.
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
 * `saved_search_id` - (Required when kind=ACCELERATION) The ManagementSavedSearch id [OCID] to be accelerated.
 * `schedules` - (Required when kind=STANDARD) (Updatable) Schedules, typically a single schedule. Note there may only be a single schedule for SAVED_SEARCH and PURGE scheduled tasks. 
@@ -92,6 +105,11 @@ The following attributes are exported:
 * `action` - Action for scheduled task.
 	* `compartment_id_in_subtree` - if true, purge child compartments data
 	* `data_type` - the type of the log data to be purged
+	* `metric_extraction` - Specify metric extraction for SAVED_SEARCH scheduled task execution to post to Oracle Cloud Infrastructure Monitoring. 
+		* `compartment_id` - The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the extracted metric. 
+		* `metric_name` - The metric name of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). 
+		* `namespace` - The namespace of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters and underscores (_). 
+		* `resource_group` - The resource group of the extracted metric. A valid value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). 
 	* `purge_compartment_id` - the compartment OCID under which the data will be purged
 	* `purge_duration` - The duration of data to be retained, which is used to calculate the timeDataEnded when the task fires. The value should be negative. Purge duration in ISO 8601 extended format as described in https://en.wikipedia.org/wiki/ISO_8601#Durations. The largest supported unit is D, e.g. -P365D (not -P1Y) or -P14D (not -P2W). 
 	* `query_string` - Purge query string.
@@ -102,6 +120,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name that is changeable and that does not have to be unique. Format: a leading alphanumeric, followed by zero or more alphanumerics, underscores, spaces, backslashes, or hyphens in any order). No trailing spaces allowed. 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the data plane resource. 
+* `kind` - Discriminator.
 * `num_occurrences` - Number of execution occurrences.
 * `schedules` - Schedules.
 	* `expression` - Value in cron format.

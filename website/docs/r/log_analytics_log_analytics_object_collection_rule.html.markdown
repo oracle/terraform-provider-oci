@@ -32,6 +32,7 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "test_log_anal
 	description = var.log_analytics_object_collection_rule_description
 	entity_id = oci_log_analytics_entity.test_entity.id
 	freeform_tags = {"bar-key"= "value"}
+	is_enabled = var.log_analytics_object_collection_rule_is_enabled
 	log_set = var.log_analytics_object_collection_rule_log_set
 	log_set_ext_regex = var.log_analytics_object_collection_rule_log_set_ext_regex
 	log_set_key = var.log_analytics_object_collection_rule_log_set_key
@@ -48,12 +49,13 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "test_log_anal
 The following arguments are supported:
 
 * `char_encoding` - (Optional) (Updatable) An optional character encoding to aid in detecting the character encoding of the contents of the objects while processing. It is recommended to set this value as ISO_8589_1 when configuring content of the objects having more numeric characters, and very few alphabets. For e.g. this applies when configuring VCN Flow Logs. 
-* `collection_type` - (Optional) The type of collection. Supported collection types: LIVE, HISTORIC, HISTORIC_LIVE 
+* `collection_type` - (Optional) The type of collection. Supported collection types: LIVE, HISTORIC, HISTORIC_LIVE  
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which this rule belongs.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) A string that describes the details of the rule. It does not have to be unique, and can be changed. Avoid entering confidential information. 
 * `entity_id` - (Optional) (Updatable) Logging Analytics entity OCID. Associates the processed logs with the given entity (optional).
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `is_enabled` - (Optional) (Updatable) Whether or not this rule is currently enabled. 
 * `log_group_id` - (Required) (Updatable) Logging Analytics Log group OCID to associate the processed logs with.
 * `log_set` - (Optional) (Updatable) The logSet to be associated with the processed logs. The logSet feature can be used by customers with high volume of data  and this feature has to be enabled for a given tenancy prior to its usage. When logSetExtRegex value is provided, it will take precedence over this logSet value and logSet will be computed dynamically  using logSetKey and logSetExtRegex. 
 * `log_set_ext_regex` - (Optional) (Updatable) The regex to be applied against given logSetKey. Regex has to be in string escaped format. 
@@ -78,13 +80,14 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `char_encoding` - An optional character encoding to aid in detecting the character encoding of the contents of the objects while processing. It is recommended to set this value as ISO_8589_1 when configuring content of the objects having more numeric characters, and very few alphabets. For e.g. this applies when configuring VCN Flow Logs. 
-* `collection_type` - The type of collection. Supported collection types: LIVE, HISTORIC, HISTORIC_LIVE 
+* `collection_type` - The type of collection. Supported collection types: LIVE, HISTORIC, HISTORIC_LIVE  
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which this rule belongs.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - A string that describes the details of the rule. It does not have to be unique, and can be changed. Avoid entering confidential information. 
 * `entity_id` - Logging Analytics entity OCID to associate the processed logs with.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
+* `is_enabled` - Whether or not this rule is currently enabled. 
 * `lifecycle_details` - A detailed status of the life cycle state.
 * `log_group_id` - Logging Analytics Log group OCID to associate the processed logs with.
 * `log_set` - The logSet to be associated with the processed logs. The logSet feature can be used by customers with high volume of data  and this feature has to be enabled for a given tenancy prior to its usage. When logSetExtRegex value is provided, it will take precedence over this logSet value and logSet will be computed dynamically  using logSetKey and logSetExtRegex. 
