@@ -92,6 +92,46 @@ func LogAnalyticsNamespaceScheduledTaskResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"metric_extraction": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"metric_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"namespace": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"resource_group": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"purge_compartment_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -364,7 +404,6 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) Update() error {
 			}
 		}
 	}
-
 	request := oci_log_analytics.UpdateScheduledTaskRequest{}
 
 	// TODO: fix this when ACCELERATED tasks are supported
@@ -381,7 +420,6 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) Update() error {
 	} else {
 		return fmt.Errorf("unknown kind %s found in UpdateScheduledTaskRequest", kind.(string))
 	}
-
 	namespace, scheduledTaskId, err := parseNamespaceScheduledTaskCompositeId(s.D.Id())
 	if err == nil {
 		request.NamespaceName = &namespace
@@ -465,6 +503,8 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) SetData() error {
 	} else {
 		s.D.Set("action", nil)
 	}
+
+	s.D.Set("kind", "STANDARD")
 
 	if result.GetCompartmentId() != nil {
 		s.D.Set("compartment_id", result.GetCompartmentId())
@@ -568,6 +608,16 @@ func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToAction(fieldKeyFor
 		baseObject = details
 	case strings.ToLower("STREAM"):
 		details := oci_log_analytics.StreamAction{}
+		if metricExtraction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_extraction")); ok {
+			if tmpList := metricExtraction.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "metric_extraction"), 0)
+				tmp, err := s.mapToMetricExtraction(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert metric_extraction, encountered error: %v", err)
+				}
+				details.MetricExtraction = &tmp
+			}
+		}
 		if savedSearchId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "saved_search_id")); ok {
 			tmp := savedSearchId.(string)
 			details.SavedSearchId = &tmp
@@ -624,12 +674,64 @@ func LAActionToMap(obj oci_log_analytics.Action) map[string]interface{} {
 	case oci_log_analytics.StreamAction:
 		result["type"] = "STREAM"
 
+		if v.MetricExtraction != nil {
+			result["metric_extraction"] = []interface{}{MetricExtractionToMap(v.MetricExtraction)}
+		}
+
 		if v.SavedSearchId != nil {
 			result["saved_search_id"] = string(*v.SavedSearchId)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *LogAnalyticsNamespaceScheduledTaskResourceCrud) mapToMetricExtraction(fieldKeyFormat string) (oci_log_analytics.MetricExtraction, error) {
+	result := oci_log_analytics.MetricExtraction{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if metricName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_name")); ok {
+		tmp := metricName.(string)
+		result.MetricName = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.Namespace = &tmp
+	}
+
+	if resourceGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_group")); ok {
+		tmp := resourceGroup.(string)
+		result.ResourceGroup = &tmp
+	}
+
+	return result, nil
+}
+
+func MetricExtractionToMap(obj *oci_log_analytics.MetricExtraction) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.MetricName != nil {
+		result["metric_name"] = string(*obj.MetricName)
+	}
+
+	if obj.Namespace != nil {
+		result["namespace"] = string(*obj.Namespace)
+	}
+
+	if obj.ResourceGroup != nil {
+		result["resource_group"] = string(*obj.ResourceGroup)
 	}
 
 	return result

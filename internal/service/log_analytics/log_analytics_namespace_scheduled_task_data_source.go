@@ -92,6 +92,7 @@ func (s *LogAnalyticsNamespaceScheduledTaskDataSourceCrud) SetData() error {
 		scheduledTaskId = *((*(s.Res)).GetId())
 	}
 	s.D.Set("scheduled_task_id", scheduledTaskId)
+	s.D.Set("kind", "STANDARD")
 
 	s.D.SetId(GetNamespaceScheduledTaskCompositeId(namespace, scheduledTaskId))
 
