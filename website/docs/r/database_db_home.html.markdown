@@ -18,6 +18,7 @@ Creates a new Database Home in the specified database system based on the reques
 ```hcl
 resource "oci_database_db_home" "test_db_home" {
 	#Required
+	#Optional
 	database {
 		#Required
 		admin_password = var.db_home_database_admin_password
@@ -56,8 +57,6 @@ resource "oci_database_db_home" "test_db_home" {
 		time_stamp_for_point_in_time_recovery = var.db_home_database_time_stamp_for_point_in_time_recovery
 		vault_id = oci_kms_vault.test_vault.id
 	}
-
-	#Optional
 	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 	db_system_id = oci_database_db_system.test_db_system.id
 	db_version {
@@ -77,7 +76,7 @@ resource "oci_database_db_home" "test_db_home" {
 
 The following arguments are supported:
 
-* `database` - (Required) (Updatable) Details for creating a database.
+* `database` - (Optional) (Updatable) Details for creating a database.
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
 	* `admin_password` - (Required) A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
