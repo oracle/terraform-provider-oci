@@ -99,6 +99,11 @@ func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"log_set": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -298,6 +303,11 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Create() erro
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
+		tmp := isEnabled.(bool)
+		request.IsEnabled = &tmp
+	}
+
 	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
 		tmp := logGroupId.(string)
 		request.LogGroupId = &tmp
@@ -408,7 +418,6 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Get() error {
 		tmp := namespace.(string)
 		request.NamespaceName = &tmp
 	}
-
 	if logAnalyticsObjectCollectionRuleId, ok := s.D.GetOkExists("log_analytics_object_collection_rule_id"); ok {
 		tmp := logAnalyticsObjectCollectionRuleId.(string)
 		request.LogAnalyticsObjectCollectionRuleId = &tmp
@@ -470,6 +479,11 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Update() erro
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
+		tmp := isEnabled.(bool)
+		request.IsEnabled = &tmp
 	}
 
 	tmp := s.D.Id()
@@ -601,6 +615,10 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) SetData() err
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsEnabled != nil {
+		s.D.Set("is_enabled", *s.Res.IsEnabled)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -709,6 +727,10 @@ func LogAnalyticsObjectCollectionRuleSummaryToMap(obj oci_log_analytics.LogAnaly
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
 	}
 
 	if obj.LifecycleDetails != nil {
