@@ -11792,7 +11792,7 @@ func (client DatabaseClient) listDbSystemComputePerformances(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemComputePerformanceSummary/ListDbSystemComputePerformances"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/ListDbSystemComputePerformances"
 		err = common.PostProcessServiceError(err, "Database", "ListDbSystemComputePerformances", apiReferenceLink)
 		return response, err
 	}
@@ -12020,7 +12020,7 @@ func (client DatabaseClient) listDbSystemStoragePerformances(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemStoragePerformanceSummary/ListDbSystemStoragePerformances"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/ListDbSystemStoragePerformances"
 		err = common.PostProcessServiceError(err, "Database", "ListDbSystemStoragePerformances", apiReferenceLink)
 		return response, err
 	}

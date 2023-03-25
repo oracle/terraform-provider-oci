@@ -43,6 +43,12 @@ type ClusterNetwork struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the hpc island used by the cluster network.
+	HpcIslandId *string `mandatory:"false" json:"hpcIslandId"`
+
+	// The list of network block OCIDs of the HPC island.
+	NetworkBlockIds []string `mandatory:"false" json:"networkBlockIds"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
