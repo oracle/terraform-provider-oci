@@ -21,38 +21,32 @@ import (
 	"strings"
 )
 
-// InstanceReservationConfig Data that defines the capacity configuration.
-type InstanceReservationConfig struct {
+// UpdateComputeClusterDetails The data to update a compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm), which is a remote direct memory access (RDMA) network group.
+type UpdateComputeClusterDetails struct {
 
-	// The shape to use when launching instances using compute capacity reservations. The shape determines the number of CPUs, the amount of memory,
-	// and other resources allocated to the instance.
-	// You can list all available shapes by calling ListComputeCapacityReservationInstanceShapes.
-	InstanceShape *string `mandatory:"true" json:"instanceShape"`
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The total number of instances that can be launched from the capacity configuration.
-	ReservedCount *int64 `mandatory:"true" json:"reservedCount"`
+	// Defined tags for this resource. Each key is predefined and scoped to a
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The amount of capacity in use out of the total capacity reserved in this capacity configuration.
-	UsedCount *int64 `mandatory:"true" json:"usedCount"`
-
-	// The fault domain of this capacity configuration.
-	// If a value is not supplied, this capacity configuration is applicable to all fault domains in the specified availability domain.
-	// For more information, see Capacity Reservations (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm).
-	FaultDomain *string `mandatory:"false" json:"faultDomain"`
-
-	ClusterConfig *ClusterConfigDetails `mandatory:"false" json:"clusterConfig"`
-
-	InstanceShapeConfig *InstanceReservationShapeConfigDetails `mandatory:"false" json:"instanceShapeConfig"`
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }
 
-func (m InstanceReservationConfig) String() string {
+func (m UpdateComputeClusterDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m InstanceReservationConfig) ValidateEnumValue() (bool, error) {
+func (m UpdateComputeClusterDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
