@@ -79,6 +79,7 @@ resource "oci_core_instance" "test_instance" {
 		is_live_migration_preferred = var.instance_availability_config_is_live_migration_preferred
 		recovery_action = var.instance_availability_config_recovery_action
 	}
+	compute_cluster_id = oci_core_compute_cluster.test_compute_cluster.id
 	create_vnic_details {
 
 		#Optional
@@ -211,6 +212,7 @@ The following arguments are supported:
 * `availability_domain` - (Required) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 * `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation this instance is launched under. You can opt out of all default reservations by specifying an empty string as input for this field. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment.
+* `compute_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in. 
 * `create_vnic_details` - (Optional) (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
 	* `assign_private_dns_record` - (Optional) Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. The default value is true.  Example: `true`
 
@@ -405,7 +407,7 @@ The following arguments are supported:
 
 		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB.
 	* `kms_key_id` - (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
-	* `source_id` - (Required) The OCID of the boot volume used to boot the instance.
+	* `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `subnet_id` - (Optional) Deprecated. Instead use `subnetId` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/). At least one of them is required; if you provide both, the values must match. 
 * `state` - (Optional) (Updatable) The target state for the instance. Could be set to RUNNING or STOPPED.
@@ -578,7 +580,7 @@ The following attributes are exported:
 
 		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB.
 	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the boot volume.
-	* `source_id` - The OCID of the boot volume used to boot the instance.
+	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - The current state of the instance.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 

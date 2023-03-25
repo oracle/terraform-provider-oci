@@ -80,11 +80,18 @@ func (s *CoreClusterNetworkDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.HpcIslandId != nil {
+		s.D.Set("hpc_island_id", *s.Res.HpcIslandId)
+	}
+
 	instancePools := []interface{}{}
 	for _, item := range s.Res.InstancePools {
 		instancePools = append(instancePools, InstancePoolToMap(item))
 	}
 	s.D.Set("instance_pools", instancePools)
+
+	s.D.Set("network_block_ids", s.Res.NetworkBlockIds)
+	s.D.Set("network_block_ids", s.Res.NetworkBlockIds)
 
 	if s.Res.PlacementConfiguration != nil {
 		s.D.Set("placement_configuration", []interface{}{ClusterNetworkPlacementConfigurationDetailsToMap(s.Res.PlacementConfiguration, true)})
