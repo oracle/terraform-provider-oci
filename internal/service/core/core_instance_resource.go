@@ -147,6 +147,12 @@ func CoreInstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"compute_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"create_vnic_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -908,6 +914,11 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if computeClusterId, ok := s.D.GetOkExists("compute_cluster_id"); ok {
+		tmp := computeClusterId.(string)
+		request.ComputeClusterId = &tmp
 	}
 
 	if createVnicDetails, ok := s.D.GetOkExists("create_vnic_details"); ok {

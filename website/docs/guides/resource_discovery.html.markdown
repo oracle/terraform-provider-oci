@@ -521,6 +521,7 @@ core
 * oci\_core\_drg\_route\_table\_route\_rule
 * oci\_core\_capture\_filter
 * oci\_core\_vtap
+* oci\_core\_compute\_cluster
 
 data_connectivity
 

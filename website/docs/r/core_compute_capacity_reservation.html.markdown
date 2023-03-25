@@ -35,6 +35,13 @@ resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservat
 		reserved_count = var.compute_capacity_reservation_instance_reservation_configs_reserved_count
 
 		#Optional
+		cluster_config {
+			#Required
+			hpc_island_id = oci_core_hpc_island.test_hpc_island.id
+
+			#Optional
+			network_block_ids = var.compute_capacity_reservation_instance_reservation_configs_cluster_config_network_block_ids
+		}
 		fault_domain = var.compute_capacity_reservation_instance_reservation_configs_fault_domain
 		instance_shape_config {
 
@@ -59,6 +66,11 @@ The following arguments are supported:
 * `instance_reservation_configs` - (Optional) (Updatable) The capacity configurations for the capacity reservation.
 
 	To use the reservation for the desired shape, specify the shape, count, and optionally the fault domain where you want this configuration. 
+	* `cluster_config` - (Optional) (Updatable) The HPC cluster configuration requested when launching instances in a compute capacity reservation.
+
+		If the parameter is provided, the reservation is created with the HPC island and a list of HPC blocks that you specify. If a list of HPC blocks are missing or not provided, the reservation is created with any HPC blocks in the HPC island that you specify. If the values of HPC island or HPC block that you provide are not valid, an error is returned. 
+		* `hpc_island_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HpcIsland. 
+		* `network_block_ids` - (Optional) (Updatable) The list of OCID of the network blocks.
 	* `fault_domain` - (Optional) (Updatable) The fault domain to use for instances created using this capacity configuration. For more information, see [Fault Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm#fault). If you do not specify the fault domain, the capacity is available for an instance that does not specify a fault domain. To change the fault domain for a reservation, delete the reservation and create a new one in the preferred fault domain.
 
 		To retrieve a list of fault domains, use the `ListFaultDomains` operation in the [Identity and Access Management Service API](/iaas/api/#/en/identity/20160918/).
@@ -94,6 +106,11 @@ The following attributes are exported:
 * `instance_reservation_configs` - The capacity configurations for the capacity reservation.
 
 	To use the reservation for the desired shape, specify the shape, count, and optionally the fault domain where you want this configuration. 
+	* `cluster_config` - The HPC cluster configuration requested when launching instances in a compute capacity reservation.
+
+		If the parameter is provided, the reservation is created with the HPC island and a list of HPC blocks that you specify. If a list of HPC blocks are missing or not provided, the reservation is created with any HPC blocks in the HPC island that you specify. If the values of HPC island or HPC block that you provide are not valid, an error is returned. 
+		* `hpc_island_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HpcIsland. 
+		* `network_block_ids` - The list of OCID of the network blocks.
 	* `fault_domain` - The fault domain of this capacity configuration. If a value is not supplied, this capacity configuration is applicable to all fault domains in the specified availability domain. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm). 
 	* `instance_shape` - The shape to use when launching instances using compute capacity reservations. The shape determines the number of CPUs, the amount of memory, and other resources allocated to the instance. You can list all available shapes by calling [ListComputeCapacityReservationInstanceShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/computeCapacityReservationInstanceShapes/ListComputeCapacityReservationInstanceShapes). 
 	* `instance_shape_config` - The shape configuration requested when launching instances in a compute capacity reservation.

@@ -28,6 +28,7 @@ data "oci_core_instances" "test_instances" {
 	#Optional
 	availability_domain = var.instance_availability_domain
 	capacity_reservation_id = oci_core_capacity_reservation.test_capacity_reservation.id
+	compute_cluster_id = oci_core_compute_cluster.test_compute_cluster.id
 	display_name = var.instance_display_name
 	state = var.instance_state
 }
@@ -40,6 +41,7 @@ The following arguments are supported:
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `capacity_reservation_id` - (Optional) The OCID of the compute capacity reservation.
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compute_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute cluster. A compute cluster is a remote direct memory access (RDMA) network group. For more information, see [Compute Clusters](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm). 
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state. The state value is case-insensitive. 
 
@@ -223,7 +225,7 @@ The following attributes are exported:
 
 		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB.
 	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the boot volume.
-	* `source_id` - The OCID of the boot volume used to boot the instance.
+	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - The current state of the instance.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
