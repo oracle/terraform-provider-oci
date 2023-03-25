@@ -254,6 +254,17 @@ func CoreClusterNetworkResource() *schema.Resource {
 			},
 
 			// Computed
+			"hpc_island_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"network_block_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -508,11 +519,18 @@ func (s *CoreClusterNetworkResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.HpcIslandId != nil {
+		s.D.Set("hpc_island_id", *s.Res.HpcIslandId)
+	}
+
 	instancePools := []interface{}{}
 	for _, item := range s.Res.InstancePools {
 		instancePools = append(instancePools, InstancePoolToMap(item))
 	}
 	s.D.Set("instance_pools", instancePools)
+
+	s.D.Set("network_block_ids", s.Res.NetworkBlockIds)
+	s.D.Set("network_block_ids", s.Res.NetworkBlockIds)
 
 	if s.Res.PlacementConfiguration != nil {
 		s.D.Set("placement_configuration", []interface{}{ClusterNetworkPlacementConfigurationDetailsToMap(s.Res.PlacementConfiguration, false)})
@@ -540,7 +558,6 @@ func (s *CoreClusterNetworkResourceCrud) mapToClusterNetworkPlacementConfigurati
 		tmp := availabilityDomain.(string)
 		result.AvailabilityDomain = &tmp
 	}
-
 	if primarySubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_subnet_id")); ok {
 		tmp := primarySubnetId.(string)
 		result.PrimarySubnetId = &tmp
@@ -573,7 +590,6 @@ func ClusterNetworkPlacementConfigurationDetailsToMap(obj *oci_core.ClusterNetwo
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
 	}
-
 	if obj.PrimarySubnetId != nil {
 		result["primary_subnet_id"] = string(*obj.PrimarySubnetId)
 	}

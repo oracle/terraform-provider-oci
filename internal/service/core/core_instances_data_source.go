@@ -31,6 +31,10 @@ func CoreInstancesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"compute_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -82,6 +86,11 @@ func (s *CoreInstancesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if computeClusterId, ok := s.D.GetOkExists("compute_cluster_id"); ok {
+		tmp := computeClusterId.(string)
+		request.ComputeClusterId = &tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {

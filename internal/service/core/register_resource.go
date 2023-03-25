@@ -13,6 +13,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_core_capture_filter", CoreCaptureFilterResource())
 	tfresource.RegisterResource("oci_core_cluster_network", CoreClusterNetworkResource())
 	tfresource.RegisterResource("oci_core_compute_capacity_reservation", CoreComputeCapacityReservationResource())
+	tfresource.RegisterResource("oci_core_compute_cluster", CoreComputeClusterResource())
 	tfresource.RegisterResource("oci_core_compute_image_capability_schema", CoreComputeImageCapabilitySchemaResource())
 	tfresource.RegisterResource("oci_core_console_history", CoreConsoleHistoryResource())
 	tfresource.RegisterResource("oci_core_cpe", CoreCpeResource())

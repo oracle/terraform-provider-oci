@@ -32,6 +32,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_core_compute_capacity_reservation_instance_shapes", CoreComputeCapacityReservationInstanceShapesDataSource())
 	tfresource.RegisterDatasource("oci_core_compute_capacity_reservation_instances", CoreComputeCapacityReservationInstancesDataSource())
 	tfresource.RegisterDatasource("oci_core_compute_capacity_reservations", CoreComputeCapacityReservationsDataSource())
+	tfresource.RegisterDatasource("oci_core_compute_cluster", CoreComputeClusterDataSource())
+	tfresource.RegisterDatasource("oci_core_compute_clusters", CoreComputeClustersDataSource())
 	tfresource.RegisterDatasource("oci_core_compute_global_image_capability_schema", CoreComputeGlobalImageCapabilitySchemaDataSource())
 	tfresource.RegisterDatasource("oci_core_compute_global_image_capability_schemas", CoreComputeGlobalImageCapabilitySchemasDataSource())
 	tfresource.RegisterDatasource("oci_core_compute_global_image_capability_schemas_version", CoreComputeGlobalImageCapabilitySchemasVersionDataSource())
