@@ -155,7 +155,7 @@ resource "oci_core_subnet" "nodePool_Subnet_2" {
 resource "oci_containerengine_cluster" "test_cluster" {
   #Required
   compartment_id     = var.compartment_ocid
-  kubernetes_version = data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[0]
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "tfTestCluster"
   vcn_id             = oci_core_vcn.test_vcn.id
 
@@ -180,7 +180,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 
     admission_controller_options {
       #Optional
-      is_pod_security_policy_enabled = true
+      is_pod_security_policy_enabled = false
     }
 
     kubernetes_network_config {
@@ -195,10 +195,10 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
   #Required
   cluster_id         = oci_containerengine_cluster.test_cluster.id
   compartment_id     = var.compartment_ocid
-  kubernetes_version = data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions[0]
+  kubernetes_version = reverse(data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions)[0]
   name               = "tfPool"
   node_shape         = "VM.Standard2.1"
-  subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id, oci_core_subnet.nodePool_Subnet_2.id]
+  subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id]
 
   #Optional
   initial_node_labels {
@@ -222,7 +222,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
     boot_volume_size_in_gbs = "60"
   }
 
-  quantity_per_subnet = 2
+  quantity_per_subnet = 1
   ssh_public_key      = var.node_pool_ssh_public_key
 }
 
@@ -230,10 +230,10 @@ resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
   #Required
   cluster_id         = oci_containerengine_cluster.test_cluster.id
   compartment_id     = var.compartment_ocid
-  kubernetes_version = data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions[0]
+  kubernetes_version = reverse(data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions)[0]
   name               = "flexShapePool"
   node_shape         = "VM.Standard.E3.Flex"
-  subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id, oci_core_subnet.nodePool_Subnet_2.id]
+  subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id]
 
   node_source_details {
     #Required
@@ -246,7 +246,7 @@ resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
     memory_in_gbs = 40
   }
 
-  quantity_per_subnet = 2
+  quantity_per_subnet = 1
   ssh_public_key      = var.node_pool_ssh_public_key
 }
 

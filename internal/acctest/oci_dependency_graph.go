@@ -34,6 +34,7 @@ func InitDependencyGraph() {
 	DependencyGraph["cloudExadataInfrastructure"] = append(DependencyGraph["cloudExadataInfrastructure"], "DatabaseCloudVmCluster")
 	DependencyGraph["cluster"] = append(DependencyGraph["cluster"], "ContainerengineClusterKubeConfig")
 	DependencyGraph["cluster"] = append(DependencyGraph["cluster"], "ContainerengineNodePool")
+	DependencyGraph["cluster"] = append(DependencyGraph["cluster"], "ContainerengineVirtualNodePool")
 	DependencyGraph["configuration"] = append(DependencyGraph["configuration"], "MysqlMysqlDbSystem")
 	DependencyGraph["cpe"] = append(DependencyGraph["cpe"], "CoreIpSecConnection")
 	DependencyGraph["cpeDeviceShape"] = append(DependencyGraph["cpeDeviceShape"], "CoreCpe")
