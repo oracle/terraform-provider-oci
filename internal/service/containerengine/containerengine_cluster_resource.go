@@ -331,6 +331,11 @@ func ContainerengineClusterResource() *schema.Resource {
 					},
 				},
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"available_kubernetes_upgrades": {
@@ -581,6 +586,10 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 			}
 			request.Options = &tmp
 		}
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_containerengine.ClusterTypeEnum(type_.(string))
 	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
@@ -886,6 +895,10 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 		}
 	}
 
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_containerengine.ClusterTypeEnum(type_.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.UpdateCluster(context.Background(), request)
@@ -1018,13 +1031,15 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
-	//if s.Res.Options != nil {
-	//	s.D.Set("options", []interface{}{ClusterCreateOptionsToMap(s.Res.Options)})
-	//} else {
-	//	s.D.Set("options", nil)
-	//}
+	if s.Res.Options != nil {
+		s.D.Set("options", []interface{}{ClusterCreateOptionsToMap(s.Res.Options)})
+	} else {
+		s.D.Set("options", nil)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("type", s.Res.Type)
 
 	if s.Res.VcnId != nil {
 		s.D.Set("vcn_id", *s.Res.VcnId)
@@ -1033,35 +1048,35 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 	return nil
 }
 
-//func (s *ContainerengineClusterResourceCrud) mapToAddOnOptions(fieldKeyFormat string) (oci_containerengine.AddOnOptions, error) {
-//	result := oci_containerengine.AddOnOptions{}
-//
-//	if isKubernetesDashboardEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_kubernetes_dashboard_enabled")); ok {
-//		tmp := isKubernetesDashboardEnabled.(bool)
-//		result.IsKubernetesDashboardEnabled = &tmp
-//	}
-//
-//	if isTillerEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_tiller_enabled")); ok {
-//		tmp := isTillerEnabled.(bool)
-//		result.IsTillerEnabled = &tmp
-//	}
-//
-//	return result, nil
-//}
+func (s *ContainerengineClusterResourceCrud) mapToAddOnOptions(fieldKeyFormat string) (oci_containerengine.AddOnOptions, error) {
+	result := oci_containerengine.AddOnOptions{}
 
-//func AddOnOptionsToMap(obj *oci_containerengine.AddOnOptions) map[string]interface{} {
-//	result := map[string]interface{}{}
-//
-//	if obj.IsKubernetesDashboardEnabled != nil {
-//		result["is_kubernetes_dashboard_enabled"] = bool(*obj.IsKubernetesDashboardEnabled)
-//	}
-//
-//	if obj.IsTillerEnabled != nil {
-//		result["is_tiller_enabled"] = bool(*obj.IsTillerEnabled)
-//	}
-//
-//	return result
-//}
+	if isKubernetesDashboardEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_kubernetes_dashboard_enabled")); ok {
+		tmp := isKubernetesDashboardEnabled.(bool)
+		result.IsKubernetesDashboardEnabled = &tmp
+	}
+
+	if isTillerEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_tiller_enabled")); ok {
+		tmp := isTillerEnabled.(bool)
+		result.IsTillerEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func AddOnOptionsToMap(obj *oci_containerengine.AddOnOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsKubernetesDashboardEnabled != nil {
+		result["is_kubernetes_dashboard_enabled"] = bool(*obj.IsKubernetesDashboardEnabled)
+	}
+
+	if obj.IsTillerEnabled != nil {
+		result["is_tiller_enabled"] = bool(*obj.IsTillerEnabled)
+	}
+
+	return result
+}
 
 func (s *ContainerengineClusterResourceCrud) mapToAdmissionControllerOptions(fieldKeyFormat string) (oci_containerengine.AdmissionControllerOptions, error) {
 	result := oci_containerengine.AdmissionControllerOptions{}
@@ -1087,16 +1102,16 @@ func AdmissionControllerOptionsToMap(obj *oci_containerengine.AdmissionControlle
 func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyFormat string) (oci_containerengine.ClusterCreateOptions, error) {
 	result := oci_containerengine.ClusterCreateOptions{}
 
-	//if addOns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "add_ons")); ok {
-	//	if tmpList := addOns.([]interface{}); len(tmpList) > 0 {
-	//		fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "add_ons"), 0)
-	//		tmp, err := s.mapToAddOnOptions(fieldKeyFormatNextLevel)
-	//		if err != nil {
-	//			return result, fmt.Errorf("unable to convert add_ons, encountered error: %v", err)
-	//		}
-	//		result.AddOns = &tmp
-	//	}
-	//}
+	if addOns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "add_ons")); ok {
+		if tmpList := addOns.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "add_ons"), 0)
+			tmp, err := s.mapToAddOnOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert add_ons, encountered error: %v", err)
+			}
+			result.AddOns = &tmp
+		}
+	}
 
 	if admissionControllerOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admission_controller_options")); ok {
 		if tmpList := admissionControllerOptions.([]interface{}); len(tmpList) > 0 {
@@ -1158,33 +1173,33 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 	return result, nil
 }
 
-//func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) map[string]interface{} {
-//	result := map[string]interface{}{}
-//
-//	if obj.AddOns != nil {
-//		result["add_ons"] = []interface{}{AddOnOptionsToMap(obj.AddOns)}
-//	}
-//
-//	if obj.AdmissionControllerOptions != nil {
-//		result["admission_controller_options"] = []interface{}{AdmissionControllerOptionsToMap(obj.AdmissionControllerOptions)}
-//	}
-//
-//	if obj.KubernetesNetworkConfig != nil {
-//		result["kubernetes_network_config"] = []interface{}{KubernetesNetworkConfigToMap(obj.KubernetesNetworkConfig)}
-//	}
-//
-//	if obj.PersistentVolumeConfig != nil {
-//		result["persistent_volume_config"] = []interface{}{PersistentVolumeConfigDetailsToMap(obj.PersistentVolumeConfig)}
-//	}
-//
-//	if obj.ServiceLbConfig != nil {
-//		result["service_lb_config"] = []interface{}{ServiceLbConfigDetailsToMap(obj.ServiceLbConfig)}
-//	}
-//
-//	result["service_lb_subnet_ids"] = obj.ServiceLbSubnetIds
-//
-//	return result
-//}
+func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AddOns != nil {
+		result["add_ons"] = []interface{}{AddOnOptionsToMap(obj.AddOns)}
+	}
+
+	if obj.AdmissionControllerOptions != nil {
+		result["admission_controller_options"] = []interface{}{AdmissionControllerOptionsToMap(obj.AdmissionControllerOptions)}
+	}
+
+	if obj.KubernetesNetworkConfig != nil {
+		result["kubernetes_network_config"] = []interface{}{KubernetesNetworkConfigToMap(obj.KubernetesNetworkConfig)}
+	}
+
+	if obj.PersistentVolumeConfig != nil {
+		result["persistent_volume_config"] = []interface{}{PersistentVolumeConfigDetailsToMap(obj.PersistentVolumeConfig)}
+	}
+
+	if obj.ServiceLbConfig != nil {
+		result["service_lb_config"] = []interface{}{ServiceLbConfigDetailsToMap(obj.ServiceLbConfig)}
+	}
+
+	result["service_lb_subnet_ids"] = obj.ServiceLbSubnetIds
+
+	return result
+}
 
 func ClusterEndpointsToMap(obj *oci_containerengine.ClusterEndpoints) map[string]interface{} {
 	result := map[string]interface{}{}
