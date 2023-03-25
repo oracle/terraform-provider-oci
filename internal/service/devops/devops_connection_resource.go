@@ -131,6 +131,31 @@ func DevopsConnectionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"last_connection_validation_result": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"result": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_validated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -434,6 +459,12 @@ func (s *DevopsConnectionResourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
+		if v.LastConnectionValidationResult != nil {
+			s.D.Set("last_connection_validation_result", []interface{}{ConnectionValidationResultToMap(v.LastConnectionValidationResult)})
+		} else {
+			s.D.Set("last_connection_validation_result", nil)
+		}
+
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
 		}
@@ -490,6 +521,12 @@ func (s *DevopsConnectionResourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
+		if v.LastConnectionValidationResult != nil {
+			s.D.Set("last_connection_validation_result", []interface{}{ConnectionValidationResultToMap(v.LastConnectionValidationResult)})
+		} else {
+			s.D.Set("last_connection_validation_result", nil)
+		}
+
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
 		}
@@ -532,6 +569,12 @@ func (s *DevopsConnectionResourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
+		if v.LastConnectionValidationResult != nil {
+			s.D.Set("last_connection_validation_result", []interface{}{ConnectionValidationResultToMap(v.LastConnectionValidationResult)})
+		} else {
+			s.D.Set("last_connection_validation_result", nil)
+		}
+
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
 		}
@@ -573,6 +616,12 @@ func (s *DevopsConnectionResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LastConnectionValidationResult != nil {
+			s.D.Set("last_connection_validation_result", []interface{}{ConnectionValidationResultToMap(v.LastConnectionValidationResult)})
+		} else {
+			s.D.Set("last_connection_validation_result", nil)
+		}
 
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
@@ -630,6 +679,12 @@ func (s *DevopsConnectionResourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
+		if v.LastConnectionValidationResult != nil {
+			s.D.Set("last_connection_validation_result", []interface{}{ConnectionValidationResultToMap(v.LastConnectionValidationResult)})
+		} else {
+			s.D.Set("last_connection_validation_result", nil)
+		}
+
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
 		}
@@ -675,6 +730,12 @@ func (s *DevopsConnectionResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LastConnectionValidationResult != nil {
+			s.D.Set("last_connection_validation_result", []interface{}{ConnectionValidationResultToMap(v.LastConnectionValidationResult)})
+		} else {
+			s.D.Set("last_connection_validation_result", nil)
+		}
 
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
@@ -817,6 +878,22 @@ func devopsConnectionSummaryToMap(obj oci_devops.ConnectionSummary) map[string]i
 	default:
 		log.Printf("[WARN] Received 'connection_type' of unknown type %v", obj)
 		return nil
+	}
+
+	return result
+}
+
+func ConnectionValidationResultToMap(obj *oci_devops.ConnectionValidationResult) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Message != nil {
+		result["message"] = string(*obj.Message)
+	}
+
+	result["result"] = string(obj.Result)
+
+	if obj.TimeValidated != nil {
+		result["time_validated"] = obj.TimeValidated.String()
 	}
 
 	return result
