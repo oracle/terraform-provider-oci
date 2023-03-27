@@ -124,7 +124,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Optional, acctest.Create, CloudGuardDetectorRecipeRepresentation), "cloudguard", "detectorRecipe", t)
 
 	acctest.ResourceTest(t, testAccCheckCloudGuardDetectorRecipeDestroy, []resource.TestStep{
-		// verify Create
+		// verify Create Recipe
 		{
 			Config: config + compartmentIdVariableStr + CloudGuardDetectorRecipeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Required, acctest.Create, CloudGuardDetectorRecipeRepresentation),
@@ -140,7 +140,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next Create
+		// Test delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + CloudGuardDetectorRecipeResourceDependencies,
 		},
