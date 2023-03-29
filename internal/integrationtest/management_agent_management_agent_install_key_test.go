@@ -309,7 +309,7 @@ func getManagementAgentInstallKeyIds(compartment string) ([]string, error) {
 func managementAgentInstallKeySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if managementAgentInstallKeyResponse, ok := response.Response.(oci_management_agent.GetManagementAgentInstallKeyResponse); ok {
-		return managementAgentInstallKeyResponse.LifecycleState != oci_management_agent.LifecycleStatesTerminated
+		return managementAgentInstallKeyResponse.LifecycleState != oci_management_agent.LifecycleStatesTerminated && managementAgentInstallKeyResponse.LifecycleState != oci_management_agent.LifecycleStatesDeleted
 	}
 	return false
 }

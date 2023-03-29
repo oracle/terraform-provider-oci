@@ -71,10 +71,10 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
   license_model                   = "LICENSE_INCLUDED"
   subnet_id                       = oci_core_subnet.exadata_subnet.id
   #Optional
-  autonomous_data_storage_size_in_tbs   = 5
-  memory_per_oracle_compute_unit_in_gbs = 27
-  cpu_core_count_per_node               = 50
-  total_container_databases             = 12
+#  autonomous_data_storage_size_in_tbs   = 5
+#  memory_per_oracle_compute_unit_in_gbs = 27
+#  cpu_core_count_per_node               = 50
+#  total_container_databases             = 12
   compute_model                   = "ECPU"
 }
 

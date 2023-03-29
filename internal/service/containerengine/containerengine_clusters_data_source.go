@@ -179,6 +179,8 @@ func (s *ContainerengineClustersDataSourceCrud) SetData() error {
 
 		cluster["state"] = r.LifecycleState
 
+		cluster["type"] = r.Type
+
 		if r.VcnId != nil {
 			cluster["vcn_id"] = *r.VcnId
 		}

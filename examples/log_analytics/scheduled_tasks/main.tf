@@ -12,6 +12,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
+variable "saved_search_id" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -32,7 +33,7 @@ resource "oci_log_analytics_namespace_scheduled_task" "test_namespace_scheduled_
   namespace = data.oci_objectstorage_namespace.test_namespace.namespace
   kind = "STANDARD"
   task_type = "PURGE"
-  display_name = "tfPurgeTask"
+  display_name = "tfPurgeTask1"
 
   action {
     compartment_id_in_subtree = "false"
@@ -58,10 +59,37 @@ resource "oci_log_analytics_namespace_scheduled_task" "test_namespace_scheduled_
   }
 }
 
+resource "oci_log_analytics_namespace_scheduled_task" "test_namespace_scheduled_task_metric" {
+    compartment_id = var.compartment_ocid
+    namespace = data.oci_objectstorage_namespace.test_namespace.namespace
+    kind = "STANDARD"
+    task_type = "SAVED_SEARCH"
+    display_name = "tfPurgeTask2"
+
+    action {
+        metric_extraction {
+          compartment_id = var.compartment_ocid
+          namespace = "test_scheduled_task_metrics"
+          metric_name = "count"
+        }
+        type = "STREAM"
+        saved_search_id = var.saved_search_id
+    }
+
+    schedules {
+      schedule {
+         type = "FIXED_FREQUENCY"
+         misfire_policy = "RETRY_ONCE"
+         recurring_interval = "PT5M"
+         repeat_count = "10"
+       }
+    }
+} 
+
 # look up using the scheduled tasks data source
 data "oci_log_analytics_namespace_scheduled_tasks" "test_namespace_scheduled_tasks" {
   compartment_id = var.compartment_ocid
-  display_name = "tfPurgeTask2"
+  display_name = "tfPurgeTask3"
   filter {
     name = "id"
     values = ["${oci_log_analytics_namespace_scheduled_task.test_namespace_scheduled_task.id}"]

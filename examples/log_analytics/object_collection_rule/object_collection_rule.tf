@@ -80,6 +80,9 @@ variable "object_collection_rule_log_set_key" {
 variable "object_collection_rule_timezone" {
   default = "Asia/Dhaka"
 }
+variable "object_collection_rule_is_enabled" {
+  default = "true"
+}
 
 # Create a object collection rule with required parameters
 resource "oci_log_analytics_log_analytics_object_collection_rule" "objectCollectionRuleRequired" {
@@ -130,6 +133,7 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "objectCollect
     property_value   = var.object_collection_rule_log_source_override_property_value
   }
   object_name_filters              = [var.object_collection_rule_object_name_filter]
+  is_enabled = var.object_collection_rule_is_enabled
 }
 
 # Get details of above created object collection rule with optional parameters

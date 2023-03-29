@@ -44,6 +44,8 @@ type GithubAccessTokenConnectionSummary struct {
 	// The time the connection was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	LastConnectionValidationResult *ConnectionValidationResult `mandatory:"false" json:"lastConnectionValidationResult"`
+
 	// A detailed message describing the current state. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -93,6 +95,11 @@ func (m GithubAccessTokenConnectionSummary) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m GithubAccessTokenConnectionSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+//GetLastConnectionValidationResult returns LastConnectionValidationResult
+func (m GithubAccessTokenConnectionSummary) GetLastConnectionValidationResult() *ConnectionValidationResult {
+	return m.LastConnectionValidationResult
 }
 
 //GetLifecycleDetails returns LifecycleDetails

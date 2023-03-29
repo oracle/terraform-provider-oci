@@ -99,6 +99,10 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceCrud) SetData() e
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsEnabled != nil {
+		s.D.Set("is_enabled", *s.Res.IsEnabled)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

@@ -901,6 +901,18 @@ var exportCoreVtapHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportCoreComputeClusterHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_core_compute_cluster",
+	DatasourceClass:        "oci_core_compute_clusters",
+	DatasourceItemsAttr:    "compute_cluster_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "compute_cluster",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.ComputeClusterLifecycleStateActive),
+	},
+}
+
 var coreResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
@@ -948,6 +960,7 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCorePublicIpPoolHints},
 		{TerraformResourceHints: exportCoreCaptureFilterHints},
 		{TerraformResourceHints: exportCoreVtapHints},
+		{TerraformResourceHints: exportCoreComputeClusterHints},
 	},
 	"oci_core_boot_volume": {
 		{

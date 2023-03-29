@@ -84,7 +84,7 @@ type DbSystemShapeSummary struct {
 	// The maximum number of compute servers available for this shape.
 	MaximumNodeCount *int `mandatory:"false" json:"maximumNodeCount"`
 
-	// The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes.
+	// The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape, ExaCC Elastic shapes and VM Flex shapes.
 	AvailableCoreCountPerNode *int `mandatory:"false" json:"availableCoreCountPerNode"`
 }
 

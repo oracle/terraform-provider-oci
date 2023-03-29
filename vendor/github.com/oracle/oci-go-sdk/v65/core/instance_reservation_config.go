@@ -40,6 +40,8 @@ type InstanceReservationConfig struct {
 	// For more information, see Capacity Reservations (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm).
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
+	ClusterConfig *ClusterConfigDetails `mandatory:"false" json:"clusterConfig"`
+
 	InstanceShapeConfig *InstanceReservationShapeConfigDetails `mandatory:"false" json:"instanceShapeConfig"`
 }
 
