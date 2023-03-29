@@ -32,11 +32,13 @@ The following arguments are supported:
 
 * `drg_route_table_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
 
-		Potential values:
-		* IP address range in CIDR notation. This can be an IPv4 or IPv6 CIDR. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. 
-	* `destination_type` - (Required) Type of destination for the rule. Allowed values:
-		* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation. 
-	* `next_hop_drg_attachment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next hop DRG attachment. The next hop DRG attachment is responsible for reaching the network destination.
+* `destination` - (Required) (Updatable) This is the range of IP addresses used for matching when routing traffic. Only CIDR_BLOCK values are allowed.
+
+	Potential values:
+	* IP address range in CIDR notation. This can be an IPv4 or IPv6 CIDR. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`.
+* `destination_type` - (Required) Type of destination for the rule. Required if `direction` = `EGRESS`. Allowed values:
+	* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation. 
+* `next_hop_drg_attachment_id` - (Required)  The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next hop DRG attachment. The next hop DRG attachment is responsible for reaching the network destination.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values

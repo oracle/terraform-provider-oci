@@ -69,6 +69,7 @@ var (
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `test terraform rule create`, Update: `test terraform rule update`},
 		"entity_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_log_analytics_log_analytics_entity.test_log_analytics_entity.id}`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enabled":          acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: nil},
 		"log_set":             acctest.Representation{RepType: acctest.Optional, Create: `logSet`, Update: `logSet2`},
 		"object_name_filters": acctest.Representation{RepType: acctest.Optional, Create: []string{`objectNameFilters`}, Update: []string{`objectNameFilters2`}},
 		"timezone":            acctest.Representation{RepType: acctest.Optional, Create: `Asia/Dhaka`, Update: `America/New_York`},
@@ -96,9 +97,6 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	managementAgentId := utils.GetEnvSettingWithBlankDefault("managed_agent_id")
-	if managementAgentId == "" {
-		t.Skip("Manual install agent and set managed_agent_id to run this test")
-	}
 	managementAgentIdVariableStr := fmt.Sprintf("variable \"managed_agent_id\" { default = \"%s\" }\n", managementAgentId)
 
 	resourceName := "oci_log_analytics_log_analytics_object_collection_rule.test_log_analytics_object_collection_rule"
@@ -153,6 +151,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
 				resource.TestCheckResourceAttr(resourceName, "overrides.#", "1"),
@@ -198,6 +197,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
 				resource.TestCheckResourceAttr(resourceName, "overrides.#", "1"),
@@ -239,6 +239,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(resourceName, "log_source_name", "LinuxSyslogSource"),
 				resource.TestCheckResourceAttr(resourceName, "name", "test_terraform_rule"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_bucket_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_namespace"),
 				resource.TestCheckResourceAttr(resourceName, "overrides.#", "1"),
@@ -275,6 +276,8 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 
 				resource.TestCheckResourceAttr(datasourceName, "log_analytics_object_collection_rule_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "log_analytics_object_collection_rule_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "log_analytics_object_collection_rule_collection.0.items.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "log_analytics_object_collection_rule_collection.0.items.0.is_enabled", "true"),
 			),
 		},
 		// verify singular datasource
@@ -292,6 +295,7 @@ func TestLogAnalyticsLogAnalyticsObjectCollectionRuleResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "test terraform rule update"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_set", "logSet2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "object_name_filters.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "log_source_name", "LinuxSyslogSource"),

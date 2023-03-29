@@ -532,7 +532,7 @@ func getCorePublicIpIds(compartment string) ([]string, error) {
 func CorePublicIpSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if publicIpResponse, ok := response.Response.(oci_core.GetPublicIpResponse); ok {
-		return publicIpResponse.LifecycleState != oci_core.PublicIpLifecycleStateTerminated
+		return publicIpResponse.LifecycleState != oci_core.PublicIpLifecycleStateUnassigned && publicIpResponse.LifecycleState != oci_core.PublicIpLifecycleStateTerminated
 	}
 	return false
 }

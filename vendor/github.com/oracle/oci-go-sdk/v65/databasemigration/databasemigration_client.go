@@ -460,6 +460,69 @@ func (client DatabaseMigrationClient) cloneMigration(ctx context.Context, reques
 	return response, err
 }
 
+// ConnectionDiagnostics Perform connection test for a database connection.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ConnectionDiagnostics.go.html to see an example of how to use ConnectionDiagnostics API.
+// A default retry strategy applies to this operation ConnectionDiagnostics()
+func (client DatabaseMigrationClient) ConnectionDiagnostics(ctx context.Context, request ConnectionDiagnosticsRequest) (response ConnectionDiagnosticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.connectionDiagnostics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConnectionDiagnosticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConnectionDiagnosticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConnectionDiagnosticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConnectionDiagnosticsResponse")
+	}
+	return
+}
+
+// connectionDiagnostics implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) connectionDiagnostics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connections/{connectionId}/actions/diagnostics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConnectionDiagnosticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Connection/ConnectionDiagnostics"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ConnectionDiagnostics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateConnection Create a Database Connection resource that contains the details to connect to either a Source or Target Database
 // in the migration.
 //

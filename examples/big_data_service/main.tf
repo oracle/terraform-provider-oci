@@ -114,6 +114,9 @@ variable "bds_instance_state" {
   default = "ACTIVE"
 }
 
+data "oci_core_services" "test_bds_services" {
+}
+
 #Uncomment this when running in home region (PHX)
 #variable "tag_namespace_description" {
 #  default = "Just a test"
@@ -155,6 +158,30 @@ resource "oci_core_vcn" "vcn_bds" {
   dns_label      = "bdsvcn"
 }
 
+resource "oci_core_service_gateway" "export_sgw" {
+  compartment_id = var.compartment_id
+  display_name   = "sgw"
+
+  services {
+    service_id = data.oci_core_services.test_bds_services.services[0]["id"]
+  }
+
+  vcn_id = oci_core_vcn.vcn_bds.id
+}
+
+resource "oci_core_route_table" "private_rt" {
+  compartment_id = var.compartment_id
+  display_name   = "private-rt"
+
+  route_rules {
+    destination       = data.oci_core_services.test_bds_services.services[0]["cidr_block"]
+    destination_type  = "SERVICE_CIDR_BLOCK"
+    network_entity_id = oci_core_service_gateway.export_sgw.id
+  }
+
+  vcn_id = oci_core_vcn.vcn_bds.id
+}
+
 resource "oci_core_subnet" "regional_subnet_bds" {
   cidr_block        = "111.111.0.0/24"
   display_name      = "regionalSubnetBds"
@@ -177,6 +204,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   is_secure              = var.bds_instance_is_secure
   kms_key_id             = var.kms_key_id
   cluster_profile        = var.cluster_profile
+  bootstrap_script_url = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/5M6CdCgyfNKcMGvdSIdK20tC9TAf0mVFkMsSlMdmmCaKusIX3DVixBS-_oDhJoxi/n/oraclebigdatadb/b/bootstrap-script-sdk-test/o/bootstrapScriptTemplate1bootstrapScript1.sh"
 
   master_node {
     #Required

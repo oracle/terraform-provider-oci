@@ -331,6 +331,11 @@ func ContainerengineClusterResource() *schema.Resource {
 					},
 				},
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"available_kubernetes_upgrades": {
@@ -581,6 +586,10 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 			}
 			request.Options = &tmp
 		}
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_containerengine.ClusterTypeEnum(type_.(string))
 	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
@@ -886,6 +895,10 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 		}
 	}
 
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		request.Type = oci_containerengine.ClusterTypeEnum(type_.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.UpdateCluster(context.Background(), request)
@@ -1025,6 +1038,8 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("type", s.Res.Type)
 
 	if s.Res.VcnId != nil {
 		s.D.Set("vcn_id", *s.Res.VcnId)

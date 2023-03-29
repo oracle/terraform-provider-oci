@@ -89,6 +89,12 @@ func (s *DevopsConnectionDataSourceCrud) SetData() error {
 		s.D.Set("project_id", *s.Res.GetProjectId())
 	}
 
+	if s.Res.GetLastConnectionValidationResult() != nil {
+		s.D.Set("last_connection_validation_result", []interface{}{ConnectionValidationResultToMap(s.Res.GetLastConnectionValidationResult())})
+	} else {
+		s.D.Set("last_connection_validation_result", nil)
+	}
+
 	s.D.Set("state", s.Res.GetLifecycleState())
 
 	if s.Res.GetSystemTags() != nil {
@@ -134,7 +140,6 @@ func (s *DevopsConnectionDataSourceCrud) SetData() error {
 		} else {
 			s.D.Set("tls_verify_config", nil)
 		}
-
 	case oci_devops.VbsAccessTokenConnection:
 		s.D.Set("connection_type", "VBS_ACCESS_TOKEN")
 		s.D.Set("base_url", v.BaseUrl)

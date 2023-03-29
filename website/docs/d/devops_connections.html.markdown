@@ -60,6 +60,10 @@ The following attributes are exported:
 * `display_name` - Connection display name, which can be renamed and is not necessarily unique. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 * `id` - Unique identifier that is immutable on creation.
+* `last_connection_validation_result` - The result of validating the credentials of a connection.
+	* `message` - A message describing the result of connection validation in more detail.
+	* `result` - The latest result of whether the credentials pass the validation.
+	* `time_validated` - The latest timestamp when the connection was validated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `project_id` - The OCID of the DevOps project.
 * `state` - The current state of the connection.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`

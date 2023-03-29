@@ -83,6 +83,9 @@ type LaunchInstanceDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in.
+	ComputeClusterId *string `mandatory:"false" json:"computeClusterId"`
+
 	// Deprecated. Instead use `hostnameLabel` in
 	// CreateVnicDetails.
 	// If you provide both, the values must match.
@@ -207,6 +210,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		ExtendedMetadata               map[string]interface{}                   `json:"extendedMetadata"`
 		FaultDomain                    *string                                  `json:"faultDomain"`
 		FreeformTags                   map[string]string                        `json:"freeformTags"`
+		ComputeClusterId               *string                                  `json:"computeClusterId"`
 		HostnameLabel                  *string                                  `json:"hostnameLabel"`
 		ImageId                        *string                                  `json:"imageId"`
 		IpxeScript                     *string                                  `json:"ipxeScript"`
@@ -246,6 +250,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FaultDomain = model.FaultDomain
 
 	m.FreeformTags = model.FreeformTags
+
+	m.ComputeClusterId = model.ComputeClusterId
 
 	m.HostnameLabel = model.HostnameLabel
 

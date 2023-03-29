@@ -78,6 +78,34 @@ func CoreComputeCapacityReservationResource() *schema.Resource {
 						},
 
 						// Optional
+						"cluster_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"hpc_island_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"network_block_ids": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
 						"fault_domain": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -458,8 +486,56 @@ func (s *CoreComputeCapacityReservationResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *CoreComputeCapacityReservationResourceCrud) mapToClusterConfigDetails(fieldKeyFormat string) (oci_core.ClusterConfigDetails, error) {
+	result := oci_core.ClusterConfigDetails{}
+
+	if hpcIslandId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hpc_island_id")); ok {
+		tmp := hpcIslandId.(string)
+		result.HpcIslandId = &tmp
+	}
+
+	if networkBlockIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_block_ids")); ok {
+		interfaces := networkBlockIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "network_block_ids")) {
+			result.NetworkBlockIds = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ClusterConfigDetailsToMap(obj *oci_core.ClusterConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.HpcIslandId != nil {
+		result["hpc_island_id"] = string(*obj.HpcIslandId)
+	}
+
+	result["network_block_ids"] = obj.NetworkBlockIds
+	result["network_block_ids"] = obj.NetworkBlockIds
+
+	return result
+}
+
 func (s *CoreComputeCapacityReservationResourceCrud) mapToInstanceReservationConfigDetails(fieldKeyFormat string) (oci_core.InstanceReservationConfigDetails, error) {
 	result := oci_core.InstanceReservationConfigDetails{}
+
+	if clusterConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_config")); ok {
+		if tmpList := clusterConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "cluster_config"), 0)
+			tmp, err := s.mapToClusterConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert cluster_config, encountered error: %v", err)
+			}
+			result.ClusterConfig = &tmp
+		}
+	}
 
 	if faultDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fault_domain")); ok {
 		tmp := faultDomain.(string)
@@ -498,6 +574,10 @@ func (s *CoreComputeCapacityReservationResourceCrud) mapToInstanceReservationCon
 
 func InstanceReservationConfigToMap(obj oci_core.InstanceReservationConfig) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.ClusterConfig != nil {
+		result["cluster_config"] = []interface{}{ClusterConfigDetailsToMap(obj.ClusterConfig)}
+	}
 
 	if obj.FaultDomain != nil {
 		result["fault_domain"] = string(*obj.FaultDomain)
