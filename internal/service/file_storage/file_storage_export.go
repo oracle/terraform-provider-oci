@@ -9,7 +9,7 @@ import (
 func init() {
 	exportFileStorageMountTargetHints.RequireResourceRefresh = true
 	tf_export.RegisterCompartmentGraphs("file_storage", fileStorageResourceGraph)
-	tf_export.BuildAvailabilityResourceGraph("oci_identity_availability_domain", customAssociationFileStorageIdentityAvailabilityDwomain)
+	tf_export.BuildAvailabilityResourceGraph("oci_identity_availability_domain", customAssociationFileStorageIdentityAvailabilityDomain)
 	tf_export.BuildAvailabilityResourceGraph("oci_file_storage_file_system", customAssociationFileStorageFileSystem)
 }
 
@@ -17,10 +17,11 @@ func init() {
 
 // Hints for discovering and exporting this resource to configuration and state files
 var exportFileStorageFileSystemHints = &tf_export.TerraformResourceHints{
-	ResourceClass:        "oci_file_storage_file_system",
-	DatasourceClass:      "oci_file_storage_file_systems",
-	DatasourceItemsAttr:  "file_systems",
-	ResourceAbbreviation: "file_system",
+	ResourceClass:          "oci_file_storage_file_system",
+	DatasourceClass:        "oci_file_storage_file_systems",
+	DatasourceItemsAttr:    "file_systems",
+	ResourceAbbreviation:   "file_system",
+	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_file_storage.FileSystemLifecycleStateActive),
 	},
@@ -68,13 +69,25 @@ var exportFileStorageReplicationHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportFileStorageFilesystemSnapshotPolicyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_file_storage_filesystem_snapshot_policy",
+	DatasourceClass:        "oci_file_storage_filesystem_snapshot_policies",
+	DatasourceItemsAttr:    "filesystem_snapshot_policies",
+	ResourceAbbreviation:   "filesystem_snapshot_policy",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_file_storage.FilesystemSnapshotPolicyLifecycleStateActive),
+		string(oci_file_storage.FilesystemSnapshotPolicyLifecycleStateInactive),
+	},
+}
+
 var fileStorageResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportFileStorageExportHints},
 	},
 }
 
-var customAssociationFileStorageIdentityAvailabilityDwomain = []tf_export.TerraformResourceAssociation{
+var customAssociationFileStorageIdentityAvailabilityDomain = []tf_export.TerraformResourceAssociation{
 	{
 		TerraformResourceHints: exportFileStorageFileSystemHints,
 		DatasourceQueryParams: map[string]string{
@@ -89,6 +102,12 @@ var customAssociationFileStorageIdentityAvailabilityDwomain = []tf_export.Terraf
 	},
 	{
 		TerraformResourceHints: exportFileStorageReplicationHints,
+		DatasourceQueryParams: map[string]string{
+			"availability_domain": "name",
+		},
+	},
+	{
+		TerraformResourceHints: exportFileStorageFilesystemSnapshotPolicyHints,
 		DatasourceQueryParams: map[string]string{
 			"availability_domain": "name",
 		},
