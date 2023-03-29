@@ -1,4 +1,4 @@
-## 4.114.0 (Unreleased)
+## 4.114.0 (March 29, 2023)
 
 ### Added
 - Support for ACD & OKV Wallet Naming | ADB-D & ADB-C@C
