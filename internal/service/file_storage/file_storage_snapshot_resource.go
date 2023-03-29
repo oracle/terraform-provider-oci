@@ -5,12 +5,14 @@ package file_storage
 
 import (
 	"context"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
 )
 
@@ -45,6 +47,12 @@ func FileStorageSnapshotResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"expiration_time": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -53,6 +61,10 @@ func FileStorageSnapshotResource() *schema.Resource {
 			},
 
 			// Computed
+			"filesystem_snapshot_policy_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"is_clone_source": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -164,6 +176,14 @@ func (s *FileStorageSnapshotResourceCrud) Create() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if expirationTime, ok := s.D.GetOkExists("expiration_time"); ok {
+		tmp, err := time.Parse(time.RFC3339, expirationTime.(string))
+		if err != nil {
+			return err
+		}
+		request.ExpirationTime = &oci_common.SDKTime{Time: tmp}
+	}
+
 	if fileSystemId, ok := s.D.GetOkExists("file_system_id"); ok {
 		tmp := fileSystemId.(string)
 		request.FileSystemId = &tmp
@@ -221,6 +241,14 @@ func (s *FileStorageSnapshotResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if expirationTime, ok := s.D.GetOkExists("expiration_time"); ok {
+		tmp, err := time.Parse(time.RFC3339, expirationTime.(string))
+		if err != nil {
+			return err
+		}
+		request.ExpirationTime = &oci_common.SDKTime{Time: tmp}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -256,8 +284,16 @@ func (s *FileStorageSnapshotResourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.ExpirationTime != nil {
+		s.D.Set("expiration_time", s.Res.ExpirationTime.Format(time.RFC3339Nano))
+	}
+
 	if s.Res.FileSystemId != nil {
 		s.D.Set("file_system_id", *s.Res.FileSystemId)
+	}
+
+	if s.Res.FilesystemSnapshotPolicyId != nil {
+		s.D.Set("filesystem_snapshot_policy_id", *s.Res.FilesystemSnapshotPolicyId)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)

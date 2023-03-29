@@ -43,15 +43,14 @@ resource "oci_file_storage_export" "test_export" {
 The following arguments are supported:
 
 * `export_options` - (Optional) (Updatable) Export options for the new export. If left unspecified, defaults to:
-
-	[]
+	[ { "source" : "0.0.0.0/0", "requirePrivilegedSourcePort" : false, "access": "READ_WRITE", "identitySquash": "NONE", "anonymousUid": 65534, "anonymousGid": 65534, "isAnonymousAccessAllowed": false, "allowedAuth": ["SYS"] } ]
 
 	**Note:** Mount targets do not have Internet-routable IP addresses.  Therefore they will not be reachable from the Internet, even if an associated `ClientOptions` item has a source of `0.0.0.0/0`.
 
 	**If set to the empty array then the export will not be visible to any clients.**
 
 	The export's `exportOptions` can be changed after creation using the `UpdateExport` operation. 
-	* `access` - (Optional) (Updatable) Type of access to grant clients using the file system through this export. If unspecified defaults to `READ_ONLY`. 
+	* `access` - (Optional) (Updatable) Type of access to grant clients using the file system through this export. If unspecified defaults to `READ_WRITE`. 
 	* `anonymous_gid` - (Optional) (Updatable) GID value to remap to when squashing a client GID (see identitySquash for more details.) If unspecified defaults to `65534`. 
 	* `anonymous_uid` - (Optional) (Updatable) UID value to remap to when squashing a client UID (see identitySquash for more details.) If unspecified, defaults to `65534`. 
 	* `identity_squash` - (Optional) (Updatable) Used when clients accessing the file system through this export have their UID and GID remapped to 'anonymousUid' and 'anonymousGid'. If `ALL`, all users and groups are remapped; if `ROOT`, only the root user and group (UID/GID 0) are remapped; if `NONE`, no remapping is done. If unspecified, defaults to `ROOT`. 
@@ -84,7 +83,7 @@ The following attributes are exported:
 	**Exports without defined `ClientOptions` are invisible to all clients.**
 
 	If one export is invisible to a particular client, associated file systems may still be accessible through other exports on the same or different mount targets. To completely deny client access to a file system, be sure that the client source IP address is not included in any export for any mount target associated with the file system. 
-	* `access` - Type of access to grant clients using the file system through this export. If unspecified defaults to `READ_ONLY`. 
+	* `access` - Type of access to grant clients using the file system through this export. If unspecified defaults to `READ_WRITE`. 
 	* `anonymous_gid` - GID value to remap to when squashing a client GID (see identitySquash for more details.) If unspecified defaults to `65534`. 
 	* `anonymous_uid` - UID value to remap to when squashing a client UID (see identitySquash for more details.) If unspecified, defaults to `65534`. 
 	* `identity_squash` - Used when clients accessing the file system through this export have their UID and GID remapped to 'anonymousUid' and 'anonymousGid'. If `ALL`, all users and groups are remapped; if `ROOT`, only the root user and group (UID/GID 0) are remapped; if `NONE`, no remapping is done. If unspecified, defaults to `ROOT`. 
