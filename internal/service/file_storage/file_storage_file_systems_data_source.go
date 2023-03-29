@@ -31,6 +31,10 @@ func FileStorageFileSystemsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"filesystem_snapshot_policy_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -90,6 +94,11 @@ func (s *FileStorageFileSystemsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if filesystemSnapshotPolicyId, ok := s.D.GetOkExists("filesystem_snapshot_policy_id"); ok {
+		tmp := filesystemSnapshotPolicyId.(string)
+		request.FilesystemSnapshotPolicyId = &tmp
 	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {

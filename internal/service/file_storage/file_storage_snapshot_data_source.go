@@ -5,6 +5,7 @@ package file_storage
 
 import (
 	"context"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -70,8 +71,16 @@ func (s *FileStorageSnapshotDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.ExpirationTime != nil {
+		s.D.Set("expiration_time", s.Res.ExpirationTime.Format(time.RFC3339Nano))
+	}
+
 	if s.Res.FileSystemId != nil {
 		s.D.Set("file_system_id", *s.Res.FileSystemId)
+	}
+
+	if s.Res.FilesystemSnapshotPolicyId != nil {
+		s.D.Set("filesystem_snapshot_policy_id", *s.Res.FilesystemSnapshotPolicyId)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)

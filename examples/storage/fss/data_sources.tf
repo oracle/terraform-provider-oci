@@ -107,3 +107,15 @@ data "oci_file_storage_replication_targets" "test_replication_targets" {
   #id           = var.replication_target_id
   #state        = var.replication_target_state
 }
+
+# Gets a list of filesystem snapshot policies in a compartment and availability domain
+data "oci_file_storage_filesystem_snapshot_policies" "filesystem_snapshot_policies" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+
+  #Optional
+  #display_name = var.filesystem_snapshot_policy_display_name
+  #id           = var.filesystem_snapshot_policy_id
+  #state        = var.filesystem_snapshot_policy_state
+}

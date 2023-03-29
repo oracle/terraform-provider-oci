@@ -51,6 +51,11 @@ func FileStorageFileSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"filesystem_snapshot_policy_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -220,6 +225,11 @@ func (s *FileStorageFileSystemResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if filesystemSnapshotPolicyId, ok := s.D.GetOkExists("filesystem_snapshot_policy_id"); ok {
+		tmp := filesystemSnapshotPolicyId.(string)
+		request.FilesystemSnapshotPolicyId = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -294,6 +304,11 @@ func (s *FileStorageFileSystemResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.FileSystemId = &tmp
 
+	if filesystemSnapshotPolicyId, ok := s.D.GetOkExists("filesystem_snapshot_policy_id"); ok {
+		tmp := filesystemSnapshotPolicyId.(string)
+		request.FilesystemSnapshotPolicyId = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -341,6 +356,10 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.FilesystemSnapshotPolicyId != nil {
+		s.D.Set("filesystem_snapshot_policy_id", *s.Res.FilesystemSnapshotPolicyId)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)

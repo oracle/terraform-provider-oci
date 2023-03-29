@@ -9,6 +9,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_file_storage_export_sets", FileStorageExportSetsDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_exports", FileStorageExportsDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_file_systems", FileStorageFileSystemsDataSource())
+	tfresource.RegisterDatasource("oci_file_storage_filesystem_snapshot_policies", FileStorageFilesystemSnapshotPoliciesDataSource())
+	tfresource.RegisterDatasource("oci_file_storage_filesystem_snapshot_policy", FileStorageFilesystemSnapshotPolicyDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_mount_targets", FileStorageMountTargetsDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_replication", FileStorageReplicationDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_replication_target", FileStorageReplicationTargetDataSource())

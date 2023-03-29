@@ -31,31 +31,34 @@ var (
 	FileStorageFileSystem2RequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation)
 
 	FileStorageFileStorageFileSystemDataSourceRepresentation = map[string]interface{}{
-		"availability_domain":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `media-files-1`, Update: `displayName2`},
-		"id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_file_system.test_file_system2.id}`},
-		"parent_file_system_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"source_snapshot_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
-		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageFileSystemDataSourceFilterRepresentation}}
+		"availability_domain":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `media-files-1`, Update: `displayName2`},
+		"filesystem_snapshot_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_filesystem_snapshot_policy.test_filesystem_snapshot_policy.id}`},
+		"id":                            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_file_system.test_file_system2.id}`},
+		"parent_file_system_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"source_snapshot_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"state":                         acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageFileSystemDataSourceFilterRepresentation}}
 	FileStorageFileSystemDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_file_storage_file_system.test_file_system2.id}`}},
 	}
 
 	FileStorageFileSystemRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `media-files-1`, Update: `displayName2`},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"source_snapshot_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
-		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_kms_key.kms_key_id_for_create.id}`, Update: `${oci_kms_key.kms_key_id_for_update.id}`},
-		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+		"availability_domain":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `media-files-1`, Update: `displayName2`},
+		"filesystem_snapshot_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_filesystem_snapshot_policy.test_filesystem_snapshot_policy.id}`},
+		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_kms_key.kms_key_id_for_create.id}`, Update: `${oci_kms_key.kms_key_id_for_update.id}`},
+		"source_snapshot_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 
 	FileStorageFileSystemResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_filesystem_snapshot_policy", "test_filesystem_snapshot_policy", acctest.Required, acctest.Create, FileStorageFilesystemSnapshotPolicyRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Required, acctest.Create, FileStorageSnapshotRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
@@ -121,6 +124,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "filesystem_snapshot_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -152,6 +156,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "filesystem_snapshot_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -178,6 +183,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "filesystem_snapshot_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -205,6 +211,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "filesystem_snapshot_policy_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "parent_file_system_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "source_snapshot_id"),
