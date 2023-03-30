@@ -49,13 +49,13 @@ var (
 		"rules":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: loadBalancerRoutingPolicyRulesRepresentation},
 	}
 	loadBalancerRoutingPolicyRulesRepresentation = map[string]interface{}{
-		"actions":   acctest.RepresentationGroup{RepType: acctest.Required, Group: loadBalancerRoutingPolicyRulesActionsRepresentation},
+		"actions":   acctest.RepresentationGroup{RepType: acctest.Required, Group: LoadBalancerLoadBalancerRoutingPolicyRulesActionsRepresentation},
 		"condition": acctest.Representation{RepType: acctest.Required, Create: `all(http.request.url.path eq (i ''))`},
 		"name":      acctest.Representation{RepType: acctest.Required, Create: `example_routing_rules`, Update: `name2`},
 	}
-	loadBalancerRoutingPolicyRulesActionsRepresentation = map[string]interface{}{
-		"name":             acctest.Representation{RepType: acctest.Required, Create: `FORWARD_TO_BACKENDSET`, Update: `FORWARD_TO_BACKENDSET`},
+	LoadBalancerLoadBalancerRoutingPolicyRulesActionsRepresentation = map[string]interface{}{
 		"backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"name":             acctest.Representation{RepType: acctest.Required, Create: `FORWARD_TO_BACKENDSET`, Update: `FORWARD_TO_BACKENDSET`},
 	}
 
 	LoadBalancerRoutingPolicyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Required, acctest.Create, backendSetRepresentation) +
@@ -90,6 +90,7 @@ func TestLoadBalancerLoadBalancerRoutingPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "example_routing_rules"),
 				resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "rules.0.actions.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "rules.0.actions.0.backend_set_name"),
 				resource.TestCheckResourceAttr(resourceName, "rules.0.actions.0.name", "FORWARD_TO_BACKENDSET"),
 				resource.TestCheckResourceAttr(resourceName, "rules.0.condition", "all(http.request.url.path eq (i ''))"),
 				resource.TestCheckResourceAttr(resourceName, "rules.0.name", "example_routing_rules"),

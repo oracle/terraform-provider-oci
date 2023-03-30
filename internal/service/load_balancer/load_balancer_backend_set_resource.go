@@ -54,6 +54,11 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 							Optional: true,
 							Default:  30000,
 						},
+						"is_force_plain_text": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"port": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -830,6 +835,11 @@ func (s *LoadBalancerBackendSetResourceCrud) mapToHealthCheckerDetails(fieldKeyF
 		result.IntervalInMillis = &tmp
 	}
 
+	if isForcePlainText, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_force_plain_text")); ok {
+		tmp := isForcePlainText.(bool)
+		result.IsForcePlainText = &tmp
+	}
+
 	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(int)
 		result.Port = &tmp
@@ -873,6 +883,10 @@ func HealthCheckerToMap(obj *oci_load_balancer.HealthChecker) map[string]interfa
 
 	if obj.IntervalInMillis != nil {
 		result["interval_ms"] = int(*obj.IntervalInMillis)
+	}
+
+	if obj.IsForcePlainText != nil {
+		result["is_force_plain_text"] = bool(*obj.IsForcePlainText)
 	}
 
 	if obj.Port != nil {
