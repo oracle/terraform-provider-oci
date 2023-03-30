@@ -6,18 +6,18 @@ package opensearch
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_opensearch "github.com/oracle/oci-go-sdk/v65/opensearch"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func OpensearchOpensearchClusterResource() *schema.Resource {
@@ -25,11 +25,15 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpensearchOpensearchCluster,
-		Read:     readOpensearchOpensearchCluster,
-		Update:   updateOpensearchOpensearchCluster,
-		Delete:   deleteOpensearchOpensearchCluster,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("45m"),
+			Update: tfresource.GetTimeoutDuration("45m"),
+			Delete: tfresource.GetTimeoutDuration("45m"),
+		},
+		Create: createOpensearchOpensearchCluster,
+		Read:   readOpensearchOpensearchCluster,
+		Update: updateOpensearchOpensearchCluster,
+		Delete: deleteOpensearchOpensearchCluster,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -40,17 +44,14 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 			"data_node_count": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"data_node_host_memory_gb": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"data_node_host_ocpu_count": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"data_node_host_type": {
 				Type:     schema.TypeString,
@@ -60,7 +61,6 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 			"data_node_storage_gb": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -69,17 +69,14 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 			"master_node_count": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"master_node_host_memory_gb": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"master_node_host_ocpu_count": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"master_node_host_type": {
 				Type:     schema.TypeString,
@@ -89,17 +86,14 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 			"opendashboard_node_count": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"opendashboard_node_host_memory_gb": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"opendashboard_node_host_ocpu_count": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"software_version": {
 				Type:     schema.TypeString,
@@ -591,7 +585,53 @@ func (s *OpensearchOpensearchClusterResourceCrud) Get() error {
 	return nil
 }
 
+func (s *OpensearchOpensearchClusterResourceCrud) HorizontalConditionMet() (result bool) {
+	if _, ok := s.D.GetOkExists("data_node_count"); ok && s.D.HasChange("data_node_count") {
+		return true
+	} else if _, ok := s.D.GetOkExists("master_node_count"); ok && s.D.HasChange("master_node_count") {
+		return true
+	} else if _, ok := s.D.GetOkExists("opendashboard_node_count"); ok && s.D.HasChange("opendashboard_node_count") {
+		return true
+	}
+	return false
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) VerticalConditionMet() (result bool) {
+	if _, ok := s.D.GetOkExists("master_node_host_ocpu_count"); ok && s.D.HasChange("master_node_host_ocpu_count") {
+		return true
+	} else if _, ok := s.D.GetOkExists("master_node_host_memory_gb"); ok && s.D.HasChange("master_node_host_memory_gb") {
+		return true
+	} else if _, ok := s.D.GetOkExists("data_node_host_ocpu_count"); ok && s.D.HasChange("data_node_host_ocpu_count") {
+		return true
+	} else if _, ok := s.D.GetOkExists("data_node_host_memory_gb"); ok && s.D.HasChange("data_node_host_memory_gb") {
+		return true
+	} else if _, ok := s.D.GetOkExists("data_node_storage_gb"); ok && s.D.HasChange("data_node_storage_gb") {
+		return true
+	} else if _, ok := s.D.GetOkExists("opendashboard_node_host_ocpu_count"); ok && s.D.HasChange("opendashboard_node_host_ocpu_count") {
+		return true
+	} else if _, ok := s.D.GetOkExists("opendashboard_node_host_memory_gb"); ok && s.D.HasChange("opendashboard_node_host_memory_gb") {
+		return true
+	}
+	return false
+}
+
 func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
+	if s.HorizontalConditionMet() {
+		log.Println("Horizontal Resize Begin...")
+		err := s.ResizeOpensearchClusterHorizontal()
+		if err != nil {
+			return err
+		}
+	}
+
+	if s.VerticalConditionMet() {
+		log.Println("Vertical Resize Begin...")
+		err := s.ResizeOpensearchClusterVertical()
+		if err != nil {
+			return err
+		}
+	}
+
 	request := oci_opensearch.UpdateOpensearchClusterRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -809,6 +849,98 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 
 	if s.Res.VcnId != nil {
 		s.D.Set("vcn_id", *s.Res.VcnId)
+	}
+
+	return nil
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterHorizontal() error {
+	tfresource.ShortRetryTime = tfresource.LongRetryTime * 5
+	request := oci_opensearch.ResizeOpensearchClusterHorizontalRequest{}
+
+	if dataNodeCount, ok := s.D.GetOkExists("data_node_count"); ok {
+		tmp := dataNodeCount.(int)
+		request.DataNodeCount = &tmp
+	}
+
+	if masterNodeCount, ok := s.D.GetOkExists("master_node_count"); ok {
+		tmp := masterNodeCount.(int)
+		request.MasterNodeCount = &tmp
+	}
+
+	if opendashboardNodeCount, ok := s.D.GetOkExists("opendashboard_node_count"); ok {
+		tmp := opendashboardNodeCount.(int)
+		request.OpendashboardNodeCount = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.OpensearchClusterId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
+
+	_, err := s.Client.ResizeOpensearchClusterHorizontal(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertical() error {
+	tfresource.ShortRetryTime = tfresource.LongRetryTime * 5
+	request := oci_opensearch.ResizeOpensearchClusterVerticalRequest{}
+
+	if dataNodeHostMemoryGB, ok := s.D.GetOkExists("data_node_host_memory_gb"); ok {
+		tmp := dataNodeHostMemoryGB.(int)
+		request.DataNodeHostMemoryGB = &tmp
+	}
+
+	if dataNodeHostOcpuCount, ok := s.D.GetOkExists("data_node_host_ocpu_count"); ok {
+		tmp := dataNodeHostOcpuCount.(int)
+		request.DataNodeHostOcpuCount = &tmp
+	}
+
+	if dataNodeStorageGB, ok := s.D.GetOkExists("data_node_storage_gb"); ok {
+		tmp := dataNodeStorageGB.(int)
+		request.DataNodeStorageGB = &tmp
+	}
+
+	if masterNodeHostMemoryGB, ok := s.D.GetOkExists("master_node_host_memory_gb"); ok {
+		tmp := masterNodeHostMemoryGB.(int)
+		request.MasterNodeHostMemoryGB = &tmp
+	}
+
+	if masterNodeHostOcpuCount, ok := s.D.GetOkExists("master_node_host_ocpu_count"); ok {
+		tmp := masterNodeHostOcpuCount.(int)
+		request.MasterNodeHostOcpuCount = &tmp
+	}
+
+	if opendashboardNodeHostMemoryGB, ok := s.D.GetOkExists("opendashboard_node_host_memory_gb"); ok {
+		tmp := opendashboardNodeHostMemoryGB.(int)
+		request.OpendashboardNodeHostMemoryGB = &tmp
+	}
+
+	if opendashboardNodeHostOcpuCount, ok := s.D.GetOkExists("opendashboard_node_host_ocpu_count"); ok {
+		tmp := opendashboardNodeHostOcpuCount.(int)
+		request.OpendashboardNodeHostOcpuCount = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.OpensearchClusterId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
+
+	_, err := s.Client.ResizeOpensearchClusterVertical(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil
