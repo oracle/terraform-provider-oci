@@ -6,7 +6,6 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -18,34 +17,32 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	SslCipherSuiteRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Create, sslCipherSuiteRepresentation)
+	LoadBalancerSslCipherSuiteResourceConfig = SslCipherSuiteResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Update, LoadBalancerSslCipherSuiteRepresentation)
 
-	SslCipherSuiteResourceConfig = SslCipherSuiteResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Update, sslCipherSuiteRepresentation)
-
-	sslCipherSuiteSingularDataSourceRepresentation = map[string]interface{}{
+	LoadBalancerLoadBalancerSslCipherSuiteSingularDataSourceRepresentation = map[string]interface{}{
+		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":             acctest.Representation{RepType: acctest.Required, Create: `example_cipher_suite`},
-		"load_balancer_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 	}
 
-	sslCipherSuiteDataSourceRepresentation = map[string]interface{}{
-		"load_balancer_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: sslCipherSuiteDataSourceFilterRepresentation}}
-	sslCipherSuiteDataSourceFilterRepresentation = map[string]interface{}{
+	LoadBalancerLoadBalancerSslCipherSuiteDataSourceRepresentation = map[string]interface{}{
+		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: LoadBalancerSslCipherSuiteDataSourceFilterRepresentation},
+	}
+	LoadBalancerSslCipherSuiteDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite.name}`}},
 	}
 
-	sslCipherSuiteRepresentation = map[string]interface{}{
-		"name":             acctest.Representation{RepType: acctest.Required, Create: `example_cipher_suite`},
+	LoadBalancerSslCipherSuiteRepresentation = map[string]interface{}{
 		"ciphers":          acctest.Representation{RepType: acctest.Required, Create: []string{`AES128-SHA`, `AES256-SHA`}},
-		"load_balancer_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":             acctest.Representation{RepType: acctest.Required, Create: `example_cipher_suite`},
 	}
 
 	SslCipherSuiteResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, loadBalancerRepresentation) +
@@ -66,21 +63,21 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 	datasourceName := "data.oci_load_balancer_ssl_cipher_suites.test_ssl_cipher_suites"
 	singularDatasourceName := "data.oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite"
 
-	var resId string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+SslCipherSuiteResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Create, sslCipherSuiteRepresentation), "loadbalancer", "sslCipherSuite", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Required, acctest.Create, LoadBalancerSslCipherSuiteRepresentation), "loadbalancer", "sslCipherSuite", t)
 
 	acctest.ResourceTest(t, testAccCheckLoadBalancerSslCipherSuiteDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Create, sslCipherSuiteRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Create, LoadBalancerSslCipherSuiteRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ciphers.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_cipher_suite"),
 			),
 		},
-
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies,
@@ -88,29 +85,19 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Create, sslCipherSuiteRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Create, LoadBalancerSslCipherSuiteRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_cipher_suite"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
-					return err
-				},
 			),
 		},
 
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suites", "test_ssl_cipher_suites", acctest.Optional, acctest.Update, sslCipherSuiteDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suites", "test_ssl_cipher_suites", acctest.Optional, acctest.Update, LoadBalancerLoadBalancerSslCipherSuiteDataSourceRepresentation) +
 				compartmentIdVariableStr + SslCipherSuiteResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Update, sslCipherSuiteRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Update, LoadBalancerSslCipherSuiteRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
@@ -121,8 +108,8 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Create, sslCipherSuiteSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SslCipherSuiteResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_load_balancer_ssl_cipher_suite", "test_ssl_cipher_suite", acctest.Optional, acctest.Create, LoadBalancerLoadBalancerSslCipherSuiteSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + LoadBalancerSslCipherSuiteResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_cipher_suite"),
@@ -132,7 +119,7 @@ func TestLoadBalancerSslCipherSuiteResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + SslCipherSuiteRequiredOnlyResource,
+			Config:            config + LoadBalancerSslCipherSuiteResourceConfig,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -225,15 +212,25 @@ func getSslCipherSuiteIds(compartment string) ([]string, error) {
 	loadBalancerClient := acctest.GetTestClients(&schema.ResourceData{}).LoadBalancerClient()
 
 	listSSLCipherSuitesRequest := oci_load_balancer.ListSSLCipherSuitesRequest{}
-	listSSLCipherSuitesResponse, err := loadBalancerClient.ListSSLCipherSuites(context.Background(), listSSLCipherSuitesRequest)
 
-	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting SslCipherSuite list for compartment id : %s , %s \n", compartmentId, err)
+	loadBalancerIds, error := getLoadBalancerIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting loadBalancerId required for SslCipherSuite resource requests \n")
 	}
-	for _, sslCipherSuite := range listSSLCipherSuitesResponse.Items {
-		id := *sslCipherSuite.Name
-		resourceIds = append(resourceIds, id)
-		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "SslCipherSuiteId", id)
+	for _, loadBalancerId := range loadBalancerIds {
+		listSSLCipherSuitesRequest.LoadBalancerId = &loadBalancerId
+
+		listSSLCipherSuitesResponse, err := loadBalancerClient.ListSSLCipherSuites(context.Background(), listSSLCipherSuitesRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting SslCipherSuite list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, sslCipherSuite := range listSSLCipherSuitesResponse.Items {
+			id := *sslCipherSuite.Name
+			resourceIds = append(resourceIds, id)
+			acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "SslCipherSuiteId", id)
+		}
+
 	}
 	return resourceIds, nil
 }

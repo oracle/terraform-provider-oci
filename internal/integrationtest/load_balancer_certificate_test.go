@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -45,11 +46,10 @@ var (
 		"public_certificate": acctest.Representation{RepType: acctest.Optional, Create: `${var.ca_certificate_value}`},
 	}
 
-	caCertificate            = utils.GetEnvSettingWithBlankDefault("ca_certificate")
+	caCertificate            = strings.ReplaceAll(utils.GetEnvSettingWithBlankDefault("ca_certificate"), `\\n`, `\n`)
 	caCertificateVariableStr = fmt.Sprintf("variable \"ca_certificate_value\" { default = \"%s\" }\n", caCertificate)
-
-	privateKeyData        = utils.GetEnvSettingWithBlankDefault("private_key_data")
-	privateKeyVariableStr = fmt.Sprintf("variable \"private_key_value\" { default = \"%s\" }\n", privateKeyData)
+	privateKeyData           = utils.GetEnvSettingWithBlankDefault("private_key_data")
+	privateKeyVariableStr    = fmt.Sprintf("variable \"private_key_value\" { default = \"%s\" }\n", privateKeyData)
 
 	CertificateResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, loadBalancerRepresentation) +
 		LoadBalancerSubnetDependencies + privateKeyVariableStr + caCertificateVariableStr
@@ -97,7 +97,7 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "passphrase", "Mysecretunlockingcode42!1!"),
-				resource.TestMatchResourceAttr(resourceName, "private_key", regexp.MustCompile("-----BEGIN RSA.*")),
+				resource.TestMatchResourceAttr(resourceName, "private_key", regexp.MustCompile("-----BEGIN ENCRYPTED PRIVATE KEY.*")),
 				resource.TestMatchResourceAttr(resourceName, "public_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 
 				func(s *terraform.State) (err error) {
