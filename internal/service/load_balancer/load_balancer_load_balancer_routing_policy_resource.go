@@ -58,6 +58,10 @@ func LoadBalancerLoadBalancerRoutingPolicyResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
+									"backend_set_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
 									"name": {
 										Type:             schema.TypeString,
 										Required:         true,
@@ -68,11 +72,6 @@ func LoadBalancerLoadBalancerRoutingPolicyResource() *schema.Resource {
 									},
 
 									// Optional
-									"backend_set_name": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
 
 									// Computed
 								},

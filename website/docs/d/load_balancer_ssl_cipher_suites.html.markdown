@@ -16,8 +16,7 @@ Lists all SSL cipher suites associated with the specified load balancer.
 
 ```hcl
 data "oci_load_balancer_ssl_cipher_suites" "test_ssl_cipher_suites" {
-
-	#Optional
+	#Required
 	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 }
 ```
@@ -26,7 +25,7 @@ data "oci_load_balancer_ssl_cipher_suites" "test_ssl_cipher_suites" {
 
 The following arguments are supported:
 
-* `load_balancer_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated load balancer. 
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated load balancer. 
 
 
 ## Attributes Reference
