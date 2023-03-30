@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_opensearch_opensearch_clusters"
 sidebar_current: "docs-oci-datasource-opensearch-opensearch_clusters"
 description: |-
-  Provides the list of Opensearch Clusters in Oracle Cloud Infrastructure Opensearch service
+Provides the list of Opensearch Clusters in Oracle Cloud Infrastructure Opensearch service
 ---
 
 # Data Source: oci_opensearch_opensearch_clusters
