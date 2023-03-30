@@ -1,12 +1,30 @@
 // Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_id" {}
+variable "tenancy_ocid" {
+  type = string
+  default = "ocid1.tenancy.oc1..aaaaaaaajoua5f4hwv5dtcwq43hhk7d55m4uxqfg4pwj5uipmjcqpht4upgq"
+}
+variable "user_ocid" {
+  type = string
+  default = "TODO"
+}
+variable "fingerprint" {
+  type = string
+  default = "TODO"
+}
+variable "private_key_path" {
+  type = string
+  default = "TODO"
+}
+variable "region" {
+  type = string
+  default = "us-ashburn-1"
+}
+variable "compartment_id" {
+  type = string
+  default = "ocid1.compartment.oc1..aaaaaaaayxkbos7zkio4jk7sawovt7phmz3plakrsvfyxcseewtbqbgvzrxq"
+}
 
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.0.0.0/16"
@@ -64,7 +82,7 @@ variable "opensearch_cluster_master_node_host_bare_metal_shape" {
 }
 
 variable "opensearch_cluster_master_node_host_memory_gb" {
-  default = 16
+  default = 20
 }
 
 variable "opensearch_cluster_master_node_host_ocpu_count" {
