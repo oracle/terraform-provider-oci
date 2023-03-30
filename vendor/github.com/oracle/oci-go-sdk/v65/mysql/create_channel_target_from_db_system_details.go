@@ -32,6 +32,14 @@ type CreateChannelTargetFromDbSystemDetails struct {
 
 	// Replication filter rules to be applied at the DB System Channel target.
 	Filters []ChannelFilter `mandatory:"false" json:"filters"`
+
+	// Specifies the amount of time, in seconds, that the channel waits before
+	// applying a transaction received from the source.
+	DelayInSeconds *int `mandatory:"false" json:"delayInSeconds"`
+
+	// Specifies how a replication channel handles the creation and alteration of tables
+	// that do not have a primary key. The default value is set to GENERATE_IMPLICIT_PRIMARY_KEY.
+	TablesWithoutPrimaryKeyHandling ChannelTargetDbSystemTablesWithoutPrimaryKeyHandlingEnum `mandatory:"false" json:"tablesWithoutPrimaryKeyHandling,omitempty"`
 }
 
 func (m CreateChannelTargetFromDbSystemDetails) String() string {
@@ -44,6 +52,9 @@ func (m CreateChannelTargetFromDbSystemDetails) String() string {
 func (m CreateChannelTargetFromDbSystemDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingChannelTargetDbSystemTablesWithoutPrimaryKeyHandlingEnum(string(m.TablesWithoutPrimaryKeyHandling)); !ok && m.TablesWithoutPrimaryKeyHandling != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TablesWithoutPrimaryKeyHandling: %s. Supported values are: %s.", m.TablesWithoutPrimaryKeyHandling, strings.Join(GetChannelTargetDbSystemTablesWithoutPrimaryKeyHandlingEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -35,6 +35,7 @@ type PluggableDatabaseSummary struct {
 	// The date and time the pluggable database was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// **Deprecated.** Use PluggableDatabaseNodeLevelDetails for OpenMode details.
 	// The mode that pluggable database is in. Open mode can only be changed to READ_ONLY or MIGRATE directly from the backend (within the Oracle Database software).
 	OpenMode PluggableDatabaseSummaryOpenModeEnum `mandatory:"true" json:"openMode"`
 
@@ -60,6 +61,12 @@ type PluggableDatabaseSummary struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	PluggableDatabaseManagementConfig *PluggableDatabaseManagementConfig `mandatory:"false" json:"pluggableDatabaseManagementConfig"`
+
+	RefreshableCloneConfig *PluggableDatabaseRefreshableCloneConfig `mandatory:"false" json:"refreshableCloneConfig"`
+
+	// Pluggable Database Node Level Details.
+	// Example: [{"nodeName" : "node1", "openMode" : "READ_WRITE"}, {"nodeName" : "node2", "openMode" : "READ_ONLY"}]
+	PdbNodeLevelDetails []PluggableDatabaseNodeLevelDetails `mandatory:"false" json:"pdbNodeLevelDetails"`
 }
 
 func (m PluggableDatabaseSummary) String() string {
@@ -89,30 +96,48 @@ type PluggableDatabaseSummaryLifecycleStateEnum string
 
 // Set of constants representing the allowable values for PluggableDatabaseSummaryLifecycleStateEnum
 const (
-	PluggableDatabaseSummaryLifecycleStateProvisioning PluggableDatabaseSummaryLifecycleStateEnum = "PROVISIONING"
-	PluggableDatabaseSummaryLifecycleStateAvailable    PluggableDatabaseSummaryLifecycleStateEnum = "AVAILABLE"
-	PluggableDatabaseSummaryLifecycleStateTerminating  PluggableDatabaseSummaryLifecycleStateEnum = "TERMINATING"
-	PluggableDatabaseSummaryLifecycleStateTerminated   PluggableDatabaseSummaryLifecycleStateEnum = "TERMINATED"
-	PluggableDatabaseSummaryLifecycleStateUpdating     PluggableDatabaseSummaryLifecycleStateEnum = "UPDATING"
-	PluggableDatabaseSummaryLifecycleStateFailed       PluggableDatabaseSummaryLifecycleStateEnum = "FAILED"
+	PluggableDatabaseSummaryLifecycleStateProvisioning      PluggableDatabaseSummaryLifecycleStateEnum = "PROVISIONING"
+	PluggableDatabaseSummaryLifecycleStateAvailable         PluggableDatabaseSummaryLifecycleStateEnum = "AVAILABLE"
+	PluggableDatabaseSummaryLifecycleStateTerminating       PluggableDatabaseSummaryLifecycleStateEnum = "TERMINATING"
+	PluggableDatabaseSummaryLifecycleStateTerminated        PluggableDatabaseSummaryLifecycleStateEnum = "TERMINATED"
+	PluggableDatabaseSummaryLifecycleStateUpdating          PluggableDatabaseSummaryLifecycleStateEnum = "UPDATING"
+	PluggableDatabaseSummaryLifecycleStateFailed            PluggableDatabaseSummaryLifecycleStateEnum = "FAILED"
+	PluggableDatabaseSummaryLifecycleStateRelocating        PluggableDatabaseSummaryLifecycleStateEnum = "RELOCATING"
+	PluggableDatabaseSummaryLifecycleStateRelocated         PluggableDatabaseSummaryLifecycleStateEnum = "RELOCATED"
+	PluggableDatabaseSummaryLifecycleStateRefreshing        PluggableDatabaseSummaryLifecycleStateEnum = "REFRESHING"
+	PluggableDatabaseSummaryLifecycleStateRestoreInProgress PluggableDatabaseSummaryLifecycleStateEnum = "RESTORE_IN_PROGRESS"
+	PluggableDatabaseSummaryLifecycleStateRestoreFailed     PluggableDatabaseSummaryLifecycleStateEnum = "RESTORE_FAILED"
+	PluggableDatabaseSummaryLifecycleStateBackupInProgress  PluggableDatabaseSummaryLifecycleStateEnum = "BACKUP_IN_PROGRESS"
 )
 
 var mappingPluggableDatabaseSummaryLifecycleStateEnum = map[string]PluggableDatabaseSummaryLifecycleStateEnum{
-	"PROVISIONING": PluggableDatabaseSummaryLifecycleStateProvisioning,
-	"AVAILABLE":    PluggableDatabaseSummaryLifecycleStateAvailable,
-	"TERMINATING":  PluggableDatabaseSummaryLifecycleStateTerminating,
-	"TERMINATED":   PluggableDatabaseSummaryLifecycleStateTerminated,
-	"UPDATING":     PluggableDatabaseSummaryLifecycleStateUpdating,
-	"FAILED":       PluggableDatabaseSummaryLifecycleStateFailed,
+	"PROVISIONING":        PluggableDatabaseSummaryLifecycleStateProvisioning,
+	"AVAILABLE":           PluggableDatabaseSummaryLifecycleStateAvailable,
+	"TERMINATING":         PluggableDatabaseSummaryLifecycleStateTerminating,
+	"TERMINATED":          PluggableDatabaseSummaryLifecycleStateTerminated,
+	"UPDATING":            PluggableDatabaseSummaryLifecycleStateUpdating,
+	"FAILED":              PluggableDatabaseSummaryLifecycleStateFailed,
+	"RELOCATING":          PluggableDatabaseSummaryLifecycleStateRelocating,
+	"RELOCATED":           PluggableDatabaseSummaryLifecycleStateRelocated,
+	"REFRESHING":          PluggableDatabaseSummaryLifecycleStateRefreshing,
+	"RESTORE_IN_PROGRESS": PluggableDatabaseSummaryLifecycleStateRestoreInProgress,
+	"RESTORE_FAILED":      PluggableDatabaseSummaryLifecycleStateRestoreFailed,
+	"BACKUP_IN_PROGRESS":  PluggableDatabaseSummaryLifecycleStateBackupInProgress,
 }
 
 var mappingPluggableDatabaseSummaryLifecycleStateEnumLowerCase = map[string]PluggableDatabaseSummaryLifecycleStateEnum{
-	"provisioning": PluggableDatabaseSummaryLifecycleStateProvisioning,
-	"available":    PluggableDatabaseSummaryLifecycleStateAvailable,
-	"terminating":  PluggableDatabaseSummaryLifecycleStateTerminating,
-	"terminated":   PluggableDatabaseSummaryLifecycleStateTerminated,
-	"updating":     PluggableDatabaseSummaryLifecycleStateUpdating,
-	"failed":       PluggableDatabaseSummaryLifecycleStateFailed,
+	"provisioning":        PluggableDatabaseSummaryLifecycleStateProvisioning,
+	"available":           PluggableDatabaseSummaryLifecycleStateAvailable,
+	"terminating":         PluggableDatabaseSummaryLifecycleStateTerminating,
+	"terminated":          PluggableDatabaseSummaryLifecycleStateTerminated,
+	"updating":            PluggableDatabaseSummaryLifecycleStateUpdating,
+	"failed":              PluggableDatabaseSummaryLifecycleStateFailed,
+	"relocating":          PluggableDatabaseSummaryLifecycleStateRelocating,
+	"relocated":           PluggableDatabaseSummaryLifecycleStateRelocated,
+	"refreshing":          PluggableDatabaseSummaryLifecycleStateRefreshing,
+	"restore_in_progress": PluggableDatabaseSummaryLifecycleStateRestoreInProgress,
+	"restore_failed":      PluggableDatabaseSummaryLifecycleStateRestoreFailed,
+	"backup_in_progress":  PluggableDatabaseSummaryLifecycleStateBackupInProgress,
 }
 
 // GetPluggableDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for PluggableDatabaseSummaryLifecycleStateEnum
@@ -133,6 +158,12 @@ func GetPluggableDatabaseSummaryLifecycleStateEnumStringValues() []string {
 		"TERMINATED",
 		"UPDATING",
 		"FAILED",
+		"RELOCATING",
+		"RELOCATED",
+		"REFRESHING",
+		"RESTORE_IN_PROGRESS",
+		"RESTORE_FAILED",
+		"BACKUP_IN_PROGRESS",
 	}
 }
 

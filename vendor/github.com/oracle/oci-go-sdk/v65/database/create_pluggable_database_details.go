@@ -10,12 +10,14 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
 // CreatePluggableDatabaseDetails Parameters for creating a pluggable database in a specified container database (CDB).
+// Additional option `pdbCreationTypeDetails` can be used for creating Pluggable Database using different operations, e.g. LocalClone, Remote Clone, Relocate.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreatePluggableDatabaseDetails struct {
 
@@ -34,6 +36,11 @@ type CreatePluggableDatabaseDetails struct {
 	// The locked mode of the pluggable database admin account. If false, the user needs to provide the PDB Admin Password to connect to it.
 	// If true, the pluggable database will be locked and user cannot login to it.
 	ShouldPdbAdminAccountBeLocked *bool `mandatory:"false" json:"shouldPdbAdminAccountBeLocked"`
+
+	// Indicates whether to take Pluggable Database Backup after the operation.
+	ShouldCreatePdbBackup *bool `mandatory:"false" json:"shouldCreatePdbBackup"`
+
+	PdbCreationTypeDetails CreatePluggableDatabaseCreationTypeDetails `mandatory:"false" json:"pdbCreationTypeDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -59,4 +66,52 @@ func (m CreatePluggableDatabaseDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreatePluggableDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		PdbAdminPassword              *string                                    `json:"pdbAdminPassword"`
+		TdeWalletPassword             *string                                    `json:"tdeWalletPassword"`
+		ShouldPdbAdminAccountBeLocked *bool                                      `json:"shouldPdbAdminAccountBeLocked"`
+		ShouldCreatePdbBackup         *bool                                      `json:"shouldCreatePdbBackup"`
+		PdbCreationTypeDetails        createpluggabledatabasecreationtypedetails `json:"pdbCreationTypeDetails"`
+		FreeformTags                  map[string]string                          `json:"freeformTags"`
+		DefinedTags                   map[string]map[string]interface{}          `json:"definedTags"`
+		PdbName                       *string                                    `json:"pdbName"`
+		ContainerDatabaseId           *string                                    `json:"containerDatabaseId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.PdbAdminPassword = model.PdbAdminPassword
+
+	m.TdeWalletPassword = model.TdeWalletPassword
+
+	m.ShouldPdbAdminAccountBeLocked = model.ShouldPdbAdminAccountBeLocked
+
+	m.ShouldCreatePdbBackup = model.ShouldCreatePdbBackup
+
+	nn, e = model.PdbCreationTypeDetails.UnmarshalPolymorphicJSON(model.PdbCreationTypeDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PdbCreationTypeDetails = nn.(CreatePluggableDatabaseCreationTypeDetails)
+	} else {
+		m.PdbCreationTypeDetails = nil
+	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.PdbName = model.PdbName
+
+	m.ContainerDatabaseId = model.ContainerDatabaseId
+
+	return
 }

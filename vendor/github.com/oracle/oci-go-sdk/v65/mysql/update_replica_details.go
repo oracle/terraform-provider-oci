@@ -37,6 +37,8 @@ type UpdateReplicaDetails struct {
 	// the DB System is delete protected, read replicas can still be deleted individually if they are not delete
 	// protected themselves.
 	IsDeleteProtected *bool `mandatory:"false" json:"isDeleteProtected"`
+
+	ReplicaOverrides *ReplicaOverrides `mandatory:"false" json:"replicaOverrides"`
 }
 
 func (m UpdateReplicaDetails) String() string {
