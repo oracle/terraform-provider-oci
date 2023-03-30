@@ -137,6 +137,7 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + MarketplacePublicationResourceDependencies,
 		},
+
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + MarketplacePublicationResourceDependencies +
