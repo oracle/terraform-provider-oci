@@ -22,7 +22,7 @@ type ForwardToBackendSet struct {
 
 	// Name of the backend set the listener will forward the traffic to.
 	// Example: `backendSetForImages`
-	BackendSetName *string `mandatory:"false" json:"backendSetName"`
+	BackendSetName *string `mandatory:"true" json:"backendSetName"`
 }
 
 func (m ForwardToBackendSet) String() string {
