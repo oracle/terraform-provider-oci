@@ -1,3 +1,25 @@
+## 4.115.0 (Unreleased)
+
+### Added
+- Retire service data connectivity
+- Support for Preemptible Worker NOdes
+- Support for Preemptible Worker Nodes
+- Support for LBaaS: HTTP healthchecks for HTTPS backendsets
+- Support for OpenSearch Resize Terraform update
+- README.md of service examples with magic button
+- Release for v4.114.0
+- Support for ACD & OKV Wallet Naming | ADB-D & ADB-C@C
+- Support for BDS - On Demand Bootstrap script execution (Only existing API changes)
+- Support for SCM: Support validating the credentials of the connection
+- Support for RDMA Network Instances
+- Support for Enhanced Cluster/Serverless/Cluster AddOns
+### Bug Fix
+- Detector_recipe_resource entityMapping fix
+- Update marketplace documentation and make a resource discoverable
+- Fixed oci_database_db_home resource documentation.
+- support for metric extraction in Scheduled task and is_enabled field in object collection rule
+- multiple terminating lifescyle states issue for integration test
+
 ## 4.114.0 (March 29, 2023)
 
 ### Added
