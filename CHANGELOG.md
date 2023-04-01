@@ -1,3 +1,15 @@
+## 4.115.0 (Unreleased)
+
+### Added
+- Support for Preemptible Worker NOdes
+- Support for Preemptible Worker Nodes
+- Support for LBaaS: HTTP healthchecks for HTTPS backendsets
+- Support for OpenSearch Resize Terraform update
+- Retire service data connectivity
+### Bug Fix
+- Detector_recipe_resource entityMapping fix
+- Update marketplace documentation and make a resource discoverable
+
 ## 4.114.0 (Unreleased)
 
 ### Added
