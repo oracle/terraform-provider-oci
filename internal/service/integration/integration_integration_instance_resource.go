@@ -250,7 +250,6 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-
 			// Computed
 			"attachments": {
 				Type:     schema.TypeList,
@@ -321,6 +320,35 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 			"instance_url": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"private_endpoint_outbound_connection": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Computed: true,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"outbound_connection_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"state": {
 				Type:             schema.TypeString,
@@ -962,6 +990,16 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 
 	s.D.Set("shape", s.Res.Shape)
 
+	if s.Res.PrivateEndpointOutboundConnection != nil {
+		privateEndpointOutboundConnectionArray := []interface{}{}
+		if privateEndpointOutboundConnectionMap := OutboundConnectionToMap(&s.Res.PrivateEndpointOutboundConnection, false); privateEndpointOutboundConnectionMap != nil {
+			privateEndpointOutboundConnectionArray = append(privateEndpointOutboundConnectionArray, privateEndpointOutboundConnectionMap)
+		}
+		s.D.Set("private_endpoint_outbound_connection", privateEndpointOutboundConnectionArray)
+	} else {
+		s.D.Set("private_endpoint_outbound_connection", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.StateMessage != nil {
@@ -1192,6 +1230,35 @@ func IntegNetworkEndpointDetailsToMap(obj *oci_integration.NetworkEndpointDetail
 		}
 	default:
 		log.Printf("[WARN] Received 'network_endpoint_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func OutboundConnectionToMap(obj *oci_integration.OutboundConnection, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_integration.NoneOutboundConnection:
+		result["outbound_connection_type"] = "NONE"
+	case oci_integration.PrivateEndpointOutboundConnection:
+		result["outbound_connection_type"] = "PRIVATE_ENDPOINT"
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		if datasource {
+			result["nsg_ids"] = nsgIds
+		} else {
+			result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
+		}
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+	default:
+		log.Printf("[WARN] Received 'outbound_connection_type' of unknown type %v", *obj)
 		return nil
 	}
 
