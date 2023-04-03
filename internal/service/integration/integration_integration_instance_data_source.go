@@ -140,6 +140,16 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 
 	s.D.Set("shape", s.Res.Shape)
 
+	if s.Res.PrivateEndpointOutboundConnection != nil {
+		privateEndpointOutboundConnectionArray := []interface{}{}
+		if privateEndpointOutboundConnectionMap := OutboundConnectionToMap(&s.Res.PrivateEndpointOutboundConnection, true); privateEndpointOutboundConnectionMap != nil {
+			privateEndpointOutboundConnectionArray = append(privateEndpointOutboundConnectionArray, privateEndpointOutboundConnectionMap)
+		}
+		s.D.Set("private_endpoint_outbound_connection", privateEndpointOutboundConnectionArray)
+	} else {
+		s.D.Set("private_endpoint_outbound_connection", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.StateMessage != nil {
