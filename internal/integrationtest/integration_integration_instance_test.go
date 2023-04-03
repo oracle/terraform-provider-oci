@@ -123,6 +123,12 @@ var (
 		// STANDARD or ENTERPRISE only
 		// "network_endpoint_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceNetworkEndpointDetailsRepresentation},
 		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentationAgain},
+		// "network_endpoint_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceNetworkEndpointDetailsRepresentation},
+	}
+	integrationPrivateEndpointRepresentation = map[string]interface{}{
+		"integration_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_integration_integration_instance.test_integration_instance.id}`},
+		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"nsg_ids":                 acctest.Representation{RepType: acctest.Required, Create: []string{`${var.nsg_id}`}},
 	}
 
 	ignoreDefinedTagsDifferencesRepresentationAgain = map[string]interface{}{
@@ -175,11 +181,18 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	vaultSecretId := utils.GetEnvSettingWithBlankDefault("oci_vault_secret_id")
 	vaultSecretIdStr := fmt.Sprintf("variable \"oci_vault_secret_id\" { default = \"%s\" }\n", vaultSecretId)
 
+	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_id")
+	subnetIdStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
+
+	nsgId := utils.GetEnvSettingWithBlankDefault("nsg_id")
+	nsgIdStr := fmt.Sprintf("variable \"nsg_id\" { default = \"%s\" }\n", nsgId)
+
 	resourceName := "oci_integration_integration_instance.test_integration_instance"
 	datasourceName := "data.oci_integration_integration_instances.test_integration_instances"
 	singularDatasourceName := "data.oci_integration_integration_instance.test_integration_instance"
-
+	privateEndpointResourceName := "oci_integration_private_endpoint_outbound_connection.integration_private_endpoint"
 	var resId, resId2 string
+
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+instanceTypeVariableStr+compartmentIdVariableStr+IntegrationIntegrationInstanceResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Create, integrationInstanceRepresentation), "integration", "integrationInstance", t)
@@ -187,8 +200,9 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckIntegrationIntegrationInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + domainIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Required, acctest.Create, integrationInstanceRepresentation),
+			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + subnetIdStr + nsgIdStr + idcsAccessTokenVariableStr() + IntegrationIntegrationInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Required, acctest.Create, integrationInstanceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_integration_private_endpoint_outbound_connection", "integration_private_endpoint", acctest.Required, acctest.Create, integrationPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -198,6 +212,16 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+
+				resource.TestCheckResourceAttrSet(privateEndpointResourceName, "integration_instance_id"),
+				resource.TestCheckResourceAttr(privateEndpointResourceName, "subnet_id", utils.GetEnvSettingWithBlankDefault("subnet_id")),
+				resource.TestCheckResourceAttr(privateEndpointResourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(privateEndpointResourceName, "nsg_ids.0", utils.GetEnvSettingWithBlankDefault("nsg_id")),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, privateEndpointResourceName, "id")
 					return err
 				},
 			),
@@ -242,6 +266,11 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
 				// resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"), // 		resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "0"),
+				// resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+				// resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				// resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
@@ -256,6 +285,8 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// 	"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
 				// },
 				// 	[]string{}),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
 				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
 				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "DEVELOPMENT"),
@@ -369,6 +400,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// 	[]string{}),
 				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
 				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "DEVELOPMENT"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "DEVELOPMENT"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
@@ -726,5 +758,6 @@ func readIdcsAccessToken() string {
 		panic(err)
 	}
 
+	fmt.Println(result.AccessToken)
 	return result.AccessToken
 }

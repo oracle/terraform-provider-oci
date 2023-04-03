@@ -38,6 +38,16 @@ variable certificate_secret_id {
 variable domain_id {
   default = ""
 }
+
+variable subnet_id {
+  default = ""
+}
+
+variable nsg_id {
+  default = ""
+}
+
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -49,10 +59,9 @@ provider "oci" {
 resource "oci_integration_integration_instance" "test_integration_instance" {
   #Required
   compartment_id            = var.compartment_id
-  display_name              = "instance4643"
   integration_instance_type = "STANDARDX"
   shape                     = "DEVELOPMENT"
-  # shape                     = "PRODUCTION"
+  display_name              = "displayName"
   is_byol                   = "false"
   message_packs             = "10"
   domain_id                 = var.domain_id
@@ -72,27 +81,14 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 #  is_file_server_enabled = true
 #  is_visual_builder_enabled = true
 #  state                  = "ACTIVE"
-
-# For stand / enterprise type only
-#  network_endpoint_details {
-#    allowlisted_http_ips = ["10.0.0.0/28"]
-#    allowlisted_http_vcns {
-#      allowlisted_ips = ["0.0.0.0/0"]
-#      id = "${var.allow_listed_http_vcn}"
-#    }
-#    is_integration_vcn_allowlisted = "false"
-#    network_endpoint_type = "PUBLIC"
-#  }
-
 }
 
 data "oci_integration_integration_instances" "test_integration_instances" {
   #Required
   compartment_id = var.compartment_id
 
-  #Optional
-#  display_name = "displayName"
-#  state        = "Active"
+  display_name = "displayName"
+  state        = "Active"
 }
 
 data "oci_integration_integration_instance" "test_integration_instance" {
@@ -110,4 +106,10 @@ resource "oci_integration_integration_instance" "test_integration_instance_idcs"
   is_byol                   = "false"
   message_packs             = "10"
   idcs_at                   = var.integration_instance_idcs_access_token
+}
+
+resource "oci_integration_private_endpoint_outbound_connection" "integration_private_endpoint" {
+  integration_instance_id = oci_integration_integration_instance.test_integration_instance.id
+  nsg_ids = [var.nsg_id]
+  subnet_id = var.subnet_id
 }
