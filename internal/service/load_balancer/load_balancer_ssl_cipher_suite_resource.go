@@ -38,6 +38,11 @@ func LoadBalancerSslCipherSuiteResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"load_balancer_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -45,12 +50,6 @@ func LoadBalancerSslCipherSuiteResource() *schema.Resource {
 			},
 
 			// Optional
-			"load_balancer_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-			},
 
 			// Computed
 			// internal for work request access
