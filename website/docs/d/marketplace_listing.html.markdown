@@ -43,7 +43,7 @@ data "oci_marketplace_listing" "test_listing" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The unique identifier for the compartment.
+* `compartment_id` - (Optional) The unique identifier for the compartment. It is mandatory when used in non-commercial realms.
 * `listing_id` - (Required) The unique identifier for the listing.
 
 

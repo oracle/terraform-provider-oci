@@ -1288,5 +1288,19 @@ func (s *CloudGuardDetectorRecipeResourceCrud) mapToConfigValue(fieldKeyFormat s
 func (s *CloudGuardDetectorRecipeResourceCrud) mapToEntitiesMapping(fieldKeyFormat string) (oci_cloud_guard.EntitiesMapping, error) {
 	result := oci_cloud_guard.EntitiesMapping{}
 
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if queryField, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_field")); ok {
+		tmp := queryField.(string)
+		result.QueryField = &tmp
+	}
+
+	if entityType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entity_type")); ok {
+		result.EntityType = oci_cloud_guard.EntityTypeEnum(entityType.(string))
+	}
+
 	return result, nil
 }

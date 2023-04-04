@@ -152,6 +152,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify datasource
 		{
 			Config: config +

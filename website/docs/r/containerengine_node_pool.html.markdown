@@ -42,6 +42,16 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 			#Optional
 			capacity_reservation_id = oci_containerengine_capacity_reservation.test_capacity_reservation.id
 			fault_domains = var.node_pool_node_config_details_placement_configs_fault_domains
+			preemptible_node_config {
+				#Required
+				preemption_action {
+					#Required
+					type = var.node_pool_node_config_details_placement_configs_preemptible_node_config_preemption_action_type
+
+					#Optional
+					is_preserve_boot_volume = var.node_pool_node_config_details_placement_configs_preemptible_node_config_preemption_action_is_preserve_boot_volume
+				}
+			}
 		}
 		size = var.node_pool_node_config_details_size
 
@@ -119,6 +129,10 @@ The following arguments are supported:
 		* `availability_domain` - (Required) (Updatable) The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation in which to place the compute instance.
 		* `fault_domains` - (Optional) (Updatable) A list of fault domains in which to place nodes. 
+		* `preemptible_node_config` - (Optional) (Updatable) Configuration options for preemptible nodes.
+			* `preemption_action` - (Required) (Updatable) The action to run when the preemptible node is interrupted for eviction.
+				* `is_preserve_boot_volume` - (Optional) (Updatable) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
+				* `type` - (Required) (Updatable) The type of action to run when the instance is interrupted for eviction.
 		* `subnet_id` - (Required) (Updatable) The OCID of the subnet in which to place nodes.
 	* `size` - (Required) (Updatable) The number of nodes that should be in the node pool. 
 * `node_eviction_node_pool_settings` - (Optional) (Updatable) Node Eviction Details configuration
@@ -174,6 +188,10 @@ The following attributes are exported:
 		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - The OCID of the compute capacity reservation in which to place the compute instance.
 		* `fault_domains` - A list of fault domains in which to place nodes. 
+		* `preemptible_node_config` - Configuration options for preemptible nodes.
+			* `preemption_action` - The action to run when the preemptible node is interrupted for eviction.
+				* `is_preserve_boot_volume` - Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
+				* `type` - The type of action to run when the instance is interrupted for eviction.
 		* `subnet_id` - The OCID of the subnet in which to place nodes.
 	* `size` - The number of nodes in the node pool. 
 * `node_eviction_node_pool_settings` - Node Eviction Details configuration

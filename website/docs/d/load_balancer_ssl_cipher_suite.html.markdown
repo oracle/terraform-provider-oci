@@ -17,10 +17,8 @@ Gets the specified SSL cipher suite's configuration information.
 ```hcl
 data "oci_load_balancer_ssl_cipher_suite" "test_ssl_cipher_suite" {
 	#Required
-	name = var.ssl_cipher_suite_name
-
-	#Optional
 	load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+	name = var.ssl_cipher_suite_name
 }
 ```
 
@@ -28,7 +26,7 @@ data "oci_load_balancer_ssl_cipher_suite" "test_ssl_cipher_suite" {
 
 The following arguments are supported:
 
-* `load_balancer_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated load balancer. 
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated load balancer. 
 * `name` - (Required) The name of the SSL cipher suite to retrieve.
 
 	example: `example_cipher_suite` 

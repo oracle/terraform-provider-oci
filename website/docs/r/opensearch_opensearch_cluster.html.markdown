@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_opensearch_opensearch_cluster"
 sidebar_current: "docs-oci-resource-opensearch-opensearch_cluster"
 description: |-
-  Provides the Opensearch Cluster resource in Oracle Cloud Infrastructure Opensearch service
+Provides the Opensearch Cluster resource in Oracle Cloud Infrastructure Opensearch service
 ---
 
 # oci_opensearch_opensearch_cluster
@@ -68,23 +68,23 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to create the cluster in.
-* `data_node_count` - (Required) The number of data nodes to configure for the cluster.
+* `data_node_count` - (Required) (Updatable) The number of data nodes to configure for the cluster.
 * `data_node_host_bare_metal_shape` - (Optional) The bare metal shape for the cluster's data nodes.
-* `data_node_host_memory_gb` - (Required) The amount of memory in GB, to configure per node for the cluster's data nodes.
-* `data_node_host_ocpu_count` - (Required) The number of OCPUs to configure for the cluster's data nodes.
+* `data_node_host_memory_gb` - (Required) (Updatable) The amount of memory in GB, to configure per node for the cluster's data nodes.
+* `data_node_host_ocpu_count` - (Required) (Updatable) The number of OCPUs to configure for the cluster's data nodes.
 * `data_node_host_type` - (Required) TThe instance type for the cluster's data nodes.
-* `data_node_storage_gb` - (Required) The amount of storage in GB, to configure per node for the cluster's data nodes.
+* `data_node_storage_gb` - (Required) (Updatable) The amount of storage in GB, to configure per node for the cluster's data nodes.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
 * `display_name` - (Required) (Updatable) The name of the cluster. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
-* `master_node_count` - (Required) The number of master nodes to configure for the cluster.
+* `master_node_count` - (Required) (Updatable) The number of master nodes to configure for the cluster.
 * `master_node_host_bare_metal_shape` - (Optional) The bare metal shape for the cluster's master nodes.
-* `master_node_host_memory_gb` - (Required) The amount of memory in GB, to configure per node for the cluster's master nodes.
-* `master_node_host_ocpu_count` - (Required) The number of OCPUs to configure for the cluser's master nodes.
+* `master_node_host_memory_gb` - (Required) (Updatable) The amount of memory in GB, to configure per node for the cluster's master nodes.
+* `master_node_host_ocpu_count` - (Required) (Updatable) The number of OCPUs to configure for the cluser's master nodes.
 * `master_node_host_type` - (Required) The instance type for the cluster's master nodes.
-* `opendashboard_node_count` - (Required) The number of OpenSearch Dashboard nodes to configure for the cluster.
-* `opendashboard_node_host_memory_gb` - (Required) The amount of memory in GB, to configure for the cluster's OpenSearch Dashboard nodes.
-* `opendashboard_node_host_ocpu_count` - (Required) The number of OCPUs to configure for the cluster's OpenSearch Dashboard nodes.
+* `opendashboard_node_count` - (Required) (Updatable) The number of OpenSearch Dashboard nodes to configure for the cluster.
+* `opendashboard_node_host_memory_gb` - (Required) (Updatable) The amount of memory in GB, to configure for the cluster's OpenSearch Dashboard nodes.
+* `opendashboard_node_host_ocpu_count` - (Required) (Updatable) The number of OCPUs to configure for the cluster's OpenSearch Dashboard nodes.
 * `security_master_user_name` - (Optional) (Updatable) The name of the master user that are used to manage security config
 * `security_master_user_password_hash` - (Optional) (Updatable) The password hash of the master user that are used to manage security config
 * `security_mode` - (Optional) (Updatable) The security mode of the cluster.
@@ -147,9 +147,9 @@ The following attributes are exported:
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
-	* `create` - (Defaults to 20 minutes), when creating the Opensearch Cluster
-	* `update` - (Defaults to 20 minutes), when updating the Opensearch Cluster
-	* `delete` - (Defaults to 20 minutes), when destroying the Opensearch Cluster
+* `create` - (Defaults to 45 minutes), when creating the Opensearch Cluster
+* `update` - (Defaults to 45 minutes), when updating the Opensearch Cluster
+* `delete` - (Defaults to 45 minutes), when destroying the Opensearch Cluster
 
 
 ## Import

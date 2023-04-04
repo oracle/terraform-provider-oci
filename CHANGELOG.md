@@ -1,3 +1,15 @@
+## 4.115.0 (April 04, 2023)
+
+### Added
+- Retire service data connectivity
+- Support for Preemptible Worker Nodes
+- Support for LBaaS: HTTP healthchecks for HTTPS backendsets
+- Support for OpenSearch Resize Terraform update
+- README.md of service examples with magic button
+### Bug Fix
+- Detector_recipe_resource entityMapping fix
+- Update marketplace documentation and make a resource discoverable
+
 ## 4.114.0 (March 29, 2023)
 
 ### Added

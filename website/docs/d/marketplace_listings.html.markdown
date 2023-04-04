@@ -52,7 +52,7 @@ data "oci_marketplace_listings" "test_listings" {
 The following arguments are supported:
 
 * `category` - (Optional) Name of the product category or categories. If you specify multiple categories, then Marketplace returns any listing with one or more matching categories. 
-* `compartment_id` - (Optional) The unique identifier for the compartment.
+* `compartment_id` - (Optional) The unique identifier for the compartment. It is mandatory when used in non-commercial realms.
 * `image_id` - (Optional) The image identifier of the listing.
 * `is_featured` - (Optional) Indicates whether to show only featured listings. If this is set to `false` or is omitted, then all listings will be returned. 
 * `listing_id` - (Optional) The unique identifier for the listing.

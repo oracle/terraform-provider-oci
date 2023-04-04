@@ -20,7 +20,7 @@ func LoadBalancerSslCipherSuitesDataSource() *schema.Resource {
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"load_balancer_id": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 			},
 			"ssl_cipher_suites": {
 				Type:     schema.TypeList,
