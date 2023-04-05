@@ -56,6 +56,16 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `attachments` - A list of associated attachments to other services 
+	* `is_implicit` - 
+		* If role == `PARENT`, the attached instance was created by this service instance 
+		* If role == `CHILD`, this instance was created from attached instance on behalf of a user 
+	* `target_id` - The OCID of the target instance (which could be any other Oracle Cloud Infrastructure PaaS/SaaS resource), to which this instance is attached.
+	* `target_instance_url` - The dataplane instance URL of the attached instance
+	* `target_role` - The role of the target attachment. 
+		* `PARENT` - The target instance is the parent of this attachment. 
+		* `CHILD` - The target instance is the child of this attachment. 
+	* `target_service_type` - The type of the target instance, such as "FUSION".
 * `compartment_id` - Compartment Identifier
 * `consumption_model` - The entitlement used for billing purposes
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
