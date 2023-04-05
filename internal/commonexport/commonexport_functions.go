@@ -860,3 +860,11 @@ func getNormalizedTerraformName(source string) string {
 	result = fmt.Sprintf("export_%s", result)
 	return result
 }
+
+func GetValidUniqueTerraformName(terraformName string) string {
+	reg := regexp.MustCompile(`[^a-zA-Z0-9\-\_]+`)
+	terraformName = reg.ReplaceAllString(terraformName, "-")
+	terraformName = CheckDuplicateResourceName(terraformName)
+
+	return terraformName
+}
