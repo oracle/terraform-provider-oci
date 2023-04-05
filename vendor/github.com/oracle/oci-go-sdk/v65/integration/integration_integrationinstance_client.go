@@ -378,6 +378,64 @@ func (client IntegrationInstanceClient) deleteIntegrationInstance(ctx context.Co
 	return response, err
 }
 
+// EnableProcessAutomation Enable Process Automation for given Integration Instance
+func (client IntegrationInstanceClient) EnableProcessAutomation(ctx context.Context, request EnableProcessAutomationRequest) (response EnableProcessAutomationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableProcessAutomation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableProcessAutomationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableProcessAutomationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableProcessAutomationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableProcessAutomationResponse")
+	}
+	return
+}
+
+// enableProcessAutomation implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) enableProcessAutomation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/enableProcessAutomation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableProcessAutomationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/EnableProcessAutomation"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "EnableProcessAutomation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetIntegrationInstance Gets a IntegrationInstance by identifier
 func (client IntegrationInstanceClient) GetIntegrationInstance(ctx context.Context, request GetIntegrationInstanceRequest) (response GetIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse

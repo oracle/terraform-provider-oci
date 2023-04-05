@@ -2,38 +2,50 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Service API
+// Service Mesh API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// Use the Service Mesh API to manage mesh, virtual service, access policy and other mesh related items.
 //
 
-package database
+package servicemesh
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// CustomFeatureListDetails List of feature enabled or disabled for a resource.
-type CustomFeatureListDetails struct {
-
-	// True if the feature is enabled and false if feature is not enabled.
-	IsDrNetworkEnabled *bool `mandatory:"false" json:"isDrNetworkEnabled"`
+// RoundRobinLoadBalancer Round robin load balancer selects hosts in round robin order.
+type RoundRobinLoadBalancer struct {
 }
 
-func (m CustomFeatureListDetails) String() string {
+func (m RoundRobinLoadBalancer) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CustomFeatureListDetails) ValidateEnumValue() (bool, error) {
+func (m RoundRobinLoadBalancer) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m RoundRobinLoadBalancer) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeRoundRobinLoadBalancer RoundRobinLoadBalancer
+	s := struct {
+		DiscriminatorParam string `json:"type"`
+		MarshalTypeRoundRobinLoadBalancer
+	}{
+		"ROUND_ROBIN",
+		(MarshalTypeRoundRobinLoadBalancer)(m),
+	}
+
+	return json.Marshal(&s)
 }

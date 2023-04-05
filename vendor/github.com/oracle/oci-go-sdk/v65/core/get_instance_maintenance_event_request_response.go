@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package dataintegration
+package core
 
 import (
 	"fmt"
@@ -11,37 +11,27 @@ import (
 	"strings"
 )
 
-// GetPublishedObjectRequest wrapper for the GetPublishedObject operation
-type GetPublishedObjectRequest struct {
+// GetInstanceMaintenanceEventRequest wrapper for the GetInstanceMaintenanceEvent operation
+type GetInstanceMaintenanceEventRequest struct {
 
-	// The workspace ID.
-	WorkspaceId *string `mandatory:"true" contributesTo:"path" name:"workspaceId"`
+	// The OCID of the instance maintenance event.
+	InstanceMaintenanceEventId *string `mandatory:"true" contributesTo:"path" name:"instanceMaintenanceEventId"`
 
-	// The application key.
-	ApplicationKey *string `mandatory:"true" contributesTo:"path" name:"applicationKey"`
-
-	// The published object key.
-	PublishedObjectKey *string `mandatory:"true" contributesTo:"path" name:"publishedObjectKey"`
-
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique identifier for the request.
+	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// Deprecated. Used to expand references of the object. If value is true, then all referenced objects are expanded. If value is false, then shallow objects are returned in place of references. Default is false. <br><br><B>Example:</B><br> <ul> <li><B>?expandReferences=true</B> returns all objects of type data loader task</li> </ul>
-	ExpandReferences *string `mandatory:"false" contributesTo:"query" name:"expandReferences"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetPublishedObjectRequest) String() string {
+func (request GetInstanceMaintenanceEventRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetPublishedObjectRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetInstanceMaintenanceEventRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -51,21 +41,21 @@ func (request GetPublishedObjectRequest) HTTPRequest(method, path string, binary
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetPublishedObjectRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetInstanceMaintenanceEventRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetPublishedObjectRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetInstanceMaintenanceEventRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetPublishedObjectRequest) ValidateEnumValue() (bool, error) {
+func (request GetInstanceMaintenanceEventRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -73,16 +63,16 @@ func (request GetPublishedObjectRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// GetPublishedObjectResponse wrapper for the GetPublishedObject operation
-type GetPublishedObjectResponse struct {
+// GetInstanceMaintenanceEventResponse wrapper for the GetInstanceMaintenanceEvent operation
+type GetInstanceMaintenanceEventResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The PublishedObject instance
-	PublishedObject `presentIn:"body"`
+	// The InstanceMaintenanceEvent instance
+	InstanceMaintenanceEvent `presentIn:"body"`
 
-	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
@@ -90,11 +80,11 @@ type GetPublishedObjectResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response GetPublishedObjectResponse) String() string {
+func (response GetInstanceMaintenanceEventResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetPublishedObjectResponse) HTTPResponse() *http.Response {
+func (response GetInstanceMaintenanceEventResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

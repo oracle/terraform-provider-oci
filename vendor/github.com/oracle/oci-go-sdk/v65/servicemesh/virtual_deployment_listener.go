@@ -10,6 +10,7 @@
 package servicemesh
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -32,6 +33,15 @@ type VirtualDeploymentListener struct {
 
 	// The maximum duration in milliseconds for which the request's stream may be idle. The value 0 (zero) indicates that the timeout is disabled.
 	IdleTimeoutInMs *int64 `mandatory:"false" json:"idleTimeoutInMs"`
+
+	// Optional alternative health check port number for TCP and HTTP health check.
+	HealthCheckPort *int `mandatory:"false" json:"healthCheckPort"`
+
+	// The health check configurations for a virtual deployment listener. Only one health check may be provided
+	// at the moment.
+	HealthCheck []HealthCheck `mandatory:"false" json:"healthCheck"`
+
+	LoadBalancer LoadBalancer `mandatory:"false" json:"loadBalancer"`
 }
 
 func (m VirtualDeploymentListener) String() string {
@@ -51,6 +61,59 @@ func (m VirtualDeploymentListener) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *VirtualDeploymentListener) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		RequestTimeoutInMs *int64                                `json:"requestTimeoutInMs"`
+		IdleTimeoutInMs    *int64                                `json:"idleTimeoutInMs"`
+		HealthCheckPort    *int                                  `json:"healthCheckPort"`
+		HealthCheck        []healthcheck                         `json:"healthCheck"`
+		LoadBalancer       loadbalancer                          `json:"loadBalancer"`
+		Protocol           VirtualDeploymentListenerProtocolEnum `json:"protocol"`
+		Port               *int                                  `json:"port"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.RequestTimeoutInMs = model.RequestTimeoutInMs
+
+	m.IdleTimeoutInMs = model.IdleTimeoutInMs
+
+	m.HealthCheckPort = model.HealthCheckPort
+
+	m.HealthCheck = make([]HealthCheck, len(model.HealthCheck))
+	for i, n := range model.HealthCheck {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.HealthCheck[i] = nn.(HealthCheck)
+		} else {
+			m.HealthCheck[i] = nil
+		}
+	}
+
+	nn, e = model.LoadBalancer.UnmarshalPolymorphicJSON(model.LoadBalancer.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.LoadBalancer = nn.(LoadBalancer)
+	} else {
+		m.LoadBalancer = nil
+	}
+
+	m.Protocol = model.Protocol
+
+	m.Port = model.Port
+
+	return
 }
 
 // VirtualDeploymentListenerProtocolEnum Enum with underlying type: string

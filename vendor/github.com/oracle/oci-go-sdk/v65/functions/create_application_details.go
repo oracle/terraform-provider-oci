@@ -33,11 +33,11 @@ type CreateApplicationDetails struct {
 	// The maximum size for all configuration keys and values is limited to 4KB. This is measured as the sum of octets necessary to represent each key and value in UTF-8.
 	Config map[string]string `mandatory:"false" json:"config"`
 
-	// Valid values are "GENERIC_X86", "GENERIC_ARM" and "GENERIC_X86_ARM". Default is "GENERIC_X86". Setting this to "GENERIC_X86", will run the functions in the application on X86 processor architecture.
-	// Setting this to "GENERIC_ARM", will run the functions in the application on ARM processor architecture.
-	// When set to "GENERIC_X86_ARM", functions in the application are run on either X86 or ARM processor architecture.
+	// Valid values are `GENERIC_X86`, `GENERIC_ARM` and `GENERIC_X86_ARM`. Default is `GENERIC_X86`. Setting this to `GENERIC_X86`, will run the functions in the application on X86 processor architecture.
+	// Setting this to `GENERIC_ARM`, will run the functions in the application on ARM processor architecture.
+	// When set to `GENERIC_X86_ARM`, functions in the application are run on either X86 or ARM processor architecture.
 	// Accepted values are:
-	// "GENERIC_X86", "GENERIC_ARM", "GENERIC_X86_ARM"
+	// `GENERIC_X86`, `GENERIC_ARM`, `GENERIC_X86_ARM`
 	Shape CreateApplicationDetailsShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Network Security Groups to add the application to.

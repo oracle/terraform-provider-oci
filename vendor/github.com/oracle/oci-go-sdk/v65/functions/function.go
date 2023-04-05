@@ -46,7 +46,7 @@ type Function struct {
 
 	SourceDetails FunctionSourceDetails `mandatory:"false" json:"sourceDetails"`
 
-	// The processor shape ("GENERIC_X86"/"GENERIC_ARM") on which to run functions in the application, extracted from the image manifest.
+	// The processor shape (`GENERIC_X86`/`GENERIC_ARM`) on which to run functions in the application, extracted from the image manifest.
 	Shape FunctionShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
 	// Maximum usable memory for the function (MiB).

@@ -33,11 +33,11 @@ type ApplicationSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the subnets in which to run functions in the application.
 	SubnetIds []string `mandatory:"false" json:"subnetIds"`
 
-	// Valid values are "GENERIC_X86", "GENERIC_ARM" and "GENERIC_X86_ARM". Default is "GENERIC_X86". Setting this to "GENERIC_X86", will run the functions in the application on X86 processor architecture.
-	// Setting this to "GENERIC_ARM", will run the functions in the application on ARM processor architecture.
-	// When set to "GENERIC_X86_ARM", functions in the application are run on either X86 or ARM processor architecture.
+	// Valid values are `GENERIC_X86`, `GENERIC_ARM` and `GENERIC_X86_ARM`. Default is `GENERIC_X86`. Setting this to `GENERIC_X86`, will run the functions in the application on X86 processor architecture.
+	// Setting this to `GENERIC_ARM`, will run the functions in the application on ARM processor architecture.
+	// When set to `GENERIC_X86_ARM`, functions in the application are run on either X86 or ARM processor architecture.
 	// Accepted values are:
-	// "GENERIC_X86", "GENERIC_ARM", "GENERIC_X86_ARM"
+	// `GENERIC_X86`, `GENERIC_ARM`, `GENERIC_X86_ARM`
 	Shape ApplicationSummaryShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of the Network Security Groups to add the application to.
