@@ -2979,7 +2979,7 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 			request.Shape = &shapeTmp
 		}
 		// the following if block is a temp solution and should be removed once service fixed on ther side
-		if shapeConfig, ok := s.D.GetOkExists("shape_config"); strings.Contains(strings.ToLower(shape.(string)), "flex") && ok && !s.D.HasChange("shape_config") {
+		if shapeConfig, ok := s.D.GetOkExists("shape_config"); (strings.Contains(strings.ToLower(shape.(string)), "flex") || strings.Contains(strings.ToLower(shape.(string)), "generic")) && ok && !s.D.HasChange("shape_config") {
 			if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "shape_config", 0)
 				tmp, err := s.mapToUpdateInstanceShapeConfigDetails(fieldKeyFormat)
@@ -2993,7 +2993,7 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 
 	if shapeConfig, ok := s.D.GetOkExists("shape_config"); ok && s.D.HasChange("shape_config") {
 		shape := s.D.Get("shape")
-		if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 && strings.Contains(strings.ToLower(shape.(string)), "flex") {
+		if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 && (strings.Contains(strings.ToLower(shape.(string)), "flex") || strings.Contains(strings.ToLower(shape.(string)), "generic")) {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "shape_config", 0)
 			tmp, err := s.mapToUpdateInstanceShapeConfigDetails(fieldKeyFormat)
 			if err != nil {
