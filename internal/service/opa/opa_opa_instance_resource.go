@@ -91,6 +91,39 @@ func OpaOpaInstanceResource() *schema.Resource {
 			},
 
 			// Computed
+			"attachments": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_implicit": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"target_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"target_instance_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"target_role": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"target_service_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"identity_app_display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -471,13 +504,21 @@ func (s *OpaOpaInstanceResourceCrud) Delete() error {
 	workId := response.OpcWorkRequestId
 
 	if _, err := opaInstanceWaitForWorkRequest(workId, "opainstance",
-		oci_opa.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client); err != nil {
+		oci_opa.ActionTypeRelated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (s *OpaOpaInstanceResourceCrud) SetData() error {
+	attachments := []interface{}{}
+	if s.Res.Attachments != nil {
+		for _, item := range s.Res.Attachments {
+			attachments = append(attachments, AttachmentDetailsToMap(item))
+		}
+	}
+	s.D.Set("attachments", attachments)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -542,6 +583,30 @@ func (s *OpaOpaInstanceResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func AttachmentDetailsToMap(obj oci_opa.AttachmentDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsImplicit != nil {
+		result["is_implicit"] = bool(*obj.IsImplicit)
+	}
+
+	if obj.TargetId != nil {
+		result["target_id"] = string(*obj.TargetId)
+	}
+
+	if obj.TargetInstanceUrl != nil {
+		result["target_instance_url"] = string(*obj.TargetInstanceUrl)
+	}
+
+	result["target_role"] = string(obj.TargetRole)
+
+	if obj.TargetServiceType != nil {
+		result["target_service_type"] = string(*obj.TargetServiceType)
+	}
+
+	return result
 }
 
 func OpaInstanceSummaryToMap(obj oci_opa.OpaInstanceSummary) map[string]interface{} {
