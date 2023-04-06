@@ -123,6 +123,8 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					// use resource discovery to discover the NAT gateway and verify that it is discovered
+					// when NAT gateway is in the same compartment as the VCN
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
@@ -157,6 +159,14 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+
+					// use resource discovery to discover the NAT gateway and verify that it is discovered
+					// even when NAT gateway is in a different compartment than the VCN
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId2, &compartmentIdU, resourceName); errExport != nil {
+							return errExport
+						}
 					}
 					return err
 				},
