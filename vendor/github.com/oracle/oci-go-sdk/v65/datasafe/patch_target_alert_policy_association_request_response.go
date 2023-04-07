@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchTargetAlertPolicyAssociation.go.html to see an example of how to use PatchTargetAlertPolicyAssociationRequest.
 type PatchTargetAlertPolicyAssociationRequest struct {
 
-	// The details used to patch target-alert policy associations.
+	// The details used to patch the target-alert policy associations.
 	PatchTargetAlertPolicyAssociationDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

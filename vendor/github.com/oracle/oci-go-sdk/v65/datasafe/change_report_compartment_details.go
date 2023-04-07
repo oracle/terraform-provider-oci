@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeReportCompartmentDetails Details for which compartment to move the resource to.
+// ChangeReportCompartmentDetails The details for moving the audit report to a different compartment.
 type ChangeReportCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment

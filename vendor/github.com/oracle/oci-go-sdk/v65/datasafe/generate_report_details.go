@@ -34,13 +34,13 @@ type GenerateReportDetails struct {
 	// The description of the report to be generated
 	Description *string `mandatory:"false" json:"description"`
 
-	// Specifies the time before which the data needs to be reported.
+	// Specifies the time until which the data needs to be reported.
 	TimeLessThan *common.SDKTime `mandatory:"false" json:"timeLessThan"`
 
 	// Specifies the time after which the data needs to be reported.
 	TimeGreaterThan *common.SDKTime `mandatory:"false" json:"timeGreaterThan"`
 
-	// Specifies the limit on number of rows in report.
+	// Specifies the limit on the number of rows in the report.
 	RowLimit *int `mandatory:"false" json:"rowLimit"`
 }
 

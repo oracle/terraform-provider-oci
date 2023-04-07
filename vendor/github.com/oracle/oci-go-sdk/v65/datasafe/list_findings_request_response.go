@@ -27,6 +27,9 @@ type ListFindingsRequest struct {
 	// A filter to return only findings of a particular risk level.
 	Severity ListFindingsSeverityEnum `mandatory:"false" contributesTo:"query" name:"severity" omitEmpty:"true"`
 
+	// An optional filter to return only findings containing the specified reference.
+	References ListFindingsReferencesEnum `mandatory:"false" contributesTo:"query" name:"references" omitEmpty:"true"`
+
 	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
@@ -84,6 +87,9 @@ func (request ListFindingsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListFindingsSeverityEnum(string(request.Severity)); !ok && request.Severity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", request.Severity, strings.Join(GetListFindingsSeverityEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListFindingsReferencesEnum(string(request.References)); !ok && request.References != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for References: %s. Supported values are: %s.", request.References, strings.Join(GetListFindingsReferencesEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListFindingsAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListFindingsAccessLevelEnumStringValues(), ",")))
@@ -179,6 +185,52 @@ func GetListFindingsSeverityEnumStringValues() []string {
 // GetMappingListFindingsSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListFindingsSeverityEnum(val string) (ListFindingsSeverityEnum, bool) {
 	enum, ok := mappingListFindingsSeverityEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListFindingsReferencesEnum Enum with underlying type: string
+type ListFindingsReferencesEnum string
+
+// Set of constants representing the allowable values for ListFindingsReferencesEnum
+const (
+	ListFindingsReferencesStig ListFindingsReferencesEnum = "STIG"
+	ListFindingsReferencesCis  ListFindingsReferencesEnum = "CIS"
+	ListFindingsReferencesGdpr ListFindingsReferencesEnum = "GDPR"
+)
+
+var mappingListFindingsReferencesEnum = map[string]ListFindingsReferencesEnum{
+	"STIG": ListFindingsReferencesStig,
+	"CIS":  ListFindingsReferencesCis,
+	"GDPR": ListFindingsReferencesGdpr,
+}
+
+var mappingListFindingsReferencesEnumLowerCase = map[string]ListFindingsReferencesEnum{
+	"stig": ListFindingsReferencesStig,
+	"cis":  ListFindingsReferencesCis,
+	"gdpr": ListFindingsReferencesGdpr,
+}
+
+// GetListFindingsReferencesEnumValues Enumerates the set of values for ListFindingsReferencesEnum
+func GetListFindingsReferencesEnumValues() []ListFindingsReferencesEnum {
+	values := make([]ListFindingsReferencesEnum, 0)
+	for _, v := range mappingListFindingsReferencesEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListFindingsReferencesEnumStringValues Enumerates the set of values in String for ListFindingsReferencesEnum
+func GetListFindingsReferencesEnumStringValues() []string {
+	return []string{
+		"STIG",
+		"CIS",
+		"GDPR",
+	}
+}
+
+// GetMappingListFindingsReferencesEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListFindingsReferencesEnum(val string) (ListFindingsReferencesEnum, bool) {
+	enum, ok := mappingListFindingsReferencesEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

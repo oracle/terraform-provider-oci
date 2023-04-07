@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ReportDetails Details for the report schedule.
+// ReportDetails The details of the report schedule.
 type ReportDetails interface {
 }
 

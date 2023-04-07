@@ -54,6 +54,40 @@ type MaskDataDetails struct {
 	// generation and executes the masking script stored in the Data Safe repository. It helps save time if there are no changes in
 	// the database tables and their dependencies.
 	IsExecuteSavedScriptEnabled *bool `mandatory:"false" json:"isExecuteSavedScriptEnabled"`
+
+	// Indicates if the temporary tables created during a masking operation should be dropped after masking.
+	// Set this attribute to false to preserve the temporary tables. Masking creates temporary tables that map the original sensitive
+	// data values to mask values. These temporary tables are dropped after masking if this attribute is set as true. But, in some cases, you may want
+	// to preserve this information to track how masking changed your data. Note that doing so compromises security. These tables
+	// must be dropped before the database is available for unprivileged users.
+	// If it's not provided, the value of the isDropTempTablesEnabled attribute in the MaskingPolicy resource is used.
+	IsDropTempTablesEnabled *bool `mandatory:"false" json:"isDropTempTablesEnabled"`
+
+	// Indicates if redo logging is enabled during a masking operation. Set this attribute to true to
+	// enable redo logging. If set as flase, masking disables redo logging and flashback logging to purge any original unmasked
+	// data from logs. However, in certain circumstances when you only want to test masking, rollback changes, and retry masking,
+	// you could enable logging and use a flashback database to retrieve the original unmasked data after it has been masked.
+	// If it's not provided, the value of the isRedoLoggingEnabled attribute in the MaskingPolicy resource is used.
+	IsRedoLoggingEnabled *bool `mandatory:"false" json:"isRedoLoggingEnabled"`
+
+	// Indicates if statistics gathering is enabled. Set this attribute to false to disable statistics
+	// gathering. The masking process gathers statistics on masked database tables after masking completes.
+	// If it's not provided, the value of the isRefreshStatsEnabled attribute in the MaskingPolicy resource is used.
+	IsRefreshStatsEnabled *bool `mandatory:"false" json:"isRefreshStatsEnabled"`
+
+	// Specifies options to enable parallel execution when running data masking. Allowed values are 'NONE' (no parallelism),
+	// 'DEFAULT' (the Oracle Database computes the optimum degree of parallelism) or an integer value to be used as the degree
+	// of parallelism. Parallel execution helps effectively use multiple CPUs and improve masking performance. Refer to the
+	// Oracle Database parallel execution framework when choosing an explicit degree of parallelism.
+	// If it's not provided, the value of the parallelDegree attribute in the MaskingPolicy resource is used.
+	ParallelDegree *string `mandatory:"false" json:"parallelDegree"`
+
+	// Specifies how to recompile invalid objects post data masking. Allowed values are 'SERIAL' (recompile in serial),
+	// 'PARALLEL' (recompile in parallel), 'NONE' (do not recompile). If it's set to PARALLEL, the value of parallelDegree
+	// attribute is used. Note that few objects may remain invalid even after recompiling once and you may have to further
+	// recompile manually using UTL_RECOMP package.
+	// If it's not provided, the value of the parallelDegree attribute in the MaskingPolicy resource is used.
+	Recompile *string `mandatory:"false" json:"recompile"`
 }
 
 func (m MaskDataDetails) String() string {

@@ -18,7 +18,7 @@ import (
 // ChangeTargetAlertPolicyAssociationCompartmentDetails The details used to change the compartment of a target-alert policy association.
 type ChangeTargetAlertPolicyAssociationCompartmentDetails struct {
 
-	// The OCID of the new compartment to move the target-alert policy association to.
+	// The OCID of the compartment to move the target-alert policy association to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 
