@@ -1,3 +1,10 @@
+## 4.116.0 (Unreleased)
+
+### Added
+- Support for [Exacs Application VIP] Terraform
+### Bug Fix
+fix the bug where NAT gateways are not discovered when they are present in a compartment different than the corresponding VCN
+
 ## 4.115.0 (April 04, 2023)
 
 ### Added
