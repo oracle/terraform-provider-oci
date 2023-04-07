@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// PatchTargetAlertPolicyAssociationDetails The details used to patch alert policy associations.
+// PatchTargetAlertPolicyAssociationDetails The details used to create associations for target databases and audit policies.
 type PatchTargetAlertPolicyAssociationDetails struct {
 
 	// An array of patch instructions.

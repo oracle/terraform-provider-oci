@@ -48,19 +48,19 @@ type ReportDefinition struct {
 	// Specifies how the report definitions are ordered in the display.
 	DisplayOrder *int `mandatory:"false" json:"displayOrder"`
 
-	// Specifies the time at which the report definition was created.
+	// Specifies the data and time the report definition was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time of the report definition update in Data Safe.
+	// The date and time the report definition was update.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Additional scim filters used to specialize the report.
+	// Additional SCIM filters used to define the report.
 	ScimFilter *string `mandatory:"false" json:"scimFilter"`
 
 	// An array of column objects in the order (left to right) displayed in the report. A column object stores all information about a column, including the name displayed on the UI, corresponding field name in the data source, data type of the column, and column visibility (if the column is visible to the user).
 	ColumnInfo []Column `mandatory:"false" json:"columnInfo"`
 
-	// An array of column filter objects. A column Filter object stores all information about a column filter including field name, an operator, one or more expressions, if the filter is enabled, or if the filter is hidden.
+	// An array of columnFilter objects. A columnFilter object stores all information about a column filter including field name, an operator, one or more expressions, if the filter is enabled, or if the filter is hidden.
 	ColumnFilters []ColumnFilter `mandatory:"false" json:"columnFilters"`
 
 	// An array of column sorting objects. Each column sorting object stores the column name to be sorted and if the sorting is in ascending order; sorting is done by the first column in the array, then by the second column in the array, etc.
@@ -69,7 +69,7 @@ type ReportDefinition struct {
 	// An array of report summary objects in the order (left to right)  displayed in the report.  A  report summary object stores all information about summary of report to be displayed, including the name displayed on UI, the display order, corresponding group by and count of values, summary visibility (if the summary is visible to user).
 	Summary []Summary `mandatory:"false" json:"summary"`
 
-	// Schedule to generate the report periodically in the specified format:
+	// The schedule to generate the report periodically in the specified format:
 	// <version-string>;<version-specific-schedule>
 	// Allowed version strings - "v1"
 	// v1's version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month>
@@ -84,20 +84,19 @@ type ReportDefinition struct {
 	// No constraint introduced when it is '*'. When not, day of month must equal the given value
 	Schedule *string `mandatory:"false" json:"schedule"`
 
-	// Specifies the format of report to be excel or pdf
+	// Specifies the format of the report ( either XLS or PDF )
 	ScheduledReportMimeType ReportDefinitionScheduledReportMimeTypeEnum `mandatory:"false" json:"scheduledReportMimeType,omitempty"`
 
-	// Specifies the limit on number of rows in report.
+	// Specifies the limit on the number of rows in the report.
 	ScheduledReportRowLimit *int `mandatory:"false" json:"scheduledReportRowLimit"`
 
 	// The name of the report to be scheduled.
 	ScheduledReportName *string `mandatory:"false" json:"scheduledReportName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
-	// in which the scheduled resource should be created.
+	// The OCID of the compartment in which the scheduled resource should be created.
 	ScheduledReportCompartmentId *string `mandatory:"false" json:"scheduledReportCompartmentId"`
 
-	// The time span of records in report to be scheduled.
+	// The time span for the records in the report to be scheduled.
 	// <period-value><period>
 	// Allowed period strings - "H","D","M","Y"
 	// Each of the above fields potentially introduce constraints. A workRequest is created only
@@ -108,7 +107,7 @@ type ReportDefinition struct {
 	// 4. period = Y (The minimum period-value is 1)
 	RecordTimeSpan *string `mandatory:"false" json:"recordTimeSpan"`
 
-	// The list of data protection regulations/standards used in the report that will help demonstrate compliance.
+	// The list of the data protection regulations/standards used in the report that will help demonstrate compliance.
 	ComplianceStandards []string `mandatory:"false" json:"complianceStandards"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

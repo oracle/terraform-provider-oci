@@ -46,7 +46,8 @@ type CreateDbHomeWithDbSystemIdDetails struct {
 	// If true, the customer acknowledges that the specified Oracle Database software is an older release that is not currently supported by OCI.
 	IsDesupportedVersion *bool `mandatory:"false" json:"isDesupportedVersion"`
 
-	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
+	// A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
+	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	Database *CreateDatabaseDetails `mandatory:"false" json:"database"`

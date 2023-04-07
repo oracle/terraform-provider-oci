@@ -60,6 +60,21 @@ type MaskingReport struct {
 
 	// The date and time the masking report was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Indicates if the temporary tables created during the masking operation were dropped after masking.
+	IsDropTempTablesEnabled *bool `mandatory:"false" json:"isDropTempTablesEnabled"`
+
+	// Indicates if redo logging was enabled during the masking operation.
+	IsRedoLoggingEnabled *bool `mandatory:"false" json:"isRedoLoggingEnabled"`
+
+	// Indicates if statistics gathering was enabled during the masking operation.
+	IsRefreshStatsEnabled *bool `mandatory:"false" json:"isRefreshStatsEnabled"`
+
+	// Indicates if parallel execution was enabled during the masking operation.
+	ParallelDegree *string `mandatory:"false" json:"parallelDegree"`
+
+	// Indicates how invalid objects were recompiled post the masking operation.
+	Recompile *string `mandatory:"false" json:"recompile"`
 }
 
 func (m MaskingReport) String() string {

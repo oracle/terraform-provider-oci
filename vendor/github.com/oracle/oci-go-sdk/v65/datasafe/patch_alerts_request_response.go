@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchAlerts.go.html to see an example of how to use PatchAlertsRequest.
 type PatchAlertsRequest struct {
 
-	// Details to patch alerts.
+	// The alert details to update the status of one or more alert specified by the alert IDs.
 	PatchAlertsDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

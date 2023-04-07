@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AuditTrailCollection Collection of audit trail summary.
+// AuditTrailCollection Collection of audit trail detail objects.
 type AuditTrailCollection struct {
 
 	// Array of audit trail summary.

@@ -45,8 +45,7 @@ type AuditTrail struct {
 	// The current sub-state of the audit trail.
 	Status AuditTrailStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID of the compartment that contains the audit trail and its same as the compartment
-	// of audit profile resource.
+	// The OCID of the compartment that contains the audit trail and is the same as the compartment of the audit profile resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Details about the current state of the audit trail in Data Safe.
@@ -69,7 +68,7 @@ type AuditTrail struct {
 	// The OCID of the workrequest for audit trail which collects audit records.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 
-	// The date and time until which the audit events are collected from target database by Data Safe audit trail
+	// The date and time until when the audit events were collected from the target database by the Data Safe audit trail
 	// collection process, in the format defined by RFC3339.
 	TimeLastCollected *common.SDKTime `mandatory:"false" json:"timeLastCollected"`
 

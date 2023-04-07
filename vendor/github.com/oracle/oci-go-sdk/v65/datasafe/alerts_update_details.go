@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AlertsUpdateDetails Details to perform update all action on alerts.
+// AlertsUpdateDetails The details to update alerts in the specified compartment.
 type AlertsUpdateDetails struct {
 
 	// The status of the alert.
@@ -24,7 +24,7 @@ type AlertsUpdateDetails struct {
 	// The OCID of the compartment that contains the alerts.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the target associated with alerts.
+	// The OCID of the target database associated with the alerts.
 	TargetId *string `mandatory:"false" json:"targetId"`
 }
 

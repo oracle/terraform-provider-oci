@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// AuditEventAggregationDimensions Details of aggregation dimensions used for summarizing audit events.
+// AuditEventAggregationDimensions The details of the aggregation dimensions used for summarizing audit events.
 type AuditEventAggregationDimensions struct {
 
-	// Time of audit event occurrence in the target database.
+	// The time the audit event occurred in the target database.
 	AuditEventTime []common.SDKTime `mandatory:"false" json:"auditEventTime"`
 
 	// Name of the database user whose actions were audited.
@@ -48,7 +48,7 @@ type AuditEventAggregationDimensions struct {
 	// Type of auditing.
 	AuditType []AuditEventAggregationDimensionsAuditTypeEnum `mandatory:"false" json:"auditType,omitempty"`
 
-	// Name of the detail action executed by the user on the target database. i.e ALTER SEQUENCE, CREATE TRIGGER, CREATE INDEX.
+	// The name of the event executed by the user on the target database. i.e ALTER SEQUENCE, CREATE TRIGGER, CREATE INDEX.
 	EventName []string `mandatory:"false" json:"eventName"`
 }
 

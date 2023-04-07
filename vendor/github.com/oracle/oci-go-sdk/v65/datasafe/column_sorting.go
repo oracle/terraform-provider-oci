@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ColumnSorting Sorting the data at the column level.
+// ColumnSorting Sorts the data at the column level.
 type ColumnSorting struct {
 
 	// Name of the column that must be sorted.
