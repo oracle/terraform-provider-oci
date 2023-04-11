@@ -7,10 +7,13 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 
-variable "java_family_family_version" {
-  default = "11"
+variable "time_start" {}
+
+variable "time_end" {}
+
+variable "summary_contains" {
+  default = "example summary value"
 }
-variable "java_family_display_name" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -20,12 +23,9 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_jms_java_families" "test_java_families" {
-  display_name   = var.java_family_display_name
-  family_version = var.java_family_family_version
+data "oci_jms_announcements" "test_jms_announcements" {
+	#Optional
+	summary_contains = var.summary_contains
+	time_start = var.time_start
+	time_end = var.time_end
 }
-
-data "oci_jms_java_family" "test_java_family" {
-  family_version = var.java_family_family_version
-}
-

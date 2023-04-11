@@ -11,9 +11,7 @@ variable "fleet_id" {
   default = "example-fleet-id"
 }
 
-variable "aggregation_mode" {
-  default = "JFR"
-}
+variable "application_id" {}
 
 variable "managed_instance_id" {}
 
@@ -21,8 +19,8 @@ variable "time_start" {}
 
 variable "time_end" {}
 
-variable "crypto_analysis_result_id" {
-  default = "example-crypto-analysis-result-id"
+variable "performance_tuning_analysis_result_id" {
+  default = "example-performance-tuning-analysis-result-id"
 }
 
 provider "oci" {
@@ -33,19 +31,19 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_jms_fleet_crypto_analysis_results" "test_fleet_crypto_analysis_results" {
+data "oci_jms_fleet_performance_tuning_analysis_results" "test_jms_fleet_performance_tuning_analysis_results" {
 	#Required
 	fleet_id = var.fleet_id
 
 	#Optional
-	aggregation_mode = var.aggregation_mode
+  application_id = var.application_id
 	managed_instance_id = var.managed_instance_id
-	time_end = var.time_end
 	time_start = var.time_start
+	time_end = var.time_end
 }
 
-data "oci_jms_fleet_crypto_analysis_result" "test_fleet_crypto_analysis_result" {
+data "oci_jms_fleet_performance_tuning_analysis_result" "test_jms_fleet_performance_tuning_analysis_result" {
 	#Required
-	crypto_analysis_result_id = var.crypto_analysis_result_id
+	performance_tuning_analysis_result_id = var.performance_tuning_analysis_result_id
 	fleet_id = var.fleet_id
 }

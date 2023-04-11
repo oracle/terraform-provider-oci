@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_jms_fleet_crypto_analysis_results
 This data source provides the list of Fleet Crypto Analysis Results in Oracle Cloud Infrastructure Jms service.
 
-List Crypto Event Analysis results.
+Lists the results of a Crypto event analysis.
 
 ## Example Usage
 
@@ -57,7 +57,7 @@ The following attributes are exported:
 * `id` - The OCID to identify this analysis results.
 * `managed_instance_id` - The managed instance OCID.
 * `namespace` - The Object Storage namespace of this analysis result.
-* `non_compliant_finding_count` - Total number of non-compliant findings with the analysis. A non-compliant finding means the application won't work properly with the changes introduced by the crypto roadmap version used the the analysis. 
+* `non_compliant_finding_count` - Total number of non-compliant findings with the analysis. A non-compliant finding means the application won't work properly with the changes introduced by the Crypto Roadmap version used by the analysis. 
 * `object` - The Object Storage object name of this analysis result.
 * `summarized_event_count` - Total number of summarized events. Summarized events are deduplicated events of interest.
 * `time_created` - The time the result is compiled.

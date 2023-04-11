@@ -48,7 +48,7 @@ The following attributes are exported:
 * `items` - The blocklist
 	* `key` - The unique identifier of this blocklist record.
 	* `operation` - The operation type
-	* `reason` - The reason for why the operation is blocklisted
+	* `reason` - The reason why the operation is blocklisted.
 	* `target` - A resource to blocklist for certain operation.
 		* `fleet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the fleet. 
 		* `installation_key` - The unique identifier for the installation of Java Runtime at a specific path on a specific operating system.
