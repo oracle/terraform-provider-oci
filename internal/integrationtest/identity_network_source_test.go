@@ -62,7 +62,7 @@ var (
 		"ip_ranges": acctest.Representation{RepType: acctest.Required, Create: []string{`10.0.0.0/16`}},
 	}
 
-	IdentityNetworkSourceResourceDependencies = DefinedTagsDependencies // + VcnRequiredOnlyResource
+	IdentityNetworkSourceResourceDependencies = DefinedTagsDependencies + acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -125,7 +125,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
