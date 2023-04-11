@@ -7,10 +7,9 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 
-variable "java_family_family_version" {
-  default = "11"
+variable "fleet_id" {
+  default = "example-fleet-id"
 }
-variable "java_family_display_name" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -20,12 +19,7 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_jms_java_families" "test_java_families" {
-  display_name   = var.java_family_display_name
-  family_version = var.java_family_family_version
+data "oci_jms_fleet_diagnoses" "test_jms_fleet_diagnoses" {
+	#Required
+	fleet_id = var.fleet_id
 }
-
-data "oci_jms_java_family" "test_java_family" {
-  family_version = var.java_family_family_version
-}
-
