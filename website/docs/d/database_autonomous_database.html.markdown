@@ -148,6 +148,10 @@ The following attributes are exported:
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per each CPU in the Autonomous VM Cluster.
 * `ncharacter_set` - The national character set for the autonomous database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
 * `next_long_term_backup_time_stamp` - The date and time when the next long-term backup would be created.
+	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
+	* `lifecycle_details` - Additional information about the current lifecycle state.
+	* `state` - The current state of the Autonomous Database.
+	* `time_data_guard_role_changed` - The date and time the Autonomous Data Guard role was switched for the standby Autonomous Database.
 * `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
     * A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 * `ocpu_count` - The number of OCPU cores to be made available to the database. 
