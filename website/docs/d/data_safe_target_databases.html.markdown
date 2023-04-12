@@ -40,10 +40,10 @@ The following arguments are supported:
 * `associated_resource_id` - (Optional) A filter to return the target databases that are associated to the resource id passed in as a parameter value.
 * `compartment_id` - (Required) A filter to return only resources that match the specified compartment OCID.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
-* `database_type` - (Optional) A filter to return target databases that match the database type of the target database.
+* `database_type` - (Optional) A filter to return only target databases that match the specified database type.
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
-* `infrastructure_type` - (Optional) A filter to return target databases that match the infrastructure type of the target database.
-* `state` - (Optional) A filter to return the target databases that matches the current state of the target database.
+* `infrastructure_type` - (Optional) A filter to return only target databases that match the specified infrastructure type.
+* `state` - (Optional) A filter to return only target databases that match the specified lifecycle state.
 * `target_database_id` - (Optional) A filter to return the target database that matches the specified OCID.
 
 
@@ -57,7 +57,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `associated_resource_ids` - The OCIDs of associated resources like Database, Data Safe private endpoint etc.
+* `associated_resource_ids` - The OCIDs of associated resources like database, Data Safe private endpoint etc.
 * `compartment_id` - The OCID of the compartment which contains the Data Safe target database.
 * `connection_option` - Types of connection supported by Data Safe.
 	* `connection_type` - The connection type used to connect to the database. Allowed values:
@@ -68,10 +68,10 @@ The following attributes are exported:
 * `credentials` - The database credentials required for Data Safe to connect to the database.
 	* `password` - The password of the database user.
 	* `user_name` - The database user name.
-* `database_details` - Details of the database for the registration in Data Safe. To choose applicable database type and infrastructure type refer to  https://confluence.oci.oraclecorp.com/display/DATASAFE/Target+V2+Design 
-	* `autonomous_database_id` - The OCID of the autonomous database registered as a target database in Data Safe.
+* `database_details` - Details of the database for the registration in Data Safe. 
+	* `autonomous_database_id` - The OCID of the Autonomous Database registered as a target database in Data Safe.
 	* `database_type` - The database type.
-	* `db_system_id` - The OCID of the cloud database system registered as a target database in Data Safe.
+	* `db_system_id` - The OCID of the cloud database registered as a target database in Data Safe.
 	* `infrastructure_type` - The infrastructure type the database is running on.
 	* `instance_id` - The OCID of the compute instance on which the database is running.
 	* `ip_addresses` - The list of database host IP Addresses. Fully qualified domain names can be used if connectionType is 'ONPREM_CONNECTOR'. 

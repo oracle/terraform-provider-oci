@@ -62,11 +62,31 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_drop_temp_tables_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_redo_logging_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_refresh_stats_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"masking_policy_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"masking_work_request_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"parallel_degree": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"recompile": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -281,12 +301,32 @@ func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[strin
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsDropTempTablesEnabled != nil {
+		result["is_drop_temp_tables_enabled"] = bool(*obj.IsDropTempTablesEnabled)
+	}
+
+	if obj.IsRedoLoggingEnabled != nil {
+		result["is_redo_logging_enabled"] = bool(*obj.IsRedoLoggingEnabled)
+	}
+
+	if obj.IsRefreshStatsEnabled != nil {
+		result["is_refresh_stats_enabled"] = bool(*obj.IsRefreshStatsEnabled)
+	}
+
 	if obj.MaskingPolicyId != nil {
 		result["masking_policy_id"] = string(*obj.MaskingPolicyId)
 	}
 
 	if obj.MaskingWorkRequestId != nil {
 		result["masking_work_request_id"] = string(*obj.MaskingWorkRequestId)
+	}
+
+	if obj.ParallelDegree != nil {
+		result["parallel_degree"] = string(*obj.ParallelDegree)
+	}
+
+	if obj.Recompile != nil {
+		result["recompile"] = string(*obj.Recompile)
 	}
 
 	result["state"] = string(obj.LifecycleState)

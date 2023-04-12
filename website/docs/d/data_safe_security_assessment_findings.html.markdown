@@ -24,6 +24,8 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 	access_level = var.security_assessment_finding_access_level
 	compartment_id_in_subtree = var.security_assessment_finding_compartment_id_in_subtree
 	finding_key = var.security_assessment_finding_finding_key
+	references {
+	}
 	severity = var.security_assessment_finding_severity
 }
 ```
@@ -35,6 +37,7 @@ The following arguments are supported:
 * `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `finding_key` - (Optional) Each finding has a key. This key is same for the finding across targets
+* `references` - (Optional) An optional filter to return only findings containing the specified reference.
 * `security_assessment_id` - (Required) The OCID of the security assessment.
 * `severity` - (Optional) A filter to return only findings of a particular risk level.
 

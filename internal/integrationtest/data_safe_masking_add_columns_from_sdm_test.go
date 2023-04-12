@@ -25,7 +25,7 @@ var (
 	}
 
 	AddColumnsFromSdmDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Required, acctest.Create, maskingPolicyRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model1", acctest.Required, acctest.Create, sensitiveDataModelRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model1", acctest.Optional, acctest.Create, sensitiveDataModelRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -41,6 +41,9 @@ func TestDataSafeAddColumnsFromSdm_basic(t *testing.T) {
 	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
 	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
 
+	sensitiveTypeId := utils.GetEnvSettingWithBlankDefault("sensitive_type_id")
+	sensitiveTypeIdVariableStr := fmt.Sprintf("variable \"sensitive_type_id\" { default = \"%s\" }\n", sensitiveTypeId)
+
 	resourceName := "oci_data_safe_add_sdm_columns.test_add_columns_from_sdm"
 
 	var resId string
@@ -51,7 +54,7 @@ func TestDataSafeAddColumnsFromSdm_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AddColumnsFromSdmDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + AddColumnsFromSdmDependencies + targetIdVariableStr + sensitiveTypeIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_add_sdm_columns", "test_add_columns_from_sdm", acctest.Required, acctest.Create, addSdmColumnsRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 

@@ -15,11 +15,11 @@ import (
 	"strings"
 )
 
-// AuditPolicyAggregationItems Details of audit profile aggregation items.
+// AuditPolicyAggregationItems The details of the audit profile aggregation items.
 type AuditPolicyAggregationItems struct {
 	Dimensions *AuditPolicyDimensions `mandatory:"false" json:"dimensions"`
 
-	// Total count of aggregated metric.
+	// The total count of the aggregated metric.
 	Count *int64 `mandatory:"false" json:"count"`
 }
 

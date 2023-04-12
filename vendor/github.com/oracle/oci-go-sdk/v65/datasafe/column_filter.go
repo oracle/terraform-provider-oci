@@ -27,10 +27,10 @@ type ColumnFilter struct {
 	// An array of expressions based on the operator type. A filter may have one or more expressions.
 	Expressions []string `mandatory:"true" json:"expressions"`
 
-	// Indicates if the filter is enabled. Values can either be 'true' or 'false'.
+	// Indicates whether the filter is enabled. Values can either be 'true' or 'false'.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// Indicates if the filter is hidden. Values can either be 'true' or 'false'.
+	// Indicates whether the filter is hidden. Values can either be 'true' or 'false'.
 	IsHidden *bool `mandatory:"true" json:"isHidden"`
 }
 

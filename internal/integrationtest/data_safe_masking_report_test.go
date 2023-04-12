@@ -65,7 +65,12 @@ func TestDataSafeMaskingReportResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_drop_temp_tables_enabled"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_redo_logging_enabled"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_refresh_stats_enabled"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "masking_work_request_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "parallel_degree"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "recompile"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_masking_finished"),

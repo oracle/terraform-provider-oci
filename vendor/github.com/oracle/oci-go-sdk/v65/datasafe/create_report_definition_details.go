@@ -39,7 +39,7 @@ type CreateReportDefinitionDetails struct {
 	// An array of report summary objects in the order (left to right)  displayed in the report.  A  report summary object stores all information about summary of report to be displayed, including the name displayed on UI, the display order, corresponding group by and count of values, summary visibility (if the summary is visible to user).
 	Summary []Summary `mandatory:"true" json:"summary"`
 
-	// A description of the report definition.
+	// The description of the report definition.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

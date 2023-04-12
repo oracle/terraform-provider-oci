@@ -1029,7 +1029,7 @@ func (client DatabaseClient) changeDatabaseSoftwareImageCompartment(ctx context.
 
 // ChangeDataguardRole Switch the Autonomous Container Database role between Standby and Snapshot Standby.
 // For more information about changing Autonomous Container Databases Dataguard Role, see
-// Change Database Role to Snapshot Standby (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#changeRole).
+// Convert Physical Standby to Snapshot Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80) and Convert Snapshot Standby to Physical Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4).
 //
 // See also
 //
@@ -1834,6 +1834,68 @@ func (client DatabaseClient) convertToPdb(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ConvertToPdb"
 		err = common.PostProcessServiceError(err, "Database", "ConvertToPdb", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateApplicationVip Creates a new application virtual IP (VIP) address in the specified cloud VM cluster based on the request parameters you provide.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateApplicationVip.go.html to see an example of how to use CreateApplicationVip API.
+func (client DatabaseClient) CreateApplicationVip(ctx context.Context, request CreateApplicationVipRequest) (response CreateApplicationVipResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createApplicationVip, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateApplicationVipResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateApplicationVipResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateApplicationVipResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateApplicationVipResponse")
+	}
+	return
+}
+
+// createApplicationVip implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createApplicationVip(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/applicationVip", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateApplicationVipResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ApplicationVip/CreateApplicationVip"
+		err = common.PostProcessServiceError(err, "Database", "CreateApplicationVip", apiReferenceLink)
 		return response, err
 	}
 
@@ -3408,6 +3470,63 @@ func (client DatabaseClient) dbNodeAction(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbNode/DbNodeAction"
 		err = common.PostProcessServiceError(err, "Database", "DbNodeAction", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteApplicationVip Deletes and deregisters the specified application virtual IP (VIP) address.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteApplicationVip.go.html to see an example of how to use DeleteApplicationVip API.
+func (client DatabaseClient) DeleteApplicationVip(ctx context.Context, request DeleteApplicationVipRequest) (response DeleteApplicationVipResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteApplicationVip, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteApplicationVipResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteApplicationVipResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteApplicationVipResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteApplicationVipResponse")
+	}
+	return
+}
+
+// deleteApplicationVip implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteApplicationVip(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/applicationVip/{applicationVipId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteApplicationVipResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ApplicationVip/DeleteApplicationVip"
+		err = common.PostProcessServiceError(err, "Database", "DeleteApplicationVip", apiReferenceLink)
 		return response, err
 	}
 
@@ -6641,6 +6760,63 @@ func (client DatabaseClient) generateRecommendedVmClusterNetwork(ctx context.Con
 	return response, err
 }
 
+// GetApplicationVip Gets information about a specified application virtual IP (VIP) address.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetApplicationVip.go.html to see an example of how to use GetApplicationVip API.
+func (client DatabaseClient) GetApplicationVip(ctx context.Context, request GetApplicationVipRequest) (response GetApplicationVipResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getApplicationVip, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetApplicationVipResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetApplicationVipResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetApplicationVipResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetApplicationVipResponse")
+	}
+	return
+}
+
+// getApplicationVip implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getApplicationVip(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applicationVip/{applicationVipId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetApplicationVipResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ApplicationVip/GetApplicationVip"
+		err = common.PostProcessServiceError(err, "Database", "GetApplicationVip", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAutonomousContainerDatabase Gets information about the specified Autonomous Container Database.
 //
 // See also
@@ -9855,6 +10031,63 @@ func (client DatabaseClient) launchDbSystem(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystem/LaunchDbSystem"
 		err = common.PostProcessServiceError(err, "Database", "LaunchDbSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListApplicationVips Gets a list of application virtual IP (VIP) addresses on a cloud VM cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListApplicationVips.go.html to see an example of how to use ListApplicationVips API.
+func (client DatabaseClient) ListApplicationVips(ctx context.Context, request ListApplicationVipsRequest) (response ListApplicationVipsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listApplicationVips, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListApplicationVipsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListApplicationVipsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListApplicationVipsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListApplicationVipsResponse")
+	}
+	return
+}
+
+// listApplicationVips implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listApplicationVips(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applicationVip", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListApplicationVipsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ApplicationVipSummary/ListApplicationVips"
+		err = common.PostProcessServiceError(err, "Database", "ListApplicationVips", apiReferenceLink)
 		return response, err
 	}
 
@@ -14324,6 +14557,130 @@ func (client DatabaseClient) rotateAutonomousDatabaseEncryptionKey(ctx context.C
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/RotateAutonomousDatabaseEncryptionKey"
 		err = common.PostProcessServiceError(err, "Database", "RotateAutonomousDatabaseEncryptionKey", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RotateAutonomousVmClusterOrdsCerts Rotates the Oracle REST Data Services (ORDS) certificates for Autonomous Exadata VM cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RotateAutonomousVmClusterOrdsCerts.go.html to see an example of how to use RotateAutonomousVmClusterOrdsCerts API.
+func (client DatabaseClient) RotateAutonomousVmClusterOrdsCerts(ctx context.Context, request RotateAutonomousVmClusterOrdsCertsRequest) (response RotateAutonomousVmClusterOrdsCertsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rotateAutonomousVmClusterOrdsCerts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RotateAutonomousVmClusterOrdsCertsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RotateAutonomousVmClusterOrdsCertsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RotateAutonomousVmClusterOrdsCertsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RotateAutonomousVmClusterOrdsCertsResponse")
+	}
+	return
+}
+
+// rotateAutonomousVmClusterOrdsCerts implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) rotateAutonomousVmClusterOrdsCerts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousVmClusters/{autonomousVmClusterId}/actions/rotateOrdsCerts", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RotateAutonomousVmClusterOrdsCertsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/RotateAutonomousVmClusterOrdsCerts"
+		err = common.PostProcessServiceError(err, "Database", "RotateAutonomousVmClusterOrdsCerts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RotateAutonomousVmClusterSslCerts Rotates the SSL certificates for Autonomous Exadata VM cluster.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RotateAutonomousVmClusterSslCerts.go.html to see an example of how to use RotateAutonomousVmClusterSslCerts API.
+func (client DatabaseClient) RotateAutonomousVmClusterSslCerts(ctx context.Context, request RotateAutonomousVmClusterSslCertsRequest) (response RotateAutonomousVmClusterSslCertsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rotateAutonomousVmClusterSslCerts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RotateAutonomousVmClusterSslCertsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RotateAutonomousVmClusterSslCertsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RotateAutonomousVmClusterSslCertsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RotateAutonomousVmClusterSslCertsResponse")
+	}
+	return
+}
+
+// rotateAutonomousVmClusterSslCerts implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) rotateAutonomousVmClusterSslCerts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousVmClusters/{autonomousVmClusterId}/actions/rotateSslCerts", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RotateAutonomousVmClusterSslCertsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/RotateAutonomousVmClusterSslCerts"
+		err = common.PostProcessServiceError(err, "Database", "RotateAutonomousVmClusterSslCerts", apiReferenceLink)
 		return response, err
 	}
 

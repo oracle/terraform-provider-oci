@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// Column Description of a column
+// Column The description of the column.
 type Column struct {
 
 	// Name of the column displayed on UI.

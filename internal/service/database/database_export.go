@@ -411,6 +411,16 @@ var exportDatabaseCloudAutonomousVmClusterHints = &tf_export.TerraformResourceHi
 	},
 }
 
+var exportDatabaseApplicationVipHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_application_vip",
+	DatasourceClass:      "oci_database_application_vips",
+	DatasourceItemsAttr:  "application_vips",
+	ResourceAbbreviation: "application_vip",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.ApplicationVipLifecycleStateAvailable),
+	},
+}
+
 var exportDatabasePluggableDatabaseHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_database_pluggable_database",
 	DatasourceClass:      "oci_database_pluggable_databases",
@@ -488,6 +498,12 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 		},
 	},
 	"oci_database_cloud_vm_cluster": {
+		{
+			TerraformResourceHints: exportDatabaseApplicationVipHints,
+			DatasourceQueryParams: map[string]string{
+				"cloud_vm_cluster_id": "id",
+			},
+		},
 		{
 			TerraformResourceHints: exportDatabaseDbHomeHints,
 			DatasourceQueryParams: map[string]string{

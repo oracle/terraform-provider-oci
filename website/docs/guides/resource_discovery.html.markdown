@@ -549,6 +549,7 @@ data_safe
 * oci\_data\_safe\_sensitive\_data\_models\_sensitive\_column
 * oci\_data\_safe\_discovery\_jobs\_result
 * oci\_data\_safe\_discovery\_job
+* oci\_data\_safe\_sdm\_masking\_policy\_difference
 
 database
 
@@ -577,6 +578,7 @@ database
 * oci\_database\_vm\_cluster\_add\_virtual\_machine
 * oci\_database\_vm\_cluster\_remove\_virtual\_machine
 * oci\_database\_cloud\_autonomous\_vm\_cluster
+* oci\_database\_application\_vip
 
 database_migration
 

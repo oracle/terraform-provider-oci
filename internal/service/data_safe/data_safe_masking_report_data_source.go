@@ -27,11 +27,31 @@ func DataSafeMaskingReportDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_drop_temp_tables_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_redo_logging_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_refresh_stats_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"masking_policy_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"masking_work_request_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"parallel_degree": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"recompile": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -127,12 +147,32 @@ func (s *DataSafeMaskingReportDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.IsDropTempTablesEnabled != nil {
+		s.D.Set("is_drop_temp_tables_enabled", *s.Res.IsDropTempTablesEnabled)
+	}
+
+	if s.Res.IsRedoLoggingEnabled != nil {
+		s.D.Set("is_redo_logging_enabled", *s.Res.IsRedoLoggingEnabled)
+	}
+
+	if s.Res.IsRefreshStatsEnabled != nil {
+		s.D.Set("is_refresh_stats_enabled", *s.Res.IsRefreshStatsEnabled)
+	}
+
 	if s.Res.MaskingPolicyId != nil {
 		s.D.Set("masking_policy_id", *s.Res.MaskingPolicyId)
 	}
 
 	if s.Res.MaskingWorkRequestId != nil {
 		s.D.Set("masking_work_request_id", *s.Res.MaskingWorkRequestId)
+	}
+
+	if s.Res.ParallelDegree != nil {
+		s.D.Set("parallel_degree", *s.Res.ParallelDegree)
+	}
+
+	if s.Res.Recompile != nil {
+		s.D.Set("recompile", *s.Res.Recompile)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

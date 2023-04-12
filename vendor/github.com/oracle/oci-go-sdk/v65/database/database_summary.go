@@ -53,6 +53,8 @@ type DatabaseSummary struct {
 	// The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 	PdbName *string `mandatory:"false" json:"pdbName"`
 
+	// **Deprecated.** The dbWorkload field has been deprecated for Exadata Database Service on Dedicated Infrastructure, Exadata Database Service on Cloud@Customer, and Base Database Service.
+	// Support for this attribute will end in November 2023. You may choose to update your custom scripts to exclude the dbWorkload attribute. After November 2023 if you pass a value to the dbWorkload attribute, it will be ignored.
 	// The database workload type.
 	DbWorkload *string `mandatory:"false" json:"dbWorkload"`
 

@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ScheduleReportDetails Details for the report schedule.
+// ScheduleReportDetails The details of the report schedule.
 type ScheduleReportDetails struct {
 
-	// Schedule to generate the report periodically in the specified format:
+	// The schedule to generate the report periodically in the specified format:
 	// <version-string>;<version-specific-schedule>
 	// Allowed version strings - "v1"
 	// v1's version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month>
@@ -34,10 +34,10 @@ type ScheduleReportDetails struct {
 	// No constraint introduced when it is '*'. When not, day of month must equal the given value
 	Schedule *string `mandatory:"true" json:"schedule"`
 
-	// Specifies the format of report to be excel or pdf
+	// Specifies if the report will be in Excel or PDF format
 	MimeType ScheduleReportDetailsMimeTypeEnum `mandatory:"true" json:"mimeType"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID of the compartment
 	// in which the resource should be created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 

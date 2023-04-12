@@ -164,6 +164,11 @@ const (
 	WorkRequestSummaryOperationTypeUpdateLibraryMaskingFormat            WorkRequestSummaryOperationTypeEnum = "UPDATE_LIBRARY_MASKING_FORMAT"
 	WorkRequestSummaryOperationTypeAddColumnsFromSdm                     WorkRequestSummaryOperationTypeEnum = "ADD_COLUMNS_FROM_SDM"
 	WorkRequestSummaryOperationTypeMaskingJob                            WorkRequestSummaryOperationTypeEnum = "MASKING_JOB"
+	WorkRequestSummaryOperationTypeCreateDifference                      WorkRequestSummaryOperationTypeEnum = "CREATE_DIFFERENCE"
+	WorkRequestSummaryOperationTypeDeleteDifference                      WorkRequestSummaryOperationTypeEnum = "DELETE_DIFFERENCE"
+	WorkRequestSummaryOperationTypeUpdateDifference                      WorkRequestSummaryOperationTypeEnum = "UPDATE_DIFFERENCE"
+	WorkRequestSummaryOperationTypePatchDifference                       WorkRequestSummaryOperationTypeEnum = "PATCH_DIFFERENCE"
+	WorkRequestSummaryOperationTypeApplyDifference                       WorkRequestSummaryOperationTypeEnum = "APPLY_DIFFERENCE"
 	WorkRequestSummaryOperationTypeCreateSchedule                        WorkRequestSummaryOperationTypeEnum = "CREATE_SCHEDULE"
 	WorkRequestSummaryOperationTypeRemoveScheduleReport                  WorkRequestSummaryOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
 	WorkRequestSummaryOperationTypeUpdateAllAlert                        WorkRequestSummaryOperationTypeEnum = "UPDATE_ALL_ALERT"
@@ -262,6 +267,11 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_LIBRARY_MASKING_FORMAT":              WorkRequestSummaryOperationTypeUpdateLibraryMaskingFormat,
 	"ADD_COLUMNS_FROM_SDM":                       WorkRequestSummaryOperationTypeAddColumnsFromSdm,
 	"MASKING_JOB":                                WorkRequestSummaryOperationTypeMaskingJob,
+	"CREATE_DIFFERENCE":                          WorkRequestSummaryOperationTypeCreateDifference,
+	"DELETE_DIFFERENCE":                          WorkRequestSummaryOperationTypeDeleteDifference,
+	"UPDATE_DIFFERENCE":                          WorkRequestSummaryOperationTypeUpdateDifference,
+	"PATCH_DIFFERENCE":                           WorkRequestSummaryOperationTypePatchDifference,
+	"APPLY_DIFFERENCE":                           WorkRequestSummaryOperationTypeApplyDifference,
 	"CREATE_SCHEDULE":                            WorkRequestSummaryOperationTypeCreateSchedule,
 	"REMOVE_SCHEDULE_REPORT":                     WorkRequestSummaryOperationTypeRemoveScheduleReport,
 	"UPDATE_ALL_ALERT":                           WorkRequestSummaryOperationTypeUpdateAllAlert,
@@ -360,6 +370,11 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_library_masking_format":              WorkRequestSummaryOperationTypeUpdateLibraryMaskingFormat,
 	"add_columns_from_sdm":                       WorkRequestSummaryOperationTypeAddColumnsFromSdm,
 	"masking_job":                                WorkRequestSummaryOperationTypeMaskingJob,
+	"create_difference":                          WorkRequestSummaryOperationTypeCreateDifference,
+	"delete_difference":                          WorkRequestSummaryOperationTypeDeleteDifference,
+	"update_difference":                          WorkRequestSummaryOperationTypeUpdateDifference,
+	"patch_difference":                           WorkRequestSummaryOperationTypePatchDifference,
+	"apply_difference":                           WorkRequestSummaryOperationTypeApplyDifference,
 	"create_schedule":                            WorkRequestSummaryOperationTypeCreateSchedule,
 	"remove_schedule_report":                     WorkRequestSummaryOperationTypeRemoveScheduleReport,
 	"update_all_alert":                           WorkRequestSummaryOperationTypeUpdateAllAlert,
@@ -469,6 +484,11 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_LIBRARY_MASKING_FORMAT",
 		"ADD_COLUMNS_FROM_SDM",
 		"MASKING_JOB",
+		"CREATE_DIFFERENCE",
+		"DELETE_DIFFERENCE",
+		"UPDATE_DIFFERENCE",
+		"PATCH_DIFFERENCE",
+		"APPLY_DIFFERENCE",
 		"CREATE_SCHEDULE",
 		"REMOVE_SCHEDULE_REPORT",
 		"UPDATE_ALL_ALERT",

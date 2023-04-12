@@ -29,3 +29,17 @@ data "oci_database_db_servers" "test_cloud_db_servers" {
   compartment_id            = var.compartment_ocid
   exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
 }
+
+data "oci_database_application_vips" "test_application_vips" {
+  #Required
+  cloud_vm_cluster_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
+  compartment_id      = var.compartment_ocid
+
+  #Optional
+  state               = "AVAILABLE"
+}
+
+data "oci_database_db_nodes" "db_nodes" {
+  compartment_id = var.compartment_ocid
+  vm_cluster_id  = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
+}

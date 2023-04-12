@@ -925,6 +925,7 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreCrossConnectGroupHints},
 		{TerraformResourceHints: exportCoreCrossConnectHints},
 		{TerraformResourceHints: exportCoreDhcpOptionsHints},
+		{TerraformResourceHints: exportCoreNatGatewayHints},
 		{TerraformResourceHints: exportCoreDrgAttachmentHints},
 		{TerraformResourceHints: exportCoreDrgHints},
 		{TerraformResourceHints: exportCoreDedicatedVmHostHints},
@@ -1019,14 +1020,6 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 			TerraformResourceHints: exportCorePrivateIpHints,
 			DatasourceQueryParams: map[string]string{
 				"subnet_id": "id",
-			},
-		},
-	},
-	"oci_core_vcn": {
-		{
-			TerraformResourceHints: exportCoreNatGatewayHints,
-			DatasourceQueryParams: map[string]string{
-				"vcn_id": "id",
 			},
 		},
 	},

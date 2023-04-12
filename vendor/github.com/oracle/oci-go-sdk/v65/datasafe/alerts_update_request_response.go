@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/AlertsUpdate.go.html to see an example of how to use AlertsUpdateRequest.
 type AlertsUpdateRequest struct {
 
-	// Details to update alerts within a given compartment.
+	// The details to update the alerts in the specified compartment.
 	AlertsUpdateDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.
