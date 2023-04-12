@@ -1188,6 +1188,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedPending() []string {
 		string(oci_database.AutonomousDatabaseLifecycleStateScaleInProgress),
 		string(oci_database.AutonomousDatabaseLifecycleStateUpdating),
 		string(oci_database.AutonomousDatabaseLifecycleStateMaintenanceInProgress),
+		string(oci_database.AutonomousDatabaseLifecycleStateRestarting),
 		string(oci_database.AutonomousDatabaseLifecycleStateUpgrading),
 	}
 }
