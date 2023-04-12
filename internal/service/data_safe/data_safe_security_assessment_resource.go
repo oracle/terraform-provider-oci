@@ -425,6 +425,10 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_last_assessed": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -842,6 +846,10 @@ func (s *DataSafeSecurityAssessmentResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeLastAssessed != nil {
+		s.D.Set("time_last_assessed", s.Res.TimeLastAssessed.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

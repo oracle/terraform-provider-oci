@@ -36,10 +36,10 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// The total number of Autonomous Container Databases that can be created.
 	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
 
-	// The number of OCPU cores to be enabled per VM cluster node.
+	// The number of CPU cores to be enabled per VM cluster node.
 	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
 
-	// The amount of memory (in GBs) to be enabled per each OCPU core.
+	// The amount of memory (in GBs) to be enabled per each CPU core.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The data disk group size to be allocated for Autonomous Databases, in TBs.
@@ -48,7 +48,7 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// The time zone to use for the Cloud Autonomous VM cluster. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	ClusterTimeZone *string `mandatory:"false" json:"clusterTimeZone"`
 
-	// The compute model of the Cloud Autonomous VM Cluster.
+	// The compute model of the Cloud Autonomous VM Cluster. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	ComputeModel CreateCloudAutonomousVmClusterDetailsComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The list of database servers.
@@ -60,6 +60,7 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
 	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null because the attribute is already set at the
 	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	LicenseModel CreateCloudAutonomousVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).

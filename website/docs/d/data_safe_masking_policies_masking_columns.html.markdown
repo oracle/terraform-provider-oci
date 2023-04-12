@@ -45,7 +45,7 @@ The following arguments are supported:
 * `column_name` - (Optional) A filter to return only a specific column based on column name.
 * `data_type` - (Optional) A filter to return only resources that match the specified data types.
 * `is_masking_enabled` - (Optional) A filter to return the masking column resources based on the value of their isMaskingEnabled attribute. A value of true returns only those columns for which masking is enabled. A value of false returns only those columns for which masking is disabled. Omitting this parameter returns all the masking columns in a masking policy. 
-* `is_seed_required` - (Optional) A filter to return masking columns based on whether the assigned masking formats need a seed value for masking. A value of true returns those masking columns that are using  Deterministic Encryption or Deterministic Substitution masking format. 
+* `is_seed_required` - (Optional) A filter to return masking columns based on whether the assigned masking formats need a seed value for masking. A value of true returns those masking columns that are using Deterministic Encryption or Deterministic Substitution masking format. 
 * `masking_column_group` - (Optional) A filter to return only the resources that match the specified masking column group.
 * `masking_column_lifecycle_state` - (Optional) A filter to return only the resources that match the specified lifecycle states.
 * `masking_policy_id` - (Required) The OCID of the masking policy.

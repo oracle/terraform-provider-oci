@@ -17,8 +17,6 @@ import (
 )
 
 // DatabaseDetails Details of the database for the registration in Data Safe.
-// To choose applicable database type and infrastructure type refer to
-// https://confluence.oci.oraclecorp.com/display/DATASAFE/Target+V2+Design
 type DatabaseDetails interface {
 
 	// The infrastructure type the database is running on.

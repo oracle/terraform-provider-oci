@@ -43,7 +43,7 @@ type ListReportDefinitionsRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListReportDefinitionsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field used for sorting. Only one sorting order (sortOrder) can be specified.
+	// The field used for sorting. Only one sorting parameter order (sortOrder) can be specified.
 	// The default order for TIMECREATED is descending. The default order for DISPLAYNAME is ascending.
 	// The DISPLAYNAME sort order is case sensitive.
 	SortBy ListReportDefinitionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`

@@ -101,6 +101,10 @@ type ListSensitiveColumnsRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A boolean flag indicating whether the search should be case-insensitive.
+	// The search is case-sensitive by default. Set this parameter to true to do case-insensitive search.
+	IsCaseInSensitive *bool `mandatory:"false" contributesTo:"query" name:"isCaseInSensitive"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

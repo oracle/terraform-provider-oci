@@ -581,12 +581,12 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnResourceCrud) SetData() error
 
 	sensitiveColumnKey, sensitiveDataModelId, err := parseSensitiveDataModelsSensitiveColumnCompositeId(s.D.Id())
 	if err == nil {
-		s.D.Set("sensitive_column_key", &sensitiveColumnKey)
+		s.D.Set("key", &sensitiveColumnKey)
 		s.D.Set("sensitive_data_model_id", &sensitiveDataModelId)
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 		if s.Res.Key != nil {
-			s.D.Set("sensitive_column_key", *s.Res.Key)
+			s.D.Set("key", *s.Res.Key)
 		}
 		if s.Res.SensitiveDataModelId != nil {
 			s.D.Set("sensitive_data_model_id", *s.Res.SensitiveDataModelId)

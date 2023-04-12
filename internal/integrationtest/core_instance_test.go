@@ -87,6 +87,39 @@ var (
 		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
 	}
+	CoreFungibleInstanceRepresentation = map[string]interface{}{
+		"availability_domain":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"update_operation_constraint": acctest.Representation{RepType: acctest.Optional, Create: `ALLOW_DOWNTIME`, Update: `ALLOW_DOWNTIME`},
+		"agent_config":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAgentConfigRepresentation},
+		"availability_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAvailabilityConfigRepresentation},
+		"create_vnic_details":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceCreateVnicDetailsRepresentation},
+		"dedicated_vm_host_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"extended_metadata": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{
+			"some_string":   "stringA",
+			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
+		}, Update: map[string]string{
+			"some_string":   "stringA",
+			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
+			"other_string":  "stringD",
+		}},
+		"fault_domain":                        acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
+		"freeform_tags":                       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":                      acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"instance_options":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceInstanceOptionsRepresentation},
+		"image":                               acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
+		"ipxe_script":                         acctest.Representation{RepType: acctest.Optional, Create: `ipxeScript`},
+		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"launch_options":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLaunchOptionsRepresentation_FlexShape},
+		"metadata":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"user_data": "abcd"}, Update: map[string]string{"user_data": "abcd", "volatile_data": "stringE"}},
+		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
+		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsRepresentation},
+		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
+	}
 	CoreInstanceAgentConfigRepresentation = map[string]interface{}{
 		"are_all_plugins_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_management_disabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
@@ -114,6 +147,13 @@ var (
 	}
 	CoreInstanceLaunchOptionsRepresentation = map[string]interface{}{
 		"boot_volume_type":                    acctest.Representation{RepType: acctest.Optional, Create: `ISCSI`},
+		"firmware":                            acctest.Representation{RepType: acctest.Optional, Create: `UEFI_64`},
+		"is_consistent_volume_naming_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"network_type":                        acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`},
+		"remote_data_volume_type":             acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`},
+	}
+	CoreInstanceLaunchOptionsRepresentation_FlexShape = map[string]interface{}{
+		"boot_volume_type":                    acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`},
 		"firmware":                            acctest.Representation{RepType: acctest.Optional, Create: `UEFI_64`},
 		"is_consistent_volume_naming_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"network_type":                        acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`},
@@ -221,7 +261,7 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		"ocpus":                     acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
 	instanceLaunchOptionsRepresentationForFlexShape = acctest.GetUpdatedRepresentationCopy("boot_volume_type",
-		acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`}, CoreInstanceLaunchOptionsRepresentation)
+		acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`}, CoreInstanceLaunchOptionsRepresentation_FlexShape)
 
 	instanceRepresentationForFlexShape = acctest.RepresentationCopyWithRemovedProperties(
 		acctest.GetMultipleUpdatedRepresenationCopy(
@@ -238,7 +278,32 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 			CoreInstanceRepresentation),
 		[]string{"dedicated_vm_host_id"},
 	)
-
+	instanceShapeConfigRepresentation_ForFungibleShapeConfig = map[string]interface{}{
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: "1"},
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `10.0`},
+	}
+	instanceRepresentationCore_ForFugibleShapeConfig = acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(CoreFungibleInstanceRepresentation, map[string]interface{}{
+		"fault_domain":   acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
+		"shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.AMD.Generic`},
+		"image":          acctest.Representation{RepType: acctest.Required, Create: `${var.FlexInstanceImageOCID[var.region]}`},
+		"shape_config":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentation_ForFungibleShapeConfig},
+		"source_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceFlexSourceDetailsRepresentation},
+	}), []string{
+		"dedicated_vm_host_id",
+	})
+	instanceShapeConfigRepresentation_ForFugibleShapeConfigUpdate = map[string]interface{}{
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Update: "2"},
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Update: `20.0`},
+	}
+	instanceRepresentationCore_ForFugibleShapeConfigUpdate = acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(CoreFungibleInstanceRepresentation, map[string]interface{}{
+		"fault_domain":   acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
+		"shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.AMD.Generic`},
+		"image":          acctest.Representation{RepType: acctest.Required, Create: `${var.FlexInstanceImageOCID[var.region]}`},
+		"shape_config":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentation_ForFugibleShapeConfigUpdate},
+		"source_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceFlexSourceDetailsRepresentation},
+	}), []string{
+		"dedicated_vm_host_id",
+	})
 	instanceRepresentationForConfidentialFlexShape = map[string]interface{}{
 		"availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -1913,6 +1978,82 @@ func TestCoreInstanceResource_ConfidentialflexShape(t *testing.T) {
 		},
 	})
 }
+
+// fungible shape config update
+func TestAccResourceCoreFungibleInstance_UpdateShapeConfig(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreFungibleInstance_UpdateShapeConfig")
+	defer httpreplay.SaveScenario()
+	provider := acctest.TestAccProvider
+
+	config := `
+      provider oci {
+         test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+      }
+   ` + acctest.CommonTestVariables()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// step 0 verify Create
+			{
+				Config: acctest.ProviderTestConfig() + compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV + utils.FlexVmImageIdsVariable +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, instanceRepresentationCore_ForFugibleShapeConfig),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.AMD.Generic"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "10"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					// currently E3 subcore is forced to use launch_mode = PARAVIRTUALIZED
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify updates to with changes in shape_config
+			{
+				Config: config + compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV + utils.FlexVmImageIdsVariable +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, instanceRepresentationCore_ForFugibleShapeConfigUpdate),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.AMD.Generic"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "20"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "2"),
+					// currently E3 subcore is forced to use launch_mode = PARAVIRTUALIZED
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
 func testAccCheckCoreInstanceDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).ComputeClient()

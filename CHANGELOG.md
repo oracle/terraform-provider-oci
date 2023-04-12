@@ -1,3 +1,12 @@
+## 4.116.0 (April 12, 2023)
+
+### Added
+- Support for [Exacs Application VIP] Terraform
+- Support for Manageability improvement on Discovery and Masking, User Profile Insight
+### Bug Fix
+- fix the bug where NAT gateways are not discovered when they are present in a compartment different than the corresponding VCN
+- updating shape_config for fungible instance
+
 ## 4.115.0 (April 04, 2023)
 
 ### Added

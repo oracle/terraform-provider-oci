@@ -53,6 +53,9 @@ type SecurityAssessmentSummary struct {
 	// Details about the current state of the security assessment.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The date and time when the security assessment was last run. Conforms to the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimeLastAssessed *common.SDKTime `mandatory:"false" json:"timeLastAssessed"`
+
 	// List containing maps as values.
 	// Example: `{"Operations": [ {"CostCenter": "42"} ] }`
 	IgnoredTargetIds []interface{} `mandatory:"false" json:"ignoredTargetIds"`

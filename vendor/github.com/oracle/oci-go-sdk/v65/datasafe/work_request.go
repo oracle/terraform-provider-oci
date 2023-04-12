@@ -165,6 +165,11 @@ const (
 	WorkRequestOperationTypeUpdateLibraryMaskingFormat            WorkRequestOperationTypeEnum = "UPDATE_LIBRARY_MASKING_FORMAT"
 	WorkRequestOperationTypeAddColumnsFromSdm                     WorkRequestOperationTypeEnum = "ADD_COLUMNS_FROM_SDM"
 	WorkRequestOperationTypeMaskingJob                            WorkRequestOperationTypeEnum = "MASKING_JOB"
+	WorkRequestOperationTypeCreateDifference                      WorkRequestOperationTypeEnum = "CREATE_DIFFERENCE"
+	WorkRequestOperationTypeDeleteDifference                      WorkRequestOperationTypeEnum = "DELETE_DIFFERENCE"
+	WorkRequestOperationTypeUpdateDifference                      WorkRequestOperationTypeEnum = "UPDATE_DIFFERENCE"
+	WorkRequestOperationTypePatchDifference                       WorkRequestOperationTypeEnum = "PATCH_DIFFERENCE"
+	WorkRequestOperationTypeApplyDifference                       WorkRequestOperationTypeEnum = "APPLY_DIFFERENCE"
 	WorkRequestOperationTypeCreateSchedule                        WorkRequestOperationTypeEnum = "CREATE_SCHEDULE"
 	WorkRequestOperationTypeRemoveScheduleReport                  WorkRequestOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
 	WorkRequestOperationTypeUpdateAllAlert                        WorkRequestOperationTypeEnum = "UPDATE_ALL_ALERT"
@@ -264,6 +269,11 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_LIBRARY_MASKING_FORMAT":              WorkRequestOperationTypeUpdateLibraryMaskingFormat,
 	"ADD_COLUMNS_FROM_SDM":                       WorkRequestOperationTypeAddColumnsFromSdm,
 	"MASKING_JOB":                                WorkRequestOperationTypeMaskingJob,
+	"CREATE_DIFFERENCE":                          WorkRequestOperationTypeCreateDifference,
+	"DELETE_DIFFERENCE":                          WorkRequestOperationTypeDeleteDifference,
+	"UPDATE_DIFFERENCE":                          WorkRequestOperationTypeUpdateDifference,
+	"PATCH_DIFFERENCE":                           WorkRequestOperationTypePatchDifference,
+	"APPLY_DIFFERENCE":                           WorkRequestOperationTypeApplyDifference,
 	"CREATE_SCHEDULE":                            WorkRequestOperationTypeCreateSchedule,
 	"REMOVE_SCHEDULE_REPORT":                     WorkRequestOperationTypeRemoveScheduleReport,
 	"UPDATE_ALL_ALERT":                           WorkRequestOperationTypeUpdateAllAlert,
@@ -363,6 +373,11 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_library_masking_format":              WorkRequestOperationTypeUpdateLibraryMaskingFormat,
 	"add_columns_from_sdm":                       WorkRequestOperationTypeAddColumnsFromSdm,
 	"masking_job":                                WorkRequestOperationTypeMaskingJob,
+	"create_difference":                          WorkRequestOperationTypeCreateDifference,
+	"delete_difference":                          WorkRequestOperationTypeDeleteDifference,
+	"update_difference":                          WorkRequestOperationTypeUpdateDifference,
+	"patch_difference":                           WorkRequestOperationTypePatchDifference,
+	"apply_difference":                           WorkRequestOperationTypeApplyDifference,
 	"create_schedule":                            WorkRequestOperationTypeCreateSchedule,
 	"remove_schedule_report":                     WorkRequestOperationTypeRemoveScheduleReport,
 	"update_all_alert":                           WorkRequestOperationTypeUpdateAllAlert,
@@ -473,6 +488,11 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_LIBRARY_MASKING_FORMAT",
 		"ADD_COLUMNS_FROM_SDM",
 		"MASKING_JOB",
+		"CREATE_DIFFERENCE",
+		"DELETE_DIFFERENCE",
+		"UPDATE_DIFFERENCE",
+		"PATCH_DIFFERENCE",
+		"APPLY_DIFFERENCE",
 		"CREATE_SCHEDULE",
 		"REMOVE_SCHEDULE_REPORT",
 		"UPDATE_ALL_ALERT",

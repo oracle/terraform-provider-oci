@@ -60,8 +60,8 @@ The following attributes are exported:
 * `id` - The OCID of the report.
 * `mime_type` - Specifies the format of report to be excel or pdf
 * `report_definition_id` - The OCID of the report definition.
-* `state` - The current state of the report.
+* `state` - The current state of the audit report.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_generated` - Specifies the time at which the report was generated.
-* `type` - The type of the report.
+* `time_generated` - Specifies the date and time the report was generated.
+* `type` - The type of the audit report.
 
