@@ -16,16 +16,8 @@ import (
 	"strings"
 )
 
-// UpdateContainerRepositoryDetails Update container repository request details.
-type UpdateContainerRepositoryDetails struct {
-
-	// Whether the repository is immutable. Images cannot be overwritten in an immutable repository.
-	IsImmutable *bool `mandatory:"false" json:"isImmutable"`
-
-	// Whether the repository is public. A public repository allows unauthenticated access.
-	IsPublic *bool `mandatory:"false" json:"isPublic"`
-
-	Readme *ContainerRepositoryReadme `mandatory:"false" json:"readme"`
+// UpdateContainerImageSignatureDetails Details for updating a container image signature.
+type UpdateContainerImageSignatureDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -38,14 +30,14 @@ type UpdateContainerRepositoryDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m UpdateContainerRepositoryDetails) String() string {
+func (m UpdateContainerImageSignatureDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateContainerRepositoryDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateContainerImageSignatureDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
