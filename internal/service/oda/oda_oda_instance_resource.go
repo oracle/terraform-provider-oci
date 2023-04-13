@@ -562,6 +562,11 @@ func (s *OdaOdaInstanceResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.OdaInstanceId = &tmp
 
+	if retentionTime, ok := s.D.GetOkExists("retention_time"); ok {
+		tmp := retentionTime.(int)
+		request.RetentionTime = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda")
 
 	response, err := s.Client.DeleteOdaInstance(context.Background(), request)
