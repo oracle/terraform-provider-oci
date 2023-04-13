@@ -95,14 +95,16 @@ func CoreCrossConnectGroupResource() *schema.Resource {
 										Required: true,
 									},
 
-									// Required
+									// Optional
 									"connectivity_association_key_secret_version": {
 										Type:     schema.TypeString,
-										Required: true,
+										Optional: true,
+										Computed: true,
 									},
 									"connectivity_association_name_secret_version": {
 										Type:     schema.TypeString,
-										Required: true,
+										Optional: true,
+										Computed: true,
 									},
 								},
 							},
