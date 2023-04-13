@@ -888,6 +888,9 @@ ocvp
 oda
 
 * oci\_oda\_oda\_instance
+* oci\_oda\_oda\_private\_endpoint\_attachment
+* oci\_oda\_oda\_private\_endpoint
+* oci\_oda\_oda\_private\_endpoint\_scan\_proxy
 
 ons
 
