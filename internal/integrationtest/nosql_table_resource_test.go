@@ -9,6 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -30,16 +31,16 @@ var (
 	onDemandTableLimitsRepresentation = map[string]interface{}{
 		"max_read_units":     acctest.Representation{RepType: acctest.Required, Create: `0`},
 		"max_write_units":    acctest.Representation{RepType: acctest.Required, Create: `0`},
-		"max_storage_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `5`},
+		"max_storage_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `5`, Update: `6`},
 		"capacity_mode":      acctest.Representation{RepType: acctest.Required, Create: `ON_DEMAND`},
 	}
 	ignoreOnDemandTableLimitsReadWrite = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`table_limits[0].max_read_units`, `table_limits[0].max_write_units`}},
 	}
 
-	onDemandNoLfcTableLimitsRepresentation = acctest.RepresentationCopyWithRemovedProperties(onDemandTableRepresentation, []string{"lifecycle"})
-	onDemandToPrevisonTableRepresentation  = acctest.RepresentationCopyWithNewProperties(
-		onDemandNoLfcTableLimitsRepresentation,
+	onDemandNoLfcTableRepresentation      = acctest.RepresentationCopyWithRemovedProperties(onDemandTableRepresentation, []string{"lifecycle"})
+	onDemandToPrevisonTableRepresentation = acctest.RepresentationCopyWithNewProperties(
+		onDemandNoLfcTableRepresentation,
 		map[string]interface{}{
 			"table_limits": acctest.RepresentationGroup{RepType: acctest.Required, Group: NosqlTableTableLimitsRepresentation},
 		},
@@ -109,6 +110,7 @@ func TestNosqlTableResource_test(t *testing.T) {
 	childDataResourceName := "data.oci_nosql_tables.test_child"
 	singularChildDatasourceName := "data.oci_nosql_table.test_child"
 
+	var timeUpdated0, timeUpdated1 string
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]*schema.Provider{
 			"oci": provider,
@@ -116,7 +118,7 @@ func TestNosqlTableResource_test(t *testing.T) {
 		CheckDestroy: testAccCheckNosqlTableDestroy,
 		Steps: []resource.TestStep{
 
-			// verify create auto scaling table
+			// verify create ondemand table
 			{
 				Config: config + compartmentIdVariableStr +
 					acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_ondemand", acctest.Required, acctest.Create, onDemandTableRepresentation),
@@ -129,6 +131,10 @@ func TestNosqlTableResource_test(t *testing.T) {
 					resource.TestCheckResourceAttrSet(ondemandResourceName, "table_limits.0.max_write_units"),
 					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.max_storage_in_gbs", "5"),
 					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.capacity_mode", "ON_DEMAND"),
+					func(s *terraform.State) (err error) {
+						timeUpdated0, err = acctest.FromInstanceState(s, ondemandResourceName, "time_updated")
+						return err
+					},
 				),
 			},
 
@@ -168,6 +174,45 @@ func TestNosqlTableResource_test(t *testing.T) {
 					resource.TestCheckResourceAttr(ondemandSingularDatasourceName, "table_limits.0.capacity_mode", "ON_DEMAND"),
 					resource.TestCheckResourceAttrSet(ondemandSingularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(ondemandSingularDatasourceName, "time_updated"),
+				),
+			},
+
+			// verify no change on reapplying
+			{
+				Config: config + compartmentIdVariableStr +
+					acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_ondemand", acctest.Optional, acctest.Create, onDemandNoLfcTableRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(ondemandResourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(ondemandResourceName, "ddl_statement", onDemandTableDdlStatement),
+					resource.TestCheckResourceAttr(ondemandResourceName, "name", "test_ondemand"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.#", "1"),
+					resource.TestCheckResourceAttrSet(ondemandResourceName, "table_limits.0.max_read_units"),
+					resource.TestCheckResourceAttrSet(ondemandResourceName, "table_limits.0.max_write_units"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.max_storage_in_gbs", "5"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.capacity_mode", "ON_DEMAND"),
+					func(s *terraform.State) (err error) {
+						timeUpdated1, err = acctest.FromInstanceState(s, ondemandResourceName, "time_updated")
+						if timeUpdated0 != timeUpdated1 {
+							return fmt.Errorf("Resource updated when it was supposed to be no change.")
+						}
+						return err
+					},
+				),
+			},
+
+			// update max_storage_in_gbs of TableLimits
+			{
+				Config: config + compartmentIdVariableStr +
+					acctest.GenerateResourceFromRepresentationMap("oci_nosql_table", "test_ondemand", acctest.Optional, acctest.Update, onDemandNoLfcTableRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(ondemandResourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(ondemandResourceName, "ddl_statement", onDemandTableDdlStatement),
+					resource.TestCheckResourceAttr(ondemandResourceName, "name", "test_ondemand"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.#", "1"),
+					resource.TestCheckResourceAttrSet(ondemandResourceName, "table_limits.0.max_read_units"),
+					resource.TestCheckResourceAttrSet(ondemandResourceName, "table_limits.0.max_write_units"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.max_storage_in_gbs", "6"),
+					resource.TestCheckResourceAttr(ondemandResourceName, "table_limits.0.capacity_mode", "ON_DEMAND"),
 				),
 			},
 
