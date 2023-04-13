@@ -48,10 +48,10 @@ output "cross_connect_groups" {
 
 resource "oci_core_cross_connect_group" "test_cross_connect_group" {
     #Required
-    compartment_id = "${var.compartment_ocid}"
+    compartment_id = var.compartment_ocid
     #Optional
     customer_reference_name = "customerReferenceName"
-    defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+    defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")
     display_name = "displayName"
     freeform_tags = {
         "Department" = "Finance"
@@ -63,21 +63,47 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
         encryption_cipher = "AES256_GCM"
         primary_key {
             #Required
-            connectivity_association_key_secret_id = "${var.secret_ocid_ckn}"
-            connectivity_association_key_secret_version = "${var.secret_version_cak}"
-            connectivity_association_name_secret_id = "${var.secret_ocid_cak}"
-            connectivity_association_name_secret_version = "${var.secret_version_ckn}"
+            connectivity_association_key_secret_id = var.secret_ocid_cak
+            connectivity_association_name_secret_id = var.secret_ocid_ckn
+            #Optional, api will always create with current version, but can use to update
+            connectivity_association_key_secret_version = var.secret_version_cak
+            connectivity_association_name_secret_version = var.secret_version_ckn
         }
 
     }
 }
 
+resource "oci_core_cross_connect_group" "test_cross_connect_group_2" {
+  #Required
+  compartment_id = var.compartment_ocid
+  #Optional
+  customer_reference_name = "customerReferenceName"
+  defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")
+  display_name = "displayName"
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+  macsec_properties {
+    #Required
+    state = "ENABLED"
+    #Optional
+    encryption_cipher = "AES256_GCM"
+    primary_key {
+      #Required
+      connectivity_association_key_secret_id = var.secret_ocid_cak
+      connectivity_association_name_secret_id = var.secret_ocid_ckn
+      #secret versions default to current version
+    }
+
+  }
+}
+
 variable defined_tag_namespace_name { default = "" }
 resource "oci_identity_tag_namespace" "tag-namespace1" {
         #Required
-        compartment_id = "${var.tenancy_ocid}"
+        compartment_id = var.tenancy_ocid
         description = "example tag namespace"
-        name = "${var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"}"
+        name = var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"
 
         is_retired = false
 }
@@ -86,7 +112,7 @@ resource "oci_identity_tag" "tag1" {
         #Required
         description = "example tag"
         name = "example-tag"
-        tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
+        tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
 
         is_retired = false
 }
