@@ -64,10 +64,10 @@ var (
 		"primary_key":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCrossConnectGroupMacsecPropertiesPrimaryKeyRepresentation},
 	}
 	CoreCrossConnectGroupMacsecPropertiesPrimaryKeyRepresentation = map[string]interface{}{
-		"connectivity_association_key_secret_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.secret_ocid_ckn}`},
-		"connectivity_association_name_secret_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.secret_ocid_cak}`},
-		"connectivity_association_key_secret_version":  acctest.Representation{RepType: acctest.Required, Create: `${var.secret_version_cak}`},
-		"connectivity_association_name_secret_version": acctest.Representation{RepType: acctest.Required, Create: `${var.secret_version_ckn}`},
+		"connectivity_association_key_secret_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.secret_ocid_cak}`},
+		"connectivity_association_name_secret_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.secret_ocid_ckn}`},
+		"connectivity_association_key_secret_version":  acctest.Representation{RepType: acctest.Optional, Create: `${var.secret_version_cak}`, Update: `${var.secret_version_cak_for_update}`},
+		"connectivity_association_name_secret_version": acctest.Representation{RepType: acctest.Optional, Create: `${var.secret_version_ckn}`, Update: `${var.secret_version_ckn}`},
 	}
 
 	CoreCrossConnectGroupResourceDependencies = DefinedTagsDependencies
@@ -95,6 +95,9 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 	secretVersionCAK := utils.GetEnvSettingWithBlankDefault("secret_version_cak")
 	secretVersionStrCAK := fmt.Sprintf("variable \"secret_version_cak\" { default = \"%s\" }\n", secretVersionCAK)
 
+	secretVersionCAKU := utils.GetEnvSettingWithBlankDefault("secret_version_cak_for_update")
+	secretVersionUStrCAK := fmt.Sprintf("variable \"secret_version_cak_for_update\" { default = \"%s\" }\n", secretVersionCAKU)
+
 	secretVersionCKN := utils.GetEnvSettingWithBlankDefault("secret_version_ckn")
 	secretVersionStrCKN := fmt.Sprintf("variable \"secret_version_ckn\" { default = \"%s\" }\n", secretVersionCKN)
 
@@ -110,7 +113,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckCoreCrossConnectGroupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+			Config: config + compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Required, acctest.Create, CoreCrossConnectGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -129,7 +132,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK +
-				secretVersionStrCKN + secretVersionStrCAK +
+				secretVersionStrCAK + secretVersionStrCKN +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Create, CoreCrossConnectGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -139,10 +142,10 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
-				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAK),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version", secretVersionCKN),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.state", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
@@ -173,8 +176,10 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAK),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version", secretVersionCKN),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.state", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
@@ -189,7 +194,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+			Config: config + compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionUStrCAK + secretVersionStrCKN +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Update, CoreCrossConnectGroupRepresentation),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -200,8 +205,10 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAKU),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version", secretVersionCKN),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.state", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
@@ -217,7 +224,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_groups", "test_cross_connect_groups", acctest.Optional, acctest.Update, CoreCoreCrossConnectGroupDataSourceRepresentation) +
-				compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
+				compartmentIdVariableStr + CoreCrossConnectGroupResourceDependencies + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionUStrCAK + secretVersionStrCKN +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Optional, acctest.Update, CoreCrossConnectGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -232,10 +239,10 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.#", "1"),
-				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
-				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAKU),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_version", secretVersionCKN),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.state", "ENABLED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.time_created"),
@@ -245,7 +252,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 		{
 			Config: config + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", acctest.Required, acctest.Create, CoreCoreCrossConnectGroupSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CoreCrossConnectGroupResourceConfig,
+				compartmentIdVariableStr + CoreCrossConnectGroupResourceConfig + secretVersionUStrCAK,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_group_id"),
 
@@ -259,6 +266,10 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
+				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAKU),
+				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
+				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version", secretVersionCKN),
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.state", "ENABLED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
