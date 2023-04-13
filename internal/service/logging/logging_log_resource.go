@@ -520,8 +520,13 @@ func (s *LoggingLogResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
-	_, err := s.Client.DeleteLog(context.Background(), request)
-	return err
+	response, err := s.Client.DeleteLog(context.Background(), request)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+
+	return s.getLogFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete))
 }
 
 func (s *LoggingLogResourceCrud) SetData() error {

@@ -139,7 +139,8 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
 				resource.TestCheckResourceAttr(resourceName, "retention_duration", "30"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				//resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
