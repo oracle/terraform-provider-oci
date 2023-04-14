@@ -19,6 +19,9 @@ import (
 // UpdateMsTeamsChannelDetails Properties to update an MS Teams channel.
 type UpdateMsTeamsChannelDetails struct {
 
+	// The Channel's name. The name can contain only letters, numbers, periods, and underscores. The name must begin with a letter.
+	Name *string `mandatory:"false" json:"name"`
+
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -41,6 +44,11 @@ type UpdateMsTeamsChannelDetails struct {
 
 	// The ID of the Skill or Digital Assistant that the Channel is routed to.
 	BotId *string `mandatory:"false" json:"botId"`
+}
+
+//GetName returns Name
+func (m UpdateMsTeamsChannelDetails) GetName() *string {
+	return m.Name
 }
 
 //GetDescription returns Description

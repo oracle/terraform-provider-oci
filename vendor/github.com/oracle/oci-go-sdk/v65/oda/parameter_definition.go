@@ -82,24 +82,27 @@ type ParameterDefinitionTypeEnum string
 
 // Set of constants representing the allowable values for ParameterDefinitionTypeEnum
 const (
-	ParameterDefinitionTypeString ParameterDefinitionTypeEnum = "STRING"
-	ParameterDefinitionTypeUri    ParameterDefinitionTypeEnum = "URI"
-	ParameterDefinitionTypeUrl    ParameterDefinitionTypeEnum = "URL"
-	ParameterDefinitionTypeNumber ParameterDefinitionTypeEnum = "NUMBER"
+	ParameterDefinitionTypeString  ParameterDefinitionTypeEnum = "STRING"
+	ParameterDefinitionTypeUri     ParameterDefinitionTypeEnum = "URI"
+	ParameterDefinitionTypeUrl     ParameterDefinitionTypeEnum = "URL"
+	ParameterDefinitionTypeNumber  ParameterDefinitionTypeEnum = "NUMBER"
+	ParameterDefinitionTypeBoolean ParameterDefinitionTypeEnum = "BOOLEAN"
 )
 
 var mappingParameterDefinitionTypeEnum = map[string]ParameterDefinitionTypeEnum{
-	"STRING": ParameterDefinitionTypeString,
-	"URI":    ParameterDefinitionTypeUri,
-	"URL":    ParameterDefinitionTypeUrl,
-	"NUMBER": ParameterDefinitionTypeNumber,
+	"STRING":  ParameterDefinitionTypeString,
+	"URI":     ParameterDefinitionTypeUri,
+	"URL":     ParameterDefinitionTypeUrl,
+	"NUMBER":  ParameterDefinitionTypeNumber,
+	"BOOLEAN": ParameterDefinitionTypeBoolean,
 }
 
 var mappingParameterDefinitionTypeEnumLowerCase = map[string]ParameterDefinitionTypeEnum{
-	"string": ParameterDefinitionTypeString,
-	"uri":    ParameterDefinitionTypeUri,
-	"url":    ParameterDefinitionTypeUrl,
-	"number": ParameterDefinitionTypeNumber,
+	"string":  ParameterDefinitionTypeString,
+	"uri":     ParameterDefinitionTypeUri,
+	"url":     ParameterDefinitionTypeUrl,
+	"number":  ParameterDefinitionTypeNumber,
+	"boolean": ParameterDefinitionTypeBoolean,
 }
 
 // GetParameterDefinitionTypeEnumValues Enumerates the set of values for ParameterDefinitionTypeEnum
@@ -118,6 +121,7 @@ func GetParameterDefinitionTypeEnumStringValues() []string {
 		"URI",
 		"URL",
 		"NUMBER",
+		"BOOLEAN",
 	}
 }
 
