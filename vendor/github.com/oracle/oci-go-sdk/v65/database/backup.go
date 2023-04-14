@@ -152,6 +152,8 @@ const (
 	BackupLifecycleStateDeleted   BackupLifecycleStateEnum = "DELETED"
 	BackupLifecycleStateFailed    BackupLifecycleStateEnum = "FAILED"
 	BackupLifecycleStateRestoring BackupLifecycleStateEnum = "RESTORING"
+	BackupLifecycleStateCanceling BackupLifecycleStateEnum = "CANCELING"
+	BackupLifecycleStateCanceled  BackupLifecycleStateEnum = "CANCELED"
 )
 
 var mappingBackupLifecycleStateEnum = map[string]BackupLifecycleStateEnum{
@@ -161,6 +163,8 @@ var mappingBackupLifecycleStateEnum = map[string]BackupLifecycleStateEnum{
 	"DELETED":   BackupLifecycleStateDeleted,
 	"FAILED":    BackupLifecycleStateFailed,
 	"RESTORING": BackupLifecycleStateRestoring,
+	"CANCELING": BackupLifecycleStateCanceling,
+	"CANCELED":  BackupLifecycleStateCanceled,
 }
 
 var mappingBackupLifecycleStateEnumLowerCase = map[string]BackupLifecycleStateEnum{
@@ -170,6 +174,8 @@ var mappingBackupLifecycleStateEnumLowerCase = map[string]BackupLifecycleStateEn
 	"deleted":   BackupLifecycleStateDeleted,
 	"failed":    BackupLifecycleStateFailed,
 	"restoring": BackupLifecycleStateRestoring,
+	"canceling": BackupLifecycleStateCanceling,
+	"canceled":  BackupLifecycleStateCanceled,
 }
 
 // GetBackupLifecycleStateEnumValues Enumerates the set of values for BackupLifecycleStateEnum
@@ -190,6 +196,8 @@ func GetBackupLifecycleStateEnumStringValues() []string {
 		"DELETED",
 		"FAILED",
 		"RESTORING",
+		"CANCELING",
+		"CANCELED",
 	}
 }
 

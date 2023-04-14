@@ -22,7 +22,7 @@ type ListSkillsRequest struct {
 	OdaInstanceId *string `mandatory:"true" contributesTo:"path" name:"odaInstanceId"`
 
 	// Unique Skill identifier.
-	SkillId *string `mandatory:"false" contributesTo:"query" name:"skillId"`
+	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// List only Bot resources with this category.
 	Category *string `mandatory:"false" contributesTo:"query" name:"category"`

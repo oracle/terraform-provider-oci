@@ -19,6 +19,9 @@ import (
 // UpdateOssChannelDetails Properties to update an Oracle Streaming Service (OSS) channel.
 type UpdateOssChannelDetails struct {
 
+	// The Channel's name. The name can contain only letters, numbers, periods, and underscores. The name must begin with a letter.
+	Name *string `mandatory:"false" json:"name"`
+
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -62,6 +65,11 @@ type UpdateOssChannelDetails struct {
 
 	// The authentication token to use when connecting to the Oracle Streaming Service.
 	AuthToken *string `mandatory:"false" json:"authToken"`
+}
+
+//GetName returns Name
+func (m UpdateOssChannelDetails) GetName() *string {
+	return m.Name
 }
 
 //GetDescription returns Description

@@ -19,6 +19,9 @@ import (
 // UpdateChannelDetails Properties to update a Channel.
 type UpdateChannelDetails interface {
 
+	// The Channel's name. The name can contain only letters, numbers, periods, and underscores. The name must begin with a letter.
+	GetName() *string
+
 	// A short description of the Channel.
 	GetDescription() *string
 
@@ -36,6 +39,7 @@ type UpdateChannelDetails interface {
 
 type updatechanneldetails struct {
 	JsonData                            []byte
+	Name                                *string                           `mandatory:"false" json:"name"`
 	Description                         *string                           `mandatory:"false" json:"description"`
 	SessionExpiryDurationInMilliseconds *int64                            `mandatory:"false" json:"sessionExpiryDurationInMilliseconds"`
 	FreeformTags                        map[string]string                 `mandatory:"false" json:"freeformTags"`
@@ -54,6 +58,7 @@ func (m *updatechanneldetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.Name = s.Model.Name
 	m.Description = s.Model.Description
 	m.SessionExpiryDurationInMilliseconds = s.Model.SessionExpiryDurationInMilliseconds
 	m.FreeformTags = s.Model.FreeformTags
@@ -131,6 +136,11 @@ func (m *updatechanneldetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 	default:
 		return *m, nil
 	}
+}
+
+//GetName returns Name
+func (m updatechanneldetails) GetName() *string {
+	return m.Name
 }
 
 //GetDescription returns Description

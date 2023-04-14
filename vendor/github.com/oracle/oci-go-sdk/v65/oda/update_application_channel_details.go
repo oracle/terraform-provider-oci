@@ -19,6 +19,9 @@ import (
 // UpdateApplicationChannelDetails Properties to update an Application channel.
 type UpdateApplicationChannelDetails struct {
 
+	// The Channel's name. The name can contain only letters, numbers, periods, and underscores. The name must begin with a letter.
+	Name *string `mandatory:"false" json:"name"`
+
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -38,6 +41,11 @@ type UpdateApplicationChannelDetails struct {
 
 	// True if the user id in the AIC message should be treated as an authenticated user id.
 	IsAuthenticatedUserId *bool `mandatory:"false" json:"isAuthenticatedUserId"`
+}
+
+//GetName returns Name
+func (m UpdateApplicationChannelDetails) GetName() *string {
+	return m.Name
 }
 
 //GetDescription returns Description

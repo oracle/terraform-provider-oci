@@ -27,13 +27,6 @@ type ConfigureDigitalAssistantParametersRequest struct {
 	// The client request ID for tracing. This value is included in the opc-request-id response header.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A token that uniquely identifies a request so that you can retry the request if there's
-	// a timeout or server error without the risk of executing that same action again.
-	// Retry tokens expire after 24 hours, but they can become invalid before then if there are
-	// conflicting operations. For example, if an instance was deleted and purged from the system,
-	// then the service might reject a retry of the original creation request.
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
