@@ -27,6 +27,9 @@ type ListWorkRequestsRequest struct {
 	// List only the information for this Digital Assistant instance.
 	OdaInstanceId *string `mandatory:"false" contributesTo:"query" name:"odaInstanceId"`
 
+	// List only the information for this resource.
+	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+
 	// The page at which to start retrieving results.
 	// You get this value from the `opc-next-page` header in a previous list request.
 	// To retireve the first page, omit this query parameter.

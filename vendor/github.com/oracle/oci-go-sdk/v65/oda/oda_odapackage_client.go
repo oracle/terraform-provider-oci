@@ -94,9 +94,10 @@ func (client *OdapackageClient) ConfigurationProvider() *common.ConfigurationPro
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateImportedPackage.go.html to see an example of how to use CreateImportedPackage API.
+// A default retry strategy applies to this operation CreateImportedPackage()
 func (client OdapackageClient) CreateImportedPackage(ctx context.Context, request CreateImportedPackageRequest) (response CreateImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -158,9 +159,10 @@ func (client OdapackageClient) createImportedPackage(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteImportedPackage.go.html to see an example of how to use DeleteImportedPackage API.
+// A default retry strategy applies to this operation DeleteImportedPackage()
 func (client OdapackageClient) DeleteImportedPackage(ctx context.Context, request DeleteImportedPackageRequest) (response DeleteImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -220,9 +222,10 @@ func (client OdapackageClient) deleteImportedPackage(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetImportedPackage.go.html to see an example of how to use GetImportedPackage API.
+// A default retry strategy applies to this operation GetImportedPackage()
 func (client OdapackageClient) GetImportedPackage(ctx context.Context, request GetImportedPackageRequest) (response GetImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -277,9 +280,10 @@ func (client OdapackageClient) getImportedPackage(ctx context.Context, request c
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetPackage.go.html to see an example of how to use GetPackage API.
+// A default retry strategy applies to this operation GetPackage()
 func (client OdapackageClient) GetPackage(ctx context.Context, request GetPackageRequest) (response GetPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -334,9 +338,10 @@ func (client OdapackageClient) getPackage(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListImportedPackages.go.html to see an example of how to use ListImportedPackages API.
+// A default retry strategy applies to this operation ListImportedPackages()
 func (client OdapackageClient) ListImportedPackages(ctx context.Context, request ListImportedPackagesRequest) (response ListImportedPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -403,9 +408,10 @@ func (client OdapackageClient) listImportedPackages(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListPackages.go.html to see an example of how to use ListPackages API.
+// A default retry strategy applies to this operation ListPackages()
 func (client OdapackageClient) ListPackages(ctx context.Context, request ListPackagesRequest) (response ListPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -462,9 +468,10 @@ func (client OdapackageClient) listPackages(ctx context.Context, request common.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateImportedPackage.go.html to see an example of how to use UpdateImportedPackage API.
+// A default retry strategy applies to this operation UpdateImportedPackage()
 func (client OdapackageClient) UpdateImportedPackage(ctx context.Context, request UpdateImportedPackageRequest) (response UpdateImportedPackageResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
