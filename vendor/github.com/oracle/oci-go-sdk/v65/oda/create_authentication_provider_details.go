@@ -30,9 +30,6 @@ type CreateAuthenticationProviderDetails struct {
 	// The IDPs URL for requesting access tokens.
 	TokenEndpointUrl *string `mandatory:"true" json:"tokenEndpointUrl"`
 
-	// The IDPs URL for the page that users authenticate with by entering the user name and password.
-	AuthorizationEndpointUrl *string `mandatory:"true" json:"authorizationEndpointUrl"`
-
 	// The client ID for the IDP application (OAuth Client) that was registered as described in Identity Provider Registration.
 	// With Microsoft identity platform, use the application ID.
 	ClientId *string `mandatory:"true" json:"clientId"`
@@ -46,8 +43,8 @@ type CreateAuthenticationProviderDetails struct {
 	// include the scope that’s necessary to get the refresh token (typically offline_access).
 	Scopes *string `mandatory:"true" json:"scopes"`
 
-	// The access-token profile claim to use to identify the user.
-	SubjectClaim *string `mandatory:"true" json:"subjectClaim"`
+	// The IDPs URL for the page that users authenticate with by entering the user name and password.
+	AuthorizationEndpointUrl *string `mandatory:"false" json:"authorizationEndpointUrl"`
 
 	// A shortened version of the authorization URL, which you can get from a URL shortener service (one that allows
 	// you to send query parameters).  You might need this because the generated authorization-code-request URL
@@ -58,6 +55,9 @@ type CreateAuthenticationProviderDetails struct {
 	// you need the IDP's revoke refresh token URL. If you provide this URL, then you can use the System.OAuth2ResetTokens
 	// component to revoke the user's tokens for this service.
 	RevokeTokenEndpointUrl *string `mandatory:"false" json:"revokeTokenEndpointUrl"`
+
+	// The access-token profile claim to use to identify the user.
+	SubjectClaim *string `mandatory:"false" json:"subjectClaim"`
 
 	// The number of days to keep the refresh token in the Digital Assistant cache.
 	RefreshTokenRetentionPeriodInDays *int `mandatory:"false" json:"refreshTokenRetentionPeriodInDays"`

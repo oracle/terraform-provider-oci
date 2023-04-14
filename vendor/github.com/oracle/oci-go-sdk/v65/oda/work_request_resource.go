@@ -18,13 +18,13 @@ import (
 // WorkRequestResource A resource created or operated on by a work request.
 type WorkRequestResource struct {
 
-	// The action to take against the Digital Assistant instance.
+	// The action to take against the resource.
 	ResourceAction WorkRequestResourceResourceActionEnum `mandatory:"true" json:"resourceAction"`
 
 	// The resource type that the work request affects.
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// The identifier of the Digital Assistant instance that is the subject of the request.
+	// The identifier of the resource that is the subject of the request.
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
 	// The current state of the work request. The `SUCCEEDED`, `FAILED`, AND `CANCELED` states
@@ -67,6 +67,7 @@ type WorkRequestResourceResourceActionEnum string
 // Set of constants representing the allowable values for WorkRequestResourceResourceActionEnum
 const (
 	WorkRequestResourceResourceActionCreate                      WorkRequestResourceResourceActionEnum = "CREATE"
+	WorkRequestResourceResourceActionUpdate                      WorkRequestResourceResourceActionEnum = "UPDATE"
 	WorkRequestResourceResourceActionDelete                      WorkRequestResourceResourceActionEnum = "DELETE"
 	WorkRequestResourceResourceActionPurge                       WorkRequestResourceResourceActionEnum = "PURGE"
 	WorkRequestResourceResourceActionRecover                     WorkRequestResourceResourceActionEnum = "RECOVER"
@@ -89,6 +90,7 @@ const (
 
 var mappingWorkRequestResourceResourceActionEnum = map[string]WorkRequestResourceResourceActionEnum{
 	"CREATE":                         WorkRequestResourceResourceActionCreate,
+	"UPDATE":                         WorkRequestResourceResourceActionUpdate,
 	"DELETE":                         WorkRequestResourceResourceActionDelete,
 	"PURGE":                          WorkRequestResourceResourceActionPurge,
 	"RECOVER":                        WorkRequestResourceResourceActionRecover,
@@ -111,6 +113,7 @@ var mappingWorkRequestResourceResourceActionEnum = map[string]WorkRequestResourc
 
 var mappingWorkRequestResourceResourceActionEnumLowerCase = map[string]WorkRequestResourceResourceActionEnum{
 	"create":                         WorkRequestResourceResourceActionCreate,
+	"update":                         WorkRequestResourceResourceActionUpdate,
 	"delete":                         WorkRequestResourceResourceActionDelete,
 	"purge":                          WorkRequestResourceResourceActionPurge,
 	"recover":                        WorkRequestResourceResourceActionRecover,
@@ -144,6 +147,7 @@ func GetWorkRequestResourceResourceActionEnumValues() []WorkRequestResourceResou
 func GetWorkRequestResourceResourceActionEnumStringValues() []string {
 	return []string{
 		"CREATE",
+		"UPDATE",
 		"DELETE",
 		"PURGE",
 		"RECOVER",

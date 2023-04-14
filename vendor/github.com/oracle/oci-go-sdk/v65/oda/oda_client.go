@@ -93,9 +93,10 @@ func (client *OdaClient) ConfigurationProvider() *common.ConfigurationProvider {
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ChangeOdaInstanceCompartment.go.html to see an example of how to use ChangeOdaInstanceCompartment API.
+// A default retry strategy applies to this operation ChangeOdaInstanceCompartment()
 func (client OdaClient) ChangeOdaInstanceCompartment(ctx context.Context, request ChangeOdaInstanceCompartmentRequest) (response ChangeOdaInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -157,9 +158,10 @@ func (client OdaClient) changeOdaInstanceCompartment(ctx context.Context, reques
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaInstance.go.html to see an example of how to use CreateOdaInstance API.
+// A default retry strategy applies to this operation CreateOdaInstance()
 func (client OdaClient) CreateOdaInstance(ctx context.Context, request CreateOdaInstanceRequest) (response CreateOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -221,9 +223,10 @@ func (client OdaClient) createOdaInstance(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaInstanceAttachment.go.html to see an example of how to use CreateOdaInstanceAttachment API.
+// A default retry strategy applies to this operation CreateOdaInstanceAttachment()
 func (client OdaClient) CreateOdaInstanceAttachment(ctx context.Context, request CreateOdaInstanceAttachmentRequest) (response CreateOdaInstanceAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -284,9 +287,10 @@ func (client OdaClient) createOdaInstanceAttachment(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaInstance.go.html to see an example of how to use DeleteOdaInstance API.
+// A default retry strategy applies to this operation DeleteOdaInstance()
 func (client OdaClient) DeleteOdaInstance(ctx context.Context, request DeleteOdaInstanceRequest) (response DeleteOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -341,9 +345,10 @@ func (client OdaClient) deleteOdaInstance(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaInstanceAttachment.go.html to see an example of how to use DeleteOdaInstanceAttachment API.
+// A default retry strategy applies to this operation DeleteOdaInstanceAttachment()
 func (client OdaClient) DeleteOdaInstanceAttachment(ctx context.Context, request DeleteOdaInstanceAttachmentRequest) (response DeleteOdaInstanceAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -398,9 +403,10 @@ func (client OdaClient) deleteOdaInstanceAttachment(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaInstance.go.html to see an example of how to use GetOdaInstance API.
+// A default retry strategy applies to this operation GetOdaInstance()
 func (client OdaClient) GetOdaInstance(ctx context.Context, request GetOdaInstanceRequest) (response GetOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -455,9 +461,10 @@ func (client OdaClient) getOdaInstance(ctx context.Context, request common.OCIRe
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaInstanceAttachment.go.html to see an example of how to use GetOdaInstanceAttachment API.
+// A default retry strategy applies to this operation GetOdaInstanceAttachment()
 func (client OdaClient) GetOdaInstanceAttachment(ctx context.Context, request GetOdaInstanceAttachmentRequest) (response GetOdaInstanceAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -514,9 +521,10 @@ func (client OdaClient) getOdaInstanceAttachment(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client OdaClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -571,9 +579,10 @@ func (client OdaClient) getWorkRequest(ctx context.Context, request common.OCIRe
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaInstanceAttachments.go.html to see an example of how to use ListOdaInstanceAttachments API.
+// A default retry strategy applies to this operation ListOdaInstanceAttachments()
 func (client OdaClient) ListOdaInstanceAttachments(ctx context.Context, request ListOdaInstanceAttachmentsRequest) (response ListOdaInstanceAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -632,9 +641,10 @@ func (client OdaClient) listOdaInstanceAttachments(ctx context.Context, request 
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaInstances.go.html to see an example of how to use ListOdaInstances API.
+// A default retry strategy applies to this operation ListOdaInstances()
 func (client OdaClient) ListOdaInstances(ctx context.Context, request ListOdaInstancesRequest) (response ListOdaInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -692,9 +702,10 @@ func (client OdaClient) listOdaInstances(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client OdaClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -752,9 +763,10 @@ func (client OdaClient) listWorkRequestErrors(ctx context.Context, request commo
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client OdaClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -812,9 +824,10 @@ func (client OdaClient) listWorkRequestLogs(ctx context.Context, request common.
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client OdaClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -870,9 +883,10 @@ func (client OdaClient) listWorkRequests(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StartOdaInstance.go.html to see an example of how to use StartOdaInstance API.
+// A default retry strategy applies to this operation StartOdaInstance()
 func (client OdaClient) StartOdaInstance(ctx context.Context, request StartOdaInstanceRequest) (response StartOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -934,9 +948,10 @@ func (client OdaClient) startOdaInstance(ctx context.Context, request common.OCI
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StopOdaInstance.go.html to see an example of how to use StopOdaInstance API.
+// A default retry strategy applies to this operation StopOdaInstance()
 func (client OdaClient) StopOdaInstance(ctx context.Context, request StopOdaInstanceRequest) (response StopOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -996,9 +1011,10 @@ func (client OdaClient) stopOdaInstance(ctx context.Context, request common.OCIR
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateOdaInstance.go.html to see an example of how to use UpdateOdaInstance API.
+// A default retry strategy applies to this operation UpdateOdaInstance()
 func (client OdaClient) UpdateOdaInstance(ctx context.Context, request UpdateOdaInstanceRequest) (response UpdateOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1053,9 +1069,10 @@ func (client OdaClient) updateOdaInstance(ctx context.Context, request common.OC
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateOdaInstanceAttachment.go.html to see an example of how to use UpdateOdaInstanceAttachment API.
+// A default retry strategy applies to this operation UpdateOdaInstanceAttachment()
 func (client OdaClient) UpdateOdaInstanceAttachment(ctx context.Context, request UpdateOdaInstanceAttachmentRequest) (response UpdateOdaInstanceAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
