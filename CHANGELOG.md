@@ -1,7 +1,6 @@
 ## 4.118.0 (April 26, 2023)
 
 ### Added
-- Support for DBM Service: External Exadata Infrastructure Monitoring
 - Support for Enabling outbound private access using PE RCE for OIC Gen3 customers
 - Support for Fractional OCPU | Expose ADB.usedDataStorageSizeInGBs to customers | ADB-D and ADB on ExaC@C Fractional OCPU | Expose ADB.usedDataStorageSizeInGBs to customers
 - Added - Support for Cancel a full or incremental automatic backup
