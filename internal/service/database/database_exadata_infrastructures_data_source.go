@@ -248,6 +248,12 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["netmask"] = *r.Netmask
 		}
 
+		if r.NetworkBondingModeDetails != nil {
+			exadataInfrastructure["network_bonding_mode_details"] = []interface{}{NetworkBondingModeDetailsToMap(r.NetworkBondingModeDetails)}
+		} else {
+			exadataInfrastructure["network_bonding_mode_details"] = nil
+		}
+
 		exadataInfrastructure["ntp_server"] = r.NtpServer
 
 		if r.RackSerialNumber != nil {
