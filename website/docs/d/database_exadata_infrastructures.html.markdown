@@ -104,6 +104,9 @@ The following attributes are exported:
 * `monthly_db_server_version` - The monthly software version of the database servers (dom0) in the Exadata infrastructure.
 * `multi_rack_configuration_file` - The base64 encoded Multi-Rack configuration json file.
 * `netmask` - The netmask for the control plane network.
+* `network_bonding_mode_details` - Details of bonding mode for Client and Backup networks of an Exadata infrastructure.   
+	* `backup_network_bonding_mode` - The network bonding mode for the Exadata infrastructure.
+	* `client_network_bonding_mode` - The network bonding mode for the Exadata infrastructure.
 * `ntp_server` - The list of NTP server IP addresses. Maximum of 3 allowed.
 * `rack_serial_number` - The serial number for the Exadata infrastructure.
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
