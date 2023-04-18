@@ -43,7 +43,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `available_core_count` - The maximum number of CPU cores that can be enabled on the DB system for this shape.
-* `available_core_count_per_node` - The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape, ExaCC Elastic shapes and VM Flex shapes.
+* `available_core_count_per_node` - The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes.
 * `available_data_storage_in_tbs` - The maximum DATA storage that can be enabled for this shape.
 * `available_data_storage_per_server_in_tbs` - The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes.
 * `available_db_node_per_node_in_gbs` - The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes.
