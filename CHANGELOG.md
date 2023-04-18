@@ -1,16 +1,11 @@
 ## 4.117.0 (Unreleased)
 
 ### Added
-- Support for Partial exemption for Cancel a full or incremental running backup Cancel a running full or incremental backup
 - Support for ODA Supports Private Endpoint, fixed related issues.
-- Updating changelog
-- Support for Manageability improvement on Discovery and Masking, User Profile Insight
-- Updating changelog
 ### Bug Fix
 - make cross connect group MACSec versions optional and computed
 - TERRAFORM_GITHUB_ISSUE#1813: terraform always wants to modify if capacity mode is
-for deleting log objects
-- updating shape_config for fungible instance
+- for deleting log objects
 
 ## 4.116.0 (Unreleased)
 
