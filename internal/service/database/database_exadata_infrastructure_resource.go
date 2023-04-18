@@ -266,6 +266,32 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 					},
 				},
 			},
+			"network_bonding_mode_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"backup_network_bonding_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"client_network_bonding_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"multi_rack_configuration_file": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -598,6 +624,17 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 		request.Netmask = &tmp
 	}
 
+	if networkBondingModeDetails, ok := s.D.GetOkExists("network_bonding_mode_details"); ok {
+		if tmpList := networkBondingModeDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_bonding_mode_details", 0)
+			tmp, err := s.mapToNetworkBondingModeDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkBondingModeDetails = &tmp
+		}
+	}
+
 	if ntpServer, ok := s.D.GetOkExists("ntp_server"); ok {
 		request.NtpServer = []string{}
 		interfaces := ntpServer.([]interface{})
@@ -801,6 +838,20 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		request.Netmask = &tmp
 	}
 
+	if networkBondingModeDetails, ok := s.D.GetOkExists("network_bonding_mode_details"); ok && s.D.HasChange("network_bonding_mode_details") {
+
+		if tmpList := networkBondingModeDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_bonding_mode_details", 0)
+			tmp, err := s.mapToNetworkBondingModeDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkBondingModeDetails = &tmp
+		} else {
+			request.NetworkBondingModeDetails = nil
+		}
+	}
+
 	if ntpServer, ok := s.D.GetOkExists("ntp_server"); ok && s.D.HasChange("ntp_server") {
 		request.NtpServer = []string{}
 		interfaces := ntpServer.([]interface{})
@@ -997,6 +1048,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.Netmask != nil {
 		s.D.Set("netmask", *s.Res.Netmask)
+	}
+
+	if s.Res.NetworkBondingModeDetails != nil {
+		s.D.Set("network_bonding_mode_details", []interface{}{NetworkBondingModeDetailsToMap(s.Res.NetworkBondingModeDetails)})
+	} else {
+		s.D.Set("network_bonding_mode_details", nil)
 	}
 
 	s.D.Set("ntp_server", s.Res.NtpServer)
@@ -1257,6 +1314,30 @@ func ExadataInfrastructureMonthToMap(obj oci_database.Month) map[string]interfac
 	result := map[string]interface{}{}
 
 	result["name"] = string(obj.Name)
+
+	return result
+}
+
+func (s *DatabaseExadataInfrastructureResourceCrud) mapToNetworkBondingModeDetails(fieldKeyFormat string) (oci_database.NetworkBondingModeDetails, error) {
+	result := oci_database.NetworkBondingModeDetails{}
+
+	if backupNetworkBondingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_network_bonding_mode")); ok {
+		result.BackupNetworkBondingMode = oci_database.NetworkBondingModeDetailsBackupNetworkBondingModeEnum(backupNetworkBondingMode.(string))
+	}
+
+	if clientNetworkBondingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_network_bonding_mode")); ok {
+		result.ClientNetworkBondingMode = oci_database.NetworkBondingModeDetailsClientNetworkBondingModeEnum(clientNetworkBondingMode.(string))
+	}
+
+	return result, nil
+}
+
+func NetworkBondingModeDetailsToMap(obj *oci_database.NetworkBondingModeDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["backup_network_bonding_mode"] = string(obj.BackupNetworkBondingMode)
+
+	result["client_network_bonding_mode"] = string(obj.ClientNetworkBondingMode)
 
 	return result
 }
