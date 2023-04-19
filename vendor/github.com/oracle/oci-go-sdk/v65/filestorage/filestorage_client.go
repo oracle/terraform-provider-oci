@@ -1567,6 +1567,59 @@ func (client FileStorageClient) deleteSnapshot(ctx context.Context, request comm
 	return response, err
 }
 
+// DetachClone Detaches the file system from its parent file system
+func (client FileStorageClient) DetachClone(ctx context.Context, request DetachCloneRequest) (response DetachCloneResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.detachClone, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachCloneResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachCloneResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachCloneResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachCloneResponse")
+	}
+	return
+}
+
+// detachClone implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) detachClone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/detachClone", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachCloneResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/DetachClone"
+		err = common.PostProcessServiceError(err, "FileStorage", "DetachClone", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DiscardKerberosKeytab Discards the contents of the mount target resource's Kerberos keytab.
 // All keytab entries used by the mount target are removed as a result of this call.
 // Once the keytab is discarded any new Kerberized NFS I/O to this mount target

@@ -18,7 +18,7 @@ type UpdateWorkloadMappingRequest struct {
 	ClusterId *string `mandatory:"true" contributesTo:"path" name:"clusterId"`
 
 	// The OCID of the workloadMapping.
-	Id *string `mandatory:"true" contributesTo:"path" name:"id"`
+	WorkloadMappingId *string `mandatory:"true" contributesTo:"path" name:"workloadMappingId"`
 
 	// The details of the workloadMapping to be updated.
 	UpdateWorkloadMappingDetails `contributesTo:"body"`

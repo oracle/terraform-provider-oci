@@ -48,6 +48,9 @@ type BdsInstanceSummary struct {
 	// The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// Number of nodes that require a maintenance reboot
+	NumberOfNodesRequireMaintenanceReboot *int `mandatory:"false" json:"numberOfNodesRequireMaintenanceReboot"`
+
 	// Version of the Hadoop distribution.
 	ClusterVersion BdsInstanceClusterVersionEnum `mandatory:"false" json:"clusterVersion,omitempty"`
 

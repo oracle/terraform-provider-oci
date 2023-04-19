@@ -34,6 +34,12 @@ type UpdatePrivateIpNextHopDetails struct {
 
 	// Details of nextHop targets.
 	Targets []PrivateIpNextHopTarget `mandatory:"false" json:"targets"`
+
+	// Turns on/off flow stickiness for the private IP's nextHop. The default is 'false'.
+	IsFlowStickinessEnabled *bool `mandatory:"false" json:"isFlowStickinessEnabled"`
+
+	// Specifies which next hop forwarding rules to enable for the private IP's nextHop
+	NexthopForwardingRules []PrivateIpNextHopForwardingRuleEnum `mandatory:"false" json:"nexthopForwardingRules"`
 }
 
 func (m UpdatePrivateIpNextHopDetails) String() string {

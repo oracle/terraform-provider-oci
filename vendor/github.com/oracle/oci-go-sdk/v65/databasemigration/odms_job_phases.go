@@ -22,6 +22,7 @@ const (
 	OdmsJobPhasesOdmsValidateSrc                 OdmsJobPhasesEnum = "ODMS_VALIDATE_SRC"
 	OdmsJobPhasesOdmsValidatePremigrationAdvisor OdmsJobPhasesEnum = "ODMS_VALIDATE_PREMIGRATION_ADVISOR"
 	OdmsJobPhasesOdmsValidateGgHub               OdmsJobPhasesEnum = "ODMS_VALIDATE_GG_HUB"
+	OdmsJobPhasesOdmsValidateGgService           OdmsJobPhasesEnum = "ODMS_VALIDATE_GG_SERVICE"
 	OdmsJobPhasesOdmsValidateDatapumpSettings    OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SETTINGS"
 	OdmsJobPhasesOdmsValidateDatapumpSettingsSrc OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SETTINGS_SRC"
 	OdmsJobPhasesOdmsValidateDatapumpSettingsTgt OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SETTINGS_TGT"
@@ -44,6 +45,7 @@ var mappingOdmsJobPhasesEnum = map[string]OdmsJobPhasesEnum{
 	"ODMS_VALIDATE_SRC":                   OdmsJobPhasesOdmsValidateSrc,
 	"ODMS_VALIDATE_PREMIGRATION_ADVISOR":  OdmsJobPhasesOdmsValidatePremigrationAdvisor,
 	"ODMS_VALIDATE_GG_HUB":                OdmsJobPhasesOdmsValidateGgHub,
+	"ODMS_VALIDATE_GG_SERVICE":            OdmsJobPhasesOdmsValidateGgService,
 	"ODMS_VALIDATE_DATAPUMP_SETTINGS":     OdmsJobPhasesOdmsValidateDatapumpSettings,
 	"ODMS_VALIDATE_DATAPUMP_SETTINGS_SRC": OdmsJobPhasesOdmsValidateDatapumpSettingsSrc,
 	"ODMS_VALIDATE_DATAPUMP_SETTINGS_TGT": OdmsJobPhasesOdmsValidateDatapumpSettingsTgt,
@@ -66,6 +68,7 @@ var mappingOdmsJobPhasesEnumLowerCase = map[string]OdmsJobPhasesEnum{
 	"odms_validate_src":                   OdmsJobPhasesOdmsValidateSrc,
 	"odms_validate_premigration_advisor":  OdmsJobPhasesOdmsValidatePremigrationAdvisor,
 	"odms_validate_gg_hub":                OdmsJobPhasesOdmsValidateGgHub,
+	"odms_validate_gg_service":            OdmsJobPhasesOdmsValidateGgService,
 	"odms_validate_datapump_settings":     OdmsJobPhasesOdmsValidateDatapumpSettings,
 	"odms_validate_datapump_settings_src": OdmsJobPhasesOdmsValidateDatapumpSettingsSrc,
 	"odms_validate_datapump_settings_tgt": OdmsJobPhasesOdmsValidateDatapumpSettingsTgt,
@@ -99,6 +102,7 @@ func GetOdmsJobPhasesEnumStringValues() []string {
 		"ODMS_VALIDATE_SRC",
 		"ODMS_VALIDATE_PREMIGRATION_ADVISOR",
 		"ODMS_VALIDATE_GG_HUB",
+		"ODMS_VALIDATE_GG_SERVICE",
 		"ODMS_VALIDATE_DATAPUMP_SETTINGS",
 		"ODMS_VALIDATE_DATAPUMP_SETTINGS_SRC",
 		"ODMS_VALIDATE_DATAPUMP_SETTINGS_TGT",

@@ -16,13 +16,18 @@ import (
 	"strings"
 )
 
-// TlsPassthroughIngressGatewayTrafficRouteRule Rule for routing incoming ingress gateway traffic with TCP protocol.
+// TlsPassthroughIngressGatewayTrafficRouteRule Rule for routing incoming ingress gateway traffic with TLS_PASSTHROUGH protocol.
 type TlsPassthroughIngressGatewayTrafficRouteRule struct {
 
 	// The destination of the request.
 	Destinations []VirtualServiceTrafficRuleTarget `mandatory:"true" json:"destinations"`
 
 	IngressGatewayHost *IngressGatewayHostRef `mandatory:"false" json:"ingressGatewayHost"`
+
+	// Match conditions to be satisfied for the rule to be activated.
+	// All conditions inside a single match block have AND semantics, while the list of match blocks have OR semantics.
+	// The rule is matched if any one of the match blocks succeed.
+	MatchAttributes []TcpMatchAttributes `mandatory:"false" json:"matchAttributes"`
 }
 
 //GetIngressGatewayHost returns IngressGatewayHost

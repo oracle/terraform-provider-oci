@@ -5336,7 +5336,7 @@ func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Conte
 	return response, err
 }
 
-// TerminateInstance Terminates (deletes) the specified instance. Any attached VNICs and volumes are automatically detached
+// TerminateInstance Permanently terminates (deletes) the specified instance. Any attached VNICs and volumes are automatically detached
 // when the instance terminates.
 // To preserve the boot volume associated with the instance, specify `true` for `PreserveBootVolumeQueryParam`.
 // To delete the boot volume when the instance is deleted, specify `false` or do not specify a value for `PreserveBootVolumeQueryParam`.

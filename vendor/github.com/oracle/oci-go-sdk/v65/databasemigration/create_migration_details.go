@@ -56,6 +56,8 @@ type CreateMigrationDetails struct {
 
 	GoldenGateDetails *CreateGoldenGateDetails `mandatory:"false" json:"goldenGateDetails"`
 
+	GoldenGateServiceDetails *CreateGoldenGateServiceDetails `mandatory:"false" json:"goldenGateServiceDetails"`
+
 	VaultDetails *CreateVaultDetails `mandatory:"false" json:"vaultDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

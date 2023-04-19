@@ -21,6 +21,13 @@ type TcpVirtualServiceTrafficRouteRule struct {
 
 	// The destination of the request.
 	Destinations []VirtualDeploymentTrafficRuleTarget `mandatory:"true" json:"destinations"`
+
+	// Match conditions to be satisfied for the rule to be activated.
+	// All conditions inside a single match block have AND semantics, while the list of match blocks have OR semantics.
+	// The rule is matched if any one of the match blocks succeed.
+	MatchAttributes []TcpMatchAttributes `mandatory:"false" json:"matchAttributes"`
+
+	RetryConfiguration *TcpRetryConfiguration `mandatory:"false" json:"retryConfiguration"`
 }
 
 //GetDestinations returns Destinations

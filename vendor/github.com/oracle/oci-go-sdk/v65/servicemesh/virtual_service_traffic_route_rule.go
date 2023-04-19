@@ -67,6 +67,10 @@ func (m *virtualservicetrafficrouterule) UnmarshalPolymorphicJSON(data []byte) (
 		mm := HttpVirtualServiceTrafficRouteRule{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GRPC":
+		mm := GrpcVirtualServiceTrafficRouteRule{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for VirtualServiceTrafficRouteRule: %s.", m.Type)
 		return *m, nil
@@ -102,18 +106,21 @@ const (
 	VirtualServiceTrafficRouteRuleTypeHttp           VirtualServiceTrafficRouteRuleTypeEnum = "HTTP"
 	VirtualServiceTrafficRouteRuleTypeTlsPassthrough VirtualServiceTrafficRouteRuleTypeEnum = "TLS_PASSTHROUGH"
 	VirtualServiceTrafficRouteRuleTypeTcp            VirtualServiceTrafficRouteRuleTypeEnum = "TCP"
+	VirtualServiceTrafficRouteRuleTypeGrpc           VirtualServiceTrafficRouteRuleTypeEnum = "GRPC"
 )
 
 var mappingVirtualServiceTrafficRouteRuleTypeEnum = map[string]VirtualServiceTrafficRouteRuleTypeEnum{
 	"HTTP":            VirtualServiceTrafficRouteRuleTypeHttp,
 	"TLS_PASSTHROUGH": VirtualServiceTrafficRouteRuleTypeTlsPassthrough,
 	"TCP":             VirtualServiceTrafficRouteRuleTypeTcp,
+	"GRPC":            VirtualServiceTrafficRouteRuleTypeGrpc,
 }
 
 var mappingVirtualServiceTrafficRouteRuleTypeEnumLowerCase = map[string]VirtualServiceTrafficRouteRuleTypeEnum{
 	"http":            VirtualServiceTrafficRouteRuleTypeHttp,
 	"tls_passthrough": VirtualServiceTrafficRouteRuleTypeTlsPassthrough,
 	"tcp":             VirtualServiceTrafficRouteRuleTypeTcp,
+	"grpc":            VirtualServiceTrafficRouteRuleTypeGrpc,
 }
 
 // GetVirtualServiceTrafficRouteRuleTypeEnumValues Enumerates the set of values for VirtualServiceTrafficRouteRuleTypeEnum
@@ -131,6 +138,7 @@ func GetVirtualServiceTrafficRouteRuleTypeEnumStringValues() []string {
 		"HTTP",
 		"TLS_PASSTHROUGH",
 		"TCP",
+		"GRPC",
 	}
 }
 

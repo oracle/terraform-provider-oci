@@ -156,21 +156,24 @@ type SnapshotSummarySnapshotTypeEnum string
 
 // Set of constants representing the allowable values for SnapshotSummarySnapshotTypeEnum
 const (
-	SnapshotSummarySnapshotTypeUser        SnapshotSummarySnapshotTypeEnum = "USER"
-	SnapshotSummarySnapshotTypePolicyBased SnapshotSummarySnapshotTypeEnum = "POLICY_BASED"
-	SnapshotSummarySnapshotTypeReplication SnapshotSummarySnapshotTypeEnum = "REPLICATION"
+	SnapshotSummarySnapshotTypeUser                SnapshotSummarySnapshotTypeEnum = "USER"
+	SnapshotSummarySnapshotTypePolicyBased         SnapshotSummarySnapshotTypeEnum = "POLICY_BASED"
+	SnapshotSummarySnapshotTypeReplication         SnapshotSummarySnapshotTypeEnum = "REPLICATION"
+	SnapshotSummarySnapshotTypeReplicationIndirect SnapshotSummarySnapshotTypeEnum = "REPLICATION_INDIRECT"
 )
 
 var mappingSnapshotSummarySnapshotTypeEnum = map[string]SnapshotSummarySnapshotTypeEnum{
-	"USER":         SnapshotSummarySnapshotTypeUser,
-	"POLICY_BASED": SnapshotSummarySnapshotTypePolicyBased,
-	"REPLICATION":  SnapshotSummarySnapshotTypeReplication,
+	"USER":                 SnapshotSummarySnapshotTypeUser,
+	"POLICY_BASED":         SnapshotSummarySnapshotTypePolicyBased,
+	"REPLICATION":          SnapshotSummarySnapshotTypeReplication,
+	"REPLICATION_INDIRECT": SnapshotSummarySnapshotTypeReplicationIndirect,
 }
 
 var mappingSnapshotSummarySnapshotTypeEnumLowerCase = map[string]SnapshotSummarySnapshotTypeEnum{
-	"user":         SnapshotSummarySnapshotTypeUser,
-	"policy_based": SnapshotSummarySnapshotTypePolicyBased,
-	"replication":  SnapshotSummarySnapshotTypeReplication,
+	"user":                 SnapshotSummarySnapshotTypeUser,
+	"policy_based":         SnapshotSummarySnapshotTypePolicyBased,
+	"replication":          SnapshotSummarySnapshotTypeReplication,
+	"replication_indirect": SnapshotSummarySnapshotTypeReplicationIndirect,
 }
 
 // GetSnapshotSummarySnapshotTypeEnumValues Enumerates the set of values for SnapshotSummarySnapshotTypeEnum
@@ -188,6 +191,7 @@ func GetSnapshotSummarySnapshotTypeEnumStringValues() []string {
 		"USER",
 		"POLICY_BASED",
 		"REPLICATION",
+		"REPLICATION_INDIRECT",
 	}
 }
 

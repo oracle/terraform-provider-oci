@@ -57,10 +57,12 @@ const (
 	OperationTypesTestLakeConfig            OperationTypesEnum = "TEST_LAKE_CONFIG"
 	OperationTypesPatchBds                  OperationTypesEnum = "PATCH_BDS"
 	OperationTypesPatchOdh                  OperationTypesEnum = "PATCH_ODH"
+	OperationTypesPatchOs                   OperationTypesEnum = "PATCH_OS"
 	OperationTypesStopBds                   OperationTypesEnum = "STOP_BDS"
 	OperationTypesStartBds                  OperationTypesEnum = "START_BDS"
 	OperationTypesAddKafka                  OperationTypesEnum = "ADD_KAFKA"
 	OperationTypesRemoveKafka               OperationTypesEnum = "REMOVE_KAFKA"
+	OperationTypesExecuteBootstrapScript    OperationTypesEnum = "EXECUTE_BOOTSTRAP_SCRIPT"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -103,10 +105,12 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"TEST_LAKE_CONFIG":             OperationTypesTestLakeConfig,
 	"PATCH_BDS":                    OperationTypesPatchBds,
 	"PATCH_ODH":                    OperationTypesPatchOdh,
+	"PATCH_OS":                     OperationTypesPatchOs,
 	"STOP_BDS":                     OperationTypesStopBds,
 	"START_BDS":                    OperationTypesStartBds,
 	"ADD_KAFKA":                    OperationTypesAddKafka,
 	"REMOVE_KAFKA":                 OperationTypesRemoveKafka,
+	"EXECUTE_BOOTSTRAP_SCRIPT":     OperationTypesExecuteBootstrapScript,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -149,10 +153,12 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"test_lake_config":             OperationTypesTestLakeConfig,
 	"patch_bds":                    OperationTypesPatchBds,
 	"patch_odh":                    OperationTypesPatchOdh,
+	"patch_os":                     OperationTypesPatchOs,
 	"stop_bds":                     OperationTypesStopBds,
 	"start_bds":                    OperationTypesStartBds,
 	"add_kafka":                    OperationTypesAddKafka,
 	"remove_kafka":                 OperationTypesRemoveKafka,
+	"execute_bootstrap_script":     OperationTypesExecuteBootstrapScript,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -206,10 +212,12 @@ func GetOperationTypesEnumStringValues() []string {
 		"TEST_LAKE_CONFIG",
 		"PATCH_BDS",
 		"PATCH_ODH",
+		"PATCH_OS",
 		"STOP_BDS",
 		"START_BDS",
 		"ADD_KAFKA",
 		"REMOVE_KAFKA",
+		"EXECUTE_BOOTSTRAP_SCRIPT",
 	}
 }
 

@@ -18,7 +18,7 @@ type DeleteWorkloadMappingRequest struct {
 	ClusterId *string `mandatory:"true" contributesTo:"path" name:"clusterId"`
 
 	// The OCID of the workloadMapping.
-	Id *string `mandatory:"true" contributesTo:"path" name:"id"`
+	WorkloadMappingId *string `mandatory:"true" contributesTo:"path" name:"workloadMappingId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
 	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource

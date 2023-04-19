@@ -28,11 +28,11 @@ type RemotePeeringConnectionDrgAttachmentNetworkCreateDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of compartment that contains the remote peering connection.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The BGP ASN to use for the remote peering connection's route target.
-	RegionalOciAsn *string `mandatory:"true" json:"regionalOciAsn"`
-
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"false" json:"id"`
+
+	// The BGP ASN to use for the remote peering connection's route target.
+	RegionalOciAsn *string `mandatory:"false" json:"regionalOciAsn"`
 
 	// Whether the RPC attachment is for a GFC DRG, indicating the mpls label should be
 	// allocated from the VC label range.

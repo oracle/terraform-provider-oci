@@ -33,6 +33,13 @@ type CreatePrivateIpNextHopDetails struct {
 
 	// VNICaaS will flow-hash traffic that matches the service protocol and port.
 	ServiceProtocolPorts []PrivateIpNextHopProtocolPort `mandatory:"false" json:"serviceProtocolPorts"`
+
+	// Turns on/off flow stickiness for the private IP's nextHop. The default is 'false'.
+	IsFlowStickinessEnabled *bool `mandatory:"false" json:"isFlowStickinessEnabled"`
+
+	// Specifies which next hop forwarding rules to enable for the private IP's nextHop. The default is an
+	// empty list or 'NOT_SPECIFIED'.
+	NexthopForwardingRules []PrivateIpNextHopForwardingRuleEnum `mandatory:"false" json:"nexthopForwardingRules"`
 }
 
 func (m CreatePrivateIpNextHopDetails) String() string {

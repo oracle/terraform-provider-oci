@@ -28,14 +28,14 @@ type IpsecTunnelDrgAttachmentNetworkCreateDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the IPSec connection.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The BGP ASN to use for the IPSec connection's route target
-	RegionalOciAsn *string `mandatory:"true" json:"regionalOciAsn"`
-
 	// The IPSec connection that contains the attached IPSec tunnel.
 	IpsecConnectionId *string `mandatory:"true" json:"ipsecConnectionId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"false" json:"id"`
+
+	// The BGP ASN to use for the IPSec connection's route target
+	RegionalOciAsn *string `mandatory:"false" json:"regionalOciAsn"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual-circuit drg attachment.
 	TransportAttachmentId *string `mandatory:"false" json:"transportAttachmentId"`

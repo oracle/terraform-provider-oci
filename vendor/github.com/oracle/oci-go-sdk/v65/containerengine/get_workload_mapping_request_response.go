@@ -18,7 +18,7 @@ type GetWorkloadMappingRequest struct {
 	ClusterId *string `mandatory:"true" contributesTo:"path" name:"clusterId"`
 
 	// The OCID of the workloadMapping.
-	Id *string `mandatory:"true" contributesTo:"path" name:"id"`
+	WorkloadMappingId *string `mandatory:"true" contributesTo:"path" name:"workloadMappingId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

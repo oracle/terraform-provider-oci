@@ -36,12 +36,12 @@ type ClientShareOptions struct {
 
 	// UID value to remap to when squashing a client UID (see
 	// identitySquash for more details.) If unspecified, defaults
-	// to `65534`.
+	// to `0`.
 	AnonymousUid *int64 `mandatory:"false" json:"anonymousUid"`
 
 	// GID value to remap to when squashing a client GID (see
 	// identitySquash for more details.) If unspecified defaults
-	// to `65534`.
+	// to `0`.
 	AnonymousGid *int64 `mandatory:"false" json:"anonymousGid"`
 }
 

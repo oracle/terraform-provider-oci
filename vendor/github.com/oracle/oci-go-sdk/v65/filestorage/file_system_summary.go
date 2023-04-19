@@ -77,6 +77,9 @@ type FileSystemSummary struct {
 
 	// Additional information about the current 'lifecycleState'.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Specifies whether the file system is attached to its parent file system.
+	CloneAttachStatus FileSystemSummaryCloneAttachStatusEnum `mandatory:"false" json:"cloneAttachStatus,omitempty"`
 }
 
 func (m FileSystemSummary) String() string {
@@ -92,6 +95,9 @@ func (m FileSystemSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFileSystemSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingFileSystemSummaryCloneAttachStatusEnum(string(m.CloneAttachStatus)); !ok && m.CloneAttachStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneAttachStatus: %s. Supported values are: %s.", m.CloneAttachStatus, strings.Join(GetFileSystemSummaryCloneAttachStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -149,5 +155,51 @@ func GetFileSystemSummaryLifecycleStateEnumStringValues() []string {
 // GetMappingFileSystemSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingFileSystemSummaryLifecycleStateEnum(val string) (FileSystemSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingFileSystemSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// FileSystemSummaryCloneAttachStatusEnum Enum with underlying type: string
+type FileSystemSummaryCloneAttachStatusEnum string
+
+// Set of constants representing the allowable values for FileSystemSummaryCloneAttachStatusEnum
+const (
+	FileSystemSummaryCloneAttachStatusAttached  FileSystemSummaryCloneAttachStatusEnum = "ATTACHED"
+	FileSystemSummaryCloneAttachStatusDetaching FileSystemSummaryCloneAttachStatusEnum = "DETACHING"
+	FileSystemSummaryCloneAttachStatusDetached  FileSystemSummaryCloneAttachStatusEnum = "DETACHED"
+)
+
+var mappingFileSystemSummaryCloneAttachStatusEnum = map[string]FileSystemSummaryCloneAttachStatusEnum{
+	"ATTACHED":  FileSystemSummaryCloneAttachStatusAttached,
+	"DETACHING": FileSystemSummaryCloneAttachStatusDetaching,
+	"DETACHED":  FileSystemSummaryCloneAttachStatusDetached,
+}
+
+var mappingFileSystemSummaryCloneAttachStatusEnumLowerCase = map[string]FileSystemSummaryCloneAttachStatusEnum{
+	"attached":  FileSystemSummaryCloneAttachStatusAttached,
+	"detaching": FileSystemSummaryCloneAttachStatusDetaching,
+	"detached":  FileSystemSummaryCloneAttachStatusDetached,
+}
+
+// GetFileSystemSummaryCloneAttachStatusEnumValues Enumerates the set of values for FileSystemSummaryCloneAttachStatusEnum
+func GetFileSystemSummaryCloneAttachStatusEnumValues() []FileSystemSummaryCloneAttachStatusEnum {
+	values := make([]FileSystemSummaryCloneAttachStatusEnum, 0)
+	for _, v := range mappingFileSystemSummaryCloneAttachStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetFileSystemSummaryCloneAttachStatusEnumStringValues Enumerates the set of values in String for FileSystemSummaryCloneAttachStatusEnum
+func GetFileSystemSummaryCloneAttachStatusEnumStringValues() []string {
+	return []string{
+		"ATTACHED",
+		"DETACHING",
+		"DETACHED",
+	}
+}
+
+// GetMappingFileSystemSummaryCloneAttachStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingFileSystemSummaryCloneAttachStatusEnum(val string) (FileSystemSummaryCloneAttachStatusEnum, bool) {
+	enum, ok := mappingFileSystemSummaryCloneAttachStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

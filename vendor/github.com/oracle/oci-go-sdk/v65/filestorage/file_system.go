@@ -84,10 +84,16 @@ type FileSystem struct {
 	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm#hydration).
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
+	// Specifies the total number of children of a file system.
+	CloneCount *int `mandatory:"false" json:"cloneCount"`
+
+	// Specifies whether the file system is attached to its parent file system.
+	CloneAttachStatus FileSystemCloneAttachStatusEnum `mandatory:"false" json:"cloneAttachStatus,omitempty"`
+
 	// Additional information about the current 'lifecycleState'.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Specifies whether the file system can be used as a target file system for replication.
+	// Specifies whether the file system can be used as a target file system for replication. The system sets this value to `true` if the file system is unexported, hasn't yet been specified as a target file system in any replication resource, and has no user snapshots. After the file system has been specified as a target in a replication, or if the file system contains user snapshots, the system sets this value to `false`.
 	// For more information, see Using Replication (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/using-replication.htm).
 	IsTargetable *bool `mandatory:"false" json:"isTargetable"`
 
@@ -113,6 +119,9 @@ func (m FileSystem) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFileSystemLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingFileSystemCloneAttachStatusEnum(string(m.CloneAttachStatus)); !ok && m.CloneAttachStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneAttachStatus: %s. Supported values are: %s.", m.CloneAttachStatus, strings.Join(GetFileSystemCloneAttachStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -170,5 +179,51 @@ func GetFileSystemLifecycleStateEnumStringValues() []string {
 // GetMappingFileSystemLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingFileSystemLifecycleStateEnum(val string) (FileSystemLifecycleStateEnum, bool) {
 	enum, ok := mappingFileSystemLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// FileSystemCloneAttachStatusEnum Enum with underlying type: string
+type FileSystemCloneAttachStatusEnum string
+
+// Set of constants representing the allowable values for FileSystemCloneAttachStatusEnum
+const (
+	FileSystemCloneAttachStatusAttached  FileSystemCloneAttachStatusEnum = "ATTACHED"
+	FileSystemCloneAttachStatusDetaching FileSystemCloneAttachStatusEnum = "DETACHING"
+	FileSystemCloneAttachStatusDetached  FileSystemCloneAttachStatusEnum = "DETACHED"
+)
+
+var mappingFileSystemCloneAttachStatusEnum = map[string]FileSystemCloneAttachStatusEnum{
+	"ATTACHED":  FileSystemCloneAttachStatusAttached,
+	"DETACHING": FileSystemCloneAttachStatusDetaching,
+	"DETACHED":  FileSystemCloneAttachStatusDetached,
+}
+
+var mappingFileSystemCloneAttachStatusEnumLowerCase = map[string]FileSystemCloneAttachStatusEnum{
+	"attached":  FileSystemCloneAttachStatusAttached,
+	"detaching": FileSystemCloneAttachStatusDetaching,
+	"detached":  FileSystemCloneAttachStatusDetached,
+}
+
+// GetFileSystemCloneAttachStatusEnumValues Enumerates the set of values for FileSystemCloneAttachStatusEnum
+func GetFileSystemCloneAttachStatusEnumValues() []FileSystemCloneAttachStatusEnum {
+	values := make([]FileSystemCloneAttachStatusEnum, 0)
+	for _, v := range mappingFileSystemCloneAttachStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetFileSystemCloneAttachStatusEnumStringValues Enumerates the set of values in String for FileSystemCloneAttachStatusEnum
+func GetFileSystemCloneAttachStatusEnumStringValues() []string {
+	return []string{
+		"ATTACHED",
+		"DETACHING",
+		"DETACHED",
+	}
+}
+
+// GetMappingFileSystemCloneAttachStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingFileSystemCloneAttachStatusEnum(val string) (FileSystemCloneAttachStatusEnum, bool) {
+	enum, ok := mappingFileSystemCloneAttachStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
