@@ -119,6 +119,7 @@ func findLoadBalancerListeners(ctx *tf_export.ResourceDiscoveryContext, tfMeta *
 		} else {
 			resource.SourceAttributes["default_backend_set_name"] = parent.SourceAttributes["name"].(string)
 		}
+		resource.TerraformName = tf_export.GetValidUniqueTerraformName(resource.TerraformName)
 		results = append(results, resource)
 	}
 

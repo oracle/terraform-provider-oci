@@ -68,11 +68,12 @@ func NosqlTableResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"table_limits": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				MaxItems:         1,
+				MinItems:         1,
+				DiffSuppressFunc: tableLimitsSuppressFunction,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -907,4 +908,17 @@ func (s *NosqlTableResourceCrud) updateCompartment(fromCompartmentId, toCompartm
 
 	workId := response.OpcWorkRequestId
 	return s.getTableFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func tableLimitsSuppressFunction(k string, old string, new string, d *schema.ResourceData) bool {
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "table_limits", 0)
+	if capacityMode, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_mode")); ok {
+		if strings.EqualFold(capacityMode.(string), "ON_DEMAND") {
+			if k == fmt.Sprintf(fieldKeyFormat, "max_read_units") ||
+				k == fmt.Sprintf(fieldKeyFormat, "max_write_units") {
+				return true
+			}
+		}
+	}
+	return false
 }

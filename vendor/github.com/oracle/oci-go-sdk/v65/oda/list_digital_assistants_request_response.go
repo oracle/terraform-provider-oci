@@ -22,7 +22,7 @@ type ListDigitalAssistantsRequest struct {
 	OdaInstanceId *string `mandatory:"true" contributesTo:"path" name:"odaInstanceId"`
 
 	// Unique Digital Assistant identifier.
-	DigitalAssistantId *string `mandatory:"false" contributesTo:"query" name:"digitalAssistantId"`
+	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// List only Bot resources with this category.
 	Category *string `mandatory:"false" contributesTo:"query" name:"category"`

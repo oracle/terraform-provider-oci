@@ -1,3 +1,12 @@
+## 4.117.0 (April 19, 2023)
+
+### Added
+- Support for ODA Supports Private Endpoint, fixed related issues.
+### Bug Fix
+- make cross connect group MACSec versions optional and computed
+- TERRAFORM_GITHUB_ISSUE#1813: terraform always wants to modify if capacity mode is
+- for deleting log objects
+
 ## 4.116.0 (April 12, 2023)
 
 ### Added
