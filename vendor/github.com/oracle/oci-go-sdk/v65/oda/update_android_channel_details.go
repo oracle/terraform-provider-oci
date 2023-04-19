@@ -19,6 +19,9 @@ import (
 // UpdateAndroidChannelDetails Properties to update an Android channel.
 type UpdateAndroidChannelDetails struct {
 
+	// The Channel's name. The name can contain only letters, numbers, periods, and underscores. The name must begin with a letter.
+	Name *string `mandatory:"false" json:"name"`
+
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -41,6 +44,11 @@ type UpdateAndroidChannelDetails struct {
 
 	// The ID of the Skill or Digital Assistant that the Channel is routed to.
 	BotId *string `mandatory:"false" json:"botId"`
+}
+
+//GetName returns Name
+func (m UpdateAndroidChannelDetails) GetName() *string {
+	return m.Name
 }
 
 //GetDescription returns Description

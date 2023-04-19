@@ -19,6 +19,9 @@ import (
 // UpdateWebhookChannelDetails Properties to update a Webhook channel.
 type UpdateWebhookChannelDetails struct {
 
+	// The Channel's name. The name can contain only letters, numbers, periods, and underscores. The name must begin with a letter.
+	Name *string `mandatory:"false" json:"name"`
+
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -41,6 +44,11 @@ type UpdateWebhookChannelDetails struct {
 
 	// The version for payloads.
 	PayloadVersion WebhookPayloadVersionEnum `mandatory:"false" json:"payloadVersion,omitempty"`
+}
+
+//GetName returns Name
+func (m UpdateWebhookChannelDetails) GetName() *string {
+	return m.Name
 }
 
 //GetDescription returns Description
