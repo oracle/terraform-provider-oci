@@ -161,6 +161,7 @@ The following attributes are exported:
 	* `deleted_by_user_id` - The user who deleted the cluster.
 	* `deleted_by_work_request_id` - The OCID of the work request which deleted the cluster.
 	* `time_created` - The time the cluster was created.
+	* `time_credential_expiration` - The time until which the cluster credential is valid.
 	* `time_deleted` - The time the cluster was deleted.
 	* `time_updated` - The time the cluster was updated.
 	* `updated_by_user_id` - The user who updated the cluster.
