@@ -1,4 +1,4 @@
-## 4.117.0 (Unreleased)
+## 4.117.0 (April 19, 2023)
 
 ### Added
 - Support for ODA Supports Private Endpoint, fixed related issues.
