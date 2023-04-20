@@ -86,6 +86,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("admin_network_cidr", *s.Res.AdminNetworkCIDR)
 	}
 
+	if s.Res.AvailabilityDomain != nil {
+		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
 	if s.Res.CloudControlPlaneServer1 != nil {
 		s.D.Set("cloud_control_plane_server1", *s.Res.CloudControlPlaneServer1)
 	}

@@ -54,6 +54,10 @@ func DatabaseVmClusterRemoveVirtualMachineResource() *schema.Resource {
 			// Optional
 
 			// Computed
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -264,6 +268,10 @@ func (s *DatabaseVmClusterRemoveVirtualMachineResourceCrud) Create() error {
 }
 
 func (s *DatabaseVmClusterRemoveVirtualMachineResourceCrud) SetData() error {
+	if s.Res.AvailabilityDomain != nil {
+		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

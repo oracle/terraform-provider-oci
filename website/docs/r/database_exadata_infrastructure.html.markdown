@@ -145,6 +145,7 @@ The following attributes are exported:
 * `additional_compute_system_model` - Oracle Exadata System Model specification. The system model determines the amount of compute or storage server resources available for use. For more information, please see [System and Shape Configuration Options] (https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-system-config-options.html#GUID-9E090174-5C57-4EB1-9243-B470F9F10D6B) 
 * `additional_storage_count` - The requested number of additional storage servers for the Exadata infrastructure.
 * `admin_network_cidr` - The CIDR block for the Exadata administration network.
+* `availability_domain` - The name of the availability domain that the Exadata infrastructure is located in.
 * `cloud_control_plane_server1` - The IP address for the first control plane server.
 * `cloud_control_plane_server2` - The IP address for the second control plane server.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
