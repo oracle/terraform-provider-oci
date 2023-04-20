@@ -53,7 +53,7 @@ The following attributes are exported:
 * `available_cpus` - The numnber of CPU cores available.
 * `available_data_storage_size_in_tbs` - **Deprecated.** Use `availableAutonomousDataStorageSizeInTBs` for Autonomous Databases' data storage availability in TBs. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `compute_model` - The compute model of the Autonomous VM Cluster.
+* `compute_model` - The compute model of the Autonomous VM Cluster. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details. 
 * `cpu_core_count_per_node` - The number of CPU cores enabled per VM cluster node.
 * `cpus_enabled` - The number of enabled CPU cores.
 * `data_storage_size_in_gb` - The total data storage allocated in GBs.
@@ -80,12 +80,14 @@ The following attributes are exported:
 		* `name` - Name of the month of the year.
 	* `preference` - The maintenance window scheduling preference.
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
-* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per each OCPU core.
+* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) to be enabled per each CPU core.
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `node_count` - The number of nodes in the Autonomous VM Cluster. 
 * `ocpus_enabled` - The number of enabled OCPU cores.
-* `reclaimable_cpus` - CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
+* `reclaimable_cpus` - For Autonomous Databases on Dedicated Exadata Infrastructure:
+	* These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
+	* The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details. 
 * `scan_listener_port_non_tls` - The SCAN Listener Non TLS port number. Default value is 1521.
 * `scan_listener_port_tls` - The SCAN Listener TLS port number. Default value is 2484.
 * `state` - The current state of the Autonomous VM cluster.
