@@ -58,24 +58,48 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_integration_integration_instance.test_integration_instance.id}`}},
 	}
 
+	IntegrationIntegrationInstanceRepresentation = map[string]interface{}{
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"integration_instance_type":  acctest.Representation{RepType: acctest.Required, Create: `${var.instance_type}`},
+		"is_byol":                    acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"message_packs":              acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		"alternate_custom_endpoints": acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceAlternateCustomEndpointsRepresentation},
+		"consumption_model":          acctest.Representation{RepType: acctest.Optional, Create: `UCM`},
+		// STANDARD or ENTERPRISE only
+		// "custom_endpoint":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceCustomEndpointRepresentation},
+		// "defined_tags":                      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"idcs_at":                   acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
+		"is_file_server_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_visual_builder_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		// STANDARD or ENTERPRISE only
+		// "network_endpoint_details":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceNetworkEndpointDetailsRepresentation},
+		"shape":                             acctest.Representation{RepType: acctest.Optional, Create: `DEVELOPMENT`},
+		"enable_process_automation_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+	}
+
 	integrationInstanceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"integration_instance_type": acctest.Representation{RepType: acctest.Required, Create: `STANDARD`, Update: `ENTERPRISE`},
+		"integration_instance_type": acctest.Representation{RepType: acctest.Required, Create: `${var.instance_type}`},
+		"shape":                     acctest.Representation{RepType: acctest.Required, Create: `DEVELOPMENT`},
 		"is_byol":                   acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"message_packs":             acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		// Not supported yet
 		// "alternate_custom_endpoints": acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceAlternateCustomEndpointsRepresentation},
 		"consumption_model": acctest.Representation{RepType: acctest.Optional, Create: `UCM`},
-		"custom_endpoint":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceCustomEndpointRepresentation},
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		// STANDARD or ENTERPRISE only
+		// "custom_endpoint":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceCustomEndpointRepresentation},
+		// "defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"idcs_at":                   acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
-		"is_file_server_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_visual_builder_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"network_endpoint_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceNetworkEndpointDetailsRepresentation},
-		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentationAgain},
+		"is_file_server_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_visual_builder_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		// STANDARD or ENTERPRISE only
+		// "network_endpoint_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceNetworkEndpointDetailsRepresentation},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentationAgain},
 	}
 
 	ignoreDefinedTagsDifferencesRepresentationAgain = map[string]interface{}{
@@ -102,7 +126,7 @@ var (
 		"allowlisted_ips": acctest.Representation{RepType: acctest.Optional, Create: []string{`172.16.0.239/32`}},
 	}
 
-	IntegrationIntegrationInstanceResourceDependencies = DefinedTagsDependencies /* + KmsVaultIdVariableStr + integrationInstanceVcnRepresentation*/
+	IntegrationIntegrationInstanceResourceDependencies = "" /* DefinedTagsDependencies + KmsVaultIdVariableStr + integrationInstanceVcnRepresentation*/
 )
 
 // issue-routing-tag: integration/default
@@ -119,6 +143,9 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	instanceType := utils.GetEnvSettingWithBlankDefault("instance_type")
+	instanceTypeVariableStr := fmt.Sprintf("variable \"instance_type\" { default = \"%s\" }\n", instanceType)
+
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
@@ -131,18 +158,18 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+IntegrationIntegrationInstanceResourceDependencies+
+	acctest.SaveConfigContent(config+instanceTypeVariableStr+compartmentIdVariableStr+IntegrationIntegrationInstanceResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Create, integrationInstanceRepresentation), "integration", "integrationInstance", t)
 
 	acctest.ResourceTest(t, testAccCheckIntegrationIntegrationInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr() + IntegrationIntegrationInstanceResourceDependencies +
+			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + idcsAccessTokenVariableStr() +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Required, acctest.Create, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
 				resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
 
@@ -155,11 +182,11 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr(),
+			Config: config + compartmentIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr +
+			Config: config + instanceTypeVariableStr + compartmentIdVariableStr +
 				tagVariablesStr() +
 				idcsAccessTokenVariableStr() +
 				vaultSecretIdStr +
@@ -182,27 +209,27 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
-				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "0"),
+				// resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+				// resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"), // 		resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
-				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-					"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
-				},
-					[]string{}),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "0"),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+				// acctest.CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+				// 	"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+				// },
+				// 	[]string{}),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "DEVELOPMENT"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
@@ -219,7 +246,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr +
+			Config: config + instanceTypeVariableStr + compartmentIdVariableStr +
 				tagVariablesStr() +
 				idcsAccessTokenVariableStr() +
 				compartmentIdUVariableStr +
@@ -243,27 +270,28 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// 	}),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
-				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "0"),
+				// resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+				// resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
-				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-					"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
-				},
-					[]string{}),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "0"),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+				// acctest.CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+				// 	"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+				// },
+				// 	[]string{}),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "DEVELOPMENT"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -277,7 +305,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
+			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
@@ -289,27 +317,28 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// 	}),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
-				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "0"),
+				// resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+				// resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
-				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", "ENTERPRISE"),
+				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_file_server_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "message_packs", "2"),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-					"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
-				},
-					[]string{}),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
-				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.#", "0"),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+				// acctest.CheckResourceSetContainsElementWithProperties(resourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+				// 	"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+				// },
+				// 	[]string{}),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				// resource.TestCheckResourceAttr(resourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "DEVELOPMENT"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
 				func(s *terraform.State) (err error) {
@@ -321,9 +350,10 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify datasource
 		{
-			Config: config +
+			Config: config + instanceTypeVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_integration_integration_instances", "test_integration_instances", acctest.Optional, acctest.Update, integrationInstanceDataSourceRepresentation) +
 				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation),
@@ -343,36 +373,38 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// 	}),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.consumption_model", "UCM"),
-				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.#", "1"),
-				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.alias"),
-				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_version"),
-				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.0.hostname", "hostname2-updated.com"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.#", "0"),
+				// resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.alias"),
+				// resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_id"),
+				// resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_version"),
+				// resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.0.hostname", "hostname2-updated.com"),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.freeform_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.instance_url"),
-				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.integration_instance_type", "ENTERPRISE"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_byol", "true"),
-				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_file_server_enabled", "true"),
-				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_visual_builder_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_file_server_enabled", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.is_visual_builder_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.message_packs", "2"),
-				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
-				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-					"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
-				},
-					[]string{}),
-				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
-				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.#", "0"),
+				// resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+				// acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "integration_instances.0.network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+				// 	"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+				// },
+				// 	[]string{}),
+				// resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				// resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.shape", "DEVELOPMENT"),
 				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.time_updated"),
 			),
 		},
+
 		// verify singular datasource
 		{
-			Config: config +
+			Config: config + instanceTypeVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, IntegrationintegrationInstanceSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation),
@@ -388,30 +420,31 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// 	}),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "consumption_model", "UCM"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.#", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.alias"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.certificate_secret_version"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.#", "0"),
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.alias"),
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.certificate_secret_version"),
+				// resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "idcs_info.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "idcs_info.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_url"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "integration_instance_type", "ENTERPRISE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_byol", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_file_server_enabled", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_visual_builder_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_file_server_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_visual_builder_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "message_packs", "2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
-				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
-					"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
-				},
-					[]string{}),
-				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.0.id",
-					utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn")),
-				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.#", "0"),
+				// resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.#", "1"),
+				// acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns", map[string]string{
+				// 	"id": utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn"),
+				// },
+				// 	[]string{}),
+				// resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.allowlisted_http_vcns.0.id",
+				// 	utils.GetEnvSettingWithBlankDefault("allow_listed_http_vcn")),
+				// resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.is_integration_vcn_allowlisted", "false"),
+				// resource.TestCheckResourceAttr(singularDatasourceName, "network_endpoint_details.0.network_endpoint_type", "PUBLIC"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "DEVELOPMENT"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -567,7 +600,7 @@ func tagVariablesStr() string {
 
 func readIdcsAccessToken() string {
 	// Generate new IDCS token each time calling the creation of instance to avoid expired token
-	endpoint := "https://idcs-78cbeca57ade40fb804f71678fe75ab0.identity.oraclecloud.com/oauth2/v1/token"
+	endpoint := utils.GetEnvSettingWithBlankDefault("idcs_auth_endpoint")
 
 	data := url.Values{}
 	data.Set("grant_type", "password")
@@ -584,7 +617,9 @@ func readIdcsAccessToken() string {
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8")
 	req.Header.Add("Content-Length", strconv.Itoa(len(data.Encode())))
 
-	req.SetBasicAuth("PSOATGenApp2_APPID", "d0804e8f-6d5c-4542-923d-fd5a1b4f4a67")
+	req.SetBasicAuth(
+		utils.GetEnvSettingWithBlankDefault("idcs_auth_username"),
+		utils.GetEnvSettingWithBlankDefault("idcs_auth_password"))
 
 	client := &http.Client{}
 

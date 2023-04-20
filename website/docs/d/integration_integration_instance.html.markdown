@@ -65,7 +65,7 @@ The following attributes are exported:
 	* `idcs_app_name` - The IDCS application name associated with the instance
 	* `instance_primary_audience_url` - The URL used as the primary audience for integration flows in this instance type: string    
 * `instance_url` - The Integration Instance URL.
-* `integration_instance_type` - Standard or Enterprise type
+* `integration_instance_type` - Standard or Enterprise type,  Oracle Integration Generation 2 uses ENTERPRISE and STANDARD,  Oracle Integration 3 uses ENTERPRISEX and STANDARDX 
 * `is_byol` - Bring your own license.
 * `is_file_server_enabled` - The file server is enabled or not.
 * `is_visual_builder_enabled` - Visual Builder is enabled or not.
@@ -77,6 +77,7 @@ The following attributes are exported:
 		* `id` - The Virtual Cloud Network OCID. 
 	* `is_integration_vcn_allowlisted` - The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
 	* `network_endpoint_type` - The type of network endpoint. 
+* `shape` - Shape
 * `state` - The current state of the integration instance.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `time_created` - The time the the Integration Instance was created. An RFC3339 formatted datetime string.
