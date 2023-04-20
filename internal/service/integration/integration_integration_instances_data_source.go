@@ -170,6 +170,8 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			integrationInstance["network_endpoint_details"] = nil
 		}
 
+		integrationInstance["shape"] = r.Shape
+
 		integrationInstance["state"] = r.LifecycleState
 
 		if r.StateMessage != nil {
