@@ -138,6 +138,8 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 		s.D.Set("network_endpoint_details", nil)
 	}
 
+	s.D.Set("shape", s.Res.Shape)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.StateMessage != nil {
