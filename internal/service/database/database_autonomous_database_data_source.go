@@ -430,6 +430,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("total_backup_storage_size_in_gbs", *s.Res.TotalBackupStorageSizeInGBs)
 	}
 
+	if s.Res.UsedDataStorageSizeInGBs != nil {
+		s.D.Set("used_data_storage_size_in_gbs", *s.Res.UsedDataStorageSizeInGBs)
+	}
+
 	if s.Res.UsedDataStorageSizeInTBs != nil {
 		s.D.Set("used_data_storage_size_in_tbs", *s.Res.UsedDataStorageSizeInTBs)
 	}
