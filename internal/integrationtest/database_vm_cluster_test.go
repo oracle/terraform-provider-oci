@@ -243,6 +243,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.cpus_enabled"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_collection_options.#", "1"),
@@ -277,6 +278,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cpus_enabled"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.#", "1"),

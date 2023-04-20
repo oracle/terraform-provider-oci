@@ -324,6 +324,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"cpus_enabled": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -930,6 +934,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.AdminNetworkCIDR != nil {
 		s.D.Set("admin_network_cidr", *s.Res.AdminNetworkCIDR)
+	}
+
+	if s.Res.AvailabilityDomain != nil {
+		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
 	if s.Res.CloudControlPlaneServer1 != nil {
