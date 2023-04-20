@@ -119,6 +119,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.AvailabilityDomain != nil {
+			vmCluster["availability_domain"] = *r.AvailabilityDomain
+		}
+
 		if r.CpusEnabled != nil {
 			vmCluster["cpus_enabled"] = *r.CpusEnabled
 			vmCluster["cpu_core_count"] = *r.CpusEnabled
