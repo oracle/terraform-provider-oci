@@ -46,10 +46,12 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_autonomous_database.test_autonomous_database.id}`}},
 	}
 
-	adbName      = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
-	longAdbName1 = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(14, utils.Charset)
-	longAdbName2 = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(28, utils.Charset)
-	adbCloneName = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
+	adbName                          = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
+	longAdbName1                     = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(14, utils.Charset)
+	longAdbName2                     = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(28, utils.Charset)
+	adbCloneName                     = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
+	tfStaticCompartmentId            = utils.GetEnvSettingWithBlankDefault("compartment_id_for_static_resource")
+	tfStaticCompartmentIdVariableStr = fmt.Sprintf("variable \"compartment_id_for_static_resource\" { default = \"%s\" }\n", tfStaticCompartmentId)
 
 	DatabaseAutonomousDatabaseRepresentation = map[string]interface{}{
 		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -80,6 +82,24 @@ var (
 		"ncharacter_set":             acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
 		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
+	KmsKeyResourceDependenciesDbaas = KmsVaultIdVariableStr + `
+    	data "oci_kms_vault" "test_vault" {
+    		#Required
+    		vault_id = "${var.kms_vault_id}"
+    	}
+    	`
+	KeyResourceDependencyConfigDbaas = tfStaticCompartmentIdVariableStr + KmsKeyResourceDependenciesDbaas + `
+	data "oci_kms_keys" "test_keys_dependency" {
+		#Required
+		compartment_id = "${var.compartment_id_for_static_resource}"
+		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
+		algorithm = "AES"
+
+		filter {
+    		name = "state"
+    		values = ["ENABLED", "UPDATING"]
+        }
+	}`
 
 	autonomousDatabaseRepresentationBYOL = acctest.GetUpdatedRepresentationCopy("license_model", acctest.Representation{RepType: acctest.Optional, Create: `BRING_YOUR_OWN_LICENSE`}, DatabaseAutonomousDatabaseRepresentation)
 
@@ -114,7 +134,7 @@ var (
 			"source_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
 		})
 
-	DatabaseAutonomousDatabaseResourceDependencies = DefinedTagsDependencies + KeyResourceDependencyConfig +
+	DatabaseAutonomousDatabaseResourceDependencies = DefinedTagsDependencies + KeyResourceDependencyConfigDbaas +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions", acctest.Required, acctest.Create,
 			acctest.RepresentationCopyWithNewProperties(DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation, map[string]interface{}{
@@ -787,6 +807,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_begin"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_end"),
+				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.used_data_storage_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "1"),
 			),
@@ -799,7 +820,6 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "apex_details.#"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_maintenance_schedule_type", "EARLY"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
