@@ -154,6 +154,8 @@ type ExadataInfrastructureSummary struct {
 	// using the UpdateExadatainfrastructure API.
 	IsCpsOfflineReportEnabled *bool `mandatory:"false" json:"isCpsOfflineReportEnabled"`
 
+	NetworkBondingModeDetails *NetworkBondingModeDetails `mandatory:"false" json:"networkBondingModeDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -194,45 +196,48 @@ type ExadataInfrastructureSummaryLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ExadataInfrastructureSummaryLifecycleStateEnum
 const (
-	ExadataInfrastructureSummaryLifecycleStateCreating              ExadataInfrastructureSummaryLifecycleStateEnum = "CREATING"
-	ExadataInfrastructureSummaryLifecycleStateRequiresActivation    ExadataInfrastructureSummaryLifecycleStateEnum = "REQUIRES_ACTIVATION"
-	ExadataInfrastructureSummaryLifecycleStateActivating            ExadataInfrastructureSummaryLifecycleStateEnum = "ACTIVATING"
-	ExadataInfrastructureSummaryLifecycleStateActive                ExadataInfrastructureSummaryLifecycleStateEnum = "ACTIVE"
-	ExadataInfrastructureSummaryLifecycleStateActivationFailed      ExadataInfrastructureSummaryLifecycleStateEnum = "ACTIVATION_FAILED"
-	ExadataInfrastructureSummaryLifecycleStateFailed                ExadataInfrastructureSummaryLifecycleStateEnum = "FAILED"
-	ExadataInfrastructureSummaryLifecycleStateUpdating              ExadataInfrastructureSummaryLifecycleStateEnum = "UPDATING"
-	ExadataInfrastructureSummaryLifecycleStateDeleting              ExadataInfrastructureSummaryLifecycleStateEnum = "DELETING"
-	ExadataInfrastructureSummaryLifecycleStateDeleted               ExadataInfrastructureSummaryLifecycleStateEnum = "DELETED"
-	ExadataInfrastructureSummaryLifecycleStateDisconnected          ExadataInfrastructureSummaryLifecycleStateEnum = "DISCONNECTED"
-	ExadataInfrastructureSummaryLifecycleStateMaintenanceInProgress ExadataInfrastructureSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
+	ExadataInfrastructureSummaryLifecycleStateCreating               ExadataInfrastructureSummaryLifecycleStateEnum = "CREATING"
+	ExadataInfrastructureSummaryLifecycleStateRequiresActivation     ExadataInfrastructureSummaryLifecycleStateEnum = "REQUIRES_ACTIVATION"
+	ExadataInfrastructureSummaryLifecycleStateActivating             ExadataInfrastructureSummaryLifecycleStateEnum = "ACTIVATING"
+	ExadataInfrastructureSummaryLifecycleStateActive                 ExadataInfrastructureSummaryLifecycleStateEnum = "ACTIVE"
+	ExadataInfrastructureSummaryLifecycleStateActivationFailed       ExadataInfrastructureSummaryLifecycleStateEnum = "ACTIVATION_FAILED"
+	ExadataInfrastructureSummaryLifecycleStateFailed                 ExadataInfrastructureSummaryLifecycleStateEnum = "FAILED"
+	ExadataInfrastructureSummaryLifecycleStateUpdating               ExadataInfrastructureSummaryLifecycleStateEnum = "UPDATING"
+	ExadataInfrastructureSummaryLifecycleStateDeleting               ExadataInfrastructureSummaryLifecycleStateEnum = "DELETING"
+	ExadataInfrastructureSummaryLifecycleStateDeleted                ExadataInfrastructureSummaryLifecycleStateEnum = "DELETED"
+	ExadataInfrastructureSummaryLifecycleStateDisconnected           ExadataInfrastructureSummaryLifecycleStateEnum = "DISCONNECTED"
+	ExadataInfrastructureSummaryLifecycleStateMaintenanceInProgress  ExadataInfrastructureSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
+	ExadataInfrastructureSummaryLifecycleStateWaitingForConnectivity ExadataInfrastructureSummaryLifecycleStateEnum = "WAITING_FOR_CONNECTIVITY"
 )
 
 var mappingExadataInfrastructureSummaryLifecycleStateEnum = map[string]ExadataInfrastructureSummaryLifecycleStateEnum{
-	"CREATING":                ExadataInfrastructureSummaryLifecycleStateCreating,
-	"REQUIRES_ACTIVATION":     ExadataInfrastructureSummaryLifecycleStateRequiresActivation,
-	"ACTIVATING":              ExadataInfrastructureSummaryLifecycleStateActivating,
-	"ACTIVE":                  ExadataInfrastructureSummaryLifecycleStateActive,
-	"ACTIVATION_FAILED":       ExadataInfrastructureSummaryLifecycleStateActivationFailed,
-	"FAILED":                  ExadataInfrastructureSummaryLifecycleStateFailed,
-	"UPDATING":                ExadataInfrastructureSummaryLifecycleStateUpdating,
-	"DELETING":                ExadataInfrastructureSummaryLifecycleStateDeleting,
-	"DELETED":                 ExadataInfrastructureSummaryLifecycleStateDeleted,
-	"DISCONNECTED":            ExadataInfrastructureSummaryLifecycleStateDisconnected,
-	"MAINTENANCE_IN_PROGRESS": ExadataInfrastructureSummaryLifecycleStateMaintenanceInProgress,
+	"CREATING":                 ExadataInfrastructureSummaryLifecycleStateCreating,
+	"REQUIRES_ACTIVATION":      ExadataInfrastructureSummaryLifecycleStateRequiresActivation,
+	"ACTIVATING":               ExadataInfrastructureSummaryLifecycleStateActivating,
+	"ACTIVE":                   ExadataInfrastructureSummaryLifecycleStateActive,
+	"ACTIVATION_FAILED":        ExadataInfrastructureSummaryLifecycleStateActivationFailed,
+	"FAILED":                   ExadataInfrastructureSummaryLifecycleStateFailed,
+	"UPDATING":                 ExadataInfrastructureSummaryLifecycleStateUpdating,
+	"DELETING":                 ExadataInfrastructureSummaryLifecycleStateDeleting,
+	"DELETED":                  ExadataInfrastructureSummaryLifecycleStateDeleted,
+	"DISCONNECTED":             ExadataInfrastructureSummaryLifecycleStateDisconnected,
+	"MAINTENANCE_IN_PROGRESS":  ExadataInfrastructureSummaryLifecycleStateMaintenanceInProgress,
+	"WAITING_FOR_CONNECTIVITY": ExadataInfrastructureSummaryLifecycleStateWaitingForConnectivity,
 }
 
 var mappingExadataInfrastructureSummaryLifecycleStateEnumLowerCase = map[string]ExadataInfrastructureSummaryLifecycleStateEnum{
-	"creating":                ExadataInfrastructureSummaryLifecycleStateCreating,
-	"requires_activation":     ExadataInfrastructureSummaryLifecycleStateRequiresActivation,
-	"activating":              ExadataInfrastructureSummaryLifecycleStateActivating,
-	"active":                  ExadataInfrastructureSummaryLifecycleStateActive,
-	"activation_failed":       ExadataInfrastructureSummaryLifecycleStateActivationFailed,
-	"failed":                  ExadataInfrastructureSummaryLifecycleStateFailed,
-	"updating":                ExadataInfrastructureSummaryLifecycleStateUpdating,
-	"deleting":                ExadataInfrastructureSummaryLifecycleStateDeleting,
-	"deleted":                 ExadataInfrastructureSummaryLifecycleStateDeleted,
-	"disconnected":            ExadataInfrastructureSummaryLifecycleStateDisconnected,
-	"maintenance_in_progress": ExadataInfrastructureSummaryLifecycleStateMaintenanceInProgress,
+	"creating":                 ExadataInfrastructureSummaryLifecycleStateCreating,
+	"requires_activation":      ExadataInfrastructureSummaryLifecycleStateRequiresActivation,
+	"activating":               ExadataInfrastructureSummaryLifecycleStateActivating,
+	"active":                   ExadataInfrastructureSummaryLifecycleStateActive,
+	"activation_failed":        ExadataInfrastructureSummaryLifecycleStateActivationFailed,
+	"failed":                   ExadataInfrastructureSummaryLifecycleStateFailed,
+	"updating":                 ExadataInfrastructureSummaryLifecycleStateUpdating,
+	"deleting":                 ExadataInfrastructureSummaryLifecycleStateDeleting,
+	"deleted":                  ExadataInfrastructureSummaryLifecycleStateDeleted,
+	"disconnected":             ExadataInfrastructureSummaryLifecycleStateDisconnected,
+	"maintenance_in_progress":  ExadataInfrastructureSummaryLifecycleStateMaintenanceInProgress,
+	"waiting_for_connectivity": ExadataInfrastructureSummaryLifecycleStateWaitingForConnectivity,
 }
 
 // GetExadataInfrastructureSummaryLifecycleStateEnumValues Enumerates the set of values for ExadataInfrastructureSummaryLifecycleStateEnum
@@ -258,6 +263,7 @@ func GetExadataInfrastructureSummaryLifecycleStateEnumStringValues() []string {
 		"DELETED",
 		"DISCONNECTED",
 		"MAINTENANCE_IN_PROGRESS",
+		"WAITING_FOR_CONNECTIVITY",
 	}
 }
 
