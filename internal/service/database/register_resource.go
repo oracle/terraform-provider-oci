@@ -17,6 +17,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_database_autonomous_exadata_infrastructure", DatabaseAutonomousExadataInfrastructureResource())
 	tfresource.RegisterResource("oci_database_autonomous_vm_cluster", DatabaseAutonomousVmClusterResource())
 	tfresource.RegisterResource("oci_database_backup", DatabaseBackupResource())
+	tfresource.RegisterResource("oci_database_backup_cancel_management", DatabaseBackupCancelManagementResource())
 	tfresource.RegisterResource("oci_database_backup_destination", DatabaseBackupDestinationResource())
 	tfresource.RegisterResource("oci_database_cloud_autonomous_vm_cluster", DatabaseCloudAutonomousVmClusterResource())
 	tfresource.RegisterResource("oci_database_cloud_database_management", DatabaseCloudDatabaseManagementResource())

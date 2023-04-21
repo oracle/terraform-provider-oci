@@ -225,38 +225,13 @@ var (
 		"db_version": acctest.Representation{RepType: acctest.Required, Create: `19.16.0.0`},
 	})
 
-	databaseKeyConfig = KmsKeyResourceDependencies + `
-	data "oci_kms_keys" "test_keys_dependency" {
-		#Required
-		compartment_id = "${var.compartment_id}"
-		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
-		algorithm = "AES"
-
-		filter {
-    		name = "state"
-    		values = ["ENABLED", "UPDATING"]
-        }
-	}
-	data "oci_kms_keys" "test_keys_dependency_RSA" {
-		#Required
-		compartment_id = "${var.compartment_id}"
-		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
-		algorithm = "RSA"
-
-		filter {
-    		name = "state"
-    		values = ["ENABLED", "UPDATING"]
-        }
-	}
-	`
-
-	DatabaseDatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + databaseKeyConfig +
+	DatabaseDatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig2 +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone)
 
 	DatabaseExacsDatabaseResourceDependencies = DbHomeResourceVmClusterDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Required, acctest.Create, dbHomeRepresentationSourceVmCluster)
 
-	DatabaseDatabaseResourceDbrsDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + databaseKeyConfig +
+	DatabaseDatabaseResourceDbrsDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig2 +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_dbrs", acctest.Required, acctest.Create, dbHomeDbrsRepresentation)
 )
 
@@ -307,7 +282,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		//},
 		// delete dbrs db
 		//{
-		//	Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + databaseKeyConfig,
+		//	Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig2,
 		//},
 
 		// verify create
@@ -370,6 +345,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					// commenting out because ListCompartment policies not re-added to tf user
 					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 					//		return errExport
