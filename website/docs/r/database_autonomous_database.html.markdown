@@ -299,7 +299,14 @@ The following attributes are exported:
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 * `is_free_tier` - Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 * `is_local_data_guard_enabled` - Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
-* `is_mtls_connection_required` - Indicates whether the Autonomous Database requires mTLS connections.
+* `is_mtls_connection_required` - Specifies if the Autonomous Database requires mTLS connections.
+
+	This may not be updated in parallel with any of the following: licenseModel, databaseEdition, cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, whitelistedIps, openMode, permissionLevel, db-workload, privateEndpointLabel, nsgIds, customerContacts, dbVersion, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
+
+	Service Change: The default value of the isMTLSConnectionRequired attribute will change from true to false on July 1, 2023 in the following APIs:
+	* CreateAutonomousDatabase
+	* GetAutonomousDatabase
+	* UpdateAutonomousDatabase Details: Prior to the July 1, 2023 change, the isMTLSConnectionRequired attribute default value was true. This applies to Autonomous Databases on shared Exadata infrastructure. Does this impact me? If you use or maintain custom scripts or Terraform scripts referencing the CreateAutonomousDatabase, GetAutonomousDatabase, or UpdateAutonomousDatabase APIs, you want to check, and possibly modify, the scripts for the changed default value of the attribute. Should you choose not to leave your scripts unchanged, the API calls containing this attribute will continue to work, but the default value will switch from true to false. How do I make this change? Using either Oracle Cloud Infrastructure SDKs or command line tools, update your custom scripts to explicitly set the isMTLSConnectionRequired attribute to true. 
 * `is_preview` - Indicates if the Autonomous Database version is a preview version.
 * `is_reconnect_clone_enabled` - Indicates if the refreshable clone can be reconnected to its source database.
 * `is_refreshable_clone` - Indicates whether the Autonomous Database is a refreshable clone.
