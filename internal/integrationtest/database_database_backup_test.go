@@ -113,7 +113,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "db", acctest.Optional, acctest.Create, DatabaseDatabaseRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupDatabaseRepresentation)
 
-	DatabaseBackupResourceDbHomeDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + databaseKeyConfig +
+	DatabaseBackupResourceDbHomeDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig2 +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceBackup) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "db", acctest.Optional, acctest.Create, DatabaseDatabaseBackupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupDatabaseRepresentation)
