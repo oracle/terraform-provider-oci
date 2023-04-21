@@ -40,10 +40,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Required
 			"database": {
-				Type:     schema.TypeList,
-				Optional: true,
-				MaxItems: 1,
-				MinItems: 1,
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				MaxItems:         1,
+				MinItems:         1,
+				DiffSuppressFunc: dbHomeNestedDbSuppressfunc,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -287,6 +289,10 @@ func DatabaseDbHomeResource() *schema.Resource {
 			},
 
 			// Optional
+			"enable_database_delete": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"database_software_image_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -574,71 +580,153 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbHome", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
 	s.Res = &response.DbHome
-	err = s.Get()
+	err = s.SetData()
 	if err != nil {
-		log.Printf("[ERROR] error refreshing the dbHome information before an upate: %v", err)
+		log.Printf("[ERROR] error setting before creating database: %v", err)
 	}
-	if s.Database == nil || s.Database.Id == nil {
-		err := s.getDatabaseInfo()
+
+	oldRaw, newRaw := s.D.GetChange("database")
+	oldList := oldRaw.([]interface{})
+	newList := newRaw.([]interface{})
+
+	if len(newList) > 0 {
+		err = s.Get()
 		if err != nil {
-			return fmt.Errorf("could not perform an Update as we could not get the databaseId in the dbHome: %v", err)
+			log.Printf("[ERROR] error refreshing the dbHome information before an update: %v", err)
 		}
-	}
 
-	request := oci_database.UpdateDatabaseRequest{}
+		// If state does not contain a database and config does, issue a create database request instead of update
+		if len(oldList) == 0 {
 
-	request.DatabaseId = s.Database.Id
-
-	if database, ok := s.D.GetOkExists("database"); ok {
-		if tmpList := database.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
-			tmp, err := s.mapToUpdateDatabaseDetails(fieldKeyFormat)
+			request := oci_database.CreateDatabaseRequest{}
+			err := s.populateCreateDatabaseRequest(&request)
 			if err != nil {
 				return err
 			}
-			request.UpdateDatabaseDetails = tmp
+
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+			createDatabaseResponse, err := s.Client.CreateDatabase(context.Background(), request)
+			if err != nil {
+				return err
+			}
+			workId := createDatabaseResponse.OpcWorkRequestId
+
+			if workId != nil {
+				_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				if err != nil {
+					return err
+				}
+			}
+			s.Database = &createDatabaseResponse.Database
+			err = s.SetData()
+			return err
+		} else {
+			// if state does contain a database and config does, issue an update database call
+			if s.Database == nil || s.Database.Id == nil {
+				err := s.getDatabaseInfo()
+				if err != nil {
+					return fmt.Errorf("could not perform an Update as we could not get the databaseId in the dbHome: %v", err)
+				}
+			}
+			request := oci_database.UpdateDatabaseRequest{}
+
+			request.DatabaseId = s.Database.Id
+
+			if len(newList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToUpdateDatabaseDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				request.UpdateDatabaseDetails = tmp
+			}
+
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+			updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), request)
+			if err != nil {
+				return err
+			}
+
+			workId = updateDatabaseResponse.OpcWorkRequestId
+			if workId != nil {
+				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				if err != nil {
+					return err
+				}
+			}
+
+			getDatabaseRequest := oci_database.GetDatabaseRequest{}
+
+			getDatabaseRequest.DatabaseId = s.Database.Id
+
+			getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseUpdateRetryPolicy(s.D.Timeout(schema.TimeoutUpdate))
+			getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+			if err != nil {
+				s.Database = &updateDatabaseResponse.Database
+				err = s.SetData()
+				if err != nil {
+					log.Printf("[ERROR] error setting data after polling error on database: %v", err)
+				}
+				return fmt.Errorf("[ERROR] unable to get database after the Update: %v", err)
+			}
+
+			s.Database = &getDatabaseResponse.Database
+			return err
 		}
-	}
+	} else {
+		// If state does have a database and config does not delete database if enableDelete is explicitly set to true
+		if len(oldList) > 0 {
+			// skip delete if enable_delete not specified. We will only get here if we update the dbHome field and delete database in the same terraform apply
+			if enableDelete, ok := s.D.GetOkExists("enable_database_delete"); !ok || !enableDelete.(bool) {
+				return nil
+			}
+			request := oci_database.DeleteDatabaseRequest{}
 
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-	updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), request)
-	if err != nil {
-		return err
-	}
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+			dbId, err := s.getDatabaseId(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
 
-	workId = response.OpcWorkRequestId
-	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-		if err != nil {
+			request.DatabaseId = &dbId
+
+			if performFinalBackup, ok := s.D.GetOkExists("perform_final_backup"); ok {
+				tmp := performFinalBackup.(bool)
+				request.PerformFinalBackup = &tmp
+			}
+
+			deleteDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
+			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database", deleteDatabaseRetryDurationFn)
+
+			_, err = s.Client.DeleteDatabase(context.Background(), request)
+
+			// fail on non 404 errors
+			if failure, _ := common.IsServiceError(err); failure.GetHTTPStatusCode() == 404 {
+				return nil
+			}
 			return err
 		}
 	}
 
-	getDatabaseRequest := oci_database.GetDatabaseRequest{}
+	return err
+}
 
-	getDatabaseRequest.DatabaseId = s.Database.Id
+func (s *DatabaseDbHomeResourceCrud) getDatabaseId(fieldKeyFormat string) (string, error) {
 
-	getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseUpdateRetryPolicy(s.D.Timeout(schema.TimeoutUpdate))
-	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
-	if err != nil {
-		s.Database = &updateDatabaseResponse.Database
-		err = s.SetData()
-		if err != nil {
-			log.Printf("[ERROR] error setting data after polling error on database: %v", err)
-		}
-		return fmt.Errorf("[ERROR] unable to get database after the Update: %v", err)
+	databaseId, _ := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "id"))
+	if databaseId != "" {
+		tmp := databaseId.(string)
+		return tmp, nil
 	}
 
-	s.Database = &getDatabaseResponse.Database
-
-	return err
+	return "", fmt.Errorf("No databaseId found in state")
 }
 
 func (s *DatabaseDbHomeResourceCrud) Delete() error {
@@ -756,6 +844,37 @@ func (s *DatabaseDbHomeResourceCrud) mapToBackupDestinationDetails(fieldKeyForma
 	}
 
 	return result, nil
+}
+
+func (s *DatabaseDbHomeResourceCrud) populateCreateDatabaseRequest(request *oci_database.CreateDatabaseRequest) error {
+	details := oci_database.CreateNewDatabaseDetails{}
+	if database, ok := s.D.GetOkExists("database"); ok {
+		if tmpList := database.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+			tmp, err := s.mapToCreateDatabaseDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			details.Database = &tmp
+		}
+	}
+	tmp := s.D.Id()
+	details.DbHomeId = &tmp
+
+	if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+		tmp := dbVersion.(string)
+		details.DbVersion = &tmp
+	}
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		details.KmsKeyId = &tmp
+	}
+	if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok {
+		tmp := kmsKeyVersionId.(string)
+		details.KmsKeyVersionId = &tmp
+	}
+	request.CreateNewDatabaseDetails = details
+	return nil
 }
 
 func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseDetails, error) {
@@ -1230,7 +1349,7 @@ func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
 	}
 
 	if len(listDatabasesResponse.Items) == 0 {
-		return fmt.Errorf("failed to get details of the nested database in dbHome")
+		return nil
 	}
 
 	dbHomeTimeCreated, ok := s.D.GetOkExists("time_created")
@@ -1244,22 +1363,24 @@ func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
 		}
 	}
 
-	request.DatabaseId = listDatabasesResponse.Items[0].Id
+	if listDatabasesResponse.Items[0].LifecycleState != oci_database.DatabaseSummaryLifecycleStateTerminating && listDatabasesResponse.Items[0].LifecycleState != oci_database.DatabaseSummaryLifecycleStateTerminated {
+		request.DatabaseId = listDatabasesResponse.Items[0].Id
 
-	if performFinalBackup, ok := s.D.GetOkExists("perform_final_backup"); ok {
-		tmp := performFinalBackup.(bool)
-		request.PerformFinalBackup = &tmp
-	}
+		if performFinalBackup, ok := s.D.GetOkExists("perform_final_backup"); ok {
+			tmp := performFinalBackup.(bool)
+			request.PerformFinalBackup = &tmp
+		}
 
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteDatabase(context.Background(), request)
+		response, err := s.Client.DeleteDatabase(context.Background(), request)
 
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
+		workId := response.OpcWorkRequestId
+		if workId != nil {
+			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
@@ -1487,4 +1608,20 @@ func (s *DatabaseDbHomeResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat st
 	}
 
 	return result, nil
+}
+
+func dbHomeNestedDbSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
+	oldRaw, newRaw := d.GetChange("database")
+	oldList := oldRaw.([]interface{})
+	newList := newRaw.([]interface{})
+	enableDbDelete, ok := d.GetOkExists("enable_database_delete")
+	// if key is database and database exists in state but not config
+	// check if enable_database_delete is not set or enable_database_delete is set to false then skip diff
+	if k == "database" && len(oldList) > len(newList) {
+		if !ok || !enableDbDelete.(bool) {
+			log.Printf("[DEBUG] SKIPPING DELETE")
+			return true
+		}
+	}
+	return false
 }
