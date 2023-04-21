@@ -394,5 +394,11 @@
         "realmKey": "oc21",
         "regionIdentifier": "me-dcc-doha-1",
         "realmDomainComponent": "oraclecloud21.com"
+    },
+    {
+        "regionKey": "bmc",
+        "realmKey": "oc1",
+        "regionIdentifier": "us-saltlake-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
