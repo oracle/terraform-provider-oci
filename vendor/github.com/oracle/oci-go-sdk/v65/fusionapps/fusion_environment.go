@@ -95,6 +95,8 @@ type FusionEnvironment struct {
 	// Environment Specific Guid/ System Name
 	SystemName *string `mandatory:"false" json:"systemName"`
 
+	EnvironmentRole *EnvironmentRole `mandatory:"false" json:"environmentRole"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -150,6 +152,7 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated               *common.SDKTime                            `json:"timeUpdated"`
 		LifecycleDetails          *string                                    `json:"lifecycleDetails"`
 		SystemName                *string                                    `json:"systemName"`
+		EnvironmentRole           *EnvironmentRole                           `json:"environmentRole"`
 		FreeformTags              map[string]string                          `json:"freeformTags"`
 		DefinedTags               map[string]map[string]interface{}          `json:"definedTags"`
 		Id                        *string                                    `json:"id"`
@@ -225,6 +228,8 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.SystemName = model.SystemName
+
+	m.EnvironmentRole = model.EnvironmentRole
 
 	m.FreeformTags = model.FreeformTags
 

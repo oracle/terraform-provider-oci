@@ -115,6 +115,9 @@ type AutonomousDatabaseSummary struct {
 	// The quantity of data in the database, in gigabytes.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
+	// The storage space consumed by Autonomous Database in GBs.
+	UsedDataStorageSizeInGBs *int `mandatory:"false" json:"usedDataStorageSizeInGBs"`
+
 	// The infrastructure type this resource belongs to.
 	InfrastructureType AutonomousDatabaseSummaryInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
 
