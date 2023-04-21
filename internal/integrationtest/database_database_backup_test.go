@@ -59,10 +59,63 @@ var (
 	databaseBackupSingularDataSourceRepresentation = map[string]interface{}{
 		"database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_database.test_database.id}`},
 	}
+
+	databaseDisabledBackupConf = map[string]interface{}{
+		"auto_backup_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	databaseDatabaseBackupRepresentationCopy = map[string]interface{}{
+		"admin_password":   acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":          acctest.Representation{RepType: acctest.Required, Create: `DbBackup`},
+		"character_set":    acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseDisabledBackupConf},
+		"db_unique_name":   acctest.Representation{RepType: acctest.Optional, Create: `myTestDb_13`},
+		"db_workload":      acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set":   acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"pdb_name":         acctest.Representation{RepType: acctest.Optional, Create: `pdbName`},
+		// "tde_wallet_password": acctest.Representation{RepType: acctest.Optional, Create: `tdeWalletPassword`},	exadata doesn't support it.
+	}
+
+	DatabaseDatabaseBackupRepresentation = map[string]interface{}{
+		"database":         acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseDatabaseBackupRepresentationCopy},
+		"db_home_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`},
+		"source":           acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+		"db_version":       acctest.Representation{RepType: acctest.Optional, Create: `19.0.0.0`},
+		"kms_key_id":       acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"kms_key_rotation": acctest.Representation{RepType: acctest.Optional, Update: `1`},
+	}
+
+	dbHomeDatabaseBackupRepresentationSourceNone = map[string]interface{}{
+		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		// "tde_wallet_password": acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},  exadata doesn't support it.
+		"db_name":          acctest.Representation{RepType: acctest.Required, Create: `dbNoneBT`},
+		"character_set":    acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: dbHomeDatabaseDbBackupConfigRepresentation},
+		"db_workload":      acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set":   acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"pdb_name":         acctest.Representation{RepType: acctest.Optional, Create: `pdbName`},
+	}
+
+	dbHomeRepresentationSourceBackup = acctest.RepresentationCopyWithNewProperties(DatabaseDbHomeRepresentationBase, map[string]interface{}{
+		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: dbHomeDatabaseBackupRepresentationSourceNone},
+		"db_version":   acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
+		"source":       acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `createdDbHomeNone`},
+	})
+
 	DatabaseBackupResourceConfig = DatabaseBackupResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, databaseBackupRepresentation)
 	DatabaseBackupResourceDependencies = DatabaseDatabaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "db", acctest.Optional, acctest.Create, DatabaseDatabaseRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupDatabaseRepresentation)
+
+	DatabaseBackupResourceDbHomeDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + databaseKeyConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceBackup) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "db", acctest.Optional, acctest.Create, DatabaseDatabaseBackupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, backupDatabaseRepresentation)
 )
 
