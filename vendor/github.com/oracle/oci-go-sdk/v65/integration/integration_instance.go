@@ -87,6 +87,8 @@ type IntegrationInstance struct {
 
 	// Shape
 	Shape IntegrationInstanceShapeEnum `mandatory:"false" json:"shape,omitempty"`
+
+	PrivateEndpointOutboundConnection OutboundConnection `mandatory:"false" json:"privateEndpointOutboundConnection"`
 }
 
 func (m IntegrationInstance) String() string {
@@ -120,28 +122,29 @@ func (m IntegrationInstance) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TimeCreated              *common.SDKTime                                `json:"timeCreated"`
-		TimeUpdated              *common.SDKTime                                `json:"timeUpdated"`
-		LifecycleState           IntegrationInstanceLifecycleStateEnum          `json:"lifecycleState"`
-		StateMessage             *string                                        `json:"stateMessage"`
-		FreeformTags             map[string]string                              `json:"freeformTags"`
-		DefinedTags              map[string]map[string]interface{}              `json:"definedTags"`
-		IsFileServerEnabled      *bool                                          `json:"isFileServerEnabled"`
-		IsVisualBuilderEnabled   *bool                                          `json:"isVisualBuilderEnabled"`
-		CustomEndpoint           *CustomEndpointDetails                         `json:"customEndpoint"`
-		AlternateCustomEndpoints []CustomEndpointDetails                        `json:"alternateCustomEndpoints"`
-		ConsumptionModel         IntegrationInstanceConsumptionModelEnum        `json:"consumptionModel"`
-		NetworkEndpointDetails   networkendpointdetails                         `json:"networkEndpointDetails"`
-		IdcsInfo                 *IdcsInfoDetails                               `json:"idcsInfo"`
-		Attachments              []AttachmentDetails                            `json:"attachments"`
-		Shape                    IntegrationInstanceShapeEnum                   `json:"shape"`
-		Id                       *string                                        `json:"id"`
-		DisplayName              *string                                        `json:"displayName"`
-		CompartmentId            *string                                        `json:"compartmentId"`
-		IntegrationInstanceType  IntegrationInstanceIntegrationInstanceTypeEnum `json:"integrationInstanceType"`
-		IsByol                   *bool                                          `json:"isByol"`
-		InstanceUrl              *string                                        `json:"instanceUrl"`
-		MessagePacks             *int                                           `json:"messagePacks"`
+		TimeCreated                       *common.SDKTime                                `json:"timeCreated"`
+		TimeUpdated                       *common.SDKTime                                `json:"timeUpdated"`
+		LifecycleState                    IntegrationInstanceLifecycleStateEnum          `json:"lifecycleState"`
+		StateMessage                      *string                                        `json:"stateMessage"`
+		FreeformTags                      map[string]string                              `json:"freeformTags"`
+		DefinedTags                       map[string]map[string]interface{}              `json:"definedTags"`
+		IsFileServerEnabled               *bool                                          `json:"isFileServerEnabled"`
+		IsVisualBuilderEnabled            *bool                                          `json:"isVisualBuilderEnabled"`
+		CustomEndpoint                    *CustomEndpointDetails                         `json:"customEndpoint"`
+		AlternateCustomEndpoints          []CustomEndpointDetails                        `json:"alternateCustomEndpoints"`
+		ConsumptionModel                  IntegrationInstanceConsumptionModelEnum        `json:"consumptionModel"`
+		NetworkEndpointDetails            networkendpointdetails                         `json:"networkEndpointDetails"`
+		IdcsInfo                          *IdcsInfoDetails                               `json:"idcsInfo"`
+		Attachments                       []AttachmentDetails                            `json:"attachments"`
+		Shape                             IntegrationInstanceShapeEnum                   `json:"shape"`
+		PrivateEndpointOutboundConnection outboundconnection                             `json:"privateEndpointOutboundConnection"`
+		Id                                *string                                        `json:"id"`
+		DisplayName                       *string                                        `json:"displayName"`
+		CompartmentId                     *string                                        `json:"compartmentId"`
+		IntegrationInstanceType           IntegrationInstanceIntegrationInstanceTypeEnum `json:"integrationInstanceType"`
+		IsByol                            *bool                                          `json:"isByol"`
+		InstanceUrl                       *string                                        `json:"instanceUrl"`
+		MessagePacks                      *int                                           `json:"messagePacks"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -192,6 +195,16 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Shape = model.Shape
+
+	nn, e = model.PrivateEndpointOutboundConnection.UnmarshalPolymorphicJSON(model.PrivateEndpointOutboundConnection.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PrivateEndpointOutboundConnection = nn.(OutboundConnection)
+	} else {
+		m.PrivateEndpointOutboundConnection = nil
+	}
 
 	m.Id = model.Id
 
