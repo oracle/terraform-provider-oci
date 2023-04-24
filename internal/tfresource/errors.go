@@ -184,6 +184,11 @@ func (tfE customError) Error() error {
 
 func handleMissingResourceError(sync ResourceVoider, err *error) {
 
+	if isCircuitBreakerOpen(*err) {
+		log.Printf("[DEBUG] the circuit breaker is in the open state, error triggering the circuit breaker is \n %s\n", *err)
+		return
+	}
+
 	if err != nil {
 		// patch till OCE service returns correct error response code for invalid auth token
 		if strings.Contains((*err).Error(), "IDCS token validation has failed") {
@@ -198,7 +203,9 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 			log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
 			if sync != nil {
 				sync.VoidState()
+				log.Println("[DEBUG] the response contains an error, but ignoring it and voiding state")
 			}
+			log.Printf("[DEBUG] the ignored error is\n %s\n", *err)
 			*err = nil
 		}
 	}
@@ -308,4 +315,8 @@ func getVersionAndDateErrorImpl(version string, date string) string {
 		result += fmt.Sprintf("This provider is %v Update(s) behind to current.", versionOld)
 	}
 	return result
+}
+
+func isCircuitBreakerOpen(err error) bool {
+	return oci_common.IsCircuitBreakerError(err)
 }
