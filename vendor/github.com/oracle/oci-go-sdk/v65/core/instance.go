@@ -186,7 +186,7 @@ type Instance struct {
 
 	PlatformConfig PlatformConfig `mandatory:"false" json:"platformConfig"`
 
-	// The instance configuration ID for platform agnostic launches. This configuration will specify the possible shapes that can be used to launch this instance.
+	// The OCID of the Instance Configuration used to source launch details for this instance. Any other fields supplied in the instance launch request override the details stored in the Instance Configuration for this instance launch.
 	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
 }
 

@@ -59,6 +59,10 @@ func (m *jobstoragemountconfigurationdetails) UnmarshalPolymorphicJSON(data []by
 		mm := FileStorageMountConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OBJECT_STORAGE":
+		mm := ObjectStorageMountConfigurationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for JobStorageMountConfigurationDetails: %s.", m.StorageType)
 		return *m, nil
@@ -91,15 +95,18 @@ type JobStorageMountConfigurationDetailsStorageTypeEnum string
 
 // Set of constants representing the allowable values for JobStorageMountConfigurationDetailsStorageTypeEnum
 const (
-	JobStorageMountConfigurationDetailsStorageTypeFileStorage JobStorageMountConfigurationDetailsStorageTypeEnum = "FILE_STORAGE"
+	JobStorageMountConfigurationDetailsStorageTypeFileStorage   JobStorageMountConfigurationDetailsStorageTypeEnum = "FILE_STORAGE"
+	JobStorageMountConfigurationDetailsStorageTypeObjectStorage JobStorageMountConfigurationDetailsStorageTypeEnum = "OBJECT_STORAGE"
 )
 
 var mappingJobStorageMountConfigurationDetailsStorageTypeEnum = map[string]JobStorageMountConfigurationDetailsStorageTypeEnum{
-	"FILE_STORAGE": JobStorageMountConfigurationDetailsStorageTypeFileStorage,
+	"FILE_STORAGE":   JobStorageMountConfigurationDetailsStorageTypeFileStorage,
+	"OBJECT_STORAGE": JobStorageMountConfigurationDetailsStorageTypeObjectStorage,
 }
 
 var mappingJobStorageMountConfigurationDetailsStorageTypeEnumLowerCase = map[string]JobStorageMountConfigurationDetailsStorageTypeEnum{
-	"file_storage": JobStorageMountConfigurationDetailsStorageTypeFileStorage,
+	"file_storage":   JobStorageMountConfigurationDetailsStorageTypeFileStorage,
+	"object_storage": JobStorageMountConfigurationDetailsStorageTypeObjectStorage,
 }
 
 // GetJobStorageMountConfigurationDetailsStorageTypeEnumValues Enumerates the set of values for JobStorageMountConfigurationDetailsStorageTypeEnum
@@ -115,6 +122,7 @@ func GetJobStorageMountConfigurationDetailsStorageTypeEnumValues() []JobStorageM
 func GetJobStorageMountConfigurationDetailsStorageTypeEnumStringValues() []string {
 	return []string{
 		"FILE_STORAGE",
+		"OBJECT_STORAGE",
 	}
 }
 

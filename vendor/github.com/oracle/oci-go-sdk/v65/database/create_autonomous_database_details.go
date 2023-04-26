@@ -180,6 +180,11 @@ type CreateAutonomousDatabaseDetails struct {
 	// How do I make this change? Using either OCI SDKs or command line tools, update your custom scripts to explicitly set the isMTLSConnectionRequired attribute to true.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 
+	// The unique identifier for leader autonomous database OCID OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	ResourcePoolLeaderId *string `mandatory:"false" json:"resourcePoolLeaderId"`
+
+	ResourcePoolSummary *ResourcePoolSummary `mandatory:"false" json:"resourcePoolSummary"`
+
 	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.
 	IsOracleServiceGatewayAllowed *bool `mandatory:"false" json:"isOracleServiceGatewayAllowed"`
 
@@ -412,6 +417,16 @@ func (m CreateAutonomousDatabaseDetails) GetCustomerContacts() []CustomerContact
 //GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
 func (m CreateAutonomousDatabaseDetails) GetIsMtlsConnectionRequired() *bool {
 	return m.IsMtlsConnectionRequired
+}
+
+//GetResourcePoolLeaderId returns ResourcePoolLeaderId
+func (m CreateAutonomousDatabaseDetails) GetResourcePoolLeaderId() *string {
+	return m.ResourcePoolLeaderId
+}
+
+//GetResourcePoolSummary returns ResourcePoolSummary
+func (m CreateAutonomousDatabaseDetails) GetResourcePoolSummary() *ResourcePoolSummary {
+	return m.ResourcePoolSummary
 }
 
 //GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType

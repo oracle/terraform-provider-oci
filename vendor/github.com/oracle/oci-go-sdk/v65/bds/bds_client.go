@@ -1853,6 +1853,11 @@ func (client BdsClient) GetOsPatchDetails(ctx context.Context, request GetOsPatc
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.getOsPatchDetails, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -1876,7 +1881,7 @@ func (client BdsClient) GetOsPatchDetails(ctx context.Context, request GetOsPatc
 // getOsPatchDetails implements the OCIOperation interface (enables retrying operations)
 func (client BdsClient) getOsPatchDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/osPatch/{osPatchVersion}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/getOsPatches/{osPatchVersion}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1995,6 +2000,59 @@ func (client BdsClient) installDpPatch(ctx context.Context, request common.OCIRe
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/InstallDpPatch"
 		err = common.PostProcessServiceError(err, "Bds", "InstallDpPatch", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// InstallOdhPatch Install the specified ODH patch to this cluster.
+func (client BdsClient) InstallOdhPatch(ctx context.Context, request InstallOdhPatchRequest) (response InstallOdhPatchResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.installOdhPatch, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallOdhPatchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallOdhPatchResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallOdhPatchResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallOdhPatchResponse")
+	}
+	return
+}
+
+// installOdhPatch implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) installOdhPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/installOdhPatch", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallOdhPatchResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/InstallOdhPatch"
+		err = common.PostProcessServiceError(err, "Bds", "InstallOdhPatch", apiReferenceLink)
 		return response, err
 	}
 
@@ -2446,6 +2504,11 @@ func (client BdsClient) ListOsPatches(ctx context.Context, request ListOsPatches
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.listOsPatches, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -2469,7 +2532,7 @@ func (client BdsClient) ListOsPatches(ctx context.Context, request ListOsPatches
 // listOsPatches implements the OCIOperation interface (enables retrying operations)
 func (client BdsClient) listOsPatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/osPatches", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/getOsPatches", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

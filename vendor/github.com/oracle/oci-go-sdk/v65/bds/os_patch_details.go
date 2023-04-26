@@ -24,8 +24,8 @@ type OsPatchDetails struct {
 	// Minimum BDS version required to install current OS patch.
 	MinBdsVersion *string `mandatory:"true" json:"minBdsVersion"`
 
-	// Map of major ODH version to minimum ODH version required to install current OS patch.
-	MinCompatibleOdhVersionMap map[string]MinCompatibleOdhVersionMap `mandatory:"true" json:"minCompatibleOdhVersionMap"`
+	// Map of major ODH version to minimum ODH version required to install current OS patch. e.g. {ODH0.9: 0.9.1}
+	MinCompatibleOdhVersionMap map[string]string `mandatory:"true" json:"minCompatibleOdhVersionMap"`
 
 	// List of summaries of individual target packages.
 	TargetPackages []OsPatchPackageSummary `mandatory:"true" json:"targetPackages"`
@@ -33,7 +33,10 @@ type OsPatchDetails struct {
 	// Released date of the OS patch.
 	ReleaseDate *common.SDKTime `mandatory:"true" json:"releaseDate"`
 
-	// OS patch type.
+	// Type of a specific os patch.
+	// REGULAR means standard released os patches.
+	// CUSTOM means os patches with some customizations.
+	// EMERGENT means os patches with some emergency fixes that should be prioritized.
 	PatchType OsPatchDetailsPatchTypeEnum `mandatory:"true" json:"patchType"`
 }
 

@@ -28,10 +28,10 @@ type AddAutoScalingConfigurationDetails struct {
 	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
 	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
 
-	Policy *AutoScalePolicy `mandatory:"true" json:"policy"`
-
 	// A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	Policy *AutoScalePolicy `mandatory:"false" json:"policy"`
 
 	PolicyDetails AddAutoScalePolicyDetails `mandatory:"false" json:"policyDetails"`
 }
@@ -59,11 +59,11 @@ func (m AddAutoScalingConfigurationDetails) ValidateEnumValue() (bool, error) {
 func (m *AddAutoScalingConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName          *string                   `json:"displayName"`
+		Policy               *AutoScalePolicy          `json:"policy"`
 		PolicyDetails        addautoscalepolicydetails `json:"policyDetails"`
 		NodeType             NodeNodeTypeEnum          `json:"nodeType"`
 		IsEnabled            *bool                     `json:"isEnabled"`
 		ClusterAdminPassword *string                   `json:"clusterAdminPassword"`
-		Policy               *AutoScalePolicy          `json:"policy"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -72,6 +72,8 @@ func (m *AddAutoScalingConfigurationDetails) UnmarshalJSON(data []byte) (e error
 	}
 	var nn interface{}
 	m.DisplayName = model.DisplayName
+
+	m.Policy = model.Policy
 
 	nn, e = model.PolicyDetails.UnmarshalPolymorphicJSON(model.PolicyDetails.JsonData)
 	if e != nil {
@@ -88,8 +90,6 @@ func (m *AddAutoScalingConfigurationDetails) UnmarshalJSON(data []byte) (e error
 	m.IsEnabled = model.IsEnabled
 
 	m.ClusterAdminPassword = model.ClusterAdminPassword
-
-	m.Policy = model.Policy
 
 	return
 }

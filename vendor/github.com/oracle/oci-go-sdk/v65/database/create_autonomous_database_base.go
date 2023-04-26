@@ -203,6 +203,11 @@ type CreateAutonomousDatabaseBase interface {
 	// How do I make this change? Using either OCI SDKs or command line tools, update your custom scripts to explicitly set the isMTLSConnectionRequired attribute to true.
 	GetIsMtlsConnectionRequired() *bool
 
+	// The unique identifier for leader autonomous database OCID OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	GetResourcePoolLeaderId() *string
+
+	GetResourcePoolSummary() *ResourcePoolSummary
+
 	// The maintenance schedule type of the Autonomous Database on shared Exadata infrastructure. The EARLY maintenance schedule of this Autonomous Database
 	// follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle.
 	GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
@@ -273,6 +278,8 @@ type createautonomousdatabasebase struct {
 	DbVersion                                *string                                                           `mandatory:"false" json:"dbVersion"`
 	CustomerContacts                         []CustomerContact                                                 `mandatory:"false" json:"customerContacts"`
 	IsMtlsConnectionRequired                 *bool                                                             `mandatory:"false" json:"isMtlsConnectionRequired"`
+	ResourcePoolLeaderId                     *string                                                           `mandatory:"false" json:"resourcePoolLeaderId"`
+	ResourcePoolSummary                      *ResourcePoolSummary                                              `mandatory:"false" json:"resourcePoolSummary"`
 	AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 	IsOracleServiceGatewayAllowed            *bool                                                             `mandatory:"false" json:"isOracleServiceGatewayAllowed"`
 	ScheduledOperations                      []ScheduledOperationDetails                                       `mandatory:"false" json:"scheduledOperations"`
@@ -333,6 +340,8 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.DbVersion = s.Model.DbVersion
 	m.CustomerContacts = s.Model.CustomerContacts
 	m.IsMtlsConnectionRequired = s.Model.IsMtlsConnectionRequired
+	m.ResourcePoolLeaderId = s.Model.ResourcePoolLeaderId
+	m.ResourcePoolSummary = s.Model.ResourcePoolSummary
 	m.AutonomousMaintenanceScheduleType = s.Model.AutonomousMaintenanceScheduleType
 	m.IsOracleServiceGatewayAllowed = s.Model.IsOracleServiceGatewayAllowed
 	m.ScheduledOperations = s.Model.ScheduledOperations
@@ -577,6 +586,16 @@ func (m createautonomousdatabasebase) GetCustomerContacts() []CustomerContact {
 //GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
 func (m createautonomousdatabasebase) GetIsMtlsConnectionRequired() *bool {
 	return m.IsMtlsConnectionRequired
+}
+
+//GetResourcePoolLeaderId returns ResourcePoolLeaderId
+func (m createautonomousdatabasebase) GetResourcePoolLeaderId() *string {
+	return m.ResourcePoolLeaderId
+}
+
+//GetResourcePoolSummary returns ResourcePoolSummary
+func (m createautonomousdatabasebase) GetResourcePoolSummary() *ResourcePoolSummary {
+	return m.ResourcePoolSummary
 }
 
 //GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType

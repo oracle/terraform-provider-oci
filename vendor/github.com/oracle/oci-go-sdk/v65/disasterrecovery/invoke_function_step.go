@@ -23,11 +23,11 @@ type InvokeFunctionStep struct {
 
 	// The OCID of function to be invoked.
 	// Example: `ocid1.fnfunc.oc1.iad.exampleocid2`
-	FunctionId *string `mandatory:"false" json:"functionId"`
+	FunctionId *string `mandatory:"true" json:"functionId"`
 
 	// The region in which the function is deployed.
 	// Example: `us-ashburn-1`
-	FunctionRegion *string `mandatory:"false" json:"functionRegion"`
+	FunctionRegion *string `mandatory:"true" json:"functionRegion"`
 
 	// The request body for the function.
 	// Example: `{ "FnParam1", "FnParam2" }`

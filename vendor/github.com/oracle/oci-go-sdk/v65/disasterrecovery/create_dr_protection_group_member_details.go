@@ -58,6 +58,14 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 
 	var err error
 	switch m.MemberType {
+	case "COMPUTE_INSTANCE_MOVABLE":
+		mm := CreateDrProtectionGroupMemberComputeInstanceMovableDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_NON_MOVABLE":
+		mm := CreateDrProtectionGroupMemberComputeInstanceNonMovableDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "COMPUTE_INSTANCE":
 		mm := CreateDrProtectionGroupMemberComputeInstanceDetails{}
 		err = json.Unmarshal(data, &mm)

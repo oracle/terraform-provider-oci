@@ -21,8 +21,7 @@ import (
 	"strings"
 )
 
-// InstanceSourceImageFilterDetails These are the selection criteria for selecting an image. This is required if using architecture
-// agnostic launches and imageId is not specified.
+// InstanceSourceImageFilterDetails These are the criteria for selecting an image. This is required if imageId is not specified.
 type InstanceSourceImageFilterDetails struct {
 
 	// The OCID of the compartment containing images to search

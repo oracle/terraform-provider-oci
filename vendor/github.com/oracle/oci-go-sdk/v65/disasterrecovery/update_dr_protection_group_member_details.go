@@ -70,6 +70,14 @@ func (m *updatedrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := UpdateDrProtectionGroupMemberVolumeGroupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "COMPUTE_INSTANCE_NON_MOVABLE":
+		mm := UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_MOVABLE":
+		mm := UpdateDrProtectionGroupMemberComputeInstanceMovableDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATABASE":
 		mm := UpdateDrProtectionGroupMemberDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)

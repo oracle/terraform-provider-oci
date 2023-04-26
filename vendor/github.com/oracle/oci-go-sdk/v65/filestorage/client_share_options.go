@@ -31,7 +31,7 @@ type ClientShareOptions struct {
 	Source *string `mandatory:"true" json:"source"`
 
 	// Type of access to grant clients using the file system
-	// through this share. If unspecified defaults to `READ_ONLY`.
+	// through this share. If unspecified defaults to `READ_WRITE`.
 	Access ClientShareOptionsAccessEnum `mandatory:"false" json:"access,omitempty"`
 
 	// UID value to remap to when squashing a client UID (see

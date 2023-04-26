@@ -15,29 +15,38 @@ import (
 	"strings"
 )
 
-// MinCompatibleOdhVersionMap A map of major ODH version to minimum ODH version that is required for current OS patch. eg. {ODH0_9: 0.9.1}
-type MinCompatibleOdhVersionMap struct {
+// InstallOdhPatchDetails The reqeust body while installing a ODH patch to a cluster.
+type InstallOdhPatchDetails struct {
 
-	// Type of hadoop distribution.
-	OdhType BdsInstanceClusterVersionEnum `mandatory:"false" json:"odhType,omitempty"`
+	// The version of the ODH patch to be installed.
+	Version *string `mandatory:"true" json:"version"`
 
-	// Minimum ODH version for current ODH type.
-	OdhVersion *string `mandatory:"false" json:"odhVersion"`
+	// The display name of the ODH patch to be installed.
+	OdhPatchName *string `mandatory:"true" json:"odhPatchName"`
+
+	// The patch Url of the ODH patch to be installed.
+	PaUrl *string `mandatory:"true" json:"paUrl"`
+
+	// The md5Hash of the ODH patch to be installed.
+	Md5Hash *string `mandatory:"true" json:"md5Hash"`
+
+	// Cluster Admin Password
+	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+
+	// The flag to check if the ODH patch can be installed.
+	IsCompatibilityCheck *bool `mandatory:"false" json:"isCompatibilityCheck"`
 }
 
-func (m MinCompatibleOdhVersionMap) String() string {
+func (m InstallOdhPatchDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m MinCompatibleOdhVersionMap) ValidateEnumValue() (bool, error) {
+func (m InstallOdhPatchDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingBdsInstanceClusterVersionEnum(string(m.OdhType)); !ok && m.OdhType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OdhType: %s. Supported values are: %s.", m.OdhType, strings.Join(GetBdsInstanceClusterVersionEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

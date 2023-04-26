@@ -62,6 +62,12 @@ type ListAutonomousDatabasesRequest struct {
 	// A filter to return only resources that have Data Guard enabled.
 	IsDataGuardEnabled *bool `mandatory:"false" contributesTo:"query" name:"isDataGuardEnabled"`
 
+	// Filter if the resource is the resource pool leader. A value of `true` returns only resource pool leader.
+	IsResourcePoolLeader *bool `mandatory:"false" contributesTo:"query" name:"isResourcePoolLeader"`
+
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resourcepool Leader Autonomous Database.
+	ResourcePoolLeaderId *string `mandatory:"false" contributesTo:"query" name:"resourcePoolLeaderId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

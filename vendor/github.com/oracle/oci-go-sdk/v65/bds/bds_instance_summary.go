@@ -49,7 +49,7 @@ type BdsInstanceSummary struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// Number of nodes that require a maintenance reboot
-	NumberOfNodesRequireMaintenanceReboot *int `mandatory:"false" json:"numberOfNodesRequireMaintenanceReboot"`
+	NumberOfNodesRequiringMaintenanceReboot *int `mandatory:"false" json:"numberOfNodesRequiringMaintenanceReboot"`
 
 	// Version of the Hadoop distribution.
 	ClusterVersion BdsInstanceClusterVersionEnum `mandatory:"false" json:"clusterVersion,omitempty"`

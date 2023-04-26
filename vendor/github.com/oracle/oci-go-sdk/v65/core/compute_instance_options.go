@@ -22,7 +22,7 @@ import (
 	"strings"
 )
 
-// ComputeInstanceOptions Multi architecture Instance Configuration instance details.
+// ComputeInstanceOptions Multiple Compute Instance Configuration instance details.
 type ComputeInstanceOptions struct {
 
 	// The Compute Instance Configuration parameters.

@@ -28,7 +28,7 @@ type OsPatchPackageSummary struct {
 	UpdateType OsPatchPackageSummaryUpdateTypeEnum `mandatory:"true" json:"updateType"`
 
 	// Related CVEs of the package update.
-	RelatedCves []string `mandatory:"true" json:"relatedCves"`
+	RelatedCVEs []string `mandatory:"true" json:"relatedCVEs"`
 
 	// Whether a package need the cluster to restart to take effect.
 	IsRestartRequired *bool `mandatory:"true" json:"isRestartRequired"`

@@ -108,7 +108,7 @@ type AutonomousDatabase struct {
 	// The quantity of data in the database, in terabytes.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
 
-	// The amount of memory (in GBs) enabled per each CPU in the Autonomous VM Cluster.
+	// The amount of memory (in GBs) enabled per OCPU or ECPU. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The quantity of data in the database, in gigabytes.
@@ -362,6 +362,14 @@ type AutonomousDatabase struct {
 	// Does this impact me? If you use or maintain custom scripts or Terraform scripts referencing the CreateAutonomousDatabase, GetAutonomousDatabase, or UpdateAutonomousDatabase APIs, you want to check, and possibly modify, the scripts for the changed default value of the attribute. Should you choose not to leave your scripts unchanged, the API calls containing this attribute will continue to work, but the default value will switch from true to false.
 	// How do I make this change? Using either OCI SDKs or command line tools, update your custom scripts to explicitly set the isMTLSConnectionRequired attribute to true.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
+
+	// The time the member joined the resource pool.
+	TimeOfJoiningResourcePool *common.SDKTime `mandatory:"false" json:"timeOfJoiningResourcePool"`
+
+	// The unique identifier for leader autonomous database OCID OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	ResourcePoolLeaderId *string `mandatory:"false" json:"resourcePoolLeaderId"`
+
+	ResourcePoolSummary *ResourcePoolSummary `mandatory:"false" json:"resourcePoolSummary"`
 
 	// Indicates if the refreshable clone can be reconnected to its source database.
 	IsReconnectCloneEnabled *bool `mandatory:"false" json:"isReconnectCloneEnabled"`

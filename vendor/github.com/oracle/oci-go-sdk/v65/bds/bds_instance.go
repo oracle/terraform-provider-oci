@@ -67,7 +67,7 @@ type BdsInstance struct {
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Number of nodes that require a maintenance reboot
-	NumberOfNodesRequireMaintenanceReboot *int `mandatory:"false" json:"numberOfNodesRequireMaintenanceReboot"`
+	NumberOfNodesRequiringMaintenanceReboot *int `mandatory:"false" json:"numberOfNodesRequiringMaintenanceReboot"`
 
 	// pre-authenticated URL of the bootstrap script in Object Store that can be downloaded and executed.
 	BootstrapScriptUrl *string `mandatory:"false" json:"bootstrapScriptUrl"`

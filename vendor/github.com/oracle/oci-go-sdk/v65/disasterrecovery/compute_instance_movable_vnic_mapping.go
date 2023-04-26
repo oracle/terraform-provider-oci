@@ -12,47 +12,39 @@
 package disasterrecovery
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// UpdateRunObjectStoreScriptUserDefinedStepDetails The details for updating a Run Object Store Script step.
-type UpdateRunObjectStoreScriptUserDefinedStepDetails struct {
+// ComputeInstanceMovableVnicMapping A movable compute instance's source and destination VNIC mapping.
+type ComputeInstanceMovableVnicMapping struct {
 
-	// The OCID of the instance where this script or command should be executed.
-	RunOnInstanceId *string `mandatory:"true" json:"runOnInstanceId"`
+	// The OCID of the VNIC.
+	// Example: `ocid1.vnic.oc1..&lt;unique_id&gt;`
+	SourceVnicId *string `mandatory:"true" json:"sourceVnicId"`
 
-	ObjectStorageScriptLocation *UpdateObjectStorageScriptLocationDetails `mandatory:"true" json:"objectStorageScriptLocation"`
+	// The OCID of the destination (remote) subnet to which this VNIC should connect.
+	// Example: `ocid1.subnet.oc1..&lt;unique_id&gt;`
+	DestinationSubnetId *string `mandatory:"true" json:"destinationSubnetId"`
+
+	// A list of destination region's network security group (NSG) OCIDs which this VNIC should use.
+	// Example: `[ ocid1.networksecuritygroup.oc1..&lt;unique_id&gt;, ocid1.networksecuritygroup.oc1..&lt;unique_id&gt; ]`
+	DestinationNsgIdList []string `mandatory:"false" json:"destinationNsgIdList"`
 }
 
-func (m UpdateRunObjectStoreScriptUserDefinedStepDetails) String() string {
+func (m ComputeInstanceMovableVnicMapping) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateRunObjectStoreScriptUserDefinedStepDetails) ValidateEnumValue() (bool, error) {
+func (m ComputeInstanceMovableVnicMapping) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m UpdateRunObjectStoreScriptUserDefinedStepDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeUpdateRunObjectStoreScriptUserDefinedStepDetails UpdateRunObjectStoreScriptUserDefinedStepDetails
-	s := struct {
-		DiscriminatorParam string `json:"stepType"`
-		MarshalTypeUpdateRunObjectStoreScriptUserDefinedStepDetails
-	}{
-		"RUN_OBJECTSTORE_SCRIPT",
-		(MarshalTypeUpdateRunObjectStoreScriptUserDefinedStepDetails)(m),
-	}
-
-	return json.Marshal(&s)
 }

@@ -162,7 +162,7 @@ type CloudAutonomousVmCluster struct {
 	// The local node storage allocated in GBs.
 	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
 
-	// The amount of memory (in GBs) enabled per each CPU core.
+	// The amount of memory (in GBs) enabled per OCPU or ECPU. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db servers.

@@ -92,11 +92,12 @@ func (client *DisasterRecoveryClient) ConfigurationProvider() *common.Configurat
 	return client.config
 }
 
-// AssociateDrProtectionGroup Create an association the DR Protection Group identified by *drProtectionGroupId* and
+// AssociateDrProtectionGroup Create an association between the DR Protection Group identified by *drProtectionGroupId* and
 // another DR Protection Group in a different region.
+// A default retry strategy applies to this operation AssociateDrProtectionGroup()
 func (client DisasterRecoveryClient) AssociateDrProtectionGroup(ctx context.Context, request AssociateDrProtectionGroupRequest) (response AssociateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -152,9 +153,10 @@ func (client DisasterRecoveryClient) associateDrProtectionGroup(ctx context.Cont
 }
 
 // CancelDrPlanExecution Cancel the DR Plan Execution indentified by *drPlanExecutionId*.
+// A default retry strategy applies to this operation CancelDrPlanExecution()
 func (client DisasterRecoveryClient) CancelDrPlanExecution(ctx context.Context, request CancelDrPlanExecutionRequest) (response CancelDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -210,9 +212,10 @@ func (client DisasterRecoveryClient) cancelDrPlanExecution(ctx context.Context, 
 }
 
 // CancelWorkRequest Cancel the work request identified by *workRequestId*.
+// A default retry strategy applies to this operation CancelWorkRequest()
 func (client DisasterRecoveryClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -263,9 +266,10 @@ func (client DisasterRecoveryClient) cancelWorkRequest(ctx context.Context, requ
 }
 
 // ChangeDrProtectionGroupCompartment Move the DR Protection Group identified by *drProtectionGroupId* to a different compartment.
+// A default retry strategy applies to this operation ChangeDrProtectionGroupCompartment()
 func (client DisasterRecoveryClient) ChangeDrProtectionGroupCompartment(ctx context.Context, request ChangeDrProtectionGroupCompartmentRequest) (response ChangeDrProtectionGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -321,9 +325,10 @@ func (client DisasterRecoveryClient) changeDrProtectionGroupCompartment(ctx cont
 }
 
 // CreateDrPlan Creates a new DR Plan of the specified DR Plan type.
+// A default retry strategy applies to this operation CreateDrPlan()
 func (client DisasterRecoveryClient) CreateDrPlan(ctx context.Context, request CreateDrPlanRequest) (response CreateDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -379,9 +384,10 @@ func (client DisasterRecoveryClient) createDrPlan(ctx context.Context, request c
 }
 
 // CreateDrPlanExecution Execute a DR Plan for a DR Protection Group.
+// A default retry strategy applies to this operation CreateDrPlanExecution()
 func (client DisasterRecoveryClient) CreateDrPlanExecution(ctx context.Context, request CreateDrPlanExecutionRequest) (response CreateDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -437,9 +443,10 @@ func (client DisasterRecoveryClient) createDrPlanExecution(ctx context.Context, 
 }
 
 // CreateDrProtectionGroup Create a new DR Protection Group.
+// A default retry strategy applies to this operation CreateDrProtectionGroup()
 func (client DisasterRecoveryClient) CreateDrProtectionGroup(ctx context.Context, request CreateDrProtectionGroupRequest) (response CreateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -495,9 +502,10 @@ func (client DisasterRecoveryClient) createDrProtectionGroup(ctx context.Context
 }
 
 // DeleteDrPlan Delete the DR Plan identified by *drPlanId*.
+// A default retry strategy applies to this operation DeleteDrPlan()
 func (client DisasterRecoveryClient) DeleteDrPlan(ctx context.Context, request DeleteDrPlanRequest) (response DeleteDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -548,9 +556,10 @@ func (client DisasterRecoveryClient) deleteDrPlan(ctx context.Context, request c
 }
 
 // DeleteDrPlanExecution Delete the DR Plan Execution identified by *drPlanExecutionId*.
+// A default retry strategy applies to this operation DeleteDrPlanExecution()
 func (client DisasterRecoveryClient) DeleteDrPlanExecution(ctx context.Context, request DeleteDrPlanExecutionRequest) (response DeleteDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -601,9 +610,10 @@ func (client DisasterRecoveryClient) deleteDrPlanExecution(ctx context.Context, 
 }
 
 // DeleteDrProtectionGroup Delete the DR Protection Group identified by *drProtectionGroupId*.
+// A default retry strategy applies to this operation DeleteDrProtectionGroup()
 func (client DisasterRecoveryClient) DeleteDrProtectionGroup(ctx context.Context, request DeleteDrProtectionGroupRequest) (response DeleteDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -655,9 +665,10 @@ func (client DisasterRecoveryClient) deleteDrProtectionGroup(ctx context.Context
 
 // DisassociateDrProtectionGroup Delete the association between the DR Protection Group identified by *drProtectionGroupId*.
 // and its peer DR Protection Group.
+// A default retry strategy applies to this operation DisassociateDrProtectionGroup()
 func (client DisasterRecoveryClient) DisassociateDrProtectionGroup(ctx context.Context, request DisassociateDrProtectionGroupRequest) (response DisassociateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -713,9 +724,10 @@ func (client DisasterRecoveryClient) disassociateDrProtectionGroup(ctx context.C
 }
 
 // GetDrPlan Get details for the DR Plan identified by *drPlanId*.
+// A default retry strategy applies to this operation GetDrPlan()
 func (client DisasterRecoveryClient) GetDrPlan(ctx context.Context, request GetDrPlanRequest) (response GetDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -766,9 +778,10 @@ func (client DisasterRecoveryClient) getDrPlan(ctx context.Context, request comm
 }
 
 // GetDrPlanExecution Get details for the DR Plan Execution identified by *drPlanExecutionId*.
+// A default retry strategy applies to this operation GetDrPlanExecution()
 func (client DisasterRecoveryClient) GetDrPlanExecution(ctx context.Context, request GetDrPlanExecutionRequest) (response GetDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -819,9 +832,10 @@ func (client DisasterRecoveryClient) getDrPlanExecution(ctx context.Context, req
 }
 
 // GetDrProtectionGroup Get the DR Protection Group identified by *drProtectionGroupId*.
+// A default retry strategy applies to this operation GetDrProtectionGroup()
 func (client DisasterRecoveryClient) GetDrProtectionGroup(ctx context.Context, request GetDrProtectionGroupRequest) (response GetDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -872,9 +886,10 @@ func (client DisasterRecoveryClient) getDrProtectionGroup(ctx context.Context, r
 }
 
 // GetWorkRequest Get the status of the work request identified by *workRequestId*.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client DisasterRecoveryClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -925,9 +940,10 @@ func (client DisasterRecoveryClient) getWorkRequest(ctx context.Context, request
 }
 
 // IgnoreDrPlanExecution Ignore failed group or step in DR Plan Execution identified by *drPlanExecutionId* and resume execution.
+// A default retry strategy applies to this operation IgnoreDrPlanExecution()
 func (client DisasterRecoveryClient) IgnoreDrPlanExecution(ctx context.Context, request IgnoreDrPlanExecutionRequest) (response IgnoreDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -983,9 +999,10 @@ func (client DisasterRecoveryClient) ignoreDrPlanExecution(ctx context.Context, 
 }
 
 // ListDrPlanExecutions Get a summary list of all DR Plan Executions for a DR Protection Group.
+// A default retry strategy applies to this operation ListDrPlanExecutions()
 func (client DisasterRecoveryClient) ListDrPlanExecutions(ctx context.Context, request ListDrPlanExecutionsRequest) (response ListDrPlanExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1036,9 +1053,10 @@ func (client DisasterRecoveryClient) listDrPlanExecutions(ctx context.Context, r
 }
 
 // ListDrPlans Gets a summary list of all DR Plans for a DR Protection Group.
+// A default retry strategy applies to this operation ListDrPlans()
 func (client DisasterRecoveryClient) ListDrPlans(ctx context.Context, request ListDrPlansRequest) (response ListDrPlansResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1089,9 +1107,10 @@ func (client DisasterRecoveryClient) listDrPlans(ctx context.Context, request co
 }
 
 // ListDrProtectionGroups Gets a summary list of all DR Protection Groups in a compartment.
+// A default retry strategy applies to this operation ListDrProtectionGroups()
 func (client DisasterRecoveryClient) ListDrProtectionGroups(ctx context.Context, request ListDrProtectionGroupsRequest) (response ListDrProtectionGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1142,9 +1161,10 @@ func (client DisasterRecoveryClient) listDrProtectionGroups(ctx context.Context,
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DisasterRecoveryClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1195,9 +1215,10 @@ func (client DisasterRecoveryClient) listWorkRequestErrors(ctx context.Context, 
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for the work request identified by *workRequestId*.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DisasterRecoveryClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1248,9 +1269,10 @@ func (client DisasterRecoveryClient) listWorkRequestLogs(ctx context.Context, re
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client DisasterRecoveryClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1301,9 +1323,10 @@ func (client DisasterRecoveryClient) listWorkRequests(ctx context.Context, reque
 }
 
 // PauseDrPlanExecution Pause the DR Plan Execution identified by *drPlanExecutionId*.
+// A default retry strategy applies to this operation PauseDrPlanExecution()
 func (client DisasterRecoveryClient) PauseDrPlanExecution(ctx context.Context, request PauseDrPlanExecutionRequest) (response PauseDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1359,9 +1382,10 @@ func (client DisasterRecoveryClient) pauseDrPlanExecution(ctx context.Context, r
 }
 
 // ResumeDrPlanExecution Resume the DR Plan Execution identified by *drPlanExecutionId*.
+// A default retry strategy applies to this operation ResumeDrPlanExecution()
 func (client DisasterRecoveryClient) ResumeDrPlanExecution(ctx context.Context, request ResumeDrPlanExecutionRequest) (response ResumeDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1417,9 +1441,10 @@ func (client DisasterRecoveryClient) resumeDrPlanExecution(ctx context.Context, 
 }
 
 // RetryDrPlanExecution Retry failed group or step in DR Plan Execution identified by *drPlanExecutionId* and resume execution.
+// A default retry strategy applies to this operation RetryDrPlanExecution()
 func (client DisasterRecoveryClient) RetryDrPlanExecution(ctx context.Context, request RetryDrPlanExecutionRequest) (response RetryDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1475,9 +1500,10 @@ func (client DisasterRecoveryClient) retryDrPlanExecution(ctx context.Context, r
 }
 
 // UpdateDrPlan Update the DR Plan identified by *drPlanId*.
+// A default retry strategy applies to this operation UpdateDrPlan()
 func (client DisasterRecoveryClient) UpdateDrPlan(ctx context.Context, request UpdateDrPlanRequest) (response UpdateDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1528,9 +1554,10 @@ func (client DisasterRecoveryClient) updateDrPlan(ctx context.Context, request c
 }
 
 // UpdateDrPlanExecution Update the DR Plan Execution identified by *drPlanExecutionId*.
+// A default retry strategy applies to this operation UpdateDrPlanExecution()
 func (client DisasterRecoveryClient) UpdateDrPlanExecution(ctx context.Context, request UpdateDrPlanExecutionRequest) (response UpdateDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1581,9 +1608,10 @@ func (client DisasterRecoveryClient) updateDrPlanExecution(ctx context.Context, 
 }
 
 // UpdateDrProtectionGroup Update the DR Protection Group identified by *drProtectionGroupId*.
+// A default retry strategy applies to this operation UpdateDrProtectionGroup()
 func (client DisasterRecoveryClient) UpdateDrProtectionGroup(ctx context.Context, request UpdateDrProtectionGroupRequest) (response UpdateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1634,9 +1662,10 @@ func (client DisasterRecoveryClient) updateDrProtectionGroup(ctx context.Context
 }
 
 // UpdateDrProtectionGroupRole Update the role of the DR Protection Group identified by *drProtectionGroupId*.
+// A default retry strategy applies to this operation UpdateDrProtectionGroupRole()
 func (client DisasterRecoveryClient) UpdateDrProtectionGroupRole(ctx context.Context, request UpdateDrProtectionGroupRoleRequest) (response UpdateDrProtectionGroupRoleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

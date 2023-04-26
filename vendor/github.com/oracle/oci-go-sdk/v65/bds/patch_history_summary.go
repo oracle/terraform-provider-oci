@@ -27,7 +27,10 @@ type PatchHistorySummary struct {
 	// The time when the patch history was last updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The type of current patch history
+	// The type of current patch history.
+	// DP - Data Plane patch(This history type is internal available only)
+	// ODH - Oracle Distribution of Hadoop patch
+	// OS - Operating System patch
 	PatchType PatchHistorySummaryPatchTypeEnum `mandatory:"true" json:"patchType"`
 }
 

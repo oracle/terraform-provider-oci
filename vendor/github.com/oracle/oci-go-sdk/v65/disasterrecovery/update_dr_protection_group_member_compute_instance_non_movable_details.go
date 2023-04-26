@@ -18,30 +18,27 @@ import (
 	"strings"
 )
 
-// UpdateRunLocalScriptUserDefinedStepDetails The details for updating a Run Local Script step.
-type UpdateRunLocalScriptUserDefinedStepDetails struct {
+// UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails Update properties for a Non-Movable Compute Instance member.
+type UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails struct {
 
-	// The OCID of the instance where this script or command should be executed.
-	// Example: `ocid1.instance.oc1.phx.exampleocid1`
-	RunOnInstanceId *string `mandatory:"true" json:"runOnInstanceId"`
-
-	// The script name and arguments.
-	// Example: `/usr/bin/python3 /home/opc/scripts/my_app_script.py arg1 arg2 arg3`
-	ScriptCommand *string `mandatory:"true" json:"scriptCommand"`
-
-	// The userid on the instance to be used for executing the script or command.
-	// Example: `opc`
-	RunAsUser *string `mandatory:"false" json:"runAsUser"`
+	// The OCID of the member.
+	// Example: `ocid1.database.oc1.phx.exampleocid1`
+	MemberId *string `mandatory:"true" json:"memberId"`
 }
 
-func (m UpdateRunLocalScriptUserDefinedStepDetails) String() string {
+//GetMemberId returns MemberId
+func (m UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails) GetMemberId() *string {
+	return m.MemberId
+}
+
+func (m UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateRunLocalScriptUserDefinedStepDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -51,14 +48,14 @@ func (m UpdateRunLocalScriptUserDefinedStepDetails) ValidateEnumValue() (bool, e
 }
 
 // MarshalJSON marshals to json representation
-func (m UpdateRunLocalScriptUserDefinedStepDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeUpdateRunLocalScriptUserDefinedStepDetails UpdateRunLocalScriptUserDefinedStepDetails
+func (m UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeUpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails
 	s := struct {
-		DiscriminatorParam string `json:"stepType"`
-		MarshalTypeUpdateRunLocalScriptUserDefinedStepDetails
+		DiscriminatorParam string `json:"memberType"`
+		MarshalTypeUpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails
 	}{
-		"RUN_LOCAL_SCRIPT",
-		(MarshalTypeUpdateRunLocalScriptUserDefinedStepDetails)(m),
+		"COMPUTE_INSTANCE_NON_MOVABLE",
+		(MarshalTypeUpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails)(m),
 	}
 
 	return json.Marshal(&s)

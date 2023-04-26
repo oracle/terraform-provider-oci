@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AddMasterNodesDetails The information about added nodes.
+// AddMasterNodesDetails The information about added master nodes.
 type AddMasterNodesDetails struct {
 
 	// Base-64 encoded Cluster Admin Password for cluster admin user.
