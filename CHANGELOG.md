@@ -1,4 +1,4 @@
-## 4.118.0 (Unreleased)
+## 4.118.0 (April 26, 2023)
 
 ### Added
 - Support for DBM Service: External Exadata Infrastructure Monitoring
