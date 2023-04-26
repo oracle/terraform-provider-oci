@@ -755,6 +755,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeFloat,
 							Computed: true,
 						},
+						"used_data_storage_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"used_data_storage_size_in_tbs": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -1215,6 +1219,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.TotalBackupStorageSizeInGBs != nil {
 			autonomousDatabasesClone["total_backup_storage_size_in_gbs"] = *r.TotalBackupStorageSizeInGBs
+		}
+
+		if r.UsedDataStorageSizeInGBs != nil {
+			autonomousDatabasesClone["used_data_storage_size_in_gbs"] = *r.UsedDataStorageSizeInGBs
 		}
 
 		if r.UsedDataStorageSizeInTBs != nil {

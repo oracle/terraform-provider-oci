@@ -525,6 +525,7 @@ func (s *DatabaseDatabaseResourceCrud) CreatedPending() []string {
 func (s *DatabaseDatabaseResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.DatabaseLifecycleStateAvailable),
+		string(oci_database.DatabaseLifecycleStateBackupInProgress),
 	}
 }
 
@@ -572,12 +573,15 @@ func (s *DatabaseDatabaseResourceCrud) Create() error {
 	s.Res = &response.Database
 
 	if workId != nil {
-		err := tfresource.ResourceRefreshForHybridPolling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.DisableNotFoundRetries, s.D, s)
+		identifier, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
 		if err != nil {
 			return err
 		}
 	}
-	return nil
+	return s.Get()
 }
 
 func (s *DatabaseDatabaseResourceCrud) Get() error {

@@ -1,3 +1,12 @@
+## 4.118.0 (April 26, 2023)
+
+### Added
+- Support for Enabling outbound private access using PE RCE for OIC Gen3 customers
+- Support for Fractional OCPU | Expose ADB.usedDataStorageSizeInGBs to customers | ADB-D and ADB on ExaC@C Fractional OCPU | Expose ADB.usedDataStorageSizeInGBs to customers
+- Added - Support for Cancel a full or incremental automatic backup
+### Bug Fix
+- Fix dbHome assigning database when it is not apart of the config.
+
 ## 4.117.0 (April 19, 2023)
 
 ### Added

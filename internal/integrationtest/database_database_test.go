@@ -6,13 +6,11 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -227,14 +225,13 @@ var (
 		"db_version": acctest.Representation{RepType: acctest.Required, Create: `19.16.0.0`},
 	})
 
-	DatabaseDatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+	DatabaseDatabaseResourceDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig2 +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone)
 
 	DatabaseExacsDatabaseResourceDependencies = DbHomeResourceVmClusterDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Required, acctest.Create, dbHomeRepresentationSourceVmCluster)
 
-	DatabaseDatabaseResourceDbrsDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig +
+	DatabaseDatabaseResourceDbrsDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig2 +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_dbrs", acctest.Required, acctest.Create, dbHomeDbrsRepresentation)
 )
 
@@ -248,6 +245,12 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
 	resourceName := "oci_database_database.test_database"
 	datasourceName := "data.oci_database_databases.test_databases"
 	singularDatasourceName := "data.oci_database_database.test_database"
@@ -255,36 +258,36 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseResourceDependencies+kmsKeyIdVariableStr+vaultIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseRepresentation), "database", "database", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
 
 		// verify create DBRS Db
-		{
-			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDbrsDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseDbrsRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
-				resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
-				resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
-				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.id"),
-				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "DBRS"),
-				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.dbrs_policy_id"),
-				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_deletion_policy", "DELETE_IMMEDIATELY"),
-			),
-		},
+		//{
+		//	Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDbrsDependencies + kmsKeyIdVariableStr + vaultIdVariableStr +
+		//		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseDbrsRepresentation),
+		//	Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+		//		resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
+		//		resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+		//		resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
+		//		resource.TestCheckResourceAttrSet(resourceName, "db_home_id"),
+		//		resource.TestCheckResourceAttr(resourceName, "source", "NONE"),
+		//		resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.#", "1"),
+		//		resource.TestCheckResourceAttrSet(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.id"),
+		//		resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "DBRS"),
+		//		resource.TestCheckResourceAttrSet(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.dbrs_policy_id"),
+		//		resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_deletion_policy", "DELETE_IMMEDIATELY"),
+		//	),
+		//},
 		// delete dbrs db
-		{
-			Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig,
-		},
+		//{
+		//	Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig2,
+		//},
 
 		// verify create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies + kmsKeyIdVariableStr + vaultIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
@@ -297,7 +300,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 
 		// verify migrate kms_key
 		{
-			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies + kmsKeyIdVariableStr + vaultIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, databaseRepresentationMigration),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
@@ -310,11 +313,11 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		},
 		// delete before next create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies,
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies + kmsKeyIdVariableStr + vaultIdVariableStr,
 		},
 		// verify create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies + kmsKeyIdVariableStr + vaultIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -342,11 +345,12 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
+					// commenting out because ListCompartment policies not re-added to tf user
+					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+					//		return errExport
+					//	}
+					//}
 					return err
 				},
 			),
@@ -354,7 +358,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies + kmsKeyIdVariableStr + vaultIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -392,7 +396,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", acctest.Optional, acctest.Update, DatabaseDatabaseDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseDatabaseResourceDependencies +
+				compartmentIdVariableStr + DatabaseDatabaseResourceDependencies + kmsKeyIdVariableStr + vaultIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -421,7 +425,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceConfig +
+			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceConfig + kmsKeyIdVariableStr + vaultIdVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseDatabaseSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_id"),

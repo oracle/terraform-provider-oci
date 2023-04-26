@@ -12,6 +12,10 @@ This resource provides the Db Home resource in Oracle Cloud Infrastructure Datab
 
 Creates a new Database Home in the specified database system based on the request parameters you provide. Applies only to bare metal and Exadata systems.
 
+**Important:** Unless `enable_database_delete` is explicitly set to true:
+* Terraform will not delete the database within the Db Home configuration but rather remove it from the config and state file.
+* This leads to dangling resources which are not managed via Terraform unless explicitly imported
+
 
 ## Example Usage
 
@@ -63,6 +67,7 @@ resource "oci_database_db_home" "test_db_home" {
 	}
 	defined_tags = var.db_home_defined_tags
 	display_name = var.db_home_display_name
+    enable_database_delete = false
 	freeform_tags = {"Department"= "Finance"}
 	is_desupported_version = var.db_home_is_desupported_version
 	kms_key_id = oci_kms_key.test_key.id
@@ -99,6 +104,7 @@ The following arguments are supported:
 	* `db_name` - (Optional) The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
 	* `db_workload` - (Applicable when source=NONE | VM_CLUSTER_NEW) The database workload type.
 	* `defined_tags` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+	* `enable_database_delete` - (Optional) Defaults to false. If omitted or set to false the provider will not delete databases removed from the Db Home configuration. 
 	* `freeform_tags` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 	* `kms_key_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	* `kms_key_version_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
