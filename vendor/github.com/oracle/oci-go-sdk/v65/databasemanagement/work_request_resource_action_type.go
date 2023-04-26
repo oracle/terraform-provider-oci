@@ -26,6 +26,8 @@ const (
 	WorkRequestResourceActionTypeInProgress WorkRequestResourceActionTypeEnum = "IN_PROGRESS"
 	WorkRequestResourceActionTypeRelated    WorkRequestResourceActionTypeEnum = "RELATED"
 	WorkRequestResourceActionTypeFailed     WorkRequestResourceActionTypeEnum = "FAILED"
+	WorkRequestResourceActionTypeEnabled    WorkRequestResourceActionTypeEnum = "ENABLED"
+	WorkRequestResourceActionTypeDisabled   WorkRequestResourceActionTypeEnum = "DISABLED"
 )
 
 var mappingWorkRequestResourceActionTypeEnum = map[string]WorkRequestResourceActionTypeEnum{
@@ -35,6 +37,8 @@ var mappingWorkRequestResourceActionTypeEnum = map[string]WorkRequestResourceAct
 	"IN_PROGRESS": WorkRequestResourceActionTypeInProgress,
 	"RELATED":     WorkRequestResourceActionTypeRelated,
 	"FAILED":      WorkRequestResourceActionTypeFailed,
+	"ENABLED":     WorkRequestResourceActionTypeEnabled,
+	"DISABLED":    WorkRequestResourceActionTypeDisabled,
 }
 
 var mappingWorkRequestResourceActionTypeEnumLowerCase = map[string]WorkRequestResourceActionTypeEnum{
@@ -44,6 +48,8 @@ var mappingWorkRequestResourceActionTypeEnumLowerCase = map[string]WorkRequestRe
 	"in_progress": WorkRequestResourceActionTypeInProgress,
 	"related":     WorkRequestResourceActionTypeRelated,
 	"failed":      WorkRequestResourceActionTypeFailed,
+	"enabled":     WorkRequestResourceActionTypeEnabled,
+	"disabled":    WorkRequestResourceActionTypeDisabled,
 }
 
 // GetWorkRequestResourceActionTypeEnumValues Enumerates the set of values for WorkRequestResourceActionTypeEnum
@@ -64,6 +70,8 @@ func GetWorkRequestResourceActionTypeEnumStringValues() []string {
 		"IN_PROGRESS",
 		"RELATED",
 		"FAILED",
+		"ENABLED",
+		"DISABLED",
 	}
 }
 

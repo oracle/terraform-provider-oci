@@ -235,6 +235,16 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"enable_process_automation_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"attachments": {
@@ -338,6 +348,17 @@ func createIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IntegrationInstanceClient()
 
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("enable_process_automation_trigger"); ok {
+		err := sync.EnableProcessAutomation()
+		if err != nil {
+			return err
+		}
+	}
+
 	var powerOff = false
 	if configState, ok := sync.D.GetOkExists("state"); ok {
 		wantedState := oci_integration.IntegrationInstanceLifecycleStateEnum(strings.ToUpper(configState.(string)))
@@ -377,6 +398,21 @@ func updateIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IntegrationInstanceClient()
 
+	if _, ok := sync.D.GetOkExists("enable_process_automation_trigger"); ok && sync.D.HasChange("enable_process_automation_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("enable_process_automation_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.EnableProcessAutomation()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("enable_process_automation_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
 	// Start/Stop Integration instance
 	powerOn, powerOff := false, false
 
@@ -556,6 +592,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 			}
 			request.NetworkEndpointDetails = tmp
 		}
+	}
+
+	if shape, ok := s.D.GetOkExists("shape"); ok {
+		request.Shape = oci_integration.CreateIntegrationInstanceDetailsShapeEnum(shape.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
@@ -897,6 +937,8 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("network_endpoint_details", nil)
 	}
 
+	s.D.Set("shape", s.Res.Shape)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.StateMessage != nil {
@@ -910,6 +952,29 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+
+	return nil
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) EnableProcessAutomation() error {
+	request := oci_integration.EnableProcessAutomationRequest{}
+
+	idTmp := s.D.Id()
+	request.IntegrationInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	_, err := s.Client.EnableProcessAutomation(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("enable_process_automation_trigger")
+	s.D.Set("enable_process_automation_trigger", val)
 
 	return nil
 }

@@ -62,6 +62,9 @@ type ExternalDbNode struct {
 
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Name of the domain.
+	DomainName *string `mandatory:"false" json:"domainName"`
 }
 
 func (m ExternalDbNode) String() string {

@@ -212,14 +212,78 @@ func (client IntegrationInstanceClient) changeIntegrationInstanceNetworkEndpoint
 	return response, err
 }
 
+// ChangePrivateEndpointOutboundConnection Change private endpoint outbound connection for given Integration instance. The operation is long-running
+// and creates a new WorkRequest.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangePrivateEndpointOutboundConnection.go.html to see an example of how to use ChangePrivateEndpointOutboundConnection API.
+func (client IntegrationInstanceClient) ChangePrivateEndpointOutboundConnection(ctx context.Context, request ChangePrivateEndpointOutboundConnectionRequest) (response ChangePrivateEndpointOutboundConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changePrivateEndpointOutboundConnection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangePrivateEndpointOutboundConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangePrivateEndpointOutboundConnectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangePrivateEndpointOutboundConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangePrivateEndpointOutboundConnectionResponse")
+	}
+	return
+}
+
+// changePrivateEndpointOutboundConnection implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) changePrivateEndpointOutboundConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/changePrivateEndpointOutboundConnection", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangePrivateEndpointOutboundConnectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/ChangePrivateEndpointOutboundConnection"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "ChangePrivateEndpointOutboundConnection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateIntegrationInstance Creates a new Integration Instance.
 //
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/CreateIntegrationInstance.go.html to see an example of how to use CreateIntegrationInstance API.
+// A default retry strategy applies to this operation CreateIntegrationInstance()
 func (client IntegrationInstanceClient) CreateIntegrationInstance(ctx context.Context, request CreateIntegrationInstanceRequest) (response CreateIntegrationInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -324,6 +388,68 @@ func (client IntegrationInstanceClient) deleteIntegrationInstance(ctx context.Co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/DeleteIntegrationInstance"
 		err = common.PostProcessServiceError(err, "IntegrationInstance", "DeleteIntegrationInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableProcessAutomation Enable Process Automation for given Integration Instance
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/EnableProcessAutomation.go.html to see an example of how to use EnableProcessAutomation API.
+func (client IntegrationInstanceClient) EnableProcessAutomation(ctx context.Context, request EnableProcessAutomationRequest) (response EnableProcessAutomationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableProcessAutomation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableProcessAutomationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableProcessAutomationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableProcessAutomationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableProcessAutomationResponse")
+	}
+	return
+}
+
+// enableProcessAutomation implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) enableProcessAutomation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/enableProcessAutomation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableProcessAutomationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/EnableProcessAutomation"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "EnableProcessAutomation", apiReferenceLink)
 		return response, err
 	}
 

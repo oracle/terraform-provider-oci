@@ -940,6 +940,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Computed: true,
 			},
+			"used_data_storage_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"used_data_storage_size_in_tbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -1969,6 +1973,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TotalBackupStorageSizeInGBs != nil {
 		s.D.Set("total_backup_storage_size_in_gbs", *s.Res.TotalBackupStorageSizeInGBs)
+	}
+
+	if s.Res.UsedDataStorageSizeInGBs != nil {
+		s.D.Set("used_data_storage_size_in_gbs", *s.Res.UsedDataStorageSizeInGBs)
 	}
 
 	if s.Res.UsedDataStorageSizeInTBs != nil {
