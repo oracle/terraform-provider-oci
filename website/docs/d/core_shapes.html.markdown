@@ -76,6 +76,7 @@ The following attributes are exported:
 	If this field is null, then this shape has a fixed amount of memory equivalent to `memoryInGBs`. 
 	* `default_per_ocpu_in_gbs` - The default amount of memory per OCPU available for this shape, in gigabytes. 
 	* `max_in_gbs` - The maximum amount of memory, in gigabytes. 
+	* `max_per_numa_node_in_gbs` - The maximum amount of memory per NUMA node, in gigabytes. 
 	* `max_per_ocpu_in_gbs` - The maximum amount of memory per OCPU available for this shape, in gigabytes. 
 	* `min_in_gbs` - The minimum amount of memory, in gigabytes. 
 	* `min_per_ocpu_in_gbs` - The minimum amount of memory per OCPU available for this shape, in gigabytes. 
@@ -93,6 +94,7 @@ The following attributes are exported:
 
 	If this field is null, then this shape has a fixed number of OCPUs equal to `ocpus`. 
 	* `max` - The maximum number of OCPUs. 
+	* `max_per_numa_node` - The maximum number of cores available per NUMA node. 
 	* `min` - The minimum number of OCPUs. 
 * `ocpus` - The default number of OCPUs available for this shape. 
 

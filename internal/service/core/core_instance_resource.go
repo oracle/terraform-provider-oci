@@ -661,7 +661,10 @@ func CoreInstanceResource() *schema.Resource {
 				ForceNew:   true,
 				Deprecated: tfresource.FieldDeprecatedForAnother("subnet_id", "subnet_id under create_vnic_details"),
 			},
-
+			"is_cross_numa_node": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			// Computed
 			// Add this computed boot_volume_id field even though it's not part of the API specs. This will make it easier to
 			// discover the attached boot volume's ID; to preserve it for reattachment.
@@ -1361,6 +1364,10 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 
 	if s.Res.IpxeScript != nil {
 		s.D.Set("ipxe_script", *s.Res.IpxeScript)
+	}
+
+	if s.Res.IsCrossNumaNode != nil {
+		s.D.Set("is_cross_numa_node", *s.Res.IsCrossNumaNode)
 	}
 
 	s.D.Set("launch_mode", s.Res.LaunchMode)

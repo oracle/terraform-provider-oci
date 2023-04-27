@@ -132,6 +132,10 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("ipxe_script", *s.Res.IpxeScript)
 	}
 
+	if s.Res.IsCrossNumaNode != nil {
+		s.D.Set("is_cross_numa_node", *s.Res.IsCrossNumaNode)
+	}
+
 	s.D.Set("launch_mode", s.Res.LaunchMode)
 
 	if s.Res.LaunchOptions != nil {
