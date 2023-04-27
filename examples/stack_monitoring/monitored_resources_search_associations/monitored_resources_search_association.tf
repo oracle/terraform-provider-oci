@@ -40,6 +40,14 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource1" {
 		value = "7.0"
 	}
 	resource_time_zone = "en"
+	freeform_tags = { "bar-key" = "test_monitored_resource1.value" }
+	lifecycle {
+		ignore_changes = [
+			credentials,
+			properties,
+			external_id,
+			defined_tags]
+	}
 }
 resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource2" {
 	#Required
@@ -60,6 +68,14 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource2" {
 		value = "7.0"
 	}
 	resource_time_zone = "en"
+	freeform_tags = { "bar-key" = "test_monitored_resource2.value" }
+	lifecycle {
+		ignore_changes = [
+			credentials,
+			properties,
+			external_id,
+			defined_tags]
+	}
 }
 
 resource "oci_stack_monitoring_monitored_resources_associate_monitored_resource" "test_monitored_resources_associate_monitored_resource" {
@@ -68,6 +84,10 @@ resource "oci_stack_monitoring_monitored_resources_associate_monitored_resource"
 	compartment_id = var.compartment_ocid
 	destination_resource_id = oci_stack_monitoring_monitored_resource.test_monitored_resource2.id
 	source_resource_id = oci_stack_monitoring_monitored_resource.test_monitored_resource1.id
+	lifecycle {
+		ignore_changes = [
+			id]
+	}
 }
 
 resource "oci_stack_monitoring_monitored_resources_search_association" "test_monitored_resources_search_association" {

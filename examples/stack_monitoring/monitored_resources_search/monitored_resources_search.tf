@@ -40,6 +40,13 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource" {
 		value = "7.0"
 	}
 	resource_time_zone = "en"
+	lifecycle {
+		ignore_changes = [
+			credentials,
+			properties,
+			external_id,
+			defined_tags]
+	}
 }
 
 resource "oci_stack_monitoring_monitored_resources_search" "test_monitored_resources_search" {

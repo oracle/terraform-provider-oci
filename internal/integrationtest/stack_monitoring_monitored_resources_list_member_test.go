@@ -92,6 +92,9 @@ func TestStackMonitoringMonitoredResourcesListMemberResource_basic(t *testing.T)
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "destination_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.resource_name", "terraformResource"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.resource_type", "host"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "monitored_resource_id"),
 
 				func(s *terraform.State) (err error) {
