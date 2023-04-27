@@ -40,6 +40,7 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource" {
 		value = "7.0"
 	}
 	resource_time_zone = "en"
+	freeform_tags = { "bar-key" = "test_monitored_resource.value" }
 	lifecycle {
 		ignore_changes = [
 			properties, external_id]

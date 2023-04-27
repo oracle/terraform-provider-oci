@@ -22,12 +22,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
-/**
-  Dependency variables:
-      hostname = var.stack_mon_hostname_resource1
-      management_agent_id = var.stack_mon_management_agent_id_resource1
-      hostname2 = var.stack_mon_hostname_resource2
-      management_agent_id2 = var.stack_mon_management_agent_id_resource2
+/*
+*
+
+	Dependency variables:
+	    hostname = var.stack_mon_hostname_resource1
+	    management_agent_id = var.stack_mon_management_agent_id_resource1
+	    hostname2 = var.stack_mon_hostname_resource2
+	    management_agent_id2 = var.stack_mon_management_agent_id_resource2
 */
 var (
 	StackMonitoringMonitoredResourceRequiredOnlyResource = StackMonitoringMonitoredResourceResourceDependencies +
@@ -61,21 +63,22 @@ var (
 	}
 
 	StackMonitoringMonitoredResourceRepresentation = map[string]interface{}{
-		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":                        acctest.Representation{RepType: acctest.Required, Create: `terraformResource`},
-		"type":                        acctest.Representation{RepType: acctest.Required, Create: `host`},
-		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayNameTerra`, Update: `displayNameTerra2`},
-		"host_name":                   acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_hostname_resource1}`},
-		"management_agent_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_management_agent_id_resource1}`},
-		"credentials":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceCredentialsRepresentation},
-		"database_connection_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceDatabaseConnectionDetailsRepresentation},
-		"properties":                  []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty1}, {RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty2}},
-		"resource_time_zone":          acctest.Representation{RepType: acctest.Optional, Create: `en`},
-		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSensitiveDataRepresentation},
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":                   acctest.Representation{RepType: acctest.Required, Create: `terraformResource`},
+		"type":                   acctest.Representation{RepType: acctest.Required, Create: `host`},
+		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayNameTerra`, Update: `displayNameTerra2`},
+		"host_name":              acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_hostname_resource1}`},
+		"management_agent_id":    acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_management_agent_id_resource1}`},
+		"credentials":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceCredentialsRepresentation},
+		"additional_credentials": acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceAdditionalCredentialsRepresentation},
+		"additional_aliases":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceAdditionalAliasesCredentialRepresentation},
+		"properties":             []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty1}, {RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty2}},
+		"resource_time_zone":     acctest.Representation{RepType: acctest.Optional, Create: `en`},
+		"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSensitiveDataRepresentation},
 	}
 	//Get API does not return sensitive data, it returns null
 	ignoreSensitiveDataRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`credentials`, `database_connection_details`, `properties`, `external_id`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`credentials`, `properties`, `external_id`, `defined_tags`}},
 	}
 
 	StackMonitoredResourceRepresentation2 = map[string]interface{}{
@@ -87,6 +90,7 @@ var (
 		"management_agent_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_management_agent_id_resource2}`},
 		"properties":          []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty1}, {RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceOSCreateProperty2}},
 		"resource_time_zone":  acctest.Representation{RepType: acctest.Optional, Create: `en`},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSensitiveDataRepresentation},
 	}
 
 	StackMonitoringMonitoredResourceAliasesRepresentation = map[string]interface{}{
@@ -100,17 +104,28 @@ var (
 		"key_id":          acctest.Representation{RepType: acctest.Optional, Create: `somekeyid`},
 		"name":            acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
 		"properties":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceCredentialsPropertiesRepresentation},
-		"source":          acctest.Representation{RepType: acctest.Optional, Create: `host.terraformName`},
+		"source":          acctest.Representation{RepType: acctest.Optional, Create: `host.terraformResource`},
 		"type":            acctest.Representation{RepType: acctest.Optional, Create: `type`, Update: `type2`},
 	}
-	StackMonitoringMonitoredResourceDatabaseConnectionDetailsRepresentation = map[string]interface{}{
-		"port":           acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
-		"protocol":       acctest.Representation{RepType: acctest.Required, Create: `TCP`, Update: `TCPS`},
-		"service_name":   acctest.Representation{RepType: acctest.Required, Create: `service.name`},
-		"connector_id":   acctest.Representation{RepType: acctest.Optional, Create: `connector.id`},
-		"db_id":          acctest.Representation{RepType: acctest.Optional, Create: `db_id`},
-		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `dbUniqueName`, Update: `dbUniqueName2`},
-		"ssl_secret_id":  acctest.Representation{RepType: acctest.Optional, Create: `ssl_secret_id`},
+	StackMonitoringMonitoredResourceAdditionalCredentialsRepresentation = map[string]interface{}{
+		"credential_type": acctest.Representation{RepType: acctest.Optional, Create: `PLAINTEXT`, Update: `PLAINTEXT`},
+		"description":     acctest.Representation{RepType: acctest.Optional, Create: `description3`, Update: `description4`},
+		"key_id":          acctest.Representation{RepType: acctest.Optional, Create: `somekeyid`},
+		"name":            acctest.Representation{RepType: acctest.Optional, Create: `name3`, Update: `name4`},
+		"properties":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceAdditionalCredentialsPropertiesRepresentation},
+		"source":          acctest.Representation{RepType: acctest.Optional, Create: `host.terraformResource`},
+		"type":            acctest.Representation{RepType: acctest.Optional, Create: `type3`, Update: `type4`},
+	}
+
+	StackMonitoringMonitoredResourceAdditionalAliasesCredentialRepresentation = map[string]interface{}{
+		"credential": acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMonitoredResourceAliasesCredentialRepresentation},
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `credAliasName`},
+		"source":     acctest.Representation{RepType: acctest.Required, Create: `host.terraformResource`},
+	}
+
+	StackMonitoringMonitoredResourceAdditionalCredentialsPropertiesRepresentation = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Optional, Create: `JMXUserName`, Update: `name3`},
+		"value": acctest.Representation{RepType: acctest.Optional, Create: `WebLogic`, Update: `value3`},
 	}
 	StackMonitoringMonitoredResourceAliasesCredentialRepresentation = map[string]interface{}{
 		"name":    acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
@@ -292,6 +307,8 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
+				"additional_credentials",
+				"additional_aliases",
 				"external_resource_id",
 			},
 			ResourceName: resourceName,

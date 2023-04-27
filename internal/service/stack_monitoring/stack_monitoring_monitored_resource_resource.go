@@ -49,6 +49,118 @@ func StackMonitoringMonitoredResourceResource() *schema.Resource {
 			},
 
 			// Optional
+			"additional_aliases": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"credential": {
+							Type:     schema.TypeList,
+							Required: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"service": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"source": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"source": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"additional_credentials": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"credential_type": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"ENCRYPTED",
+								"EXISTING",
+								"PLAINTEXT",
+							}, true),
+						},
+						"description": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"properties": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"source": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"aliases": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -260,12 +372,15 @@ func StackMonitoringMonitoredResourceResource() *schema.Resource {
 
 			// Computed
 			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
+				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
@@ -365,6 +480,40 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) DeletedTarget() []string 
 func (s *StackMonitoringMonitoredResourceResourceCrud) Create() error {
 	request := oci_stack_monitoring.CreateMonitoredResourceRequest{}
 
+	if additionalAliases, ok := s.D.GetOkExists("additional_aliases"); ok {
+		interfaces := additionalAliases.([]interface{})
+		tmp := make([]oci_stack_monitoring.MonitoredResourceAliasCredential, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_aliases", stateDataIndex)
+			converted, err := s.mapToMonitoredResourceAliasCredential(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("additional_aliases") {
+			request.AdditionalAliases = tmp
+		}
+	}
+
+	if additionalCredentials, ok := s.D.GetOkExists("additional_credentials"); ok {
+		interfaces := additionalCredentials.([]interface{})
+		tmp := make([]oci_stack_monitoring.MonitoredResourceCredential, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_credentials", stateDataIndex)
+			converted, err := s.mapToMonitoredResourceCredential(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("additional_credentials") {
+			request.AdditionalCredentials = tmp
+		}
+	}
+
 	if aliases, ok := s.D.GetOkExists("aliases"); ok {
 		if tmpList := aliases.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "aliases", 0)
@@ -403,6 +552,14 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) Create() error {
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -416,6 +573,10 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) Create() error {
 	if externalId, ok := s.D.GetOkExists("external_id"); ok {
 		tmp := externalId.(string)
 		request.ExternalId = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostName, ok := s.D.GetOkExists("host_name"); ok {
@@ -615,6 +776,40 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) Update() error {
 	}
 	request := oci_stack_monitoring.UpdateMonitoredResourceRequest{}
 
+	if additionalAliases, ok := s.D.GetOkExists("additional_aliases"); ok {
+		interfaces := additionalAliases.([]interface{})
+		tmp := make([]oci_stack_monitoring.MonitoredResourceAliasCredential, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_aliases", stateDataIndex)
+			converted, err := s.mapToMonitoredResourceAliasCredential(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("additional_aliases") {
+			request.AdditionalAliases = tmp
+		}
+	}
+
+	if additionalCredentials, ok := s.D.GetOkExists("additional_credentials"); ok {
+		interfaces := additionalCredentials.([]interface{})
+		tmp := make([]oci_stack_monitoring.MonitoredResourceCredential, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_credentials", stateDataIndex)
+			converted, err := s.mapToMonitoredResourceCredential(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("additional_credentials") {
+			request.AdditionalCredentials = tmp
+		}
+	}
+
 	if aliases, ok := s.D.GetOkExists("aliases"); ok {
 		if tmpList := aliases.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "aliases", 0)
@@ -648,9 +843,21 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) Update() error {
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if hostName, ok := s.D.GetOkExists("host_name"); ok {
