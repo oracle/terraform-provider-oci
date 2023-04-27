@@ -141,11 +141,15 @@ variable "monitor_availability_configuration_min_allowed_runs_per_interval" {
 }
 
 variable "monitor_maintenance_window_schedule_time_ended" {
-  default = "2023-02-12T22:47:12.613Z"
+  default = "2025-02-12T22:47:12.613Z"
 }
 
 variable "monitor_maintenance_window_schedule_time_started" {
-  default = "2022-12-18T22:47:12.654Z"
+  default = "2024-12-18T22:47:12.654Z"
+}
+
+variable "vantage_points" {
+  default = ["OraclePublic-us-ashburn-1"]
 }
 
 provider "oci" {
@@ -162,7 +166,7 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
   display_name               = var.monitor_display_name
   monitor_type               = var.monitor_monitor_type
   repeat_interval_in_seconds = var.monitor_repeat_interval_in_seconds
-  vantage_points   = ["OraclePublic-us-ashburn-1"]
+  vantage_points   = var.vantage_points
 
   #Optional
   configuration {
