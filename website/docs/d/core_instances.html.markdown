@@ -119,6 +119,7 @@ The following attributes are exported:
 	For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 	For more information about iPXE, see http://ipxe.org. 
+* `is_cross_numa_node` - Whether the instance’s OCPUs and memory are distributed across multiple NUMA nodes. 
 * `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 	* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
 	* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
