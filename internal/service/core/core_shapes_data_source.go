@@ -138,6 +138,10 @@ func CoreShapesDataSource() *schema.Resource {
 										Type:     schema.TypeFloat,
 										Computed: true,
 									},
+									"max_per_numa_node_in_gbs": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
 									"max_per_ocpu_in_gbs": {
 										Type:     schema.TypeFloat,
 										Computed: true,
@@ -205,6 +209,10 @@ func CoreShapesDataSource() *schema.Resource {
 
 									// Computed
 									"max": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+									"max_per_numa_node": {
 										Type:     schema.TypeFloat,
 										Computed: true,
 									},
@@ -842,6 +850,10 @@ func ShapeMemoryOptionsToMap(obj *oci_core.ShapeMemoryOptions) map[string]interf
 		result["max_in_gbs"] = float32(*obj.MaxInGBs)
 	}
 
+	if obj.MaxPerNumaNodeInGBs != nil {
+		result["max_per_numa_node_in_gbs"] = float32(*obj.MaxPerNumaNodeInGBs)
+	}
+
 	if obj.MaxPerOcpuInGBs != nil {
 		result["max_per_ocpu_in_gbs"] = float32(*obj.MaxPerOcpuInGBs)
 	}
@@ -892,6 +904,10 @@ func ShapeOcpuOptionsToMap(obj *oci_core.ShapeOcpuOptions) map[string]interface{
 
 	if obj.Max != nil {
 		result["max"] = float32(*obj.Max)
+	}
+
+	if obj.MaxPerNumaNode != nil {
+		result["max_per_numa_node"] = float32(*obj.MaxPerNumaNode)
 	}
 
 	if obj.Min != nil {

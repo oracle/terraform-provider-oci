@@ -198,6 +198,10 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["ipxe_script"] = *r.IpxeScript
 		}
 
+		if r.IsCrossNumaNode != nil {
+			instance["is_cross_numa_node"] = *r.IsCrossNumaNode
+		}
+
 		instance["launch_mode"] = r.LaunchMode
 
 		if r.LaunchOptions != nil {
