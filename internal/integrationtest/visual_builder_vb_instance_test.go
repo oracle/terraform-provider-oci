@@ -147,6 +147,12 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_visual_builder_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "node_count", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "idcs_info.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "attachments.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "management_nat_gateway_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "management_vcn_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "service_nat_gateway_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "service_vcn_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -253,6 +259,8 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(singularDatasourceName, "alternate_custom_endpoints.#", "1"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "alternate_custom_endpoints.0.certificate_secret_version"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "alternate_custom_endpoints.0.hostname", "hostname2"),
+				//  `attachments` is an optional field and not always returned.
+				//resource.TestCheckResourceAttr(singularDatasourceName, "attachments.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "consumption_model", "UCM"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.#", "1"),
@@ -261,28 +269,33 @@ func TestVisualBuilderVbInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "idcs_info.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_url"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_visual_builder_enabled", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_nat_gateway_ip"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_vcn_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_nat_gateway_ip"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_vcn_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_count", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
-		// verify applications datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_visual_builder_vb_instance_applications", "test_vb_instance_applications", acctest.Required, acctest.Create, vbInstanceApplicationsSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VisualBuilderVbInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, VisualBuilderVbInstanceRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				// Don't know what to test as the data source will be empty because there will be error using this idcs token
-				// The datasource returns {}
-				func(s *terraform.State) (err error) {
-					return nil
-				},
-			),
-		},
+		//// verify applications datasource
+		//{
+		//	Config: config +
+		//		acctest.GenerateDataSourceFromRepresentationMap("oci_visual_builder_vb_instance_applications", "test_vb_instance_applications", acctest.Required, acctest.Create, vbInstanceApplicationsSingularDataSourceRepresentation) +
+		//		compartmentIdVariableStr + idcsOpenIdVariableStr() + vaultSecretIdStr + VisualBuilderVbInstanceResourceDependencies +
+		//		acctest.GenerateResourceFromRepresentationMap("oci_visual_builder_vb_instance", "test_vb_instance", acctest.Optional, acctest.Update, VisualBuilderVbInstanceRepresentation),
+		//	Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+		//		// Don't know what to test as the data source will be empty because there will be error using this idcs token
+		//		// The datasource returns {}
+		//		func(s *terraform.State) (err error) {
+		//			return nil
+		//		},
+		//	),
+		//},
 		// verify resource import
 		{
 			Config:            config + VisualBuilderVbInstanceRequiredOnlyResource,

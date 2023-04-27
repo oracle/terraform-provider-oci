@@ -133,7 +133,89 @@ func VisualBuilderVbInstanceResource() *schema.Resource {
 			},
 
 			// Computed
+			"attachments": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_implicit": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"target_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"target_instance_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"target_role": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"target_service_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"idcs_info": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"idcs_app_display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"idcs_app_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"idcs_app_location_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"idcs_app_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"instance_primary_audience_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"instance_url": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"management_nat_gateway_ip": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"management_vcn_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"service_nat_gateway_ip": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"service_vcn_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -561,6 +643,12 @@ func (s *VisualBuilderVbInstanceResourceCrud) SetData() error {
 	}
 	s.D.Set("alternate_custom_endpoints", alternateCustomEndpoints)
 
+	attachments := []interface{}{}
+	for _, item := range s.Res.Attachments {
+		attachments = append(attachments, AttachmentDetailsToMap(item))
+	}
+	s.D.Set("attachments", attachments)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -583,6 +671,12 @@ func (s *VisualBuilderVbInstanceResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IdcsInfo != nil {
+		s.D.Set("idcs_info", []interface{}{IdcsInfoDetailsToMap(s.Res.IdcsInfo)})
+	} else {
+		s.D.Set("idcs_info", nil)
+	}
+
 	if s.Res.InstanceUrl != nil {
 		s.D.Set("instance_url", *s.Res.InstanceUrl)
 	}
@@ -591,8 +685,24 @@ func (s *VisualBuilderVbInstanceResourceCrud) SetData() error {
 		s.D.Set("is_visual_builder_enabled", *s.Res.IsVisualBuilderEnabled)
 	}
 
+	if s.Res.ManagementNatGatewayIp != nil {
+		s.D.Set("management_nat_gateway_ip", *s.Res.ManagementNatGatewayIp)
+	}
+
+	if s.Res.ManagementVcnId != nil {
+		s.D.Set("management_vcn_id", *s.Res.ManagementVcnId)
+	}
+
 	if s.Res.NodeCount != nil {
 		s.D.Set("node_count", *s.Res.NodeCount)
+	}
+
+	if s.Res.ServiceNatGatewayIp != nil {
+		s.D.Set("service_nat_gateway_ip", *s.Res.ServiceNatGatewayIp)
+	}
+
+	if s.Res.ServiceVcnId != nil {
+		s.D.Set("service_vcn_id", *s.Res.ServiceVcnId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -614,6 +724,30 @@ func (s *VisualBuilderVbInstanceResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func AttachmentDetailsToMap(obj oci_visual_builder.AttachmentDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsImplicit != nil {
+		result["is_implicit"] = bool(*obj.IsImplicit)
+	}
+
+	if obj.TargetId != nil {
+		result["target_id"] = string(*obj.TargetId)
+	}
+
+	if obj.TargetInstanceUrl != nil {
+		result["target_instance_url"] = string(*obj.TargetInstanceUrl)
+	}
+
+	result["target_role"] = string(obj.TargetRole)
+
+	if obj.TargetServiceType != nil {
+		result["target_service_type"] = string(*obj.TargetServiceType)
+	}
+
+	return result
 }
 
 func (s *VisualBuilderVbInstanceResourceCrud) mapToCreateCustomEndpointDetails(fieldKeyFormat string) (oci_visual_builder.CreateCustomEndpointDetails, error) {
@@ -661,6 +795,32 @@ func VbCustomEndpointDetailsToMap(obj *oci_visual_builder.CustomEndpointDetails)
 
 	if obj.Hostname != nil {
 		result["hostname"] = string(*obj.Hostname)
+	}
+
+	return result
+}
+
+func IdcsInfoDetailsToMap(obj *oci_visual_builder.IdcsInfoDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IdcsAppDisplayName != nil {
+		result["idcs_app_display_name"] = string(*obj.IdcsAppDisplayName)
+	}
+
+	if obj.IdcsAppId != nil {
+		result["idcs_app_id"] = string(*obj.IdcsAppId)
+	}
+
+	if obj.IdcsAppLocationUrl != nil {
+		result["idcs_app_location_url"] = string(*obj.IdcsAppLocationUrl)
+	}
+
+	if obj.IdcsAppName != nil {
+		result["idcs_app_name"] = string(*obj.IdcsAppName)
+	}
+
+	if obj.InstancePrimaryAudienceUrl != nil {
+		result["instance_primary_audience_url"] = string(*obj.InstancePrimaryAudienceUrl)
 	}
 
 	return result
