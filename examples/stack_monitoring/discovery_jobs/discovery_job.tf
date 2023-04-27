@@ -8,7 +8,9 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 variable "stack_mon_management_agent_id_discovery" {}
-
+variable "discovery_job_should_propagate_tags_to_discovered_resources" {
+	default = false
+}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -24,6 +26,7 @@ resource "oci_stack_monitoring_discovery_job" "test_discovery_job" {
 	compartment_id = var.compartment_ocid
 	discovery_client = "LA_SERVICE"
 	discovery_type = "ADD"
+	should_propagate_tags_to_discovered_resources = var.discovery_job_should_propagate_tags_to_discovered_resources
 	discovery_details {
 		#Required
 		agent_id = var.stack_mon_management_agent_id_discovery
@@ -56,6 +59,10 @@ resource "oci_stack_monitoring_discovery_job" "test_discovery_job" {
 				}
 			}
 		}
+	}
+	lifecycle {
+		ignore_changes = [
+			discovery_details, system_tags, defined_tags]
 	}
 }
 data "oci_stack_monitoring_discovery_jobs" "test_discovery_jobs" {

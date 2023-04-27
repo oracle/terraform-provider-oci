@@ -93,6 +93,10 @@ func StackMonitoringMonitoredResourcesSearchAssociationResource() *schema.Resour
 									// Optional
 
 									// Computed
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -118,6 +122,10 @@ func StackMonitoringMonitoredResourcesSearchAssociationResource() *schema.Resour
 									// Optional
 
 									// Computed
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
