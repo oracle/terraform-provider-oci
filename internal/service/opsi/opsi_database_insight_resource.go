@@ -77,6 +77,10 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"wallet_secret_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -92,10 +96,12 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 						"host_name": {
 							Type:     schema.TypeString,
 							Computed: true,
+							Optional: true,
 						},
 						"hosts": {
 							Type:     schema.TypeList,
 							Computed: true,
+							Optional: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -105,10 +111,12 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 									// Computed
 									"host_ip": {
 										Type:     schema.TypeString,
+										Optional: true,
 										Computed: true,
 									},
 									"port": {
 										Type:     schema.TypeInt,
+										Optional: true,
 										Computed: true,
 									},
 								},
@@ -117,13 +125,16 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 						"port": {
 							Type:     schema.TypeInt,
 							Computed: true,
+							Optional: true,
 						},
 						"protocol": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"service_name": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 					},
@@ -171,6 +182,13 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 						"user_name": {
 							Type:     schema.TypeString,
 							Optional: true,
+							//Computed: true,
+							//ForceNew: true,
+						},
+						"wallet_secret_id": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Sensitive: true,
 							//Computed: true,
 							//ForceNew: true,
 						},
@@ -819,6 +837,15 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 		} else {
 			s.D.Set("credential_details", nil)
 		}
+		if v.ConnectionDetails != nil {
+			connectionDetailsArray := []interface{}{}
+			if connectionDetailsMap := PeComanagedDatabaseConnectionDetailsToMap(v.ConnectionDetails); connectionDetailsMap != nil {
+				connectionDetailsArray = append(connectionDetailsArray, connectionDetailsMap)
+			}
+			s.D.Set("connection_details", connectionDetailsArray)
+		} else {
+			s.D.Set("connection_details", nil)
+		}
 
 		if v.DatabaseDisplayName != nil {
 			s.D.Set("database_display_name", *v.DatabaseDisplayName)
@@ -977,6 +1004,10 @@ func (s *OpsiDatabaseInsightResourceCrud) mapToCredentialDetails(fieldKeyFormat 
 			tmp := userName.(string)
 			details.UserName = &tmp
 		}
+		if walletSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_secret_id")); ok {
+			tmp := walletSecretId.(string)
+			details.WalletSecretId = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown credential_type '%v' was specified", credentialType)
@@ -1000,6 +1031,10 @@ func CredentialDetailsToMap(obj *oci_opsi.CredentialDetails) map[string]interfac
 
 		if v.UserName != nil {
 			result["user_name"] = string(*v.UserName)
+		}
+
+		if v.WalletSecretId != nil {
+			result["wallet_secret_id"] = string(*v.WalletSecretId)
 		}
 
 	default:
@@ -1335,6 +1370,17 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 		request.CreateDatabaseInsightDetails = details
 	case strings.ToLower("PE_COMANAGED_DATABASE"):
 		details := oci_opsi.CreatePeComanagedDatabaseInsightDetails{}
+
+		if connectionDetails, ok := s.D.GetOkExists("connection_details"); ok {
+			if tmpList := connectionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_details", 0)
+				tmp, err := s.mapToPeComanagedDatabaseConnectionDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ConnectionDetails = &tmp
+			}
+		}
 		if credentialDetails, ok := s.D.GetOkExists("credential_details"); ok {
 			if tmpList := credentialDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "credential_details", 0)
@@ -1405,6 +1451,7 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatab
 	} else {
 		entitySource = "" // default value
 	}
+
 	switch strings.ToLower(entitySource) {
 	case strings.ToLower("EM_MANAGED_EXTERNAL_DATABASE"):
 		details := oci_opsi.UpdateEmManagedExternalDatabaseInsightDetails{}
@@ -1478,6 +1525,16 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicEnableDatab
 					return err
 				}
 				details.CredentialDetails = tmp
+			}
+		}
+		if connectionDetails, ok := s.D.GetOkExists("connection_details"); ok {
+			if tmpList := connectionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connection_details", 0)
+				tmp, err := s.mapToPeComanagedDatabaseConnectionDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ConnectionDetails = &tmp
 			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {

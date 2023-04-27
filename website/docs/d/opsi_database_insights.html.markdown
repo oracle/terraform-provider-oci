@@ -68,6 +68,7 @@ The following attributes are exported:
 	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 	* `role` - database user role.
 	* `user_name` - database user name.
+	* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
 * `connection_details` - Connection details to connect to the database. HostName, protocol, and port should be specified.
 	* `host_name` - Name of the listener host that will be used to create the connect string to the database.
 	* `hosts` - List of hosts and port for private endpoint accessed database resource.
@@ -82,6 +83,7 @@ The following attributes are exported:
 	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 	* `role` - database user role.
 	* `user_name` - database user name.
+	* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
 * `database_connection_status_details` - A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.
 * `database_display_name` - Display name of database
 * `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
