@@ -26,7 +26,6 @@ variable "node_pool_ssh_public_key" {
 }
 
 variable "kms_vault_id" {
-
 }
 
 variable "node_pool_node_eviction_node_pool_settings_eviction_grace_duration" {
@@ -35,6 +34,18 @@ variable "node_pool_node_eviction_node_pool_settings_eviction_grace_duration" {
 
 variable "node_pool_node_eviction_node_pool_settings_is_force_delete_after_grace_duration" {
   default = false
+}
+
+variable "node_pool_cycling_details_is_node_cycling_enabled" {
+  default = true
+}
+
+variable "node_pool_cycling_details_maximum_surge" {
+  default = "1"
+}
+
+variable "node_pool_cycling_details_maximum_unavailable" {
+  default = "0"
 }
 
 variable "node_pool_state" {
@@ -155,7 +166,7 @@ resource "oci_core_subnet" "nodePool_Subnet_2" {
 resource "oci_containerengine_cluster" "test_cluster" {
   #Required
   compartment_id     = var.compartment_ocid
-  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
+  kubernetes_version = data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[0]
   name               = "tfTestCluster"
   vcn_id             = oci_core_vcn.test_vcn.id
 
@@ -195,10 +206,10 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
   #Required
   cluster_id         = oci_containerengine_cluster.test_cluster.id
   compartment_id     = var.compartment_ocid
-  kubernetes_version = reverse(data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions)[0]
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "tfPool"
   node_shape         = "VM.Standard2.1"
-  subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id]
+  subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id, oci_core_subnet.nodePool_Subnet_2.id]
 
   #Optional
   initial_node_labels {
@@ -211,6 +222,13 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
     #Optional
     eviction_grace_duration              = var.node_pool_node_eviction_node_pool_settings_eviction_grace_duration
     is_force_delete_after_grace_duration = var.node_pool_node_eviction_node_pool_settings_is_force_delete_after_grace_duration
+  }
+
+  node_pool_cycling_details {
+    #Optional
+    is_node_cycling_enabled = var.node_pool_cycling_details_is_node_cycling_enabled
+    maximum_surge           = var.node_pool_cycling_details_maximum_surge
+    maximum_unavailable     = var.node_pool_cycling_details_maximum_unavailable
   }
 
   node_source_details {
@@ -230,10 +248,10 @@ resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
   #Required
   cluster_id         = oci_containerengine_cluster.test_cluster.id
   compartment_id     = var.compartment_ocid
-  kubernetes_version = reverse(data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions)[0]
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "flexShapePool"
   node_shape         = "VM.Standard.E3.Flex"
-  subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id]
+  subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id, oci_core_subnet.nodePool_Subnet_2.id]
 
   node_source_details {
     #Required
