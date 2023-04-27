@@ -204,6 +204,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["id"] = *r.Id
 		}
 
+		if r.IsMtlsEnabledVmCluster != nil {
+			cloudAutonomousVmCluster["is_mtls_enabled_vm_cluster"] = *r.IsMtlsEnabledVmCluster
+		}
+
 		if r.LastMaintenanceRunId != nil {
 			cloudAutonomousVmCluster["last_maintenance_run_id"] = *r.LastMaintenanceRunId
 		}
@@ -248,6 +252,14 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.ReclaimableCpus != nil {
 			cloudAutonomousVmCluster["reclaimable_cpus"] = *r.ReclaimableCpus
+		}
+
+		if r.ScanListenerPortNonTls != nil {
+			cloudAutonomousVmCluster["scan_listener_port_non_tls"] = *r.ScanListenerPortNonTls
+		}
+
+		if r.ScanListenerPortTls != nil {
+			cloudAutonomousVmCluster["scan_listener_port_tls"] = *r.ScanListenerPortTls
 		}
 
 		if r.Shape != nil {
