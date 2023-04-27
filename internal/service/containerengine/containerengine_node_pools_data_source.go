@@ -178,6 +178,12 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 			nodePool["node_image_name"] = *r.NodeImageName
 		}
 
+		if r.NodePoolCyclingDetails != nil {
+			nodePool["node_pool_cycling_details"] = []interface{}{NodePoolCyclingDetailsToMap(r.NodePoolCyclingDetails)}
+		} else {
+			nodePool["node_pool_cycling_details"] = nil
+		}
+
 		if r.NodeShape != nil {
 			nodePool["node_shape"] = *r.NodeShape
 		}
