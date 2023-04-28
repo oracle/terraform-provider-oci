@@ -26,10 +26,6 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"external_exadata_infrastructure_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -181,11 +177,6 @@ func (s *DatabaseManagementManagedDatabasesDataSourceCrud) Get() error {
 
 	if deploymentType, ok := s.D.GetOkExists("deployment_type"); ok {
 		request.DeploymentType = oci_database_management.ListManagedDatabasesDeploymentTypeEnum(deploymentType.(string))
-	}
-
-	if externalExadataInfrastructureId, ok := s.D.GetOkExists("external_exadata_infrastructure_id"); ok {
-		tmp := externalExadataInfrastructureId.(string)
-		request.ExternalExadataInfrastructureId = &tmp
 	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {

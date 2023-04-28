@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_management_managed_databases"
 sidebar_current: "docs-oci-datasource-database_management-managed_databases"
 description: |-
-  Provides the list of Managed Databases in Oracle Cloud Infrastructure Database Management service
+Provides the list of Managed Databases in Oracle Cloud Infrastructure Database Management service
 ---
 
 # Data Source: oci_database_management_managed_databases
@@ -27,7 +27,6 @@ data "oci_database_management_managed_databases" "test_managed_databases" {
 
 	#Optional
 	deployment_type = var.managed_database_deployment_type
-	external_exadata_infrastructure_id = oci_database_management_external_exadata_infrastructure.test_external_exadata_infrastructure.id
 	id = var.managed_database_id
 	management_option = var.managed_database_management_option
 	name = var.managed_database_name
@@ -40,7 +39,6 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `deployment_type` - (Optional) A filter to return Managed Databases of the specified deployment type.
-* `external_exadata_infrastructure_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `id` - (Optional) The identifier of the resource.
 * `management_option` - (Optional) A filter to return Managed Databases with the specified management option.
 * `name` - (Optional) A filter to return only resources that match the entire name.
@@ -56,12 +54,12 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `additional_details` - The additional details specific to a type of database defined in `{"key": "value"}` format. Example: `{"bar-key": "value"}` 
+* `additional_details` - The additional details specific to a type of database defined in `{"key": "value"}` format. Example: `{"bar-key": "value"}`
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `database_status` - The status of the Oracle Database. Indicates whether the status of the database is UP, DOWN, or UNKNOWN at the current time. 
-* `database_sub_type` - The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, Non-container Database, Autonomous Database, or Autonomous Container Database. 
+* `database_status` - The status of the Oracle Database. Indicates whether the status of the database is UP, DOWN, or UNKNOWN at the current time.
+* `database_sub_type` - The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, Non-container Database, Autonomous Database, or Autonomous Container Database.
 * `database_type` - The type of Oracle Database installation.
-* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system that this Managed Database is part of. 
+* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system that this Managed Database is part of.
 * `deployment_type` - The infrastructure used to deploy the Oracle Database.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 * `is_cluster` - Indicates whether the Oracle Database is part of a cluster.
@@ -71,8 +69,7 @@ The following attributes are exported:
 	* `name` - The name of the Managed Database Group.
 * `management_option` - The management option used when enabling Database Management.
 * `name` - The name of the Managed Database.
-* `parent_container_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent Container Database if Managed Database is a Pluggable Database. 
+* `parent_container_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent Container Database if Managed Database is a Pluggable Database.
 * `storage_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the storage DB system.
 * `time_created` - The date and time the Managed Database was created.
 * `workload_type` - The workload type of the Autonomous Database.
-
