@@ -55,6 +55,7 @@ func (m *databasetoolskeystorecontentdetails) UnmarshalPolymorphicJSON(data []by
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DatabaseToolsKeyStoreContentDetails: %s.", m.ValueType)
 		return *m, nil
 	}
 }

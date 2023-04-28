@@ -72,6 +72,7 @@ func (m *detectanomaliesdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DetectAnomaliesDetails: %s.", m.RequestType)
 		return *m, nil
 	}
 }

@@ -59,6 +59,7 @@ func (m *updatecolumnsourcedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for UpdateColumnSourceDetails: %s.", m.ColumnSource)
 		return *m, nil
 	}
 }

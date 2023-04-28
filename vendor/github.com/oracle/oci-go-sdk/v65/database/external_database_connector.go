@@ -118,6 +118,7 @@ func (m *externaldatabaseconnector) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for ExternalDatabaseConnector: %s.", m.ConnectorType)
 		return *m, nil
 	}
 }

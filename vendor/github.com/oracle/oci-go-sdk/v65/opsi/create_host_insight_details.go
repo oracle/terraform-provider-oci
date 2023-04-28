@@ -82,6 +82,7 @@ func (m *createhostinsightdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateHostInsightDetails: %s.", m.EntitySource)
 		return *m, nil
 	}
 }

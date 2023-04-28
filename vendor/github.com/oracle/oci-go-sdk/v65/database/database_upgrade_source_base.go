@@ -69,6 +69,7 @@ func (m *databaseupgradesourcebase) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DatabaseUpgradeSourceBase: %s.", m.Source)
 		return *m, nil
 	}
 }

@@ -112,6 +112,7 @@ func (m *databasetoolsconnection) UnmarshalPolymorphicJSON(data []byte) (interfa
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DatabaseToolsConnection: %s.", m.Type)
 		return *m, nil
 	}
 }

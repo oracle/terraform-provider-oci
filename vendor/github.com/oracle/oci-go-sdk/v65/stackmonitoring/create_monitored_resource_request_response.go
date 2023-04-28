@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoredResource.go.html to see an example of how to use CreateMonitoredResourceRequest.
 type CreateMonitoredResourceRequest struct {
 
-	// Details for the new Resource.
+	// Details for the new monitored resource.
 	CreateMonitoredResourceDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

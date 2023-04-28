@@ -18,16 +18,16 @@ import (
 // MonitoredResourceAssociationSummary Summary of the monitored resource association.
 type MonitoredResourceAssociationSummary struct {
 
-	// Association type to be created between source and destination resources
+	// Association type between source and destination resources.
 	AssociationType *string `mandatory:"true" json:"associationType"`
 
-	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SourceResourceId *string `mandatory:"true" json:"sourceResourceId"`
 
-	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DestinationResourceId *string `mandatory:"true" json:"destinationResourceId"`
 
-	// The time the the association was created. An RFC3339 formatted datetime string
+	// The association creation time. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	SourceResourceDetails *AssociationResourceDetails `mandatory:"false" json:"sourceResourceDetails"`

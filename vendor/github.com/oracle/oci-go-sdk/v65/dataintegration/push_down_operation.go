@@ -71,6 +71,7 @@ func (m *pushdownoperation) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for PushDownOperation: %s.", m.ModelType)
 		return *m, nil
 	}
 }

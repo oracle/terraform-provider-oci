@@ -69,6 +69,7 @@ func (m *drplanexecutionoptiondetails) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DrPlanExecutionOptionDetails: %s.", m.PlanExecutionType)
 		return *m, nil
 	}
 }

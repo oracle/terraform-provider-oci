@@ -55,6 +55,7 @@ func (m *partitionconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for PartitionConfig: %s.", m.ModelType)
 		return *m, nil
 	}
 }

@@ -18,7 +18,8 @@ import (
 // MonitoredResourceAliasCredential Monitored Resource Alias Credential Details
 type MonitoredResourceAliasCredential struct {
 
-	// The source type and source name combination,delimited with (.) separator. Ex. {source type}.{source name} and source type max char limit is 63.
+	// The source type and source name combination,delimited with (.) separator.
+	// Example: {source type}.{source name} and source type max char limit is 63.
 	Source *string `mandatory:"true" json:"source"`
 
 	// The name of the alias, within the context of the source.

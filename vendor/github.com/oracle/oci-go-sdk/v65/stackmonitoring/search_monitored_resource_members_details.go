@@ -18,10 +18,10 @@ import (
 // SearchMonitoredResourceMembersDetails The search criteria for listing monitored resource member targets.
 type SearchMonitoredResourceMembersDetails struct {
 
-	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DestinationResourceId *string `mandatory:"false" json:"destinationResourceId"`
 
-	// The field which determines the depth of hierarchy while searching for members
+	// The field which determines the depth of hierarchy while searching for members.
 	LimitLevel *int `mandatory:"false" json:"limitLevel"`
 }
 

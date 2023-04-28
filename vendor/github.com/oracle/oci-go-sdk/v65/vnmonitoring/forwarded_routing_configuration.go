@@ -60,6 +60,7 @@ func (m *forwardedroutingconfiguration) UnmarshalPolymorphicJSON(data []byte) (i
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for ForwardedRoutingConfiguration: %s.", m.Type)
 		return *m, nil
 	}
 }

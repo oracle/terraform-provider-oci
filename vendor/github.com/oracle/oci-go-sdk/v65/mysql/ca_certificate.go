@@ -55,6 +55,7 @@ func (m *cacertificate) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CaCertificate: %s.", m.CertificateType)
 		return *m, nil
 	}
 }

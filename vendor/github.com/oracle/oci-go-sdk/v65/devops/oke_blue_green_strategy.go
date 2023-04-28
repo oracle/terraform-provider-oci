@@ -55,6 +55,7 @@ func (m *okebluegreenstrategy) UnmarshalPolymorphicJSON(data []byte) (interface{
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for OkeBlueGreenStrategy: %s.", m.StrategyType)
 		return *m, nil
 	}
 }

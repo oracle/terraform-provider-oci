@@ -75,6 +75,7 @@ func (m *updatejobdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for UpdateJobDetails: %s.", m.JobType)
 		return *m, nil
 	}
 }

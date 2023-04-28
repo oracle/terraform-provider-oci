@@ -73,6 +73,18 @@ type VbInstance struct {
 
 	// A list of associated attachments to other services
 	Attachments []AttachmentDetails `mandatory:"false" json:"attachments"`
+
+	// The NAT gateway IP address for the VB service VCN
+	ServiceNatGatewayIp *string `mandatory:"false" json:"serviceNatGatewayIp"`
+
+	// The NAT gateway IP address for the VB management VCN
+	ManagementNatGatewayIp *string `mandatory:"false" json:"managementNatGatewayIp"`
+
+	// The Oracle Cloud ID (OCID) of the Visual Builder service VCN
+	ServiceVcnId *string `mandatory:"false" json:"serviceVcnId"`
+
+	// The Oracle Cloud ID (OCID) of the Visual Builder management VCN
+	ManagementVcnId *string `mandatory:"false" json:"managementVcnId"`
 }
 
 func (m VbInstance) String() string {

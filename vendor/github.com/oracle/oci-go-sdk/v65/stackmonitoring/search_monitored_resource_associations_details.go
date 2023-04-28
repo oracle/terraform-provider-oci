@@ -18,28 +18,28 @@ import (
 // SearchMonitoredResourceAssociationsDetails The information required to search monitored resource associations.
 type SearchMonitoredResourceAssociationsDetails struct {
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SourceResourceId *string `mandatory:"false" json:"sourceResourceId"`
 
-	// Source Monitored Resource Name
+	// Source Monitored Resource Name.
 	SourceResourceName *string `mandatory:"false" json:"sourceResourceName"`
 
-	// Source Monitored Resource Type
+	// Source Monitored Resource Type.
 	SourceResourceType *string `mandatory:"false" json:"sourceResourceType"`
 
-	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DestinationResourceId *string `mandatory:"false" json:"destinationResourceId"`
 
-	// Source Monitored Resource Name
+	// Source Monitored Resource Name.
 	DestinationResourceName *string `mandatory:"false" json:"destinationResourceName"`
 
-	// Source Monitored Resource Type
+	// Source Monitored Resource Type.
 	DestinationResourceType *string `mandatory:"false" json:"destinationResourceType"`
 
-	// Association type to be created between source and destination resources
+	// Association type filter to search associated resources.
 	AssociationType *string `mandatory:"false" json:"associationType"`
 
 	// The field to sort by. Only one sort order may be provided.

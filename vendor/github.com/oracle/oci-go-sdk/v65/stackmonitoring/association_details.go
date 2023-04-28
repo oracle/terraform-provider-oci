@@ -18,10 +18,10 @@ import (
 // AssociationDetails The information about monitored resource association.
 type AssociationDetails struct {
 
-	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SourceResourceId *string `mandatory:"true" json:"sourceResourceId"`
 
-	// Association Type
+	// Association Type.
 	AssociationType *string `mandatory:"true" json:"associationType"`
 }
 

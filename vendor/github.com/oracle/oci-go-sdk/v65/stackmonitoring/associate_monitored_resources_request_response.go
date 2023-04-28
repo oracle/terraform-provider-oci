@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/AssociateMonitoredResources.go.html to see an example of how to use AssociateMonitoredResourcesRequest.
 type AssociateMonitoredResourcesRequest struct {
 
-	// Associate resources.
+	// Details to create association between two resources.
 	AssociateMonitoredResourcesDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

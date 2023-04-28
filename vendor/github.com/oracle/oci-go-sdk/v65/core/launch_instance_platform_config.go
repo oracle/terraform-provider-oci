@@ -118,6 +118,7 @@ func (m *launchinstanceplatformconfig) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for LaunchInstancePlatformConfig: %s.", m.Type)
 		return *m, nil
 	}
 }

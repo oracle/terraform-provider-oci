@@ -59,6 +59,7 @@ func (m *functionprovisionedconcurrencyconfig) UnmarshalPolymorphicJSON(data []b
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for FunctionProvisionedConcurrencyConfig: %s.", m.Strategy)
 		return *m, nil
 	}
 }

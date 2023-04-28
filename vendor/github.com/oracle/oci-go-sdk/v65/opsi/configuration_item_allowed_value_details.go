@@ -65,6 +65,7 @@ func (m *configurationitemallowedvaluedetails) UnmarshalPolymorphicJSON(data []b
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for ConfigurationItemAllowedValueDetails: %s.", m.AllowedValueType)
 		return *m, nil
 	}
 }

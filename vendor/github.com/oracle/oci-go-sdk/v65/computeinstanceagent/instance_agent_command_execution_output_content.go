@@ -74,6 +74,7 @@ func (m *instanceagentcommandexecutionoutputcontent) UnmarshalPolymorphicJSON(da
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for InstanceAgentCommandExecutionOutputContent: %s.", m.OutputType)
 		return *m, nil
 	}
 }

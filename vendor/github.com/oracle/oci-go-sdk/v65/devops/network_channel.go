@@ -60,6 +60,7 @@ func (m *networkchannel) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for NetworkChannel: %s.", m.NetworkChannelType)
 		return *m, nil
 	}
 }

@@ -69,6 +69,7 @@ func (m *routingaction) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for RoutingAction: %s.", m.Action)
 		return *m, nil
 	}
 }

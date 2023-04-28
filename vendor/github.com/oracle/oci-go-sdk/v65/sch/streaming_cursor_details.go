@@ -61,6 +61,7 @@ func (m *streamingcursordetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for StreamingCursorDetails: %s.", m.Kind)
 		return *m, nil
 	}
 }

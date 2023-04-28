@@ -92,6 +92,7 @@ func (m *configsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for ConfigSource: %s.", m.ConfigSourceType)
 		return *m, nil
 	}
 }
