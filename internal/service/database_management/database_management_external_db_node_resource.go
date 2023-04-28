@@ -66,10 +66,6 @@ func DatabaseManagementExternalDbNodeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"domain_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"external_db_system_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -362,10 +358,6 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
-	}
-
-	if s.Res.DomainName != nil {
-		s.D.Set("domain_name", *s.Res.DomainName)
 	}
 
 	if s.Res.ExternalConnectorId != nil {

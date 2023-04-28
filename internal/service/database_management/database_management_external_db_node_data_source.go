@@ -85,10 +85,6 @@ func (s *DatabaseManagementExternalDbNodeDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	if s.Res.DomainName != nil {
-		s.D.Set("domain_name", *s.Res.DomainName)
-	}
-
 	if s.Res.ExternalConnectorId != nil {
 		s.D.Set("external_connector_id", *s.Res.ExternalConnectorId)
 	}
