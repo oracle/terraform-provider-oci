@@ -37,8 +37,8 @@ var (
 	}
 
 	DatabaseManagementExternalDbNodeRepresentation = map[string]interface{}{
-		"external_db_node_id":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_db_nodes.test_external_db_nodes.external_db_node_collection.0.items.1.id}`},
-		"external_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_db_nodes.test_external_db_nodes.external_db_node_collection.0.items.1.external_connector_id}`},
+		"external_db_node_id":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_db_nodes.test_external_db_nodes.external_db_node_collection.0.items.0.id}`},
+		"external_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_db_nodes.test_external_db_nodes.external_db_node_collection.0.items.0.external_connector_id}`},
 	}
 
 	DatabaseManagementExternalDbNodeResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_db_nodes", "test_external_db_nodes", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalDbNodeDataSourceRepresentation)

@@ -17,16 +17,15 @@ import (
 
 var (
 	DatabaseManagementDatabaseManagementManagedDatabaseSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
+		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}testManagedDatabase0`},
 	}
 
 	DatabaseManagementDatabaseManagementManagedDatabaseDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"deployment_type":                    acctest.Representation{RepType: acctest.Optional, Create: `ONPREMISE`},
-		"external_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_external_exadata_infrastructure.test_external_exadata_infrastructure.id}`},
-		"id":                                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
-		"management_option":                  acctest.Representation{RepType: acctest.Optional, Create: `BASIC`},
-		"name":                               acctest.Representation{RepType: acctest.Optional, Create: `name`},
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"deployment_type":   acctest.Representation{RepType: acctest.Optional, Create: `ONPREMISE`},
+		"id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_managed_database.test_managed_database.id}`},
+		"management_option": acctest.Representation{RepType: acctest.Optional, Create: `BASIC`},
+		"name":              acctest.Representation{RepType: acctest.Optional, Create: `name`},
 	}
 
 	DatabaseManagementManagedDatabaseResourceConfig = ""
@@ -34,7 +33,7 @@ var (
 
 // issue-routing-tag: database_management/default
 func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
-	//t.Skip("Skip this test till Database Management service provides a better way of testing this. It requires a live managed database instance")
+	t.Skip("Skip this test till Database Management service provides a better way of testing this. It requires a live managed database instance")
 	httpreplay.SetScenario("TestDatabaseManagementManagedDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -42,9 +41,6 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	testManagedDatabaseId := utils.GetEnvSettingWithBlankDefault("test_managed_database_id")
-	testManagedDatabaseIdVariableStr := fmt.Sprintf("variable \"test_managed_database_id\" { default = \"%s\" }\n", testManagedDatabaseId)
 
 	datasourceName := "data.oci_database_management_managed_databases.test_managed_databases"
 	singularDatasourceName := "data.oci_database_management_managed_database.test_managed_database"
@@ -71,7 +67,7 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database", "test_managed_database", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + DatabaseManagementManagedDatabaseResourceConfig,
+				compartmentIdVariableStr + DatabaseManagementManagedDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 
@@ -86,7 +82,10 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_groups.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_option"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_container_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_system_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "workload_type"),
 			),
 		},
 	})

@@ -105,31 +105,6 @@ func DatabaseManagementExternalDatabasesDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
-												"exadata_infra_info": {
-													Type:     schema.TypeList,
-													Computed: true,
-													Elem: &schema.Resource{
-														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
-															"compartment_id": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"display_name": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"id": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-														},
-													},
-												},
 												"id": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -374,28 +349,6 @@ func ExternalDatabaseSummaryToMap(obj oci_database_management.ExternalDatabaseSu
 }
 
 func ExternalDbSystemBasicInfoToMap(obj *oci_database_management.ExternalDbSystemBasicInfo) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	if obj.ExadataInfraInfo != nil {
-		result["exadata_infra_info"] = []interface{}{ExternalExadataInfraBasicInfoToMap(obj.ExadataInfraInfo)}
-	}
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	return result
-}
-
-func ExternalExadataInfraBasicInfoToMap(obj *oci_database_management.ExternalExadataInfraBasicInfo) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CompartmentId != nil {
