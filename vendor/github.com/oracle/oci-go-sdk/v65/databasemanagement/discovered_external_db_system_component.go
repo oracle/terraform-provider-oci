@@ -124,6 +124,7 @@ func (m *discoveredexternaldbsystemcomponent) UnmarshalPolymorphicJSON(data []by
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DiscoveredExternalDbSystemComponent: %s.", m.ComponentType)
 		return *m, nil
 	}
 }

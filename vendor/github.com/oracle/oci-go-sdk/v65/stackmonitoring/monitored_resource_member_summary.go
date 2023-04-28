@@ -15,31 +15,34 @@ import (
 	"strings"
 )
 
-// MonitoredResourceMemberSummary Monitored resource member
+// MonitoredResourceMemberSummary Monitored resource member details.
 type MonitoredResourceMemberSummary struct {
 
-	// Monitored resource identifier
+	// Monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// Monitored resource name
+	// Monitored Resource Name.
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
 	// Monitored resource display name.
 	ResourceDisplayName *string `mandatory:"false" json:"resourceDisplayName"`
 
-	// Monitored resource type
+	// Monitored Resource Type.
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 
-	// Monitored Resource Host
+	// Monitored Resource Host Name.
 	HostName *string `mandatory:"false" json:"hostName"`
 
 	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	// which is not a Stack Monitoring service resource.
-	// Currently supports only following resource type identifiers - externalcontainerdatabase,
-	// externalnoncontainerdatabase, externalpluggabledatabase and OCI compute instance.
+	// Currently supports only following resource types - Container database, non-container database,
+	// pluggable database and OCI compute instance.
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
-	// Parent monitored resource identifier
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	// Parent monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ParentId *string `mandatory:"false" json:"parentId"`
 
 	// The current state of the Resource.

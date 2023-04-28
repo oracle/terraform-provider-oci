@@ -304,5 +304,11 @@
         "realmKey": "oc14",
         "regionIdentifier": "eu-dcc-dublin-1",
         "realmDomainComponent": "oraclecloud14.com"
+    },
+    {
+        "regionKey": "beg",
+        "realmKey": "oc20",
+        "regionIdentifier": "eu-jovanovac-1",
+        "realmDomainComponent": "oraclecloud20.com"
     }
 ]

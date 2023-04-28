@@ -59,6 +59,7 @@ func (m *createserviceattachmentdetails) UnmarshalPolymorphicJSON(data []byte) (
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateServiceAttachmentDetails: %s.", m.Action)
 		return *m, nil
 	}
 }

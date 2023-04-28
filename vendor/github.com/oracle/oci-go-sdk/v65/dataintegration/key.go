@@ -55,6 +55,7 @@ func (m *key) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for Key: %s.", m.ModelType)
 		return *m, nil
 	}
 }

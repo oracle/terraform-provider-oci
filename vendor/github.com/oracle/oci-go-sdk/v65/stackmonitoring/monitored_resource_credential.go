@@ -16,10 +16,11 @@ import (
 	"strings"
 )
 
-// MonitoredResourceCredential Monitored Resource Credential Details
+// MonitoredResourceCredential Monitored Resource Credential Details.
 type MonitoredResourceCredential interface {
 
-	// The source type and source name combination,delimited with (.) separator. {source type}.{source name} and source type max char limit is 63.
+	// The source type and source name combination, delimited with (.) separator.
+	// {source type}.{source name} and source type max char limit is 63.
 	GetSource() *string
 
 	// The name of the credential, within the context of the source.
@@ -83,6 +84,7 @@ func (m *monitoredresourcecredential) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for MonitoredResourceCredential: %s.", m.CredentialType)
 		return *m, nil
 	}
 }

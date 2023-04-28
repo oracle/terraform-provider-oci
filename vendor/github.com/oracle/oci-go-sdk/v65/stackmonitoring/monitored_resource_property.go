@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// MonitoredResourceProperty Property of monitored resource
+// MonitoredResourceProperty Property of monitored resource.
 type MonitoredResourceProperty struct {
 
-	// property name
+	// Property Name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// property value
+	// Property Value.
 	Value *string `mandatory:"false" json:"value"`
 }
 

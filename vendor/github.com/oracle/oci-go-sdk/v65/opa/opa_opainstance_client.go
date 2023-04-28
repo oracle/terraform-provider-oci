@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OracleProcessAutomation API
+// Process Automation
 //
-// A description of the OracleProcessAutomation API
+// Process Automation helps you to rapidly design, automate, and manage business processes in the cloud. With the Process Automation design-time (Designer) and the runtime (Workspace) environments, you can easily create, develop, manage, test, and monitor process applications and their components.
 //
 
 package opa
@@ -63,7 +63,7 @@ func newOpaInstanceClientFromBaseClient(baseClient common.BaseClient, configProv
 
 // SetRegion overrides the region of this client.
 func (client *OpaInstanceClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("opa", "https://process-automation.{region}.oci.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("opa", "https://process.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -92,9 +92,10 @@ func (client *OpaInstanceClient) ConfigurationProvider() *common.ConfigurationPr
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
+// A default retry strategy applies to this operation CancelWorkRequest()
 func (client OpaInstanceClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -135,7 +136,7 @@ func (client OpaInstanceClient) cancelWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "OpaInstance", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -149,9 +150,10 @@ func (client OpaInstanceClient) cancelWorkRequest(ctx context.Context, request c
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ChangeOpaInstanceCompartment.go.html to see an example of how to use ChangeOpaInstanceCompartment API.
+// A default retry strategy applies to this operation ChangeOpaInstanceCompartment()
 func (client OpaInstanceClient) ChangeOpaInstanceCompartment(ctx context.Context, request ChangeOpaInstanceCompartmentRequest) (response ChangeOpaInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -192,7 +194,7 @@ func (client OpaInstanceClient) changeOpaInstanceCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstance/ChangeOpaInstanceCompartment"
 		err = common.PostProcessServiceError(err, "OpaInstance", "ChangeOpaInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -206,9 +208,10 @@ func (client OpaInstanceClient) changeOpaInstanceCompartment(ctx context.Context
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/CreateOpaInstance.go.html to see an example of how to use CreateOpaInstance API.
+// A default retry strategy applies to this operation CreateOpaInstance()
 func (client OpaInstanceClient) CreateOpaInstance(ctx context.Context, request CreateOpaInstanceRequest) (response CreateOpaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -254,7 +257,7 @@ func (client OpaInstanceClient) createOpaInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstance/CreateOpaInstance"
 		err = common.PostProcessServiceError(err, "OpaInstance", "CreateOpaInstance", apiReferenceLink)
 		return response, err
 	}
@@ -268,9 +271,10 @@ func (client OpaInstanceClient) createOpaInstance(ctx context.Context, request c
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/DeleteOpaInstance.go.html to see an example of how to use DeleteOpaInstance API.
+// A default retry strategy applies to this operation DeleteOpaInstance()
 func (client OpaInstanceClient) DeleteOpaInstance(ctx context.Context, request DeleteOpaInstanceRequest) (response DeleteOpaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -311,7 +315,7 @@ func (client OpaInstanceClient) deleteOpaInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstance/DeleteOpaInstance"
 		err = common.PostProcessServiceError(err, "OpaInstance", "DeleteOpaInstance", apiReferenceLink)
 		return response, err
 	}
@@ -325,9 +329,10 @@ func (client OpaInstanceClient) deleteOpaInstance(ctx context.Context, request c
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/GetOpaInstance.go.html to see an example of how to use GetOpaInstance API.
+// A default retry strategy applies to this operation GetOpaInstance()
 func (client OpaInstanceClient) GetOpaInstance(ctx context.Context, request GetOpaInstanceRequest) (response GetOpaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -368,7 +373,7 @@ func (client OpaInstanceClient) getOpaInstance(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstance/GetOpaInstance"
 		err = common.PostProcessServiceError(err, "OpaInstance", "GetOpaInstance", apiReferenceLink)
 		return response, err
 	}
@@ -382,9 +387,10 @@ func (client OpaInstanceClient) getOpaInstance(ctx context.Context, request comm
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client OpaInstanceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -425,7 +431,7 @@ func (client OpaInstanceClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "OpaInstance", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -439,9 +445,10 @@ func (client OpaInstanceClient) getWorkRequest(ctx context.Context, request comm
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListOpaInstances.go.html to see an example of how to use ListOpaInstances API.
+// A default retry strategy applies to this operation ListOpaInstances()
 func (client OpaInstanceClient) ListOpaInstances(ctx context.Context, request ListOpaInstancesRequest) (response ListOpaInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -482,7 +489,7 @@ func (client OpaInstanceClient) listOpaInstances(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstanceCollection/ListOpaInstances"
 		err = common.PostProcessServiceError(err, "OpaInstance", "ListOpaInstances", apiReferenceLink)
 		return response, err
 	}
@@ -496,9 +503,10 @@ func (client OpaInstanceClient) listOpaInstances(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client OpaInstanceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -539,7 +547,7 @@ func (client OpaInstanceClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "OpaInstance", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -553,9 +561,10 @@ func (client OpaInstanceClient) listWorkRequestErrors(ctx context.Context, reque
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client OpaInstanceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -596,7 +605,7 @@ func (client OpaInstanceClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "OpaInstance", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -610,9 +619,10 @@ func (client OpaInstanceClient) listWorkRequestLogs(ctx context.Context, request
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client OpaInstanceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -653,7 +663,7 @@ func (client OpaInstanceClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "OpaInstance", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -667,9 +677,10 @@ func (client OpaInstanceClient) listWorkRequests(ctx context.Context, request co
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/UpdateOpaInstance.go.html to see an example of how to use UpdateOpaInstance API.
+// A default retry strategy applies to this operation UpdateOpaInstance()
 func (client OpaInstanceClient) UpdateOpaInstance(ctx context.Context, request UpdateOpaInstanceRequest) (response UpdateOpaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -710,7 +721,7 @@ func (client OpaInstanceClient) updateOpaInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstance/UpdateOpaInstance"
 		err = common.PostProcessServiceError(err, "OpaInstance", "UpdateOpaInstance", apiReferenceLink)
 		return response, err
 	}

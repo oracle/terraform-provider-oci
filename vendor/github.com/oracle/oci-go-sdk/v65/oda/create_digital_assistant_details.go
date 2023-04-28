@@ -104,6 +104,7 @@ func (m *createdigitalassistantdetails) UnmarshalPolymorphicJSON(data []byte) (i
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateDigitalAssistantDetails: %s.", m.Kind)
 		return *m, nil
 	}
 }

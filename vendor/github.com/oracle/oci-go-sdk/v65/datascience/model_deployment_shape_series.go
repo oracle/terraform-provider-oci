@@ -20,16 +20,22 @@ type ModelDeploymentShapeSeriesEnum string
 const (
 	ModelDeploymentShapeSeriesAmdRome      ModelDeploymentShapeSeriesEnum = "AMD_ROME"
 	ModelDeploymentShapeSeriesIntelSkylake ModelDeploymentShapeSeriesEnum = "INTEL_SKYLAKE"
+	ModelDeploymentShapeSeriesNvidiaGpu    ModelDeploymentShapeSeriesEnum = "NVIDIA_GPU"
+	ModelDeploymentShapeSeriesLegacy       ModelDeploymentShapeSeriesEnum = "LEGACY"
 )
 
 var mappingModelDeploymentShapeSeriesEnum = map[string]ModelDeploymentShapeSeriesEnum{
 	"AMD_ROME":      ModelDeploymentShapeSeriesAmdRome,
 	"INTEL_SKYLAKE": ModelDeploymentShapeSeriesIntelSkylake,
+	"NVIDIA_GPU":    ModelDeploymentShapeSeriesNvidiaGpu,
+	"LEGACY":        ModelDeploymentShapeSeriesLegacy,
 }
 
 var mappingModelDeploymentShapeSeriesEnumLowerCase = map[string]ModelDeploymentShapeSeriesEnum{
 	"amd_rome":      ModelDeploymentShapeSeriesAmdRome,
 	"intel_skylake": ModelDeploymentShapeSeriesIntelSkylake,
+	"nvidia_gpu":    ModelDeploymentShapeSeriesNvidiaGpu,
+	"legacy":        ModelDeploymentShapeSeriesLegacy,
 }
 
 // GetModelDeploymentShapeSeriesEnumValues Enumerates the set of values for ModelDeploymentShapeSeriesEnum
@@ -46,6 +52,8 @@ func GetModelDeploymentShapeSeriesEnumStringValues() []string {
 	return []string{
 		"AMD_ROME",
 		"INTEL_SKYLAKE",
+		"NVIDIA_GPU",
+		"LEGACY",
 	}
 }
 

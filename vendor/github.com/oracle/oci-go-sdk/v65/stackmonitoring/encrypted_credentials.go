@@ -16,16 +16,18 @@ import (
 	"strings"
 )
 
-// EncryptedCredentials Encypted credentials [indicated by the type property in CredentialStore].
+// EncryptedCredentials Encrypted credentials [indicated by the type property in CredentialStore].
 type EncryptedCredentials struct {
 
-	// The master key OCID and applicable only for property value type ENCRYPTION. Key OCID is passed as input to Key management service decrypt API to retrieve the encrypted property value text.
+	// The master key should be created in OCI Vault owned by the client of this API.
+	// The user should have permission to access the vault key.
 	KeyId *string `mandatory:"true" json:"keyId"`
 
 	// The credential properties list. Credential property values will be encrypted format.
 	Properties []CredentialProperty `mandatory:"true" json:"properties"`
 
-	// The source type and source name combination,delimited with (.) separator. {source type}.{source name} and source type max char limit is 63.
+	// The source type and source name combination, delimited with (.) separator.
+	// {source type}.{source name} and source type max char limit is 63.
 	Source *string `mandatory:"false" json:"source"`
 
 	// The name of the credential, within the context of the source.

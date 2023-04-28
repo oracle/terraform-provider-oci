@@ -18,25 +18,28 @@ import (
 // AssociatedResourcesSummary The information about monitored resource.
 type AssociatedResourcesSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource.
+	// Monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
-	// Name of the monitored resource
+	// Monitored Resource Name.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Monitored resource display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Type of the monitored resource
+	// Monitored Resource Type.
 	Type *string `mandatory:"false" json:"type"`
 
-	// Resource Host Name
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	// Monitored Resource Host Name.
 	HostName *string `mandatory:"false" json:"hostName"`
 
 	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	// which is not a Stack Monitoring service resource.
-	// Currently supports only following resource type identifiers - externalcontainerdatabase,
-	// externalnoncontainerdatabase, externalpluggabledatabase and OCI compute instance.
+	// Currently supports only following resource types - Container database, non-container database,
+	// pluggable database and OCI compute instance.
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
 	// Management Agent Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -45,7 +48,7 @@ type AssociatedResourcesSummary struct {
 	// The current state of the monitored resource.
 	LifecycleState ResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// List of associated monitored resources
+	// List of associated monitored resources.
 	AssociatedResources []AssociatedMonitoredResource `mandatory:"false" json:"associatedResources"`
 }
 

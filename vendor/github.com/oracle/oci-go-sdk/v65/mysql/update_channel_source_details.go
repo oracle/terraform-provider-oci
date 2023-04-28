@@ -55,6 +55,7 @@ func (m *updatechannelsourcedetails) UnmarshalPolymorphicJSON(data []byte) (inte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for UpdateChannelSourceDetails: %s.", m.SourceType)
 		return *m, nil
 	}
 }

@@ -58,6 +58,7 @@ func (m *createtemplateconfigsourcedetails) UnmarshalPolymorphicJSON(data []byte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateTemplateConfigSourceDetails: %s.", m.TemplateConfigSourceType)
 		return *m, nil
 	}
 }

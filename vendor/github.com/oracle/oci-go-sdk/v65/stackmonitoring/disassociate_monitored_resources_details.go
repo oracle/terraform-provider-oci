@@ -18,16 +18,16 @@ import (
 // DisassociateMonitoredResourcesDetails The information required to create new monitored resource association.
 type DisassociateMonitoredResourcesDetails struct {
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Association type to be created between source and destination resources
+	// Association type between source and destination resources.
 	AssociationType *string `mandatory:"false" json:"associationType"`
 
-	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SourceResourceId *string `mandatory:"false" json:"sourceResourceId"`
 
-	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DestinationResourceId *string `mandatory:"false" json:"destinationResourceId"`
 }
 

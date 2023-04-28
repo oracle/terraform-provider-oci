@@ -19,10 +19,12 @@ import (
 // PlainTextCredentials Plain text credentials [indicated by the type property in CredentialStore].
 type PlainTextCredentials struct {
 
-	// The credential properties list. Credential property values will be either in plain text format.
+	// The credential properties list. Credential property values will be either
+	// in plain text format or encrypted for encrypted credentials.
 	Properties []CredentialProperty `mandatory:"true" json:"properties"`
 
-	// The source type and source name combination,delimited with (.) separator. {source type}.{source name} and source type max char limit is 63.
+	// The source type and source name combination, delimited with (.) separator.
+	// {source type}.{source name} and source type max char limit is 63.
 	Source *string `mandatory:"false" json:"source"`
 
 	// The name of the credential, within the context of the source.

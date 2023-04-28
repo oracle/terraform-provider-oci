@@ -64,6 +64,7 @@ func (m *createimagepullsecretdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateImagePullSecretDetails: %s.", m.SecretType)
 		return *m, nil
 	}
 }
