@@ -1,3 +1,22 @@
+## 4.119.0 (Unreleased)
+
+### Added
+- Support for Oracle Process Automation (OPA) - Enable OPA Attachment with OIC
+- Support for OKE: On-Demand Node Upgrade
+ignore_fields similar to corresponding resource tests
+- Support for TLS Certs and SCAN port configuration [Phase 1]| ADB-D
+- Support for High Memory VM
+- Support for Visual Builder Cloud Service console plugin UI and Spec update for Matrix, VCN OCID and NAT gateway IP
+- fix for unsuccessful delete removing resource from state when circuit breaker is open
+- Support for Cancel a full or incremental automatic backup
+- Support for Enabling outbound private access using PE RCE for OIC Gen3 customers
+- Support for Fractional OCPU | Expose ADB.usedDataStorageSizeInGBs to customers | ADB-D and ADB on ExaC@C Fractional OCPU | Expose ADB.usedDataStorageSizeInGBs to customers
+### Bug Fix
+- Fix APM Synthetic service example to handle RMS-6682
+- Fixed network source resource to correctly discover when using Oracle Resource Manager for discovery
+- Fix dbHome assigning database when it is not apart of the config.
+- Fixed Resource Discovery issue with oci_network_load_balancer_listener resource
+
 ## 4.118.0 (Unreleased)
 
 ### Added
