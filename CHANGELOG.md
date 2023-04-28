@@ -1,3 +1,15 @@
+## 4.119.0 (Unreleased)
+
+### Added
+- Support for Oracle Process Automation (OPA) - Enable OPA Attachment with OIC
+- Support for OKE: On-Demand Node Upgrade
+- Added ignore_fields similar to corresponding resource tests
+- Support for TLS Certs and SCAN port configuration [Phase 1]| ADB-D
+- Support for High Memory VM
+- Support for Visual Builder Cloud Service console plugin UI and Spec update for Matrix, VCN OCID and NAT gateway IP
+### Bug Fix
+- Fix APM Synthetic service example to handle
+
 ## 4.118.0 (Unreleased)
 
 ### Added
