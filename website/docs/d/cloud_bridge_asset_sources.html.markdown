@@ -50,10 +50,12 @@ The following attributes are exported:
 * `are_historical_metrics_collected` - Flag indicating whether historical metrics are collected for assets, originating from this asset source.
 * `are_realtime_metrics_collected` - Flag indicating whether real-time metrics are collected for assets, originating from this asset source.
 * `assets_compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that is going to be used to create assets.
+* `aws_account_key` - The key of customer's aws account to be discovered/migrated.
+* `aws_region` - AWS region information, from where the resources are discovered.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for the resource.
 * `defined_tags` - The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `discovery_credentials` - Credentials for an asset source.
-	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret in a vault. If the the type of the credentials is BASIC`, the secret must contain the username and password in JSON format, which is in the form of `{ "username": "<VMwareUser>", "password": "<VMwarePassword>" }`. 
+	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret in a vault. If the type of the credentials is `BASIC`, the secret must contain the username and password in JSON format, which is in the form of `{ "username": "<User>", "password": "<Password>" }`. If the type of the credentials is `API_KEY`, the secret must contain the accessKeyId and secretAccessKey in JSON format, which is in the form of `{ "accessKeyId": "<AccessKey>", "secretAccessKey": "<AccessKeyValue>" }`. 
 	* `type` - Authentication type
 * `discovery_schedule_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an attached discovery schedule.
 * `display_name` - A user-friendly name for the asset source. Does not have to be unique, and it's mutable. Avoid entering confidential information. 
@@ -61,9 +63,10 @@ The following attributes are exported:
 * `freeform_tags` - The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no predefined name, type, or namespace/scope. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
 * `inventory_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the inventory that will contain created assets.
+* `is_cost_information_collected` - Flag indicating whether cost data collection is enabled for assets, originating from this asset source.
 * `lifecycle_details` - The detailed state of the asset source.
 * `replication_credentials` - Credentials for an asset source.
-	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret in a vault. If the the type of the credentials is BASIC`, the secret must contain the username and password in JSON format, which is in the form of `{ "username": "<VMwareUser>", "password": "<VMwarePassword>" }`. 
+	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret in a vault. If the type of the credentials is `BASIC`, the secret must contain the username and password in JSON format, which is in the form of `{ "username": "<User>", "password": "<Password>" }`. If the type of the credentials is `API_KEY`, the secret must contain the accessKeyId and secretAccessKey in JSON format, which is in the form of `{ "accessKeyId": "<AccessKey>", "secretAccessKey": "<AccessKeyValue>" }`. 
 	* `type` - Authentication type
 * `state` - The current state of the asset source.
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle cloud infrastructure services. Each key is predefined and scoped to namespaces. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{orcl-cloud: {free-tier-retain: true}}` 

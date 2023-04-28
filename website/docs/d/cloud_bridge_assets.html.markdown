@@ -57,6 +57,116 @@ The following attributes are exported:
 
 * `asset_source_ids` - List of asset source OCID.
 * `asset_type` - The type of asset.
+* `attached_ebs_volumes_cost` - Cost information for monthly maintenance.
+	* `amount` - Monthly costs for maintenance of this asset.
+	* `currency_code` - Currency code as defined by ISO-4217.
+* `aws_ebs` - AWS EBS volume related properties.
+	* `attachments` - Information about the volume attachments.
+		* `device` - The device name.
+		* `instance_key` - The ID of the instance.
+		* `is_delete_on_termination` - Indicates whether the EBS volume is deleted on instance termination.
+		* `status` - The attachment state of the volume.
+		* `volume_key` - The ID of the volume.
+	* `availability_zone` - The Availability Zone for the volume.
+	* `iops` - The number of I/O operations per second.
+	* `is_encrypted` - Indicates whether the volume is encrypted.
+	* `is_multi_attach_enabled` - Indicates whether Amazon EBS Multi-Attach is enabled.
+	* `size_in_gi_bs` - The size of the volume, in GiBs.
+	* `status` - The volume state.
+	* `tags` - Any tags assigned to the volume.
+		* `key` - The key of the tag.
+		* `value` - The value of the tag.
+	* `throughput` - The throughput that the volume supports, in MiB/s.
+	* `volume_key` - The ID of the volume.
+	* `volume_type` - The volume type.
+* `aws_ec2` - AWS virtual machine related properties.
+	* `architecture` - The architecture of the image.
+	* `are_elastic_inference_accelerators_present` - Indicates if the elastic inference accelerators attached to an instance
+	* `boot_mode` - The boot mode of the instance.
+	* `capacity_reservation_key` - The ID of the Capacity Reservation.
+	* `image_key` - The ID of the AMI used to launch the instance.
+	* `instance_key` - The ID of the instance.
+	* `instance_lifecycle` - Indicates whether this is a Spot Instance or a Scheduled Instance.
+	* `instance_type` - The instance type.
+	* `ip_address` - The public IPv4 address, or the Carrier IP address assigned to the instance.
+	* `ipv6address` - The IPv6 address assigned to the instance.
+	* `is_enclave_options` - Indicates whether the instance is enabled for AWS Nitro Enclaves.
+	* `is_hibernation_options` - Indicates whether the instance is enabled for hibernation.
+	* `is_source_dest_check` - Indicates whether source/destination checking is enabled.
+	* `is_spot_instance` - If the request is a Spot Instance request, this value will be true.
+	* `kernel_key` - The kernel associated with this instance, if applicable.
+	* `licenses` - The license configurations for the instance.
+	* `maintenance_options` - Provides information on the recovery and maintenance options of your instance.
+	* `monitoring` - The monitoring for the instance.
+	* `network_interfaces` - The network interfaces for the instance.
+		* `association` - Describes association information for an Elastic IP address (IPv4).
+			* `carrier_ip` - The carrier IP address associated with the network interface.
+			* `customer_owned_ip` - The customer-owned IP address associated with the network interface.
+			* `ip_owner_key` - The ID of the owner of the Elastic IP address.
+			* `public_dns_name` - The public DNS name.
+			* `public_ip` - The public IP address or Elastic IP address bound to the network interface.
+		* `attachment` - Describes a network interface attachment.
+			* `attachment_key` - The ID of the network interface attachment.
+			* `device_index` - The index of the device on the instance for the network interface attachment.
+			* `is_delete_on_termination` - Indicates whether the network interface is deleted when the instance is terminated.
+			* `network_card_index` - The index of the network card.
+			* `status` - The attachment state.
+			* `time_attach` - The timestamp when the attachment initiated.
+		* `description` - The description.
+		* `interface_type` - The type of network interface.
+		* `ipv4prefixes` - The IPv4 delegated prefixes that are assigned to the network interface.
+		* `ipv6addresses` - The IPv6 addresses associated with the network interface.
+		* `ipv6prefixes` - The IPv6 delegated prefixes that are assigned to the network interface.
+		* `is_source_dest_check` - Indicates whether source/destination checking is enabled.
+		* `mac_address` - The MAC address.
+		* `network_interface_key` - The ID of the network interface.
+		* `owner_key` - The ID of the AWS account that created the network interface.
+		* `private_ip_addresses` - The private IPv4 addresses associated with the network interface.
+			* `association` - Describes association information for an Elastic IP address (IPv4).
+				* `carrier_ip` - The carrier IP address associated with the network interface.
+				* `customer_owned_ip` - The customer-owned IP address associated with the network interface.
+				* `ip_owner_key` - The ID of the owner of the Elastic IP address.
+				* `public_dns_name` - The public DNS name.
+				* `public_ip` - The public IP address or Elastic IP address bound to the network interface.
+			* `is_primary` - Indicates whether this IPv4 address is the primary private IP address of the network interface.
+			* `private_dns_name` - The private IPv4 DNS name.
+			* `private_ip_address` - The private IPv4 address of the network interface.
+		* `security_groups` - The security groups.
+			* `group_key` - The ID of the security group.
+			* `group_name` - The name of the security group.
+		* `status` - The status of the network interface.
+		* `subnet_key` - The ID of the subnet.
+	* `placement` - Describes the placement of an instance.
+		* `affinity` - The affinity setting for the instance on the Dedicated Host.
+		* `availability_zone` - The Availability Zone of the instance.
+		* `group_name` - The name of the placement group the instance is in.
+		* `host_key` - The ID of the Dedicated Host on which the instance resides.
+		* `host_resource_group_arn` - The ARN of the host resource group in which to launch the instances.
+		* `partition_number` - The number of the partition that the instance is in.
+		* `spread_domain` - Reserved for future use.
+		* `tenancy` - The tenancy of the instance (if the instance is running in a VPC).
+	* `private_dns_name` - (IPv4 only) The private DNS hostname name assigned to the instance.
+	* `private_ip_address` - The private IPv4 address assigned to the instance.
+	* `root_device_name` - The device name of the root device volume.
+	* `root_device_type` - The root device type used by the AMI. The AMI can use an EBS volume or an instance store volume.
+	* `security_groups` - The security groups for the instance.
+		* `group_key` - The ID of the security group.
+		* `group_name` - The name of the security group.
+	* `sriov_net_support` - Specifies whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
+	* `state` - Describes the current state of an instance.
+		* `code` - The state of the instance as a 16-bit unsigned integer.
+		* `name` - The current state of the instance.
+	* `subnet_key` - EC2-VPC The ID of the subnet in which the instance is running.
+	* `tags` - Any tags assigned to the instance.
+		* `key` - The key of the tag.
+		* `value` - The value of the tag.
+	* `time_launch` - The time the instance was launched.
+	* `tpm_support` - If the instance is configured for NitroTPM support, the value is v2.0.
+	* `virtualization_type` - The virtualization type of the instance.
+	* `vpc_key` - EC2-VPC The ID of the VPC in which the instance is running.
+* `aws_ec2cost` - Cost information for monthly maintenance.
+	* `amount` - Monthly costs for maintenance of this asset.
+	* `currency_code` - Currency code as defined by ISO-4217.
 * `compartment_id` - The OCID of the compartment to which an asset belongs to.
 * `compute` - Compute related properties.
 	* `connected_networks` - Number of connected networks.

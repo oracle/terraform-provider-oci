@@ -7,6 +7,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
+variable "environment_id" {}
 
 variable "agent_agent_type" {
   default = "APPLIANCE"
@@ -14,6 +15,10 @@ variable "agent_agent_type" {
 
 variable "agent_agent_version" {
   default = "agentVersion"
+}
+
+variable "agent_defined_tags_name" {
+  default = "name"
 }
 
 variable "agent_defined_tags_value" {
@@ -52,11 +57,11 @@ resource "oci_cloud_bridge_agent" "test_agent" {
   agent_version  = var.agent_agent_version
   compartment_id = var.compartment_id
   display_name   = var.agent_display_name
-  environment_id = oci_cloud_bridge_environment.test_environment.id
+  environment_id = var.environment_id
   os_version     = var.agent_os_version
 
   #Optional
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.agent_defined_tags_value)
+  defined_tags  = map(var.agent_defined_tags_name, var.agent_defined_tags_value)
   freeform_tags = var.agent_freeform_tags
 }
 
@@ -67,7 +72,7 @@ data "oci_cloud_bridge_agents" "test_agents" {
   #Optional
   agent_id       = oci_cloud_bridge_agent.test_agent.id
   display_name   = var.agent_display_name
-  environment_id = oci_cloud_bridge_environment.test_environment.id
+  environment_id = var.environment_id
   state          = var.agent_state
 }
 
