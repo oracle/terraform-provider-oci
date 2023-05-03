@@ -54,6 +54,9 @@ type CreateMigrationDetails struct {
 	// Database objects to include from migration, cannot be specified alongside 'excludeObjects'
 	IncludeObjects []DatabaseObject `mandatory:"false" json:"includeObjects"`
 
+	// Database objects to exclude/include from migration in CSV format. The excludeObjects and includeObjects fields will be ignored if this field is not null.
+	CsvText *string `mandatory:"false" json:"csvText"`
+
 	GoldenGateDetails *CreateGoldenGateDetails `mandatory:"false" json:"goldenGateDetails"`
 
 	GoldenGateServiceDetails *CreateGoldenGateServiceDetails `mandatory:"false" json:"goldenGateServiceDetails"`

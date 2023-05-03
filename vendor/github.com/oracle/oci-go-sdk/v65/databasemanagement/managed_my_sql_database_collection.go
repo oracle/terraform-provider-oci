@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ManagedMySqlDatabaseCollection A collection of Managed Database objects.
+// ManagedMySqlDatabaseCollection A collection of Managed MySQL Database objects.
 type ManagedMySqlDatabaseCollection struct {
 
 	// An array of ManagedMySqlDatabaseSummary resources.

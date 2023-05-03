@@ -18,7 +18,7 @@ type GetOsPatchDetailsRequest struct {
 	BdsInstanceId *string `mandatory:"true" contributesTo:"path" name:"bdsInstanceId"`
 
 	// The version of the OS patch.
-	OsPatchVersion *string `mandatory:"true" contributesTo:"path" name:"osPatchVersion"`
+	OsPatchVersion *string `mandatory:"true" contributesTo:"query" name:"osPatchVersion"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

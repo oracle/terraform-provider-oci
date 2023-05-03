@@ -32,6 +32,9 @@ type ListExadbVmClustersRequest struct {
 	// A filter to return only exadbv cloud VM clusters that match the given lifecycle state exactly.
 	LifecycleState ExadbVmClusterSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return only exadbv cloud VM clusters that match the given Exascale Database Storage Vault Id.
+	ExascaleDbStorageVaultId *string `mandatory:"false" contributesTo:"query" name:"exascaleDbStorageVaultId"`
+
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 

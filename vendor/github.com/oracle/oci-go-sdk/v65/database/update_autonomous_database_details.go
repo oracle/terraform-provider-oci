@@ -29,6 +29,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
 	ComputeModel UpdateAutonomousDatabaseDetailsComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
+	// The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database.
+	InMemoryPercentage *int `mandatory:"false" json:"inMemoryPercentage"`
+
 	// The number of CPUs to be made available to the Autonomous Database.<br>
 	// For Autonomous Databases on Dedicated Exadata Infrastructure:
 	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
@@ -50,6 +53,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
 	// The size, in terabytes, of the data volume that will be created and attached to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum storage value is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// A full Exadata service is allocated when the Autonomous Database size is set to the upper limit (384 TB).
 	// **Note:** This parameter cannot be used with the `dataStorageSizeInGBs` parameter.
 	// This cannot be updated in parallel with any of the following: licenseModel, databaseEdition, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`

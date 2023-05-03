@@ -32,6 +32,9 @@ type PoolMetrics struct {
 
 	// The number of runs that are currently running that are using this pool.
 	ActiveRunsCount *int64 `mandatory:"false" json:"activeRunsCount"`
+
+	// A count of the nodes that are currently being used for each shape in this pool.
+	ActivelyUsedNodeCount []NodeCount `mandatory:"false" json:"activelyUsedNodeCount"`
 }
 
 func (m PoolMetrics) String() string {

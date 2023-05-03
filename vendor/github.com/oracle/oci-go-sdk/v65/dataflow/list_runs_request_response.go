@@ -24,6 +24,9 @@ type ListRunsRequest struct {
 	// The ID of the application.
 	ApplicationId *string `mandatory:"false" contributesTo:"query" name:"applicationId"`
 
+	// The ID of the pool.
+	PoolId *string `mandatory:"false" contributesTo:"query" name:"poolId"`
+
 	// The OCID of the user who created the resource.
 	OwnerPrincipalId *string `mandatory:"false" contributesTo:"query" name:"ownerPrincipalId"`
 

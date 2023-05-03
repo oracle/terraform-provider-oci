@@ -17,22 +17,22 @@ import (
 	"strings"
 )
 
-// ManagedMySqlDatabase Details of Managed MySQL Database.
+// ManagedMySqlDatabase The details of the Managed MySQL Database.
 type ManagedMySqlDatabase struct {
 
-	// The OCID of the Managed MySql Database.
+	// The OCID of the Managed MySQL Database.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// MySQL Database Name
+	// The name of the MySQL Database.
 	DbName *string `mandatory:"true" json:"dbName"`
 
-	// MySQL Database Version
+	// The version of the MySQL Database.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
-	// The date and time the Managed Database was created.
+	// The date and time the Managed MySQL Database was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The name of the Managed MySQL Database.

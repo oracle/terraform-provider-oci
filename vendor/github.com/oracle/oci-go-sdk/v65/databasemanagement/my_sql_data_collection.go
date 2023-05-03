@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// MySqlDataCollection Collection of SQL Performance Data Records for a given MySQL Instance.
+// MySqlDataCollection The collection of SQL performance data records for a specific Managed MySQL Database.
 type MySqlDataCollection struct {
 
-	// List of SQLDataSummary.
+	// The list of SQLDataSummary records.
 	Items []MySqlDataSummary `mandatory:"true" json:"items"`
 }
 

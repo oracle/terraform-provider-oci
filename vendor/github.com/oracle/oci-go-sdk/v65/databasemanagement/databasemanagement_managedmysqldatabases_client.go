@@ -92,7 +92,7 @@ func (client *ManagedMySqlDatabasesClient) ConfigurationProvider() *common.Confi
 	return client.config
 }
 
-// GetManagedMySqlDatabase Retrieves General Information for given MySQL Instance.
+// GetManagedMySqlDatabase Retrieves the general information for a specific MySQL Database.
 func (client ManagedMySqlDatabasesClient) GetManagedMySqlDatabase(ctx context.Context, request GetManagedMySqlDatabaseRequest) (response GetManagedMySqlDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,7 +145,7 @@ func (client ManagedMySqlDatabasesClient) getManagedMySqlDatabase(ctx context.Co
 	return response, err
 }
 
-// GetMySqlFleetMetric Gets the health metrics for a fleet of MySQL databases in a compartment.
+// GetMySqlFleetMetric Gets the health metrics for a fleet of MySQL Databases in a compartment.
 func (client ManagedMySqlDatabasesClient) GetMySqlFleetMetric(ctx context.Context, request GetMySqlFleetMetricRequest) (response GetMySqlFleetMetricResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -198,7 +198,7 @@ func (client ManagedMySqlDatabasesClient) getMySqlFleetMetric(ctx context.Contex
 	return response, err
 }
 
-// ListManagedMySqlDatabaseConfigurationData Retrieves Configuration Data for given MySQL Instance.
+// ListManagedMySqlDatabaseConfigurationData Retrieves configuration data for a specific MySQL database.
 // A default retry strategy applies to this operation ListManagedMySqlDatabaseConfigurationData()
 func (client ManagedMySqlDatabasesClient) ListManagedMySqlDatabaseConfigurationData(ctx context.Context, request ListManagedMySqlDatabaseConfigurationDataRequest) (response ListManagedMySqlDatabaseConfigurationDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -252,7 +252,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabaseConfigurationD
 	return response, err
 }
 
-// ListManagedMySqlDatabaseSqlData Retrieves SQL performance data for given MySQL Instance.
+// ListManagedMySqlDatabaseSqlData Retrieves the SQL performance data for a specific MySQL database.
 // A default retry strategy applies to this operation ListManagedMySqlDatabaseSqlData()
 func (client ManagedMySqlDatabasesClient) ListManagedMySqlDatabaseSqlData(ctx context.Context, request ListManagedMySqlDatabaseSqlDataRequest) (response ListManagedMySqlDatabaseSqlDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -359,8 +359,7 @@ func (client ManagedMySqlDatabasesClient) listManagedMySqlDatabases(ctx context.
 	return response, err
 }
 
-// SummarizeManagedMySqlDatabaseAvailabilityMetrics Gets the availability metrics related to managed database for the MySql
-// database specified by managedMySqlDatabaseId.
+// SummarizeManagedMySqlDatabaseAvailabilityMetrics Gets the availability metrics for the MySQL Database specified by managedMySqlDatabaseId.
 // A default retry strategy applies to this operation SummarizeManagedMySqlDatabaseAvailabilityMetrics()
 func (client ManagedMySqlDatabasesClient) SummarizeManagedMySqlDatabaseAvailabilityMetrics(ctx context.Context, request SummarizeManagedMySqlDatabaseAvailabilityMetricsRequest) (response SummarizeManagedMySqlDatabaseAvailabilityMetricsResponse, err error) {
 	var ociResponse common.OCIResponse

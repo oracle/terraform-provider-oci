@@ -60,10 +60,6 @@ type Tag struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The system tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
 	// The tag's current state. After creating a tag, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tag, make sure its `lifecycleState` is INACTIVE before using it. If you delete a tag, you cannot delete another tag until the deleted tag's `lifecycleState` changes from DELETING to DELETED.
 	LifecycleState TagLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
@@ -97,7 +93,6 @@ func (m *Tag) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		FreeformTags     map[string]string                 `json:"freeformTags"`
 		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
 		LifecycleState   TagLifecycleStateEnum             `json:"lifecycleState"`
 		IsCostTracking   *bool                             `json:"isCostTracking"`
 		Validator        basetagdefinitionvalidator        `json:"validator"`
@@ -119,8 +114,6 @@ func (m *Tag) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
-
-	m.SystemTags = model.SystemTags
 
 	m.LifecycleState = model.LifecycleState
 

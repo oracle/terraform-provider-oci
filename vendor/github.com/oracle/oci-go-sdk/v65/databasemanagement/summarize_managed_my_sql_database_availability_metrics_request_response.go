@@ -14,7 +14,7 @@ import (
 // SummarizeManagedMySqlDatabaseAvailabilityMetricsRequest wrapper for the SummarizeManagedMySqlDatabaseAvailabilityMetrics operation
 type SummarizeManagedMySqlDatabaseAvailabilityMetricsRequest struct {
 
-	// The OCID of ManagedMySqlDatabase.
+	// The OCID of the Managed MySQL Database.
 	ManagedMySqlDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedMySqlDatabaseId"`
 
 	// The start time of the time range to retrieve the health metrics of a Managed Database

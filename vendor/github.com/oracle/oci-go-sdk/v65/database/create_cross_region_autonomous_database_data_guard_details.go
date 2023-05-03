@@ -99,6 +99,7 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
 	// The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. For Autonomous Databases on dedicated Exadata infrastructure, the maximum storage value is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// A full Exadata service is allocated when the Autonomous Database size is set to the upper limit (384 TB).
 	// **Note:** This parameter cannot be used with the `dataStorageSizeInGBs` parameter.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
 
@@ -135,6 +136,9 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
+
+	// The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database.
+	InMemoryPercentage *int `mandatory:"false" json:"inMemoryPercentage"`
 
 	// Indicates if the database-level access control is enabled.
 	// If disabled, database access is defined by the network security rules.
@@ -387,6 +391,11 @@ func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsDedicated() *b
 //GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
+}
+
+//GetInMemoryPercentage returns InMemoryPercentage
+func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetInMemoryPercentage() *int {
+	return m.InMemoryPercentage
 }
 
 //GetIsAccessControlEnabled returns IsAccessControlEnabled

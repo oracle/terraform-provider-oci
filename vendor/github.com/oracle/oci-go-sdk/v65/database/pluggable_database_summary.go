@@ -108,6 +108,7 @@ const (
 	PluggableDatabaseSummaryLifecycleStateRestoreInProgress PluggableDatabaseSummaryLifecycleStateEnum = "RESTORE_IN_PROGRESS"
 	PluggableDatabaseSummaryLifecycleStateRestoreFailed     PluggableDatabaseSummaryLifecycleStateEnum = "RESTORE_FAILED"
 	PluggableDatabaseSummaryLifecycleStateBackupInProgress  PluggableDatabaseSummaryLifecycleStateEnum = "BACKUP_IN_PROGRESS"
+	PluggableDatabaseSummaryLifecycleStateDisabled          PluggableDatabaseSummaryLifecycleStateEnum = "DISABLED"
 )
 
 var mappingPluggableDatabaseSummaryLifecycleStateEnum = map[string]PluggableDatabaseSummaryLifecycleStateEnum{
@@ -123,6 +124,7 @@ var mappingPluggableDatabaseSummaryLifecycleStateEnum = map[string]PluggableData
 	"RESTORE_IN_PROGRESS": PluggableDatabaseSummaryLifecycleStateRestoreInProgress,
 	"RESTORE_FAILED":      PluggableDatabaseSummaryLifecycleStateRestoreFailed,
 	"BACKUP_IN_PROGRESS":  PluggableDatabaseSummaryLifecycleStateBackupInProgress,
+	"DISABLED":            PluggableDatabaseSummaryLifecycleStateDisabled,
 }
 
 var mappingPluggableDatabaseSummaryLifecycleStateEnumLowerCase = map[string]PluggableDatabaseSummaryLifecycleStateEnum{
@@ -138,6 +140,7 @@ var mappingPluggableDatabaseSummaryLifecycleStateEnumLowerCase = map[string]Plug
 	"restore_in_progress": PluggableDatabaseSummaryLifecycleStateRestoreInProgress,
 	"restore_failed":      PluggableDatabaseSummaryLifecycleStateRestoreFailed,
 	"backup_in_progress":  PluggableDatabaseSummaryLifecycleStateBackupInProgress,
+	"disabled":            PluggableDatabaseSummaryLifecycleStateDisabled,
 }
 
 // GetPluggableDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for PluggableDatabaseSummaryLifecycleStateEnum
@@ -164,6 +167,7 @@ func GetPluggableDatabaseSummaryLifecycleStateEnumStringValues() []string {
 		"RESTORE_IN_PROGRESS",
 		"RESTORE_FAILED",
 		"BACKUP_IN_PROGRESS",
+		"DISABLED",
 	}
 }
 

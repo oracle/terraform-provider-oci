@@ -14,7 +14,7 @@ import (
 // ListManagedMySqlDatabaseSqlDataRequest wrapper for the ListManagedMySqlDatabaseSqlData operation
 type ListManagedMySqlDatabaseSqlDataRequest struct {
 
-	// The OCID of ManagedMySqlDatabase.
+	// The OCID of the Managed MySQL Database.
 	ManagedMySqlDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedMySqlDatabaseId"`
 
 	// The start time of the time range to retrieve the health metrics of a Managed Database
@@ -25,7 +25,18 @@ type ListManagedMySqlDatabaseSqlDataRequest struct {
 	// in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
 	EndTime *string `mandatory:"true" contributesTo:"query" name:"endTime"`
 
-	// The parameter to filter results by key criteria.
+	// The parameter to filter results by key criteria which include :
+	// - SUM_TIMER_WAIT
+	// - COUNT_STAR
+	// - SUM_ERRORS
+	// - SUM_ROWS_AFFECTED
+	// - SUM_ROWS_SENT
+	// - SUM_ROWS_EXAMINED
+	// - SUM_CREATED_TMP_TABLES
+	// - SUM_NO_INDEX_USED
+	// - SUM_NO_GOOD_INDEX_USED
+	// - FIRST_SEEN
+	// - LAST_SEEN
 	FilterColumn *string `mandatory:"false" contributesTo:"query" name:"filterColumn"`
 
 	// The client request ID for tracing.

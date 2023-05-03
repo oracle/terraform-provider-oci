@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// MySqlFleetMetrics Details of MySQL fleet health metrics
+// MySqlFleetMetrics The details of the MySQL Database fleet health metrics.
 type MySqlFleetMetrics struct {
 
-	// Start time to retrieve metric data
+	// The beginning of the time range during which metric data is retrieved.
 	StartTime *string `mandatory:"true" json:"startTime"`
 
-	// End time to retrieve metric data
+	// The end of the time range during which metric data is retrieved.
 	EndTime *string `mandatory:"true" json:"endTime"`
 
-	// A list of MySQL databases present in the fleet and their usage metrics
+	// The list of MySQL Databases in the fleet and their usage metrics.
 	FleetDatabases []MySqlDatabaseUsageMetrics `mandatory:"true" json:"fleetDatabases"`
 
-	// A summary of the inventory count and the metrics that describe the aggregated usage of CPU, storage, and so on of all the databases in the fleet.
+	// A summary of the inventory count and the metrics that describe the aggregated usage of CPU, storage, and so on of all the MySQL Databases in the fleet.
 	FleetSummary []MySqlFleetSummary `mandatory:"true" json:"fleetSummary"`
 }
 

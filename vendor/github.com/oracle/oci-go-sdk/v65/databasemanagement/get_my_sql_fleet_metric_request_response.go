@@ -31,16 +31,16 @@ type GetMySqlFleetMetricRequest struct {
 	// The filter used to retrieve a specific set of metrics by passing the desired metric names with a comma separator. Note that, by default, the service returns all supported metrics.
 	FilterByMetricNames *string `mandatory:"false" contributesTo:"query" name:"filterByMetricNames"`
 
-	// The parameter to filter by MySql deployment type.
+	// The parameter to filter by MySQL deployment type.
 	FilterByMySqlDeploymentTypeParam GetMySqlFleetMetricFilterByMySqlDeploymentTypeParamEnum `mandatory:"false" contributesTo:"query" name:"filterByMySqlDeploymentTypeParam" omitEmpty:"true"`
 
-	// The parameter to filter by MySql Database System type.
+	// The parameter to filter by MySQL Database System type.
 	FilterByMdsDeploymentType GetMySqlFleetMetricFilterByMdsDeploymentTypeEnum `mandatory:"false" contributesTo:"query" name:"filterByMdsDeploymentType" omitEmpty:"true"`
 
-	// The parameter to filter by MySql Database Status.
+	// The parameter to filter by MySQL Database status.
 	FilterByMySqlStatus GetMySqlFleetMetricFilterByMySqlStatusEnum `mandatory:"false" contributesTo:"query" name:"filterByMySqlStatus" omitEmpty:"true"`
 
-	// The parameter to filter by MySql database version.
+	// The parameter to filter by MySQL database version.
 	FilterByMySqlDatabaseVersion *string `mandatory:"false" contributesTo:"query" name:"filterByMySqlDatabaseVersion"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

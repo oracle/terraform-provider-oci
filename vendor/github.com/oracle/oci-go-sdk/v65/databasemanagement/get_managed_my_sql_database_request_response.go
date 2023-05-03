@@ -14,7 +14,7 @@ import (
 // GetManagedMySqlDatabaseRequest wrapper for the GetManagedMySqlDatabase operation
 type GetManagedMySqlDatabaseRequest struct {
 
-	// The OCID of ManagedMySqlDatabase.
+	// The OCID of the Managed MySQL Database.
 	ManagedMySqlDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedMySqlDatabaseId"`
 
 	// The client request ID for tracing.

@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// MySqlFleetSummary A summary of the inventory count and the metrics that describe the aggregated usage of CPU, storage, and so on of all the databases in the fleet.
+// MySqlFleetSummary A summary of the inventory count and the metrics that describe the aggregated usage of CPU, storage, and so on of all the MySQL Databases in the fleet.
 type MySqlFleetSummary struct {
 
-	// Usage metrics for fleet.
+	// The usage metrics for the Managed MySQL Databases in the fleet.
 	AggregatedMetrics []MySqlFleetMetricSummaryDefinition `mandatory:"true" json:"aggregatedMetrics"`
 
-	// A list of MySQL databases in the fleet, grouped by database type.
+	// A list of MySQL Databases in the fleet, grouped by database type.
 	Inventory []MySqlFleetByCategory `mandatory:"true" json:"inventory"`
 }
 

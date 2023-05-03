@@ -20,10 +20,10 @@ import (
 // MySqlDatabaseUsageMetrics The list of aggregated metrics for Managed MySQL Databases in the fleet.
 type MySqlDatabaseUsageMetrics struct {
 
-	// The OCID of the compartment where the Managed Database resides.
+	// The OCID of the compartment where the Managed MySQL Database resides.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The display name of the MySQL Managed Database.
+	// The display name of the Managed MySQL Database.
 	DatabaseName *string `mandatory:"true" json:"databaseName"`
 
 	// Indicates MySQL Database type, ONPREMISE or MySQL Database System.
@@ -32,13 +32,13 @@ type MySqlDatabaseUsageMetrics struct {
 	// The type of MySQL Database System.
 	MdsDeploymentType *string `mandatory:"true" json:"mdsDeploymentType"`
 
-	// The lifecycle state of MySQL Database System.
+	// The lifecycle state of the MySQL Database System.
 	MdslifecycleState *string `mandatory:"true" json:"mdslifecycleState"`
 
-	// The MySQL Database version.
+	// The version of the MySQL Database.
 	DatabaseVersion *string `mandatory:"true" json:"databaseVersion"`
 
-	// The OCID of the Managed Database.
+	// The OCID of the Managed MySQL Database.
 	DbId *string `mandatory:"true" json:"dbId"`
 
 	// The status of the MySQL Database. Indicates whether the status of the database

@@ -18,16 +18,16 @@ import (
 	"strings"
 )
 
-// ExternalDatabaseSystemDiscoverySummary The summary of the database system.
+// ExternalDatabaseSystemDiscoverySummary The summary of the DB system discovery.
 type ExternalDatabaseSystemDiscoverySummary struct {
 
 	// The name of the entity.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Null for new discover case.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the entity discovered.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent could be used for monitoring.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent used for monitoring.
 	AgentId *string `mandatory:"false" json:"agentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated connector.
@@ -36,31 +36,31 @@ type ExternalDatabaseSystemDiscoverySummary struct {
 	// The version of the entity.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The internal identifier.
+	// The internal identifier of the entity.
 	InternalId *string `mandatory:"false" json:"internalId"`
 
 	// The status of the entity.
 	Status *string `mandatory:"false" json:"status"`
 
-	// The error code of the discovery on the resource
+	// The error code of the discovery.
 	DiscoverErrorCode *string `mandatory:"false" json:"discoverErrorCode"`
 
-	// The error message of the discovery on the resource
+	// The error message of the discovery.
 	DiscoverErrorMsg *string `mandatory:"false" json:"discoverErrorMsg"`
 
 	// The Oracle home path.
 	OracleHome *string `mandatory:"false" json:"oracleHome"`
 
-	// The display name of ASM connector.
+	// The display name of the ASM connector.
 	AsmConnectorName *string `mandatory:"false" json:"asmConnectorName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The Oracle license model that applies to the database management resources.
 	LicenseModel ExternalDatabaseSystemDiscoverySummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
-	// The status of the entity discover.
+	// The status of the entity discovery.
 	DiscoverStatus EntityDiscoveredDiscoverStatusEnum `mandatory:"false" json:"discoverStatus,omitempty"`
 }
 

@@ -21,17 +21,13 @@ type UpdateExadbVmClusterDetails struct {
 	// The user-friendly name for the Exadata VM cluster on Exascale Infrastructure. The name does not need to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The number of CPU cores reserved for a Exadata VM cluster on Exascale Infrastructure.
-	ReservedCpuCoreCount *int `mandatory:"false" json:"reservedCpuCoreCount"`
+	// The number of Total CPU cores for a Exadata VM cluster on Exascale Infrastructure.
+	TotalCpuCoreCount *int `mandatory:"false" json:"totalCpuCoreCount"`
 
 	// The number of CPU cores to enable for a Exadata VM cluster on Exascale Infrastructure.
 	EnabledCpuCoreCount *int `mandatory:"false" json:"enabledCpuCoreCount"`
 
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"false" json:"vmFileSystemStorage"`
-
-	HighCapacityDatabaseStorage *ExadbVmClusterStorageDetails `mandatory:"false" json:"highCapacityDatabaseStorage"`
-
-	ExtremeFlashDatabaseStorage *ExadbVmClusterStorageDetails `mandatory:"false" json:"extremeFlashDatabaseStorage"`
 
 	// The number of nodes to be added in the Exadata VM cluster on Exascale Infrastructure.
 	NodeCount *int `mandatory:"false" json:"nodeCount"`

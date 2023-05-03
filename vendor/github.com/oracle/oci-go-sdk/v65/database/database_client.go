@@ -1318,6 +1318,64 @@ func (client DatabaseClient) changeExadbVmClusterCompartment(ctx context.Context
 	return response, err
 }
 
+// ChangeExascaleDbStorageVaultCompartment Moves a Exadata Database Storage Vault to another compartment.
+func (client DatabaseClient) ChangeExascaleDbStorageVaultCompartment(ctx context.Context, request ChangeExascaleDbStorageVaultCompartmentRequest) (response ChangeExascaleDbStorageVaultCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeExascaleDbStorageVaultCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeExascaleDbStorageVaultCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeExascaleDbStorageVaultCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeExascaleDbStorageVaultCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeExascaleDbStorageVaultCompartmentResponse")
+	}
+	return
+}
+
+// changeExascaleDbStorageVaultCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeExascaleDbStorageVaultCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exascaleDbStorageVaults/{exascaleDbStorageVaultId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeExascaleDbStorageVaultCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/ChangeExascaleDbStorageVaultCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeExascaleDbStorageVaultCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeExternalContainerDatabaseCompartment Move the CreateExternalContainerDatabaseDetails
 // and its dependent resources to the specified compartment.
 // For more information about moving external container databases, see
@@ -3076,6 +3134,64 @@ func (client DatabaseClient) createExadbVmCluster(ctx context.Context, request c
 	return response, err
 }
 
+// CreateExascaleDbStorageVault Creates an Exadata Database Storage Vault
+func (client DatabaseClient) CreateExascaleDbStorageVault(ctx context.Context, request CreateExascaleDbStorageVaultRequest) (response CreateExascaleDbStorageVaultResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createExascaleDbStorageVault, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateExascaleDbStorageVaultResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateExascaleDbStorageVaultResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateExascaleDbStorageVaultResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateExascaleDbStorageVaultResponse")
+	}
+	return
+}
+
+// createExascaleDbStorageVault implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createExascaleDbStorageVault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exascaleDbStorageVaults", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateExascaleDbStorageVaultResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/CreateExascaleDbStorageVault"
+		err = common.PostProcessServiceError(err, "Database", "CreateExascaleDbStorageVault", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateExternalBackupJob Creates a new backup resource and returns the information the caller needs to back up an on-premises Oracle Database to Oracle Cloud Infrastructure.
 // **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.cloud.oracle.com/Content/Database/Tasks/mig-onprembackup.htm) for more information.
 func (client DatabaseClient) CreateExternalBackupJob(ctx context.Context, request CreateExternalBackupJobRequest) (response CreateExternalBackupJobResponse, err error) {
@@ -4578,6 +4694,59 @@ func (client DatabaseClient) deleteExadbVmCluster(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmCluster/DeleteExadbVmCluster"
 		err = common.PostProcessServiceError(err, "Database", "DeleteExadbVmCluster", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteExascaleDbStorageVault Deletes the specified Exadata Database Storage Vault.
+func (client DatabaseClient) DeleteExascaleDbStorageVault(ctx context.Context, request DeleteExascaleDbStorageVaultRequest) (response DeleteExascaleDbStorageVaultResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteExascaleDbStorageVault, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteExascaleDbStorageVaultResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteExascaleDbStorageVaultResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteExascaleDbStorageVaultResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteExascaleDbStorageVaultResponse")
+	}
+	return
+}
+
+// deleteExascaleDbStorageVault implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteExascaleDbStorageVault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/exascaleDbStorageVaults/{exascaleDbStorageVaultId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteExascaleDbStorageVaultResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/DeleteExascaleDbStorageVault"
+		err = common.PostProcessServiceError(err, "Database", "DeleteExascaleDbStorageVault", apiReferenceLink)
 		return response, err
 	}
 
@@ -9197,6 +9366,59 @@ func (client DatabaseClient) getExadbVmCluster(ctx context.Context, request comm
 	return response, err
 }
 
+// GetExascaleDbStorageVault Gets information about the specified Exadata Database Storage Vaults in the specified compartment.
+func (client DatabaseClient) GetExascaleDbStorageVault(ctx context.Context, request GetExascaleDbStorageVaultRequest) (response GetExascaleDbStorageVaultResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getExascaleDbStorageVault, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetExascaleDbStorageVaultResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetExascaleDbStorageVaultResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetExascaleDbStorageVaultResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetExascaleDbStorageVaultResponse")
+	}
+	return
+}
+
+// getExascaleDbStorageVault implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getExascaleDbStorageVault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exascaleDbStorageVaults/{exascaleDbStorageVaultId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetExascaleDbStorageVaultResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/GetExascaleDbStorageVault"
+		err = common.PostProcessServiceError(err, "Database", "GetExascaleDbStorageVault", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetExternalBackupJob Gets information about the specified external backup job.
 // **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.cloud.oracle.com/Content/Database/Tasks/mig-onprembackup.htm) for more information.
 func (client DatabaseClient) GetExternalBackupJob(ctx context.Context, request GetExternalBackupJobRequest) (response GetExternalBackupJobResponse, err error) {
@@ -12724,6 +12946,59 @@ func (client DatabaseClient) listExadbVmClusters(ctx context.Context, request co
 	return response, err
 }
 
+// ListExascaleDbStorageVaults Gets a list of the Exadata Database Storage Vaults in the specified compartment.
+func (client DatabaseClient) ListExascaleDbStorageVaults(ctx context.Context, request ListExascaleDbStorageVaultsRequest) (response ListExascaleDbStorageVaultsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listExascaleDbStorageVaults, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListExascaleDbStorageVaultsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListExascaleDbStorageVaultsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListExascaleDbStorageVaultsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListExascaleDbStorageVaultsResponse")
+	}
+	return
+}
+
+// listExascaleDbStorageVaults implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listExascaleDbStorageVaults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exascaleDbStorageVaults", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListExascaleDbStorageVaultsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/ListExascaleDbStorageVaults"
+		err = common.PostProcessServiceError(err, "Database", "ListExascaleDbStorageVaults", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListExternalContainerDatabases Gets a list of the external container databases in the specified compartment.
 func (client DatabaseClient) ListExternalContainerDatabases(ctx context.Context, request ListExternalContainerDatabasesRequest) (response ListExternalContainerDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14483,7 +14758,7 @@ func (client DatabaseClient) removeVirtualMachineFromExadbVmCluster(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/RemoveVirtualMachineFromExadbVmCluster"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmCluster/RemoveVirtualMachineFromExadbVmCluster"
 		err = common.PostProcessServiceError(err, "Database", "RemoveVirtualMachineFromExadbVmCluster", apiReferenceLink)
 		return response, err
 	}
@@ -17342,6 +17617,59 @@ func (client DatabaseClient) updateExadbVmCluster(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmCluster/UpdateExadbVmCluster"
 		err = common.PostProcessServiceError(err, "Database", "UpdateExadbVmCluster", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateExascaleDbStorageVault Updates the specified Exadata Database Storage Vault.
+func (client DatabaseClient) UpdateExascaleDbStorageVault(ctx context.Context, request UpdateExascaleDbStorageVaultRequest) (response UpdateExascaleDbStorageVaultResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateExascaleDbStorageVault, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateExascaleDbStorageVaultResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateExascaleDbStorageVaultResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateExascaleDbStorageVaultResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateExascaleDbStorageVaultResponse")
+	}
+	return
+}
+
+// updateExascaleDbStorageVault implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateExascaleDbStorageVault(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/exascaleDbStorageVaults/{exascaleDbStorageVaultId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateExascaleDbStorageVaultResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/UpdateExascaleDbStorageVault"
+		err = common.PostProcessServiceError(err, "Database", "UpdateExascaleDbStorageVault", apiReferenceLink)
 		return response, err
 	}
 

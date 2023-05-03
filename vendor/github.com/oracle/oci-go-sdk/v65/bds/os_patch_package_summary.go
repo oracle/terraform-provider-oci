@@ -21,9 +21,6 @@ type OsPatchPackageSummary struct {
 	// The package's name.
 	PackageName *string `mandatory:"true" json:"packageName"`
 
-	// The target version of the package.
-	TargetVersion *string `mandatory:"true" json:"targetVersion"`
-
 	// The action that current package will be executed on the cluster.
 	UpdateType OsPatchPackageSummaryUpdateTypeEnum `mandatory:"true" json:"updateType"`
 
@@ -32,6 +29,9 @@ type OsPatchPackageSummary struct {
 
 	// Whether a package need the cluster to restart to take effect.
 	IsRestartRequired *bool `mandatory:"true" json:"isRestartRequired"`
+
+	// The target version of the package.
+	TargetVersion *string `mandatory:"false" json:"targetVersion"`
 }
 
 func (m OsPatchPackageSummary) String() string {

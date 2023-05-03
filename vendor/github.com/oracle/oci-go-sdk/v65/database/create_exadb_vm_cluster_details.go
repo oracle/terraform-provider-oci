@@ -48,15 +48,16 @@ type CreateExadbVmClusterDetails struct {
 	// The number of nodes in the Exadata VM cluster on Exascale Infrastructure.
 	NodeCount *int `mandatory:"true" json:"nodeCount"`
 
-	// The number of CPU cores reserved for a Exadata VM cluster on Exascale Infrastructure.
-	ReservedCpuCoreCount *int `mandatory:"true" json:"reservedCpuCoreCount"`
+	// The number of Total CPU cores for a Exadata VM cluster on Exascale Infrastructure.
+	TotalCpuCoreCount *int `mandatory:"true" json:"totalCpuCoreCount"`
 
 	// The number of CPU cores to enable for a Exadata VM cluster on Exascale Infrastructure.
 	EnabledCpuCoreCount *int `mandatory:"true" json:"enabledCpuCoreCount"`
 
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"true" json:"vmFileSystemStorage"`
 
-	HighCapacityDatabaseStorage *ExadbVmClusterStorageDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
+	ExascaleDbStorageVaultId *string `mandatory:"true" json:"exascaleDbStorageVaultId"`
 
 	// A valid Oracle Grid Infrastructure (GI) software version.
 	GiVersion *string `mandatory:"true" json:"giVersion"`
@@ -94,8 +95,6 @@ type CreateExadbVmClusterDetails struct {
 
 	// The private zone id in which DNS records needs to be created.
 	PrivateZoneId *string `mandatory:"false" json:"privateZoneId"`
-
-	ExtremeFlashDatabaseStorage *ExadbVmClusterStorageDetails `mandatory:"false" json:"extremeFlashDatabaseStorage"`
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**

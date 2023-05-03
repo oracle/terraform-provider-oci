@@ -93,6 +93,15 @@ type EsxiHost struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deleted ESXi Host with LeftOver billing cycle.
 	BillingDonorHostId *string `mandatory:"false" json:"billingDonorHostId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the active ESXi Host to swap billing with current host.
+	SwapBillingHostId *string `mandatory:"false" json:"swapBillingHostId"`
+
+	// Indicates whether this host is in the progress of billing continuation.
+	IsBillingContinuationInProgress *bool `mandatory:"false" json:"isBillingContinuationInProgress"`
+
+	// Indicates whether this host is in the progress of swapping billing.
+	IsBillingSwappingInProgress *bool `mandatory:"false" json:"isBillingSwappingInProgress"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that failed.
 	FailedEsxiHostId *string `mandatory:"false" json:"failedEsxiHostId"`
 

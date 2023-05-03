@@ -14,7 +14,7 @@ import (
 // DiscoverExternalExadataInfrastructureRequest wrapper for the DiscoverExternalExadataInfrastructure operation
 type DiscoverExternalExadataInfrastructureRequest struct {
 
-	// The details required to discover and monitor the Exadata system infrastructure.
+	// The details required to discover and monitor the Exadata infrastructure.
 	DiscoverExternalExadataInfrastructureDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

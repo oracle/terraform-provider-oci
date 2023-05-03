@@ -18,15 +18,11 @@ import (
 // ExadbVmClusterStorageDetails Storage Details on the Exadata VM cluster.
 type ExadbVmClusterStorageDetails struct {
 
-	// Storage Capacity
-	CapacitySizeInGbs *int `mandatory:"false" json:"capacitySizeInGbs"`
+	// Total Capacity
+	TotalSizeInGbs *int `mandatory:"false" json:"totalSizeInGbs"`
 
-	// If true, allows system to auto scale to a maximum limit provided or scale as needed.
-	// If false, system will not perform auto scale
-	IsAutoScale *bool `mandatory:"false" json:"isAutoScale"`
-
-	// Auto Scaling Limit
-	AutoScaleLimit *int `mandatory:"false" json:"autoScaleLimit"`
+	// Available Capacity
+	AvailableSizeInGbs *int `mandatory:"false" json:"availableSizeInGbs"`
 }
 
 func (m ExadbVmClusterStorageDetails) String() string {

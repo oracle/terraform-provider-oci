@@ -18,7 +18,7 @@ type SwapBillingRequest struct {
 	EsxiHostId *string `mandatory:"true" contributesTo:"path" name:"esxiHostId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the active ESXi Host to swap billing with current host.
-	SwapBillingEsxiHostId *string `mandatory:"true" contributesTo:"query" name:"swapBillingEsxiHostId"`
+	SwapBillingHostId *string `mandatory:"true" contributesTo:"query" name:"swapBillingHostId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24

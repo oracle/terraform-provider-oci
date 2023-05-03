@@ -17,22 +17,22 @@ import (
 	"strings"
 )
 
-// MySqlFleetMetricDefinition The list of aggregated metrics for Managed MySQL Databases in the fleet.
+// MySqlFleetMetricDefinition The list of aggregated metrics for the Managed MySQL Databases in the fleet.
 type MySqlFleetMetricDefinition struct {
 
-	// The metric value
+	// The value of the metric.
 	MetricValue *int `mandatory:"true" json:"metricValue"`
 
-	// The name of the metric
+	// The name of the metric.
 	MetricName *string `mandatory:"true" json:"metricName"`
 
-	// The data point date and time in UTC in ISO-8601 format
+	// The data point date and time in UTC in ISO-8601 format.
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 
-	// The dimensions of the metric
+	// The dimensions of the metric.
 	Dimensions []MetricDimensionDefinition `mandatory:"true" json:"dimensions"`
 
-	// The unit of the value
+	// The unit of the metric value.
 	Unit *string `mandatory:"true" json:"unit"`
 }
 

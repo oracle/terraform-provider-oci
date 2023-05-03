@@ -37,6 +37,9 @@ type CreatePluggableDatabaseDetails struct {
 	// If true, the pluggable database will be locked and user cannot login to it.
 	ShouldPdbAdminAccountBeLocked *bool `mandatory:"false" json:"shouldPdbAdminAccountBeLocked"`
 
+	// The DB system administrator password of the Container Database.
+	ContainerDatabaseAdminPassword *string `mandatory:"false" json:"containerDatabaseAdminPassword"`
+
 	// Indicates whether to take Pluggable Database Backup after the operation.
 	ShouldCreatePdbBackup *bool `mandatory:"false" json:"shouldCreatePdbBackup"`
 
@@ -71,15 +74,16 @@ func (m CreatePluggableDatabaseDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreatePluggableDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		PdbAdminPassword              *string                                    `json:"pdbAdminPassword"`
-		TdeWalletPassword             *string                                    `json:"tdeWalletPassword"`
-		ShouldPdbAdminAccountBeLocked *bool                                      `json:"shouldPdbAdminAccountBeLocked"`
-		ShouldCreatePdbBackup         *bool                                      `json:"shouldCreatePdbBackup"`
-		PdbCreationTypeDetails        createpluggabledatabasecreationtypedetails `json:"pdbCreationTypeDetails"`
-		FreeformTags                  map[string]string                          `json:"freeformTags"`
-		DefinedTags                   map[string]map[string]interface{}          `json:"definedTags"`
-		PdbName                       *string                                    `json:"pdbName"`
-		ContainerDatabaseId           *string                                    `json:"containerDatabaseId"`
+		PdbAdminPassword               *string                                    `json:"pdbAdminPassword"`
+		TdeWalletPassword              *string                                    `json:"tdeWalletPassword"`
+		ShouldPdbAdminAccountBeLocked  *bool                                      `json:"shouldPdbAdminAccountBeLocked"`
+		ContainerDatabaseAdminPassword *string                                    `json:"containerDatabaseAdminPassword"`
+		ShouldCreatePdbBackup          *bool                                      `json:"shouldCreatePdbBackup"`
+		PdbCreationTypeDetails         createpluggabledatabasecreationtypedetails `json:"pdbCreationTypeDetails"`
+		FreeformTags                   map[string]string                          `json:"freeformTags"`
+		DefinedTags                    map[string]map[string]interface{}          `json:"definedTags"`
+		PdbName                        *string                                    `json:"pdbName"`
+		ContainerDatabaseId            *string                                    `json:"containerDatabaseId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -92,6 +96,8 @@ func (m *CreatePluggableDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.TdeWalletPassword = model.TdeWalletPassword
 
 	m.ShouldPdbAdminAccountBeLocked = model.ShouldPdbAdminAccountBeLocked
+
+	m.ContainerDatabaseAdminPassword = model.ContainerDatabaseAdminPassword
 
 	m.ShouldCreatePdbBackup = model.ShouldCreatePdbBackup
 

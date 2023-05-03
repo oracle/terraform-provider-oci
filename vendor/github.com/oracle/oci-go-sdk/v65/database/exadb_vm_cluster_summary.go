@@ -63,15 +63,16 @@ type ExadbVmClusterSummary struct {
 	// The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
 
-	// The number of CPU cores reserved for a Exadata VM cluster on Exascale Infrastructure.
-	ReservedCpuCoreCount *int `mandatory:"true" json:"reservedCpuCoreCount"`
+	// The number of Total CPU cores for a Exadata VM cluster on Exascale Infrastructure.
+	TotalCpuCoreCount *int `mandatory:"true" json:"totalCpuCoreCount"`
 
 	// The number of CPU cores to enable for a Exadata VM cluster on Exascale Infrastructure.
 	EnabledCpuCoreCount *int `mandatory:"true" json:"enabledCpuCoreCount"`
 
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"true" json:"vmFileSystemStorage"`
 
-	HighCapacityDatabaseStorage *ExadbVmClusterStorageDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
+	ExascaleDbStorageVaultId *string `mandatory:"true" json:"exascaleDbStorageVaultId"`
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	// **NsgIds restrictions:**
@@ -160,8 +161,6 @@ type ExadbVmClusterSummary struct {
 	PrivateZoneId *string `mandatory:"false" json:"privateZoneId"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
-
-	ExtremeFlashDatabaseStorage *ExadbVmClusterStorageDetails `mandatory:"false" json:"extremeFlashDatabaseStorage"`
 
 	// The memory to be allocated in GBs. Memory is calculated based on 11 GB per VM core reserved.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`

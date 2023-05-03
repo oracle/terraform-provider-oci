@@ -449,7 +449,7 @@ func (client DbManagementClient) changeExternalDbSystemCompartment(ctx context.C
 	return response, err
 }
 
-// ChangeExternalExadataInfrastructureCompartment Moves the Exadata infrastructure  and its related resources (storage server, storage server connectors and storage server grid) to the specified compartment.
+// ChangeExternalExadataInfrastructureCompartment Moves the Exadata infrastructure and its related resources (Exadata storage server, Exadata storage server connectors and Exadata storage server grid) to the specified compartment.
 // A default retry strategy applies to this operation ChangeExternalExadataInfrastructureCompartment()
 func (client DbManagementClient) ChangeExternalExadataInfrastructureCompartment(ctx context.Context, request ChangeExternalExadataInfrastructureCompartmentRequest) (response ChangeExternalExadataInfrastructureCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -849,7 +849,7 @@ func (client DbManagementClient) checkExternalDbSystemConnectorConnectionStatus(
 	return response, err
 }
 
-// CheckExternalExadataStorageConnector Check the status of the Exadata storage server connection specified by exadataStorageConnectorId.
+// CheckExternalExadataStorageConnector Checks the status of the Exadata storage server connection specified by exadataStorageConnectorId.
 // A default retry strategy applies to this operation CheckExternalExadataStorageConnector()
 func (client DbManagementClient) CheckExternalExadataStorageConnector(ctx context.Context, request CheckExternalExadataStorageConnectorRequest) (response CheckExternalExadataStorageConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1252,7 +1252,7 @@ func (client DbManagementClient) createExternalDbSystemDiscovery(ctx context.Con
 	return response, err
 }
 
-// CreateExternalExadataInfrastructure Creates an OCI resource for the Exadata infrastructure and enable monitoring service on the exadata infrastructure.
+// CreateExternalExadataInfrastructure Creates an OCI resource for the Exadata infrastructure and enables the Monitoring service for the Exadata infrastructure.
 // The following resource/subresources are created:
 //   Infrastructure
 //   Storage server connectors
@@ -1316,9 +1316,7 @@ func (client DbManagementClient) createExternalExadataInfrastructure(ctx context
 	return response, err
 }
 
-// CreateExternalExadataStorageConnector Create the storage server connector after validating the connection information.
-// Or only validates the connection information for creating the connection to the storage server.
-// The connector for one storage server is associated with the Exadata infrastructure discovery or existing Exadata infrastructure.
+// CreateExternalExadataStorageConnector Creates the Exadata storage server connector after validating the connection information.
 // A default retry strategy applies to this operation CreateExternalExadataStorageConnector()
 func (client DbManagementClient) CreateExternalExadataStorageConnector(ctx context.Context, request CreateExternalExadataStorageConnectorRequest) (response CreateExternalExadataStorageConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1766,7 +1764,7 @@ func (client DbManagementClient) deleteExternalDbSystemDiscovery(ctx context.Con
 	return response, err
 }
 
-// DeleteExternalExadataInfrastructure Deletes the the Exadata infrastructure specified by externalExadataInfrastructureId.
+// DeleteExternalExadataInfrastructure Deletes the Exadata infrastructure specified by externalExadataInfrastructureId.
 func (client DbManagementClient) DeleteExternalExadataInfrastructure(ctx context.Context, request DeleteExternalExadataInfrastructureRequest) (response DeleteExternalExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1819,7 +1817,7 @@ func (client DbManagementClient) deleteExternalExadataInfrastructure(ctx context
 	return response, err
 }
 
-// DeleteExternalExadataStorageConnector Deletes the storage server connector specified by exadataStorageConnectorId.
+// DeleteExternalExadataStorageConnector Deletes the Exadata storage server connector specified by exadataStorageConnectorId.
 func (client DbManagementClient) DeleteExternalExadataStorageConnector(ctx context.Context, request DeleteExternalExadataStorageConnectorRequest) (response DeleteExternalExadataStorageConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2200,12 +2198,12 @@ func (client DbManagementClient) disableExternalDbSystemDatabaseManagement(ctx c
 	return response, err
 }
 
-// DisableExternalExadataInfrastructureManagement Disables Database Management service for the Exadata infrastructure specified by externalExadataInfrastructureId.
-// It covers the following components
-//           Exadata infrastructure
-//           Exadata storage grid
-//           Exadata storage server
-// Database systems within the Exdata infrastructure will not be impacted and should be disabled explicitly if needed.
+// DisableExternalExadataInfrastructureManagement Disables Database Management for the Exadata infrastructure specified by externalExadataInfrastructureId.
+// It covers the following components:
+// - Exadata infrastructure
+// - Exadata storage grid
+// - Exadata storage server
+// Note that Database Management will not be disabled for the DB systems within the Exadata infrastructure and should be disabled explicitly, if required.
 // A default retry strategy applies to this operation DisableExternalExadataInfrastructureManagement()
 func (client DbManagementClient) DisableExternalExadataInfrastructureManagement(ctx context.Context, request DisableExternalExadataInfrastructureManagementRequest) (response DisableExternalExadataInfrastructureManagementResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2374,17 +2372,19 @@ func (client DbManagementClient) disableSqlPlanBaselinesUsage(ctx context.Contex
 }
 
 // DiscoverExternalExadataInfrastructure Completes the Exadata system prechecking on the following:
-// Verifies if the database systems are valid RAC database systems. Otherwise, return 400 status code with NON_RAC_DATABASE_SYSTEM error code.
-// Verifies if the ASM connectors defined for each database system.  Otherwise,  return 400 status code with CONNECTOR_NOT_DEFINED error code.
-// Verifies if the agents associated with ASM are valid and could be used for the storage servers. Otherwise, return 400 status code with INVALID_AGENT error code.
-// Verifies if it is an Exadata system. Otherwise, return 400 status code with INVALID_EXADATA_SYSTEM error code.
-// Starts the discovery process for the Exadata system infrastructure.The following resources/components could be discovered
-//   storage servers from each database systems
-//   storage grid for all storage server
-//   exadata infrastructure
-// The same API covers both new discovery and re-discovery cases.
-//   For the new discovery case, new managed resources/sub-resources are created or override the existing one.
-//   For re-discovery case, the existing managed resources/sub-resources are checked to find out which ones should be added or which one should be
+// - Verifies if the DB systems are valid RAC DB systems or return 400 status code with NON_RAC_DATABASE_SYSTEM error code.
+// - Verifies if the ASM connector defined for each DB system or return 400 status code with CONNECTOR_NOT_DEFINED error code.
+// - Verifies if the agents associated with ASM are valid and could be used for the Exadata storage servers or return 400 status code with
+// INVALID_AGENT error code.
+// - Verifies if it is an Exadata system or return 400 status code with INVALID_EXADATA_SYSTEM error code.
+// Starts the discovery process for the Exadata system infrastructure. The following resources/components are discovered
+// - Exadata storage servers from each DB systems
+// - Exadata storage grid for all Exadata storage servers
+// - Exadata infrastructure
+// The same API covers both new discovery and rediscovery cases.
+//   For the new discovery case, new managed resources/sub-resources are created or the existing ones are overridden.
+//   For rediscovery case, the existing managed resources/sub-resources are checked to find out which ones should be added or which ones
+// should be
 //     removed based on the unique key defined for each resource/sub-resource.
 // A default retry strategy applies to this operation DiscoverExternalExadataInfrastructure()
 func (client DbManagementClient) DiscoverExternalExadataInfrastructure(ctx context.Context, request DiscoverExternalExadataInfrastructureRequest) (response DiscoverExternalExadataInfrastructureResponse, err error) {
@@ -2736,11 +2736,11 @@ func (client DbManagementClient) enableExternalDbSystemDatabaseManagement(ctx co
 	return response, err
 }
 
-// EnableExternalExadataInfrastructureManagement Enables Database Management service for the exadata infrastructure specified by externalExadataInfrastructureId. It covers the following
-// components
-//   Exadata infrastructure
-//   Exadata storage grid
-//   Exadata storage server
+// EnableExternalExadataInfrastructureManagement Enables Database Management for the Exadata infrastructure specified by externalExadataInfrastructureId. It covers the following
+// components:
+// - Exadata infrastructure
+// - Exadata storage grid
+// - Exadata storage server
 // A default retry strategy applies to this operation EnableExternalExadataInfrastructureManagement()
 func (client DbManagementClient) EnableExternalExadataInfrastructureManagement(ctx context.Context, request EnableExternalExadataInfrastructureManagementRequest) (response EnableExternalExadataInfrastructureManagementResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3842,7 +3842,7 @@ func (client DbManagementClient) getExternalDbSystemDiscovery(ctx context.Contex
 	return response, err
 }
 
-// GetExternalExadataInfrastructure Gets the details for the the Exadata infrastructure specified by externalExadataInfrastructureId. It includes the database systems and storage grid within the
+// GetExternalExadataInfrastructure Gets the details for the Exadata infrastructure specified by externalExadataInfrastructureId. It includes the DB systems and storage grid within the
 // Exadata infrastructure.
 // A default retry strategy applies to this operation GetExternalExadataInfrastructure()
 func (client DbManagementClient) GetExternalExadataInfrastructure(ctx context.Context, request GetExternalExadataInfrastructureRequest) (response GetExternalExadataInfrastructureResponse, err error) {
@@ -3897,7 +3897,7 @@ func (client DbManagementClient) getExternalExadataInfrastructure(ctx context.Co
 	return response, err
 }
 
-// GetExternalExadataStorageConnector Gets the details for the storage server connector specified by exadataStorageConnectorId.
+// GetExternalExadataStorageConnector Gets the details for the Exadata storage server connector specified by exadataStorageConnectorId.
 // A default retry strategy applies to this operation GetExternalExadataStorageConnector()
 func (client DbManagementClient) GetExternalExadataStorageConnector(ctx context.Context, request GetExternalExadataStorageConnectorRequest) (response GetExternalExadataStorageConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3951,7 +3951,7 @@ func (client DbManagementClient) getExternalExadataStorageConnector(ctx context.
 	return response, err
 }
 
-// GetExternalExadataStorageGrid Gets the details for the storage server grid specified by exadataStorageGridId.
+// GetExternalExadataStorageGrid Gets the details for the Exadata storage server grid specified by exadataStorageGridId.
 // A default retry strategy applies to this operation GetExternalExadataStorageGrid()
 func (client DbManagementClient) GetExternalExadataStorageGrid(ctx context.Context, request GetExternalExadataStorageGridRequest) (response GetExternalExadataStorageGridResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4005,7 +4005,7 @@ func (client DbManagementClient) getExternalExadataStorageGrid(ctx context.Conte
 	return response, err
 }
 
-// GetExternalExadataStorageServer Gets the summary for the storage server specified by exadataStorageServerId.
+// GetExternalExadataStorageServer Gets the summary for the Exadata storage server specified by exadataStorageServerId.
 // A default retry strategy applies to this operation GetExternalExadataStorageServer()
 func (client DbManagementClient) GetExternalExadataStorageServer(ctx context.Context, request GetExternalExadataStorageServerRequest) (response GetExternalExadataStorageServerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4113,7 +4113,7 @@ func (client DbManagementClient) getExternalListener(ctx context.Context, reques
 	return response, err
 }
 
-// GetIormPlan Get the IORM plan from the specific exadata storage server.
+// GetIormPlan Get the IORM plan from the specific Exadata storage server.
 // A default retry strategy applies to this operation GetIormPlan()
 func (client DbManagementClient) GetIormPlan(ctx context.Context, request GetIormPlanRequest) (response GetIormPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4432,7 +4432,7 @@ func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, re
 	return response, err
 }
 
-// GetOpenAlertHistory Get open alerts from storage server.
+// GetOpenAlertHistory Gets the open alerts from the specified Exadata storage server.
 // A default retry strategy applies to this operation GetOpenAlertHistory()
 func (client DbManagementClient) GetOpenAlertHistory(ctx context.Context, request GetOpenAlertHistoryRequest) (response GetOpenAlertHistoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4918,7 +4918,7 @@ func (client DbManagementClient) getTablespace(ctx context.Context, request comm
 	return response, err
 }
 
-// GetTopSqlCpuActivity Get SQL ID with top cpu activity from storage server.
+// GetTopSqlCpuActivity Gets the SQL IDs with the top CPU activity from the Exadata storage server.
 // A default retry strategy applies to this operation GetTopSqlCpuActivity()
 func (client DbManagementClient) GetTopSqlCpuActivity(ctx context.Context, request GetTopSqlCpuActivityRequest) (response GetTopSqlCpuActivityResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6267,7 +6267,7 @@ func (client DbManagementClient) listExternalDbSystems(ctx context.Context, requ
 	return response, err
 }
 
-// ListExternalExadataInfrastructures Lists the Exadata infrastructures for a specific compartment.
+// ListExternalExadataInfrastructures Lists the Exadata infrastructure resources in the specified compartment.
 // A default retry strategy applies to this operation ListExternalExadataInfrastructures()
 func (client DbManagementClient) ListExternalExadataInfrastructures(ctx context.Context, request ListExternalExadataInfrastructuresRequest) (response ListExternalExadataInfrastructuresResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6321,7 +6321,7 @@ func (client DbManagementClient) listExternalExadataInfrastructures(ctx context.
 	return response, err
 }
 
-// ListExternalExadataStorageConnectors Lists the connectors for the specific Exadata infrastructures.
+// ListExternalExadataStorageConnectors Lists the Exadata storage server connectors for the specified Exadata infrastructure.
 // A default retry strategy applies to this operation ListExternalExadataStorageConnectors()
 func (client DbManagementClient) ListExternalExadataStorageConnectors(ctx context.Context, request ListExternalExadataStorageConnectorsRequest) (response ListExternalExadataStorageConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6375,7 +6375,7 @@ func (client DbManagementClient) listExternalExadataStorageConnectors(ctx contex
 	return response, err
 }
 
-// ListExternalExadataStorageServers Lists all the storage servers for the exadata infrastructure or storage grid.
+// ListExternalExadataStorageServers Lists the Exadata storage servers for the specified Exadata infrastructure.
 // A default retry strategy applies to this operation ListExternalExadataStorageServers()
 func (client DbManagementClient) ListExternalExadataStorageServers(ctx context.Context, request ListExternalExadataStorageServersRequest) (response ListExternalExadataStorageServersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9693,7 +9693,7 @@ func (client DbManagementClient) updateExternalDbSystemDiscovery(ctx context.Con
 	return response, err
 }
 
-// UpdateExternalExadataInfrastructure Updates the details for the the Exadata infrastructure specified by externalExadataInfrastructureId.
+// UpdateExternalExadataInfrastructure Updates the details for the Exadata infrastructure specified by externalExadataInfrastructureId.
 // A default retry strategy applies to this operation UpdateExternalExadataInfrastructure()
 func (client DbManagementClient) UpdateExternalExadataInfrastructure(ctx context.Context, request UpdateExternalExadataInfrastructureRequest) (response UpdateExternalExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9752,7 +9752,7 @@ func (client DbManagementClient) updateExternalExadataInfrastructure(ctx context
 	return response, err
 }
 
-// UpdateExternalExadataStorageConnector Updates the details for the storage server connector specified by exadataStorageConnectorId.
+// UpdateExternalExadataStorageConnector Updates the Exadata storage server connector specified by exadataStorageConnectorId.
 func (client DbManagementClient) UpdateExternalExadataStorageConnector(ctx context.Context, request UpdateExternalExadataStorageConnectorRequest) (response UpdateExternalExadataStorageConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

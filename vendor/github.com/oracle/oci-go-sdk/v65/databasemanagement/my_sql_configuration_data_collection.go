@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// MySqlConfigurationDataCollection Collection of Configuration Records for a given MySQL Instance.
+// MySqlConfigurationDataCollection The collection of configuration records for a specific MySQL Database.
 type MySqlConfigurationDataCollection struct {
 
-	// List of ConfigurationDataSummary.
+	// The list of ConfigurationDataSummary records.
 	Items []MySqlConfigurationDataSummary `mandatory:"true" json:"items"`
 }
 

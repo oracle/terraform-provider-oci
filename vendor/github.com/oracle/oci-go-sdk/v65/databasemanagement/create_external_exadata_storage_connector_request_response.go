@@ -14,7 +14,7 @@ import (
 // CreateExternalExadataStorageConnectorRequest wrapper for the CreateExternalExadataStorageConnector operation
 type CreateExternalExadataStorageConnectorRequest struct {
 
-	// The details required to add connections to the storage servers.
+	// The details required to add connections to the Exadata storage servers.
 	CreateExternalExadataStorageConnectorDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

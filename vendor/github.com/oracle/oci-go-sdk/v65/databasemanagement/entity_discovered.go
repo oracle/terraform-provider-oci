@@ -18,16 +18,16 @@ import (
 	"strings"
 )
 
-// EntityDiscovered The base discover entity.
+// EntityDiscovered The details of the base entity discovery.
 type EntityDiscovered interface {
 
 	// The name of the entity.
 	GetDisplayName() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Null for new discover case.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the entity discovered.
 	GetId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent could be used for monitoring.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent used for monitoring.
 	GetAgentId() *string
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated connector.
@@ -36,19 +36,19 @@ type EntityDiscovered interface {
 	// The version of the entity.
 	GetVersion() *string
 
-	// The internal identifier.
+	// The internal identifier of the entity.
 	GetInternalId() *string
 
 	// The status of the entity.
 	GetStatus() *string
 
-	// The status of the entity discover.
+	// The status of the entity discovery.
 	GetDiscoverStatus() EntityDiscoveredDiscoverStatusEnum
 
-	// The error code of the discovery on the resource
+	// The error code of the discovery.
 	GetDiscoverErrorCode() *string
 
-	// The error message of the discovery on the resource
+	// The error message of the discovery.
 	GetDiscoverErrorMsg() *string
 }
 

@@ -20,6 +20,9 @@ type ConvertToRegularPluggableDatabaseDetails struct {
 
 	// Indicates whether to take Pluggable Database Backup after the operation.
 	ShouldCreatePdbBackup *bool `mandatory:"false" json:"shouldCreatePdbBackup"`
+
+	// The DB system administrator password of the Container Database.
+	ContainerDatabaseAdminPassword *string `mandatory:"false" json:"containerDatabaseAdminPassword"`
 }
 
 func (m ConvertToRegularPluggableDatabaseDetails) String() string {

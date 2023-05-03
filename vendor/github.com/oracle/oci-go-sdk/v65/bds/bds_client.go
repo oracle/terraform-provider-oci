@@ -1881,7 +1881,7 @@ func (client BdsClient) GetOsPatchDetails(ctx context.Context, request GetOsPatc
 // getOsPatchDetails implements the OCIOperation interface (enables retrying operations)
 func (client BdsClient) getOsPatchDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/getOsPatches/{osPatchVersion}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/getOsPatch", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2532,7 +2532,7 @@ func (client BdsClient) ListOsPatches(ctx context.Context, request ListOsPatches
 // listOsPatches implements the OCIOperation interface (enables retrying operations)
 func (client BdsClient) listOsPatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/getOsPatches", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/actions/listOsPatches", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

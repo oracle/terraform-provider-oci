@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// MySqlFleetMetricSummaryDefinition A summary of the fleet metrics, which provides the metric aggregated value of the databases in the fleet.
+// MySqlFleetMetricSummaryDefinition A summary of the fleet metrics, which provides the metric aggregated value of the MySQL Databases in the fleet.
 type MySqlFleetMetricSummaryDefinition struct {
 
-	// The metric aggregated value.
+	// The aggregated metric value.
 	MetricValue *float32 `mandatory:"true" json:"metricValue"`
 
 	// The unique dimension key and values of the metric.
 	Dimensions []MetricDimensionDefinition `mandatory:"true" json:"dimensions"`
 
-	// The name of the metric
+	// The name of the metric.
 	MetricName *string `mandatory:"true" json:"metricName"`
 
-	// unit of the value
+	// The unit of the metric value.
 	Unit *string `mandatory:"true" json:"unit"`
 }
 

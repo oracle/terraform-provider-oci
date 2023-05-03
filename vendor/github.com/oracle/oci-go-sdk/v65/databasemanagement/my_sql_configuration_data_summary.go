@@ -17,58 +17,58 @@ import (
 	"strings"
 )
 
-// MySqlConfigurationDataSummary Configuration Variables for MySQL.
+// MySqlConfigurationDataSummary The configuration variables for a MySQL Database.
 type MySqlConfigurationDataSummary struct {
 
-	// The name of variable
+	// The name of the configuration variable
 	Name *string `mandatory:"true" json:"name"`
 
-	// The value of variable
+	// The value of the variable.
 	Value *string `mandatory:"true" json:"value"`
 
-	// The source from which the variable was most recently set
+	// The source from which the variable was most recently set.
 	Source MySqlConfigurationDataSummarySourceEnum `mandatory:"true" json:"source"`
 
-	// Minimum value of variable
+	// The minimum value of the variable.
 	MinValue *float32 `mandatory:"true" json:"minValue"`
 
-	// Maximum value of variable
+	// The maximum value of the variable.
 	MaxValue *float32 `mandatory:"true" json:"maxValue"`
 
-	// type of variable
+	// The type of variable.
 	Type *string `mandatory:"true" json:"type"`
 
-	// default value of variable
+	// The default value of the variable.
 	DefaultValue *string `mandatory:"true" json:"defaultValue"`
 
-	// Time when value was set
+	// The time when the value of the variable was set.
 	TimeSet *common.SDKTime `mandatory:"true" json:"timeSet"`
 
-	// Host from where this value was set. Empty for MySql Database System
+	// The host from where the value of the variable was set. This is empty for a MySQL Database System.
 	HostSet *string `mandatory:"true" json:"hostSet"`
 
-	// User who set this value. Empty for MySql Database System
+	// The user who sets the value of the variable. This is empty for a MySQL Database System.
 	UserSet *string `mandatory:"true" json:"userSet"`
 
-	// Whether variable can be set dynamically or not
+	// Indicates whether the variable can be set dynamically or not.
 	IsDynamic *bool `mandatory:"true" json:"isDynamic"`
 
-	// whether variable is set at server startup
+	// Indicates whether the variable is set at server startup.
 	IsInit *bool `mandatory:"true" json:"isInit"`
 
-	// Whether this variable is configurable
+	// Indicates whether the variable is configurable.
 	IsConfigurable *bool `mandatory:"true" json:"isConfigurable"`
 
-	// If the variable was set from an option file, VARIABLE_PATH is the path name of that file. Otherwise, the value is the empty string.
+	// The path name of the option file (VARIABLE_PATH), if the variable was set in an option file. If the variable was not set in an
 	Path *string `mandatory:"true" json:"path"`
 
-	// Description of the variable
+	// The description of the variable.
 	Description *string `mandatory:"true" json:"description"`
 
-	// Comma separated list of possible values for the variable in value:valueDescription format
+	// The comma-separated list of possible values for the variable in value:valueDescription format.
 	PossibleValues *string `mandatory:"true" json:"possibleValues"`
 
-	// Comma separated list of MySql versions where this variable is supported
+	// The comma-separated list of MySQL versions that support the variable.
 	SupportedVersions *string `mandatory:"true" json:"supportedVersions"`
 }
 

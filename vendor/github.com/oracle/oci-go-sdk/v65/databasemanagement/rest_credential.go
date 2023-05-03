@@ -26,13 +26,13 @@ type RestCredential struct {
 	// The password of the user.
 	Password *string `mandatory:"true" json:"password"`
 
-	// The SSL trust store type.
+	// The SSL truststore type.
 	SslTrustStoreType RestCredentialSslTrustStoreTypeEnum `mandatory:"false" json:"sslTrustStoreType,omitempty"`
 
-	// The full path of the SSL trust store Location in the agent.
+	// The full path of the SSL truststore location in the agent.
 	SslTrustStoreLocation *string `mandatory:"false" json:"sslTrustStoreLocation"`
 
-	// The password of the SSL trust store Location in the agent.
+	// The password of the SSL truststore location in the agent.
 	SslTrustStorePassword *string `mandatory:"false" json:"sslTrustStorePassword"`
 }
 
