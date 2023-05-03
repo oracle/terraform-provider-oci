@@ -10,7 +10,7 @@
 ### Bug Fix
 - Fix APM Synthetic service example to handle
 
-## 4.118.0 (May 03, 2023)
+## 4.118.0 (April 26, 2023)
 
 ### Added
 - Support for DBM Service: External Exadata Infrastructure Monitoring
