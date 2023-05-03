@@ -36,7 +36,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_identity_region_subscriptions", IdentityRegionSubscriptionsDataSource())
 	tfresource.RegisterDatasource("oci_identity_regions", IdentityRegionsDataSource())
 	tfresource.RegisterDatasource("oci_identity_smtp_credentials", IdentitySmtpCredentialsDataSource())
-	tfresource.RegisterDatasource("oci_identity_swift_passwords", IdentitySwiftPasswordsDataSource())
 	tfresource.RegisterDatasource("oci_identity_tag", IdentityTagDataSource())
 	tfresource.RegisterDatasource("oci_identity_tag_default", IdentityTagDefaultDataSource())
 	tfresource.RegisterDatasource("oci_identity_tag_defaults", IdentityTagDefaultsDataSource())
