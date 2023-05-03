@@ -60,6 +60,7 @@ func (m *streampackagingconfigencryption) UnmarshalPolymorphicJSON(data []byte) 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for StreamPackagingConfigEncryption: %s.", m.Algorithm)
 		return *m, nil
 	}
 }

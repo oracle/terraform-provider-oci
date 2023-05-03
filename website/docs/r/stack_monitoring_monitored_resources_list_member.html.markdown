@@ -10,7 +10,8 @@ description: |-
 # oci_stack_monitoring_monitored_resources_list_member
 This resource provides the Monitored Resources List Member resource in Oracle Cloud Infrastructure Stack Monitoring service.
 
-List resources which are members of the given monitored resource
+List the member resources for the given monitored resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+
 
 ## Example Usage
 
@@ -29,8 +30,8 @@ resource "oci_stack_monitoring_monitored_resources_list_member" "test_monitored_
 
 The following arguments are supported:
 
-* `destination_resource_id` - (Optional) Destination Monitored Resource Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
-* `limit_level` - (Optional) The field which determines the depth of hierarchy while searching for members
+* `destination_resource_id` - (Optional) Destination Monitored Resource Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `limit_level` - (Optional) The field which determines the depth of hierarchy while searching for members. 
 * `monitored_resource_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource.
 
 
@@ -41,16 +42,17 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `items` - List of Members.
+* `items` - List of member resources. 
+	* `compartment_id` - Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-	* `external_id` - External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only following resource type identifiers - externalcontainerdatabase, externalnoncontainerdatabase, externalpluggabledatabase and Oracle Cloud Infrastructure compute instance. 
+	* `external_id` - External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only following resource types - Container database, non-container database,  pluggable database and Oracle Cloud Infrastructure compute instance. 
 	* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-	* `host_name` - Monitored Resource Host
-	* `parent_id` - Parent monitored resource identifier
+	* `host_name` - Monitored Resource Host Name. 
+	* `parent_id` - Parent monitored resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 	* `resource_display_name` - Monitored resource display name.
-	* `resource_id` - Monitored resource identifier
-	* `resource_name` - Monitored resource name
-	* `resource_type` - Monitored resource type
+	* `resource_id` - Monitored resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+	* `resource_name` - Monitored Resource Name. 
+	* `resource_type` - Monitored Resource Type. 
 	* `state` - The current state of the Resource.
 	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 

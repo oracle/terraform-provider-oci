@@ -83,6 +83,7 @@ func (m *abstractwriteattribute) UnmarshalPolymorphicJSON(data []byte) (interfac
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for AbstractWriteAttribute: %s.", m.ModelType)
 		return *m, nil
 	}
 }

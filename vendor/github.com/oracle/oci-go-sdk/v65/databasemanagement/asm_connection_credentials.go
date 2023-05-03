@@ -62,6 +62,7 @@ func (m *asmconnectioncredentials) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for AsmConnectionCredentials: %s.", m.CredentialType)
 		return *m, nil
 	}
 }

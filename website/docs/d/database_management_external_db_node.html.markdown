@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_management_external_db_node"
 sidebar_current: "docs-oci-datasource-database_management-external_db_node"
 description: |-
-  Provides details about a specific External Db Node in Oracle Cloud Infrastructure Database Management service
+Provides details about a specific External Db Node in Oracle Cloud Infrastructure Database Management service
 ---
 
 # Data Source: oci_database_management_external_db_node
@@ -17,8 +17,8 @@ Gets the details for the external DB node specified by `externalDbNodeId`.
 
 ```hcl
 data "oci_database_management_external_db_node" "test_external_db_node" {
-	#Required
-	external_db_node_id = oci_database_management_external_db_node.test_external_db_node.id
+  #Required
+  external_db_node_id = oci_database_management_external_db_node.test_external_db_node.id
 }
 ```
 
@@ -33,7 +33,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `additional_details` - The additional details of the external DB node defined in `{"key": "value"}` format. Example: `{"bar-key": "value"}` 
+* `additional_details` - The additional details of the external DB node defined in `{"key": "value"}` format. Example: `{"bar-key": "value"}`
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `component_name` - The name of the external DB node.
 * `cpu_core_count` - The number of CPU cores available on the DB node.
@@ -47,4 +47,3 @@ The following attributes are exported:
 * `state` - The current lifecycle state of the external DB node.
 * `time_created` - The date and time the external DB node was created.
 * `time_updated` - The date and time the external DB node was last updated.
-

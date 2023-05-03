@@ -59,6 +59,7 @@ func (m *computeinstancegroupfailurepolicy) UnmarshalPolymorphicJSON(data []byte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for ComputeInstanceGroupFailurePolicy: %s.", m.PolicyType)
 		return *m, nil
 	}
 }

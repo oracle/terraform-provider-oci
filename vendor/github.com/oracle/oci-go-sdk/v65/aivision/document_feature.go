@@ -71,6 +71,7 @@ func (m *documentfeature) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DocumentFeature: %s.", m.FeatureType)
 		return *m, nil
 	}
 }

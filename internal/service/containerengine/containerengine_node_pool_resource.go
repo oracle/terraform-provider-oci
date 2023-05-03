@@ -331,6 +331,37 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"node_pool_cycling_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_node_cycling_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"maximum_surge": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"maximum_unavailable": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"node_shape_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -699,6 +730,17 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 
 	if nodeMetadata, ok := s.D.GetOkExists("node_metadata"); ok {
 		request.NodeMetadata = tfresource.ObjectMapToStringMap(nodeMetadata.(map[string]interface{}))
+	}
+
+	if nodePoolCyclingDetails, ok := s.D.GetOkExists("node_pool_cycling_details"); ok {
+		if tmpList := nodePoolCyclingDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_pool_cycling_details", 0)
+			tmp, err := s.mapToNodePoolCyclingDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodePoolCyclingDetails = &tmp
+		}
 	}
 
 	if nodeShape, ok := s.D.GetOkExists("node_shape"); ok {
@@ -1071,6 +1113,17 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		request.NodeMetadata = tfresource.ObjectMapToStringMap(nodeMetadata.(map[string]interface{}))
 	}
 
+	if nodePoolCyclingDetails, ok := s.D.GetOkExists("node_pool_cycling_details"); ok {
+		if tmpList := nodePoolCyclingDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_pool_cycling_details", 0)
+			tmp, err := s.mapToNodePoolCyclingDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodePoolCyclingDetails = &tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.NodePoolId = &tmp
 
@@ -1223,6 +1276,12 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 	}
 
 	s.D.Set("node_metadata", s.Res.NodeMetadata)
+
+	if s.Res.NodePoolCyclingDetails != nil {
+		s.D.Set("node_pool_cycling_details", []interface{}{NodePoolCyclingDetailsToMap(s.Res.NodePoolCyclingDetails)})
+	} else {
+		s.D.Set("node_pool_cycling_details", nil)
+	}
 
 	if s.Res.NodeShape != nil {
 		s.D.Set("node_shape", *s.Res.NodeShape)
@@ -1602,6 +1661,45 @@ func NodeEvictionNodePoolSettingsToMap(obj *oci_containerengine.NodeEvictionNode
 
 	if obj.IsForceDeleteAfterGraceDuration != nil {
 		result["is_force_delete_after_grace_duration"] = bool(*obj.IsForceDeleteAfterGraceDuration)
+	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolCyclingDetails(fieldKeyFormat string) (oci_containerengine.NodePoolCyclingDetails, error) {
+	result := oci_containerengine.NodePoolCyclingDetails{}
+
+	if isNodeCyclingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_node_cycling_enabled")); ok {
+		tmp := isNodeCyclingEnabled.(bool)
+		result.IsNodeCyclingEnabled = &tmp
+	}
+
+	if maximumSurge, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_surge")); ok {
+		tmp := maximumSurge.(string)
+		result.MaximumSurge = &tmp
+	}
+
+	if maximumUnavailable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_unavailable")); ok {
+		tmp := maximumUnavailable.(string)
+		result.MaximumUnavailable = &tmp
+	}
+
+	return result, nil
+}
+
+func NodePoolCyclingDetailsToMap(obj *oci_containerengine.NodePoolCyclingDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsNodeCyclingEnabled != nil {
+		result["is_node_cycling_enabled"] = bool(*obj.IsNodeCyclingEnabled)
+	}
+
+	if obj.MaximumSurge != nil {
+		result["maximum_surge"] = string(*obj.MaximumSurge)
+	}
+
+	if obj.MaximumUnavailable != nil {
+		result["maximum_unavailable"] = string(*obj.MaximumUnavailable)
 	}
 
 	return result

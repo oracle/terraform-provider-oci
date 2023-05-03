@@ -15,16 +15,20 @@ import (
 	"strings"
 )
 
-// MonitoredResourceAliasSourceCredential Monitored Resource Alias Reference Source Credential
+// MonitoredResourceAliasSourceCredential Monitored Resource Alias Reference Source Credential.
 type MonitoredResourceAliasSourceCredential struct {
 
-	// The source type and source name combination,delimited with (.) separator. This refers to the pre-existing source which alias cred should point to. Ex. {source type}.{source name} and source type max char limit is 63.
+	// The source type and source name combination,delimited with (.) separator.
+	// This refers to the pre-existing source which alias cred should point to.
+	// Ex. {source type}.{source name} and source type max char limit is 63.
 	Source *string `mandatory:"true" json:"source"`
 
-	// The name of the pre-existing source credential which alias cred should point to. This should refer to the pre-existing source attribute binded credential name.
+	// The name of the pre-existing source credential which alias cred should point to.
+	// This should refer to the pre-existing source attribute which is bound to credential name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The name of the service owning the credential. Ex stack-monitoring or dbmgmt
+	// The name of the service owning the credential.
+	// Example: stack-monitoring or dbmgmt
 	Service *string `mandatory:"true" json:"service"`
 }
 

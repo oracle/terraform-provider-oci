@@ -10,7 +10,8 @@ description: |-
 # oci_stack_monitoring_monitored_resources_search_association
 This resource provides the Monitored Resources Search Association resource in Oracle Cloud Infrastructure Stack Monitoring service.
 
-Returns a list of monitored resource associations.
+Search associations in the given compartment based on the search criteria.
+
 
 ## Example Usage
 
@@ -34,14 +35,14 @@ resource "oci_stack_monitoring_monitored_resources_search_association" "test_mon
 
 The following arguments are supported:
 
-* `association_type` - (Optional) Association type to be created between source and destination resources
-* `compartment_id` - (Required) Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
-* `destination_resource_id` - (Optional) Destination Monitored Resource Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
-* `destination_resource_name` - (Optional) Source Monitored Resource Name
-* `destination_resource_type` - (Optional) Source Monitored Resource Type
-* `source_resource_id` - (Optional) Source Monitored Resource Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
-* `source_resource_name` - (Optional) Source Monitored Resource Name
-* `source_resource_type` - (Optional) Source Monitored Resource Type
+* `association_type` - (Optional) Association type filter to search associated resources. 
+* `compartment_id` - (Required) Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `destination_resource_id` - (Optional) Destination Monitored Resource Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `destination_resource_name` - (Optional) Source Monitored Resource Name. 
+* `destination_resource_type` - (Optional) Source Monitored Resource Type. 
+* `source_resource_id` - (Optional) Source Monitored Resource Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `source_resource_name` - (Optional) Source Monitored Resource Name. 
+* `source_resource_type` - (Optional) Source Monitored Resource Type. 
 
 
 ** IMPORTANT **
@@ -52,16 +53,21 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `items` - List of Monitored Resource Associations.
-	* `association_type` - Association type to be created between source and destination resources
-	* `destination_resource_details` - Association Resource Details
-		* `name` - Monitored Resource Name
-		* `type` - Monitored Resource Type
-	* `destination_resource_id` - Destination Monitored Resource Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
-	* `source_resource_details` - Association Resource Details
-		* `name` - Monitored Resource Name
-		* `type` - Monitored Resource Type
-	* `source_resource_id` - Source Monitored Resource Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
-	* `time_created` - The time the the association was created. An RFC3339 formatted datetime string
+	* `association_type` - Association type between source and destination resources. 
+	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+	* `destination_resource_details` - Association Resource Details. 
+		* `compartment_id` - Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+		* `name` - Monitored Resource Name. 
+		* `type` - Monitored Resource Type. 
+	* `destination_resource_id` - Destination Monitored Resource Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+	* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+	* `source_resource_details` - Association Resource Details. 
+		* `compartment_id` - Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+		* `name` - Monitored Resource Name. 
+		* `type` - Monitored Resource Type. 
+	* `source_resource_id` - Source Monitored Resource Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+	* `time_created` - The association creation time. An RFC3339 formatted datetime string. 
 
 ## Timeouts
 

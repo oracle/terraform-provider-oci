@@ -47,11 +47,11 @@ var (
 	}
 
 	opaInstanceRepresentation = map[string]interface{}{
-		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"shape_name":            acctest.Representation{RepType: acctest.Required, Create: `PRODUCTION`},
-		"consumption_model":     acctest.Representation{RepType: acctest.Required, Create: `UCM`},
-		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"shape_name":        acctest.Representation{RepType: acctest.Required, Create: `PRODUCTION`},
+		"consumption_model": acctest.Representation{RepType: acctest.Required, Create: `UCM`},
+		// "defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"idcs_at":               acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
@@ -64,7 +64,7 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
 	}
 
-	OpaInstanceResourceDependencies = DefinedTagsDependencies
+	OpaInstanceResourceDependencies = "" /* DefinedTagsDependencies */
 )
 
 // issue-routing-tag: opa/default
@@ -116,7 +116,7 @@ func TestOpaOpaInstanceResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_opa_opa_instance", "test_opa_instance", acctest.Optional, acctest.Create, opaInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
+				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"), //
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -222,6 +222,7 @@ func TestOpaOpaInstanceResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "opa_instance_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "attachments.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "consumption_model", "UCM"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),

@@ -59,6 +59,7 @@ func (m *buildrunnershapeconfig) UnmarshalPolymorphicJSON(data []byte) (interfac
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for BuildRunnerShapeConfig: %s.", m.BuildRunnerType)
 		return *m, nil
 	}
 }

@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_management_external_databases"
 sidebar_current: "docs-oci-datasource-database_management-external_databases"
 description: |-
-  Provides the list of External Databases in Oracle Cloud Infrastructure Database Management service
+Provides the list of External Databases in Oracle Cloud Infrastructure Database Management service
 ---
 
 # Data Source: oci_database_management_external_databases
@@ -45,19 +45,19 @@ The following attributes are exported:
 
 * `items` - An array of external databases.
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	* `database_sub_type` - The subtype of Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, or Non-container Database. 
+	* `database_sub_type` - The subtype of Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, or Non-container Database.
 	* `database_type` - The type of Oracle Database installation.
 	* `db_management_config` - The configuration of the Database Management service.
 		* `connector_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database connector.
 		* `database_management_status` - The status of the Database Management service.
-		* `license_model` - The Oracle license model that applies to the external database. 
+		* `license_model` - The Oracle license model that applies to the external database.
 	* `db_system_info` - The basic information about an external DB system.
 		* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 		* `display_name` - The user-friendly name for the DB system. The name does not have to be unique.
 		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
 	* `db_unique_name` - The `DB_UNIQUE_NAME` of the external database.
 	* `display_name` - The user-friendly name for the database. The name does not have to be unique.
-	* `external_container_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent Container Database (CDB) if this is a Pluggable Database (PDB). 
+	* `external_container_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent Container Database (CDB) if this is a Pluggable Database (PDB).
 	* `external_db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB home.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
 	* `instance_details` - The list of database instances if the database is a RAC database.

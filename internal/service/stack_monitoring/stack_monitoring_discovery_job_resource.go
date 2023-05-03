@@ -197,6 +197,12 @@ func StackMonitoringDiscoveryJobResource() *schema.Resource {
 				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
+			"should_propagate_tags_to_discovered_resources": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"state": {
@@ -330,6 +336,11 @@ func (s *StackMonitoringDiscoveryJobResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if shouldPropagateTagsToDiscoveredResources, ok := s.D.GetOkExists("should_propagate_tags_to_discovered_resources"); ok {
+		tmp := shouldPropagateTagsToDiscoveredResources.(bool)
+		request.ShouldPropagateTagsToDiscoveredResources = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")

@@ -163,6 +163,7 @@ func (m *createchannelresult) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateChannelResult: %s.", m.Type)
 		return *m, nil
 	}
 }

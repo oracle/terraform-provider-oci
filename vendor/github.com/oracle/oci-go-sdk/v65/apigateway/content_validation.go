@@ -57,6 +57,7 @@ func (m *contentvalidation) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for ContentValidation: %s.", m.ValidationType)
 		return *m, nil
 	}
 }

@@ -18,7 +18,7 @@ import (
 // SearchAssociatedResourcesDetails The criteria for searching associated monitored resources.
 type SearchAssociatedResourcesDetails struct {
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A filter to return associated resources that match resources of type.
@@ -34,7 +34,7 @@ type SearchAssociatedResourcesDetails struct {
 	// Default value is 1, which indicates 1st level associations.
 	LimitLevel *int `mandatory:"false" json:"limitLevel"`
 
-	// List of association types to be searched for finding associated resources
+	// Association types filter to be searched for finding associated resources.
 	AssociationTypes []string `mandatory:"false" json:"associationTypes"`
 }
 

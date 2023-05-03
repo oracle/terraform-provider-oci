@@ -56,6 +56,7 @@ func (m *ingeststreamdistributionchanneldetails) UnmarshalPolymorphicJSON(data [
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for IngestStreamDistributionChannelDetails: %s.", m.IngestPayloadType)
 		return *m, nil
 	}
 }

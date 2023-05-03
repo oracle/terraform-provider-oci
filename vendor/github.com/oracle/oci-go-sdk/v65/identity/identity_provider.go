@@ -131,6 +131,7 @@ func (m *identityprovider) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for IdentityProvider: %s.", m.Protocol)
 		return *m, nil
 	}
 }

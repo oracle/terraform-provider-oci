@@ -67,6 +67,7 @@ func (m *createexternaldbsystemconnectordetails) UnmarshalPolymorphicJSON(data [
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateExternalDbSystemConnectorDetails: %s.", m.ConnectorType)
 		return *m, nil
 	}
 }

@@ -49,6 +49,10 @@ func StackMonitoringMonitoredResourcesAssociateMonitoredResourceResource() *sche
 			// Optional
 
 			// Computed
+			"category": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"destination_resource_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -59,6 +63,10 @@ func StackMonitoringMonitoredResourcesAssociateMonitoredResourceResource() *sche
 						// Optional
 
 						// Computed
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -80,6 +88,10 @@ func StackMonitoringMonitoredResourcesAssociateMonitoredResourceResource() *sche
 						// Optional
 
 						// Computed
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -205,6 +217,8 @@ func (s *StackMonitoringMonitoredResourcesAssociateMonitoredResourceResourceCrud
 		s.D.Set("association_type", *s.Res.AssociationType)
 	}
 
+	s.D.Set("category", s.Res.Category)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -242,6 +256,10 @@ func (s *StackMonitoringMonitoredResourcesAssociateMonitoredResourceResourceCrud
 
 func AssociationResourceDetailsToMap(obj *oci_stack_monitoring.AssociationResourceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)

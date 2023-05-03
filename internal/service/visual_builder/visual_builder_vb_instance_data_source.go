@@ -72,6 +72,12 @@ func (s *VisualBuilderVbInstanceDataSourceCrud) SetData() error {
 	}
 	s.D.Set("alternate_custom_endpoints", alternateCustomEndpoints)
 
+	attachments := []interface{}{}
+	for _, item := range s.Res.Attachments {
+		attachments = append(attachments, AttachmentDetailsToMap(item))
+	}
+	s.D.Set("attachments", attachments)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -94,6 +100,12 @@ func (s *VisualBuilderVbInstanceDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IdcsInfo != nil {
+		s.D.Set("idcs_info", []interface{}{IdcsInfoDetailsToMap(s.Res.IdcsInfo)})
+	} else {
+		s.D.Set("idcs_info", nil)
+	}
+
 	if s.Res.InstanceUrl != nil {
 		s.D.Set("instance_url", *s.Res.InstanceUrl)
 	}
@@ -102,8 +114,24 @@ func (s *VisualBuilderVbInstanceDataSourceCrud) SetData() error {
 		s.D.Set("is_visual_builder_enabled", *s.Res.IsVisualBuilderEnabled)
 	}
 
+	if s.Res.ManagementNatGatewayIp != nil {
+		s.D.Set("management_nat_gateway_ip", *s.Res.ManagementNatGatewayIp)
+	}
+
+	if s.Res.ManagementVcnId != nil {
+		s.D.Set("management_vcn_id", *s.Res.ManagementVcnId)
+	}
+
 	if s.Res.NodeCount != nil {
 		s.D.Set("node_count", *s.Res.NodeCount)
+	}
+
+	if s.Res.ServiceNatGatewayIp != nil {
+		s.D.Set("service_nat_gateway_ip", *s.Res.ServiceNatGatewayIp)
+	}
+
+	if s.Res.ServiceVcnId != nil {
+		s.D.Set("service_vcn_id", *s.Res.ServiceVcnId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

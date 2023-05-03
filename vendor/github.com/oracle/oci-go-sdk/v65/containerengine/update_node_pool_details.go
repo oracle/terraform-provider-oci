@@ -74,6 +74,8 @@ type UpdateNodePoolDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings `mandatory:"false" json:"nodeEvictionNodePoolSettings"`
+
+	NodePoolCyclingDetails *NodePoolCyclingDetails `mandatory:"false" json:"nodePoolCyclingDetails"`
 }
 
 func (m UpdateNodePoolDetails) String() string {
@@ -109,6 +111,7 @@ func (m *UpdateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                 map[string]string                 `json:"freeformTags"`
 		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
 		NodeEvictionNodePoolSettings *NodeEvictionNodePoolSettings     `json:"nodeEvictionNodePoolSettings"`
+		NodePoolCyclingDetails       *NodePoolCyclingDetails           `json:"nodePoolCyclingDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -157,6 +160,8 @@ func (m *UpdateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.NodeEvictionNodePoolSettings = model.NodeEvictionNodePoolSettings
+
+	m.NodePoolCyclingDetails = model.NodePoolCyclingDetails
 
 	return
 }

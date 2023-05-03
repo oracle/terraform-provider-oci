@@ -82,6 +82,7 @@ func (m *updatedeploymentdetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for UpdateDeploymentDetails: %s.", m.DeploymentType)
 		return *m, nil
 	}
 }

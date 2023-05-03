@@ -56,6 +56,7 @@ resource "oci_stack_monitoring_discovery_job" "test_discovery_job" {
 	discovery_client = var.discovery_job_discovery_client
 	discovery_type = var.discovery_job_discovery_type
 	freeform_tags = {"bar-key"= "value"}
+	should_propagate_tags_to_discovered_resources = var.discovery_job_should_propagate_tags_to_discovered_resources
 }
 ```
 
@@ -82,6 +83,7 @@ The following arguments are supported:
 		* `properties_map` - (Optional) Key/Value pair of Property
 * `discovery_type` - (Optional) Add option submits new discovery Job. Add with retry option to re-submit failed discovery job. Refresh option refreshes the existing discovered resources. 
 * `freeform_tags` - (Optional) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `should_propagate_tags_to_discovered_resources` - (Optional) If this parameter set to true, the specified tags will be applied  to all resources discovered in the current request.  Default is true. 
 
 
 ** IMPORTANT **

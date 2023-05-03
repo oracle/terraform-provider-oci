@@ -10,7 +10,8 @@ description: |-
 # oci_stack_monitoring_monitored_resources_search
 This resource provides the Monitored Resources Search resource in Oracle Cloud Infrastructure Stack Monitoring service.
 
-Returns a list of monitored resources.
+Gets a list of all monitored resources in a compartment for the given search criteria.
+
 
 ## Example Usage
 
@@ -43,17 +44,17 @@ resource "oci_stack_monitoring_monitored_resources_search" "test_monitored_resou
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+* `compartment_id` - (Required) Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 * `exclude_fields` - (Optional) Partial response refers to an optimization technique offered by the RESTful web APIs, to return all the information except the fields requested to be excluded (excludeFields) by the client. In this mechanism, the client sends the exclude field names as the query parameters for an API to the server, and the server trims down the default response content by removing the fields that are not required by the client. The parameter controls which fields to exlude and to return and should be a query string parameter called "excludeFields" of an array type, provide the values as enums, and use collectionFormat. 
-* `external_id` - (Optional) External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only following resource type identifiers - externalcontainerdatabase, externalnoncontainerdatabase, externalpluggabledatabase and Oracle Cloud Infrastructure compute instance. 
+* `external_id` - (Optional) External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only following resource types - Container database, non-container database,  pluggable database and Oracle Cloud Infrastructure compute instance. 
 * `fields` - (Optional) Partial response refers to an optimization technique offered by the RESTful web APIs, to return only the information (fields) required by the client. In this mechanism, the client sends the required field names as the query parameters for an API to the server, and the server trims down the default response content by removing the fields that are not required by the client. The parameter controls which fields to return and should be a query string parameter called "fields" of an array type, provide the values as enums, and use collectionFormat. 
-* `host_name` - (Optional) A filter to return resources with host name match
-* `host_name_contains` - (Optional) A filter to return resources with host name pattern
+* `host_name` - (Optional) A filter to return resources with host name match. 
+* `host_name_contains` - (Optional) A filter to return resources with host name pattern. 
 * `management_agent_id` - (Optional) A filter to return resources with matching management agent id.
-* `name` - (Optional) A filter to return resources that match exact resource name
+* `name` - (Optional) A filter to return resources that match exact resource name. 
 * `name_contains` - (Optional) A filter to return resources that match resource name pattern given. The match is not case sensitive.
 * `property_equals` - (Optional) Criteria based on resource property.
-* `resource_time_zone` - (Optional) Time zone in the form of tz database canonical zone ID.
+* `resource_time_zone` - (Optional) Time zone in the form of tz database canonical zone ID. Specifies the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example - America/Los_Angeles 
 * `state` - (Optional) A filter to return resources with matching lifecycle state.
 * `time_created_greater_than_or_equal_to` - (Optional) Search for resources that were created within a specific date range, using this parameter to specify the earliest creation date for the returned list (inclusive). Specifying this parameter without the corresponding `timeCreatedLessThan` parameter will retrieve resources created from the given `timeCreatedGreaterThanOrEqualTo` to the current time, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).
 
@@ -67,7 +68,7 @@ The following arguments are supported:
 * `time_updated_less_than` - (Optional) Search for resources that were updated within a specific date range, using this parameter to specify the latest creation date for the returned list (exclusive). Specifying this parameter without the corresponding `timeUpdatedGreaterThanOrEqualTo` parameter will retrieve all resources updated before the specified end date, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).
 
 	**Example:** 2016-12-19T16:39:57.600Z 
-* `type` - (Optional) A filter to return resources that match resource type
+* `type` - (Optional) A filter to return resources that match resource type. 
 
 
 ** IMPORTANT **
@@ -80,20 +81,20 @@ The following attributes are exported:
 * `items` - List of monitored resources.
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 	* `display_name` - Monitored resource display name.
-	* `external_id` - External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only following resource type identifiers - externalcontainerdatabase, externalnoncontainerdatabase, externalpluggabledatabase and Oracle Cloud Infrastructure compute instance. 
+	* `external_id` - External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. 
 	* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-	* `host_name` - Resource Host Name
-	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of monitored resource.
+	* `host_name` - Monitored Resource Host Name. 
+	* `id` - Monitored resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 	* `management_agent_id` - Management Agent Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-	* `name` - Name of the monitored resource
-	* `properties` - List of monitored resource properties
-		* `name` - property name
-		* `value` - property value
+	* `name` - Monitored Resource Name. 
+	* `properties` - List of monitored resource properties. 
+		* `name` - Property Name. 
+		* `value` - Property Value. 
 	* `state` - The current state of the monitored resource.
 	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-	* `time_created` - Monitored resource creation time. An RFC3339 formatted datetime string
-	* `time_updated` - Monitored resource updation time. An RFC3339 formatted datetime string
-	* `type` - Type of the monitored resource
+	* `time_created` - Monitored resource creation time. An RFC3339 formatted datetime string. 
+	* `time_updated` - Monitored resource update time. An RFC3339 formatted datetime string. 
+	* `type` - Monitored Resource Type. 
 
 ## Timeouts
 

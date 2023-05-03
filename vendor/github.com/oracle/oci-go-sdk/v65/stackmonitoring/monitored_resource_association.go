@@ -15,30 +15,36 @@ import (
 	"strings"
 )
 
-// MonitoredResourceAssociation Association between two monitored resources.
+// MonitoredResourceAssociation Association details between two monitored resources.
 type MonitoredResourceAssociation struct {
 
-	// Association Type
+	// Association Type.
 	AssociationType *string `mandatory:"true" json:"associationType"`
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Tenancy Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Tenancy Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	TenantId *string `mandatory:"true" json:"tenantId"`
 
-	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Source Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SourceResourceId *string `mandatory:"true" json:"sourceResourceId"`
 
-	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Destination Monitored Resource Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DestinationResourceId *string `mandatory:"true" json:"destinationResourceId"`
 
 	SourceResourceDetails *AssociationResourceDetails `mandatory:"false" json:"sourceResourceDetails"`
 
 	DestinationResourceDetails *AssociationResourceDetails `mandatory:"false" json:"destinationResourceDetails"`
 
-	// The time when the association was created. An RFC3339 formatted datetime string
+	// The time when the association was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Association category. Possible values are:
+	// - System created (SYSTEM),
+	// - User created using API (USER_API)
+	// - User created using tags (USER_TAG_ASSOC).
+	Category MonitoredResourceAssociationCategoryEnum `mandatory:"false" json:"category,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -63,8 +69,57 @@ func (m MonitoredResourceAssociation) String() string {
 func (m MonitoredResourceAssociation) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingMonitoredResourceAssociationCategoryEnum(string(m.Category)); !ok && m.Category != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Category: %s. Supported values are: %s.", m.Category, strings.Join(GetMonitoredResourceAssociationCategoryEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MonitoredResourceAssociationCategoryEnum Enum with underlying type: string
+type MonitoredResourceAssociationCategoryEnum string
+
+// Set of constants representing the allowable values for MonitoredResourceAssociationCategoryEnum
+const (
+	MonitoredResourceAssociationCategorySystem       MonitoredResourceAssociationCategoryEnum = "SYSTEM"
+	MonitoredResourceAssociationCategoryUserApi      MonitoredResourceAssociationCategoryEnum = "USER_API"
+	MonitoredResourceAssociationCategoryUserTagAssoc MonitoredResourceAssociationCategoryEnum = "USER_TAG_ASSOC"
+)
+
+var mappingMonitoredResourceAssociationCategoryEnum = map[string]MonitoredResourceAssociationCategoryEnum{
+	"SYSTEM":         MonitoredResourceAssociationCategorySystem,
+	"USER_API":       MonitoredResourceAssociationCategoryUserApi,
+	"USER_TAG_ASSOC": MonitoredResourceAssociationCategoryUserTagAssoc,
+}
+
+var mappingMonitoredResourceAssociationCategoryEnumLowerCase = map[string]MonitoredResourceAssociationCategoryEnum{
+	"system":         MonitoredResourceAssociationCategorySystem,
+	"user_api":       MonitoredResourceAssociationCategoryUserApi,
+	"user_tag_assoc": MonitoredResourceAssociationCategoryUserTagAssoc,
+}
+
+// GetMonitoredResourceAssociationCategoryEnumValues Enumerates the set of values for MonitoredResourceAssociationCategoryEnum
+func GetMonitoredResourceAssociationCategoryEnumValues() []MonitoredResourceAssociationCategoryEnum {
+	values := make([]MonitoredResourceAssociationCategoryEnum, 0)
+	for _, v := range mappingMonitoredResourceAssociationCategoryEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMonitoredResourceAssociationCategoryEnumStringValues Enumerates the set of values in String for MonitoredResourceAssociationCategoryEnum
+func GetMonitoredResourceAssociationCategoryEnumStringValues() []string {
+	return []string{
+		"SYSTEM",
+		"USER_API",
+		"USER_TAG_ASSOC",
+	}
+}
+
+// GetMappingMonitoredResourceAssociationCategoryEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMonitoredResourceAssociationCategoryEnum(val string) (MonitoredResourceAssociationCategoryEnum, bool) {
+	enum, ok := mappingMonitoredResourceAssociationCategoryEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
