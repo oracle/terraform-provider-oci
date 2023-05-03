@@ -98,6 +98,12 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_mtls_enabled_vm_cluster": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"license_model": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -218,6 +224,18 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"scan_listener_port_non_tls": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"scan_listener_port_tls": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"total_container_databases": {
 				Type:     schema.TypeInt,
@@ -587,6 +605,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isMtlsEnabledVmCluster, ok := s.D.GetOkExists("is_mtls_enabled_vm_cluster"); ok {
+		tmp := isMtlsEnabledVmCluster.(bool)
+		request.IsMtlsEnabledVmCluster = &tmp
+	}
+
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_database.CreateCloudAutonomousVmClusterDetailsLicenseModelEnum(licenseModel.(string))
 	}
@@ -619,6 +642,16 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if scanListenerPortNonTls, ok := s.D.GetOkExists("scan_listener_port_non_tls"); ok {
+		tmp := scanListenerPortNonTls.(int)
+		request.ScanListenerPortNonTls = &tmp
+	}
+
+	if scanListenerPortTls, ok := s.D.GetOkExists("scan_listener_port_tls"); ok {
+		tmp := scanListenerPortTls.(int)
+		request.ScanListenerPortTls = &tmp
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -857,6 +890,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
 
+	if s.Res.IsMtlsEnabledVmCluster != nil {
+		s.D.Set("is_mtls_enabled_vm_cluster", *s.Res.IsMtlsEnabledVmCluster)
+	}
+
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
 	}
@@ -905,6 +942,14 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.ReclaimableCpus != nil {
 		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
+	}
+
+	if s.Res.ScanListenerPortNonTls != nil {
+		s.D.Set("scan_listener_port_non_tls", *s.Res.ScanListenerPortNonTls)
+	}
+
+	if s.Res.ScanListenerPortTls != nil {
+		s.D.Set("scan_listener_port_tls", *s.Res.ScanListenerPortTls)
 	}
 
 	if s.Res.Shape != nil {

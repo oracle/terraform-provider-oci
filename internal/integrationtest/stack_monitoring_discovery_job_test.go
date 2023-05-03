@@ -25,9 +25,11 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
-/**
-  Dependency variables:
-    management_agent_id = var.stack_mon_management_agent_id_discovery
+/*
+*
+
+	Dependency variables:
+	  management_agent_id = var.stack_mon_management_agent_id_discovery
 */
 var (
 	StackMonitoringDiscoveryJobRequiredOnlyResource = StackMonitoringDiscoveryJobResourceDependencies +
@@ -54,7 +56,8 @@ var (
 		"discovery_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringDiscoveryJobDiscoveryDetailsRepresentation},
 		"discovery_client":  acctest.Representation{RepType: acctest.Optional, Create: `LA_SERVICE`},
 		"discovery_type":    acctest.Representation{RepType: acctest.Optional, Create: `ADD`},
-		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSensitiveDiscoveryJobDataRepresentation},
+		"should_propagate_tags_to_discovered_resources": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSensitiveDiscoveryJobDataRepresentation},
 	}
 	StackMonitoringDiscoveryJobDiscoveryDetailsRepresentation = map[string]interface{}{
 		"agent_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.stack_mon_management_agent_id_discovery}`},
@@ -77,7 +80,7 @@ var (
 		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsRepresentation},
 	}
 	StackMonitoringDiscoveryJobDiscoveryDetailsTagsRepresentation = map[string]interface{}{
-		"properties_map": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"propertiesMap": "propertiesMap"}, Update: map[string]string{"propertiesMap2": "propertiesMap2"}},
+		"properties_map": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"propertiesMap": "propertiesMap"}},
 	}
 	StackMonitoringDiscoveryJobDiscoveryDetailsCredentialsItemsRepresentation = map[string]interface{}{
 		"credential_name": acctest.Representation{RepType: acctest.Required, Create: `Sk1YQ3JlZHM=`},
@@ -129,6 +132,7 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "discovery_details.0.properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "discovery_details.0.resource_name", "terraformDiscoveryJob"),
 				resource.TestCheckResourceAttr(resourceName, "discovery_details.0.resource_type", "WEBLOGIC_DOMAIN"),
+				resource.TestCheckResourceAttr(resourceName, "should_propagate_tags_to_discovered_resources", "false"),
 			),
 		},
 
@@ -151,6 +155,7 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "discovery_details.0.resource_type", "WEBLOGIC_DOMAIN"),
 				resource.TestCheckResourceAttr(resourceName, "discovery_type", "ADD"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "should_propagate_tags_to_discovered_resources", "false"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -212,11 +217,14 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + compartmentIdVariableStr + managementAgentIdVariableStr + StackMonitoringDiscoveryJobResourceConfig,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + compartmentIdVariableStr + managementAgentIdVariableStr + StackMonitoringDiscoveryJobResourceConfig,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"should_propagate_tags_to_discovered_resources",
+				"defined_tags",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }

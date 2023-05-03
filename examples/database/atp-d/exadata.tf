@@ -76,6 +76,13 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
 #  cpu_core_count_per_node               = 50
 #  total_container_databases             = 12
   compute_model                   = "ECPU"
+
+  //To ignore changes to autonomous_data_storage_size_in_tbs
+  lifecycle {
+    ignore_changes = [
+      autonomous_data_storage_size_in_tbs,
+    ]
+  }
 }
 
 resource "oci_core_network_security_group" "test_network_security_group" {

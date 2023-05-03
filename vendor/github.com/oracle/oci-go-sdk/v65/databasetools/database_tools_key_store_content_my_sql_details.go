@@ -55,6 +55,7 @@ func (m *databasetoolskeystorecontentmysqldetails) UnmarshalPolymorphicJSON(data
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for DatabaseToolsKeyStoreContentMySqlDetails: %s.", m.ValueType)
 		return *m, nil
 	}
 }

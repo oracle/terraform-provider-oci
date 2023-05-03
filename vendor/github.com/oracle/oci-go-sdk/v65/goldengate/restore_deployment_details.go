@@ -55,6 +55,7 @@ func (m *restoredeploymentdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for RestoreDeploymentDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

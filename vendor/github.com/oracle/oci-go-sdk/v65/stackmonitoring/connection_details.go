@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ConnectionDetails Connection details to connect to the database. HostName, protocol, and port should be specified.
+// ConnectionDetails Connection details for the database.
 type ConnectionDetails struct {
 
 	// Protocol used in DB connection string when connecting to external database service.
@@ -27,16 +27,16 @@ type ConnectionDetails struct {
 	// Service name used for connection requests.
 	ServiceName *string `mandatory:"true" json:"serviceName"`
 
-	// Database connector Identifier
+	// Database connector Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ConnectorId *string `mandatory:"false" json:"connectorId"`
 
 	// UniqueName used for database connection requests.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 
-	// dbId of the database
+	// dbId of the database.
 	DbId *string `mandatory:"false" json:"dbId"`
 
-	// SSL Secret Identifier for TCPS connector in OCI VaultOCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// SSL Secret Identifier for TCPS connector in OCI VaultOCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SslSecretId *string `mandatory:"false" json:"sslSecretId"`
 }
 

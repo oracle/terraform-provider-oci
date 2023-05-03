@@ -90,6 +90,7 @@ func (m *createrepositorydetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateRepositoryDetails: %s.", m.RepositoryType)
 		return *m, nil
 	}
 }

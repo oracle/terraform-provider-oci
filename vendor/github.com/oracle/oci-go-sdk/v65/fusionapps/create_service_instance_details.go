@@ -69,6 +69,7 @@ func (m *createserviceinstancedetails) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateServiceInstanceDetails: %s.", m.ServiceInstanceType)
 		return *m, nil
 	}
 }

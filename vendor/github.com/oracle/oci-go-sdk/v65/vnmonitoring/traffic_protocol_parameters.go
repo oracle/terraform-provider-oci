@@ -64,6 +64,7 @@ func (m *trafficprotocolparameters) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for TrafficProtocolParameters: %s.", m.Type)
 		return *m, nil
 	}
 }

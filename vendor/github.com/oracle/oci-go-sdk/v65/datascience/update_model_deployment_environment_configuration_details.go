@@ -59,6 +59,7 @@ func (m *updatemodeldeploymentenvironmentconfigurationdetails) UnmarshalPolymorp
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for UpdateModelDeploymentEnvironmentConfigurationDetails: %s.", m.EnvironmentConfigurationType)
 		return *m, nil
 	}
 }

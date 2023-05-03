@@ -59,6 +59,7 @@ func (m *computeinstancegroupselector) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for ComputeInstanceGroupSelector: %s.", m.SelectorType)
 		return *m, nil
 	}
 }

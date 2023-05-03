@@ -56,6 +56,7 @@ var (
 		"freeform_tags":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"initial_node_labels":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolInitialNodeLabelsRepresentation},
 		"node_metadata":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"nodeMetadata": "nodeMetadata"}, Update: map[string]string{"nodeMetadata2": "nodeMetadata2"}},
+		"node_pool_cycling_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNodePoolNodePoolCyclingDetailsRepresentation},
 		"ssh_public_key":                   acctest.Representation{RepType: acctest.Optional, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
 		"node_config_details":              acctest.RepresentationGroup{RepType: acctest.Required, Group: nodeConfigDetailsRepresentation},
 		"node_eviction_node_pool_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolNodeEvictionNodePoolSettingsRepresentation},
@@ -90,6 +91,11 @@ var (
 	nodePoolNodeEvictionNodePoolSettingsRepresentation = map[string]interface{}{
 		"eviction_grace_duration":              acctest.Representation{RepType: acctest.Optional, Create: `PT1H`, Update: `PT50M`},
 		"is_force_delete_after_grace_duration": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+	ContainerengineNodePoolNodePoolCyclingDetailsRepresentation = map[string]interface{}{
+		"is_node_cycling_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"maximum_surge":           acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
+		"maximum_unavailable":     acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 	}
 
 	ContainerengineRouteTableRouteRulesforNodePoolRepresentation = map[string]interface{}{
@@ -232,6 +238,10 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "node_eviction_node_pool_settings.0.is_force_delete_after_grace_duration", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
 				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.is_node_cycling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.maximum_surge", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.maximum_unavailable", "0"),
 				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.2"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 				resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "1"),
@@ -269,6 +279,10 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
 				resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.is_node_cycling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.maximum_surge", "2"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.maximum_unavailable", "1"),
 				resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 				resource.TestCheckResourceAttr(resourceName, "node_config_details.0.size", "2"),
@@ -309,6 +323,10 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_eviction_node_pool_settings.0.is_force_delete_after_grace_duration", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.node_image_name"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_pool_cycling_details.0.is_node_cycling_enabled", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_pool_cycling_details.0.maximum_surge", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_pool_cycling_details.0.maximum_unavailable", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_source.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "node_pools.0.ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
@@ -338,6 +356,10 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_image_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_metadata.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_pool_cycling_details.0.is_node_cycling_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_pool_cycling_details.0.maximum_surge", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "node_pool_cycling_details.0.maximum_unavailable", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_source.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_key", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),

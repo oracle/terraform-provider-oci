@@ -98,6 +98,7 @@ func (m *updateconfigurationsourceproviderdetails) UnmarshalPolymorphicJSON(data
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for UpdateConfigurationSourceProviderDetails: %s.", m.ConfigSourceProviderType)
 		return *m, nil
 	}
 }

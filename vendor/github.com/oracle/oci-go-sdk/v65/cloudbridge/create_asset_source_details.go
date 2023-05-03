@@ -108,6 +108,7 @@ func (m *createassetsourcedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateAssetSourceDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

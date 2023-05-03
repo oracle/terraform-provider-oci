@@ -101,10 +101,18 @@ func TestStackMonitoringMonitoredResourcesSearchAssociationResource_basic(t *tes
 				resource.TestCheckResourceAttrSet(resourceName, "destination_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "destination_resource_name", "terraformResource"),
 				resource.TestCheckResourceAttr(resourceName, "destination_resource_type", "host"),
-				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "source_resource_name", "terraformSecondaryResource"),
 				resource.TestCheckResourceAttr(resourceName, "source_resource_type", "host"),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.source_resource_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.source_resource_details.0.name", "terraformSecondaryResource"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.source_resource_details.0.type", "host"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.source_resource_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "items.0.destination_resource_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.destination_resource_details.0.name", "terraformResource"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.destination_resource_details.0.type", "host"),
+				resource.TestCheckResourceAttr(resourceName, "items.0.destination_resource_details.0.compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

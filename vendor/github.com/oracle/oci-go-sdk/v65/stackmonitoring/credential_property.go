@@ -18,10 +18,12 @@ import (
 // CredentialProperty Monitored resource credential property.
 type CredentialProperty struct {
 
-	// The name of the credential property, should confirm with names of properties of this credential's type. Ex. For JMXCreds type , credential property name for weblogic user is 'Username'.
+	// The name of the credential property, should confirm with names of properties of this credential's type.
+	// Example: For JMXCreds type, credential property name for weblogic user is 'Username'.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The value of the credential property name. Ex. For JMXCreds type, credential property value for 'Username' property is 'weblogic'.
+	// The value of the credential property name.
+	// Example: For JMXCreds type, credential property value for 'Username' property is 'weblogic'.
 	Value *string `mandatory:"true" json:"value"`
 }
 

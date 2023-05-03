@@ -18,28 +18,28 @@ import (
 // SearchMonitoredResourcesDetails The property search criteria for listing monitored resources.
 type SearchMonitoredResourcesDetails struct {
 
-	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A filter to return resources that match exact resource name
+	// A filter to return resources that match exact resource name.
 	Name *string `mandatory:"false" json:"name"`
 
 	// A filter to return resources that match resource name pattern given. The match is not case sensitive.
 	NameContains *string `mandatory:"false" json:"nameContains"`
 
-	// A filter to return resources that match resource type
+	// A filter to return resources that match resource type.
 	Type *string `mandatory:"false" json:"type"`
 
-	// A filter to return resources with host name match
+	// A filter to return resources with host name match.
 	HostName *string `mandatory:"false" json:"hostName"`
 
 	// External resource is any OCI resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	// which is not a Stack Monitoring service resource.
-	// Currently supports only following resource type identifiers - externalcontainerdatabase,
-	// externalnoncontainerdatabase, externalpluggabledatabase and OCI compute instance.
+	// Currently supports only following resource types - Container database, non-container database,
+	// pluggable database and OCI compute instance.
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
-	// A filter to return resources with host name pattern
+	// A filter to return resources with host name pattern.
 	HostNameContains *string `mandatory:"false" json:"hostNameContains"`
 
 	// A filter to return resources with matching management agent id.
@@ -84,7 +84,9 @@ type SearchMonitoredResourcesDetails struct {
 	// **Example:** 2016-12-19T16:39:57.600Z
 	TimeUpdatedLessThan *common.SDKTime `mandatory:"false" json:"timeUpdatedLessThan"`
 
-	// Time zone in the form of tz database canonical zone ID.
+	// Time zone in the form of tz database canonical zone ID. Specifies the preference with
+	// a value that uses the IANA Time Zone Database format (x-obmcs-time-zone).
+	// For example - America/Los_Angeles
 	ResourceTimeZone *string `mandatory:"false" json:"resourceTimeZone"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.

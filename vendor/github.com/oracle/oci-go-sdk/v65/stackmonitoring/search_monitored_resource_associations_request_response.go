@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchMonitoredResourceAssociations.go.html to see an example of how to use SearchMonitoredResourceAssociationsRequest.
 type SearchMonitoredResourceAssociationsRequest struct {
 
-	// Search Criteria for the listing the monitored resource associations.
+	// Search criteria for listing monitored resource associations.
 	SearchMonitoredResourceAssociationsDetails `contributesTo:"body"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a

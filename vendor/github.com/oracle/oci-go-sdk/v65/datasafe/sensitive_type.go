@@ -129,6 +129,7 @@ func (m *sensitivetype) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for SensitiveType: %s.", m.EntityType)
 		return *m, nil
 	}
 }

@@ -375,6 +375,7 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreateAutonomousDatabaseBase: %s.", m.Source)
 		return *m, nil
 	}
 }

@@ -29,6 +29,11 @@ type CreateDiscoveryJobDetails struct {
 	// Client who submits discovery job.
 	DiscoveryClient *string `mandatory:"false" json:"discoveryClient"`
 
+	// If this parameter set to true, the specified tags will be applied
+	// to all resources discovered in the current request.
+	// Default is true.
+	ShouldPropagateTagsToDiscoveredResources *bool `mandatory:"false" json:"shouldPropagateTagsToDiscoveredResources"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

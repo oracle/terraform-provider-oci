@@ -137,6 +137,7 @@ func (m *buildpipelinestage) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for BuildPipelineStage: %s.", m.BuildPipelineStageType)
 		return *m, nil
 	}
 }

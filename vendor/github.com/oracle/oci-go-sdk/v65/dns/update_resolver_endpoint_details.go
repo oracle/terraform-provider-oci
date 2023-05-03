@@ -57,6 +57,7 @@ func (m *updateresolverendpointdetails) UnmarshalPolymorphicJSON(data []byte) (i
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for UpdateResolverEndpointDetails: %s.", m.EndpointType)
 		return *m, nil
 	}
 }

@@ -120,6 +120,12 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 
 	s.D.Set("node_metadata", s.Res.NodeMetadata)
 
+	if s.Res.NodePoolCyclingDetails != nil {
+		s.D.Set("node_pool_cycling_details", []interface{}{NodePoolCyclingDetailsToMap(s.Res.NodePoolCyclingDetails)})
+	} else {
+		s.D.Set("node_pool_cycling_details", nil)
+	}
+
 	if s.Res.NodeShape != nil {
 		s.D.Set("node_shape", *s.Res.NodeShape)
 	}

@@ -89,6 +89,7 @@ func (m *hostresourcestatistics) UnmarshalPolymorphicJSON(data []byte) (interfac
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for HostResourceStatistics: %s.", m.ResourceName)
 		return *m, nil
 	}
 }

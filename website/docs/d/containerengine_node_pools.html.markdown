@@ -86,6 +86,10 @@ The following attributes are exported:
 * `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 
 * `node_image_name` - Deprecated. see `nodeSource`. The name of the image running on the nodes in the node pool. 
 * `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
+* `node_pool_cycling_details` - Node Pool Cycling Details
+	* `is_node_cycling_enabled` - If nodes in the nodepool will be cycled to have new changes.
+	* `maximum_surge` - Maximum additional new compute instances that would be temporarily created and added to nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 1, Ranges from 0 to Nodepool size or 0% to 100% 
+	* `maximum_unavailable` - Maximum active nodes that would be terminated from nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 0, Ranges from 0 to Nodepool size or 0% to 100% 
 * `node_shape` - The name of the node shape of the nodes in the node pool.
 * `node_shape_config` - The shape configuration of the nodes.
 	* `memory_in_gbs` - The total amount of memory available to each node, in gigabytes. 

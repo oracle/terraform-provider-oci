@@ -55,6 +55,7 @@ func (m *ingesttimeruleaction) UnmarshalPolymorphicJSON(data []byte) (interface{
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for IngestTimeRuleAction: %s.", m.Type)
 		return *m, nil
 	}
 }

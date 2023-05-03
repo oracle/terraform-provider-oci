@@ -56,6 +56,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   }
   rotate_key_trigger = "true"
   version_preference = "LATEST_RELEASE_UPDATE"
+  db_version          = "19.18.0.1.0"
 }
 
 resource "random_string" "autonomous_database_admin_password" {

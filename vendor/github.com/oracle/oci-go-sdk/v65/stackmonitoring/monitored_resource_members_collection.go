@@ -18,7 +18,7 @@ import (
 // MonitoredResourceMembersCollection Results of a member search.
 type MonitoredResourceMembersCollection struct {
 
-	// List of Members.
+	// List of member resources.
 	Items []MonitoredResourceMemberSummary `mandatory:"true" json:"items"`
 }
 

@@ -59,7 +59,6 @@ resource "oci_visual_builder_vb_instance" "test_vb_instance" {
     "bar-key" = "value"
   }
 
-  state                  = "ACTIVE"
 }
 
 data "oci_visual_builder_vb_instances" "test_vb_instances" {

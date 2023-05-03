@@ -91,6 +91,7 @@ func (m *hostconfigurationmetricgroup) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for HostConfigurationMetricGroup: %s.", m.MetricName)
 		return *m, nil
 	}
 }

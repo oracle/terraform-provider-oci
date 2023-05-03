@@ -66,6 +66,12 @@ func (s *OpaOpaInstanceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	attachments := []interface{}{}
+	for _, item := range s.Res.Attachments {
+		attachments = append(attachments, AttachmentDetailsToMap(item))
+	}
+	s.D.Set("attachments", attachments)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

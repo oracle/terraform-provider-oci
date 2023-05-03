@@ -73,6 +73,7 @@ func (m *pipelinestepupdatedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for PipelineStepUpdateDetails: %s.", m.StepType)
 		return *m, nil
 	}
 }

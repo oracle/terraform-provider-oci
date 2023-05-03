@@ -76,6 +76,7 @@ func (m *updatedatabasetoolsconnectiondetails) UnmarshalPolymorphicJSON(data []b
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for UpdateDatabaseToolsConnectionDetails: %s.", m.Type)
 		return *m, nil
 	}
 }

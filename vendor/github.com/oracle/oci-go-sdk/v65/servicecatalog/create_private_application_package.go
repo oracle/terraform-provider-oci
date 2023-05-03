@@ -60,6 +60,7 @@ func (m *createprivateapplicationpackage) UnmarshalPolymorphicJSON(data []byte) 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
+		common.Logf("Recieved unsupported enum value for CreatePrivateApplicationPackage: %s.", m.PackageType)
 		return *m, nil
 	}
 }
