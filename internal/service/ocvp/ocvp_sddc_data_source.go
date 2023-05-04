@@ -78,6 +78,12 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
 	}
 
+	datastores := []interface{}{}
+	for _, item := range s.Res.Datastores {
+		datastores = append(datastores, DatastoreSummaryToMap(item))
+	}
+	s.D.Set("datastores", datastores)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}

@@ -35,7 +35,7 @@ func OcvpSupportedHostShapesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
+						//  Required
 
 						// Optional
 
@@ -46,6 +46,10 @@ func OcvpSupportedHostShapesDataSource() *schema.Resource {
 						},
 						"description": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_support_monthly_sku": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"is_support_shielded_instances": {
@@ -186,6 +190,10 @@ func SupportedHostShapeSummaryToMap(obj oci_ocvp.SupportedHostShapeSummary) map[
 
 	if obj.Description != nil {
 		result["description"] = string(*obj.Description)
+	}
+
+	if obj.IsSupportMonthlySku != nil {
+		result["is_support_monthly_sku"] = bool(*obj.IsSupportMonthlySku)
 	}
 
 	if obj.IsSupportShieldedInstances != nil {

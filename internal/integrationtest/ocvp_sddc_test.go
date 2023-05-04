@@ -69,10 +69,11 @@ var (
 		"provisioning_subnet_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_provisioning_subnet.id}`},
 		"ssh_authorized_keys":          acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
 		"vmotion_vlan_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vmotion_net_vlan.id}`},
-		"vmware_software_version":      acctest.Representation{RepType: acctest.Required, Create: `6.5 update 3`, Update: `7.0 update 3`},
+		"vmware_software_version":      acctest.Representation{RepType: acctest.Required, Create: `test-L2`, Update: `7.0 test-L2`},
 		"vsan_vlan_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsan_net_vlan.id}`},
 		"vsphere_vlan_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsphere_net_vlan.id}`},
 		"capacity_reservation_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
+		"datastores":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcDatastoresRepresentation},
 		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: sddcDisplayName1, Update: sddcDisplayName2},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -80,8 +81,8 @@ var (
 		"is_shielded_instance_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"hcx_action":                   acctest.Representation{RepType: acctest.Optional, Create: ocvp.UpgradeHcxAction},
 		"hcx_vlan_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_hcx_vlan.id}`},
-		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: `52.0`},
-		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO2.52`},
+		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: `52`},
+		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: `BM.Standard2.52`},
 		"instance_display_name_prefix": acctest.Representation{RepType: acctest.Optional, Create: `njki`},
 		"is_hcx_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"is_single_host_sddc":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -95,13 +96,17 @@ var (
 	ignoreDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
+	OcvpSddcDatastoresRepresentation = map[string]interface{}{
+		"block_volume_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${var.block_volume_ids}`}},
+		"datastore_type":   acctest.Representation{RepType: acctest.Required, Create: `MANAGEMENT`},
+	}
 
 	sddcV7Representation = acctest.RepresentationCopyWithNewProperties(OcvpSddcRepresentation, map[string]interface{}{
-		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: `7.0 update 3`},
+		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: `7.0 test-L2`},
 	})
 
 	sddcUpgradedRepresentation = acctest.RepresentationCopyWithNewProperties(OcvpSddcRepresentation, map[string]interface{}{
-		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: `7.0 update 3`},
+		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: `7.0 test-L2`},
 		"provisioning_vlan_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_provisioning_vlan.id}`},
 		"replication_vlan_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_replication_vlan.id}`},
 	})
@@ -122,19 +127,19 @@ resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservat
 
 	instance_reservation_configs {
 			#Required
-			instance_shape = "BM.DenseIO2.52"
+			instance_shape = "BM.Standard2.52"
 			reserved_count = 2
             fault_domain = "FAULT-DOMAIN-1"
 		}
 	instance_reservation_configs {
 			#Required
-			instance_shape = "BM.DenseIO2.52"
+			instance_shape = "BM.Standard2.52"
 			reserved_count = 1
 			fault_domain = "FAULT-DOMAIN-2"
 		}
 	instance_reservation_configs {
 			#Required
-			instance_shape = "BM.DenseIO2.52"
+			instance_shape = "BM.Standard2.52"
 			reserved_count = 1
 			fault_domain = "FAULT-DOMAIN-3"
 		}
@@ -437,7 +442,7 @@ resource "oci_core_vlan" "test_replication_vlan" {
 `
 )
 
-// issue-routing-tag: ocvp/default
+//  issue-routing-tag: ocvp/default
 func TestOcvpSddcResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOcvpSddcResource_basic")
 	defer httpreplay.SaveScenario()
@@ -450,19 +455,22 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	blockVolumeIds := utils.GetEnvSettingWithBlankDefault("block_volume_ocid")
+	blockVolumeIdVariableStr := fmt.Sprintf("variable \"block_volume_ids\" { default = \"%s\" }\n", blockVolumeIds)
+
 	resourceName := "oci_ocvp_sddc.test_sddc"
 	datasourceName := "data.oci_ocvp_sddcs.test_sddcs"
 	singularDatasourceName := "data.oci_ocvp_sddc.test_sddc"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OcvpSddcResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OcvpSddcResourceDependencies+blockVolumeIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create, OcvpSddcRepresentation), "ocvp", "sddc", t)
 
 	acctest.ResourceTest(t, testAccCheckOcvpSddcDestroy, []resource.TestStep{
-		// verify Create
+		//  verify Create
 		{
-			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies +
+			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies + blockVolumeIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, OcvpSddcRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -475,7 +483,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "6.5 update 3"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "test-L2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "false"),
@@ -490,7 +498,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 		// verify Upgrade VMware version
 		{
-			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies +
+			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies + blockVolumeIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Update, sddcUpgradedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -505,7 +513,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 3"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 test-L2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
@@ -523,17 +531,17 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", acctest.Required, acctest.Update, OcvpOcvpSddcDataSourceRepresentation) +
-				compartmentIdVariableStr + OcvpSddcUpgradeResource,
+				compartmentIdVariableStr + OcvpSddcUpgradeResource + blockVolumeIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 update 3"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 test-L2"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_shape_name", "BM.DenseIO2.52"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_ocpu_count", "8"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_shape_name", "VM.Standard.E3.Flex"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_updated"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.state", "ACTIVE"),
@@ -545,7 +553,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Update, OcvpOcvpSddcSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + OcvpSddcUpgradeResource,
+				compartmentIdVariableStr + OcvpSddcUpgradeResource + blockVolumeIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -555,8 +563,8 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_on_prem_licenses.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_shape_name", "BM.DenseIO2.52"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_ocpu_count", "8"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_shape_name", "VM.Standard.E3.Flex"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "initial_sku"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_hcx_pending_downgrade"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_edge_uplink_ip_id"),
@@ -574,23 +582,27 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_initial_password"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_private_ip_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_username"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 update 3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 test-L2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vsphere_upgrade_guide"),
 			),
 		},
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies,
+			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies + blockVolumeIdVariableStr,
 		},
-		// verify Create with optionals
+		//  verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies +
+			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies + blockVolumeIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create, sddcV7Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.0.block_volume_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "datastores.0.capacity"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName1),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
@@ -598,7 +610,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.DenseIO2.52"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.Standard2.52"),
 				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
@@ -618,7 +630,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 3"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 test-L2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -642,7 +654,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OcvpSddcResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OcvpSddcResourceDependencies + blockVolumeIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(sddcV7Representation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -651,6 +663,10 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.0.block_volume_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "datastores.0.capacity"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName1),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
@@ -658,7 +674,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.DenseIO2.52"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.Standard2.52"),
 				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
@@ -678,7 +694,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 3"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 test-L2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -701,12 +717,16 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		// Cannot Update VMware version here because some of the optional arguments are not applicable to VMware version less than 7.0
 		{
-			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies +
+			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies + blockVolumeIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Update, sddcV7Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.0.block_volume_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "datastores.0.capacity"),
+				resource.TestCheckResourceAttr(resourceName, "datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName2),
 				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
@@ -714,7 +734,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.DenseIO2.52"),
+				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.Standard2.52"),
 				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
 				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
@@ -734,7 +754,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 update 3"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 test-L2"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
 				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
@@ -760,19 +780,19 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", acctest.Optional, acctest.Update, OcvpOcvpSddcDataSourceRepresentation) +
-				compartmentIdVariableStr + SddcV7ResourceConfig,
+				compartmentIdVariableStr + SddcV7ResourceConfig + blockVolumeIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.display_name", sddcDisplayName2),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.is_shielded_instance_enabled", "true"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 update 3"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 test-L2"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.actual_esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_shape_name", "BM.DenseIO2.52"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_shape_name", "BM.Standard2.52"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_updated"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.state", "ACTIVE"),
@@ -785,12 +805,16 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, OcvpOcvpSddcSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SddcV7ResourceConfig,
+				compartmentIdVariableStr + SddcV7ResourceConfig + blockVolumeIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "capacity_reservation_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datastores.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datastores.0.block_volume_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "datastores.0.capacity"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", sddcDisplayName2),
 				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "actual_esxi_hosts_count", "3"),
@@ -803,7 +827,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_shape_name", "BM.DenseIO2.52"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_shape_name", "BM.Standard2.52"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_sku", "HOUR"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_display_name_prefix", "njki"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_hcx_enabled", "true"),
@@ -827,11 +851,11 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_initial_password"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_private_ip_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_username"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 update 3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 test-L2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "workload_network_cidr", "172.20.0.0/24"),
 			),
 		},
-		// verify resource import
+		//  verify resource import
 		{
 			Config:                  config + OcvpSddcRequiredOnlyResource,
 			ImportState:             true,

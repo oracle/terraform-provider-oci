@@ -39,6 +39,11 @@ resource "oci_ocvp_sddc" "test_sddc" {
 
 	#Optional
 	capacity_reservation_id = oci_ocvp_capacity_reservation.test_capacity_reservation.id
+	datastores {
+		#Required
+		block_volume_ids = var.sddc_datastores_block_volume_ids
+		datastore_type = var.sddc_datastores_datastore_type
+	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.sddc_display_name
 	freeform_tags = {"Department"= "Finance"}
@@ -66,6 +71,9 @@ The following arguments are supported:
 * `capacity_reservation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the SDDC. 
 * `compute_availability_domain` - (Required) The availability domain to create the SDDC's ESXi hosts in. For multi-AD SDDC deployment, set to `multi-AD`. 
+* `datastores` - (Optional) A list of datastore info for the SDDC. This value is required only when `initialHostShapeName` is a standard shape. 
+	* `block_volume_ids` - (Required) A list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of Block Storage Volumes.
+	* `datastore_type` - (Required) Type of the datastore.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A descriptive name for the SDDC. SDDC name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region. Avoid entering confidential information. 
 * `esxi_hosts_count` - (Required) The number of ESXi hosts to create in the SDDC. You can add more hosts later (see [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost)). Creating a SDDC with a ESXi host count of 1 will be considered a single ESXi host SDDC.
@@ -80,7 +88,8 @@ The following arguments are supported:
 * `instance_display_name_prefix` - (Optional) A prefix used in the name of each ESXi host and Compute instance in the SDDC. If this isn't set, the SDDC's `displayName` is used as the prefix.
 
 	For example, if the value is `mySDDC`, the ESXi hosts are named `mySDDC-1`, `mySDDC-2`, and so on. 
-* `is_hcx_enabled` - (Optional) Indicates whether to enable HCX for this SDDC. 
+* `is_hcx_enabled` - (Optional) For SDDC with dense compute shapes, this parameter indicates whether to enable HCX Advanced for this SDDC. For SDDC with standard compute shapes, this parameter is equivalent to `isHcxEnterpriseEnabled`. 
+* `is_hcx_enterprise_enabled` - (Optional) Indicates whether to enable HCX Enterprise for this SDDC. 
 * `is_shielded_instance_enabled` - (Optional) Indicates whether shielded instance is enabled for this SDDC. 
 * `is_single_host_sddc` - (Optional) Indicates whether this SDDC is designated for only single ESXi host. 
 * `nsx_edge_uplink1vlan_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN to use for the NSX Edge Uplink 1 component of the VMware environment. 
@@ -112,6 +121,10 @@ The following attributes are exported:
 * `capacity_reservation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the SDDC. 
 * `compute_availability_domain` - The availability domain the ESXi hosts are running in. For Multi-AD SDDC, it is `multi-AD`.  Example: `Uocm:PHX-AD-1`, `multi-AD` 
+* `datastores` - Datastores used for the Sddc. 
+	* `block_volume_ids` - A list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s of Block Storage Volumes.
+	* `capacity` - Size of the Block Storage Volume in GB.
+	* `datastore_type` - Type of the datastore.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A descriptive name for the SDDC. It must be unique, start with a letter, and contain only letters, digits, whitespaces, dashes and underscores. Avoid entering confidential information. 
 * `esxi_hosts_count` - The number of ESXi hosts in the SDDC.
@@ -183,7 +196,7 @@ The following attributes are exported:
 * `time_hcx_billing_cycle_end` - The date and time current HCX Enterprise billing cycle ends, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `time_hcx_license_status_updated` - The date and time the SDDC's HCX on-premise license status was updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the SDDC was updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
-* `upgrade_licenses` - The vSphere licenses to be used when upgrade SDDC. 
+* `upgrade_licenses` - The vSphere licenses to use when upgrading the SDDC. 
 	* `license_key` - vSphere license key value.
 	* `license_type` - vSphere license type.
 * `vcenter_fqdn` - The FQDN for vCenter.  Example: `vcenter-my-sddc.sddc.us-phoenix-1.oraclecloud.com` 
@@ -205,8 +218,8 @@ The following attributes are exported:
 	This attribute is not guaranteed to reflect the vSAN VLAN currently used by the ESXi hosts in the SDDC. The purpose of this attribute is to show the vSAN VLAN that the Oracle Cloud VMware Solution will use for any new ESXi hosts that you *add to this SDDC in the future* with [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost).
 
 	Therefore, if you change the existing ESXi hosts in the SDDC to use a different VLAN for the vSAN component of the VMware environment, you should use [UpdateSddc](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc) to update the SDDC's `vsanVlanId` with that new VLAN's OCID. 
-* `vsphere_upgrade_guide` - The link of guidance to upgrade vSphere. 
-* `vsphere_upgrade_objects` - The links of binary objects needed for upgrade vSphere. 
+* `vsphere_upgrade_guide` - The link to guidance for upgrading vSphere. 
+* `vsphere_upgrade_objects` - The links to binary objects needed to upgrade vSphere. 
 	* `download_link` - Binary object download link.
 	* `link_description` - Binary object description.
 * `vsphere_vlan_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC for the vSphere component of the VMware environment.
