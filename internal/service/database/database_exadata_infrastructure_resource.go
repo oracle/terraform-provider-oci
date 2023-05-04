@@ -287,6 +287,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"dr_network_bonding_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -1345,6 +1350,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) mapToNetworkBondingModeDetai
 		result.ClientNetworkBondingMode = oci_database.NetworkBondingModeDetailsClientNetworkBondingModeEnum(clientNetworkBondingMode.(string))
 	}
 
+	if drNetworkBondingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dr_network_bonding_mode")); ok {
+		result.DrNetworkBondingMode = oci_database.NetworkBondingModeDetailsDrNetworkBondingModeEnum(drNetworkBondingMode.(string))
+	}
+
 	return result, nil
 }
 
@@ -1354,6 +1363,8 @@ func NetworkBondingModeDetailsToMap(obj *oci_database.NetworkBondingModeDetails)
 	result["backup_network_bonding_mode"] = string(obj.BackupNetworkBondingMode)
 
 	result["client_network_bonding_mode"] = string(obj.ClientNetworkBondingMode)
+
+	result["dr_network_bonding_mode"] = string(obj.DrNetworkBondingMode)
 
 	return result
 }

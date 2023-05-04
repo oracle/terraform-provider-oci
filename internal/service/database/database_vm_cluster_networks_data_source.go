@@ -130,6 +130,12 @@ func (s *DatabaseVmClusterNetworksDataSourceCrud) SetData() error {
 
 		vmClusterNetwork["dns"] = r.Dns
 
+		drScans := []interface{}{}
+		for _, item := range r.DrScans {
+			drScans = append(drScans, DrScanDetailsToMap(item))
+		}
+		vmClusterNetwork["dr_scans"] = drScans
+
 		vmClusterNetwork["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
