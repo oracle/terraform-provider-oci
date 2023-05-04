@@ -76,6 +76,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 		#Optional
 		backup_network_bonding_mode = var.exadata_infrastructure_network_bonding_mode_details_backup_network_bonding_mode
 		client_network_bonding_mode = var.exadata_infrastructure_network_bonding_mode_details_client_network_bonding_mode
+		dr_network_bonding_mode = var.exadata_infrastructure_network_bonding_mode_details_dr_network_bonding_mode
 	}
 	storage_count = var.exadata_infrastructure_storage_count
 }
@@ -124,9 +125,10 @@ The following arguments are supported:
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `multi_rack_configuration_file` - (Optional) (Updatable) The base64 encoded Multi-Rack configuration json file.
 * `netmask` - (Required) (Updatable) The netmask for the control plane network.
-* `network_bonding_mode_details` - (Optional) (Updatable) Details of bonding mode for Client and Backup networks of an Exadata infrastructure.
+* `network_bonding_mode_details` - (Optional) (Updatable) Details of bonding mode for Client and Backup and DR networks of an Exadata infrastructure.
 	* `backup_network_bonding_mode` - (Optional) (Updatable) The network bonding mode for the Exadata infrastructure.
 	* `client_network_bonding_mode` - (Optional) (Updatable) The network bonding mode for the Exadata infrastructure.
+	* `dr_network_bonding_mode` - (Optional) (Updatable) The network bonding mode for the Exadata infrastructure.
 * `ntp_server` - (Required) (Updatable) The list of NTP server IP addresses. Maximum of 3 allowed.
 * `shape` - (Required) The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `storage_count` - (Optional) The number of storage servers for the Exadata infrastructure.
@@ -197,9 +199,10 @@ The following attributes are exported:
 * `monthly_db_server_version` - The monthly software version of the database servers (dom0) in the Exadata infrastructure.
 * `multi_rack_configuration_file` - The base64 encoded Multi-Rack configuration json file.
 * `netmask` - The netmask for the control plane network.
-* `network_bonding_mode_details` - Details of bonding mode for Client and Backup networks of an Exadata infrastructure.
+* `network_bonding_mode_details` - Details of bonding mode for Client and Backup and DR networks of an Exadata infrastructure.
 	* `backup_network_bonding_mode` - The network bonding mode for the Exadata infrastructure.
 	* `client_network_bonding_mode` - The network bonding mode for the Exadata infrastructure.
+	* `dr_network_bonding_mode` - The network bonding mode for the Exadata infrastructure.
 * `ntp_server` - The list of NTP server IP addresses. Maximum of 3 allowed.
 * `rack_serial_number` - The serial number for the Exadata infrastructure.
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
