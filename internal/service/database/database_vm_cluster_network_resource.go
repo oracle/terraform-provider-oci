@@ -69,12 +69,13 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-						"port": {
-							Type:     schema.TypeInt,
-							Required: true,
-						},
 
 						// Optional
+						"port": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"scan_listener_port_tcp": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -182,6 +183,35 @@ func DatabaseVmClusterNetworkResource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
+				},
+			},
+			"dr_scans": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"hostname": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"ips": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"scan_listener_port_tcp": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
 				},
 			},
 			"freeform_tags": {
@@ -353,6 +383,23 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Create() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("dns") {
 			request.Dns = tmp
+		}
+	}
+
+	if drScans, ok := s.D.GetOkExists("dr_scans"); ok {
+		interfaces := drScans.([]interface{})
+		tmp := make([]oci_database.DrScanDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "dr_scans", stateDataIndex)
+			converted, err := s.mapToDrScanDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("dr_scans") {
+			request.DrScans = tmp
 		}
 	}
 
@@ -552,6 +599,23 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
 		}
 	}
 
+	if drScans, ok := s.D.GetOkExists("dr_scans"); ok {
+		interfaces := drScans.([]interface{})
+		tmp := make([]oci_database.DrScanDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "dr_scans", stateDataIndex)
+			converted, err := s.mapToDrScanDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("dr_scans") {
+			request.DrScans = tmp
+		}
+	}
+
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
 		tmp := exadataInfrastructureId.(string)
 		request.ExadataInfrastructureId = &tmp
@@ -688,6 +752,12 @@ func (s *DatabaseVmClusterNetworkResourceCrud) SetData() error {
 
 	s.D.Set("dns", s.Res.Dns)
 
+	drScans := []interface{}{}
+	for _, item := range s.Res.DrScans {
+		drScans = append(drScans, DrScanDetailsToMap(item))
+	}
+	s.D.Set("dr_scans", drScans)
+
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
@@ -743,6 +813,35 @@ func parseVmClusterNetworkCompositeId(compositeId string) (exadataInfrastructure
 	vmClusterNetworkId, _ = url.PathUnescape(parts[3])
 
 	return
+}
+
+func (s *DatabaseVmClusterNetworkResourceCrud) mapToDrScanDetails(fieldKeyFormat string) (oci_database.DrScanDetails, error) {
+	result := oci_database.DrScanDetails{}
+
+	if hostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname")); ok {
+		tmp := hostname.(string)
+		result.Hostname = &tmp
+	}
+
+	if ips, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ips")); ok {
+		interfaces := ips.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ips")) {
+			result.Ips = tmp
+		}
+	}
+
+	if scanListenerPortTcp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scan_listener_port_tcp")); ok {
+		tmp := scanListenerPortTcp.(int)
+		result.ScanListenerPortTcp = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *DatabaseVmClusterNetworkResourceCrud) mapToNodeDetails(fieldKeyFormat string) (oci_database.NodeDetails, error) {
