@@ -46,7 +46,7 @@ locals {
 
 resource "oci_devops_deploy_artifact" "helm_chart_implicit_no_public_key" {
     #Required
-    argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
+    argument_substitution_mode = "NONE"
     deploy_artifact_source {
         #Required
         deploy_artifact_source_type = "HELM_CHART"
@@ -66,7 +66,7 @@ resource "oci_devops_deploy_artifact" "helm_chart_implicit_no_public_key" {
 
 resource "oci_devops_deploy_artifact" "helm_chart_no_public_key" {
     #Required
-    argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
+    argument_substitution_mode = "NONE"
     deploy_artifact_source {
         #Required
         deploy_artifact_source_type = "HELM_CHART"
@@ -92,7 +92,7 @@ resource "oci_devops_deploy_artifact" "helm_chart_no_public_key" {
 
 resource "oci_devops_deploy_artifact" "helm_chart_vault_public_key" {
     #Required
-    argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
+    argument_substitution_mode = "NONE"
     deploy_artifact_source {
         #Required
         deploy_artifact_source_type = "HELM_CHART"
@@ -119,7 +119,7 @@ resource "oci_devops_deploy_artifact" "helm_chart_vault_public_key" {
 
 resource "oci_devops_deploy_artifact" "helm_chart_inline_public_key" {
     #Required
-    argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
+    argument_substitution_mode = "NONE"
     deploy_artifact_source {
         #Required
         deploy_artifact_source_type = "HELM_CHART"
