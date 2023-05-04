@@ -47,7 +47,7 @@ data "oci_ocvp_supported_host_shapes" "test_supported_host_shapes" {
   // Required
   compartment_id = "${var.compartment_ocid}"
   // Optional
-  name = "BM.DenseIO2.52"
+  name = "BM.Standard2.52"
   sddc_type = "PRODUCTION"
 }
 
@@ -358,6 +358,38 @@ resource "oci_core_vlan" "test_replication_vlan" {
   route_table_id      = oci_core_vcn.test_vcn_ocvp.default_route_table_id
 }
 
+resource "oci_core_volume" "test_block_volume" {
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  compartment_id      = var.compartment_ocid
+  display_name        = "TestBlockVolume"
+  size_in_gbs         = "4096"
+}
+
+resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservation" {
+  #Required
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  compartment_id = var.compartment_ocid
+
+  instance_reservation_configs {
+    #Required
+    instance_shape = "BM.Standard2.52"
+    reserved_count = 2
+    fault_domain = "FAULT-DOMAIN-1"
+  }
+  instance_reservation_configs {
+    #Required
+    instance_shape = "BM.Standard2.52"
+    reserved_count = 1
+    fault_domain = "FAULT-DOMAIN-2"
+  }
+  instance_reservation_configs {
+    #Required
+    instance_shape = "BM.Standard2.52"
+    reserved_count = 1
+    fault_domain = "FAULT-DOMAIN-3"
+  }
+}
+
 resource "oci_ocvp_sddc" "test_sddc" {
   // Required
   compartment_id              = var.compartment_ocid
@@ -380,9 +412,14 @@ resource "oci_ocvp_sddc" "test_sddc" {
   replication_vlan_id  = oci_core_vlan.test_replication_vlan.id
   initial_sku          = "HOUR"
   initial_host_ocpu_count     = "52.0"
-  initial_host_shape_name     = "BM.DenseIO2.52"
+  initial_host_shape_name     = "BM.Standard2.52"
+  capacity_reservation_id = oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id
+  datastores {
+    #Required
+    block_volume_ids = ["${oci_core_volume.test_block_volume.id}"]
+    datastore_type = "MANAGEMENT"
+  }
   is_shielded_instance_enabled = false
-  is_non_production = false
   hcx_action = "upgrade"
   refresh_hcx_license_status = true
   #reserving_hcx_on_premise_license_keys = var.reserving_hcx_on_premise_license_keys
@@ -400,7 +437,7 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
   compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
   current_sku = "HOUR"
   host_ocpu_count             = "52.0"
-  host_shape_name             = "BM.DenseIO2.52"
+  host_shape_name             = "BM.Standard2.52"
   next_sku    = "HOUR"
   #non_upgraded_esxi_host_id = data.oci_ocvp_esxi_hosts.non_upgraded_esxi_hosts.esxi_host_collection[0].id
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}
