@@ -22,6 +22,10 @@ func OcvpSupportedSkusDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"host_shape_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"items": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -67,6 +71,11 @@ func (s *OcvpSupportedSkusDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if hostShapeName, ok := s.D.GetOkExists("host_shape_name"); ok {
+		tmp := hostShapeName.(string)
+		request.HostShapeName = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
