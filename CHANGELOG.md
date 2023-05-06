@@ -1,3 +1,10 @@
+## 4.120.0 (Unreleased)
+
+### Added
+- Support for ADB-S: Convert ADG Standby db to Snapshot Standby (Disconnect/Reconnect)
+- Support for EXACC | LACP for client/backup networks (post MVP)
+- Support for Support Standard Shape-based SDDC with Block Storage as datastore
+
 ## 4.119.0 (Unreleased)
 
 ### Added
