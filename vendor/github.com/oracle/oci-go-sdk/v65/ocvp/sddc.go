@@ -314,13 +314,13 @@ type Sddc struct {
 	// The current state of the SDDC.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// The vSphere licenses to be used when upgrade SDDC.
+	// The vSphere licenses to use when upgrading the SDDC.
 	UpgradeLicenses []VsphereLicense `mandatory:"false" json:"upgradeLicenses"`
 
-	// The link of guidance to upgrade vSphere.
+	// The link to guidance for upgrading vSphere.
 	VsphereUpgradeGuide *string `mandatory:"false" json:"vsphereUpgradeGuide"`
 
-	// The links of binary objects needed for upgrade vSphere.
+	// The links to binary objects needed to upgrade vSphere.
 	VsphereUpgradeObjects []VsphereUpgradeObject `mandatory:"false" json:"vsphereUpgradeObjects"`
 
 	// The initial OCPU count of the SDDC's ESXi hosts.
@@ -331,6 +331,9 @@ type Sddc struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
+	// Datastores used for the Sddc.
+	Datastores []DatastoreSummary `mandatory:"false" json:"datastores"`
 }
 
 func (m Sddc) String() string {
