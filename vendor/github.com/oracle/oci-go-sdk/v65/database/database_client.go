@@ -1595,6 +1595,68 @@ func (client DatabaseClient) changeKeyStoreCompartment(ctx context.Context, requ
 	return response, err
 }
 
+// ChangeOneoffPatchCompartment Move the one-off patch to the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeOneoffPatchCompartment.go.html to see an example of how to use ChangeOneoffPatchCompartment API.
+func (client DatabaseClient) ChangeOneoffPatchCompartment(ctx context.Context, request ChangeOneoffPatchCompartmentRequest) (response ChangeOneoffPatchCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeOneoffPatchCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeOneoffPatchCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeOneoffPatchCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeOneoffPatchCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeOneoffPatchCompartmentResponse")
+	}
+	return
+}
+
+// changeOneoffPatchCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeOneoffPatchCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oneoffPatches/{oneoffPatchId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeOneoffPatchCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/OneoffPatch/ChangeOneoffPatchCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeOneoffPatchCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeVmClusterCompartment Moves a VM cluster and its dependent resources to another compartment. Applies to Exadata Cloud@Customer instances only.
 // To move a cloud VM cluster in an Exadata Cloud Service instance to another compartment, use the ChangeCloudVmClusterCompartment operation.
 //
@@ -3278,6 +3340,68 @@ func (client DatabaseClient) createKeyStore(ctx context.Context, request common.
 	return response, err
 }
 
+// CreateOneoffPatch Creates one-off patch for specified database version to download.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateOneoffPatch.go.html to see an example of how to use CreateOneoffPatch API.
+func (client DatabaseClient) CreateOneoffPatch(ctx context.Context, request CreateOneoffPatchRequest) (response CreateOneoffPatchResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOneoffPatch, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOneoffPatchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOneoffPatchResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOneoffPatchResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOneoffPatchResponse")
+	}
+	return
+}
+
+// createOneoffPatch implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createOneoffPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oneoffPatches", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOneoffPatchResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/OneoffPatch/CreateOneoffPatch"
+		err = common.PostProcessServiceError(err, "Database", "CreateOneoffPatch", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreatePluggableDatabase Creates and starts a pluggable database in the specified container database.
 // Use the StartPluggableDatabase and StopPluggableDatabase APIs to start and stop the pluggable database.
 //
@@ -4629,6 +4753,63 @@ func (client DatabaseClient) deleteKeyStore(ctx context.Context, request common.
 	return response, err
 }
 
+// DeleteOneoffPatch Deletes a one-off patch.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteOneoffPatch.go.html to see an example of how to use DeleteOneoffPatch API.
+func (client DatabaseClient) DeleteOneoffPatch(ctx context.Context, request DeleteOneoffPatchRequest) (response DeleteOneoffPatchResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOneoffPatch, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOneoffPatchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOneoffPatchResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOneoffPatchResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOneoffPatchResponse")
+	}
+	return
+}
+
+// deleteOneoffPatch implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteOneoffPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/oneoffPatches/{oneoffPatchId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOneoffPatchResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/OneoffPatch/DeleteOneoffPatch"
+		err = common.PostProcessServiceError(err, "Database", "DeleteOneoffPatch", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeletePluggableDatabase Deletes the specified pluggable database.
 //
 // See also
@@ -5650,6 +5831,68 @@ func (client DatabaseClient) downloadExadataInfrastructureConfigFile(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/DownloadExadataInfrastructureConfigFile"
 		err = common.PostProcessServiceError(err, "Database", "DownloadExadataInfrastructureConfigFile", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DownloadOneoffPatch Download one-off patch.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DownloadOneoffPatch.go.html to see an example of how to use DownloadOneoffPatch API.
+func (client DatabaseClient) DownloadOneoffPatch(ctx context.Context, request DownloadOneoffPatchRequest) (response DownloadOneoffPatchResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.downloadOneoffPatch, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DownloadOneoffPatchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DownloadOneoffPatchResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DownloadOneoffPatchResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DownloadOneoffPatchResponse")
+	}
+	return
+}
+
+// downloadOneoffPatch implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) downloadOneoffPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oneoffPatches/{oneoffPatchId}/actions/downloadOneoffPatch", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DownloadOneoffPatchResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/OneoffPatch/DownloadOneoffPatch"
+		err = common.PostProcessServiceError(err, "Database", "DownloadOneoffPatch", apiReferenceLink)
 		return response, err
 	}
 
@@ -9513,6 +9756,63 @@ func (client DatabaseClient) getMaintenanceRunHistory(ctx context.Context, reque
 	return response, err
 }
 
+// GetOneoffPatch Gets information about the specified one-off patch.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetOneoffPatch.go.html to see an example of how to use GetOneoffPatch API.
+func (client DatabaseClient) GetOneoffPatch(ctx context.Context, request GetOneoffPatchRequest) (response GetOneoffPatchResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOneoffPatch, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOneoffPatchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOneoffPatchResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOneoffPatchResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOneoffPatchResponse")
+	}
+	return
+}
+
+// getOneoffPatch implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getOneoffPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oneoffPatches/{oneoffPatchId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOneoffPatchResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/OneoffPatch/GetOneoffPatch"
+		err = common.PostProcessServiceError(err, "Database", "GetOneoffPatch", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetPdbConversionHistoryEntry Gets the details of operations performed to convert the specified database from non-container (non-CDB) to pluggable (PDB).
 //
 // See also
@@ -13078,6 +13378,63 @@ func (client DatabaseClient) listMaintenanceRuns(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/MaintenanceRun/ListMaintenanceRuns"
 		err = common.PostProcessServiceError(err, "Database", "ListMaintenanceRuns", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOneoffPatches Lists one-off patches in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListOneoffPatches.go.html to see an example of how to use ListOneoffPatches API.
+func (client DatabaseClient) ListOneoffPatches(ctx context.Context, request ListOneoffPatchesRequest) (response ListOneoffPatchesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOneoffPatches, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOneoffPatchesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOneoffPatchesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOneoffPatchesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOneoffPatchesResponse")
+	}
+	return
+}
+
+// listOneoffPatches implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listOneoffPatches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oneoffPatches", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOneoffPatchesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/OneoffPatch/ListOneoffPatches"
+		err = common.PostProcessServiceError(err, "Database", "ListOneoffPatches", apiReferenceLink)
 		return response, err
 	}
 
@@ -17258,6 +17615,63 @@ func (client DatabaseClient) updateMaintenanceRun(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/MaintenanceRun/UpdateMaintenanceRun"
 		err = common.PostProcessServiceError(err, "Database", "UpdateMaintenanceRun", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateOneoffPatch Updates the properties of the specified one-off patch.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateOneoffPatch.go.html to see an example of how to use UpdateOneoffPatch API.
+func (client DatabaseClient) UpdateOneoffPatch(ctx context.Context, request UpdateOneoffPatchRequest) (response UpdateOneoffPatchResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateOneoffPatch, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateOneoffPatchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateOneoffPatchResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateOneoffPatchResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateOneoffPatchResponse")
+	}
+	return
+}
+
+// updateOneoffPatch implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateOneoffPatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/oneoffPatches/{oneoffPatchId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateOneoffPatchResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/OneoffPatch/UpdateOneoffPatch"
+		err = common.PostProcessServiceError(err, "Database", "UpdateOneoffPatch", apiReferenceLink)
 		return response, err
 	}
 

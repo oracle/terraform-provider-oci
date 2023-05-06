@@ -92,7 +92,8 @@ type CreateSddcDetails struct {
 	// ListSupportedSkus.
 	InitialSku SkuEnum `mandatory:"false" json:"initialSku,omitempty"`
 
-	// Indicates whether to enable HCX for this SDDC.
+	// For SDDC with dense compute shapes, this parameter indicates whether to enable HCX Advanced for this SDDC.
+	// For SDDC with standard compute shapes, this parameter is equivalent to `isHcxEnterpriseEnabled`.
 	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the HCX
@@ -129,6 +130,10 @@ type CreateSddcDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
+	// A list of datastore info for the SDDC.
+	// This value is required only when `initialHostShapeName` is a standard shape.
+	Datastores []DatastoreInfo `mandatory:"false" json:"datastores"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
