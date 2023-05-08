@@ -36,6 +36,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		DEPLOYMENT_OGG_KEY      = "golden_gate_deployment_ogg_key"
 		BASE_OGG_VERSION        = "base_ogg_version"
 		UPGRADED_OGG_VERSION    = "upgraded_ogg_version"
+		PASSWORD                = "password"
+		NEW_PASSWORD            = "new_password"
 	)
 
 	var (
@@ -74,7 +76,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		}
 
 		goldenGateDeploymentOggDataRepresentation = map[string]interface{}{
-			"admin_password":  acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+			"admin_password":  acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 			"admin_username":  acctest.Representation{RepType: acctest.Required, Create: `adminUsername`, Update: `adminUsername2`},
 			"deployment_name": acctest.Representation{RepType: acctest.Required, Create: `depl_test_ggs_deployment_name`},
 			"certificate":     acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCEpaMjTCJ8WzANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yMTAxMTkyMTI2MjRaFw0yNDAxMTkyMTI2MjRaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo83kaUQXpCcSoEuRVFX3\njztWDNKtWpjNG240f0RpERI1NnZtHH0qnZqfaWAQQa8kx3+W1LOeFbkkRnkJz19g\neIXR6TeavT+W5iRh4goK+N7gubYkSMa2shVf+XsoHKERSbhdhrtX+GqvKzAvplCt\nCgd4MDlsvLv/YHCLvJL4JgRxKyevjlnE1rqrICJMCLbbZMrIKTzwb/K13hGrm6Bc\n+Je9EC3MWWxd5jBwXu3vgIYRuGR4DPg/yfMKPZr2xFDLpBsv5jaqULS9t6GwoEBJ\nKN0NXp5obaQToYqMsvAZyHoEyfCBDka16Bm5hGF60FwqgUT3p/+qlBn61cAJe9t5\n8QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAX1rxV2hai02Pb4Cf8U44zj+1aY6wV\nLvOMWiL3zl53up4/X7PDcmWcPM9UMVCGTISZD6A6IPvNlkvbtvYCzgjhtGxDmrj7\nwTRV5gO9j3bAhxBO7XgTmwmD/9hpykM58nbhLFnkGf+Taja8qsy0U8H74Tr9w1M8\n8E5kghgGzBElNquM8AUuDakC1JL4aLO/VDMxe/1BLtmBHLZy3XTzVycjP9ZFPh6h\nT+cWJcVOjQSYY2U75sDnKD2Sg1cmK54HauA6SPh4kAkpmxyLyDZZjPBQe2sLFmmS\naZSE+g16yMR9TVHo3pTpRkxJwDEH0LePwYXA4vUIK3HHS6zgLe0ody8g\n-----END CERTIFICATE-----`},
@@ -125,6 +127,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		makeVariableStr(DEPLOYMENT_OGG_KEY, t) +
 		makeVariableStr(BASE_OGG_VERSION, t) +
 		makeVariableStr(UPGRADED_OGG_VERSION, t) +
+		makeVariableStr(PASSWORD, t) +
+		makeVariableStr(NEW_PASSWORD, t) +
 		GoldenGateDeploymentResourceDependencies
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
