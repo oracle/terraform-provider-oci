@@ -47,6 +47,8 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 		TEST_DB_ID              = "test_db_id"
 		KMS_KEY_ID              = "kms_key_id"
 		KMS_VAULT_ID            = "kms_vault_id"
+		PASSWORD                = "password"
+		NEW_PASSWORD            = "new_password"
 	)
 
 	var (
@@ -80,7 +82,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 			"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 			"display_name":          acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 			"fqdn":                  acctest.Representation{RepType: acctest.Required, Create: `fqdn.example.com`, Update: `fqdn2.example.com`},
-			"password":              acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+			"password":              acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 			"username":              acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `username2`},
 			"connection_string":     acctest.Representation{RepType: acctest.Optional, Create: `fqdn.example.com:1521/ORION_phx1gq.example.com`, Update: `fqdn2.example.com:1521/ORION_phx1gq.example.com`},
 			"database_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.test_db_id}`},
@@ -119,6 +121,8 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 		makeVariableStr(TEST_DB_ID, t) +
 		makeVariableStr(KMS_KEY_ID, t) +
 		makeVariableStr(KMS_VAULT_ID, t) +
+		makeVariableStr(PASSWORD, t) +
+		makeVariableStr(NEW_PASSWORD, t) +
 		DatabaseRegistrationResourceDependencies
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
@@ -135,7 +139,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "fqdn", "fqdn.example.com"),
-				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "password"),
 				resource.TestCheckResourceAttr(resourceName, "username", "username"),
 
 				func(s *terraform.State) (err error) {
@@ -165,7 +169,7 @@ func TestGoldenGateDatabaseRegistrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_id"),
-				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "password"),
 				resource.TestCheckResourceAttrSet(resourceName, "secret_compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "session_mode", "DIRECT"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
