@@ -6,6 +6,7 @@ package provider
 import (
 	tf_adm "github.com/oracle/terraform-provider-oci/internal/service/adm"
 	tf_ai_anomaly_detection "github.com/oracle/terraform-provider-oci/internal/service/ai_anomaly_detection"
+	tf_ai_document "github.com/oracle/terraform-provider-oci/internal/service/ai_document"
 	tf_ai_vision "github.com/oracle/terraform-provider-oci/internal/service/ai_vision"
 	tf_analytics "github.com/oracle/terraform-provider-oci/internal/service/analytics"
 	tf_announcements_service "github.com/oracle/terraform-provider-oci/internal/service/announcements_service"
@@ -114,6 +115,7 @@ import (
 func init() {
 	tf_adm.RegisterDatasource()
 	tf_ai_anomaly_detection.RegisterDatasource()
+	tf_ai_document.RegisterDatasource()
 	tf_ai_vision.RegisterDatasource()
 	tf_analytics.RegisterDatasource()
 	tf_announcements_service.RegisterDatasource()
