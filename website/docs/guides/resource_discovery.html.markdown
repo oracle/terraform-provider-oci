@@ -124,6 +124,7 @@ Make sure the `output_path` is empty before running resource discovery
 * `services` - Comma-separated list of service resources to export. If not specified, all resources within the given compartment (which excludes identity resources) are exported. The following values can be specified:
     * `adm` - Discovers adm resources within the specified compartment
     * `ai_anomaly_detection` - Discovers ai_anomaly_detection resources within the specified compartment
+    * `ai_document` - Discovers ai_document resources within the specified compartment
     * `ai_vision` - Discovers ai_vision resources within the specified compartment
     * `analytics` - Discovers analytics resources within the specified compartment
     * `announcements_service` - Discovers announcements_service resources within the specified compartment
@@ -347,6 +348,12 @@ ai_anomaly_detection
 * oci\_ai\_anomaly\_detection\_project
 * oci\_ai\_anomaly\_detection\_ai\_private\_endpoint
 * oci\_ai\_anomaly\_detection\_detect\_anomaly\_job
+
+ai_document
+    
+* oci\_ai\_document\_processor\_job
+* oci\_ai\_document\_project
+* oci\_ai\_document\_model
 
 ai_vision
 
