@@ -28,7 +28,7 @@ type HttpCircuitBreakingThresholdConfiguration struct {
 	// Maximum number of retries that can be outstanding to all hosts in a cluster at a given time.
 	MaxRetries *int `mandatory:"false" json:"maxRetries"`
 
-	// Maximum number of HTTP1 /TCP connections to a destination host.
+	// Maximum number of HTTP1 connections to a destination host.
 	MaxConnections *int `mandatory:"false" json:"maxConnections"`
 
 	RetryBudget *CircuitBreakingRetryBudget `mandatory:"false" json:"retryBudget"`

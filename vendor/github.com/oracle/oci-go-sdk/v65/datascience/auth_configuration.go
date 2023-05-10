@@ -54,6 +54,10 @@ func (m *authconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := IdcsAuthConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "IAM":
+		mm := IamAuthConfiguration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for AuthConfiguration: %s.", m.Type)
 		return *m, nil
@@ -82,14 +86,17 @@ type AuthConfigurationTypeEnum string
 // Set of constants representing the allowable values for AuthConfigurationTypeEnum
 const (
 	AuthConfigurationTypeIdcs AuthConfigurationTypeEnum = "IDCS"
+	AuthConfigurationTypeIam  AuthConfigurationTypeEnum = "IAM"
 )
 
 var mappingAuthConfigurationTypeEnum = map[string]AuthConfigurationTypeEnum{
 	"IDCS": AuthConfigurationTypeIdcs,
+	"IAM":  AuthConfigurationTypeIam,
 }
 
 var mappingAuthConfigurationTypeEnumLowerCase = map[string]AuthConfigurationTypeEnum{
 	"idcs": AuthConfigurationTypeIdcs,
+	"iam":  AuthConfigurationTypeIam,
 }
 
 // GetAuthConfigurationTypeEnumValues Enumerates the set of values for AuthConfigurationTypeEnum
@@ -105,6 +112,7 @@ func GetAuthConfigurationTypeEnumValues() []AuthConfigurationTypeEnum {
 func GetAuthConfigurationTypeEnumStringValues() []string {
 	return []string{
 		"IDCS",
+		"IAM",
 	}
 }
 

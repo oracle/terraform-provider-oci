@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ProblemAggregation Provides the dimensions and their corresponding count value.
+// ProblemAggregation Provides aggregated information on counts of problems by specified parameters.
 type ProblemAggregation struct {
 
 	// The key-value pairs of dimensions and their names.

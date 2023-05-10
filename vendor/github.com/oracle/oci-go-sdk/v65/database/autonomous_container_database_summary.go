@@ -149,6 +149,15 @@ type AutonomousContainerDatabaseSummary struct {
 
 	// The compute model of the Autonomous VM Cluster. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	ComputeModel AutonomousContainerDatabaseSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
+	// The number of CPUs provisioned in an Autonomous Container Database.
+	ProvisionedCpus *float32 `mandatory:"false" json:"provisionedCpus"`
+
+	// The number of CPUs reserved in an Autonomous Container Database.
+	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
+
+	// The largest Autonomous Database (CPU) that can be created in a new Autonomous Container Database.
+	LargestProvisionableAutonomousDatabaseInCpus *float32 `mandatory:"false" json:"largestProvisionableAutonomousDatabaseInCpus"`
 }
 
 func (m AutonomousContainerDatabaseSummary) String() string {

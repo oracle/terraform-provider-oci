@@ -25,7 +25,7 @@ type GrpcRetryConfiguration struct {
 	RetryTimeoutInMs *int64 `mandatory:"false" json:"retryTimeoutInMs"`
 
 	// Specifies the conditions under which retry takes place. One or more policies can be specified.
-	RetryCritiera []GrpcRetryCritieriaEnum `mandatory:"false" json:"retryCritiera"`
+	RetryCriteria []GrpcRetryCriteriaEnum `mandatory:"false" json:"retryCriteria"`
 
 	// Base time interval between retries.
 	BackoffBaseDelayInMs *int64 `mandatory:"false" json:"backoffBaseDelayInMs"`

@@ -10,7 +10,6 @@
 package servicemesh
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -23,11 +22,6 @@ type HttpRateLimitConfigurationOverrides struct {
 
 	// Rate limits to be applied based on headers.
 	Headers []StringMatch `mandatory:"false" json:"headers"`
-
-	// Rate limits to be applied based on query params.
-	QueryParams []StringMatch `mandatory:"false" json:"queryParams"`
-
-	Source SourceMatch `mandatory:"false" json:"source"`
 }
 
 func (m HttpRateLimitConfigurationOverrides) String() string {
@@ -44,43 +38,4 @@ func (m HttpRateLimitConfigurationOverrides) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *HttpRateLimitConfigurationOverrides) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Headers     []StringMatch                             `json:"headers"`
-		QueryParams []StringMatch                             `json:"queryParams"`
-		Source      sourcematch                               `json:"source"`
-		Limits      *HttpRateLimitConfigurationOverridesLimit `json:"limits"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Headers = make([]StringMatch, len(model.Headers))
-	for i, n := range model.Headers {
-		m.Headers[i] = n
-	}
-
-	m.QueryParams = make([]StringMatch, len(model.QueryParams))
-	for i, n := range model.QueryParams {
-		m.QueryParams[i] = n
-	}
-
-	nn, e = model.Source.UnmarshalPolymorphicJSON(model.Source.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.Source = nn.(SourceMatch)
-	} else {
-		m.Source = nil
-	}
-
-	m.Limits = model.Limits
-
-	return
 }

@@ -40,6 +40,9 @@ type ImageListingPackage struct {
 
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 
+	// The regions where you can deploy the listing package. (Some packages have restrictions that limit their deployment to United States regions only.)
+	Regions []Region `mandatory:"false" json:"regions"`
+
 	// The ID of the listing resource associated with this listing package. For more information, see AppCatalogListing (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListing/) in the Core Services API.
 	AppCatalogListingId *string `mandatory:"false" json:"appCatalogListingId"`
 
@@ -48,9 +51,6 @@ type ImageListingPackage struct {
 
 	// The ID of the image corresponding to the package.
 	ImageId *string `mandatory:"false" json:"imageId"`
-
-	// The regions where you can deploy the listing package. (Some packages have restrictions that limit their deployment to United States regions only.)
-	Regions []Region `mandatory:"false" json:"regions"`
 }
 
 //GetDescription returns Description
@@ -86,6 +86,11 @@ func (m ImageListingPackage) GetTimeCreated() *common.SDKTime {
 //GetOperatingSystem returns OperatingSystem
 func (m ImageListingPackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
+}
+
+//GetRegions returns Regions
+func (m ImageListingPackage) GetRegions() []Region {
+	return m.Regions
 }
 
 func (m ImageListingPackage) String() string {

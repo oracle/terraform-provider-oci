@@ -21,9 +21,6 @@ type IdcsAuthConfiguration struct {
 
 	// URI of IDCS Stripe
 	IdcsStripeUri *string `mandatory:"true" json:"idcsStripeUri"`
-
-	// IDCS Application (value used in JWT "sub" claim).
-	Subject *string `mandatory:"false" json:"subject"`
 }
 
 func (m IdcsAuthConfiguration) String() string {

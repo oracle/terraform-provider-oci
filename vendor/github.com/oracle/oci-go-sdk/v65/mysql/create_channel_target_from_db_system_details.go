@@ -38,7 +38,7 @@ type CreateChannelTargetFromDbSystemDetails struct {
 	DelayInSeconds *int `mandatory:"false" json:"delayInSeconds"`
 
 	// Specifies how a replication channel handles the creation and alteration of tables
-	// that do not have a primary key. The default value is set to GENERATE_IMPLICIT_PRIMARY_KEY.
+	// that do not have a primary key. The default value is set to ALLOW.
 	TablesWithoutPrimaryKeyHandling ChannelTargetDbSystemTablesWithoutPrimaryKeyHandlingEnum `mandatory:"false" json:"tablesWithoutPrimaryKeyHandling,omitempty"`
 }
 

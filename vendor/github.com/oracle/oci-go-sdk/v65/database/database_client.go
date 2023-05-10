@@ -7396,6 +7396,59 @@ func (client DatabaseClient) getAutonomousContainerDatabaseDataguardAssociation(
 	return response, err
 }
 
+// GetAutonomousContainerDatabaseResourceUsage Get resource usage details for the specified Autonomous Container Database.
+func (client DatabaseClient) GetAutonomousContainerDatabaseResourceUsage(ctx context.Context, request GetAutonomousContainerDatabaseResourceUsageRequest) (response GetAutonomousContainerDatabaseResourceUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutonomousContainerDatabaseResourceUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAutonomousContainerDatabaseResourceUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAutonomousContainerDatabaseResourceUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutonomousContainerDatabaseResourceUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutonomousContainerDatabaseResourceUsageResponse")
+	}
+	return
+}
+
+// getAutonomousContainerDatabaseResourceUsage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAutonomousContainerDatabaseResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/resourceUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutonomousContainerDatabaseResourceUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/GetAutonomousContainerDatabaseResourceUsage"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousContainerDatabaseResourceUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAutonomousDatabase Gets the details of the specified Autonomous Database.
 func (client DatabaseClient) GetAutonomousDatabase(ctx context.Context, request GetAutonomousDatabaseRequest) (response GetAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8025,6 +8078,59 @@ func (client DatabaseClient) getCloudAutonomousVmCluster(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/GetCloudAutonomousVmCluster"
 		err = common.PostProcessServiceError(err, "Database", "GetCloudAutonomousVmCluster", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCloudAutonomousVmClusterResourceUsage Get the resource usage details for the specified Cloud Autonomous Exadata VM cluster.
+func (client DatabaseClient) GetCloudAutonomousVmClusterResourceUsage(ctx context.Context, request GetCloudAutonomousVmClusterResourceUsageRequest) (response GetCloudAutonomousVmClusterResourceUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCloudAutonomousVmClusterResourceUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCloudAutonomousVmClusterResourceUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCloudAutonomousVmClusterResourceUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCloudAutonomousVmClusterResourceUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCloudAutonomousVmClusterResourceUsageResponse")
+	}
+	return
+}
+
+// getCloudAutonomousVmClusterResourceUsage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getCloudAutonomousVmClusterResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudAutonomousVmClusters/{cloudAutonomousVmClusterId}/resourceUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCloudAutonomousVmClusterResourceUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/GetCloudAutonomousVmClusterResourceUsage"
+		err = common.PostProcessServiceError(err, "Database", "GetCloudAutonomousVmClusterResourceUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -11558,6 +11664,60 @@ func (client DatabaseClient) listBackups(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Backup/ListBackups"
 		err = common.PostProcessServiceError(err, "Database", "ListBackups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCloudAutonomousVmClusterAcdResourceUsage Gets the list of resource usage details for all the Cloud Autonomous Container Database
+// in the specified Cloud Autonomous Exadata VM cluster.
+func (client DatabaseClient) ListCloudAutonomousVmClusterAcdResourceUsage(ctx context.Context, request ListCloudAutonomousVmClusterAcdResourceUsageRequest) (response ListCloudAutonomousVmClusterAcdResourceUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCloudAutonomousVmClusterAcdResourceUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCloudAutonomousVmClusterAcdResourceUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCloudAutonomousVmClusterAcdResourceUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCloudAutonomousVmClusterAcdResourceUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCloudAutonomousVmClusterAcdResourceUsageResponse")
+	}
+	return
+}
+
+// listCloudAutonomousVmClusterAcdResourceUsage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listCloudAutonomousVmClusterAcdResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cloudAutonomousVmClusters/{cloudAutonomousVmClusterId}/acdResourceUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCloudAutonomousVmClusterAcdResourceUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/ListCloudAutonomousVmClusterAcdResourceUsage"
+		err = common.PostProcessServiceError(err, "Database", "ListCloudAutonomousVmClusterAcdResourceUsage", apiReferenceLink)
 		return response, err
 	}
 

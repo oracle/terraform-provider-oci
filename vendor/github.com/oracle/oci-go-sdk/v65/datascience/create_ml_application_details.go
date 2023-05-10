@@ -21,8 +21,6 @@ type CreateMlApplicationDetails struct {
 	// The name of MlApplication. It is unique in a given tenancy.
 	Name *string `mandatory:"true" json:"name"`
 
-	PredictionContract *PredictionContract `mandatory:"true" json:"predictionContract"`
-
 	// The OCID of the compartment where the MlApplication is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 

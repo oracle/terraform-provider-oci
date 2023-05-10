@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ManagedList A cloud guard list containing one or more items of a list type
+// ManagedList A managed list is a reusable list of parameters that makes it easier to set the scope for detector and responder rules. A ManagedList object contains the reusable list of parameters, plus metadata for the list.
 type ManagedList struct {
 
 	// Unique identifier that is immutable on creation

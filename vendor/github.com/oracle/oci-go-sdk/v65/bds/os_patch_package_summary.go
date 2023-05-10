@@ -27,9 +27,6 @@ type OsPatchPackageSummary struct {
 	// Related CVEs of the package update.
 	RelatedCVEs []string `mandatory:"true" json:"relatedCVEs"`
 
-	// Whether a package need the cluster to restart to take effect.
-	IsRestartRequired *bool `mandatory:"true" json:"isRestartRequired"`
-
 	// The target version of the package.
 	TargetVersion *string `mandatory:"false" json:"targetVersion"`
 }

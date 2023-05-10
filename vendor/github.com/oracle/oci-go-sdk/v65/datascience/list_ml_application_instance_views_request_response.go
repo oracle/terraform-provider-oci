@@ -20,9 +20,6 @@ type ListMlApplicationInstanceViewsRequest struct {
 	// A filter to return only resources that match the entire name given.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// A filter to return only MlApplicationInstanceViews which represents MlApplicationInstance from tenancy with given namespace.
-	Namespace *string `mandatory:"false" contributesTo:"query" name:"namespace"`
-
 	// unique MlApplication identifier
 	MlApplicationId *string `mandatory:"false" contributesTo:"query" name:"mlApplicationId"`
 

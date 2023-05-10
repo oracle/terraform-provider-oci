@@ -50,8 +50,8 @@ type MlApplicationImplementationSummary struct {
 	// Description of ML Application Implementation defined in ML Application package descriptor
 	Description *string `mandatory:"false" json:"description"`
 
-	// The version of ML Application Implementation (e.g. "1.2" or "2.0.4") defined in ML Application package descriptor. Value is not mandatory only for CREATING state otherwise it must be always presented.
-	Version *string `mandatory:"false" json:"version"`
+	// The version of ML Application Package (e.g. "1.2" or "2.0.4") defined in ML Application package descriptor. Value is not mandatory only for CREATING state otherwise it must be always presented.
+	PackageVersion *string `mandatory:"false" json:"packageVersion"`
 
 	// Schema of configuration which needs to be provided for each ML Application Instance. It is defined in the ML Application package descriptor.
 	ConfigurationSchema []ConfigurationPropertySchema `mandatory:"false" json:"configurationSchema"`

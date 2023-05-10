@@ -167,6 +167,30 @@ type CloudAutonomousVmClusterSummary struct {
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db servers.
 	DbServers []string `mandatory:"false" json:"dbServers"`
+
+	// The percentage of total number of CPUs used in an Autonomous VM Cluster.
+	CpuPercentage *float32 `mandatory:"false" json:"cpuPercentage"`
+
+	// The percentage of the data storage used for the Autonomous Databases in an Autonomous VM Cluster.
+	AutonomousDataStoragePercentage *float32 `mandatory:"false" json:"autonomousDataStoragePercentage"`
+
+	// The number of CPUs provisioned in an Autonomous VM Cluster.
+	ProvisionedCpus *float32 `mandatory:"false" json:"provisionedCpus"`
+
+	// The total number of CPUs in an Autonomous VM Cluster.
+	TotalCpus *float32 `mandatory:"false" json:"totalCpus"`
+
+	// The total data disk group size for Autonomous Databases, in TBs.
+	TotalAutonomousDataStorageInTBs *float32 `mandatory:"false" json:"totalAutonomousDataStorageInTBs"`
+
+	// The number of CPUs reserved in an Autonomous VM Cluster.
+	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
+
+	// The number of provisioned Autonomous Container Databases in an Autonomous VM Cluster.
+	ProvisionedAutonomousContainerDatabases *float32 `mandatory:"false" json:"provisionedAutonomousContainerDatabases"`
+
+	// The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
+	NonProvisionableAutonomousContainerDatabases *float32 `mandatory:"false" json:"nonProvisionableAutonomousContainerDatabases"`
 }
 
 func (m CloudAutonomousVmClusterSummary) String() string {

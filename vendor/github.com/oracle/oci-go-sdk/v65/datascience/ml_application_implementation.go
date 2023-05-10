@@ -57,8 +57,8 @@ type MlApplicationImplementation struct {
 	// Description of ML Application Implementation defined in ML Application package descriptor
 	Description *string `mandatory:"false" json:"description"`
 
-	// The version of ML Application Implementation (e.g. "1.2" or "2.0.4") defined in ML Application package descriptor. Value is not mandatory only for CREATING state otherwise it must be always presented.
-	Version *string `mandatory:"false" json:"version"`
+	// The version of ML Application Package (e.g. "1.2" or "2.0.4") defined in ML Application package descriptor. Value is not mandatory only for CREATING state otherwise it must be always presented.
+	PackageVersion *string `mandatory:"false" json:"packageVersion"`
 
 	// List of application components (OCI resources shared for all MlApplicationInstances). These have been created automatically based on their definitions in the ML Application package.
 	ApplicationComponents []ApplicationComponent `mandatory:"false" json:"applicationComponents"`
@@ -99,7 +99,7 @@ func (m MlApplicationImplementation) ValidateEnumValue() (bool, error) {
 func (m *MlApplicationImplementation) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description                   *string                                       `json:"description"`
-		Version                       *string                                       `json:"version"`
+		PackageVersion                *string                                       `json:"packageVersion"`
 		ApplicationComponents         []applicationcomponent                        `json:"applicationComponents"`
 		ConfigurationSchema           []ConfigurationPropertySchema                 `json:"configurationSchema"`
 		MlApplicationPackageArguments *MlApplicationPackageArguments                `json:"mlApplicationPackageArguments"`
@@ -125,7 +125,7 @@ func (m *MlApplicationImplementation) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.Description = model.Description
 
-	m.Version = model.Version
+	m.PackageVersion = model.PackageVersion
 
 	m.ApplicationComponents = make([]ApplicationComponent, len(model.ApplicationComponents))
 	for i, n := range model.ApplicationComponents {
@@ -186,25 +186,25 @@ type MlApplicationImplementationLifecycleStateEnum string
 const (
 	MlApplicationImplementationLifecycleStateCreating       MlApplicationImplementationLifecycleStateEnum = "CREATING"
 	MlApplicationImplementationLifecycleStateActive         MlApplicationImplementationLifecycleStateEnum = "ACTIVE"
-	MlApplicationImplementationLifecycleStateUpdating       MlApplicationImplementationLifecycleStateEnum = "UPDATING"
 	MlApplicationImplementationLifecycleStateNeedsAttention MlApplicationImplementationLifecycleStateEnum = "NEEDS_ATTENTION"
 	MlApplicationImplementationLifecycleStateFailed         MlApplicationImplementationLifecycleStateEnum = "FAILED"
+	MlApplicationImplementationLifecycleStateDeleting       MlApplicationImplementationLifecycleStateEnum = "DELETING"
 )
 
 var mappingMlApplicationImplementationLifecycleStateEnum = map[string]MlApplicationImplementationLifecycleStateEnum{
 	"CREATING":        MlApplicationImplementationLifecycleStateCreating,
 	"ACTIVE":          MlApplicationImplementationLifecycleStateActive,
-	"UPDATING":        MlApplicationImplementationLifecycleStateUpdating,
 	"NEEDS_ATTENTION": MlApplicationImplementationLifecycleStateNeedsAttention,
 	"FAILED":          MlApplicationImplementationLifecycleStateFailed,
+	"DELETING":        MlApplicationImplementationLifecycleStateDeleting,
 }
 
 var mappingMlApplicationImplementationLifecycleStateEnumLowerCase = map[string]MlApplicationImplementationLifecycleStateEnum{
 	"creating":        MlApplicationImplementationLifecycleStateCreating,
 	"active":          MlApplicationImplementationLifecycleStateActive,
-	"updating":        MlApplicationImplementationLifecycleStateUpdating,
 	"needs_attention": MlApplicationImplementationLifecycleStateNeedsAttention,
 	"failed":          MlApplicationImplementationLifecycleStateFailed,
+	"deleting":        MlApplicationImplementationLifecycleStateDeleting,
 }
 
 // GetMlApplicationImplementationLifecycleStateEnumValues Enumerates the set of values for MlApplicationImplementationLifecycleStateEnum
@@ -221,9 +221,9 @@ func GetMlApplicationImplementationLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
-		"UPDATING",
 		"NEEDS_ATTENTION",
 		"FAILED",
+		"DELETING",
 	}
 }
 

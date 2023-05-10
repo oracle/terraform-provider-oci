@@ -151,6 +151,8 @@ type OpensearchCluster struct {
 
 	// The list of reverse connection endpoints.
 	ReverseConnectionEndpoints []ReverseConnectionEndpoint `mandatory:"false" json:"reverseConnectionEndpoints"`
+
+	RemoteClusterConfig *RemoteClusterConfig `mandatory:"false" json:"remoteClusterConfig"`
 }
 
 func (m OpensearchCluster) String() string {

@@ -148,6 +148,64 @@ func (client OpensearchClusterClient) backupOpensearchCluster(ctx context.Contex
 	return response, err
 }
 
+// ConfigureRemoteCluster Configure the cluster to work remotely.
+func (client OpensearchClusterClient) ConfigureRemoteCluster(ctx context.Context, request ConfigureRemoteClusterRequest) (response ConfigureRemoteClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.configureRemoteCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConfigureRemoteClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConfigureRemoteClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConfigureRemoteClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConfigureRemoteClusterResponse")
+	}
+	return
+}
+
+// configureRemoteCluster implements the OCIOperation interface (enables retrying operations)
+func (client OpensearchClusterClient) configureRemoteCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/opensearchClusters/{opensearchClusterId}/actions/configureRemote", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConfigureRemoteClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/ConfigureRemoteCluster"
+		err = common.PostProcessServiceError(err, "OpensearchCluster", "ConfigureRemoteCluster", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateOpensearchCluster Creates a new OpensearchCluster.
 func (client OpensearchClusterClient) CreateOpensearchCluster(ctx context.Context, request CreateOpensearchClusterRequest) (response CreateOpensearchClusterResponse, err error) {
 	var ociResponse common.OCIResponse

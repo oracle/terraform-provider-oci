@@ -16,26 +16,18 @@ import (
 	"strings"
 )
 
-// BatchPredictionUseCase Prediction contract for batch prediction use-case
-type BatchPredictionUseCase struct {
-
-	// Name of use case
-	Name *string `mandatory:"true" json:"name"`
+// IamAuthConfiguration Configuration of IAM AuthN/Z for online prediction
+type IamAuthConfiguration struct {
 }
 
-//GetName returns Name
-func (m BatchPredictionUseCase) GetName() *string {
-	return m.Name
-}
-
-func (m BatchPredictionUseCase) String() string {
+func (m IamAuthConfiguration) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m BatchPredictionUseCase) ValidateEnumValue() (bool, error) {
+func (m IamAuthConfiguration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -45,14 +37,14 @@ func (m BatchPredictionUseCase) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m BatchPredictionUseCase) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeBatchPredictionUseCase BatchPredictionUseCase
+func (m IamAuthConfiguration) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeIamAuthConfiguration IamAuthConfiguration
 	s := struct {
-		DiscriminatorParam string `json:"predictionType"`
-		MarshalTypeBatchPredictionUseCase
+		DiscriminatorParam string `json:"type"`
+		MarshalTypeIamAuthConfiguration
 	}{
-		"BATCH",
-		(MarshalTypeBatchPredictionUseCase)(m),
+		"IAM",
+		(MarshalTypeIamAuthConfiguration)(m),
 	}
 
 	return json.Marshal(&s)

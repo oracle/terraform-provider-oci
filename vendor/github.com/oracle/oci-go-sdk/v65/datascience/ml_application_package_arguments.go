@@ -17,7 +17,7 @@ import (
 
 // MlApplicationPackageArguments List of ML Application package arguments provided during ML Application package upload.
 type MlApplicationPackageArguments struct {
-	Arguments []MlApplicationPackageArgumentNameValuePair `mandatory:"false" json:"arguments"`
+	Arguments []MlApplicationPackageArgumentDetails `mandatory:"false" json:"arguments"`
 }
 
 func (m MlApplicationPackageArguments) String() string {

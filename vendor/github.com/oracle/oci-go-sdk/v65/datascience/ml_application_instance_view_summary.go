@@ -24,9 +24,6 @@ type MlApplicationInstanceViewSummary struct {
 	// This field is a copy from MlApplicationInstance created by the consumer. The name must be unique for the given namespace (consumer tenancy namespace).
 	Name *string `mandatory:"true" json:"name"`
 
-	// The namespace of (consumer) tenancy where MlApplicationInstance is located.
-	Namespace *string `mandatory:"true" json:"namespace"`
-
 	// The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.
 	MlApplicationId *string `mandatory:"true" json:"mlApplicationId"`
 
@@ -39,8 +36,8 @@ type MlApplicationInstanceViewSummary struct {
 	// This field is a copy from MlApplicationInstance created by the consumer. The name of Ml Application Implemenation (based on mlApplicationImplementationId)
 	MlApplicationImplementationName *string `mandatory:"true" json:"mlApplicationImplementationName"`
 
-	// Version of MlApplicationImplementation which is currently used by this MlApplicationInstance.
-	MlApplicationImplementationVersion *string `mandatory:"true" json:"mlApplicationImplementationVersion"`
+	// Version of MlApplication package which is currently used by this MlApplicationInstance.
+	PackageVersion *string `mandatory:"true" json:"packageVersion"`
 
 	// The OCID of the currently used MlApplicationImplementationVersion
 	MlApplicationImplementationVersionId *string `mandatory:"true" json:"mlApplicationImplementationVersionId"`

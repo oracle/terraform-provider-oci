@@ -25,9 +25,6 @@ type MlApplicationInstanceView struct {
 	// This field is a copy from MlApplicationInstance created by the consumer. The name must be unique for the given namespace (consumer tenancy namespace) and MlApplication.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The namespace of (consumer) tenancy where MlApplicationInstance is located.
-	Namespace *string `mandatory:"true" json:"namespace"`
-
 	// The OCID of the MlApplicationInstance (created by the consumer) which this MlApplicationInstanceView is mirroring.
 	MlApplicationInstanceId *string `mandatory:"true" json:"mlApplicationInstanceId"`
 
@@ -40,8 +37,8 @@ type MlApplicationInstanceView struct {
 	// This field is a copy from MlApplicationInstance created by the consumer. The name of Ml Application Implemenation (based on mlApplicationImplementationId)
 	MlApplicationImplementationName *string `mandatory:"true" json:"mlApplicationImplementationName"`
 
-	// Version of MlApplicationImplementation which is currently used by this MlApplicationInstance.
-	MlApplicationImplementationVersion *string `mandatory:"true" json:"mlApplicationImplementationVersion"`
+	// Version of MlApplication package which is currently used by this MlApplicationInstance.
+	PackageVersion *string `mandatory:"true" json:"packageVersion"`
 
 	// The OCID of the MlApplicationImplementationVersion
 	MlApplicationImplementationVersionId *string `mandatory:"true" json:"mlApplicationImplementationVersionId"`
@@ -120,12 +117,11 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 		SystemTags                           map[string]map[string]interface{}              `json:"systemTags"`
 		Id                                   *string                                        `json:"id"`
 		Name                                 *string                                        `json:"name"`
-		Namespace                            *string                                        `json:"namespace"`
 		MlApplicationInstanceId              *string                                        `json:"mlApplicationInstanceId"`
 		MlApplicationId                      *string                                        `json:"mlApplicationId"`
 		MlApplicationImplementationId        *string                                        `json:"mlApplicationImplementationId"`
 		MlApplicationImplementationName      *string                                        `json:"mlApplicationImplementationName"`
-		MlApplicationImplementationVersion   *string                                        `json:"mlApplicationImplementationVersion"`
+		PackageVersion                       *string                                        `json:"packageVersion"`
 		MlApplicationImplementationVersionId *string                                        `json:"mlApplicationImplementationVersionId"`
 		IsEnabled                            *bool                                          `json:"isEnabled"`
 		CompartmentId                        *string                                        `json:"compartmentId"`
@@ -181,8 +177,6 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 
 	m.Name = model.Name
 
-	m.Namespace = model.Namespace
-
 	m.MlApplicationInstanceId = model.MlApplicationInstanceId
 
 	m.MlApplicationId = model.MlApplicationId
@@ -191,7 +185,7 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 
 	m.MlApplicationImplementationName = model.MlApplicationImplementationName
 
-	m.MlApplicationImplementationVersion = model.MlApplicationImplementationVersion
+	m.PackageVersion = model.PackageVersion
 
 	m.MlApplicationImplementationVersionId = model.MlApplicationImplementationVersionId
 

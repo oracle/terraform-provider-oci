@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// PolicySummary Global policy statement
+// PolicySummary A policy summary (PolicySummary object) contains a list of all current global policy statements (policy attributes).
 type PolicySummary struct {
 
 	// Global policy statement

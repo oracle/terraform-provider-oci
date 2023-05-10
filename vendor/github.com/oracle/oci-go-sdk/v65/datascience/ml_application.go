@@ -50,8 +50,6 @@ type MlApplication struct {
 	// Optional description of the ML Application
 	Description *string `mandatory:"false" json:"description"`
 
-	PredictionContract *PredictionContract `mandatory:"false" json:"predictionContract"`
-
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

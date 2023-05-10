@@ -66,6 +66,8 @@ type OpensearchClusterSummary struct {
 	SecurityMode SecurityModeEnum `mandatory:"false" json:"securityMode,omitempty"`
 
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
+
+	RemoteClusterConfig *RemoteClusterConfig `mandatory:"false" json:"remoteClusterConfig"`
 }
 
 func (m OpensearchClusterSummary) String() string {

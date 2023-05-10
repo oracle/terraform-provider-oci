@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// Detector A single Detector
+// Detector Information for a single detector category. For example, IAAS_ACTIVITY_DETECTOR or IAAS_CONFIGURATION_DETECTOR.
 type Detector struct {
 
 	// detector key

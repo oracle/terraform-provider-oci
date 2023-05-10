@@ -2,50 +2,41 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service Mesh API
+// OpenSearch Service API
 //
-// Use the Service Mesh API to manage mesh, virtual service, access policy and other mesh related items.
+// The OpenSearch service API provides access to OCI Search Service with OpenSearch.
 //
 
-package servicemesh
+package opensearch
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// AllSourceMatch Rate limits to be applied on all sources.
-type AllSourceMatch struct {
+// RemoteClusterConfig This config is used to pass request information to add remote cluster/s to the coordinating cluster which in this case is the cluster from which request is originated.
+type RemoteClusterConfig struct {
+
+	// A flag determine whether remote config is enabled
+	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
+
+	// List of remote cluster to be added to the coordinating cluster.
+	Remote []RemoteClusterSummary `mandatory:"true" json:"remote"`
 }
 
-func (m AllSourceMatch) String() string {
+func (m RemoteClusterConfig) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m AllSourceMatch) ValidateEnumValue() (bool, error) {
+func (m RemoteClusterConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m AllSourceMatch) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeAllSourceMatch AllSourceMatch
-	s := struct {
-		DiscriminatorParam string `json:"sourceType"`
-		MarshalTypeAllSourceMatch
-	}{
-		"ALL",
-		(MarshalTypeAllSourceMatch)(m),
-	}
-
-	return json.Marshal(&s)
 }
