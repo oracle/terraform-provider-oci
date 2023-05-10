@@ -1,4 +1,4 @@
-## 4.120.0 (Unreleased)
+## 4.120.0 (May 10, 2023)
 
 ### Added
 - Support for ADB-S: Convert ADG Standby db to Snapshot Standby (Disconnect/Reconnect)
