@@ -204,6 +204,12 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("netmask", *s.Res.Netmask)
 	}
 
+	if s.Res.NetworkBondingModeDetails != nil {
+		s.D.Set("network_bonding_mode_details", []interface{}{NetworkBondingModeDetailsToMap(s.Res.NetworkBondingModeDetails)})
+	} else {
+		s.D.Set("network_bonding_mode_details", nil)
+	}
+
 	s.D.Set("ntp_server", s.Res.NtpServer)
 
 	if s.Res.RackSerialNumber != nil {

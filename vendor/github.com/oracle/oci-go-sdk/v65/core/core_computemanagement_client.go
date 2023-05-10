@@ -1557,6 +1557,71 @@ func (client ComputeManagementClient) softresetInstancePool(ctx context.Context,
 	return response, err
 }
 
+// SoftstopInstancePool Performs the softstop (ACPI shutdown and power on) action on the specified instance pool,
+// which performs the action on all the instances in the pool.
+// Softstop gracefully reboots the instances by sending a shutdown command to the operating systems.
+// After waiting 15 minutes for the OS to shutdown, the instances are powered off and then powered back on.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/SoftstopInstancePool.go.html to see an example of how to use SoftstopInstancePool API.
+func (client ComputeManagementClient) SoftstopInstancePool(ctx context.Context, request SoftstopInstancePoolRequest) (response SoftstopInstancePoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.softstopInstancePool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SoftstopInstancePoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SoftstopInstancePoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SoftstopInstancePoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SoftstopInstancePoolResponse")
+	}
+	return
+}
+
+// softstopInstancePool implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) softstopInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/softstop", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SoftstopInstancePoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/SoftstopInstancePool"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "SoftstopInstancePool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StartInstancePool Performs the start (power on) action on the specified instance pool,
 // which performs the action on all the instances in the pool.
 //
