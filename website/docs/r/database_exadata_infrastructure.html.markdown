@@ -71,6 +71,12 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 		weeks_of_month = var.exadata_infrastructure_maintenance_window_weeks_of_month
 	}
 	multi_rack_configuration_file = var.exadata_infrastructure_multi_rack_configuration_file
+	network_bonding_mode_details {
+
+		#Optional
+		backup_network_bonding_mode = var.exadata_infrastructure_network_bonding_mode_details_backup_network_bonding_mode
+		client_network_bonding_mode = var.exadata_infrastructure_network_bonding_mode_details_client_network_bonding_mode
+	}
 	storage_count = var.exadata_infrastructure_storage_count
 }
 ```
@@ -100,7 +106,7 @@ The following arguments are supported:
 * `infini_band_network_cidr` - (Required) (Updatable) The CIDR block for the Exadata InfiniBand interconnect.
 * `is_cps_offline_report_enabled` - (Optional) (Updatable) Indicates whether cps offline diagnostic report is enabled for this Exadata infrastructure. This will allow a customer to quickly check status themselves and fix problems on their end, saving time and frustration for both Oracle and the customer when they find the CPS in a disconnected state.You can enable offline diagnostic report during Exadata infrastructure provisioning. You can also disable or enable it at any time using the UpdateExadatainfrastructure API. 
 * `is_multi_rack_deployment` - (Optional) (Updatable) Indicates if deployment is Multi-Rack or not.
-* `maintenance_window` - (Optional) (Updatable) The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
+* `maintenance_window` - (Optional) (Updatable) The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window.
 	* `custom_action_timeout_in_mins` - (Optional) (Updatable) Determines the amount of time the system will wait before the start of each database server patching operation. Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive). 
 	* `days_of_week` - (Optional) (Updatable) Days during the week when maintenance should be performed.
 		* `name` - (Required) (Updatable) Name of the day of the week.
@@ -118,6 +124,9 @@ The following arguments are supported:
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `multi_rack_configuration_file` - (Optional) (Updatable) The base64 encoded Multi-Rack configuration json file.
 * `netmask` - (Required) (Updatable) The netmask for the control plane network.
+* `network_bonding_mode_details` - (Optional) (Updatable) Details of bonding mode for Client and Backup networks of an Exadata infrastructure.
+	* `backup_network_bonding_mode` - (Optional) (Updatable) The network bonding mode for the Exadata infrastructure.
+	* `client_network_bonding_mode` - (Optional) (Updatable) The network bonding mode for the Exadata infrastructure.
 * `ntp_server` - (Required) (Updatable) The list of NTP server IP addresses. Maximum of 3 allowed.
 * `shape` - (Required) The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `storage_count` - (Optional) The number of storage servers for the Exadata infrastructure.
@@ -187,6 +196,9 @@ The following attributes are exported:
 * `monthly_db_server_version` - The monthly software version of the database servers (dom0) in the Exadata infrastructure.
 * `multi_rack_configuration_file` - The base64 encoded Multi-Rack configuration json file.
 * `netmask` - The netmask for the control plane network.
+* `network_bonding_mode_details` - Details of bonding mode for Client and Backup networks of an Exadata infrastructure.
+	* `backup_network_bonding_mode` - The network bonding mode for the Exadata infrastructure.
+	* `client_network_bonding_mode` - The network bonding mode for the Exadata infrastructure.
 * `ntp_server` - The list of NTP server IP addresses. Maximum of 3 allowed.
 * `rack_serial_number` - The serial number for the Exadata infrastructure.
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 

@@ -51,6 +51,12 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   is_multi_rack_deployment      = false
 
   #Optional
+  network_bonding_mode_details {
+    backup_network_bonding_mode = "ACTIVE_BACKUP"
+    client_network_bonding_mode = "ACTIVE_BACKUP"
+  }
+
+  #Optional
   contacts {
     email        = "testuser2@testdomain.com"
     is_primary   = "true"

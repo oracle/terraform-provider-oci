@@ -345,6 +345,7 @@ func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIReque
 }
 
 // DowngradeHcx Downgrade the specified SDDC from HCX Enterprise to HCX Advanced.
+// SDDC with standard compute shapes will always use HCX Enterprise if HCX is enabled and cannot be downgraded.
 // Downgrading from HCX Enterprise to HCX Advanced reduces the number of provided license keys from 10 to 3.
 // Downgrade remains in a `PENDING` state until the end of the current billing cycle. You can use CancelDowngradeHcx
 // to cancel the downgrade while it's still in a `PENDING` state.

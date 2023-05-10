@@ -29,6 +29,8 @@ func OcvpSddcResource() *schema.Resource {
 		},
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("6h"),
+			Update: tfresource.GetTimeoutDuration("2h"),
+			Delete: tfresource.GetTimeoutDuration("2h"),
 		},
 		Create: createOcvpSddc,
 		Read:   readOcvpSddc,
@@ -93,6 +95,38 @@ func OcvpSddcResource() *schema.Resource {
 			},
 
 			// Optional
+			"datastores": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"block_volume_ids": {
+							Type:     schema.TypeList,
+							Required: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"datastore_type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+
+						// Computed
+						"capacity": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"capacity_reservation_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -460,6 +494,23 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	if computeAvailabilityDomain, ok := s.D.GetOkExists("compute_availability_domain"); ok {
 		tmp := computeAvailabilityDomain.(string)
 		request.ComputeAvailabilityDomain = &tmp
+	}
+
+	if datastores, ok := s.D.GetOkExists("datastores"); ok {
+		interfaces := datastores.([]interface{})
+		tmp := make([]oci_ocvp.DatastoreInfo, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "datastores", stateDataIndex)
+			converted, err := s.mapToDatastoreInfo(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("datastores") {
+			request.Datastores = tmp
+		}
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -986,6 +1037,12 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
 	}
 
+	datastores := []interface{}{}
+	for _, item := range s.Res.Datastores {
+		datastores = append(datastores, DatastoreSummaryToMap(item))
+	}
+	s.D.Set("datastores", datastores)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -1200,6 +1257,44 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *OcvpSddcResourceCrud) mapToDatastoreInfo(fieldKeyFormat string) (oci_ocvp.DatastoreInfo, error) {
+	result := oci_ocvp.DatastoreInfo{}
+
+	if blockVolumeIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_volume_ids")); ok {
+		interfaces := blockVolumeIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "block_volume_ids")) {
+			result.BlockVolumeIds = tmp
+		}
+	}
+
+	if datastoreType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "datastore_type")); ok {
+		result.DatastoreType = oci_ocvp.DatastoreTypesEnum(datastoreType.(string))
+	}
+
+	return result, nil
+}
+
+func DatastoreSummaryToMap(obj oci_ocvp.DatastoreSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["block_volume_ids"] = obj.BlockVolumeIds
+	result["block_volume_ids"] = obj.BlockVolumeIds
+
+	if obj.Capacity != nil {
+		result["capacity"] = float32(*obj.Capacity)
+	}
+
+	result["datastore_type"] = string(obj.DatastoreType)
+
+	return result
 }
 
 func HcxLicenseSummaryToMap(obj oci_ocvp.HcxLicenseSummary) map[string]interface{} {
