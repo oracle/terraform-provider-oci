@@ -22,7 +22,7 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
 	display_name = var.monitor_display_name
 	monitor_type = var.monitor_monitor_type
 	repeat_interval_in_seconds = var.monitor_repeat_interval_in_seconds
-	vantage_points = []
+	vantage_points = var.vantage_points
 
 	#Optional
 	availability_configuration {
