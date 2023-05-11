@@ -30,7 +30,9 @@ resource "oci_identity_smtp_credential" "test_smtp_credential" {
 
 The following arguments are supported:
 
-* `description` - (Required) (Updatable) The description you assign to the SMTP credentials during creation. Does not have to be unique, and it's changeable. 
+* `description` - (Required) (Updatable) The description you assign to the SMTP credentials during creation. Does not have to be unique, and it's changeable.
+
+	(For tenancies that support identity domains) You can have an empty description. 
 * `user_id` - (Required) The OCID of the user.
 
 
@@ -42,6 +44,8 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `description` - The description you assign to the SMTP credential. Does not have to be unique, and it's changeable.
+
+	(For tenancies that support identity domains) You can have an empty description. 
 * `id` - The OCID of the SMTP credential.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `password` - The SMTP password. 

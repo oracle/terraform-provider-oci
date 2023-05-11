@@ -41,6 +41,8 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `description` - The description you assign to the SMTP credential. Does not have to be unique, and it's changeable.
+
+	(For tenancies that support identity domains) You can have an empty description. 
 * `id` - The OCID of the SMTP credential.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `state` - The credential's current state.
