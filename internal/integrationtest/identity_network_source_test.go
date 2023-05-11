@@ -55,6 +55,7 @@ var (
 		"public_source_list":  acctest.Representation{RepType: acctest.Optional, Create: []string{`128.2.13.5`}, Update: []string{`128.2.13.5`, `128.2.13.6`}},
 		"services":            acctest.Representation{RepType: acctest.Optional, Create: []string{`none`}, Update: []string{`all`}},
 		"virtual_source_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityNetworkVirtualSourceListRepresentation},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityNetworkSourceIgnoreChangesRepresentation},
 	}
 
 	IdentityNetworkVirtualSourceListRepresentation = map[string]interface{}{
@@ -62,7 +63,11 @@ var (
 		"ip_ranges": acctest.Representation{RepType: acctest.Required, Create: []string{`10.0.0.0/16`}},
 	}
 
-	IdentityNetworkSourceResourceDependencies = DefinedTagsDependencies // + VcnRequiredOnlyResource
+	IdentityNetworkSourceIgnoreChangesRepresentation = map[string]interface{}{ // This may vary depending on the tenancy settings
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
+	}
+
+	IdentityNetworkSourceResourceDependencies = DefinedTagsDependencies + acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 )
 
 // issue-routing-tag: identity/default
@@ -125,7 +130,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &tenancyId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -178,6 +183,7 @@ func TestIdentityNetworkSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.name", "corpnet"),
 				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.public_source_list.#", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.services.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_sources.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_sources.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "network_sources.0.virtual_source_list.#", "1"),
 			),

@@ -65,12 +65,16 @@ var (
 		"state":                     acctest.Representation{RepType: acctest.Optional, Update: `INACTIVE`},
 	}
 
+	IdentityDomainReplicationToRegionRepresentation1 = map[string]interface{}{
+		"domain_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_domain.test_domain.id}`},
+		"replica_region": acctest.Representation{RepType: acctest.Required, Create: `us-sanjose-1`},
+	}
+
 	IdentityDomainResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: identity/default
 func TestIdentityDomainResource_basic(t *testing.T) {
-	t.Skip("Skip this test because henosis tenancy is needed")
 	httpreplay.SetScenario("TestIdentityDomainResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -121,7 +125,8 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + IdentityDomainResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Create, IdentityDomainRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_domain", "test_domain", acctest.Optional, acctest.Create, IdentityDomainRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_domain_replication_to_region", "test_domain_replication_to_region", acctest.Optional, acctest.Create, IdentityDomainReplicationToRegionRepresentation1),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_email", "adminEmail@test.com"),
 				resource.TestCheckResourceAttr(resourceName, "admin_first_name", "adminFirstName"),
@@ -180,6 +185,10 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 				resource.TestCheckResourceAttrSet(resourceName, "url"),
+				resource.TestCheckResourceAttrSet(resourceName, "replica_regions.0.regional_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "replica_regions.0.url"),
+				resource.TestCheckResourceAttr(resourceName, "replica_regions.0.state", "REPLICATION_ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "replica_regions.0.region", "us-sanjose-1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -214,6 +223,10 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "type"),
 				resource.TestCheckResourceAttrSet(resourceName, "url"),
+				resource.TestCheckResourceAttrSet(resourceName, "replica_regions.0.regional_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "replica_regions.0.url"),
+				resource.TestCheckResourceAttr(resourceName, "replica_regions.0.state", "REPLICATION_ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "replica_regions.0.region", "us-sanjose-1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -254,6 +267,10 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "domains.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "domains.0.type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "domains.0.url"),
+				resource.TestCheckResourceAttrSet(datasourceName, "domains.0.replica_regions.0.regional_url"),
+				resource.TestCheckResourceAttrSet(datasourceName, "domains.0.replica_regions.0.url"),
+				resource.TestCheckResourceAttr(datasourceName, "domains.0.replica_regions.0.state", "REPLICATION_ENABLED"),
+				resource.TestCheckResourceAttr(datasourceName, "domains.0.replica_regions.0.region", "us-sanjose-1"),
 			),
 		},
 		// verify singular datasource
@@ -276,6 +293,10 @@ func TestIdentityDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "replica_regions.0.regional_url"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "replica_regions.0.url"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replica_regions.0.state", "REPLICATION_ENABLED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replica_regions.0.region", "us-sanjose-1"),
 			),
 		},
 		// verify resource import
