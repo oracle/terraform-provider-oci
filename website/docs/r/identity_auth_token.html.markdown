@@ -11,7 +11,7 @@ description: |-
 This resource provides the Auth Token resource in Oracle Cloud Infrastructure Identity service.
 
 Creates a new auth token for the specified user. For information about what auth tokens are for, see
-[Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcredentials.htm).
+[Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/access/managing-user-credentials.htm).
 
 You must specify a *description* for the auth token (although it can be an empty string). It does not
 have to be unique, and you can change it anytime with
@@ -36,7 +36,9 @@ resource "oci_identity_auth_token" "test_auth_token" {
 
 The following arguments are supported:
 
-* `description` - (Required) (Updatable) The description you assign to the auth token during creation. Does not have to be unique, and it's changeable. 
+* `description` - (Required) (Updatable) The description you assign to the auth token during creation. Does not have to be unique, and it's changeable.
+
+	(For tenancies that support identity domains) You can have an empty description. 
 * `user_id` - (Required) The OCID of the user.
 
 
@@ -48,6 +50,8 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `description` - The description you assign to the auth token. Does not have to be unique, and it's changeable.
+
+	(For tenancies that support identity domains) You can have an empty description. 
 * `id` - The OCID of the auth token.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `state` - The token's current state.

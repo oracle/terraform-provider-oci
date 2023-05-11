@@ -10,12 +10,11 @@ description: |-
 # Data Source: oci_identity_allowed_domain_license_types
 This data source provides the list of Allowed Domain License Types in Oracle Cloud Infrastructure Identity service.
 
-List the allowed domain license types supported by Oracle Cloud Infrastructure If {@code currentLicenseTypeName} provided, returns allowed license types a domain with the specified license type name can migrate to.
-If {@code name} is provided, it filters and returns resources that match the given license type name.
-Otherwise, returns all valid license types that are currently supported.
+(For tenancies that support identity domains) Lists the license types for identity domains supported by Oracle Cloud Infrastructure. 
+(License types are also referred to as domain types.)
 
-- If license type details are retrieved sucessfully, return 202 ACCEPTED.
-- If any internal error occurs, return 500 INTERNAL SERVER ERROR.
+If `currentLicenseTypeName` is provided, then the request returns license types that the identity domain with the specified license 
+type name can change to. Otherwise, the request returns all valid license types currently supported.
 
 
 ## Example Usage
@@ -32,7 +31,7 @@ data "oci_identity_allowed_domain_license_types" "test_allowed_domain_license_ty
 
 The following arguments are supported:
 
-* `current_license_type_name` - (Optional) The domain license type
+* `current_license_type_name` - (Optional) The license type of the identity domain.
 
 
 ## Attributes Reference
