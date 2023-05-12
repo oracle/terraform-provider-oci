@@ -188,6 +188,14 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["is_cdb"] = *r.IsCdb
 		}
 
+		if r.KeyStoreId != nil {
+			database["key_store_id"] = *r.KeyStoreId
+		}
+
+		if r.KeyStoreWalletName != nil {
+			database["key_store_wallet_name"] = *r.KeyStoreWalletName
+		}
+
 		if r.KmsKeyId != nil {
 			database["kms_key_id"] = *r.KmsKeyId
 		}
