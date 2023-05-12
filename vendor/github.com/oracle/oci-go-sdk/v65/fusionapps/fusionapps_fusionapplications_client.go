@@ -530,6 +530,69 @@ func (client FusionApplicationsClient) createRefreshActivity(ctx context.Context
 	return response, err
 }
 
+// CreateServiceAttachment Attaches a service instance to the fusion pod.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateServiceAttachment.go.html to see an example of how to use CreateServiceAttachment API.
+// A default retry strategy applies to this operation CreateServiceAttachment()
+func (client FusionApplicationsClient) CreateServiceAttachment(ctx context.Context, request CreateServiceAttachmentRequest) (response CreateServiceAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createServiceAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateServiceAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateServiceAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateServiceAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateServiceAttachmentResponse")
+	}
+	return
+}
+
+// createServiceAttachment implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) createServiceAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fusionEnvironments/{fusionEnvironmentId}/serviceAttachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateServiceAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/ServiceAttachment/CreateServiceAttachment"
+		err = common.PostProcessServiceError(err, "FusionApplications", "CreateServiceAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteFusionEnvironment Deletes the Fusion environment identified by it's OCID.
 //
 // See also
@@ -755,6 +818,64 @@ func (client FusionApplicationsClient) deleteRefreshActivity(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/RefreshActivity/DeleteRefreshActivity"
 		err = common.PostProcessServiceError(err, "FusionApplications", "DeleteRefreshActivity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteServiceAttachment Delete a service attachment by identifier
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/DeleteServiceAttachment.go.html to see an example of how to use DeleteServiceAttachment API.
+// A default retry strategy applies to this operation DeleteServiceAttachment()
+func (client FusionApplicationsClient) DeleteServiceAttachment(ctx context.Context, request DeleteServiceAttachmentRequest) (response DeleteServiceAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteServiceAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteServiceAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteServiceAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteServiceAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteServiceAttachmentResponse")
+	}
+	return
+}
+
+// deleteServiceAttachment implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) deleteServiceAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fusionEnvironments/{fusionEnvironmentId}/serviceAttachments/{serviceAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteServiceAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/ServiceAttachment/DeleteServiceAttachment"
+		err = common.PostProcessServiceError(err, "FusionApplications", "DeleteServiceAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2210,6 +2331,64 @@ func (client FusionApplicationsClient) updateRefreshActivity(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/UpdateRefreshActivityDetails/UpdateRefreshActivity"
 		err = common.PostProcessServiceError(err, "FusionApplications", "UpdateRefreshActivity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// VerifyServiceAttachment Verify whether a service instance can be attached to the fusion pod
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/VerifyServiceAttachment.go.html to see an example of how to use VerifyServiceAttachment API.
+// A default retry strategy applies to this operation VerifyServiceAttachment()
+func (client FusionApplicationsClient) VerifyServiceAttachment(ctx context.Context, request VerifyServiceAttachmentRequest) (response VerifyServiceAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.verifyServiceAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = VerifyServiceAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = VerifyServiceAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(VerifyServiceAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into VerifyServiceAttachmentResponse")
+	}
+	return
+}
+
+// verifyServiceAttachment implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) verifyServiceAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fusionEnvironments/{fusionEnvironmentId}/serviceAttachments/actions/verify", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response VerifyServiceAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/ServiceAttachment/VerifyServiceAttachment"
+		err = common.PostProcessServiceError(err, "FusionApplications", "VerifyServiceAttachment", apiReferenceLink)
 		return response, err
 	}
 
