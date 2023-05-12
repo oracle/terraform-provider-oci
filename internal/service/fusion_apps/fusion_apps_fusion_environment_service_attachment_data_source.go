@@ -77,7 +77,7 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentDataSourceCrud) SetData() e
 	}
 
 	s.D.SetId(*s.Res.Id)
-	
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
