@@ -238,6 +238,14 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"key_store_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"key_store_wallet_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -446,6 +454,14 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
 
 	if s.Res.IsCdb != nil {
 		s.D.Set("is_cdb", *s.Res.IsCdb)
+	}
+
+	if s.Res.KeyStoreId != nil {
+		s.D.Set("key_store_id", *s.Res.KeyStoreId)
+	}
+
+	if s.Res.KeyStoreWalletName != nil {
+		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
 	}
 
 	if s.Res.KmsKeyId != nil {

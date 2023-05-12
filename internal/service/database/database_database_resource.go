@@ -455,6 +455,15 @@ func DatabaseDatabaseResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"key_store_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"key_store_wallet_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"last_backup_timestamp": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -510,7 +519,14 @@ func createDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	if err := tfresource.CreateResource(d, sync); err != nil {
+		return err
+	}
+	err := sync.ChangeKeyStoreType()
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func readDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
@@ -717,6 +733,14 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 		s.D.Set("is_cdb", *s.Res.IsCdb)
 	}
 
+	if s.Res.KeyStoreId != nil {
+		s.D.Set("key_store_id", *s.Res.KeyStoreId)
+	}
+
+	if s.Res.KeyStoreWalletName != nil {
+		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
@@ -771,6 +795,34 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 		s.D.Set("vm_cluster_id", *s.Res.VmClusterId)
 	}
 
+	return nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) ChangeKeyStoreType() error {
+	if _, ok := s.D.GetOkExists("key_store_id"); ok && s.D.HasChange("key_store_id") {
+		request := oci_database.ChangeKeyStoreTypeRequest{}
+
+		idTmp := s.D.Id()
+		request.DatabaseId = &idTmp
+
+		if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {
+			tmp := keyStoreId.(string)
+			request.KeyStoreId = &tmp
+		}
+
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+		_, err := s.Client.ChangeKeyStoreType(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+			return waitErr
+		}
+
+		return nil
+	}
 	return nil
 }
 
@@ -1134,6 +1186,11 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 	err := s.kmsMigration(tmp)
 	if err != nil {
 		return err
+	}
+
+	errExaCC := s.ChangeKeyStoreType()
+	if errExaCC != nil {
+		return errExaCC
 	}
 
 	if database, ok := s.D.GetOkExists("database"); ok {

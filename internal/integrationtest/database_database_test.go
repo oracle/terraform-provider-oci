@@ -100,7 +100,7 @@ var (
 		"database_edition":        acctest.Representation{RepType: acctest.Required, Create: `ENTERPRISE_EDITION_EXTREME_PERFORMANCE`},
 		"db_home":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: exadbSystemDbHomeRepresentation},
 		"hostname":                acctest.Representation{RepType: acctest.Required, Create: `myOracleDB`},
-		"shape":                   acctest.Representation{RepType: acctest.Required, Create: `Exadata.Quarter1.84`},
+		"shape":                   acctest.Representation{RepType: acctest.Required, Create: `Exadata.Quarter2.92`},
 		"ssh_public_keys":         acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCBDM0G21Tc6IOp6H5fwUVhVcxDxbwRwb9I53lXDdfqytw/pRAfXxDAzlw1jMEWofoVxTVDyqxcEg5yg4ImKFYHIDrZuU9eHv5SoHYJvI9r+Dqm9z52MmEyoTuC4dUyOs79V0oER5vLcjoMQIqmGSKMSlIMoFV2d+AV//RhJSpRPWGQ6lAVPYAiaVk3EzYacayetk1ZCEnMGPV0OV1UWqovm3aAGDozs7+9Isq44HEMyJwdBTYmBu3F8OA8gss2xkwaBgK3EQjCJIRBgczDwioT7RF5WG3IkwKsDTl2bV0p5f5SeX0U8SGHnni9uNoc9wPAWaleZr3Jcp1yIcRFR9YV`}},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.exadata_subnet.id}`},
 		"cpu_core_count":          acctest.Representation{RepType: acctest.Optional, Create: `22`},
@@ -308,7 +308,7 @@ var (
 	databaseDatabaseRepresentation = map[string]interface{}{
 		"admin_password":   acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"db_name":          acctest.Representation{RepType: acctest.Required, Create: `myTestDb`},
-		"character_set":    acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"character_set":    acctest.Representation{RepType: acctest.Required, Create: `AL32UTF8`},
 		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseDatabaseDbBackupConfigRepresentation},
 		"db_unique_name":   acctest.Representation{RepType: acctest.Optional, Create: `myTestDb_13`},
 		"db_workload":      acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
@@ -399,7 +399,7 @@ var (
 	DatabaseDatabaseDatabaseResourceDependencies = DatabaseDatabaseResourceDependencies2 +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_dbrs", acctest.Required, acctest.Create, dbHomeDbrsRepresentation)
 
-	DatabaseExacsDatabaseResourceDependencies = DbHomeResourceVmClusterDependencies +
+	DatabaseExacsDatabaseResourceDependencies = DbHomeResourceVmClusterDependencies + //DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Required, acctest.Create, dbHomeRepresentationSourceVmCluster)
 
 	DatabaseDatabaseResourceDbrsDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig2 +

@@ -511,4 +511,12 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 			},
 		},
 	},
+	"oci_database_database": {
+		{
+			TerraformResourceHints: exportDatabasePluggableDatabaseHints,
+			DatasourceQueryParams: map[string]string{
+				"database_id": "id",
+			},
+		},
+	},
 }
