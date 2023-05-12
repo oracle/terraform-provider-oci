@@ -14,70 +14,16 @@ import (
 )
 
 func FusionAppsFusionEnvironmentServiceAttachmentDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularFusionAppsFusionEnvironmentServiceAttachment,
-		Schema: map[string]*schema.Schema{
-			"fusion_environment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"service_attachment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"action": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"is_sku_based": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"service_instance_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"service_instance_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"service_url": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["fusion_environment_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["service_attachment_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return tfresource.GetSingularDataSourceItemSchema(FusionAppsFusionEnvironmentServiceAttachmentResource(), fieldMap, readSingularFusionAppsFusionEnvironmentServiceAttachment)
 }
 
 func readSingularFusionAppsFusionEnvironmentServiceAttachment(d *schema.ResourceData, m interface{}) error {
@@ -106,9 +52,12 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentDataSourceCrud) Get() error
 		request.FusionEnvironmentId = &tmp
 	}
 
+	// the service_attachment_id is a composite id
 	if serviceAttachmentId, ok := s.D.GetOkExists("service_attachment_id"); ok {
-		tmp := serviceAttachmentId.(string)
-		request.ServiceAttachmentId = &tmp
+		_, serviceAttachmentIdStr, err := parseFusionEnvironmentServiceAttachmentCompositeId(serviceAttachmentId.(string))
+		if err == nil {
+			request.ServiceAttachmentId = &serviceAttachmentIdStr
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fusion_apps")
@@ -128,22 +77,17 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentDataSourceCrud) SetData() e
 	}
 
 	s.D.SetId(*s.Res.Id)
-
-	s.D.Set("action", s.Res.Action)
-
+	
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
-	if s.Res.DefinedTags != nil {
-		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
-	}
+	s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsSkuBased != nil {

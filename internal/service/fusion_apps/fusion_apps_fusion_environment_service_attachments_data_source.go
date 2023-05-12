@@ -39,72 +39,11 @@ func FusionAppsFusionEnvironmentServiceAttachmentsDataSource() *schema.Resource 
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
-									"action": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"compartment_id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"defined_tags": {
-										Type:     schema.TypeMap,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
-									"display_name": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"freeform_tags": {
-										Type:     schema.TypeMap,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
-									"id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"is_sku_based": {
-										Type:     schema.TypeBool,
-										Computed: true,
-									},
-									"service_instance_id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"service_instance_type": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"service_url": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"state": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"time_created": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"time_updated": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
+							Elem:     tfresource.GetDataSourceItemSchema(FusionAppsFusionEnvironmentServiceAttachmentResource()),
 						},
 					},
 				},
@@ -201,53 +140,4 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentsDataSourceCrud) SetData() 
 	}
 
 	return nil
-}
-
-func ServiceAttachmentSummaryToMap(obj oci_fusion_apps.ServiceAttachmentSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	if obj.IsSkuBased != nil {
-		result["is_sku_based"] = bool(*obj.IsSkuBased)
-	}
-
-	if obj.LifecycleDetails != nil {
-		result["lifecycle_details"] = string(*obj.LifecycleDetails)
-	}
-
-	if obj.ServiceInstanceId != nil {
-		result["service_instance_id"] = string(*obj.ServiceInstanceId)
-	}
-
-	result["service_instance_type"] = string(obj.ServiceInstanceType)
-
-	if obj.ServiceUrl != nil {
-		result["service_url"] = string(*obj.ServiceUrl)
-	}
-
-	result["state"] = string(obj.LifecycleState)
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	if obj.TimeUpdated != nil {
-		result["time_updated"] = obj.TimeUpdated.String()
-	}
-
-	return result
 }

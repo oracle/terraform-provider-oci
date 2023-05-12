@@ -687,6 +687,7 @@ fusion_apps
 
 * oci\_fusion\_apps\_fusion\_environment\_refresh\_activity
 * oci\_fusion\_apps\_fusion\_environment\_admin\_user
+* oci\_fusion\_apps\_fusion\_environment\_service\_attachment
 * oci\_fusion\_apps\_fusion\_environment\_family
 * oci\_fusion\_apps\_fusion\_environment
 * oci\_fusion\_apps\_fusion\_environment\_data\_masking\_activity
