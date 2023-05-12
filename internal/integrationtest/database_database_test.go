@@ -190,8 +190,11 @@ var (
 	DatabaseDatabaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
 		"auto_backup_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"auto_backup_window":         acctest.Representation{RepType: acctest.Optional, Create: `SLOT_TWO`},
+		"auto_full_backup_day":       acctest.Representation{RepType: acctest.Optional, Create: `SUNDAY`},
+		"auto_full_backup_window":    acctest.Representation{RepType: acctest.Optional, Create: `SLOT_ONE`},
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseDatabaseDbBackupConfigBackupDestinationDetailsRepresentation},
 		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"run_immediate_full_backup":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	DatabaseDatabaseDatabaseDbBackupConfigDbrsRepresentation = map[string]interface{}{
@@ -207,10 +210,14 @@ var (
 	}
 
 	databaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
-		"auto_backup_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"auto_backup_window":      acctest.Representation{RepType: acctest.Optional, Create: `SLOT_TWO`, Update: `SLOT_THREE`},
-		"recovery_window_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `30`},
+		"auto_backup_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"auto_backup_window":        acctest.Representation{RepType: acctest.Optional, Create: `SLOT_TWO`, Update: `SLOT_THREE`},
+		"auto_full_backup_day":      acctest.Representation{RepType: acctest.Optional, Create: `SUNDAY`, Update: `MONDAY`},
+		"auto_full_backup_window":   acctest.Representation{RepType: acctest.Optional, Create: `SLOT_ONE`, Update: `SLOT_FOUR`},
+		"recovery_window_in_days":   acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `30`},
+		"run_immediate_full_backup": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
+
 	databaseDatabaseDbBackupConfigBackupDestinationDetailsRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Required, Create: `NFS`},
 		"id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
@@ -327,7 +334,10 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_full_backup_day", "SUNDAY"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_full_backup_window", "SLOT_ONE"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.run_immediate_full_backup", "false"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_unique_name", "myTestDb_13"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_workload", "OLTP"),
@@ -367,7 +377,10 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
 				resource.TestCheckResourceAttr(resourceName, "db_backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_enabled", "true"),
-				//resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.auto_backup_window", "SLOT_THREE"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_window", "SLOT_THREE"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_full_backup_day", "MONDAY"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_full_backup_window", "SLOT_FOUR"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.run_immediate_full_backup", "true"),
 				resource.TestCheckResourceAttr(resourceName, "db_backup_config.0.recovery_window_in_days", "30"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", "myTestDb"),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),

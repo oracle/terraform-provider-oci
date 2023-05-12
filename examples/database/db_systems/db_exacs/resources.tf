@@ -54,7 +54,12 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
     db_workload         = "OLTP"
     pdb_name            = "pdbName"
     db_backup_config {
-      auto_backup_enabled = false
+      auto_backup_enabled = "true"
+      auto_backup_window     = "SLOT_TWO"
+      auto_full_backup_day    = "SUNDAY"
+      auto_full_backup_window = "SLOT_ONE"
+      recovery_window_in_days = 10
+      run_immediate_full_backup = false
     }
     freeform_tags = {
       "Department" = "Finance"

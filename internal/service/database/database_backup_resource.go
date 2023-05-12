@@ -10,6 +10,8 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -108,6 +110,7 @@ func createDatabaseBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -133,6 +136,7 @@ type DatabaseBackupResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.Backup
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	DisableNotFoundRetries bool
 }
 
@@ -183,6 +187,14 @@ func (s *DatabaseBackupResourceCrud) Create() error {
 	response, err := s.Client.CreateBackup(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "backup", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	s.Res = &response.Backup

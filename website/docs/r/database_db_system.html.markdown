@@ -22,6 +22,7 @@ For Exadata Cloud Service instances, support for this API will end on May 15th, 
 
 Use the [CreateCloudExadataInfrastructure](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudExadataInfrastructure/CreateCloudExadataInfrastructure/) and [CreateCloudVmCluster](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/CloudVmCluster/CreateCloudVmCluster/) APIs to provision a new Exadata Cloud Service instance.
 
+**Important:** When `auto_backup_enabled` is not present in the configuration or set to true, the `auto_backup_window` and `auto_full_backup_window` will be ignored
 
 ## Example Usage
 
@@ -47,6 +48,8 @@ resource "oci_database_db_system" "test_db_system" {
 				#Optional
 				auto_backup_enabled = var.db_system_db_home_database_db_backup_config_auto_backup_enabled
 				auto_backup_window = var.db_system_db_home_database_db_backup_config_auto_backup_window
+				auto_full_backup_day = var.db_system_db_home_database_db_backup_config_auto_full_backup_day
+				auto_full_backup_window = var.db_system_db_home_database_db_backup_config_auto_full_backup_window
 				backup_deletion_policy = var.db_system_db_home_database_db_backup_config_backup_deletion_policy
 				backup_destination_details {
 
@@ -56,6 +59,7 @@ resource "oci_database_db_system" "test_db_system" {
 					type = var.db_system_db_home_database_db_backup_config_backup_destination_details_type
 				}
 				recovery_window_in_days = var.db_system_db_home_database_db_backup_config_recovery_window_in_days
+				run_immediate_full_backup = var.db_system_db_home_database_db_backup_config_run_immediate_full_backup
 			}
 			db_domain = var.db_system_db_home_database_db_domain
 			db_name = var.db_system_db_home_database_db_name
@@ -194,12 +198,15 @@ The following arguments are supported:
 		* `db_backup_config` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Backup Options To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm). 
 			* `auto_backup_enabled` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
 			* `auto_backup_window` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Time window selected for initiating automatic backup for the database system. There are twelve available two-hour time windows. If no option is selected, a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
+			* `auto_full_backup_day` - (Applicable when source=DB_SYSTEM | NONE) Day of the week the full backup should be applied on the database system. If no option is selected, the value is null and we will default to Sunday.
+			* `auto_full_backup_window` - (Applicable when source=DB_SYSTEM | NONE) Time window selected for initiating full backup for the database system. There are twelve available two-hour time windows. If no option is selected, the value is null and a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
 			* `backup_deletion_policy` - (Applicable when source=DB_SYSTEM | NONE) This defines when the backups will be deleted. - IMMEDIATE option keep the backup for predefined time i.e 72 hours and then delete permanently... - RETAIN will keep the backups as per the policy defined for database backups.
 			* `backup_destination_details` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Backup destination details.
 				* `dbrs_policy_id` - (Applicable when source=DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 				* `id` - (Applicable when source=DB_SYSTEM | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 				* `type` - (Required when source=DB_SYSTEM | NONE) Type of the database backup destination.
 			* `recovery_window_in_days` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
+			* `run_immediate_full_backup` - (Applicable when source=DB_SYSTEM | NONE) If set to true, configures automatic full backups in the local region (the region of the DB system) for the first backup run immediately.
 		* `db_domain` - (Applicable when source=DB_SYSTEM) The database domain. In a distributed database system, DB_DOMAIN specifies the logical location of the database within the network structure.
 		* `db_name` - (Optional) The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
 		* `db_workload` - (Applicable when source=NONE) **Deprecated.** The dbWorkload field has been deprecated for Exadata Database Service on Dedicated Infrastructure, Exadata Database Service on Cloud@Customer, and Base Database Service. Support for this attribute will end in November 2023. You may choose to update your custom scripts to exclude the dbWorkload attribute. After November 2023 if you pass a value to the dbWorkload attribute, it will be ignored.
