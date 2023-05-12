@@ -1,3 +1,12 @@
+## 4.121.0 (Unreleased)
+
+### Added
+- Support for FAaaS - Fusion Analytics Warehouse Integration
+- Support for Scheduler for full and incremental backup
+### Bug Fix
+- Data Safe - ExaCS DB registration issue
+- Fix APM Synthetic service example documentation to handle RMS-6682
+
 ## 4.120.0 (Unreleased)
 
 ### Added
