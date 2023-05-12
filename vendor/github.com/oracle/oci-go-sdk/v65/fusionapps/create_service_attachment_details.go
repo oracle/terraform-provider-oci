@@ -10,114 +10,36 @@
 package fusionapps
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// CreateServiceAttachmentDetails Information about the service attachment.
-type CreateServiceAttachmentDetails interface {
+// CreateServiceAttachmentDetails Information about the service attachment to be created.
+type CreateServiceAttachmentDetails struct {
+
+	// Type of the ServiceInstance being attached.
+	ServiceInstanceType ServiceAttachmentServiceInstanceTypeEnum `mandatory:"true" json:"serviceInstanceType"`
+
+	// The service instance OCID of the instance being attached
+	ServiceInstanceId *string `mandatory:"true" json:"serviceInstanceId"`
 }
 
-type createserviceattachmentdetails struct {
-	JsonData []byte
-	Action   string `json:"action"`
-}
-
-// UnmarshalJSON unmarshals json
-func (m *createserviceattachmentdetails) UnmarshalJSON(data []byte) error {
-	m.JsonData = data
-	type Unmarshalercreateserviceattachmentdetails createserviceattachmentdetails
-	s := struct {
-		Model Unmarshalercreateserviceattachmentdetails
-	}{}
-	err := json.Unmarshal(data, &s.Model)
-	if err != nil {
-		return err
-	}
-	m.Action = s.Model.Action
-
-	return err
-}
-
-// UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *createserviceattachmentdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
-
-	if data == nil || string(data) == "null" {
-		return nil, nil
-	}
-
-	var err error
-	switch m.Action {
-	case "ATTACH_EXISTING_INSTANCE":
-		mm := AttachExistingInstanceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "CREATE_NEW_INSTANCE":
-		mm := CreateNewInstanceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	default:
-		common.Logf("Recieved unsupported enum value for CreateServiceAttachmentDetails: %s.", m.Action)
-		return *m, nil
-	}
-}
-
-func (m createserviceattachmentdetails) String() string {
+func (m CreateServiceAttachmentDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m createserviceattachmentdetails) ValidateEnumValue() (bool, error) {
+func (m CreateServiceAttachmentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingServiceAttachmentServiceInstanceTypeEnum(string(m.ServiceInstanceType)); !ok && m.ServiceInstanceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceInstanceType: %s. Supported values are: %s.", m.ServiceInstanceType, strings.Join(GetServiceAttachmentServiceInstanceTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// CreateServiceAttachmentDetailsActionEnum Enum with underlying type: string
-type CreateServiceAttachmentDetailsActionEnum string
-
-// Set of constants representing the allowable values for CreateServiceAttachmentDetailsActionEnum
-const (
-	CreateServiceAttachmentDetailsActionCreateNewInstance      CreateServiceAttachmentDetailsActionEnum = "CREATE_NEW_INSTANCE"
-	CreateServiceAttachmentDetailsActionAttachExistingInstance CreateServiceAttachmentDetailsActionEnum = "ATTACH_EXISTING_INSTANCE"
-)
-
-var mappingCreateServiceAttachmentDetailsActionEnum = map[string]CreateServiceAttachmentDetailsActionEnum{
-	"CREATE_NEW_INSTANCE":      CreateServiceAttachmentDetailsActionCreateNewInstance,
-	"ATTACH_EXISTING_INSTANCE": CreateServiceAttachmentDetailsActionAttachExistingInstance,
-}
-
-var mappingCreateServiceAttachmentDetailsActionEnumLowerCase = map[string]CreateServiceAttachmentDetailsActionEnum{
-	"create_new_instance":      CreateServiceAttachmentDetailsActionCreateNewInstance,
-	"attach_existing_instance": CreateServiceAttachmentDetailsActionAttachExistingInstance,
-}
-
-// GetCreateServiceAttachmentDetailsActionEnumValues Enumerates the set of values for CreateServiceAttachmentDetailsActionEnum
-func GetCreateServiceAttachmentDetailsActionEnumValues() []CreateServiceAttachmentDetailsActionEnum {
-	values := make([]CreateServiceAttachmentDetailsActionEnum, 0)
-	for _, v := range mappingCreateServiceAttachmentDetailsActionEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateServiceAttachmentDetailsActionEnumStringValues Enumerates the set of values in String for CreateServiceAttachmentDetailsActionEnum
-func GetCreateServiceAttachmentDetailsActionEnumStringValues() []string {
-	return []string{
-		"CREATE_NEW_INSTANCE",
-		"ATTACH_EXISTING_INSTANCE",
-	}
-}
-
-// GetMappingCreateServiceAttachmentDetailsActionEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateServiceAttachmentDetailsActionEnum(val string) (CreateServiceAttachmentDetailsActionEnum, bool) {
-	enum, ok := mappingCreateServiceAttachmentDetailsActionEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

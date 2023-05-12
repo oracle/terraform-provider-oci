@@ -33,9 +33,6 @@ type ServiceAttachment struct {
 	// Whether this service is provisioned due to the customer being subscribed to a specific SKU
 	IsSkuBased *bool `mandatory:"true" json:"isSkuBased"`
 
-	// Action
-	Action CreateServiceAttachmentDetailsActionEnum `mandatory:"false" json:"action,omitempty"`
-
 	// Compartment Identifier
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
@@ -76,9 +73,6 @@ func (m ServiceAttachment) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetServiceAttachmentLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingCreateServiceAttachmentDetailsActionEnum(string(m.Action)); !ok && m.Action != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetCreateServiceAttachmentDetailsActionEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
