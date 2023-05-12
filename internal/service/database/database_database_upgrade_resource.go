@@ -144,6 +144,14 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"auto_full_backup_day": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"auto_full_backup_window": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"backup_deletion_policy": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -187,6 +195,10 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 						},
 						"recovery_window_in_days": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"run_immediate_full_backup": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 					},
