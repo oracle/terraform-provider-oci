@@ -42,6 +42,7 @@ The following arguments are supported:
 * `pdb_name` - (Required) The name for the pluggable database (PDB). The name is unique in the context of a [container database](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/Database/). The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. The pluggable database name should not be same as the container database name.
 * `should_pdb_admin_account_be_locked` - (Optional) The locked mode of the pluggable database admin account. If false, the user needs to provide the PDB Admin Password to connect to it. If true, the pluggable database will be locked and user cannot login to it. 
 * `tde_wallet_password` - (Optional) The existing TDE wallet password of the CDB.
+* `rotate_key_trigger` - (Optional) (Updatable) An optional property when incremented triggers Rotate Key. Could be set to any integer value.
 
 
 ** IMPORTANT **

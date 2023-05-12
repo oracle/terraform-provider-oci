@@ -127,6 +127,14 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 			backup["id"] = *r.Id
 		}
 
+		if r.KeyStoreId != nil {
+			backup["key_store_id"] = *r.KeyStoreId
+		}
+
+		if r.KeyStoreWalletName != nil {
+			backup["key_store_wallet_name"] = *r.KeyStoreWalletName
+		}
+
 		if r.KmsKeyId != nil {
 			backup["kms_key_id"] = *r.KmsKeyId
 		}

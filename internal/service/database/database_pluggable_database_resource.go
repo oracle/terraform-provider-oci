@@ -5,11 +5,11 @@ package database
 
 import (
 	"context"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
@@ -72,6 +72,10 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 				Computed:  true,
 				ForceNew:  true,
 				Sensitive: true,
+			},
+			"rotate_key_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
 			},
 
 			// Computed
@@ -152,7 +156,18 @@ func createDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) erro
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok {
+		err := sync.RotatePluggableDatabaseEncryptionKey()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+
 }
 
 func readDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) error {
@@ -168,7 +183,27 @@ func updateDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) erro
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok && sync.D.HasChange("rotate_key_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("rotate_key_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.RotatePluggableDatabaseEncryptionKey()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("rotate_key_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func deleteDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) error {
@@ -387,6 +422,26 @@ func (s *DatabasePluggableDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	return nil
+}
+
+func (s *DatabasePluggableDatabaseResourceCrud) RotatePluggableDatabaseEncryptionKey() error {
+	request := oci_database.RotatePluggableDatabaseEncryptionKeyRequest{}
+
+	idTmp := s.D.Id()
+	request.PluggableDatabaseId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.RotatePluggableDatabaseEncryptionKey(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil
