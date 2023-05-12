@@ -13,11 +13,19 @@ variable "fusion_environment_service_attachment_display_name" {
 }
 
 variable "fusion_environment_service_attachment_service_instance_type" {
-  default = "DIGITAL_ASSISTANT"
+  default = "ANALYTICS_WAREHOUSE"
 }
 
 variable "fusion_environment_service_attachment_state" {
   default = "ACTIVE"
+}
+
+variable "service_instance_id" {
+  default = "test-service-id"
+}
+
+variable "fusion_environment_id" {
+  default = "test-fa-pod-id"
 }
 
 provider "oci" {
@@ -30,10 +38,23 @@ provider "oci" {
 
 data "oci_fusion_apps_fusion_environment_service_attachments" "test_fusion_environment_service_attachments" {
   #Required
-  fusion_environment_id = oci_fusion_apps_fusion_environment.test_fusion_environment.id
+  fusion_environment_id = var.fusion_environment_id
 
   #Optional
   display_name          = var.fusion_environment_service_attachment_display_name
   service_instance_type = var.fusion_environment_service_attachment_service_instance_type
   state                 = var.fusion_environment_service_attachment_state
+}
+
+resource "oci_fusion_apps_fusion_environment_service_attachment" "test_fusion_environment_service_attachment" {
+  #Required
+  fusion_environment_id = var.fusion_environment_id
+  service_instance_id = var.service_instance_id
+  service_instance_type = var.fusion_environment_service_attachment_service_instance_type
+}
+
+data "oci_fusion_apps_fusion_environment_service_attachment" "test_fusion_environment_service_attachment" {
+  #Required
+  fusion_environment_id = var.fusion_environment_id
+  service_attachment_id = oci_fusion_apps_fusion_environment_service_attachment.test_fusion_environment_service_attachment.id
 }
