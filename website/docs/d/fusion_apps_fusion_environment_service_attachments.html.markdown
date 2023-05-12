@@ -47,7 +47,6 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `action` - Action
 * `compartment_id` - Compartment Identifier
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Service Attachment Display name, can be renamed

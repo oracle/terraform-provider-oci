@@ -11,4 +11,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_fusion_apps_fusion_environment_data_masking_activity", FusionAppsFusionEnvironmentDataMaskingActivityResource())
 	tfresource.RegisterResource("oci_fusion_apps_fusion_environment_family", FusionAppsFusionEnvironmentFamilyResource())
 	tfresource.RegisterResource("oci_fusion_apps_fusion_environment_refresh_activity", FusionAppsFusionEnvironmentRefreshActivityResource())
+	tfresource.RegisterResource("oci_fusion_apps_fusion_environment_service_attachment", FusionAppsFusionEnvironmentServiceAttachmentResource())
 }

@@ -11,6 +11,7 @@ import (
 func init() {
 	exportFusionAppsFusionEnvironmentRefreshActivityHints.GetIdFn = getFusionAppsFusionEnvironmentRefreshActivityId
 	exportFusionAppsFusionEnvironmentAdminUserHints.GetIdFn = getFusionAppsFusionEnvironmentAdminUserId
+	exportFusionAppsFusionEnvironmentServiceAttachmentHints.GetIdFn = getFusionAppsFusionEnvironmentServiceAttachmentId
 	exportFusionAppsFusionEnvironmentDataMaskingActivityHints.GetIdFn = getFusionAppsFusionEnvironmentDataMaskingActivityId
 	tf_export.RegisterCompartmentGraphs("fusion_apps", fusionAppsResourceGraph)
 }
@@ -35,6 +36,16 @@ func getFusionAppsFusionEnvironmentAdminUserId(resource *tf_export.OCIResource) 
 	}
 	fusionEnvironmentId := resource.Parent.Id
 	return GetFusionEnvironmentAdminUserCompositeId(adminUsername, fusionEnvironmentId), nil
+}
+
+func getFusionAppsFusionEnvironmentServiceAttachmentId(resource *tf_export.OCIResource) (string, error) {
+
+	fusionEnvironmentId := resource.Parent.Id
+	serviceAttachmentId, ok := resource.SourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find serviceAttachmentId for FusionApps FusionEnvironmentServiceAttachment")
+	}
+	return GetFusionEnvironmentServiceAttachmentCompositeId(fusionEnvironmentId, serviceAttachmentId), nil
 }
 
 func getFusionAppsFusionEnvironmentDataMaskingActivityId(resource *tf_export.OCIResource) (string, error) {
@@ -69,6 +80,18 @@ var exportFusionAppsFusionEnvironmentAdminUserHints = &tf_export.TerraformResour
 	DatasourceItemsAttr:    "admin_user_collection",
 	IsDatasourceCollection: true,
 	ResourceAbbreviation:   "fusion_environment_admin_user",
+}
+
+var exportFusionAppsFusionEnvironmentServiceAttachmentHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fusion_apps_fusion_environment_service_attachment",
+	DatasourceClass:        "oci_fusion_apps_fusion_environment_service_attachments",
+	DatasourceItemsAttr:    "service_attachment_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "fusion_environment_service_attachment",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_fusion_apps.ServiceAttachmentLifecycleStateActive),
+	},
 }
 
 var exportFusionAppsFusionEnvironmentFamilyHints = &tf_export.TerraformResourceHints{
@@ -127,6 +150,12 @@ var fusionAppsResourceGraph = tf_export.TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportFusionAppsFusionEnvironmentRefreshActivityHints,
+			DatasourceQueryParams: map[string]string{
+				"fusion_environment_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportFusionAppsFusionEnvironmentServiceAttachmentHints,
 			DatasourceQueryParams: map[string]string{
 				"fusion_environment_id": "id",
 			},
