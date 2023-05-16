@@ -66,7 +66,7 @@ resource "oci_identity_domains_dynamic_resource_group" "test_dynamic_resource_gr
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:DynamicResourceGroup"]
 
   #Optional
-  attribute_sets = []
+  attribute_sets = ["all"]
   attributes     = ""
   authorization  = var.dynamic_resource_group_authorization
   description    = var.dynamic_resource_group_description
@@ -93,6 +93,9 @@ resource "oci_identity_domains_dynamic_resource_group" "test_dynamic_resource_gr
       key   = var.dynamic_resource_group_urnietfparamsscimschemasoracleidcsextension_oci_tags_freeform_tags_key
       value = var.dynamic_resource_group_urnietfparamsscimschemasoracleidcsextension_oci_tags_freeform_tags_value
     }
+  }
+  lifecycle {
+    ignore_changes = [schemas]
   }
 }
 

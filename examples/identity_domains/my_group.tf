@@ -20,7 +20,7 @@ variable "my_group_start_index" {
 
 data "oci_identity_domains_my_groups" "test_my_groups" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
 
   #Optional
   my_group_count  = var.my_group_my_group_count

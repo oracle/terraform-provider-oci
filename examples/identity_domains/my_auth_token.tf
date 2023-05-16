@@ -48,7 +48,7 @@ variable "my_auth_token_user_value" {
 
 resource "oci_identity_domains_my_auth_token" "test_my_auth_token" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:authToken"]
 
   #Optional
@@ -72,11 +72,20 @@ resource "oci_identity_domains_my_auth_token" "test_my_auth_token" {
     value = var.my_auth_token_user_value
   }
   */
+
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      // my* resource will not return non-default fields
+      tags,
+      status
+    ]
+  }
 }
 
 data "oci_identity_domains_my_auth_tokens" "test_my_auth_tokens" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
 
   #Optional
   my_auth_token_count  = var.my_auth_token_my_auth_token_count

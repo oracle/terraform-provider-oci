@@ -48,7 +48,7 @@ variable "my_smtp_credential_user_value" {
 
 resource "oci_identity_domains_my_smtp_credential" "test_my_smtp_credential" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:smtpCredential"]
 
   #Optional
@@ -71,11 +71,19 @@ resource "oci_identity_domains_my_smtp_credential" "test_my_smtp_credential" {
     value = var.my_smtp_credential_user_value
   }
   */
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      // my* resource will not return non-default fields
+      tags,
+      status
+    ]
+  }
 }
 
 data "oci_identity_domains_my_smtp_credentials" "test_my_smtp_credentials" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
 
   #Optional
   my_smtp_credential_count  = var.my_smtp_credential_my_smtp_credential_count
