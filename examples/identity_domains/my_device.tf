@@ -20,7 +20,7 @@ variable "my_device_start_index" {
 
 data "oci_identity_domains_my_devices" "test_my_devices" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
 
   #Optional
   my_device_count  = var.my_device_my_device_count

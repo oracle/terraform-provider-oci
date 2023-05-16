@@ -129,7 +129,7 @@ resource "oci_identity_domains_group" "test_group" {
   schemas       = ["urn:ietf:params:scim:schemas:core:2.0:Group"]
 
   #Optional
-  attribute_sets = []
+  attribute_sets = ["all"]
   attributes     = ""
   authorization  = var.group_authorization
   external_id    = "externalId"
@@ -195,6 +195,9 @@ resource "oci_identity_domains_group" "test_group" {
 
     #Optional
     requestable = var.group_urnietfparamsscimschemasoracleidcsextensionrequestable_group_requestable
+  }
+  lifecycle {
+    ignore_changes = [schemas]
   }
 }
 

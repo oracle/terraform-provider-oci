@@ -335,7 +335,7 @@ resource "oci_identity_domains_identity_provider" "test_identity_provider" {
 
   #Optional
   assertion_attribute   = var.identity_provider_assertion_attribute
-  attribute_sets        = []
+  attribute_sets        = ["all"]
   attributes            = ""
   authn_request_binding = var.identity_provider_authn_request_binding
   authorization         = var.identity_provider_authorization
@@ -447,6 +447,9 @@ resource "oci_identity_domains_identity_provider" "test_identity_provider" {
   }
   user_mapping_method          = var.identity_provider_user_mapping_method
   user_mapping_store_attribute = var.identity_provider_user_mapping_store_attribute
+  lifecycle {
+    ignore_changes = [schemas]
+  }
 }
 
 data "oci_identity_domains_identity_providers" "test_identity_providers" {

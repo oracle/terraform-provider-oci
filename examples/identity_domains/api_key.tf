@@ -46,7 +46,7 @@ resource "oci_identity_domains_api_key" "test_api_key" {
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:apikey"]
 
   #Optional
-  attribute_sets = []
+  attribute_sets = ["all"]
   attributes     = ""
   authorization  = var.api_key_authorization
   description    = var.api_key_description
@@ -67,6 +67,13 @@ resource "oci_identity_domains_api_key" "test_api_key" {
     ocid = oci_identity_domains_user.test_user.ocid
     #must be a user that exists
     value = oci_identity_domains_user.test_user.id
+  }
+
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      urnietfparamsscimschemasoracleidcsextensionself_change_user
+    ]
   }
 }
 

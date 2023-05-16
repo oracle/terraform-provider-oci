@@ -3,6 +3,7 @@ package identity_domains
 import (
 	"fmt"
 	"regexp"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -62,4 +63,28 @@ func tryMatchUserSubResFilter(value string) string {
 	}
 
 	return value
+}
+
+func IsEmptyValued(rawValue interface{}) bool {
+	return rawValue == "" || rawValue == 0
+}
+
+func IsOptionalField(fieldPath []string) bool {
+	pathLen := len(fieldPath)
+	targetField := fieldPath[pathLen-1]
+	currentSchemaMap := IdentityDomainsUserResource().Schema
+
+	for i := 0; i < pathLen-1; i++ {
+		part := fieldPath[i]
+		if part == "0" {
+			continue
+		}
+		currentSchemaMap = currentSchemaMap[part].Elem.(*schema.Resource).Schema
+	}
+
+	return currentSchemaMap[targetField].Optional
+}
+
+func IsOptionalAndEmpty(D *schema.ResourceData, fieldKey string) bool {
+	return IsOptionalField(strings.Split(fieldKey, ".")) && IsEmptyValued(D.Get(fieldKey))
 }

@@ -20,7 +20,7 @@ variable "my_trusted_user_agent_start_index" {
 
 data "oci_identity_domains_my_trusted_user_agents" "test_my_trusted_user_agents" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
 
   #Optional
   my_trusted_user_agent_count  = var.my_trusted_user_agent_my_trusted_user_agent_count
