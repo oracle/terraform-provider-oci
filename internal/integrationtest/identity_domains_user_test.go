@@ -109,6 +109,7 @@ var (
 		"honorific_suffix": acctest.Representation{RepType: acctest.Optional, Create: `honorificSuffix`, Update: `honorificSuffix2`},
 		"middle_name":      acctest.Representation{RepType: acctest.Optional, Create: `middleName`, Update: `middleName2`},
 	}
+
 	IdentityDomainsUserAddressesRepresentation = map[string]interface{}{
 		"type":           acctest.Representation{RepType: acctest.Required, Create: `work`, Update: `home`},
 		"country":        acctest.Representation{RepType: acctest.Optional, Create: `us`, Update: `gb`},
@@ -280,8 +281,9 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 
 	print(config + compartmentIdVariableStr + IdentityDomainsUserResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_user", "test_user", acctest.Optional, acctest.Create, IdentityDomainsUserRepresentation))
+
 	acctest.ResourceTest(t, testAccCheckIdentityDomainsUserDestroy, []resource.TestStep{
-		// verify Create
+		// verify Create with required fields
 		{
 			Config: config + compartmentIdVariableStr + IdentityDomainsUserResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_user", "test_user", acctest.Required, acctest.Create, IdentityDomainsUserRepresentation),
@@ -289,6 +291,24 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "name.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name.0.family_name", "familyName"),
+				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
+				resource.TestCheckResourceAttrSet(resourceName, "user_name"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify Update with required fields
+		{
+			Config: config + compartmentIdVariableStr + IdentityDomainsUserResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_user", "test_user", acctest.Required, acctest.Update, IdentityDomainsUserRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "name.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name.0.family_name", "familyName2"),
 				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
 				resource.TestCheckResourceAttrSet(resourceName, "user_name"),
 

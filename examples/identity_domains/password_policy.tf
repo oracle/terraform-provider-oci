@@ -190,7 +190,7 @@ resource "oci_identity_domains_password_policy" "test_password_policy" {
 
   #Optional
   allowed_chars              = var.password_policy_allowed_chars
-  attribute_sets             = []
+  attribute_sets             = ["all"]
   attributes                 = ""
   authorization              = var.password_policy_authorization
   description                = var.password_policy_description

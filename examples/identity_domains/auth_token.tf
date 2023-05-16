@@ -44,7 +44,7 @@ resource "oci_identity_domains_auth_token" "test_auth_token" {
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:authToken"]
 
   #Optional
-  attribute_sets = []
+  attribute_sets = ["all"]
   attributes     = ""
   authorization  = var.auth_token_authorization
   description    = var.auth_token_description
@@ -69,6 +69,14 @@ resource "oci_identity_domains_auth_token" "test_auth_token" {
     ocid = oci_identity_domains_user.test_user.ocid
     #must be a user that exists
     value = oci_identity_domains_user.test_user.id
+  }
+
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      status,
+      urnietfparamsscimschemasoracleidcsextensionself_change_user
+    ]
   }
 }
 

@@ -49,7 +49,7 @@ variable "my_api_key_user_value" {
 
 resource "oci_identity_domains_my_api_key" "test_my_api_key" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
   key           = var.my_api_key_key
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:apikey"]
 
@@ -73,11 +73,17 @@ resource "oci_identity_domains_my_api_key" "test_my_api_key" {
   }
   */
 
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      tags
+    ]
+  }
 }
 
 data "oci_identity_domains_my_api_keys" "test_my_api_keys" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
 
   #Optional
   my_api_key_count  = var.my_api_key_my_api_key_count

@@ -53,7 +53,7 @@ variable "my_user_db_credential_user_value" {
 resource "oci_identity_domains_my_user_db_credential" "test_my_user_db_credential" {
   #Required
   db_password   = var.my_user_db_credential_db_password
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:UserDbCredentials"]
 
   #Optional
@@ -77,11 +77,20 @@ resource "oci_identity_domains_my_user_db_credential" "test_my_user_db_credentia
     ocid = var.my_user_db_credential_user_ocid
   }
   */
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      // my* resource will not return non-default fields
+      tags,
+      status,
+      db_password
+    ]
+  }
 }
 
 data "oci_identity_domains_my_user_db_credentials" "test_my_user_db_credentials" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
 
   #Optional
   my_user_db_credential_count  = var.my_user_db_credential_my_user_db_credential_count

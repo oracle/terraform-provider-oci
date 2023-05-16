@@ -720,7 +720,7 @@ resource "oci_identity_domains_user" "test_user" {
     region         = var.user_addresses_region
     street_address = var.user_addresses_street_address
   }
-  attribute_sets = []
+  attribute_sets = ["all"]
   attributes     = ""
   authorization  = var.user_authorization
   description    = var.user_description
@@ -734,6 +734,13 @@ resource "oci_identity_domains_user" "test_user" {
     primary   = var.user_emails_primary
     secondary = var.user_emails_secondary
     verified  = var.user_emails_verified
+  }
+  #Note: If a new user is created without a recovery email being set, we automatically add one using the primary email value, to ensure the account can be recovered.
+  #So it is recommended to set an email of type "recovery" like below. If not, it is expected to see an update about recovery email when plan/apply after creation.
+  emails {
+    #Required
+    type = "recovery"
+    value = var.user_emails_value
   }
   entitlements {
     #Required
@@ -1076,7 +1083,7 @@ resource "oci_identity_domains_user" "test_user" {
       #adding "schemas" here to ignore any additional schemas returned
       schemas,
       #the field is never returned
-      urnietfparamsscimschemasoracleidcsextensionself_change_user
+      urnietfparamsscimschemasoracleidcsextensionself_change_user,
     ]
   }
 }

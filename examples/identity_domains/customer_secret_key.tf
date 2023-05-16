@@ -48,7 +48,7 @@ resource "oci_identity_domains_customer_secret_key" "test_customer_secret_key" {
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:customerSecretKey"]
 
   #Optional
-  attribute_sets = []
+  attribute_sets = ["all"]
   attributes     = ""
   authorization  = var.customer_secret_key_authorization
   description    = var.customer_secret_key_description
@@ -74,6 +74,14 @@ resource "oci_identity_domains_customer_secret_key" "test_customer_secret_key" {
     ocid = oci_identity_domains_user.test_user.ocid
     #must be a user that exists
     value = oci_identity_domains_user.test_user.id
+  }
+
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      status,
+      urnietfparamsscimschemasoracleidcsextensionself_change_user
+    ]
   }
 }
 
