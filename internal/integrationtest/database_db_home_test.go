@@ -91,9 +91,12 @@ var (
 		"db_name": acctest.Representation{RepType: acctest.Required, Create: `dbNone0`},
 	})
 	dbHomeDatabaseDbBackupConfigRepresentation = map[string]interface{}{
-		"auto_backup_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"auto_backup_window":      acctest.Representation{RepType: acctest.Optional, Create: `SLOT_TWO`},
-		"recovery_window_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"auto_backup_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"auto_backup_window":        acctest.Representation{RepType: acctest.Optional, Create: `SLOT_TWO`},
+		"auto_full_backup_day":      acctest.Representation{RepType: acctest.Optional, Create: `SUNDAY`, Update: `MONDAY`},
+		"auto_full_backup_window":   acctest.Representation{RepType: acctest.Optional, Create: `SLOT_ONE`, Update: `SLOT_THREE`},
+		"recovery_window_in_days":   acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"run_immediate_full_backup": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	dbHomeRepresentationSourceDbBackup = acctest.RepresentationCopyWithNewProperties(DatabaseDbHomeRepresentationBase, map[string]interface{}{
 		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: dbHomeDatabaseRepresentationSourceDbBackup},
@@ -270,6 +273,9 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_full_backup_day", "SUNDAY"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_full_backup_window", "SLOT_ONE"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.run_immediate_full_backup", "false"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
@@ -296,6 +302,9 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_full_backup_day", "MONDAY"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_full_backup_window", "SLOT_THREE"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.run_immediate_full_backup", "true"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),

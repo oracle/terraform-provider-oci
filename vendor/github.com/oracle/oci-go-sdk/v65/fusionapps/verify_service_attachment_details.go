@@ -15,28 +15,28 @@ import (
 	"strings"
 )
 
-// FawAdminInfoDetails Admin information to provision Analytics Warehouse Service.
-type FawAdminInfoDetails struct {
+// VerifyServiceAttachmentDetails Information about the service attachment to be verified.
+type VerifyServiceAttachmentDetails struct {
 
-	// Password for the ADW to be created in User Tenancy
-	AdwAdminPass *string `mandatory:"true" json:"adwAdminPass"`
+	// Type of the ServiceInstance being attached.
+	ServiceInstanceType ServiceAttachmentServiceInstanceTypeEnum `mandatory:"true" json:"serviceInstanceType"`
 
-	// Email ID to send notification for Analytics Warehouse updates.
-	NotificationEmail *string `mandatory:"true" json:"notificationEmail"`
-
-	// Password for the auto-created FAWService user
-	FawServicePass *string `mandatory:"false" json:"fawServicePass"`
+	// The service instance OCID of the instance being attached
+	ServiceInstanceId *string `mandatory:"true" json:"serviceInstanceId"`
 }
 
-func (m FawAdminInfoDetails) String() string {
+func (m VerifyServiceAttachmentDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m FawAdminInfoDetails) ValidateEnumValue() (bool, error) {
+func (m VerifyServiceAttachmentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingServiceAttachmentServiceInstanceTypeEnum(string(m.ServiceInstanceType)); !ok && m.ServiceInstanceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceInstanceType: %s. Supported values are: %s.", m.ServiceInstanceType, strings.Join(GetServiceAttachmentServiceInstanceTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
