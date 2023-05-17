@@ -16,6 +16,7 @@ Creates a new Database Home in the specified database system based on the reques
 * Terraform will not delete the database within the Db Home configuration but rather remove it from the config and state file.
 * This leads to dangling resources which are not managed via Terraform unless explicitly imported
 
+**Important:** When `auto_backup_enabled` is not present in the configuration or set to true, the `auto_backup_window` and `auto_full_backup_window` will be ignored
 
 ## Example Usage
 
@@ -38,6 +39,8 @@ resource "oci_database_db_home" "test_db_home" {
 			#Optional
 			auto_backup_enabled = var.db_home_database_db_backup_config_auto_backup_enabled
 			auto_backup_window = var.db_home_database_db_backup_config_auto_backup_window
+			auto_full_backup_day = var.db_home_database_db_backup_config_auto_full_backup_day
+			auto_full_backup_window = var.db_home_database_db_backup_config_auto_full_backup_window
 			backup_deletion_policy = var.db_home_database_db_backup_config_backup_deletion_policy
 			backup_destination_details {
 
@@ -47,6 +50,7 @@ resource "oci_database_db_home" "test_db_home" {
 				type = var.db_home_database_db_backup_config_backup_destination_details_type
 			}
 			recovery_window_in_days = var.db_home_database_db_backup_config_recovery_window_in_days
+			run_immediate_full_backup = var.db_home_database_db_backup_config_run_immediate_full_backup
 		}
 		db_name = var.db_home_database_db_name
 		db_workload = var.db_home_database_db_workload
@@ -95,12 +99,15 @@ The following arguments are supported:
 	* `db_backup_config` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Backup Options To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm). 
 		* `auto_backup_enabled` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
 		* `auto_backup_window` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Time window selected for initiating automatic backup for the database system. There are twelve available two-hour time windows. If no option is selected, a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
+		* `auto_full_backup_day` - (Applicable when source=NONE | VM_CLUSTER_NEW) Day of the week the full backup should be applied on the database system. If no option is selected, the value is null and we will default to Sunday.
+		* `auto_full_backup_window` - (Applicable when source=NONE | VM_CLUSTER_NEW) Time window selected for initiating full backup for the database system. There are twelve available two-hour time windows. If no option is selected, the value is null and a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
 		* `backup_deletion_policy` - (Applicable when source=NONE | VM_CLUSTER_NEW) This defines when the backups will be deleted. - IMMEDIATE option keep the backup for predefined time i.e 72 hours and then delete permanently... - RETAIN will keep the backups as per the policy defined for database backups.
 		* `backup_destination_details` - (Applicable when source=NONE | VM_CLUSTER_NEW) Backup destination details.
 			* `dbrs_policy_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
 			* `id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
 			* `type` - (Applicable when source=NONE | VM_CLUSTER_NEW) Type of the database backup destination. Supported values: `NFS`.
 		* `recovery_window_in_days` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
+		* `run_immediate_full_backup` - (Applicable when source=NONE | VM_CLUSTER_NEW) If set to true, configures automatic full backups in the local region (the region of the DB system) for the first backup run immediately.
 	* `db_name` - (Optional) The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
 	* `db_workload` - (Applicable when source=NONE | VM_CLUSTER_NEW) **Deprecated.** The dbWorkload field has been deprecated for Exadata Database Service on Dedicated Infrastructure, Exadata Database Service on Cloud@Customer, and Base Database Service. Support for this attribute will end in November 2023. You may choose to update your custom scripts to exclude the dbWorkload attribute. After November 2023 if you pass a value to the dbWorkload attribute, it will be ignored.
 

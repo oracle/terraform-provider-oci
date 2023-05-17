@@ -832,6 +832,10 @@ func (s *DataSafeTargetDatabaseResourceCrud) mapToDatabaseDetails(fieldKeyFormat
 			tmp := dbSystemId.(string)
 			details.DbSystemId = &tmp
 		}
+		if vmClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_id")); ok {
+			tmp := vmClusterId.(string)
+			details.VmClusterId = &tmp
+		}
 		if listenerPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "listener_port")); ok {
 			tmp := listenerPort.(int)
 			details.ListenerPort = &tmp
@@ -896,6 +900,10 @@ func DatabaseDetailsToMap(obj *oci_data_safe.DatabaseDetails) map[string]interfa
 
 		if v.DbSystemId != nil {
 			result["db_system_id"] = string(*v.DbSystemId)
+		}
+
+		if v.VmClusterId != nil {
+			result["vm_cluster_id"] = string(*v.VmClusterId)
 		}
 
 		if v.ListenerPort != nil {

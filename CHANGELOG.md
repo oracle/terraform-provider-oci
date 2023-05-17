@@ -1,3 +1,12 @@
+## 4.121.0 (May 17, 2023)
+
+### Added
+- Support for FAaaS - Fusion Analytics Warehouse Integration
+- Support for Scheduler for full and incremental backup
+### Bug Fix
+- Data Safe - ExaCS DB registration issue
+- Fix APM Synthetic service example documentation
+
 ## 4.120.0 (May 10, 2023)
 
 ### Added

@@ -119,9 +119,21 @@ func DatabaseDbSystemResource() *schema.Resource {
 													Computed: true,
 												},
 												"auto_backup_window": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													DiffSuppressFunc: disableAutoBackupDbSystemSuppressfunc,
+												},
+												"auto_full_backup_day": {
 													Type:     schema.TypeString,
 													Optional: true,
-													Computed: true,
+													Default:  "SUNDAY",
+												},
+												"auto_full_backup_window": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													DiffSuppressFunc: disableAutoBackupDbSystemSuppressfunc,
 												},
 												"backup_deletion_policy": {
 													Type:     schema.TypeString,
@@ -163,6 +175,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 												},
 												"recovery_window_in_days": {
 													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"run_immediate_full_backup": {
+													Type:     schema.TypeBool,
 													Optional: true,
 													Computed: true,
 												},
@@ -2061,6 +2078,14 @@ func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 		}
 	}
 
+	if autoFullBackupDay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_full_backup_day")); ok {
+		result.AutoFullBackupDay = oci_database.DbBackupConfigAutoFullBackupDayEnum(autoFullBackupDay.(string))
+	}
+
+	if autoFullBackupWindow, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_full_backup_window")); ok {
+		result.AutoFullBackupWindow = oci_database.DbBackupConfigAutoFullBackupWindowEnum(autoFullBackupWindow.(string))
+	}
+
 	if backupDeletionPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_deletion_policy")); ok {
 		result.BackupDeletionPolicy = oci_database.DbBackupConfigBackupDeletionPolicyEnum(backupDeletionPolicy.(string))
 	}
@@ -2087,6 +2112,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 		result.RecoveryWindowInDays = &tmp
 	}
 
+	if runImmediateFullBackup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_immediate_full_backup")); ok {
+		tmp := runImmediateFullBackup.(bool)
+		result.RunImmediateFullBackup = &tmp
+	}
+
 	return result, nil
 }
 
@@ -2097,7 +2127,15 @@ func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{
 		result["auto_backup_enabled"] = bool(*obj.AutoBackupEnabled)
 	}
 
-	result["auto_backup_window"] = string(obj.AutoBackupWindow)
+	if obj.AutoBackupWindow != "" {
+		result["auto_backup_window"] = string(obj.AutoBackupWindow)
+	}
+
+	result["auto_full_backup_day"] = string(obj.AutoFullBackupDay)
+
+	if obj.AutoFullBackupWindow != "" {
+		result["auto_full_backup_window"] = string(obj.AutoFullBackupWindow)
+	}
 
 	result["backup_deletion_policy"] = string(obj.BackupDeletionPolicy)
 
@@ -2109,6 +2147,10 @@ func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{
 
 	if obj.RecoveryWindowInDays != nil {
 		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
+	}
+
+	if obj.RunImmediateFullBackup != nil {
+		result["run_immediate_full_backup"] = bool(*obj.RunImmediateFullBackup)
 	}
 
 	return result
@@ -3060,20 +3102,31 @@ func waitForDatabaseUpdateRetryPolicy(timeout time.Duration) *oci_common.RetryPo
 func (s *DatabaseDbSystemResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
 	result := oci_database.DbBackupConfig{}
 
-	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")) {
+	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok {
 		tmp := autoBackupEnabled.(bool)
 		result.AutoBackupEnabled = &tmp
 	}
 
 	if autoBackupWindow, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_window")); ok {
-		if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok && autoBackupEnabled.(bool) == true {
-			result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
-		}
+		result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
+	}
+
+	if autoFullBackupDay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_full_backup_day")); ok {
+		result.AutoFullBackupDay = oci_database.DbBackupConfigAutoFullBackupDayEnum(autoFullBackupDay.(string))
+	}
+
+	if autoFullBackupWindow, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_full_backup_window")); ok {
+		result.AutoFullBackupWindow = oci_database.DbBackupConfigAutoFullBackupWindowEnum(autoFullBackupWindow.(string))
 	}
 
 	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
 		tmp := recoveryWindowInDays.(int)
 		result.RecoveryWindowInDays = &tmp
+	}
+
+	if runImmediateFullBackup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_immediate_full_backup")); ok {
+		tmp := runImmediateFullBackup.(bool)
+		result.RunImmediateFullBackup = &tmp
 	}
 
 	return result, nil
@@ -3514,4 +3567,14 @@ func createDBSystemResource(d *schema.ResourceData, sync tfresource.ResourceCrea
 	}
 
 	return nil
+}
+
+func disableAutoBackupDbSystemSuppressfunc(k string, old, new string, d *schema.ResourceData) bool {
+	// if autoBackupEnabled is false then ignore any field in the state and config backupWindow
+	if autoBackupEnabled, ok := d.GetOkExists("db_home.0.database.0.db_backup_config.0.auto_backup_enabled"); ok {
+		if !autoBackupEnabled.(bool) {
+			return true
+		}
+	}
+	return false
 }
