@@ -38,6 +38,7 @@ The following attributes are exported:
 * `component_name` - The name of the external DB node.
 * `cpu_core_count` - The number of CPU cores available on the DB node.
 * `display_name` - The user-friendly name for the external DB node. The name does not have to be unique.
+* `domain_name` - Name of the domain.
 * `external_connector_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external connector.
 * `external_db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system that the DB node is a part of.
 * `host_name` - The host name for the DB node.
