@@ -27,6 +27,7 @@ data "oci_database_management_managed_databases" "test_managed_databases" {
 
 	#Optional
 	deployment_type = var.managed_database_deployment_type
+	external_exadata_infrastructure_id = oci_database_management_external_exadata_infrastructure.test_external_exadata_infrastructure.id
 	id = var.managed_database_id
 	management_option = var.managed_database_management_option
 	name = var.managed_database_name
@@ -39,6 +40,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `deployment_type` - (Optional) A filter to return Managed Databases of the specified deployment type.
+* `external_exadata_infrastructure_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `id` - (Optional) The identifier of the resource.
 * `management_option` - (Optional) A filter to return Managed Databases with the specified management option.
 * `name` - (Optional) A filter to return only resources that match the entire name.
