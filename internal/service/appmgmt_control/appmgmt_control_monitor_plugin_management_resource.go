@@ -108,6 +108,23 @@ func (s *AppmgmtControlMonitorPluginManagementResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	workRequestResponse := oci_appmgmt_control.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_appmgmt_control.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "appmgmt_control"),
+			},
+		})
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range workRequestResponse.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), "monitoredinstance") {
+			if res.ActionType == oci_appmgmt_control.ActionTypeCreated {
+				s.D.SetId(*res.Identifier)
+				break
+			}
+		}
+	}
 	return s.getMonitorPluginManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "appmgmt_control"), oci_appmgmt_control.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
