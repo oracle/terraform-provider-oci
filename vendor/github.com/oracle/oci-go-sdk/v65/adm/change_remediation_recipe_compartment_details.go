@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeRemediationRecipeCompartmentDetails Details for moving an remediation recipe resource.
+// ChangeRemediationRecipeCompartmentDetails Details for moving a remediation recipe resource.
 type ChangeRemediationRecipeCompartmentDetails struct {
 
 	// The compartment Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) to which the resource must be moved.

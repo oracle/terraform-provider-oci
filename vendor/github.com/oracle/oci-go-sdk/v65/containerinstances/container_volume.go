@@ -16,11 +16,11 @@ import (
 	"strings"
 )
 
-// ContainerVolume A Volume represents a directory with data that is accessible across multiple containers in a
-// ContainerInstance.
+// ContainerVolume A volume represents a directory with data that is accessible across multiple containers in a
+// container instance.
 type ContainerVolume interface {
 
-	// The name of the volume. This has be unique cross single ContainerInstance.
+	// The name of the volume. This must be unique within a single container instance.
 	GetName() *string
 }
 

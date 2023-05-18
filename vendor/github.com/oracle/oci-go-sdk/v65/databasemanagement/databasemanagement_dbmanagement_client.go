@@ -2198,6 +2198,66 @@ func (client DbManagementClient) disableExternalDbSystemDatabaseManagement(ctx c
 	return response, err
 }
 
+// DisableExternalDbSystemStackMonitoring Disables Stack Monitoring for all the components of the specified
+// external DB system (except databases).
+// A default retry strategy applies to this operation DisableExternalDbSystemStackMonitoring()
+func (client DbManagementClient) DisableExternalDbSystemStackMonitoring(ctx context.Context, request DisableExternalDbSystemStackMonitoringRequest) (response DisableExternalDbSystemStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableExternalDbSystemStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableExternalDbSystemStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableExternalDbSystemStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableExternalDbSystemStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableExternalDbSystemStackMonitoringResponse")
+	}
+	return
+}
+
+// disableExternalDbSystemStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableExternalDbSystemStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalDbSystems/{externalDbSystemId}/actions/disableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableExternalDbSystemStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalDbSystem/DisableExternalDbSystemStackMonitoring"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableExternalDbSystemStackMonitoring", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisableExternalExadataInfrastructureManagement Disables Database Management for the Exadata infrastructure specified by externalExadataInfrastructureId.
 // It covers the following components:
 // - Exadata infrastructure
@@ -2729,6 +2789,66 @@ func (client DbManagementClient) enableExternalDbSystemDatabaseManagement(ctx co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalDbSystem/EnableExternalDbSystemDatabaseManagement"
 		err = common.PostProcessServiceError(err, "DbManagement", "EnableExternalDbSystemDatabaseManagement", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableExternalDbSystemStackMonitoring Enables Stack Monitoring for all the components of the specified
+// external DB system (except databases).
+// A default retry strategy applies to this operation EnableExternalDbSystemStackMonitoring()
+func (client DbManagementClient) EnableExternalDbSystemStackMonitoring(ctx context.Context, request EnableExternalDbSystemStackMonitoringRequest) (response EnableExternalDbSystemStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableExternalDbSystemStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableExternalDbSystemStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableExternalDbSystemStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableExternalDbSystemStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableExternalDbSystemStackMonitoringResponse")
+	}
+	return
+}
+
+// enableExternalDbSystemStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableExternalDbSystemStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalDbSystems/{externalDbSystemId}/actions/enableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableExternalDbSystemStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalDbSystem/EnableExternalDbSystemStackMonitoring"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableExternalDbSystemStackMonitoring", apiReferenceLink)
 		return response, err
 	}
 

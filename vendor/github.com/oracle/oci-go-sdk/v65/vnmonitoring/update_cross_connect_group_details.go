@@ -19,9 +19,22 @@ import (
 // UpdateCrossConnectGroupDetails The representation of UpdateCrossConnectGroupDetails
 type UpdateCrossConnectGroupDetails struct {
 
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// A reference name or identifier for the physical fiber connection this cross-connect group uses.
+	CustomerReferenceName *string `mandatory:"false" json:"customerReferenceName"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	MacsecProperties *UpdateMacsecProperties `mandatory:"false" json:"macsecProperties"`
 }
 
 func (m UpdateCrossConnectGroupDetails) String() string {

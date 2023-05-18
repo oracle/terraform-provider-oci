@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// StageSummary stage summary of an remediation run. A stage is one step of a remediation run.
+// StageSummary stage summary of a remediation run. A stage is one step of a remediation run.
 type StageSummary struct {
 
 	// The creation date and time of the stage (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).

@@ -40,7 +40,7 @@ type CreateInstancePoolPlacementConfigurationDetails struct {
 	// Example: `[FAULT-DOMAIN-1, FAULT-DOMAIN-2, FAULT-DOMAIN-3]`
 	FaultDomains []string `mandatory:"false" json:"faultDomains"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. This field is deprecated.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet in which to place instances. This field is deprecated.
 	// Use `primaryVnicSubnets` instead to set VNIC data for instances in the pool.
 	PrimarySubnetId *string `mandatory:"false" json:"primarySubnetId"`
 

@@ -19,10 +19,10 @@ import (
 // CreateContainerHttpHealthCheckDetails Container Health Check HTTP type.
 type CreateContainerHttpHealthCheckDetails struct {
 
-	// Container health check Http's path.
+	// Container health check HTTP path.
 	Path *string `mandatory:"true" json:"path"`
 
-	// Container health check Http's port.
+	// Container health check HTTP port.
 	Port *int `mandatory:"true" json:"port"`
 
 	// Health check name.
@@ -43,7 +43,7 @@ type CreateContainerHttpHealthCheckDetails struct {
 	// Length of waiting time in seconds before marking health check failed.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
-	// Container health check Http's headers.
+	// Container health check HTTP headers.
 	Headers []HealthCheckHttpHeader `mandatory:"false" json:"headers"`
 
 	// The action will be triggered when the container health check fails. There are two types of action: KILL or NONE. The default

@@ -90,7 +90,7 @@ func (client *ContainerInstanceClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// ChangeContainerInstanceCompartment Moves a ContainerInstance resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeContainerInstanceCompartment Moves a container instance resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeContainerInstanceCompartment()
 func (client ContainerInstanceClient) ChangeContainerInstanceCompartment(ctx context.Context, request ChangeContainerInstanceCompartmentRequest) (response ChangeContainerInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -144,7 +144,7 @@ func (client ContainerInstanceClient) changeContainerInstanceCompartment(ctx con
 	return response, err
 }
 
-// CreateContainerInstance Creates a new ContainerInstance.
+// CreateContainerInstance Creates a container instance and deploys the containers on it.
 // A default retry strategy applies to this operation CreateContainerInstance()
 func (client ContainerInstanceClient) CreateContainerInstance(ctx context.Context, request CreateContainerInstanceRequest) (response CreateContainerInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -203,7 +203,7 @@ func (client ContainerInstanceClient) createContainerInstance(ctx context.Contex
 	return response, err
 }
 
-// DeleteContainerInstance Deletes a ContainerInstance resource by identifier
+// DeleteContainerInstance Deletes a container instance and its containers.
 // A default retry strategy applies to this operation DeleteContainerInstance()
 func (client ContainerInstanceClient) DeleteContainerInstance(ctx context.Context, request DeleteContainerInstanceRequest) (response DeleteContainerInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -311,7 +311,7 @@ func (client ContainerInstanceClient) getContainer(ctx context.Context, request 
 	return response, err
 }
 
-// GetContainerInstance Gets a ContainerInstance by identifier
+// GetContainerInstance Gets information about the specified container instance.
 // A default retry strategy applies to this operation GetContainerInstance()
 func (client ContainerInstanceClient) GetContainerInstance(ctx context.Context, request GetContainerInstanceRequest) (response GetContainerInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -419,7 +419,7 @@ func (client ContainerInstanceClient) getWorkRequest(ctx context.Context, reques
 	return response, err
 }
 
-// ListContainerInstanceShapes Get a list of shapes for creating Container Instances and their details.
+// ListContainerInstanceShapes Lists the shapes that can be used to create container instances.
 // A default retry strategy applies to this operation ListContainerInstanceShapes()
 func (client ContainerInstanceClient) ListContainerInstanceShapes(ctx context.Context, request ListContainerInstanceShapesRequest) (response ListContainerInstanceShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -473,7 +473,7 @@ func (client ContainerInstanceClient) listContainerInstanceShapes(ctx context.Co
 	return response, err
 }
 
-// ListContainerInstances Returns a list of ContainerInstances.
+// ListContainerInstances Returns a list of container instances.
 // A default retry strategy applies to this operation ListContainerInstances()
 func (client ContainerInstanceClient) ListContainerInstances(ctx context.Context, request ListContainerInstancesRequest) (response ListContainerInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -527,7 +527,7 @@ func (client ContainerInstanceClient) listContainerInstances(ctx context.Context
 	return response, err
 }
 
-// ListContainers Return a list of Containers.
+// ListContainers Returns a list of containers in a compartment.
 // A default retry strategy applies to this operation ListContainers()
 func (client ContainerInstanceClient) ListContainers(ctx context.Context, request ListContainersRequest) (response ListContainersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -581,7 +581,7 @@ func (client ContainerInstanceClient) listContainers(ctx context.Context, reques
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWorkRequestErrors Return a paginated list of errors for a given work request.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ContainerInstanceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -635,7 +635,7 @@ func (client ContainerInstanceClient) listWorkRequestErrors(ctx context.Context,
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// ListWorkRequestLogs Return a paginated list of logs for a given work request.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ContainerInstanceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -797,7 +797,7 @@ func (client ContainerInstanceClient) restartContainerInstance(ctx context.Conte
 	return response, err
 }
 
-// RetrieveLogs Retrieve recent log from a single container by the container ID up to 256KB.
+// RetrieveLogs Retrieves recent logs from the specified container. The most recent 256 KB of logs are returned.
 // A default retry strategy applies to this operation RetrieveLogs()
 func (client ContainerInstanceClient) RetrieveLogs(ctx context.Context, request RetrieveLogsRequest) (response RetrieveLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -958,7 +958,7 @@ func (client ContainerInstanceClient) stopContainerInstance(ctx context.Context,
 	return response, err
 }
 
-// UpdateContainer Update a Container.
+// UpdateContainer Updates a container.
 // A default retry strategy applies to this operation UpdateContainer()
 func (client ContainerInstanceClient) UpdateContainer(ctx context.Context, request UpdateContainerRequest) (response UpdateContainerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1012,7 +1012,7 @@ func (client ContainerInstanceClient) updateContainer(ctx context.Context, reque
 	return response, err
 }
 
-// UpdateContainerInstance Updates the ContainerInstance
+// UpdateContainerInstance Updates a container instance.
 // A default retry strategy applies to this operation UpdateContainerInstance()
 func (client ContainerInstanceClient) UpdateContainerInstance(ctx context.Context, request UpdateContainerInstanceRequest) (response UpdateContainerInstanceResponse, err error) {
 	var ociResponse common.OCIResponse

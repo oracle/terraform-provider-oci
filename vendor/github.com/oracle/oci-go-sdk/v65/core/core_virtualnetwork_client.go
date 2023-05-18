@@ -313,7 +313,7 @@ func (client VirtualNetworkClient) addDrgRouteRules(ctx context.Context, request
 	return response, err
 }
 
-// AddIpv6SubnetCidr Add an IPv6 CIDR to a subnet.
+// AddIpv6SubnetCidr Add an IPv6 prefix to a subnet.
 func (client VirtualNetworkClient) AddIpv6SubnetCidr(ctx context.Context, request AddIpv6SubnetCidrRequest) (response AddIpv6SubnetCidrResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -371,8 +371,8 @@ func (client VirtualNetworkClient) addIpv6SubnetCidr(ctx context.Context, reques
 	return response, err
 }
 
-// AddIpv6VcnCidr Add an IPv6 CIDR to a VCN. The VCN size is always /56 and assigned by Oracle.
-// Once added the IPv6 CIDR block cannot be removed or modified.
+// AddIpv6VcnCidr Add an IPv6 prefix to a VCN. The VCN size is always /56 and assigned by Oracle.
+// Once added the IPv6 prefix cannot be removed or modified.
 func (client VirtualNetworkClient) AddIpv6VcnCidr(ctx context.Context, request AddIpv6VcnCidrRequest) (response AddIpv6VcnCidrResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -22013,7 +22013,7 @@ func (client VirtualNetworkClient) removeImportDrgRouteDistribution(ctx context.
 	return response, err
 }
 
-// RemoveIpv6SubnetCidr Remove an IPv6 CIDR from a subnet. At least one IPv6 CIDR should remain.
+// RemoveIpv6SubnetCidr Remove an IPv6 prefix from a subnet. At least one IPv6 CIDR should remain.
 func (client VirtualNetworkClient) RemoveIpv6SubnetCidr(ctx context.Context, request RemoveIpv6SubnetCidrRequest) (response RemoveIpv6SubnetCidrResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -22071,7 +22071,7 @@ func (client VirtualNetworkClient) removeIpv6SubnetCidr(ctx context.Context, req
 	return response, err
 }
 
-// RemoveIpv6VcnCidr Removing an existing IPv6 CIDR from a VCN.
+// RemoveIpv6VcnCidr Removing an existing IPv6 prefix from a VCN.
 func (client VirtualNetworkClient) RemoveIpv6VcnCidr(ctx context.Context, request RemoveIpv6VcnCidrRequest) (response RemoveIpv6VcnCidrResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

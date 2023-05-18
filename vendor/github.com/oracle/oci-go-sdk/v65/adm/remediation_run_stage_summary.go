@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// RemediationRunStageSummary The summary of an remediation run stages.
+// RemediationRunStageSummary The summary of a remediation run stages.
 type RemediationRunStageSummary struct {
 
 	// The current status of remediation run stage.

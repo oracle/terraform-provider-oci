@@ -38,7 +38,7 @@ type VerifyStage struct {
 
 	PipelineProperties *PipelineProperties `mandatory:"false" json:"pipelineProperties"`
 
-	// The current status of an remediation run stage.
+	// The current status of a remediation run stage.
 	Status RemediationRunStageStatusEnum `mandatory:"true" json:"status"`
 
 	// The previous type of stage in the remediation run.

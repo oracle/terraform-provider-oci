@@ -45,7 +45,7 @@ type UpdateInternalIpv6Details struct {
 
 	// Whether IPv6 is usable for intenet communication. Internet access via IPv6 will not be allowed for
 	// private subnet the same way as IPv4. Internet access will be enabled by default for a public subnet.
-	// If VCN has IPv6 enabled with a custom IPv6 CIDR, a different public IPv6 address will be assigned
+	// If VCN has IPv6 enabled with a custom IPv6 prefix, a different public IPv6 address will be assigned
 	// for a particular IPv6.
 	IsInternetAccessAllowed *bool `mandatory:"false" json:"isInternetAccessAllowed"`
 

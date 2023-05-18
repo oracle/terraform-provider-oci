@@ -16,11 +16,11 @@ import (
 	"strings"
 )
 
-// RemediationRunStage An remediation run stage is one step of an remediation run. Each stage provides output logs and has a specific type.
+// RemediationRunStage A remediation run stage is one step of an remediation run. Each stage provides output logs and has a specific type.
 // The stages are: DETECT, RECOMMEND, VERIFY, and APPLY.
 type RemediationRunStage interface {
 
-	// The current status of an remediation run stage.
+	// The current status of a remediation run stage.
 	GetStatus() RemediationRunStageStatusEnum
 
 	// The creation date and time of the remediation run stage (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).

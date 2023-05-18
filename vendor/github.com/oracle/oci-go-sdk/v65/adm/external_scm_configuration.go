@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ExternalScmConfiguration An external SCM configuration extends a SCM Configuration with necessary data to reach and use the Source Code Management tool/platform used by an Remediation Recipe.
+// ExternalScmConfiguration An external SCM configuration extends a SCM Configuration with necessary data to reach and use the Source Code Management tool/platform used by a Remediation Recipe.
 // An external SCM in ADM refers to GitHub, or GitLab.
 type ExternalScmConfiguration struct {
 

@@ -14,7 +14,7 @@ import (
 // ChangeRemediationRecipeCompartmentRequest wrapper for the ChangeRemediationRecipeCompartment operation
 type ChangeRemediationRecipeCompartmentRequest struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of an Remediation Recipe, as a URL path parameter.
+	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of a Remediation Recipe, as a URL path parameter.
 	RemediationRecipeId *string `mandatory:"true" contributesTo:"path" name:"remediationRecipeId"`
 
 	// The information to be updated.

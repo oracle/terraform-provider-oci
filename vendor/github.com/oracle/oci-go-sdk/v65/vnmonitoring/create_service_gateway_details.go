@@ -46,6 +46,14 @@ type CreateServiceGatewayDetails struct {
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the service gateway will use.
+	// If you don't specify a route table here, the service gateway is created without an associated route
+	// table. The Networking service does NOT automatically associate the attached VCN's default route table
+	// with the service gateway.
+	// For information about why you would associate a route table with a service gateway, see
+	// Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm).
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m CreateServiceGatewayDetails) String() string {

@@ -41,6 +41,16 @@ type CreateDrgAttachmentDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the DRG attachment.
+	// If you don't specify a route table here, the DRG attachment is created without an associated route
+	// table. The Networking service does NOT automatically associate the attached VCN's default route table
+	// with the DRG attachment.
+	// For information about why you would associate a route table with a DRG attachment, see:
+	//   * Transit Routing: Access to Multiple VCNs in Same Region (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
+	//   * Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm)
+	// This field is deprecated. Instead, use the networkDetails field to specify the VCN route table for this attachment.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	// This field is deprecated. Instead, use the `networkDetails` field to specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached resource.
 	VcnId *string `mandatory:"false" json:"vcnId"`
@@ -70,6 +80,7 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 		NetworkDetails  drgattachmentnetworkcreatedetails `json:"networkDetails"`
 		DefinedTags     map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags    map[string]string                 `json:"freeformTags"`
+		RouteTableId    *string                           `json:"routeTableId"`
 		VcnId           *string                           `json:"vcnId"`
 		DrgId           *string                           `json:"drgId"`
 	}{}
@@ -96,6 +107,8 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.RouteTableId = model.RouteTableId
 
 	m.VcnId = model.VcnId
 

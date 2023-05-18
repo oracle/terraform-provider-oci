@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// RemediationRecipeSummary The summary of an Remediation Recipe.
+// RemediationRecipeSummary The summary of a Remediation Recipe.
 type RemediationRecipeSummary struct {
 
 	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the remediation recipe.

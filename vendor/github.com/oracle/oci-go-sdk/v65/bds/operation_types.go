@@ -22,6 +22,8 @@ const (
 	OperationTypesUpdateBds                 OperationTypesEnum = "UPDATE_BDS"
 	OperationTypesDeleteBds                 OperationTypesEnum = "DELETE_BDS"
 	OperationTypesAddBlockStorage           OperationTypesEnum = "ADD_BLOCK_STORAGE"
+	OperationTypesAddMasterNodes            OperationTypesEnum = "ADD_MASTER_NODES"
+	OperationTypesAddUtilityNodes           OperationTypesEnum = "ADD_UTILITY_NODES"
 	OperationTypesAddWorkerNodes            OperationTypesEnum = "ADD_WORKER_NODES"
 	OperationTypesAddCloudSql               OperationTypesEnum = "ADD_CLOUD_SQL"
 	OperationTypesRemoveCloudSql            OperationTypesEnum = "REMOVE_CLOUD_SQL"
@@ -70,6 +72,8 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"UPDATE_BDS":                   OperationTypesUpdateBds,
 	"DELETE_BDS":                   OperationTypesDeleteBds,
 	"ADD_BLOCK_STORAGE":            OperationTypesAddBlockStorage,
+	"ADD_MASTER_NODES":             OperationTypesAddMasterNodes,
+	"ADD_UTILITY_NODES":            OperationTypesAddUtilityNodes,
 	"ADD_WORKER_NODES":             OperationTypesAddWorkerNodes,
 	"ADD_CLOUD_SQL":                OperationTypesAddCloudSql,
 	"REMOVE_CLOUD_SQL":             OperationTypesRemoveCloudSql,
@@ -118,6 +122,8 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"update_bds":                   OperationTypesUpdateBds,
 	"delete_bds":                   OperationTypesDeleteBds,
 	"add_block_storage":            OperationTypesAddBlockStorage,
+	"add_master_nodes":             OperationTypesAddMasterNodes,
+	"add_utility_nodes":            OperationTypesAddUtilityNodes,
 	"add_worker_nodes":             OperationTypesAddWorkerNodes,
 	"add_cloud_sql":                OperationTypesAddCloudSql,
 	"remove_cloud_sql":             OperationTypesRemoveCloudSql,
@@ -177,6 +183,8 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPDATE_BDS",
 		"DELETE_BDS",
 		"ADD_BLOCK_STORAGE",
+		"ADD_MASTER_NODES",
+		"ADD_UTILITY_NODES",
 		"ADD_WORKER_NODES",
 		"ADD_CLOUD_SQL",
 		"REMOVE_CLOUD_SQL",

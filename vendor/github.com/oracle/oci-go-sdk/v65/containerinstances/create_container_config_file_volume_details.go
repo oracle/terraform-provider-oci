@@ -19,7 +19,7 @@ import (
 // CreateContainerConfigFileVolumeDetails The configuration files to pass to the container using volume mounts.
 type CreateContainerConfigFileVolumeDetails struct {
 
-	// The name of the volume. This has be unique cross single ContainerInstance.
+	// The name of the volume. This must be unique within a single container instance.
 	Name *string `mandatory:"true" json:"name"`
 
 	// Contains key value pairs which can be mounted as individual files inside the container. The value needs to be base64 encoded. It is decoded to plain text before the mount.

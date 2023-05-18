@@ -37,7 +37,7 @@ type DetectStage struct {
 	// The Oracle Cloud identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the vulnerability audit.
 	AuditId *string `mandatory:"false" json:"auditId"`
 
-	// The current status of an remediation run stage.
+	// The current status of a remediation run stage.
 	Status RemediationRunStageStatusEnum `mandatory:"true" json:"status"`
 
 	// The previous type of stage in the remediation run.

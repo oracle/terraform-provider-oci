@@ -14,10 +14,10 @@ import (
 // UpdateRemediationRecipeRequest wrapper for the UpdateRemediationRecipe operation
 type UpdateRemediationRecipeRequest struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of an Remediation Recipe, as a URL path parameter.
+	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of a Remediation Recipe, as a URL path parameter.
 	RemediationRecipeId *string `mandatory:"true" contributesTo:"path" name:"remediationRecipeId"`
 
-	// The details to update an Remediation Recipe.
+	// The details to update a Remediation Recipe.
 	UpdateRemediationRecipeDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

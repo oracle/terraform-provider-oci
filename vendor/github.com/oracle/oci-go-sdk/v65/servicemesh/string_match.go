@@ -18,7 +18,7 @@ import (
 // StringMatch Match criteria for an attribute for specified Key.
 type StringMatch struct {
 
-	// name of the parameter
+	// Name of the parameter
 	Key *string `mandatory:"true" json:"key"`
 
 	// Match type for the value.

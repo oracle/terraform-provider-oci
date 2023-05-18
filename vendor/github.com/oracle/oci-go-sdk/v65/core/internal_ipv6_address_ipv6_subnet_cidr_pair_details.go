@@ -24,13 +24,13 @@ import (
 // InternalIpv6AddressIpv6SubnetCidrPairDetails Details to provide a pair of IPv6 Subnet Prefix and IPv6 address to assign IPv6 address on VNIC creation.
 type InternalIpv6AddressIpv6SubnetCidrPairDetails struct {
 
-	// The IPv6 CIDR allocated to the subnet.
+	// The IPv6 prefix allocated to the subnet.
 	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
 
 	// An IPv6 address of your choice. Must be available IPv6 address within the subnet's CIDR.
 	// If IPv6 address is not provided
-	// - Oracle will automatically assign an IPv6 address from the Subnet's IPv6 CIDR if and only if there is only one IPv6 CIDR on the Subnet.
-	// - Oracle will automatically assign an IPv6 address from the Subnet's IPv6 Oracle GUA Prefix if it exists on the Subnet.
+	// - Oracle will automatically assign an IPv6 address from the subnet's IPv6 prefix if and only if there is only one IPv6 prefix on the subnet.
+	// - Oracle will automatically assign an IPv6 address from the subnet's IPv6 Oracle GUA prefix if it exists on the subnet.
 	Ipv6Address *string `mandatory:"false" json:"ipv6Address"`
 }
 

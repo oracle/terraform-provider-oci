@@ -24,10 +24,10 @@ import (
 // InternalByoipv6RangeAllocations Details containing the ipv6 prefixes allocation under an InternalByoipv6Range.
 type InternalByoipv6RangeAllocations struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `InternalByoipv6Range` resource to which the ipv6 CIDR block belongs.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `InternalByoipv6Range` resource to which the IPv6 prefix belongs.
 	Byoipv6RangeId *string `mandatory:"false" json:"byoipv6RangeId"`
 
-	// The ipv6 CIDR block to be used in the vcn under a ByoipRange. It could be all of the CIDR block identified in `byoipv6RangeId`, or a subrange.
+	// The IPv6 prefix to be used in the VCN under a ByoipRange. It could be all of the prefix identified in `byoipv6RangeId`, or a subrange.
 	// Example: `2001:0db8:0123:45::/56`
 	Byoipv6AllocatedCidr *string `mandatory:"false" json:"byoipv6AllocatedCidr"`
 

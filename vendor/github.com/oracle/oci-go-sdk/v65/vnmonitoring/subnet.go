@@ -26,10 +26,6 @@ import (
 // Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type Subnet struct {
 
-	// The subnet's availability domain.
-	// Example: `Uocm:PHX-AD-1`
-	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
-
 	// The subnet's CIDR block.
 	// Example: `10.0.1.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
@@ -57,6 +53,11 @@ type Subnet struct {
 	// Example: `00:00:00:00:00:01`
 	VirtualRouterMac *string `mandatory:"true" json:"virtualRouterMac"`
 
+	// The subnet's availability domain. This attribute will be null if this is a regional subnet
+	// instead of an AD-specific subnet. Oracle recommends creating regional subnets.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -70,7 +71,7 @@ type Subnet struct {
 
 	// A DNS label for the subnet, used in conjunction with the VNIC's hostname and
 	// VCN's DNS label to form a fully qualified domain name (FQDN) for each VNIC
-	// within this subnet (for example, `bminstance-1.subnet123.vcn1.oraclevcn.com`).
+	// within this subnet (for example, `bminstance1.subnet123.vcn1.oraclevcn.com`).
 	// Must be an alphanumeric string that begins with a letter and is unique within the VCN.
 	// The value cannot be changed.
 	// The absence of this parameter means the Internet and VCN Resolver
@@ -84,22 +85,40 @@ type Subnet struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's private IP address
-	// space. The subnet size is always /64. IPv6 addressing is supported for all commercial and government regions.
-	// See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's IP address space.
+	// The subnet size is always /64. See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `2001:0db8:0123:1111::/64`
 	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
 
-	// For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's public IP address
-	// space. The subnet size is always /64. The left 48 bits are inherited from the
-	// `ipv6PublicCidrBlock` of the Vcn,
-	// and the remaining 16 bits are from the subnet's `ipv6CidrBlock`.
-	// Example: `2001:0db8:0123:1111::/64`
-	Ipv6PublicCidrBlock *string `mandatory:"false" json:"ipv6PublicCidrBlock"`
+	// The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet.
+	Ipv6CidrBlocks []string `mandatory:"false" json:"ipv6CidrBlocks"`
 
 	// For an IPv6-enabled subnet, this is the IPv6 address of the virtual router.
 	// Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678`
 	Ipv6VirtualRouterIp *string `mandatory:"false" json:"ipv6VirtualRouterIp"`
+
+	// Whether learning mode is enabled for this subnet. The default is `false`.
+	// **Note:** When a subnet has learning mode enabled, only certain types
+	// of resources can be launched in the subnet.
+	// Example: `true`
+	IsLearningEnabled *bool `mandatory:"false" json:"isLearningEnabled"`
+
+	// The VLAN tag assigned to VNIC Attachments within this Subnet if the Subnet has learning enabled.
+	// **Note:** When a subnet does not have learning enabled, this field will be null.
+	// Example: `100`
+	VlanTag *int `mandatory:"false" json:"vlanTag"`
+
+	// Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
+	// For IPV4, `prohibitInternetIngress` behaves similarly to `prohibitPublicIpOnVnic`.
+	// If it is set to false, VNICs created in this subnet will automatically be assigned public IP
+	// addresses unless specified otherwise during instance launch or VNIC creation (with the `assignPublicIp`
+	// flag in CreateVnicDetails).
+	// If `prohibitInternetIngress` is set to true, VNICs created in this subnet cannot have public IP addresses
+	// (that is, it's a privatesubnet).
+	// For IPv6, if `prohibitInternetIngress` is set to `true`, internet access is not allowed for any
+	// IPv6s assigned to VNICs in the subnet. Otherwise, ingress internet traffic is allowed by default.
+	// Example: `true`
+	ProhibitInternetIngress *bool `mandatory:"false" json:"prohibitInternetIngress"`
 
 	// Whether VNICs within this subnet can have public IP addresses.
 	// Defaults to false, which means VNICs created in this subnet will
@@ -158,6 +177,7 @@ const (
 	SubnetLifecycleStateAvailable    SubnetLifecycleStateEnum = "AVAILABLE"
 	SubnetLifecycleStateTerminating  SubnetLifecycleStateEnum = "TERMINATING"
 	SubnetLifecycleStateTerminated   SubnetLifecycleStateEnum = "TERMINATED"
+	SubnetLifecycleStateUpdating     SubnetLifecycleStateEnum = "UPDATING"
 )
 
 var mappingSubnetLifecycleStateEnum = map[string]SubnetLifecycleStateEnum{
@@ -165,6 +185,7 @@ var mappingSubnetLifecycleStateEnum = map[string]SubnetLifecycleStateEnum{
 	"AVAILABLE":    SubnetLifecycleStateAvailable,
 	"TERMINATING":  SubnetLifecycleStateTerminating,
 	"TERMINATED":   SubnetLifecycleStateTerminated,
+	"UPDATING":     SubnetLifecycleStateUpdating,
 }
 
 var mappingSubnetLifecycleStateEnumLowerCase = map[string]SubnetLifecycleStateEnum{
@@ -172,6 +193,7 @@ var mappingSubnetLifecycleStateEnumLowerCase = map[string]SubnetLifecycleStateEn
 	"available":    SubnetLifecycleStateAvailable,
 	"terminating":  SubnetLifecycleStateTerminating,
 	"terminated":   SubnetLifecycleStateTerminated,
+	"updating":     SubnetLifecycleStateUpdating,
 }
 
 // GetSubnetLifecycleStateEnumValues Enumerates the set of values for SubnetLifecycleStateEnum
@@ -190,6 +212,7 @@ func GetSubnetLifecycleStateEnumStringValues() []string {
 		"AVAILABLE",
 		"TERMINATING",
 		"TERMINATED",
+		"UPDATING",
 	}
 }
 

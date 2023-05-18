@@ -96,10 +96,10 @@ type CreateVnicDetails struct {
 	// can not be assigned a hostname. See Vlan.
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
 
-	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address.
-	// You can provide only the prefix ranges from which OCI will select an available
+	// A list of IPv6 prefix ranges from which the VNIC is assigned an IPv6 address.
+	// You can provide only the prefix ranges from which OCI selects an available
 	// address from the range. You can optionally choose to leave the prefix range empty
-	// and instead provide the specific IPv6 address that should be used from within that range.
+	// and instead provide the specific IPv6 address within that range to use.
 	Ipv6AddressIpv6SubnetCidrPairDetails []Ipv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
 
 	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more

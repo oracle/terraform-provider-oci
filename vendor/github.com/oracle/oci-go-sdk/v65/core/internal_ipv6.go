@@ -36,7 +36,7 @@ type InternalIpv6 struct {
 	// The IPv6's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
-	// The IPv6 address of the `IPv6` object. The address is within the IPv6 CIDR
+	// The IPv6 address of the `IPv6` object. The address is within the IPv6 prefix
 	// of the VNIC's subnet.
 	// Example: `2001:0db8:0123:4567:89ab:cdef:1234:5678`
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
@@ -70,14 +70,14 @@ type InternalIpv6 struct {
 
 	// Whether IPv6 is usable for intenet communication. Internet access via IPv6 will not be allowed for
 	// private subnet the same way as IPv4. Internet access will be enabled by default for a public subnet.
-	// If VCN has IPv6 enabled with a custom IPv6 CIDR, a different public IPv6 address will be assigned
+	// If VCN has IPv6 enabled with a custom IPv6 prefix, a different public IPv6 address will be assigned
 	// for a particular IPv6.
 	IsInternetAccessAllowed *bool `mandatory:"false" json:"isInternetAccessAllowed"`
 
-	// The IPv6 address to be used for an internet communication. The address is within the IPv6 public CIDR
+	// The IPv6 address to be used for an internet communication. The address is within the IPv6 public prefix
 	// of the VNIC's subnet. The `publicIpAddress` is always the same `ipAddress` if the VCN does not have
-	// a custom IPv6 CIDR (i.e. use Oracle provided CIDR). If VCN has a custom IPv6 CIDR, the `publicIpAddress`
-	// is drawn from the subnet public IPv6 CIDR by translating the IPv6 address prefix to the public IPv6 CIDR.
+	// a custom IPv6 prefix (i.e. use Oracle provided prefix). If VCN has a custom IPv6 prefix, the `publicIpAddress`
+	// is drawn from the subnet public IPv6 prefix by translating the IPv6 address prefix to the public IPv6 prefix.
 	// If `publicIpAddress` is not available, internet access is not permitted for this particular IPv6.
 	PublicIpAddress *string `mandatory:"false" json:"publicIpAddress"`
 }

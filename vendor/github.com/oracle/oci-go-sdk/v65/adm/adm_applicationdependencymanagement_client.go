@@ -316,7 +316,7 @@ func (client ApplicationDependencyManagementClient) changeKnowledgeBaseCompartme
 	return response, err
 }
 
-// ChangeRemediationRecipeCompartment Moves an Remediation Recipe from one compartment to another.
+// ChangeRemediationRecipeCompartment Moves a Remediation Recipe from one compartment to another.
 // A default retry strategy applies to this operation ChangeRemediationRecipeCompartment()
 func (client ApplicationDependencyManagementClient) ChangeRemediationRecipeCompartment(ctx context.Context, request ChangeRemediationRecipeCompartmentRequest) (response ChangeRemediationRecipeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse

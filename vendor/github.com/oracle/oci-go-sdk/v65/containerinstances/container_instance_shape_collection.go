@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ContainerInstanceShapeCollection A collection of Container Instance Shapes.
+// ContainerInstanceShapeCollection A collection of container instance shapes.
 type ContainerInstanceShapeCollection struct {
 
-	// List of shapes.
+	// A list of shapes.
 	Items []ContainerInstanceShapeSummary `mandatory:"true" json:"items"`
 }
 

@@ -17,7 +17,7 @@ type UpdateRemediationRunRequest struct {
 	// Unique Remediation Run identifier path parameter.
 	RemediationRunId *string `mandatory:"true" contributesTo:"path" name:"remediationRunId"`
 
-	// The details used to update an remediation run.
+	// The details used to update a remediation run.
 	UpdateRemediationRunDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

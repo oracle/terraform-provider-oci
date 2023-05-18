@@ -61,6 +61,10 @@ type SqlJob struct {
 	// The SQL text to be executed in the job. This is a mandatory field for the EXECUTE_SQL operationType.
 	SqlText *string `mandatory:"false" json:"sqlText"`
 
+	InBinds *JobInBindsDetails `mandatory:"false" json:"inBinds"`
+
+	OutBinds *JobOutBindsDetails `mandatory:"false" json:"outBinds"`
+
 	// The database user name used to execute the SQL job. If the job is being executed on a Managed Database Group,
 	// then the user name should exist on all the databases in the group with the same password.
 	UserName *string `mandatory:"false" json:"userName"`
@@ -226,6 +230,8 @@ func (m *SqlJob) UnmarshalJSON(data []byte) (e error) {
 		SubmissionErrorMessage  *string                    `json:"submissionErrorMessage"`
 		SqlType                 SqlJobSqlTypeEnum          `json:"sqlType"`
 		SqlText                 *string                    `json:"sqlText"`
+		InBinds                 *JobInBindsDetails         `json:"inBinds"`
+		OutBinds                *JobOutBindsDetails        `json:"outBinds"`
 		UserName                *string                    `json:"userName"`
 		Role                    SqlJobRoleEnum             `json:"role"`
 		Id                      *string                    `json:"id"`
@@ -275,6 +281,10 @@ func (m *SqlJob) UnmarshalJSON(data []byte) (e error) {
 	m.SqlType = model.SqlType
 
 	m.SqlText = model.SqlText
+
+	m.InBinds = model.InBinds
+
+	m.OutBinds = model.OutBinds
 
 	m.UserName = model.UserName
 

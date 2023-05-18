@@ -73,9 +73,6 @@ type InstanceMaintenanceEventSummary struct {
 
 	// It is the descriptive information about the maintenance taking place on the customer instance.
 	Description *string `mandatory:"false" json:"description"`
-
-	// Additional details of the maintenance in the form of json.
-	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 }
 
 func (m InstanceMaintenanceEventSummary) String() string {

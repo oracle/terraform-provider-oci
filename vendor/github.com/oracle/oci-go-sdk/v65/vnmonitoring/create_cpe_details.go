@@ -37,6 +37,21 @@ type CreateCpeDetails struct {
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE device type. You can provide
+	// a value if you want to later generate CPE device configuration content for IPSec connections
+	// that use this CPE. You can also call UpdateCpe later to
+	// provide a value. For a list of possible values, see
+	// ListCpeDeviceShapes.
+	// For more information about generating CPE device configuration content, see:
+	//   * GetCpeDeviceConfigContent
+	//   * GetIpsecCpeDeviceConfigContent
+	//   * GetTunnelCpeDeviceConfigContent
+	//   * GetTunnelCpeDeviceConfig
+	CpeDeviceShapeId *string `mandatory:"false" json:"cpeDeviceShapeId"`
+
+	// Indicates whether this CPE is of type `private` or not.
+	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
 }
 
 func (m CreateCpeDetails) String() string {

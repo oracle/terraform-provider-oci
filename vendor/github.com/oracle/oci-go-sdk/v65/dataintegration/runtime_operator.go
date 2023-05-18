@@ -10,6 +10,7 @@
 package dataintegration
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -17,6 +18,9 @@ import (
 
 // RuntimeOperator Runtime operator model which holds the runtime metadata of the task operator executed.
 type RuntimeOperator struct {
+
+	// The RuntimeOperator key.
+	Key *string `mandatory:"false" json:"key"`
 
 	// The TaskRun key.
 	TaskRunKey *string `mandatory:"false" json:"taskRunKey"`
@@ -30,17 +34,49 @@ type RuntimeOperator struct {
 	// status
 	Status RuntimeOperatorStatusEnum `mandatory:"false" json:"status,omitempty"`
 
+	// The type of the object.
+	ModelType *string `mandatory:"false" json:"modelType"`
+
+	// The model version of an object.
+	ModelVersion *string `mandatory:"false" json:"modelVersion"`
+
+	ParentRef *ParentReference `mandatory:"false" json:"parentRef"`
+
+	// Free form text without any restriction on permitted characters. Name can have letters, numbers, and special characters. The value is editable and is restricted to 1000 characters.
+	Name *string `mandatory:"false" json:"name"`
+
+	// The version of the object that is used to track changes in the object instance.
+	ObjectVersion *int `mandatory:"false" json:"objectVersion"`
+
+	// Value can only contain upper case letters, underscore and numbers. It should begin with upper case letter or underscore. The value can be modified.
+	Identifier *string `mandatory:"false" json:"identifier"`
+
 	// status
 	ExecutionState RuntimeOperatorExecutionStateEnum `mandatory:"false" json:"executionState,omitempty"`
 
 	// A list of parameters for the pipeline, this allows certain aspects of the pipeline to be configured when the pipeline is executed.
 	Parameters []Parameter `mandatory:"false" json:"parameters"`
 
+	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
+	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
+
+	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
+
+	Operator Operator `mandatory:"false" json:"operator"`
+
 	// The configuration provider bindings.
 	Inputs map[string]ParameterValue `mandatory:"false" json:"inputs"`
 
 	// The configuration provider bindings.
 	Outputs map[string]ParameterValue `mandatory:"false" json:"outputs"`
+
+	// The type of task run.
+	TaskType RuntimeOperatorTaskTypeEnum `mandatory:"false" json:"taskType,omitempty"`
+
+	ConfigProvider *ConfigProvider `mandatory:"false" json:"configProvider"`
+
+	// The type of Runtime Operator
+	OperatorType RuntimeOperatorOperatorTypeEnum `mandatory:"false" json:"operatorType,omitempty"`
 
 	// A map metrics for the task run.
 	Metrics map[string]float32 `mandatory:"false" json:"metrics"`
@@ -62,10 +98,106 @@ func (m RuntimeOperator) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingRuntimeOperatorExecutionStateEnum(string(m.ExecutionState)); !ok && m.ExecutionState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExecutionState: %s. Supported values are: %s.", m.ExecutionState, strings.Join(GetRuntimeOperatorExecutionStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingRuntimeOperatorTaskTypeEnum(string(m.TaskType)); !ok && m.TaskType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TaskType: %s. Supported values are: %s.", m.TaskType, strings.Join(GetRuntimeOperatorTaskTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRuntimeOperatorOperatorTypeEnum(string(m.OperatorType)); !ok && m.OperatorType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperatorType: %s. Supported values are: %s.", m.OperatorType, strings.Join(GetRuntimeOperatorOperatorTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *RuntimeOperator) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Key               *string                           `json:"key"`
+		TaskRunKey        *string                           `json:"taskRunKey"`
+		StartTimeInMillis *int64                            `json:"startTimeInMillis"`
+		EndTimeInMillis   *int64                            `json:"endTimeInMillis"`
+		Status            RuntimeOperatorStatusEnum         `json:"status"`
+		ModelType         *string                           `json:"modelType"`
+		ModelVersion      *string                           `json:"modelVersion"`
+		ParentRef         *ParentReference                  `json:"parentRef"`
+		Name              *string                           `json:"name"`
+		ObjectVersion     *int                              `json:"objectVersion"`
+		Identifier        *string                           `json:"identifier"`
+		ExecutionState    RuntimeOperatorExecutionStateEnum `json:"executionState"`
+		Parameters        []Parameter                       `json:"parameters"`
+		ObjectStatus      *int                              `json:"objectStatus"`
+		Metadata          *ObjectMetadata                   `json:"metadata"`
+		Operator          operator                          `json:"operator"`
+		Inputs            map[string]ParameterValue         `json:"inputs"`
+		Outputs           map[string]ParameterValue         `json:"outputs"`
+		TaskType          RuntimeOperatorTaskTypeEnum       `json:"taskType"`
+		ConfigProvider    *ConfigProvider                   `json:"configProvider"`
+		OperatorType      RuntimeOperatorOperatorTypeEnum   `json:"operatorType"`
+		Metrics           map[string]float32                `json:"metrics"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Key = model.Key
+
+	m.TaskRunKey = model.TaskRunKey
+
+	m.StartTimeInMillis = model.StartTimeInMillis
+
+	m.EndTimeInMillis = model.EndTimeInMillis
+
+	m.Status = model.Status
+
+	m.ModelType = model.ModelType
+
+	m.ModelVersion = model.ModelVersion
+
+	m.ParentRef = model.ParentRef
+
+	m.Name = model.Name
+
+	m.ObjectVersion = model.ObjectVersion
+
+	m.Identifier = model.Identifier
+
+	m.ExecutionState = model.ExecutionState
+
+	m.Parameters = make([]Parameter, len(model.Parameters))
+	for i, n := range model.Parameters {
+		m.Parameters[i] = n
+	}
+
+	m.ObjectStatus = model.ObjectStatus
+
+	m.Metadata = model.Metadata
+
+	nn, e = model.Operator.UnmarshalPolymorphicJSON(model.Operator.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Operator = nn.(Operator)
+	} else {
+		m.Operator = nil
+	}
+
+	m.Inputs = model.Inputs
+
+	m.Outputs = model.Outputs
+
+	m.TaskType = model.TaskType
+
+	m.ConfigProvider = model.ConfigProvider
+
+	m.OperatorType = model.OperatorType
+
+	m.Metrics = model.Metrics
+
+	return
 }
 
 // RuntimeOperatorStatusEnum Enum with underlying type: string
@@ -142,6 +274,7 @@ const (
 	RuntimeOperatorExecutionStateError      RuntimeOperatorExecutionStateEnum = "ERROR"
 	RuntimeOperatorExecutionStateSkipped    RuntimeOperatorExecutionStateEnum = "SKIPPED"
 	RuntimeOperatorExecutionStateUnknown    RuntimeOperatorExecutionStateEnum = "UNKNOWN"
+	RuntimeOperatorExecutionStateIgnored    RuntimeOperatorExecutionStateEnum = "IGNORED"
 )
 
 var mappingRuntimeOperatorExecutionStateEnum = map[string]RuntimeOperatorExecutionStateEnum{
@@ -152,6 +285,7 @@ var mappingRuntimeOperatorExecutionStateEnum = map[string]RuntimeOperatorExecuti
 	"ERROR":       RuntimeOperatorExecutionStateError,
 	"SKIPPED":     RuntimeOperatorExecutionStateSkipped,
 	"UNKNOWN":     RuntimeOperatorExecutionStateUnknown,
+	"IGNORED":     RuntimeOperatorExecutionStateIgnored,
 }
 
 var mappingRuntimeOperatorExecutionStateEnumLowerCase = map[string]RuntimeOperatorExecutionStateEnum{
@@ -162,6 +296,7 @@ var mappingRuntimeOperatorExecutionStateEnumLowerCase = map[string]RuntimeOperat
 	"error":       RuntimeOperatorExecutionStateError,
 	"skipped":     RuntimeOperatorExecutionStateSkipped,
 	"unknown":     RuntimeOperatorExecutionStateUnknown,
+	"ignored":     RuntimeOperatorExecutionStateIgnored,
 }
 
 // GetRuntimeOperatorExecutionStateEnumValues Enumerates the set of values for RuntimeOperatorExecutionStateEnum
@@ -183,11 +318,144 @@ func GetRuntimeOperatorExecutionStateEnumStringValues() []string {
 		"ERROR",
 		"SKIPPED",
 		"UNKNOWN",
+		"IGNORED",
 	}
 }
 
 // GetMappingRuntimeOperatorExecutionStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingRuntimeOperatorExecutionStateEnum(val string) (RuntimeOperatorExecutionStateEnum, bool) {
 	enum, ok := mappingRuntimeOperatorExecutionStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// RuntimeOperatorTaskTypeEnum Enum with underlying type: string
+type RuntimeOperatorTaskTypeEnum string
+
+// Set of constants representing the allowable values for RuntimeOperatorTaskTypeEnum
+const (
+	RuntimeOperatorTaskTypeIntegrationTask RuntimeOperatorTaskTypeEnum = "INTEGRATION_TASK"
+	RuntimeOperatorTaskTypeDataLoaderTask  RuntimeOperatorTaskTypeEnum = "DATA_LOADER_TASK"
+	RuntimeOperatorTaskTypePipelineTask    RuntimeOperatorTaskTypeEnum = "PIPELINE_TASK"
+	RuntimeOperatorTaskTypeSqlTask         RuntimeOperatorTaskTypeEnum = "SQL_TASK"
+	RuntimeOperatorTaskTypeOciDataflowTask RuntimeOperatorTaskTypeEnum = "OCI_DATAFLOW_TASK"
+	RuntimeOperatorTaskTypeRestTask        RuntimeOperatorTaskTypeEnum = "REST_TASK"
+)
+
+var mappingRuntimeOperatorTaskTypeEnum = map[string]RuntimeOperatorTaskTypeEnum{
+	"INTEGRATION_TASK":  RuntimeOperatorTaskTypeIntegrationTask,
+	"DATA_LOADER_TASK":  RuntimeOperatorTaskTypeDataLoaderTask,
+	"PIPELINE_TASK":     RuntimeOperatorTaskTypePipelineTask,
+	"SQL_TASK":          RuntimeOperatorTaskTypeSqlTask,
+	"OCI_DATAFLOW_TASK": RuntimeOperatorTaskTypeOciDataflowTask,
+	"REST_TASK":         RuntimeOperatorTaskTypeRestTask,
+}
+
+var mappingRuntimeOperatorTaskTypeEnumLowerCase = map[string]RuntimeOperatorTaskTypeEnum{
+	"integration_task":  RuntimeOperatorTaskTypeIntegrationTask,
+	"data_loader_task":  RuntimeOperatorTaskTypeDataLoaderTask,
+	"pipeline_task":     RuntimeOperatorTaskTypePipelineTask,
+	"sql_task":          RuntimeOperatorTaskTypeSqlTask,
+	"oci_dataflow_task": RuntimeOperatorTaskTypeOciDataflowTask,
+	"rest_task":         RuntimeOperatorTaskTypeRestTask,
+}
+
+// GetRuntimeOperatorTaskTypeEnumValues Enumerates the set of values for RuntimeOperatorTaskTypeEnum
+func GetRuntimeOperatorTaskTypeEnumValues() []RuntimeOperatorTaskTypeEnum {
+	values := make([]RuntimeOperatorTaskTypeEnum, 0)
+	for _, v := range mappingRuntimeOperatorTaskTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetRuntimeOperatorTaskTypeEnumStringValues Enumerates the set of values in String for RuntimeOperatorTaskTypeEnum
+func GetRuntimeOperatorTaskTypeEnumStringValues() []string {
+	return []string{
+		"INTEGRATION_TASK",
+		"DATA_LOADER_TASK",
+		"PIPELINE_TASK",
+		"SQL_TASK",
+		"OCI_DATAFLOW_TASK",
+		"REST_TASK",
+	}
+}
+
+// GetMappingRuntimeOperatorTaskTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRuntimeOperatorTaskTypeEnum(val string) (RuntimeOperatorTaskTypeEnum, bool) {
+	enum, ok := mappingRuntimeOperatorTaskTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// RuntimeOperatorOperatorTypeEnum Enum with underlying type: string
+type RuntimeOperatorOperatorTypeEnum string
+
+// Set of constants representing the allowable values for RuntimeOperatorOperatorTypeEnum
+const (
+	RuntimeOperatorOperatorTypeBashOperator       RuntimeOperatorOperatorTypeEnum = "BASH_OPERATOR"
+	RuntimeOperatorOperatorTypeTaskOperator       RuntimeOperatorOperatorTypeEnum = "TASK_OPERATOR"
+	RuntimeOperatorOperatorTypeRestOperator       RuntimeOperatorOperatorTypeEnum = "REST_OPERATOR"
+	RuntimeOperatorOperatorTypeStartOperator      RuntimeOperatorOperatorTypeEnum = "START_OPERATOR"
+	RuntimeOperatorOperatorTypeEndOperator        RuntimeOperatorOperatorTypeEnum = "END_OPERATOR"
+	RuntimeOperatorOperatorTypeExpressionOperator RuntimeOperatorOperatorTypeEnum = "EXPRESSION_OPERATOR"
+	RuntimeOperatorOperatorTypeMergeOperator      RuntimeOperatorOperatorTypeEnum = "MERGE_OPERATOR"
+	RuntimeOperatorOperatorTypeDecisionOperator   RuntimeOperatorOperatorTypeEnum = "DECISION_OPERATOR"
+	RuntimeOperatorOperatorTypeLoopOperator       RuntimeOperatorOperatorTypeEnum = "LOOP_OPERATOR"
+	RuntimeOperatorOperatorTypeActualEndOperator  RuntimeOperatorOperatorTypeEnum = "ACTUAL_END_OPERATOR"
+)
+
+var mappingRuntimeOperatorOperatorTypeEnum = map[string]RuntimeOperatorOperatorTypeEnum{
+	"BASH_OPERATOR":       RuntimeOperatorOperatorTypeBashOperator,
+	"TASK_OPERATOR":       RuntimeOperatorOperatorTypeTaskOperator,
+	"REST_OPERATOR":       RuntimeOperatorOperatorTypeRestOperator,
+	"START_OPERATOR":      RuntimeOperatorOperatorTypeStartOperator,
+	"END_OPERATOR":        RuntimeOperatorOperatorTypeEndOperator,
+	"EXPRESSION_OPERATOR": RuntimeOperatorOperatorTypeExpressionOperator,
+	"MERGE_OPERATOR":      RuntimeOperatorOperatorTypeMergeOperator,
+	"DECISION_OPERATOR":   RuntimeOperatorOperatorTypeDecisionOperator,
+	"LOOP_OPERATOR":       RuntimeOperatorOperatorTypeLoopOperator,
+	"ACTUAL_END_OPERATOR": RuntimeOperatorOperatorTypeActualEndOperator,
+}
+
+var mappingRuntimeOperatorOperatorTypeEnumLowerCase = map[string]RuntimeOperatorOperatorTypeEnum{
+	"bash_operator":       RuntimeOperatorOperatorTypeBashOperator,
+	"task_operator":       RuntimeOperatorOperatorTypeTaskOperator,
+	"rest_operator":       RuntimeOperatorOperatorTypeRestOperator,
+	"start_operator":      RuntimeOperatorOperatorTypeStartOperator,
+	"end_operator":        RuntimeOperatorOperatorTypeEndOperator,
+	"expression_operator": RuntimeOperatorOperatorTypeExpressionOperator,
+	"merge_operator":      RuntimeOperatorOperatorTypeMergeOperator,
+	"decision_operator":   RuntimeOperatorOperatorTypeDecisionOperator,
+	"loop_operator":       RuntimeOperatorOperatorTypeLoopOperator,
+	"actual_end_operator": RuntimeOperatorOperatorTypeActualEndOperator,
+}
+
+// GetRuntimeOperatorOperatorTypeEnumValues Enumerates the set of values for RuntimeOperatorOperatorTypeEnum
+func GetRuntimeOperatorOperatorTypeEnumValues() []RuntimeOperatorOperatorTypeEnum {
+	values := make([]RuntimeOperatorOperatorTypeEnum, 0)
+	for _, v := range mappingRuntimeOperatorOperatorTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetRuntimeOperatorOperatorTypeEnumStringValues Enumerates the set of values in String for RuntimeOperatorOperatorTypeEnum
+func GetRuntimeOperatorOperatorTypeEnumStringValues() []string {
+	return []string{
+		"BASH_OPERATOR",
+		"TASK_OPERATOR",
+		"REST_OPERATOR",
+		"START_OPERATOR",
+		"END_OPERATOR",
+		"EXPRESSION_OPERATOR",
+		"MERGE_OPERATOR",
+		"DECISION_OPERATOR",
+		"LOOP_OPERATOR",
+		"ACTUAL_END_OPERATOR",
+	}
+}
+
+// GetMappingRuntimeOperatorOperatorTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRuntimeOperatorOperatorTypeEnum(val string) (RuntimeOperatorOperatorTypeEnum, bool) {
+	enum, ok := mappingRuntimeOperatorOperatorTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ScmConfiguration A configuration for the Source Code Management tool/platform used by an remediation recipe.
+// ScmConfiguration A configuration for the Source Code Management tool/platform used by a remediation recipe.
 type ScmConfiguration interface {
 
 	// The branch used by ADM to patch vulnerabilities.
