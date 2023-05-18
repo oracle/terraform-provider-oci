@@ -363,6 +363,23 @@ func (s *VnMonitoringPathAnalysiResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	workRequestResponse := oci_vn_monitoring.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_vn_monitoring.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vn_monitoring"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "vn_monitoring") && res.Identifier != nil {
+				s.D.SetId(*res.Identifier)
+				break
+			}
+		}
+	}
 	return s.getPathAnalysiFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vn_monitoring"), oci_vn_monitoring.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

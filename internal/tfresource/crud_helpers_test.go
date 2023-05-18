@@ -264,6 +264,8 @@ type mockWorkRequestClient struct{}
 
 func (client *mockWorkRequestClient) GetWorkRequest(_ context.Context, wreq oci_work_requests.GetWorkRequestRequest) (response oci_work_requests.GetWorkRequestResponse, err error) {
 	var v oci_work_requests.GetWorkRequestResponse
+	err = nil
+
 	switch *wreq.WorkRequestId {
 	case "1":
 		s := ""
@@ -286,6 +288,14 @@ func (client *mockWorkRequestClient) GetWorkRequest(_ context.Context, wreq oci_
 		r := []oci_work_requests.WorkRequestResource{{EntityType: &et, Identifier: &id, ActionType: "CREATED"}}
 		wr := oci_work_requests.WorkRequest{Status: "CANCELED", Resources: r}
 		v = oci_work_requests.GetWorkRequestResponse{RawResponse: nil, WorkRequest: wr, OpcRequestId: &s}
+	case "4": // Error scenario
+		s := ""
+		et := ""
+		id := ""
+		r := []oci_work_requests.WorkRequestResource{{EntityType: &et, Identifier: &id, ActionType: "CREATED"}}
+		wr := oci_work_requests.WorkRequest{Status: "ABC", Resources: r}
+		v = oci_work_requests.GetWorkRequestResponse{RawResponse: nil, WorkRequest: wr, OpcRequestId: &s}
+		err = fmt.Errorf("get request failed")
 	default:
 		s := ""
 		et := "default"
@@ -294,7 +304,7 @@ func (client *mockWorkRequestClient) GetWorkRequest(_ context.Context, wreq oci_
 		wr := oci_work_requests.WorkRequest{Status: "SUCCEEDED", Resources: r}
 		v = oci_work_requests.GetWorkRequestResponse{RawResponse: nil, WorkRequest: wr, OpcRequestId: &s}
 	}
-	return v, nil
+	return v, err
 }
 func (client *mockWorkRequestClient) ListWorkRequestErrors(_ context.Context, _ oci_work_requests.ListWorkRequestErrorsRequest) (response oci_work_requests.ListWorkRequestErrorsResponse, err error) {
 	s := "default"
@@ -1495,6 +1505,55 @@ func TestUnitWaitForWorkRequest(t *testing.T) {
 		}
 		if (err != nil) != test.output.gotError {
 			t.Errorf("Output error - %q which is not equal to expected error - %t", err, test.output.gotError)
+		}
+	}
+}
+
+func TestUnitGetResourceIDFromWorkRequest(t *testing.T) {
+	type output struct {
+		identifier string
+	}
+	type args struct {
+		workRequestClient   *mockWorkRequestClient
+		workRequestId       *string
+		entityType          string
+		disableFoundRetries bool
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output output
+	}
+	workReqId1 := "1"
+	workReqId2 := "2"
+	workReqId4 := "4"
+	tests := []testFormat{
+		{
+			name:   "Test correct entityType",
+			args:   args{workRequestClient: &mockWorkRequestClient{}, workRequestId: &workReqId1, entityType: "default", disableFoundRetries: false},
+			output: output{identifier: "oci"},
+		},
+		{
+			name:   "Test incorrect entityType",
+			args:   args{workRequestClient: &mockWorkRequestClient{}, workRequestId: &workReqId1, entityType: "default1", disableFoundRetries: false},
+			output: output{identifier: ""},
+		},
+		{
+			name:   "Test empty identifier",
+			args:   args{workRequestClient: &mockWorkRequestClient{}, workRequestId: &workReqId2, entityType: "default", disableFoundRetries: false},
+			output: output{identifier: ""},
+		},
+		{
+			name:   "Test error returned",
+			args:   args{workRequestClient: &mockWorkRequestClient{}, workRequestId: &workReqId4, entityType: "default", disableFoundRetries: false},
+			output: output{identifier: ""},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		id := GetResourceIDFromWorkRequest(test.args.workRequestClient, test.args.workRequestId, test.args.entityType, test.args.disableFoundRetries)
+		if id != nil && *id != test.output.identifier {
+			t.Errorf("Output string - %s is not equal to expected string - %s", *id, test.output.identifier)
 		}
 	}
 }

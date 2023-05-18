@@ -191,6 +191,11 @@ func (s *WaaWebAppAccelerationResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.GetId()
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	return s.getWebAppAccelerationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waa"), oci_waa.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

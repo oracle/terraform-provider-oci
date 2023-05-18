@@ -893,6 +893,12 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	}
 	workId := response.OpcWorkRequestId
 	if workId != nil {
+		var identifier *string
+		var err error
+		identifier = response.Id
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
 		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err

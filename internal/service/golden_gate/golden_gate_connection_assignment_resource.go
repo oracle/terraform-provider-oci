@@ -135,6 +135,11 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	// Wait until it finishes
 
 	_, err = connectionAssignmentWaitForWorkRequest(workId, "goldengateconnectionassignment",

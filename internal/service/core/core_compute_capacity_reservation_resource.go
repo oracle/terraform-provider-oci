@@ -312,7 +312,12 @@ func (s *CoreComputeCapacityReservationResourceCrud) Create() error {
 	if workId == nil {
 		return fmt.Errorf("CreateComputeCapacityReservation response.OpcWorkRequestId was nil")
 	}
-	identifier, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
+	identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
