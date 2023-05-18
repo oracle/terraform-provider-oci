@@ -1004,6 +1004,11 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 
 	return s.getContainerInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance"), oci_container_instances.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }

@@ -220,6 +220,23 @@ func (s *EmWarehouseEmWarehouseResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	workRequestResponse := oci_em_warehouse.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_em_warehouse.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "emwarehouse"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "emwarehouse") && res.Identifier != nil {
+				s.D.SetId(*res.Identifier)
+				break
+			}
+		}
+	}
 	return s.getEmWarehouseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "emwarehouse"), oci_em_warehouse.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

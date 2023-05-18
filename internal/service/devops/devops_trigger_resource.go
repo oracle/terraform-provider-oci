@@ -358,6 +358,11 @@ func (s *DevopsTriggerResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.GetId()
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	return s.getTriggerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

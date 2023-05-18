@@ -414,6 +414,11 @@ func (s *OpsiExadataInsightResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.GetId()
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 
 	// Wait until it finishes
 	exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
