@@ -1653,9 +1653,9 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateContainerDe
 				tmp[i], _ = oci_container_instances.GetMappingContainerCapabilityEnum(interfaces[i].(string))
 			}
 		}
-		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "additional_capabilities")) {
-			result.AdditionalCapabilities = tmp
-		}
+		//if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "additional_capabilities")) {
+		//	result.AdditionalCapabilities = tmp
+		//}
 	}
 
 	if arguments, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "arguments")); ok {
@@ -2668,10 +2668,9 @@ func ContainerToMap(obj oci_container_instances.Container) map[string]interface{
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
-
-	if obj.AdditionalCapabilities != nil {
-		result["additional_capabilities"] = obj.AdditionalCapabilities
-	}
+	//if obj.AdditionalCapabilities != nil {
+	//	result["additional_capabilities"] = obj.AdditionalCapabilities
+	//}
 
 	if obj.Arguments != nil {
 		result["arguments"] = obj.Arguments
