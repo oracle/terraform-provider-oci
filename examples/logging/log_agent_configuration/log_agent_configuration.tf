@@ -12,7 +12,7 @@ variable "unified_agent_configuration_description" {
 }
 
 variable "unified_agent_configuration_display_name" {
-  default = "tf-agentConfigName"
+  default = "tf-agentConfigName1"
 }
 
 variable "unified_agent_configuration_freeform_tags" {
@@ -191,6 +191,25 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
     destination {
       #Required field for destination
       log_object_id = var.test_log_id
+    }
+    sources {
+      #Required
+      source_type = var.unified_agent_configuration_service_configuration_sources_source_type
+
+      #Optional
+      # channels for windows only
+      # channels = var.unified_agent_configuration_service_configuration_sources_channels
+      name     = var.unified_agent_configuration_service_configuration_sources_name
+      parser {
+        parser_type = "CRI"
+        is_merge_cri_fields = false
+        nested_parser {
+          time_format = "%Y-%m-%dT%H:%M:%S.%L%z"
+          field_time_key = "time"
+          is_keep_time_key = true
+        }
+      }
+      paths = ["/var/log/*"]
     }
     sources {
       #Required
