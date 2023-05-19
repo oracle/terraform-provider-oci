@@ -1,3 +1,18 @@
+## 4.122.0 (Unreleased)
+
+### Added
+- Remove hardcoded passwords from golden_gate integration test codes
+- ExaDB-C@C (EXACC) Data Plane Guest VMs (API/UI Only)
+- Support for Node Subsetting | ADB-D
+- Support for DNS Secondary Egress and creating DNS zones from zone files
+- Support for unified agent config CRI parser
+- Support for Create oci_dns_rrsets data source
+- Changes for setting resource ID in state file before workrequest completion
+### Bug Fix
+- Populate user resource optional fields only if they arent empty
+: Remove system tags from SZ requests
+- adding fix for cloudguard detector rule condition paramter unmarshalling issue
+
 ## 4.121.0 (May 17, 2023)
 
 ### Added
