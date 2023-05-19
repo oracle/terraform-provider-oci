@@ -254,7 +254,8 @@ var exportDnsTsigKeyHints = &tf_export.TerraformResourceHints{
 
 var exportDnsRrsetHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_dns_rrset",
-	DatasourceClass:      "oci_dns_rrset",
+	DatasourceClass:      "oci_dns_rrsets",
+	DatasourceItemsAttr:  "rrsets",
 	ResourceAbbreviation: "rrset",
 }
 
