@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_logging_log_saved_searches
 This data source provides the list of Log Saved Searches in Oracle Cloud Infrastructure Logging service.
 
-Lists Logging Saved Searches for this compartment.
+Lists LogSavedSearches for this compartment.
 
 
 ## Example Usage
@@ -31,8 +31,8 @@ data "oci_logging_log_saved_searches" "test_log_saved_searches" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) Compartment OCID to list resources in. See compartmentIdInSubtree for nested compartments traversal. 
-* `log_saved_search_id` - (Optional) OCID of the LogSavedSearch 
-* `name` - (Optional) Resource name
+* `log_saved_search_id` - (Optional) OCID of the LogSavedSearch. 
+* `name` - (Optional) Resource name.
 
 
 ## Attributes Reference

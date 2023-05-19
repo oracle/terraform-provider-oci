@@ -104,6 +104,25 @@ var (
 		"parser":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation},
 		//"channels":    acctest.Representation{RepType: acctest.Required, Create: []string{`Security`}, Update: []string{`Security`, `Application`}},
 	}
+
+	// Add new test configs here
+	// CRI parser configs
+	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesCriParserNestedParserRepresentation = map[string]interface{}{
+		"time_format":      acctest.Representation{RepType: acctest.Optional, Create: `%Y-%m-%dT%H:%M:%S.%L%z`, Update: `%Y-%m-%d %H:%M:%S.%L%z`},
+		"field_time_key":   acctest.Representation{RepType: acctest.Optional, Create: `time`, Update: `time1`},
+		"is_keep_time_key": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+	}
+
+	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesCriParserRepresentation = map[string]interface{}{
+		"parser_type":         acctest.Representation{RepType: acctest.Required, Create: `CRI`},
+		"is_merge_cri_fields": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"nested_parser":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesCriParserNestedParserRepresentation},
+	}
+
+	LoggingUnifiedAgentConfigurationCriRepresentation = acctest.GetUpdatedRepresentationCopy(
+		"service_configuration.sources.parser",
+		acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesCriParserRepresentation},
+		LoggingUnifiedAgentConfigurationRepresentation)
 )
 
 // issue-routing-tag: logging/default
@@ -129,6 +148,90 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Create, LoggingUnifiedAgentConfigurationRepresentation), "logging", "unifiedAgentConfiguration", t)
 
 	acctest.ResourceTest(t, testAccCheckLoggingUnifiedAgentConfigurationDestroy, []resource.TestStep{
+
+		// Add new tests here
+		// CRI parser test required
+		{
+			Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Required, acctest.Create, LoggingUnifiedAgentConfigurationCriRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.configuration_type", "LOGGING"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "service_configuration.0.destination.0.log_object_id"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.paths.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.parser_type", "CRI"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// CRI parser test optional
+		{
+			Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Create, LoggingUnifiedAgentConfigurationCriRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.configuration_type", "LOGGING"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "service_configuration.0.destination.0.log_object_id"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.paths.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.parser_type", "CRI"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.is_merge_cri_fields", "true"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.nested_parser.0.time_format", "%Y-%m-%dT%H:%M:%S.%L%z"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.nested_parser.0.field_time_key", "time"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.nested_parser.0.is_keep_time_key", "true"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// CRI parser test optional update
+		{
+			Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_logging_unified_agent_configuration", "test_unified_agent_configuration", acctest.Optional, acctest.Update, LoggingUnifiedAgentConfigurationCriRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.configuration_type", "LOGGING"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "service_configuration.0.destination.0.log_object_id"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.paths.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.parser_type", "CRI"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.is_merge_cri_fields", "false"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.nested_parser.0.time_format", "%Y-%m-%d %H:%M:%S.%L%z"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.nested_parser.0.field_time_key", "time1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.nested_parser.0.is_keep_time_key", "false"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// Don't change below tests
 		// 0. verify Create
 		{
 			Config: config + compartmentIdVariableStr + LoggingUnifiedAgentConfigurationResourceDependencies +

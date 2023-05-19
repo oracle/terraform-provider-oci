@@ -122,6 +122,7 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 														"APACHE2",
 														"APACHE_ERROR",
 														"AUDITD",
+														"CRI",
 														"CSV",
 														"GROK",
 														"JSON",
@@ -184,6 +185,12 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
+												"is_merge_cri_fields": {
+													Type:             schema.TypeBool,
+													Optional:         true,
+													Computed:         true,
+													DiffSuppressFunc: criDiffSuppressfunc,
+												},
 												"is_null_empty_string": {
 													Type:     schema.TypeBool,
 													Optional: true,
@@ -221,6 +228,40 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
+												},
+												"nested_parser": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+
+															// Optional
+															"field_time_key": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"time_format": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"time_type": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"is_keep_time_key": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+														},
+													},
+													DiffSuppressFunc: criDiffSuppressfunc,
 												},
 												"null_value_pattern": {
 													Type:     schema.TypeString,
@@ -315,6 +356,8 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 								},
 							},
 						},
+
+						// Optional
 
 						// Computed
 					},
@@ -1060,6 +1103,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 	} else {
 		parserType = "" // default value
 	}
+
 	switch strings.ToLower(parserType) {
 	case strings.ToLower("APACHE2"):
 		details := oci_logging.UnifiedAgentApache2Parser{}
@@ -1123,6 +1167,50 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 		baseObject = details
 	case strings.ToLower("AUDITD"):
 		details := oci_logging.UnifiedAgentAuditdParser{}
+		if fieldTimeKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "field_time_key")); ok {
+			tmp := fieldTimeKey.(string)
+			details.FieldTimeKey = &tmp
+		}
+		if isEstimateCurrentEvent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_estimate_current_event")); ok {
+			tmp := isEstimateCurrentEvent.(bool)
+			details.IsEstimateCurrentEvent = &tmp
+		}
+		if isKeepTimeKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_keep_time_key")); ok {
+			tmp := isKeepTimeKey.(bool)
+			details.IsKeepTimeKey = &tmp
+		}
+		if isNullEmptyString, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_null_empty_string")); ok {
+			tmp := isNullEmptyString.(bool)
+			details.IsNullEmptyString = &tmp
+		}
+		if nullValuePattern, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "null_value_pattern")); ok {
+			tmp := nullValuePattern.(string)
+			details.NullValuePattern = &tmp
+		}
+		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+			tmp := timeoutInMilliseconds.(int)
+			details.TimeoutInMilliseconds = &tmp
+		}
+		if types, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "types")); ok {
+			details.Types = tfresource.ObjectMapToStringMap(types.(map[string]interface{}))
+		}
+		baseObject = details
+	case strings.ToLower("CRI"):
+		details := oci_logging.UnifiedAgentCriParser{}
+		if isMergeCriFields, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_merge_cri_fields")); ok {
+			tmp := isMergeCriFields.(bool)
+			details.IsMergeCriFields = &tmp
+		}
+		if nestedParser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nested_parser")); ok {
+			if tmpList := nestedParser.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "nested_parser"), 0)
+				tmp, err := s.mapToUnifiedJsonParser(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert nested_parser, encountered error: %v", err)
+				}
+				details.NestedParser = &tmp
+			}
+		}
 		if fieldTimeKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "field_time_key")); ok {
 			tmp := fieldTimeKey.(string)
 			details.FieldTimeKey = &tmp
@@ -1676,6 +1764,17 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
 		}
+	case oci_logging.UnifiedAgentCriParser:
+		result["parser_type"] = "CRI"
+
+		if v.IsMergeCriFields != nil {
+			result["is_merge_cri_fields"] = bool(*v.IsMergeCriFields)
+		}
+
+		if v.NestedParser != nil {
+			result["nested_parser"] = []interface{}{UnifiedJsonParserToMap(v.NestedParser)}
+		}
+
 	case oci_logging.UnifiedAgentCsvParser:
 		result["parser_type"] = "CSV"
 		if v.FieldTimeKey != nil {
@@ -2081,6 +2180,51 @@ func UnifiedAgentServiceConfigurationDetailsToMap(obj *oci_logging.UnifiedAgentS
 	return result
 }
 
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedJsonParser(fieldKeyFormat string) (oci_logging.UnifiedJsonParser, error) {
+	result := oci_logging.UnifiedJsonParser{}
+
+	if timeFormat, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_format")); ok {
+		tmp := timeFormat.(string)
+		result.TimeFormat = &tmp
+	}
+
+	if timeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_type")); ok {
+		result.TimeType = oci_logging.UnifiedJsonParserTimeTypeEnum(timeType.(string))
+	}
+
+	if fieldTimeKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "field_time_key")); ok {
+		tmp := fieldTimeKey.(string)
+		result.FieldTimeKey = &tmp
+	}
+
+	if isKeepTimeKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_keep_time_key")); ok {
+		tmp := isKeepTimeKey.(bool)
+		result.IsKeepTimeKey = &tmp
+	}
+
+	return result, nil
+}
+
+func UnifiedJsonParserToMap(obj *oci_logging.UnifiedJsonParser) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.TimeFormat != nil {
+		result["time_format"] = string(*obj.TimeFormat)
+	}
+
+	result["time_type"] = string(obj.TimeType)
+
+	if obj.FieldTimeKey != nil {
+		result["field_time_key"] = *obj.FieldTimeKey
+	}
+
+	if obj.IsKeepTimeKey != nil {
+		result["is_keep_time_key"] = *obj.IsKeepTimeKey
+	}
+
+	return result
+}
+
 func (s *LoggingUnifiedAgentConfigurationResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_logging.ChangeUnifiedAgentConfigurationCompartmentRequest{}
 
@@ -2099,4 +2243,34 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) updateCompartment(compart
 
 	workId := response.OpcWorkRequestId
 	return s.getUnifiedAgentConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func criDiffSuppressfunc(k string, old string, new string, d *schema.ResourceData) bool {
+	// k = "service_configuration.0.sources.0.parser.0.xxx"
+	var parserTypeStr string
+	dotIndex := findNthDotIndex(k, 6)
+	if dotIndex != -1 {
+		parserTypePath := k[:dotIndex+1] + "parser_type"
+		if parserType, ok := d.GetOkExists(parserTypePath); ok {
+			parserTypeStr = parserType.(string)
+			if strings.ToLower(parserTypeStr) == "cri" {
+				return false
+			}
+		}
+	}
+	log.Printf("Diff suppress for parser_type: %v. k: %v, old: %v, new: %v", parserTypeStr, k, old, new)
+	return true
+}
+
+func findNthDotIndex(s string, n int) int {
+	count := 0
+	for i, char := range s {
+		if char == '.' {
+			count++
+			if count == n {
+				return i
+			}
+		}
+	}
+	return -1 // Return -1 if the ith dot is not found
 }
