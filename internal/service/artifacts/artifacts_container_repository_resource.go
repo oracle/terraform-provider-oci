@@ -39,6 +39,19 @@ func ArtifactsContainerRepositoryResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"is_immutable": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -95,9 +108,18 @@ func ArtifactsContainerRepositoryResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"namespace": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -185,9 +207,21 @@ func (s *ArtifactsContainerRepositoryResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if isImmutable, ok := s.D.GetOkExists("is_immutable"); ok {
@@ -251,6 +285,18 @@ func (s *ArtifactsContainerRepositoryResourceCrud) Update() error {
 	}
 	request := oci_artifacts.UpdateContainerRepositoryRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
 	if isImmutable, ok := s.D.GetOkExists("is_immutable"); ok {
 		tmp := isImmutable.(bool)
 		request.IsImmutable = &tmp
@@ -312,9 +358,15 @@ func (s *ArtifactsContainerRepositoryResourceCrud) SetData() error {
 		s.D.Set("created_by", *s.Res.CreatedBy)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.ImageCount != nil {
 		s.D.Set("image_count", *s.Res.ImageCount)
@@ -336,6 +388,10 @@ func (s *ArtifactsContainerRepositoryResourceCrud) SetData() error {
 		s.D.Set("layers_size_in_bytes", strconv.FormatInt(*s.Res.LayersSizeInBytes, 10))
 	}
 
+	if s.Res.Namespace != nil {
+		s.D.Set("namespace", *s.Res.Namespace)
+	}
+
 	if s.Res.Readme != nil {
 		s.D.Set("readme", []interface{}{ContainerRepositoryReadmeToMap(s.Res.Readme)})
 	} else {
@@ -343,6 +399,10 @@ func (s *ArtifactsContainerRepositoryResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -393,9 +453,15 @@ func ContainerRepositorySummaryToMap(obj oci_artifacts.ContainerRepositorySummar
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -417,7 +483,15 @@ func ContainerRepositorySummaryToMap(obj oci_artifacts.ContainerRepositorySummar
 		result["layers_size_in_bytes"] = strconv.FormatInt(*obj.LayersSizeInBytes, 10)
 	}
 
+	if obj.Namespace != nil {
+		result["namespace"] = string(*obj.Namespace)
+	}
+
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

@@ -31,6 +31,11 @@ func ArtifactsContainerImageDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"digest": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -38,6 +43,11 @@ func ArtifactsContainerImageDataSource() *schema.Resource {
 			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"layers": {
 				Type:     schema.TypeList,
@@ -87,6 +97,11 @@ func ArtifactsContainerImageDataSource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -181,6 +196,10 @@ func (s *ArtifactsContainerImageDataSourceCrud) SetData() error {
 		s.D.Set("created_by", *s.Res.CreatedBy)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.Digest != nil {
 		s.D.Set("digest", *s.Res.Digest)
 	}
@@ -188,6 +207,8 @@ func (s *ArtifactsContainerImageDataSourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	layers := []interface{}{}
 	for _, item := range s.Res.Layers {
@@ -216,6 +237,10 @@ func (s *ArtifactsContainerImageDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
