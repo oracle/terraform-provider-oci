@@ -6,6 +6,7 @@ package dns
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_dns_action_create_zone_from_zone_file", DnsActionCreateZoneFromZoneFileResource())
 	tfresource.RegisterResource("oci_dns_record", DnsRecordResource())
 	tfresource.RegisterResource("oci_dns_resolver", DnsResolverResource())
 	tfresource.RegisterResource("oci_dns_resolver_endpoint", DnsResolverEndpointResource())

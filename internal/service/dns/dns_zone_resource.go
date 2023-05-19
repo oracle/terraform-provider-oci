@@ -11,13 +11,13 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_dns "github.com/oracle/oci-go-sdk/v65/dns"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DnsZoneResource() *schema.Resource {
@@ -57,6 +57,34 @@ func DnsZoneResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
+			},
+			"external_downstreams": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"address": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"port": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"tsig_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"external_masters": {
 				Type:     schema.TypeList,
@@ -145,6 +173,35 @@ func DnsZoneResource() *schema.Resource {
 			"version": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"zone_transfer_servers": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_transfer_destination": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_transfer_source": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"port": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -242,6 +299,23 @@ func (s *DnsZoneResourceCrud) Create() error {
 			return err
 		}
 		createZoneDetailsRequest.DefinedTags = convertedDefinedTags
+	}
+
+	if externalDownstreams, ok := s.D.GetOkExists("external_downstreams"); ok {
+		interfaces := externalDownstreams.([]interface{})
+		tmp := make([]oci_dns.ExternalDownstream, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "external_downstreams", stateDataIndex)
+			converted, err := s.mapToExternalDownstream(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("external_downstreams") {
+			createZoneDetailsRequest.ExternalDownstreams = tmp
+		}
 	}
 
 	if externalMasters, ok := s.D.GetOkExists("external_masters"); ok {
@@ -366,6 +440,23 @@ func (s *DnsZoneResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if externalDownstreams, ok := s.D.GetOkExists("external_downstreams"); ok {
+		interfaces := externalDownstreams.([]interface{})
+		tmp := make([]oci_dns.ExternalDownstream, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "external_downstreams", stateDataIndex)
+			converted, err := s.mapToExternalDownstream(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("external_downstreams") {
+			request.ExternalDownstreams = tmp
+		}
+	}
+
 	if externalMasters, ok := s.D.GetOkExists("external_masters"); ok {
 		interfaces := externalMasters.([]interface{})
 		tmp := make([]oci_dns.ExternalMaster, len(interfaces))
@@ -447,6 +538,12 @@ func (s *DnsZoneResourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	externalDownstreams := []interface{}{}
+	for _, item := range s.Res.ExternalDownstreams {
+		externalDownstreams = append(externalDownstreams, ExternalDownstreamToMap(item))
+	}
+	s.D.Set("external_downstreams", externalDownstreams)
+
 	externalMasters := []interface{}{}
 	for _, item := range s.Res.ExternalMasters {
 		externalMasters = append(externalMasters, ExternalMasterToMap(item))
@@ -499,7 +596,52 @@ func (s *DnsZoneResourceCrud) SetData() error {
 		s.D.Set("is_protected", *s.Res.IsProtected)
 	}
 
+	zoneTransferServers := []interface{}{}
+	for _, item := range s.Res.ZoneTransferServers {
+		zoneTransferServers = append(zoneTransferServers, ZoneTransferServerToMap(item))
+	}
+	s.D.Set("zone_transfer_servers", zoneTransferServers)
+
 	return nil
+}
+
+func (s *DnsZoneResourceCrud) mapToExternalDownstream(fieldKeyFormat string) (oci_dns.ExternalDownstream, error) {
+	result := oci_dns.ExternalDownstream{}
+
+	if address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address")); ok {
+		tmp := address.(string)
+		result.Address = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	if tsigKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tsig_key_id")); ok {
+		tmp := tsigKeyId.(string)
+		result.TsigKeyId = &tmp
+	}
+
+	return result, nil
+}
+
+func ExternalDownstreamToMap(obj oci_dns.ExternalDownstream) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Address != nil {
+		result["address"] = string(*obj.Address)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	if obj.TsigKeyId != nil {
+		result["tsig_key_id"] = string(*obj.TsigKeyId)
+	}
+
+	return result
 }
 
 func (s *DnsZoneResourceCrud) mapToExternalMaster(fieldKeyFormat string) (oci_dns.ExternalMaster, error) {
@@ -546,6 +688,28 @@ func NameserverToMap(obj oci_dns.Nameserver) map[string]interface{} {
 
 	if obj.Hostname != nil {
 		result["hostname"] = string(*obj.Hostname)
+	}
+
+	return result
+}
+
+func ZoneTransferServerToMap(obj oci_dns.ZoneTransferServer) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Address != nil {
+		result["address"] = string(*obj.Address)
+	}
+
+	if obj.IsTransferDestination != nil {
+		result["is_transfer_destination"] = bool(*obj.IsTransferDestination)
+	}
+
+	if obj.IsTransferSource != nil {
+		result["is_transfer_source"] = bool(*obj.IsTransferSource)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
 	}
 
 	return result
