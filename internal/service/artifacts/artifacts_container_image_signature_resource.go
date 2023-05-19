@@ -22,6 +22,7 @@ func ArtifactsContainerImageSignatureResource() *schema.Resource {
 		Timeouts: tfresource.DefaultTimeout,
 		Create:   createArtifactsContainerImageSignature,
 		Read:     readArtifactsContainerImageSignature,
+		Update:   updateArtifactsContainerImageSignature,
 		Delete:   deleteArtifactsContainerImageSignature,
 		Schema: map[string]*schema.Schema{
 			// Required
@@ -62,6 +63,19 @@ func ArtifactsContainerImageSignatureResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"created_by": {
@@ -71,6 +85,15 @@ func ArtifactsContainerImageSignatureResource() *schema.Resource {
 			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -96,6 +119,14 @@ func readArtifactsContainerImageSignature(d *schema.ResourceData, m interface{})
 	return tfresource.ReadResource(sync)
 }
 
+func updateArtifactsContainerImageSignature(d *schema.ResourceData, m interface{}) error {
+	sync := &ArtifactsContainerImageSignatureResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).ArtifactsClient()
+
+	return tfresource.UpdateResource(d, sync)
+}
+
 func deleteArtifactsContainerImageSignature(d *schema.ResourceData, m interface{}) error {
 	sync := &ArtifactsContainerImageSignatureResourceCrud{}
 	sync.D = d
@@ -116,12 +147,46 @@ func (s *ArtifactsContainerImageSignatureResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
+func (s *ArtifactsContainerImageSignatureResourceCrud) CreatedPending() []string {
+	return []string{}
+}
+
+func (s *ArtifactsContainerImageSignatureResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_artifacts.ContainerImageSignatureLifecycleStateAvailable),
+	}
+}
+
+func (s *ArtifactsContainerImageSignatureResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_artifacts.ContainerImageSignatureLifecycleStateDeleting),
+	}
+}
+
+func (s *ArtifactsContainerImageSignatureResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_artifacts.ContainerImageSignatureLifecycleStateDeleted),
+	}
+}
+
 func (s *ArtifactsContainerImageSignatureResourceCrud) Create() error {
 	request := oci_artifacts.CreateContainerImageSignatureRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if imageId, ok := s.D.GetOkExists("image_id"); ok {
@@ -181,6 +246,35 @@ func (s *ArtifactsContainerImageSignatureResourceCrud) Get() error {
 	return nil
 }
 
+func (s *ArtifactsContainerImageSignatureResourceCrud) Update() error {
+	request := oci_artifacts.UpdateContainerImageSignatureRequest{}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	tmp := s.D.Id()
+	request.ImageSignatureId = &tmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
+
+	response, err := s.Client.UpdateContainerImageSignature(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.ContainerImageSignature
+	return nil
+}
+
 func (s *ArtifactsContainerImageSignatureResourceCrud) Delete() error {
 	request := oci_artifacts.DeleteContainerImageSignatureRequest{}
 
@@ -203,9 +297,15 @@ func (s *ArtifactsContainerImageSignatureResourceCrud) SetData() error {
 		s.D.Set("created_by", *s.Res.CreatedBy)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.ImageId != nil {
 		s.D.Set("image_id", *s.Res.ImageId)
@@ -229,6 +329,12 @@ func (s *ArtifactsContainerImageSignatureResourceCrud) SetData() error {
 
 	s.D.Set("signing_algorithm", s.Res.SigningAlgorithm)
 
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -243,9 +349,15 @@ func ContainerImageSignatureSummaryToMap(obj oci_artifacts.ContainerImageSignatu
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -272,6 +384,12 @@ func ContainerImageSignatureSummaryToMap(obj oci_artifacts.ContainerImageSignatu
 	}
 
 	result["signing_algorithm"] = string(obj.SigningAlgorithm)
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

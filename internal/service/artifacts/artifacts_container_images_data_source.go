@@ -83,6 +83,11 @@ func ArtifactsContainerImagesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"defined_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"digest": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -90,6 +95,11 @@ func ArtifactsContainerImagesDataSource() *schema.Resource {
 									"display_name": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
 									},
 									"id": {
 										Type:     schema.TypeString,
@@ -143,6 +153,11 @@ func ArtifactsContainerImagesDataSource() *schema.Resource {
 									"state": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
 									},
 									"time_created": {
 										Type:     schema.TypeString,
@@ -337,6 +352,10 @@ func ContainerImageSummaryToMap(obj oci_artifacts.ContainerImageSummary) map[str
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.Digest != nil {
 		result["digest"] = string(*obj.Digest)
 	}
@@ -344,6 +363,8 @@ func ContainerImageSummaryToMap(obj oci_artifacts.ContainerImageSummary) map[str
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -358,6 +379,10 @@ func ContainerImageSummaryToMap(obj oci_artifacts.ContainerImageSummary) map[str
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
