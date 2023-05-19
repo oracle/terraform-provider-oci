@@ -29,7 +29,7 @@ var (
 	// Therefore, we need to set the env var of the pre-canned container image for testing, i.e. TF_VAR_container_image_ocid
 
 	imageId       = utils.GetEnvSettingWithBlankDefault("container_image_ocid")
-	compartmentId = utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 
 	ArtifactsArtifactscontainerImageSingularDataSourceRepresentation = map[string]interface{}{
 		"image_id": acctest.Representation{RepType: acctest.Required, Create: imageId},
@@ -72,8 +72,9 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "container_image_collection.#", "1"),
-
 				resource.TestCheckResourceAttr(datasourceName, "container_image_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "container_image_collection.0.items.0.defined_tags.%", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "container_image_collection.0.items.0.freeform_tags.%", "3"),
 				resource.TestCheckResourceAttr(datasourceName, "container_image_collection.0.remaining_items_count", "0"),
 			),
 		},
@@ -98,6 +99,8 @@ func TestArtifactsContainerImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "versions.#"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "2"),
 			),
 		},
 	})

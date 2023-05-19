@@ -12,6 +12,14 @@ variable "container_repository_compartment_id_in_subtree" {
   default = false
 }
 
+variable "container_repository_defined_tags_value" {
+  default = "value"
+}
+
+variable "container_repository_freeform_tags" {
+  default = { "Department" = "Finance" }
+}
+
 variable "container_repository_is_immutable" {
   default = false
 }
@@ -45,7 +53,7 @@ provider "oci" {
 // repository displayName needs to be unique within a tenant, so generate random string here to avoid collision
 resource "random_string" "container_repository_display_name" {
   length  = 5
-  number  = false
+  numeric  = false
   special = false
   upper = false
 }
@@ -56,8 +64,10 @@ resource "oci_artifacts_container_repository" "test_container_repository" {
   display_name   = random_string.container_repository_display_name.result
 
   #Optional
-  is_immutable = var.container_repository_is_immutable
-  is_public    = var.container_repository_is_public
+  defined_tags  = { "example-tag-namespace-all.example-tag" = var.container_repository_defined_tags_value }
+  freeform_tags = var.container_repository_freeform_tags
+  is_immutable  = var.container_repository_is_immutable
+  is_public     = var.container_repository_is_public
   readme {
     #Required
     content = var.container_repository_readme_content
