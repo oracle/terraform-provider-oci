@@ -78,6 +78,8 @@ The following attributes are exported:
 * `scan_listener_port_tls` - The SCAN Listener TLS port number. Default value is 2484.
 * `state` - The current state of the Autonomous VM cluster.
 * `time_created` - The date and time that the Autonomous VM cluster was created.
+* `time_database_ssl_certificate_expires` - The date and time of Database SSL certificate expiration.
+* `time_ords_certificate_expires` - The date and time of ORDS certificate expiration.
 * `time_zone` - The time zone to use for the Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `total_container_databases` - The total number of Autonomous Container Databases that can be created.
 * `vm_cluster_network_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.

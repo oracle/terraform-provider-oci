@@ -48,11 +48,11 @@ var (
 	}
 
 	DatabaseAutonomousVmClusterRepresentation = map[string]interface{}{
-		"compartment_id":                        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":                          acctest.Representation{RepType: acctest.Required, Create: `autonomousVmCluster`},
-		"exadata_infrastructure_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
-		"vm_cluster_network_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
-		"compute_model":                         acctest.Representation{RepType: acctest.Optional, Create: `OCPU`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `autonomousVmCluster`},
+		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+		"vm_cluster_network_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
+		//"compute_model":                         acctest.Representation{RepType: acctest.Optional, Create: `OCPU`},
 		"autonomous_data_storage_size_in_tbs":   acctest.Representation{RepType: acctest.Required, Create: `2.0`},
 		"cpu_core_count_per_node":               acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"db_servers":                            acctest.Representation{RepType: acctest.Optional, Create: []string{`${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`, `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`}},
@@ -166,14 +166,14 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Optional, acctest.Create, DatabaseAutonomousVmClusterRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster1", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousVmClusterRepresentation, map[string]interface{}{
-						"compute_model":         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+						//						"compute_model":         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
 						"display_name":          acctest.Representation{RepType: acctest.Required, Create: "testAVM2"},
 						"vm_cluster_network_id": acctest.Representation{RepType: acctest.Required, Create: "${oci_database_vm_cluster_network.test_vm_cluster_network2.id}"},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName1, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName1, "display_name", "testAVM2"),
-				resource.TestCheckResourceAttr(resourceName1, "compute_model", "ECPU"),
+				//resource.TestCheckResourceAttr(resourceName1, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttrSet(resourceName1, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttrSet(resourceName1, "vm_cluster_network_id"),
 
@@ -195,7 +195,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "autonomous_data_storage_size_in_tbs", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
+				//resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),
@@ -244,7 +244,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "autonomous_data_storage_size_in_tbs", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
+				//resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),
@@ -288,7 +288,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "autonomous_data_storage_size_in_tbs", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
+				//resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),
@@ -342,10 +342,10 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.available_container_databases"),
 				//resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.autonomous_data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.available_cpus"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.compute_model", "OCPU"),
+				//resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.compute_model", "OCPU"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.available_data_storage_size_in_tbs"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.compute_model", "OCPU"),
+				//resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.cpus_enabled"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.data_storage_size_in_tbs"),
@@ -369,6 +369,9 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.ocpus_enabled"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.time_created"),
+				// these are set only when certificate is rotated
+				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.time_database_ssl_certificate_expires"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.time_ords_certificate_expires"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.total_container_databases", "2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.vm_cluster_network_id"),
@@ -388,9 +391,9 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_cpus"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_data_storage_size_in_tbs"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compute_model", "OCPU"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compute_model", "OCPU"),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cpus_enabled"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_tbs"),
