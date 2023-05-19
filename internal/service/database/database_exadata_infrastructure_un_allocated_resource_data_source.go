@@ -8,18 +8,15 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSource() *schema.Resource {
+func DatabaseExadataInfrastructureUnAllocatedResourceDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularDatabaseCloudExadataInfrastructureUnAllocatedResource,
+		Read: readSingularDatabaseExadataInfrastructureUnAllocatedResource,
 		Schema: map[string]*schema.Schema{
-			"cloud_exadata_infrastructure_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"db_servers": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -27,8 +24,12 @@ func DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSource() *schema.R
 					Type: schema.TypeString,
 				},
 			},
+			"exadata_infrastructure_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			// Computed
-			"cloud_autonomous_vm_clusters": {
+			"autonomous_vm_clusters": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -49,7 +50,7 @@ func DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSource() *schema.R
 					},
 				},
 			},
-			"cloud_exadata_infrastructure_display_name": {
+			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -73,31 +74,26 @@ func DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSource() *schema.R
 	}
 }
 
-func readSingularDatabaseCloudExadataInfrastructureUnAllocatedResource(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSourceCrud{}
+func readSingularDatabaseExadataInfrastructureUnAllocatedResource(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseExadataInfrastructureUnAllocatedResourceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSourceCrud struct {
+type DatabaseExadataInfrastructureUnAllocatedResourceDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
-	Res    *oci_database.GetCloudExadataInfrastructureUnallocatedResourcesResponse
+	Res    *oci_database.GetExadataInfrastructureUnAllocatedResourcesResponse
 }
 
-func (s *DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSourceCrud) VoidState() {
+func (s *DatabaseExadataInfrastructureUnAllocatedResourceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSourceCrud) Get() error {
-	request := oci_database.GetCloudExadataInfrastructureUnallocatedResourcesRequest{}
-
-	if cloudExadataInfrastructureId, ok := s.D.GetOkExists("cloud_exadata_infrastructure_id"); ok {
-		tmp := cloudExadataInfrastructureId.(string)
-		request.CloudExadataInfrastructureId = &tmp
-	}
+func (s *DatabaseExadataInfrastructureUnAllocatedResourceDataSourceCrud) Get() error {
+	request := oci_database.GetExadataInfrastructureUnAllocatedResourcesRequest{}
 
 	if dbServers, ok := s.D.GetOkExists("db_servers"); ok {
 		interfaces := dbServers.([]interface{})
@@ -112,9 +108,14 @@ func (s *DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSourceCrud) Ge
 		}
 	}
 
+	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
+		tmp := exadataInfrastructureId.(string)
+		request.ExadataInfrastructureId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetCloudExadataInfrastructureUnallocatedResources(context.Background(), request)
+	response, err := s.Client.GetExadataInfrastructureUnAllocatedResources(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -123,21 +124,21 @@ func (s *DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSourceCrud) Ge
 	return nil
 }
 
-func (s *DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSourceCrud) SetData() error {
+func (s *DatabaseExadataInfrastructureUnAllocatedResourceDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSource-", DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSource(), s.D))
+	s.D.SetId(*s.Res.Id)
 
-	cloudAutonomousVmClusters := []interface{}{}
-	for _, item := range s.Res.CloudAutonomousVmClusters {
-		cloudAutonomousVmClusters = append(cloudAutonomousVmClusters, CloudAutonomousVmClusterResourceDetailsToMap(item))
+	autonomousVmClusters := []interface{}{}
+	for _, item := range s.Res.AutonomousVmClusters {
+		autonomousVmClusters = append(autonomousVmClusters, AutonomousVmClusterResourceDetailsToMap(item))
 	}
-	s.D.Set("cloud_autonomous_vm_clusters", cloudAutonomousVmClusters)
+	s.D.Set("autonomous_vm_clusters", autonomousVmClusters)
 
-	if s.Res.CloudExadataInfrastructureDisplayName != nil {
-		s.D.Set("cloud_exadata_infrastructure_display_name", *s.Res.CloudExadataInfrastructureDisplayName)
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
 	if s.Res.ExadataStorageInTBs != nil {
@@ -159,7 +160,7 @@ func (s *DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSourceCrud) Se
 	return nil
 }
 
-func CloudAutonomousVmClusterResourceDetailsToMap(obj oci_database.CloudAutonomousVmClusterResourceDetails) map[string]interface{} {
+func AutonomousVmClusterResourceDetailsToMap(obj oci_database.AutonomousVmClusterResourceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Id != nil {

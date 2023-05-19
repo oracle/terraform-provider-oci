@@ -120,6 +120,8 @@ func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("db_node_storage_size_in_gbs", *s.Res.DbNodeStorageSizeInGBs)
 	}
 
+	s.D.Set("db_servers", s.Res.DbServers)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
