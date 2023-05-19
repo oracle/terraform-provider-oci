@@ -1,4 +1,4 @@
-## 4.121.0 (Unreleased)
+## 4.121.0 (May 17, 2023)
 
 ### Added
 - Support for FAaaS - Fusion Analytics Warehouse Integration
