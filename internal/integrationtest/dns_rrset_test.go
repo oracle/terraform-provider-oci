@@ -39,7 +39,16 @@ var (
 		"view_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
 	}
 
-	dnsDomainName          = utils.RandomString(5, utils.CharsetWithoutDigits) + ".token.oci-record-test"
+	DnsDnsRrsetDataSourceRepresentation = map[string]interface{}{
+		"domain":          acctest.Representation{RepType: acctest.Required, Create: dnsDomainName},
+		"zone_name_or_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.id}`},
+		"rtype":           acctest.Representation{RepType: acctest.Required, Create: `A`},
+		"scope":           acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"view_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
+	}
+
+	dnsDomainName = utils.RandomString(5, utils.CharsetWithoutDigits) + ".token.oci-record-test"
+
 	DnsRrsetRepresentation = map[string]interface{}{
 		"domain":          acctest.Representation{RepType: acctest.Required, Create: dnsDomainName},
 		"rtype":           acctest.Representation{RepType: acctest.Required, Create: `A`},
@@ -75,7 +84,7 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_dns_rrset.test_rrset"
-
+	datasourceName := "data.oci_dns_rrsets.test_rrsets"
 	singularDatasourceName := "data.oci_dns_rrset.test_rrset"
 
 	var resId, resId2 string
@@ -164,6 +173,31 @@ func TestDnsRrsetResource_basic(t *testing.T) {
 					}
 					return err
 				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_rrsets", "test_rrsets", acctest.Optional, acctest.Update, DnsDnsRrsetDataSourceRepresentation) +
+				compartmentIdVariableStr + DnsRrsetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_rrset", "test_rrset", acctest.Optional, acctest.Update, DnsRrsetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+
+				resource.TestCheckResourceAttr(datasourceName, "rrsets.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "rrsets.0.items.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "rrsets.0.domain", dnsDomainName),
+				resource.TestCheckResourceAttr(datasourceName, "rrsets.0.rtype", "A"),
+				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "rrsets.0.items", map[string]string{
+					"domain": dnsDomainName,
+					"rdata":  "77.77.77.77",
+					"rtype":  "A",
+					"ttl":    "1000",
+				},
+					[]string{
+						"is_protected",
+						"record_hash",
+						"rrset_version",
+					}),
 			),
 		},
 		// verify singular datasource

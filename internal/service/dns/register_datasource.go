@@ -12,6 +12,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_dns_resolver_endpoints", DnsResolverEndpointsDataSource())
 	tfresource.RegisterDatasource("oci_dns_resolvers", DnsResolversDataSource())
 	tfresource.RegisterDatasource("oci_dns_rrset", DnsRrsetDataSource())
+	tfresource.RegisterDatasource("oci_dns_rrsets", DnsRrsetsDataSource())
 	tfresource.RegisterDatasource("oci_dns_steering_policies", DnsSteeringPoliciesDataSource())
 	tfresource.RegisterDatasource("oci_dns_steering_policy", DnsSteeringPolicyDataSource())
 	tfresource.RegisterDatasource("oci_dns_steering_policy_attachment", DnsSteeringPolicyAttachmentDataSource())
