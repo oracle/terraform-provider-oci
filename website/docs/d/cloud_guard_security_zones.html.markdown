@@ -64,7 +64,6 @@ The following attributes are exported:
 * `security_zone_recipe_id` - The OCID of the recipe (`SecurityRecipe`) for the security zone
 * `security_zone_target_id` - The OCID of the target associated with the security zone
 * `state` - The current state of the security zone
-* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the security zone was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time the security zone was last updated. An RFC3339 formatted datetime string.
 
