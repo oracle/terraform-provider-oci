@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// RotateAutonomousVmClusterSslCertsDetails The details for configuring the ORDS certificates on Autonomous VM Cluster
+// RotateAutonomousVmClusterSslCertsDetails Details for configuring the ORDS certificates on Autonomous Exadata VM Cluster
 type RotateAutonomousVmClusterSslCertsDetails struct {
 
-	// Specify SYSTEM for using Oracle managed certificates. Specify BYOC when you want to bring your own certificate.
+	// Specify SYSTEM to use Oracle-managed certificates. Specify BYOC when you want to bring your own certificate.
 	CertificateGenerationType RotateAutonomousVmClusterSslCertsDetailsCertificateGenerationTypeEnum `mandatory:"true" json:"certificateGenerationType"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate to use.

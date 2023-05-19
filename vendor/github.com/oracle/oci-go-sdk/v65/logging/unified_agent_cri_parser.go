@@ -19,11 +19,8 @@ import (
 	"strings"
 )
 
-// UnifiedAgentMultilineParser Multiline parser.
-type UnifiedAgentMultilineParser struct {
-
-	// Mutiline pattern format.
-	Format []string `mandatory:"true" json:"format"`
+// UnifiedAgentCriParser CRI parser.
+type UnifiedAgentCriParser struct {
 
 	// Specify time field for the event time. If the event doesn't have this field, the current time is used.
 	FieldTimeKey *string `mandatory:"false" json:"fieldTimeKey"`
@@ -63,53 +60,56 @@ type UnifiedAgentMultilineParser struct {
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 
-	// First line pattern format.
-	FormatFirstline *string `mandatory:"false" json:"formatFirstline"`
+	// If you don't need stream/logtag fields, set this to false.
+	IsMergeCriFields *bool `mandatory:"false" json:"isMergeCriFields"`
+
+	// Optional nested JSON Parser for CRI Parser. Supported fields are fieldTimeKey, timeFormat, and isKeepTimeKey.
+	NestedParser *UnifiedJsonParser `mandatory:"false" json:"nestedParser"`
 }
 
 //GetFieldTimeKey returns FieldTimeKey
-func (m UnifiedAgentMultilineParser) GetFieldTimeKey() *string {
+func (m UnifiedAgentCriParser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
 //GetTypes returns Types
-func (m UnifiedAgentMultilineParser) GetTypes() map[string]string {
+func (m UnifiedAgentCriParser) GetTypes() map[string]string {
 	return m.Types
 }
 
 //GetNullValuePattern returns NullValuePattern
-func (m UnifiedAgentMultilineParser) GetNullValuePattern() *string {
+func (m UnifiedAgentCriParser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
 //GetIsNullEmptyString returns IsNullEmptyString
-func (m UnifiedAgentMultilineParser) GetIsNullEmptyString() *bool {
+func (m UnifiedAgentCriParser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
 //GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
-func (m UnifiedAgentMultilineParser) GetIsEstimateCurrentEvent() *bool {
+func (m UnifiedAgentCriParser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
 //GetIsKeepTimeKey returns IsKeepTimeKey
-func (m UnifiedAgentMultilineParser) GetIsKeepTimeKey() *bool {
+func (m UnifiedAgentCriParser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
 //GetTimeoutInMilliseconds returns TimeoutInMilliseconds
-func (m UnifiedAgentMultilineParser) GetTimeoutInMilliseconds() *int {
+func (m UnifiedAgentCriParser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }
 
-func (m UnifiedAgentMultilineParser) String() string {
+func (m UnifiedAgentCriParser) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UnifiedAgentMultilineParser) ValidateEnumValue() (bool, error) {
+func (m UnifiedAgentCriParser) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -119,14 +119,14 @@ func (m UnifiedAgentMultilineParser) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m UnifiedAgentMultilineParser) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeUnifiedAgentMultilineParser UnifiedAgentMultilineParser
+func (m UnifiedAgentCriParser) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeUnifiedAgentCriParser UnifiedAgentCriParser
 	s := struct {
 		DiscriminatorParam string `json:"parserType"`
-		MarshalTypeUnifiedAgentMultilineParser
+		MarshalTypeUnifiedAgentCriParser
 	}{
-		"MULTILINE",
-		(MarshalTypeUnifiedAgentMultilineParser)(m),
+		"CRI",
+		(MarshalTypeUnifiedAgentCriParser)(m),
 	}
 
 	return json.Marshal(&s)

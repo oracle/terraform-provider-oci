@@ -11,15 +11,15 @@ import (
 	"strings"
 )
 
-// GetCloudExadataInfrastructureUnallocatedResourcesRequest wrapper for the GetCloudExadataInfrastructureUnallocatedResources operation
+// GetExadataInfrastructureUnAllocatedResourcesRequest wrapper for the GetExadataInfrastructureUnAllocatedResources operation
 //
 // See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetCloudExadataInfrastructureUnallocatedResources.go.html to see an example of how to use GetCloudExadataInfrastructureUnallocatedResourcesRequest.
-type GetCloudExadataInfrastructureUnallocatedResourcesRequest struct {
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExadataInfrastructureUnAllocatedResources.go.html to see an example of how to use GetExadataInfrastructureUnAllocatedResourcesRequest.
+type GetExadataInfrastructureUnAllocatedResourcesRequest struct {
 
-	// The cloud Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-	CloudExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"cloudExadataInfrastructureId"`
+	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"exadataInfrastructureId"`
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -32,12 +32,12 @@ type GetCloudExadataInfrastructureUnallocatedResourcesRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetCloudExadataInfrastructureUnallocatedResourcesRequest) String() string {
+func (request GetExadataInfrastructureUnAllocatedResourcesRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetCloudExadataInfrastructureUnallocatedResourcesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetExadataInfrastructureUnAllocatedResourcesRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -47,21 +47,21 @@ func (request GetCloudExadataInfrastructureUnallocatedResourcesRequest) HTTPRequ
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetCloudExadataInfrastructureUnallocatedResourcesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetExadataInfrastructureUnAllocatedResourcesRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetCloudExadataInfrastructureUnallocatedResourcesRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetExadataInfrastructureUnAllocatedResourcesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetCloudExadataInfrastructureUnallocatedResourcesRequest) ValidateEnumValue() (bool, error) {
+func (request GetExadataInfrastructureUnAllocatedResourcesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -69,14 +69,14 @@ func (request GetCloudExadataInfrastructureUnallocatedResourcesRequest) Validate
 	return false, nil
 }
 
-// GetCloudExadataInfrastructureUnallocatedResourcesResponse wrapper for the GetCloudExadataInfrastructureUnallocatedResources operation
-type GetCloudExadataInfrastructureUnallocatedResourcesResponse struct {
+// GetExadataInfrastructureUnAllocatedResourcesResponse wrapper for the GetExadataInfrastructureUnAllocatedResources operation
+type GetExadataInfrastructureUnAllocatedResourcesResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The CloudExadataInfrastructureUnallocatedResources instance
-	CloudExadataInfrastructureUnallocatedResources `presentIn:"body"`
+	// The ExadataInfrastructureUnAllocatedResources instance
+	ExadataInfrastructureUnAllocatedResources `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
@@ -86,11 +86,11 @@ type GetCloudExadataInfrastructureUnallocatedResourcesResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response GetCloudExadataInfrastructureUnallocatedResourcesResponse) String() string {
+func (response GetExadataInfrastructureUnAllocatedResourcesResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetCloudExadataInfrastructureUnallocatedResourcesResponse) HTTPResponse() *http.Response {
+func (response GetExadataInfrastructureUnAllocatedResourcesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

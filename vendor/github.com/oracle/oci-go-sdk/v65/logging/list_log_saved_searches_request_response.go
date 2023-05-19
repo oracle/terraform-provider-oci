@@ -22,10 +22,10 @@ type ListLogSavedSearchesRequest struct {
 	//      for nested compartments traversal.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// OCID of the LogSavedSearch
+	// OCID of the LogSavedSearch.
 	LogSavedSearchId *string `mandatory:"false" contributesTo:"query" name:"logSavedSearchId"`
 
-	// Resource name
+	// Resource name.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// For list pagination. The value of the `opc-next-page` or `opc-previous-page` response header from the previous "List" call.

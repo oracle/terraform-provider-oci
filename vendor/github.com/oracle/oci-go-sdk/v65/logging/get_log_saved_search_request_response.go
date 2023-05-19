@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/GetLogSavedSearch.go.html to see an example of how to use GetLogSavedSearchRequest.
 type GetLogSavedSearchRequest struct {
 
-	// OCID of the logSavedSearch
+	// OCID of the logSavedSearch.
 	LogSavedSearchId *string `mandatory:"true" contributesTo:"path" name:"logSavedSearchId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

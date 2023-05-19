@@ -25,7 +25,7 @@ type ListLogGroupsRequest struct {
 	// Specifies whether or not nested compartments should be traversed. Defaults to false.
 	IsCompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"isCompartmentIdInSubtree"`
 
-	// Resource name
+	// Resource name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// For list pagination. The value of the `opc-next-page` or `opc-previous-page` response header from the previous "List" call.

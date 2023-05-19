@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/CreateLogSavedSearch.go.html to see an example of how to use CreateLogSavedSearchRequest.
 type CreateLogSavedSearchRequest struct {
 
-	// Specification of the Saved Search to create
+	// Specification of the saved search to create.
 	CreateLogSavedSearchDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case
