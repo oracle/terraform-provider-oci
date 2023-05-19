@@ -6,7 +6,9 @@ package cloud_guard
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -1118,12 +1120,13 @@ func (s *CloudGuardDetectorRecipeResourceCrud) mapToUpdateDetectorRuleDetails(fi
 	//Condition Modelling
 	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
 		tmp := condition.(string)
-		var conditionObj oci_cloud_guard.Condition
-		err := json.Unmarshal([]byte(tmp), &conditionObj)
-		if err != nil {
-			return result, err
+		if len(strings.TrimSpace(tmp)) > 0 {
+			var err error
+			result.Condition, err = jsonToCondition(tmp)
+			if err != nil {
+				return result, err
+			}
 		}
-		result.Condition = &conditionObj
 	}
 
 	if configurations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configurations")); ok {
@@ -1198,6 +1201,38 @@ func (s *CloudGuardDetectorRecipeResourceCrud) mapToUpdateDetectorRuleDetails(fi
 	}
 
 	return result, nil
+}
+
+func jsonToCondition(data string) (oci_cloud_guard.Condition, error) {
+	var val cloudGuardCondition
+	var err error
+	if err := json.Unmarshal([]byte(data), &val); err == nil {
+		if schemaData, err := UnmarshalPolymorphicConditionJSON(val.Kind, data); err == nil {
+			return schemaData, nil
+		}
+	}
+	return nil, err
+}
+
+type cloudGuardCondition struct {
+	JsonData []byte
+	Kind     string `json:"kind"`
+}
+
+func UnmarshalPolymorphicConditionJSON(kind string, data string) (oci_cloud_guard.Condition, error) {
+	var err error
+	switch kind {
+	case "SIMPLE":
+		mm := oci_cloud_guard.SimpleCondition{}
+		err = json.Unmarshal([]byte(data), &mm)
+		return mm, err
+	case "COMPOSITE":
+		mm := oci_cloud_guard.CompositeCondition{}
+		err = json.Unmarshal([]byte(data), &mm)
+		return mm, err
+	default:
+		return nil, errors.New(fmt.Sprintf("Recieved unsupported enum value for Condition : %s.", kind))
+	}
 }
 
 func (s *CloudGuardDetectorRecipeResourceCrud) updateCompartment(compartment interface{}) error {

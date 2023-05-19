@@ -360,6 +360,86 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 	})
 }
 
+func TestCloudGuardDetectorRecipeResource_updateOptionalParamsWithoutDestroy(t *testing.T) {
+	httpreplay.SetScenario("TestCloudGuardDetectorRecipeResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_cloud_guard_detector_recipe.test_detector_recipe"
+	var resId string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardDetectorRecipeResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Optional, acctest.Create, CloudGuardDetectorRecipeRepresentation), "cloudguard", "detectorRecipe", t)
+
+	acctest.ResourceTest(t, testAccCheckCloudGuardDetectorRecipeDestroy, []resource.TestStep{
+		// verify Create Recipe
+		{
+			Config: config + compartmentIdVariableStr + CloudGuardDetectorRecipeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Required, acctest.Create, CloudGuardDetectorRecipeRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_detector_recipe_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + CloudGuardDetectorRecipeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Optional, acctest.Create, CloudGuardDetectorRecipeRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "detector", "IAAS_CONFIGURATION_DETECTOR"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.#", "1"),
+				//Just checking it being set, it being a JSON
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.condition", "{\"kind\":\"SIMPLE\",\"parameter\":\"lbCertificateExpiringSoonFilter\",\"value\":\"10\",\"operator\":\"EQUALS\",\"valueType\":\"CUSTOM\"}"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.config_key", "lbCertificateExpiringSoonConfig"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.data_type", "int"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.name", "Days before expiring"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.value", "30"),
+				// Configuration values will be set only if data_type is complex such as multiList
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.#", "0"),
+				//resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.list_type", "CUSTOM"),
+				//resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.managed_list_type", "RESOURCE_OCID"),
+				//resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.configurations.0.values.0.value", "resourceOcid1"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.labels.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "detector_rules.0.details.0.risk_level", "CRITICAL"),
+				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.detector"),
+				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.detector_rule_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.resource_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "detector_rules.0.service_type"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "owner"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_detector_recipe_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
 func testAccCheckCloudGuardDetectorRecipeDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).CloudGuardClient()
