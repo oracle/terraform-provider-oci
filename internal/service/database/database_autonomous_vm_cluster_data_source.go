@@ -190,6 +190,14 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeDatabaseSslCertificateExpires != nil {
+		s.D.Set("time_database_ssl_certificate_expires", s.Res.TimeDatabaseSslCertificateExpires.String())
+	}
+
+	if s.Res.TimeOrdsCertificateExpires != nil {
+		s.D.Set("time_ords_certificate_expires", s.Res.TimeOrdsCertificateExpires.String())
+	}
+
 	if s.Res.TimeZone != nil {
 		s.D.Set("time_zone", *s.Res.TimeZone)
 	}
