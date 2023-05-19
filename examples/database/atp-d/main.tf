@@ -59,6 +59,10 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   db_version          = "19.18.0.1.0"
 }
 
+variable "cloud_exadata_infrastructure_un_allocated_resource_db_servers" {
+  default = []
+}
+
 resource "random_string" "autonomous_database_admin_password" {
   length      = 16
   min_numeric = 1
@@ -146,4 +150,7 @@ output "autonomous_container_databases" {
 data "oci_database_cloud_exadata_infrastructure_un_allocated_resource" "test_cloud_exadata_infrastructure_un_allocated_resources" {
   #Required
   cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
+
+  #Optional
+  db_servers = var.cloud_exadata_infrastructure_un_allocated_resource_db_servers
 }
