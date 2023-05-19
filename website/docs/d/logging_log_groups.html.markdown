@@ -30,7 +30,7 @@ data "oci_logging_log_groups" "test_log_groups" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) Compartment OCID to list resources in. See compartmentIdInSubtree for nested compartments traversal. 
-* `display_name` - (Optional) Resource name
+* `display_name` - (Optional) Resource name.
 * `is_compartment_id_in_subtree` - (Optional) Specifies whether or not nested compartments should be traversed. Defaults to false.
 
 

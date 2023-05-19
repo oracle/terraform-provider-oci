@@ -51,7 +51,7 @@ The following attributes are exported:
 * `is_enabled` - Whether or not this resource is currently enabled.
 * `log_group_id` - Log group OCID.
 * `log_type` - The logType that the log object is for, whether custom or service.
-* `retention_duration` - Log retention duration in 30-day increments (30, 60, 90 and so on).
+* `retention_duration` - Log retention duration in 30-day increments (30, 60, 90 and so on until 180).
 * `state` - The pipeline state.
 * `tenancy_id` - The OCID of the tenancy.
 * `time_created` - Time the resource was created.
