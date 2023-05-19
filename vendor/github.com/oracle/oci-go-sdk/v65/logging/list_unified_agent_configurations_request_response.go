@@ -31,7 +31,7 @@ type ListUnifiedAgentConfigurationsRequest struct {
 	// The OCID of a group or a dynamic group.
 	GroupId *string `mandatory:"false" contributesTo:"query" name:"groupId"`
 
-	// Resource name
+	// Resource name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// Lifecycle state of the log object

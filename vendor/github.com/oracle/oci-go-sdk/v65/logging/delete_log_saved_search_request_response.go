@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/DeleteLogSavedSearch.go.html to see an example of how to use DeleteLogSavedSearchRequest.
 type DeleteLogSavedSearchRequest struct {
 
-	// OCID of the logSavedSearch
+	// OCID of the logSavedSearch.
 	LogSavedSearchId *string `mandatory:"true" contributesTo:"path" name:"logSavedSearchId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a

@@ -18,6 +18,9 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListServices.go.html to see an example of how to use ListServicesRequest.
 type ListServicesRequest struct {
 
+	// Service stage of a service. The allowed values are "ProductionStage", "DevStage" and "LAStage".
+	ServiceStage *string `mandatory:"false" contributesTo:"query" name:"serviceStage"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

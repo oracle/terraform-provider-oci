@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/UpdateLogSavedSearch.go.html to see an example of how to use UpdateLogSavedSearchRequest.
 type UpdateLogSavedSearchRequest struct {
 
-	// OCID of the logSavedSearch
+	// OCID of the logSavedSearch.
 	LogSavedSearchId *string `mandatory:"true" contributesTo:"path" name:"logSavedSearchId"`
 
 	// Updates to the saved search.

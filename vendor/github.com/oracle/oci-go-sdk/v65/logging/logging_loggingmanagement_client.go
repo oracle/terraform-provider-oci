@@ -4,7 +4,10 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
+// Use the Logging Management API to create, read, list, update, move and delete
+// log groups, log objects, log saved searches, agent configurations, log data models,
+// continuous queries, and managed continuous queries.
+// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -692,7 +695,7 @@ func (client LoggingManagementClient) deleteLogGroup(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteLogSavedSearch Deletes the specified log saved search.
+// DeleteLogSavedSearch Deletes the specified LogSavedSearch.
 //
 // See also
 //
@@ -977,64 +980,7 @@ func (client LoggingManagementClient) getLogGroup(ctx context.Context, request c
 	return response, err
 }
 
-// GetLogIncludedSearch Retrieves a LogIncludedSearch.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/GetLogIncludedSearch.go.html to see an example of how to use GetLogIncludedSearch API.
-func (client LoggingManagementClient) GetLogIncludedSearch(ctx context.Context, request GetLogIncludedSearchRequest) (response GetLogIncludedSearchResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getLogIncludedSearch, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetLogIncludedSearchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetLogIncludedSearchResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetLogIncludedSearchResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetLogIncludedSearchResponse")
-	}
-	return
-}
-
-// getLogIncludedSearch implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) getLogIncludedSearch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logIncludedSearch/{logIncludedSearchId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetLogIncludedSearchResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogIncludedSearch/GetLogIncludedSearch"
-		err = common.PostProcessServiceError(err, "LoggingManagement", "GetLogIncludedSearch", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetLogSavedSearch Retrieves a log saved search.
+// GetLogSavedSearch Retrieves a LogSavedSearch.
 //
 // See also
 //
@@ -1262,64 +1208,7 @@ func (client LoggingManagementClient) listLogGroups(ctx context.Context, request
 	return response, err
 }
 
-// ListLogIncludedSearches Lists Logging Included Searches for this compartment.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListLogIncludedSearches.go.html to see an example of how to use ListLogIncludedSearches API.
-func (client LoggingManagementClient) ListLogIncludedSearches(ctx context.Context, request ListLogIncludedSearchesRequest) (response ListLogIncludedSearchesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listLogIncludedSearches, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListLogIncludedSearchesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListLogIncludedSearchesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListLogIncludedSearchesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListLogIncludedSearchesResponse")
-	}
-	return
-}
-
-// listLogIncludedSearches implements the OCIOperation interface (enables retrying operations)
-func (client LoggingManagementClient) listLogIncludedSearches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logIncludedSearches", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListLogIncludedSearchesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogIncludedSearch/ListLogIncludedSearches"
-		err = common.PostProcessServiceError(err, "LoggingManagement", "ListLogIncludedSearches", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListLogSavedSearches Lists Logging Saved Searches for this compartment.
+// ListLogSavedSearches Lists LogSavedSearches for this compartment.
 //
 // See also
 //
@@ -1834,7 +1723,7 @@ func (client LoggingManagementClient) updateLogGroup(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateLogSavedSearch Updates an  existing log saved search.
+// UpdateLogSavedSearch Updates an  existing LogSavedSearch.
 //
 // See also
 //

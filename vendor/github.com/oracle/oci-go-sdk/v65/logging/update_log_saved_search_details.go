@@ -4,7 +4,10 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
+// Use the Logging Management API to create, read, list, update, move and delete
+// log groups, log objects, log saved searches, agent configurations, log data models,
+// continuous queries, and managed continuous queries.
+// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -15,7 +18,7 @@ import (
 	"strings"
 )
 
-// UpdateLogSavedSearchDetails The update details to update a log saved search.
+// UpdateLogSavedSearchDetails The update details to update a LogSavedSearch.
 type UpdateLogSavedSearchDetails struct {
 
 	// The user-friendly display name. This must be unique within the enclosing resource,

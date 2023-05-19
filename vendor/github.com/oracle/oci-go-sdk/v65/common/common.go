@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"path"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
@@ -244,7 +244,7 @@ func setRegionMetadataFromCfgFile(region *string) bool {
 	// Mark readCfgFile Flag as false since it has already been visited.
 	readCfgFile = false
 	homeFolder := getHomeFolder()
-	configFile := path.Join(homeFolder, regionMetadataCfgDirName, regionMetadataCfgFileName)
+	configFile := filepath.Join(homeFolder, regionMetadataCfgDirName, regionMetadataCfgFileName)
 	if jsonArr, ok := readAndParseConfigFile(&configFile); ok {
 		added := false
 		for _, jsonItem := range jsonArr {
