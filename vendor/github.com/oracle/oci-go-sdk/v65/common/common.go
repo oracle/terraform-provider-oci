@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"path"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
@@ -287,7 +287,7 @@ func setRegionMetadataFromRegionCfgFile(region *string) bool {
 	// Mark readCfgFile Flag as false since it has already been visited.
 	readCfgFile = false
 	homeFolder := getHomeFolder()
-	configFile := path.Join(homeFolder, regionMetadataCfgDirName, regionMetadataCfgFileName)
+	configFile := filepath.Join(homeFolder, regionMetadataCfgDirName, regionMetadataCfgFileName)
 	if jsonArr, ok := readAndParseConfigFile(&configFile); ok {
 		added := false
 		for _, jsonItem := range jsonArr {
@@ -360,7 +360,7 @@ func readAndParseConfigFile(configFileName *string) (fileContent []map[string]st
 
 func readAndParseAlloyConfigFile() (fileContent map[string]interface{}, ok bool) {
 	homeFolder := getHomeFolder()
-	configFileName := path.Join(homeFolder, regionMetadataCfgDirName, "alloy-config.json")
+	configFileName := filepath.Join(homeFolder, regionMetadataCfgDirName, "alloy-config.json")
 	if path := os.Getenv(OciAlloyConfigFilePathEnvVar); path != "" {
 		configFileName = path
 	}
@@ -379,7 +379,7 @@ func readAndParseAlloyConfigFile() (fileContent map[string]interface{}, ok bool)
 
 func checkAlloyConfigFile() bool {
 	homeFolder := getHomeFolder()
-	configFileName := path.Join(homeFolder, regionMetadataCfgDirName, "alloy-config.json")
+	configFileName := filepath.Join(homeFolder, regionMetadataCfgDirName, "alloy-config.json")
 	if path := os.Getenv(OciAlloyConfigFilePathEnvVar); path != "" {
 		configFileName = path
 	}

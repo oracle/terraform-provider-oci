@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"sync"
@@ -404,12 +404,12 @@ func parseConfigAtLine(start int, content []string) (info *configFileInfo, err e
 
 // cleans and expands the path if it contains a tilde , returns the expanded path or the input path as is if not expansion
 // was performed
-func expandPath(filepath string) (expandedPath string) {
-	cleanedPath := path.Clean(filepath)
+func expandPath(filename string) (expandedPath string) {
+	cleanedPath := filepath.Clean(filename)
 	expandedPath = cleanedPath
 	if strings.HasPrefix(cleanedPath, "~") {
 		rest := cleanedPath[2:]
-		expandedPath = path.Join(getHomeFolder(), rest)
+		expandedPath = filepath.Join(getHomeFolder(), rest)
 	}
 	return
 }

@@ -20,6 +20,7 @@ import (
 	"os"
 	"os/user"
 	"path"
+	"path/filepath"
 	"reflect"
 	"runtime"
 	"strings"
@@ -321,7 +322,7 @@ func getHomeFolder() string {
 func DefaultConfigProvider() ConfigurationProvider {
 	defaultConfigFile := getDefaultConfigFilePath()
 	homeFolder := getHomeFolder()
-	secondaryConfigFile := path.Join(homeFolder, secondaryConfigDirName, defaultConfigFileName)
+	secondaryConfigFile := filepath.Join(homeFolder, secondaryConfigDirName, defaultConfigFileName)
 
 	defaultFileProvider, _ := ConfigurationProviderFromFile(defaultConfigFile, "")
 	secondaryFileProvider, _ := ConfigurationProviderFromFile(secondaryConfigFile, "")
@@ -334,7 +335,7 @@ func DefaultConfigProvider() ConfigurationProvider {
 
 func getDefaultConfigFilePath() string {
 	homeFolder := getHomeFolder()
-	defaultConfigFile := path.Join(homeFolder, defaultConfigDirName, defaultConfigFileName)
+	defaultConfigFile := filepath.Join(homeFolder, defaultConfigDirName, defaultConfigFileName)
 	if _, err := os.Stat(defaultConfigFile); err == nil {
 		return defaultConfigFile
 	}
@@ -380,7 +381,7 @@ func setRawPath(u *url.URL) error {
 func CustomProfileConfigProvider(customConfigPath string, profile string) ConfigurationProvider {
 	homeFolder := getHomeFolder()
 	if customConfigPath == "" {
-		customConfigPath = path.Join(homeFolder, defaultConfigDirName, defaultConfigFileName)
+		customConfigPath = filepath.Join(homeFolder, defaultConfigDirName, defaultConfigFileName)
 	}
 	customFileProvider, _ := ConfigurationProviderFromFileWithProfile(customConfigPath, profile, "")
 	defaultFileProvider, _ := ConfigurationProviderFromFileWithProfile(customConfigPath, "DEFAULT", "")
