@@ -89,7 +89,6 @@ The following arguments are supported:
 
 	For example, if the value is `mySDDC`, the ESXi hosts are named `mySDDC-1`, `mySDDC-2`, and so on. 
 * `is_hcx_enabled` - (Optional) For SDDC with dense compute shapes, this parameter indicates whether to enable HCX Advanced for this SDDC. For SDDC with standard compute shapes, this parameter is equivalent to `isHcxEnterpriseEnabled`. 
-* `is_hcx_enterprise_enabled` - (Optional) Indicates whether to enable HCX Enterprise for this SDDC. 
 * `is_shielded_instance_enabled` - (Optional) Indicates whether shielded instance is enabled for this SDDC. 
 * `is_single_host_sddc` - (Optional) Indicates whether this SDDC is designated for only single ESXi host. 
 * `nsx_edge_uplink1vlan_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN to use for the NSX Edge Uplink 1 component of the VMware environment. 

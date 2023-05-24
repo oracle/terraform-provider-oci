@@ -40,6 +40,11 @@ func OcvpEsxiHostResource() *schema.Resource {
 			},
 
 			// Optional
+			"billing_donor_host_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"capacity_reservation_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -57,6 +62,13 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+				// API may update currect_sku in the backend, so need to suppress the diff if any change is made to current_sku after esxi_host creation
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					if old == "" && new != "" {
+						return false
+					}
+					return true
+				},
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -105,6 +117,11 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"swap_billing_host_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"billing_contract_end_date": {
@@ -121,6 +138,14 @@ func OcvpEsxiHostResource() *schema.Resource {
 			},
 			"grace_period_end_date": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_billing_continuation_in_progress": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_billing_swapping_in_progress": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"replacement_esxi_host_id": {
@@ -157,7 +182,12 @@ func createOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*client.OracleClients).EsxiHostClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	return nil
+
 }
 
 func readOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
@@ -174,7 +204,11 @@ func updateOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*client.OracleClients).EsxiHostClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func deleteOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
@@ -226,6 +260,10 @@ func (s *OcvpEsxiHostResourceCrud) DeletedTarget() []string {
 func (s *OcvpEsxiHostResourceCrud) Create() error {
 	request := oci_ocvp.CreateEsxiHostRequest{}
 
+	if billingDonorHostId, ok := s.D.GetOkExists("billing_donor_host_id"); ok {
+		tmp := billingDonorHostId.(string)
+		request.BillingDonorHostId = &tmp
+	}
 	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
 		tmp := capacityReservationId.(string)
 		request.CapacityReservationId = &tmp
@@ -449,6 +487,11 @@ func (s *OcvpEsxiHostResourceCrud) Get() error {
 func (s *OcvpEsxiHostResourceCrud) Update() error {
 	request := oci_ocvp.UpdateEsxiHostRequest{}
 
+	if billingDonorHostId, ok := s.D.GetOkExists("billing_donor_host_id"); ok {
+		tmp := billingDonorHostId.(string)
+		request.BillingDonorHostId = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -509,6 +552,9 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 		s.D.Set("billing_contract_end_date", s.Res.BillingContractEndDate.String())
 	}
 
+	if s.Res.BillingDonorHostId != nil {
+		s.D.Set("billing_donor_host_id", *s.Res.BillingDonorHostId)
+	}
 	if s.Res.CapacityReservationId != nil {
 		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
 	}
@@ -553,6 +599,14 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 		s.D.Set("host_shape_name", *s.Res.HostShapeName)
 	}
 
+	if s.Res.IsBillingContinuationInProgress != nil {
+		s.D.Set("is_billing_continuation_in_progress", *s.Res.IsBillingContinuationInProgress)
+	}
+
+	if s.Res.IsBillingSwappingInProgress != nil {
+		s.D.Set("is_billing_swapping_in_progress", *s.Res.IsBillingSwappingInProgress)
+	}
+
 	s.D.Set("next_sku", s.Res.NextSku)
 
 	if s.Res.NonUpgradedEsxiHostId != nil {
@@ -568,6 +622,10 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SwapBillingHostId != nil {
+		s.D.Set("swap_billing_host_id", *s.Res.SwapBillingHostId)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -593,6 +651,10 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 
 	if obj.BillingContractEndDate != nil {
 		result["billing_contract_end_date"] = obj.BillingContractEndDate.String()
+	}
+
+	if obj.BillingDonorHostId != nil {
+		result["billing_donor_host_id"] = string(*obj.BillingDonorHostId)
 	}
 
 	if obj.CompartmentId != nil {
@@ -639,6 +701,14 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsBillingContinuationInProgress != nil {
+		result["is_billing_continuation_in_progress"] = bool(*obj.IsBillingContinuationInProgress)
+	}
+
+	if obj.IsBillingSwappingInProgress != nil {
+		result["is_billing_swapping_in_progress"] = bool(*obj.IsBillingSwappingInProgress)
+	}
+
 	result["next_sku"] = string(obj.NextSku)
 
 	if obj.NonUpgradedEsxiHostId != nil {
@@ -654,6 +724,10 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SwapBillingHostId != nil {
+		result["swap_billing_host_id"] = string(*obj.SwapBillingHostId)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
