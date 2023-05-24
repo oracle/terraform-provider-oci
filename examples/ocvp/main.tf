@@ -20,6 +20,9 @@ variable "compartment_ocid" {
 variable "region" {
 }
 
+variable "billing_donor_host_id" {
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -260,7 +263,7 @@ resource "oci_core_subnet" "test_provisioning_subnet" {
 
 resource "oci_core_vlan" "test_nsx_edge_uplink2_vlan" {
   display_name        = "NSX-Edge-UP2"
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   cidr_block          = "10.0.103.0/25"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -270,7 +273,7 @@ resource "oci_core_vlan" "test_nsx_edge_uplink2_vlan" {
 
 resource "oci_core_vlan" "test_nsx_edge_uplink1_vlan" {
   display_name        = "NSX-Edge-UP1"
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   cidr_block          = "10.0.100.0/25"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -280,7 +283,7 @@ resource "oci_core_vlan" "test_nsx_edge_uplink1_vlan" {
 
 resource "oci_core_vlan" "test_nsx_vtep_vlan" {
   display_name        = "NSX-vTep"
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   cidr_block          = "10.0.101.0/25"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -290,7 +293,7 @@ resource "oci_core_vlan" "test_nsx_vtep_vlan" {
 
 resource "oci_core_vlan" "test_nsx_edge_vtep_vlan" {
   display_name        = "NSX Edge-vTep"
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   cidr_block          = "10.0.102.0/25"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -300,7 +303,7 @@ resource "oci_core_vlan" "test_nsx_edge_vtep_vlan" {
 
 resource "oci_core_vlan" "test_vsan_net_vlan" {
   display_name        = "vSAN-Net"
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   cidr_block          = "10.0.101.128/25"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -310,7 +313,7 @@ resource "oci_core_vlan" "test_vsan_net_vlan" {
 
 resource "oci_core_vlan" "test_vmotion_net_vlan" {
   display_name        = "vMotion-Net"
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   cidr_block          = "10.0.102.128/25"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -320,7 +323,7 @@ resource "oci_core_vlan" "test_vmotion_net_vlan" {
 
 resource "oci_core_vlan" "test_vsphere_net_vlan" {
   display_name        = "vSphere-Net"
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   cidr_block          = "10.0.100.128/26"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -330,7 +333,7 @@ resource "oci_core_vlan" "test_vsphere_net_vlan" {
 
 resource "oci_core_vlan" "test_hcx_vlan" {
   display_name        = "hcx"
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   cidr_block          = "10.0.100.192/26"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -340,7 +343,7 @@ resource "oci_core_vlan" "test_hcx_vlan" {
 
 resource "oci_core_vlan" "test_provisioning_vlan" {
   display_name        = "provisioning-vlan"
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   cidr_block          = "10.0.104.128/25"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -350,7 +353,7 @@ resource "oci_core_vlan" "test_provisioning_vlan" {
 
 resource "oci_core_vlan" "test_replication_vlan" {
   display_name        = "replication-vlan"
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   cidr_block          = "10.0.104.0/25"
   compartment_id      = var.compartment_ocid
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -359,7 +362,7 @@ resource "oci_core_vlan" "test_replication_vlan" {
 }
 
 resource "oci_core_volume" "test_block_volume" {
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   compartment_id      = var.compartment_ocid
   display_name        = "TestBlockVolume"
   size_in_gbs         = "4096"
@@ -367,7 +370,7 @@ resource "oci_core_volume" "test_block_volume" {
 
 resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservation" {
   #Required
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   compartment_id = var.compartment_ocid
 
   instance_reservation_configs {
@@ -393,7 +396,7 @@ resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservat
 resource "oci_ocvp_sddc" "test_sddc" {
   // Required
   compartment_id              = var.compartment_ocid
-  compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   esxi_hosts_count            = "3"
   hcx_vlan_id                 = oci_core_vlan.test_hcx_vlan.id
   is_hcx_enabled              = true
@@ -410,7 +413,7 @@ resource "oci_ocvp_sddc" "test_sddc" {
   // Optional
   provisioning_vlan_id = oci_core_vlan.test_provisioning_vlan.id
   replication_vlan_id  = oci_core_vlan.test_replication_vlan.id
-  initial_sku          = "HOUR"
+  initial_sku          = "ONE_YEAR"
   initial_host_ocpu_count     = "52.0"
   initial_host_shape_name     = "BM.Standard2.52"
   capacity_reservation_id = oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id
@@ -434,21 +437,22 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
   #Required
   sddc_id = oci_ocvp_sddc.test_sddc.id
   #Optional
-  compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
-  current_sku = "HOUR"
+  compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
+  current_sku = "ONE_YEAR"
   host_ocpu_count             = "52.0"
   host_shape_name             = "BM.Standard2.52"
-  next_sku    = "HOUR"
+  next_sku    = "ONE_YEAR"
   #non_upgraded_esxi_host_id = data.oci_ocvp_esxi_hosts.non_upgraded_esxi_hosts.esxi_host_collection[0].id
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}
   #display_name  = var.esxihost_display_name
   #freeform_tags = var.esxihost_freeform_tags
   #failed_esxi_host_id = var.failed_esxi_host_ocid
+  #billing_donor_host_id = var.billing_donor_host_id
 }
 
 data "oci_ocvp_sddcs" "test_sddcs" {
   compartment_id              = var.compartment_ocid
-  compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[0]["name"]
+  compute_availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
   display_name                = "displayName"
 
   filter {
@@ -466,6 +470,8 @@ data "oci_ocvp_sddc" "test_sddc" {
 data "oci_ocvp_esxi_hosts" "test_esxi_hosts" {
   compute_instance_id = oci_ocvp_esxi_host.test_esxi_host.compute_instance_id
   display_name        = "displayName"
+  is_swap_billing_only = false
+  isBillingDonorsOnly = false
 
   filter {
     name   = "id"
