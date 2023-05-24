@@ -10,7 +10,7 @@
 - Changes for setting resource ID in state file before workrequest completion
 ### Bug Fix
 - Populate user resource optional fields only if they arent empty
-: Remove system tags from SZ requests
+- Remove system tags from SZ requests
 - adding fix for cloudguard detector rule condition paramter unmarshalling issue
 
 ## 4.121.0 (May 17, 2023)
