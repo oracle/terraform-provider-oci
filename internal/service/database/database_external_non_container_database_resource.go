@@ -281,7 +281,13 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Create() error {
 	s.Res = &response.ExternalNonContainerDatabase
 
 	if workId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		var identifier *string
+		var err error
+		identifier = response.Id
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

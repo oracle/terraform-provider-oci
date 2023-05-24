@@ -254,6 +254,11 @@ func (s *OpsiHostInsightResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.GetId()
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 
 	// Wait until it finishes
 	hostInsightId, err := hostInsightWaitForWorkRequest(workId, "opsi",

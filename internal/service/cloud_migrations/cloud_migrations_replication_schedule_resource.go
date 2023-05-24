@@ -193,6 +193,11 @@ func (s *CloudMigrationsReplicationScheduleResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	return s.getReplicationScheduleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations"), oci_cloud_migrations.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

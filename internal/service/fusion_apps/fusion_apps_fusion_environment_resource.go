@@ -538,6 +538,23 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	workRequestResponse := oci_fusion_apps.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_fusion_apps.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "fusionenvironment") && res.Identifier != nil {
+				s.D.SetId(*res.Identifier)
+				break
+			}
+		}
+	}
 	return s.getFusionEnvironmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

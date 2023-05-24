@@ -53,11 +53,6 @@ var (
 		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSecurityRecipeSystemTagsChangesRep},
-	}
-
-	ignoreSecurityRecipeSystemTagsChangesRep = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
 	}
 
 	CloudGuardSecurityRecipeResourceDependencies = DefinedTagsDependencies + SecurityPolicyResourceDependencies

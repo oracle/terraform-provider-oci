@@ -227,6 +227,23 @@ func (s *VbsInstVbsInstanceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	workRequestResponse := oci_vbs_inst.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_vbs_inst.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "vbsinstance") && res.Identifier != nil {
+				s.D.SetId(*res.Identifier)
+				break
+			}
+		}
+	}
 	return s.getVbsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vbs_inst"), oci_vbs_inst.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

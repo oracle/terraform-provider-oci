@@ -384,6 +384,11 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 	if err != nil {
 		return err
 	}
+	var identifier *string
+	identifier = workRequestResponse.LoadBalancerId
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
 	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {

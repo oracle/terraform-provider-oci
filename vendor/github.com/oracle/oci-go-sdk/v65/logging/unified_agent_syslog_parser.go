@@ -4,7 +4,10 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
+// Use the Logging Management API to create, read, list, update, move and delete
+// log groups, log objects, log saved searches, agent configurations, log data models,
+// continuous queries, and managed continuous queries.
+// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -23,6 +26,23 @@ type UnifiedAgentSyslogParser struct {
 	FieldTimeKey *string `mandatory:"false" json:"fieldTimeKey"`
 
 	// Specify types for converting a field into another type.
+	// For example,
+	//   With this configuration:
+	//       <parse>
+	//         @type csv
+	//         keys time,host,req_id,user
+	//         time_key time
+	//       </parse>
+	//   This incoming event:
+	//     "2013/02/28 12:00:00,192.168.0.1,111,-"
+	//   is parsed as:
+	//     1362020400 (2013/02/28/ 12:00:00)
+	//     record:
+	//     {
+	//       "host"   : "192.168.0.1",
+	//       "req_id" : "111",
+	//       "user"   : "-"
+	//     }
 	Types map[string]string `mandatory:"false" json:"types"`
 
 	// Specify the null value pattern.
@@ -40,16 +60,22 @@ type UnifiedAgentSyslogParser struct {
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 
+	// Time format.
 	TimeFormat *string `mandatory:"false" json:"timeFormat"`
 
+	// rfc5424 time format.
 	Rfc5424TimeFormat *string `mandatory:"false" json:"rfc5424TimeFormat"`
 
+	// With priority or not.
 	IsWithPriority *bool `mandatory:"false" json:"isWithPriority"`
 
+	// Support colonless ident or not.
 	IsSupportColonlessIdent *bool `mandatory:"false" json:"isSupportColonlessIdent"`
 
+	// Message format of syslog.
 	MessageFormat UnifiedAgentSyslogParserMessageFormatEnum `mandatory:"false" json:"messageFormat,omitempty"`
 
+	// Syslog parser type.
 	SyslogParserType UnifiedAgentSyslogParserSyslogParserTypeEnum `mandatory:"false" json:"syslogParserType,omitempty"`
 }
 

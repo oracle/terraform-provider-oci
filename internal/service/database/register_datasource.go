@@ -76,6 +76,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_database_db_versions", DatabaseDbVersionsDataSource())
 	tfresource.RegisterDatasource("oci_database_exadata_infrastructure", DatabaseExadataInfrastructureDataSource())
 	tfresource.RegisterDatasource("oci_database_exadata_infrastructure_download_config_file", DatabaseExadataInfrastructureDownloadConfigFileDataSource())
+	tfresource.RegisterDatasource("oci_database_exadata_infrastructure_un_allocated_resource", DatabaseExadataInfrastructureUnAllocatedResourceDataSource())
 	tfresource.RegisterDatasource("oci_database_exadata_infrastructures", DatabaseExadataInfrastructuresDataSource())
 	tfresource.RegisterDatasource("oci_database_exadata_iorm_config", DatabaseExadataIormConfigDataSource())
 	tfresource.RegisterDatasource("oci_database_external_container_database", DatabaseExternalContainerDatabaseDataSource())

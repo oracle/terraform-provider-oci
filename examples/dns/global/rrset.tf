@@ -50,3 +50,8 @@ data "oci_dns_rrset" "test_rrset" {
   zone_name_or_id = oci_dns_zone.zone3.id
 }
 
+data "oci_dns_rrsets" "test_rrsets" {
+  domain          = "el.${oci_dns_zone.zone3.name}"
+  rtype           = "CNAME"
+  zone_name_or_id = oci_dns_zone.zone3.id
+}

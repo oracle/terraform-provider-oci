@@ -477,6 +477,9 @@ resource "oci_identity_domains_authentication_factor_setting" "test_authenticati
   }
   user_enrollment_disabled_factors = var.authentication_factor_setting_user_enrollment_disabled_factors
   yubico_otp_enabled               = var.authentication_factor_setting_yubico_otp_enabled
+  lifecycle {
+    ignore_changes = [schemas]
+  }
 }
 
 data "oci_identity_domains_authentication_factor_settings" "test_authentication_factor_settings" {

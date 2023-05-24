@@ -472,7 +472,13 @@ func (s *DatabaseDbSystemsUpgradeResourceCrud) Create() error {
 	s.Res = &response.DbSystem
 
 	if workId != nil {
-		identifier, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		var identifier *string
+		var err error
+		identifier = response.Id
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

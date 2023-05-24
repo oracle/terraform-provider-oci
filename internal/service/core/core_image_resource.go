@@ -360,7 +360,13 @@ func (s *CoreImageResourceCrud) Create() error {
 	s.Res = &response.Image
 
 	if workId != nil {
-		identifier, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "image", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		var identifier *string
+		var err error
+		identifier = response.Id
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "image", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

@@ -450,6 +450,23 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	workRequestResponse := oci_opensearch.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_opensearch.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "opensearch") && res.Identifier != nil {
+				s.D.SetId(*res.Identifier)
+				break
+			}
+		}
+	}
 	return s.getOpensearchClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

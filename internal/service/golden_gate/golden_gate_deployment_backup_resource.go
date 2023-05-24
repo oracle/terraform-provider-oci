@@ -251,6 +251,23 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	workRequestResponse := oci_golden_gate.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_golden_gate.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "deploymentbackup") && res.Identifier != nil {
+				s.D.SetId(*res.Identifier)
+				break
+			}
+		}
+	}
 	return s.getDeploymentBackupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

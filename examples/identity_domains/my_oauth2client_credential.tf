@@ -64,7 +64,7 @@ variable "my_oauth2client_credential_user_value" {
 
 resource "oci_identity_domains_my_oauth2client_credential" "test_my_oauth2client_credential" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
   name          = var.my_oauth2client_credential_name
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:oauth2ClientCredential"]
   scopes {
@@ -94,11 +94,19 @@ resource "oci_identity_domains_my_oauth2client_credential" "test_my_oauth2client
     value = var.my_oauth2client_credential_user_value
   }
   */
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      // my* resource will not return non-default fields
+      tags,
+      status
+    ]
+  }
 }
 
 data "oci_identity_domains_my_oauth2client_credentials" "test_my_oauth2client_credentials" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
 
   #Optional
   my_oauth2client_credential_count  = var.my_oauth2client_credential_my_oauth2client_credential_count

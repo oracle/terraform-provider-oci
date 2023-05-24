@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_logging_log_saved_search
 This data source provides details about a specific Log Saved Search resource in Oracle Cloud Infrastructure Logging service.
 
-Retrieves a log saved search.
+Retrieves a LogSavedSearch.
 
 ## Example Usage
 
@@ -25,7 +25,7 @@ data "oci_logging_log_saved_search" "test_log_saved_search" {
 
 The following arguments are supported:
 
-* `log_saved_search_id` - (Required) OCID of the logSavedSearch 
+* `log_saved_search_id` - (Required) OCID of the logSavedSearch. 
 
 
 ## Attributes Reference

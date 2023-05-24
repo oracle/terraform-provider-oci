@@ -211,7 +211,9 @@ func (s *CoreInstancePoolInstanceResourceCrud) Create() error {
 	s.Res = &response.InstancePoolInstance
 
 	if workId != nil {
-		identifier, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		var identifier *string
+		var err error
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

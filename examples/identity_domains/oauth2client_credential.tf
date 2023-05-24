@@ -65,7 +65,7 @@ resource "oci_identity_domains_oauth2client_credential" "test_oauth2client_crede
   }
 
   #Optional
-  attribute_sets  = []
+  attribute_sets  = ["all"]
   attributes      = ""
   authorization   = var.oauth2client_credential_authorization
   description     = var.oauth2client_credential_description
@@ -91,6 +91,13 @@ resource "oci_identity_domains_oauth2client_credential" "test_oauth2client_crede
     ocid = oci_identity_domains_user.test_user.ocid
     #must be a user that exists
     value = oci_identity_domains_user.test_user.id
+  }
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      status,
+      urnietfparamsscimschemasoracleidcsextensionself_change_user
+    ]
   }
 }
 

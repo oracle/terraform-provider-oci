@@ -63,23 +63,16 @@ var (
 	}
 
 	DnsDnsZoneRepresentationPrimary = map[string]interface{}{
-		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
-		"zone_type":        acctest.Representation{RepType: acctest.Required, Create: `PRIMARY`},
-		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"external_masters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsZoneExternalMastersRepresentation},
-		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"scope":            acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
-		"view_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
+		"zone_type":      acctest.Representation{RepType: acctest.Required, Create: `PRIMARY`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"view_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
 	}
 
 	DnsDnsZoneRepresentation = acctest.GetUpdatedRepresentationCopy("zone_type", acctest.Representation{RepType: acctest.Required, Create: `SECONDARY`}, DnsDnsZoneRepresentationPrimary)
-
-	DnsZoneExternalMastersRepresentation = map[string]interface{}{
-		"address":     acctest.Representation{RepType: acctest.Required, Create: `77.64.12.1`, Update: `address2`},
-		"port":        acctest.Representation{RepType: acctest.Optional, Create: `53`, Update: `11`},
-		"tsig_key_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_tsig_key.test_tsig_key.id}`},
-	}
 
 	DnsZoneResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, DnsTsigKeyRepresentation) +
 		DefinedTagsDependencies + `
@@ -109,8 +102,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(tokenFn(config+compartmentIdVariableStr+DnsZoneResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Create,
-			acctest.RepresentationCopyWithRemovedProperties(DnsDnsZoneRepresentationPrimary, []string{"external_masters"})), nil), "dns", "zone", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Create, DnsDnsZoneRepresentationPrimary), nil), "dns", "zone", t)
 
 	acctest.ResourceTest(t, testAccCheckDnsZoneDestroy, []resource.TestStep{
 		// test PRIMARY zone creation
@@ -136,8 +128,8 @@ func TestDnsZoneResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+DnsZoneResourceDependencies+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithRemovedProperties(DnsDnsZoneRepresentationPrimary, []string{"external_masters"})), nil),
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Create, DnsDnsZoneRepresentationPrimary), nil),
+
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
@@ -152,7 +144,6 @@ func TestDnsZoneResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "version"),
 				resource.TestCheckResourceAttrSet(resourceName, "view_id"),
-				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -170,7 +161,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+compartmentIdUVariableStr+DnsZoneResourceDependencies+
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DnsDnsZoneRepresentationPrimary, []string{"external_masters"}), map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DnsDnsZoneRepresentationPrimary, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -202,8 +193,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+DnsZoneResourceDependencies+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithRemovedProperties(DnsDnsZoneRepresentationPrimary, []string{"external_masters"})), nil),
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Update, DnsDnsZoneRepresentationPrimary), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),

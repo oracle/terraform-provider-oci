@@ -908,6 +908,32 @@ func WaitForWorkRequest(workRequestClient workReqClient, workRequestId *string, 
 	return identifier, nil
 }
 
+func GetResourceIDFromWorkRequest(workRequestClient workReqClient, workRequestId *string, entityType string,
+	disableFoundRetries bool) *string {
+	retryPolicy := GetRetryPolicy(disableFoundRetries, "work_request")
+
+	response := oci_work_requests.GetWorkRequestResponse{}
+	var err error
+	response, err = workRequestClient.GetWorkRequest(context.Background(),
+		oci_work_requests.GetWorkRequestRequest{
+			WorkRequestId: workRequestId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return nil
+	}
+	var identifier *string
+	for _, res := range response.Resources {
+		if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			identifier = res.Identifier
+			break
+		}
+	}
+
+	return identifier
+}
 func workRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
 	startTime := time.Now()
 	stopTime := startTime.Add(timeout)

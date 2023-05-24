@@ -48,6 +48,10 @@ type Zone struct {
 	// required parameter when the `zoneType` value is `SECONDARY`.
 	ExternalMasters []ExternalMaster `mandatory:"true" json:"externalMasters"`
 
+	// External secondary servers for the zone.
+	// This field is currently not supported when `zoneType` is `SECONDARY` or `scope` is `PRIVATE`.
+	ExternalDownstreams []ExternalDownstream `mandatory:"true" json:"externalDownstreams"`
+
 	// The canonical absolute URL of the resource.
 	Self *string `mandatory:"true" json:"self"`
 

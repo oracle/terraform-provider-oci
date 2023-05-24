@@ -273,6 +273,12 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Create() error {
 	s.Res = &response.ExternalDatabaseConnector
 
 	if workId != nil {
+		var identifier *string
+		var err error
+		identifier = response.GetId()
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
 		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalDatabaseConnector", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err

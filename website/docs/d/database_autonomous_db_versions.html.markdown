@@ -46,7 +46,9 @@ The following attributes are exported:
 	* OLTP - indicates an Autonomous Transaction Processing database
 	* DW - indicates an Autonomous Data Warehouse database
 	* AJD - indicates an Autonomous JSON Database
-	* APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type. 
+	* APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
+
+	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
 * `details` - A URL that points to a detailed description of the Autonomous Database version.
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html). 
 * `is_default_for_free` - True if this version of the Oracle Database software's default is free.

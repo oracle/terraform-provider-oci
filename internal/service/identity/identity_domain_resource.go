@@ -364,6 +364,23 @@ func (s *IdentityDomainResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	workRequestResponse := oci_identity.GetIamWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetIamWorkRequest(context.Background(),
+		oci_identity.GetIamWorkRequestRequest{
+			IamWorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "domain") && res.Identifier != nil {
+				s.D.SetId(*res.Identifier)
+				break
+			}
+		}
+	}
 	return s.getDomainFromWorkRequest(workId, oci_identity.IamWorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

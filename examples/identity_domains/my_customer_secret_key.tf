@@ -56,7 +56,7 @@ variable "my_customer_secret_key_user_value" {
 
 resource "oci_identity_domains_my_customer_secret_key" "test_my_customer_secret_key" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:customerSecretKey"]
 
   #Optional
@@ -80,11 +80,19 @@ resource "oci_identity_domains_my_customer_secret_key" "test_my_customer_secret_
     value = var.my_customer_secret_key_user_value
   }
   */
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      // my* resource will not return non-default fields
+      tags,
+      status
+    ]
+  }
 }
 
 data "oci_identity_domains_my_customer_secret_keys" "test_my_customer_secret_keys" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
 
   #Optional
   my_customer_secret_key_count  = var.my_customer_secret_key_my_customer_secret_key_count

@@ -4,7 +4,10 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
+// Use the Logging Management API to create, read, list, update, move and delete
+// log groups, log objects, log saved searches, agent configurations, log data models,
+// continuous queries, and managed continuous queries.
+// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -23,6 +26,23 @@ type UnifiedAgentParser interface {
 	GetFieldTimeKey() *string
 
 	// Specify types for converting a field into another type.
+	// For example,
+	//   With this configuration:
+	//       <parse>
+	//         @type csv
+	//         keys time,host,req_id,user
+	//         time_key time
+	//       </parse>
+	//   This incoming event:
+	//     "2013/02/28 12:00:00,192.168.0.1,111,-"
+	//   is parsed as:
+	//     1362020400 (2013/02/28/ 12:00:00)
+	//     record:
+	//     {
+	//       "host"   : "192.168.0.1",
+	//       "req_id" : "111",
+	//       "user"   : "-"
+	//     }
 	GetTypes() map[string]string
 
 	// Specify the null value pattern.
@@ -125,6 +145,10 @@ func (m *unifiedagentparser) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := UnifiedAgentTsvParser{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CRI":
+		mm := UnifiedAgentCriParser{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "APACHE_ERROR":
 		mm := UnifiedAgentApacheErrorParser{}
 		err = json.Unmarshal(data, &mm)
@@ -200,6 +224,7 @@ type UnifiedAgentParserParserTypeEnum string
 // Set of constants representing the allowable values for UnifiedAgentParserParserTypeEnum
 const (
 	UnifiedAgentParserParserTypeAuditd        UnifiedAgentParserParserTypeEnum = "AUDITD"
+	UnifiedAgentParserParserTypeCri           UnifiedAgentParserParserTypeEnum = "CRI"
 	UnifiedAgentParserParserTypeJson          UnifiedAgentParserParserTypeEnum = "JSON"
 	UnifiedAgentParserParserTypeTsv           UnifiedAgentParserParserTypeEnum = "TSV"
 	UnifiedAgentParserParserTypeCsv           UnifiedAgentParserParserTypeEnum = "CSV"
@@ -216,6 +241,7 @@ const (
 
 var mappingUnifiedAgentParserParserTypeEnum = map[string]UnifiedAgentParserParserTypeEnum{
 	"AUDITD":         UnifiedAgentParserParserTypeAuditd,
+	"CRI":            UnifiedAgentParserParserTypeCri,
 	"JSON":           UnifiedAgentParserParserTypeJson,
 	"TSV":            UnifiedAgentParserParserTypeTsv,
 	"CSV":            UnifiedAgentParserParserTypeCsv,
@@ -232,6 +258,7 @@ var mappingUnifiedAgentParserParserTypeEnum = map[string]UnifiedAgentParserParse
 
 var mappingUnifiedAgentParserParserTypeEnumLowerCase = map[string]UnifiedAgentParserParserTypeEnum{
 	"auditd":         UnifiedAgentParserParserTypeAuditd,
+	"cri":            UnifiedAgentParserParserTypeCri,
 	"json":           UnifiedAgentParserParserTypeJson,
 	"tsv":            UnifiedAgentParserParserTypeTsv,
 	"csv":            UnifiedAgentParserParserTypeCsv,
@@ -259,6 +286,7 @@ func GetUnifiedAgentParserParserTypeEnumValues() []UnifiedAgentParserParserTypeE
 func GetUnifiedAgentParserParserTypeEnumStringValues() []string {
 	return []string{
 		"AUDITD",
+		"CRI",
 		"JSON",
 		"TSV",
 		"CSV",

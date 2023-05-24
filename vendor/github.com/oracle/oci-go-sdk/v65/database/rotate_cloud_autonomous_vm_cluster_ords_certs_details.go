@@ -18,7 +18,7 @@ import (
 // RotateCloudAutonomousVmClusterOrdsCertsDetails The details for configuring the ORDS certificates on Cloud Autonomous VM Cluster
 type RotateCloudAutonomousVmClusterOrdsCertsDetails struct {
 
-	// Specify SYSTEM for using Oracle managed certificates. Specify BYOC when you want to bring your own certificate.
+	// Specify SYSTEM to use Oracle-managed certificates. Specify BYOC when you want to bring your own certificate.
 	CertificateGenerationType RotateCloudAutonomousVmClusterOrdsCertsDetailsCertificateGenerationTypeEnum `mandatory:"true" json:"certificateGenerationType"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate to use.
