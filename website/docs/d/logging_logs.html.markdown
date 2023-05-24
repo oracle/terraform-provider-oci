@@ -32,11 +32,11 @@ data "oci_logging_logs" "test_logs" {
 
 The following arguments are supported:
 
-* `display_name` - (Optional) Resource name
+* `display_name` - (Optional) Resource name.
 * `log_group_id` - (Required) OCID of a log group to work with.
 * `log_type` - (Optional) The logType that the log object is for, whether custom or service.
-* `source_resource` - (Optional) Log object resource.
-* `source_service` - (Optional) Service that created the log object.
+* `source_resource` - (Optional) Log object resource, which is a field of LogSummary.Configuration.Source.
+* `source_service` - (Optional) Service that created the log object, which is a field of LogSummary.Configuration.Source.
 * `state` - (Optional) Lifecycle state of the log object
 
 
@@ -66,7 +66,7 @@ The following attributes are exported:
 * `is_enabled` - Whether or not this resource is currently enabled.
 * `log_group_id` - Log group OCID.
 * `log_type` - The logType that the log object is for, whether custom or service.
-* `retention_duration` - Log retention duration in 30-day increments (30, 60, 90 and so on).
+* `retention_duration` - Log retention duration in 30-day increments (30, 60, 90 and so on until 180).
 * `state` - The pipeline state.
 * `tenancy_id` - The OCID of the tenancy.
 * `time_created` - Time the resource was created.

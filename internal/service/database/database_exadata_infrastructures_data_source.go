@@ -130,6 +130,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["admin_network_cidr"] = *r.AdminNetworkCIDR
 		}
 
+		if r.AvailabilityDomain != nil {
+			exadataInfrastructure["availability_domain"] = *r.AvailabilityDomain
+		}
+
 		if r.CloudControlPlaneServer1 != nil {
 			exadataInfrastructure["cloud_control_plane_server1"] = *r.CloudControlPlaneServer1
 		}

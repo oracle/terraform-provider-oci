@@ -18,6 +18,7 @@ import (
 var (
 	DatabaseCloudExadataInfrastructureUnAllocatedResourceSingularDataSourceRepresentation = map[string]interface{}{
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
+		"db_servers":                      acctest.Representation{RepType: acctest.Optional, Create: []string{`dbServers`}},
 	}
 
 	DatabaseCloudExadataInfrastructureUnAllocatedResourceResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation) +
@@ -46,7 +47,6 @@ func TestDatabaseCloudExadataInfrastructureUnAllocatedResourceResource_basic(t *
 				compartmentIdVariableStr + DatabaseCloudExadataInfrastructureUnAllocatedResourceResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_exadata_infrastructure_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_autonomous_vm_clusters.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cloud_exadata_infrastructure_display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_storage_in_tbs"),

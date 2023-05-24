@@ -48,6 +48,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `availability_domain` - The name of the availability domain that the VM cluster is located in.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpus_enabled` - The number of enabled CPU cores.
 * `data_collection_options` - Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. 

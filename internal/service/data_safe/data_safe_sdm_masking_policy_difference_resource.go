@@ -204,6 +204,11 @@ func (s *DataSafeSdmMaskingPolicyDifferenceResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	return s.getSdmMaskingPolicyDifferenceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

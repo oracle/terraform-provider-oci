@@ -32,6 +32,9 @@ Following environment variables are required:
  - TF_VAR_vault_id
  - TF_VAR_subnet_id
  - TF_VAR_oracle_wallet - for oracle connection creation
+ - TF_VAR_password - password used for create connection, due to sec central issues, we must use environment variables instead of hardcoded passwords
+ - TF_VAR_new_password - new password used for update connection, due to sec central issues, we must use environment variables instead of hardcoded passwords
+"
 */
 import (
 	"context"
@@ -140,7 +143,7 @@ var (
 					Create: `jdbc:sqlserver://ws1.sql.azuresynapse.net:1433;database=db1;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;'`,
 					Update: `jdbc:sqlserver://ws1.sql.azuresynapse.net:1433;database=db2;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;'`},
 				"username": acctest.Representation{RepType: acctest.Required, Create: `user`, Update: `updatedUser`},
-				"password": acctest.Representation{RepType: acctest.Required, Create: `mypassword`, Update: `newpassword`},
+				"password": acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 			},
 		},
 
@@ -149,7 +152,7 @@ var (
 			representation: map[string]interface{}{
 				"host":       acctest.Representation{RepType: acctest.Required, Create: `goldengate.oci.oraclecloud.com`, Update: `goldengate2.oci.oraclecloud.com`},
 				"port":       acctest.Representation{RepType: acctest.Required, Create: `9090`, Update: `9091`},
-				"password":   acctest.Representation{RepType: acctest.Required, Create: `mypassword`, Update: `newpassword`},
+				"password":   acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"username":   acctest.Representation{RepType: acctest.Required, Create: `user`, Update: `updatedUser`},
 				"private_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
 			},
@@ -172,7 +175,7 @@ var (
 			"should_use_jndi":    acctest.Representation{RepType: acctest.Required, Create: `false`},
 			"connection_url":     acctest.Representation{RepType: acctest.Required, Create: `mq://foo.bar.com:7676`, Update: `mq://foo.bar.com:7677`},
 			"connection_factory": acctest.Representation{RepType: acctest.Required, Create: `com.stc.jmsjca.core.JConnectionFactoryXA`, Update: `mq://foo.bar.com:7677`},
-			"password":           acctest.Representation{RepType: acctest.Required, Create: `mypassword`, Update: `newpassword`},
+			"password":           acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 			"username":           acctest.Representation{RepType: acctest.Required, Create: `user`, Update: `updatedUser`},
 			"private_ip":         acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
 		},
@@ -183,7 +186,7 @@ var (
 			representation: map[string]interface{}{
 				"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.KafkaConnectionSecurityProtocolSaslSsl)},
 				"username":          acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `newUsername`},
-				"password":          acctest.Representation{RepType: acctest.Required, Create: `password`, Update: `newPassword`},
+				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"bootstrap_servers": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
 					"host":       acctest.Representation{RepType: acctest.Required, Create: `whatever.fqdn.oraclecloud.com`},
 					"port":       acctest.Representation{RepType: acctest.Required, Create: `9093`},
@@ -198,7 +201,7 @@ var (
 			representation: map[string]interface{}{
 				"authentication_type": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.KafkaSchemaRegistryConnectionAuthenticationTypeBasic)},
 				"username":            acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `newUsername`},
-				"password":            acctest.Representation{RepType: acctest.Required, Create: `password`, Update: `newPassword`},
+				"password":            acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"url":                 acctest.Representation{RepType: acctest.Required, Create: `https://10.1.1.1:9091`, Update: `https://10.1.1.2:9091`},
 			},
 		},
@@ -211,7 +214,7 @@ var (
 				"host":              acctest.Representation{RepType: acctest.Required, Create: `whatever.fqdn.com`, Update: `whatever.fqdn.com`},
 				"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
 				"username":          acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `newUsername`},
-				"password":          acctest.Representation{RepType: acctest.Required, Create: `password`, Update: `newPassword`},
+				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"private_ip":        acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
 			},
 		},
@@ -219,10 +222,10 @@ var (
 		// MongoDb
 		{connectionType: oci_golden_gate.ConnectionTypeMongodb, technologyType: oci_golden_gate.TechnologyTypeMongodb,
 			representation: map[string]interface{}{
-				"connection_string": acctest.Representation{RepType: acctest.Required, Create: `mongodb://username:password@10.0.0.1:9000`,
-					Update: `mongodb://newUsername:newPassword@10.0.0.1:9001`},
+				"connection_string": acctest.Representation{RepType: acctest.Required, Create: `mongodb://10.0.0.1:9000`,
+					Update: `mongodb://10.0.0.1:9001`},
 				"username": acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `newUsername`},
-				"password": acctest.Representation{RepType: acctest.Required, Create: `password`, Update: `newPassword`},
+				"password": acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 			},
 		},
 
@@ -230,7 +233,7 @@ var (
 		{connectionType: oci_golden_gate.ConnectionTypeMysql, technologyType: oci_golden_gate.TechnologyTypeOciMysql,
 			representation: map[string]interface{}{
 				"username":          acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `newUsername`},
-				"password":          acctest.Representation{RepType: acctest.Required, Create: `password`, Update: `newPassword`},
+				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"database_name":     acctest.Representation{RepType: acctest.Required, Create: `database`, Update: `anotherdatabase`},
 				"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.MysqlConnectionSecurityProtocolPlain)},
 				"private_ip":        acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
@@ -247,7 +250,7 @@ var (
 				"user_id": acctest.Representation{RepType: acctest.Required, Create: `ocid1.user.oc1..fakeaaaatswfukd4gymkjhngu3yp7galhoqzax6mi4ypgdt44ggbjaz2fake`,
 					Update: `ocid1.user.oc2..fakeaaaatswfukd4gymkjhngu3yp7galhoqzax6mi4ypgdt44ggbjaz2fake`},
 				"private_key_file":       acctest.Representation{RepType: acctest.Required, Create: `my-private-key-file`, Update: `new-private-key-file`},
-				"private_key_passphrase": acctest.Representation{RepType: acctest.Required, Create: `mypassphrase`, Update: `newpassphrase`},
+				"private_key_passphrase": acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"public_key_fingerprint": acctest.Representation{RepType: acctest.Required, Create: `myfingerprint`, Update: `newfingerprint`},
 			},
 		},
@@ -256,7 +259,7 @@ var (
 		{connectionType: oci_golden_gate.ConnectionTypeOracle, technologyType: oci_golden_gate.TechnologyTypeAmazonRdsOracle,
 			representation: map[string]interface{}{
 				"username":          acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `newUsername`},
-				"password":          acctest.Representation{RepType: acctest.Required, Create: `password`, Update: `newPassword`},
+				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"session_mode":      acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.OracleConnectionSessionModeDirect)},
 				"connection_string": acctest.Representation{RepType: acctest.Required, Create: `alert-henry-IMUny-dev7-ggs.sub05140125230.integrationvcn.oraclevcn.com:1521/DB0609_phx2hg.sub05140125230.integrationvcn.oraclevcn.com`},
 				"wallet":            acctest.Representation{RepType: acctest.Required, Create: `${var.oracle_wallet}`},
@@ -283,7 +286,7 @@ var (
 				"host":              acctest.Representation{RepType: acctest.Required, Create: `whatever.fqdn.com`, Update: `whatever.fqdn.com`},
 				"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
 				"username":          acctest.Representation{RepType: acctest.Required, Create: `admin`, Update: `new_admin`},
-				"password":          acctest.Representation{RepType: acctest.Required, Create: `mypassowrd`, Update: `updatedpassword`},
+				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.PostgresqlConnectionSecurityProtocolPlain)},
 				"private_ip":        acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
 			},
@@ -296,7 +299,7 @@ var (
 					Update: `jdbc:snowflake://myaccount.snowflakecomputing.com/?warehouse=dawarehous2&db=database2`},
 				"authentication_type": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.SnowflakeConnectionAuthenticationTypeBasic)},
 				"username":            acctest.Representation{RepType: acctest.Required, Create: `admin`, Update: `new_admin`},
-				"password":            acctest.Representation{RepType: acctest.Required, Create: `mypassowrd`, Update: `updatedpassword`},
+				"password":            acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 			},
 		},
 	}
@@ -340,6 +343,8 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		CONNECTION_TYPE         = "connection_type"
 		TECHNOLOGY_TYPE         = "technology_type"
 		ORACLE_WALLET           = "oracle_wallet"
+		PASSWORD                = "password"
+		NEW_PASSWORD            = "new_password"
 	)
 
 	config := acctest.ProviderTestConfig() +
@@ -348,7 +353,9 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		makeVariableStr(KMS_KEY_ID, t) +
 		makeVariableStr(SUBNET_ID, t) +
 		makeVariableStr(VAULT_ID, t) +
-		makeVariableStr(ORACLE_WALLET, t)
+		makeVariableStr(ORACLE_WALLET, t) +
+		makeVariableStr(PASSWORD, t) +
+		makeVariableStr(NEW_PASSWORD, t)
 
 	var resId, resId2 string
 	for _, connectionTestDescriptor := range ConnectionTestDescriptors {

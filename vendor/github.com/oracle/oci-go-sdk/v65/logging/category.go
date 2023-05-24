@@ -4,7 +4,10 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
+// Use the Logging Management API to create, read, list, update, move and delete
+// log groups, log objects, log saved searches, agent configurations, log data models,
+// continuous queries, and managed continuous queries.
+// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -21,7 +24,7 @@ type Category struct {
 	// Category name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Category display name.
+	// Category display name. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Parameters the category supports.

@@ -53,7 +53,9 @@ The following arguments are supported:
 * `database_upgrade_source_details` - (Optional) Details for the database upgrade source. 
 	* `database_software_image_id` - (Required when source=DB_SOFTWARE_IMAGE) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image to be used to upgrade a database.
 	* `db_home_id` - (Required when source=DB_HOME) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
-	* `db_version` - (Required when source=DB_VERSION) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
+	* `db_version` - (Required when source=DB_VERSION) A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
+
+		This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
 	* `options` - (Optional) Additional upgrade options supported by DBUA(Database Upgrade Assistant). Example: "-upgradeTimezone false -keepEvents" 
 	* `source` - (Optional) The source of the Oracle Database software to be used for the upgrade.
 		* Use `DB_VERSION` to specify a generally-available Oracle Database software version to upgrade the database.

@@ -290,6 +290,11 @@ func (s *BastionBastionResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	return s.getBastionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bastion"), oci_bastion.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

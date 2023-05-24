@@ -187,6 +187,11 @@ func (s *WafWebAppFirewallResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.GetId()
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	return s.getWebAppFirewallFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waf"), oci_waf.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

@@ -48,7 +48,7 @@ resource "oci_identity_domains_user_db_credential" "test_user_db_credential" {
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:UserDbCredentials"]
 
   #Optional
-  attribute_sets = []
+  attribute_sets  = ["all"]
   attributes     = ""
   authorization  = var.user_db_credential_authorization
   description    = var.user_db_credential_description
@@ -74,6 +74,15 @@ resource "oci_identity_domains_user_db_credential" "test_user_db_credential" {
     #Optional
     #use the ocid of the same user set in value
     ocid = oci_identity_domains_user.test_user.ocid
+  }
+
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      status,
+      urnietfparamsscimschemasoracleidcsextensionself_change_user,
+      db_password
+    ]
   }
 }
 

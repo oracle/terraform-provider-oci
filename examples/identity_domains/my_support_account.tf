@@ -49,7 +49,7 @@ variable "my_support_account_user_value" {
 
 resource "oci_identity_domains_my_support_account" "test_my_support_account" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:supportAccount"]
   token         = var.my_support_account_token
 
@@ -71,12 +71,19 @@ resource "oci_identity_domains_my_support_account" "test_my_support_account" {
     value   = var.my_support_account_user_value
   }
   */
+  lifecycle {
+    ignore_changes = [
+      // ignore fields that will never be returned
+      // my* resource will not return non-default fields
+      tags
+    ]
+  }
 
 }
 
 data "oci_identity_domains_my_support_accounts" "test_my_support_accounts" {
   #Required
-  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  idcs_endpoint = data.oci_identity_domain.test_domain_for_my_endpoint.url
 
   #Optional
   my_support_account_count  = var.my_support_account_my_support_account_count

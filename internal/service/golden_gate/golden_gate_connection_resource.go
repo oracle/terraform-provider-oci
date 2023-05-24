@@ -567,6 +567,11 @@ func (s *GoldenGateConnectionResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.GetId()
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	return s.getConnectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

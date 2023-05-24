@@ -102,11 +102,6 @@ func CloudGuardSecurityPoliciesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"system_tags": {
-										Type:     schema.TypeMap,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
 									"time_created": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -258,10 +253,6 @@ func SecurityPolicySummaryToMap(obj oci_cloud_guard.SecurityPolicySummary) map[s
 	result["services"] = obj.Services
 
 	result["state"] = string(obj.LifecycleState)
-
-	if obj.SystemTags != nil {
-		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
-	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

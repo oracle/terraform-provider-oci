@@ -414,6 +414,11 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	return s.getDrProtectionGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

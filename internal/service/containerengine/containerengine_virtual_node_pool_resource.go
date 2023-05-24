@@ -446,6 +446,23 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	workRequestResponse := oci_containerengine.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_containerengine.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "virtualnodepool") && res.Identifier != nil {
+				s.D.SetId(*res.Identifier)
+				break
+			}
+		}
+	}
 	return s.getVirtualNodePoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

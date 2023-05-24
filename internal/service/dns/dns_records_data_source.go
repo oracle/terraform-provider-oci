@@ -23,7 +23,7 @@ func DnsRecordsDataSource() *schema.Resource {
 			"zone_name_or_id": {
 				Type:       schema.TypeString,
 				Required:   true,
-				Deprecated: tfresource.ResourceDeprecatedForAnother("oci_dns_records", "oci_dns_rrset"),
+				Deprecated: tfresource.ResourceDeprecatedForAnother("oci_dns_records", "oci_dns_rrsets"),
 			},
 
 			// Optional

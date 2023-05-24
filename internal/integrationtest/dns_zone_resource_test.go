@@ -48,15 +48,21 @@ var (
 	})
 
 	zoneRepresentationPrimaryDefault = map[string]interface{}{
-		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
-		"zone_type":        acctest.Representation{RepType: acctest.Required, Create: `PRIMARY`},
-		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"external_masters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DnsZoneExternalMastersRepresentation},
-		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":                 acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_tenancy.test_tenancy.name}.{{.token}}.oci-zone-test`},
+		"zone_type":            acctest.Representation{RepType: acctest.Required, Create: `PRIMARY`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"external_downstreams": acctest.RepresentationGroup{RepType: acctest.Optional, Group: zoneExternalDownstreamsRepresentation},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 	}
 
 	zoneRepresentationDefault = acctest.GetUpdatedRepresentationCopy("zone_type", acctest.Representation{RepType: acctest.Required, Create: `SECONDARY`}, zoneRepresentationPrimaryDefault)
+
+	zoneExternalDownstreamsRepresentation = map[string]interface{}{
+		"address":     acctest.Representation{RepType: acctest.Required, Create: `1.2.3.4`, Update: `2.3.4.5`},
+		"port":        acctest.Representation{RepType: acctest.Optional, Create: `53`},
+		"tsig_key_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_tsig_key.test_tsig_key.id}`},
+	}
 
 	ZoneResourceDependenciesDefault = acctest.GenerateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", acctest.Required, acctest.Create, DnsTsigKeyRepresentation) +
 		DefinedTagsDependencies + `
@@ -103,15 +109,15 @@ func TestDnsZoneResource_default(t *testing.T) {
 		},
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependenciesDefault+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Create, zoneRepresentationDefault), nil),
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Create, zoneRepresentationPrimaryDefault), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "external_masters.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "external_masters.0.address", "77.64.12.1"),
-				resource.TestCheckResourceAttr(resourceName, "external_masters.0.port", "53"),
-				resource.TestCheckResourceAttrSet(resourceName, "external_masters.0.tsig_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.0.address", "1.2.3.4"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.0.port", "53"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_downstreams.0.tsig_key_id"),
 				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
-				resource.TestCheckResourceAttr(resourceName, "zone_type", "SECONDARY"),
+				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -131,10 +137,13 @@ func TestDnsZoneResource_default(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependenciesDefault+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithRemovedProperties(zoneRepresentationPrimaryDefault, []string{"external_masters"})), nil),
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Create, zoneRepresentationPrimaryDefault), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.0.address", "1.2.3.4"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.0.port", "53"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_downstreams.0.tsig_key_id"),
 				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
 				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -163,11 +172,15 @@ func TestDnsZoneResource_default(t *testing.T) {
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+compartmentIdUVariableStr+ZoneResourceDependenciesDefault+
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(zoneRepresentationPrimaryDefault, []string{"external_masters"}), map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(zoneRepresentationPrimaryDefault, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.0.address", "1.2.3.4"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.0.port", "53"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_downstreams.0.tsig_key_id"),
 				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
 				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -194,10 +207,13 @@ func TestDnsZoneResource_default(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependenciesDefault+
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithRemovedProperties(zoneRepresentationPrimaryDefault, []string{"external_masters"})), nil),
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Optional, acctest.Update, zoneRepresentationPrimaryDefault), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.0.address", "2.3.4.5"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.0.port", "53"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_downstreams.0.tsig_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "zone_type", "PRIMARY"),
 				resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
@@ -227,6 +243,10 @@ func TestDnsZoneResource_default(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_zone", "test_zone", acctest.Required, acctest.Create, zoneRepresentationPrimaryDefault), nil),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.0.address", "2.3.4.5"),
+				resource.TestCheckResourceAttr(resourceName, "external_downstreams.0.port", "53"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_downstreams.0.tsig_key_id"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "zones.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "zones.0.id"),

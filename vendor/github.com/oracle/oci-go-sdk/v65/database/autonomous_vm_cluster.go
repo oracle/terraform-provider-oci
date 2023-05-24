@@ -63,7 +63,7 @@ type AutonomousVmCluster struct {
 	// The total number of Autonomous Container Databases that can be created.
 	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
 
-	// The amount of memory (in GBs) to be enabled per each CPU core.
+	// The amount of memory (in GBs) to be enabled per OCPU or ECPU. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The number of CPU cores enabled per VM cluster node.
@@ -133,10 +133,10 @@ type AutonomousVmCluster struct {
 	// Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
 	IsMtlsEnabled *bool `mandatory:"false" json:"isMtlsEnabled"`
 
-	// The date and time of Database SSL certificate expiration.
+	// The date and time of the Database SSL certificate expiration.
 	TimeDatabaseSslCertificateExpires *common.SDKTime `mandatory:"false" json:"timeDatabaseSslCertificateExpires"`
 
-	// The date and time of ORDS certificate expiration.
+	// The date and time of the ORDS certificate expiration.
 	TimeOrdsCertificateExpires *common.SDKTime `mandatory:"false" json:"timeOrdsCertificateExpires"`
 }
 

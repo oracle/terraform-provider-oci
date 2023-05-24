@@ -385,6 +385,11 @@ func (s *AiAnomalyDetectionModelResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 	return s.getModelFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_anomaly_detection"), oci_ai_anomaly_detection.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

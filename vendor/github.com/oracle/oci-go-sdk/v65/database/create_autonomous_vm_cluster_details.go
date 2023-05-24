@@ -48,7 +48,7 @@ type CreateAutonomousVmClusterDetails struct {
 	// The compute model of the Autonomous VM Cluster. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	ComputeModel CreateAutonomousVmClusterDetailsComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
-	// The amount of memory (in GBs) to be enabled per each CPU core.
+	// The amount of memory (in GBs) to be enabled per OCPU or ECPU. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The data disk group size to be allocated for Autonomous Databases, in TBs.

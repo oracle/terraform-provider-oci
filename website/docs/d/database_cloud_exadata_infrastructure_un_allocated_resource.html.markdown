@@ -19,6 +19,9 @@ Gets unallocated resources information for the specified Cloud Exadata infrastru
 data "oci_database_cloud_exadata_infrastructure_un_allocated_resource" "test_cloud_exadata_infrastructure_un_allocated_resource" {
 	#Required
 	cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
+
+	#Optional
+	db_servers = var.cloud_exadata_infrastructure_un_allocated_resource_db_servers
 }
 ```
 
@@ -27,6 +30,7 @@ data "oci_database_cloud_exadata_infrastructure_un_allocated_resource" "test_clo
 The following arguments are supported:
 
 * `cloud_exadata_infrastructure_id` - (Required) The cloud Exadata infrastructure [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `db_servers` - (Optional) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db servers.
 
 
 ## Attributes Reference

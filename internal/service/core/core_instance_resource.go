@@ -1083,6 +1083,13 @@ func (s *CoreInstanceResourceCrud) Create() error {
 
 	s.Res = &response.Instance
 
+	if workRequestId != nil {
+		var identifier *string
+		identifier = response.Id
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+	}
 	workRequestErr := tfresource.ResourceRefreshForHybridPolling(s.WorkRequestClient, workRequestId, "instance", oci_work_requests.WorkRequestResourceActionTypeCreated, s.DisableNotFoundRetries, s.D, s)
 	if workRequestErr != nil {
 		return workRequestErr

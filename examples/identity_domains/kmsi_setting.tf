@@ -57,7 +57,7 @@ resource "oci_identity_domains_kmsi_setting" "test_kmsi_setting" {
   schemas         = ["urn:ietf:params:scim:schemas:oracle:idcs:KmsiSettings"]
 
   #Optional
-  attribute_sets             = []
+  attribute_sets             = ["all"]
   attributes                 = ""
   authorization              = var.kmsi_setting_authorization
   external_id                = "externalId"

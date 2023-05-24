@@ -35,6 +35,10 @@ type UpdateZoneDetails struct {
 	// External master servers for the zone. `externalMasters` becomes a
 	// required parameter when the `zoneType` value is `SECONDARY`.
 	ExternalMasters []ExternalMaster `mandatory:"false" json:"externalMasters"`
+
+	// External secondary servers for the zone.
+	// This field is currently not supported when `zoneType` is `SECONDARY` or `scope` is `PRIVATE`.
+	ExternalDownstreams []ExternalDownstream `mandatory:"false" json:"externalDownstreams"`
 }
 
 func (m UpdateZoneDetails) String() string {

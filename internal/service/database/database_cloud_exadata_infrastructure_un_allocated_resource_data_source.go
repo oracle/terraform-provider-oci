@@ -20,6 +20,13 @@ func DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSource() *schema.R
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"db_servers": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			// Computed
 			"cloud_autonomous_vm_clusters": {
 				Type:     schema.TypeList,
@@ -90,6 +97,19 @@ func (s *DatabaseCloudExadataInfrastructureUnAllocatedResourceDataSourceCrud) Ge
 	if cloudExadataInfrastructureId, ok := s.D.GetOkExists("cloud_exadata_infrastructure_id"); ok {
 		tmp := cloudExadataInfrastructureId.(string)
 		request.CloudExadataInfrastructureId = &tmp
+	}
+
+	if dbServers, ok := s.D.GetOkExists("db_servers"); ok {
+		interfaces := dbServers.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("db_servers") {
+			request.DbServers = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")

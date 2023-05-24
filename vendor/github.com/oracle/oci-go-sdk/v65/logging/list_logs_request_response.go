@@ -24,13 +24,13 @@ type ListLogsRequest struct {
 	// The logType that the log object is for, whether custom or service.
 	LogType ListLogsLogTypeEnum `mandatory:"false" contributesTo:"query" name:"logType" omitEmpty:"true"`
 
-	// Service that created the log object.
+	// Service that created the log object, which is a field of LogSummary.Configuration.Source.
 	SourceService *string `mandatory:"false" contributesTo:"query" name:"sourceService"`
 
-	// Log object resource.
+	// Log object resource, which is a field of LogSummary.Configuration.Source.
 	SourceResource *string `mandatory:"false" contributesTo:"query" name:"sourceResource"`
 
-	// Resource name
+	// Resource name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// Lifecycle state of the log object

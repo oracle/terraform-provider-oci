@@ -4,7 +4,10 @@
 
 // Logging Management API
 //
-// Use the Logging Management API to create, read, list, update, and delete log groups, log objects, and agent configurations.
+// Use the Logging Management API to create, read, list, update, move and delete
+// log groups, log objects, log saved searches, agent configurations, log data models,
+// continuous queries, and managed continuous queries.
+// For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
 package logging
@@ -27,7 +30,7 @@ type WorkRequest struct {
 	// The current status of the work request.
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
-	// The work request’s compartment OCID.
+	// The work request's compartment OCID.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The resources this work request affects.

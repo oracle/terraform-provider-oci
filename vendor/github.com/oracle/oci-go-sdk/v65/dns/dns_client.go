@@ -786,6 +786,63 @@ func (client DnsClient) createZone(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
+// CreateZoneFromZoneFile Creates a new zone from a zone file in the specified compartment. Not supported for private zones.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateZoneFromZoneFile.go.html to see an example of how to use CreateZoneFromZoneFile API.
+func (client DnsClient) CreateZoneFromZoneFile(ctx context.Context, request CreateZoneFromZoneFileRequest) (response CreateZoneFromZoneFileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createZoneFromZoneFile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateZoneFromZoneFileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateZoneFromZoneFileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateZoneFromZoneFileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateZoneFromZoneFileResponse")
+	}
+	return
+}
+
+// createZoneFromZoneFile implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) createZoneFromZoneFile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/createZoneFromZoneFile", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateZoneFromZoneFileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/CreateZoneFromZoneFile"
+		err = common.PostProcessServiceError(err, "Dns", "CreateZoneFromZoneFile", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteDomainRecords Deletes all records at the specified zone and domain.
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query parameter
 // then the viewId query parameter is required.

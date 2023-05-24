@@ -68,6 +68,10 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 
 	 **Example:** `{"Operations.CostCenter": "42"}` 
+* `external_downstreams` - External secondary servers for the zone. This field is currently not supported when `zoneType` is `SECONDARY` or `scope` is `PRIVATE`. 
+	* `address` - The server's IP address (IPv4 or IPv6).
+	* `port` - The server's port. Port value must be a value of 53, otherwise omit the port value. 
+	* `tsig_key_id` - The OCID of the TSIG key. A TSIG key is used to secure DNS messages (in this case, zone transfers) between two systems that both have the (shared) secret. 
 * `external_masters` - External master servers for the zone. `externalMasters` becomes a required parameter when the `zoneType` value is `SECONDARY`. 
 	* `address` - The server's IP address (IPv4 or IPv6).
 	* `port` - The server's port. Port value must be a value of 53, otherwise omit the port value. 
@@ -89,5 +93,9 @@ The following attributes are exported:
 	**Example:** `2016-07-22T17:23:59:60Z` 
 * `version` - Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived. 
 * `view_id` - The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view. 
+* `zone_transfer_servers` - The Oracle Cloud Infrastructure nameservers that transfer the zone data with external nameservers. 
+	* `address` - The server's IP address (IPv4 or IPv6).
+	* `is_transfer_destination` - A Boolean flag indicating whether or not the server is a zone data transfer destination. 
+	* `is_transfer_source` - A Boolean flag indicating whether or not the server is a zone data transfer source. 
 * `zone_type` - The type of the zone. Must be either `PRIMARY` or `SECONDARY`. `SECONDARY` is only supported for GLOBAL zones. 
 
