@@ -24,6 +24,12 @@ type CreateImportRequestDetails struct {
 	// Name of the zip file to be imported.
 	FileName *string `mandatory:"true" json:"fileName"`
 
+	// Optional parameter to point to object storage tenancy (if using Object Storage of different tenancy)
+	ObjectStorageTenancyId *string `mandatory:"false" json:"objectStorageTenancyId"`
+
+	// Region of the object storage (if using object storage of different region)
+	ObjectStorageRegion *string `mandatory:"false" json:"objectStorageRegion"`
+
 	// Key of the object inside which all the objects will be imported
 	ObjectKeyForImport *string `mandatory:"false" json:"objectKeyForImport"`
 

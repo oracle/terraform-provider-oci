@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// SqlPlanBaselineAggregationCollection Provides a collection of SQL plan baseline aggregations.
+// SqlPlanBaselineAggregationCollection A collection of SQL plan baseline aggregations.
 type SqlPlanBaselineAggregationCollection struct {
 
 	// A list of SQL plan baseline aggregations.

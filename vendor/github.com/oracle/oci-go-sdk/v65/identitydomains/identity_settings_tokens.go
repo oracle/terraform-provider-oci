@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// IdentitySettingsTokens A list of tokens and their expiry length
+// IdentitySettingsTokens A list of tokens and their expiry length.
 type IdentitySettingsTokens struct {
 
-	// Token type
+	// The token type.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - multiValued: false
@@ -30,7 +30,7 @@ type IdentitySettingsTokens struct {
 	//  - uniqueness: none
 	Type IdentitySettingsTokensTypeEnum `mandatory:"true" json:"type"`
 
-	// Indicates the number of hours after which the token expires automatically
+	// Indicates the number of minutes after which the token expires automatically.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - multiValued: false

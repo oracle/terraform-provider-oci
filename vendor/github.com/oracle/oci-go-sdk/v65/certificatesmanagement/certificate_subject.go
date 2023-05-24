@@ -68,6 +68,9 @@ type CertificateSubject struct {
 
 	// User ID (RDN UID).
 	UserId *string `mandatory:"false" json:"userId"`
+
+	// DNS zone Name or OCID.
+	DnsZoneNameOrId *string `mandatory:"false" json:"dnsZoneNameOrId"`
 }
 
 func (m CertificateSubject) String() string {

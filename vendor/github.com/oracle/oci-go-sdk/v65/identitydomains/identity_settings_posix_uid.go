@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// IdentitySettingsPosixUid A list of Posix Uid settings
+// IdentitySettingsPosixUid A list of Posix Uid settings.
 // **Added In:** 17.4.6
 // **SCIM++ Properties:**
 //  - caseExact: false
@@ -26,7 +26,7 @@ import (
 //  - uniqueness: none
 type IdentitySettingsPosixUid struct {
 
-	// Number from which Posix Uid Manual assignment starts from
+	// The number from which the Posix Uid Manual assignment starts.
 	// **Added In:** 17.4.6
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -38,7 +38,7 @@ type IdentitySettingsPosixUid struct {
 	//  - uniqueness: none
 	ManualAssignmentStartsFrom *int `mandatory:"false" json:"manualAssignmentStartsFrom"`
 
-	// Number at which Posix Uid Manual assignment ends
+	// The number at which the Posix Uid Manual assignment ends.
 	// **Added In:** 17.4.6
 	// **SCIM++ Properties:**
 	//  - caseExact: false

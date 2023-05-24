@@ -22,7 +22,7 @@ import (
 type RunObjectStoreScriptUserDefinedStep struct {
 
 	// The OCID of the instance where this script or command should be executed.
-	// Example: `ocid1.instance.oc1.phx.exampleocid1`
+	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
 	RunOnInstanceId *string `mandatory:"true" json:"runOnInstanceId"`
 
 	// The region of the instance where this script or command should be executed.

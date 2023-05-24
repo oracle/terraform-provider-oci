@@ -38,7 +38,10 @@ type ListImportRequestsRequest struct {
 	SortBy ListImportRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Specifies import status to use, either -  ALL, SUCCESSFUL, IN_PROGRESS, QUEUED, FAILED .
-	Status ListImportRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
+	ImportStatus ListImportRequestsImportStatusEnum `mandatory:"false" contributesTo:"query" name:"importStatus" omitEmpty:"true"`
+
+	// This parameter allows users to specify which view of the import object response to return. SUMMARY - Summary of the import object request will be returned. This is the default option when no value is specified. DETAILS - Details of import object request will be returned. This will include details of all the objects to be exported.
+	Projection ListImportRequestsProjectionEnum `mandatory:"false" contributesTo:"query" name:"projection" omitEmpty:"true"`
 
 	// Specifies start time of a copy object request.
 	TimeStartedInMillis *int64 `mandatory:"false" contributesTo:"query" name:"timeStartedInMillis"`
@@ -88,8 +91,11 @@ func (request ListImportRequestsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListImportRequestsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListImportRequestsSortByEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingListImportRequestsStatusEnum(string(request.Status)); !ok && request.Status != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListImportRequestsStatusEnumStringValues(), ",")))
+	if _, ok := GetMappingListImportRequestsImportStatusEnum(string(request.ImportStatus)); !ok && request.ImportStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ImportStatus: %s. Supported values are: %s.", request.ImportStatus, strings.Join(GetListImportRequestsImportStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListImportRequestsProjectionEnum(string(request.Projection)); !ok && request.Projection != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Projection: %s. Supported values are: %s.", request.Projection, strings.Join(GetListImportRequestsProjectionEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -211,48 +217,48 @@ func GetMappingListImportRequestsSortByEnum(val string) (ListImportRequestsSortB
 	return enum, ok
 }
 
-// ListImportRequestsStatusEnum Enum with underlying type: string
-type ListImportRequestsStatusEnum string
+// ListImportRequestsImportStatusEnum Enum with underlying type: string
+type ListImportRequestsImportStatusEnum string
 
-// Set of constants representing the allowable values for ListImportRequestsStatusEnum
+// Set of constants representing the allowable values for ListImportRequestsImportStatusEnum
 const (
-	ListImportRequestsStatusInProgress  ListImportRequestsStatusEnum = "IN_PROGRESS"
-	ListImportRequestsStatusSuccessful  ListImportRequestsStatusEnum = "SUCCESSFUL"
-	ListImportRequestsStatusQueued      ListImportRequestsStatusEnum = "QUEUED"
-	ListImportRequestsStatusTerminating ListImportRequestsStatusEnum = "TERMINATING"
-	ListImportRequestsStatusTerminated  ListImportRequestsStatusEnum = "TERMINATED"
-	ListImportRequestsStatusFailed      ListImportRequestsStatusEnum = "FAILED"
+	ListImportRequestsImportStatusInProgress  ListImportRequestsImportStatusEnum = "IN_PROGRESS"
+	ListImportRequestsImportStatusSuccessful  ListImportRequestsImportStatusEnum = "SUCCESSFUL"
+	ListImportRequestsImportStatusQueued      ListImportRequestsImportStatusEnum = "QUEUED"
+	ListImportRequestsImportStatusTerminating ListImportRequestsImportStatusEnum = "TERMINATING"
+	ListImportRequestsImportStatusTerminated  ListImportRequestsImportStatusEnum = "TERMINATED"
+	ListImportRequestsImportStatusFailed      ListImportRequestsImportStatusEnum = "FAILED"
 )
 
-var mappingListImportRequestsStatusEnum = map[string]ListImportRequestsStatusEnum{
-	"IN_PROGRESS": ListImportRequestsStatusInProgress,
-	"SUCCESSFUL":  ListImportRequestsStatusSuccessful,
-	"QUEUED":      ListImportRequestsStatusQueued,
-	"TERMINATING": ListImportRequestsStatusTerminating,
-	"TERMINATED":  ListImportRequestsStatusTerminated,
-	"FAILED":      ListImportRequestsStatusFailed,
+var mappingListImportRequestsImportStatusEnum = map[string]ListImportRequestsImportStatusEnum{
+	"IN_PROGRESS": ListImportRequestsImportStatusInProgress,
+	"SUCCESSFUL":  ListImportRequestsImportStatusSuccessful,
+	"QUEUED":      ListImportRequestsImportStatusQueued,
+	"TERMINATING": ListImportRequestsImportStatusTerminating,
+	"TERMINATED":  ListImportRequestsImportStatusTerminated,
+	"FAILED":      ListImportRequestsImportStatusFailed,
 }
 
-var mappingListImportRequestsStatusEnumLowerCase = map[string]ListImportRequestsStatusEnum{
-	"in_progress": ListImportRequestsStatusInProgress,
-	"successful":  ListImportRequestsStatusSuccessful,
-	"queued":      ListImportRequestsStatusQueued,
-	"terminating": ListImportRequestsStatusTerminating,
-	"terminated":  ListImportRequestsStatusTerminated,
-	"failed":      ListImportRequestsStatusFailed,
+var mappingListImportRequestsImportStatusEnumLowerCase = map[string]ListImportRequestsImportStatusEnum{
+	"in_progress": ListImportRequestsImportStatusInProgress,
+	"successful":  ListImportRequestsImportStatusSuccessful,
+	"queued":      ListImportRequestsImportStatusQueued,
+	"terminating": ListImportRequestsImportStatusTerminating,
+	"terminated":  ListImportRequestsImportStatusTerminated,
+	"failed":      ListImportRequestsImportStatusFailed,
 }
 
-// GetListImportRequestsStatusEnumValues Enumerates the set of values for ListImportRequestsStatusEnum
-func GetListImportRequestsStatusEnumValues() []ListImportRequestsStatusEnum {
-	values := make([]ListImportRequestsStatusEnum, 0)
-	for _, v := range mappingListImportRequestsStatusEnum {
+// GetListImportRequestsImportStatusEnumValues Enumerates the set of values for ListImportRequestsImportStatusEnum
+func GetListImportRequestsImportStatusEnumValues() []ListImportRequestsImportStatusEnum {
+	values := make([]ListImportRequestsImportStatusEnum, 0)
+	for _, v := range mappingListImportRequestsImportStatusEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetListImportRequestsStatusEnumStringValues Enumerates the set of values in String for ListImportRequestsStatusEnum
-func GetListImportRequestsStatusEnumStringValues() []string {
+// GetListImportRequestsImportStatusEnumStringValues Enumerates the set of values in String for ListImportRequestsImportStatusEnum
+func GetListImportRequestsImportStatusEnumStringValues() []string {
 	return []string{
 		"IN_PROGRESS",
 		"SUCCESSFUL",
@@ -263,8 +269,50 @@ func GetListImportRequestsStatusEnumStringValues() []string {
 	}
 }
 
-// GetMappingListImportRequestsStatusEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListImportRequestsStatusEnum(val string) (ListImportRequestsStatusEnum, bool) {
-	enum, ok := mappingListImportRequestsStatusEnumLowerCase[strings.ToLower(val)]
+// GetMappingListImportRequestsImportStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListImportRequestsImportStatusEnum(val string) (ListImportRequestsImportStatusEnum, bool) {
+	enum, ok := mappingListImportRequestsImportStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListImportRequestsProjectionEnum Enum with underlying type: string
+type ListImportRequestsProjectionEnum string
+
+// Set of constants representing the allowable values for ListImportRequestsProjectionEnum
+const (
+	ListImportRequestsProjectionSummary ListImportRequestsProjectionEnum = "SUMMARY"
+	ListImportRequestsProjectionDetails ListImportRequestsProjectionEnum = "DETAILS"
+)
+
+var mappingListImportRequestsProjectionEnum = map[string]ListImportRequestsProjectionEnum{
+	"SUMMARY": ListImportRequestsProjectionSummary,
+	"DETAILS": ListImportRequestsProjectionDetails,
+}
+
+var mappingListImportRequestsProjectionEnumLowerCase = map[string]ListImportRequestsProjectionEnum{
+	"summary": ListImportRequestsProjectionSummary,
+	"details": ListImportRequestsProjectionDetails,
+}
+
+// GetListImportRequestsProjectionEnumValues Enumerates the set of values for ListImportRequestsProjectionEnum
+func GetListImportRequestsProjectionEnumValues() []ListImportRequestsProjectionEnum {
+	values := make([]ListImportRequestsProjectionEnum, 0)
+	for _, v := range mappingListImportRequestsProjectionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListImportRequestsProjectionEnumStringValues Enumerates the set of values in String for ListImportRequestsProjectionEnum
+func GetListImportRequestsProjectionEnumStringValues() []string {
+	return []string{
+		"SUMMARY",
+		"DETAILS",
+	}
+}
+
+// GetMappingListImportRequestsProjectionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListImportRequestsProjectionEnum(val string) (ListImportRequestsProjectionEnum, bool) {
+	enum, ok := mappingListImportRequestsProjectionEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

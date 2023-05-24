@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// SqlPlanBaselineDimensions The details of SQL plan baseline dimensions.
+// SqlPlanBaselineDimensions The details of the SQL plan baseline dimensions.
 type SqlPlanBaselineDimensions struct {
 
-	// The name of SQL plan baseline attribute.
+	// The name of the SQL plan baseline attribute.
 	AttributeName *string `mandatory:"true" json:"attributeName"`
 
 	// The value of the attribute.

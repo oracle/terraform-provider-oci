@@ -30,6 +30,19 @@ type Schema struct {
 	//  - uniqueness: none
 	IdcsMappable *bool `mandatory:"true" json:"idcsMappable"`
 
+	// Contains the canonical name of the other attribute sharing the same idcsTargetAttributeName
+	// **Added In:** 2209122038
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: always
+	//  - type: string
+	//  - uniqueness: none
+	IdcsMapsToSameTargetAttributeNameAs *string `mandatory:"false" json:"idcsMapsToSameTargetAttributeNameAs"`
+
 	// An identifier for the Resource as defined by the Service Consumer. The externalId may simplify identification of the Resource between Service Consumer and Service Provider by allowing the Consumer to refer to the Resource with its own identifier, obviating the need to store a local mapping between the local identifier of the Resource and the identifier used by the Service Provider. Each Resource MAY include a non-empty externalId value. The value of the externalId attribute is always issued by the Service Consumer and can never be specified by the Service Provider. The Service Provider MUST always interpret the externalId as scoped to the Service Consumer's tenant.
 	// **SCIM++ Properties:**
 	//  - caseExact: false

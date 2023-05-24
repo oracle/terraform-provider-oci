@@ -20,7 +20,7 @@ import (
 // CursorCacheStatementCollection The list of SQL statements in the cursor cache.
 type CursorCacheStatementCollection struct {
 
-	// A list of statements in the cursor cache.
+	// A list of SQL statements in the cursor cache.
 	Items []CursorCacheStatementSummary `mandatory:"true" json:"items"`
 }
 

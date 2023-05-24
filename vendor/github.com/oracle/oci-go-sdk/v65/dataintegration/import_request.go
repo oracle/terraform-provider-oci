@@ -27,6 +27,15 @@ type ImportRequest struct {
 	// Name of the zip file from which objects will be imported.
 	FileName *string `mandatory:"false" json:"fileName"`
 
+	// Optional parameter to point to object storage tenancy (if using Object Storage of different tenancy)
+	ObjectStorageTenancyId *string `mandatory:"false" json:"objectStorageTenancyId"`
+
+	// Region of the object storage (if using object storage of different region)
+	ObjectStorageRegion *string `mandatory:"false" json:"objectStorageRegion"`
+
+	// Key of the object inside which all the objects will be imported
+	ObjectKeyForImport *string `mandatory:"false" json:"objectKeyForImport"`
+
 	ImportConflictResolution *ImportConflictResolution `mandatory:"false" json:"importConflictResolution"`
 
 	// Import Objects request status.
@@ -44,10 +53,13 @@ type ImportRequest struct {
 	// Time at which the request was completely processed.
 	TimeEndedInMillis *int64 `mandatory:"false" json:"timeEndedInMillis"`
 
+	// Contains key of the error
+	ErrorMessages map[string]string `mandatory:"false" json:"errorMessages"`
+
 	// The array of imported object details.
 	ImportedObjects []ImportObjectMetadataSummary `mandatory:"false" json:"importedObjects"`
 
-	// Name of the copy object request.
+	// Name of the import request.
 	Name *string `mandatory:"false" json:"name"`
 }
 

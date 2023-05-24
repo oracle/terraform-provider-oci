@@ -426,6 +426,9 @@ type AutonomousDatabase struct {
 	TimeDisasterRecoveryRoleChanged *common.SDKTime `mandatory:"false" json:"timeDisasterRecoveryRoleChanged"`
 
 	RemoteDisasterRecoveryConfiguration *DisasterRecoveryConfiguration `mandatory:"false" json:"remoteDisasterRecoveryConfiguration"`
+
+	// List of access types for an Autonomous Database.
+	AccessTypes []string `mandatory:"false" json:"accessTypes"`
 }
 
 func (m AutonomousDatabase) String() string {

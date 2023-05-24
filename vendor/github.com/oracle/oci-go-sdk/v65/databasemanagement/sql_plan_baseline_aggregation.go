@@ -17,11 +17,11 @@ import (
 	"strings"
 )
 
-// SqlPlanBaselineAggregation Provides a summary data of SQL plan baselines.
+// SqlPlanBaselineAggregation A summary of SQL plan baselines.
 type SqlPlanBaselineAggregation struct {
 	Dimensions *SqlPlanBaselineDimensions `mandatory:"true" json:"dimensions"`
 
-	// A count of SQL plan baselines matching aggregation criteria.
+	// The number of SQL plan baselines matching aggregation criteria.
 	Count *int `mandatory:"false" json:"count"`
 }
 

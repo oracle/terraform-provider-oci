@@ -19,7 +19,7 @@ import (
 // ExtensionUserCredentialsUser User's credentials
 type ExtensionUserCredentialsUser struct {
 
-	// A list of db credentials corresponding to user.
+	// A list of database credentials corresponding to user.
 	// **Added In:** 2102181953
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [value]
@@ -45,7 +45,7 @@ type ExtensionUserCredentialsUser struct {
 	//  - uniqueness: none
 	CustomerSecretKeys []UserExtCustomerSecretKeys `mandatory:"false" json:"customerSecretKeys"`
 
-	// A list of auth tokens corresponding to user.
+	// A list of Auth tokens corresponding to user.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [value]
@@ -58,7 +58,7 @@ type ExtensionUserCredentialsUser struct {
 	//  - uniqueness: none
 	AuthTokens []UserExtAuthTokens `mandatory:"false" json:"authTokens"`
 
-	// A list of smtp credentials corresponding to user.
+	// A list of SMTP credentials corresponding to user.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [value]
@@ -71,7 +71,7 @@ type ExtensionUserCredentialsUser struct {
 	//  - uniqueness: none
 	SmtpCredentials []UserExtSmtpCredentials `mandatory:"false" json:"smtpCredentials"`
 
-	// A list of api keys corresponding to user.
+	// A list of API keys corresponding to user.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [value]
@@ -84,7 +84,7 @@ type ExtensionUserCredentialsUser struct {
 	//  - uniqueness: none
 	ApiKeys []UserExtApiKeys `mandatory:"false" json:"apiKeys"`
 
-	// A list of oauth2 client credentials corresponding to user.
+	// A list of OAuth2 client credentials corresponding to a user.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [value]

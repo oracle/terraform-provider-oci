@@ -27,6 +27,12 @@ type CreateExportRequestDetails struct {
 	// Name of the exported zip file.
 	FileName *string `mandatory:"false" json:"fileName"`
 
+	// Optional parameter to point to object storage tenancy (if using Object Storage of different tenancy)
+	ObjectStorageTenancyId *string `mandatory:"false" json:"objectStorageTenancyId"`
+
+	// Region of the object storage (if using object storage of different region)
+	ObjectStorageRegion *string `mandatory:"false" json:"objectStorageRegion"`
+
 	// Flag to control whether to overwrite the object if it is already present at the provided object storage location.
 	IsObjectOverwriteEnabled *bool `mandatory:"false" json:"isObjectOverwriteEnabled"`
 

@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package marketplace
+package databasemanagement
 
 import (
 	"fmt"
@@ -11,27 +11,39 @@ import (
 	"strings"
 )
 
-// GetSubscriptionRequest wrapper for the GetSubscription operation
-type GetSubscriptionRequest struct {
+// SaveSqlTuningSetAsRequest wrapper for the SaveSqlTuningSetAs operation
+type SaveSqlTuningSetAsRequest struct {
 
-	// The unique identifier for the subscription.
-	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
+	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// The unique identifier of the Sql tuning set. This is not OCID.
+	SqlTuningSetId *int `mandatory:"true" contributesTo:"path" name:"sqlTuningSetId"`
+
+	// The details required to save a Sql tuning set into another Sql tuning set.
+	SaveSqlTuningSetAsDetails `contributesTo:"body"`
+
+	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or
+	// server error without risk of executing that same action again. Retry tokens expire after 24
+	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
+	// has been deleted and purged from the system, then a retry of the original creation request
+	// might be rejected.
+	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetSubscriptionRequest) String() string {
+func (request SaveSqlTuningSetAsRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetSubscriptionRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request SaveSqlTuningSetAsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -41,21 +53,21 @@ func (request GetSubscriptionRequest) HTTPRequest(method, path string, binaryReq
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetSubscriptionRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request SaveSqlTuningSetAsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetSubscriptionRequest) RetryPolicy() *common.RetryPolicy {
+func (request SaveSqlTuningSetAsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetSubscriptionRequest) ValidateEnumValue() (bool, error) {
+func (request SaveSqlTuningSetAsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -63,28 +75,25 @@ func (request GetSubscriptionRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// GetSubscriptionResponse wrapper for the GetSubscription operation
-type GetSubscriptionResponse struct {
+// SaveSqlTuningSetAsResponse wrapper for the SaveSqlTuningSetAs operation
+type SaveSqlTuningSetAsResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The Subscription instance
-	Subscription `presentIn:"body"`
+	// The SqlTuningSetAdminActionStatus instance
+	SqlTuningSetAdminActionStatus `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
 }
 
-func (response GetSubscriptionResponse) String() string {
+func (response SaveSqlTuningSetAsResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetSubscriptionResponse) HTTPResponse() *http.Response {
+func (response SaveSqlTuningSetAsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

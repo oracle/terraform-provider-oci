@@ -55,7 +55,7 @@ type ListDrProtectionGroupsRequest struct {
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// The DR Protection Group Role.
-	DrProtectionGroupRole ListDrProtectionGroupsDrProtectionGroupRoleEnum `mandatory:"false" contributesTo:"query" name:"drProtectionGroupRole" omitEmpty:"true"`
+	Role ListDrProtectionGroupsRoleEnum `mandatory:"false" contributesTo:"query" name:"role" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -102,8 +102,8 @@ func (request ListDrProtectionGroupsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListDrProtectionGroupsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDrProtectionGroupsSortByEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingListDrProtectionGroupsDrProtectionGroupRoleEnum(string(request.DrProtectionGroupRole)); !ok && request.DrProtectionGroupRole != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DrProtectionGroupRole: %s. Supported values are: %s.", request.DrProtectionGroupRole, strings.Join(GetListDrProtectionGroupsDrProtectionGroupRoleEnumStringValues(), ",")))
+	if _, ok := GetMappingListDrProtectionGroupsRoleEnum(string(request.Role)); !ok && request.Role != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", request.Role, strings.Join(GetListDrProtectionGroupsRoleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -285,39 +285,39 @@ func GetMappingListDrProtectionGroupsSortByEnum(val string) (ListDrProtectionGro
 	return enum, ok
 }
 
-// ListDrProtectionGroupsDrProtectionGroupRoleEnum Enum with underlying type: string
-type ListDrProtectionGroupsDrProtectionGroupRoleEnum string
+// ListDrProtectionGroupsRoleEnum Enum with underlying type: string
+type ListDrProtectionGroupsRoleEnum string
 
-// Set of constants representing the allowable values for ListDrProtectionGroupsDrProtectionGroupRoleEnum
+// Set of constants representing the allowable values for ListDrProtectionGroupsRoleEnum
 const (
-	ListDrProtectionGroupsDrProtectionGroupRolePrimary      ListDrProtectionGroupsDrProtectionGroupRoleEnum = "PRIMARY"
-	ListDrProtectionGroupsDrProtectionGroupRoleStandby      ListDrProtectionGroupsDrProtectionGroupRoleEnum = "STANDBY"
-	ListDrProtectionGroupsDrProtectionGroupRoleUnconfigured ListDrProtectionGroupsDrProtectionGroupRoleEnum = "UNCONFIGURED"
+	ListDrProtectionGroupsRolePrimary      ListDrProtectionGroupsRoleEnum = "PRIMARY"
+	ListDrProtectionGroupsRoleStandby      ListDrProtectionGroupsRoleEnum = "STANDBY"
+	ListDrProtectionGroupsRoleUnconfigured ListDrProtectionGroupsRoleEnum = "UNCONFIGURED"
 )
 
-var mappingListDrProtectionGroupsDrProtectionGroupRoleEnum = map[string]ListDrProtectionGroupsDrProtectionGroupRoleEnum{
-	"PRIMARY":      ListDrProtectionGroupsDrProtectionGroupRolePrimary,
-	"STANDBY":      ListDrProtectionGroupsDrProtectionGroupRoleStandby,
-	"UNCONFIGURED": ListDrProtectionGroupsDrProtectionGroupRoleUnconfigured,
+var mappingListDrProtectionGroupsRoleEnum = map[string]ListDrProtectionGroupsRoleEnum{
+	"PRIMARY":      ListDrProtectionGroupsRolePrimary,
+	"STANDBY":      ListDrProtectionGroupsRoleStandby,
+	"UNCONFIGURED": ListDrProtectionGroupsRoleUnconfigured,
 }
 
-var mappingListDrProtectionGroupsDrProtectionGroupRoleEnumLowerCase = map[string]ListDrProtectionGroupsDrProtectionGroupRoleEnum{
-	"primary":      ListDrProtectionGroupsDrProtectionGroupRolePrimary,
-	"standby":      ListDrProtectionGroupsDrProtectionGroupRoleStandby,
-	"unconfigured": ListDrProtectionGroupsDrProtectionGroupRoleUnconfigured,
+var mappingListDrProtectionGroupsRoleEnumLowerCase = map[string]ListDrProtectionGroupsRoleEnum{
+	"primary":      ListDrProtectionGroupsRolePrimary,
+	"standby":      ListDrProtectionGroupsRoleStandby,
+	"unconfigured": ListDrProtectionGroupsRoleUnconfigured,
 }
 
-// GetListDrProtectionGroupsDrProtectionGroupRoleEnumValues Enumerates the set of values for ListDrProtectionGroupsDrProtectionGroupRoleEnum
-func GetListDrProtectionGroupsDrProtectionGroupRoleEnumValues() []ListDrProtectionGroupsDrProtectionGroupRoleEnum {
-	values := make([]ListDrProtectionGroupsDrProtectionGroupRoleEnum, 0)
-	for _, v := range mappingListDrProtectionGroupsDrProtectionGroupRoleEnum {
+// GetListDrProtectionGroupsRoleEnumValues Enumerates the set of values for ListDrProtectionGroupsRoleEnum
+func GetListDrProtectionGroupsRoleEnumValues() []ListDrProtectionGroupsRoleEnum {
+	values := make([]ListDrProtectionGroupsRoleEnum, 0)
+	for _, v := range mappingListDrProtectionGroupsRoleEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetListDrProtectionGroupsDrProtectionGroupRoleEnumStringValues Enumerates the set of values in String for ListDrProtectionGroupsDrProtectionGroupRoleEnum
-func GetListDrProtectionGroupsDrProtectionGroupRoleEnumStringValues() []string {
+// GetListDrProtectionGroupsRoleEnumStringValues Enumerates the set of values in String for ListDrProtectionGroupsRoleEnum
+func GetListDrProtectionGroupsRoleEnumStringValues() []string {
 	return []string{
 		"PRIMARY",
 		"STANDBY",
@@ -325,8 +325,8 @@ func GetListDrProtectionGroupsDrProtectionGroupRoleEnumStringValues() []string {
 	}
 }
 
-// GetMappingListDrProtectionGroupsDrProtectionGroupRoleEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListDrProtectionGroupsDrProtectionGroupRoleEnum(val string) (ListDrProtectionGroupsDrProtectionGroupRoleEnum, bool) {
-	enum, ok := mappingListDrProtectionGroupsDrProtectionGroupRoleEnumLowerCase[strings.ToLower(val)]
+// GetMappingListDrProtectionGroupsRoleEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDrProtectionGroupsRoleEnum(val string) (ListDrProtectionGroupsRoleEnum, bool) {
+	enum, ok := mappingListDrProtectionGroupsRoleEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

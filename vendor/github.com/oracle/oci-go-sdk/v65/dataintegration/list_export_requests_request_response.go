@@ -38,7 +38,10 @@ type ListExportRequestsRequest struct {
 	SortBy ListExportRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Specifies export status to use, either -  ALL, SUCCESSFUL, IN_PROGRESS, QUEUED, FAILED .
-	Status ListExportRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
+	ExportStatus ListExportRequestsExportStatusEnum `mandatory:"false" contributesTo:"query" name:"exportStatus" omitEmpty:"true"`
+
+	// This parameter allows users to specify which view of the export object response to return. SUMMARY - Summary of the export object request will be returned. This is the default option when no value is specified. DETAILS - Details of export object request will be returned. This will include details of all the objects to be exported.
+	Projection ListExportRequestsProjectionEnum `mandatory:"false" contributesTo:"query" name:"projection" omitEmpty:"true"`
 
 	// Specifies start time of a copy object request.
 	TimeStartedInMillis *int64 `mandatory:"false" contributesTo:"query" name:"timeStartedInMillis"`
@@ -88,8 +91,11 @@ func (request ListExportRequestsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListExportRequestsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListExportRequestsSortByEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingListExportRequestsStatusEnum(string(request.Status)); !ok && request.Status != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListExportRequestsStatusEnumStringValues(), ",")))
+	if _, ok := GetMappingListExportRequestsExportStatusEnum(string(request.ExportStatus)); !ok && request.ExportStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExportStatus: %s. Supported values are: %s.", request.ExportStatus, strings.Join(GetListExportRequestsExportStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListExportRequestsProjectionEnum(string(request.Projection)); !ok && request.Projection != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Projection: %s. Supported values are: %s.", request.Projection, strings.Join(GetListExportRequestsProjectionEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -211,48 +217,48 @@ func GetMappingListExportRequestsSortByEnum(val string) (ListExportRequestsSortB
 	return enum, ok
 }
 
-// ListExportRequestsStatusEnum Enum with underlying type: string
-type ListExportRequestsStatusEnum string
+// ListExportRequestsExportStatusEnum Enum with underlying type: string
+type ListExportRequestsExportStatusEnum string
 
-// Set of constants representing the allowable values for ListExportRequestsStatusEnum
+// Set of constants representing the allowable values for ListExportRequestsExportStatusEnum
 const (
-	ListExportRequestsStatusInProgress  ListExportRequestsStatusEnum = "IN_PROGRESS"
-	ListExportRequestsStatusSuccessful  ListExportRequestsStatusEnum = "SUCCESSFUL"
-	ListExportRequestsStatusQueued      ListExportRequestsStatusEnum = "QUEUED"
-	ListExportRequestsStatusTerminating ListExportRequestsStatusEnum = "TERMINATING"
-	ListExportRequestsStatusTerminated  ListExportRequestsStatusEnum = "TERMINATED"
-	ListExportRequestsStatusFailed      ListExportRequestsStatusEnum = "FAILED"
+	ListExportRequestsExportStatusInProgress  ListExportRequestsExportStatusEnum = "IN_PROGRESS"
+	ListExportRequestsExportStatusSuccessful  ListExportRequestsExportStatusEnum = "SUCCESSFUL"
+	ListExportRequestsExportStatusQueued      ListExportRequestsExportStatusEnum = "QUEUED"
+	ListExportRequestsExportStatusTerminating ListExportRequestsExportStatusEnum = "TERMINATING"
+	ListExportRequestsExportStatusTerminated  ListExportRequestsExportStatusEnum = "TERMINATED"
+	ListExportRequestsExportStatusFailed      ListExportRequestsExportStatusEnum = "FAILED"
 )
 
-var mappingListExportRequestsStatusEnum = map[string]ListExportRequestsStatusEnum{
-	"IN_PROGRESS": ListExportRequestsStatusInProgress,
-	"SUCCESSFUL":  ListExportRequestsStatusSuccessful,
-	"QUEUED":      ListExportRequestsStatusQueued,
-	"TERMINATING": ListExportRequestsStatusTerminating,
-	"TERMINATED":  ListExportRequestsStatusTerminated,
-	"FAILED":      ListExportRequestsStatusFailed,
+var mappingListExportRequestsExportStatusEnum = map[string]ListExportRequestsExportStatusEnum{
+	"IN_PROGRESS": ListExportRequestsExportStatusInProgress,
+	"SUCCESSFUL":  ListExportRequestsExportStatusSuccessful,
+	"QUEUED":      ListExportRequestsExportStatusQueued,
+	"TERMINATING": ListExportRequestsExportStatusTerminating,
+	"TERMINATED":  ListExportRequestsExportStatusTerminated,
+	"FAILED":      ListExportRequestsExportStatusFailed,
 }
 
-var mappingListExportRequestsStatusEnumLowerCase = map[string]ListExportRequestsStatusEnum{
-	"in_progress": ListExportRequestsStatusInProgress,
-	"successful":  ListExportRequestsStatusSuccessful,
-	"queued":      ListExportRequestsStatusQueued,
-	"terminating": ListExportRequestsStatusTerminating,
-	"terminated":  ListExportRequestsStatusTerminated,
-	"failed":      ListExportRequestsStatusFailed,
+var mappingListExportRequestsExportStatusEnumLowerCase = map[string]ListExportRequestsExportStatusEnum{
+	"in_progress": ListExportRequestsExportStatusInProgress,
+	"successful":  ListExportRequestsExportStatusSuccessful,
+	"queued":      ListExportRequestsExportStatusQueued,
+	"terminating": ListExportRequestsExportStatusTerminating,
+	"terminated":  ListExportRequestsExportStatusTerminated,
+	"failed":      ListExportRequestsExportStatusFailed,
 }
 
-// GetListExportRequestsStatusEnumValues Enumerates the set of values for ListExportRequestsStatusEnum
-func GetListExportRequestsStatusEnumValues() []ListExportRequestsStatusEnum {
-	values := make([]ListExportRequestsStatusEnum, 0)
-	for _, v := range mappingListExportRequestsStatusEnum {
+// GetListExportRequestsExportStatusEnumValues Enumerates the set of values for ListExportRequestsExportStatusEnum
+func GetListExportRequestsExportStatusEnumValues() []ListExportRequestsExportStatusEnum {
+	values := make([]ListExportRequestsExportStatusEnum, 0)
+	for _, v := range mappingListExportRequestsExportStatusEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetListExportRequestsStatusEnumStringValues Enumerates the set of values in String for ListExportRequestsStatusEnum
-func GetListExportRequestsStatusEnumStringValues() []string {
+// GetListExportRequestsExportStatusEnumStringValues Enumerates the set of values in String for ListExportRequestsExportStatusEnum
+func GetListExportRequestsExportStatusEnumStringValues() []string {
 	return []string{
 		"IN_PROGRESS",
 		"SUCCESSFUL",
@@ -263,8 +269,50 @@ func GetListExportRequestsStatusEnumStringValues() []string {
 	}
 }
 
-// GetMappingListExportRequestsStatusEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListExportRequestsStatusEnum(val string) (ListExportRequestsStatusEnum, bool) {
-	enum, ok := mappingListExportRequestsStatusEnumLowerCase[strings.ToLower(val)]
+// GetMappingListExportRequestsExportStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListExportRequestsExportStatusEnum(val string) (ListExportRequestsExportStatusEnum, bool) {
+	enum, ok := mappingListExportRequestsExportStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListExportRequestsProjectionEnum Enum with underlying type: string
+type ListExportRequestsProjectionEnum string
+
+// Set of constants representing the allowable values for ListExportRequestsProjectionEnum
+const (
+	ListExportRequestsProjectionSummary ListExportRequestsProjectionEnum = "SUMMARY"
+	ListExportRequestsProjectionDetails ListExportRequestsProjectionEnum = "DETAILS"
+)
+
+var mappingListExportRequestsProjectionEnum = map[string]ListExportRequestsProjectionEnum{
+	"SUMMARY": ListExportRequestsProjectionSummary,
+	"DETAILS": ListExportRequestsProjectionDetails,
+}
+
+var mappingListExportRequestsProjectionEnumLowerCase = map[string]ListExportRequestsProjectionEnum{
+	"summary": ListExportRequestsProjectionSummary,
+	"details": ListExportRequestsProjectionDetails,
+}
+
+// GetListExportRequestsProjectionEnumValues Enumerates the set of values for ListExportRequestsProjectionEnum
+func GetListExportRequestsProjectionEnumValues() []ListExportRequestsProjectionEnum {
+	values := make([]ListExportRequestsProjectionEnum, 0)
+	for _, v := range mappingListExportRequestsProjectionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListExportRequestsProjectionEnumStringValues Enumerates the set of values in String for ListExportRequestsProjectionEnum
+func GetListExportRequestsProjectionEnumStringValues() []string {
+	return []string{
+		"SUMMARY",
+		"DETAILS",
+	}
+}
+
+// GetMappingListExportRequestsProjectionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListExportRequestsProjectionEnum(val string) (ListExportRequestsProjectionEnum, bool) {
+	enum, ok := mappingListExportRequestsProjectionEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

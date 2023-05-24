@@ -21,7 +21,7 @@ import (
 // SwitchoverPrecheckExecutionOptionDetails Options for switchover precheck execution.
 type SwitchoverPrecheckExecutionOptionDetails struct {
 
-	// A flag indicating whether warnigs should be ignored during the switchover.
+	// A flag indicating whether warnings should be ignored during the switchover precheck.
 	// Example: `true`
 	AreWarningsIgnored *bool `mandatory:"false" json:"areWarningsIgnored"`
 }

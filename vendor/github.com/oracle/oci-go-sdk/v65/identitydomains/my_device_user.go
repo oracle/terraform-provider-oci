@@ -40,6 +40,8 @@ type MyDeviceUser struct {
 	//  - returned: always
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Value *string `mandatory:"true" json:"value"`
 
 	// The URI that corresponds to the member Resource of this device
@@ -52,6 +54,8 @@ type MyDeviceUser struct {
 	//  - returned: default
 	//  - type: reference
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Ref *string `mandatory:"false" json:"$ref"`
 
 	// User display name
@@ -78,6 +82,8 @@ type MyDeviceUser struct {
 	//  - returned: always
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Ocid *string `mandatory:"false" json:"ocid"`
 }
 

@@ -9228,7 +9228,7 @@ func (client DbManagementClient) summarizeManagedDatabaseAvailabilityMetrics(ctx
 	return response, err
 }
 
-// SummarizeSqlPlanBaselines Get counts of SQL plan baselines aggregated by their attributes.
+// SummarizeSqlPlanBaselines Gets the number of SQL plan baselines aggregated by their attributes.
 // A default retry strategy applies to this operation SummarizeSqlPlanBaselines()
 func (client DbManagementClient) SummarizeSqlPlanBaselines(ctx context.Context, request SummarizeSqlPlanBaselinesRequest) (response SummarizeSqlPlanBaselinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9282,7 +9282,7 @@ func (client DbManagementClient) summarizeSqlPlanBaselines(ctx context.Context, 
 	return response, err
 }
 
-// SummarizeSqlPlanBaselinesByLastExecution Get counts of SQL plan baselines aggregated by the age of their last execution in weeks.
+// SummarizeSqlPlanBaselinesByLastExecution Gets the number of SQL plan baselines aggregated by the age of their last execution in weeks.
 // A default retry strategy applies to this operation SummarizeSqlPlanBaselinesByLastExecution()
 func (client DbManagementClient) SummarizeSqlPlanBaselinesByLastExecution(ctx context.Context, request SummarizeSqlPlanBaselinesByLastExecutionRequest) (response SummarizeSqlPlanBaselinesByLastExecutionResponse, err error) {
 	var ociResponse common.OCIResponse

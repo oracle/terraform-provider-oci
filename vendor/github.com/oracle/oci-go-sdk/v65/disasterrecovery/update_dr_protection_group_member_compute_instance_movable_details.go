@@ -22,23 +22,13 @@ import (
 type UpdateDrProtectionGroupMemberComputeInstanceMovableDetails struct {
 
 	// The OCID of the member.
-	// Example: `ocid1.database.oc1.phx.exampleocid1`
+	// Example: `ocid1.database.oc1.phx.&lt;unique_id&gt;`
 	MemberId *string `mandatory:"true" json:"memberId"`
 
 	// A flag indicating if this compute instance should be moved to the same fault domain.
 	// Compute instance launch will fail if this flag is set to true and capacity is not available in that specific fault domain in the destination region.
 	// Example: `false`
 	IsRetainFaultDomain *bool `mandatory:"false" json:"isRetainFaultDomain"`
-
-	// A flag indicating if the moved compute instance should retain the same private IP addresses.
-	// Compute instance launch will fail if this flag is set to true and the same private IP addresses are not available in the destination region.
-	// Example: `false`
-	IsRetainPrivateIPs *bool `mandatory:"false" json:"isRetainPrivateIPs"`
-
-	// A flag indicating if the moved compute instance should retain the same hostname labels.
-	// Compute instance launch will fail if this flag is set to true and the same hostname labels are not available in the destination region.
-	// Example: `false`
-	IsRetainHostNameLabels *bool `mandatory:"false" json:"isRetainHostNameLabels"`
 
 	// The OCID of the capacity reservation in the destination region using which this compute instance
 	// should be launched.

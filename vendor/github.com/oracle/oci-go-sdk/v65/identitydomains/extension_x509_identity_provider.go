@@ -213,6 +213,32 @@ type ExtensionX509IdentityProvider struct {
 	//  - type: integer
 	//  - uniqueness: none
 	CrlReloadDuration *int `mandatory:"false" json:"crlReloadDuration"`
+
+	// Set to true to enable EKU Validation
+	// **Added In:** 2304270343
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: boolean
+	//  - uniqueness: none
+	EkuValidationEnabled *bool `mandatory:"false" json:"ekuValidationEnabled"`
+
+	// List of EKU which needs to be validated
+	// **Added In:** 2304270343
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsSearchable: false
+	//  - multiValued: true
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: string
+	//  - uniqueness: none
+	EkuValues []ExtensionX509IdentityProviderEkuValuesEnum `mandatory:"false" json:"ekuValues,omitempty"`
 }
 
 func (m ExtensionX509IdentityProvider) String() string {
@@ -225,8 +251,72 @@ func (m ExtensionX509IdentityProvider) String() string {
 func (m ExtensionX509IdentityProvider) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	for _, val := range m.EkuValues {
+		if _, ok := GetMappingExtensionX509IdentityProviderEkuValuesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EkuValues: %s. Supported values are: %s.", val, strings.Join(GetExtensionX509IdentityProviderEkuValuesEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// ExtensionX509IdentityProviderEkuValuesEnum Enum with underlying type: string
+type ExtensionX509IdentityProviderEkuValuesEnum string
+
+// Set of constants representing the allowable values for ExtensionX509IdentityProviderEkuValuesEnum
+const (
+	ExtensionX509IdentityProviderEkuValuesServerAuth      ExtensionX509IdentityProviderEkuValuesEnum = "SERVER_AUTH"
+	ExtensionX509IdentityProviderEkuValuesClientAuth      ExtensionX509IdentityProviderEkuValuesEnum = "CLIENT_AUTH"
+	ExtensionX509IdentityProviderEkuValuesCodeSigning     ExtensionX509IdentityProviderEkuValuesEnum = "CODE_SIGNING"
+	ExtensionX509IdentityProviderEkuValuesEmailProtection ExtensionX509IdentityProviderEkuValuesEnum = "EMAIL_PROTECTION"
+	ExtensionX509IdentityProviderEkuValuesTimeStamping    ExtensionX509IdentityProviderEkuValuesEnum = "TIME_STAMPING"
+	ExtensionX509IdentityProviderEkuValuesOcspSigning     ExtensionX509IdentityProviderEkuValuesEnum = "OCSP_SIGNING"
+)
+
+var mappingExtensionX509IdentityProviderEkuValuesEnum = map[string]ExtensionX509IdentityProviderEkuValuesEnum{
+	"SERVER_AUTH":      ExtensionX509IdentityProviderEkuValuesServerAuth,
+	"CLIENT_AUTH":      ExtensionX509IdentityProviderEkuValuesClientAuth,
+	"CODE_SIGNING":     ExtensionX509IdentityProviderEkuValuesCodeSigning,
+	"EMAIL_PROTECTION": ExtensionX509IdentityProviderEkuValuesEmailProtection,
+	"TIME_STAMPING":    ExtensionX509IdentityProviderEkuValuesTimeStamping,
+	"OCSP_SIGNING":     ExtensionX509IdentityProviderEkuValuesOcspSigning,
+}
+
+var mappingExtensionX509IdentityProviderEkuValuesEnumLowerCase = map[string]ExtensionX509IdentityProviderEkuValuesEnum{
+	"server_auth":      ExtensionX509IdentityProviderEkuValuesServerAuth,
+	"client_auth":      ExtensionX509IdentityProviderEkuValuesClientAuth,
+	"code_signing":     ExtensionX509IdentityProviderEkuValuesCodeSigning,
+	"email_protection": ExtensionX509IdentityProviderEkuValuesEmailProtection,
+	"time_stamping":    ExtensionX509IdentityProviderEkuValuesTimeStamping,
+	"ocsp_signing":     ExtensionX509IdentityProviderEkuValuesOcspSigning,
+}
+
+// GetExtensionX509IdentityProviderEkuValuesEnumValues Enumerates the set of values for ExtensionX509IdentityProviderEkuValuesEnum
+func GetExtensionX509IdentityProviderEkuValuesEnumValues() []ExtensionX509IdentityProviderEkuValuesEnum {
+	values := make([]ExtensionX509IdentityProviderEkuValuesEnum, 0)
+	for _, v := range mappingExtensionX509IdentityProviderEkuValuesEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExtensionX509IdentityProviderEkuValuesEnumStringValues Enumerates the set of values in String for ExtensionX509IdentityProviderEkuValuesEnum
+func GetExtensionX509IdentityProviderEkuValuesEnumStringValues() []string {
+	return []string{
+		"SERVER_AUTH",
+		"CLIENT_AUTH",
+		"CODE_SIGNING",
+		"EMAIL_PROTECTION",
+		"TIME_STAMPING",
+		"OCSP_SIGNING",
+	}
+}
+
+// GetMappingExtensionX509IdentityProviderEkuValuesEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExtensionX509IdentityProviderEkuValuesEnum(val string) (ExtensionX509IdentityProviderEkuValuesEnum, bool) {
+	enum, ok := mappingExtensionX509IdentityProviderEkuValuesEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

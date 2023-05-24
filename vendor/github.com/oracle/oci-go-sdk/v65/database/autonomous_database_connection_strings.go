@@ -17,7 +17,7 @@ import (
 
 // AutonomousDatabaseConnectionStrings Connection strings to connect to an Oracle Autonomous Database.
 // Example output for connection strings. See DatabaseConnectionStringProfile for additional details:
-//     	"connectionStrings": {
+//       "connectionStrings": {
 //         "allConnectionStrings": {
 //           "HIGH": "adb.region.oraclecloud.com:1522/unique_id_databasename_high.adwc.oraclecloud.com",
 //           "LOW": "adb.region.oraclecloud.com:1522/unique_id_databasename_low.adwc.oraclecloud.com",

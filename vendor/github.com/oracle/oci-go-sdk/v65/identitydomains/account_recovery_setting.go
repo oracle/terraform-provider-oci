@@ -31,7 +31,7 @@ type AccountRecoverySetting struct {
 	//  - uniqueness: none
 	Schemas []string `mandatory:"true" json:"schemas"`
 
-	// Account recovery factor like Email, Mobile Number(SMS) or Security Questions to verify the identity of the user and reset his/her password
+	// The account recovery factor used (for example, email, mobile number (SMS), security questions, mobile application push or TOTP) to verify the identity of the user and reset the user's password.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -43,7 +43,7 @@ type AccountRecoverySetting struct {
 	//  - uniqueness: none
 	Factors []AccountRecoverySettingFactorsEnum `mandatory:"true" json:"factors"`
 
-	// Indicates the maximum number of failed account recovery attempts allowed for the user
+	// Indicates the maximum number of failed account recovery attempts allowed for the user.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - multiValued: false
@@ -56,7 +56,7 @@ type AccountRecoverySetting struct {
 	//  - idcsMaxValue: 99
 	MaxIncorrectAttempts *int `mandatory:"true" json:"maxIncorrectAttempts"`
 
-	// Indicates the time period in minutes to disable account recovery of user account, default value is 30 metric minutes
+	// Indicates how many minutes to disable account recovery for the user. The default value is 30 metric minutes.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - multiValued: false
@@ -229,18 +229,24 @@ const (
 	AccountRecoverySettingFactorsEmail        AccountRecoverySettingFactorsEnum = "email"
 	AccountRecoverySettingFactorsSms          AccountRecoverySettingFactorsEnum = "sms"
 	AccountRecoverySettingFactorsSecquestions AccountRecoverySettingFactorsEnum = "secquestions"
+	AccountRecoverySettingFactorsPush         AccountRecoverySettingFactorsEnum = "push"
+	AccountRecoverySettingFactorsTotp         AccountRecoverySettingFactorsEnum = "totp"
 )
 
 var mappingAccountRecoverySettingFactorsEnum = map[string]AccountRecoverySettingFactorsEnum{
 	"email":        AccountRecoverySettingFactorsEmail,
 	"sms":          AccountRecoverySettingFactorsSms,
 	"secquestions": AccountRecoverySettingFactorsSecquestions,
+	"push":         AccountRecoverySettingFactorsPush,
+	"totp":         AccountRecoverySettingFactorsTotp,
 }
 
 var mappingAccountRecoverySettingFactorsEnumLowerCase = map[string]AccountRecoverySettingFactorsEnum{
 	"email":        AccountRecoverySettingFactorsEmail,
 	"sms":          AccountRecoverySettingFactorsSms,
 	"secquestions": AccountRecoverySettingFactorsSecquestions,
+	"push":         AccountRecoverySettingFactorsPush,
+	"totp":         AccountRecoverySettingFactorsTotp,
 }
 
 // GetAccountRecoverySettingFactorsEnumValues Enumerates the set of values for AccountRecoverySettingFactorsEnum
@@ -258,6 +264,8 @@ func GetAccountRecoverySettingFactorsEnumStringValues() []string {
 		"email",
 		"sms",
 		"secquestions",
+		"push",
+		"totp",
 	}
 }
 

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserDbCredentialsUser User linked to db credential
+// UserDbCredentialsUser The user linked to the database credential.
 // **SCIM++ Properties:**
 //  - caseExact: false
 //  - idcsCompositeKey: [value]
@@ -29,7 +29,7 @@ import (
 //  - uniqueness: none
 type UserDbCredentialsUser struct {
 
-	// User's id
+	// The user's identifier.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -41,7 +41,7 @@ type UserDbCredentialsUser struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"true" json:"value"`
 
-	// User's ocid
+	// The user's OCID.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -53,7 +53,7 @@ type UserDbCredentialsUser struct {
 	//  - uniqueness: none
 	Ocid *string `mandatory:"false" json:"ocid"`
 
-	// The URI that corresponds to the user linked to this credential
+	// The URI that corresponds to the user linked to this credential.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: false
@@ -65,7 +65,7 @@ type UserDbCredentialsUser struct {
 	//  - uniqueness: none
 	Ref *string `mandatory:"false" json:"$ref"`
 
-	// User display name
+	// The user display name.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
@@ -77,7 +77,7 @@ type UserDbCredentialsUser struct {
 	//  - uniqueness: none
 	Display *string `mandatory:"false" json:"display"`
 
-	// User name
+	// The username.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: false

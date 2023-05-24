@@ -30,8 +30,17 @@ type ExportRequest struct {
 	// Name of the exported zip file.
 	FileName *string `mandatory:"false" json:"fileName"`
 
+	// Optional parameter to point to object storage tenancy (if using Object Storage of different tenancy)
+	ObjectStorageTenancyId *string `mandatory:"false" json:"objectStorageTenancyId"`
+
+	// Region of the object storage (if using object storage of different region)
+	ObjectStorageRegion *string `mandatory:"false" json:"objectStorageRegion"`
+
 	// Controls if the references will be exported along with the objects
 	AreReferencesIncluded *bool `mandatory:"false" json:"areReferencesIncluded"`
+
+	// Flag to control whether to overwrite the object if it is already present at the provided object storage location.
+	IsObjectOverwriteEnabled *bool `mandatory:"false" json:"isObjectOverwriteEnabled"`
 
 	// Export multiple objects based on filters.
 	Filters []string `mandatory:"false" json:"filters"`
@@ -51,13 +60,16 @@ type ExportRequest struct {
 	// Time at which the request was completely processed.
 	TimeEndedInMillis *int64 `mandatory:"false" json:"timeEndedInMillis"`
 
+	// Contains key of the error
+	ErrorMessages map[string]string `mandatory:"false" json:"errorMessages"`
+
 	// The array of exported object details.
 	ExportedItems []ExportObjectMetadataSummary `mandatory:"false" json:"exportedItems"`
 
 	// The array of exported referenced objects.
 	ReferencedItems *string `mandatory:"false" json:"referencedItems"`
 
-	// Name of the copy object request.
+	// Name of the export request.
 	Name *string `mandatory:"false" json:"name"`
 }
 

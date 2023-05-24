@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// IdentitySettingsPosixGid A list of Posix Gid settings
+// IdentitySettingsPosixGid A list of Posix Gid settings.
 // **Added In:** 17.4.6
 // **SCIM++ Properties:**
 //  - caseExact: false
@@ -26,7 +26,7 @@ import (
 //  - uniqueness: none
 type IdentitySettingsPosixGid struct {
 
-	// Number from which Posix Gid Manual assignment starts from
+	// The number from which the Posix Gid Manual assignment starts.
 	// **Added In:** 17.4.6
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -38,7 +38,7 @@ type IdentitySettingsPosixGid struct {
 	//  - uniqueness: none
 	ManualAssignmentStartsFrom *int `mandatory:"false" json:"manualAssignmentStartsFrom"`
 
-	// Number at which Posix Gid Manual assignment ends
+	// The number at which the Posix Gid Manual assignment ends.
 	// **Added In:** 17.4.6
 	// **SCIM++ Properties:**
 	//  - caseExact: false

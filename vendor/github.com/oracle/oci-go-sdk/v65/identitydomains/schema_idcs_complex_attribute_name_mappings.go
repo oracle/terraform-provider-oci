@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// SchemaIdcsComplexAttributeNameMappings Specifies the mapping between external identity source attributes and OCI IAM complex attributes (e.g. email => emails[work].value)
+// SchemaIdcsComplexAttributeNameMappings Specifies the mapping between external identity source attributes and Oracle Identity Cloud Service complex attributes (e.g. email => emails[work].value)
 type SchemaIdcsComplexAttributeNameMappings struct {
 
 	// The attribute that represents the display name

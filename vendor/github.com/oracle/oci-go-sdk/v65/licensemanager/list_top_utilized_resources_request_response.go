@@ -126,14 +126,17 @@ type ListTopUtilizedResourcesResourceUnitTypeEnum string
 // Set of constants representing the allowable values for ListTopUtilizedResourcesResourceUnitTypeEnum
 const (
 	ListTopUtilizedResourcesResourceUnitTypeOcpu ListTopUtilizedResourcesResourceUnitTypeEnum = "OCPU"
+	ListTopUtilizedResourcesResourceUnitTypeEcpu ListTopUtilizedResourcesResourceUnitTypeEnum = "ECPU"
 )
 
 var mappingListTopUtilizedResourcesResourceUnitTypeEnum = map[string]ListTopUtilizedResourcesResourceUnitTypeEnum{
 	"OCPU": ListTopUtilizedResourcesResourceUnitTypeOcpu,
+	"ECPU": ListTopUtilizedResourcesResourceUnitTypeEcpu,
 }
 
 var mappingListTopUtilizedResourcesResourceUnitTypeEnumLowerCase = map[string]ListTopUtilizedResourcesResourceUnitTypeEnum{
 	"ocpu": ListTopUtilizedResourcesResourceUnitTypeOcpu,
+	"ecpu": ListTopUtilizedResourcesResourceUnitTypeEcpu,
 }
 
 // GetListTopUtilizedResourcesResourceUnitTypeEnumValues Enumerates the set of values for ListTopUtilizedResourcesResourceUnitTypeEnum
@@ -149,6 +152,7 @@ func GetListTopUtilizedResourcesResourceUnitTypeEnumValues() []ListTopUtilizedRe
 func GetListTopUtilizedResourcesResourceUnitTypeEnumStringValues() []string {
 	return []string{
 		"OCPU",
+		"ECPU",
 	}
 }
 

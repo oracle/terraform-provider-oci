@@ -23,7 +23,7 @@ type CursorCacheStatementSummary struct {
 	// The SQL statement identifier. Identifies a SQL statement in the cursor cache.
 	SqlId *string `mandatory:"true" json:"sqlId"`
 
-	// The parsing schema name.
+	// The name of the parsing schema.
 	Schema *string `mandatory:"true" json:"schema"`
 
 	// The first thousand characters of the SQL text.

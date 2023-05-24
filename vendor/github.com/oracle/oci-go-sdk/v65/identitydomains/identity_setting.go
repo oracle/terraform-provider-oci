@@ -155,7 +155,7 @@ type IdentitySetting struct {
 	//  - uniqueness: none
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
-	// Indicates whether a user can change their recovery email
+	// Indicates whether a user is allowed to change their own recovery email.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - multiValued: false
@@ -166,7 +166,7 @@ type IdentitySetting struct {
 	//  - uniqueness: none
 	UserAllowedToSetRecoveryEmail *bool `mandatory:"false" json:"userAllowedToSetRecoveryEmail"`
 
-	// Indicates whether to show user-is-locked message during authentication if the user is already locked. The default value is false, which tells the system to emit a generic authentication-failure message. This is the most secure behavior. If true, the system emits a more error-message that says the user is locked. This is more helpful but is less secure, since the difference in error-messages could be used to determine which user names exist and which do not.
+	// Indicates whether to show the 'user-is-locked' message during authentication if the user is already locked. The default value is false, which tells the system to show a generic 'authentication-failure' message. This is the most secure behavior. If the option is set to true, the system shows a more detailed 'error-message' that says the user is locked. This is more helpful but is less secure, for example, because the difference in error-messages could be used to determine which usernames exist and which do not.
 	// **Added In:** 19.2.1
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -178,7 +178,7 @@ type IdentitySetting struct {
 	//  - uniqueness: none
 	EmitLockedMessageWhenUserIsLocked *bool `mandatory:"false" json:"emitLockedMessageWhenUserIsLocked"`
 
-	// Indicates whether primary email is required or not.
+	// Indicates whether the primary email is required.
 	// **Added In:** 19.1.4
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -190,7 +190,7 @@ type IdentitySetting struct {
 	//  - uniqueness: none
 	PrimaryEmailRequired *bool `mandatory:"false" json:"primaryEmailRequired"`
 
-	// Indicates whether to remove non-RFC5322 compliant emails before creating user.
+	// Indicates whether to remove non-RFC5322 compliant emails before creating a user.
 	// **Added In:** 2106170416
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -202,11 +202,25 @@ type IdentitySetting struct {
 	//  - uniqueness: none
 	RemoveInvalidEmails *bool `mandatory:"false" json:"removeInvalidEmails"`
 
+	// **Added In:** 2302092332
+	// **SCIM++ Properties:**
+	// - caseExact: false
+	// - multiValued: false
+	// - mutability: readWrite
+	// - required: false
+	// - returned: default
+	// - type: boolean
+	// - uniqueness: none
+	// Determines the PasswordAuthenticator API response when a user is both 'locked' and 'inactive.' If false (default), a 'locked' message is shown. If true, an 'inactive' message is shown.
+	ReturnInactiveOverLockedMessage *bool `mandatory:"false" json:"returnInactiveOverLockedMessage"`
+
+	MyProfile *IdentitySettingsMyProfile `mandatory:"false" json:"myProfile"`
+
 	POSIXUid *IdentitySettingsPosixUid `mandatory:"false" json:"POSIXUid"`
 
 	POSIXGid *IdentitySettingsPosixGid `mandatory:"false" json:"POSIXGid"`
 
-	// A list of tokens and their expiry length
+	// A list of tokens and their expiry length.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsCompositeKey: [type]

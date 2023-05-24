@@ -22,7 +22,7 @@ import (
 type DrProtectionGroupMemberComputeInstanceNonMovable struct {
 
 	// The OCID of the member.
-	// Example: `ocid1.instance.oc1.phx.exampleocid1`
+	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
 	MemberId *string `mandatory:"true" json:"memberId"`
 }
 

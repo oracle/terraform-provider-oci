@@ -21,7 +21,7 @@ import (
 type DrPlan struct {
 
 	// The OCID of this DR Plan.
-	// Example: `ocid1.drplan.oc1.iad.exampleocid2`
+	// Example: `ocid1.drplan.oc1.iad.&lt;unique_id&gt;`
 	Id *string `mandatory:"true" json:"id"`
 
 	// The display name of this DR Plan.
@@ -29,7 +29,7 @@ type DrPlan struct {
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The OCID of the compartment containing the DR Plan.
-	// Example: `ocid1.compartment.oc1..exampleocid1`
+	// Example: `ocid1.compartment.oc1..&lt;unique_id&gt;`
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The type of this DR Plan.
@@ -44,12 +44,12 @@ type DrPlan struct {
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// The OCID of the DR Protection Group with which this DR Plan is associated.
-	// Example: `ocid1.drplan.oc1.iad.exampleocid2`
+	// Example: `ocid1.drplan.oc1.iad.&lt;unique_id&gt;`
 	DrProtectionGroupId *string `mandatory:"true" json:"drProtectionGroupId"`
 
 	// The OCID of the peer (remote) DR Protection Group associated with this plan's
 	// DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid1`
+	// Example: `ocid1.drprotectiongroup.oc1.phx.&lt;unique_id&gt;`
 	PeerDrProtectionGroupId *string `mandatory:"true" json:"peerDrProtectionGroupId"`
 
 	// The region of the peer (remote) DR Protection Group associated with this plan's

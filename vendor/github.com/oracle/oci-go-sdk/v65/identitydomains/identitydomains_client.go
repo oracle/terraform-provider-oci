@@ -81,7 +81,7 @@ func (client *IdentityDomainsClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
-// CreateApiKey Add a user's api key
+// CreateApiKey Create a user's API key.
 func (client IdentityDomainsClient) CreateApiKey(ctx context.Context, request CreateApiKeyRequest) (response CreateApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -139,7 +139,7 @@ func (client IdentityDomainsClient) createApiKey(ctx context.Context, request co
 	return response, err
 }
 
-// CreateAuthToken Add a user's auth token
+// CreateAuthToken Create a user's Auth token.
 func (client IdentityDomainsClient) CreateAuthToken(ctx context.Context, request CreateAuthTokenRequest) (response CreateAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -255,7 +255,7 @@ func (client IdentityDomainsClient) createAuthenticationFactorsRemover(ctx conte
 	return response, err
 }
 
-// CreateCustomerSecretKey Add a user's customer secret key
+// CreateCustomerSecretKey Create a user's customer secret key.
 func (client IdentityDomainsClient) CreateCustomerSecretKey(ctx context.Context, request CreateCustomerSecretKeyRequest) (response CreateCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -313,7 +313,7 @@ func (client IdentityDomainsClient) createCustomerSecretKey(ctx context.Context,
 	return response, err
 }
 
-// CreateDynamicResourceGroup Create a DynamicResourceGroup
+// CreateDynamicResourceGroup Create a Dynamic Resource Group.
 func (client IdentityDomainsClient) CreateDynamicResourceGroup(ctx context.Context, request CreateDynamicResourceGroupRequest) (response CreateDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -371,7 +371,65 @@ func (client IdentityDomainsClient) createDynamicResourceGroup(ctx context.Conte
 	return response, err
 }
 
-// CreateGroup Create a Group
+// CreateGrant Add a Grantee to an AppRole
+func (client IdentityDomainsClient) CreateGrant(ctx context.Context, request CreateGrantRequest) (response CreateGrantResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createGrant, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateGrantResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateGrantResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateGrantResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateGrantResponse")
+	}
+	return
+}
+
+// createGrant implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) createGrant(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/Grants", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateGrantResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateGrant", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateGroup Create a group.
 func (client IdentityDomainsClient) CreateGroup(ctx context.Context, request CreateGroupRequest) (response CreateGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -487,7 +545,7 @@ func (client IdentityDomainsClient) createIdentityProvider(ctx context.Context, 
 	return response, err
 }
 
-// CreateMe Self Register
+// CreateMe Self register a user.
 func (client IdentityDomainsClient) CreateMe(ctx context.Context, request CreateMeRequest) (response CreateMeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -545,7 +603,7 @@ func (client IdentityDomainsClient) createMe(ctx context.Context, request common
 	return response, err
 }
 
-// CreateMyApiKey Add a user's api key
+// CreateMyApiKey Add a user's own API key.
 func (client IdentityDomainsClient) CreateMyApiKey(ctx context.Context, request CreateMyApiKeyRequest) (response CreateMyApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -603,7 +661,7 @@ func (client IdentityDomainsClient) createMyApiKey(ctx context.Context, request 
 	return response, err
 }
 
-// CreateMyAuthToken Add user's auth token
+// CreateMyAuthToken Create a user's own Auth token.
 func (client IdentityDomainsClient) CreateMyAuthToken(ctx context.Context, request CreateMyAuthTokenRequest) (response CreateMyAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -835,7 +893,7 @@ func (client IdentityDomainsClient) createMyAuthenticationFactorsRemover(ctx con
 	return response, err
 }
 
-// CreateMyCustomerSecretKey Add a user's customer secret key
+// CreateMyCustomerSecretKey Add a user's own customer secret key.
 func (client IdentityDomainsClient) CreateMyCustomerSecretKey(ctx context.Context, request CreateMyCustomerSecretKeyRequest) (response CreateMyCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -893,7 +951,7 @@ func (client IdentityDomainsClient) createMyCustomerSecretKey(ctx context.Contex
 	return response, err
 }
 
-// CreateMyOAuth2ClientCredential Add a user's oauth2 client credential
+// CreateMyOAuth2ClientCredential Create a user's own OAuth2 client credential.
 func (client IdentityDomainsClient) CreateMyOAuth2ClientCredential(ctx context.Context, request CreateMyOAuth2ClientCredentialRequest) (response CreateMyOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1009,7 +1067,7 @@ func (client IdentityDomainsClient) createMyRequest(ctx context.Context, request
 	return response, err
 }
 
-// CreateMySmtpCredential Add a user's smtp credenials
+// CreateMySmtpCredential Create a user's own SMTP credential.
 func (client IdentityDomainsClient) CreateMySmtpCredential(ctx context.Context, request CreateMySmtpCredentialRequest) (response CreateMySmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1067,7 +1125,7 @@ func (client IdentityDomainsClient) createMySmtpCredential(ctx context.Context, 
 	return response, err
 }
 
-// CreateMySupportAccount Create a Support Account
+// CreateMySupportAccount Create a user's own support account.
 func (client IdentityDomainsClient) CreateMySupportAccount(ctx context.Context, request CreateMySupportAccountRequest) (response CreateMySupportAccountResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1125,7 +1183,7 @@ func (client IdentityDomainsClient) createMySupportAccount(ctx context.Context, 
 	return response, err
 }
 
-// CreateMyUserDbCredential Set a User's DbCredential
+// CreateMyUserDbCredential Create a user's own database (DB) credential.
 func (client IdentityDomainsClient) CreateMyUserDbCredential(ctx context.Context, request CreateMyUserDbCredentialRequest) (response CreateMyUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1183,7 +1241,7 @@ func (client IdentityDomainsClient) createMyUserDbCredential(ctx context.Context
 	return response, err
 }
 
-// CreateOAuth2ClientCredential Add a user's oauth2 client credential
+// CreateOAuth2ClientCredential Add a user's OAuth2 client credentials.
 func (client IdentityDomainsClient) CreateOAuth2ClientCredential(ctx context.Context, request CreateOAuth2ClientCredentialRequest) (response CreateOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1241,7 +1299,7 @@ func (client IdentityDomainsClient) createOAuth2ClientCredential(ctx context.Con
 	return response, err
 }
 
-// CreatePasswordPolicy Create a Password Policy
+// CreatePasswordPolicy Create a password policy.
 func (client IdentityDomainsClient) CreatePasswordPolicy(ctx context.Context, request CreatePasswordPolicyRequest) (response CreatePasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1299,7 +1357,7 @@ func (client IdentityDomainsClient) createPasswordPolicy(ctx context.Context, re
 	return response, err
 }
 
-// CreateSmtpCredential Add a user's smtp credenials
+// CreateSmtpCredential Create a user's SMTP credentials.
 func (client IdentityDomainsClient) CreateSmtpCredential(ctx context.Context, request CreateSmtpCredentialRequest) (response CreateSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1357,7 +1415,7 @@ func (client IdentityDomainsClient) createSmtpCredential(ctx context.Context, re
 	return response, err
 }
 
-// CreateUser Create a User
+// CreateUser Create a user.
 func (client IdentityDomainsClient) CreateUser(ctx context.Context, request CreateUserRequest) (response CreateUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1415,7 +1473,7 @@ func (client IdentityDomainsClient) createUser(ctx context.Context, request comm
 	return response, err
 }
 
-// CreateUserDbCredential Set a User's DbCredential
+// CreateUserDbCredential Create a user's database (DB) credentials.
 func (client IdentityDomainsClient) CreateUserDbCredential(ctx context.Context, request CreateUserDbCredentialRequest) (response CreateUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1473,7 +1531,7 @@ func (client IdentityDomainsClient) createUserDbCredential(ctx context.Context, 
 	return response, err
 }
 
-// DeleteApiKey Delete user's api key
+// DeleteApiKey Delete a user's API key.
 func (client IdentityDomainsClient) DeleteApiKey(ctx context.Context, request DeleteApiKeyRequest) (response DeleteApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1531,7 +1589,7 @@ func (client IdentityDomainsClient) deleteApiKey(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteAuthToken Delete user's auth token
+// DeleteAuthToken Delete a user's Auth token.
 func (client IdentityDomainsClient) DeleteAuthToken(ctx context.Context, request DeleteAuthTokenRequest) (response DeleteAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1589,7 +1647,7 @@ func (client IdentityDomainsClient) deleteAuthToken(ctx context.Context, request
 	return response, err
 }
 
-// DeleteCustomerSecretKey Delete user's customer secret key
+// DeleteCustomerSecretKey Delete a user's customer secret key.
 func (client IdentityDomainsClient) DeleteCustomerSecretKey(ctx context.Context, request DeleteCustomerSecretKeyRequest) (response DeleteCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1647,7 +1705,7 @@ func (client IdentityDomainsClient) deleteCustomerSecretKey(ctx context.Context,
 	return response, err
 }
 
-// DeleteDynamicResourceGroup Delete a DynamicResourceGroup
+// DeleteDynamicResourceGroup Delete a Dynamic Resource Group.
 func (client IdentityDomainsClient) DeleteDynamicResourceGroup(ctx context.Context, request DeleteDynamicResourceGroupRequest) (response DeleteDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1705,7 +1763,65 @@ func (client IdentityDomainsClient) deleteDynamicResourceGroup(ctx context.Conte
 	return response, err
 }
 
-// DeleteGroup Delete a Group
+// DeleteGrant Remove a Grantee from an AppRole
+func (client IdentityDomainsClient) DeleteGrant(ctx context.Context, request DeleteGrantRequest) (response DeleteGrantResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteGrant, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteGrantResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteGrantResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteGrantResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteGrantResponse")
+	}
+	return
+}
+
+// deleteGrant implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) deleteGrant(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/Grants/{grantId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteGrantResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteGrant", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteGroup Delete a group.
 func (client IdentityDomainsClient) DeleteGroup(ctx context.Context, request DeleteGroupRequest) (response DeleteGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1821,7 +1937,7 @@ func (client IdentityDomainsClient) deleteIdentityProvider(ctx context.Context, 
 	return response, err
 }
 
-// DeleteMyApiKey Delete user's api key
+// DeleteMyApiKey Delete a user's own API key.
 func (client IdentityDomainsClient) DeleteMyApiKey(ctx context.Context, request DeleteMyApiKeyRequest) (response DeleteMyApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1879,7 +1995,7 @@ func (client IdentityDomainsClient) deleteMyApiKey(ctx context.Context, request 
 	return response, err
 }
 
-// DeleteMyAuthToken Delete user's auth token
+// DeleteMyAuthToken Delete a user's own Auth token.
 func (client IdentityDomainsClient) DeleteMyAuthToken(ctx context.Context, request DeleteMyAuthTokenRequest) (response DeleteMyAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1937,7 +2053,7 @@ func (client IdentityDomainsClient) deleteMyAuthToken(ctx context.Context, reque
 	return response, err
 }
 
-// DeleteMyCustomerSecretKey Delete user's customer secret key
+// DeleteMyCustomerSecretKey Delete a user's own customer secret key.
 func (client IdentityDomainsClient) DeleteMyCustomerSecretKey(ctx context.Context, request DeleteMyCustomerSecretKeyRequest) (response DeleteMyCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2053,7 +2169,7 @@ func (client IdentityDomainsClient) deleteMyDevice(ctx context.Context, request 
 	return response, err
 }
 
-// DeleteMyOAuth2ClientCredential Delete user's oauth2 client credential
+// DeleteMyOAuth2ClientCredential Delete a user's own OAuth2 client credential.
 func (client IdentityDomainsClient) DeleteMyOAuth2ClientCredential(ctx context.Context, request DeleteMyOAuth2ClientCredentialRequest) (response DeleteMyOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2111,7 +2227,7 @@ func (client IdentityDomainsClient) deleteMyOAuth2ClientCredential(ctx context.C
 	return response, err
 }
 
-// DeleteMySmtpCredential Delete user's smtp credenials
+// DeleteMySmtpCredential Delete a user's own SMTP credential.
 func (client IdentityDomainsClient) DeleteMySmtpCredential(ctx context.Context, request DeleteMySmtpCredentialRequest) (response DeleteMySmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2169,7 +2285,7 @@ func (client IdentityDomainsClient) deleteMySmtpCredential(ctx context.Context, 
 	return response, err
 }
 
-// DeleteMySupportAccount Delete a Support Account
+// DeleteMySupportAccount Delete a user's own support account.
 func (client IdentityDomainsClient) DeleteMySupportAccount(ctx context.Context, request DeleteMySupportAccountRequest) (response DeleteMySupportAccountResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2285,7 +2401,7 @@ func (client IdentityDomainsClient) deleteMyTrustedUserAgent(ctx context.Context
 	return response, err
 }
 
-// DeleteMyUserDbCredential Remove a User's DbCredential
+// DeleteMyUserDbCredential Delete a user's own database (DB) credential.
 func (client IdentityDomainsClient) DeleteMyUserDbCredential(ctx context.Context, request DeleteMyUserDbCredentialRequest) (response DeleteMyUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2343,7 +2459,7 @@ func (client IdentityDomainsClient) deleteMyUserDbCredential(ctx context.Context
 	return response, err
 }
 
-// DeleteOAuth2ClientCredential Delete user's oauth2 client credential
+// DeleteOAuth2ClientCredential Delete a user's OAuth2 client credentials.
 func (client IdentityDomainsClient) DeleteOAuth2ClientCredential(ctx context.Context, request DeleteOAuth2ClientCredentialRequest) (response DeleteOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2401,7 +2517,7 @@ func (client IdentityDomainsClient) deleteOAuth2ClientCredential(ctx context.Con
 	return response, err
 }
 
-// DeletePasswordPolicy Delete a Password Policy
+// DeletePasswordPolicy Delete a password policy.
 func (client IdentityDomainsClient) DeletePasswordPolicy(ctx context.Context, request DeletePasswordPolicyRequest) (response DeletePasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2459,7 +2575,7 @@ func (client IdentityDomainsClient) deletePasswordPolicy(ctx context.Context, re
 	return response, err
 }
 
-// DeleteSmtpCredential Delete user's smtp credenials
+// DeleteSmtpCredential Delete a user's SMTP credentials.
 func (client IdentityDomainsClient) DeleteSmtpCredential(ctx context.Context, request DeleteSmtpCredentialRequest) (response DeleteSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2517,7 +2633,7 @@ func (client IdentityDomainsClient) deleteSmtpCredential(ctx context.Context, re
 	return response, err
 }
 
-// DeleteUser Delete a User
+// DeleteUser Delete a user.
 func (client IdentityDomainsClient) DeleteUser(ctx context.Context, request DeleteUserRequest) (response DeleteUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2575,7 +2691,7 @@ func (client IdentityDomainsClient) deleteUser(ctx context.Context, request comm
 	return response, err
 }
 
-// DeleteUserDbCredential Remove a User's DbCredential
+// DeleteUserDbCredential Delete a user's database (DB) credentials.
 func (client IdentityDomainsClient) DeleteUserDbCredential(ctx context.Context, request DeleteUserDbCredentialRequest) (response DeleteUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2633,7 +2749,7 @@ func (client IdentityDomainsClient) deleteUserDbCredential(ctx context.Context, 
 	return response, err
 }
 
-// GetAccountRecoverySetting Get Account Recovery Settings
+// GetAccountRecoverySetting Get an account recovery setting.
 func (client IdentityDomainsClient) GetAccountRecoverySetting(ctx context.Context, request GetAccountRecoverySettingRequest) (response GetAccountRecoverySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2691,7 +2807,7 @@ func (client IdentityDomainsClient) getAccountRecoverySetting(ctx context.Contex
 	return response, err
 }
 
-// GetApiKey Get user's api key
+// GetApiKey Get a user's API key.
 func (client IdentityDomainsClient) GetApiKey(ctx context.Context, request GetApiKeyRequest) (response GetApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2749,7 +2865,7 @@ func (client IdentityDomainsClient) getApiKey(ctx context.Context, request commo
 	return response, err
 }
 
-// GetAuthToken Get user's auth token
+// GetAuthToken Get a user's Auth token.
 func (client IdentityDomainsClient) GetAuthToken(ctx context.Context, request GetAuthTokenRequest) (response GetAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2865,7 +2981,7 @@ func (client IdentityDomainsClient) getAuthenticationFactorSetting(ctx context.C
 	return response, err
 }
 
-// GetCustomerSecretKey Get user's customer secret key
+// GetCustomerSecretKey Get a user's customer secret key.
 func (client IdentityDomainsClient) GetCustomerSecretKey(ctx context.Context, request GetCustomerSecretKeyRequest) (response GetCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2923,7 +3039,7 @@ func (client IdentityDomainsClient) getCustomerSecretKey(ctx context.Context, re
 	return response, err
 }
 
-// GetDynamicResourceGroup Get a DynamicResourceGroup
+// GetDynamicResourceGroup Get a Dynamic Resource Group.
 func (client IdentityDomainsClient) GetDynamicResourceGroup(ctx context.Context, request GetDynamicResourceGroupRequest) (response GetDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2981,7 +3097,65 @@ func (client IdentityDomainsClient) getDynamicResourceGroup(ctx context.Context,
 	return response, err
 }
 
-// GetGroup Get a Group - The Group search and get operations on users/members will throw an exception if it has more than 10K members, to avoid the exception use the pagination filter to get or search group members
+// GetGrant Get a Grant
+func (client IdentityDomainsClient) GetGrant(ctx context.Context, request GetGrantRequest) (response GetGrantResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getGrant, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetGrantResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetGrantResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetGrantResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetGrantResponse")
+	}
+	return
+}
+
+// getGrant implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getGrant(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/Grants/{grantId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetGrantResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetGrant", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetGroup Get a group. <b>Important:</b> The Group SEARCH and GET operations on users and members will throw an exception if the response has more than 10,000 members. To avoid the exception, use the pagination filter to GET or SEARCH group members.
 func (client IdentityDomainsClient) GetGroup(ctx context.Context, request GetGroupRequest) (response GetGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3097,7 +3271,7 @@ func (client IdentityDomainsClient) getIdentityProvider(ctx context.Context, req
 	return response, err
 }
 
-// GetIdentitySetting Get Identity Settings
+// GetIdentitySetting Get an Identity setting.
 func (client IdentityDomainsClient) GetIdentitySetting(ctx context.Context, request GetIdentitySettingRequest) (response GetIdentitySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3213,7 +3387,7 @@ func (client IdentityDomainsClient) getKmsiSetting(ctx context.Context, request 
 	return response, err
 }
 
-// GetMe Get User Info
+// GetMe Get a user's own information.
 func (client IdentityDomainsClient) GetMe(ctx context.Context, request GetMeRequest) (response GetMeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3271,7 +3445,7 @@ func (client IdentityDomainsClient) getMe(ctx context.Context, request common.OC
 	return response, err
 }
 
-// GetMyApiKey Get user's api key
+// GetMyApiKey Get a user's own API key.
 func (client IdentityDomainsClient) GetMyApiKey(ctx context.Context, request GetMyApiKeyRequest) (response GetMyApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3329,7 +3503,7 @@ func (client IdentityDomainsClient) getMyApiKey(ctx context.Context, request com
 	return response, err
 }
 
-// GetMyAuthToken Get user's auth token
+// GetMyAuthToken Get a user's own Auth token.
 func (client IdentityDomainsClient) GetMyAuthToken(ctx context.Context, request GetMyAuthTokenRequest) (response GetMyAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3387,7 +3561,7 @@ func (client IdentityDomainsClient) getMyAuthToken(ctx context.Context, request 
 	return response, err
 }
 
-// GetMyCustomerSecretKey Get user's customer secret key
+// GetMyCustomerSecretKey Get a user's own customer secret key.
 func (client IdentityDomainsClient) GetMyCustomerSecretKey(ctx context.Context, request GetMyCustomerSecretKeyRequest) (response GetMyCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3503,7 +3677,7 @@ func (client IdentityDomainsClient) getMyDevice(ctx context.Context, request com
 	return response, err
 }
 
-// GetMyOAuth2ClientCredential Get user's oauth2 client credential
+// GetMyOAuth2ClientCredential Get a user's own OAuth2 client credential.
 func (client IdentityDomainsClient) GetMyOAuth2ClientCredential(ctx context.Context, request GetMyOAuth2ClientCredentialRequest) (response GetMyOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3561,7 +3735,7 @@ func (client IdentityDomainsClient) getMyOAuth2ClientCredential(ctx context.Cont
 	return response, err
 }
 
-// GetMySmtpCredential Get user's smtp credentials
+// GetMySmtpCredential Get a user's own SMTP credential.
 func (client IdentityDomainsClient) GetMySmtpCredential(ctx context.Context, request GetMySmtpCredentialRequest) (response GetMySmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3619,7 +3793,7 @@ func (client IdentityDomainsClient) getMySmtpCredential(ctx context.Context, req
 	return response, err
 }
 
-// GetMySupportAccount Get a Support Account
+// GetMySupportAccount Get a user's own support account.
 func (client IdentityDomainsClient) GetMySupportAccount(ctx context.Context, request GetMySupportAccountRequest) (response GetMySupportAccountResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3735,7 +3909,7 @@ func (client IdentityDomainsClient) getMyTrustedUserAgent(ctx context.Context, r
 	return response, err
 }
 
-// GetMyUserDbCredential Get a User's DbCredentials
+// GetMyUserDbCredential Get a user's own database (DB) credential.
 func (client IdentityDomainsClient) GetMyUserDbCredential(ctx context.Context, request GetMyUserDbCredentialRequest) (response GetMyUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3793,7 +3967,7 @@ func (client IdentityDomainsClient) getMyUserDbCredential(ctx context.Context, r
 	return response, err
 }
 
-// GetOAuth2ClientCredential Get user's oauth2 client credential
+// GetOAuth2ClientCredential Get a user's OAuth2 client credentials.
 func (client IdentityDomainsClient) GetOAuth2ClientCredential(ctx context.Context, request GetOAuth2ClientCredentialRequest) (response GetOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3851,7 +4025,7 @@ func (client IdentityDomainsClient) getOAuth2ClientCredential(ctx context.Contex
 	return response, err
 }
 
-// GetPasswordPolicy Get a Password Policy
+// GetPasswordPolicy Get a password policy.
 func (client IdentityDomainsClient) GetPasswordPolicy(ctx context.Context, request GetPasswordPolicyRequest) (response GetPasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3967,7 +4141,65 @@ func (client IdentityDomainsClient) getSchema(ctx context.Context, request commo
 	return response, err
 }
 
-// GetSmtpCredential Get user's smtp credentials
+// GetSecurityQuestionSetting Get a security question setting.
+func (client IdentityDomainsClient) GetSecurityQuestionSetting(ctx context.Context, request GetSecurityQuestionSettingRequest) (response GetSecurityQuestionSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getSecurityQuestionSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSecurityQuestionSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSecurityQuestionSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSecurityQuestionSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSecurityQuestionSettingResponse")
+	}
+	return
+}
+
+// getSecurityQuestionSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getSecurityQuestionSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/SecurityQuestionSettings/{securityQuestionSettingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSecurityQuestionSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSecurityQuestionSetting", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSmtpCredential Get a user's SMTP credentials.
 func (client IdentityDomainsClient) GetSmtpCredential(ctx context.Context, request GetSmtpCredentialRequest) (response GetSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4025,7 +4257,7 @@ func (client IdentityDomainsClient) getSmtpCredential(ctx context.Context, reque
 	return response, err
 }
 
-// GetUser Get a User
+// GetUser Get a user.
 func (client IdentityDomainsClient) GetUser(ctx context.Context, request GetUserRequest) (response GetUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4141,7 +4373,7 @@ func (client IdentityDomainsClient) getUserAttributesSetting(ctx context.Context
 	return response, err
 }
 
-// GetUserDbCredential Get a User's DbCredentials
+// GetUserDbCredential Get a user's database (DB) credentials.
 func (client IdentityDomainsClient) GetUserDbCredential(ctx context.Context, request GetUserDbCredentialRequest) (response GetUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4199,7 +4431,7 @@ func (client IdentityDomainsClient) getUserDbCredential(ctx context.Context, req
 	return response, err
 }
 
-// ListAccountRecoverySettings Search Account Recovery Settings
+// ListAccountRecoverySettings Search for account recovery settings.
 func (client IdentityDomainsClient) ListAccountRecoverySettings(ctx context.Context, request ListAccountRecoverySettingsRequest) (response ListAccountRecoverySettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4257,7 +4489,7 @@ func (client IdentityDomainsClient) listAccountRecoverySettings(ctx context.Cont
 	return response, err
 }
 
-// ListApiKeys Search Api Key
+// ListApiKeys Search API keys.
 func (client IdentityDomainsClient) ListApiKeys(ctx context.Context, request ListApiKeysRequest) (response ListApiKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4315,7 +4547,7 @@ func (client IdentityDomainsClient) listApiKeys(ctx context.Context, request com
 	return response, err
 }
 
-// ListAuthTokens Search AuthTokens
+// ListAuthTokens Search for Auth tokens.
 func (client IdentityDomainsClient) ListAuthTokens(ctx context.Context, request ListAuthTokensRequest) (response ListAuthTokensResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4431,7 +4663,7 @@ func (client IdentityDomainsClient) listAuthenticationFactorSettings(ctx context
 	return response, err
 }
 
-// ListCustomerSecretKeys Search user's customer secret key
+// ListCustomerSecretKeys Search for a user's customer secret keys.
 func (client IdentityDomainsClient) ListCustomerSecretKeys(ctx context.Context, request ListCustomerSecretKeysRequest) (response ListCustomerSecretKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4489,7 +4721,7 @@ func (client IdentityDomainsClient) listCustomerSecretKeys(ctx context.Context, 
 	return response, err
 }
 
-// ListDynamicResourceGroups Search DynamicResourceGroups
+// ListDynamicResourceGroups Search for Dynamic Resource Groups.
 func (client IdentityDomainsClient) ListDynamicResourceGroups(ctx context.Context, request ListDynamicResourceGroupsRequest) (response ListDynamicResourceGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4547,7 +4779,65 @@ func (client IdentityDomainsClient) listDynamicResourceGroups(ctx context.Contex
 	return response, err
 }
 
-// ListGroups Search Groups.The Group search and get operations on users/members will throw an exception if it has more than 10K members, to avoid the exception use the pagination filter to get or search group members
+// ListGrants Search Grants
+func (client IdentityDomainsClient) ListGrants(ctx context.Context, request ListGrantsRequest) (response ListGrantsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listGrants, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListGrantsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListGrantsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListGrantsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListGrantsResponse")
+	}
+	return
+}
+
+// listGrants implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listGrants(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/Grants", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListGrantsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListGrants", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListGroups Search for groups. <b>Important:</b> The Group SEARCH and GET operations on users and members will throw an exception if the response has more than 10,000 members. To avoid the exception, use the pagination filter to GET or SEARCH group members.
 func (client IdentityDomainsClient) ListGroups(ctx context.Context, request ListGroupsRequest) (response ListGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4663,7 +4953,7 @@ func (client IdentityDomainsClient) listIdentityProviders(ctx context.Context, r
 	return response, err
 }
 
-// ListIdentitySettings Search Identity Settings
+// ListIdentitySettings Search for Identity settings.
 func (client IdentityDomainsClient) ListIdentitySettings(ctx context.Context, request ListIdentitySettingsRequest) (response ListIdentitySettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4779,7 +5069,7 @@ func (client IdentityDomainsClient) listKmsiSettings(ctx context.Context, reques
 	return response, err
 }
 
-// ListMyApiKeys Search Api Key
+// ListMyApiKeys Search for a user's own API key.
 func (client IdentityDomainsClient) ListMyApiKeys(ctx context.Context, request ListMyApiKeysRequest) (response ListMyApiKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4895,7 +5185,7 @@ func (client IdentityDomainsClient) listMyApps(ctx context.Context, request comm
 	return response, err
 }
 
-// ListMyAuthTokens Search AuthTokens
+// ListMyAuthTokens Search for a user's own Auth token.
 func (client IdentityDomainsClient) ListMyAuthTokens(ctx context.Context, request ListMyAuthTokensRequest) (response ListMyAuthTokensResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4953,7 +5243,7 @@ func (client IdentityDomainsClient) listMyAuthTokens(ctx context.Context, reques
 	return response, err
 }
 
-// ListMyCustomerSecretKeys Search user's customer secret key
+// ListMyCustomerSecretKeys Search for a user's own customer secret key.
 func (client IdentityDomainsClient) ListMyCustomerSecretKeys(ctx context.Context, request ListMyCustomerSecretKeysRequest) (response ListMyCustomerSecretKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5069,7 +5359,7 @@ func (client IdentityDomainsClient) listMyDevices(ctx context.Context, request c
 	return response, err
 }
 
-// ListMyGroups Search My Groups
+// ListMyGroups Search for 'My Groups'.
 func (client IdentityDomainsClient) ListMyGroups(ctx context.Context, request ListMyGroupsRequest) (response ListMyGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5127,7 +5417,7 @@ func (client IdentityDomainsClient) listMyGroups(ctx context.Context, request co
 	return response, err
 }
 
-// ListMyOAuth2ClientCredentials Search oauth2 client credentials
+// ListMyOAuth2ClientCredentials Search for a user's own OAuth2 client credential.
 func (client IdentityDomainsClient) ListMyOAuth2ClientCredentials(ctx context.Context, request ListMyOAuth2ClientCredentialsRequest) (response ListMyOAuth2ClientCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5301,7 +5591,7 @@ func (client IdentityDomainsClient) listMyRequests(ctx context.Context, request 
 	return response, err
 }
 
-// ListMySmtpCredentials Search smtp credentials
+// ListMySmtpCredentials Search for a user's own SMTP credential.
 func (client IdentityDomainsClient) ListMySmtpCredentials(ctx context.Context, request ListMySmtpCredentialsRequest) (response ListMySmtpCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5359,7 +5649,7 @@ func (client IdentityDomainsClient) listMySmtpCredentials(ctx context.Context, r
 	return response, err
 }
 
-// ListMySupportAccounts Search Support Accounts
+// ListMySupportAccounts Search for a user's own support account.
 func (client IdentityDomainsClient) ListMySupportAccounts(ctx context.Context, request ListMySupportAccountsRequest) (response ListMySupportAccountsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5475,7 +5765,7 @@ func (client IdentityDomainsClient) listMyTrustedUserAgents(ctx context.Context,
 	return response, err
 }
 
-// ListMyUserDbCredentials Search a User's DBCredentials
+// ListMyUserDbCredentials Search for a user's own database (DB) credential.
 func (client IdentityDomainsClient) ListMyUserDbCredentials(ctx context.Context, request ListMyUserDbCredentialsRequest) (response ListMyUserDbCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5533,7 +5823,7 @@ func (client IdentityDomainsClient) listMyUserDbCredentials(ctx context.Context,
 	return response, err
 }
 
-// ListOAuth2ClientCredentials Search oauth2 client credentials
+// ListOAuth2ClientCredentials Search for a user's OAuth2 client credentials.
 func (client IdentityDomainsClient) ListOAuth2ClientCredentials(ctx context.Context, request ListOAuth2ClientCredentialsRequest) (response ListOAuth2ClientCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5591,7 +5881,7 @@ func (client IdentityDomainsClient) listOAuth2ClientCredentials(ctx context.Cont
 	return response, err
 }
 
-// ListPasswordPolicies Search Password Policies
+// ListPasswordPolicies Search for password policies.
 func (client IdentityDomainsClient) ListPasswordPolicies(ctx context.Context, request ListPasswordPoliciesRequest) (response ListPasswordPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5765,7 +6055,65 @@ func (client IdentityDomainsClient) listSchemas(ctx context.Context, request com
 	return response, err
 }
 
-// ListSmtpCredentials Search smtp credentials
+// ListSecurityQuestionSettings Search for security question settings.
+func (client IdentityDomainsClient) ListSecurityQuestionSettings(ctx context.Context, request ListSecurityQuestionSettingsRequest) (response ListSecurityQuestionSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listSecurityQuestionSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSecurityQuestionSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSecurityQuestionSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSecurityQuestionSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSecurityQuestionSettingsResponse")
+	}
+	return
+}
+
+// listSecurityQuestionSettings implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listSecurityQuestionSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/SecurityQuestionSettings", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSecurityQuestionSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSecurityQuestionSettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSmtpCredentials Search for SMTP credentials.
 func (client IdentityDomainsClient) ListSmtpCredentials(ctx context.Context, request ListSmtpCredentialsRequest) (response ListSmtpCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5881,7 +6229,7 @@ func (client IdentityDomainsClient) listUserAttributesSettings(ctx context.Conte
 	return response, err
 }
 
-// ListUserDbCredentials Search a User's DBCredentials
+// ListUserDbCredentials Search for a user's database (DB) credentials.
 func (client IdentityDomainsClient) ListUserDbCredentials(ctx context.Context, request ListUserDbCredentialsRequest) (response ListUserDbCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5939,7 +6287,7 @@ func (client IdentityDomainsClient) listUserDbCredentials(ctx context.Context, r
 	return response, err
 }
 
-// ListUsers Search Users
+// ListUsers Search for users.
 func (client IdentityDomainsClient) ListUsers(ctx context.Context, request ListUsersRequest) (response ListUsersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5997,7 +6345,7 @@ func (client IdentityDomainsClient) listUsers(ctx context.Context, request commo
 	return response, err
 }
 
-// PatchAccountRecoverySetting Update Account Recovery Settings
+// PatchAccountRecoverySetting Update an account recovery setting.
 func (client IdentityDomainsClient) PatchAccountRecoverySetting(ctx context.Context, request PatchAccountRecoverySettingRequest) (response PatchAccountRecoverySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6055,7 +6403,7 @@ func (client IdentityDomainsClient) patchAccountRecoverySetting(ctx context.Cont
 	return response, err
 }
 
-// PatchApiKey Update user's api key
+// PatchApiKey Update a user's API key.
 func (client IdentityDomainsClient) PatchApiKey(ctx context.Context, request PatchApiKeyRequest) (response PatchApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6113,7 +6461,7 @@ func (client IdentityDomainsClient) patchApiKey(ctx context.Context, request com
 	return response, err
 }
 
-// PatchAuthToken Update user's AuthToken
+// PatchAuthToken Update a user's Auth token.
 func (client IdentityDomainsClient) PatchAuthToken(ctx context.Context, request PatchAuthTokenRequest) (response PatchAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6171,7 +6519,7 @@ func (client IdentityDomainsClient) patchAuthToken(ctx context.Context, request 
 	return response, err
 }
 
-// PatchCustomerSecretKey Update user's customer secret key
+// PatchCustomerSecretKey Update a user's customer secret key.
 func (client IdentityDomainsClient) PatchCustomerSecretKey(ctx context.Context, request PatchCustomerSecretKeyRequest) (response PatchCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6229,7 +6577,7 @@ func (client IdentityDomainsClient) patchCustomerSecretKey(ctx context.Context, 
 	return response, err
 }
 
-// PatchDynamicResourceGroup Update a DynamicResourceGroup
+// PatchDynamicResourceGroup Update a Dynamic Resource Group.
 func (client IdentityDomainsClient) PatchDynamicResourceGroup(ctx context.Context, request PatchDynamicResourceGroupRequest) (response PatchDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6287,7 +6635,65 @@ func (client IdentityDomainsClient) patchDynamicResourceGroup(ctx context.Contex
 	return response, err
 }
 
-// PatchGroup Update a Group
+// PatchGrant Update a Grant
+func (client IdentityDomainsClient) PatchGrant(ctx context.Context, request PatchGrantRequest) (response PatchGrantResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchGrant, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchGrantResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchGrantResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchGrantResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchGrantResponse")
+	}
+	return
+}
+
+// patchGrant implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) patchGrant(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/Grants/{grantId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchGrantResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchGrant", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchGroup Update a group.
 func (client IdentityDomainsClient) PatchGroup(ctx context.Context, request PatchGroupRequest) (response PatchGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6403,7 +6809,7 @@ func (client IdentityDomainsClient) patchIdentityProvider(ctx context.Context, r
 	return response, err
 }
 
-// PatchIdentitySetting Update Identity Settings
+// PatchIdentitySetting Update an Identity setting.
 func (client IdentityDomainsClient) PatchIdentitySetting(ctx context.Context, request PatchIdentitySettingRequest) (response PatchIdentitySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6519,7 +6925,7 @@ func (client IdentityDomainsClient) patchKmsiSetting(ctx context.Context, reques
 	return response, err
 }
 
-// PatchMe Update User Info
+// PatchMe Update a user's own information.
 func (client IdentityDomainsClient) PatchMe(ctx context.Context, request PatchMeRequest) (response PatchMeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6577,7 +6983,7 @@ func (client IdentityDomainsClient) patchMe(ctx context.Context, request common.
 	return response, err
 }
 
-// PatchMyApiKey Update user's api key
+// PatchMyApiKey Update a user's own API key.
 func (client IdentityDomainsClient) PatchMyApiKey(ctx context.Context, request PatchMyApiKeyRequest) (response PatchMyApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6635,7 +7041,7 @@ func (client IdentityDomainsClient) patchMyApiKey(ctx context.Context, request c
 	return response, err
 }
 
-// PatchMyAuthToken Update user's AuthToken
+// PatchMyAuthToken Update a user's own Auth token.
 func (client IdentityDomainsClient) PatchMyAuthToken(ctx context.Context, request PatchMyAuthTokenRequest) (response PatchMyAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6693,7 +7099,7 @@ func (client IdentityDomainsClient) patchMyAuthToken(ctx context.Context, reques
 	return response, err
 }
 
-// PatchMyCustomerSecretKey Update user's customer secret key
+// PatchMyCustomerSecretKey Update a user's own customer secret key.
 func (client IdentityDomainsClient) PatchMyCustomerSecretKey(ctx context.Context, request PatchMyCustomerSecretKeyRequest) (response PatchMyCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6809,7 +7215,7 @@ func (client IdentityDomainsClient) patchMyDevice(ctx context.Context, request c
 	return response, err
 }
 
-// PatchMyOAuth2ClientCredential Update user's oauth2 client credential
+// PatchMyOAuth2ClientCredential Update a user's own OAuth2 client credential.
 func (client IdentityDomainsClient) PatchMyOAuth2ClientCredential(ctx context.Context, request PatchMyOAuth2ClientCredentialRequest) (response PatchMyOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6867,7 +7273,7 @@ func (client IdentityDomainsClient) patchMyOAuth2ClientCredential(ctx context.Co
 	return response, err
 }
 
-// PatchMySmtpCredential Update user's smtp credentials
+// PatchMySmtpCredential Update a user's own SMTP credential.
 func (client IdentityDomainsClient) PatchMySmtpCredential(ctx context.Context, request PatchMySmtpCredentialRequest) (response PatchMySmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6925,7 +7331,7 @@ func (client IdentityDomainsClient) patchMySmtpCredential(ctx context.Context, r
 	return response, err
 }
 
-// PatchOAuth2ClientCredential Update user's oauth2 client credential
+// PatchOAuth2ClientCredential Update a user's OAuth2 client credentials.
 func (client IdentityDomainsClient) PatchOAuth2ClientCredential(ctx context.Context, request PatchOAuth2ClientCredentialRequest) (response PatchOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6983,7 +7389,7 @@ func (client IdentityDomainsClient) patchOAuth2ClientCredential(ctx context.Cont
 	return response, err
 }
 
-// PatchPasswordPolicy Update a Password Policy
+// PatchPasswordPolicy Update a password policy.
 func (client IdentityDomainsClient) PatchPasswordPolicy(ctx context.Context, request PatchPasswordPolicyRequest) (response PatchPasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7099,7 +7505,65 @@ func (client IdentityDomainsClient) patchSchema(ctx context.Context, request com
 	return response, err
 }
 
-// PatchSmtpCredential Update user's smtp credentials
+// PatchSecurityQuestionSetting Update a security question setting.
+func (client IdentityDomainsClient) PatchSecurityQuestionSetting(ctx context.Context, request PatchSecurityQuestionSettingRequest) (response PatchSecurityQuestionSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchSecurityQuestionSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchSecurityQuestionSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchSecurityQuestionSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchSecurityQuestionSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchSecurityQuestionSettingResponse")
+	}
+	return
+}
+
+// patchSecurityQuestionSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) patchSecurityQuestionSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/SecurityQuestionSettings/{securityQuestionSettingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchSecurityQuestionSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchSecurityQuestionSetting", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchSmtpCredential Update a user's SMTP credentials.
 func (client IdentityDomainsClient) PatchSmtpCredential(ctx context.Context, request PatchSmtpCredentialRequest) (response PatchSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7157,7 +7621,7 @@ func (client IdentityDomainsClient) patchSmtpCredential(ctx context.Context, req
 	return response, err
 }
 
-// PatchUser Update a User
+// PatchUser Update a user.
 func (client IdentityDomainsClient) PatchUser(ctx context.Context, request PatchUserRequest) (response PatchUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7273,7 +7737,7 @@ func (client IdentityDomainsClient) patchUserAttributesSetting(ctx context.Conte
 	return response, err
 }
 
-// PutAccountRecoverySetting Replace Account Recovery Settings
+// PutAccountRecoverySetting Replace an account recovery setting.
 func (client IdentityDomainsClient) PutAccountRecoverySetting(ctx context.Context, request PutAccountRecoverySettingRequest) (response PutAccountRecoverySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7447,7 +7911,7 @@ func (client IdentityDomainsClient) putAuthenticationFactorSetting(ctx context.C
 	return response, err
 }
 
-// PutDynamicResourceGroup Replace a DynamicResourceGroup
+// PutDynamicResourceGroup Replace a Dynamic Resource Group.
 func (client IdentityDomainsClient) PutDynamicResourceGroup(ctx context.Context, request PutDynamicResourceGroupRequest) (response PutDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7505,7 +7969,7 @@ func (client IdentityDomainsClient) putDynamicResourceGroup(ctx context.Context,
 	return response, err
 }
 
-// PutGroup Replace a Group
+// PutGroup Replace a group.
 func (client IdentityDomainsClient) PutGroup(ctx context.Context, request PutGroupRequest) (response PutGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7621,7 +8085,7 @@ func (client IdentityDomainsClient) putIdentityProvider(ctx context.Context, req
 	return response, err
 }
 
-// PutIdentitySetting Replace Identity Settings
+// PutIdentitySetting Replace an Identity setting.
 func (client IdentityDomainsClient) PutIdentitySetting(ctx context.Context, request PutIdentitySettingRequest) (response PutIdentitySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7737,7 +8201,7 @@ func (client IdentityDomainsClient) putKmsiSetting(ctx context.Context, request 
 	return response, err
 }
 
-// PutMe Replace User Info
+// PutMe Replace a user's own information.
 func (client IdentityDomainsClient) PutMe(ctx context.Context, request PutMeRequest) (response PutMeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7795,7 +8259,7 @@ func (client IdentityDomainsClient) putMe(ctx context.Context, request common.OC
 	return response, err
 }
 
-// PutMePasswordChanger Self-Service Password Update
+// PutMePasswordChanger Update a user's own password.
 func (client IdentityDomainsClient) PutMePasswordChanger(ctx context.Context, request PutMePasswordChangerRequest) (response PutMePasswordChangerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7853,7 +8317,7 @@ func (client IdentityDomainsClient) putMePasswordChanger(ctx context.Context, re
 	return response, err
 }
 
-// PutPasswordPolicy Replace a Password Policy
+// PutPasswordPolicy Replace a password policy.
 func (client IdentityDomainsClient) PutPasswordPolicy(ctx context.Context, request PutPasswordPolicyRequest) (response PutPasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7969,7 +8433,65 @@ func (client IdentityDomainsClient) putSchema(ctx context.Context, request commo
 	return response, err
 }
 
-// PutUser Replace a User
+// PutSecurityQuestionSetting Replace a security question setting.
+func (client IdentityDomainsClient) PutSecurityQuestionSetting(ctx context.Context, request PutSecurityQuestionSettingRequest) (response PutSecurityQuestionSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.putSecurityQuestionSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PutSecurityQuestionSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PutSecurityQuestionSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PutSecurityQuestionSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PutSecurityQuestionSettingResponse")
+	}
+	return
+}
+
+// putSecurityQuestionSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) putSecurityQuestionSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/SecurityQuestionSettings/{securityQuestionSettingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PutSecurityQuestionSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PutSecurityQuestionSetting", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PutUser Replace a user.
 func (client IdentityDomainsClient) PutUser(ctx context.Context, request PutUserRequest) (response PutUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8027,7 +8549,7 @@ func (client IdentityDomainsClient) putUser(ctx context.Context, request common.
 	return response, err
 }
 
-// PutUserCapabilitiesChanger Change user capabilities
+// PutUserCapabilitiesChanger Change a user's capabilities.
 func (client IdentityDomainsClient) PutUserCapabilitiesChanger(ctx context.Context, request PutUserCapabilitiesChangerRequest) (response PutUserCapabilitiesChangerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8085,7 +8607,7 @@ func (client IdentityDomainsClient) putUserCapabilitiesChanger(ctx context.Conte
 	return response, err
 }
 
-// PutUserPasswordChanger Change a User Password (Known Value)
+// PutUserPasswordChanger Change a user's password to a known value.
 func (client IdentityDomainsClient) PutUserPasswordChanger(ctx context.Context, request PutUserPasswordChangerRequest) (response PutUserPasswordChangerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8143,7 +8665,7 @@ func (client IdentityDomainsClient) putUserPasswordChanger(ctx context.Context, 
 	return response, err
 }
 
-// PutUserPasswordResetter Reset a User Password (Random Value)
+// PutUserPasswordResetter Reset a user's password to a randomly-generated value.
 func (client IdentityDomainsClient) PutUserPasswordResetter(ctx context.Context, request PutUserPasswordResetterRequest) (response PutUserPasswordResetterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8201,7 +8723,7 @@ func (client IdentityDomainsClient) putUserPasswordResetter(ctx context.Context,
 	return response, err
 }
 
-// PutUserStatusChanger Change User Status
+// PutUserStatusChanger Change a user's status.
 func (client IdentityDomainsClient) PutUserStatusChanger(ctx context.Context, request PutUserStatusChangerRequest) (response PutUserStatusChangerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8317,7 +8839,7 @@ func (client IdentityDomainsClient) searchApiKeys(ctx context.Context, request c
 	return response, err
 }
 
-// SearchAuthTokens Search AuthTokens Using POST
+// SearchAuthTokens Search for Auth tokens using POST.
 func (client IdentityDomainsClient) SearchAuthTokens(ctx context.Context, request SearchAuthTokensRequest) (response SearchAuthTokensResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8433,7 +8955,7 @@ func (client IdentityDomainsClient) searchAuthenticationFactorSettings(ctx conte
 	return response, err
 }
 
-// SearchCustomerSecretKeys Search CustomerSecretKeys Using POST
+// SearchCustomerSecretKeys Search for customer secret keys using POST.
 func (client IdentityDomainsClient) SearchCustomerSecretKeys(ctx context.Context, request SearchCustomerSecretKeysRequest) (response SearchCustomerSecretKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8491,7 +9013,7 @@ func (client IdentityDomainsClient) searchCustomerSecretKeys(ctx context.Context
 	return response, err
 }
 
-// SearchDynamicResourceGroups Search DynamicResourceGroups Using POST
+// SearchDynamicResourceGroups Search for Dynamic Resource Groups using POST.
 func (client IdentityDomainsClient) SearchDynamicResourceGroups(ctx context.Context, request SearchDynamicResourceGroupsRequest) (response SearchDynamicResourceGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8549,7 +9071,65 @@ func (client IdentityDomainsClient) searchDynamicResourceGroups(ctx context.Cont
 	return response, err
 }
 
-// SearchGroups Search Groups Using POST
+// SearchGrants Search Grants Using POST
+func (client IdentityDomainsClient) SearchGrants(ctx context.Context, request SearchGrantsRequest) (response SearchGrantsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.searchGrants, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchGrantsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchGrantsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchGrantsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchGrantsResponse")
+	}
+	return
+}
+
+// searchGrants implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) searchGrants(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/Grants/.search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchGrantsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchGrants", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SearchGroups Search for groups using POST.
 func (client IdentityDomainsClient) SearchGroups(ctx context.Context, request SearchGroupsRequest) (response SearchGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8665,7 +9245,7 @@ func (client IdentityDomainsClient) searchIdentityProviders(ctx context.Context,
 	return response, err
 }
 
-// SearchIdentitySettings Search Identity Settings Using POST
+// SearchIdentitySettings Search for Identity settings using POST.
 func (client IdentityDomainsClient) SearchIdentitySettings(ctx context.Context, request SearchIdentitySettingsRequest) (response SearchIdentitySettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8839,7 +9419,7 @@ func (client IdentityDomainsClient) searchMyApps(ctx context.Context, request co
 	return response, err
 }
 
-// SearchMyGroups Search My Groups Using POST
+// SearchMyGroups Search for 'My Groups' using POST.
 func (client IdentityDomainsClient) SearchMyGroups(ctx context.Context, request SearchMyGroupsRequest) (response SearchMyGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9013,7 +9593,7 @@ func (client IdentityDomainsClient) searchMyRequests(ctx context.Context, reques
 	return response, err
 }
 
-// SearchOAuth2ClientCredentials Search Oauth2Clients Using POST
+// SearchOAuth2ClientCredentials Search for OAuth2 client credentials using POST.
 func (client IdentityDomainsClient) SearchOAuth2ClientCredentials(ctx context.Context, request SearchOAuth2ClientCredentialsRequest) (response SearchOAuth2ClientCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9071,7 +9651,7 @@ func (client IdentityDomainsClient) searchOAuth2ClientCredentials(ctx context.Co
 	return response, err
 }
 
-// SearchPasswordPolicies Search Password Policies Using POST
+// SearchPasswordPolicies Search for password policies using POST.
 func (client IdentityDomainsClient) SearchPasswordPolicies(ctx context.Context, request SearchPasswordPoliciesRequest) (response SearchPasswordPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9245,7 +9825,65 @@ func (client IdentityDomainsClient) searchSchemas(ctx context.Context, request c
 	return response, err
 }
 
-// SearchSmtpCredentials Search smtp credentials Using POST
+// SearchSecurityQuestionSettings Search for security question settings using POST.
+func (client IdentityDomainsClient) SearchSecurityQuestionSettings(ctx context.Context, request SearchSecurityQuestionSettingsRequest) (response SearchSecurityQuestionSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.searchSecurityQuestionSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchSecurityQuestionSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchSecurityQuestionSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchSecurityQuestionSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchSecurityQuestionSettingsResponse")
+	}
+	return
+}
+
+// searchSecurityQuestionSettings implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) searchSecurityQuestionSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/SecurityQuestionSettings/.search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchSecurityQuestionSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchSecurityQuestionSettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SearchSmtpCredentials Search for SMTP credentials using POST.
 func (client IdentityDomainsClient) SearchSmtpCredentials(ctx context.Context, request SearchSmtpCredentialsRequest) (response SearchSmtpCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9361,7 +9999,7 @@ func (client IdentityDomainsClient) searchUserAttributesSettings(ctx context.Con
 	return response, err
 }
 
-// SearchUserDbCredentials Search a User's DBCredentials using POST
+// SearchUserDbCredentials Search for a user's database (DB) credentials using POST.
 func (client IdentityDomainsClient) SearchUserDbCredentials(ctx context.Context, request SearchUserDbCredentialsRequest) (response SearchUserDbCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9419,7 +10057,7 @@ func (client IdentityDomainsClient) searchUserDbCredentials(ctx context.Context,
 	return response, err
 }
 
-// SearchUsers Search Users Using POST
+// SearchUsers Search for users using POST.
 func (client IdentityDomainsClient) SearchUsers(ctx context.Context, request SearchUsersRequest) (response SearchUsersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

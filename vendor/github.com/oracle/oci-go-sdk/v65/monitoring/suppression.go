@@ -18,7 +18,8 @@ import (
 	"strings"
 )
 
-// Suppression The configuration details for suppressing an alarm.
+// Suppression The configuration details for an alarm-wide suppression.
+// For dimension-specific suppressions, see AlarmSuppression.
 // For information about alarms, see
 // Alarms Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#AlarmsOverview).
 type Suppression struct {

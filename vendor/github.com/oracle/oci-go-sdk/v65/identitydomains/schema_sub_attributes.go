@@ -30,6 +30,27 @@ type SchemaSubAttributes struct {
 	//  - uniqueness: none
 	Name *string `mandatory:"false" json:"name"`
 
+	// If true, indicates that the attribute value must be written to the home region and requires immediate read-after-write consistency for access flows initiated from a replica region.
+	// **Added In:** 2209220956
+	// **SCIM++ Properties:**
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: never
+	//  - type: boolean
+	IdcsRequiresImmediateReadAfterWriteForAccessFlows *bool `mandatory:"false" json:"idcsRequiresImmediateReadAfterWriteForAccessFlows"`
+
+	// If true, indicates that the attribute value must be written to the home region for access flows initiated from a replica region.
+	// **Added In:** 2205120021
+	// **SCIM++ Properties:**
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: boolean
+	//  - uniqueness: none
+	IdcsRequiresWriteForAccessFlows *bool `mandatory:"false" json:"idcsRequiresWriteForAccessFlows"`
+
 	// Localized schema attribute display name for use by UI client  for displaying attribute labels
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -284,7 +305,7 @@ type SchemaSubAttributes struct {
 	// - returned: default
 	// - type: integer
 	// - uniqueness: none
-	// Specify a limit on the number of attribute-values that any caller will receive when requesting a CMVA attribute. If the no of CMVA instances exceeds the limit then OCI IAM will throw exception. Users can choose to refine the filter on CMVA attribute.
+	// Specify a limit on the number of attribute-values that any caller will receive when requesting a CMVA attribute. If the no of CMVA instances exceeds the limit then Oracle Identity Cloud Service will throw exception. Users can choose to refine the filter on CMVA attribute.
 	IdcsMaxValuesReturned *int `mandatory:"false" json:"idcsMaxValuesReturned"`
 
 	// If true, ARM will ensure atleast one of the instances of CMVA has the attribute value set to true.
@@ -551,7 +572,7 @@ type SchemaSubAttributes struct {
 	//  - type: boolean
 	IdcsAttributeCacheable *bool `mandatory:"false" json:"idcsAttributeCacheable"`
 
-	// Metadata used by OCI IAM UI to sequence the attributes displayed on the Account Form.
+	// Metadata used by Oracle Identity Cloud Service UI to sequence the attributes displayed on the Account Form.
 	// **Added In:** 17.4.2
 	// **SCIM++ Properties:**
 	//  - multiValued: false
@@ -561,7 +582,7 @@ type SchemaSubAttributes struct {
 	//  - type: integer
 	IdcsuiOrder *int `mandatory:"false" json:"idcsuiOrder"`
 
-	// Metadata used by OCI IAM UI to validate the attribute values using regular expressions.
+	// Metadata used by Oracle Identity Cloud Service UI to validate the attribute values using regular expressions.
 	// **Added In:** 17.4.2
 	// **SCIM++ Properties:**
 	//  - multiValued: false
@@ -571,7 +592,7 @@ type SchemaSubAttributes struct {
 	//  - type: string
 	IdcsuiRegexp *string `mandatory:"false" json:"idcsuiRegexp"`
 
-	// Metadata used by OCI IAM UI to decide whether the attribute must be displayed on the Account Form.
+	// Metadata used by Oracle Identity Cloud Service UI to decide whether the attribute must be displayed on the Account Form.
 	// **Added In:** 17.4.2
 	// **SCIM++ Properties:**
 	//  - multiValued: false
@@ -581,7 +602,7 @@ type SchemaSubAttributes struct {
 	//  - type: boolean
 	IdcsuiVisible *bool `mandatory:"false" json:"idcsuiVisible"`
 
-	// Metadata used by OCI IAM UI to render a widget for this attribute on the Account Form.
+	// Metadata used by Oracle Identity Cloud Service UI to render a widget for this attribute on the Account Form.
 	// **Added In:** 17.4.2
 	// **SCIM++ Properties:**
 	//  - multiValued: false
@@ -601,7 +622,7 @@ type SchemaSubAttributes struct {
 	//  - type: boolean
 	IdcsValuePersistedInOtherAttribute *bool `mandatory:"false" json:"idcsValuePersistedInOtherAttribute"`
 
-	// Specifies whether the attribute is PII (personal information). False by default for all attributes. If attribute with idcsPii = true, it's value must be obfuscated before it's written to the OCI IAM system logs.
+	// Specifies whether the attribute is PII (personal information). False by default for all attributes. If attribute with idcsPii = true, it's value must be obfuscated before it's written to the Oracle Identity Cloud Service system logs.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - multiValued: false

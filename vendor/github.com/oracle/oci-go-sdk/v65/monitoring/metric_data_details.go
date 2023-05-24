@@ -22,7 +22,7 @@ import (
 type MetricDataDetails struct {
 
 	// The source service or application emitting the metric.
-	// A valid namespace value starts with an alphabetical character and includes only alphanumeric characters and underscores. The "oci_" prefix is reserved.
+	// A valid namespace value starts with an alphabetical character and includes only alphanumeric characters and underscores. Custom metrics can't use the following reserved prefixes: `oci_` and `oracle_`
 	// Avoid entering confidential information.
 	// Example: `my_namespace`
 	Namespace *string `mandatory:"true" json:"namespace"`
@@ -31,7 +31,7 @@ type MetricDataDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name of the metric.
-	// A valid name value starts with an alphabetical character and includes only alphanumeric characters, dots, underscores, hyphens, and dollar signs. The `oci_` prefix is reserved.
+	// A valid name value starts with an alphabetical character and includes only alphanumeric characters, dots, underscores, hyphens, and dollar signs.
 	// Avoid entering confidential information.
 	// Example: `my_app.success_rate`
 	Name *string `mandatory:"true" json:"name"`

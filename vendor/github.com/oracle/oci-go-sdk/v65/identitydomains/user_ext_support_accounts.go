@@ -68,7 +68,7 @@ type UserExtSupportAccounts struct {
 	//  - uniqueness: none
 	UserId *string `mandatory:"false" json:"userId"`
 
-	// Ocid of the User's Support Account.
+	// The OCID of the user's support account.
 	// **Added In:** 2103141444
 	// **SCIM++ Properties:**
 	//  - caseExact: true

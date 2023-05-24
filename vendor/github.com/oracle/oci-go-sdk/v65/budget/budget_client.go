@@ -4,7 +4,7 @@
 
 // Budgets API
 //
-// Use the Budgets API to manage budgets and budget alerts.
+// Use the Budgets API to manage budgets and budget alerts. For more information, see Budgets Overview (https://docs.cloud.oracle.com/iaas/Content/Billing/Concepts/budgetsoverview.htm).
 //
 
 package budget
@@ -91,9 +91,10 @@ func (client *BudgetClient) ConfigurationProvider() *common.ConfigurationProvide
 }
 
 // CreateAlertRule Creates a new Alert Rule.
+// A default retry strategy applies to this operation CreateAlertRule()
 func (client BudgetClient) CreateAlertRule(ctx context.Context, request CreateAlertRuleRequest) (response CreateAlertRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -149,9 +150,10 @@ func (client BudgetClient) createAlertRule(ctx context.Context, request common.O
 }
 
 // CreateBudget Creates a new budget.
+// A default retry strategy applies to this operation CreateBudget()
 func (client BudgetClient) CreateBudget(ctx context.Context, request CreateBudgetRequest) (response CreateBudgetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -207,9 +209,10 @@ func (client BudgetClient) createBudget(ctx context.Context, request common.OCIR
 }
 
 // DeleteAlertRule Deletes a specified Alert Rule resource.
+// A default retry strategy applies to this operation DeleteAlertRule()
 func (client BudgetClient) DeleteAlertRule(ctx context.Context, request DeleteAlertRuleRequest) (response DeleteAlertRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -260,9 +263,10 @@ func (client BudgetClient) deleteAlertRule(ctx context.Context, request common.O
 }
 
 // DeleteBudget Deletes a specified budget resource.
+// A default retry strategy applies to this operation DeleteBudget()
 func (client BudgetClient) DeleteBudget(ctx context.Context, request DeleteBudgetRequest) (response DeleteBudgetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -313,9 +317,10 @@ func (client BudgetClient) deleteBudget(ctx context.Context, request common.OCIR
 }
 
 // GetAlertRule Gets an Alert Rule for a specified budget.
+// A default retry strategy applies to this operation GetAlertRule()
 func (client BudgetClient) GetAlertRule(ctx context.Context, request GetAlertRuleRequest) (response GetAlertRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -366,9 +371,10 @@ func (client BudgetClient) getAlertRule(ctx context.Context, request common.OCIR
 }
 
 // GetBudget Gets a budget by the identifier.
+// A default retry strategy applies to this operation GetBudget()
 func (client BudgetClient) GetBudget(ctx context.Context, request GetBudgetRequest) (response GetBudgetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -419,9 +425,10 @@ func (client BudgetClient) getBudget(ctx context.Context, request common.OCIRequ
 }
 
 // ListAlertRules Returns a list of Alert Rules for a specified budget.
+// A default retry strategy applies to this operation ListAlertRules()
 func (client BudgetClient) ListAlertRules(ctx context.Context, request ListAlertRulesRequest) (response ListAlertRulesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -474,11 +481,11 @@ func (client BudgetClient) listAlertRules(ctx context.Context, request common.OC
 // ListBudgets Gets a list of budgets in a compartment.
 // By default, ListBudgets returns budgets of the 'COMPARTMENT' target type, and the budget records with only one target compartment OCID.
 // To list all budgets, set the targetType query parameter to ALL (for example: 'targetType=ALL').
-// Additional targetTypes would be available in future releases. Clients should ignore new targetTypes,
-// or upgrade to the latest version of the client SDK to handle new targetTypes.
+// Clients should ignore new targetTypes, or upgrade to the latest version of the client SDK to handle new targetTypes.
+// A default retry strategy applies to this operation ListBudgets()
 func (client BudgetClient) ListBudgets(ctx context.Context, request ListBudgetsRequest) (response ListBudgetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -529,9 +536,10 @@ func (client BudgetClient) listBudgets(ctx context.Context, request common.OCIRe
 }
 
 // UpdateAlertRule Update an Alert Rule for the budget identified by the OCID.
+// A default retry strategy applies to this operation UpdateAlertRule()
 func (client BudgetClient) UpdateAlertRule(ctx context.Context, request UpdateAlertRuleRequest) (response UpdateAlertRuleResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -582,9 +590,10 @@ func (client BudgetClient) updateAlertRule(ctx context.Context, request common.O
 }
 
 // UpdateBudget Update a budget identified by the OCID.
+// A default retry strategy applies to this operation UpdateBudget()
 func (client BudgetClient) UpdateBudget(ctx context.Context, request UpdateBudgetRequest) (response UpdateBudgetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

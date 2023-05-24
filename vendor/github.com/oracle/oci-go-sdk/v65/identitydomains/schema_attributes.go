@@ -179,7 +179,7 @@ type SchemaAttributes struct {
 	//  - uniqueness: none
 	IdcsCsvAttributeName *string `mandatory:"false" json:"idcsCsvAttributeName"`
 
-	// Specifies the mapping between external identity source attributes and OCI IAM complex attributes (e.g. email => emails[work].value)
+	// Specifies the mapping between external identity source attributes and Oracle Identity Cloud Service complex attributes (e.g. email => emails[work].value)
 	// **SCIM++ Properties:**
 	//  - multiValued: true
 	//  - mutability: readOnly
@@ -431,6 +431,19 @@ type SchemaAttributes struct {
 	//  - uniqueness: none
 	IdcsTargetAttributeName *string `mandatory:"false" json:"idcsTargetAttributeName"`
 
+	// Contains the canonical name of the other attribute sharing the same idcsTargetAttributeName
+	// **Added In:** 2209122038
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: always
+	//  - type: string
+	//  - uniqueness: none
+	IdcsMapsToSameTargetAttributeNameAs *string `mandatory:"false" json:"idcsMapsToSameTargetAttributeNameAs"`
+
 	// Target normalized attribute name that this normalized value of attribute gets mapped to for persistence. Only set for caseExact=false & searchable attributes. Do not use by default.
 	// **Added In:** 19.2.1
 	// **SCIM++ Properties:**
@@ -634,7 +647,7 @@ type SchemaAttributes struct {
 	//  - type: boolean
 	IdcsValuePersistedInOtherAttribute *bool `mandatory:"false" json:"idcsValuePersistedInOtherAttribute"`
 
-	// Specifies whether the attribute is PII (personal information). False by default for all attributes. If attribute with idcsPii = true, it's value must be obfuscated before it's written to the OCI IAM system logs.
+	// Specifies whether the attribute is PII (personal information). False by default for all attributes. If attribute with idcsPii = true, it's value must be obfuscated before it's written to the Oracle Identity Cloud Service system logs.
 	// **Added In:** 18.4.2
 	// **SCIM++ Properties:**
 	//  - multiValued: false
@@ -683,7 +696,7 @@ type SchemaAttributes struct {
 	//  - type: boolean
 	IdcsAttributeCacheable *bool `mandatory:"false" json:"idcsAttributeCacheable"`
 
-	// Metadata used by OCI IAM UI to sequence the attributes displayed on the Account Form.
+	// Metadata used by Oracle Identity Cloud Service UI to sequence the attributes displayed on the Account Form.
 	// **Added In:** 17.4.2
 	// **SCIM++ Properties:**
 	//  - multiValued: false
@@ -693,7 +706,7 @@ type SchemaAttributes struct {
 	//  - type: integer
 	IdcsuiOrder *int `mandatory:"false" json:"idcsuiOrder"`
 
-	// Metadata used by OCI IAM UI to validate the attribute values using regular expressions.
+	// Metadata used by Oracle Identity Cloud Service UI to validate the attribute values using regular expressions.
 	// **Added In:** 17.4.2
 	// **SCIM++ Properties:**
 	//  - multiValued: false
@@ -703,7 +716,7 @@ type SchemaAttributes struct {
 	//  - type: string
 	IdcsuiRegexp *string `mandatory:"false" json:"idcsuiRegexp"`
 
-	// Metadata used by OCI IAM UI to decide whether the attribute must be displayed on the Account Form.
+	// Metadata used by Oracle Identity Cloud Service UI to decide whether the attribute must be displayed on the Account Form.
 	// **Added In:** 17.4.2
 	// **SCIM++ Properties:**
 	//  - multiValued: false
@@ -713,7 +726,7 @@ type SchemaAttributes struct {
 	//  - type: boolean
 	IdcsuiVisible *bool `mandatory:"false" json:"idcsuiVisible"`
 
-	// Metadata used by OCI IAM UI to render a widget for this attribute on the Account Form.
+	// Metadata used by Oracle Identity Cloud Service UI to render a widget for this attribute on the Account Form.
 	// **Added In:** 17.4.2
 	// **SCIM++ Properties:**
 	//  - multiValued: false
@@ -799,6 +812,27 @@ type SchemaAttributes struct {
 	//  - type: boolean
 	//  - uniqueness: none
 	IdcsPaginateResponse *bool `mandatory:"false" json:"idcsPaginateResponse"`
+
+	// If true, indicates that the attribute value must be written to the home region for access flows initiated from a replica region.
+	// **Added In:** 2209220956
+	// **SCIM++ Properties:**
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: boolean
+	//  - uniqueness: none
+	IdcsRequiresWriteForAccessFlows *bool `mandatory:"false" json:"idcsRequiresWriteForAccessFlows"`
+
+	// If true, indicates that the attribute value must be written to the home region and requires immediate read-after-write consistency for access flows initiated from a replica region.
+	// **Added In:** 2209220956
+	// **SCIM++ Properties:**
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: never
+	//  - type: boolean
+	IdcsRequiresImmediateReadAfterWriteForAccessFlows *bool `mandatory:"false" json:"idcsRequiresImmediateReadAfterWriteForAccessFlows"`
 }
 
 func (m SchemaAttributes) String() string {
