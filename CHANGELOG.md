@@ -1,4 +1,4 @@
-## 4.122.0 (Unreleased)
+## 4.122.0 (May 24, 2023)
 
 ### Added
 - Remove hardcoded passwords from golden_gate integration test codes
