@@ -138,3 +138,28 @@ resource "oci_database_application_vip" "test_application_vip" {
     #Optional
     db_node_id          = data.oci_database_db_nodes.db_nodes.db_nodes[0]["id"]
 }
+
+resource "oci_database_database" "test_database" {
+  #Required
+  database {
+    admin_password = "BEstrO0ng_#11"
+    db_name        = "TFdb2Exa"
+    character_set  = "AL32UTF8"
+    ncharacter_set = "AL16UTF16"
+    db_workload    = "OLTP"
+
+    db_backup_config {
+      auto_backup_enabled = false
+    }
+  }
+
+  db_home_id = oci_database_db_home.test_db_home_vm_cluster_no_db.id
+  source     = "NONE"
+}
+
+resource "oci_database_pluggable_database" "test_pluggable_database" {
+        container_database_id = oci_database_database.test_database.id
+        pdb_admin_password = "BEstrO0ng_#11"
+        pdb_name = "SalesPdb"
+        tde_wallet_password = "BEstrO0ng_#11"
+}
