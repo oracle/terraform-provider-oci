@@ -207,6 +207,35 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"block_volume_replicas": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MinItems: 1,
+													MaxItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"availability_domain": {
+																Type:             schema.TypeString,
+																Required:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+															},
+
+															// Optional
+															"display_name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
 												"compartment_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -233,6 +262,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 													Elem:     schema.TypeString,
+												},
+												"is_auto_tune_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
 												},
 												"kms_key_id": {
 													Type:     schema.TypeString,
@@ -389,6 +424,11 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"is_live_migration_preferred": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
 												"recovery_action": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -883,6 +923,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 												},
 												"image_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"kms_key_id": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
@@ -1458,6 +1504,11 @@ func InstanceConfigurationAutotunePolicyToMap(obj oci_core.InstanceConfiguration
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAvailabilityConfig(fieldKeyFormat string) (oci_core.InstanceConfigurationAvailabilityConfig, error) {
 	result := oci_core.InstanceConfigurationAvailabilityConfig{}
 
+	if isLiveMigrationPreferred, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_live_migration_preferred")); ok {
+		tmp := isLiveMigrationPreferred.(bool)
+		result.IsLiveMigrationPreferred = &tmp
+	}
+
 	if recoveryAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_action")); ok {
 		result.RecoveryAction = oci_core.InstanceConfigurationAvailabilityConfigRecoveryActionEnum(recoveryAction.(string))
 	}
@@ -1467,6 +1518,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAvaila
 
 func InstanceConfigurationAvailabilityConfigToMap(obj *oci_core.InstanceConfigurationAvailabilityConfig) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.IsLiveMigrationPreferred != nil {
+		result["is_live_migration_preferred"] = bool(*obj.IsLiveMigrationPreferred)
+	}
 
 	result["recovery_action"] = string(obj.RecoveryAction)
 
@@ -1523,6 +1578,36 @@ func InstanceConfigurationBlockVolumeDetailsToMap(obj oci_core.InstanceConfigura
 
 	if obj.VolumeId != nil {
 		result["volume_id"] = string(*obj.VolumeId)
+	}
+
+	return result
+}
+
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationBlockVolumeReplicaDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationBlockVolumeReplicaDetails, error) {
+	result := oci_core.InstanceConfigurationBlockVolumeReplicaDetails{}
+
+	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+		tmp := availabilityDomain.(string)
+		result.AvailabilityDomain = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	return result, nil
+}
+
+func InstanceConfigurationBlockVolumeReplicaDetailsToMap(obj oci_core.InstanceConfigurationBlockVolumeReplicaDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
 	}
 
 	return result
@@ -1677,6 +1762,23 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		result.BackupPolicyId = &tmp
 	}
 
+	if blockVolumeReplicas, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_volume_replicas")); ok {
+		interfaces := blockVolumeReplicas.([]interface{})
+		tmp := make([]oci_core.InstanceConfigurationBlockVolumeReplicaDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "block_volume_replicas"), stateDataIndex)
+			converted, err := s.mapToInstanceConfigurationBlockVolumeReplicaDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "block_volume_replicas")) {
+			result.BlockVolumeReplicas = tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
 		tmp := compartmentId.(string)
 		result.CompartmentId = &tmp
@@ -1697,6 +1799,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isAutoTuneEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_auto_tune_enabled")); ok {
+		tmp := isAutoTuneEnabled.(bool)
+		result.IsAutoTuneEnabled = &tmp
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
@@ -1753,6 +1860,12 @@ func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 		result["backup_policy_id"] = string(*obj.BackupPolicyId)
 	}
 
+	blockVolumeReplicas := []interface{}{}
+	for _, item := range obj.BlockVolumeReplicas {
+		blockVolumeReplicas = append(blockVolumeReplicas, InstanceConfigurationBlockVolumeReplicaDetailsToMap(item))
+	}
+	result["block_volume_replicas"] = blockVolumeReplicas
+
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
@@ -1766,6 +1879,10 @@ func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.IsAutoTuneEnabled != nil {
+		result["is_auto_tune_enabled"] = bool(*obj.IsAutoTuneEnabled)
+	}
 
 	if obj.KmsKeyId != nil {
 		result["kms_key_id"] = string(*obj.KmsKeyId)
@@ -1951,6 +2068,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 			tmp := imageId.(string)
 			details.ImageId = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
@@ -1980,6 +2101,10 @@ func InstanceConfigurationInstanceSourceDetailsToMap(obj *oci_core.InstanceConfi
 
 		if v.ImageId != nil {
 			result["image_id"] = string(*v.ImageId)
+		}
+
+		if v.KmsKeyId != nil {
+			result["kms_key_id"] = string(*v.KmsKeyId)
 		}
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
