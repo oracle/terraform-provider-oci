@@ -54,7 +54,7 @@ The following attributes are exported:
 * `gpus` - The number of GPUs available for this shape. 
 * `is_billed_for_stopped_instance` - Whether billing continues when the instances that use this shape are in the stopped state. 
 * `is_flexible` - Whether the shape supports creating flexible instances. A [flexible shape](https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm#flexible) is a shape that lets you customize the number of OCPUs and the amount of memory when launching or resizing your instance. 
-* `is_live_migration_supported` - Whether Live Migration is currently supported for this shape. 
+* `is_live_migration_supported` - Whether live migration is supported for this shape. 
 * `is_subcore` - Whether the shape supports creating subcore or burstable instances. A [burstable instance](https://docs.cloud.oracle.com/iaas/Content/Compute/References/burstable-instances.htm) is a virtual machine (VM) instance that provides a baseline level of CPU performance with the ability to burst to a higher level to support occasional spikes in usage. 
 * `local_disk_description` - A short description of the local disks available for this shape.
 
