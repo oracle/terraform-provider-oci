@@ -51,9 +51,10 @@ func ContainerengineAddonResource() *schema.Resource {
 
 			// Optional
 			"configurations": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.ListOfMapEqualIgnoreOrderSuppressDiff,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
