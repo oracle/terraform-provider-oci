@@ -96,6 +96,7 @@ func ContainerengineClusterResource() *schema.Resource {
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
+							ForceNew: true,
 						},
 
 						// Optional
