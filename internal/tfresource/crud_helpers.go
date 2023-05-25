@@ -560,6 +560,52 @@ func listEqualIgnoreOrderSuppressDiff(key string, d schemaResourceData) bool {
 	return true
 }
 
+func ListOfMapEqualIgnoreOrderSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
+	return listOfMapEqualIgnoreOrderSuppressDiff(key, d)
+}
+
+func listOfMapEqualIgnoreOrderSuppressDiff(key string, d schemaResourceData) bool {
+	// Take only the field name, key might be field.#
+	oldRaw, newRaw := d.GetChange(strings.Split(key, ".")[0])
+	if newRaw == nil || oldRaw == nil {
+		return false
+	}
+	oldList := oldRaw.([]interface{})
+	newList := newRaw.([]interface{})
+
+	if len(oldList) != len(newList) {
+		return false
+	}
+	tmp1 := make([]string, len(oldList))
+	tmp2 := make([]string, len(newList))
+
+	for i := range oldList {
+		map1 := oldList[i].(map[string]interface{})
+		jsonMap := GenericMapToJsonMap(map1)
+		s1, err := json.Marshal(jsonMap)
+		if err != nil {
+			return false
+		}
+		tmp1[i] = string(s1)
+
+		map2 := oldList[i].(map[string]interface{})
+		jsonMap2 := GenericMapToJsonMap(map2)
+		s2, err := json.Marshal(jsonMap2)
+		if err != nil {
+			return false
+		}
+		tmp2[i] = string(s2)
+	}
+	sort.Strings(tmp1)
+	sort.Strings(tmp2)
+	for i := range oldList {
+		if tmp1[i] != tmp2[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func FieldDeprecatedAndAvoidReferences(deprecatedFieldName string) string {
 	return fmt.Sprintf("The '%s' field has been deprecated and may be removed in a future version. Do not use this field.", deprecatedFieldName)
 }
