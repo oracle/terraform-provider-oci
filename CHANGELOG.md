@@ -1,3 +1,15 @@
+## 4.123.0 (Unreleased)
+
+### Added
+- Support for move db operation
+- Support for DBM Service: External Exadata Infrastructure Monitoring
+- Support for FSS Policy-Based Snapshots
+- Support for Instance Configuration feature parity improvement March 2021 Compute: Instance Configuration feature parity with downstream APIs
+- support for string to float32 conversion
+### Bug Fix
+- Add polling for PDB resources.
+- trigger recreation while change subnet_id for endpoint config and ignore order in configurations for addons
+
 ## 4.122.0 (May 24, 2023)
 
 ### Added
