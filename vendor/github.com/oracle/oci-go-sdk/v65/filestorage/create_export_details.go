@@ -36,8 +36,12 @@ type CreateExportDetails struct {
 	//          {
 	//             "source" : "0.0.0.0/0",
 	//             "requirePrivilegedSourcePort" : false,
-	//             "access" : "READ_WRITE",
-	//             "identitySquash" : "NONE"
+	//             "access": "READ_WRITE",
+	//             "identitySquash": "NONE",
+	//             "anonymousUid": 65534,
+	//             "anonymousGid": 65534,
+	//             "isAnonymousAccessAllowed": false,
+	//             "allowedAuth": ["SYS"]
 	//           }
 	//        ]
 	//   **Note:** Mount targets do not have Internet-routable IP

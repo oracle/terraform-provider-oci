@@ -36,6 +36,9 @@ type VmClusterNetworkDetails struct {
 	// The list of NTP server IP addresses. Maximum of 3 allowed.
 	Ntp []string `mandatory:"false" json:"ntp"`
 
+	// The SCAN details for DR network
+	DrScans []DrScanDetails `mandatory:"false" json:"drScans"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

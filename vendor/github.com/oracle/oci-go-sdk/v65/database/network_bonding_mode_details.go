@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// NetworkBondingModeDetails Details of bonding mode for Client and Backup networks of an Exadata infrastructure.
+// NetworkBondingModeDetails Details of bonding mode for Client and Backup and DR networks of an Exadata infrastructure.
 type NetworkBondingModeDetails struct {
 
 	// The network bonding mode for the Exadata infrastructure.
@@ -23,6 +23,9 @@ type NetworkBondingModeDetails struct {
 
 	// The network bonding mode for the Exadata infrastructure.
 	BackupNetworkBondingMode NetworkBondingModeDetailsBackupNetworkBondingModeEnum `mandatory:"false" json:"backupNetworkBondingMode,omitempty"`
+
+	// The network bonding mode for the Exadata infrastructure.
+	DrNetworkBondingMode NetworkBondingModeDetailsDrNetworkBondingModeEnum `mandatory:"false" json:"drNetworkBondingMode,omitempty"`
 }
 
 func (m NetworkBondingModeDetails) String() string {
@@ -40,6 +43,9 @@ func (m NetworkBondingModeDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingNetworkBondingModeDetailsBackupNetworkBondingModeEnum(string(m.BackupNetworkBondingMode)); !ok && m.BackupNetworkBondingMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupNetworkBondingMode: %s. Supported values are: %s.", m.BackupNetworkBondingMode, strings.Join(GetNetworkBondingModeDetailsBackupNetworkBondingModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingNetworkBondingModeDetailsDrNetworkBondingModeEnum(string(m.DrNetworkBondingMode)); !ok && m.DrNetworkBondingMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DrNetworkBondingMode: %s. Supported values are: %s.", m.DrNetworkBondingMode, strings.Join(GetNetworkBondingModeDetailsDrNetworkBondingModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -128,5 +134,47 @@ func GetNetworkBondingModeDetailsBackupNetworkBondingModeEnumStringValues() []st
 // GetMappingNetworkBondingModeDetailsBackupNetworkBondingModeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingNetworkBondingModeDetailsBackupNetworkBondingModeEnum(val string) (NetworkBondingModeDetailsBackupNetworkBondingModeEnum, bool) {
 	enum, ok := mappingNetworkBondingModeDetailsBackupNetworkBondingModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// NetworkBondingModeDetailsDrNetworkBondingModeEnum Enum with underlying type: string
+type NetworkBondingModeDetailsDrNetworkBondingModeEnum string
+
+// Set of constants representing the allowable values for NetworkBondingModeDetailsDrNetworkBondingModeEnum
+const (
+	NetworkBondingModeDetailsDrNetworkBondingModeActiveBackup NetworkBondingModeDetailsDrNetworkBondingModeEnum = "ACTIVE_BACKUP"
+	NetworkBondingModeDetailsDrNetworkBondingModeLacp         NetworkBondingModeDetailsDrNetworkBondingModeEnum = "LACP"
+)
+
+var mappingNetworkBondingModeDetailsDrNetworkBondingModeEnum = map[string]NetworkBondingModeDetailsDrNetworkBondingModeEnum{
+	"ACTIVE_BACKUP": NetworkBondingModeDetailsDrNetworkBondingModeActiveBackup,
+	"LACP":          NetworkBondingModeDetailsDrNetworkBondingModeLacp,
+}
+
+var mappingNetworkBondingModeDetailsDrNetworkBondingModeEnumLowerCase = map[string]NetworkBondingModeDetailsDrNetworkBondingModeEnum{
+	"active_backup": NetworkBondingModeDetailsDrNetworkBondingModeActiveBackup,
+	"lacp":          NetworkBondingModeDetailsDrNetworkBondingModeLacp,
+}
+
+// GetNetworkBondingModeDetailsDrNetworkBondingModeEnumValues Enumerates the set of values for NetworkBondingModeDetailsDrNetworkBondingModeEnum
+func GetNetworkBondingModeDetailsDrNetworkBondingModeEnumValues() []NetworkBondingModeDetailsDrNetworkBondingModeEnum {
+	values := make([]NetworkBondingModeDetailsDrNetworkBondingModeEnum, 0)
+	for _, v := range mappingNetworkBondingModeDetailsDrNetworkBondingModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetNetworkBondingModeDetailsDrNetworkBondingModeEnumStringValues Enumerates the set of values in String for NetworkBondingModeDetailsDrNetworkBondingModeEnum
+func GetNetworkBondingModeDetailsDrNetworkBondingModeEnumStringValues() []string {
+	return []string{
+		"ACTIVE_BACKUP",
+		"LACP",
+	}
+}
+
+// GetMappingNetworkBondingModeDetailsDrNetworkBondingModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingNetworkBondingModeDetailsDrNetworkBondingModeEnum(val string) (NetworkBondingModeDetailsDrNetworkBondingModeEnum, bool) {
+	enum, ok := mappingNetworkBondingModeDetailsDrNetworkBondingModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

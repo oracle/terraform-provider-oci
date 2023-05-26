@@ -75,6 +75,12 @@ type Snapshot struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The time when this snapshot will be deleted.
+	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy that created this snapshot.
+	FilesystemSnapshotPolicyId *string `mandatory:"false" json:"filesystemSnapshotPolicyId"`
 }
 
 func (m Snapshot) String() string {

@@ -15,34 +15,27 @@ import (
 	"strings"
 )
 
-// ScanDetails The Single Client Access Name (SCAN) details.
-type ScanDetails struct {
+// DrScanDetails The Single Client Access Name (SCAN) details for Disaster recovery network.
+type DrScanDetails struct {
 
-	// The SCAN hostname.
+	// The Disaster recovery SCAN hostname.
 	Hostname *string `mandatory:"true" json:"hostname"`
 
-	// The list of SCAN IP addresses. Three addresses should be provided.
+	// The Disaster recovery SCAN TCPIP port. Default is 1521.
+	ScanListenerPortTcp *int `mandatory:"true" json:"scanListenerPortTcp"`
+
+	// The list of Disaster recovery SCAN IP addresses. Three addresses should be provided.
 	Ips []string `mandatory:"true" json:"ips"`
-
-	// **Deprecated.** This field is deprecated. You may use 'scanListenerPortTcp' to specify the port.
-	// The SCAN TCPIP port. Default is 1521.
-	Port *int `mandatory:"false" json:"port"`
-
-	// The SCAN TCPIP port. Default is 1521.
-	ScanListenerPortTcp *int `mandatory:"false" json:"scanListenerPortTcp"`
-
-	// The SCAN TCPIP SSL port. Default is 2484.
-	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
 }
 
-func (m ScanDetails) String() string {
+func (m DrScanDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ScanDetails) ValidateEnumValue() (bool, error) {
+func (m DrScanDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

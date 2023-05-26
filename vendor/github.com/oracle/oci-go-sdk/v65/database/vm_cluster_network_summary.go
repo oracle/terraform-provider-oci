@@ -45,6 +45,9 @@ type VmClusterNetworkSummary struct {
 	// Details of the client and backup networks.
 	VmNetworks []VmNetworkDetails `mandatory:"false" json:"vmNetworks"`
 
+	// The SCAN details for DR network
+	DrScans []DrScanDetails `mandatory:"false" json:"drScans"`
+
 	// The current state of the VM cluster network.
 	// CREATING - The resource is being created
 	// REQUIRES_VALIDATION - The resource is created and may not be usable until it is validated.
