@@ -36,6 +36,9 @@ type GenerateRecommendedNetworkDetails struct {
 	// The SCAN TCPIP SSL port. Default is 2484.
 	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
 
+	// The DR SCAN TCPIP port. Default is 1521.
+	DrScanListenerPortTcp *int `mandatory:"false" json:"drScanListenerPortTcp"`
+
 	// The list of DNS server IP addresses. Maximum of 3 allowed.
 	Dns []string `mandatory:"false" json:"dns"`
 

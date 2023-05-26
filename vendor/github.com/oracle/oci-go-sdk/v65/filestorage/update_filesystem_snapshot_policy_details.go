@@ -16,21 +16,25 @@ import (
 	"strings"
 )
 
-// CreateSnapshotDetails Details for creating the snapshot.
-type CreateSnapshotDetails struct {
+// UpdateFilesystemSnapshotPolicyDetails Details for updating the file system snapshot policy.
+type UpdateFilesystemSnapshotPolicyDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system to take a snapshot of.
-	FileSystemId *string `mandatory:"true" json:"fileSystemId"`
-
-	// Name of the snapshot. This value is immutable. It must also be unique with respect
-	// to all other non-DELETED snapshots on the associated file
-	// system.
+	// A user-friendly name. It does not have to be unique, and it is changeable.
 	// Avoid entering confidential information.
-	// Example: `Sunday`
-	Name *string `mandatory:"true" json:"name"`
+	// Example: `policy1`
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The time when this snapshot will be deleted.
-	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
+	// The prefix to apply to all snapshots created by this policy.
+	// Example: `acme`
+	PolicyPrefix *string `mandatory:"false" json:"policyPrefix"`
+
+	// The list of associated snapshot schedules. A maximum of 10 schedules can be associated with a policy.
+	// If using the CLI, provide the schedule as a list of JSON strings, with the list wrapped in
+	// quotation marks, i.e.
+	// ```
+	//   --schedules '[{"timeZone":"UTC","period":"DAILY","hourOfDay":18},{"timeZone":"UTC","period":"HOURLY"}]'
+	// ```
+	Schedules []SnapshotSchedule `mandatory:"false" json:"schedules"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
@@ -44,14 +48,14 @@ type CreateSnapshotDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m CreateSnapshotDetails) String() string {
+func (m UpdateFilesystemSnapshotPolicyDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateSnapshotDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateFilesystemSnapshotPolicyDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

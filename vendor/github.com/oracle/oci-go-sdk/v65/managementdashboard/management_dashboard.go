@@ -64,7 +64,7 @@ type ManagementDashboard struct {
 	// Date and time the dashboard was updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// Version of the metadata.
+	// The version of the metadata defined in the API. This is maintained and enforced by dashboard server. Currently it is 2.0.
 	MetadataVersion *string `mandatory:"true" json:"metadataVersion"`
 
 	// Determines whether the description of the dashboard is displayed.
@@ -99,6 +99,9 @@ type ManagementDashboard struct {
 
 	// Drill-down configuration to define the destination of a drill-down action.
 	DrilldownConfig []interface{} `mandatory:"false" json:"drilldownConfig"`
+
+	// Contains configuration for enabling features.
+	FeaturesConfig *interface{} `mandatory:"false" json:"featuresConfig"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

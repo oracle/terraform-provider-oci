@@ -34,10 +34,10 @@ type ManagementSavedSearchSummary struct {
 	// ID of the service (for example log-analytics) that owns the saved search. Each service has a unique ID.
 	ProviderId *string `mandatory:"true" json:"providerId"`
 
-	// Version of the service that owns this saved search.
+	// The version of the metadata of the provider. This is useful for provider to version its features and metadata. Any newly created saved search (or dashboard) should use providerVersion 3.0.0.
 	ProviderVersion *string `mandatory:"true" json:"providerVersion"`
 
-	// Name of the service (for example, Logging Analytics) that owns the saved search.
+	// The user friendly name of the service (for example, Logging Analytics) that owns the saved search.
 	ProviderName *string `mandatory:"true" json:"providerName"`
 
 	// Description of the saved search.
@@ -49,16 +49,16 @@ type ManagementSavedSearchSummary struct {
 	// Determines how the saved search is displayed in a dashboard.
 	Type SavedSearchTypesEnum `mandatory:"true" json:"type"`
 
-	// JSON that contains user interface options.
+	// It defines the visualization type of the widget saved search, the UI options of that visualization type, the binding of data to the visualization.
 	UiConfig *interface{} `mandatory:"true" json:"uiConfig"`
 
-	// Array of JSON that contain data source options.
+	// It defines how data is fetched. A functional saved search needs a valid dataConfig. See examples on how it can be constructed for various data sources.
 	DataConfig []interface{} `mandatory:"true" json:"dataConfig"`
 
-	// User who created the saved search.
+	// The principle id of the user that created this saved search. This is automatically managed by the system. In OCI the value is ignored. In EM it can skipped or otherwise it is ignored in both create and update API and system automatically sets its value.
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
 
-	// User who updated the saved search.
+	// The principle id of the user that updated this saved search
 	UpdatedBy *string `mandatory:"true" json:"updatedBy"`
 
 	// Date and time the saved search was created.
@@ -70,20 +70,23 @@ type ManagementSavedSearchSummary struct {
 	// Screen image of the saved search.
 	ScreenImage *string `mandatory:"true" json:"screenImage"`
 
-	// Version of the metadata.
+	// The version of the metadata defined in the API. This is maintained and enforced by dashboard server. Currently it is 2.0.
 	MetadataVersion *string `mandatory:"true" json:"metadataVersion"`
 
-	// Reference to the HTML file of the widget.
+	// The UI template that the saved search uses to render itself.
 	WidgetTemplate *string `mandatory:"true" json:"widgetTemplate"`
 
-	// Reference to the view model of the widget.
+	// The View Model that the saved search uses to render itself.
 	WidgetVM *string `mandatory:"true" json:"widgetVM"`
 
-	// Current lifecycle state of the saved search.
+	// OCI lifecycle status. This is automatically managed by the system.
 	LifecycleState LifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Defines parameters for the saved search.
 	ParametersConfig []interface{} `mandatory:"false" json:"parametersConfig"`
+
+	// Contains configuration for enabling features.
+	FeaturesConfig *interface{} `mandatory:"false" json:"featuresConfig"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
