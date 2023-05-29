@@ -69,6 +69,20 @@ resource "oci_database_autonomous_database" "test_autonomous_database_ecpu" {
   is_free_tier             = "false"
 }
 
+resource "oci_database_autonomous_database" "test_autonomous_database_local_adg_failover_data_loss_limit" {
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  cpu_core_count           = "1"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "adbLocalAdg"
+  is_local_data_guard_enabled = "true"
+  local_adg_auto_failover_max_data_loss_limit = "30"
+  db_version               = "19c"
+  db_workload              = "OLTP"
+  license_model            = "LICENSE_INCLUDED"
+  is_free_tier             = "false"
+}
+
 resource "oci_database_autonomous_database" "test_autonomous_database_apex" {
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid

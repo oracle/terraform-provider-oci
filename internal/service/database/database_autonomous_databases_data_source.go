@@ -366,6 +366,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.LocalAdgAutoFailoverMaxDataLossLimit != nil {
+			autonomousDatabase["local_adg_auto_failover_max_data_loss_limit"] = *r.LocalAdgAutoFailoverMaxDataLossLimit
+		}
+
 		autonomousDatabase["local_disaster_recovery_type"] = r.LocalDisasterRecoveryType
 
 		if r.LocalStandbyDb != nil {
