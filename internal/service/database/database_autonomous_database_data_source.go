@@ -262,6 +262,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.LocalAdgAutoFailoverMaxDataLossLimit != nil {
+		s.D.Set("local_adg_auto_failover_max_data_loss_limit", *s.Res.LocalAdgAutoFailoverMaxDataLossLimit)
+	}
+
 	s.D.Set("local_disaster_recovery_type", s.Res.LocalDisasterRecoveryType)
 
 	if s.Res.LocalStandbyDb != nil {
