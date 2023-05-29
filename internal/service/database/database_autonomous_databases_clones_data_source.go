@@ -437,6 +437,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"local_adg_auto_failover_max_data_loss_limit": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"local_disaster_recovery_type": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1055,6 +1059,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.LifecycleDetails != nil {
 			autonomousDatabasesClone["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.LocalAdgAutoFailoverMaxDataLossLimit != nil {
+			autonomousDatabasesClone["local_adg_auto_failover_max_data_loss_limit"] = *r.LocalAdgAutoFailoverMaxDataLossLimit
 		}
 
 		autonomousDatabasesClone["local_disaster_recovery_type"] = r.LocalDisasterRecoveryType
