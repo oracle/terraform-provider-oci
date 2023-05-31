@@ -64,18 +64,21 @@ type InfoForNetworkGenDetailsNetworkTypeEnum string
 
 // Set of constants representing the allowable values for InfoForNetworkGenDetailsNetworkTypeEnum
 const (
-	InfoForNetworkGenDetailsNetworkTypeClient InfoForNetworkGenDetailsNetworkTypeEnum = "CLIENT"
-	InfoForNetworkGenDetailsNetworkTypeBackup InfoForNetworkGenDetailsNetworkTypeEnum = "BACKUP"
+	InfoForNetworkGenDetailsNetworkTypeClient           InfoForNetworkGenDetailsNetworkTypeEnum = "CLIENT"
+	InfoForNetworkGenDetailsNetworkTypeBackup           InfoForNetworkGenDetailsNetworkTypeEnum = "BACKUP"
+	InfoForNetworkGenDetailsNetworkTypeDisasterRecovery InfoForNetworkGenDetailsNetworkTypeEnum = "DISASTER_RECOVERY"
 )
 
 var mappingInfoForNetworkGenDetailsNetworkTypeEnum = map[string]InfoForNetworkGenDetailsNetworkTypeEnum{
-	"CLIENT": InfoForNetworkGenDetailsNetworkTypeClient,
-	"BACKUP": InfoForNetworkGenDetailsNetworkTypeBackup,
+	"CLIENT":            InfoForNetworkGenDetailsNetworkTypeClient,
+	"BACKUP":            InfoForNetworkGenDetailsNetworkTypeBackup,
+	"DISASTER_RECOVERY": InfoForNetworkGenDetailsNetworkTypeDisasterRecovery,
 }
 
 var mappingInfoForNetworkGenDetailsNetworkTypeEnumLowerCase = map[string]InfoForNetworkGenDetailsNetworkTypeEnum{
-	"client": InfoForNetworkGenDetailsNetworkTypeClient,
-	"backup": InfoForNetworkGenDetailsNetworkTypeBackup,
+	"client":            InfoForNetworkGenDetailsNetworkTypeClient,
+	"backup":            InfoForNetworkGenDetailsNetworkTypeBackup,
+	"disaster_recovery": InfoForNetworkGenDetailsNetworkTypeDisasterRecovery,
 }
 
 // GetInfoForNetworkGenDetailsNetworkTypeEnumValues Enumerates the set of values for InfoForNetworkGenDetailsNetworkTypeEnum
@@ -92,6 +95,7 @@ func GetInfoForNetworkGenDetailsNetworkTypeEnumStringValues() []string {
 	return []string{
 		"CLIENT",
 		"BACKUP",
+		"DISASTER_RECOVERY",
 	}
 }
 

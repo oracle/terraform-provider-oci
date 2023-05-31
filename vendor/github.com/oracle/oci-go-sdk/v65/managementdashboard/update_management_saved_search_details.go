@@ -25,10 +25,10 @@ type UpdateManagementSavedSearchDetails struct {
 	// ID of the service (for example log-analytics) that owns the saved search. Each service has a unique ID.
 	ProviderId *string `mandatory:"false" json:"providerId"`
 
-	// Version of the service that owns this saved search.
+	// The version of the metadata of the provider. This is useful for provider to version its features and metadata. Any newly created saved search (or dashboard) should use providerVersion 3.0.0.
 	ProviderVersion *string `mandatory:"false" json:"providerVersion"`
 
-	// Name of the service (for example, Logging Analytics) that owns the saved search.
+	// The user friendly name of the service (for example, Logging Analytics) that owns the saved search.
 	ProviderName *string `mandatory:"false" json:"providerName"`
 
 	// OCID of the compartment in which the saved search resides.
@@ -46,26 +46,29 @@ type UpdateManagementSavedSearchDetails struct {
 	// Determines how the saved search is displayed in a dashboard.
 	Type SavedSearchTypesEnum `mandatory:"false" json:"type,omitempty"`
 
-	// JSON that contains user interface options.
+	// It defines the visualization type of the widget saved search, the UI options of that visualization type, the binding of data to the visualization.
 	UiConfig *interface{} `mandatory:"false" json:"uiConfig"`
 
-	// Array of JSON that contain data source options.
+	// It defines how data is fetched. A functional saved search needs a valid dataConfig. See examples on how it can be constructed for various data sources.
 	DataConfig []interface{} `mandatory:"false" json:"dataConfig"`
 
 	// Screen image of the saved search.
 	ScreenImage *string `mandatory:"false" json:"screenImage"`
 
-	// Version of the metadata.
+	// The version of the metadata defined in the API. This is maintained and enforced by dashboard server. Currently it is 2.0.
 	MetadataVersion *string `mandatory:"false" json:"metadataVersion"`
 
-	// Reference to the HTML file of the widget.
+	// The UI template that the saved search uses to render itself.
 	WidgetTemplate *string `mandatory:"false" json:"widgetTemplate"`
 
-	// Reference to the view model of the widget.
+	// The View Model that the saved search uses to render itself.
 	WidgetVM *string `mandatory:"false" json:"widgetVM"`
 
 	// Defines parameters for the saved search.
 	ParametersConfig []interface{} `mandatory:"false" json:"parametersConfig"`
+
+	// Contains configuration for enabling features.
+	FeaturesConfig *interface{} `mandatory:"false" json:"featuresConfig"`
 
 	// Drill-down configuration to define the destination of a drill-down action.
 	DrilldownConfig []interface{} `mandatory:"false" json:"drilldownConfig"`

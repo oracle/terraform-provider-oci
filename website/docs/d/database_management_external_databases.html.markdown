@@ -54,6 +54,10 @@ The following attributes are exported:
 	* `db_system_info` - The basic information about an external DB system.
 		* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 		* `display_name` - The user-friendly name for the DB system. The name does not have to be unique.
+		* `exadata_infra_info` - The basic information about an external Exadata Infrastructure.
+			* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+			* `display_name` - The user-friendly name for the Exadata Infrastructure. The name does not have to be unique.
+			* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external Exadata Infrastructure.
 		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
 	* `db_unique_name` - The `DB_UNIQUE_NAME` of the external database.
 	* `display_name` - The user-friendly name for the database. The name does not have to be unique.

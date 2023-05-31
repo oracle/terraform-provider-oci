@@ -5,6 +5,7 @@ package file_storage
 
 import (
 	"context"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -18,9 +19,17 @@ func FileStorageSnapshotsDataSource() *schema.Resource {
 		Read: readFileStorageSnapshots,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"file_system_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+			},
+			"filesystem_snapshot_policy_id": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"id": {
 				Type:     schema.TypeString,
@@ -60,9 +69,19 @@ func (s *FileStorageSnapshotsDataSourceCrud) VoidState() {
 func (s *FileStorageSnapshotsDataSourceCrud) Get() error {
 	request := oci_file_storage.ListSnapshotsRequest{}
 
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
 	if fileSystemId, ok := s.D.GetOkExists("file_system_id"); ok {
 		tmp := fileSystemId.(string)
 		request.FileSystemId = &tmp
+	}
+
+	if filesystemSnapshotPolicyId, ok := s.D.GetOkExists("filesystem_snapshot_policy_id"); ok {
+		tmp := filesystemSnapshotPolicyId.(string)
+		request.FilesystemSnapshotPolicyId = &tmp
 	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {
@@ -106,12 +125,18 @@ func (s *FileStorageSnapshotsDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		snapshot := map[string]interface{}{
-			"file_system_id": *r.FileSystemId,
-		}
+		snapshot := map[string]interface{}{}
 
 		if r.DefinedTags != nil {
 			snapshot["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
+		if r.ExpirationTime != nil {
+			snapshot["expiration_time"] = r.ExpirationTime.Format(time.RFC3339Nano)
+		}
+
+		if r.FileSystemId != nil {
+			snapshot["file_system_id"] = *r.FileSystemId
 		}
 
 		snapshot["freeform_tags"] = r.FreeformTags

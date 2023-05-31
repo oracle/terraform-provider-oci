@@ -22,10 +22,10 @@ type CreateManagementDashboardDetails struct {
 	// ID of the service (for example, log-analytics) that owns the dashboard. Each service has a unique ID.
 	ProviderId *string `mandatory:"true" json:"providerId"`
 
-	// Name of the service (for example, Logging Analytics) that owns the dashboard.
+	// The user friendly name of the service (for example, Logging Analytics) that owns the dashboard.
 	ProviderName *string `mandatory:"true" json:"providerName"`
 
-	// Version of the service that owns the dashboard.
+	// The version of the metadata of the provider. This is useful for provider to version its features and metadata. Any newly created saved search (or dashboard) should use providerVersion 3.0.0.
 	ProviderVersion *string `mandatory:"true" json:"providerVersion"`
 
 	// Array of dashboard tiles.
@@ -46,7 +46,7 @@ type CreateManagementDashboardDetails struct {
 	// Determines whether the dashboard will be displayed in Dashboard Home.
 	IsShowInHome *bool `mandatory:"true" json:"isShowInHome"`
 
-	// Version of the metadata.
+	// The version of the metadata defined in the API. This is maintained and enforced by dashboard server. Currently it is 2.0.
 	MetadataVersion *string `mandatory:"true" json:"metadataVersion"`
 
 	// Determines whether the description of the dashboard is displayed.
@@ -75,6 +75,9 @@ type CreateManagementDashboardDetails struct {
 
 	// Defines parameters for the dashboard.
 	ParametersConfig []interface{} `mandatory:"false" json:"parametersConfig"`
+
+	// Contains configuration for enabling features.
+	FeaturesConfig *interface{} `mandatory:"false" json:"featuresConfig"`
 
 	// Drill-down configuration to define the destination of a drill-down action.
 	DrilldownConfig []interface{} `mandatory:"false" json:"drilldownConfig"`

@@ -315,6 +315,16 @@ func orComparator(target interface{}, filters []interface{}, stringsEqual String
 			if val.Int() == fInt {
 				return true
 			}
+		case reflect.Float32:
+			// same comment as above for Ints
+			fFloat, err := strconv.ParseFloat(fVal.(string), 32)
+			if err != nil {
+				log.Println("[WARN] Filtering against Type Float field with non-float filter value")
+				return false
+			}
+			if val.Float() == fFloat {
+				return true
+			}
 		case reflect.Float64:
 			// same comment as above for Ints
 			fFloat, err := strconv.ParseFloat(fVal.(string), 64)

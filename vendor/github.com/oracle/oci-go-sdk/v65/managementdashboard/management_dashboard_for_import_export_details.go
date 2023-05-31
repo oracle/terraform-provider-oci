@@ -25,10 +25,10 @@ type ManagementDashboardForImportExportDetails struct {
 	// ID of the service (for example log-analytics) that owns the dashboard. Each service has a unique ID.
 	ProviderId *string `mandatory:"true" json:"providerId"`
 
-	// Name of the service (for example, Logging Analytics) that owns the dashboard.
+	// The user friendly name of the service (for example, Logging Analytics) that owns the dashboard.
 	ProviderName *string `mandatory:"true" json:"providerName"`
 
-	// Version of the service that owns the dashboard.
+	// The version of the metadata of the provider. This is useful for provider to version its features and metadata. Any newly created saved search (or dashboard) should use providerVersion 3.0.0.
 	ProviderVersion *string `mandatory:"true" json:"providerVersion"`
 
 	// Array of dashboard tiles.
@@ -49,7 +49,7 @@ type ManagementDashboardForImportExportDetails struct {
 	// Determines whether the dashboard will be displayed in Dashboard Home.
 	IsShowInHome *bool `mandatory:"true" json:"isShowInHome"`
 
-	// Version of the metadata.
+	// The version of the metadata defined in the API. This is maintained and enforced by dashboard server. Currently it is 2.0.
 	MetadataVersion *string `mandatory:"true" json:"metadataVersion"`
 
 	// Determines whether the description of the dashboard is displayed.
@@ -61,10 +61,10 @@ type ManagementDashboardForImportExportDetails struct {
 	// JSON that contains internationalization options.
 	Nls *interface{} `mandatory:"true" json:"nls"`
 
-	// JSON that contains user interface options.
+	// It defines the visualization type of the widget saved search, the UI options of that visualization type, the binding of data to the visualization.
 	UiConfig *interface{} `mandatory:"true" json:"uiConfig"`
 
-	// Array of JSON that contain data source options.
+	// It defines how data is fetched. A functional saved search needs a valid dataConfig. See examples on how it can be constructed for various data sources.
 	DataConfig []interface{} `mandatory:"true" json:"dataConfig"`
 
 	// Type of dashboard. NORMAL denotes a single dashboard and SET denotes a dashboard set.
@@ -78,6 +78,9 @@ type ManagementDashboardForImportExportDetails struct {
 
 	// Defines parameters for the dashboard.
 	ParametersConfig []interface{} `mandatory:"false" json:"parametersConfig"`
+
+	// Contains configuration for enabling features.
+	FeaturesConfig *interface{} `mandatory:"false" json:"featuresConfig"`
 
 	// Drill-down configuration to define the destination of a drill-down action.
 	DrilldownConfig []interface{} `mandatory:"false" json:"drilldownConfig"`

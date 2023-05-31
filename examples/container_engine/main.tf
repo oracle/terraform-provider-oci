@@ -166,7 +166,7 @@ resource "oci_core_subnet" "nodePool_Subnet_2" {
 resource "oci_containerengine_cluster" "test_cluster" {
   #Required
   compartment_id     = var.compartment_ocid
-  kubernetes_version = data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[0]
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "tfTestCluster"
   vcn_id             = oci_core_vcn.test_vcn.id
 

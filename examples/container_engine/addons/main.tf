@@ -1,5 +1,18 @@
 // Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}
+
+variable "region" {
+  default = "us-ashburn-1"
+}
+
 
 variable "tenancy_ocid" {
 }
@@ -15,54 +28,12 @@ variable "kubernetes_version" {
 variable "compartment_ocid" {
 }
 
-variable "image_id" {
-
-}
-
-data "oci_containerengine_addon_options" "all" {
-    #Required
-    kubernetes_version = var.kubernetes_version
-}
-
-data "oci_containerengine_addon_options" "name_filter_example" {
-    #Required
-    kubernetes_version = var.kubernetes_version
-    #Optional, a name uniquely identifies an add-on, see all supported add-on names in data.oci_containerengine_addon_options.all.addon_options
-    addon_name = "KubernetesDashboard"
-}
-
-resource "oci_containerengine_addon" "addon_resource_example" {
-    #Required, a name uniquely identifies an add-on, see all supported add-on names in data.oci_containerengine_addon_options.all.addon_options
-    addon_name = "KubernetesDashboard"
-    #Required
-    cluster_id = var.cluster_id
-    #Required, false values keeps installed resources of the addon on deletion. Set to true to fully remove resources
-    remove_addon_resources_on_delete = true
-
-    /*
-    configurations that are supported by the add-on specified by the addon_name, see all supported configurations in in data.oci_containerengine_addon_options.all.addon_options.
-    Unless required by a specific add-on, most of add-ons only have optional configurations that allow customization.
-    */
-     configurations {
-
-     }
-    /*
-    Optional, see all supported version in in data.oci_containerengine_addon_options.all.addon_options.
-    It is highly recommended to not set this field to let service choose and manage addon version.
-    */
-    version = "v1.0.0"
-}
-
-data "oci_containerengine_addons" "addon_addon_data_source_list_example" {
-    #Required
-    cluster_id = var.cluster_id
-}
-
-data "oci_containerengine_addon" "addon_data_source_singular_example" {
-    #Required
-    cluster_id = var.cluster_id
-    #Required, a name uniquely identifies an add-on, see all supported add-on names in data.oci_containerengine_addon_options.all.addon_options
-    addon_name = "KubernetesDashboard"
+provider "oci" {
+  region           = var.region
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
 }
 
 /*
@@ -113,7 +84,7 @@ resource "oci_core_subnet" "nodePool_Subnet_1" {
 resource "oci_containerengine_cluster" "test_cluster" {
     #Required
     compartment_id     = var.compartment_ocid
-    kubernetes_version = var.kubernetes_version
+    kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
     name               = "tfTestCluster"
     vcn_id             = oci_core_vcn.test_vcn.id
     type               = "ENHANCED_CLUSTER"
@@ -126,13 +97,21 @@ resource "oci_containerengine_addon" "dashboard" {
     cluster_id = oci_containerengine_cluster.test_cluster.id
     #Required, remove the resource on addon deletion
     remove_addon_resources_on_delete = true
+    dynamic configurations {
+        for_each = local.addon_mappings
+
+        content {
+            key =configurations.value.key
+            value = configurations.value.value
+            }
+        }
 }
 
 resource "oci_containerengine_node_pool" "test_node_pool" {
     #Required
     cluster_id         = oci_containerengine_cluster.test_cluster.id
     compartment_id     = var.compartment_ocid
-    kubernetes_version = var.kubernetes_version
+    kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
     name               = "tfPool"
     node_shape         = "VM.Standard2.1"
 
@@ -146,7 +125,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 
     node_source_details {
         #Required
-        image_id    = var.image_id
+        image_id    = local.image_id
         source_type = "IMAGE"
 
         #Optional
@@ -155,4 +134,40 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 
     //use terraform depends_on to enforce cluster->add-on->node pool DAG
     depends_on = [oci_containerengine_addon.dashboard]
+}
+
+data "oci_containerengine_cluster_option" "test_cluster_option" {
+  cluster_option_id = "all"
+}
+
+data "oci_containerengine_node_pool_option" "test_node_pool_option" {
+  node_pool_option_id = "all"
+}
+
+data "oci_core_images" "shape_specific_images" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  shape = "VM.Standard2.1"
+}
+
+locals {
+  all_images = "${data.oci_core_images.shape_specific_images.images}"
+  all_sources = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources}"
+
+  compartment_images = [for image in local.all_images : image.id if length(regexall("Oracle-Linux-[0-9]*.[0-9]*-20[0-9]*",image.display_name)) > 0 ]
+
+  oracle_linux_images = [for source in local.all_sources : source.image_id if length(regexall("Oracle-Linux-[0-9]*.[0-9]*-20[0-9]*",source.source_name)) > 0]
+
+  image_id = tolist(setintersection( toset(local.compartment_images), toset(local.oracle_linux_images)))[0]
+
+  addon_mappings = {
+        mapping1 = {
+            key = "numOfReplicas"
+            value = "1"
+        }
+        mapping2 = {
+            key = "nodeSelectors"
+            value = "{\"pool\":\"system\"}"
+        }
+  }
 }

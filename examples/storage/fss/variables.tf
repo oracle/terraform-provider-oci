@@ -50,6 +50,10 @@ variable "file_system_simple_display_name" {
 	default= "my_fs_simple"
 }
 
+variable "file_system_with_snapshot_policy_display_name" {
+  default = "my_fs_with_snapshot_policy"
+}
+
 variable "mount_target_1_display_name" {
   default = "my_mount_target_1"
 }
@@ -123,3 +127,50 @@ locals {
   mount_target_1_ip_address = data.oci_core_private_ips.ip_mount_target1.private_ips[0]["ip_address"]
 }
 
+variable "filesystem_snapshot_policy_display_name" {
+  default = "media-policy-1"
+}
+
+variable "filesystem_snapshot_policy_freeform_tags" {
+  default = { "Department" = "Finance" }
+}
+
+variable "filesystem_snapshot_policy_id" {
+  default = "id"
+}
+
+variable "filesystem_snapshot_policy_policy_prefix" {
+  default = "mp1"
+}
+
+variable "filesystem_snapshot_policy_schedules_day_of_month" {
+  default = 10
+}
+
+variable "filesystem_snapshot_policy_schedules_hour_of_day" {
+  default = 10
+}
+
+variable "filesystem_snapshot_policy_schedules_month" {
+  default = "JANUARY"
+}
+
+variable "filesystem_snapshot_policy_schedules_day_of_week" {
+  default = "MONDAY"
+}
+
+variable "filesystem_snapshot_policy_schedules_retention_duration_in_seconds" {
+  default = 7200
+}
+
+variable "filesystem_snapshot_policy_schedules_schedule_prefix" {
+  default = "schedulePrefix"
+}
+
+variable "filesystem_snapshot_policy_schedules_time_zone" {
+  default = "UTC"
+}
+
+variable "filesystem_snapshot_policy_state" {
+  default = "ACTIVE"
+}

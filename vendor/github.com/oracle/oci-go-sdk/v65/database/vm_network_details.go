@@ -61,18 +61,21 @@ type VmNetworkDetailsNetworkTypeEnum string
 
 // Set of constants representing the allowable values for VmNetworkDetailsNetworkTypeEnum
 const (
-	VmNetworkDetailsNetworkTypeClient VmNetworkDetailsNetworkTypeEnum = "CLIENT"
-	VmNetworkDetailsNetworkTypeBackup VmNetworkDetailsNetworkTypeEnum = "BACKUP"
+	VmNetworkDetailsNetworkTypeClient           VmNetworkDetailsNetworkTypeEnum = "CLIENT"
+	VmNetworkDetailsNetworkTypeBackup           VmNetworkDetailsNetworkTypeEnum = "BACKUP"
+	VmNetworkDetailsNetworkTypeDisasterRecovery VmNetworkDetailsNetworkTypeEnum = "DISASTER_RECOVERY"
 )
 
 var mappingVmNetworkDetailsNetworkTypeEnum = map[string]VmNetworkDetailsNetworkTypeEnum{
-	"CLIENT": VmNetworkDetailsNetworkTypeClient,
-	"BACKUP": VmNetworkDetailsNetworkTypeBackup,
+	"CLIENT":            VmNetworkDetailsNetworkTypeClient,
+	"BACKUP":            VmNetworkDetailsNetworkTypeBackup,
+	"DISASTER_RECOVERY": VmNetworkDetailsNetworkTypeDisasterRecovery,
 }
 
 var mappingVmNetworkDetailsNetworkTypeEnumLowerCase = map[string]VmNetworkDetailsNetworkTypeEnum{
-	"client": VmNetworkDetailsNetworkTypeClient,
-	"backup": VmNetworkDetailsNetworkTypeBackup,
+	"client":            VmNetworkDetailsNetworkTypeClient,
+	"backup":            VmNetworkDetailsNetworkTypeBackup,
+	"disaster_recovery": VmNetworkDetailsNetworkTypeDisasterRecovery,
 }
 
 // GetVmNetworkDetailsNetworkTypeEnumValues Enumerates the set of values for VmNetworkDetailsNetworkTypeEnum
@@ -89,6 +92,7 @@ func GetVmNetworkDetailsNetworkTypeEnumStringValues() []string {
 	return []string{
 		"CLIENT",
 		"BACKUP",
+		"DISASTER_RECOVERY",
 	}
 }
 
