@@ -77,7 +77,7 @@ The following attributes are exported:
 	* `pay_go_strategy` - The type of pricing for a PAYGO model, eg PER_OCPU_LINEAR, PER_OCPU_MIN_BILLING, PER_INSTANCE.  Null if type is not PAYGO.
 	* `rate` - The pricing rate.
 	* `type` - The type of the pricing model.
-* `regions` - The regions where the listing is available.
+* `regions` - The regions where you can deploy the listing package. (Some packages have restrictions that limit their deployment to United States regions only.) 
 	* `code` - The code of the region.
 	* `countries` - Countries in the region.
 		* `code` - A code assigned to the item.
