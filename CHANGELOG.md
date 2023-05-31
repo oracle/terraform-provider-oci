@@ -1,4 +1,4 @@
-## 4.123.0 (Unreleased)
+## 4.123.0 (May 31, 2023)
 
 ### Added
 - Support for move db operation
