@@ -41,10 +41,10 @@ type ManagementDashboardTileDetails struct {
 	// JSON that contains internationalization options.
 	Nls *interface{} `mandatory:"true" json:"nls"`
 
-	// JSON that contains user interface options.
+	// It defines the visualization type of the widget saved search, the UI options of that visualization type, the binding of data to the visualization.
 	UiConfig *interface{} `mandatory:"true" json:"uiConfig"`
 
-	// Array of JSON that contain data source options.
+	// It defines how data is fetched. A functional saved search needs a valid dataConfig. See examples on how it can be constructed for various data sources.
 	DataConfig []interface{} `mandatory:"true" json:"dataConfig"`
 
 	// Current state of the saved search.

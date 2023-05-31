@@ -253,7 +253,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 			"db_home_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"source": {
 				Type:             schema.TypeString,
@@ -1146,6 +1145,11 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 			}
 			request.UpdateDatabaseDetails = tmp
 		}
+	}
+
+	if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok && s.D.HasChange("db_home_id") {
+		tmp := dbHomeId.(string)
+		request.DbHomeId = &tmp
 	}
 
 	updateDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutUpdate))

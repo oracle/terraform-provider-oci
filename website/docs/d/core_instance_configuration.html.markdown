@@ -54,10 +54,14 @@ The following attributes are exported:
 				* `max_vpus_per_gb` - This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring. 
 			* `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
 			* `backup_policy_id` - If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
+			* `block_volume_replicas` - The list of block volume replicas to be enabled for this volume in the specified destination availability domains. 
+				* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
+				* `display_name` - The display name of the block volume replica. You may optionally specify a *display name* for the block volume replica, otherwise a default is provided. 
 			* `compartment_id` - The OCID of the compartment that contains the volume.
 			* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 			* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+			* `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `InstanceConfigurationDetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
 			* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the volume. 
 			* `size_in_gbs` - The size of the volume in GBs.
 			* `source_details` - 
@@ -101,6 +105,7 @@ The following attributes are exported:
 					To enable the monitoring and management plugins, the `isMonitoringDisabled` and `isManagementDisabled` attributes must also be set to false. 
 				* `name` - The plugin name. To get a list of available plugins, use the [ListInstanceagentAvailablePlugins](https://docs.cloud.oracle.com/iaas/api/#/en/instanceagent/20180530/Plugin/ListInstanceagentAvailablePlugins) operation in the Oracle Cloud Agent API. For more information about the available plugins, see [Managing Plugins with Oracle Cloud Agent](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/manage-plugins.htm). 
 		* `availability_config` - Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware. 
+			* `is_live_migration_preferred` - Whether to live migrate supported VM instances to a healthy physical VM host without disrupting running instances during infrastructure maintenance events. If null, Oracle chooses the best option for migrating the VM during infrastructure maintenance events. 
 			* `recovery_action` - The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 				* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
 				* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
@@ -252,6 +257,7 @@ The following attributes are exported:
 				* `20`: Represents Higher Performance option.
 				* `30`-`120`: Represents the Ultra High Performance option. 
 			* `image_id` - The OCID of the image used to boot the instance.
+			* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the boot volume.
 			* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 	* `secondary_vnics` - Secondary VNIC parameters.
 		* `create_vnic_details` - Contains the properties of the VNIC for an instance configuration. See [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) and [Instance Configurations](https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information. 

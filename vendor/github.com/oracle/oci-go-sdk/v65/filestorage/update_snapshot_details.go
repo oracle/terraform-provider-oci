@@ -29,6 +29,10 @@ type UpdateSnapshotDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The UTC time when this snapshot will be deleted. To remove the expiration time, set this field to the minimum date-time value using Date(0).
+	// Example: `Thu Jan 01 01:00:00 GMT 1970`
+	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
 }
 
 func (m UpdateSnapshotDetails) String() string {

@@ -677,6 +677,7 @@ file_storage
 * oci\_file\_storage\_export
 * oci\_file\_storage\_snapshot
 * oci\_file\_storage\_replication
+* oci\_file\_storage\_filesystem\_snapshot\_policy
 
 functions
 

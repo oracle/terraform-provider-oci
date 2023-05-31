@@ -37,10 +37,10 @@ type ManagementDashboardSummary struct {
 	// ID of the service (for example, log-analytics) that owns the dashboard. Each service has a unique ID.
 	ProviderId *string `mandatory:"true" json:"providerId"`
 
-	// Name of the service (for example, Logging Analytics) that owns the dashboard.
+	// The user friendly name of the service (for example, Logging Analytics) that owns the dashboard.
 	ProviderName *string `mandatory:"true" json:"providerName"`
 
-	// Version of the service that owns the dashboard.
+	// The version of the metadata of the provider. This is useful for provider to version its features and metadata. Any newly created saved search (or dashboard) should use providerVersion 3.0.0.
 	ProviderVersion *string `mandatory:"true" json:"providerVersion"`
 
 	// Determines whether the dashboard is an Out-of-the-Box (OOB) dashboard. Note that OOB dashboards are only provided by Oracle and cannot be modified.
@@ -58,7 +58,7 @@ type ManagementDashboardSummary struct {
 	// Date and time the dashboard was updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// Version of the metadata.
+	// The version of the metadata defined in the API. This is maintained and enforced by dashboard server. Currently it is 2.0.
 	MetadataVersion *string `mandatory:"true" json:"metadataVersion"`
 
 	// Screen image of the dashboard.
@@ -80,6 +80,9 @@ type ManagementDashboardSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+
+	// Contains configuration for enabling features.
+	FeaturesConfig *interface{} `mandatory:"false" json:"featuresConfig"`
 }
 
 func (m ManagementDashboardSummary) String() string {

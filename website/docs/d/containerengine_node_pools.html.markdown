@@ -102,24 +102,6 @@ The following attributes are exported:
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB. See [here](https://docs.cloud.oracle.com/en-us/iaas/Content/Block/Concepts/bootvolumes.htm) for max custom boot volume sizing and OS-specific requirements.
 	* `image_id` - The OCID of the image used to boot the node.
 	* `source_type` - The source type for the node. Use `IMAGE` when specifying an OCID of an image. 
-* `nodes` - The nodes in the node pool.
-	* `availability_domain` - The name of the availability domain in which this node is placed.
-	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
-	* `error` - An error that may be associated with the node.
-		* `code` - A short error code that defines the upstream error, meant for programmatic parsing. See [API Errors](https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
-		* `message` - A human-readable error string of the upstream error.
-		* `status` - The status of the HTTP response encountered in the upstream error.
-	* `fault_domain` - The fault domain of this node.
-	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-	* `id` - The OCID of the compute instance backing this node.
-	* `kubernetes_version` - The version of Kubernetes this node is running.
-	* `lifecycle_details` - Details about the state of the node.
-	* `name` - The name of the node.
-	* `node_pool_id` - The OCID of the node pool to which this node belongs.
-	* `private_ip` - The private IP address of this node.
-	* `public_ip` - The public IP address of this node.
-	* `state` - The state of the node.
-	* `subnet_id` - The OCID of the subnet in which this node is placed.
 * `quantity_per_subnet` - The number of nodes in each subnet.
 * `ssh_public_key` - The SSH public key on each node in the node pool on launch.
 * `state` - The state of the nodepool.

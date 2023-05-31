@@ -51,6 +51,9 @@ type SnapshotSummary struct {
 	// Example: `2020-08-25T21:10:29.600Z`
 	SnapshotTime *common.SDKTime `mandatory:"false" json:"snapshotTime"`
 
+	// The time when this snapshot will be deleted.
+	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
+
 	// An OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) identifying the parent from which this snapshot was cloned.
 	// If this snapshot was not cloned, then the `provenanceId` is the same as the snapshot `id` value.
 	// If this snapshot was cloned, then the `provenanceId` value is the parent's `provenanceId`.

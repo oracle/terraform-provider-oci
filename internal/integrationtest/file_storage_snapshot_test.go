@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
@@ -35,24 +36,30 @@ var (
 	}
 
 	FileStorageFileStorageSnapshotDataSourceRepresentation = map[string]interface{}{
-		"file_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageSnapshotDataSourceFilterRepresentation}}
+		"compartment_id":                acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"file_system_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"filesystem_snapshot_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_filesystem_snapshot_policy.test_filesystem_snapshot_policy.id}`},
+		"id":                            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"state":                         acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageSnapshotDataSourceFilterRepresentation}}
 	FileStorageSnapshotDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_file_storage_snapshot.test_snapshot.id}`}},
 	}
 
 	FileStorageSnapshotRepresentation = map[string]interface{}{
-		"file_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
-		"name":           acctest.Representation{RepType: acctest.Required, Create: `snapshot-1`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+		"file_system_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"name":            acctest.Representation{RepType: acctest.Required, Create: `snapshot-1`},
+		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"expiration_time": acctest.Representation{RepType: acctest.Optional, Create: ExpirationTimeCreate, Update: ExpirationTimeUpdate},
+		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
+	ExpirationTimeCreate = time.Now().Add(10 * time.Hour).Format(TimeFormat)
+	ExpirationTimeUpdate = time.Now().Add(11 * time.Hour).Format(TimeFormat)
 
 	FileStorageSnapshotResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_filesystem_snapshot_policy", "test_filesystem_snapshot_policy", acctest.Required, acctest.Create, FileStorageFilesystemSnapshotPolicyRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -101,6 +108,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Create, FileStorageSnapshotRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "expiration_time", ExpirationTimeCreate),
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -125,6 +133,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, FileStorageSnapshotRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "expiration_time", ExpirationTimeUpdate),
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -148,10 +157,13 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, FileStorageSnapshotRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "file_system_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "filesystem_snapshot_policy_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "snapshots.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.expiration_time", ExpirationTimeUpdate),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.file_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.id"),
@@ -172,6 +184,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "expiration_time"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_clone_source"),

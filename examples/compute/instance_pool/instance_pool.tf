@@ -175,11 +175,16 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
     */
     block_volumes {
       create_details {
-        compartment_id      = var.compartment_ocid
-        display_name        = "TestCreateVolumeDetails-1"
-        availability_domain = data.oci_identity_availability_domain.ad.name
-        size_in_gbs         = 50
-        vpus_per_gb         = 20 // min vpus
+        compartment_id       = var.compartment_ocid
+        display_name         = "TestCreateVolumeDetails-1"
+        availability_domain  = data.oci_identity_availability_domain.ad.name
+        size_in_gbs          = 50
+        vpus_per_gb          = 20 // min vpus
+        is_auto_tune_enabled = false
+        block_volume_replicas {
+          display_name        = "TestCreateVolumeDetails-1"
+          availability_domain = data.oci_identity_availability_domain.ad.name
+        }
       }
 
       attach_details {
@@ -219,6 +224,11 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
       agent_config {
         is_management_disabled = false
         is_monitoring_disabled = false
+      }
+
+      availability_config {
+        recovery_action             = "RESTORE_INSTANCE"
+        is_live_migration_preferred = false
       }
 
       launch_options {

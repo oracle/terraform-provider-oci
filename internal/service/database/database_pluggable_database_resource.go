@@ -11,6 +11,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
+
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
@@ -148,6 +150,7 @@ func createDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) erro
 	sync := &DatabasePluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -181,6 +184,7 @@ type DatabasePluggableDatabaseResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.PluggableDatabase
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	DisableNotFoundRetries bool
 }
 
@@ -260,7 +264,24 @@ func (s *DatabasePluggableDatabaseResourceCrud) Create() error {
 	}
 
 	s.Res = &response.PluggableDatabase
-	return nil
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		var identifier *string
+		var err error
+		identifier = response.Id
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		if err != nil {
+			return err
+		}
+	}
+
+	return s.Get()
 }
 
 func (s *DatabasePluggableDatabaseResourceCrud) Get() error {

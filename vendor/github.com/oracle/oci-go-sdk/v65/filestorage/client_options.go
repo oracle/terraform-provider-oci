@@ -36,7 +36,7 @@ type ClientOptions struct {
 	RequirePrivilegedSourcePort *bool `mandatory:"false" json:"requirePrivilegedSourcePort"`
 
 	// Type of access to grant clients using the file system
-	// through this export. If unspecified defaults to `READ_ONLY`.
+	// through this export. If unspecified defaults to `READ_WRITE`.
 	Access ClientOptionsAccessEnum `mandatory:"false" json:"access,omitempty"`
 
 	// Used when clients accessing the file system through this export

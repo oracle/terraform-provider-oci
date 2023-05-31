@@ -33,3 +33,19 @@ resource "oci_file_storage_file_system" "my_fs_2" {
   }
 }
 
+resource "oci_file_storage_file_system" "my_file_system_with_fs_snapshot_policy" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+
+  #Optional
+  display_name = var.file_system_with_snapshot_policy_display_name
+  filesystem_snapshot_policy_id = oci_file_storage_filesystem_snapshot_policy.my_filesystem_snapshot_policy.id
+  # defined_tags = {
+  #   "example-tag-namespace-all.example-tag" = "value"
+  # }
+
+  freeform_tags = {
+    "Department" = "Accounting"
+  }
+}

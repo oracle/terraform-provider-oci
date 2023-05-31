@@ -59,7 +59,7 @@ The following attributes are exported:
 	**Exports without defined `ClientOptions` are invisible to all clients.**
 
 	If one export is invisible to a particular client, associated file systems may still be accessible through other exports on the same or different mount targets. To completely deny client access to a file system, be sure that the client source IP address is not included in any export for any mount target associated with the file system. 
-	* `access` - Type of access to grant clients using the file system through this export. If unspecified defaults to `READ_ONLY`. 
+	* `access` - Type of access to grant clients using the file system through this export. If unspecified defaults to `READ_WRITE`. 
 	* `anonymous_gid` - GID value to remap to when squashing a client GID (see identitySquash for more details.) If unspecified defaults to `65534`. 
 	* `anonymous_uid` - UID value to remap to when squashing a client UID (see identitySquash for more details.) If unspecified, defaults to `65534`. 
 	* `identity_squash` - Used when clients accessing the file system through this export have their UID and GID remapped to 'anonymousUid' and 'anonymousGid'. If `ALL`, all users and groups are remapped; if `ROOT`, only the root user and group (UID/GID 0) are remapped; if `NONE`, no remapping is done. If unspecified, defaults to `ROOT`. 

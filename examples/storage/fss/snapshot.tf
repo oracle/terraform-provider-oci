@@ -9,8 +9,11 @@ resource "oci_file_storage_snapshot" "my_snapshot" {
   #   "example-tag-namespace-all.example-tag" = "value"
   # }
 
+  # Optional
   freeform_tags = {
     "Department" = "Finance"
   }
+  # Commented out expiration_time as the date given should be a time in the future
+  # expiration_time = "2096-01-02T15:04:05Z"
 }
 

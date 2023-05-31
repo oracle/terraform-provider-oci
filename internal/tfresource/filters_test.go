@@ -695,6 +695,43 @@ func TestUnitApplyFilters_numberTypes(t *testing.T) {
 }
 
 // issue-routing-tag: terraform/default
+func TestUnitOrComparator(t *testing.T) {
+	type args struct {
+		target  interface{}
+		filters []interface{}
+	}
+	type testFormat struct {
+		name   string
+		args   args
+		output bool
+	}
+	float32Filter := "200.34567"
+	float64Filter := "200.34567321453457"
+	filters := []interface{}{}
+	filters = append(filters, float32Filter)
+	filters = append(filters, float64Filter)
+	tests := []testFormat{
+		{
+			name:   "Test valid string to float32 conversion",
+			args:   args{target: float32(200.3456732145), filters: filters},
+			output: true,
+		},
+		{
+			name:   "Test valid string to float64 conversion",
+			args:   args{target: float64(200.34567321453456788), filters: filters},
+			output: true,
+		},
+	}
+
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		if res := orComparator(test.args.target, test.args.filters, nil); res != test.output {
+			t.Errorf("Outputnot equal to expected")
+		}
+	}
+}
+
+// issue-routing-tag: terraform/default
 func TestUnitApplyFilters_multiProperty(t *testing.T) {
 	items := []map[string]interface{}{
 		{
