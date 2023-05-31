@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//UsagelimitsClient a client for Usagelimits
+// UsagelimitsClient a client for Usagelimits
 type UsagelimitsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewUsagelimitsClientWithConfigurationProvider(configProvider common.Configu
 
 // NewUsagelimitsClientWithOboToken Creates a new default Usagelimits client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewUsagelimitsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client UsagelimitsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

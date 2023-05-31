@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//WorkRequestsClient a client for WorkRequests
+// WorkRequestsClient a client for WorkRequests
 type WorkRequestsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -44,7 +44,8 @@ func NewWorkRequestsClientWithConfigurationProvider(configProvider common.Config
 
 // NewWorkRequestsClientWithOboToken Creates a new default WorkRequests client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewWorkRequestsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client WorkRequestsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//InvoiceServiceClient a client for InvoiceService
+// InvoiceServiceClient a client for InvoiceService
 type InvoiceServiceClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewInvoiceServiceClientWithConfigurationProvider(configProvider common.Conf
 
 // NewInvoiceServiceClientWithOboToken Creates a new default InvoiceService client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewInvoiceServiceClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client InvoiceServiceClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

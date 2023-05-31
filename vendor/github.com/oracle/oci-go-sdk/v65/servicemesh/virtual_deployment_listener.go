@@ -25,8 +25,6 @@ type VirtualDeploymentListener struct {
 	// Port in which virtual deployment is running.
 	Port *int `mandatory:"true" json:"port"`
 
-	CircuitBreakingConfiguration *CircuitBreakingConfiguration `mandatory:"false" json:"circuitBreakingConfiguration"`
-
 	// The maximum duration in milliseconds for the deployed service to respond to an incoming request through the listener.
 	// If provided, the timeout value overrides the default timeout of 15 seconds for the HTTP/HTTP2 listeners, and disabled (no timeout) for the GRPC listeners. The value 0 (zero) indicates that the timeout is disabled.
 	// The timeout cannot be configured for the TCP and TLS_PASSTHROUGH listeners.
@@ -46,6 +44,10 @@ type VirtualDeploymentListener struct {
 	LoadBalancer LoadBalancer `mandatory:"false" json:"loadBalancer"`
 
 	RateLimitConfiguration RateLimitConfiguration `mandatory:"false" json:"rateLimitConfiguration"`
+
+	FaultConfiguration FaultConfiguration `mandatory:"false" json:"faultConfiguration"`
+
+	CircuitBreakingConfiguration *CircuitBreakingConfiguration `mandatory:"false" json:"circuitBreakingConfiguration"`
 }
 
 func (m VirtualDeploymentListener) String() string {
@@ -70,13 +72,14 @@ func (m VirtualDeploymentListener) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *VirtualDeploymentListener) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CircuitBreakingConfiguration *CircuitBreakingConfiguration         `json:"circuitBreakingConfiguration"`
 		RequestTimeoutInMs           *int64                                `json:"requestTimeoutInMs"`
 		IdleTimeoutInMs              *int64                                `json:"idleTimeoutInMs"`
 		HealthCheckPort              *int                                  `json:"healthCheckPort"`
 		HealthCheck                  []healthcheck                         `json:"healthCheck"`
 		LoadBalancer                 loadbalancer                          `json:"loadBalancer"`
 		RateLimitConfiguration       ratelimitconfiguration                `json:"rateLimitConfiguration"`
+		FaultConfiguration           faultconfiguration                    `json:"faultConfiguration"`
+		CircuitBreakingConfiguration *CircuitBreakingConfiguration         `json:"circuitBreakingConfiguration"`
 		Protocol                     VirtualDeploymentListenerProtocolEnum `json:"protocol"`
 		Port                         *int                                  `json:"port"`
 	}{}
@@ -86,8 +89,6 @@ func (m *VirtualDeploymentListener) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.CircuitBreakingConfiguration = model.CircuitBreakingConfiguration
-
 	m.RequestTimeoutInMs = model.RequestTimeoutInMs
 
 	m.IdleTimeoutInMs = model.IdleTimeoutInMs
@@ -126,6 +127,18 @@ func (m *VirtualDeploymentListener) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.RateLimitConfiguration = nil
 	}
+
+	nn, e = model.FaultConfiguration.UnmarshalPolymorphicJSON(model.FaultConfiguration.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.FaultConfiguration = nn.(FaultConfiguration)
+	} else {
+		m.FaultConfiguration = nil
+	}
+
+	m.CircuitBreakingConfiguration = model.CircuitBreakingConfiguration
 
 	m.Protocol = model.Protocol
 

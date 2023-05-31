@@ -32,6 +32,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	// The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database.
 	InMemoryPercentage *int `mandatory:"false" json:"inMemoryPercentage"`
 
+	// Parameter that allows users to select an acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard
+	LocalAdgAutoFailoverMaxDataLossLimit *int `mandatory:"false" json:"localAdgAutoFailoverMaxDataLossLimit"`
+
 	// The number of CPUs to be made available to the Autonomous Database.<br>
 	// For Autonomous Databases on Dedicated Exadata Infrastructure:
 	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.

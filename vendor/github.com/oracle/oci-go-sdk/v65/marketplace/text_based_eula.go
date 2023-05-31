@@ -20,7 +20,7 @@ import (
 type TextBasedEula struct {
 
 	// The text of the end user license agreement.
-	LicenseText *string `mandatory:"true" json:"licenseText"`
+	LicenseText *string `mandatory:"false" json:"licenseText"`
 }
 
 func (m TextBasedEula) String() string {

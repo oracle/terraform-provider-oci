@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//BastionClient a client for Bastion
+// BastionClient a client for Bastion
 type BastionClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewBastionClientWithConfigurationProvider(configProvider common.Configurati
 
 // NewBastionClientWithOboToken Creates a new default Bastion client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewBastionClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client BastionClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

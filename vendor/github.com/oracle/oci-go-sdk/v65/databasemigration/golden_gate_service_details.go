@@ -19,15 +19,6 @@ import (
 type GoldenGateServiceDetails struct {
 	GgsDeployment *GgsDeployment `mandatory:"false" json:"ggsDeployment"`
 
-	// OCID of a VaultSecret containing Source Database Credentials
-	SourceDbCredentialsSecretId *string `mandatory:"false" json:"sourceDbCredentialsSecretId"`
-
-	// OCID of a VaultSecret containing Source Container Database Credentials
-	SourceContainerDbCredentialsSecretId *string `mandatory:"false" json:"sourceContainerDbCredentialsSecretId"`
-
-	// OCID of a VaultSecret containing Target Database Credentials
-	TargetDbCredentialsSecretId *string `mandatory:"false" json:"targetDbCredentialsSecretId"`
-
 	Settings *GoldenGateSettings `mandatory:"false" json:"settings"`
 }
 

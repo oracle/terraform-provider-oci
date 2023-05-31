@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//OdapackageClient a client for Odapackage
+// OdapackageClient a client for Odapackage
 type OdapackageClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewOdapackageClientWithConfigurationProvider(configProvider common.Configur
 
 // NewOdapackageClientWithOboToken Creates a new default Odapackage client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewOdapackageClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OdapackageClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

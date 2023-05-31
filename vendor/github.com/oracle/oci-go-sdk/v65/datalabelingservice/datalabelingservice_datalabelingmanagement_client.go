@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//DataLabelingManagementClient a client for DataLabelingManagement
+// DataLabelingManagementClient a client for DataLabelingManagement
 type DataLabelingManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewDataLabelingManagementClientWithConfigurationProvider(configProvider com
 
 // NewDataLabelingManagementClientWithOboToken Creates a new default DataLabelingManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDataLabelingManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DataLabelingManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

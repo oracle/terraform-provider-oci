@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//EmWarehouseClient a client for EmWarehouse
+// EmWarehouseClient a client for EmWarehouse
 type EmWarehouseClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewEmWarehouseClientWithConfigurationProvider(configProvider common.Configu
 
 // NewEmWarehouseClientWithOboToken Creates a new default EmWarehouse client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewEmWarehouseClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client EmWarehouseClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

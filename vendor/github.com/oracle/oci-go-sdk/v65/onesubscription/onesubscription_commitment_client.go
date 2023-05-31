@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//CommitmentClient a client for Commitment
+// CommitmentClient a client for Commitment
 type CommitmentClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewCommitmentClientWithConfigurationProvider(configProvider common.Configur
 
 // NewCommitmentClientWithOboToken Creates a new default Commitment client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewCommitmentClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client CommitmentClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

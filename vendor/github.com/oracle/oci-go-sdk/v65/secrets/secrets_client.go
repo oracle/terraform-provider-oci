@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//SecretsClient a client for Secrets
+// SecretsClient a client for Secrets
 type SecretsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewSecretsClientWithConfigurationProvider(configProvider common.Configurati
 
 // NewSecretsClientWithOboToken Creates a new default Secrets client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewSecretsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client SecretsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

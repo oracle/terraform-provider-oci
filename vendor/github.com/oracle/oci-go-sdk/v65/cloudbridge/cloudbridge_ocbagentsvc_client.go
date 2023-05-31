@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//OcbAgentSvcClient a client for OcbAgentSvc
+// OcbAgentSvcClient a client for OcbAgentSvc
 type OcbAgentSvcClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewOcbAgentSvcClientWithConfigurationProvider(configProvider common.Configu
 
 // NewOcbAgentSvcClientWithOboToken Creates a new default OcbAgentSvc client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewOcbAgentSvcClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OcbAgentSvcClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

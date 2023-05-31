@@ -10,12 +10,13 @@
 package servicemesh
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// GrpcFaultConfiguration Fault can be used to specify one or more faults to inject while forwarding GRPC requests to the destination specified in a route.
+// GrpcFaultConfiguration Fault can be used to specify one or more faults to inject while receiving GRPC requests at the listener.
 // Faults include aborting the GRPC request from downstream service, and/or delaying proxying of requests.
 type GrpcFaultConfiguration struct {
 	DelayConfiguration *DelayFaultConfiguration `mandatory:"false" json:"delayConfiguration"`
@@ -37,4 +38,18 @@ func (m GrpcFaultConfiguration) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m GrpcFaultConfiguration) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeGrpcFaultConfiguration GrpcFaultConfiguration
+	s := struct {
+		DiscriminatorParam string `json:"protocol"`
+		MarshalTypeGrpcFaultConfiguration
+	}{
+		"GRPC",
+		(MarshalTypeGrpcFaultConfiguration)(m),
+	}
+
+	return json.Marshal(&s)
 }

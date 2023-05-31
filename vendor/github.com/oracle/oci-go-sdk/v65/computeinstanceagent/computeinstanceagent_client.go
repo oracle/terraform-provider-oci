@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//ComputeInstanceAgentClient a client for ComputeInstanceAgent
+// ComputeInstanceAgentClient a client for ComputeInstanceAgent
 type ComputeInstanceAgentClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -43,7 +43,8 @@ func NewComputeInstanceAgentClientWithConfigurationProvider(configProvider commo
 
 // NewComputeInstanceAgentClientWithOboToken Creates a new default ComputeInstanceAgent client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewComputeInstanceAgentClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ComputeInstanceAgentClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

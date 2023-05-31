@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//LicenseManagerClient a client for LicenseManager
+// LicenseManagerClient a client for LicenseManager
 type LicenseManagerClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewLicenseManagerClientWithConfigurationProvider(configProvider common.Conf
 
 // NewLicenseManagerClientWithOboToken Creates a new default LicenseManager client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewLicenseManagerClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client LicenseManagerClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

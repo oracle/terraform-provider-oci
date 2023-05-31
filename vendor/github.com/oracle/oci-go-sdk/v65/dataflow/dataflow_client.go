@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//DataFlowClient a client for DataFlow
+// DataFlowClient a client for DataFlow
 type DataFlowClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewDataFlowClientWithConfigurationProvider(configProvider common.Configurat
 
 // NewDataFlowClientWithOboToken Creates a new default DataFlow client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDataFlowClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DataFlowClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

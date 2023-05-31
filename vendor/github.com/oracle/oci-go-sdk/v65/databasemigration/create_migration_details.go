@@ -10,6 +10,7 @@
 package databasemigration
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -39,6 +40,8 @@ type CreateMigrationDetails struct {
 	// The OCID of the Source Container Database Connection. Only used for Online migrations.
 	// Only Connections of type Non-Autonomous can be used as source container databases.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
+
+	DataTransferMediumDetailsV2 DataTransferMediumDetailsV2 `mandatory:"false" json:"dataTransferMediumDetailsV2"`
 
 	DataTransferMediumDetails *CreateDataTransferMediumDetails `mandatory:"false" json:"dataTransferMediumDetails"`
 
@@ -89,4 +92,91 @@ func (m CreateMigrationDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateMigrationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                         *string                           `json:"displayName"`
+		AgentId                             *string                           `json:"agentId"`
+		SourceContainerDatabaseConnectionId *string                           `json:"sourceContainerDatabaseConnectionId"`
+		DataTransferMediumDetailsV2         datatransfermediumdetailsv2       `json:"dataTransferMediumDetailsV2"`
+		DataTransferMediumDetails           *CreateDataTransferMediumDetails  `json:"dataTransferMediumDetails"`
+		DumpTransferDetails                 *CreateDumpTransferDetails        `json:"dumpTransferDetails"`
+		DatapumpSettings                    *CreateDataPumpSettings           `json:"datapumpSettings"`
+		AdvisorSettings                     *CreateAdvisorSettings            `json:"advisorSettings"`
+		ExcludeObjects                      []DatabaseObject                  `json:"excludeObjects"`
+		IncludeObjects                      []DatabaseObject                  `json:"includeObjects"`
+		CsvText                             *string                           `json:"csvText"`
+		GoldenGateDetails                   *CreateGoldenGateDetails          `json:"goldenGateDetails"`
+		GoldenGateServiceDetails            *CreateGoldenGateServiceDetails   `json:"goldenGateServiceDetails"`
+		VaultDetails                        *CreateVaultDetails               `json:"vaultDetails"`
+		FreeformTags                        map[string]string                 `json:"freeformTags"`
+		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
+		Type                                MigrationTypesEnum                `json:"type"`
+		CompartmentId                       *string                           `json:"compartmentId"`
+		SourceDatabaseConnectionId          *string                           `json:"sourceDatabaseConnectionId"`
+		TargetDatabaseConnectionId          *string                           `json:"targetDatabaseConnectionId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.AgentId = model.AgentId
+
+	m.SourceContainerDatabaseConnectionId = model.SourceContainerDatabaseConnectionId
+
+	nn, e = model.DataTransferMediumDetailsV2.UnmarshalPolymorphicJSON(model.DataTransferMediumDetailsV2.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DataTransferMediumDetailsV2 = nn.(DataTransferMediumDetailsV2)
+	} else {
+		m.DataTransferMediumDetailsV2 = nil
+	}
+
+	m.DataTransferMediumDetails = model.DataTransferMediumDetails
+
+	m.DumpTransferDetails = model.DumpTransferDetails
+
+	m.DatapumpSettings = model.DatapumpSettings
+
+	m.AdvisorSettings = model.AdvisorSettings
+
+	m.ExcludeObjects = make([]DatabaseObject, len(model.ExcludeObjects))
+	for i, n := range model.ExcludeObjects {
+		m.ExcludeObjects[i] = n
+	}
+
+	m.IncludeObjects = make([]DatabaseObject, len(model.IncludeObjects))
+	for i, n := range model.IncludeObjects {
+		m.IncludeObjects[i] = n
+	}
+
+	m.CsvText = model.CsvText
+
+	m.GoldenGateDetails = model.GoldenGateDetails
+
+	m.GoldenGateServiceDetails = model.GoldenGateServiceDetails
+
+	m.VaultDetails = model.VaultDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.Type = model.Type
+
+	m.CompartmentId = model.CompartmentId
+
+	m.SourceDatabaseConnectionId = model.SourceDatabaseConnectionId
+
+	m.TargetDatabaseConnectionId = model.TargetDatabaseConnectionId
+
+	return
 }

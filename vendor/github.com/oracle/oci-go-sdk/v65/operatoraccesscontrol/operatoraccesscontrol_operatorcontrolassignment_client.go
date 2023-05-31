@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//OperatorControlAssignmentClient a client for OperatorControlAssignment
+// OperatorControlAssignmentClient a client for OperatorControlAssignment
 type OperatorControlAssignmentClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -44,7 +44,8 @@ func NewOperatorControlAssignmentClientWithConfigurationProvider(configProvider 
 
 // NewOperatorControlAssignmentClientWithOboToken Creates a new default OperatorControlAssignment client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewOperatorControlAssignmentClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OperatorControlAssignmentClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

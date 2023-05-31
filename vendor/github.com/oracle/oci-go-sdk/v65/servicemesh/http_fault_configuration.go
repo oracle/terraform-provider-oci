@@ -10,12 +10,13 @@
 package servicemesh
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// HttpFaultConfiguration Fault can be used to specify one or more faults to inject while forwarding HTTP requests to the destination specified in a route.
+// HttpFaultConfiguration Fault can be used to specify one or more faults to inject while receiving HTTP requests at the listener.
 // Faults include aborting the HTTP request from downstream service, and/or delaying proxying of requests.
 type HttpFaultConfiguration struct {
 	DelayConfiguration *DelayFaultConfiguration `mandatory:"false" json:"delayConfiguration"`
@@ -37,4 +38,18 @@ func (m HttpFaultConfiguration) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m HttpFaultConfiguration) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeHttpFaultConfiguration HttpFaultConfiguration
+	s := struct {
+		DiscriminatorParam string `json:"protocol"`
+		MarshalTypeHttpFaultConfiguration
+	}{
+		"HTTP",
+		(MarshalTypeHttpFaultConfiguration)(m),
+	}
+
+	return json.Marshal(&s)
 }

@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//OperationsInsightsClient a client for OperationsInsights
+// OperationsInsightsClient a client for OperationsInsights
 type OperationsInsightsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -44,7 +44,8 @@ func NewOperationsInsightsClientWithConfigurationProvider(configProvider common.
 
 // NewOperationsInsightsClientWithOboToken Creates a new default OperationsInsights client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewOperationsInsightsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OperationsInsightsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

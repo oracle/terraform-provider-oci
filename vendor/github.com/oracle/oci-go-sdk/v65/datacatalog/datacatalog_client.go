@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//DataCatalogClient a client for DataCatalog
+// DataCatalogClient a client for DataCatalog
 type DataCatalogClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -43,7 +43,8 @@ func NewDataCatalogClientWithConfigurationProvider(configProvider common.Configu
 
 // NewDataCatalogClientWithOboToken Creates a new default DataCatalog client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDataCatalogClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DataCatalogClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

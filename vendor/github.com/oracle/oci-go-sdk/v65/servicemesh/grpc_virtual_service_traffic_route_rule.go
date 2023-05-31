@@ -34,8 +34,6 @@ type GrpcVirtualServiceTrafficRouteRule struct {
 	// Port to match for routing traffic.
 	Port *int `mandatory:"false" json:"port"`
 
-	FaultConfiguration *GrpcFaultConfiguration `mandatory:"false" json:"faultConfiguration"`
-
 	RetryConfiguration *GrpcRetryConfiguration `mandatory:"false" json:"retryConfiguration"`
 }
 

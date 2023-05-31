@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//StreamAdminClient a client for StreamAdmin
+// StreamAdminClient a client for StreamAdmin
 type StreamAdminClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewStreamAdminClientWithConfigurationProvider(configProvider common.Configu
 
 // NewStreamAdminClientWithOboToken Creates a new default StreamAdmin client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewStreamAdminClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client StreamAdminClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

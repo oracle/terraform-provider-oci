@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//MigrationClient a client for Migration
+// MigrationClient a client for Migration
 type MigrationClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewMigrationClientWithConfigurationProvider(configProvider common.Configura
 
 // NewMigrationClientWithOboToken Creates a new default Migration client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewMigrationClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client MigrationClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

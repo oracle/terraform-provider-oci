@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//IdentityDomainsClient a client for IdentityDomains
+// IdentityDomainsClient a client for IdentityDomains
 type IdentityDomainsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -43,7 +43,6 @@ func NewIdentityDomainsClientWithConfigurationProvider(configProvider common.Con
 
 // NewIdentityDomainsClientWithOboToken Creates a new default IdentityDomains client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
 func NewIdentityDomainsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client IdentityDomainsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

@@ -51,8 +51,6 @@ type HttpVirtualServiceTrafficRouteRuleDetails struct {
 	// For streaming responses from the target service, consider either keeping the timeout disabled or set a sufficiently high value.
 	RequestTimeoutInMs *int64 `mandatory:"false" json:"requestTimeoutInMs"`
 
-	FaultConfiguration *HttpFaultConfiguration `mandatory:"false" json:"faultConfiguration"`
-
 	RetryConfiguration *HttpRetryConfiguration `mandatory:"false" json:"retryConfiguration"`
 
 	// Match type for the route

@@ -39,6 +39,8 @@ type UpdateConnectionDetails struct {
 
 	AdminCredentials *UpdateAdminCredentials `mandatory:"false" json:"adminCredentials"`
 
+	ReplicationCredentials *UpdateAdminCredentials `mandatory:"false" json:"replicationCredentials"`
+
 	PrivateEndpoint *UpdatePrivateEndpoint `mandatory:"false" json:"privateEndpoint"`
 
 	VaultDetails *UpdateVaultDetails `mandatory:"false" json:"vaultDetails"`

@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//FusionApplicationsClient a client for FusionApplications
+// FusionApplicationsClient a client for FusionApplications
 type FusionApplicationsClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewFusionApplicationsClientWithConfigurationProvider(configProvider common.
 
 // NewFusionApplicationsClientWithOboToken Creates a new default FusionApplications client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewFusionApplicationsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client FusionApplicationsClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

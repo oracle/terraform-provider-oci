@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//StackMonitoringClient a client for StackMonitoring
+// StackMonitoringClient a client for StackMonitoring
 type StackMonitoringClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewStackMonitoringClientWithConfigurationProvider(configProvider common.Con
 
 // NewStackMonitoringClientWithOboToken Creates a new default StackMonitoring client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewStackMonitoringClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client StackMonitoringClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

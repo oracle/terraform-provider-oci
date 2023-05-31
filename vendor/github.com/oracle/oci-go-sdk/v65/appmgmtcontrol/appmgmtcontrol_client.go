@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//AppmgmtControlClient a client for AppmgmtControl
+// AppmgmtControlClient a client for AppmgmtControl
 type AppmgmtControlClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewAppmgmtControlClientWithConfigurationProvider(configProvider common.Conf
 
 // NewAppmgmtControlClientWithOboToken Creates a new default AppmgmtControl client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewAppmgmtControlClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client AppmgmtControlClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
