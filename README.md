@@ -1,12 +1,9 @@
-## NOTICE  
-**The OCI Terraform Provider is now available for automatic download through the Terraform Provider Registry. 
-For more information on how to get started view the [documentation](https://www.terraform.io/docs/providers/oci/index.html) 
-and [setup guide](https://www.terraform.io/docs/providers/oci/guides/version-3-upgrade.html).**
-
-
 # Terraform Provider for Oracle Cloud Infrastructure
 
+**The OCI Terraform Provider is now available for automatic download through the Terraform Provider Registry.**
+
 - [Documentation](https://www.terraform.io/docs/providers/oci/index.html)
+- [Setup guide](https://www.terraform.io/docs/providers/oci/guides/version-3-upgrade.html)
 - [Examples](https://github.com/oracle/terraform-provider-oci/tree/master/examples)
 - [OCI forums](https://cloudcustomerconnect.oracle.com/resources/9c8fa8f96f/summary)
 - [Github issues](https://github.com/oracle/terraform-provider-oci/issues)
