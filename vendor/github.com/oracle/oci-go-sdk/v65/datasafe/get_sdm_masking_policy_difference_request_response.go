@@ -13,7 +13,7 @@ import (
 
 // GetSdmMaskingPolicyDifferenceRequest wrapper for the GetSdmMaskingPolicyDifference operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSdmMaskingPolicyDifference.go.html to see an example of how to use GetSdmMaskingPolicyDifferenceRequest.
 type GetSdmMaskingPolicyDifferenceRequest struct {

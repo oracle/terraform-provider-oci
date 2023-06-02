@@ -13,7 +13,7 @@ import (
 
 // ListPreferredCredentialsRequest wrapper for the ListPreferredCredentials operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListPreferredCredentials.go.html to see an example of how to use ListPreferredCredentialsRequest.
 type ListPreferredCredentialsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // UpdateLoadBalancerShapeRequest wrapper for the UpdateLoadBalancerShape operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/UpdateLoadBalancerShape.go.html to see an example of how to use UpdateLoadBalancerShapeRequest.
 type UpdateLoadBalancerShapeRequest struct {

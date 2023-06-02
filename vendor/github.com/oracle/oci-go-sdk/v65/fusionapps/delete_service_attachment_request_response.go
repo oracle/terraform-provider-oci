@@ -13,7 +13,7 @@ import (
 
 // DeleteServiceAttachmentRequest wrapper for the DeleteServiceAttachment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/DeleteServiceAttachment.go.html to see an example of how to use DeleteServiceAttachmentRequest.
 type DeleteServiceAttachmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetAnnouncementUserStatusRequest wrapper for the GetAnnouncementUserStatus operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementUserStatus.go.html to see an example of how to use GetAnnouncementUserStatusRequest.
 type GetAnnouncementUserStatusRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // SummarizeManagementAgentCountsRequest wrapper for the SummarizeManagementAgentCounts operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/SummarizeManagementAgentCounts.go.html to see an example of how to use SummarizeManagementAgentCountsRequest.
 type SummarizeManagementAgentCountsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteBlockchainPlatformRequest wrapper for the DeleteBlockchainPlatform operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/DeleteBlockchainPlatform.go.html to see an example of how to use DeleteBlockchainPlatformRequest.
 type DeleteBlockchainPlatformRequest struct {

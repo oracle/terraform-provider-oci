@@ -13,7 +13,7 @@ import (
 
 // ChangeShapeRequest wrapper for the ChangeShape operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ChangeShape.go.html to see an example of how to use ChangeShapeRequest.
 type ChangeShapeRequest struct {

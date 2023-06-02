@@ -13,7 +13,7 @@ import (
 
 // GetNamespaceRequest wrapper for the GetNamespace operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetNamespace.go.html to see an example of how to use GetNamespaceRequest.
 type GetNamespaceRequest struct {

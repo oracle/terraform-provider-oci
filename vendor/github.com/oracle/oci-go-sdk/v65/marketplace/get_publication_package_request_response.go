@@ -13,7 +13,7 @@ import (
 
 // GetPublicationPackageRequest wrapper for the GetPublicationPackage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetPublicationPackage.go.html to see an example of how to use GetPublicationPackageRequest.
 type GetPublicationPackageRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetVirtualServiceRequest wrapper for the GetVirtualService operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetVirtualService.go.html to see an example of how to use GetVirtualServiceRequest.
 type GetVirtualServiceRequest struct {

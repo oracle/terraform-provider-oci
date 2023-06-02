@@ -13,7 +13,7 @@ import (
 
 // ListProxyUsersRequest wrapper for the ListProxyUsers operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListProxyUsers.go.html to see an example of how to use ListProxyUsersRequest.
 type ListProxyUsersRequest struct {

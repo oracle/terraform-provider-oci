@@ -13,7 +13,7 @@ import (
 
 // DeleteJobRunRequest wrapper for the DeleteJobRun operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteJobRun.go.html to see an example of how to use DeleteJobRunRequest.
 type DeleteJobRunRequest struct {

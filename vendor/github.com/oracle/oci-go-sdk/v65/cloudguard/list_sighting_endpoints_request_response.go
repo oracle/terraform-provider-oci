@@ -13,7 +13,7 @@ import (
 
 // ListSightingEndpointsRequest wrapper for the ListSightingEndpoints operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSightingEndpoints.go.html to see an example of how to use ListSightingEndpointsRequest.
 type ListSightingEndpointsRequest struct {

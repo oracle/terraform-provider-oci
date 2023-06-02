@@ -13,7 +13,7 @@ import (
 
 // ListPingProbeResultsRequest wrapper for the ListPingProbeResults operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListPingProbeResults.go.html to see an example of how to use ListPingProbeResultsRequest.
 type ListPingProbeResultsRequest struct {

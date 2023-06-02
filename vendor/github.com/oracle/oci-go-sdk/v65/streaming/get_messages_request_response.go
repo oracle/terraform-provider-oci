@@ -13,7 +13,7 @@ import (
 
 // GetMessagesRequest wrapper for the GetMessages operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetMessages.go.html to see an example of how to use GetMessagesRequest.
 type GetMessagesRequest struct {

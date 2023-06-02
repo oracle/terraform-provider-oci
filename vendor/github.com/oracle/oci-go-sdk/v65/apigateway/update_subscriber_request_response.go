@@ -13,7 +13,7 @@ import (
 
 // UpdateSubscriberRequest wrapper for the UpdateSubscriber operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateSubscriber.go.html to see an example of how to use UpdateSubscriberRequest.
 type UpdateSubscriberRequest struct {

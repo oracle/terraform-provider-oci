@@ -13,7 +13,7 @@ import (
 
 // UpgradeBlockchainPlatformRequest wrapper for the UpgradeBlockchainPlatform operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/UpgradeBlockchainPlatform.go.html to see an example of how to use UpgradeBlockchainPlatformRequest.
 type UpgradeBlockchainPlatformRequest struct {

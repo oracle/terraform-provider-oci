@@ -13,7 +13,7 @@ import (
 
 // DeleteDeployArtifactRequest wrapper for the DeleteDeployArtifact operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployArtifact.go.html to see an example of how to use DeleteDeployArtifactRequest.
 type DeleteDeployArtifactRequest struct {

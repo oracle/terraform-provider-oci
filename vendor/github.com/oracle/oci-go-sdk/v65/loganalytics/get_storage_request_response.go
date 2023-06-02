@@ -13,7 +13,7 @@ import (
 
 // GetStorageRequest wrapper for the GetStorage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetStorage.go.html to see an example of how to use GetStorageRequest.
 type GetStorageRequest struct {

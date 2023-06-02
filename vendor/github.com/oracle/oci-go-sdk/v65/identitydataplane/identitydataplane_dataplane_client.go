@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//DataplaneClient a client for Dataplane
+// DataplaneClient a client for Dataplane
 type DataplaneClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,7 +39,8 @@ func NewDataplaneClientWithConfigurationProvider(configProvider common.Configura
 
 // NewDataplaneClientWithOboToken Creates a new default Dataplane client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDataplaneClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DataplaneClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

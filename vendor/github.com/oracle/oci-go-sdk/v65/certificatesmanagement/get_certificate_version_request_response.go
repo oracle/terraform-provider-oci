@@ -13,7 +13,7 @@ import (
 
 // GetCertificateVersionRequest wrapper for the GetCertificateVersion operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetCertificateVersion.go.html to see an example of how to use GetCertificateVersionRequest.
 type GetCertificateVersionRequest struct {

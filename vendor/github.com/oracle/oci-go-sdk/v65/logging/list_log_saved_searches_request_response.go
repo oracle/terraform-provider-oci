@@ -13,7 +13,7 @@ import (
 
 // ListLogSavedSearchesRequest wrapper for the ListLogSavedSearches operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ListLogSavedSearches.go.html to see an example of how to use ListLogSavedSearchesRequest.
 type ListLogSavedSearchesRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ChangeLogGroupCompartmentRequest wrapper for the ChangeLogGroupCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ChangeLogGroupCompartment.go.html to see an example of how to use ChangeLogGroupCompartmentRequest.
 type ChangeLogGroupCompartmentRequest struct {

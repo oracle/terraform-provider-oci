@@ -13,7 +13,7 @@ import (
 
 // UpdateBuildPipelineRequest wrapper for the UpdateBuildPipeline operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateBuildPipeline.go.html to see an example of how to use UpdateBuildPipelineRequest.
 type UpdateBuildPipelineRequest struct {

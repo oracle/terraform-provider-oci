@@ -13,7 +13,7 @@ import (
 
 // RequestSummarizedTopTrendResourceProfileRiskScoresRequest wrapper for the RequestSummarizedTopTrendResourceProfileRiskScores operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSummarizedTopTrendResourceProfileRiskScores.go.html to see an example of how to use RequestSummarizedTopTrendResourceProfileRiskScoresRequest.
 type RequestSummarizedTopTrendResourceProfileRiskScoresRequest struct {

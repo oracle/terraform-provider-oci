@@ -13,7 +13,7 @@ import (
 
 // GetCaptureFilterRequest wrapper for the GetCaptureFilter operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCaptureFilter.go.html to see an example of how to use GetCaptureFilterRequest.
 type GetCaptureFilterRequest struct {

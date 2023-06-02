@@ -13,7 +13,7 @@ import (
 
 // ListTriggersRequest wrapper for the ListTriggers operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/ListTriggers.go.html to see an example of how to use ListTriggersRequest.
 type ListTriggersRequest struct {

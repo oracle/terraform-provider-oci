@@ -13,7 +13,7 @@ import (
 
 // ListExternalListenersRequest wrapper for the ListExternalListeners operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalListeners.go.html to see an example of how to use ListExternalListenersRequest.
 type ListExternalListenersRequest struct {

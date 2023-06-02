@@ -13,7 +13,7 @@ import (
 
 // DisableArchivingRequest wrapper for the DisableArchiving operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DisableArchiving.go.html to see an example of how to use DisableArchivingRequest.
 type DisableArchivingRequest struct {

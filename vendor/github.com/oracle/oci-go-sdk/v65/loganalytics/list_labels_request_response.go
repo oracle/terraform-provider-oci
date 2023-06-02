@@ -13,7 +13,7 @@ import (
 
 // ListLabelsRequest wrapper for the ListLabels operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLabels.go.html to see an example of how to use ListLabelsRequest.
 type ListLabelsRequest struct {

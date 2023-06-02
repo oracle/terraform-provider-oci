@@ -13,7 +13,7 @@ import (
 
 // UpdateGoodBotsRequest wrapper for the UpdateGoodBots operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateGoodBots.go.html to see an example of how to use UpdateGoodBotsRequest.
 type UpdateGoodBotsRequest struct {

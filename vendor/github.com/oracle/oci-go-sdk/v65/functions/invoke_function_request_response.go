@@ -14,7 +14,7 @@ import (
 
 // InvokeFunctionRequest wrapper for the InvokeFunction operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/InvokeFunction.go.html to see an example of how to use InvokeFunctionRequest.
 type InvokeFunctionRequest struct {

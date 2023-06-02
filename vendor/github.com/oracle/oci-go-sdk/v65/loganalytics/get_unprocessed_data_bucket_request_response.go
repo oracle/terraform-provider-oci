@@ -13,7 +13,7 @@ import (
 
 // GetUnprocessedDataBucketRequest wrapper for the GetUnprocessedDataBucket operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetUnprocessedDataBucket.go.html to see an example of how to use GetUnprocessedDataBucketRequest.
 type GetUnprocessedDataBucketRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CreateHostnameRequest wrapper for the CreateHostname operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/CreateHostname.go.html to see an example of how to use CreateHostnameRequest.
 type CreateHostnameRequest struct {

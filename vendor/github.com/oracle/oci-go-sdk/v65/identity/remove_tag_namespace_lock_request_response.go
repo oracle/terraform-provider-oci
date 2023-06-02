@@ -13,7 +13,7 @@ import (
 
 // RemoveTagNamespaceLockRequest wrapper for the RemoveTagNamespaceLock operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/RemoveTagNamespaceLock.go.html to see an example of how to use RemoveTagNamespaceLockRequest.
 type RemoveTagNamespaceLockRequest struct {

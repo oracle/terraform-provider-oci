@@ -13,7 +13,7 @@ import (
 
 // GetSoftwareSourceRequest wrapper for the GetSoftwareSource operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetSoftwareSource.go.html to see an example of how to use GetSoftwareSourceRequest.
 type GetSoftwareSourceRequest struct {

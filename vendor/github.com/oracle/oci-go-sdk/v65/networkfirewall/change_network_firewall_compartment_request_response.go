@@ -13,7 +13,7 @@ import (
 
 // ChangeNetworkFirewallCompartmentRequest wrapper for the ChangeNetworkFirewallCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ChangeNetworkFirewallCompartment.go.html to see an example of how to use ChangeNetworkFirewallCompartmentRequest.
 type ChangeNetworkFirewallCompartmentRequest struct {

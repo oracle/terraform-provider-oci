@@ -13,7 +13,7 @@ import (
 
 // RequestSummarizedApplicationsRequest wrapper for the RequestSummarizedApplications operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/RequestSummarizedApplications.go.html to see an example of how to use RequestSummarizedApplicationsRequest.
 type RequestSummarizedApplicationsRequest struct {

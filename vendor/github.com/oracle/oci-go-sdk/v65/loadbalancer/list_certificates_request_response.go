@@ -13,7 +13,7 @@ import (
 
 // ListCertificatesRequest wrapper for the ListCertificates operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/ListCertificates.go.html to see an example of how to use ListCertificatesRequest.
 type ListCertificatesRequest struct {

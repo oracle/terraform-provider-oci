@@ -13,7 +13,7 @@ import (
 
 // ListConnectionAssignmentsRequest wrapper for the ListConnectionAssignments operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListConnectionAssignments.go.html to see an example of how to use ListConnectionAssignmentsRequest.
 type ListConnectionAssignmentsRequest struct {

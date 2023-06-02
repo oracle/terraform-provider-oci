@@ -13,7 +13,7 @@ import (
 
 // DeleteViewRequest wrapper for the DeleteView operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteView.go.html to see an example of how to use DeleteViewRequest.
 type DeleteViewRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetJavaReleaseRequest wrapper for the GetJavaRelease operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetJavaRelease.go.html to see an example of how to use GetJavaReleaseRequest.
 type GetJavaReleaseRequest struct {

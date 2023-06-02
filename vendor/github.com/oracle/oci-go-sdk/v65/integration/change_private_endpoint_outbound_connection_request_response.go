@@ -13,7 +13,7 @@ import (
 
 // ChangePrivateEndpointOutboundConnectionRequest wrapper for the ChangePrivateEndpointOutboundConnection operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangePrivateEndpointOutboundConnection.go.html to see an example of how to use ChangePrivateEndpointOutboundConnectionRequest.
 type ChangePrivateEndpointOutboundConnectionRequest struct {

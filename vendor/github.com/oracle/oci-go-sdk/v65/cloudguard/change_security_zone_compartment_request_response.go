@@ -13,7 +13,7 @@ import (
 
 // ChangeSecurityZoneCompartmentRequest wrapper for the ChangeSecurityZoneCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeSecurityZoneCompartment.go.html to see an example of how to use ChangeSecurityZoneCompartmentRequest.
 type ChangeSecurityZoneCompartmentRequest struct {

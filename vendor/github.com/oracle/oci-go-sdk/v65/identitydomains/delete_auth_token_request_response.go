@@ -13,7 +13,7 @@ import (
 
 // DeleteAuthTokenRequest wrapper for the DeleteAuthToken operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteAuthToken.go.html to see an example of how to use DeleteAuthTokenRequest.
 type DeleteAuthTokenRequest struct {

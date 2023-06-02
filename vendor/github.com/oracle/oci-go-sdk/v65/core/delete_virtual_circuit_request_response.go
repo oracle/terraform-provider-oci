@@ -13,7 +13,7 @@ import (
 
 // DeleteVirtualCircuitRequest wrapper for the DeleteVirtualCircuit operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVirtualCircuit.go.html to see an example of how to use DeleteVirtualCircuitRequest.
 type DeleteVirtualCircuitRequest struct {

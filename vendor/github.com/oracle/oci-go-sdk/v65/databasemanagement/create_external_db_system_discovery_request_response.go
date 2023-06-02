@@ -13,7 +13,7 @@ import (
 
 // CreateExternalDbSystemDiscoveryRequest wrapper for the CreateExternalDbSystemDiscovery operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateExternalDbSystemDiscovery.go.html to see an example of how to use CreateExternalDbSystemDiscoveryRequest.
 type CreateExternalDbSystemDiscoveryRequest struct {

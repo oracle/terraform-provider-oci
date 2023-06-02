@@ -13,7 +13,7 @@ import (
 
 // CreateMediaAssetRequest wrapper for the CreateMediaAsset operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateMediaAsset.go.html to see an example of how to use CreateMediaAssetRequest.
 type CreateMediaAssetRequest struct {

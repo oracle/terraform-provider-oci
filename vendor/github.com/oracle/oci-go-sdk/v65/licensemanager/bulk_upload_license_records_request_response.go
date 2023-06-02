@@ -13,7 +13,7 @@ import (
 
 // BulkUploadLicenseRecordsRequest wrapper for the BulkUploadLicenseRecords operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/BulkUploadLicenseRecords.go.html to see an example of how to use BulkUploadLicenseRecordsRequest.
 type BulkUploadLicenseRecordsRequest struct {

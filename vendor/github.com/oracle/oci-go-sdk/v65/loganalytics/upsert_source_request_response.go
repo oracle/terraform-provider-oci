@@ -13,7 +13,7 @@ import (
 
 // UpsertSourceRequest wrapper for the UpsertSource operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpsertSource.go.html to see an example of how to use UpsertSourceRequest.
 type UpsertSourceRequest struct {

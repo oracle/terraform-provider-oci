@@ -13,7 +13,7 @@ import (
 
 // EnableAutoAssociationRequest wrapper for the EnableAutoAssociation operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EnableAutoAssociation.go.html to see an example of how to use EnableAutoAssociationRequest.
 type EnableAutoAssociationRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteGroupRequest wrapper for the DeleteGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteGroup.go.html to see an example of how to use DeleteGroupRequest.
 type DeleteGroupRequest struct {

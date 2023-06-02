@@ -13,7 +13,7 @@ import (
 
 // ListExternalDbHomesRequest wrapper for the ListExternalDbHomes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalDbHomes.go.html to see an example of how to use ListExternalDbHomesRequest.
 type ListExternalDbHomesRequest struct {

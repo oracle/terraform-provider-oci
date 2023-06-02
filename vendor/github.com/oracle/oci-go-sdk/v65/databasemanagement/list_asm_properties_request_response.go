@@ -13,7 +13,7 @@ import (
 
 // ListAsmPropertiesRequest wrapper for the ListAsmProperties operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListAsmProperties.go.html to see an example of how to use ListAsmPropertiesRequest.
 type ListAsmPropertiesRequest struct {

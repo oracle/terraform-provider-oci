@@ -13,7 +13,7 @@ import (
 
 // DeleteProtectedDatabaseRequest wrapper for the DeleteProtectedDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/DeleteProtectedDatabase.go.html to see an example of how to use DeleteProtectedDatabaseRequest.
 type DeleteProtectedDatabaseRequest struct {

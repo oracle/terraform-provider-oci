@@ -13,7 +13,7 @@ import (
 
 // GetCountStatisticRequest wrapper for the GetCountStatistic operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetCountStatistic.go.html to see an example of how to use GetCountStatisticRequest.
 type GetCountStatisticRequest struct {

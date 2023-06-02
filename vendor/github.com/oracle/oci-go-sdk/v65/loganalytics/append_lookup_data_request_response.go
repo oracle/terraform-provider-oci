@@ -14,7 +14,7 @@ import (
 
 // AppendLookupDataRequest wrapper for the AppendLookupData operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/AppendLookupData.go.html to see an example of how to use AppendLookupDataRequest.
 type AppendLookupDataRequest struct {

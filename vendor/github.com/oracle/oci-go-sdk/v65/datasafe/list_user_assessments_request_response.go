@@ -13,7 +13,7 @@ import (
 
 // ListUserAssessmentsRequest wrapper for the ListUserAssessments operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUserAssessments.go.html to see an example of how to use ListUserAssessmentsRequest.
 type ListUserAssessmentsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListVirtualCircuitBandwidthShapesRequest wrapper for the ListVirtualCircuitBandwidthShapes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVirtualCircuitBandwidthShapes.go.html to see an example of how to use ListVirtualCircuitBandwidthShapesRequest.
 type ListVirtualCircuitBandwidthShapesRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CreateSecurityAssessmentRequest wrapper for the CreateSecurityAssessment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSecurityAssessment.go.html to see an example of how to use CreateSecurityAssessmentRequest.
 type CreateSecurityAssessmentRequest struct {

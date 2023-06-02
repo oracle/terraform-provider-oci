@@ -13,7 +13,7 @@ import (
 
 // DeleteHostnameRequest wrapper for the DeleteHostname operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/DeleteHostname.go.html to see an example of how to use DeleteHostnameRequest.
 type DeleteHostnameRequest struct {

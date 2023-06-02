@@ -13,7 +13,7 @@ import (
 
 // ListWorkRequestResultsRequest wrapper for the ListWorkRequestResults operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ListWorkRequestResults.go.html to see an example of how to use ListWorkRequestResultsRequest.
 type ListWorkRequestResultsRequest struct {

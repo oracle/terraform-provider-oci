@@ -13,7 +13,7 @@ import (
 
 // SearchAuthenticationFactorSettingsRequest wrapper for the SearchAuthenticationFactorSettings operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchAuthenticationFactorSettings.go.html to see an example of how to use SearchAuthenticationFactorSettingsRequest.
 type SearchAuthenticationFactorSettingsRequest struct {

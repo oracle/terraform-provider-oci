@@ -13,7 +13,7 @@ import (
 
 // DisableExternalPluggableDatabaseOperationsInsightsRequest wrapper for the DisableExternalPluggableDatabaseOperationsInsights operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DisableExternalPluggableDatabaseOperationsInsights.go.html to see an example of how to use DisableExternalPluggableDatabaseOperationsInsightsRequest.
 type DisableExternalPluggableDatabaseOperationsInsightsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetLicenseMetricRequest wrapper for the GetLicenseMetric operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetLicenseMetric.go.html to see an example of how to use GetLicenseMetricRequest.
 type GetLicenseMetricRequest struct {

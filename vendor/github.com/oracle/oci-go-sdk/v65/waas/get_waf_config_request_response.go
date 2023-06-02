@@ -13,7 +13,7 @@ import (
 
 // GetWafConfigRequest wrapper for the GetWafConfig operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetWafConfig.go.html to see an example of how to use GetWafConfigRequest.
 type GetWafConfigRequest struct {

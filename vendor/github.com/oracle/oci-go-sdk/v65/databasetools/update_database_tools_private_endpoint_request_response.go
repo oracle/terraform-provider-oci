@@ -13,7 +13,7 @@ import (
 
 // UpdateDatabaseToolsPrivateEndpointRequest wrapper for the UpdateDatabaseToolsPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/UpdateDatabaseToolsPrivateEndpoint.go.html to see an example of how to use UpdateDatabaseToolsPrivateEndpointRequest.
 type UpdateDatabaseToolsPrivateEndpointRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // HeadJobArtifactRequest wrapper for the HeadJobArtifact operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/HeadJobArtifact.go.html to see an example of how to use HeadJobArtifactRequest.
 type HeadJobArtifactRequest struct {

@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//DeploymentClient a client for Deployment
+// DeploymentClient a client for Deployment
 type DeploymentClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -41,7 +41,8 @@ func NewDeploymentClientWithConfigurationProvider(configProvider common.Configur
 
 // NewDeploymentClientWithOboToken Creates a new default Deployment client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDeploymentClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DeploymentClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

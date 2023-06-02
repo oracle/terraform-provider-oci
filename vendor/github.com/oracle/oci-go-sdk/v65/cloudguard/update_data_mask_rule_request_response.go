@@ -13,7 +13,7 @@ import (
 
 // UpdateDataMaskRuleRequest wrapper for the UpdateDataMaskRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateDataMaskRule.go.html to see an example of how to use UpdateDataMaskRuleRequest.
 type UpdateDataMaskRuleRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CreateAssetRequest wrapper for the CreateAsset operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateAsset.go.html to see an example of how to use CreateAssetRequest.
 type CreateAssetRequest struct {

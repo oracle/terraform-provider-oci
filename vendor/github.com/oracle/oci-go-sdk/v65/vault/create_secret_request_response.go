@@ -13,7 +13,7 @@ import (
 
 // CreateSecretRequest wrapper for the CreateSecret operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CreateSecret.go.html to see an example of how to use CreateSecretRequest.
 type CreateSecretRequest struct {

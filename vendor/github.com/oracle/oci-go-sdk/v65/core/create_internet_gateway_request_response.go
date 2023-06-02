@@ -13,7 +13,7 @@ import (
 
 // CreateInternetGatewayRequest wrapper for the CreateInternetGateway operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateInternetGateway.go.html to see an example of how to use CreateInternetGatewayRequest.
 type CreateInternetGatewayRequest struct {

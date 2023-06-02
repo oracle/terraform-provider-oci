@@ -13,7 +13,7 @@ import (
 
 // ListMyOAuth2ClientCredentialsRequest wrapper for the ListMyOAuth2ClientCredentials operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyOAuth2ClientCredentials.go.html to see an example of how to use ListMyOAuth2ClientCredentialsRequest.
 type ListMyOAuth2ClientCredentialsRequest struct {

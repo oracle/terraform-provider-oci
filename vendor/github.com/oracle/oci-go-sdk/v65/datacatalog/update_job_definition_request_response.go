@@ -13,7 +13,7 @@ import (
 
 // UpdateJobDefinitionRequest wrapper for the UpdateJobDefinition operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateJobDefinition.go.html to see an example of how to use UpdateJobDefinitionRequest.
 type UpdateJobDefinitionRequest struct {

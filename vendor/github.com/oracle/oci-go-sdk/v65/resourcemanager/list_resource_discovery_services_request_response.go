@@ -13,7 +13,7 @@ import (
 
 // ListResourceDiscoveryServicesRequest wrapper for the ListResourceDiscoveryServices operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListResourceDiscoveryServices.go.html to see an example of how to use ListResourceDiscoveryServicesRequest.
 type ListResourceDiscoveryServicesRequest struct {

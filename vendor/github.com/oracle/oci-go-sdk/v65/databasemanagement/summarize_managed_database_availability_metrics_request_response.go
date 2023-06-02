@@ -13,7 +13,7 @@ import (
 
 // SummarizeManagedDatabaseAvailabilityMetricsRequest wrapper for the SummarizeManagedDatabaseAvailabilityMetrics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeManagedDatabaseAvailabilityMetrics.go.html to see an example of how to use SummarizeManagedDatabaseAvailabilityMetricsRequest.
 type SummarizeManagedDatabaseAvailabilityMetricsRequest struct {

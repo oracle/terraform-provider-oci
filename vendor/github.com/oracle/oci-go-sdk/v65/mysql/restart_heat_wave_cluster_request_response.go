@@ -13,7 +13,7 @@ import (
 
 // RestartHeatWaveClusterRequest wrapper for the RestartHeatWaveCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/RestartHeatWaveCluster.go.html to see an example of how to use RestartHeatWaveClusterRequest.
 type RestartHeatWaveClusterRequest struct {

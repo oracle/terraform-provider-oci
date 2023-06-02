@@ -13,7 +13,7 @@ import (
 
 // ChangeConfigurationSourceProviderCompartmentRequest wrapper for the ChangeConfigurationSourceProviderCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ChangeConfigurationSourceProviderCompartment.go.html to see an example of how to use ChangeConfigurationSourceProviderCompartmentRequest.
 type ChangeConfigurationSourceProviderCompartmentRequest struct {

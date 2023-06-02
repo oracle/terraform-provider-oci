@@ -14,7 +14,7 @@ import (
 
 // DownloadDiscoveryReportRequest wrapper for the DownloadDiscoveryReport operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadDiscoveryReport.go.html to see an example of how to use DownloadDiscoveryReportRequest.
 type DownloadDiscoveryReportRequest struct {

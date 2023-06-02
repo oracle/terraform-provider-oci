@@ -13,7 +13,7 @@ import (
 
 // DeletePipelineRunRequest wrapper for the DeletePipelineRun operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeletePipelineRun.go.html to see an example of how to use DeletePipelineRunRequest.
 type DeletePipelineRunRequest struct {

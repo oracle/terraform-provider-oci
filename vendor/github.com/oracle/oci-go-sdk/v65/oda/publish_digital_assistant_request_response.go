@@ -13,7 +13,7 @@ import (
 
 // PublishDigitalAssistantRequest wrapper for the PublishDigitalAssistant operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/PublishDigitalAssistant.go.html to see an example of how to use PublishDigitalAssistantRequest.
 type PublishDigitalAssistantRequest struct {

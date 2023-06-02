@@ -13,7 +13,7 @@ import (
 
 // GetBackupRequest wrapper for the GetBackup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetBackup.go.html to see an example of how to use GetBackupRequest.
 type GetBackupRequest struct {

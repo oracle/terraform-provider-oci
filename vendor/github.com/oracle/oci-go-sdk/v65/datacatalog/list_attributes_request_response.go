@@ -13,7 +13,7 @@ import (
 
 // ListAttributesRequest wrapper for the ListAttributes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListAttributes.go.html to see an example of how to use ListAttributesRequest.
 type ListAttributesRequest struct {

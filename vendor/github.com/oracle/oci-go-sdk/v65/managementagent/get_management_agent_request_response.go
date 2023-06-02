@@ -13,7 +13,7 @@ import (
 
 // GetManagementAgentRequest wrapper for the GetManagementAgent operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/GetManagementAgent.go.html to see an example of how to use GetManagementAgentRequest.
 type GetManagementAgentRequest struct {

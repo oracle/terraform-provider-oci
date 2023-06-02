@@ -13,7 +13,7 @@ import (
 
 // ChangeLogSavedSearchCompartmentRequest wrapper for the ChangeLogSavedSearchCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/ChangeLogSavedSearchCompartment.go.html to see an example of how to use ChangeLogSavedSearchCompartmentRequest.
 type ChangeLogSavedSearchCompartmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // RefreshUserAssessmentRequest wrapper for the RefreshUserAssessment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshUserAssessment.go.html to see an example of how to use RefreshUserAssessmentRequest.
 type RefreshUserAssessmentRequest struct {

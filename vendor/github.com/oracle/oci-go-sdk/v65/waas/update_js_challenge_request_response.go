@@ -13,7 +13,7 @@ import (
 
 // UpdateJsChallengeRequest wrapper for the UpdateJsChallenge operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateJsChallenge.go.html to see an example of how to use UpdateJsChallengeRequest.
 type UpdateJsChallengeRequest struct {

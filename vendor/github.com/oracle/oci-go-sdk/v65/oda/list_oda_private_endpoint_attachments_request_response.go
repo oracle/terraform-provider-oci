@@ -13,7 +13,7 @@ import (
 
 // ListOdaPrivateEndpointAttachmentsRequest wrapper for the ListOdaPrivateEndpointAttachments operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpointAttachments.go.html to see an example of how to use ListOdaPrivateEndpointAttachmentsRequest.
 type ListOdaPrivateEndpointAttachmentsRequest struct {

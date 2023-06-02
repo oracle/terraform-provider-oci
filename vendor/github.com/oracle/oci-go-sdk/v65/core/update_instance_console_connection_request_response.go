@@ -13,7 +13,7 @@ import (
 
 // UpdateInstanceConsoleConnectionRequest wrapper for the UpdateInstanceConsoleConnection operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateInstanceConsoleConnection.go.html to see an example of how to use UpdateInstanceConsoleConnectionRequest.
 type UpdateInstanceConsoleConnectionRequest struct {

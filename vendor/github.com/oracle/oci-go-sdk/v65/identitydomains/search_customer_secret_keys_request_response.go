@@ -13,7 +13,7 @@ import (
 
 // SearchCustomerSecretKeysRequest wrapper for the SearchCustomerSecretKeys operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchCustomerSecretKeys.go.html to see an example of how to use SearchCustomerSecretKeysRequest.
 type SearchCustomerSecretKeysRequest struct {

@@ -14,7 +14,7 @@ import (
 
 // UploadLogFileRequest wrapper for the UploadLogFile operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UploadLogFile.go.html to see an example of how to use UploadLogFileRequest.
 type UploadLogFileRequest struct {

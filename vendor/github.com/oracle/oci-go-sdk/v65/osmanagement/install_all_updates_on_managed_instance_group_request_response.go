@@ -13,7 +13,7 @@ import (
 
 // InstallAllUpdatesOnManagedInstanceGroupRequest wrapper for the InstallAllUpdatesOnManagedInstanceGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/InstallAllUpdatesOnManagedInstanceGroup.go.html to see an example of how to use InstallAllUpdatesOnManagedInstanceGroupRequest.
 type InstallAllUpdatesOnManagedInstanceGroupRequest struct {

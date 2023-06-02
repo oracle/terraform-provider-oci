@@ -13,7 +13,7 @@ import (
 
 // ListMyTrustedUserAgentsRequest wrapper for the ListMyTrustedUserAgents operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyTrustedUserAgents.go.html to see an example of how to use ListMyTrustedUserAgentsRequest.
 type ListMyTrustedUserAgentsRequest struct {

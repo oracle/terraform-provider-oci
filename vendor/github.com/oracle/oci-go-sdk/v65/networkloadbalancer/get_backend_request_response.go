@@ -13,7 +13,7 @@ import (
 
 // GetBackendRequest wrapper for the GetBackend operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetBackend.go.html to see an example of how to use GetBackendRequest.
 type GetBackendRequest struct {

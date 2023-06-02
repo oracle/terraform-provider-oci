@@ -13,7 +13,7 @@ import (
 
 // ListEntityTagsRequest wrapper for the ListEntityTags operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListEntityTags.go.html to see an example of how to use ListEntityTagsRequest.
 type ListEntityTagsRequest struct {

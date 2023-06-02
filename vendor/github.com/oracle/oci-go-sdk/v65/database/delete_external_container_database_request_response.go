@@ -13,7 +13,7 @@ import (
 
 // DeleteExternalContainerDatabaseRequest wrapper for the DeleteExternalContainerDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteExternalContainerDatabase.go.html to see an example of how to use DeleteExternalContainerDatabaseRequest.
 type DeleteExternalContainerDatabaseRequest struct {

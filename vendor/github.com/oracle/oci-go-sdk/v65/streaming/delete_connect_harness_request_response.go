@@ -13,7 +13,7 @@ import (
 
 // DeleteConnectHarnessRequest wrapper for the DeleteConnectHarness operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/DeleteConnectHarness.go.html to see an example of how to use DeleteConnectHarnessRequest.
 type DeleteConnectHarnessRequest struct {

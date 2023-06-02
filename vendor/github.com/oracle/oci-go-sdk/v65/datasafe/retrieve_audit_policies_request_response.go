@@ -13,7 +13,7 @@ import (
 
 // RetrieveAuditPoliciesRequest wrapper for the RetrieveAuditPolicies operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RetrieveAuditPolicies.go.html to see an example of how to use RetrieveAuditPoliciesRequest.
 type RetrieveAuditPoliciesRequest struct {

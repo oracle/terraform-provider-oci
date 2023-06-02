@@ -13,7 +13,7 @@ import (
 
 // GetPrivateAccessChannelRequest wrapper for the GetPrivateAccessChannel operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/GetPrivateAccessChannel.go.html to see an example of how to use GetPrivateAccessChannelRequest.
 type GetPrivateAccessChannelRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetTableRequest wrapper for the GetTable operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/GetTable.go.html to see an example of how to use GetTableRequest.
 type GetTableRequest struct {

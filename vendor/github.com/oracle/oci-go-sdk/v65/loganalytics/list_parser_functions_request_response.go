@@ -13,7 +13,7 @@ import (
 
 // ListParserFunctionsRequest wrapper for the ListParserFunctions operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListParserFunctions.go.html to see an example of how to use ListParserFunctionsRequest.
 type ListParserFunctionsRequest struct {

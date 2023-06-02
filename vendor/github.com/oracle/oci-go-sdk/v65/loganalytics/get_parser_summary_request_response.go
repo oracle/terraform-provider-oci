@@ -13,7 +13,7 @@ import (
 
 // GetParserSummaryRequest wrapper for the GetParserSummary operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetParserSummary.go.html to see an example of how to use GetParserSummaryRequest.
 type GetParserSummaryRequest struct {

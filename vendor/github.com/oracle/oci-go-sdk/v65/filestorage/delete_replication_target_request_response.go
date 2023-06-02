@@ -13,7 +13,7 @@ import (
 
 // DeleteReplicationTargetRequest wrapper for the DeleteReplicationTarget operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteReplicationTarget.go.html to see an example of how to use DeleteReplicationTargetRequest.
 type DeleteReplicationTargetRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetNotebookSessionRequest wrapper for the GetNotebookSession operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetNotebookSession.go.html to see an example of how to use GetNotebookSessionRequest.
 type GetNotebookSessionRequest struct {

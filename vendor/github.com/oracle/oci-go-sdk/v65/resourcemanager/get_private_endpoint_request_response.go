@@ -13,7 +13,7 @@ import (
 
 // GetPrivateEndpointRequest wrapper for the GetPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetPrivateEndpoint.go.html to see an example of how to use GetPrivateEndpointRequest.
 type GetPrivateEndpointRequest struct {

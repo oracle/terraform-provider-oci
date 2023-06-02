@@ -13,7 +13,7 @@ import (
 
 // UpdateStreamPoolRequest wrapper for the UpdateStreamPool operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/UpdateStreamPool.go.html to see an example of how to use UpdateStreamPoolRequest.
 type UpdateStreamPoolRequest struct {

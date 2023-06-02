@@ -13,7 +13,7 @@ import (
 
 // ListExternalDatabasesRequest wrapper for the ListExternalDatabases operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalDatabases.go.html to see an example of how to use ListExternalDatabasesRequest.
 type ListExternalDatabasesRequest struct {

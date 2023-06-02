@@ -14,7 +14,7 @@ import (
 
 // ExportQueryResultRequest wrapper for the ExportQueryResult operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ExportQueryResult.go.html to see an example of how to use ExportQueryResultRequest.
 type ExportQueryResultRequest struct {

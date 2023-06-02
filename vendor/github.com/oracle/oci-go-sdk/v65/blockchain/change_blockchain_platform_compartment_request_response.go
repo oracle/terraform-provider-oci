@@ -13,7 +13,7 @@ import (
 
 // ChangeBlockchainPlatformCompartmentRequest wrapper for the ChangeBlockchainPlatformCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/ChangeBlockchainPlatformCompartment.go.html to see an example of how to use ChangeBlockchainPlatformCompartmentRequest.
 type ChangeBlockchainPlatformCompartmentRequest struct {

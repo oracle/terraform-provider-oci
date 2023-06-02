@@ -13,7 +13,7 @@ import (
 
 // DeleteServiceCatalogRequest wrapper for the DeleteServiceCatalog operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/DeleteServiceCatalog.go.html to see an example of how to use DeleteServiceCatalogRequest.
 type DeleteServiceCatalogRequest struct {

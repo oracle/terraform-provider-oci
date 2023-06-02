@@ -13,7 +13,7 @@ import (
 
 // ChangeVtapCompartmentRequest wrapper for the ChangeVtapCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeVtapCompartment.go.html to see an example of how to use ChangeVtapCompartmentRequest.
 type ChangeVtapCompartmentRequest struct {

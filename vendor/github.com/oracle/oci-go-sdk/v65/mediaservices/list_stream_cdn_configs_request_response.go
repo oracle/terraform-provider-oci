@@ -13,7 +13,7 @@ import (
 
 // ListStreamCdnConfigsRequest wrapper for the ListStreamCdnConfigs operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListStreamCdnConfigs.go.html to see an example of how to use ListStreamCdnConfigsRequest.
 type ListStreamCdnConfigsRequest struct {

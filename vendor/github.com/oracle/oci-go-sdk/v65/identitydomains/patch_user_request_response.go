@@ -13,7 +13,7 @@ import (
 
 // PatchUserRequest wrapper for the PatchUser operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchUser.go.html to see an example of how to use PatchUserRequest.
 type PatchUserRequest struct {

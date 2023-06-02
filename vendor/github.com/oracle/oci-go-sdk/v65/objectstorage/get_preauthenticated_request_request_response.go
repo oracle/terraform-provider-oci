@@ -13,7 +13,7 @@ import (
 
 // GetPreauthenticatedRequestRequest wrapper for the GetPreauthenticatedRequest operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetPreauthenticatedRequest.go.html to see an example of how to use GetPreauthenticatedRequestRequest.
 type GetPreauthenticatedRequestRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListPrivateApplicationPackagesRequest wrapper for the ListPrivateApplicationPackages operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListPrivateApplicationPackages.go.html to see an example of how to use ListPrivateApplicationPackagesRequest.
 type ListPrivateApplicationPackagesRequest struct {

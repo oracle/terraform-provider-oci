@@ -13,7 +13,7 @@ import (
 
 // CreatePingMonitorRequest wrapper for the CreatePingMonitor operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/CreatePingMonitor.go.html to see an example of how to use CreatePingMonitorRequest.
 type CreatePingMonitorRequest struct {

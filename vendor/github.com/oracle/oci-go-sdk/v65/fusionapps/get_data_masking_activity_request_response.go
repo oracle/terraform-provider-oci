@@ -13,7 +13,7 @@ import (
 
 // GetDataMaskingActivityRequest wrapper for the GetDataMaskingActivity operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetDataMaskingActivity.go.html to see an example of how to use GetDataMaskingActivityRequest.
 type GetDataMaskingActivityRequest struct {

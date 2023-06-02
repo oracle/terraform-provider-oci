@@ -13,7 +13,7 @@ import (
 
 // ChangeDomainLicenseTypeRequest wrapper for the ChangeDomainLicenseType operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ChangeDomainLicenseType.go.html to see an example of how to use ChangeDomainLicenseTypeRequest.
 type ChangeDomainLicenseTypeRequest struct {

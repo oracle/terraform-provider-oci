@@ -13,7 +13,7 @@ import (
 
 // ListSourceEventTypesRequest wrapper for the ListSourceEventTypes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceEventTypes.go.html to see an example of how to use ListSourceEventTypesRequest.
 type ListSourceEventTypesRequest struct {

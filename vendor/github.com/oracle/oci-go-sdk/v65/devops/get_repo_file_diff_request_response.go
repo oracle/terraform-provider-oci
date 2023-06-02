@@ -13,7 +13,7 @@ import (
 
 // GetRepoFileDiffRequest wrapper for the GetRepoFileDiff operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepoFileDiff.go.html to see an example of how to use GetRepoFileDiffRequest.
 type GetRepoFileDiffRequest struct {

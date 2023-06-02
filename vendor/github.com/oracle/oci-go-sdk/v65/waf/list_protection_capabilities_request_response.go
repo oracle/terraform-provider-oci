@@ -13,7 +13,7 @@ import (
 
 // ListProtectionCapabilitiesRequest wrapper for the ListProtectionCapabilities operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListProtectionCapabilities.go.html to see an example of how to use ListProtectionCapabilitiesRequest.
 type ListProtectionCapabilitiesRequest struct {

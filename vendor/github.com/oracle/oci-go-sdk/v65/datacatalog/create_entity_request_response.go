@@ -13,7 +13,7 @@ import (
 
 // CreateEntityRequest wrapper for the CreateEntity operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateEntity.go.html to see an example of how to use CreateEntityRequest.
 type CreateEntityRequest struct {

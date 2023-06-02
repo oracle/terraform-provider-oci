@@ -13,7 +13,7 @@ import (
 
 // UpdateRowRequest wrapper for the UpdateRow operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/UpdateRow.go.html to see an example of how to use UpdateRowRequest.
 type UpdateRowRequest struct {

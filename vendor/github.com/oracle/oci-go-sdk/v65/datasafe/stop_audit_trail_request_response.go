@@ -13,7 +13,7 @@ import (
 
 // StopAuditTrailRequest wrapper for the StopAuditTrail operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/StopAuditTrail.go.html to see an example of how to use StopAuditTrailRequest.
 type StopAuditTrailRequest struct {

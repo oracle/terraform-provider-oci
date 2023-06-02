@@ -13,7 +13,7 @@ import (
 
 // ChangePipelineCompartmentRequest wrapper for the ChangePipelineCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangePipelineCompartment.go.html to see an example of how to use ChangePipelineCompartmentRequest.
 type ChangePipelineCompartmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListOperatorControlAssignmentsRequest wrapper for the ListOperatorControlAssignments operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControlAssignments.go.html to see an example of how to use ListOperatorControlAssignmentsRequest.
 type ListOperatorControlAssignmentsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // RestoreObjectsRequest wrapper for the RestoreObjects operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/RestoreObjects.go.html to see an example of how to use RestoreObjectsRequest.
 type RestoreObjectsRequest struct {

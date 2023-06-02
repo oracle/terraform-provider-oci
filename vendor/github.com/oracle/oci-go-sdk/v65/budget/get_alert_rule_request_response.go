@@ -13,7 +13,7 @@ import (
 
 // GetAlertRuleRequest wrapper for the GetAlertRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/GetAlertRule.go.html to see an example of how to use GetAlertRuleRequest.
 type GetAlertRuleRequest struct {

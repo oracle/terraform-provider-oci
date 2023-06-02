@@ -13,7 +13,7 @@ import (
 
 // ListServiceConnectorsRequest wrapper for the ListServiceConnectors operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/ListServiceConnectors.go.html to see an example of how to use ListServiceConnectorsRequest.
 type ListServiceConnectorsRequest struct {

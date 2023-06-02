@@ -13,7 +13,7 @@ import (
 
 // CreateFunctionRequest wrapper for the CreateFunction operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/CreateFunction.go.html to see an example of how to use CreateFunctionRequest.
 type CreateFunctionRequest struct {

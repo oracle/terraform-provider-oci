@@ -13,7 +13,7 @@ import (
 
 // ListTaxesRequest wrapper for the ListTaxes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListTaxes.go.html to see an example of how to use ListTaxesRequest.
 type ListTaxesRequest struct {

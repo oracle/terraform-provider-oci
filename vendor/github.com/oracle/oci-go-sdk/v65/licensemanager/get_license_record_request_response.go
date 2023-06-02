@@ -13,7 +13,7 @@ import (
 
 // GetLicenseRecordRequest wrapper for the GetLicenseRecord operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetLicenseRecord.go.html to see an example of how to use GetLicenseRecordRequest.
 type GetLicenseRecordRequest struct {

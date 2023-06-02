@@ -14,7 +14,7 @@ import (
 
 // GetTemplateTfConfigRequest wrapper for the GetTemplateTfConfig operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetTemplateTfConfig.go.html to see an example of how to use GetTemplateTfConfigRequest.
 type GetTemplateTfConfigRequest struct {

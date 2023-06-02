@@ -13,7 +13,7 @@ import (
 
 // ListSteeringPolicyAttachmentsRequest wrapper for the ListSteeringPolicyAttachments operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListSteeringPolicyAttachments.go.html to see an example of how to use ListSteeringPolicyAttachmentsRequest.
 type ListSteeringPolicyAttachmentsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListProtocolsRequest wrapper for the ListProtocols operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/ListProtocols.go.html to see an example of how to use ListProtocolsRequest.
 type ListProtocolsRequest struct {

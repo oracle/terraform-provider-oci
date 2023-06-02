@@ -13,7 +13,7 @@ import (
 
 // EnableDatabaseManagementRequest wrapper for the EnableDatabaseManagement operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/EnableDatabaseManagement.go.html to see an example of how to use EnableDatabaseManagementRequest.
 type EnableDatabaseManagementRequest struct {

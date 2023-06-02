@@ -14,7 +14,7 @@ import (
 
 // CreateStepArtifactRequest wrapper for the CreateStepArtifact operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateStepArtifact.go.html to see an example of how to use CreateStepArtifactRequest.
 type CreateStepArtifactRequest struct {

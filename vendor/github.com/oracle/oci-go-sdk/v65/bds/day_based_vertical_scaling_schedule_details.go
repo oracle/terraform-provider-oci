@@ -18,6 +18,8 @@ import (
 
 // DayBasedVerticalScalingScheduleDetails Details of day based vertical scaling schedule.
 type DayBasedVerticalScalingScheduleDetails struct {
+
+	// Time of day and vertical scaling configuration
 	TimeAndVerticalScalingConfig []TimeAndVerticalScalingConfig `mandatory:"false" json:"timeAndVerticalScalingConfig"`
 }
 

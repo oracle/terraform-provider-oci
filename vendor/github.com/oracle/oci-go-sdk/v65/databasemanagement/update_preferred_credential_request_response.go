@@ -13,7 +13,7 @@ import (
 
 // UpdatePreferredCredentialRequest wrapper for the UpdatePreferredCredential operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdatePreferredCredential.go.html to see an example of how to use UpdatePreferredCredentialRequest.
 type UpdatePreferredCredentialRequest struct {

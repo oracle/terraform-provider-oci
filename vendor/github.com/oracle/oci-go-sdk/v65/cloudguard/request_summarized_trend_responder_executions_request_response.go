@@ -13,7 +13,7 @@ import (
 
 // RequestSummarizedTrendResponderExecutionsRequest wrapper for the RequestSummarizedTrendResponderExecutions operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSummarizedTrendResponderExecutions.go.html to see an example of how to use RequestSummarizedTrendResponderExecutionsRequest.
 type RequestSummarizedTrendResponderExecutionsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetStreamPackagingConfigRequest wrapper for the GetStreamPackagingConfig operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetStreamPackagingConfig.go.html to see an example of how to use GetStreamPackagingConfigRequest.
 type GetStreamPackagingConfigRequest struct {

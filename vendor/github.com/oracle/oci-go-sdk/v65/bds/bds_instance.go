@@ -39,6 +39,9 @@ type BdsInstance struct {
 	// Boolean flag specifying whether or not Cloud SQL should be configured.
 	IsCloudSqlConfigured *bool `mandatory:"true" json:"isCloudSqlConfigured"`
 
+	// Boolean flag specifying whether or not Kafka should be configured.
+	IsKafkaConfigured *bool `mandatory:"true" json:"isKafkaConfigured"`
+
 	// The list of nodes in the cluster.
 	Nodes []Node `mandatory:"true" json:"nodes"`
 
@@ -245,6 +248,7 @@ const (
 	BdsInstanceClusterProfileSpark          BdsInstanceClusterProfileEnum = "SPARK"
 	BdsInstanceClusterProfileHbase          BdsInstanceClusterProfileEnum = "HBASE"
 	BdsInstanceClusterProfileTrino          BdsInstanceClusterProfileEnum = "TRINO"
+	BdsInstanceClusterProfileKafka          BdsInstanceClusterProfileEnum = "KAFKA"
 )
 
 var mappingBdsInstanceClusterProfileEnum = map[string]BdsInstanceClusterProfileEnum{
@@ -254,6 +258,7 @@ var mappingBdsInstanceClusterProfileEnum = map[string]BdsInstanceClusterProfileE
 	"SPARK":           BdsInstanceClusterProfileSpark,
 	"HBASE":           BdsInstanceClusterProfileHbase,
 	"TRINO":           BdsInstanceClusterProfileTrino,
+	"KAFKA":           BdsInstanceClusterProfileKafka,
 }
 
 var mappingBdsInstanceClusterProfileEnumLowerCase = map[string]BdsInstanceClusterProfileEnum{
@@ -263,6 +268,7 @@ var mappingBdsInstanceClusterProfileEnumLowerCase = map[string]BdsInstanceCluste
 	"spark":           BdsInstanceClusterProfileSpark,
 	"hbase":           BdsInstanceClusterProfileHbase,
 	"trino":           BdsInstanceClusterProfileTrino,
+	"kafka":           BdsInstanceClusterProfileKafka,
 }
 
 // GetBdsInstanceClusterProfileEnumValues Enumerates the set of values for BdsInstanceClusterProfileEnum
@@ -283,6 +289,7 @@ func GetBdsInstanceClusterProfileEnumStringValues() []string {
 		"SPARK",
 		"HBASE",
 		"TRINO",
+		"KAFKA",
 	}
 }
 

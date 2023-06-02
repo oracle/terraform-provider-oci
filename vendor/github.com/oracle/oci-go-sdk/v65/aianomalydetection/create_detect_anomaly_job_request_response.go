@@ -13,7 +13,7 @@ import (
 
 // CreateDetectAnomalyJobRequest wrapper for the CreateDetectAnomalyJob operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateDetectAnomalyJob.go.html to see an example of how to use CreateDetectAnomalyJobRequest.
 type CreateDetectAnomalyJobRequest struct {

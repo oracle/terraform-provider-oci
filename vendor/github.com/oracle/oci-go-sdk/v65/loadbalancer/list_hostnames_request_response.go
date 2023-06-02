@@ -13,7 +13,7 @@ import (
 
 // ListHostnamesRequest wrapper for the ListHostnames operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/ListHostnames.go.html to see an example of how to use ListHostnamesRequest.
 type ListHostnamesRequest struct {

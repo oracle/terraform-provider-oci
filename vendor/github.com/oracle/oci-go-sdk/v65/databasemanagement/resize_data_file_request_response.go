@@ -13,7 +13,7 @@ import (
 
 // ResizeDataFileRequest wrapper for the ResizeDataFile operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ResizeDataFile.go.html to see an example of how to use ResizeDataFileRequest.
 type ResizeDataFileRequest struct {

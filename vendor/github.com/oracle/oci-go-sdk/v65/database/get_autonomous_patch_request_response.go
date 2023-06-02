@@ -13,7 +13,7 @@ import (
 
 // GetAutonomousPatchRequest wrapper for the GetAutonomousPatch operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousPatch.go.html to see an example of how to use GetAutonomousPatchRequest.
 type GetAutonomousPatchRequest struct {

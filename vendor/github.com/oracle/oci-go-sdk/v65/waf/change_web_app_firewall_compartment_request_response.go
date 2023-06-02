@@ -13,7 +13,7 @@ import (
 
 // ChangeWebAppFirewallCompartmentRequest wrapper for the ChangeWebAppFirewallCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ChangeWebAppFirewallCompartment.go.html to see an example of how to use ChangeWebAppFirewallCompartmentRequest.
 type ChangeWebAppFirewallCompartmentRequest struct {

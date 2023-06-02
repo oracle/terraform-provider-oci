@@ -13,7 +13,7 @@ import (
 
 // AuthorizeSubscriptionPaymentRequest wrapper for the AuthorizeSubscriptionPayment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/AuthorizeSubscriptionPayment.go.html to see an example of how to use AuthorizeSubscriptionPaymentRequest.
 type AuthorizeSubscriptionPaymentRequest struct {

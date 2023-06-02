@@ -14,7 +14,7 @@ import (
 
 // GetStepArtifactContentRequest wrapper for the GetStepArtifactContent operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetStepArtifactContent.go.html to see an example of how to use GetStepArtifactContentRequest.
 type GetStepArtifactContentRequest struct {

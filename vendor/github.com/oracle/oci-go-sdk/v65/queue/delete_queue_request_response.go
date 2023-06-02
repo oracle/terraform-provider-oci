@@ -13,7 +13,7 @@ import (
 
 // DeleteQueueRequest wrapper for the DeleteQueue operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/DeleteQueue.go.html to see an example of how to use DeleteQueueRequest.
 type DeleteQueueRequest struct {

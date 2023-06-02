@@ -13,7 +13,7 @@ import (
 
 // ListJavaReleasesRequest wrapper for the ListJavaReleases operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListJavaReleases.go.html to see an example of how to use ListJavaReleasesRequest.
 type ListJavaReleasesRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteServiceConnectorRequest wrapper for the DeleteServiceConnector operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/DeleteServiceConnector.go.html to see an example of how to use DeleteServiceConnectorRequest.
 type DeleteServiceConnectorRequest struct {

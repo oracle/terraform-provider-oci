@@ -13,7 +13,7 @@ import (
 
 // TriggerResponderRequest wrapper for the TriggerResponder operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/TriggerResponder.go.html to see an example of how to use TriggerResponderRequest.
 type TriggerResponderRequest struct {

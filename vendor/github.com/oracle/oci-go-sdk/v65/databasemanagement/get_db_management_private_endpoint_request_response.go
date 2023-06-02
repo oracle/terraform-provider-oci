@@ -13,7 +13,7 @@ import (
 
 // GetDbManagementPrivateEndpointRequest wrapper for the GetDbManagementPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetDbManagementPrivateEndpoint.go.html to see an example of how to use GetDbManagementPrivateEndpointRequest.
 type GetDbManagementPrivateEndpointRequest struct {

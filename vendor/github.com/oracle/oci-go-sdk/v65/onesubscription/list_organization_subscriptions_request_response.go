@@ -13,7 +13,7 @@ import (
 
 // ListOrganizationSubscriptionsRequest wrapper for the ListOrganizationSubscriptions operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListOrganizationSubscriptions.go.html to see an example of how to use ListOrganizationSubscriptionsRequest.
 type ListOrganizationSubscriptionsRequest struct {

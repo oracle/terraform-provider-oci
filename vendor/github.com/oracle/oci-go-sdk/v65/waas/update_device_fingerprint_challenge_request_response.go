@@ -13,7 +13,7 @@ import (
 
 // UpdateDeviceFingerprintChallengeRequest wrapper for the UpdateDeviceFingerprintChallenge operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateDeviceFingerprintChallenge.go.html to see an example of how to use UpdateDeviceFingerprintChallengeRequest.
 type UpdateDeviceFingerprintChallengeRequest struct {

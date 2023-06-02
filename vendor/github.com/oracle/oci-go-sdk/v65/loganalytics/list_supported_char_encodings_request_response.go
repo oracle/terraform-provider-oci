@@ -13,7 +13,7 @@ import (
 
 // ListSupportedCharEncodingsRequest wrapper for the ListSupportedCharEncodings operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSupportedCharEncodings.go.html to see an example of how to use ListSupportedCharEncodingsRequest.
 type ListSupportedCharEncodingsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetLogRequest wrapper for the GetLog operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/GetLog.go.html to see an example of how to use GetLogRequest.
 type GetLogRequest struct {

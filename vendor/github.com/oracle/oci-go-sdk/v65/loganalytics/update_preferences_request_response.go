@@ -13,7 +13,7 @@ import (
 
 // UpdatePreferencesRequest wrapper for the UpdatePreferences operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdatePreferences.go.html to see an example of how to use UpdatePreferencesRequest.
 type UpdatePreferencesRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // UpdateExternalPluggableDatabaseRequest wrapper for the UpdateExternalPluggableDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateExternalPluggableDatabase.go.html to see an example of how to use UpdateExternalPluggableDatabaseRequest.
 type UpdateExternalPluggableDatabaseRequest struct {

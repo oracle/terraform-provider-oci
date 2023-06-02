@@ -13,7 +13,7 @@ import (
 
 // ListMediaAssetsRequest wrapper for the ListMediaAssets operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaAssets.go.html to see an example of how to use ListMediaAssetsRequest.
 type ListMediaAssetsRequest struct {

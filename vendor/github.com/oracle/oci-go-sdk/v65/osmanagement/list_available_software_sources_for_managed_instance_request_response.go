@@ -13,7 +13,7 @@ import (
 
 // ListAvailableSoftwareSourcesForManagedInstanceRequest wrapper for the ListAvailableSoftwareSourcesForManagedInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListAvailableSoftwareSourcesForManagedInstance.go.html to see an example of how to use ListAvailableSoftwareSourcesForManagedInstanceRequest.
 type ListAvailableSoftwareSourcesForManagedInstanceRequest struct {

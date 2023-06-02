@@ -13,7 +13,7 @@ import (
 
 // UpdateRecommendationRequest wrapper for the UpdateRecommendation operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/UpdateRecommendation.go.html to see an example of how to use UpdateRecommendationRequest.
 type UpdateRecommendationRequest struct {

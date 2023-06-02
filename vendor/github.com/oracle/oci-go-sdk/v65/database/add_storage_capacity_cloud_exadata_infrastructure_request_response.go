@@ -13,7 +13,7 @@ import (
 
 // AddStorageCapacityCloudExadataInfrastructureRequest wrapper for the AddStorageCapacityCloudExadataInfrastructure operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/AddStorageCapacityCloudExadataInfrastructure.go.html to see an example of how to use AddStorageCapacityCloudExadataInfrastructureRequest.
 type AddStorageCapacityCloudExadataInfrastructureRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteTemplateRequest wrapper for the DeleteTemplate operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/DeleteTemplate.go.html to see an example of how to use DeleteTemplateRequest.
 type DeleteTemplateRequest struct {

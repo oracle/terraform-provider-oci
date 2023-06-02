@@ -13,7 +13,7 @@ import (
 
 // ListPatchHistoriesRequest wrapper for the ListPatchHistories operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListPatchHistories.go.html to see an example of how to use ListPatchHistoriesRequest.
 type ListPatchHistoriesRequest struct {

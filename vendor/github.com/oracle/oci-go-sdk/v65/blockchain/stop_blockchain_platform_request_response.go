@@ -13,7 +13,7 @@ import (
 
 // StopBlockchainPlatformRequest wrapper for the StopBlockchainPlatform operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/StopBlockchainPlatform.go.html to see an example of how to use StopBlockchainPlatformRequest.
 type StopBlockchainPlatformRequest struct {

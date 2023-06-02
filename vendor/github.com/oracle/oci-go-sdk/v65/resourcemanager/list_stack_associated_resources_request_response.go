@@ -13,7 +13,7 @@ import (
 
 // ListStackAssociatedResourcesRequest wrapper for the ListStackAssociatedResources operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListStackAssociatedResources.go.html to see an example of how to use ListStackAssociatedResourcesRequest.
 type ListStackAssociatedResourcesRequest struct {

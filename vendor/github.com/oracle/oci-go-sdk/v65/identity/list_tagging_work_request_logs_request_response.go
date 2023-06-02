@@ -13,7 +13,7 @@ import (
 
 // ListTaggingWorkRequestLogsRequest wrapper for the ListTaggingWorkRequestLogs operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListTaggingWorkRequestLogs.go.html to see an example of how to use ListTaggingWorkRequestLogsRequest.
 type ListTaggingWorkRequestLogsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CreateTopicRequest wrapper for the CreateTopic operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/CreateTopic.go.html to see an example of how to use CreateTopicRequest.
 type CreateTopicRequest struct {

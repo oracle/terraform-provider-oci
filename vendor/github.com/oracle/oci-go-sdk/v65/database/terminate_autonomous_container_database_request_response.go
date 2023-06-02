@@ -13,7 +13,7 @@ import (
 
 // TerminateAutonomousContainerDatabaseRequest wrapper for the TerminateAutonomousContainerDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/TerminateAutonomousContainerDatabase.go.html to see an example of how to use TerminateAutonomousContainerDatabaseRequest.
 type TerminateAutonomousContainerDatabaseRequest struct {

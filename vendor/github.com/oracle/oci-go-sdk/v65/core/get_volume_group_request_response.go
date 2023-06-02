@@ -13,7 +13,7 @@ import (
 
 // GetVolumeGroupRequest wrapper for the GetVolumeGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVolumeGroup.go.html to see an example of how to use GetVolumeGroupRequest.
 type GetVolumeGroupRequest struct {

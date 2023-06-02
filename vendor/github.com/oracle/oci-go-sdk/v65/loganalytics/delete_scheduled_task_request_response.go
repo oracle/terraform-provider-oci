@@ -13,7 +13,7 @@ import (
 
 // DeleteScheduledTaskRequest wrapper for the DeleteScheduledTask operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteScheduledTask.go.html to see an example of how to use DeleteScheduledTaskRequest.
 type DeleteScheduledTaskRequest struct {

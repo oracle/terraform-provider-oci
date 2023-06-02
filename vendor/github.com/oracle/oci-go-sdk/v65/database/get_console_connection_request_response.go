@@ -13,7 +13,7 @@ import (
 
 // GetConsoleConnectionRequest wrapper for the GetConsoleConnection operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetConsoleConnection.go.html to see an example of how to use GetConsoleConnectionRequest.
 type GetConsoleConnectionRequest struct {

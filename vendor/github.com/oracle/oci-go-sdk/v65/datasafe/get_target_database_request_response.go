@@ -13,7 +13,7 @@ import (
 
 // GetTargetDatabaseRequest wrapper for the GetTargetDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetTargetDatabase.go.html to see an example of how to use GetTargetDatabaseRequest.
 type GetTargetDatabaseRequest struct {

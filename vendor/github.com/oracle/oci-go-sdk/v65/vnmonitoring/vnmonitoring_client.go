@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//VnMonitoringClient a client for VnMonitoring
+// VnMonitoringClient a client for VnMonitoring
 type VnMonitoringClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -40,7 +40,8 @@ func NewVnMonitoringClientWithConfigurationProvider(configProvider common.Config
 
 // NewVnMonitoringClientWithOboToken Creates a new default VnMonitoring client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewVnMonitoringClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client VnMonitoringClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

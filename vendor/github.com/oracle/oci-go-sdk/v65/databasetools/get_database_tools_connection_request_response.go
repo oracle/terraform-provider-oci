@@ -13,7 +13,7 @@ import (
 
 // GetDatabaseToolsConnectionRequest wrapper for the GetDatabaseToolsConnection operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetDatabaseToolsConnection.go.html to see an example of how to use GetDatabaseToolsConnectionRequest.
 type GetDatabaseToolsConnectionRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListVbsInstancesRequest wrapper for the ListVbsInstances operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/ListVbsInstances.go.html to see an example of how to use ListVbsInstancesRequest.
 type ListVbsInstancesRequest struct {

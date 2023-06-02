@@ -13,7 +13,7 @@ import (
 
 // PublishSkillRequest wrapper for the PublishSkill operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/PublishSkill.go.html to see an example of how to use PublishSkillRequest.
 type PublishSkillRequest struct {

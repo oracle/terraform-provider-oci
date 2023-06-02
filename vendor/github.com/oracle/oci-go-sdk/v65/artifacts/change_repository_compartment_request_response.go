@@ -13,7 +13,7 @@ import (
 
 // ChangeRepositoryCompartmentRequest wrapper for the ChangeRepositoryCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ChangeRepositoryCompartment.go.html to see an example of how to use ChangeRepositoryCompartmentRequest.
 type ChangeRepositoryCompartmentRequest struct {

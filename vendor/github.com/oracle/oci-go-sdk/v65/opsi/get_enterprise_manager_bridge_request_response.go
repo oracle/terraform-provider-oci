@@ -13,7 +13,7 @@ import (
 
 // GetEnterpriseManagerBridgeRequest wrapper for the GetEnterpriseManagerBridge operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetEnterpriseManagerBridge.go.html to see an example of how to use GetEnterpriseManagerBridgeRequest.
 type GetEnterpriseManagerBridgeRequest struct {

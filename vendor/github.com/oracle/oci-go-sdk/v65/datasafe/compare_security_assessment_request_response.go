@@ -13,7 +13,7 @@ import (
 
 // CompareSecurityAssessmentRequest wrapper for the CompareSecurityAssessment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CompareSecurityAssessment.go.html to see an example of how to use CompareSecurityAssessmentRequest.
 type CompareSecurityAssessmentRequest struct {

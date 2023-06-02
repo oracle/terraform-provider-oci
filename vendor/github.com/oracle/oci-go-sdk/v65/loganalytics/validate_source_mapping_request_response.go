@@ -13,7 +13,7 @@ import (
 
 // ValidateSourceMappingRequest wrapper for the ValidateSourceMapping operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateSourceMapping.go.html to see an example of how to use ValidateSourceMappingRequest.
 type ValidateSourceMappingRequest struct {

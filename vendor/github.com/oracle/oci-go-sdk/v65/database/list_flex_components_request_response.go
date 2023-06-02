@@ -13,7 +13,7 @@ import (
 
 // ListFlexComponentsRequest wrapper for the ListFlexComponents operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListFlexComponents.go.html to see an example of how to use ListFlexComponentsRequest.
 type ListFlexComponentsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteSddcRequest wrapper for the DeleteSddc operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DeleteSddc.go.html to see an example of how to use DeleteSddcRequest.
 type DeleteSddcRequest struct {

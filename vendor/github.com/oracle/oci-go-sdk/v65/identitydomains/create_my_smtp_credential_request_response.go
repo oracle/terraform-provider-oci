@@ -13,7 +13,7 @@ import (
 
 // CreateMySmtpCredentialRequest wrapper for the CreateMySmtpCredential operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMySmtpCredential.go.html to see an example of how to use CreateMySmtpCredentialRequest.
 type CreateMySmtpCredentialRequest struct {

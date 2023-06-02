@@ -13,7 +13,7 @@ import (
 
 // ChangePublicIpCompartmentRequest wrapper for the ChangePublicIpCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangePublicIpCompartment.go.html to see an example of how to use ChangePublicIpCompartmentRequest.
 type ChangePublicIpCompartmentRequest struct {

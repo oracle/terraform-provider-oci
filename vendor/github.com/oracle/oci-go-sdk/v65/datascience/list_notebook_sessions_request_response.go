@@ -13,7 +13,7 @@ import (
 
 // ListNotebookSessionsRequest wrapper for the ListNotebookSessions operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListNotebookSessions.go.html to see an example of how to use ListNotebookSessionsRequest.
 type ListNotebookSessionsRequest struct {

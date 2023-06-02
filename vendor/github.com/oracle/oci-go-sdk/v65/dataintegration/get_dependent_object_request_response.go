@@ -13,7 +13,7 @@ import (
 
 // GetDependentObjectRequest wrapper for the GetDependentObject operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetDependentObject.go.html to see an example of how to use GetDependentObjectRequest.
 type GetDependentObjectRequest struct {

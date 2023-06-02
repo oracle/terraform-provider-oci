@@ -13,7 +13,7 @@ import (
 
 // PublishMessageRequest wrapper for the PublishMessage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/PublishMessage.go.html to see an example of how to use PublishMessageRequest.
 type PublishMessageRequest struct {

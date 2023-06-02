@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//AIServiceVisionClient a client for AIServiceVision
+// AIServiceVisionClient a client for AIServiceVision
 type AIServiceVisionClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,7 +39,8 @@ func NewAIServiceVisionClientWithConfigurationProvider(configProvider common.Con
 
 // NewAIServiceVisionClientWithOboToken Creates a new default AIServiceVision client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewAIServiceVisionClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client AIServiceVisionClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

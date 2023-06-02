@@ -13,7 +13,7 @@ import (
 
 // UpdateAutonomousDatabaseWalletRequest wrapper for the UpdateAutonomousDatabaseWallet operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateAutonomousDatabaseWallet.go.html to see an example of how to use UpdateAutonomousDatabaseWalletRequest.
 type UpdateAutonomousDatabaseWalletRequest struct {

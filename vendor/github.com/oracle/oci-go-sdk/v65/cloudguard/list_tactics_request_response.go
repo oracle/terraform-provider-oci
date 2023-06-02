@@ -13,7 +13,7 @@ import (
 
 // ListTacticsRequest wrapper for the ListTactics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListTactics.go.html to see an example of how to use ListTacticsRequest.
 type ListTacticsRequest struct {

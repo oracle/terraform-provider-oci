@@ -13,7 +13,7 @@ import (
 
 // GetScheduleRequest wrapper for the GetSchedule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetSchedule.go.html to see an example of how to use GetScheduleRequest.
 type GetScheduleRequest struct {

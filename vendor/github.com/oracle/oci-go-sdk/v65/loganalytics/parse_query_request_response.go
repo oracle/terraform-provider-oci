@@ -13,7 +13,7 @@ import (
 
 // ParseQueryRequest wrapper for the ParseQuery operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ParseQuery.go.html to see an example of how to use ParseQueryRequest.
 type ParseQueryRequest struct {

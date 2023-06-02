@@ -13,7 +13,7 @@ import (
 
 // UpdateComputeClusterRequest wrapper for the UpdateComputeCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeCluster.go.html to see an example of how to use UpdateComputeClusterRequest.
 type UpdateComputeClusterRequest struct {

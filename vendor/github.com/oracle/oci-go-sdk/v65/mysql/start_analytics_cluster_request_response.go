@@ -13,7 +13,7 @@ import (
 
 // StartAnalyticsClusterRequest wrapper for the StartAnalyticsCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StartAnalyticsCluster.go.html to see an example of how to use StartAnalyticsClusterRequest.
 type StartAnalyticsClusterRequest struct {

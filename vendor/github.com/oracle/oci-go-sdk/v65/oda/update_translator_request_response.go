@@ -13,7 +13,7 @@ import (
 
 // UpdateTranslatorRequest wrapper for the UpdateTranslator operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateTranslator.go.html to see an example of how to use UpdateTranslatorRequest.
 type UpdateTranslatorRequest struct {

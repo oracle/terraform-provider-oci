@@ -13,7 +13,7 @@ import (
 
 // ListLookupsRequest wrapper for the ListLookups operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLookups.go.html to see an example of how to use ListLookupsRequest.
 type ListLookupsRequest struct {

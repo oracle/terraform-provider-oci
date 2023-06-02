@@ -13,7 +13,7 @@ import (
 
 // RequestJfrRecordingsRequest wrapper for the RequestJfrRecordings operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/RequestJfrRecordings.go.html to see an example of how to use RequestJfrRecordingsRequest.
 type RequestJfrRecordingsRequest struct {
