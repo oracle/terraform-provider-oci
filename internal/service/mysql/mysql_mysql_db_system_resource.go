@@ -645,6 +645,10 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"is_lakehouse_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"shape_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1804,6 +1808,10 @@ func HeatWaveClusterSummaryToMap(obj *oci_mysql.HeatWaveClusterSummary) map[stri
 
 	if obj.ClusterSize != nil {
 		result["cluster_size"] = int(*obj.ClusterSize)
+	}
+
+	if obj.IsLakehouseEnabled != nil {
+		result["is_lakehouse_enabled"] = bool(*obj.IsLakehouseEnabled)
 	}
 
 	if obj.ShapeName != nil {

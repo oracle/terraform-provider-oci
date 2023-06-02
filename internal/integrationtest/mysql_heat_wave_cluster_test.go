@@ -25,17 +25,17 @@ import (
 )
 
 var (
-	MysqlHeatWaveClusterRequiredOnlyResource = MysqlHeatWaveClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Create, MysqlHeatWaveClusterRepresentation)
+	MysqlHeatWaveClusterRequiredOnlyResource = MysqlHeatWaveWarehouseClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Create, MysqlHeatWaveLakehouseClusterRepresentation)
 
-	MysqlHeatWaveClusterResourceConfig = MysqlHeatWaveClusterResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Update, MysqlHeatWaveClusterRepresentation)
+	MysqlHeatWaveClusterResourceConfig = MysqlHeatWaveWarehouseClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Update, MysqlHeatWaveWarehouseClusterRepresentation)
 
 	MysqlMysqlHeatWaveClusterSingularDataSourceRepresentation = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 	}
 
-	mysqlDbSystemHeatWaveRepresentation = map[string]interface{}{
+	MysqlDbSystemHeatWaveRepresentation = map[string]interface{}{
 		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"admin_username":          acctest.Representation{RepType: acctest.Required, Create: `adminUser`},
 		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -43,7 +43,7 @@ var (
 		"configuration_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
 		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemBackupPolicyRepresentation},
+		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlDbSystemHeatWaveBackupPolicyRepresentation},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `MySQL Database Service`},
@@ -57,19 +57,49 @@ var (
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
 	}
 
-	MysqlHeatWaveClusterRepresentation = map[string]interface{}{
-		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
-		"cluster_size": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
-		"shape_name":   acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
-		"state":        acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`}, // testing stop & start actions
+	MysqlDbSystemHeatWaveBackupPolicyRepresentation = map[string]interface{}{
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"is_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"pitr_policy":       acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlDbSystemHeatWavePitrPolicyRepresentation},
+		"retention_in_days": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"window_start_time": acctest.Representation{RepType: acctest.Optional, Create: `01:00-00:00`},
 	}
 
-	MysqlHeatWaveClusterResourceDependencies = MysqlMysqlConfigurationResourceConfig +
+	// Lakehouse tests: Create - Warehouse tests: Update
+	MysqlDbSystemHeatWavePitrPolicyRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+	}
+
+	MysqlHeatWaveLakehouseClusterRepresentation = map[string]interface{}{
+		"db_system_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
+		"cluster_size":         acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"shape_name":           acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
+		"state":                acctest.Representation{RepType: acctest.Required, Create: `ACTIVE`},
+		"is_lakehouse_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
+	}
+
+	MysqlHeatWaveWarehouseClusterRepresentation = map[string]interface{}{
+		"db_system_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
+		"cluster_size":         acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"shape_name":           acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
+		"state":                acctest.Representation{RepType: acctest.Required, Create: `INACTIVE`, Update: `ACTIVE`}, // testing stop & start actions
+		"is_lakehouse_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `false`},
+	}
+
+	MysqlHeatWaveClusterResourceDependenciesBase = MysqlMysqlConfigurationResourceConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", acctest.Required, acctest.Create, MysqlMysqlShapeDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, mysqlDbSystemHeatWaveRepresentation)
+		acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_shapes", "test_shapes", acctest.Required, acctest.Create, MysqlMysqlShapeDataSourceRepresentation)
+
+	// DbSystem with PITR disabled
+	MysqlHeatWaveLakehouseClusterResourceDependencies = MysqlHeatWaveClusterResourceDependenciesBase +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, MysqlDbSystemHeatWaveRepresentation)
+
+	// DbSystem with PITR enabled
+	MysqlHeatWaveWarehouseClusterResourceDependencies = MysqlHeatWaveClusterResourceDependenciesBase +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Update, MysqlDbSystemHeatWaveRepresentation)
 )
 
 // issue-routing-tag: mysql/default
@@ -91,10 +121,18 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckMysqlHeatWaveClusterDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + MysqlHeatWaveClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Create, MysqlHeatWaveClusterRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlHeatWaveLakehouseClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Create, MysqlHeatWaveLakehouseClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.VM.Standard.E3.1.8GB"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "is_lakehouse_enabled", "true"),
+
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -103,19 +141,49 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next Create
+		// Verify update enable Lakehouse
 		{
-			Config: config + compartmentIdVariableStr + MysqlHeatWaveClusterResourceDependencies,
+			Config: config + compartmentIdVariableStr + MysqlHeatWaveLakehouseClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Required, acctest.Update, MysqlHeatWaveLakehouseClusterRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
+				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.VM.Standard.E3.1.8GB"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "is_lakehouse_enabled", "false"),
+
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// deleting Lakehouse cluster before creating Warehouse cluster
+		{
+			Config: config + compartmentIdVariableStr + MysqlHeatWaveLakehouseClusterResourceDependencies,
+		},
+		// Update DbSystem to enable PITR policies
+		{
+			Config: config + compartmentIdVariableStr + MysqlHeatWaveWarehouseClusterResourceDependencies,
 		},
 		// verify Create & stop
 		{
-			Config: config + compartmentIdVariableStr + MysqlHeatWaveClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Create, MysqlHeatWaveClusterRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlHeatWaveWarehouseClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Create, MysqlHeatWaveWarehouseClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_size", "2"),
 				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.VM.Standard.E3.1.8GB"),
 				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "is_lakehouse_enabled", "false"),
 
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -135,13 +203,14 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 
 		// verify start & updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + MysqlHeatWaveClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Update, MysqlHeatWaveClusterRepresentation),
+			Config: config + compartmentIdVariableStr + MysqlHeatWaveWarehouseClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_heat_wave_cluster", "test_heat_wave_cluster", acctest.Optional, acctest.Update, MysqlHeatWaveWarehouseClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cluster_nodes.#", "3"),
 				resource.TestCheckResourceAttr(resourceName, "cluster_size", "3"),
 				resource.TestCheckResourceAttr(resourceName, "shape_name", "MySQL.VM.Standard.E3.1.8GB"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "is_lakehouse_enabled", "false"),
 
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -167,6 +236,7 @@ func TestMysqlHeatWaveClusterResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_nodes.#", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_size", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_lakehouse_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape_name", "MySQL.VM.Standard.E3.1.8GB"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

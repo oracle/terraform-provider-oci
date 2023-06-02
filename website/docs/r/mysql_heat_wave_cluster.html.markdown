@@ -20,6 +20,7 @@ resource "oci_mysql_heat_wave_cluster" "test_heat_wave_cluster" {
 	#Required
 	db_system_id = oci_database_db_system.test_db_system.id
 	cluster_size = var.heat_wave_cluster_cluster_size
+	is_lakehouse_enabled = var.heat_wave_cluster_is_lakehouse_enabled
 	shape_name = oci_mysql_shape.test_shape.name
 }
 ```
@@ -30,7 +31,8 @@ The following arguments are supported:
 
 * `cluster_size` - (Required) (Updatable) A change to the number of nodes in the HeatWave cluster will result in the entire cluster being torn down and re-created with the new cluster of nodes. This may result in a significant downtime for the analytics capability while the HeatWave cluster is re-provisioned.
 * `db_system_id` - (Required) The DB System [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `shape_name` - (Required) (Updatable) A change to the shape of the nodes in the HeatWave cluster will result in the entire cluster being torn down and re-created with Compute instances of the new Shape. This may result in significant downtime for the analytics capability while the HeatWave cluster is re-provisioned.
+* `is_lakehouse_enabled` - (Optional) (Updatable) Enable/disable Lakehouse for the HeatWave cluster.
+* `shape_name` - (Required) (Updatable) A change to the shape of the nodes in the HeatWave cluster will result in the entire cluster being torn down and re-created with Compute instances of the new Shape. This may result in significant downtime for the analytics capability while the HeatWave cluster is re-provisioned. 
 * `state` - (Optional) (Updatable) The target state for the HeatWave cluster. Could be set to `ACTIVE` or `INACTIVE`.
 
 ** IMPORTANT **
@@ -47,6 +49,7 @@ The following attributes are exported:
 	* `time_updated` - The date and time the MySQL HeatWave node was updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `cluster_size` - The number of analytics-processing compute instances, of the specified shape, in the HeatWave cluster. 
 * `db_system_id` - The OCID of the parent DB System this HeatWave cluster is attached to.
+* `is_lakehouse_enabled` - Lakehouse enabled status for the HeatWave cluster.
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `shape_name` - The shape determines resources to allocate to the HeatWave nodes - CPU cores, memory. 
 * `state` - The current state of the HeatWave cluster.
