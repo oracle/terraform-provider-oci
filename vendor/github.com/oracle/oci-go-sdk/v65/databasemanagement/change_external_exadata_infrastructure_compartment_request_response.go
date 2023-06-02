@@ -13,7 +13,7 @@ import (
 
 // ChangeExternalExadataInfrastructureCompartmentRequest wrapper for the ChangeExternalExadataInfrastructureCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeExternalExadataInfrastructureCompartment.go.html to see an example of how to use ChangeExternalExadataInfrastructureCompartmentRequest.
 type ChangeExternalExadataInfrastructureCompartmentRequest struct {

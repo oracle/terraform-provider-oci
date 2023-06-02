@@ -13,7 +13,7 @@ import (
 
 // ListAddmDbRecommendationsTimeSeriesRequest wrapper for the ListAddmDbRecommendationsTimeSeries operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAddmDbRecommendationsTimeSeries.go.html to see an example of how to use ListAddmDbRecommendationsTimeSeriesRequest.
 type ListAddmDbRecommendationsTimeSeriesRequest struct {

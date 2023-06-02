@@ -13,7 +13,7 @@ import (
 
 // UpdateAssetRequest wrapper for the UpdateAsset operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdateAsset.go.html to see an example of how to use UpdateAssetRequest.
 type UpdateAssetRequest struct {

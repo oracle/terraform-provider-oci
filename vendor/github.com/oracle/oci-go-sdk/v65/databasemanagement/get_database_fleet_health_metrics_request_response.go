@@ -13,7 +13,7 @@ import (
 
 // GetDatabaseFleetHealthMetricsRequest wrapper for the GetDatabaseFleetHealthMetrics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetDatabaseFleetHealthMetrics.go.html to see an example of how to use GetDatabaseFleetHealthMetricsRequest.
 type GetDatabaseFleetHealthMetricsRequest struct {

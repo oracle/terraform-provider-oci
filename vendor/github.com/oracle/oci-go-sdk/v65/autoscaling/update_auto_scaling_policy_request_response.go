@@ -13,7 +13,7 @@ import (
 
 // UpdateAutoScalingPolicyRequest wrapper for the UpdateAutoScalingPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/UpdateAutoScalingPolicy.go.html to see an example of how to use UpdateAutoScalingPolicyRequest.
 type UpdateAutoScalingPolicyRequest struct {

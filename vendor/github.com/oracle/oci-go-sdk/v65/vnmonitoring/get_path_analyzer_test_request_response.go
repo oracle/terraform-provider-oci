@@ -13,7 +13,7 @@ import (
 
 // GetPathAnalyzerTestRequest wrapper for the GetPathAnalyzerTest operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/GetPathAnalyzerTest.go.html to see an example of how to use GetPathAnalyzerTestRequest.
 type GetPathAnalyzerTestRequest struct {

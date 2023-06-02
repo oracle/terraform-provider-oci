@@ -13,7 +13,7 @@ import (
 
 // ChangeMetastoreCompartmentRequest wrapper for the ChangeMetastoreCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ChangeMetastoreCompartment.go.html to see an example of how to use ChangeMetastoreCompartmentRequest.
 type ChangeMetastoreCompartmentRequest struct {

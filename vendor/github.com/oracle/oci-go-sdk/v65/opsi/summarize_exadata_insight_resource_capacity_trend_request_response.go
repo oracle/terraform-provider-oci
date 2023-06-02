@@ -13,7 +13,7 @@ import (
 
 // SummarizeExadataInsightResourceCapacityTrendRequest wrapper for the SummarizeExadataInsightResourceCapacityTrend operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceCapacityTrend.go.html to see an example of how to use SummarizeExadataInsightResourceCapacityTrendRequest.
 type SummarizeExadataInsightResourceCapacityTrendRequest struct {

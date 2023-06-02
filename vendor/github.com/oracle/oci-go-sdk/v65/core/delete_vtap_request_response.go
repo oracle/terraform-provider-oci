@@ -13,7 +13,7 @@ import (
 
 // DeleteVtapRequest wrapper for the DeleteVtap operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVtap.go.html to see an example of how to use DeleteVtapRequest.
 type DeleteVtapRequest struct {

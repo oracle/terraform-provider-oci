@@ -13,7 +13,7 @@ import (
 
 // GetWindowsUpdateRequest wrapper for the GetWindowsUpdate operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetWindowsUpdate.go.html to see an example of how to use GetWindowsUpdateRequest.
 type GetWindowsUpdateRequest struct {

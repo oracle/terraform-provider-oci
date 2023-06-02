@@ -13,7 +13,7 @@ import (
 
 // ListPatternsRequest wrapper for the ListPatterns operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListPatterns.go.html to see an example of how to use ListPatternsRequest.
 type ListPatternsRequest struct {

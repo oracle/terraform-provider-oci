@@ -13,7 +13,7 @@ import (
 
 // ListTemplateCategoriesRequest wrapper for the ListTemplateCategories operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListTemplateCategories.go.html to see an example of how to use ListTemplateCategoriesRequest.
 type ListTemplateCategoriesRequest struct {

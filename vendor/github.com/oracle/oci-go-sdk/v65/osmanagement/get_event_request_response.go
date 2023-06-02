@@ -13,7 +13,7 @@ import (
 
 // GetEventRequest wrapper for the GetEvent operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetEvent.go.html to see an example of how to use GetEventRequest.
 type GetEventRequest struct {

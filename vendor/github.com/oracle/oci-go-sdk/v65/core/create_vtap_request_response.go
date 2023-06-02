@@ -13,7 +13,7 @@ import (
 
 // CreateVtapRequest wrapper for the CreateVtap operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateVtap.go.html to see an example of how to use CreateVtapRequest.
 type CreateVtapRequest struct {

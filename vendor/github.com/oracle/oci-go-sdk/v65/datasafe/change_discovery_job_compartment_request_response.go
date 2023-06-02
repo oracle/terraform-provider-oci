@@ -13,7 +13,7 @@ import (
 
 // ChangeDiscoveryJobCompartmentRequest wrapper for the ChangeDiscoveryJobCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeDiscoveryJobCompartment.go.html to see an example of how to use ChangeDiscoveryJobCompartmentRequest.
 type ChangeDiscoveryJobCompartmentRequest struct {

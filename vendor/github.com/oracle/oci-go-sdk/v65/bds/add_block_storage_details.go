@@ -25,7 +25,7 @@ type AddBlockStorageDetails struct {
 	// details needed for attaching the block volume are managed by service itself.
 	BlockVolumeSizeInGBs *int64 `mandatory:"true" json:"blockVolumeSizeInGBs"`
 
-	// Worker node types, can either be Worker Data node or Compute only worker node.
+	// Worker node types.
 	NodeType AddBlockStorageDetailsNodeTypeEnum `mandatory:"true" json:"nodeType"`
 }
 
@@ -55,16 +55,19 @@ type AddBlockStorageDetailsNodeTypeEnum string
 const (
 	AddBlockStorageDetailsNodeTypeWorker            AddBlockStorageDetailsNodeTypeEnum = "WORKER"
 	AddBlockStorageDetailsNodeTypeComputeOnlyWorker AddBlockStorageDetailsNodeTypeEnum = "COMPUTE_ONLY_WORKER"
+	AddBlockStorageDetailsNodeTypeKafkaBroker       AddBlockStorageDetailsNodeTypeEnum = "KAFKA_BROKER"
 )
 
 var mappingAddBlockStorageDetailsNodeTypeEnum = map[string]AddBlockStorageDetailsNodeTypeEnum{
 	"WORKER":              AddBlockStorageDetailsNodeTypeWorker,
 	"COMPUTE_ONLY_WORKER": AddBlockStorageDetailsNodeTypeComputeOnlyWorker,
+	"KAFKA_BROKER":        AddBlockStorageDetailsNodeTypeKafkaBroker,
 }
 
 var mappingAddBlockStorageDetailsNodeTypeEnumLowerCase = map[string]AddBlockStorageDetailsNodeTypeEnum{
 	"worker":              AddBlockStorageDetailsNodeTypeWorker,
 	"compute_only_worker": AddBlockStorageDetailsNodeTypeComputeOnlyWorker,
+	"kafka_broker":        AddBlockStorageDetailsNodeTypeKafkaBroker,
 }
 
 // GetAddBlockStorageDetailsNodeTypeEnumValues Enumerates the set of values for AddBlockStorageDetailsNodeTypeEnum
@@ -81,6 +84,7 @@ func GetAddBlockStorageDetailsNodeTypeEnumStringValues() []string {
 	return []string{
 		"WORKER",
 		"COMPUTE_ONLY_WORKER",
+		"KAFKA_BROKER",
 	}
 }
 

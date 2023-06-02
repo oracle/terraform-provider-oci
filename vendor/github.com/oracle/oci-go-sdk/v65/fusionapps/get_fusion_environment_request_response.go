@@ -13,7 +13,7 @@ import (
 
 // GetFusionEnvironmentRequest wrapper for the GetFusionEnvironment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetFusionEnvironment.go.html to see an example of how to use GetFusionEnvironmentRequest.
 type GetFusionEnvironmentRequest struct {

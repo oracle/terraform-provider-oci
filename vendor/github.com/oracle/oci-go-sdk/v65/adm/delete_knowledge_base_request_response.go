@@ -13,7 +13,7 @@ import (
 
 // DeleteKnowledgeBaseRequest wrapper for the DeleteKnowledgeBase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteKnowledgeBase.go.html to see an example of how to use DeleteKnowledgeBaseRequest.
 type DeleteKnowledgeBaseRequest struct {

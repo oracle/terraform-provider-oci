@@ -13,7 +13,7 @@ import (
 
 // PurgeStorageDataRequest wrapper for the PurgeStorageData operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/PurgeStorageData.go.html to see an example of how to use PurgeStorageDataRequest.
 type PurgeStorageDataRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListJobLogsRequest wrapper for the ListJobLogs operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListJobLogs.go.html to see an example of how to use ListJobLogsRequest.
 type ListJobLogsRequest struct {

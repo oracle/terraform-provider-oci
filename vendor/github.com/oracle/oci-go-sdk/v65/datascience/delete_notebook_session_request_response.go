@@ -13,7 +13,7 @@ import (
 
 // DeleteNotebookSessionRequest wrapper for the DeleteNotebookSession operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteNotebookSession.go.html to see an example of how to use DeleteNotebookSessionRequest.
 type DeleteNotebookSessionRequest struct {

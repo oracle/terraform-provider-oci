@@ -13,7 +13,7 @@ import (
 
 // ListInvoiceLinesRequest wrapper for the ListInvoiceLines operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/ListInvoiceLines.go.html to see an example of how to use ListInvoiceLinesRequest.
 type ListInvoiceLinesRequest struct {

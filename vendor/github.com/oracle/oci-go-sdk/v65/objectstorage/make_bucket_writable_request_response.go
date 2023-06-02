@@ -13,7 +13,7 @@ import (
 
 // MakeBucketWritableRequest wrapper for the MakeBucketWritable operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/MakeBucketWritable.go.html to see an example of how to use MakeBucketWritableRequest.
 type MakeBucketWritableRequest struct {

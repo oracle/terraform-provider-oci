@@ -13,7 +13,7 @@ import (
 
 // ListOpensearchClusterBackupsRequest wrapper for the ListOpensearchClusterBackups operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ListOpensearchClusterBackups.go.html to see an example of how to use ListOpensearchClusterBackupsRequest.
 type ListOpensearchClusterBackupsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteOdaInstanceAttachmentRequest wrapper for the DeleteOdaInstanceAttachment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaInstanceAttachment.go.html to see an example of how to use DeleteOdaInstanceAttachmentRequest.
 type DeleteOdaInstanceAttachmentRequest struct {

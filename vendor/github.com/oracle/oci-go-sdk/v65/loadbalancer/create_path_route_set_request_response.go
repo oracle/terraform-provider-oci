@@ -13,7 +13,7 @@ import (
 
 // CreatePathRouteSetRequest wrapper for the CreatePathRouteSet operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/CreatePathRouteSet.go.html to see an example of how to use CreatePathRouteSetRequest.
 type CreatePathRouteSetRequest struct {

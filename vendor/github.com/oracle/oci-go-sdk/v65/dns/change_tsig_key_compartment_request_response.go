@@ -13,7 +13,7 @@ import (
 
 // ChangeTsigKeyCompartmentRequest wrapper for the ChangeTsigKeyCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeTsigKeyCompartment.go.html to see an example of how to use ChangeTsigKeyCompartmentRequest.
 type ChangeTsigKeyCompartmentRequest struct {

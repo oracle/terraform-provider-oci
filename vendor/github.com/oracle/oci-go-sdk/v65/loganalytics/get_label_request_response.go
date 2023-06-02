@@ -13,7 +13,7 @@ import (
 
 // GetLabelRequest wrapper for the GetLabel operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLabel.go.html to see an example of how to use GetLabelRequest.
 type GetLabelRequest struct {

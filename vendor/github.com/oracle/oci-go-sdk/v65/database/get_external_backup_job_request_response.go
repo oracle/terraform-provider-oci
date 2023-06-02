@@ -13,7 +13,7 @@ import (
 
 // GetExternalBackupJobRequest wrapper for the GetExternalBackupJob operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExternalBackupJob.go.html to see an example of how to use GetExternalBackupJobRequest.
 type GetExternalBackupJobRequest struct {

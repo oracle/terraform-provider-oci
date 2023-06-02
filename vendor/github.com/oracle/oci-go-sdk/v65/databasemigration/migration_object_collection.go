@@ -20,6 +20,9 @@ type MigrationObjectCollection struct {
 
 	// Database objects to exclude/include from migration
 	Items []MigrationObjectSummary `mandatory:"true" json:"items"`
+
+	// Database objects to exclude/include from migration in CSV format. The items field will be ignored if this field is not null.
+	CsvText *string `mandatory:"false" json:"csvText"`
 }
 
 func (m MigrationObjectCollection) String() string {

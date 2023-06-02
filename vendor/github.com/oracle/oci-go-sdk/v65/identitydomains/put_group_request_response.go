@@ -13,7 +13,7 @@ import (
 
 // PutGroupRequest wrapper for the PutGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutGroup.go.html to see an example of how to use PutGroupRequest.
 type PutGroupRequest struct {

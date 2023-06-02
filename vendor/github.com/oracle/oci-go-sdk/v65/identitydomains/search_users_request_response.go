@@ -13,7 +13,7 @@ import (
 
 // SearchUsersRequest wrapper for the SearchUsers operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchUsers.go.html to see an example of how to use SearchUsersRequest.
 type SearchUsersRequest struct {

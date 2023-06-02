@@ -13,7 +13,7 @@ import (
 
 // DeleteManagedDatabaseGroupRequest wrapper for the DeleteManagedDatabaseGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteManagedDatabaseGroup.go.html to see an example of how to use DeleteManagedDatabaseGroupRequest.
 type DeleteManagedDatabaseGroupRequest struct {

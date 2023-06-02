@@ -13,7 +13,7 @@ import (
 
 // DeleteFilterGroupRequest wrapper for the DeleteFilterGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/DeleteFilterGroup.go.html to see an example of how to use DeleteFilterGroupRequest.
 type DeleteFilterGroupRequest struct {

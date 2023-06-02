@@ -13,7 +13,7 @@ import (
 
 // AddBlockStorageRequest wrapper for the AddBlockStorage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddBlockStorage.go.html to see an example of how to use AddBlockStorageRequest.
 type AddBlockStorageRequest struct {

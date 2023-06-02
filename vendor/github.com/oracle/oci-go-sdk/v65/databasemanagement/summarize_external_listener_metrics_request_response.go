@@ -13,7 +13,7 @@ import (
 
 // SummarizeExternalListenerMetricsRequest wrapper for the SummarizeExternalListenerMetrics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeExternalListenerMetrics.go.html to see an example of how to use SummarizeExternalListenerMetricsRequest.
 type SummarizeExternalListenerMetricsRequest struct {

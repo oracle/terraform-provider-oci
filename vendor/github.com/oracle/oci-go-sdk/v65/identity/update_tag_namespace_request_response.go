@@ -13,7 +13,7 @@ import (
 
 // UpdateTagNamespaceRequest wrapper for the UpdateTagNamespace operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/UpdateTagNamespace.go.html to see an example of how to use UpdateTagNamespaceRequest.
 type UpdateTagNamespaceRequest struct {

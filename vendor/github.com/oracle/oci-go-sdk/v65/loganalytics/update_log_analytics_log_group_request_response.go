@@ -13,7 +13,7 @@ import (
 
 // UpdateLogAnalyticsLogGroupRequest wrapper for the UpdateLogAnalyticsLogGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLogAnalyticsLogGroup.go.html to see an example of how to use UpdateLogAnalyticsLogGroupRequest.
 type UpdateLogAnalyticsLogGroupRequest struct {

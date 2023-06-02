@@ -13,7 +13,7 @@ import (
 
 // ListCommitmentsRequest wrapper for the ListCommitments operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListCommitments.go.html to see an example of how to use ListCommitmentsRequest.
 type ListCommitmentsRequest struct {

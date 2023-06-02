@@ -13,7 +13,7 @@ import (
 
 // GetProtectionSettingsRequest wrapper for the GetProtectionSettings operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetProtectionSettings.go.html to see an example of how to use GetProtectionSettingsRequest.
 type GetProtectionSettingsRequest struct {

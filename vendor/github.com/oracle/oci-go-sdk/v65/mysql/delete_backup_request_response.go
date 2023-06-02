@@ -13,7 +13,7 @@ import (
 
 // DeleteBackupRequest wrapper for the DeleteBackup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteBackup.go.html to see an example of how to use DeleteBackupRequest.
 type DeleteBackupRequest struct {

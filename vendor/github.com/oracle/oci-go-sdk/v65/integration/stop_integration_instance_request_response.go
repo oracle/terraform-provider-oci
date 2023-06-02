@@ -13,7 +13,7 @@ import (
 
 // StopIntegrationInstanceRequest wrapper for the StopIntegrationInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/StopIntegrationInstance.go.html to see an example of how to use StopIntegrationInstanceRequest.
 type StopIntegrationInstanceRequest struct {

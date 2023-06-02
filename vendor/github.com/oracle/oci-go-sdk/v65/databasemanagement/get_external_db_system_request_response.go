@@ -13,7 +13,7 @@ import (
 
 // GetExternalDbSystemRequest wrapper for the GetExternalDbSystem operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalDbSystem.go.html to see an example of how to use GetExternalDbSystemRequest.
 type GetExternalDbSystemRequest struct {

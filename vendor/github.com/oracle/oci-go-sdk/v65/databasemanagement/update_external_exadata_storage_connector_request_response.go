@@ -13,7 +13,7 @@ import (
 
 // UpdateExternalExadataStorageConnectorRequest wrapper for the UpdateExternalExadataStorageConnector operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalExadataStorageConnector.go.html to see an example of how to use UpdateExternalExadataStorageConnectorRequest.
 type UpdateExternalExadataStorageConnectorRequest struct {

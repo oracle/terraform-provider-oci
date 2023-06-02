@@ -13,7 +13,7 @@ import (
 
 // DeleteCompartmentRequest wrapper for the DeleteCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteCompartment.go.html to see an example of how to use DeleteCompartmentRequest.
 type DeleteCompartmentRequest struct {

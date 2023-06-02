@@ -13,7 +13,7 @@ import (
 
 // ListBillingSchedulesRequest wrapper for the ListBillingSchedules operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubbillingschedule/ListBillingSchedules.go.html to see an example of how to use ListBillingSchedulesRequest.
 type ListBillingSchedulesRequest struct {

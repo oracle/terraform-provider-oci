@@ -13,7 +13,7 @@ import (
 
 // GetSubnetTopologyRequest wrapper for the GetSubnetTopology operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetSubnetTopology.go.html to see an example of how to use GetSubnetTopologyRequest.
 type GetSubnetTopologyRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // RequestSummarizedUsagesRequest wrapper for the RequestSummarizedUsages operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/RequestSummarizedUsages.go.html to see an example of how to use RequestSummarizedUsagesRequest.
 type RequestSummarizedUsagesRequest struct {

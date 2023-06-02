@@ -13,7 +13,7 @@ import (
 
 // ListMyGroupsRequest wrapper for the ListMyGroups operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyGroups.go.html to see an example of how to use ListMyGroupsRequest.
 type ListMyGroupsRequest struct {

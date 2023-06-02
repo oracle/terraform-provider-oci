@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//StreamClient a client for Stream
+// StreamClient a client for Stream
 type StreamClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,7 +39,6 @@ func NewStreamClientWithConfigurationProvider(configProvider common.Configuratio
 
 // NewStreamClientWithOboToken Creates a new default Stream client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//
 func NewStreamClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client StreamClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

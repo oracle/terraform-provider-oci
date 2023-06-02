@@ -13,7 +13,7 @@ import (
 
 // RotateOrdsCertsRequest wrapper for the RotateOrdsCerts operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RotateOrdsCerts.go.html to see an example of how to use RotateOrdsCertsRequest.
 type RotateOrdsCertsRequest struct {

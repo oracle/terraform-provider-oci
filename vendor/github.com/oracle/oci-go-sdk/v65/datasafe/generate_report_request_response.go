@@ -13,7 +13,7 @@ import (
 
 // GenerateReportRequest wrapper for the GenerateReport operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateReport.go.html to see an example of how to use GenerateReportRequest.
 type GenerateReportRequest struct {

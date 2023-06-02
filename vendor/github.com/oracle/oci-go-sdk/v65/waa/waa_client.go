@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//WaaClient a client for Waa
+// WaaClient a client for Waa
 type WaaClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -41,7 +41,8 @@ func NewWaaClientWithConfigurationProvider(configProvider common.ConfigurationPr
 
 // NewWaaClientWithOboToken Creates a new default Waa client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewWaaClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client WaaClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

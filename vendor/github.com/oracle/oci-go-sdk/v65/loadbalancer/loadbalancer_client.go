@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//LoadBalancerClient a client for LoadBalancer
+// LoadBalancerClient a client for LoadBalancer
 type LoadBalancerClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -40,7 +40,8 @@ func NewLoadBalancerClientWithConfigurationProvider(configProvider common.Config
 
 // NewLoadBalancerClientWithOboToken Creates a new default LoadBalancer client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewLoadBalancerClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client LoadBalancerClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

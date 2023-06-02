@@ -13,7 +13,7 @@ import (
 
 // ListAggregatedPhysicalEntitiesRequest wrapper for the ListAggregatedPhysicalEntities operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListAggregatedPhysicalEntities.go.html to see an example of how to use ListAggregatedPhysicalEntitiesRequest.
 type ListAggregatedPhysicalEntitiesRequest struct {

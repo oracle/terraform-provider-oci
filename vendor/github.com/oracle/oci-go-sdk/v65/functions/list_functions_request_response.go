@@ -13,7 +13,7 @@ import (
 
 // ListFunctionsRequest wrapper for the ListFunctions operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/ListFunctions.go.html to see an example of how to use ListFunctionsRequest.
 type ListFunctionsRequest struct {

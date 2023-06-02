@@ -14,7 +14,7 @@ import (
 
 // GeneratePlaylistRequest wrapper for the GeneratePlaylist operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GeneratePlaylist.go.html to see an example of how to use GeneratePlaylistRequest.
 type GeneratePlaylistRequest struct {

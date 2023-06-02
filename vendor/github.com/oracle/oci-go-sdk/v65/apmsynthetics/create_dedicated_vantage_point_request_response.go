@@ -13,7 +13,7 @@ import (
 
 // CreateDedicatedVantagePointRequest wrapper for the CreateDedicatedVantagePoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateDedicatedVantagePoint.go.html to see an example of how to use CreateDedicatedVantagePointRequest.
 type CreateDedicatedVantagePointRequest struct {

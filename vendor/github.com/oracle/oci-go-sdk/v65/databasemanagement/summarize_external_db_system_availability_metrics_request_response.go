@@ -13,7 +13,7 @@ import (
 
 // SummarizeExternalDbSystemAvailabilityMetricsRequest wrapper for the SummarizeExternalDbSystemAvailabilityMetrics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeExternalDbSystemAvailabilityMetrics.go.html to see an example of how to use SummarizeExternalDbSystemAvailabilityMetricsRequest.
 type SummarizeExternalDbSystemAvailabilityMetricsRequest struct {

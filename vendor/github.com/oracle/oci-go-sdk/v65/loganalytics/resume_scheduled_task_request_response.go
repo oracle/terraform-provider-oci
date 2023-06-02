@@ -13,7 +13,7 @@ import (
 
 // ResumeScheduledTaskRequest wrapper for the ResumeScheduledTask operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ResumeScheduledTask.go.html to see an example of how to use ResumeScheduledTaskRequest.
 type ResumeScheduledTaskRequest struct {

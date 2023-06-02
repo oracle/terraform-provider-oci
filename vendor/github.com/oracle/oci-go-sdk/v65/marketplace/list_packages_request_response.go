@@ -13,7 +13,7 @@ import (
 
 // ListPackagesRequest wrapper for the ListPackages operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListPackages.go.html to see an example of how to use ListPackagesRequest.
 type ListPackagesRequest struct {

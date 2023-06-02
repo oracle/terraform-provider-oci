@@ -13,7 +13,7 @@ import (
 
 // UpdateDataSafePrivateEndpointRequest wrapper for the UpdateDataSafePrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateDataSafePrivateEndpoint.go.html to see an example of how to use UpdateDataSafePrivateEndpointRequest.
 type UpdateDataSafePrivateEndpointRequest struct {

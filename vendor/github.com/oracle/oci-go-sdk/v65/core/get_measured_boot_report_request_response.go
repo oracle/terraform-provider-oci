@@ -13,7 +13,7 @@ import (
 
 // GetMeasuredBootReportRequest wrapper for the GetMeasuredBootReport operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetMeasuredBootReport.go.html to see an example of how to use GetMeasuredBootReportRequest.
 type GetMeasuredBootReportRequest struct {

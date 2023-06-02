@@ -13,7 +13,7 @@ import (
 
 // GetRemotePeeringConnectionRequest wrapper for the GetRemotePeeringConnection operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetRemotePeeringConnection.go.html to see an example of how to use GetRemotePeeringConnectionRequest.
 type GetRemotePeeringConnectionRequest struct {

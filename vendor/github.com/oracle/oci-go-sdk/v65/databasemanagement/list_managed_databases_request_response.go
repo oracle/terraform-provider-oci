@@ -13,7 +13,7 @@ import (
 
 // ListManagedDatabasesRequest wrapper for the ListManagedDatabases operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedDatabases.go.html to see an example of how to use ListManagedDatabasesRequest.
 type ListManagedDatabasesRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // UpdatePathAnalyzerTestRequest wrapper for the UpdatePathAnalyzerTest operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/UpdatePathAnalyzerTest.go.html to see an example of how to use UpdatePathAnalyzerTestRequest.
 type UpdatePathAnalyzerTestRequest struct {

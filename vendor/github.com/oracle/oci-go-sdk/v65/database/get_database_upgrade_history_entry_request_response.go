@@ -13,7 +13,7 @@ import (
 
 // GetDatabaseUpgradeHistoryEntryRequest wrapper for the GetDatabaseUpgradeHistoryEntry operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDatabaseUpgradeHistoryEntry.go.html to see an example of how to use GetDatabaseUpgradeHistoryEntryRequest.
 type GetDatabaseUpgradeHistoryEntryRequest struct {

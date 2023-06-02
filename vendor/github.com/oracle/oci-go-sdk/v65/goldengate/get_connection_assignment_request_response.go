@@ -13,7 +13,7 @@ import (
 
 // GetConnectionAssignmentRequest wrapper for the GetConnectionAssignment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetConnectionAssignment.go.html to see an example of how to use GetConnectionAssignmentRequest.
 type GetConnectionAssignmentRequest struct {

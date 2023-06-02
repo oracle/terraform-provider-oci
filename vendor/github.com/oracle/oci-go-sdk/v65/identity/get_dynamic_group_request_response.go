@@ -13,7 +13,7 @@ import (
 
 // GetDynamicGroupRequest wrapper for the GetDynamicGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetDynamicGroup.go.html to see an example of how to use GetDynamicGroupRequest.
 type GetDynamicGroupRequest struct {

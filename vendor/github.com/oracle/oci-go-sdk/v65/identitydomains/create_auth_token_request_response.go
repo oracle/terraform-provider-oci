@@ -13,7 +13,7 @@ import (
 
 // CreateAuthTokenRequest wrapper for the CreateAuthToken operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateAuthToken.go.html to see an example of how to use CreateAuthTokenRequest.
 type CreateAuthTokenRequest struct {

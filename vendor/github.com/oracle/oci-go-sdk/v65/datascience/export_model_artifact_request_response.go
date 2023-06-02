@@ -13,7 +13,7 @@ import (
 
 // ExportModelArtifactRequest wrapper for the ExportModelArtifact operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ExportModelArtifact.go.html to see an example of how to use ExportModelArtifactRequest.
 type ExportModelArtifactRequest struct {

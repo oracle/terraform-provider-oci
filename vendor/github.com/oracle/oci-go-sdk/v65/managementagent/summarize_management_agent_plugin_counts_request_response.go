@@ -13,7 +13,7 @@ import (
 
 // SummarizeManagementAgentPluginCountsRequest wrapper for the SummarizeManagementAgentPluginCounts operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/SummarizeManagementAgentPluginCounts.go.html to see an example of how to use SummarizeManagementAgentPluginCountsRequest.
 type SummarizeManagementAgentPluginCountsRequest struct {

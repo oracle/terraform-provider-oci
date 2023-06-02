@@ -13,7 +13,7 @@ import (
 
 // ListResourceProfileImpactedResourcesRequest wrapper for the ListResourceProfileImpactedResources operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResourceProfileImpactedResources.go.html to see an example of how to use ListResourceProfileImpactedResourcesRequest.
 type ListResourceProfileImpactedResourcesRequest struct {

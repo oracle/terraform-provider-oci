@@ -13,7 +13,7 @@ import (
 
 // ListSecurityRecipesRequest wrapper for the ListSecurityRecipes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSecurityRecipes.go.html to see an example of how to use ListSecurityRecipesRequest.
 type ListSecurityRecipesRequest struct {

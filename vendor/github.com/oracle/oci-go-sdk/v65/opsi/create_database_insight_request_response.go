@@ -13,7 +13,7 @@ import (
 
 // CreateDatabaseInsightRequest wrapper for the CreateDatabaseInsight operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateDatabaseInsight.go.html to see an example of how to use CreateDatabaseInsightRequest.
 type CreateDatabaseInsightRequest struct {

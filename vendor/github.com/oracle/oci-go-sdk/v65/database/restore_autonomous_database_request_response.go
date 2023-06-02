@@ -13,7 +13,7 @@ import (
 
 // RestoreAutonomousDatabaseRequest wrapper for the RestoreAutonomousDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RestoreAutonomousDatabase.go.html to see an example of how to use RestoreAutonomousDatabaseRequest.
 type RestoreAutonomousDatabaseRequest struct {

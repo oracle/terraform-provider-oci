@@ -13,7 +13,7 @@ import (
 
 // CancelBuildRunRequest wrapper for the CancelBuildRun operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CancelBuildRun.go.html to see an example of how to use CancelBuildRunRequest.
 type CancelBuildRunRequest struct {

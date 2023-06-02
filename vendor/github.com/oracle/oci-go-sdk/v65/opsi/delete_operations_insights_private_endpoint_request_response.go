@@ -13,7 +13,7 @@ import (
 
 // DeleteOperationsInsightsPrivateEndpointRequest wrapper for the DeleteOperationsInsightsPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteOperationsInsightsPrivateEndpoint.go.html to see an example of how to use DeleteOperationsInsightsPrivateEndpointRequest.
 type DeleteOperationsInsightsPrivateEndpointRequest struct {

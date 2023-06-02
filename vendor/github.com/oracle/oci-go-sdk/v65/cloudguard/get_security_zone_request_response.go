@@ -13,7 +13,7 @@ import (
 
 // GetSecurityZoneRequest wrapper for the GetSecurityZone operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetSecurityZone.go.html to see an example of how to use GetSecurityZoneRequest.
 type GetSecurityZoneRequest struct {

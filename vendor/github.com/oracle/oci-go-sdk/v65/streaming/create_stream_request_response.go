@@ -13,7 +13,7 @@ import (
 
 // CreateStreamRequest wrapper for the CreateStream operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateStream.go.html to see an example of how to use CreateStreamRequest.
 type CreateStreamRequest struct {

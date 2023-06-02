@@ -13,7 +13,7 @@ import (
 
 // ChangeDetectorRecipeCompartmentRequest wrapper for the ChangeDetectorRecipeCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeDetectorRecipeCompartment.go.html to see an example of how to use ChangeDetectorRecipeCompartmentRequest.
 type ChangeDetectorRecipeCompartmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // UpdateMonitorRequest wrapper for the UpdateMonitor operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateMonitor.go.html to see an example of how to use UpdateMonitorRequest.
 type UpdateMonitorRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListNetworkSecurityGroupVnicsRequest wrapper for the ListNetworkSecurityGroupVnics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListNetworkSecurityGroupVnics.go.html to see an example of how to use ListNetworkSecurityGroupVnicsRequest.
 type ListNetworkSecurityGroupVnicsRequest struct {

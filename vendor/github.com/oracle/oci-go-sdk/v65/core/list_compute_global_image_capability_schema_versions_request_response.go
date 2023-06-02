@@ -13,7 +13,7 @@ import (
 
 // ListComputeGlobalImageCapabilitySchemaVersionsRequest wrapper for the ListComputeGlobalImageCapabilitySchemaVersions operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeGlobalImageCapabilitySchemaVersions.go.html to see an example of how to use ListComputeGlobalImageCapabilitySchemaVersionsRequest.
 type ListComputeGlobalImageCapabilitySchemaVersionsRequest struct {

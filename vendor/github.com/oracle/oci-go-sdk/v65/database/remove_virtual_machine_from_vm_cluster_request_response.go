@@ -13,7 +13,7 @@ import (
 
 // RemoveVirtualMachineFromVmClusterRequest wrapper for the RemoveVirtualMachineFromVmCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RemoveVirtualMachineFromVmCluster.go.html to see an example of how to use RemoveVirtualMachineFromVmClusterRequest.
 type RemoveVirtualMachineFromVmClusterRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListDataAssetsRequest wrapper for the ListDataAssets operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListDataAssets.go.html to see an example of how to use ListDataAssetsRequest.
 type ListDataAssetsRequest struct {

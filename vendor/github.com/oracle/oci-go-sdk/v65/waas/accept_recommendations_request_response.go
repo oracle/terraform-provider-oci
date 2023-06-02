@@ -13,7 +13,7 @@ import (
 
 // AcceptRecommendationsRequest wrapper for the AcceptRecommendations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/AcceptRecommendations.go.html to see an example of how to use AcceptRecommendationsRequest.
 type AcceptRecommendationsRequest struct {

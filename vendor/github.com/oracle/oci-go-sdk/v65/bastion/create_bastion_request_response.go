@@ -13,7 +13,7 @@ import (
 
 // CreateBastionRequest wrapper for the CreateBastion operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/CreateBastion.go.html to see an example of how to use CreateBastionRequest.
 type CreateBastionRequest struct {

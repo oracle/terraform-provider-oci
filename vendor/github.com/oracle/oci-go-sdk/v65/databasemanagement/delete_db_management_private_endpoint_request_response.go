@@ -13,7 +13,7 @@ import (
 
 // DeleteDbManagementPrivateEndpointRequest wrapper for the DeleteDbManagementPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteDbManagementPrivateEndpoint.go.html to see an example of how to use DeleteDbManagementPrivateEndpointRequest.
 type DeleteDbManagementPrivateEndpointRequest struct {

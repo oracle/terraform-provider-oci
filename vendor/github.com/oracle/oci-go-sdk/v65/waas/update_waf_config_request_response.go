@@ -13,7 +13,7 @@ import (
 
 // UpdateWafConfigRequest wrapper for the UpdateWafConfig operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateWafConfig.go.html to see an example of how to use UpdateWafConfigRequest.
 type UpdateWafConfigRequest struct {

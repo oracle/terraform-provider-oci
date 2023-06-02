@@ -13,7 +13,7 @@ import (
 
 // SwitchoverDataGuardAssociationRequest wrapper for the SwitchoverDataGuardAssociation operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/SwitchoverDataGuardAssociation.go.html to see an example of how to use SwitchoverDataGuardAssociationRequest.
 type SwitchoverDataGuardAssociationRequest struct {

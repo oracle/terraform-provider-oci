@@ -13,7 +13,7 @@ import (
 
 // GetDifferenceColumnRequest wrapper for the GetDifferenceColumn operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDifferenceColumn.go.html to see an example of how to use GetDifferenceColumnRequest.
 type GetDifferenceColumnRequest struct {

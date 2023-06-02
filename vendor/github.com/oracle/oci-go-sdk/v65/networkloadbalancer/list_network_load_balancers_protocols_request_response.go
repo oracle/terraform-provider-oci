@@ -13,7 +13,7 @@ import (
 
 // ListNetworkLoadBalancersProtocolsRequest wrapper for the ListNetworkLoadBalancersProtocols operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListNetworkLoadBalancersProtocols.go.html to see an example of how to use ListNetworkLoadBalancersProtocolsRequest.
 type ListNetworkLoadBalancersProtocolsRequest struct {

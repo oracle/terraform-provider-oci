@@ -13,7 +13,7 @@ import (
 
 // CreateSensitiveColumnRequest wrapper for the CreateSensitiveColumn operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSensitiveColumn.go.html to see an example of how to use CreateSensitiveColumnRequest.
 type CreateSensitiveColumnRequest struct {

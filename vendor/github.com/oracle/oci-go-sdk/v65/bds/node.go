@@ -182,6 +182,7 @@ const (
 	NodeNodeTypeUtility           NodeNodeTypeEnum = "UTILITY"
 	NodeNodeTypeWorker            NodeNodeTypeEnum = "WORKER"
 	NodeNodeTypeComputeOnlyWorker NodeNodeTypeEnum = "COMPUTE_ONLY_WORKER"
+	NodeNodeTypeKafkaBroker       NodeNodeTypeEnum = "KAFKA_BROKER"
 	NodeNodeTypeBursting          NodeNodeTypeEnum = "BURSTING"
 	NodeNodeTypeCloudSql          NodeNodeTypeEnum = "CLOUD_SQL"
 )
@@ -192,6 +193,7 @@ var mappingNodeNodeTypeEnum = map[string]NodeNodeTypeEnum{
 	"UTILITY":             NodeNodeTypeUtility,
 	"WORKER":              NodeNodeTypeWorker,
 	"COMPUTE_ONLY_WORKER": NodeNodeTypeComputeOnlyWorker,
+	"KAFKA_BROKER":        NodeNodeTypeKafkaBroker,
 	"BURSTING":            NodeNodeTypeBursting,
 	"CLOUD_SQL":           NodeNodeTypeCloudSql,
 }
@@ -202,6 +204,7 @@ var mappingNodeNodeTypeEnumLowerCase = map[string]NodeNodeTypeEnum{
 	"utility":             NodeNodeTypeUtility,
 	"worker":              NodeNodeTypeWorker,
 	"compute_only_worker": NodeNodeTypeComputeOnlyWorker,
+	"kafka_broker":        NodeNodeTypeKafkaBroker,
 	"bursting":            NodeNodeTypeBursting,
 	"cloud_sql":           NodeNodeTypeCloudSql,
 }
@@ -223,6 +226,7 @@ func GetNodeNodeTypeEnumStringValues() []string {
 		"UTILITY",
 		"WORKER",
 		"COMPUTE_ONLY_WORKER",
+		"KAFKA_BROKER",
 		"BURSTING",
 		"CLOUD_SQL",
 	}

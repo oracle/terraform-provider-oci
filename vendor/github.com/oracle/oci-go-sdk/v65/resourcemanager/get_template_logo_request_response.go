@@ -14,7 +14,7 @@ import (
 
 // GetTemplateLogoRequest wrapper for the GetTemplateLogo operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetTemplateLogo.go.html to see an example of how to use GetTemplateLogoRequest.
 type GetTemplateLogoRequest struct {

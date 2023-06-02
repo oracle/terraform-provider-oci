@@ -13,7 +13,7 @@ import (
 
 // UpdateKeyRequest wrapper for the UpdateKey operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateKey.go.html to see an example of how to use UpdateKeyRequest.
 type UpdateKeyRequest struct {

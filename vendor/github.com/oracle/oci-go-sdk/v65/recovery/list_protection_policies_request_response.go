@@ -13,7 +13,7 @@ import (
 
 // ListProtectionPoliciesRequest wrapper for the ListProtectionPolicies operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ListProtectionPolicies.go.html to see an example of how to use ListProtectionPoliciesRequest.
 type ListProtectionPoliciesRequest struct {

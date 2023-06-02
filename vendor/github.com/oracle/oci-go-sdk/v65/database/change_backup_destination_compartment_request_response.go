@@ -13,7 +13,7 @@ import (
 
 // ChangeBackupDestinationCompartmentRequest wrapper for the ChangeBackupDestinationCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeBackupDestinationCompartment.go.html to see an example of how to use ChangeBackupDestinationCompartmentRequest.
 type ChangeBackupDestinationCompartmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteDeployPipelineRequest wrapper for the DeleteDeployPipeline operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployPipeline.go.html to see an example of how to use DeleteDeployPipelineRequest.
 type DeleteDeployPipelineRequest struct {

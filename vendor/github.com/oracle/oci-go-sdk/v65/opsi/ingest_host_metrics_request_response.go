@@ -13,7 +13,7 @@ import (
 
 // IngestHostMetricsRequest wrapper for the IngestHostMetrics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestHostMetrics.go.html to see an example of how to use IngestHostMetricsRequest.
 type IngestHostMetricsRequest struct {

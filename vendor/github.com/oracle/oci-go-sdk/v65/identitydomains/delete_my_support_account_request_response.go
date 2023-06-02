@@ -13,7 +13,7 @@ import (
 
 // DeleteMySupportAccountRequest wrapper for the DeleteMySupportAccount operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMySupportAccount.go.html to see an example of how to use DeleteMySupportAccountRequest.
 type DeleteMySupportAccountRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // UpdateServiceConnectorRequest wrapper for the UpdateServiceConnector operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/UpdateServiceConnector.go.html to see an example of how to use UpdateServiceConnectorRequest.
 type UpdateServiceConnectorRequest struct {

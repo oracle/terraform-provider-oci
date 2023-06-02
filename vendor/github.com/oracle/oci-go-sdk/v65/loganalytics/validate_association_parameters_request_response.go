@@ -13,7 +13,7 @@ import (
 
 // ValidateAssociationParametersRequest wrapper for the ValidateAssociationParameters operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateAssociationParameters.go.html to see an example of how to use ValidateAssociationParametersRequest.
 type ValidateAssociationParametersRequest struct {

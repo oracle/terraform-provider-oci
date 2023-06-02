@@ -13,7 +13,7 @@ import (
 
 // GetListenerRequest wrapper for the GetListener operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetListener.go.html to see an example of how to use GetListenerRequest.
 type GetListenerRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteAutonomousDatabaseRequest wrapper for the DeleteAutonomousDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteAutonomousDatabase.go.html to see an example of how to use DeleteAutonomousDatabaseRequest.
 type DeleteAutonomousDatabaseRequest struct {

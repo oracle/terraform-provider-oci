@@ -13,7 +13,7 @@ import (
 
 // CreateMyAuthenticationFactorValidatorRequest wrapper for the CreateMyAuthenticationFactorValidator operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyAuthenticationFactorValidator.go.html to see an example of how to use CreateMyAuthenticationFactorValidatorRequest.
 type CreateMyAuthenticationFactorValidatorRequest struct {

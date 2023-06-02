@@ -13,7 +13,7 @@ import (
 
 // ListSddcsRequest wrapper for the ListSddcs operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSddcs.go.html to see an example of how to use ListSddcsRequest.
 type ListSddcsRequest struct {

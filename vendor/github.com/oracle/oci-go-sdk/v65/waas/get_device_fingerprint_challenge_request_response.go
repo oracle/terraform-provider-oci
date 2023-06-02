@@ -13,7 +13,7 @@ import (
 
 // GetDeviceFingerprintChallengeRequest wrapper for the GetDeviceFingerprintChallenge operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetDeviceFingerprintChallenge.go.html to see an example of how to use GetDeviceFingerprintChallengeRequest.
 type GetDeviceFingerprintChallengeRequest struct {

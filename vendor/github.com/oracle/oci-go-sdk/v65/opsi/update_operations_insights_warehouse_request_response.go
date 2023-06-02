@@ -13,7 +13,7 @@ import (
 
 // UpdateOperationsInsightsWarehouseRequest wrapper for the UpdateOperationsInsightsWarehouse operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateOperationsInsightsWarehouse.go.html to see an example of how to use UpdateOperationsInsightsWarehouseRequest.
 type UpdateOperationsInsightsWarehouseRequest struct {

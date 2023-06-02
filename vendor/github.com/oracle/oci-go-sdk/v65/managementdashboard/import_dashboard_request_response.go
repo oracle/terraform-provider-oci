@@ -13,7 +13,7 @@ import (
 
 // ImportDashboardRequest wrapper for the ImportDashboard operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ImportDashboard.go.html to see an example of how to use ImportDashboardRequest.
 type ImportDashboardRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetDbSystemRequest wrapper for the GetDbSystem operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetDbSystem.go.html to see an example of how to use GetDbSystemRequest.
 type GetDbSystemRequest struct {

@@ -310,5 +310,11 @@
         "realmKey": "oc20",
         "regionIdentifier": "eu-jovanovac-1",
         "realmDomainComponent": "oraclecloud20.com"
+    },
+    {
+        "regionKey": "vll",
+        "realmKey": "oc19",
+        "regionIdentifier": "eu-madrid-2",
+        "realmDomainComponent": "oraclecloud.eu"
     }
 ]

@@ -13,7 +13,7 @@ import (
 
 // ListPrivateEndpointsRequest wrapper for the ListPrivateEndpoints operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListPrivateEndpoints.go.html to see an example of how to use ListPrivateEndpointsRequest.
 type ListPrivateEndpointsRequest struct {

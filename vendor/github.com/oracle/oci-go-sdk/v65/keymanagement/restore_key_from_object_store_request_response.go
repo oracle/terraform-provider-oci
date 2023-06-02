@@ -13,7 +13,7 @@ import (
 
 // RestoreKeyFromObjectStoreRequest wrapper for the RestoreKeyFromObjectStore operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreKeyFromObjectStore.go.html to see an example of how to use RestoreKeyFromObjectStoreRequest.
 type RestoreKeyFromObjectStoreRequest struct {

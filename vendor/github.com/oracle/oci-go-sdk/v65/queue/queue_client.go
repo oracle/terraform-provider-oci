@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//QueueClient a client for Queue
+// QueueClient a client for Queue
 type QueueClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,7 +39,8 @@ func NewQueueClientWithConfigurationProvider(configProvider common.Configuration
 
 // NewQueueClientWithOboToken Creates a new default Queue client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewQueueClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client QueueClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

@@ -20,7 +20,7 @@ import (
 	"net/http"
 )
 
-//LoggingManagementClient a client for LoggingManagement
+// LoggingManagementClient a client for LoggingManagement
 type LoggingManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewLoggingManagementClientWithConfigurationProvider(configProvider common.C
 
 // NewLoggingManagementClientWithOboToken Creates a new default LoggingManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewLoggingManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client LoggingManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

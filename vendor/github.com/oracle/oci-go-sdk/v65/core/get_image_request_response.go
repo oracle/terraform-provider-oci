@@ -13,7 +13,7 @@ import (
 
 // GetImageRequest wrapper for the GetImage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetImage.go.html to see an example of how to use GetImageRequest.
 type GetImageRequest struct {

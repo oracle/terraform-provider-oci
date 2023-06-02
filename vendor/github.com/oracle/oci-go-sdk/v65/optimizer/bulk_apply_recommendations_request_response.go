@@ -13,7 +13,7 @@ import (
 
 // BulkApplyRecommendationsRequest wrapper for the BulkApplyRecommendations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/BulkApplyRecommendations.go.html to see an example of how to use BulkApplyRecommendationsRequest.
 type BulkApplyRecommendationsRequest struct {

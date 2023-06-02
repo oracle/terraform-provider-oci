@@ -13,7 +13,7 @@ import (
 
 // CreateRepositoryRequest wrapper for the CreateRepository operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/CreateRepository.go.html to see an example of how to use CreateRepositoryRequest.
 type CreateRepositoryRequest struct {

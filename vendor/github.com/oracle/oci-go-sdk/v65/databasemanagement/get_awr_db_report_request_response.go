@@ -13,7 +13,7 @@ import (
 
 // GetAwrDbReportRequest wrapper for the GetAwrDbReport operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetAwrDbReport.go.html to see an example of how to use GetAwrDbReportRequest.
 type GetAwrDbReportRequest struct {

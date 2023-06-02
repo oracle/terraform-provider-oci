@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//ServiceConnectorClient a client for ServiceConnector
+// ServiceConnectorClient a client for ServiceConnector
 type ServiceConnectorClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -41,7 +41,8 @@ func NewServiceConnectorClientWithConfigurationProvider(configProvider common.Co
 
 // NewServiceConnectorClientWithOboToken Creates a new default ServiceConnector client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewServiceConnectorClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ServiceConnectorClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

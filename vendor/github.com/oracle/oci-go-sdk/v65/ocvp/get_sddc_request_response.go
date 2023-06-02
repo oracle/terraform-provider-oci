@@ -13,7 +13,7 @@ import (
 
 // GetSddcRequest wrapper for the GetSddc operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/GetSddc.go.html to see an example of how to use GetSddcRequest.
 type GetSddcRequest struct {

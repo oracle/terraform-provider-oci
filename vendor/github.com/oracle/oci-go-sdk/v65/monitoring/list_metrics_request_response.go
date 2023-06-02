@@ -13,7 +13,7 @@ import (
 
 // ListMetricsRequest wrapper for the ListMetrics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/ListMetrics.go.html to see an example of how to use ListMetricsRequest.
 type ListMetricsRequest struct {

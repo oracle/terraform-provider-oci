@@ -13,7 +13,7 @@ import (
 
 // UpdateLibraryMaskingFormatRequest wrapper for the UpdateLibraryMaskingFormat operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateLibraryMaskingFormat.go.html to see an example of how to use UpdateLibraryMaskingFormatRequest.
 type UpdateLibraryMaskingFormatRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // SummarizeDatabaseInsightTablespaceUsageTrendRequest wrapper for the SummarizeDatabaseInsightTablespaceUsageTrend operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightTablespaceUsageTrend.go.html to see an example of how to use SummarizeDatabaseInsightTablespaceUsageTrendRequest.
 type SummarizeDatabaseInsightTablespaceUsageTrendRequest struct {

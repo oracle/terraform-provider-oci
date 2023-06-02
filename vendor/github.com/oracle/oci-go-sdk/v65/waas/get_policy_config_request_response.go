@@ -13,7 +13,7 @@ import (
 
 // GetPolicyConfigRequest wrapper for the GetPolicyConfig operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetPolicyConfig.go.html to see an example of how to use GetPolicyConfigRequest.
 type GetPolicyConfigRequest struct {

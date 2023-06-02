@@ -13,7 +13,7 @@ import (
 
 // UpdateBulkProblemStatusRequest wrapper for the UpdateBulkProblemStatus operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateBulkProblemStatus.go.html to see an example of how to use UpdateBulkProblemStatusRequest.
 type UpdateBulkProblemStatusRequest struct {

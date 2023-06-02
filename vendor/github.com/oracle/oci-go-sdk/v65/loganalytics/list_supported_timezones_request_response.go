@@ -13,7 +13,7 @@ import (
 
 // ListSupportedTimezonesRequest wrapper for the ListSupportedTimezones operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSupportedTimezones.go.html to see an example of how to use ListSupportedTimezonesRequest.
 type ListSupportedTimezonesRequest struct {

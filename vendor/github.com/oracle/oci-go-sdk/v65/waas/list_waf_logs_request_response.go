@@ -13,7 +13,7 @@ import (
 
 // ListWafLogsRequest wrapper for the ListWafLogs operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListWafLogs.go.html to see an example of how to use ListWafLogsRequest.
 type ListWafLogsRequest struct {

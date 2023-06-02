@@ -13,7 +13,7 @@ import (
 
 // ChangeQueueCompartmentRequest wrapper for the ChangeQueueCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ChangeQueueCompartment.go.html to see an example of how to use ChangeQueueCompartmentRequest.
 type ChangeQueueCompartmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetExternalExadataInfrastructureRequest wrapper for the GetExternalExadataInfrastructure operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalExadataInfrastructure.go.html to see an example of how to use GetExternalExadataInfrastructureRequest.
 type GetExternalExadataInfrastructureRequest struct {

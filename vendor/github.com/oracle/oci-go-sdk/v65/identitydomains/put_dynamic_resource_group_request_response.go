@@ -13,7 +13,7 @@ import (
 
 // PutDynamicResourceGroupRequest wrapper for the PutDynamicResourceGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutDynamicResourceGroup.go.html to see an example of how to use PutDynamicResourceGroupRequest.
 type PutDynamicResourceGroupRequest struct {

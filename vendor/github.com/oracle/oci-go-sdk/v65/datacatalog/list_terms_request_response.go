@@ -13,7 +13,7 @@ import (
 
 // ListTermsRequest wrapper for the ListTerms operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListTerms.go.html to see an example of how to use ListTermsRequest.
 type ListTermsRequest struct {

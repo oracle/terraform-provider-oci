@@ -13,7 +13,7 @@ import (
 
 // GetPdbMetricsRequest wrapper for the GetPdbMetrics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetPdbMetrics.go.html to see an example of how to use GetPdbMetricsRequest.
 type GetPdbMetricsRequest struct {

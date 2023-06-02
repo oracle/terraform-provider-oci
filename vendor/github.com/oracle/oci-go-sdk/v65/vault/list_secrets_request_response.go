@@ -13,7 +13,7 @@ import (
 
 // ListSecretsRequest wrapper for the ListSecrets operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ListSecrets.go.html to see an example of how to use ListSecretsRequest.
 type ListSecretsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CreateSkillRequest wrapper for the CreateSkill operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateSkill.go.html to see an example of how to use CreateSkillRequest.
 type CreateSkillRequest struct {

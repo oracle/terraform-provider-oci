@@ -13,7 +13,7 @@ import (
 
 // ListInventoriesRequest wrapper for the ListInventories operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListInventories.go.html to see an example of how to use ListInventoriesRequest.
 type ListInventoriesRequest struct {

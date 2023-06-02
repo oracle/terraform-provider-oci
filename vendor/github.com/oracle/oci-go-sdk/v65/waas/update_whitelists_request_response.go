@@ -13,7 +13,7 @@ import (
 
 // UpdateWhitelistsRequest wrapper for the UpdateWhitelists operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateWhitelists.go.html to see an example of how to use UpdateWhitelistsRequest.
 type UpdateWhitelistsRequest struct {

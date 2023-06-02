@@ -13,7 +13,7 @@ import (
 
 // RequestSummarizedProblemsRequest wrapper for the RequestSummarizedProblems operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSummarizedProblems.go.html to see an example of how to use RequestSummarizedProblemsRequest.
 type RequestSummarizedProblemsRequest struct {

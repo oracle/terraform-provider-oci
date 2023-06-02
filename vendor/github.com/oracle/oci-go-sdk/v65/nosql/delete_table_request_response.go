@@ -13,7 +13,7 @@ import (
 
 // DeleteTableRequest wrapper for the DeleteTable operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/DeleteTable.go.html to see an example of how to use DeleteTableRequest.
 type DeleteTableRequest struct {

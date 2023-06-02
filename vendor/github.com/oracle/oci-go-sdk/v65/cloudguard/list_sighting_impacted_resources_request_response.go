@@ -13,7 +13,7 @@ import (
 
 // ListSightingImpactedResourcesRequest wrapper for the ListSightingImpactedResources operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSightingImpactedResources.go.html to see an example of how to use ListSightingImpactedResourcesRequest.
 type ListSightingImpactedResourcesRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListAuditTrailAnalyticsRequest wrapper for the ListAuditTrailAnalytics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditTrailAnalytics.go.html to see an example of how to use ListAuditTrailAnalyticsRequest.
 type ListAuditTrailAnalyticsRequest struct {

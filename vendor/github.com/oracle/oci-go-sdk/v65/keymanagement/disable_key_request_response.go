@@ -13,7 +13,7 @@ import (
 
 // DisableKeyRequest wrapper for the DisableKey operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DisableKey.go.html to see an example of how to use DisableKeyRequest.
 type DisableKeyRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListAnnouncementsRequest wrapper for the ListAnnouncements operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ListAnnouncements.go.html to see an example of how to use ListAnnouncementsRequest.
 type ListAnnouncementsRequest struct {

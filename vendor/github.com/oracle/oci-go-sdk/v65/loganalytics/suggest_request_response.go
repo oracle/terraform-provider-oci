@@ -13,7 +13,7 @@ import (
 
 // SuggestRequest wrapper for the Suggest operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/Suggest.go.html to see an example of how to use SuggestRequest.
 type SuggestRequest struct {

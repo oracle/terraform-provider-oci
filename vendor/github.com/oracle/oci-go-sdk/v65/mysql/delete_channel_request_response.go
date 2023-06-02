@@ -13,7 +13,7 @@ import (
 
 // DeleteChannelRequest wrapper for the DeleteChannel operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteChannel.go.html to see an example of how to use DeleteChannelRequest.
 type DeleteChannelRequest struct {

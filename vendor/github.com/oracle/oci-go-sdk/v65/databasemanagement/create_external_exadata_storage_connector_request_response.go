@@ -13,7 +13,7 @@ import (
 
 // CreateExternalExadataStorageConnectorRequest wrapper for the CreateExternalExadataStorageConnector operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateExternalExadataStorageConnector.go.html to see an example of how to use CreateExternalExadataStorageConnectorRequest.
 type CreateExternalExadataStorageConnectorRequest struct {

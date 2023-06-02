@@ -13,7 +13,7 @@ import (
 
 // ChangeEmailDomainCompartmentRequest wrapper for the ChangeEmailDomainCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ChangeEmailDomainCompartment.go.html to see an example of how to use ChangeEmailDomainCompartmentRequest.
 type ChangeEmailDomainCompartmentRequest struct {

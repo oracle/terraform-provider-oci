@@ -13,7 +13,7 @@ import (
 
 // UpdateRefreshActivityRequest wrapper for the UpdateRefreshActivity operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/UpdateRefreshActivity.go.html to see an example of how to use UpdateRefreshActivityRequest.
 type UpdateRefreshActivityRequest struct {

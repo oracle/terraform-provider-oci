@@ -13,7 +13,7 @@ import (
 
 // ListHttpProbeResultsRequest wrapper for the ListHttpProbeResults operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListHttpProbeResults.go.html to see an example of how to use ListHttpProbeResultsRequest.
 type ListHttpProbeResultsRequest struct {

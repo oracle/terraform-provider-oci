@@ -13,7 +13,7 @@ import (
 
 // SearchOAuth2ClientCredentialsRequest wrapper for the SearchOAuth2ClientCredentials operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchOAuth2ClientCredentials.go.html to see an example of how to use SearchOAuth2ClientCredentialsRequest.
 type SearchOAuth2ClientCredentialsRequest struct {

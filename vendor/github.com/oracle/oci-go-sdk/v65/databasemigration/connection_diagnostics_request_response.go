@@ -13,7 +13,7 @@ import (
 
 // ConnectionDiagnosticsRequest wrapper for the ConnectionDiagnostics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ConnectionDiagnostics.go.html to see an example of how to use ConnectionDiagnosticsRequest.
 type ConnectionDiagnosticsRequest struct {

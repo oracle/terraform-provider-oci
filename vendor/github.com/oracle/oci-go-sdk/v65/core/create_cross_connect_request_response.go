@@ -13,7 +13,7 @@ import (
 
 // CreateCrossConnectRequest wrapper for the CreateCrossConnect operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateCrossConnect.go.html to see an example of how to use CreateCrossConnectRequest.
 type CreateCrossConnectRequest struct {

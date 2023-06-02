@@ -14,7 +14,7 @@ import (
 
 // FetchProtectedDatabaseConfigurationRequest wrapper for the FetchProtectedDatabaseConfiguration operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/FetchProtectedDatabaseConfiguration.go.html to see an example of how to use FetchProtectedDatabaseConfigurationRequest.
 type FetchProtectedDatabaseConfigurationRequest struct {

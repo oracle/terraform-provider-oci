@@ -13,7 +13,7 @@ import (
 
 // ResumeChannelRequest wrapper for the ResumeChannel operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ResumeChannel.go.html to see an example of how to use ResumeChannelRequest.
 type ResumeChannelRequest struct {

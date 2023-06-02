@@ -13,7 +13,7 @@ import (
 
 // AssociateDrProtectionGroupRequest wrapper for the AssociateDrProtectionGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/AssociateDrProtectionGroup.go.html to see an example of how to use AssociateDrProtectionGroupRequest.
 type AssociateDrProtectionGroupRequest struct {

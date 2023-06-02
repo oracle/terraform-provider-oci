@@ -13,7 +13,7 @@ import (
 
 // UpdateGenericArtifactByPathRequest wrapper for the UpdateGenericArtifactByPath operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateGenericArtifactByPath.go.html to see an example of how to use UpdateGenericArtifactByPathRequest.
 type UpdateGenericArtifactByPathRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListRewardsRequest wrapper for the ListRewards operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRewards.go.html to see an example of how to use ListRewardsRequest.
 type ListRewardsRequest struct {

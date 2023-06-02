@@ -13,7 +13,7 @@ import (
 
 // ActivateServiceConnectorRequest wrapper for the ActivateServiceConnector operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/ActivateServiceConnector.go.html to see an example of how to use ActivateServiceConnectorRequest.
 type ActivateServiceConnectorRequest struct {

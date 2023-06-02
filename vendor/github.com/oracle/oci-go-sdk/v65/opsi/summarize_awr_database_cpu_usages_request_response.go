@@ -13,7 +13,7 @@ import (
 
 // SummarizeAwrDatabaseCpuUsagesRequest wrapper for the SummarizeAwrDatabaseCpuUsages operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseCpuUsages.go.html to see an example of how to use SummarizeAwrDatabaseCpuUsagesRequest.
 type SummarizeAwrDatabaseCpuUsagesRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // UpdateExadataInfrastructureRequest wrapper for the UpdateExadataInfrastructure operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateExadataInfrastructure.go.html to see an example of how to use UpdateExadataInfrastructureRequest.
 type UpdateExadataInfrastructureRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetExadataInfrastructureOcpusRequest wrapper for the GetExadataInfrastructureOcpus operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExadataInfrastructureOcpus.go.html to see an example of how to use GetExadataInfrastructureOcpusRequest.
 type GetExadataInfrastructureOcpusRequest struct {

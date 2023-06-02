@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//AnnouncementSubscriptionClient a client for AnnouncementSubscription
+// AnnouncementSubscriptionClient a client for AnnouncementSubscription
 type AnnouncementSubscriptionClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,7 +39,8 @@ func NewAnnouncementSubscriptionClientWithConfigurationProvider(configProvider c
 
 // NewAnnouncementSubscriptionClientWithOboToken Creates a new default AnnouncementSubscription client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewAnnouncementSubscriptionClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client AnnouncementSubscriptionClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

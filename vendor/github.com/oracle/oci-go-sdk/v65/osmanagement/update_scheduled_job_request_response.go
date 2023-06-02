@@ -13,7 +13,7 @@ import (
 
 // UpdateScheduledJobRequest wrapper for the UpdateScheduledJob operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UpdateScheduledJob.go.html to see an example of how to use UpdateScheduledJobRequest.
 type UpdateScheduledJobRequest struct {

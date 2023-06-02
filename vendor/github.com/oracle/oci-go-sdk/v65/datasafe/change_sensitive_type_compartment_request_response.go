@@ -13,7 +13,7 @@ import (
 
 // ChangeSensitiveTypeCompartmentRequest wrapper for the ChangeSensitiveTypeCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSensitiveTypeCompartment.go.html to see an example of how to use ChangeSensitiveTypeCompartmentRequest.
 type ChangeSensitiveTypeCompartmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // UpdateLogAnalyticsObjectCollectionRuleRequest wrapper for the UpdateLogAnalyticsObjectCollectionRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLogAnalyticsObjectCollectionRule.go.html to see an example of how to use UpdateLogAnalyticsObjectCollectionRuleRequest.
 type UpdateLogAnalyticsObjectCollectionRuleRequest struct {

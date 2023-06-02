@@ -13,7 +13,7 @@ import (
 
 // SummarizeAddmDbSchemaObjectsRequest wrapper for the SummarizeAddmDbSchemaObjects operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAddmDbSchemaObjects.go.html to see an example of how to use SummarizeAddmDbSchemaObjectsRequest.
 type SummarizeAddmDbSchemaObjectsRequest struct {

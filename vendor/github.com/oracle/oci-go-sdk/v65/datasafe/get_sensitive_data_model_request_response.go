@@ -13,7 +13,7 @@ import (
 
 // GetSensitiveDataModelRequest wrapper for the GetSensitiveDataModel operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSensitiveDataModel.go.html to see an example of how to use GetSensitiveDataModelRequest.
 type GetSensitiveDataModelRequest struct {

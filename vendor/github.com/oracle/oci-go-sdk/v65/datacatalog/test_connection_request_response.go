@@ -13,7 +13,7 @@ import (
 
 // TestConnectionRequest wrapper for the TestConnection operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/TestConnection.go.html to see an example of how to use TestConnectionRequest.
 type TestConnectionRequest struct {

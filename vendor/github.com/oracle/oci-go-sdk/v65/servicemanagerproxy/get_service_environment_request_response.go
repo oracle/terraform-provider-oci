@@ -13,7 +13,7 @@ import (
 
 // GetServiceEnvironmentRequest wrapper for the GetServiceEnvironment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemanagerproxy/GetServiceEnvironment.go.html to see an example of how to use GetServiceEnvironmentRequest.
 type GetServiceEnvironmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListPublishedObjectsRequest wrapper for the ListPublishedObjects operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListPublishedObjects.go.html to see an example of how to use ListPublishedObjectsRequest.
 type ListPublishedObjectsRequest struct {

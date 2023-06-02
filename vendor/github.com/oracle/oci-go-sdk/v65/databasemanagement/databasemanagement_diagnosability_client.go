@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//DiagnosabilityClient a client for Diagnosability
+// DiagnosabilityClient a client for Diagnosability
 type DiagnosabilityClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -41,7 +41,8 @@ func NewDiagnosabilityClientWithConfigurationProvider(configProvider common.Conf
 
 // NewDiagnosabilityClientWithOboToken Creates a new default Diagnosability client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDiagnosabilityClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DiagnosabilityClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

@@ -13,7 +13,7 @@ import (
 
 // ListProblemEndpointsRequest wrapper for the ListProblemEndpoints operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListProblemEndpoints.go.html to see an example of how to use ListProblemEndpointsRequest.
 type ListProblemEndpointsRequest struct {

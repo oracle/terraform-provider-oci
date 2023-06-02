@@ -13,7 +13,7 @@ import (
 
 // DeleteApmDomainRequest wrapper for the DeleteApmDomain operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmcontrolplane/DeleteApmDomain.go.html to see an example of how to use DeleteApmDomainRequest.
 type DeleteApmDomainRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListPeersRequest wrapper for the ListPeers operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/ListPeers.go.html to see an example of how to use ListPeersRequest.
 type ListPeersRequest struct {

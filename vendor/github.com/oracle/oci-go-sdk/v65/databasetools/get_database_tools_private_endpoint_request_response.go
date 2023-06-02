@@ -13,7 +13,7 @@ import (
 
 // GetDatabaseToolsPrivateEndpointRequest wrapper for the GetDatabaseToolsPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetDatabaseToolsPrivateEndpoint.go.html to see an example of how to use GetDatabaseToolsPrivateEndpointRequest.
 type GetDatabaseToolsPrivateEndpointRequest struct {

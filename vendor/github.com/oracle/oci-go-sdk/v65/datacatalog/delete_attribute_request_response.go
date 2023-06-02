@@ -13,7 +13,7 @@ import (
 
 // DeleteAttributeRequest wrapper for the DeleteAttribute operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteAttribute.go.html to see an example of how to use DeleteAttributeRequest.
 type DeleteAttributeRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // SummarizeAwrDbMetricsRequest wrapper for the SummarizeAwrDbMetrics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbMetrics.go.html to see an example of how to use SummarizeAwrDbMetricsRequest.
 type SummarizeAwrDbMetricsRequest struct {

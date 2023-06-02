@@ -13,7 +13,7 @@ import (
 
 // ListNetworkFirewallPoliciesRequest wrapper for the ListNetworkFirewallPolicies operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListNetworkFirewallPolicies.go.html to see an example of how to use ListNetworkFirewallPoliciesRequest.
 type ListNetworkFirewallPoliciesRequest struct {

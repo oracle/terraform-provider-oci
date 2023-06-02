@@ -13,7 +13,7 @@ import (
 
 // DowngradeHcxRequest wrapper for the DowngradeHcx operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DowngradeHcx.go.html to see an example of how to use DowngradeHcxRequest.
 type DowngradeHcxRequest struct {

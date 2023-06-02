@@ -13,7 +13,7 @@ import (
 
 // CreateTermRequest wrapper for the CreateTerm operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateTerm.go.html to see an example of how to use CreateTermRequest.
 type CreateTermRequest struct {

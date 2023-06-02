@@ -13,7 +13,7 @@ import (
 
 // GetGroupRequest wrapper for the GetGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetGroup.go.html to see an example of how to use GetGroupRequest.
 type GetGroupRequest struct {

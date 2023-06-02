@@ -13,7 +13,7 @@ import (
 
 // GetExadataInfrastructureUnAllocatedResourcesRequest wrapper for the GetExadataInfrastructureUnAllocatedResources operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExadataInfrastructureUnAllocatedResources.go.html to see an example of how to use GetExadataInfrastructureUnAllocatedResourcesRequest.
 type GetExadataInfrastructureUnAllocatedResourcesRequest struct {

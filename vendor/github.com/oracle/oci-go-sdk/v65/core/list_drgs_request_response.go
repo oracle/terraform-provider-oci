@@ -13,7 +13,7 @@ import (
 
 // ListDrgsRequest wrapper for the ListDrgs operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDrgs.go.html to see an example of how to use ListDrgsRequest.
 type ListDrgsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // SummarizeHostInsightStorageUsageTrendRequest wrapper for the SummarizeHostInsightStorageUsageTrend operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightStorageUsageTrend.go.html to see an example of how to use SummarizeHostInsightStorageUsageTrendRequest.
 type SummarizeHostInsightStorageUsageTrendRequest struct {

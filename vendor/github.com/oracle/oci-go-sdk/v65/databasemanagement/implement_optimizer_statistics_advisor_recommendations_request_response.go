@@ -13,7 +13,7 @@ import (
 
 // ImplementOptimizerStatisticsAdvisorRecommendationsRequest wrapper for the ImplementOptimizerStatisticsAdvisorRecommendations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ImplementOptimizerStatisticsAdvisorRecommendations.go.html to see an example of how to use ImplementOptimizerStatisticsAdvisorRecommendationsRequest.
 type ImplementOptimizerStatisticsAdvisorRecommendationsRequest struct {
