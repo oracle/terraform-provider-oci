@@ -521,6 +521,7 @@ core
 * oci\_core\_capture\_filter
 * oci\_core\_vtap
 * oci\_core\_compute\_cluster
+* oci\_core\_compute\_capacity\_report
 
 data_labeling_service
 
