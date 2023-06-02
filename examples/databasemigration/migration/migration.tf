@@ -19,6 +19,39 @@ variable "private_key_path" {
 variable "compartment_ocid" {
 }
 
+variable "kms_key_id" {
+}
+
+variable "kms_vault_id" {
+}
+
+variable "ssh_public_keys" {
+}
+
+variable "compartment_id" {
+}
+
+variable "database_id" {
+}
+
+variable "subnet_id" {
+}
+
+variable "vcn_id" {
+}
+
+variable "source_connection_id"{
+}
+
+variable "source_connection_container_id"{
+}
+
+variable "target_connection_id"{
+}
+
+variable "ssh_key" {
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -36,21 +69,6 @@ resource "random_string" "autonomous_database_admin_password" {
   min_special = 2
   special = true
   override_special = "-_#"
-}
-
-variable "kms_key_id" {
-}
-
-variable "kms_vault_id" {
-}
-
-variable "ssh_public_keys" {
-}
-
-variable "compartment_id" {
-}
-
-variable "database_id" {
 }
 
 resource "oci_core_subnet" "test_subnet" {
@@ -153,10 +171,14 @@ resource "oci_database_migration_connection" "test_connection_source" {
 
 resource "oci_database_migration_migration" "test_migration" {
   compartment_id = var.compartment_id
+
+  #csvText - Optional
+  csv_text = "MY_BIZZ,SRC_CITY,TABLE,EXCLUDE"
+
   data_transfer_medium_details {
     object_storage_details {
-    bucket = "bucket"
-    namespace = "namespace"
+      bucket = "bucket"
+      namespace = "namespace"
     }
   }
   datapump_settings {
@@ -190,11 +212,12 @@ resource "oci_database_migration_migration" "test_migration" {
         username = "ggadmin"
       }
       target_microservices_deployment_name = "Target"
-      url = "https://130.35.83.125"
+      url = "https://10.0.0.0"
     }
   }
-  source_database_connection_id = "${oci_database_migration_connection.test_connection_source.id}"
-  target_database_connection_id = "${oci_database_migration_connection.test_connection_target.id}"
+  source_database_connection_id = var.source_connection_id
+  source_container_database_connection_id = var.source_connection_container_id
+  target_database_connection_id = var.target_connection_id
   type = "ONLINE"
   vault_details {
     compartment_id = var.compartment_id
