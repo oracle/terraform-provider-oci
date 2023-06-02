@@ -13,6 +13,10 @@ This resource provides the Cluster Network resource in Oracle Cloud Infrastructu
 Creates a cluster network. For more information about cluster networks, see
 [Managing Cluster Networks](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 
+To determine whether capacity is available for a specific shape before you create a cluster network,
+use the [CreateComputeCapacityReport](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ComputeCapacityReport/CreateComputeCapacityReport)
+operation.
+
 
 ## Example Usage
 
