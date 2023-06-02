@@ -33,6 +33,7 @@ resource "oci_database_migration_migration" "test_migration" {
 		is_skip_advisor = var.migration_advisor_settings_is_skip_advisor
 	}
 	agent_id = oci_database_migration_agent.test_agent.id
+	csv_text = var.migration_csv_text
 	data_transfer_medium_details {
 
 		#Optional
@@ -195,6 +196,7 @@ The following arguments are supported:
 	* `is_skip_advisor` - (Optional) (Updatable) True to skip the Pre-Migration Advisor execution. Default is false. 
 * `agent_id` - (Optional) (Updatable) The OCID of the registered ODMS Agent. Only valid for Offline Logical Migrations. 
 * `compartment_id` - (Required) (Updatable) OCID of the compartment 
+* `csv_text` - (Optional) Database objects to exclude/include from migration in CSV format. The excludeObjects and includeObjects fields will be ignored if this field is not null. 
 * `data_transfer_medium_details` - (Optional) (Updatable) Data Transfer Medium details for the Migration. If not specified, it will default to Database Link. Only one type of data transfer medium can be specified. 
 	* `database_link_details` - (Optional) (Updatable) Optional details for creating a network database link from Oracle Cloud Infrastructure database to on-premise database. 
 		* `name` - (Optional) (Updatable) Name of database link from Oracle Cloud Infrastructure database to on-premise database. ODMS will create link, if the link does not already exist. 
