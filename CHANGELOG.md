@@ -1,6 +1,17 @@
 ## 5.0.0 (Unreleased)
 
 ### Added
+- Support for Capacity Availability API
+- Support for Datalake/Lakehouse Feature for MySQL HeatWave
+- Support for Bulk include/exclude of migration objects enhancement. DatabaseMigration service
+support for region override in resource principal
+changes to README.md, License.txt, security.md and CONTRIBUTING.md for Github Audit Compliance.
+### Deprecation
+- Deprecated oci_identity_swift_password resource and datasource
+
+## 5.0.0 (Unreleased)
+
+### Added
 changes to README.md, License.txt, security.md and CONTRIBUTING.md for Github Audit Compliance.
 
 ## 4.123.0 (May 31, 2023)
