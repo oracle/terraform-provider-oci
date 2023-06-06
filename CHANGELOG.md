@@ -1,4 +1,4 @@
-## 5.0.0 (Unreleased)
+## 5.0.0 (June 06, 2023)
 
 ### Added
 - Support for Capacity Availability API
@@ -9,7 +9,7 @@ changes to README.md, License.txt, security.md and CONTRIBUTING.md for Github Au
 ### Deprecation
 - Deprecated oci_identity_swift_password resource and datasource
 
-## 5.0.0 (Unreleased)
+## 5.0.0 (June 06, 2023)
 
 ### Added
 changes to README.md, License.txt, security.md and CONTRIBUTING.md for Github Audit Compliance.
