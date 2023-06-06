@@ -13,7 +13,7 @@ import (
 
 // ChangeGatewayCompartmentRequest wrapper for the ChangeGatewayCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeGatewayCompartment.go.html to see an example of how to use ChangeGatewayCompartmentRequest.
 type ChangeGatewayCompartmentRequest struct {

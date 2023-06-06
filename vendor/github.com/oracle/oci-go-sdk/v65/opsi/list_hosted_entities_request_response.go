@@ -13,7 +13,7 @@ import (
 
 // ListHostedEntitiesRequest wrapper for the ListHostedEntities operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListHostedEntities.go.html to see an example of how to use ListHostedEntitiesRequest.
 type ListHostedEntitiesRequest struct {

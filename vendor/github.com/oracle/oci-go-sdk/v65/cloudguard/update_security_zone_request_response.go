@@ -13,7 +13,7 @@ import (
 
 // UpdateSecurityZoneRequest wrapper for the UpdateSecurityZone operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateSecurityZone.go.html to see an example of how to use UpdateSecurityZoneRequest.
 type UpdateSecurityZoneRequest struct {

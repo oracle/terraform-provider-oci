@@ -13,7 +13,7 @@ import (
 
 // ListEntityAssociationsRequest wrapper for the ListEntityAssociations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListEntityAssociations.go.html to see an example of how to use ListEntityAssociationsRequest.
 type ListEntityAssociationsRequest struct {

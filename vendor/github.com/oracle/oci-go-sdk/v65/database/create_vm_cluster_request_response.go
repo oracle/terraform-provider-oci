@@ -13,7 +13,7 @@ import (
 
 // CreateVmClusterRequest wrapper for the CreateVmCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateVmCluster.go.html to see an example of how to use CreateVmClusterRequest.
 type CreateVmClusterRequest struct {

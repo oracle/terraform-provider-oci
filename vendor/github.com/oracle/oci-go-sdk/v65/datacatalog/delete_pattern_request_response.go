@@ -13,7 +13,7 @@ import (
 
 // DeletePatternRequest wrapper for the DeletePattern operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeletePattern.go.html to see an example of how to use DeletePatternRequest.
 type DeletePatternRequest struct {

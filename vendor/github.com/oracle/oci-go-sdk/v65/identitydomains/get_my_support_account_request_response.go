@@ -13,7 +13,7 @@ import (
 
 // GetMySupportAccountRequest wrapper for the GetMySupportAccount operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMySupportAccount.go.html to see an example of how to use GetMySupportAccountRequest.
 type GetMySupportAccountRequest struct {

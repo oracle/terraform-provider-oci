@@ -13,7 +13,7 @@ import (
 
 // SummarizeHostInsightResourceStatisticsRequest wrapper for the SummarizeHostInsightResourceStatistics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightResourceStatistics.go.html to see an example of how to use SummarizeHostInsightResourceStatisticsRequest.
 type SummarizeHostInsightResourceStatisticsRequest struct {

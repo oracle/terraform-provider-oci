@@ -13,7 +13,7 @@ import (
 
 // DeleteOdaPrivateEndpointAttachmentRequest wrapper for the DeleteOdaPrivateEndpointAttachment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaPrivateEndpointAttachment.go.html to see an example of how to use DeleteOdaPrivateEndpointAttachmentRequest.
 type DeleteOdaPrivateEndpointAttachmentRequest struct {

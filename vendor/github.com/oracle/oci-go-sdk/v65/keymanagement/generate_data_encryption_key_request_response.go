@@ -13,7 +13,7 @@ import (
 
 // GenerateDataEncryptionKeyRequest wrapper for the GenerateDataEncryptionKey operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GenerateDataEncryptionKey.go.html to see an example of how to use GenerateDataEncryptionKeyRequest.
 type GenerateDataEncryptionKeyRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeletePatchRequest wrapper for the DeletePatch operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeletePatch.go.html to see an example of how to use DeletePatchRequest.
 type DeletePatchRequest struct {

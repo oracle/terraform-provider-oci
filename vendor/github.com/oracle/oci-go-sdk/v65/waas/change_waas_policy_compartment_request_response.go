@@ -13,7 +13,7 @@ import (
 
 // ChangeWaasPolicyCompartmentRequest wrapper for the ChangeWaasPolicyCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeWaasPolicyCompartment.go.html to see an example of how to use ChangeWaasPolicyCompartmentRequest.
 type ChangeWaasPolicyCompartmentRequest struct {

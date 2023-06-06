@@ -13,7 +13,7 @@ import (
 
 // ResetDatabaseParametersRequest wrapper for the ResetDatabaseParameters operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ResetDatabaseParameters.go.html to see an example of how to use ResetDatabaseParametersRequest.
 type ResetDatabaseParametersRequest struct {

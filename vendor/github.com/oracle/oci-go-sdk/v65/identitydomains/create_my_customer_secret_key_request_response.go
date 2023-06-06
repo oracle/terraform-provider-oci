@@ -13,7 +13,7 @@ import (
 
 // CreateMyCustomerSecretKeyRequest wrapper for the CreateMyCustomerSecretKey operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyCustomerSecretKey.go.html to see an example of how to use CreateMyCustomerSecretKeyRequest.
 type CreateMyCustomerSecretKeyRequest struct {

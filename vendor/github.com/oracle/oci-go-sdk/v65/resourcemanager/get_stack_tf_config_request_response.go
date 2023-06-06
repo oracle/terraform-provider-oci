@@ -14,7 +14,7 @@ import (
 
 // GetStackTfConfigRequest wrapper for the GetStackTfConfig operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetStackTfConfig.go.html to see an example of how to use GetStackTfConfigRequest.
 type GetStackTfConfigRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListMediaWorkflowTaskDeclarationsRequest wrapper for the ListMediaWorkflowTaskDeclarations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflowTaskDeclarations.go.html to see an example of how to use ListMediaWorkflowTaskDeclarationsRequest.
 type ListMediaWorkflowTaskDeclarationsRequest struct {

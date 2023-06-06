@@ -13,7 +13,7 @@ import (
 
 // RestartAutonomousDatabaseRequest wrapper for the RestartAutonomousDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RestartAutonomousDatabase.go.html to see an example of how to use RestartAutonomousDatabaseRequest.
 type RestartAutonomousDatabaseRequest struct {

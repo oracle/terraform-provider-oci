@@ -13,7 +13,7 @@ import (
 
 // DeleteSubnetRequest wrapper for the DeleteSubnet operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteSubnet.go.html to see an example of how to use DeleteSubnetRequest.
 type DeleteSubnetRequest struct {

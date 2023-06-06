@@ -13,7 +13,7 @@ import (
 
 // ListExternalExadataStorageConnectorsRequest wrapper for the ListExternalExadataStorageConnectors operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalExadataStorageConnectors.go.html to see an example of how to use ListExternalExadataStorageConnectorsRequest.
 type ListExternalExadataStorageConnectorsRequest struct {

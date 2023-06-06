@@ -13,7 +13,7 @@ import (
 
 // GetLabelSummaryRequest wrapper for the GetLabelSummary operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLabelSummary.go.html to see an example of how to use GetLabelSummaryRequest.
 type GetLabelSummaryRequest struct {

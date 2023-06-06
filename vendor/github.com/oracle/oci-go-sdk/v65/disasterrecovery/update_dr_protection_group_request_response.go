@@ -13,7 +13,7 @@ import (
 
 // UpdateDrProtectionGroupRequest wrapper for the UpdateDrProtectionGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrProtectionGroup.go.html to see an example of how to use UpdateDrProtectionGroupRequest.
 type UpdateDrProtectionGroupRequest struct {

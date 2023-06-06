@@ -13,7 +13,7 @@ import (
 
 // GetJobLogsRequest wrapper for the GetJobLogs operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJobLogs.go.html to see an example of how to use GetJobLogsRequest.
 type GetJobLogsRequest struct {

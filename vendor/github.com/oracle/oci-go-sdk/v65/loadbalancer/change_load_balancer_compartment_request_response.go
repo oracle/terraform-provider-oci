@@ -13,7 +13,7 @@ import (
 
 // ChangeLoadBalancerCompartmentRequest wrapper for the ChangeLoadBalancerCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/ChangeLoadBalancerCompartment.go.html to see an example of how to use ChangeLoadBalancerCompartmentRequest.
 type ChangeLoadBalancerCompartmentRequest struct {

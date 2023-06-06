@@ -13,7 +13,7 @@ import (
 
 // GetTargetResponderRecipeRequest wrapper for the GetTargetResponderRecipe operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetTargetResponderRecipe.go.html to see an example of how to use GetTargetResponderRecipeRequest.
 type GetTargetResponderRecipeRequest struct {

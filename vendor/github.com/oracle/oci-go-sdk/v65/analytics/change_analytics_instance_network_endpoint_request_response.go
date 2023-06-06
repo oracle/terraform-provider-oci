@@ -13,7 +13,7 @@ import (
 
 // ChangeAnalyticsInstanceNetworkEndpointRequest wrapper for the ChangeAnalyticsInstanceNetworkEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ChangeAnalyticsInstanceNetworkEndpoint.go.html to see an example of how to use ChangeAnalyticsInstanceNetworkEndpointRequest.
 type ChangeAnalyticsInstanceNetworkEndpointRequest struct {

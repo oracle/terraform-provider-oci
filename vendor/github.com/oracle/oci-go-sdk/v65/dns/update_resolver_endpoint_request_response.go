@@ -13,7 +13,7 @@ import (
 
 // UpdateResolverEndpointRequest wrapper for the UpdateResolverEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateResolverEndpoint.go.html to see an example of how to use UpdateResolverEndpointRequest.
 type UpdateResolverEndpointRequest struct {

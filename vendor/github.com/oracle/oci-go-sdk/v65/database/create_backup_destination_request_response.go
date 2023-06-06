@@ -13,7 +13,7 @@ import (
 
 // CreateBackupDestinationRequest wrapper for the CreateBackupDestination operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateBackupDestination.go.html to see an example of how to use CreateBackupDestinationRequest.
 type CreateBackupDestinationRequest struct {

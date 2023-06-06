@@ -13,7 +13,7 @@ import (
 
 // SummarizeAwrDbWaitEventsRequest wrapper for the SummarizeAwrDbWaitEvents operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbWaitEvents.go.html to see an example of how to use SummarizeAwrDbWaitEventsRequest.
 type SummarizeAwrDbWaitEventsRequest struct {

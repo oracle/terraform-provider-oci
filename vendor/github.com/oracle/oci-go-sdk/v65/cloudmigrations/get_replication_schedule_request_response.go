@@ -13,7 +13,7 @@ import (
 
 // GetReplicationScheduleRequest wrapper for the GetReplicationSchedule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/GetReplicationSchedule.go.html to see an example of how to use GetReplicationScheduleRequest.
 type GetReplicationScheduleRequest struct {

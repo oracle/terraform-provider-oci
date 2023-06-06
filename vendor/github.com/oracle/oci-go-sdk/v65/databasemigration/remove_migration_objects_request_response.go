@@ -13,7 +13,7 @@ import (
 
 // RemoveMigrationObjectsRequest wrapper for the RemoveMigrationObjects operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/RemoveMigrationObjects.go.html to see an example of how to use RemoveMigrationObjectsRequest.
 type RemoveMigrationObjectsRequest struct {

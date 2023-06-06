@@ -13,7 +13,7 @@ import (
 
 // CreateSubscriberRequest wrapper for the CreateSubscriber operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateSubscriber.go.html to see an example of how to use CreateSubscriberRequest.
 type CreateSubscriberRequest struct {

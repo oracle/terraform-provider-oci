@@ -13,7 +13,7 @@ import (
 
 // CreateTargetRequest wrapper for the CreateTarget operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateTarget.go.html to see an example of how to use CreateTargetRequest.
 type CreateTargetRequest struct {

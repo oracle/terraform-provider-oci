@@ -13,7 +13,7 @@ import (
 
 // RestoreDeploymentRequest wrapper for the RestoreDeployment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RestoreDeployment.go.html to see an example of how to use RestoreDeploymentRequest.
 type RestoreDeploymentRequest struct {

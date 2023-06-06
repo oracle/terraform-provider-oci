@@ -13,7 +13,7 @@ import (
 
 // UpdateNetworkFirewallPolicyRequest wrapper for the UpdateNetworkFirewallPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/UpdateNetworkFirewallPolicy.go.html to see an example of how to use UpdateNetworkFirewallPolicyRequest.
 type UpdateNetworkFirewallPolicyRequest struct {

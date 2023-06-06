@@ -13,7 +13,7 @@ import (
 
 // RequestSummarizedRiskScoresRequest wrapper for the RequestSummarizedRiskScores operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSummarizedRiskScores.go.html to see an example of how to use RequestSummarizedRiskScoresRequest.
 type RequestSummarizedRiskScoresRequest struct {

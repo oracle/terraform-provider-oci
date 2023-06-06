@@ -13,7 +13,7 @@ import (
 
 // CreateDomainRequest wrapper for the CreateDomain operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/CreateDomain.go.html to see an example of how to use CreateDomainRequest.
 type CreateDomainRequest struct {

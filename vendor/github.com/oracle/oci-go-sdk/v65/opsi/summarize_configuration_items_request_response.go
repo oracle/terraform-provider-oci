@@ -13,7 +13,7 @@ import (
 
 // SummarizeConfigurationItemsRequest wrapper for the SummarizeConfigurationItems operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeConfigurationItems.go.html to see an example of how to use SummarizeConfigurationItemsRequest.
 type SummarizeConfigurationItemsRequest struct {

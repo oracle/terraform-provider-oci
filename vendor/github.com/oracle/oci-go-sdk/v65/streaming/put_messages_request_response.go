@@ -13,7 +13,7 @@ import (
 
 // PutMessagesRequest wrapper for the PutMessages operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/PutMessages.go.html to see an example of how to use PutMessagesRequest.
 type PutMessagesRequest struct {

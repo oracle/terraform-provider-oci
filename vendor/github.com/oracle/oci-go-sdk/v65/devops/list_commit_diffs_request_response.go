@@ -13,7 +13,7 @@ import (
 
 // ListCommitDiffsRequest wrapper for the ListCommitDiffs operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListCommitDiffs.go.html to see an example of how to use ListCommitDiffsRequest.
 type ListCommitDiffsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetAlarmHistoryRequest wrapper for the GetAlarmHistory operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/GetAlarmHistory.go.html to see an example of how to use GetAlarmHistoryRequest.
 type GetAlarmHistoryRequest struct {

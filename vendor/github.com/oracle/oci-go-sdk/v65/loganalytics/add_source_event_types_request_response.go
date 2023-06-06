@@ -13,7 +13,7 @@ import (
 
 // AddSourceEventTypesRequest wrapper for the AddSourceEventTypes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/AddSourceEventTypes.go.html to see an example of how to use AddSourceEventTypesRequest.
 type AddSourceEventTypesRequest struct {

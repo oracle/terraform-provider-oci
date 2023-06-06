@@ -13,7 +13,7 @@ import (
 
 // ChangeVcnCompartmentRequest wrapper for the ChangeVcnCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeVcnCompartment.go.html to see an example of how to use ChangeVcnCompartmentRequest.
 type ChangeVcnCompartmentRequest struct {

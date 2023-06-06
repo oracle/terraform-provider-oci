@@ -45,6 +45,11 @@ func MysqlHeatWaveClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
+			"is_lakehouse_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"shape_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -252,6 +257,11 @@ func (s *MysqlHeatWaveClusterResourceCrud) Create() error {
 		request.DbSystemId = &tmp
 	}
 
+	if isLakehouseEnabled, ok := s.D.GetOkExists("is_lakehouse_enabled"); ok {
+		tmp := isLakehouseEnabled.(bool)
+		request.IsLakehouseEnabled = &tmp
+	}
+
 	if shapeName, ok := s.D.GetOkExists("shape_name"); ok {
 		tmp := shapeName.(string)
 		request.ShapeName = &tmp
@@ -307,6 +317,11 @@ func (s *MysqlHeatWaveClusterResourceCrud) Update() error {
 		request.DbSystemId = &tmp
 	}
 
+	if isLakehouseEnabled, ok := s.D.GetOkExists("is_lakehouse_enabled"); ok {
+		tmp := isLakehouseEnabled.(bool)
+		request.IsLakehouseEnabled = &tmp
+	}
+
 	if shapeName, ok := s.D.GetOkExists("shape_name"); ok {
 		tmp := shapeName.(string)
 		request.ShapeName = &tmp
@@ -357,6 +372,10 @@ func (s *MysqlHeatWaveClusterResourceCrud) SetData() error {
 
 	if s.Res.DbSystemId != nil {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
+	}
+
+	if s.Res.IsLakehouseEnabled != nil {
+		s.D.Set("is_lakehouse_enabled", *s.Res.IsLakehouseEnabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {

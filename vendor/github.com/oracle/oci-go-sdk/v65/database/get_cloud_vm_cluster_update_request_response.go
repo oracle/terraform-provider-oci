@@ -13,7 +13,7 @@ import (
 
 // GetCloudVmClusterUpdateRequest wrapper for the GetCloudVmClusterUpdate operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetCloudVmClusterUpdate.go.html to see an example of how to use GetCloudVmClusterUpdateRequest.
 type GetCloudVmClusterUpdateRequest struct {

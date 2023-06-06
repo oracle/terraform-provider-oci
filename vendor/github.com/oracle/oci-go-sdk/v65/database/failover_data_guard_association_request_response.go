@@ -13,7 +13,7 @@ import (
 
 // FailoverDataGuardAssociationRequest wrapper for the FailoverDataGuardAssociation operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/FailoverDataGuardAssociation.go.html to see an example of how to use FailoverDataGuardAssociationRequest.
 type FailoverDataGuardAssociationRequest struct {

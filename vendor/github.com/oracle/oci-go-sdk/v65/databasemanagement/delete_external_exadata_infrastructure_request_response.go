@@ -13,7 +13,7 @@ import (
 
 // DeleteExternalExadataInfrastructureRequest wrapper for the DeleteExternalExadataInfrastructure operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalExadataInfrastructure.go.html to see an example of how to use DeleteExternalExadataInfrastructureRequest.
 type DeleteExternalExadataInfrastructureRequest struct {

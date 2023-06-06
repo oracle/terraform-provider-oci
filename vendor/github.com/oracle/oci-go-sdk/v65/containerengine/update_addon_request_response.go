@@ -13,7 +13,7 @@ import (
 
 // UpdateAddonRequest wrapper for the UpdateAddon operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateAddon.go.html to see an example of how to use UpdateAddonRequest.
 type UpdateAddonRequest struct {

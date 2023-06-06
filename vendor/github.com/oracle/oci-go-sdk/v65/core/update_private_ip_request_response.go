@@ -13,7 +13,7 @@ import (
 
 // UpdatePrivateIpRequest wrapper for the UpdatePrivateIp operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdatePrivateIp.go.html to see an example of how to use UpdatePrivateIpRequest.
 type UpdatePrivateIpRequest struct {

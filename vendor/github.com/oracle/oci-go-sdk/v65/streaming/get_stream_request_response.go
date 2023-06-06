@@ -13,7 +13,7 @@ import (
 
 // GetStreamRequest wrapper for the GetStream operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/GetStream.go.html to see an example of how to use GetStreamRequest.
 type GetStreamRequest struct {

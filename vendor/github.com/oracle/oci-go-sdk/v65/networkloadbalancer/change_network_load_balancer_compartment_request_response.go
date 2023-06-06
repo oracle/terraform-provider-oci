@@ -13,7 +13,7 @@ import (
 
 // ChangeNetworkLoadBalancerCompartmentRequest wrapper for the ChangeNetworkLoadBalancerCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ChangeNetworkLoadBalancerCompartment.go.html to see an example of how to use ChangeNetworkLoadBalancerCompartmentRequest.
 type ChangeNetworkLoadBalancerCompartmentRequest struct {

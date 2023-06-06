@@ -13,7 +13,7 @@ import (
 
 // DeleteDetectorRecipeDetectorRuleDataSourceRequest wrapper for the DeleteDetectorRecipeDetectorRuleDataSource operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteDetectorRecipeDetectorRuleDataSource.go.html to see an example of how to use DeleteDetectorRecipeDetectorRuleDataSourceRequest.
 type DeleteDetectorRecipeDetectorRuleDataSourceRequest struct {

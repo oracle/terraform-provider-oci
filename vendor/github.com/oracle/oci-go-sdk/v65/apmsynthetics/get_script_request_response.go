@@ -13,7 +13,7 @@ import (
 
 // GetScriptRequest wrapper for the GetScript operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetScript.go.html to see an example of how to use GetScriptRequest.
 type GetScriptRequest struct {

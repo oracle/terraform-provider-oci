@@ -13,7 +13,7 @@ import (
 
 // ListAddmDbFindingsTimeSeriesRequest wrapper for the ListAddmDbFindingsTimeSeries operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAddmDbFindingsTimeSeries.go.html to see an example of how to use ListAddmDbFindingsTimeSeriesRequest.
 type ListAddmDbFindingsTimeSeriesRequest struct {

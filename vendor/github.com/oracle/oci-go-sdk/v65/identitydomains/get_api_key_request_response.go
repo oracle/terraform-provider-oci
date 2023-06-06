@@ -13,7 +13,7 @@ import (
 
 // GetApiKeyRequest wrapper for the GetApiKey operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetApiKey.go.html to see an example of how to use GetApiKeyRequest.
 type GetApiKeyRequest struct {

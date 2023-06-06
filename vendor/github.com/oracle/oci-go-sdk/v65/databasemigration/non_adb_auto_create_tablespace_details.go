@@ -27,6 +27,9 @@ type NonAdbAutoCreateTablespaceDetails struct {
 
 	// Size of extend in MB. Can only be specified if 'isBigFile' property is set to true.
 	ExtendSizeInMBs *int `mandatory:"false" json:"extendSizeInMBs"`
+
+	// Size of Oracle database blocks in KB.
+	BlockSizeInKBs DataPumpTablespaceBlockSizesInKbEnum `mandatory:"false" json:"blockSizeInKBs,omitempty"`
 }
 
 func (m NonAdbAutoCreateTablespaceDetails) String() string {
@@ -39,6 +42,9 @@ func (m NonAdbAutoCreateTablespaceDetails) String() string {
 func (m NonAdbAutoCreateTablespaceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDataPumpTablespaceBlockSizesInKbEnum(string(m.BlockSizeInKBs)); !ok && m.BlockSizeInKBs != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BlockSizeInKBs: %s. Supported values are: %s.", m.BlockSizeInKBs, strings.Join(GetDataPumpTablespaceBlockSizesInKbEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

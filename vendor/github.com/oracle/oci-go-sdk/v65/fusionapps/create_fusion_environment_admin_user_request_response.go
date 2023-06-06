@@ -13,7 +13,7 @@ import (
 
 // CreateFusionEnvironmentAdminUserRequest wrapper for the CreateFusionEnvironmentAdminUser operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateFusionEnvironmentAdminUser.go.html to see an example of how to use CreateFusionEnvironmentAdminUserRequest.
 type CreateFusionEnvironmentAdminUserRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetAuditPolicyRequest wrapper for the GetAuditPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAuditPolicy.go.html to see an example of how to use GetAuditPolicyRequest.
 type GetAuditPolicyRequest struct {

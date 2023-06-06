@@ -13,7 +13,7 @@ import (
 
 // RestoreContainerImageRequest wrapper for the RestoreContainerImage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/RestoreContainerImage.go.html to see an example of how to use RestoreContainerImageRequest.
 type RestoreContainerImageRequest struct {

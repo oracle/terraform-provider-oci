@@ -13,7 +13,7 @@ import (
 
 // GetAgentDependencyRequest wrapper for the GetAgentDependency operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetAgentDependency.go.html to see an example of how to use GetAgentDependencyRequest.
 type GetAgentDependencyRequest struct {

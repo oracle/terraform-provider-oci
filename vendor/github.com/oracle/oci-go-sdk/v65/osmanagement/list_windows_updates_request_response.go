@@ -13,7 +13,7 @@ import (
 
 // ListWindowsUpdatesRequest wrapper for the ListWindowsUpdates operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListWindowsUpdates.go.html to see an example of how to use ListWindowsUpdatesRequest.
 type ListWindowsUpdatesRequest struct {

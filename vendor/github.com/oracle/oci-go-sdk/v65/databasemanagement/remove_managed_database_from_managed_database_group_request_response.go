@@ -13,7 +13,7 @@ import (
 
 // RemoveManagedDatabaseFromManagedDatabaseGroupRequest wrapper for the RemoveManagedDatabaseFromManagedDatabaseGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/RemoveManagedDatabaseFromManagedDatabaseGroup.go.html to see an example of how to use RemoveManagedDatabaseFromManagedDatabaseGroupRequest.
 type RemoveManagedDatabaseFromManagedDatabaseGroupRequest struct {

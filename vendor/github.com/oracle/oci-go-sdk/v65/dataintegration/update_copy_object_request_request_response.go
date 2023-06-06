@@ -13,7 +13,7 @@ import (
 
 // UpdateCopyObjectRequestRequest wrapper for the UpdateCopyObjectRequest operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateCopyObjectRequest.go.html to see an example of how to use UpdateCopyObjectRequestRequest.
 type UpdateCopyObjectRequestRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // PaySubscriptionRequest wrapper for the PaySubscription operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/PaySubscription.go.html to see an example of how to use PaySubscriptionRequest.
 type PaySubscriptionRequest struct {

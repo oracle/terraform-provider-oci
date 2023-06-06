@@ -13,7 +13,7 @@ import (
 
 // UpdateProfileRequest wrapper for the UpdateProfile operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/UpdateProfile.go.html to see an example of how to use UpdateProfileRequest.
 type UpdateProfileRequest struct {

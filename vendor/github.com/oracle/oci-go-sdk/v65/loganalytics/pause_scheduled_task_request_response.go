@@ -13,7 +13,7 @@ import (
 
 // PauseScheduledTaskRequest wrapper for the PauseScheduledTask operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/PauseScheduledTask.go.html to see an example of how to use PauseScheduledTaskRequest.
 type PauseScheduledTaskRequest struct {

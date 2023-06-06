@@ -13,7 +13,7 @@ import (
 
 // SummarizeAddmDbRecommendationsRequest wrapper for the SummarizeAddmDbRecommendations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAddmDbRecommendations.go.html to see an example of how to use SummarizeAddmDbRecommendationsRequest.
 type SummarizeAddmDbRecommendationsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetDiscoveryJobRequest wrapper for the GetDiscoveryJob operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDiscoveryJob.go.html to see an example of how to use GetDiscoveryJobRequest.
 type GetDiscoveryJobRequest struct {

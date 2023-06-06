@@ -13,7 +13,7 @@ import (
 
 // DownloadOneoffPatchRequest wrapper for the DownloadOneoffPatch operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DownloadOneoffPatch.go.html to see an example of how to use DownloadOneoffPatchRequest.
 type DownloadOneoffPatchRequest struct {

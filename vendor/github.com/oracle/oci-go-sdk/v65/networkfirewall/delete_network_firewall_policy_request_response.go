@@ -13,7 +13,7 @@ import (
 
 // DeleteNetworkFirewallPolicyRequest wrapper for the DeleteNetworkFirewallPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteNetworkFirewallPolicy.go.html to see an example of how to use DeleteNetworkFirewallPolicyRequest.
 type DeleteNetworkFirewallPolicyRequest struct {

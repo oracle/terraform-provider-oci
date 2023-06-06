@@ -13,7 +13,7 @@ import (
 
 // ScanLibraryUsageRequest wrapper for the ScanLibraryUsage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ScanLibraryUsage.go.html to see an example of how to use ScanLibraryUsageRequest.
 type ScanLibraryUsageRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteFusionEnvironmentAdminUserRequest wrapper for the DeleteFusionEnvironmentAdminUser operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/DeleteFusionEnvironmentAdminUser.go.html to see an example of how to use DeleteFusionEnvironmentAdminUserRequest.
 type DeleteFusionEnvironmentAdminUserRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListDeploymentWalletsOperationsRequest wrapper for the ListDeploymentWalletsOperations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentWalletsOperations.go.html to see an example of how to use ListDeploymentWalletsOperationsRequest.
 type ListDeploymentWalletsOperationsRequest struct {

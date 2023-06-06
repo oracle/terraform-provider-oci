@@ -14,7 +14,7 @@ import (
 
 // UploadLogEventsFileRequest wrapper for the UploadLogEventsFile operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UploadLogEventsFile.go.html to see an example of how to use UploadLogEventsFileRequest.
 type UploadLogEventsFileRequest struct {

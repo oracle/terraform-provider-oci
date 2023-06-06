@@ -13,7 +13,7 @@ import (
 
 // DeleteSensitiveTypeRequest wrapper for the DeleteSensitiveType operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSensitiveType.go.html to see an example of how to use DeleteSensitiveTypeRequest.
 type DeleteSensitiveTypeRequest struct {

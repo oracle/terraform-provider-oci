@@ -13,7 +13,7 @@ import (
 
 // GetExadataIormConfigRequest wrapper for the GetExadataIormConfig operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExadataIormConfig.go.html to see an example of how to use GetExadataIormConfigRequest.
 type GetExadataIormConfigRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListProblemsRequest wrapper for the ListProblems operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListProblems.go.html to see an example of how to use ListProblemsRequest.
 type ListProblemsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CreateServiceCatalogAssociationRequest wrapper for the CreateServiceCatalogAssociation operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/CreateServiceCatalogAssociation.go.html to see an example of how to use CreateServiceCatalogAssociationRequest.
 type CreateServiceCatalogAssociationRequest struct {

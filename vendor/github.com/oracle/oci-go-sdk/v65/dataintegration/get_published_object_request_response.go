@@ -13,7 +13,7 @@ import (
 
 // GetPublishedObjectRequest wrapper for the GetPublishedObject operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetPublishedObject.go.html to see an example of how to use GetPublishedObjectRequest.
 type GetPublishedObjectRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // BulkReplaceServiceCatalogAssociationsRequest wrapper for the BulkReplaceServiceCatalogAssociations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/BulkReplaceServiceCatalogAssociations.go.html to see an example of how to use BulkReplaceServiceCatalogAssociationsRequest.
 type BulkReplaceServiceCatalogAssociationsRequest struct {

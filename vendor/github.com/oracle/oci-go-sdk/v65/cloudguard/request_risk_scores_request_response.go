@@ -13,7 +13,7 @@ import (
 
 // RequestRiskScoresRequest wrapper for the RequestRiskScores operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestRiskScores.go.html to see an example of how to use RequestRiskScoresRequest.
 type RequestRiskScoresRequest struct {

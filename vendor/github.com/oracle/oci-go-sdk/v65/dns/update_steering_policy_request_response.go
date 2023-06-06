@@ -13,7 +13,7 @@ import (
 
 // UpdateSteeringPolicyRequest wrapper for the UpdateSteeringPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateSteeringPolicy.go.html to see an example of how to use UpdateSteeringPolicyRequest.
 type UpdateSteeringPolicyRequest struct {

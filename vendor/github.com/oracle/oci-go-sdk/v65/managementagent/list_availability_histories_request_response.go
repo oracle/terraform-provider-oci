@@ -13,7 +13,7 @@ import (
 
 // ListAvailabilityHistoriesRequest wrapper for the ListAvailabilityHistories operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListAvailabilityHistories.go.html to see an example of how to use ListAvailabilityHistoriesRequest.
 type ListAvailabilityHistoriesRequest struct {

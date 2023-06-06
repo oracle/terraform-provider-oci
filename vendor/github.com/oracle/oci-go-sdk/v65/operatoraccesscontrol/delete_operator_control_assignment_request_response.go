@@ -13,7 +13,7 @@ import (
 
 // DeleteOperatorControlAssignmentRequest wrapper for the DeleteOperatorControlAssignment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/DeleteOperatorControlAssignment.go.html to see an example of how to use DeleteOperatorControlAssignmentRequest.
 type DeleteOperatorControlAssignmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListAuthorsRequest wrapper for the ListAuthors operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListAuthors.go.html to see an example of how to use ListAuthorsRequest.
 type ListAuthorsRequest struct {

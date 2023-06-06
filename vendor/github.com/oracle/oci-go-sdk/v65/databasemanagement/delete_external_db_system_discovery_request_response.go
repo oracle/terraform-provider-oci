@@ -13,7 +13,7 @@ import (
 
 // DeleteExternalDbSystemDiscoveryRequest wrapper for the DeleteExternalDbSystemDiscovery operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalDbSystemDiscovery.go.html to see an example of how to use DeleteExternalDbSystemDiscoveryRequest.
 type DeleteExternalDbSystemDiscoveryRequest struct {

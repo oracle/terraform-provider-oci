@@ -63,18 +63,21 @@ const (
 	AddWorkerNodesDetailsNodeTypeWorker            AddWorkerNodesDetailsNodeTypeEnum = "WORKER"
 	AddWorkerNodesDetailsNodeTypeComputeOnlyWorker AddWorkerNodesDetailsNodeTypeEnum = "COMPUTE_ONLY_WORKER"
 	AddWorkerNodesDetailsNodeTypeEdge              AddWorkerNodesDetailsNodeTypeEnum = "EDGE"
+	AddWorkerNodesDetailsNodeTypeKafkaBroker       AddWorkerNodesDetailsNodeTypeEnum = "KAFKA_BROKER"
 )
 
 var mappingAddWorkerNodesDetailsNodeTypeEnum = map[string]AddWorkerNodesDetailsNodeTypeEnum{
 	"WORKER":              AddWorkerNodesDetailsNodeTypeWorker,
 	"COMPUTE_ONLY_WORKER": AddWorkerNodesDetailsNodeTypeComputeOnlyWorker,
 	"EDGE":                AddWorkerNodesDetailsNodeTypeEdge,
+	"KAFKA_BROKER":        AddWorkerNodesDetailsNodeTypeKafkaBroker,
 }
 
 var mappingAddWorkerNodesDetailsNodeTypeEnumLowerCase = map[string]AddWorkerNodesDetailsNodeTypeEnum{
 	"worker":              AddWorkerNodesDetailsNodeTypeWorker,
 	"compute_only_worker": AddWorkerNodesDetailsNodeTypeComputeOnlyWorker,
 	"edge":                AddWorkerNodesDetailsNodeTypeEdge,
+	"kafka_broker":        AddWorkerNodesDetailsNodeTypeKafkaBroker,
 }
 
 // GetAddWorkerNodesDetailsNodeTypeEnumValues Enumerates the set of values for AddWorkerNodesDetailsNodeTypeEnum
@@ -92,6 +95,7 @@ func GetAddWorkerNodesDetailsNodeTypeEnumStringValues() []string {
 		"WORKER",
 		"COMPUTE_ONLY_WORKER",
 		"EDGE",
+		"KAFKA_BROKER",
 	}
 }
 

@@ -13,7 +13,7 @@ import (
 
 // GetDisApplicationDetailedDescriptionRequest wrapper for the GetDisApplicationDetailedDescription operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetDisApplicationDetailedDescription.go.html to see an example of how to use GetDisApplicationDetailedDescriptionRequest.
 type GetDisApplicationDetailedDescriptionRequest struct {

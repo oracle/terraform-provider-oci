@@ -13,7 +13,7 @@ import (
 
 // UpdateTermRequest wrapper for the UpdateTerm operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateTerm.go.html to see an example of how to use UpdateTermRequest.
 type UpdateTermRequest struct {

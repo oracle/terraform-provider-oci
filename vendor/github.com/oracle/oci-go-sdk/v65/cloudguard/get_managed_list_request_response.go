@@ -13,7 +13,7 @@ import (
 
 // GetManagedListRequest wrapper for the GetManagedList operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetManagedList.go.html to see an example of how to use GetManagedListRequest.
 type GetManagedListRequest struct {

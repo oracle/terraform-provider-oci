@@ -13,7 +13,7 @@ import (
 
 // UpdateLogRequest wrapper for the UpdateLog operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/UpdateLog.go.html to see an example of how to use UpdateLogRequest.
 type UpdateLogRequest struct {

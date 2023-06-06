@@ -13,7 +13,7 @@ import (
 
 // CreateOdaPrivateEndpointScanProxyRequest wrapper for the CreateOdaPrivateEndpointScanProxy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaPrivateEndpointScanProxy.go.html to see an example of how to use CreateOdaPrivateEndpointScanProxyRequest.
 type CreateOdaPrivateEndpointScanProxyRequest struct {

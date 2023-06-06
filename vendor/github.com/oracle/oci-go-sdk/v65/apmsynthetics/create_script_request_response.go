@@ -13,7 +13,7 @@ import (
 
 // CreateScriptRequest wrapper for the CreateScript operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateScript.go.html to see an example of how to use CreateScriptRequest.
 type CreateScriptRequest struct {

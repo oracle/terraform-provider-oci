@@ -13,7 +13,7 @@ import (
 
 // SummarizeHostInsightResourceForecastTrendRequest wrapper for the SummarizeHostInsightResourceForecastTrend operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightResourceForecastTrend.go.html to see an example of how to use SummarizeHostInsightResourceForecastTrendRequest.
 type SummarizeHostInsightResourceForecastTrendRequest struct {

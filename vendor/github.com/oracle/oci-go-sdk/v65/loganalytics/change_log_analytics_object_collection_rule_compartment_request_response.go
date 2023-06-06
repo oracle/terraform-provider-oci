@@ -13,7 +13,7 @@ import (
 
 // ChangeLogAnalyticsObjectCollectionRuleCompartmentRequest wrapper for the ChangeLogAnalyticsObjectCollectionRuleCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeLogAnalyticsObjectCollectionRuleCompartment.go.html to see an example of how to use ChangeLogAnalyticsObjectCollectionRuleCompartmentRequest.
 type ChangeLogAnalyticsObjectCollectionRuleCompartmentRequest struct {

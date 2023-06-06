@@ -13,7 +13,7 @@ import (
 
 // UpdateClusterEndpointConfigRequest wrapper for the UpdateClusterEndpointConfig operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateClusterEndpointConfig.go.html to see an example of how to use UpdateClusterEndpointConfigRequest.
 type UpdateClusterEndpointConfigRequest struct {

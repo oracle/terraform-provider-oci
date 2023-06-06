@@ -13,7 +13,7 @@ import (
 
 // DeleteMessageRequest wrapper for the DeleteMessage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/DeleteMessage.go.html to see an example of how to use DeleteMessageRequest.
 type DeleteMessageRequest struct {

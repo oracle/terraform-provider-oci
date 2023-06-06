@@ -13,7 +13,7 @@ import (
 
 // SummarizeResourceInventoryRequest wrapper for the SummarizeResourceInventory operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeResourceInventory.go.html to see an example of how to use SummarizeResourceInventoryRequest.
 type SummarizeResourceInventoryRequest struct {

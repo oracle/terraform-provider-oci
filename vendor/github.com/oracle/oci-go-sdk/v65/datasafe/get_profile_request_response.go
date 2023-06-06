@@ -13,7 +13,7 @@ import (
 
 // GetProfileRequest wrapper for the GetProfile operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetProfile.go.html to see an example of how to use GetProfileRequest.
 type GetProfileRequest struct {

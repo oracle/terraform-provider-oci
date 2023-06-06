@@ -913,6 +913,11 @@ var exportCoreComputeClusterHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportCoreComputeCapacityReportHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_core_compute_capacity_report",
+	ResourceAbbreviation: "compute_capacity_report",
+}
+
 var coreResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCoreBootVolumeBackupHints},

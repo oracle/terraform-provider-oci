@@ -13,7 +13,7 @@ import (
 
 // ChangeOperationsInsightsPrivateEndpointCompartmentRequest wrapper for the ChangeOperationsInsightsPrivateEndpointCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeOperationsInsightsPrivateEndpointCompartment.go.html to see an example of how to use ChangeOperationsInsightsPrivateEndpointCompartmentRequest.
 type ChangeOperationsInsightsPrivateEndpointCompartmentRequest struct {

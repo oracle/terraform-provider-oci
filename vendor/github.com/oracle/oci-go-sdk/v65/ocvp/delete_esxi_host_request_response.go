@@ -13,7 +13,7 @@ import (
 
 // DeleteEsxiHostRequest wrapper for the DeleteEsxiHost operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DeleteEsxiHost.go.html to see an example of how to use DeleteEsxiHostRequest.
 type DeleteEsxiHostRequest struct {

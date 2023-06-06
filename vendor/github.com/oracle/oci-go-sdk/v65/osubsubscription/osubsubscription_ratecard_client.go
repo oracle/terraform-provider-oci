@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//RatecardClient a client for Ratecard
+// RatecardClient a client for Ratecard
 type RatecardClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,7 +39,8 @@ func NewRatecardClientWithConfigurationProvider(configProvider common.Configurat
 
 // NewRatecardClientWithOboToken Creates a new default Ratecard client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewRatecardClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client RatecardClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

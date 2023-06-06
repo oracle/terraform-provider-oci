@@ -13,7 +13,7 @@ import (
 
 // ListGatewaysRequest wrapper for the ListGateways operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListGateways.go.html to see an example of how to use ListGatewaysRequest.
 type ListGatewaysRequest struct {

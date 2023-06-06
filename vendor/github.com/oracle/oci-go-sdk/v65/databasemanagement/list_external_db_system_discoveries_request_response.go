@@ -13,7 +13,7 @@ import (
 
 // ListExternalDbSystemDiscoveriesRequest wrapper for the ListExternalDbSystemDiscoveries operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalDbSystemDiscoveries.go.html to see an example of how to use ListExternalDbSystemDiscoveriesRequest.
 type ListExternalDbSystemDiscoveriesRequest struct {

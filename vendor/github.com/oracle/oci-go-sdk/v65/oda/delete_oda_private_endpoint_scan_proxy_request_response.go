@@ -13,7 +13,7 @@ import (
 
 // DeleteOdaPrivateEndpointScanProxyRequest wrapper for the DeleteOdaPrivateEndpointScanProxy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaPrivateEndpointScanProxy.go.html to see an example of how to use DeleteOdaPrivateEndpointScanProxyRequest.
 type DeleteOdaPrivateEndpointScanProxyRequest struct {

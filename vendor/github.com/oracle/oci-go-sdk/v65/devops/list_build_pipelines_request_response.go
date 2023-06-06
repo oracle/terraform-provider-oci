@@ -13,7 +13,7 @@ import (
 
 // ListBuildPipelinesRequest wrapper for the ListBuildPipelines operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListBuildPipelines.go.html to see an example of how to use ListBuildPipelinesRequest.
 type ListBuildPipelinesRequest struct {

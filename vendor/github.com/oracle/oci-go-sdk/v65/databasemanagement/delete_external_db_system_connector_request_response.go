@@ -13,7 +13,7 @@ import (
 
 // DeleteExternalDbSystemConnectorRequest wrapper for the DeleteExternalDbSystemConnector operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalDbSystemConnector.go.html to see an example of how to use DeleteExternalDbSystemConnectorRequest.
 type DeleteExternalDbSystemConnectorRequest struct {

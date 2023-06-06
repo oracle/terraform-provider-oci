@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//MediaServicesClient a client for MediaServices
+// MediaServicesClient a client for MediaServices
 type MediaServicesClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -40,7 +40,8 @@ func NewMediaServicesClientWithConfigurationProvider(configProvider common.Confi
 
 // NewMediaServicesClientWithOboToken Creates a new default MediaServices client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewMediaServicesClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client MediaServicesClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

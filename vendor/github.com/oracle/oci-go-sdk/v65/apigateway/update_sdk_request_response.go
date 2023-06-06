@@ -13,7 +13,7 @@ import (
 
 // UpdateSdkRequest wrapper for the UpdateSdk operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateSdk.go.html to see an example of how to use UpdateSdkRequest.
 type UpdateSdkRequest struct {

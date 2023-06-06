@@ -13,7 +13,7 @@ import (
 
 // DeleteAnalyticsClusterRequest wrapper for the DeleteAnalyticsCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteAnalyticsCluster.go.html to see an example of how to use DeleteAnalyticsClusterRequest.
 type DeleteAnalyticsClusterRequest struct {

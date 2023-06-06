@@ -13,7 +13,7 @@ import (
 
 // ChangeSddcCompartmentRequest wrapper for the ChangeSddcCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ChangeSddcCompartment.go.html to see an example of how to use ChangeSddcCompartmentRequest.
 type ChangeSddcCompartmentRequest struct {

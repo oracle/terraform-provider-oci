@@ -13,7 +13,7 @@ import (
 
 // GetSteeringPolicyAttachmentRequest wrapper for the GetSteeringPolicyAttachment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetSteeringPolicyAttachment.go.html to see an example of how to use GetSteeringPolicyAttachmentRequest.
 type GetSteeringPolicyAttachmentRequest struct {

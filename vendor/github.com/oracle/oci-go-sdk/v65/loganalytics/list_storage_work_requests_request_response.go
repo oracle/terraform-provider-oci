@@ -13,7 +13,7 @@ import (
 
 // ListStorageWorkRequestsRequest wrapper for the ListStorageWorkRequests operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListStorageWorkRequests.go.html to see an example of how to use ListStorageWorkRequestsRequest.
 type ListStorageWorkRequestsRequest struct {

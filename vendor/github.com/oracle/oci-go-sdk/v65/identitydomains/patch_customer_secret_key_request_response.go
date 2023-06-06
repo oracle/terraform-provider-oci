@@ -13,7 +13,7 @@ import (
 
 // PatchCustomerSecretKeyRequest wrapper for the PatchCustomerSecretKey operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchCustomerSecretKey.go.html to see an example of how to use PatchCustomerSecretKeyRequest.
 type PatchCustomerSecretKeyRequest struct {

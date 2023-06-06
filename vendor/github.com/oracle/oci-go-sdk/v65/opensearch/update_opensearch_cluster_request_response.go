@@ -13,7 +13,7 @@ import (
 
 // UpdateOpensearchClusterRequest wrapper for the UpdateOpensearchCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/UpdateOpensearchCluster.go.html to see an example of how to use UpdateOpensearchClusterRequest.
 type UpdateOpensearchClusterRequest struct {

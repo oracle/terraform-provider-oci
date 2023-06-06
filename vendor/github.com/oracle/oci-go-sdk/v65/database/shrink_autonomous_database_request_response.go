@@ -13,7 +13,7 @@ import (
 
 // ShrinkAutonomousDatabaseRequest wrapper for the ShrinkAutonomousDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ShrinkAutonomousDatabase.go.html to see an example of how to use ShrinkAutonomousDatabaseRequest.
 type ShrinkAutonomousDatabaseRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListColumnsRequest wrapper for the ListColumns operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListColumns.go.html to see an example of how to use ListColumnsRequest.
 type ListColumnsRequest struct {

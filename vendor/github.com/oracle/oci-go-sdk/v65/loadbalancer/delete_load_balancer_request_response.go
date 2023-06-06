@@ -13,7 +13,7 @@ import (
 
 // DeleteLoadBalancerRequest wrapper for the DeleteLoadBalancer operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/DeleteLoadBalancer.go.html to see an example of how to use DeleteLoadBalancerRequest.
 type DeleteLoadBalancerRequest struct {

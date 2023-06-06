@@ -521,6 +521,7 @@ core
 * oci\_core\_capture\_filter
 * oci\_core\_vtap
 * oci\_core\_compute\_cluster
+* oci\_core\_compute\_capacity\_report
 
 data_labeling_service
 
@@ -719,7 +720,6 @@ identity
 * oci\_identity\_idp\_group\_mapping
 * oci\_identity\_policy
 * oci\_identity\_smtp\_credential
-* oci\_identity\_swift\_password
 * oci\_identity\_ui\_password
 * oci\_identity\_user\_group\_membership
 * oci\_identity\_user

@@ -13,7 +13,7 @@ import (
 
 // DeleteInventoryRequest wrapper for the DeleteInventory operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteInventory.go.html to see an example of how to use DeleteInventoryRequest.
 type DeleteInventoryRequest struct {

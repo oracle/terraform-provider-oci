@@ -13,7 +13,7 @@ import (
 
 // GetReachableIpRequest wrapper for the GetReachableIp operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetReachableIp.go.html to see an example of how to use GetReachableIpRequest.
 type GetReachableIpRequest struct {

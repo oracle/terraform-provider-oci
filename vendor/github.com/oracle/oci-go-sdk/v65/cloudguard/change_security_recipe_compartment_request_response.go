@@ -13,7 +13,7 @@ import (
 
 // ChangeSecurityRecipeCompartmentRequest wrapper for the ChangeSecurityRecipeCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeSecurityRecipeCompartment.go.html to see an example of how to use ChangeSecurityRecipeCompartmentRequest.
 type ChangeSecurityRecipeCompartmentRequest struct {

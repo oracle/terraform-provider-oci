@@ -13,7 +13,7 @@ import (
 
 // SummarizeDatabaseInsightResourceUtilizationInsightRequest wrapper for the SummarizeDatabaseInsightResourceUtilizationInsight operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightResourceUtilizationInsight.go.html to see an example of how to use SummarizeDatabaseInsightResourceUtilizationInsightRequest.
 type SummarizeDatabaseInsightResourceUtilizationInsightRequest struct {

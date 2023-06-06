@@ -13,7 +13,7 @@ import (
 
 // GetAnnouncementSubscriptionRequest wrapper for the GetAnnouncementSubscription operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementSubscription.go.html to see an example of how to use GetAnnouncementSubscriptionRequest.
 type GetAnnouncementSubscriptionRequest struct {

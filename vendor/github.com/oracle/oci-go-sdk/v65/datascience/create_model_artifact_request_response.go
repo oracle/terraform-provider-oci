@@ -14,7 +14,7 @@ import (
 
 // CreateModelArtifactRequest wrapper for the CreateModelArtifact operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateModelArtifact.go.html to see an example of how to use CreateModelArtifactRequest.
 type CreateModelArtifactRequest struct {

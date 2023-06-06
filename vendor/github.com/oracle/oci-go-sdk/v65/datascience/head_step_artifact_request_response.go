@@ -13,7 +13,7 @@ import (
 
 // HeadStepArtifactRequest wrapper for the HeadStepArtifact operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/HeadStepArtifact.go.html to see an example of how to use HeadStepArtifactRequest.
 type HeadStepArtifactRequest struct {

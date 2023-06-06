@@ -13,7 +13,7 @@ import (
 
 // ScheduleCertificateVersionDeletionRequest wrapper for the ScheduleCertificateVersionDeletion operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ScheduleCertificateVersionDeletion.go.html to see an example of how to use ScheduleCertificateVersionDeletionRequest.
 type ScheduleCertificateVersionDeletionRequest struct {

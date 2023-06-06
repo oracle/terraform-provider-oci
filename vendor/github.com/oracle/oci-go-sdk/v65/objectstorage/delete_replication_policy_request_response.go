@@ -13,7 +13,7 @@ import (
 
 // DeleteReplicationPolicyRequest wrapper for the DeleteReplicationPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeleteReplicationPolicy.go.html to see an example of how to use DeleteReplicationPolicyRequest.
 type DeleteReplicationPolicyRequest struct {

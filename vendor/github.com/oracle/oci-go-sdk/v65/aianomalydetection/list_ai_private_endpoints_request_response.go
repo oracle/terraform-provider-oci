@@ -13,7 +13,7 @@ import (
 
 // ListAiPrivateEndpointsRequest wrapper for the ListAiPrivateEndpoints operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListAiPrivateEndpoints.go.html to see an example of how to use ListAiPrivateEndpointsRequest.
 type ListAiPrivateEndpointsRequest struct {

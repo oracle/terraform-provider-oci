@@ -13,7 +13,7 @@ import (
 
 // ChangeOdaPrivateEndpointCompartmentRequest wrapper for the ChangeOdaPrivateEndpointCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ChangeOdaPrivateEndpointCompartment.go.html to see an example of how to use ChangeOdaPrivateEndpointCompartmentRequest.
 type ChangeOdaPrivateEndpointCompartmentRequest struct {

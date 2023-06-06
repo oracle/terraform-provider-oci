@@ -13,7 +13,7 @@ import (
 
 // ListInstancePoolsRequest wrapper for the ListInstancePools operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstancePools.go.html to see an example of how to use ListInstancePoolsRequest.
 type ListInstancePoolsRequest struct {

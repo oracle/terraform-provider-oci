@@ -13,7 +13,7 @@ import (
 
 // DeleteOdaInstanceRequest wrapper for the DeleteOdaInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaInstance.go.html to see an example of how to use DeleteOdaInstanceRequest.
 type DeleteOdaInstanceRequest struct {

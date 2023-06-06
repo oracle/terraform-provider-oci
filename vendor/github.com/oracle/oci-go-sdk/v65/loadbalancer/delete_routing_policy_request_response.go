@@ -13,7 +13,7 @@ import (
 
 // DeleteRoutingPolicyRequest wrapper for the DeleteRoutingPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/DeleteRoutingPolicy.go.html to see an example of how to use DeleteRoutingPolicyRequest.
 type DeleteRoutingPolicyRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // UpdateVbsInstanceRequest wrapper for the UpdateVbsInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/UpdateVbsInstance.go.html to see an example of how to use UpdateVbsInstanceRequest.
 type UpdateVbsInstanceRequest struct {

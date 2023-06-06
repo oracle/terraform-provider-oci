@@ -13,7 +13,7 @@ import (
 
 // GetNetworkLoadBalancerRequest wrapper for the GetNetworkLoadBalancer operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetNetworkLoadBalancer.go.html to see an example of how to use GetNetworkLoadBalancerRequest.
 type GetNetworkLoadBalancerRequest struct {

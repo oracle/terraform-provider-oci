@@ -13,7 +13,7 @@ import (
 
 // GetWaasPolicyRequest wrapper for the GetWaasPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetWaasPolicy.go.html to see an example of how to use GetWaasPolicyRequest.
 type GetWaasPolicyRequest struct {

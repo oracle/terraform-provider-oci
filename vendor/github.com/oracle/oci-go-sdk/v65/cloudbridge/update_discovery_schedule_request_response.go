@@ -13,7 +13,7 @@ import (
 
 // UpdateDiscoveryScheduleRequest wrapper for the UpdateDiscoverySchedule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdateDiscoverySchedule.go.html to see an example of how to use UpdateDiscoveryScheduleRequest.
 type UpdateDiscoveryScheduleRequest struct {

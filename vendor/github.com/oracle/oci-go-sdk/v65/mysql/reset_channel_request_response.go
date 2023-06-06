@@ -13,7 +13,7 @@ import (
 
 // ResetChannelRequest wrapper for the ResetChannel operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ResetChannel.go.html to see an example of how to use ResetChannelRequest.
 type ResetChannelRequest struct {

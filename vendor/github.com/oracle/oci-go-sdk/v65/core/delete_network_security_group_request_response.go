@@ -13,7 +13,7 @@ import (
 
 // DeleteNetworkSecurityGroupRequest wrapper for the DeleteNetworkSecurityGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteNetworkSecurityGroup.go.html to see an example of how to use DeleteNetworkSecurityGroupRequest.
 type DeleteNetworkSecurityGroupRequest struct {

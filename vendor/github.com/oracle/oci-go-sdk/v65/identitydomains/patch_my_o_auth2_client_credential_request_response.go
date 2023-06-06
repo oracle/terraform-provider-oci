@@ -13,7 +13,7 @@ import (
 
 // PatchMyOAuth2ClientCredentialRequest wrapper for the PatchMyOAuth2ClientCredential operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyOAuth2ClientCredential.go.html to see an example of how to use PatchMyOAuth2ClientCredentialRequest.
 type PatchMyOAuth2ClientCredentialRequest struct {

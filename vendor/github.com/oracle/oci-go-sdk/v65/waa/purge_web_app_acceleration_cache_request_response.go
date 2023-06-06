@@ -13,7 +13,7 @@ import (
 
 // PurgeWebAppAccelerationCacheRequest wrapper for the PurgeWebAppAccelerationCache operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/PurgeWebAppAccelerationCache.go.html to see an example of how to use PurgeWebAppAccelerationCacheRequest.
 type PurgeWebAppAccelerationCacheRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetOdaPrivateEndpointRequest wrapper for the GetOdaPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaPrivateEndpoint.go.html to see an example of how to use GetOdaPrivateEndpointRequest.
 type GetOdaPrivateEndpointRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetExternalDbHomeRequest wrapper for the GetExternalDbHome operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalDbHome.go.html to see an example of how to use GetExternalDbHomeRequest.
 type GetExternalDbHomeRequest struct {

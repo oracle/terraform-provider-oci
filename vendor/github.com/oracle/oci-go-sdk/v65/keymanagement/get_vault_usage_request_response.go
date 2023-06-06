@@ -13,7 +13,7 @@ import (
 
 // GetVaultUsageRequest wrapper for the GetVaultUsage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetVaultUsage.go.html to see an example of how to use GetVaultUsageRequest.
 type GetVaultUsageRequest struct {

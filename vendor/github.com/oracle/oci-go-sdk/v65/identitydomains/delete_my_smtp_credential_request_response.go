@@ -13,7 +13,7 @@ import (
 
 // DeleteMySmtpCredentialRequest wrapper for the DeleteMySmtpCredential operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMySmtpCredential.go.html to see an example of how to use DeleteMySmtpCredentialRequest.
 type DeleteMySmtpCredentialRequest struct {

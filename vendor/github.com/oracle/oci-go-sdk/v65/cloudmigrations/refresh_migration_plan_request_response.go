@@ -13,7 +13,7 @@ import (
 
 // RefreshMigrationPlanRequest wrapper for the RefreshMigrationPlan operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/RefreshMigrationPlan.go.html to see an example of how to use RefreshMigrationPlanRequest.
 type RefreshMigrationPlanRequest struct {

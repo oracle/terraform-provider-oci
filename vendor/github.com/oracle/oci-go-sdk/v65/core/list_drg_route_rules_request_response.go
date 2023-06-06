@@ -13,7 +13,7 @@ import (
 
 // ListDrgRouteRulesRequest wrapper for the ListDrgRouteRules operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDrgRouteRules.go.html to see an example of how to use ListDrgRouteRulesRequest.
 type ListDrgRouteRulesRequest struct {

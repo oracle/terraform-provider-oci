@@ -13,7 +13,7 @@ import (
 
 // GetBuildRunRequest wrapper for the GetBuildRun operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetBuildRun.go.html to see an example of how to use GetBuildRunRequest.
 type GetBuildRunRequest struct {

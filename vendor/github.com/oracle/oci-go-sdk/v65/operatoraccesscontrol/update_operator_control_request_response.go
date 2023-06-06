@@ -13,7 +13,7 @@ import (
 
 // UpdateOperatorControlRequest wrapper for the UpdateOperatorControl operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/UpdateOperatorControl.go.html to see an example of how to use UpdateOperatorControlRequest.
 type UpdateOperatorControlRequest struct {

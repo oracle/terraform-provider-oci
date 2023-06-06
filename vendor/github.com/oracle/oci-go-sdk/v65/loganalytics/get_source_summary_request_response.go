@@ -13,7 +13,7 @@ import (
 
 // GetSourceSummaryRequest wrapper for the GetSourceSummary operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetSourceSummary.go.html to see an example of how to use GetSourceSummaryRequest.
 type GetSourceSummaryRequest struct {

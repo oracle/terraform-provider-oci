@@ -13,7 +13,7 @@ import (
 
 // ListObjectPrivilegesRequest wrapper for the ListObjectPrivileges operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListObjectPrivileges.go.html to see an example of how to use ListObjectPrivilegesRequest.
 type ListObjectPrivilegesRequest struct {

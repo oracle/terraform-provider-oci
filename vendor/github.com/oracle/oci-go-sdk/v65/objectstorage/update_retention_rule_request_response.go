@@ -13,7 +13,7 @@ import (
 
 // UpdateRetentionRuleRequest wrapper for the UpdateRetentionRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UpdateRetentionRule.go.html to see an example of how to use UpdateRetentionRuleRequest.
 type UpdateRetentionRuleRequest struct {

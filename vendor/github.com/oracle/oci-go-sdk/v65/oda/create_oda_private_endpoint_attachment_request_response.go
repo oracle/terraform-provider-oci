@@ -13,7 +13,7 @@ import (
 
 // CreateOdaPrivateEndpointAttachmentRequest wrapper for the CreateOdaPrivateEndpointAttachment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaPrivateEndpointAttachment.go.html to see an example of how to use CreateOdaPrivateEndpointAttachmentRequest.
 type CreateOdaPrivateEndpointAttachmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ChangeTemplateCompartmentRequest wrapper for the ChangeTemplateCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ChangeTemplateCompartment.go.html to see an example of how to use ChangeTemplateCompartmentRequest.
 type ChangeTemplateCompartmentRequest struct {

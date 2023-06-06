@@ -13,7 +13,7 @@ import (
 
 // UpdateInventoryRequest wrapper for the UpdateInventory operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdateInventory.go.html to see an example of how to use UpdateInventoryRequest.
 type UpdateInventoryRequest struct {

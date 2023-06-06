@@ -13,7 +13,7 @@ import (
 
 // UpdateFolderRequest wrapper for the UpdateFolder operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateFolder.go.html to see an example of how to use UpdateFolderRequest.
 type UpdateFolderRequest struct {

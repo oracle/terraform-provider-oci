@@ -13,7 +13,7 @@ import (
 
 // ListResourceProfileEndpointsRequest wrapper for the ListResourceProfileEndpoints operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResourceProfileEndpoints.go.html to see an example of how to use ListResourceProfileEndpointsRequest.
 type ListResourceProfileEndpointsRequest struct {

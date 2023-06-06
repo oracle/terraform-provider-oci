@@ -13,7 +13,7 @@ import (
 
 // CreateLocalPeeringGatewayRequest wrapper for the CreateLocalPeeringGateway operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateLocalPeeringGateway.go.html to see an example of how to use CreateLocalPeeringGatewayRequest.
 type CreateLocalPeeringGatewayRequest struct {

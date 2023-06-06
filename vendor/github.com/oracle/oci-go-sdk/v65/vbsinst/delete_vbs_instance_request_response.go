@@ -13,7 +13,7 @@ import (
 
 // DeleteVbsInstanceRequest wrapper for the DeleteVbsInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/DeleteVbsInstance.go.html to see an example of how to use DeleteVbsInstanceRequest.
 type DeleteVbsInstanceRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // UpdateMediaAssetRequest wrapper for the UpdateMediaAsset operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateMediaAsset.go.html to see an example of how to use UpdateMediaAssetRequest.
 type UpdateMediaAssetRequest struct {

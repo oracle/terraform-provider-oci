@@ -13,7 +13,7 @@ import (
 
 // ActivateNotebookSessionRequest wrapper for the ActivateNotebookSession operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ActivateNotebookSession.go.html to see an example of how to use ActivateNotebookSessionRequest.
 type ActivateNotebookSessionRequest struct {

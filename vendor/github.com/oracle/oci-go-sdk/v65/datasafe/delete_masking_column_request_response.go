@@ -13,7 +13,7 @@ import (
 
 // DeleteMaskingColumnRequest wrapper for the DeleteMaskingColumn operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteMaskingColumn.go.html to see an example of how to use DeleteMaskingColumnRequest.
 type DeleteMaskingColumnRequest struct {

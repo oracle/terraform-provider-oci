@@ -13,7 +13,7 @@ import (
 
 // UpdateImportedPackageRequest wrapper for the UpdateImportedPackage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateImportedPackage.go.html to see an example of how to use UpdateImportedPackageRequest.
 type UpdateImportedPackageRequest struct {

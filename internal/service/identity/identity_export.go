@@ -18,7 +18,6 @@ func init() {
 	exportIdentityCustomerSecretKeyHints.GetIdFn = getIdentityCustomerSecretKeyId
 	exportIdentityIdpGroupMappingHints.GetIdFn = getIdentityIdpGroupMappingId
 	exportIdentitySmtpCredentialHints.GetIdFn = getIdentitySmtpCredentialId
-	exportIdentitySwiftPasswordHints.GetIdFn = getIdentitySwiftPasswordId
 	exportIdentityDbCredentialHints.GetIdFn = getIdentityDbCredentialId
 	exportIdentityAvailabilityDomainHints.IsDataSource = true
 	exportIdentityAvailabilityDomainHints.ResourceAbbreviation = "ad"
@@ -222,16 +221,6 @@ func getIdentitySmtpCredentialId(resource *tf_export.OCIResource) (string, error
 	return GetSmtpCredentialCompositeId(smtpCredentialId, userId), nil
 }
 
-func getIdentitySwiftPasswordId(resource *tf_export.OCIResource) (string, error) {
-
-	swiftPasswordId, ok := resource.SourceAttributes["id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find swiftPasswordId for Identity SwiftPassword")
-	}
-	userId := resource.Parent.Id
-	return GetSwiftPasswordCompositeId(swiftPasswordId, userId), nil
-}
-
 // Hints for discovering and exporting this resource to configuration and state files
 var exportIdentityApiKeyHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_identity_api_key",
@@ -343,16 +332,6 @@ var exportIdentitySmtpCredentialHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation: "smtp_credential",
 	DiscoverableLifecycleStates: []string{
 		string(oci_identity.SmtpCredentialLifecycleStateActive),
-	},
-}
-
-var exportIdentitySwiftPasswordHints = &tf_export.TerraformResourceHints{
-	ResourceClass:        "oci_identity_swift_password",
-	DatasourceClass:      "oci_identity_swift_passwords",
-	DatasourceItemsAttr:  "passwords",
-	ResourceAbbreviation: "swift_password",
-	DiscoverableLifecycleStates: []string{
-		string(oci_identity.SwiftPasswordLifecycleStateActive),
 	},
 }
 
@@ -511,12 +490,6 @@ var identityResourceGraph = tf_export.TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportIdentitySmtpCredentialHints,
-			DatasourceQueryParams: map[string]string{
-				"user_id": "id",
-			},
-		},
-		{
-			TerraformResourceHints: exportIdentitySwiftPasswordHints,
 			DatasourceQueryParams: map[string]string{
 				"user_id": "id",
 			},

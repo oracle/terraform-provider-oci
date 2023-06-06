@@ -13,7 +13,7 @@ import (
 
 // CreateMySupportAccountRequest wrapper for the CreateMySupportAccount operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMySupportAccount.go.html to see an example of how to use CreateMySupportAccountRequest.
 type CreateMySupportAccountRequest struct {

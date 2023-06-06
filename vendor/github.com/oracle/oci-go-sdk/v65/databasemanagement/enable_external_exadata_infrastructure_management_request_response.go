@@ -13,7 +13,7 @@ import (
 
 // EnableExternalExadataInfrastructureManagementRequest wrapper for the EnableExternalExadataInfrastructureManagement operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalExadataInfrastructureManagement.go.html to see an example of how to use EnableExternalExadataInfrastructureManagementRequest.
 type EnableExternalExadataInfrastructureManagementRequest struct {

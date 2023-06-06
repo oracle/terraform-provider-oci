@@ -13,7 +13,7 @@ import (
 
 // EstimateReleaseDataSizeRequest wrapper for the EstimateReleaseDataSize operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EstimateReleaseDataSize.go.html to see an example of how to use EstimateReleaseDataSizeRequest.
 type EstimateReleaseDataSizeRequest struct {

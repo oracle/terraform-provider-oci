@@ -13,7 +13,7 @@ import (
 
 // ListSensitiveTypesRequest wrapper for the ListSensitiveTypes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveTypes.go.html to see an example of how to use ListSensitiveTypesRequest.
 type ListSensitiveTypesRequest struct {

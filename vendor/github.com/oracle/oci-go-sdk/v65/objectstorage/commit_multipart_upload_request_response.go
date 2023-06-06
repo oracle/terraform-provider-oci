@@ -13,7 +13,7 @@ import (
 
 // CommitMultipartUploadRequest wrapper for the CommitMultipartUpload operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CommitMultipartUpload.go.html to see an example of how to use CommitMultipartUploadRequest.
 type CommitMultipartUploadRequest struct {

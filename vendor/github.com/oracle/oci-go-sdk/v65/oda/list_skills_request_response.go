@@ -13,7 +13,7 @@ import (
 
 // ListSkillsRequest wrapper for the ListSkills operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListSkills.go.html to see an example of how to use ListSkillsRequest.
 type ListSkillsRequest struct {

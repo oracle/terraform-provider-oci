@@ -13,7 +13,7 @@ import (
 
 // DbNodeActionRequest wrapper for the DbNodeAction operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DbNodeAction.go.html to see an example of how to use DbNodeActionRequest.
 type DbNodeActionRequest struct {

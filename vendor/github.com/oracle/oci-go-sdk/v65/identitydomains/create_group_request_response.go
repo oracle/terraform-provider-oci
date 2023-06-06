@@ -13,7 +13,7 @@ import (
 
 // CreateGroupRequest wrapper for the CreateGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateGroup.go.html to see an example of how to use CreateGroupRequest.
 type CreateGroupRequest struct {

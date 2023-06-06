@@ -268,6 +268,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `heat_wave_cluster` - A summary of a HeatWave cluster. 
 	* `cluster_size` - The number of analytics-processing compute instances, of the specified shape, in the HeatWave cluster. 
+	* `is_lakehouse_enabled` - Lakehouse enabled status for the HeatWave cluster.
 	* `shape_name` - The shape determines resources to allocate to the HeatWave nodes - CPU cores, memory. 
 	* `state` - The current state of the MySQL HeatWave cluster.
 	* `time_created` - The date and time the HeatWave cluster was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

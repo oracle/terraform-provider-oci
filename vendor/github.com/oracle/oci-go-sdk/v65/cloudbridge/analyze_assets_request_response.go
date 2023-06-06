@@ -13,7 +13,7 @@ import (
 
 // AnalyzeAssetsRequest wrapper for the AnalyzeAssets operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/AnalyzeAssets.go.html to see an example of how to use AnalyzeAssetsRequest.
 type AnalyzeAssetsRequest struct {

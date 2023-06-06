@@ -13,7 +13,7 @@ import (
 
 // RequestSummarizedActivityProblemsRequest wrapper for the RequestSummarizedActivityProblems operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSummarizedActivityProblems.go.html to see an example of how to use RequestSummarizedActivityProblemsRequest.
 type RequestSummarizedActivityProblemsRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListDatabaseToolsEndpointServicesRequest wrapper for the ListDatabaseToolsEndpointServices operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListDatabaseToolsEndpointServices.go.html to see an example of how to use ListDatabaseToolsEndpointServicesRequest.
 type ListDatabaseToolsEndpointServicesRequest struct {

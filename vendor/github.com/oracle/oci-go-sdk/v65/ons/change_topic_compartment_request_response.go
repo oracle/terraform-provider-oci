@@ -13,7 +13,7 @@ import (
 
 // ChangeTopicCompartmentRequest wrapper for the ChangeTopicCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ChangeTopicCompartment.go.html to see an example of how to use ChangeTopicCompartmentRequest.
 type ChangeTopicCompartmentRequest struct {

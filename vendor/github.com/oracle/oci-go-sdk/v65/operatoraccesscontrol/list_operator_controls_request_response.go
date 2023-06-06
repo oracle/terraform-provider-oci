@@ -13,7 +13,7 @@ import (
 
 // ListOperatorControlsRequest wrapper for the ListOperatorControls operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControls.go.html to see an example of how to use ListOperatorControlsRequest.
 type ListOperatorControlsRequest struct {

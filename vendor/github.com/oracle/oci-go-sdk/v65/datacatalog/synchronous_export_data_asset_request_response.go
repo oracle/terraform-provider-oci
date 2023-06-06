@@ -14,7 +14,7 @@ import (
 
 // SynchronousExportDataAssetRequest wrapper for the SynchronousExportDataAsset operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/SynchronousExportDataAsset.go.html to see an example of how to use SynchronousExportDataAssetRequest.
 type SynchronousExportDataAssetRequest struct {

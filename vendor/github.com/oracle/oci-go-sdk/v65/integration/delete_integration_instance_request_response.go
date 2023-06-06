@@ -13,7 +13,7 @@ import (
 
 // DeleteIntegrationInstanceRequest wrapper for the DeleteIntegrationInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/DeleteIntegrationInstance.go.html to see an example of how to use DeleteIntegrationInstanceRequest.
 type DeleteIntegrationInstanceRequest struct {

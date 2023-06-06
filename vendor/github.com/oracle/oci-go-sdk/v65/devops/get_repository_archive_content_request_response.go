@@ -14,7 +14,7 @@ import (
 
 // GetRepositoryArchiveContentRequest wrapper for the GetRepositoryArchiveContent operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepositoryArchiveContent.go.html to see an example of how to use GetRepositoryArchiveContentRequest.
 type GetRepositoryArchiveContentRequest struct {

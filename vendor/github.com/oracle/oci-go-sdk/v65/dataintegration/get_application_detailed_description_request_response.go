@@ -13,7 +13,7 @@ import (
 
 // GetApplicationDetailedDescriptionRequest wrapper for the GetApplicationDetailedDescription operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetApplicationDetailedDescription.go.html to see an example of how to use GetApplicationDetailedDescriptionRequest.
 type GetApplicationDetailedDescriptionRequest struct {

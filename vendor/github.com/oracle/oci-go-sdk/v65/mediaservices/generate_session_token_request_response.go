@@ -13,7 +13,7 @@ import (
 
 // GenerateSessionTokenRequest wrapper for the GenerateSessionToken operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GenerateSessionToken.go.html to see an example of how to use GenerateSessionTokenRequest.
 type GenerateSessionTokenRequest struct {

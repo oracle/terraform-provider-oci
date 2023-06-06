@@ -13,7 +13,7 @@ import (
 
 // GetContainerRepositoryRequest wrapper for the GetContainerRepository operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/GetContainerRepository.go.html to see an example of how to use GetContainerRepositoryRequest.
 type GetContainerRepositoryRequest struct {

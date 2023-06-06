@@ -13,7 +13,7 @@ import (
 
 // ListDynamicResourceGroupsRequest wrapper for the ListDynamicResourceGroups operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListDynamicResourceGroups.go.html to see an example of how to use ListDynamicResourceGroupsRequest.
 type ListDynamicResourceGroupsRequest struct {

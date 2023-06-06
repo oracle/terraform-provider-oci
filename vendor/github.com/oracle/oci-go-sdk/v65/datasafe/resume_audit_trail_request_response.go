@@ -13,7 +13,7 @@ import (
 
 // ResumeAuditTrailRequest wrapper for the ResumeAuditTrail operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ResumeAuditTrail.go.html to see an example of how to use ResumeAuditTrailRequest.
 type ResumeAuditTrailRequest struct {

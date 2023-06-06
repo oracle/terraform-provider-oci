@@ -13,7 +13,7 @@ import (
 
 // GetHeatWaveClusterMemoryEstimateRequest wrapper for the GetHeatWaveClusterMemoryEstimate operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetHeatWaveClusterMemoryEstimate.go.html to see an example of how to use GetHeatWaveClusterMemoryEstimateRequest.
 type GetHeatWaveClusterMemoryEstimateRequest struct {

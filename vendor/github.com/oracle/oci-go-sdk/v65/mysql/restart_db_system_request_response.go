@@ -13,7 +13,7 @@ import (
 
 // RestartDbSystemRequest wrapper for the RestartDbSystem operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/RestartDbSystem.go.html to see an example of how to use RestartDbSystemRequest.
 type RestartDbSystemRequest struct {

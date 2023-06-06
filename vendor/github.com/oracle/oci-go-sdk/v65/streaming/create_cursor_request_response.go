@@ -13,7 +13,7 @@ import (
 
 // CreateCursorRequest wrapper for the CreateCursor operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/CreateCursor.go.html to see an example of how to use CreateCursorRequest.
 type CreateCursorRequest struct {

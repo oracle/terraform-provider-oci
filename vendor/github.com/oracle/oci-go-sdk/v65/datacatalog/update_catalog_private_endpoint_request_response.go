@@ -13,7 +13,7 @@ import (
 
 // UpdateCatalogPrivateEndpointRequest wrapper for the UpdateCatalogPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateCatalogPrivateEndpoint.go.html to see an example of how to use UpdateCatalogPrivateEndpointRequest.
 type UpdateCatalogPrivateEndpointRequest struct {

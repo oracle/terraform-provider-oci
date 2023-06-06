@@ -13,7 +13,7 @@ import (
 
 // DeleteApplicationRequest wrapper for the DeleteApplication operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteApplication.go.html to see an example of how to use DeleteApplicationRequest.
 type DeleteApplicationRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetMediaWorkflowRequest wrapper for the GetMediaWorkflow operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaWorkflow.go.html to see an example of how to use GetMediaWorkflowRequest.
 type GetMediaWorkflowRequest struct {

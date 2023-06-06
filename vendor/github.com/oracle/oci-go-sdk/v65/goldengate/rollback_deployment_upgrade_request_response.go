@@ -13,7 +13,7 @@ import (
 
 // RollbackDeploymentUpgradeRequest wrapper for the RollbackDeploymentUpgrade operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RollbackDeploymentUpgrade.go.html to see an example of how to use RollbackDeploymentUpgradeRequest.
 type RollbackDeploymentUpgradeRequest struct {

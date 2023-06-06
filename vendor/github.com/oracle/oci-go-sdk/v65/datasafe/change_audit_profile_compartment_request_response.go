@@ -13,7 +13,7 @@ import (
 
 // ChangeAuditProfileCompartmentRequest wrapper for the ChangeAuditProfileCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeAuditProfileCompartment.go.html to see an example of how to use ChangeAuditProfileCompartmentRequest.
 type ChangeAuditProfileCompartmentRequest struct {

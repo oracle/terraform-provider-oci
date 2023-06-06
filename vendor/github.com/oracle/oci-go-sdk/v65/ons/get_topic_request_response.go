@@ -13,7 +13,7 @@ import (
 
 // GetTopicRequest wrapper for the GetTopic operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetTopic.go.html to see an example of how to use GetTopicRequest.
 type GetTopicRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetCustomPropertyRequest wrapper for the GetCustomProperty operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetCustomProperty.go.html to see an example of how to use GetCustomPropertyRequest.
 type GetCustomPropertyRequest struct {

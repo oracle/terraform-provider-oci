@@ -13,7 +13,7 @@ import (
 
 // CreateOAuth2ClientCredentialRequest wrapper for the CreateOAuth2ClientCredential operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateOAuth2ClientCredential.go.html to see an example of how to use CreateOAuth2ClientCredentialRequest.
 type CreateOAuth2ClientCredentialRequest struct {

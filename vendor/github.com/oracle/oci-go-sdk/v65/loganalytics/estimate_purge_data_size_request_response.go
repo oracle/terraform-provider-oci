@@ -13,7 +13,7 @@ import (
 
 // EstimatePurgeDataSizeRequest wrapper for the EstimatePurgeDataSize operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EstimatePurgeDataSize.go.html to see an example of how to use EstimatePurgeDataSizeRequest.
 type EstimatePurgeDataSizeRequest struct {

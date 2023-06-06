@@ -13,7 +13,7 @@ import (
 
 // DeleteJobDefinitionRequest wrapper for the DeleteJobDefinition operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteJobDefinition.go.html to see an example of how to use DeleteJobDefinitionRequest.
 type DeleteJobDefinitionRequest struct {

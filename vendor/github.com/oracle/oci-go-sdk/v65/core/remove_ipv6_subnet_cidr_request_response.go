@@ -13,7 +13,7 @@ import (
 
 // RemoveIpv6SubnetCidrRequest wrapper for the RemoveIpv6SubnetCidr operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveIpv6SubnetCidr.go.html to see an example of how to use RemoveIpv6SubnetCidrRequest.
 type RemoveIpv6SubnetCidrRequest struct {

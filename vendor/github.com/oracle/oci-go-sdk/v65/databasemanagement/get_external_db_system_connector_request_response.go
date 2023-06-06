@@ -13,7 +13,7 @@ import (
 
 // GetExternalDbSystemConnectorRequest wrapper for the GetExternalDbSystemConnector operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalDbSystemConnector.go.html to see an example of how to use GetExternalDbSystemConnectorRequest.
 type GetExternalDbSystemConnectorRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // RemoveResourceCategoriesRequest wrapper for the RemoveResourceCategories operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RemoveResourceCategories.go.html to see an example of how to use RemoveResourceCategoriesRequest.
 type RemoveResourceCategoriesRequest struct {

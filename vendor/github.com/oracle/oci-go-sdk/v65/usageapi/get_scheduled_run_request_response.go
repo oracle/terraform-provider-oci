@@ -13,7 +13,7 @@ import (
 
 // GetScheduledRunRequest wrapper for the GetScheduledRun operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetScheduledRun.go.html to see an example of how to use GetScheduledRunRequest.
 type GetScheduledRunRequest struct {

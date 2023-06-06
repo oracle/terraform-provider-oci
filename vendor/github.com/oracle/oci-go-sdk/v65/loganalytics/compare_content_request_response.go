@@ -13,7 +13,7 @@ import (
 
 // CompareContentRequest wrapper for the CompareContent operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CompareContent.go.html to see an example of how to use CompareContentRequest.
 type CompareContentRequest struct {

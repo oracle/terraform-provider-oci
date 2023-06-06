@@ -13,7 +13,7 @@ import (
 
 // CreatePatternRequest wrapper for the CreatePattern operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreatePattern.go.html to see an example of how to use CreatePatternRequest.
 type CreatePatternRequest struct {

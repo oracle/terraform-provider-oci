@@ -13,7 +13,7 @@ import (
 
 // GetPreferredCredentialRequest wrapper for the GetPreferredCredential operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetPreferredCredential.go.html to see an example of how to use GetPreferredCredentialRequest.
 type GetPreferredCredentialRequest struct {

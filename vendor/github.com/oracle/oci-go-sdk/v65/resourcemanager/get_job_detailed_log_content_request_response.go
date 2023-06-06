@@ -13,7 +13,7 @@ import (
 
 // GetJobDetailedLogContentRequest wrapper for the GetJobDetailedLogContent operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJobDetailedLogContent.go.html to see an example of how to use GetJobDetailedLogContentRequest.
 type GetJobDetailedLogContentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ChangeIngressGatewayCompartmentRequest wrapper for the ChangeIngressGatewayCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeIngressGatewayCompartment.go.html to see an example of how to use ChangeIngressGatewayCompartmentRequest.
 type ChangeIngressGatewayCompartmentRequest struct {

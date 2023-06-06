@@ -13,7 +13,7 @@ import (
 
 // CreateComputeImageCapabilitySchemaRequest wrapper for the CreateComputeImageCapabilitySchema operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeImageCapabilitySchema.go.html to see an example of how to use CreateComputeImageCapabilitySchemaRequest.
 type CreateComputeImageCapabilitySchemaRequest struct {

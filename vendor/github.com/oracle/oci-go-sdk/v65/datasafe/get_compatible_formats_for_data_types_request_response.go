@@ -13,7 +13,7 @@ import (
 
 // GetCompatibleFormatsForDataTypesRequest wrapper for the GetCompatibleFormatsForDataTypes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetCompatibleFormatsForDataTypes.go.html to see an example of how to use GetCompatibleFormatsForDataTypesRequest.
 type GetCompatibleFormatsForDataTypesRequest struct {

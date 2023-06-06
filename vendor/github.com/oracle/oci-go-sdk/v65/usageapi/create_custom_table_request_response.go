@@ -13,7 +13,7 @@ import (
 
 // CreateCustomTableRequest wrapper for the CreateCustomTable operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/CreateCustomTable.go.html to see an example of how to use CreateCustomTableRequest.
 type CreateCustomTableRequest struct {

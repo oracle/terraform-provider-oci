@@ -13,7 +13,7 @@ import (
 
 // ListTimeAvailableForRefreshesRequest wrapper for the ListTimeAvailableForRefreshes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListTimeAvailableForRefreshes.go.html to see an example of how to use ListTimeAvailableForRefreshesRequest.
 type ListTimeAvailableForRefreshesRequest struct {

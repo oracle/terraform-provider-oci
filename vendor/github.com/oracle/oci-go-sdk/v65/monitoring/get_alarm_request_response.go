@@ -13,7 +13,7 @@ import (
 
 // GetAlarmRequest wrapper for the GetAlarm operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/GetAlarm.go.html to see an example of how to use GetAlarmRequest.
 type GetAlarmRequest struct {

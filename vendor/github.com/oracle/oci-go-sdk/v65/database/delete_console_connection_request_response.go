@@ -13,7 +13,7 @@ import (
 
 // DeleteConsoleConnectionRequest wrapper for the DeleteConsoleConnection operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteConsoleConnection.go.html to see an example of how to use DeleteConsoleConnectionRequest.
 type DeleteConsoleConnectionRequest struct {

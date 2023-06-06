@@ -13,7 +13,7 @@ import (
 
 // GetIdentityProviderRequest wrapper for the GetIdentityProvider operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetIdentityProvider.go.html to see an example of how to use GetIdentityProviderRequest.
 type GetIdentityProviderRequest struct {

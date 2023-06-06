@@ -13,7 +13,7 @@ import (
 
 // DeleteContainerRepositoryRequest wrapper for the DeleteContainerRepository operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteContainerRepository.go.html to see an example of how to use DeleteContainerRepositoryRequest.
 type DeleteContainerRepositoryRequest struct {

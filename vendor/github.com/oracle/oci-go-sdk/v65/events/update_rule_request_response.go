@@ -13,7 +13,7 @@ import (
 
 // UpdateRuleRequest wrapper for the UpdateRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/UpdateRule.go.html to see an example of how to use UpdateRuleRequest.
 type UpdateRuleRequest struct {

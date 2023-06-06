@@ -13,7 +13,7 @@ import (
 
 // GetContainerImageRequest wrapper for the GetContainerImage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/GetContainerImage.go.html to see an example of how to use GetContainerImageRequest.
 type GetContainerImageRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CreateCatalogRequest wrapper for the CreateCatalog operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateCatalog.go.html to see an example of how to use CreateCatalogRequest.
 type CreateCatalogRequest struct {

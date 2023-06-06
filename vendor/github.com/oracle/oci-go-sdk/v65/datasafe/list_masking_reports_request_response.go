@@ -13,7 +13,7 @@ import (
 
 // ListMaskingReportsRequest wrapper for the ListMaskingReports operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingReports.go.html to see an example of how to use ListMaskingReportsRequest.
 type ListMaskingReportsRequest struct {

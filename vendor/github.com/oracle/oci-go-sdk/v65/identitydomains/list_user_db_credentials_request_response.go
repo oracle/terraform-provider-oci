@@ -13,7 +13,7 @@ import (
 
 // ListUserDbCredentialsRequest wrapper for the ListUserDbCredentials operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListUserDbCredentials.go.html to see an example of how to use ListUserDbCredentialsRequest.
 type ListUserDbCredentialsRequest struct {

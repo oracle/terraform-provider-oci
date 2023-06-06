@@ -13,7 +13,7 @@ import (
 
 // ListExternalDatabaseConnectorsRequest wrapper for the ListExternalDatabaseConnectors operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListExternalDatabaseConnectors.go.html to see an example of how to use ListExternalDatabaseConnectorsRequest.
 type ListExternalDatabaseConnectorsRequest struct {

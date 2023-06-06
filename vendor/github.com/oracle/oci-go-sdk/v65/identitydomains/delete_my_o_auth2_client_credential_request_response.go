@@ -13,7 +13,7 @@ import (
 
 // DeleteMyOAuth2ClientCredentialRequest wrapper for the DeleteMyOAuth2ClientCredential operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyOAuth2ClientCredential.go.html to see an example of how to use DeleteMyOAuth2ClientCredentialRequest.
 type DeleteMyOAuth2ClientCredentialRequest struct {

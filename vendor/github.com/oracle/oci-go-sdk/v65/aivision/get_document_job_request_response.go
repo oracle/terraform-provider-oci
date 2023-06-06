@@ -13,7 +13,7 @@ import (
 
 // GetDocumentJobRequest wrapper for the GetDocumentJob operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetDocumentJob.go.html to see an example of how to use GetDocumentJobRequest.
 type GetDocumentJobRequest struct {

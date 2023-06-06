@@ -13,7 +13,7 @@ import (
 
 // GetDatabaseHomeMetricsRequest wrapper for the GetDatabaseHomeMetrics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetDatabaseHomeMetrics.go.html to see an example of how to use GetDatabaseHomeMetricsRequest.
 type GetDatabaseHomeMetricsRequest struct {

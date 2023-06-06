@@ -13,7 +13,7 @@ import (
 
 // RotateOperationsInsightsWarehouseWalletRequest wrapper for the RotateOperationsInsightsWarehouseWallet operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/RotateOperationsInsightsWarehouseWallet.go.html to see an example of how to use RotateOperationsInsightsWarehouseWalletRequest.
 type RotateOperationsInsightsWarehouseWalletRequest struct {

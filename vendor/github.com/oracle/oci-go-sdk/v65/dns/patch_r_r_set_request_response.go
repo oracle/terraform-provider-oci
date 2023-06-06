@@ -13,7 +13,7 @@ import (
 
 // PatchRRSetRequest wrapper for the PatchRRSet operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/PatchRRSet.go.html to see an example of how to use PatchRRSetRequest.
 type PatchRRSetRequest struct {

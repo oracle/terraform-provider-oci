@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//DiscoveryClient a client for Discovery
+// DiscoveryClient a client for Discovery
 type DiscoveryClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,7 +39,8 @@ func NewDiscoveryClientWithConfigurationProvider(configProvider common.Configura
 
 // NewDiscoveryClientWithOboToken Creates a new default Discovery client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDiscoveryClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DiscoveryClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

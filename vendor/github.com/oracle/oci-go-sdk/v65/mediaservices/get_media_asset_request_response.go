@@ -13,7 +13,7 @@ import (
 
 // GetMediaAssetRequest wrapper for the GetMediaAsset operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaAsset.go.html to see an example of how to use GetMediaAssetRequest.
 type GetMediaAssetRequest struct {

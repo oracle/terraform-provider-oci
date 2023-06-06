@@ -13,7 +13,7 @@ import (
 
 // GetMfaTotpDeviceRequest wrapper for the GetMfaTotpDevice operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetMfaTotpDevice.go.html to see an example of how to use GetMfaTotpDeviceRequest.
 type GetMfaTotpDeviceRequest struct {

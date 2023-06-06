@@ -13,7 +13,7 @@ import (
 
 // CreateDataMaskingActivityRequest wrapper for the CreateDataMaskingActivity operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateDataMaskingActivity.go.html to see an example of how to use CreateDataMaskingActivityRequest.
 type CreateDataMaskingActivityRequest struct {

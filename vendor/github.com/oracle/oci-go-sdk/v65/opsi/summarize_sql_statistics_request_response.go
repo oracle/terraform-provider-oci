@@ -13,7 +13,7 @@ import (
 
 // SummarizeSqlStatisticsRequest wrapper for the SummarizeSqlStatistics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlStatistics.go.html to see an example of how to use SummarizeSqlStatisticsRequest.
 type SummarizeSqlStatisticsRequest struct {

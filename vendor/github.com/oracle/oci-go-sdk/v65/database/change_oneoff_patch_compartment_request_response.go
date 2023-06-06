@@ -13,7 +13,7 @@ import (
 
 // ChangeOneoffPatchCompartmentRequest wrapper for the ChangeOneoffPatchCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeOneoffPatchCompartment.go.html to see an example of how to use ChangeOneoffPatchCompartmentRequest.
 type ChangeOneoffPatchCompartmentRequest struct {

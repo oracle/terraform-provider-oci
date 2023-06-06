@@ -13,7 +13,7 @@ import (
 
 // DeleteProfileRequest wrapper for the DeleteProfile operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/DeleteProfile.go.html to see an example of how to use DeleteProfileRequest.
 type DeleteProfileRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetExternalDbNodeRequest wrapper for the GetExternalDbNode operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalDbNode.go.html to see an example of how to use GetExternalDbNodeRequest.
 type GetExternalDbNodeRequest struct {

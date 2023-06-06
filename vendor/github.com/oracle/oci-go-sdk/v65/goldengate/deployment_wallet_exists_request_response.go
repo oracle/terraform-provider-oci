@@ -13,7 +13,7 @@ import (
 
 // DeploymentWalletExistsRequest wrapper for the DeploymentWalletExists operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeploymentWalletExists.go.html to see an example of how to use DeploymentWalletExistsRequest.
 type DeploymentWalletExistsRequest struct {

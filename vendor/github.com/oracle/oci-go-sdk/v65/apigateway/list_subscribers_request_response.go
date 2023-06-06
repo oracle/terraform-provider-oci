@@ -13,7 +13,7 @@ import (
 
 // ListSubscribersRequest wrapper for the ListSubscribers operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListSubscribers.go.html to see an example of how to use ListSubscribersRequest.
 type ListSubscribersRequest struct {

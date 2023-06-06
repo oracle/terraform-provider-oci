@@ -13,7 +13,7 @@ import (
 
 // ChangeCustomProtectionRuleCompartmentRequest wrapper for the ChangeCustomProtectionRuleCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeCustomProtectionRuleCompartment.go.html to see an example of how to use ChangeCustomProtectionRuleCompartmentRequest.
 type ChangeCustomProtectionRuleCompartmentRequest struct {

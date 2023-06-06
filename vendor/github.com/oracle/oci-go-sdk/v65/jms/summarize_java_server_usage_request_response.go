@@ -13,7 +13,7 @@ import (
 
 // SummarizeJavaServerUsageRequest wrapper for the SummarizeJavaServerUsage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeJavaServerUsage.go.html to see an example of how to use SummarizeJavaServerUsageRequest.
 type SummarizeJavaServerUsageRequest struct {

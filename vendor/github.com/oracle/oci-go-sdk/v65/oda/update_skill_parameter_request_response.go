@@ -13,7 +13,7 @@ import (
 
 // UpdateSkillParameterRequest wrapper for the UpdateSkillParameter operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateSkillParameter.go.html to see an example of how to use UpdateSkillParameterRequest.
 type UpdateSkillParameterRequest struct {

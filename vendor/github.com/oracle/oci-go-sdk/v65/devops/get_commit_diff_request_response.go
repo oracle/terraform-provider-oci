@@ -13,7 +13,7 @@ import (
 
 // GetCommitDiffRequest wrapper for the GetCommitDiff operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetCommitDiff.go.html to see an example of how to use GetCommitDiffRequest.
 type GetCommitDiffRequest struct {

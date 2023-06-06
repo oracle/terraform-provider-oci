@@ -13,7 +13,7 @@ import (
 
 // ListDifferenceColumnsRequest wrapper for the ListDifferenceColumns operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDifferenceColumns.go.html to see an example of how to use ListDifferenceColumnsRequest.
 type ListDifferenceColumnsRequest struct {

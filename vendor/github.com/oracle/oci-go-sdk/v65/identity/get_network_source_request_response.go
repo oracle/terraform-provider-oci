@@ -13,7 +13,7 @@ import (
 
 // GetNetworkSourceRequest wrapper for the GetNetworkSource operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetNetworkSource.go.html to see an example of how to use GetNetworkSourceRequest.
 type GetNetworkSourceRequest struct {
