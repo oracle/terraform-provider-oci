@@ -53,6 +53,7 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"type":           acctest.Representation{RepType: acctest.Optional, Create: `INCREMENTAL`},
 	}
+
 	bootVolumeBackupId, bootVolumeId, instanceId string
 	CoreBootVolumeBackupResourceDependencies     = BootVolumeOptionalResource
 )
@@ -118,6 +119,7 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
@@ -147,6 +149,7 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
@@ -202,7 +205,6 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "source_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
