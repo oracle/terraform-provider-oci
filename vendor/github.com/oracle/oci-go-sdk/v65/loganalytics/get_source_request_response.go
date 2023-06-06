@@ -13,7 +13,7 @@ import (
 
 // GetSourceRequest wrapper for the GetSource operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetSource.go.html to see an example of how to use GetSourceRequest.
 type GetSourceRequest struct {

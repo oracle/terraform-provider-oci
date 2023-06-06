@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-//DbManagementClient a client for DbManagement
+// DbManagementClient a client for DbManagement
 type DbManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -41,7 +41,8 @@ func NewDbManagementClientWithConfigurationProvider(configProvider common.Config
 
 // NewDbManagementClientWithOboToken Creates a new default DbManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewDbManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DbManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

@@ -13,7 +13,7 @@ import (
 
 // FilterResourceActionsRequest wrapper for the FilterResourceActions operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/FilterResourceActions.go.html to see an example of how to use FilterResourceActionsRequest.
 type FilterResourceActionsRequest struct {

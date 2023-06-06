@@ -13,7 +13,7 @@ import (
 
 // ChangePrivateApplicationCompartmentRequest wrapper for the ChangePrivateApplicationCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ChangePrivateApplicationCompartment.go.html to see an example of how to use ChangePrivateApplicationCompartmentRequest.
 type ChangePrivateApplicationCompartmentRequest struct {

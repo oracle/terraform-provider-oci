@@ -13,7 +13,7 @@ import (
 
 // RestartContainerInstanceRequest wrapper for the RestartContainerInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/RestartContainerInstance.go.html to see an example of how to use RestartContainerInstanceRequest.
 type RestartContainerInstanceRequest struct {

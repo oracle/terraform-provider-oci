@@ -13,7 +13,7 @@ import (
 
 // GetAssociationRequest wrapper for the GetAssociation operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetAssociation.go.html to see an example of how to use GetAssociationRequest.
 type GetAssociationRequest struct {

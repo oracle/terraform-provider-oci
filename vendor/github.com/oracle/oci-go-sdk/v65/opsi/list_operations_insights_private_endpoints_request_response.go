@@ -13,7 +13,7 @@ import (
 
 // ListOperationsInsightsPrivateEndpointsRequest wrapper for the ListOperationsInsightsPrivateEndpoints operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListOperationsInsightsPrivateEndpoints.go.html to see an example of how to use ListOperationsInsightsPrivateEndpointsRequest.
 type ListOperationsInsightsPrivateEndpointsRequest struct {

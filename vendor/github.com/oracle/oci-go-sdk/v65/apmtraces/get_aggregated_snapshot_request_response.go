@@ -13,7 +13,7 @@ import (
 
 // GetAggregatedSnapshotRequest wrapper for the GetAggregatedSnapshot operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetAggregatedSnapshot.go.html to see an example of how to use GetAggregatedSnapshotRequest.
 type GetAggregatedSnapshotRequest struct {

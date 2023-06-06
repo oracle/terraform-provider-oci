@@ -13,7 +13,7 @@ import (
 
 // DeleteFieldRequest wrapper for the DeleteField operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteField.go.html to see an example of how to use DeleteFieldRequest.
 type DeleteFieldRequest struct {

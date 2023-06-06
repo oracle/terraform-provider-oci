@@ -13,7 +13,7 @@ import (
 
 // AttachCatalogPrivateEndpointRequest wrapper for the AttachCatalogPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AttachCatalogPrivateEndpoint.go.html to see an example of how to use AttachCatalogPrivateEndpointRequest.
 type AttachCatalogPrivateEndpointRequest struct {

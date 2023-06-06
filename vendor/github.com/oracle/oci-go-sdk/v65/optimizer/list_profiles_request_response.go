@@ -13,7 +13,7 @@ import (
 
 // ListProfilesRequest wrapper for the ListProfiles operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListProfiles.go.html to see an example of how to use ListProfilesRequest.
 type ListProfilesRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetEntityTagRequest wrapper for the GetEntityTag operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetEntityTag.go.html to see an example of how to use GetEntityTagRequest.
 type GetEntityTagRequest struct {

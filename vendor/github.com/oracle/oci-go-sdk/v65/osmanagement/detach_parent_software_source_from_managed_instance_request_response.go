@@ -13,7 +13,7 @@ import (
 
 // DetachParentSoftwareSourceFromManagedInstanceRequest wrapper for the DetachParentSoftwareSourceFromManagedInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DetachParentSoftwareSourceFromManagedInstance.go.html to see an example of how to use DetachParentSoftwareSourceFromManagedInstanceRequest.
 type DetachParentSoftwareSourceFromManagedInstanceRequest struct {

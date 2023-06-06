@@ -14,7 +14,7 @@ import (
 
 // GetModelArtifactContentRequest wrapper for the GetModelArtifactContent operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetModelArtifactContent.go.html to see an example of how to use GetModelArtifactContentRequest.
 type GetModelArtifactContentRequest struct {

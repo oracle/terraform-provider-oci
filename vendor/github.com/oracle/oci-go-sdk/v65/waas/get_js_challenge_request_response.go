@@ -13,7 +13,7 @@ import (
 
 // GetJsChallengeRequest wrapper for the GetJsChallenge operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetJsChallenge.go.html to see an example of how to use GetJsChallengeRequest.
 type GetJsChallengeRequest struct {

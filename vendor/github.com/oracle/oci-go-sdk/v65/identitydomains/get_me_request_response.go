@@ -13,7 +13,7 @@ import (
 
 // GetMeRequest wrapper for the GetMe operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMe.go.html to see an example of how to use GetMeRequest.
 type GetMeRequest struct {

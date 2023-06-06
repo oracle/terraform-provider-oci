@@ -13,7 +13,7 @@ import (
 
 // DeleteComputeClusterRequest wrapper for the DeleteComputeCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeCluster.go.html to see an example of how to use DeleteComputeClusterRequest.
 type DeleteComputeClusterRequest struct {

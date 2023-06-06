@@ -13,7 +13,7 @@ import (
 
 // GetPluggableDatabaseRequest wrapper for the GetPluggableDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetPluggableDatabase.go.html to see an example of how to use GetPluggableDatabaseRequest.
 type GetPluggableDatabaseRequest struct {

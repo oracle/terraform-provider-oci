@@ -13,7 +13,7 @@ import (
 
 // ChangeModelDeploymentCompartmentRequest wrapper for the ChangeModelDeploymentCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangeModelDeploymentCompartment.go.html to see an example of how to use ChangeModelDeploymentCompartmentRequest.
 type ChangeModelDeploymentCompartmentRequest struct {

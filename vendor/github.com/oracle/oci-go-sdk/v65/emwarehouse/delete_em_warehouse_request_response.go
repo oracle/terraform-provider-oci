@@ -13,7 +13,7 @@ import (
 
 // DeleteEmWarehouseRequest wrapper for the DeleteEmWarehouse operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/DeleteEmWarehouse.go.html to see an example of how to use DeleteEmWarehouseRequest.
 type DeleteEmWarehouseRequest struct {

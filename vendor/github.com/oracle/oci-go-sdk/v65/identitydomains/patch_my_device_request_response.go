@@ -13,7 +13,7 @@ import (
 
 // PatchMyDeviceRequest wrapper for the PatchMyDevice operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyDevice.go.html to see an example of how to use PatchMyDeviceRequest.
 type PatchMyDeviceRequest struct {

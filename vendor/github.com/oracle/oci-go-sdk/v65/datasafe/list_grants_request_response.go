@@ -13,7 +13,7 @@ import (
 
 // ListGrantsRequest wrapper for the ListGrants operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListGrants.go.html to see an example of how to use ListGrantsRequest.
 type ListGrantsRequest struct {

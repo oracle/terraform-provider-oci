@@ -13,7 +13,7 @@ import (
 
 // DeleteAssetSourceRequest wrapper for the DeleteAssetSource operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteAssetSource.go.html to see an example of how to use DeleteAssetSourceRequest.
 type DeleteAssetSourceRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetViewRequest wrapper for the GetView operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetView.go.html to see an example of how to use GetViewRequest.
 type GetViewRequest struct {

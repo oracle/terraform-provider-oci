@@ -13,7 +13,7 @@ import (
 
 // CreateEmailDomainRequest wrapper for the CreateEmailDomain operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateEmailDomain.go.html to see an example of how to use CreateEmailDomainRequest.
 type CreateEmailDomainRequest struct {

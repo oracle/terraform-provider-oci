@@ -13,7 +13,7 @@ import (
 
 // DisableHostInsightRequest wrapper for the DisableHostInsight operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DisableHostInsight.go.html to see an example of how to use DisableHostInsightRequest.
 type DisableHostInsightRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // UpdateConfigRequest wrapper for the UpdateConfig operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/UpdateConfig.go.html to see an example of how to use UpdateConfigRequest.
 type UpdateConfigRequest struct {

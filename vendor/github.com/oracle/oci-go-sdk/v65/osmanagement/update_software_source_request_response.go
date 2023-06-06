@@ -13,7 +13,7 @@ import (
 
 // UpdateSoftwareSourceRequest wrapper for the UpdateSoftwareSource operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UpdateSoftwareSource.go.html to see an example of how to use UpdateSoftwareSourceRequest.
 type UpdateSoftwareSourceRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListRecommendationStrategiesRequest wrapper for the ListRecommendationStrategies operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListRecommendationStrategies.go.html to see an example of how to use ListRecommendationStrategiesRequest.
 type ListRecommendationStrategiesRequest struct {

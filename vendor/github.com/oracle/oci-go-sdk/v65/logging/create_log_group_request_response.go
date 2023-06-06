@@ -13,7 +13,7 @@ import (
 
 // CreateLogGroupRequest wrapper for the CreateLogGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/CreateLogGroup.go.html to see an example of how to use CreateLogGroupRequest.
 type CreateLogGroupRequest struct {

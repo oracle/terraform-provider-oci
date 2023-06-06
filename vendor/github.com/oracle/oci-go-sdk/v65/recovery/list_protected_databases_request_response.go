@@ -13,7 +13,7 @@ import (
 
 // ListProtectedDatabasesRequest wrapper for the ListProtectedDatabases operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ListProtectedDatabases.go.html to see an example of how to use ListProtectedDatabasesRequest.
 type ListProtectedDatabasesRequest struct {

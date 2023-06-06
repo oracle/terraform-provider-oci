@@ -13,7 +13,7 @@ import (
 
 // GetExternalClusterRequest wrapper for the GetExternalCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalCluster.go.html to see an example of how to use GetExternalClusterRequest.
 type GetExternalClusterRequest struct {

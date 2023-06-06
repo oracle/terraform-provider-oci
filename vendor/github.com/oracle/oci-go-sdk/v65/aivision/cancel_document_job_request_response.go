@@ -13,7 +13,7 @@ import (
 
 // CancelDocumentJobRequest wrapper for the CancelDocumentJob operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelDocumentJob.go.html to see an example of how to use CancelDocumentJobRequest.
 type CancelDocumentJobRequest struct {

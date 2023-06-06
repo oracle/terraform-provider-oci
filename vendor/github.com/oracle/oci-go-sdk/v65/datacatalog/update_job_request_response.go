@@ -13,7 +13,7 @@ import (
 
 // UpdateJobRequest wrapper for the UpdateJob operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateJob.go.html to see an example of how to use UpdateJobRequest.
 type UpdateJobRequest struct {

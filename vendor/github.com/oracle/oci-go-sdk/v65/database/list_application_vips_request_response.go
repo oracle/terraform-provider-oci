@@ -13,7 +13,7 @@ import (
 
 // ListApplicationVipsRequest wrapper for the ListApplicationVips operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListApplicationVips.go.html to see an example of how to use ListApplicationVipsRequest.
 type ListApplicationVipsRequest struct {

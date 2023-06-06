@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-//OsManagementClient a client for OsManagement
+// OsManagementClient a client for OsManagement
 type OsManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -40,7 +40,8 @@ func NewOsManagementClientWithConfigurationProvider(configProvider common.Config
 
 // NewOsManagementClientWithOboToken Creates a new default OsManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewOsManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OsManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

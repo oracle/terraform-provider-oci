@@ -13,7 +13,7 @@ import (
 
 // GetOdaInstanceRequest wrapper for the GetOdaInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaInstance.go.html to see an example of how to use GetOdaInstanceRequest.
 type GetOdaInstanceRequest struct {

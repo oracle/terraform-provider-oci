@@ -13,7 +13,7 @@ import (
 
 // GenerateMaskingReportForDownloadRequest wrapper for the GenerateMaskingReportForDownload operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateMaskingReportForDownload.go.html to see an example of how to use GenerateMaskingReportForDownloadRequest.
 type GenerateMaskingReportForDownloadRequest struct {

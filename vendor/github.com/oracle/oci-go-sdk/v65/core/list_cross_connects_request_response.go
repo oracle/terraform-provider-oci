@@ -13,7 +13,7 @@ import (
 
 // ListCrossConnectsRequest wrapper for the ListCrossConnects operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnects.go.html to see an example of how to use ListCrossConnectsRequest.
 type ListCrossConnectsRequest struct {

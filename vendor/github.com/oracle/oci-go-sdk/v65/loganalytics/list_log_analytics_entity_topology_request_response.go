@@ -13,7 +13,7 @@ import (
 
 // ListLogAnalyticsEntityTopologyRequest wrapper for the ListLogAnalyticsEntityTopology operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogAnalyticsEntityTopology.go.html to see an example of how to use ListLogAnalyticsEntityTopologyRequest.
 type ListLogAnalyticsEntityTopologyRequest struct {

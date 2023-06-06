@@ -76,6 +76,10 @@ func (s *MysqlHeatWaveClusterDataSourceCrud) SetData() error {
 		s.D.Set("cluster_size", *s.Res.ClusterSize)
 	}
 
+	if s.Res.IsLakehouseEnabled != nil {
+		s.D.Set("is_lakehouse_enabled", *s.Res.IsLakehouseEnabled)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

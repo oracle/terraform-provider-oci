@@ -13,7 +13,7 @@ import (
 
 // CreateRuleRequest wrapper for the CreateRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/CreateRule.go.html to see an example of how to use CreateRuleRequest.
 type CreateRuleRequest struct {

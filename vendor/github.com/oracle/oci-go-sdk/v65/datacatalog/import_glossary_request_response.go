@@ -13,7 +13,7 @@ import (
 
 // ImportGlossaryRequest wrapper for the ImportGlossary operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ImportGlossary.go.html to see an example of how to use ImportGlossaryRequest.
 type ImportGlossaryRequest struct {

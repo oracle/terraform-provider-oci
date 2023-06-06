@@ -13,7 +13,7 @@ import (
 
 // ChangeManagedListCompartmentRequest wrapper for the ChangeManagedListCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeManagedListCompartment.go.html to see an example of how to use ChangeManagedListCompartmentRequest.
 type ChangeManagedListCompartmentRequest struct {

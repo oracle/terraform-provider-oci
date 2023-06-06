@@ -13,7 +13,7 @@ import (
 
 // ListConsumerGroupPrivilegesRequest wrapper for the ListConsumerGroupPrivileges operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListConsumerGroupPrivileges.go.html to see an example of how to use ListConsumerGroupPrivilegesRequest.
 type ListConsumerGroupPrivilegesRequest struct {

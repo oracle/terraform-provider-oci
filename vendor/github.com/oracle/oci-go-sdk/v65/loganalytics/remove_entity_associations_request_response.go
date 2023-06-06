@@ -13,7 +13,7 @@ import (
 
 // RemoveEntityAssociationsRequest wrapper for the RemoveEntityAssociations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RemoveEntityAssociations.go.html to see an example of how to use RemoveEntityAssociationsRequest.
 type RemoveEntityAssociationsRequest struct {

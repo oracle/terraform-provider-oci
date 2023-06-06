@@ -13,7 +13,7 @@ import (
 
 // ListUserAnalyticsRequest wrapper for the ListUserAnalytics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUserAnalytics.go.html to see an example of how to use ListUserAnalyticsRequest.
 type ListUserAnalyticsRequest struct {

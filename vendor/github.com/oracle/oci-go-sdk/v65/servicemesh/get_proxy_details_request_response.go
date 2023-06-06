@@ -13,7 +13,7 @@ import (
 
 // GetProxyDetailsRequest wrapper for the GetProxyDetails operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetProxyDetails.go.html to see an example of how to use GetProxyDetailsRequest.
 type GetProxyDetailsRequest struct {

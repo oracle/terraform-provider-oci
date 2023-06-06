@@ -13,7 +13,7 @@ import (
 
 // DetectStackDriftRequest wrapper for the DetectStackDrift operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/DetectStackDrift.go.html to see an example of how to use DetectStackDriftRequest.
 type DetectStackDriftRequest struct {

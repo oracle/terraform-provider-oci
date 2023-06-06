@@ -22,7 +22,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_identity_network_source", IdentityNetworkSourceResource())
 	tfresource.RegisterResource("oci_identity_policy", IdentityPolicyResource())
 	tfresource.RegisterResource("oci_identity_smtp_credential", IdentitySmtpCredentialResource())
-	tfresource.RegisterResource("oci_identity_swift_password", IdentitySwiftPasswordResource())
 	tfresource.RegisterResource("oci_identity_tag", IdentityTagResource())
 	tfresource.RegisterResource("oci_identity_tag_default", IdentityTagDefaultResource())
 	tfresource.RegisterResource("oci_identity_tag_namespace", IdentityTagNamespaceResource())

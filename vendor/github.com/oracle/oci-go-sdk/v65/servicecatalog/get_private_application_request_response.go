@@ -13,7 +13,7 @@ import (
 
 // GetPrivateApplicationRequest wrapper for the GetPrivateApplication operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetPrivateApplication.go.html to see an example of how to use GetPrivateApplicationRequest.
 type GetPrivateApplicationRequest struct {

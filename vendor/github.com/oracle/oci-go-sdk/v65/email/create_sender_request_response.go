@@ -13,7 +13,7 @@ import (
 
 // CreateSenderRequest wrapper for the CreateSender operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateSender.go.html to see an example of how to use CreateSenderRequest.
 type CreateSenderRequest struct {

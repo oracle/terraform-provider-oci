@@ -13,7 +13,7 @@ import (
 
 // GetExternalExadataStorageServerRequest wrapper for the GetExternalExadataStorageServer operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalExadataStorageServer.go.html to see an example of how to use GetExternalExadataStorageServerRequest.
 type GetExternalExadataStorageServerRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CreateIngestTimeRuleRequest wrapper for the CreateIngestTimeRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateIngestTimeRule.go.html to see an example of how to use CreateIngestTimeRuleRequest.
 type CreateIngestTimeRuleRequest struct {

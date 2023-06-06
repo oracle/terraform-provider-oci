@@ -13,7 +13,7 @@ import (
 
 // ListBastionsRequest wrapper for the ListBastions operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListBastions.go.html to see an example of how to use ListBastionsRequest.
 type ListBastionsRequest struct {

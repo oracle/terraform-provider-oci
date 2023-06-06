@@ -13,7 +13,7 @@ import (
 
 // GetDatabaseRegistrationRequest wrapper for the GetDatabaseRegistration operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDatabaseRegistration.go.html to see an example of how to use GetDatabaseRegistrationRequest.
 type GetDatabaseRegistrationRequest struct {

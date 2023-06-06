@@ -13,7 +13,7 @@ import (
 
 // GetOsnRequest wrapper for the GetOsn operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/GetOsn.go.html to see an example of how to use GetOsnRequest.
 type GetOsnRequest struct {

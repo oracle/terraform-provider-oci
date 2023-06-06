@@ -13,7 +13,7 @@ import (
 
 // GetPatternRequest wrapper for the GetPattern operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetPattern.go.html to see an example of how to use GetPatternRequest.
 type GetPatternRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteLogAnalyticsEmBridgeRequest wrapper for the DeleteLogAnalyticsEmBridge operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsEmBridge.go.html to see an example of how to use DeleteLogAnalyticsEmBridgeRequest.
 type DeleteLogAnalyticsEmBridgeRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // StartHeatWaveClusterRequest wrapper for the StartHeatWaveCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StartHeatWaveCluster.go.html to see an example of how to use StartHeatWaveClusterRequest.
 type StartHeatWaveClusterRequest struct {

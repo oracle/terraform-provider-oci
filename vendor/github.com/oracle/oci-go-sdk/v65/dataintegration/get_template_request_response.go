@@ -13,7 +13,7 @@ import (
 
 // GetTemplateRequest wrapper for the GetTemplate operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetTemplate.go.html to see an example of how to use GetTemplateRequest.
 type GetTemplateRequest struct {

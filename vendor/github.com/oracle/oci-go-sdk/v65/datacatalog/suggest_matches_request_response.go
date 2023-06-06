@@ -13,7 +13,7 @@ import (
 
 // SuggestMatchesRequest wrapper for the SuggestMatches operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/SuggestMatches.go.html to see an example of how to use SuggestMatchesRequest.
 type SuggestMatchesRequest struct {

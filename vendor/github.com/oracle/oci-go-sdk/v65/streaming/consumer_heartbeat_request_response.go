@@ -13,7 +13,7 @@ import (
 
 // ConsumerHeartbeatRequest wrapper for the ConsumerHeartbeat operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/streaming/ConsumerHeartbeat.go.html to see an example of how to use ConsumerHeartbeatRequest.
 type ConsumerHeartbeatRequest struct {

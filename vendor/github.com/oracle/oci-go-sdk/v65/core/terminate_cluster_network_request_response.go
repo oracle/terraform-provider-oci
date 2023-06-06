@@ -13,7 +13,7 @@ import (
 
 // TerminateClusterNetworkRequest wrapper for the TerminateClusterNetwork operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/TerminateClusterNetwork.go.html to see an example of how to use TerminateClusterNetworkRequest.
 type TerminateClusterNetworkRequest struct {

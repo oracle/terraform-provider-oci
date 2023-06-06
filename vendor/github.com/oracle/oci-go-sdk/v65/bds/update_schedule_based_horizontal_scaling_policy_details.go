@@ -23,6 +23,7 @@ type UpdateScheduleBasedHorizontalScalingPolicyDetails struct {
 	// The time zone of the execution schedule, in IANA time zone database name format
 	Timezone *string `mandatory:"false" json:"timezone"`
 
+	// Details of a horizontal scaling schedule.
 	ScheduleDetails []HorizontalScalingScheduleDetails `mandatory:"false" json:"scheduleDetails"`
 }
 

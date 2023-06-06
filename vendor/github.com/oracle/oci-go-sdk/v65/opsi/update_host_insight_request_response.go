@@ -13,7 +13,7 @@ import (
 
 // UpdateHostInsightRequest wrapper for the UpdateHostInsight operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateHostInsight.go.html to see an example of how to use UpdateHostInsightRequest.
 type UpdateHostInsightRequest struct {

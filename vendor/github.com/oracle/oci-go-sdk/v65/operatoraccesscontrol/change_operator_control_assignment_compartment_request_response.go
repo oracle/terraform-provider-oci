@@ -13,7 +13,7 @@ import (
 
 // ChangeOperatorControlAssignmentCompartmentRequest wrapper for the ChangeOperatorControlAssignmentCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlAssignmentCompartment.go.html to see an example of how to use ChangeOperatorControlAssignmentCompartmentRequest.
 type ChangeOperatorControlAssignmentCompartmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // RemoveIpv6VcnCidrRequest wrapper for the RemoveIpv6VcnCidr operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveIpv6VcnCidr.go.html to see an example of how to use RemoveIpv6VcnCidrRequest.
 type RemoveIpv6VcnCidrRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetCommitRequest wrapper for the GetCommit operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetCommit.go.html to see an example of how to use GetCommitRequest.
 type GetCommitRequest struct {

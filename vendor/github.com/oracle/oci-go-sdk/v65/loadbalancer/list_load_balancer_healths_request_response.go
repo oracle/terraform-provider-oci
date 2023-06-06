@@ -13,7 +13,7 @@ import (
 
 // ListLoadBalancerHealthsRequest wrapper for the ListLoadBalancerHealths operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/ListLoadBalancerHealths.go.html to see an example of how to use ListLoadBalancerHealthsRequest.
 type ListLoadBalancerHealthsRequest struct {

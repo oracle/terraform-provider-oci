@@ -84,6 +84,12 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"csv_text": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"data_transfer_medium_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -646,6 +652,11 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
+												"performance_profile": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 
 												// Computed
 											},
@@ -873,6 +884,11 @@ func (s *DatabaseMigrationMigrationResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if csvText, ok := s.D.GetOkExists("csv_text"); ok {
+		tmp := csvText.(string)
+		request.CsvText = &tmp
+	}
+
 	if dataTransferMediumDetails, ok := s.D.GetOkExists("data_transfer_medium_details"); ok {
 		if tmpList := dataTransferMediumDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_transfer_medium_details", 0)
@@ -1045,10 +1061,6 @@ func migrationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 			return true
 		}
 
-		// Only stop if the time Finished is set
-		if workRequestResponse, ok := response.Response.(oci_database_migration.GetWorkRequestResponse); ok {
-			return workRequestResponse.TimeFinished == nil
-		}
 		return false
 	}
 }
@@ -1136,7 +1148,7 @@ func (s *DatabaseMigrationMigrationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.MigrationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "migration")
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.GetMigration(context.Background(), request)
 	if err != nil {
@@ -1197,7 +1209,7 @@ func (s *DatabaseMigrationMigrationResourceCrud) Update() error {
 		}
 	}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -2324,8 +2336,6 @@ func GoldenGateHubToMap(obj *oci_database_migration.GoldenGateHub) map[string]in
 
 	if obj.RestAdminCredentials != nil {
 		result["rest_admin_credentials"] = []interface{}{AdminCredentialsToMap(obj.RestAdminCredentials)}
-		//result["rest_admin_credentials"] = []interface{}{AdminCredentialsToMapPassword(obj.RestAdminCredentials, obj.)}
-
 	}
 
 	if obj.SourceContainerDbAdminCredentials != nil {
@@ -2497,10 +2507,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateHostDumpTransferDeta
 	}
 	switch strings.ToLower(kind) {
 	case strings.ToLower("CURL"):
-		details := oci_database_migration.UpdateCurlTransferDetails{}
+		details := oci_database_migration.CurlTransferDetails{}
 		baseObject = details
 	case strings.ToLower("OCI_CLI"):
-		details := oci_database_migration.UpdateOciCliDumpTransferDetails{}
+		details := oci_database_migration.OciCliDumpTransferDetails{}
 		if ociHome, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oci_home")); ok {
 			tmp := ociHome.(string)
 			details.OciHome = &tmp
@@ -2542,9 +2552,9 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateHostDumpTransferDeta
 func HostDumpTransferDetailsToMap(obj *oci_database_migration.HostDumpTransferDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
-	case oci_database_migration.UpdateCurlTransferDetails:
+	case oci_database_migration.CurlTransferDetails:
 		result["kind"] = "CURL"
-	case oci_database_migration.UpdateOciCliDumpTransferDetails:
+	case oci_database_migration.OciCliDumpTransferDetails:
 		result["kind"] = "OCI_CLI"
 
 		if v.OciHome != nil {
@@ -2622,6 +2632,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateReplicat(fieldKeyFor
 		result.MinApplyParallelism = &tmp
 	}
 
+	if performanceProfile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "performance_profile")); ok {
+		result.PerformanceProfile = oci_database_migration.ReplicatPerformanceProfileEnum(performanceProfile.(string))
+	}
+
 	return result, nil
 }
 
@@ -2643,6 +2657,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateReplicat(fieldKeyFor
 		result.MinApplyParallelism = &tmp
 	}
 
+	if performanceProfile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "performance_profile")); ok {
+		result.PerformanceProfile = oci_database_migration.ReplicatPerformanceProfileEnum(performanceProfile.(string))
+	}
+
 	return result, nil
 }
 
@@ -2660,6 +2678,8 @@ func ReplicatToMap(obj *oci_database_migration.Replicat) map[string]interface{} 
 	if obj.MinApplyParallelism != nil {
 		result["min_apply_parallelism"] = int(*obj.MinApplyParallelism)
 	}
+
+	result["performance_profile"] = string(obj.PerformanceProfile)
 
 	return result
 }

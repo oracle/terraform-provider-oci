@@ -106,6 +106,8 @@ const (
 	RegionEUDccRating1 Region = "eu-dcc-rating-1"
 	//RegionEUDccDublin1 region Dublin
 	RegionEUDccDublin1 Region = "eu-dcc-dublin-1"
+	//RegionEUMadrid2 region Madrid
+	RegionEUMadrid2 Region = "eu-madrid-2"
 	//RegionEUJovanovac1 region Jovanovac
 	RegionEUJovanovac1 Region = "eu-jovanovac-1"
 )
@@ -162,6 +164,7 @@ var shortNameRegion = map[string]Region{
 	"dtm": RegionEUDccRating2,
 	"dus": RegionEUDccRating1,
 	"ork": RegionEUDccDublin1,
+	"vll": RegionEUMadrid2,
 	"beg": RegionEUJovanovac1,
 }
 
@@ -174,6 +177,7 @@ var realm = map[string]string{
 	"oc9":  "oraclecloud9.com",
 	"oc10": "oraclecloud10.com",
 	"oc14": "oraclecloud14.com",
+	"oc19": "oraclecloud.eu",
 	"oc20": "oraclecloud20.com",
 }
 
@@ -236,6 +240,8 @@ var regionRealm = map[Region]string{
 	RegionEUDccRating2: "oc14",
 	RegionEUDccRating1: "oc14",
 	RegionEUDccDublin1: "oc14",
+
+	RegionEUMadrid2: "oc19",
 
 	RegionEUJovanovac1: "oc20",
 }

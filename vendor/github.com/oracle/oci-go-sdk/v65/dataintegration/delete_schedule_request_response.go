@@ -13,7 +13,7 @@ import (
 
 // DeleteScheduleRequest wrapper for the DeleteSchedule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteSchedule.go.html to see an example of how to use DeleteScheduleRequest.
 type DeleteScheduleRequest struct {

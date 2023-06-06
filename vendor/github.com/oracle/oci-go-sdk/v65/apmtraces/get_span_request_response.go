@@ -13,7 +13,7 @@ import (
 
 // GetSpanRequest wrapper for the GetSpan operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetSpan.go.html to see an example of how to use GetSpanRequest.
 type GetSpanRequest struct {

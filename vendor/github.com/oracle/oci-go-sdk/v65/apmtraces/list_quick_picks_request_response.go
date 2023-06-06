@@ -13,7 +13,7 @@ import (
 
 // ListQuickPicksRequest wrapper for the ListQuickPicks operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/ListQuickPicks.go.html to see an example of how to use ListQuickPicksRequest.
 type ListQuickPicksRequest struct {

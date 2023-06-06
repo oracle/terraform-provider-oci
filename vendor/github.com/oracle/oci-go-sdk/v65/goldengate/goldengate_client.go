@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//GoldenGateClient a client for GoldenGate
+// GoldenGateClient a client for GoldenGate
 type GoldenGateClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -39,7 +39,8 @@ func NewGoldenGateClientWithConfigurationProvider(configProvider common.Configur
 
 // NewGoldenGateClientWithOboToken Creates a new default GoldenGate client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewGoldenGateClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client GoldenGateClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {

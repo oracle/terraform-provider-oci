@@ -13,7 +13,7 @@ import (
 
 // CreateOperationsInsightsPrivateEndpointRequest wrapper for the CreateOperationsInsightsPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateOperationsInsightsPrivateEndpoint.go.html to see an example of how to use CreateOperationsInsightsPrivateEndpointRequest.
 type CreateOperationsInsightsPrivateEndpointRequest struct {

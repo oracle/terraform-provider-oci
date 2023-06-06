@@ -13,7 +13,7 @@ import (
 
 // CreateOpensearchClusterRequest wrapper for the CreateOpensearchCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/CreateOpensearchCluster.go.html to see an example of how to use CreateOpensearchClusterRequest.
 type CreateOpensearchClusterRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ScheduleReportRequest wrapper for the ScheduleReport operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ScheduleReport.go.html to see an example of how to use ScheduleReportRequest.
 type ScheduleReportRequest struct {

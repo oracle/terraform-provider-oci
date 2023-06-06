@@ -13,7 +13,7 @@ import (
 
 // CreateKnowledgeBaseRequest wrapper for the CreateKnowledgeBase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CreateKnowledgeBase.go.html to see an example of how to use CreateKnowledgeBaseRequest.
 type CreateKnowledgeBaseRequest struct {

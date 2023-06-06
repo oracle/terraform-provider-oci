@@ -13,7 +13,7 @@ import (
 
 // UpdateAndPropagateTagsRequest wrapper for the UpdateAndPropagateTags operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateAndPropagateTags.go.html to see an example of how to use UpdateAndPropagateTagsRequest.
 type UpdateAndPropagateTagsRequest struct {

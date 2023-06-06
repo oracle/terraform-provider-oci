@@ -13,7 +13,7 @@ import (
 
 // ListOpensearchVersionsRequest wrapper for the ListOpensearchVersions operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ListOpensearchVersions.go.html to see an example of how to use ListOpensearchVersionsRequest.
 type ListOpensearchVersionsRequest struct {

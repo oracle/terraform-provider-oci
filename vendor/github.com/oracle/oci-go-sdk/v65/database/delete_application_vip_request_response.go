@@ -13,7 +13,7 @@ import (
 
 // DeleteApplicationVipRequest wrapper for the DeleteApplicationVip operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteApplicationVip.go.html to see an example of how to use DeleteApplicationVipRequest.
 type DeleteApplicationVipRequest struct {

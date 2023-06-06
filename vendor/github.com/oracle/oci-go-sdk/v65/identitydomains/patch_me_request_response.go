@@ -13,7 +13,7 @@ import (
 
 // PatchMeRequest wrapper for the PatchMe operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMe.go.html to see an example of how to use PatchMeRequest.
 type PatchMeRequest struct {

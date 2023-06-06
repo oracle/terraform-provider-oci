@@ -13,7 +13,7 @@ import (
 
 // RecoverCompartmentRequest wrapper for the RecoverCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/RecoverCompartment.go.html to see an example of how to use RecoverCompartmentRequest.
 type RecoverCompartmentRequest struct {

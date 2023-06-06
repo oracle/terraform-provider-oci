@@ -13,7 +13,7 @@ import (
 
 // UpgradeDeploymentUpgradeRequest wrapper for the UpgradeDeploymentUpgrade operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpgradeDeploymentUpgrade.go.html to see an example of how to use UpgradeDeploymentUpgradeRequest.
 type UpgradeDeploymentUpgradeRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CreateConsoleConnectionRequest wrapper for the CreateConsoleConnection operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateConsoleConnection.go.html to see an example of how to use CreateConsoleConnectionRequest.
 type CreateConsoleConnectionRequest struct {

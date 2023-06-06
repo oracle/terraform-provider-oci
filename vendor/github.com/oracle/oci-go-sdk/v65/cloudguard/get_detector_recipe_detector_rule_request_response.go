@@ -13,7 +13,7 @@ import (
 
 // GetDetectorRecipeDetectorRuleRequest wrapper for the GetDetectorRecipeDetectorRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetDetectorRecipeDetectorRule.go.html to see an example of how to use GetDetectorRecipeDetectorRuleRequest.
 type GetDetectorRecipeDetectorRuleRequest struct {

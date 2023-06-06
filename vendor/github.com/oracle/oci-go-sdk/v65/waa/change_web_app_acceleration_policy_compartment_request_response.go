@@ -13,7 +13,7 @@ import (
 
 // ChangeWebAppAccelerationPolicyCompartmentRequest wrapper for the ChangeWebAppAccelerationPolicyCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ChangeWebAppAccelerationPolicyCompartment.go.html to see an example of how to use ChangeWebAppAccelerationPolicyCompartmentRequest.
 type ChangeWebAppAccelerationPolicyCompartmentRequest struct {

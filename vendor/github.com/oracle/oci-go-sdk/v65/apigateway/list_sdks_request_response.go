@@ -13,7 +13,7 @@ import (
 
 // ListSdksRequest wrapper for the ListSdks operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListSdks.go.html to see an example of how to use ListSdksRequest.
 type ListSdksRequest struct {

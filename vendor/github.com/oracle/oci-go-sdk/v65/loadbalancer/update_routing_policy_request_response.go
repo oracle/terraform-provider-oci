@@ -13,7 +13,7 @@ import (
 
 // UpdateRoutingPolicyRequest wrapper for the UpdateRoutingPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/UpdateRoutingPolicy.go.html to see an example of how to use UpdateRoutingPolicyRequest.
 type UpdateRoutingPolicyRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetWorkspaceRequest wrapper for the GetWorkspace operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetWorkspace.go.html to see an example of how to use GetWorkspaceRequest.
 type GetWorkspaceRequest struct {

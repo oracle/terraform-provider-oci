@@ -13,7 +13,7 @@ import (
 
 // DeleteVmClusterRequest wrapper for the DeleteVmCluster operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteVmCluster.go.html to see an example of how to use DeleteVmClusterRequest.
 type DeleteVmClusterRequest struct {

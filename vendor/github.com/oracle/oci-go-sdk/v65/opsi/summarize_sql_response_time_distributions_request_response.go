@@ -13,7 +13,7 @@ import (
 
 // SummarizeSqlResponseTimeDistributionsRequest wrapper for the SummarizeSqlResponseTimeDistributions operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlResponseTimeDistributions.go.html to see an example of how to use SummarizeSqlResponseTimeDistributionsRequest.
 type SummarizeSqlResponseTimeDistributionsRequest struct {

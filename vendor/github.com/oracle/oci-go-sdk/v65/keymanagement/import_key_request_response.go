@@ -13,7 +13,7 @@ import (
 
 // ImportKeyRequest wrapper for the ImportKey operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ImportKey.go.html to see an example of how to use ImportKeyRequest.
 type ImportKeyRequest struct {

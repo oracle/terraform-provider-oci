@@ -13,7 +13,7 @@ import (
 
 // UpdateLookupRequest wrapper for the UpdateLookup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLookup.go.html to see an example of how to use UpdateLookupRequest.
 type UpdateLookupRequest struct {

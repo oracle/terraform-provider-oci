@@ -31,6 +31,9 @@ type UpdateHeatWaveClusterDetails struct {
 	// analytics capability while the HeatWave cluster is
 	// re-provisioned.
 	ClusterSize *int `mandatory:"false" json:"clusterSize"`
+
+	// Enable/disable Lakehouse for the HeatWave cluster.
+	IsLakehouseEnabled *bool `mandatory:"false" json:"isLakehouseEnabled"`
 }
 
 func (m UpdateHeatWaveClusterDetails) String() string {

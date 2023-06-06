@@ -13,7 +13,7 @@ import (
 
 // UpdateRecoveryServiceSubnetRequest wrapper for the UpdateRecoveryServiceSubnet operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/UpdateRecoveryServiceSubnet.go.html to see an example of how to use UpdateRecoveryServiceSubnetRequest.
 type UpdateRecoveryServiceSubnetRequest struct {

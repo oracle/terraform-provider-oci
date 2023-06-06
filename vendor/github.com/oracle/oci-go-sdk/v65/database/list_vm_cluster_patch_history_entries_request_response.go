@@ -13,7 +13,7 @@ import (
 
 // ListVmClusterPatchHistoryEntriesRequest wrapper for the ListVmClusterPatchHistoryEntries operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListVmClusterPatchHistoryEntries.go.html to see an example of how to use ListVmClusterPatchHistoryEntriesRequest.
 type ListVmClusterPatchHistoryEntriesRequest struct {

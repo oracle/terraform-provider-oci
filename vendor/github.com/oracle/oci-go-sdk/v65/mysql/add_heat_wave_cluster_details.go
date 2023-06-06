@@ -25,6 +25,9 @@ type AddHeatWaveClusterDetails struct {
 	// The number of analytics-processing nodes provisioned for the
 	// HeatWave cluster.
 	ClusterSize *int `mandatory:"true" json:"clusterSize"`
+
+	// Enable/disable Lakehouse for the HeatWave cluster.
+	IsLakehouseEnabled *bool `mandatory:"false" json:"isLakehouseEnabled"`
 }
 
 func (m AddHeatWaveClusterDetails) String() string {

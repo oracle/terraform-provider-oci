@@ -13,7 +13,7 @@ import (
 
 // SummarizeLibraryUsageRequest wrapper for the SummarizeLibraryUsage operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeLibraryUsage.go.html to see an example of how to use SummarizeLibraryUsageRequest.
 type SummarizeLibraryUsageRequest struct {

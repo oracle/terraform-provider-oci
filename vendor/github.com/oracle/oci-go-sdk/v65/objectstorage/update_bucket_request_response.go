@@ -13,7 +13,7 @@ import (
 
 // UpdateBucketRequest wrapper for the UpdateBucket operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UpdateBucket.go.html to see an example of how to use UpdateBucketRequest.
 type UpdateBucketRequest struct {

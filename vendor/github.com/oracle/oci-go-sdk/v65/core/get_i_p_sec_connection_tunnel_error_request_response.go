@@ -13,7 +13,7 @@ import (
 
 // GetIPSecConnectionTunnelErrorRequest wrapper for the GetIPSecConnectionTunnelError operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetIPSecConnectionTunnelError.go.html to see an example of how to use GetIPSecConnectionTunnelErrorRequest.
 type GetIPSecConnectionTunnelErrorRequest struct {

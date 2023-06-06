@@ -13,7 +13,7 @@ import (
 
 // StartBlockchainPlatformRequest wrapper for the StartBlockchainPlatform operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/blockchain/StartBlockchainPlatform.go.html to see an example of how to use StartBlockchainPlatformRequest.
 type StartBlockchainPlatformRequest struct {

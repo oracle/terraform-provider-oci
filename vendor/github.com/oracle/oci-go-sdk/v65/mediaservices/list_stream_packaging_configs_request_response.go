@@ -13,7 +13,7 @@ import (
 
 // ListStreamPackagingConfigsRequest wrapper for the ListStreamPackagingConfigs operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListStreamPackagingConfigs.go.html to see an example of how to use ListStreamPackagingConfigsRequest.
 type ListStreamPackagingConfigsRequest struct {

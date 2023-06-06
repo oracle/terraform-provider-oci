@@ -13,7 +13,7 @@ import (
 
 // ListDetectorRecipesRequest wrapper for the ListDetectorRecipes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListDetectorRecipes.go.html to see an example of how to use ListDetectorRecipesRequest.
 type ListDetectorRecipesRequest struct {

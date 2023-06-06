@@ -13,7 +13,7 @@ import (
 
 // DeletePublicationRequest wrapper for the DeletePublication operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/DeletePublication.go.html to see an example of how to use DeletePublicationRequest.
 type DeletePublicationRequest struct {

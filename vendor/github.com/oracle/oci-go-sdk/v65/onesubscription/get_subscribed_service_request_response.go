@@ -13,7 +13,7 @@ import (
 
 // GetSubscribedServiceRequest wrapper for the GetSubscribedService operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/GetSubscribedService.go.html to see an example of how to use GetSubscribedServiceRequest.
 type GetSubscribedServiceRequest struct {

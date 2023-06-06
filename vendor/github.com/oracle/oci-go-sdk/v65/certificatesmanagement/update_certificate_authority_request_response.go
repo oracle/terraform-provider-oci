@@ -13,7 +13,7 @@ import (
 
 // UpdateCertificateAuthorityRequest wrapper for the UpdateCertificateAuthority operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/UpdateCertificateAuthority.go.html to see an example of how to use UpdateCertificateAuthorityRequest.
 type UpdateCertificateAuthorityRequest struct {

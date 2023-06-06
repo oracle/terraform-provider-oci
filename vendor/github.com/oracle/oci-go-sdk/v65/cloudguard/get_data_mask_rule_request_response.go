@@ -13,7 +13,7 @@ import (
 
 // GetDataMaskRuleRequest wrapper for the GetDataMaskRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetDataMaskRule.go.html to see an example of how to use GetDataMaskRuleRequest.
 type GetDataMaskRuleRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // RequestSecurityScoreSummarizedTrendRequest wrapper for the RequestSecurityScoreSummarizedTrend operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSecurityScoreSummarizedTrend.go.html to see an example of how to use RequestSecurityScoreSummarizedTrendRequest.
 type RequestSecurityScoreSummarizedTrendRequest struct {

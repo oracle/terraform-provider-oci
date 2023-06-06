@@ -13,7 +13,7 @@ import (
 
 // GetScheduledJobRequest wrapper for the GetScheduledJob operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetScheduledJob.go.html to see an example of how to use GetScheduledJobRequest.
 type GetScheduledJobRequest struct {

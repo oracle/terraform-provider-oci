@@ -13,7 +13,7 @@ import (
 
 // GetSuppressionRequest wrapper for the GetSuppression operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetSuppression.go.html to see an example of how to use GetSuppressionRequest.
 type GetSuppressionRequest struct {

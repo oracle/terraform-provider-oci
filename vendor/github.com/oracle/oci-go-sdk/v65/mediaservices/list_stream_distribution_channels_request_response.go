@@ -13,7 +13,7 @@ import (
 
 // ListStreamDistributionChannelsRequest wrapper for the ListStreamDistributionChannels operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListStreamDistributionChannels.go.html to see an example of how to use ListStreamDistributionChannelsRequest.
 type ListStreamDistributionChannelsRequest struct {

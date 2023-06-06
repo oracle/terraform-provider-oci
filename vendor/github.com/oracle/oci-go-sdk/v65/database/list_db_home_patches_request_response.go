@@ -13,7 +13,7 @@ import (
 
 // ListDbHomePatchesRequest wrapper for the ListDbHomePatches operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbHomePatches.go.html to see an example of how to use ListDbHomePatchesRequest.
 type ListDbHomePatchesRequest struct {

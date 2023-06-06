@@ -13,7 +13,7 @@ import (
 
 // ListManagedDatabaseGroupsRequest wrapper for the ListManagedDatabaseGroups operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedDatabaseGroups.go.html to see an example of how to use ListManagedDatabaseGroupsRequest.
 type ListManagedDatabaseGroupsRequest struct {

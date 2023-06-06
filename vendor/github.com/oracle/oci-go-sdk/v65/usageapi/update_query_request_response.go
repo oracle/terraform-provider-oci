@@ -13,7 +13,7 @@ import (
 
 // UpdateQueryRequest wrapper for the UpdateQuery operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/UpdateQuery.go.html to see an example of how to use UpdateQueryRequest.
 type UpdateQueryRequest struct {

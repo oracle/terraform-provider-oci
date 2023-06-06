@@ -13,7 +13,7 @@ import (
 
 // AnalyzeDocumentRequest wrapper for the AnalyzeDocument operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/AnalyzeDocument.go.html to see an example of how to use AnalyzeDocumentRequest.
 type AnalyzeDocumentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ChangeKnowledgeBaseCompartmentRequest wrapper for the ChangeKnowledgeBaseCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ChangeKnowledgeBaseCompartment.go.html to see an example of how to use ChangeKnowledgeBaseCompartmentRequest.
 type ChangeKnowledgeBaseCompartmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetAcceptedAgreementRequest wrapper for the GetAcceptedAgreement operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetAcceptedAgreement.go.html to see an example of how to use GetAcceptedAgreementRequest.
 type GetAcceptedAgreementRequest struct {

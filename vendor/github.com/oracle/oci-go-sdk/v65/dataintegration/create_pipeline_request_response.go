@@ -13,7 +13,7 @@ import (
 
 // CreatePipelineRequest wrapper for the CreatePipeline operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreatePipeline.go.html to see an example of how to use CreatePipelineRequest.
 type CreatePipelineRequest struct {

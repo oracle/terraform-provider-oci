@@ -13,7 +13,7 @@ import (
 
 // ChangeEnterpriseManagerBridgeCompartmentRequest wrapper for the ChangeEnterpriseManagerBridgeCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeEnterpriseManagerBridgeCompartment.go.html to see an example of how to use ChangeEnterpriseManagerBridgeCompartmentRequest.
 type ChangeEnterpriseManagerBridgeCompartmentRequest struct {

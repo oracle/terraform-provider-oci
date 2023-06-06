@@ -13,7 +13,7 @@ import (
 
 // UpdateCustomProtectionRuleRequest wrapper for the UpdateCustomProtectionRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateCustomProtectionRule.go.html to see an example of how to use UpdateCustomProtectionRuleRequest.
 type UpdateCustomProtectionRuleRequest struct {

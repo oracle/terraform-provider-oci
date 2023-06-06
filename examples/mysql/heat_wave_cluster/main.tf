@@ -76,6 +76,9 @@ resource "oci_mysql_heat_wave_cluster" "test_heat_wave_cluster" {
   db_system_id = oci_mysql_mysql_db_system.test_mysql_db_system.id
   cluster_size = "2"
   shape_name   = "MySQL.HeatWave.VM.Standard.E3"
+
+  # Optional
+  is_lakehouse_enabled = true
 }
 
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {

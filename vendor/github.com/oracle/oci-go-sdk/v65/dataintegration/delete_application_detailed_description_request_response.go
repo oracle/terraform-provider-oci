@@ -13,7 +13,7 @@ import (
 
 // DeleteApplicationDetailedDescriptionRequest wrapper for the DeleteApplicationDetailedDescription operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteApplicationDetailedDescription.go.html to see an example of how to use DeleteApplicationDetailedDescriptionRequest.
 type DeleteApplicationDetailedDescriptionRequest struct {

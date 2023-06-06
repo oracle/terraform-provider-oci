@@ -13,7 +13,7 @@ import (
 
 // CreateDisApplicationDetailedDescriptionRequest wrapper for the CreateDisApplicationDetailedDescription operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateDisApplicationDetailedDescription.go.html to see an example of how to use CreateDisApplicationDetailedDescriptionRequest.
 type CreateDisApplicationDetailedDescriptionRequest struct {

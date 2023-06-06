@@ -13,7 +13,7 @@ import (
 
 // PutObjectLifecyclePolicyRequest wrapper for the PutObjectLifecyclePolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/PutObjectLifecyclePolicy.go.html to see an example of how to use PutObjectLifecyclePolicyRequest.
 type PutObjectLifecyclePolicyRequest struct {

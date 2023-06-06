@@ -13,7 +13,7 @@ import (
 
 // DeleteLogSavedSearchRequest wrapper for the DeleteLogSavedSearch operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/DeleteLogSavedSearch.go.html to see an example of how to use DeleteLogSavedSearchRequest.
 type DeleteLogSavedSearchRequest struct {

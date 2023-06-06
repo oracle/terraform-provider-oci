@@ -13,7 +13,7 @@ import (
 
 // RemoveNodeRequest wrapper for the RemoveNode operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveNode.go.html to see an example of how to use RemoveNodeRequest.
 type RemoveNodeRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetSecretBundleRequest wrapper for the GetSecretBundle operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/secrets/GetSecretBundle.go.html to see an example of how to use GetSecretBundleRequest.
 type GetSecretBundleRequest struct {

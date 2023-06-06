@@ -13,7 +13,7 @@ import (
 
 // ChangeVmClusterCompartmentRequest wrapper for the ChangeVmClusterCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeVmClusterCompartment.go.html to see an example of how to use ChangeVmClusterCompartmentRequest.
 type ChangeVmClusterCompartmentRequest struct {

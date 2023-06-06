@@ -13,7 +13,7 @@ import (
 
 // AddIpv6SubnetCidrRequest wrapper for the AddIpv6SubnetCidr operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddIpv6SubnetCidr.go.html to see an example of how to use AddIpv6SubnetCidrRequest.
 type AddIpv6SubnetCidrRequest struct {

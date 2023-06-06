@@ -13,7 +13,7 @@ import (
 
 // ListReplicasRequest wrapper for the ListReplicas operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ListReplicas.go.html to see an example of how to use ListReplicasRequest.
 type ListReplicasRequest struct {

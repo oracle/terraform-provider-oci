@@ -13,7 +13,7 @@ import (
 
 // ListSightingsRequest wrapper for the ListSightings operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSightings.go.html to see an example of how to use ListSightingsRequest.
 type ListSightingsRequest struct {

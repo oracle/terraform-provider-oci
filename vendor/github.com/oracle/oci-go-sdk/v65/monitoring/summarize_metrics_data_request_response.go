@@ -13,7 +13,7 @@ import (
 
 // SummarizeMetricsDataRequest wrapper for the SummarizeMetricsData operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/SummarizeMetricsData.go.html to see an example of how to use SummarizeMetricsDataRequest.
 type SummarizeMetricsDataRequest struct {

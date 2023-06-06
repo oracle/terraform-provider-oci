@@ -14,7 +14,7 @@ import (
 
 // PutObjectRequest wrapper for the PutObject operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/PutObject.go.html to see an example of how to use PutObjectRequest.
 type PutObjectRequest struct {

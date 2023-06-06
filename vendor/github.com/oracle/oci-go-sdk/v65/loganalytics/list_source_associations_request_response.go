@@ -13,7 +13,7 @@ import (
 
 // ListSourceAssociationsRequest wrapper for the ListSourceAssociations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceAssociations.go.html to see an example of how to use ListSourceAssociationsRequest.
 type ListSourceAssociationsRequest struct {

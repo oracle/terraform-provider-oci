@@ -13,7 +13,7 @@ import (
 
 // DeletePingMonitorRequest wrapper for the DeletePingMonitor operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/DeletePingMonitor.go.html to see an example of how to use DeletePingMonitorRequest.
 type DeletePingMonitorRequest struct {

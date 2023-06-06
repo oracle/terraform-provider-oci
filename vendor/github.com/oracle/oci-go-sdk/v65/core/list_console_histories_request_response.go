@@ -13,7 +13,7 @@ import (
 
 // ListConsoleHistoriesRequest wrapper for the ListConsoleHistories operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListConsoleHistories.go.html to see an example of how to use ListConsoleHistoriesRequest.
 type ListConsoleHistoriesRequest struct {

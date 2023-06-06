@@ -13,7 +13,7 @@ import (
 
 // GetWebAppAccelerationPolicyRequest wrapper for the GetWebAppAccelerationPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/GetWebAppAccelerationPolicy.go.html to see an example of how to use GetWebAppAccelerationPolicyRequest.
 type GetWebAppAccelerationPolicyRequest struct {

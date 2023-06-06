@@ -13,7 +13,7 @@ import (
 
 // ListMyDevicesRequest wrapper for the ListMyDevices operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyDevices.go.html to see an example of how to use ListMyDevicesRequest.
 type ListMyDevicesRequest struct {

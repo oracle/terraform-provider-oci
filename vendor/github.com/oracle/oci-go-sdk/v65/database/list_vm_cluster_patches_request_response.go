@@ -13,7 +13,7 @@ import (
 
 // ListVmClusterPatchesRequest wrapper for the ListVmClusterPatches operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListVmClusterPatches.go.html to see an example of how to use ListVmClusterPatchesRequest.
 type ListVmClusterPatchesRequest struct {

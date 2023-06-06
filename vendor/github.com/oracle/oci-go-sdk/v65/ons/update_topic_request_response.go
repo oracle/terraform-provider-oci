@@ -13,7 +13,7 @@ import (
 
 // UpdateTopicRequest wrapper for the UpdateTopic operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/UpdateTopic.go.html to see an example of how to use UpdateTopicRequest.
 type UpdateTopicRequest struct {

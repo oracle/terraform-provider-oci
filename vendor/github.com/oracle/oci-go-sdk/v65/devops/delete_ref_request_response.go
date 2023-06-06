@@ -13,7 +13,7 @@ import (
 
 // DeleteRefRequest wrapper for the DeleteRef operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteRef.go.html to see an example of how to use DeleteRefRequest.
 type DeleteRefRequest struct {

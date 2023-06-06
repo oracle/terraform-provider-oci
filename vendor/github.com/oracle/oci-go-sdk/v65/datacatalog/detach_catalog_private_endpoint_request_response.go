@@ -13,7 +13,7 @@ import (
 
 // DetachCatalogPrivateEndpointRequest wrapper for the DetachCatalogPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DetachCatalogPrivateEndpoint.go.html to see an example of how to use DetachCatalogPrivateEndpointRequest.
 type DetachCatalogPrivateEndpointRequest struct {

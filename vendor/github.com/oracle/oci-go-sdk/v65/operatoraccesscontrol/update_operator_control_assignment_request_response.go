@@ -13,7 +13,7 @@ import (
 
 // UpdateOperatorControlAssignmentRequest wrapper for the UpdateOperatorControlAssignment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/UpdateOperatorControlAssignment.go.html to see an example of how to use UpdateOperatorControlAssignmentRequest.
 type UpdateOperatorControlAssignmentRequest struct {

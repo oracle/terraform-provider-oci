@@ -13,7 +13,7 @@ import (
 
 // ListPbfListingsRequest wrapper for the ListPbfListings operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/ListPbfListings.go.html to see an example of how to use ListPbfListingsRequest.
 type ListPbfListingsRequest struct {

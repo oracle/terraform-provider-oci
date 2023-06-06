@@ -14,7 +14,7 @@ import (
 
 // GenerateOnPremConnectorConfigurationRequest wrapper for the GenerateOnPremConnectorConfiguration operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateOnPremConnectorConfiguration.go.html to see an example of how to use GenerateOnPremConnectorConfigurationRequest.
 type GenerateOnPremConnectorConfigurationRequest struct {

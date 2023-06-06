@@ -13,7 +13,7 @@ import (
 
 // PatchSdmMaskingPolicyDifferenceColumnsRequest wrapper for the PatchSdmMaskingPolicyDifferenceColumns operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchSdmMaskingPolicyDifferenceColumns.go.html to see an example of how to use PatchSdmMaskingPolicyDifferenceColumnsRequest.
 type PatchSdmMaskingPolicyDifferenceColumnsRequest struct {

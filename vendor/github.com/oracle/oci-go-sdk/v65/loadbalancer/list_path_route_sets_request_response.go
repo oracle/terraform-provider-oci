@@ -13,7 +13,7 @@ import (
 
 // ListPathRouteSetsRequest wrapper for the ListPathRouteSets operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/ListPathRouteSets.go.html to see an example of how to use ListPathRouteSetsRequest.
 type ListPathRouteSetsRequest struct {

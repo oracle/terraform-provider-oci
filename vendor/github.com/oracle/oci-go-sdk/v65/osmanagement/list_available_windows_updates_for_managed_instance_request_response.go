@@ -13,7 +13,7 @@ import (
 
 // ListAvailableWindowsUpdatesForManagedInstanceRequest wrapper for the ListAvailableWindowsUpdatesForManagedInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListAvailableWindowsUpdatesForManagedInstance.go.html to see an example of how to use ListAvailableWindowsUpdatesForManagedInstanceRequest.
 type ListAvailableWindowsUpdatesForManagedInstanceRequest struct {

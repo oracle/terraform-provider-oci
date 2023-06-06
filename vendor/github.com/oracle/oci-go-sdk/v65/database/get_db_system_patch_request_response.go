@@ -13,7 +13,7 @@ import (
 
 // GetDbSystemPatchRequest wrapper for the GetDbSystemPatch operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDbSystemPatch.go.html to see an example of how to use GetDbSystemPatchRequest.
 type GetDbSystemPatchRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // GetHumanInteractionChallengeRequest wrapper for the GetHumanInteractionChallenge operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetHumanInteractionChallenge.go.html to see an example of how to use GetHumanInteractionChallengeRequest.
 type GetHumanInteractionChallengeRequest struct {

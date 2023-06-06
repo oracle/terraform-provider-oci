@@ -13,7 +13,7 @@ import (
 
 // GetJobDefinitionRequest wrapper for the GetJobDefinition operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/GetJobDefinition.go.html to see an example of how to use GetJobDefinitionRequest.
 type GetJobDefinitionRequest struct {

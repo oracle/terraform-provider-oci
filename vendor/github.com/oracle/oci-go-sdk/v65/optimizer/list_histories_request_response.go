@@ -13,7 +13,7 @@ import (
 
 // ListHistoriesRequest wrapper for the ListHistories operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListHistories.go.html to see an example of how to use ListHistoriesRequest.
 type ListHistoriesRequest struct {

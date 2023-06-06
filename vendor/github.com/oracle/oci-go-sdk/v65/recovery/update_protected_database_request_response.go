@@ -13,7 +13,7 @@ import (
 
 // UpdateProtectedDatabaseRequest wrapper for the UpdateProtectedDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/UpdateProtectedDatabase.go.html to see an example of how to use UpdateProtectedDatabaseRequest.
 type UpdateProtectedDatabaseRequest struct {

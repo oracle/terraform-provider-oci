@@ -13,7 +13,7 @@ import (
 
 // ChangeAlarmCompartmentRequest wrapper for the ChangeAlarmCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/ChangeAlarmCompartment.go.html to see an example of how to use ChangeAlarmCompartmentRequest.
 type ChangeAlarmCompartmentRequest struct {

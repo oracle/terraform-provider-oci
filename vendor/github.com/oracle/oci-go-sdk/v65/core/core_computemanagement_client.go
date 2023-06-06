@@ -23,7 +23,7 @@ import (
 	"net/http"
 )
 
-//ComputeManagementClient a client for ComputeManagement
+// ComputeManagementClient a client for ComputeManagement
 type ComputeManagementClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -45,7 +45,8 @@ func NewComputeManagementClientWithConfigurationProvider(configProvider common.C
 
 // NewComputeManagementClientWithOboToken Creates a new default ComputeManagement client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewComputeManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ComputeManagementClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -425,6 +426,9 @@ func (client ComputeManagementClient) changeInstancePoolCompartment(ctx context.
 
 // CreateClusterNetwork Creates a cluster network. For more information about cluster networks, see
 // Managing Cluster Networks (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+// To determine whether capacity is available for a specific shape before you create a cluster network,
+// use the CreateComputeCapacityReport
+// operation.
 //
 // See also
 //
@@ -550,6 +554,9 @@ func (client ComputeManagementClient) createInstanceConfiguration(ctx context.Co
 }
 
 // CreateInstancePool Creates an instance pool.
+// To determine whether capacity is available for a specific shape before you create an instance pool,
+// use the CreateComputeCapacityReport
+// operation.
 //
 // See also
 //
@@ -1083,6 +1090,9 @@ func (client ComputeManagementClient) getInstancePoolLoadBalancerAttachment(ctx 
 // provide these parameters when you create an instance from the instance configuration.
 // For more information, see the InstanceConfiguration
 // resource.
+// To determine whether capacity is available for a specific shape before you create an instance,
+// use the CreateComputeCapacityReport
+// operation.
 //
 // See also
 //

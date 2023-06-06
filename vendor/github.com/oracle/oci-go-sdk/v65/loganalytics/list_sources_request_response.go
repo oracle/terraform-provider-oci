@@ -13,7 +13,7 @@ import (
 
 // ListSourcesRequest wrapper for the ListSources operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSources.go.html to see an example of how to use ListSourcesRequest.
 type ListSourcesRequest struct {

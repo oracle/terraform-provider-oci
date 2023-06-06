@@ -13,7 +13,7 @@ import (
 
 // ListOptimizerStatisticsCollectionAggregationsRequest wrapper for the ListOptimizerStatisticsCollectionAggregations operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListOptimizerStatisticsCollectionAggregations.go.html to see an example of how to use ListOptimizerStatisticsCollectionAggregationsRequest.
 type ListOptimizerStatisticsCollectionAggregationsRequest struct {

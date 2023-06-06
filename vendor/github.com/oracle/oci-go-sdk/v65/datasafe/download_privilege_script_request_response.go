@@ -14,7 +14,7 @@ import (
 
 // DownloadPrivilegeScriptRequest wrapper for the DownloadPrivilegeScript operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadPrivilegeScript.go.html to see an example of how to use DownloadPrivilegeScriptRequest.
 type DownloadPrivilegeScriptRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ChangeDiscoveryScheduleCompartmentRequest wrapper for the ChangeDiscoveryScheduleCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeDiscoveryScheduleCompartment.go.html to see an example of how to use ChangeDiscoveryScheduleCompartmentRequest.
 type ChangeDiscoveryScheduleCompartmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ChangeRuleCompartmentRequest wrapper for the ChangeRuleCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/events/ChangeRuleCompartment.go.html to see an example of how to use ChangeRuleCompartmentRequest.
 type ChangeRuleCompartmentRequest struct {

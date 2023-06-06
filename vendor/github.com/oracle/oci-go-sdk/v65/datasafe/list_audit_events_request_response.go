@@ -13,7 +13,7 @@ import (
 
 // ListAuditEventsRequest wrapper for the ListAuditEvents operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditEvents.go.html to see an example of how to use ListAuditEventsRequest.
 type ListAuditEventsRequest struct {

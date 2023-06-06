@@ -13,7 +13,7 @@ import (
 
 // ListHistoricalMetricsRequest wrapper for the ListHistoricalMetrics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListHistoricalMetrics.go.html to see an example of how to use ListHistoricalMetricsRequest.
 type ListHistoricalMetricsRequest struct {

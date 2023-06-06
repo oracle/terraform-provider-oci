@@ -13,7 +13,7 @@ import (
 
 // ResumeJobRequest wrapper for the ResumeJob operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ResumeJob.go.html to see an example of how to use ResumeJobRequest.
 type ResumeJobRequest struct {

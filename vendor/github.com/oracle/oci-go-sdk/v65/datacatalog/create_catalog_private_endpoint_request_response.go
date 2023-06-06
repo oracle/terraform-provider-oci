@@ -13,7 +13,7 @@ import (
 
 // CreateCatalogPrivateEndpointRequest wrapper for the CreateCatalogPrivateEndpoint operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateCatalogPrivateEndpoint.go.html to see an example of how to use CreateCatalogPrivateEndpointRequest.
 type CreateCatalogPrivateEndpointRequest struct {

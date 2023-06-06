@@ -13,7 +13,7 @@ import (
 
 // ListHealthChecksVantagePointsRequest wrapper for the ListHealthChecksVantagePoints operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/healthchecks/ListHealthChecksVantagePoints.go.html to see an example of how to use ListHealthChecksVantagePointsRequest.
 type ListHealthChecksVantagePointsRequest struct {

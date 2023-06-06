@@ -13,7 +13,7 @@ import (
 
 // UpdateManagedInstanceRequest wrapper for the UpdateManagedInstance operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UpdateManagedInstance.go.html to see an example of how to use UpdateManagedInstanceRequest.
 type UpdateManagedInstanceRequest struct {

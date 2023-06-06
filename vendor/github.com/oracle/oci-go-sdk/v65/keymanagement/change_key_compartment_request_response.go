@@ -13,7 +13,7 @@ import (
 
 // ChangeKeyCompartmentRequest wrapper for the ChangeKeyCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ChangeKeyCompartment.go.html to see an example of how to use ChangeKeyCompartmentRequest.
 type ChangeKeyCompartmentRequest struct {

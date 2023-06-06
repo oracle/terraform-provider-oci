@@ -13,7 +13,7 @@ import (
 
 // GetApplicationVipRequest wrapper for the GetApplicationVip operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetApplicationVip.go.html to see an example of how to use GetApplicationVipRequest.
 type GetApplicationVipRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // ListDetectorRulesRequest wrapper for the ListDetectorRules operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListDetectorRules.go.html to see an example of how to use ListDetectorRulesRequest.
 type ListDetectorRulesRequest struct {

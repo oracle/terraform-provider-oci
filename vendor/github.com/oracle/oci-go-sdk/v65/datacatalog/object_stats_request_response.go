@@ -13,7 +13,7 @@ import (
 
 // ObjectStatsRequest wrapper for the ObjectStats operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ObjectStats.go.html to see an example of how to use ObjectStatsRequest.
 type ObjectStatsRequest struct {

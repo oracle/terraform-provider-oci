@@ -13,7 +13,7 @@ import (
 
 // GetDkimRequest wrapper for the GetDkim operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetDkim.go.html to see an example of how to use GetDkimRequest.
 type GetDkimRequest struct {

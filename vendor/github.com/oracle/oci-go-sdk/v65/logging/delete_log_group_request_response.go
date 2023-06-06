@@ -13,7 +13,7 @@ import (
 
 // DeleteLogGroupRequest wrapper for the DeleteLogGroup operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/logging/DeleteLogGroup.go.html to see an example of how to use DeleteLogGroupRequest.
 type DeleteLogGroupRequest struct {

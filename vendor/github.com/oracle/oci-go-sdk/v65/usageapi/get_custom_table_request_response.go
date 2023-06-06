@@ -13,7 +13,7 @@ import (
 
 // GetCustomTableRequest wrapper for the GetCustomTable operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetCustomTable.go.html to see an example of how to use GetCustomTableRequest.
 type GetCustomTableRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CopyObjectRequest wrapper for the CopyObject operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CopyObject.go.html to see an example of how to use CopyObjectRequest.
 type CopyObjectRequest struct {

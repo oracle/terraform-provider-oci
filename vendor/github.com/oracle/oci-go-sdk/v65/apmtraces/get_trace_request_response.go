@@ -13,7 +13,7 @@ import (
 
 // GetTraceRequest wrapper for the GetTrace operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetTrace.go.html to see an example of how to use GetTraceRequest.
 type GetTraceRequest struct {

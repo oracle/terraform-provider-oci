@@ -14,7 +14,7 @@ import (
 
 // CreateJobArtifactRequest wrapper for the CreateJobArtifact operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateJobArtifact.go.html to see an example of how to use CreateJobArtifactRequest.
 type CreateJobArtifactRequest struct {

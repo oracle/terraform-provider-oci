@@ -13,7 +13,7 @@ import (
 
 // ListInvoicesRequest wrapper for the ListInvoices operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListInvoices.go.html to see an example of how to use ListInvoicesRequest.
 type ListInvoicesRequest struct {

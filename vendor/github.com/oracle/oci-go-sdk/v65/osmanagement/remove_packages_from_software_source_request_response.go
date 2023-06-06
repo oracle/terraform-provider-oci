@@ -13,7 +13,7 @@ import (
 
 // RemovePackagesFromSoftwareSourceRequest wrapper for the RemovePackagesFromSoftwareSource operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/RemovePackagesFromSoftwareSource.go.html to see an example of how to use RemovePackagesFromSoftwareSourceRequest.
 type RemovePackagesFromSoftwareSourceRequest struct {

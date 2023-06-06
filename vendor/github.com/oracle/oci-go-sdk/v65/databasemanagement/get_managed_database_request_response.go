@@ -13,7 +13,7 @@ import (
 
 // GetManagedDatabaseRequest wrapper for the GetManagedDatabase operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetManagedDatabase.go.html to see an example of how to use GetManagedDatabaseRequest.
 type GetManagedDatabaseRequest struct {

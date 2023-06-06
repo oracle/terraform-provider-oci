@@ -13,7 +13,7 @@ import (
 
 // GetHostnameRequest wrapper for the GetHostname operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/GetHostname.go.html to see an example of how to use GetHostnameRequest.
 type GetHostnameRequest struct {

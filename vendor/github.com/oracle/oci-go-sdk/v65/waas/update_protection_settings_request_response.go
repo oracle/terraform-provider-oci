@@ -13,7 +13,7 @@ import (
 
 // UpdateProtectionSettingsRequest wrapper for the UpdateProtectionSettings operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateProtectionSettings.go.html to see an example of how to use UpdateProtectionSettingsRequest.
 type UpdateProtectionSettingsRequest struct {

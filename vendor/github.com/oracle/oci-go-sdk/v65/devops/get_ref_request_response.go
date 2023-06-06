@@ -13,7 +13,7 @@ import (
 
 // GetRefRequest wrapper for the GetRef operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRef.go.html to see an example of how to use GetRefRequest.
 type GetRefRequest struct {

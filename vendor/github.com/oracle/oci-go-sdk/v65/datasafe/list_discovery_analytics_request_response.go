@@ -13,7 +13,7 @@ import (
 
 // ListDiscoveryAnalyticsRequest wrapper for the ListDiscoveryAnalytics operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDiscoveryAnalytics.go.html to see an example of how to use ListDiscoveryAnalyticsRequest.
 type ListDiscoveryAnalyticsRequest struct {

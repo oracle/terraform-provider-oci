@@ -13,7 +13,7 @@ import (
 
 // CreateQueryRequest wrapper for the CreateQuery operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/CreateQuery.go.html to see an example of how to use CreateQueryRequest.
 type CreateQueryRequest struct {

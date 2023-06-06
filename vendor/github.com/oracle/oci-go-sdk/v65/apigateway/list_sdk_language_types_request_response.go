@@ -13,7 +13,7 @@ import (
 
 // ListSdkLanguageTypesRequest wrapper for the ListSdkLanguageTypes operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListSdkLanguageTypes.go.html to see an example of how to use ListSdkLanguageTypesRequest.
 type ListSdkLanguageTypesRequest struct {

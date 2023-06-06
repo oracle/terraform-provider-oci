@@ -36,6 +36,9 @@ type HeatWaveClusterSummary struct {
 	// The time the HeatWave cluster was last updated,
 	// as described by RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// Lakehouse enabled status for the HeatWave cluster.
+	IsLakehouseEnabled *bool `mandatory:"false" json:"isLakehouseEnabled"`
 }
 
 func (m HeatWaveClusterSummary) String() string {

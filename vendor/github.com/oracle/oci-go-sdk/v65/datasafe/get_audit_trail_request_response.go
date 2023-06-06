@@ -13,7 +13,7 @@ import (
 
 // GetAuditTrailRequest wrapper for the GetAuditTrail operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAuditTrail.go.html to see an example of how to use GetAuditTrailRequest.
 type GetAuditTrailRequest struct {

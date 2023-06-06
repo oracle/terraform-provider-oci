@@ -13,7 +13,7 @@ import (
 
 // GetVirtualNodeRequest wrapper for the GetVirtualNode operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetVirtualNode.go.html to see an example of how to use GetVirtualNodeRequest.
 type GetVirtualNodeRequest struct {

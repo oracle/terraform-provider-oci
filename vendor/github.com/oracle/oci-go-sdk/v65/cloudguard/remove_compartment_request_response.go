@@ -13,7 +13,7 @@ import (
 
 // RemoveCompartmentRequest wrapper for the RemoveCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RemoveCompartment.go.html to see an example of how to use RemoveCompartmentRequest.
 type RemoveCompartmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // SummarizeSqlInsightsRequest wrapper for the SummarizeSqlInsights operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlInsights.go.html to see an example of how to use SummarizeSqlInsightsRequest.
 type SummarizeSqlInsightsRequest struct {

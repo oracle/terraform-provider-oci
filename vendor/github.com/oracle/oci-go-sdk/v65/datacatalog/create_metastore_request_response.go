@@ -13,7 +13,7 @@ import (
 
 // CreateMetastoreRequest wrapper for the CreateMetastore operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/CreateMetastore.go.html to see an example of how to use CreateMetastoreRequest.
 type CreateMetastoreRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteCustomProtectionRuleRequest wrapper for the DeleteCustomProtectionRule operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/DeleteCustomProtectionRule.go.html to see an example of how to use DeleteCustomProtectionRuleRequest.
 type DeleteCustomProtectionRuleRequest struct {

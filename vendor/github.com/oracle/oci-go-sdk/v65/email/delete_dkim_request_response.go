@@ -13,7 +13,7 @@ import (
 
 // DeleteDkimRequest wrapper for the DeleteDkim operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteDkim.go.html to see an example of how to use DeleteDkimRequest.
 type DeleteDkimRequest struct {

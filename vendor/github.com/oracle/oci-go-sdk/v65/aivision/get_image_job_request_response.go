@@ -13,7 +13,7 @@ import (
 
 // GetImageJobRequest wrapper for the GetImageJob operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetImageJob.go.html to see an example of how to use GetImageJobRequest.
 type GetImageJobRequest struct {

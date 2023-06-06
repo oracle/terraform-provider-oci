@@ -13,7 +13,7 @@ import (
 
 // ListTargetsRequest wrapper for the ListTargets operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListTargets.go.html to see an example of how to use ListTargetsRequest.
 type ListTargetsRequest struct {

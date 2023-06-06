@@ -13,7 +13,7 @@ import (
 
 // AddMaskingColumnsFromSdmRequest wrapper for the AddMaskingColumnsFromSdm operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/AddMaskingColumnsFromSdm.go.html to see an example of how to use AddMaskingColumnsFromSdmRequest.
 type AddMaskingColumnsFromSdmRequest struct {

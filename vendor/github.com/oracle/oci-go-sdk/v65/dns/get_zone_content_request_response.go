@@ -14,7 +14,7 @@ import (
 
 // GetZoneContentRequest wrapper for the GetZoneContent operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetZoneContent.go.html to see an example of how to use GetZoneContentRequest.
 type GetZoneContentRequest struct {

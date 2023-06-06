@@ -13,7 +13,7 @@ import (
 
 // UpdateOpsiConfigurationRequest wrapper for the UpdateOpsiConfiguration operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateOpsiConfiguration.go.html to see an example of how to use UpdateOpsiConfigurationRequest.
 type UpdateOpsiConfigurationRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // CreateNetworkFirewallPolicyRequest wrapper for the CreateNetworkFirewallPolicy operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateNetworkFirewallPolicy.go.html to see an example of how to use CreateNetworkFirewallPolicyRequest.
 type CreateNetworkFirewallPolicyRequest struct {

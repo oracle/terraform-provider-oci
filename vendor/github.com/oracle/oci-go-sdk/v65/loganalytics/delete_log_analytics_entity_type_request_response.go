@@ -13,7 +13,7 @@ import (
 
 // DeleteLogAnalyticsEntityTypeRequest wrapper for the DeleteLogAnalyticsEntityType operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsEntityType.go.html to see an example of how to use DeleteLogAnalyticsEntityTypeRequest.
 type DeleteLogAnalyticsEntityTypeRequest struct {

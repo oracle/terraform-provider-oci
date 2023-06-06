@@ -13,7 +13,7 @@ import (
 
 // BulkDeleteResourcesRequest wrapper for the BulkDeleteResources operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/BulkDeleteResources.go.html to see an example of how to use BulkDeleteResourcesRequest.
 type BulkDeleteResourcesRequest struct {

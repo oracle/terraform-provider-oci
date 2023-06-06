@@ -13,7 +13,7 @@ import (
 
 // DeleteConnectionAssignmentRequest wrapper for the DeleteConnectionAssignment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteConnectionAssignment.go.html to see an example of how to use DeleteConnectionAssignmentRequest.
 type DeleteConnectionAssignmentRequest struct {

@@ -13,7 +13,7 @@ import (
 
 // DeleteStreamDistributionChannelRequest wrapper for the DeleteStreamDistributionChannel operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteStreamDistributionChannel.go.html to see an example of how to use DeleteStreamDistributionChannelRequest.
 type DeleteStreamDistributionChannelRequest struct {

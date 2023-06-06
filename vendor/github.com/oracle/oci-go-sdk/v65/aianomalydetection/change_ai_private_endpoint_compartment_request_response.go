@@ -13,7 +13,7 @@ import (
 
 // ChangeAiPrivateEndpointCompartmentRequest wrapper for the ChangeAiPrivateEndpointCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeAiPrivateEndpointCompartment.go.html to see an example of how to use ChangeAiPrivateEndpointCompartmentRequest.
 type ChangeAiPrivateEndpointCompartmentRequest struct {

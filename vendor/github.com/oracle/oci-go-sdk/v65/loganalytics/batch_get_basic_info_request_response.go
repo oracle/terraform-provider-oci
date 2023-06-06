@@ -13,7 +13,7 @@ import (
 
 // BatchGetBasicInfoRequest wrapper for the BatchGetBasicInfo operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/BatchGetBasicInfo.go.html to see an example of how to use BatchGetBasicInfoRequest.
 type BatchGetBasicInfoRequest struct {

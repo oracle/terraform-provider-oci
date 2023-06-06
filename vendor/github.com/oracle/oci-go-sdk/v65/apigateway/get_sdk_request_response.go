@@ -13,7 +13,7 @@ import (
 
 // GetSdkRequest wrapper for the GetSdk operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetSdk.go.html to see an example of how to use GetSdkRequest.
 type GetSdkRequest struct {

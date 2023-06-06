@@ -13,7 +13,7 @@ import (
 
 // ChangeVirtualCircuitCompartmentRequest wrapper for the ChangeVirtualCircuitCompartment operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeVirtualCircuitCompartment.go.html to see an example of how to use ChangeVirtualCircuitCompartmentRequest.
 type ChangeVirtualCircuitCompartmentRequest struct {

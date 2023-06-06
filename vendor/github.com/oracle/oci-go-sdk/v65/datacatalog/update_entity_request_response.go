@@ -13,7 +13,7 @@ import (
 
 // UpdateEntityRequest wrapper for the UpdateEntity operation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateEntity.go.html to see an example of how to use UpdateEntityRequest.
 type UpdateEntityRequest struct {
