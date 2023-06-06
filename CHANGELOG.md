@@ -1,4 +1,4 @@
-## 5.0.0 (Unreleased)
+## 5.0.0 (June 06, 2023)
 
 ### Added
 - Support for Capacity Availability API
