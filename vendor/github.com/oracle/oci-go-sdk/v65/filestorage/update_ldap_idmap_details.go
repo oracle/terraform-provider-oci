@@ -32,12 +32,6 @@ type UpdateLdapIdmapDetails struct {
 	NegativeCacheLifetimeSeconds *int `mandatory:"false" json:"negativeCacheLifetimeSeconds"`
 
 	// All LDAP searches are recursive starting at this user.
-	BaseDistinguishedUserName *string `mandatory:"false" json:"baseDistinguishedUserName"`
-
-	// All LDAP searches are recursive starting at this group.
-	BaseDistinguishedGroupName *string `mandatory:"false" json:"baseDistinguishedGroupName"`
-
-	// All LDAP searches are recursive starting at this user.
 	// Example: `CN=User,DC=domain,DC=com`
 	UserSearchBase *string `mandatory:"false" json:"userSearchBase"`
 

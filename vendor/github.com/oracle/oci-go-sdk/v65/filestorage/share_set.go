@@ -16,9 +16,9 @@ import (
 	"strings"
 )
 
-// ShareSet The FSS SMB Share Set contains the SMB configuration data of a Mount Target.
-// A set of file systems to provide SMB share through one mount target.
+// ShareSet A set of file systems to share through one mount target.
 // Composed of zero or more share resources.
+// A share set contains the SMB configuration data of a mount target.
 type ShareSet struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the share set.
@@ -27,7 +27,7 @@ type ShareSet struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual cloud network (VCN) the share set is in.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target the share set bind to.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target that the share set binds to.
 	MountTargetId *string `mandatory:"true" json:"mountTargetId"`
 
 	// A comment of the share set. It does not have to be unique, and it is changeable.
@@ -43,59 +43,57 @@ type ShareSet struct {
 	// For example, if an SMB server has a DNS name of
 	// register5.store34.california.usa.marks-hats.com, then this particular
 	// server is part of the store34.california.usa.marks-hats.com security
-	// domain which in turn is part of the california.usa.marks-hats.com which
-	// in turn is part of the usa.marks-hats.com
+	// domain, which in turn is part of california.usa.marks-hats.com, which
+	// in turn is part of usa.marks-hats.com,
 	// which in turn is part of the marks-hats.com security domain.
 	// Must be unique across all FQDNs in the subnet and comply
 	// with RFC 952 (https://tools.ietf.org/html/rfc952)
 	// and RFC 1123 (https://tools.ietf.org/html/rfc1123).
 	CustomFqdn *string `mandatory:"true" json:"customFqdn"`
 
-	// Every SMB server (i.e. each mount target) needs a Netbios name in
-	// addition to its fqdn (fully qualified domain name). Normally,
-	// the Netbios name is simply the hostname portion of the fqdn.
+	// Every SMB server (i.e. each mount target) needs a NetBIOS name in
+	// addition to its FQDN (fully qualified domain name). Normally,
+	// the NetBIOS name is simply the hostname portion of the FQDN.
 	// This doesn't work when multiple computers have the same hostname.
 	// For example, a computer called orange.colors.com and a computer
 	// called orange.fruit.org can interfere with each other if they both
-	// use orange as their Netbios name. To avoid problems, at least one
-	// computer can be configured to have a Netbios name that is
-	// not its hostname.
+	// use orange as their NetBIOS name. To avoid problems, configure at least one
+	// computer to have a NetBIOS name that is not its hostname.
 	NetBiosName *string `mandatory:"true" json:"netBiosName"`
 
 	// A read-only property for the connection status between the
 	// mount target and the customer-provided domain controller which
-	// is the domain based on the customFQDN.
+	// is the domain based on the custom FQDN.
 	DomainConnectionStatus ShareSetDomainConnectionStatusEnum `mandatory:"true" json:"domainConnectionStatus"`
 
 	// The current state of the share set.
 	LifecycleState ShareSetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time the share set was created, expressed
+	// The date and time that the share set was created, expressed
 	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// A read-only property that emits the status of the join domain operation
-	// of the mount target share set to a domain controller for SMB access.
+	// A read-only property that reports the status of the mount target share set's join domain operation
+	// to a domain controller for SMB access.
 	JoinDomainResult *string `mandatory:"true" json:"joinDomainResult"`
 
-	// The availability domain the share set is in. May be unset
-	// as a blank or NULL value.
+	// The availability domain that the share set is in. May be unset as a blank or NULL value.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// Turn on this flag to allow unsigned SMB traffic.
+	// Enable this flag to allow unsigned SMB traffic.
 	IsUnsignedTrafficAllowed *bool `mandatory:"false" json:"isUnsignedTrafficAllowed"`
 
-	// Describes the mount target's policy on SMB encryption
+	// Describes the mount target's policy on SMB encryption.
 	SmbEncryption ShareSetSmbEncryptionEnum `mandatory:"false" json:"smbEncryption,omitempty"`
 
 	// A read-only field that's only populated when the join domain operation FAILED.
 	JoinDomainErrorMessage *string `mandatory:"false" json:"joinDomainErrorMessage"`
 
-	// The organizational unit (OU) is a container in an Active Directory that can
-	// hold user accounts, service accounts, computer accounts, and other OUs and
-	// this parameter specifies the OU that the mount target will join within the
+	// The organizational unit (OU) is a container in an Active Directory (AD) that can
+	// hold user accounts, service accounts, computer accounts, and other OUs.
+	// This parameter specifies the OU that the mount target will join within the
 	// AD domain. You can then assign administrators to specific OUs, and apply
 	// group policy to enforce targeted configuration settings.
 	OrganizationalUnit *string `mandatory:"false" json:"organizationalUnit"`

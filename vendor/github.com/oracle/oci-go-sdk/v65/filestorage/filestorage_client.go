@@ -198,7 +198,7 @@ func (client FileStorageClient) changeFilesystemSnapshotPolicyCompartment(ctx co
 	return response, err
 }
 
-// ChangeMountTargetCompartment Moves a mount target and its associated export set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+// ChangeMountTargetCompartment Moves a mount target and its associated export set or share set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 func (client FileStorageClient) ChangeMountTargetCompartment(ctx context.Context, request ChangeMountTargetCompartmentRequest) (response ChangeMountTargetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1621,62 +1621,6 @@ func (client FileStorageClient) detachClone(ctx context.Context, request common.
 	return response, err
 }
 
-// DiscardKerberosKeytab Discards the contents of the mount target resource's Kerberos keytab.
-// All keytab entries used by the mount target are removed as a result of this call.
-// Once the keytab is discarded any new Kerberized NFS I/O to this mount target
-// will be rejected by the mount target. Other Kerberos configuration is unchanged.
-func (client FileStorageClient) DiscardKerberosKeytab(ctx context.Context, request DiscardKerberosKeytabRequest) (response DiscardKerberosKeytabResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.discardKerberosKeytab, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DiscardKerberosKeytabResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DiscardKerberosKeytabResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DiscardKerberosKeytabResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DiscardKerberosKeytabResponse")
-	}
-	return
-}
-
-// discardKerberosKeytab implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) discardKerberosKeytab(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/{mountTargetId}/actions/discardKerberosKeytab", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DiscardKerberosKeytabResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/DiscardKerberosKeytab"
-		err = common.PostProcessServiceError(err, "FileStorage", "DiscardKerberosKeytab", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // EstimateReplication Provides estimates for replication created using specific file system.
 func (client FileStorageClient) EstimateReplication(ctx context.Context, request EstimateReplicationRequest) (response EstimateReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3026,6 +2970,8 @@ func (client FileStorageClient) listShares(ctx context.Context, request common.O
 // ListSnapshots Lists snapshots of the specified file system, or by file system snapshot policy and compartment,
 // or by file system snapshot policy and file system.
 // If file system ID is not specified, a file system snapshot policy ID and compartment ID must be specified.
+// Users can only sort by time created when listing snapshots by file system snapshot policy ID and compartment ID
+// (sort by name is NOT supported for listing snapshots by policy and compartment).
 func (client FileStorageClient) ListSnapshots(ctx context.Context, request ListSnapshotsRequest) (response ListSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3665,7 +3611,7 @@ func (client FileStorageClient) restartStuckDelta(ctx context.Context, request c
 	return response, err
 }
 
-// ShareSetJoinDomain Execute a join domain of the mount target share set to a domain controller for SMB access.
+// ShareSetJoinDomain Perform a join domain operation for the mount target share set to a domain controller for SMB access.
 func (client FileStorageClient) ShareSetJoinDomain(ctx context.Context, request ShareSetJoinDomainRequest) (response ShareSetJoinDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3986,59 +3932,6 @@ func (client FileStorageClient) targetFileSystemGet(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/TargetFileSystemGet"
 		err = common.PostProcessServiceError(err, "FileStorage", "TargetFileSystemGet", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// TestOutboundConnector Runs a diagnostic test from the specified mount target to server endpoints in the specified outbound connector.
-func (client FileStorageClient) TestOutboundConnector(ctx context.Context, request TestOutboundConnectorRequest) (response TestOutboundConnectorResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.testOutboundConnector, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = TestOutboundConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = TestOutboundConnectorResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(TestOutboundConnectorResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into TestOutboundConnectorResponse")
-	}
-	return
-}
-
-// testOutboundConnector implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) testOutboundConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/{mountTargetId}/actions/testOutboundConnector", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response TestOutboundConnectorResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/TestOutboundConnector"
-		err = common.PostProcessServiceError(err, "FileStorage", "TestOutboundConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -4738,59 +4631,6 @@ func (client FileStorageClient) updateSnapshot(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Snapshot/UpdateSnapshot"
 		err = common.PostProcessServiceError(err, "FileStorage", "UpdateSnapshot", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UploadKerberosKeytab Uploads keytab file to the mount target for use in the data path.
-func (client FileStorageClient) UploadKerberosKeytab(ctx context.Context, request UploadKerberosKeytabRequest) (response UploadKerberosKeytabResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.uploadKerberosKeytab, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UploadKerberosKeytabResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UploadKerberosKeytabResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UploadKerberosKeytabResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UploadKerberosKeytabResponse")
-	}
-	return
-}
-
-// uploadKerberosKeytab implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) uploadKerberosKeytab(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/{mountTargetId}/actions/uploadKerberosKeytab", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UploadKerberosKeytabResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/UploadKerberosKeytab"
-		err = common.PostProcessServiceError(err, "FileStorage", "UploadKerberosKeytab", apiReferenceLink)
 		return response, err
 	}
 

@@ -35,6 +35,10 @@ type DeploymentVersionSummary struct {
 
 	// Indicates if OGG release contains security fix.
 	IsSecurityFix *bool `mandatory:"false" json:"isSecurityFix"`
+
+	// The time until OGG version is supported. After this date has passed OGG version will not be available anymore. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeSupportedUntil *common.SDKTime `mandatory:"false" json:"timeSupportedUntil"`
 }
 
 func (m DeploymentVersionSummary) String() string {

@@ -37,9 +37,6 @@ type HttpIngressGatewayTrafficRouteRuleDetails struct {
 
 	Authority *StringValueMatch `mandatory:"false" json:"authority"`
 
-	// Port to match for routing traffic.
-	Port *int `mandatory:"false" json:"port"`
-
 	// Is path param case sensitive
 	IsPathCaseSensitive *bool `mandatory:"false" json:"isPathCaseSensitive"`
 

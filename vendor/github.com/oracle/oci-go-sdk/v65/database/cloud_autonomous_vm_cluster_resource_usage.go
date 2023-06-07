@@ -45,6 +45,9 @@ type CloudAutonomousVmClusterResourceUsage struct {
 	// The amount of memory (in GBs) to be enabled per each CPU core.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
+	// Total exadata storage allocated for the Autonomous VM Cluster. DATA + RECOVERY + SPARSE + any overhead in TBs.
+	ExadataStorageInTBs *float64 `mandatory:"false" json:"exadataStorageInTBs"`
+
 	// The number of CPU cores enabled on the Cloud Autonomous VM cluster.
 	TotalCpus *float32 `mandatory:"false" json:"totalCpus"`
 

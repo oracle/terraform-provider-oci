@@ -30,9 +30,6 @@ type RemediationRunSummary struct {
 	// The date and time the remediation run was last updated (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The type of the current stage of the remediation run.
-	CurrentStageType RemediationRunStageTypeEnum `mandatory:"true" json:"currentStageType"`
-
 	// The compartment Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the remediation run.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -59,6 +56,9 @@ type RemediationRunSummary struct {
 	// The date and time of the finish of the remediation run (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
+	// The type of the current stage of the remediation run.
+	CurrentStageType RemediationRunStageTypeEnum `mandatory:"false" json:"currentStageType,omitempty"`
+
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -73,9 +73,6 @@ func (m RemediationRunSummary) String() string {
 // Not recommended for calling this function directly
 func (m RemediationRunSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingRemediationRunStageTypeEnum(string(m.CurrentStageType)); !ok && m.CurrentStageType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurrentStageType: %s. Supported values are: %s.", m.CurrentStageType, strings.Join(GetRemediationRunStageTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingRemediationRunLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRemediationRunLifecycleStateEnumStringValues(), ",")))
 	}
@@ -83,6 +80,9 @@ func (m RemediationRunSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RemediationRunSource: %s. Supported values are: %s.", m.RemediationRunSource, strings.Join(GetRemediationRunRemediationRunSourceEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingRemediationRunStageTypeEnum(string(m.CurrentStageType)); !ok && m.CurrentStageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurrentStageType: %s. Supported values are: %s.", m.CurrentStageType, strings.Join(GetRemediationRunStageTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

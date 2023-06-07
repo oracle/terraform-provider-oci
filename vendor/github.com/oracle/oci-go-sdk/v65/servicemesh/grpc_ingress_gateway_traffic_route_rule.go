@@ -33,9 +33,6 @@ type GrpcIngressGatewayTrafficRouteRule struct {
 	// The method name to match from the request. If you specify a methodName, you must also specify a serviceName.
 	MethodName *string `mandatory:"false" json:"methodName"`
 
-	// Port to match for routing traffic.
-	Port *int `mandatory:"false" json:"port"`
-
 	// If true, the hostname will be rewritten to the target virtual deployment's DNS hostname.
 	IsHostRewriteEnabled *bool `mandatory:"false" json:"isHostRewriteEnabled"`
 }

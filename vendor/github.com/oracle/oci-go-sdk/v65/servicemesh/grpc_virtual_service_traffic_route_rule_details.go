@@ -31,9 +31,6 @@ type GrpcVirtualServiceTrafficRouteRuleDetails struct {
 	// The method name to match from the request. If you specify a methodName, you must also specify a serviceName.
 	MethodName *string `mandatory:"false" json:"methodName"`
 
-	// Port to match for routing traffic.
-	Port *int `mandatory:"false" json:"port"`
-
 	RetryConfiguration *GrpcRetryConfiguration `mandatory:"false" json:"retryConfiguration"`
 }
 

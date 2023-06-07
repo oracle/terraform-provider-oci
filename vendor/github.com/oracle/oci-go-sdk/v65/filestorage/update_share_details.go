@@ -19,13 +19,13 @@ import (
 // UpdateShareDetails Details for updating the share.
 type UpdateShareDetails struct {
 
-	// A short comment description of the Share.
+	// A short comment description of the share.
 	// Avoid entering confidential information.
 	// Example: `accounting`
 	Comment *string `mandatory:"false" json:"comment"`
 
 	// New share options for the share.
-	// **Setting to the empty array will make the share invisible to all clients.**
+	// **Setting to an empty array will make the share invisible to all clients.**
 	// Leaving unset will leave the `shareOptions` unchanged.
 	ShareOptions []ClientShareOptions `mandatory:"false" json:"shareOptions"`
 }

@@ -33,10 +33,6 @@ type Kerberos struct {
 
 	// Specifies whether to enable or disable Kerberos.
 	IsKerberosEnabled *bool `mandatory:"false" json:"isKerberosEnabled"`
-
-	// Specifies whether or not to allow the use of weaker ciphers.
-	// If false, only aes256-cts-hmac-sha384-192 and aes128-cts-hmac-sha256-128 are allowed.
-	IsWeakCiphersAllowed *bool `mandatory:"false" json:"isWeakCiphersAllowed"`
 }
 
 func (m Kerberos) String() string {

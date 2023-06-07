@@ -42,7 +42,7 @@ type ListSharesRequest struct {
 	FileSystemId *string `mandatory:"false" contributesTo:"query" name:"fileSystemId"`
 
 	// Filter results by the specified lifecycle state. Must be a valid
-	// state for the resource type shares.
+	// state for the shares resource type.
 	LifecycleState ShareLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Filter results by OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for

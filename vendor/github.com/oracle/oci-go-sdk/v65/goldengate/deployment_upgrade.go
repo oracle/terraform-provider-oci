@@ -108,6 +108,21 @@ type DeploymentUpgrade struct {
 	// - Manual upgrade is allowed to rollback only until the old version isn't deprecated yet.
 	// - Automatic upgrade by default is not allowed, unless a serious issue does not justify.
 	IsRollbackAllowed *bool `mandatory:"false" json:"isRollbackAllowed"`
+
+	// The time until OGG version is supported. After this date has passed OGG version will not be available anymore. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeOggVersionSupportedUntil *common.SDKTime `mandatory:"false" json:"timeOggVersionSupportedUntil"`
+
+	// Indicates if cancel is allowed. Scheduled upgrade can be cancelled only if target version is not forced by service,
+	// otherwise only reschedule allowed.
+	IsCancelAllowed *bool `mandatory:"false" json:"isCancelAllowed"`
+
+	// Indicates if reschedule is allowed. Upgrade can be rescheduled postponed until the end of the service defined auto-upgrade period.
+	IsRescheduleAllowed *bool `mandatory:"false" json:"isRescheduleAllowed"`
+
+	// Indicates the latest time until the deployment upgrade could be rescheduled. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeScheduleMax *common.SDKTime `mandatory:"false" json:"timeScheduleMax"`
 }
 
 func (m DeploymentUpgrade) String() string {

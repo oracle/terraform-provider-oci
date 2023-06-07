@@ -20,7 +20,7 @@ import (
 type ShareSetJoinDomainDetails struct {
 
 	// The account name of a sufficiently powerful administrator
-	// account. The default domain is the left most domain of the
+	// account. The default domain is the left-most domain of the
 	// customer-provided DNS name.
 	// This user name can be specified in several different ways:
 	//   * As an ordinary name (e.g. joe).
@@ -36,36 +36,35 @@ type ShareSetJoinDomainDetails struct {
 	// For example, if an SMB server has a DNS name of
 	// register5.store34.california.usa.marks-hats.com, then this particular
 	// server is part of the store34.california.usa.marks-hats.com security
-	// domain which in turn is part of the california.usa.marks-hats.com which
-	// in turn is part of the usa.marks-hats.com
+	// domain, which in turn is part of california.usa.marks-hats.com, which
+	// in turn is part of usa.marks-hats.com,
 	// which in turn is part of the marks-hats.com security domain.
 	// Must be unique across all FQDNs in the subnet and comply
 	// with RFC 952 (https://tools.ietf.org/html/rfc952)
 	// and RFC 1123 (https://tools.ietf.org/html/rfc1123).
 	CustomFqdn *string `mandatory:"true" json:"customFqdn"`
 
-	// The organizational unit (OU) is a container in an Active Directory that can
-	// hold user accounts, service accounts, computer accounts, and other OUs and
-	// this parameter specifies the OU that the mount target will join within the
+	// The organizational unit (OU) is a container in an Active Directory (AD) that can
+	// hold user accounts, service accounts, computer accounts, and other OUs.
+	// This parameter specifies the OU that the mount target will join within the
 	// AD domain. You can then assign administrators to specific OUs, and apply
 	// group policy to enforce targeted configuration settings.
 	OrganizationalUnit *string `mandatory:"false" json:"organizationalUnit"`
 
-	// Every SMB server (i.e. each mount target) needs a Netbios name in
-	// addition to its fqdn (fully qualified domain name). Normally,
-	// the Netbios name is simply the hostname portion of the fqdn.
+	// Every SMB server (i.e. each mount target) needs a NetBIOS name in
+	// addition to its FQDN (fully qualified domain name). Normally,
+	// the NetBIOS name is simply the hostname portion of the FQDN.
 	// This doesn't work when multiple computers have the same hostname.
 	// For example, a computer called orange.colors.com and a computer
 	// called orange.fruit.org can interfere with each other if they both
-	// use orange as their Netbios name. To avoid problems, at least one
-	// computer can be configured to have a Netbios name that is
-	// not its hostname.
+	// use orange as their NetBIOS name. To avoid problems, configure at least one
+	// computer to have a NetBIOS name that is not its hostname.
 	NetBiosName *string `mandatory:"false" json:"netBiosName"`
 
-	// Turn on this flag to allow unsigned SMB traffic.
+	// Enable this flag to allow unsigned SMB traffic.
 	IsUnsignedTrafficAllowed *bool `mandatory:"false" json:"isUnsignedTrafficAllowed"`
 
-	// Describes the mount target's policy on SMB encryption
+	// Describes the mount target's policy on SMB encryption.
 	SmbEncryption ShareSetSmbEncryptionEnum `mandatory:"false" json:"smbEncryption,omitempty"`
 }
 

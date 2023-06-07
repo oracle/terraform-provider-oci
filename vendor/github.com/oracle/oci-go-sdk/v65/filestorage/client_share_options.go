@@ -19,12 +19,11 @@ import (
 // ClientShareOptions SMB share options applied to a specified set of
 // clients. Only governs access through the associated
 // share. Access to the same file system through a different
-// share will be governed
-// by that share's share options.
+// share will be governed by that share's share options.
 type ClientShareOptions struct {
 
-	// Clients these options should apply to. Must be a either
-	// single IPv4 address or single IPv4 CIDR block.
+	// Clients that these options should apply to. Must be either
+	// a single IPv4 address or a single IPv4 CIDR block.
 	// **Note:** Access will also be limited by any applicable VCN
 	// security rules and the ability to route IP packets to the
 	// mount target. Mount targets do not have Internet-routable IP addresses.

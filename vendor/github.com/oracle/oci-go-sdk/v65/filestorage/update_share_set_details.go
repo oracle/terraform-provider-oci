@@ -24,21 +24,20 @@ type UpdateShareSetDetails struct {
 	// Example: `My share set`
 	Comment *string `mandatory:"false" json:"comment"`
 
-	// Every SMB server (i.e. each mount target) needs a Netbios name in
-	// addition to its fqdn (fully qualified domain name). Normally,
-	// the Netbios name is simply the hostname portion of the fqdn.
+	// Every SMB server (i.e. each mount target) needs a NetBIOS name in
+	// addition to its FQDN (fully qualified domain name). Normally,
+	// the NetBIOS name is simply the hostname portion of the FQDN.
 	// This doesn't work when multiple computers have the same hostname.
 	// For example, a computer called orange.colors.com and a computer
 	// called orange.fruit.org can interfere with each other if they both
-	// use orange as their Netbios name. To avoid problems, at least one
-	// computer can be configured to have a Netbios name that is
-	// not its hostname.
+	// use orange as their NetBIOS name. To avoid problems, configure at least one
+	// computer to have a NetBIOS name that is not its hostname.
 	NetBiosName *string `mandatory:"false" json:"netBiosName"`
 
-	// Turn on this flag to allow unsigned SMB traffic.
+	// Enable this flag to allow unsigned SMB traffic.
 	IsUnsignedTrafficAllowed *bool `mandatory:"false" json:"isUnsignedTrafficAllowed"`
 
-	// Describes the mount target's policy on SMB encryption
+	// Describes the mount target's policy on SMB encryption.
 	SmbEncryption ShareSetSmbEncryptionEnum `mandatory:"false" json:"smbEncryption,omitempty"`
 }
 

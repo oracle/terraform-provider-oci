@@ -27,6 +27,9 @@ type InternalIpv6AddressIpv6SubnetCidrPairDetails struct {
 	// - Oracle will automatically assign an IPv6 address from the Subnet's IPv6 CIDR if and only if there is only one IPv6 CIDR on the Subnet.
 	// - Oracle will automatically assign an IPv6 address from the Subnet's IPv6 Oracle GUA Prefix if it exists on the Subnet.
 	Ipv6Address *string `mandatory:"false" json:"ipv6Address"`
+
+	// The hostname of IPv6 address.Only the hostname label, not the FQDN.
+	Hostname *string `mandatory:"false" json:"hostname"`
 }
 
 func (m InternalIpv6AddressIpv6SubnetCidrPairDetails) String() string {

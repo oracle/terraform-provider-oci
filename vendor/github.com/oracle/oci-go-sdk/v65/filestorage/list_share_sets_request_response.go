@@ -44,8 +44,8 @@ type ListShareSetsRequest struct {
 	// For example, if an SMB server has a DNS name of
 	// register5.store34.california.usa.marks-hats.com, then this particular
 	// server is part of the store34.california.usa.marks-hats.com security
-	// domain which in turn is part of the california.usa.marks-hats.com which
-	// in turn is part of the usa.marks-hats.com
+	// domain which in turn is part of the california.usa.marks-hats.com domain, which
+	// in turn is part of the usa.marks-hats.com domain,
 	// which in turn is part of the marks-hats.com security domain.
 	// Must be unique across all FQDNs in the subnet and comply
 	// with RFC 952 (https://tools.ietf.org/html/rfc952)
@@ -53,7 +53,7 @@ type ListShareSetsRequest struct {
 	CustomFqdn *string `mandatory:"false" contributesTo:"query" name:"customFqdn"`
 
 	// Filter results by the specified lifecycle state. Must be a valid
-	// state for the resource type shareSets.
+	// state for the shareSets resource type.
 	LifecycleState ShareSetLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Filter results by OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for

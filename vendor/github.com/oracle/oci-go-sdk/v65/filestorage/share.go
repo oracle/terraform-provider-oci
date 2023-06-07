@@ -18,12 +18,12 @@ import (
 
 // Share A share makes a file system directory accessible to SMB clients on
 // the network. Each share resource belongs to exactly one share set.
-// Each share is identified by a share name. The share name is unique to a
-// SMB server. A SMB client sees only the share name. Share names are not
-// case-sensitive. Share name cannot be an empty string. The maximum share name
+// Each share is identified by a share name. The share name is unique to an
+// SMB server. An SMB client sees only the share name. Share names are not
+// case-sensitive. The share name cannot be an empty string. The maximum share name
 // length is 80 unicode characters (or 240 bytes). Unicode share names are supported.
 // The following special characters are not supported for share name:
-// / \ : * ? < > " |
+// / \ [ ]: | < > + = ; , ? *
 // For example, the following are acceptable:
 //   * example and path
 //   * example1 and example2
@@ -33,7 +33,7 @@ import (
 //   * / and /example
 //   * my@ and my*
 // Each share has a share comment. This is the description of the share
-// when SMB client to list the SMB server's shares.
+// when SMB clients list the SMB server's shares.
 // Use `shareOptions` to control access to a share.
 type Share struct {
 
@@ -60,7 +60,7 @@ type Share struct {
 	// associated with the file system.
 	ShareOptions []ClientShareOptions `mandatory:"true" json:"shareOptions"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the share set of this share is in.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the share set that this share is in.
 	ShareSetId *string `mandatory:"true" json:"shareSetId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of this share's file system.
@@ -72,17 +72,17 @@ type Share struct {
 	// The current state of this share.
 	LifecycleState ShareLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Share name used to access the associated file system.
+	// The share name used to access the associated file system.
 	// Avoid entering confidential information.
 	// Example: `accounting`
 	ShareName *string `mandatory:"true" json:"shareName"`
 
-	// A short comment description of the Share.
+	// A short comment description of the share.
 	// Avoid entering confidential information.
 	// Example: `accounting`
 	Comment *string `mandatory:"true" json:"comment"`
 
-	// The date and time the share was created, expressed
+	// The date and time that the share was created, expressed
 	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`

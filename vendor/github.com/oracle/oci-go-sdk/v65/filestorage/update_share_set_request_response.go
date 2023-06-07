@@ -17,7 +17,7 @@ type UpdateShareSetRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the share set.
 	ShareSetId *string `mandatory:"true" contributesTo:"path" name:"shareSetId"`
 
-	// Details object for updating an share set.
+	// Details object for updating a share set.
 	UpdateShareSetDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
