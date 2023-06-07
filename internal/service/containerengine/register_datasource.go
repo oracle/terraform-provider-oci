@@ -11,6 +11,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_containerengine_addons", ContainerengineAddonsDataSource())
 	tfresource.RegisterDatasource("oci_containerengine_cluster_kube_config", ContainerengineClusterKubeConfigDataSource())
 	tfresource.RegisterDatasource("oci_containerengine_cluster_option", ContainerengineClusterOptionDataSource())
+	tfresource.RegisterDatasource("oci_containerengine_cluster_workload_mapping", ContainerengineClusterWorkloadMappingDataSource())
+	tfresource.RegisterDatasource("oci_containerengine_cluster_workload_mappings", ContainerengineClusterWorkloadMappingsDataSource())
 	tfresource.RegisterDatasource("oci_containerengine_clusters", ContainerengineClustersDataSource())
 	tfresource.RegisterDatasource("oci_containerengine_migrate_to_native_vcn_status", ContainerengineMigrateToNativeVcnStatusDataSource())
 	tfresource.RegisterDatasource("oci_containerengine_node_pool", ContainerengineNodePoolDataSource())
