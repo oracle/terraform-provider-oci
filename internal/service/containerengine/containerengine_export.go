@@ -10,6 +10,8 @@ import (
 )
 
 func init() {
+	exportContainerengineAddonHints.GetIdFn = getContainerengineAddonId
+	exportContainerengineClusterWorkloadMappingHints.GetIdFn = getContainerengineClusterWorkloadMappingId
 	exportContainerengineNodePoolHints.ProcessDiscoveredResourcesFn = processContainerengineNodePool
 	tf_export.RegisterCompartmentGraphs("containerengine", containerengineResourceGraph)
 }
@@ -38,6 +40,16 @@ func getContainerengineAddonId(resource *tf_export.OCIResource) (string, error) 
 	}
 	clusterId := resource.Parent.Id
 	return GetAddonCompositeId(addonName, clusterId), nil
+}
+
+func getContainerengineClusterWorkloadMappingId(resource *tf_export.OCIResource) (string, error) {
+
+	clusterId := resource.Parent.Id
+	workloadMappingId, ok := resource.SourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find workloadMappingId for Containerengine ClusterWorkloadMapping")
+	}
+	return GetClusterWorkloadMappingCompositeId(clusterId, workloadMappingId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -94,6 +106,16 @@ var exportContainerengineAddonHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportContainerengineClusterWorkloadMappingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_containerengine_cluster_workload_mapping",
+	DatasourceClass:      "oci_containerengine_cluster_workload_mappings",
+	DatasourceItemsAttr:  "workload_mappings",
+	ResourceAbbreviation: "cluster_workload_mapping",
+	DiscoverableLifecycleStates: []string{
+		string(oci_containerengine.WorkloadMappingLifecycleStateActive),
+	},
+}
+
 var containerengineResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportContainerengineClusterHints},
@@ -103,6 +125,12 @@ var containerengineResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_containerengine_cluster": {
 		{
 			TerraformResourceHints: exportContainerengineAddonHints,
+			DatasourceQueryParams: map[string]string{
+				"cluster_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportContainerengineClusterWorkloadMappingHints,
 			DatasourceQueryParams: map[string]string{
 				"cluster_id": "id",
 			},

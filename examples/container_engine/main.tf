@@ -52,12 +52,46 @@ variable "node_pool_state" {
   default = []
 }
 
+variable "cluster_workload_mapping_namespace" {
+  default = "namespace"
+}
+
+variable "cluster_workload_mapping_defined_tags_value" {
+  default = "value"
+}
+
+variable "cluster_workload_mapping_freeform_tags" {
+  default = { "Department" = "Finance" }
+}
+
+variable defined_tag_namespace_name {
+  default = "test"
+}
+
 provider "oci" {
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
+}
+
+resource "oci_identity_tag_namespace" "tag-namespace1" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  description = "example tag namespace"
+  name = var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"
+
+  is_retired = false
+}
+
+resource "oci_identity_tag" "tag1" {
+  #Required
+  description = "example tag"
+  name = "example-tag"
+  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
+
+  is_retired = false
 }
 
 data "oci_identity_availability_domain" "ad1" {
@@ -266,6 +300,17 @@ resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
 
   quantity_per_subnet = 1
   ssh_public_key      = var.node_pool_ssh_public_key
+}
+
+resource "oci_containerengine_cluster_workload_mapping" "test_cluster_workload_mapping" {
+  #Required"
+  cluster_id            = oci_containerengine_cluster.test_cluster.id
+  mapped_compartment_id = var.compartment_ocid
+  namespace             = var.cluster_workload_mapping_namespace
+
+  #Optional
+  defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.cluster_workload_mapping_defined_tags_value}"}
+  freeform_tags = var.cluster_workload_mapping_freeform_tags
 }
 
 output "cluster" {

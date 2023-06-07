@@ -474,6 +474,7 @@ containerengine
 * oci\_containerengine\_node\_pool
 * oci\_containerengine\_virtual\_node\_pool
 * oci\_containerengine\_addon
+* oci\_containerengine\_cluster\_workload\_mapping
 
 core
 
