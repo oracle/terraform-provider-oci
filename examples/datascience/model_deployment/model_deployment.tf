@@ -211,6 +211,8 @@ variable "model_egress_id" {
 resource "oci_datascience_model_deployment" "tf_model_deployment" {
   # Required
   compartment_id = var.compartment_ocid
+  # optional parameter
+  # opc_parent_rpt_url = ""
   model_deployment_configuration_details {
     # Required
     deployment_type = var.model_deployment_model_deployment_configuration_details_deployment_type

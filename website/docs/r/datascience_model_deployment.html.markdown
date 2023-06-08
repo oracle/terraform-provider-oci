@@ -121,6 +121,7 @@ resource "oci_datascience_model_deployment" "test_model_deployment" {
 	description = var.model_deployment_description
 	display_name = var.model_deployment_display_name
 	freeform_tags = {"Department"= "Finance"}
+	opc_parent_rpt_url = var.model_deployment_opc_parent_rpt_url
 }
 ```
 
@@ -211,6 +212,7 @@ The following arguments are supported:
 			* `instance_count` - (Required when policy_type=FIXED_SIZE) (Updatable) The number of instances for the model deployment.
 			* `is_enabled` - (Applicable when policy_type=AUTOSCALING) (Updatable) Whether the autoscaling policy is enabled.
 			* `policy_type` - (Required) (Updatable) The type of scaling policy.
+* `opc_parent_rpt_url` - (Optional) URL to fetch the Resource Principal Token from the parent resource. 
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the model deployment.
 * `state` - (Optional) (Updatable) The target state for the Model Deployment. Could be set to `ACTIVE` or `INACTIVE`. 
 

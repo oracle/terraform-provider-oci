@@ -219,6 +219,10 @@ func DatascienceJobRunResource() *schema.Resource {
 					},
 				},
 			},
+			"opc_parent_rpt_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 
 			// Computed
 			"created_by": {
@@ -516,6 +520,11 @@ func (s *DatascienceJobRunResourceCrud) Create() error {
 			}
 			request.JobLogConfigurationOverrideDetails = &tmp
 		}
+	}
+
+	if opcParentRptUrl, ok := s.D.GetOkExists("opc_parent_rpt_url"); ok {
+		tmp := opcParentRptUrl.(string)
+		request.OpcParentRptUrl = &tmp
 	}
 
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
