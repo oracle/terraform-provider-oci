@@ -60,6 +60,7 @@ The following attributes are exported:
 * `pipeline_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline for which pipeline run is created.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline run with.
 * `state` - The current state of the pipeline run.
+* `delete_related_job_runs` - If set to true will delete related job runs. 
 * `step_override_details` - Array of step override details. Only Step Configuration is allowed to be overridden.
 	* `step_configuration_details` - The configuration details of a step.
 		* `command_line_arguments` - The command line arguments to set for step.
