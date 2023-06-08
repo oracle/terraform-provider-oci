@@ -59,6 +59,7 @@ The following attributes are exported:
 	* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline with.
 * `state` - The current state of the pipeline.
+* `delete_related_pipeline_runs` - If set to true will delete pipeline runs which are in a terminal state.
 * `step_details` - Array of step details for each step.
 	* `depends_on` - The list of step names this current step depends on for execution.
 	* `description` - A short description of the step.
