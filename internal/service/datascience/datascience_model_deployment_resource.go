@@ -490,6 +490,10 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"opc_parent_rpt_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -725,6 +729,11 @@ func (s *DatascienceModelDeploymentResourceCrud) Create() error {
 			}
 			request.ModelDeploymentConfigurationDetails = tmp
 		}
+	}
+
+	if opcParentRptUrl, ok := s.D.GetOkExists("opc_parent_rpt_url"); ok {
+		tmp := opcParentRptUrl.(string)
+		request.OpcParentRptUrl = &tmp
 	}
 
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
