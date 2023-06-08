@@ -71,7 +71,6 @@ func DatasciencePipelineResource() *schema.Resource {
 						"depends_on": {
 							Type:     schema.TypeList,
 							Optional: true,
-							Computed: true,
 							ForceNew: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
@@ -86,7 +85,6 @@ func DatasciencePipelineResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"job_id": {
 							Type:     schema.TypeString,
@@ -329,8 +327,6 @@ func DatasciencePipelineResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
-				MaxItems: 1,
-				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"pipeline_step_artifact": {
@@ -348,7 +344,6 @@ func DatasciencePipelineResource() *schema.Resource {
 						"artifact_content_disposition": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
 							ForceNew: true,
 						},
 						// Computed

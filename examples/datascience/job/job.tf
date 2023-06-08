@@ -64,6 +64,8 @@ resource "oci_datascience_job" "job" {
   artifact_content_length      = 1380
   artifact_content_disposition = "attachment; filename=job_artifact.py"
   delete_related_job_runs      = true
+  # optional parameter
+  # opc_parent_rpt_url = ""
 
   job_configuration_details {
     job_type                   = "DEFAULT"

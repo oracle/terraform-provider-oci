@@ -54,6 +54,7 @@ resource "oci_datascience_job_run" "test_job_run" {
 		log_group_id = oci_logging_log_group.test_log_group.id
 		log_id = oci_logging_log.test_log.id
 	}
+	opc_parent_rpt_url = var.job_run_opc_parent_rpt_url
 }
 ```
 
@@ -84,6 +85,7 @@ The following arguments are supported:
 	* `enable_logging` - (Optional) If customer logging is enabled for job runs.
 	* `log_group_id` - (Optional) The log group id for where log objects are for job runs. 
 	* `log_id` - (Optional) The log id the job run will push logs too. 
+* `opc_parent_rpt_url` - (Optional) URL to fetch the Resource Principal Token from the parent resource. 
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the job with.
 
 
