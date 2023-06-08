@@ -348,10 +348,6 @@ func createIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IntegrationInstanceClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
-	}
-
 	if _, ok := sync.D.GetOkExists("enable_process_automation_trigger"); ok {
 		err := sync.EnableProcessAutomation()
 		if err != nil {
