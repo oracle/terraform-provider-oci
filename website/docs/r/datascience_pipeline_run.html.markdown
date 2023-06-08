@@ -42,6 +42,7 @@ resource "oci_datascience_pipeline_run" "test_pipeline_run" {
 		log_group_id = oci_logging_log_group.test_log_group.id
 		log_id = oci_logging_log.test_log.id
 	}
+	opc_parent_rpt_url = var.pipeline_run_opc_parent_rpt_url
 	project_id = oci_datascience_project.test_project.id
 	step_override_details {
 		#Required
@@ -89,6 +90,7 @@ The following arguments are supported:
 	* `enable_logging` - (Optional) If customer logging is enabled for pipeline.
 	* `log_group_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
+* `opc_parent_rpt_url` - (Optional) URL to fetch the Resource Principal Token from the parent resource. 
 * `pipeline_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline for which pipeline run is created.
 * `project_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline run with.
 * `step_override_details` - (Optional) Array of step override details. Only Step Configuration is allowed to be overridden.

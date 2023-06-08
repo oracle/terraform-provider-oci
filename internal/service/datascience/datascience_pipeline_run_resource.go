@@ -157,6 +157,10 @@ func DatasciencePipelineRunResource() *schema.Resource {
 					},
 				},
 			},
+			"opc_parent_rpt_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"step_override_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -533,6 +537,12 @@ func (s *DatasciencePipelineRunResourceCrud) Create() error {
 			}
 			request.LogConfigurationOverrideDetails = &tmp
 		}
+	}
+
+	if opcParentRptUrl, ok := s.D.GetOkExists("opc_parent_rpt_url"); ok {
+		tmp := opcParentRptUrl.(string)
+		log.Printf("[INFO] Received opc_parent_rpt_url with value:%s", opcParentRptUrl)
+		request.OpcParentRptUrl = &tmp
 	}
 
 	if pipelineId, ok := s.D.GetOkExists("pipeline_id"); ok {
