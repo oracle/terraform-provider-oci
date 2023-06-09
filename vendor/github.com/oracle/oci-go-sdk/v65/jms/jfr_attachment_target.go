@@ -15,16 +15,21 @@ import (
 	"strings"
 )
 
-// JfrAttachmentTarget The target to collect JFR data. A target is a managed instance, with options to further limit to specific application and/or Java runtime.
+// JfrAttachmentTarget The target to collect JFR data. A target is a managed instance, with options to further limit to specific application and/or Java Runtime.
 // When the applicationKey isn't specified, then all applications are selected.
-// When the jreKey isn't specified, then all supported Java runtime versions are selected.
+// When the jreKey isn't specified, then all supported Java Runtime versions are selected.
+// When the applicationInstallationKey isn't specified, then all application installations are selected.
+// Keys applicationKey and applicationInstallationKey are mutually exclusive.
 type JfrAttachmentTarget struct {
 
 	// OCID of the Managed Instance to collect JFR data.
 	ManagedInstanceId *string `mandatory:"true" json:"managedInstanceId"`
 
-	// Unique key that identify the application for JFR data collection.
+	// Unique key that identifies the application for JFR data collection.
 	ApplicationKey *string `mandatory:"false" json:"applicationKey"`
+
+	// Unique key that identifies the application installation for JFR data collection.
+	ApplicationInstallationKey *string `mandatory:"false" json:"applicationInstallationKey"`
 
 	// Unique key that identify the JVM for JFR data collection.
 	JreKey *string `mandatory:"false" json:"jreKey"`

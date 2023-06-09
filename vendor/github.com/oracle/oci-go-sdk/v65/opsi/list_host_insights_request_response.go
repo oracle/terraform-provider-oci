@@ -35,9 +35,9 @@ type ListHostInsightsRequest struct {
 	HostType []string `contributesTo:"query" name:"hostType" collectionFormat:"multi"`
 
 	// Filter by one or more platform types.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType []ListHostInsightsPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to
@@ -177,6 +177,8 @@ const (
 	ListHostInsightsPlatformTypeSolaris ListHostInsightsPlatformTypeEnum = "SOLARIS"
 	ListHostInsightsPlatformTypeSunos   ListHostInsightsPlatformTypeEnum = "SUNOS"
 	ListHostInsightsPlatformTypeZlinux  ListHostInsightsPlatformTypeEnum = "ZLINUX"
+	ListHostInsightsPlatformTypeWindows ListHostInsightsPlatformTypeEnum = "WINDOWS"
+	ListHostInsightsPlatformTypeAix     ListHostInsightsPlatformTypeEnum = "AIX"
 )
 
 var mappingListHostInsightsPlatformTypeEnum = map[string]ListHostInsightsPlatformTypeEnum{
@@ -184,6 +186,8 @@ var mappingListHostInsightsPlatformTypeEnum = map[string]ListHostInsightsPlatfor
 	"SOLARIS": ListHostInsightsPlatformTypeSolaris,
 	"SUNOS":   ListHostInsightsPlatformTypeSunos,
 	"ZLINUX":  ListHostInsightsPlatformTypeZlinux,
+	"WINDOWS": ListHostInsightsPlatformTypeWindows,
+	"AIX":     ListHostInsightsPlatformTypeAix,
 }
 
 var mappingListHostInsightsPlatformTypeEnumLowerCase = map[string]ListHostInsightsPlatformTypeEnum{
@@ -191,6 +195,8 @@ var mappingListHostInsightsPlatformTypeEnumLowerCase = map[string]ListHostInsigh
 	"solaris": ListHostInsightsPlatformTypeSolaris,
 	"sunos":   ListHostInsightsPlatformTypeSunos,
 	"zlinux":  ListHostInsightsPlatformTypeZlinux,
+	"windows": ListHostInsightsPlatformTypeWindows,
+	"aix":     ListHostInsightsPlatformTypeAix,
 }
 
 // GetListHostInsightsPlatformTypeEnumValues Enumerates the set of values for ListHostInsightsPlatformTypeEnum
@@ -209,6 +215,8 @@ func GetListHostInsightsPlatformTypeEnumStringValues() []string {
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
+		"AIX",
 	}
 }
 

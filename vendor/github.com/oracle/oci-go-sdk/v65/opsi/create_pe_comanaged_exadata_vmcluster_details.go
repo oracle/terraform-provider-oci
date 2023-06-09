@@ -29,6 +29,9 @@ type CreatePeComanagedExadataVmclusterDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
 	OpsiPrivateEndpointId *string `mandatory:"false" json:"opsiPrivateEndpointId"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
+	DbmPrivateEndpointId *string `mandatory:"false" json:"dbmPrivateEndpointId"`
+
 	// The databases that belong to the VM Cluster
 	MemberDatabaseDetails []CreatePeComanagedDatabaseInsightDetails `mandatory:"false" json:"memberDatabaseDetails"`
 }

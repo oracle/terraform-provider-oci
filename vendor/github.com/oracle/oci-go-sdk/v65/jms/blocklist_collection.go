@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// BlocklistCollection Results of a blocklist search. Contains Blocklist records.
+// BlocklistCollection Results of a blocklist search that contain Blocklist records.
 type BlocklistCollection struct {
 
 	// The blocklist

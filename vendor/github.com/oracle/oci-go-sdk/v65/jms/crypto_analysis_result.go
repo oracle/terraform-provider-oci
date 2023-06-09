@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// CryptoAnalysisResult Metadata of a Crypto Event Analysis result. The analysis result is stored as the Object Storage object.
+// CryptoAnalysisResult Metadata for the result of a crypto event analysis. The analysis result is stored in an Object Storage bucket.
 type CryptoAnalysisResult struct {
 
 	// The OCID to identify this analysis results.
@@ -37,8 +37,8 @@ type CryptoAnalysisResult struct {
 	FindingCount *int `mandatory:"true" json:"findingCount"`
 
 	// Total number of non-compliant findings with the analysis. A non-compliant finding means the
-	// application won't work properly with the changes introduced by the crypto roadmap version
-	// used the the analysis.
+	// application won't work properly with the changes introduced by the Crypto Roadmap version
+	// used by the analysis.
 	NonCompliantFindingCount *int `mandatory:"true" json:"nonCompliantFindingCount"`
 
 	// The Crypto Roadmap version used to perform the analysis.

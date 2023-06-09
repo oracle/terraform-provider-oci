@@ -16,7 +16,7 @@ import (
 )
 
 // RequestJfrRecordingsDetails Details of the request to start JFR recordings.
-// When the targets aren't specified, then all managed instances currently in the fleet are selected.
+// When the targets aren't specified, then all managed instances currently in the Fleet are selected.
 type RequestJfrRecordingsDetails struct {
 
 	// The profile used for JFR events selection. If the name isn't recognized, the settings from jfcV1 or jfcV2
@@ -38,6 +38,12 @@ type RequestJfrRecordingsDetails struct {
 
 	// The maximum size limit for the JFR file collected.
 	RecordingSizeInMb *int `mandatory:"false" json:"recordingSizeInMb"`
+
+	// Period to looking for JVMs. In addition to attach to running JVMs when given the command,
+	// JVM started within the waiting period will also be attached for JFR. The value should be
+	// larger than the agent polling interval setting for the fleet to ensure agent can get the
+	// instructions. If not specified, the agent polling interval for the fleet is used.
+	WaitingPeriodInMinutes *int `mandatory:"false" json:"waitingPeriodInMinutes"`
 }
 
 func (m RequestJfrRecordingsDetails) String() string {

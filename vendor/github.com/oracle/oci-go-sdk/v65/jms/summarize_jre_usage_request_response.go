@@ -288,6 +288,7 @@ type SummarizeJreUsageJreSecurityStatusEnum string
 
 // Set of constants representing the allowable values for SummarizeJreUsageJreSecurityStatusEnum
 const (
+	SummarizeJreUsageJreSecurityStatusEarlyAccess     SummarizeJreUsageJreSecurityStatusEnum = "EARLY_ACCESS"
 	SummarizeJreUsageJreSecurityStatusUnknown         SummarizeJreUsageJreSecurityStatusEnum = "UNKNOWN"
 	SummarizeJreUsageJreSecurityStatusUpToDate        SummarizeJreUsageJreSecurityStatusEnum = "UP_TO_DATE"
 	SummarizeJreUsageJreSecurityStatusUpdateRequired  SummarizeJreUsageJreSecurityStatusEnum = "UPDATE_REQUIRED"
@@ -295,6 +296,7 @@ const (
 )
 
 var mappingSummarizeJreUsageJreSecurityStatusEnum = map[string]SummarizeJreUsageJreSecurityStatusEnum{
+	"EARLY_ACCESS":     SummarizeJreUsageJreSecurityStatusEarlyAccess,
 	"UNKNOWN":          SummarizeJreUsageJreSecurityStatusUnknown,
 	"UP_TO_DATE":       SummarizeJreUsageJreSecurityStatusUpToDate,
 	"UPDATE_REQUIRED":  SummarizeJreUsageJreSecurityStatusUpdateRequired,
@@ -302,6 +304,7 @@ var mappingSummarizeJreUsageJreSecurityStatusEnum = map[string]SummarizeJreUsage
 }
 
 var mappingSummarizeJreUsageJreSecurityStatusEnumLowerCase = map[string]SummarizeJreUsageJreSecurityStatusEnum{
+	"early_access":     SummarizeJreUsageJreSecurityStatusEarlyAccess,
 	"unknown":          SummarizeJreUsageJreSecurityStatusUnknown,
 	"up_to_date":       SummarizeJreUsageJreSecurityStatusUpToDate,
 	"update_required":  SummarizeJreUsageJreSecurityStatusUpdateRequired,
@@ -320,6 +323,7 @@ func GetSummarizeJreUsageJreSecurityStatusEnumValues() []SummarizeJreUsageJreSec
 // GetSummarizeJreUsageJreSecurityStatusEnumStringValues Enumerates the set of values in String for SummarizeJreUsageJreSecurityStatusEnum
 func GetSummarizeJreUsageJreSecurityStatusEnumStringValues() []string {
 	return []string{
+		"EARLY_ACCESS",
 		"UNKNOWN",
 		"UP_TO_DATE",
 		"UPDATE_REQUIRED",

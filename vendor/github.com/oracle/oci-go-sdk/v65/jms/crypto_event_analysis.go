@@ -18,7 +18,7 @@ import (
 // CryptoEventAnalysis CryptoEventAnalysis configuration
 type CryptoEventAnalysis struct {
 
-	// CryptoEventAnalysis flag to store enabled or disabled status
+	// CryptoEventAnalysis flag to store enabled or disabled status.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	SummarizedEventsLog *SummarizedEventsLog `mandatory:"false" json:"summarizedEventsLog"`

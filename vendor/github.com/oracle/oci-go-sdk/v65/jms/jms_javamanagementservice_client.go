@@ -461,7 +461,7 @@ func (client JavaManagementServiceClient) deleteBlocklist(ctx context.Context, r
 	return response, err
 }
 
-// DeleteCryptoAnalysisResult Deletes only the metadata of the Crypto Event Analysis result, but the file remains in the object storage.
+// DeleteCryptoAnalysisResult Deletes the metadata for the result of a Crypto event analysis. The actual report shall remain in the object storage.
 //
 // See also
 //
@@ -577,6 +577,122 @@ func (client JavaManagementServiceClient) deleteFleet(ctx context.Context, reque
 	return response, err
 }
 
+// DeleteJavaMigrationAnalysisResult Delete the Java migration analysis result. The actual report will remain in the Object Storage bucket.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteJavaMigrationAnalysisResult.go.html to see an example of how to use DeleteJavaMigrationAnalysisResult API.
+// A default retry strategy applies to this operation DeleteJavaMigrationAnalysisResult()
+func (client JavaManagementServiceClient) DeleteJavaMigrationAnalysisResult(ctx context.Context, request DeleteJavaMigrationAnalysisResultRequest) (response DeleteJavaMigrationAnalysisResultResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteJavaMigrationAnalysisResult, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteJavaMigrationAnalysisResultResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteJavaMigrationAnalysisResultResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteJavaMigrationAnalysisResultResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteJavaMigrationAnalysisResultResponse")
+	}
+	return
+}
+
+// deleteJavaMigrationAnalysisResult implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) deleteJavaMigrationAnalysisResult(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fleets/{fleetId}/javaMigrationAnalysisResults/{javaMigrationAnalysisResultId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteJavaMigrationAnalysisResultResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaMigrationAnalysisResult/DeleteJavaMigrationAnalysisResult"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "DeleteJavaMigrationAnalysisResult", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeletePerformanceTuningAnalysisResult Deletes only the metadata of the Performance Tuning Analysis result, but the file remains in the object storage.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeletePerformanceTuningAnalysisResult.go.html to see an example of how to use DeletePerformanceTuningAnalysisResult API.
+// A default retry strategy applies to this operation DeletePerformanceTuningAnalysisResult()
+func (client JavaManagementServiceClient) DeletePerformanceTuningAnalysisResult(ctx context.Context, request DeletePerformanceTuningAnalysisResultRequest) (response DeletePerformanceTuningAnalysisResultResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deletePerformanceTuningAnalysisResult, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeletePerformanceTuningAnalysisResultResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeletePerformanceTuningAnalysisResultResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeletePerformanceTuningAnalysisResultResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeletePerformanceTuningAnalysisResultResponse")
+	}
+	return
+}
+
+// deletePerformanceTuningAnalysisResult implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) deletePerformanceTuningAnalysisResult(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fleets/{fleetId}/performanceTuningAnalysisResults/{performanceTuningAnalysisResultId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeletePerformanceTuningAnalysisResultResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/DeletePerformanceTuningAnalysisResult"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "DeletePerformanceTuningAnalysisResult", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GenerateAgentDeployScript Generates Agent Deploy Script for Fleet using the information provided.
 //
 // See also
@@ -634,7 +750,7 @@ func (client JavaManagementServiceClient) generateAgentDeployScript(ctx context.
 	return response, err
 }
 
-// GetCryptoAnalysisResult Retrieve metadata of the Crypto Event Analysis result.
+// GetCryptoAnalysisResult Retrieve the metadata for the result of a Crypto event analysis.
 //
 // See also
 //
@@ -750,7 +866,7 @@ func (client JavaManagementServiceClient) getFleet(ctx context.Context, request 
 	return response, err
 }
 
-// GetFleetAdvancedFeatureConfiguration Returns fleet level advanced feature configuration
+// GetFleetAdvancedFeatureConfiguration Returns Fleet level advanced feature configuration.
 //
 // See also
 //
@@ -924,6 +1040,64 @@ func (client JavaManagementServiceClient) getJavaFamily(ctx context.Context, req
 	return response, err
 }
 
+// GetJavaMigrationAnalysisResult Retrieve Java Migration Analysis result.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetJavaMigrationAnalysisResult.go.html to see an example of how to use GetJavaMigrationAnalysisResult API.
+// A default retry strategy applies to this operation GetJavaMigrationAnalysisResult()
+func (client JavaManagementServiceClient) GetJavaMigrationAnalysisResult(ctx context.Context, request GetJavaMigrationAnalysisResultRequest) (response GetJavaMigrationAnalysisResultResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getJavaMigrationAnalysisResult, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetJavaMigrationAnalysisResultResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetJavaMigrationAnalysisResultResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetJavaMigrationAnalysisResultResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetJavaMigrationAnalysisResultResponse")
+	}
+	return
+}
+
+// getJavaMigrationAnalysisResult implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) getJavaMigrationAnalysisResult(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/javaMigrationAnalysisResults/{javaMigrationAnalysisResultId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetJavaMigrationAnalysisResultResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaMigrationAnalysisResult/GetJavaMigrationAnalysisResult"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "GetJavaMigrationAnalysisResult", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetJavaRelease Returns detail of a Java release.
 //
 // See also
@@ -975,6 +1149,64 @@ func (client JavaManagementServiceClient) getJavaRelease(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaRelease/GetJavaRelease"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetJavaRelease", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetPerformanceTuningAnalysisResult Retrieve metadata of the Performance Tuning Analysis result.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetPerformanceTuningAnalysisResult.go.html to see an example of how to use GetPerformanceTuningAnalysisResult API.
+// A default retry strategy applies to this operation GetPerformanceTuningAnalysisResult()
+func (client JavaManagementServiceClient) GetPerformanceTuningAnalysisResult(ctx context.Context, request GetPerformanceTuningAnalysisResultRequest) (response GetPerformanceTuningAnalysisResultResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPerformanceTuningAnalysisResult, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPerformanceTuningAnalysisResultResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPerformanceTuningAnalysisResultResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPerformanceTuningAnalysisResultResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPerformanceTuningAnalysisResultResponse")
+	}
+	return
+}
+
+// getPerformanceTuningAnalysisResult implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) getPerformanceTuningAnalysisResult(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/performanceTuningAnalysisResults/{performanceTuningAnalysisResultId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPerformanceTuningAnalysisResultResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/GetPerformanceTuningAnalysisResult"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "GetPerformanceTuningAnalysisResult", apiReferenceLink)
 		return response, err
 	}
 
@@ -1040,6 +1272,64 @@ func (client JavaManagementServiceClient) getWorkRequest(ctx context.Context, re
 	return response, err
 }
 
+// ListAnnouncements Return a list of AnnouncementSummary items
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListAnnouncements.go.html to see an example of how to use ListAnnouncements API.
+// A default retry strategy applies to this operation ListAnnouncements()
+func (client JavaManagementServiceClient) ListAnnouncements(ctx context.Context, request ListAnnouncementsRequest) (response ListAnnouncementsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAnnouncements, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAnnouncementsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAnnouncementsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAnnouncementsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAnnouncementsResponse")
+	}
+	return
+}
+
+// listAnnouncements implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listAnnouncements(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/announcements", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAnnouncementsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/AnnouncementCollection/ListAnnouncements"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListAnnouncements", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListBlocklists Returns a list of blocklist entities contained by a fleet.
 //
 // See also
@@ -1098,7 +1388,7 @@ func (client JavaManagementServiceClient) listBlocklists(ctx context.Context, re
 	return response, err
 }
 
-// ListCryptoAnalysisResults List Crypto Event Analysis results.
+// ListCryptoAnalysisResults Lists the results of a Crypto event analysis.
 //
 // See also
 //
@@ -1149,6 +1439,64 @@ func (client JavaManagementServiceClient) listCryptoAnalysisResults(ctx context.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/CryptoAnalysisResult/ListCryptoAnalysisResults"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListCryptoAnalysisResults", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListFleetDiagnoses List potential diagnoses that would put a fleet into FAILED or NEEDS_ATTENTION lifecycle state.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListFleetDiagnoses.go.html to see an example of how to use ListFleetDiagnoses API.
+// A default retry strategy applies to this operation ListFleetDiagnoses()
+func (client JavaManagementServiceClient) ListFleetDiagnoses(ctx context.Context, request ListFleetDiagnosesRequest) (response ListFleetDiagnosesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listFleetDiagnoses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFleetDiagnosesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFleetDiagnosesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListFleetDiagnosesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListFleetDiagnosesResponse")
+	}
+	return
+}
+
+// listFleetDiagnoses implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listFleetDiagnoses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/diagnoses", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListFleetDiagnosesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/FleetDiagnosisSummary/ListFleetDiagnoses"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListFleetDiagnoses", apiReferenceLink)
 		return response, err
 	}
 
@@ -1332,6 +1680,64 @@ func (client JavaManagementServiceClient) listJavaFamilies(ctx context.Context, 
 	return response, err
 }
 
+// ListJavaMigrationAnalysisResults Lists the results of a Java migration analysis.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListJavaMigrationAnalysisResults.go.html to see an example of how to use ListJavaMigrationAnalysisResults API.
+// A default retry strategy applies to this operation ListJavaMigrationAnalysisResults()
+func (client JavaManagementServiceClient) ListJavaMigrationAnalysisResults(ctx context.Context, request ListJavaMigrationAnalysisResultsRequest) (response ListJavaMigrationAnalysisResultsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listJavaMigrationAnalysisResults, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListJavaMigrationAnalysisResultsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListJavaMigrationAnalysisResultsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListJavaMigrationAnalysisResultsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListJavaMigrationAnalysisResultsResponse")
+	}
+	return
+}
+
+// listJavaMigrationAnalysisResults implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listJavaMigrationAnalysisResults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/javaMigrationAnalysisResults", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListJavaMigrationAnalysisResultsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaMigrationAnalysisResult/ListJavaMigrationAnalysisResults"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListJavaMigrationAnalysisResults", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListJavaReleases Returns a list of Java releases.
 //
 // See also
@@ -1448,7 +1854,65 @@ func (client JavaManagementServiceClient) listJreUsage(ctx context.Context, requ
 	return response, err
 }
 
-// ListWorkItems Retrieve a (paginated) list of work items for a specified work request.
+// ListPerformanceTuningAnalysisResults List Performance Tuning Analysis results.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListPerformanceTuningAnalysisResults.go.html to see an example of how to use ListPerformanceTuningAnalysisResults API.
+// A default retry strategy applies to this operation ListPerformanceTuningAnalysisResults()
+func (client JavaManagementServiceClient) ListPerformanceTuningAnalysisResults(ctx context.Context, request ListPerformanceTuningAnalysisResultsRequest) (response ListPerformanceTuningAnalysisResultsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPerformanceTuningAnalysisResults, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPerformanceTuningAnalysisResultsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPerformanceTuningAnalysisResultsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPerformanceTuningAnalysisResultsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPerformanceTuningAnalysisResultsResponse")
+	}
+	return
+}
+
+// listPerformanceTuningAnalysisResults implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) listPerformanceTuningAnalysisResults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/performanceTuningAnalysisResults", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPerformanceTuningAnalysisResultsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/ListPerformanceTuningAnalysisResults"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "ListPerformanceTuningAnalysisResults", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListWorkItems Retrieve a paginated list of work items for a specified work request.
 //
 // See also
 //
@@ -1564,7 +2028,7 @@ func (client JavaManagementServiceClient) listWorkRequestErrors(ctx context.Cont
 	return response, err
 }
 
-// ListWorkRequestLogs Retrieve a (paginated) list of logs for a specified work request.
+// ListWorkRequestLogs Retrieve a paginated list of logs for a specified work request.
 //
 // See also
 //
@@ -1743,8 +2207,7 @@ func (client JavaManagementServiceClient) removeFleetInstallationSites(ctx conte
 	return response, err
 }
 
-// RequestCryptoAnalyses Request to perform crypto analyses. The result of crypto analysis will be uploaded to the
-// object storage bucket desiginated when enable Crypto Event Analysis feature.
+// RequestCryptoAnalyses Request to perform crypto analysis on one or more selected targets in the Fleet. The result of the crypto analysis will be uploaded to the object storage bucket created by JMS on enabling the Crypto Event Analysis feature in the Fleet.
 //
 // See also
 //
@@ -1802,8 +2265,66 @@ func (client JavaManagementServiceClient) requestCryptoAnalyses(ctx context.Cont
 	return response, err
 }
 
-// RequestJfrRecordings Request to collect the JFR recordings on the selected target. The JFR files are uploaded
-// to the object storage bucket that you designated when you enabled the recording feature.
+// RequestJavaMigrationAnalyses Request to perform a Java migration analysis. The results of the Java migration analysis will be uploaded to the
+// Object Storage bucket that you designate when you enable the Java Migration Analysis feature.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/RequestJavaMigrationAnalyses.go.html to see an example of how to use RequestJavaMigrationAnalyses API.
+// A default retry strategy applies to this operation RequestJavaMigrationAnalyses()
+func (client JavaManagementServiceClient) RequestJavaMigrationAnalyses(ctx context.Context, request RequestJavaMigrationAnalysesRequest) (response RequestJavaMigrationAnalysesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.requestJavaMigrationAnalyses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestJavaMigrationAnalysesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestJavaMigrationAnalysesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestJavaMigrationAnalysesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestJavaMigrationAnalysesResponse")
+	}
+	return
+}
+
+// requestJavaMigrationAnalyses implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) requestJavaMigrationAnalyses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/requestJavaMigrationAnalyses", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestJavaMigrationAnalysesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/RequestJavaMigrationAnalyses"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "RequestJavaMigrationAnalyses", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RequestJfrRecordings Request to collect the JFR recordings on the selected target in the Fleet. The JFR files are uploaded to the object storage bucket created by JMS on enabling Generic JFR feature in the Fleet.
 //
 // See also
 //
@@ -1861,7 +2382,66 @@ func (client JavaManagementServiceClient) requestJfrRecordings(ctx context.Conte
 	return response, err
 }
 
-// ScanJavaServerUsage Scan Java server usage in a fleet.
+// RequestPerformanceTuningAnalyses Request to perform performance tuning analyses. The result of performance tuning analysis will be uploaded to the
+// object storage bucket that you designated when you enabled the recording feature.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/RequestPerformanceTuningAnalyses.go.html to see an example of how to use RequestPerformanceTuningAnalyses API.
+// A default retry strategy applies to this operation RequestPerformanceTuningAnalyses()
+func (client JavaManagementServiceClient) RequestPerformanceTuningAnalyses(ctx context.Context, request RequestPerformanceTuningAnalysesRequest) (response RequestPerformanceTuningAnalysesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.requestPerformanceTuningAnalyses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestPerformanceTuningAnalysesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestPerformanceTuningAnalysesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestPerformanceTuningAnalysesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestPerformanceTuningAnalysesResponse")
+	}
+	return
+}
+
+// requestPerformanceTuningAnalyses implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) requestPerformanceTuningAnalyses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fleets/{fleetId}/actions/requestPerformanceTuningAnalyses", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestPerformanceTuningAnalysesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/RequestPerformanceTuningAnalyses"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "RequestPerformanceTuningAnalyses", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ScanJavaServerUsage Scan Java Server usage in a fleet.
 //
 // See also
 //
@@ -1987,6 +2567,64 @@ func (client JavaManagementServiceClient) scanLibraryUsage(ctx context.Context, 
 	return response, err
 }
 
+// SummarizeApplicationInstallationUsage Summarizes the application installation usage in a Fleet filtered by query parameters. In contrast to SummarizeApplicationUsage, which provides only information aggregated by application name, this operation provides installation details. This allows for better focusing of actions.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeApplicationInstallationUsage.go.html to see an example of how to use SummarizeApplicationInstallationUsage API.
+// A default retry strategy applies to this operation SummarizeApplicationInstallationUsage()
+func (client JavaManagementServiceClient) SummarizeApplicationInstallationUsage(ctx context.Context, request SummarizeApplicationInstallationUsageRequest) (response SummarizeApplicationInstallationUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeApplicationInstallationUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeApplicationInstallationUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeApplicationInstallationUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeApplicationInstallationUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeApplicationInstallationUsageResponse")
+	}
+	return
+}
+
+// summarizeApplicationInstallationUsage implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) summarizeApplicationInstallationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/actions/summarizeApplicationInstallationUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeApplicationInstallationUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/ApplicationInstallationUsageSummary/SummarizeApplicationInstallationUsage"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeApplicationInstallationUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SummarizeApplicationUsage List application usage in a Fleet filtered by query parameters.
 //
 // See also
@@ -2045,7 +2683,65 @@ func (client JavaManagementServiceClient) summarizeApplicationUsage(ctx context.
 	return response, err
 }
 
-// SummarizeDeployedApplicationUsage List deployed applications in a fleet filtered by query parameters.
+// SummarizeDeployedApplicationInstallationUsage Summarize installation usage of an application deployed on Java servers in a fleet filtered by query parameters. In contrast to SummarizeDeployedApplicationUsage, which provides only information aggregated by the deployment information, this operation provides installation details and allows for better focusing of actions.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeDeployedApplicationInstallationUsage.go.html to see an example of how to use SummarizeDeployedApplicationInstallationUsage API.
+// A default retry strategy applies to this operation SummarizeDeployedApplicationInstallationUsage()
+func (client JavaManagementServiceClient) SummarizeDeployedApplicationInstallationUsage(ctx context.Context, request SummarizeDeployedApplicationInstallationUsageRequest) (response SummarizeDeployedApplicationInstallationUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeDeployedApplicationInstallationUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeDeployedApplicationInstallationUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeDeployedApplicationInstallationUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeDeployedApplicationInstallationUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeDeployedApplicationInstallationUsageResponse")
+	}
+	return
+}
+
+// summarizeDeployedApplicationInstallationUsage implements the OCIOperation interface (enables retrying operations)
+func (client JavaManagementServiceClient) summarizeDeployedApplicationInstallationUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fleets/{fleetId}/actions/summarizeDeployedApplicationInstallationUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeDeployedApplicationInstallationUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/DeployedApplicationInstallationUsageSummary/SummarizeDeployedApplicationInstallationUsage"
+		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeDeployedApplicationInstallationUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeDeployedApplicationUsage List of deployed applications in a Fleet filtered by query parameters.
 //
 // See also
 //
@@ -2161,7 +2857,7 @@ func (client JavaManagementServiceClient) summarizeInstallationUsage(ctx context
 	return response, err
 }
 
-// SummarizeJavaServerInstanceUsage List Java server instances in a fleet filtered by query parameters.
+// SummarizeJavaServerInstanceUsage List Java Server instances in a fleet filtered by query parameters.
 //
 // See also
 //
@@ -2219,7 +2915,7 @@ func (client JavaManagementServiceClient) summarizeJavaServerInstanceUsage(ctx c
 	return response, err
 }
 
-// SummarizeJavaServerUsage List Java servers in a fleet filtered by query parameters.
+// SummarizeJavaServerUsage List of Java servers in a Fleet filtered by query parameters.
 //
 // See also
 //
@@ -2567,8 +3263,8 @@ func (client JavaManagementServiceClient) updateFleet(ctx context.Context, reque
 	return response, err
 }
 
-// UpdateFleetAdvancedFeatureConfiguration Update advanced feature configurations for the fleet
-// Ensure that the namespace and bucket storage are created prior to turning on the JfrRecording or CryptoEventAnalysis feature
+// UpdateFleetAdvancedFeatureConfiguration Update advanced feature configurations for the Fleet.
+// Ensure that the namespace and bucket storage are created prior to turning on the JfrRecording or CryptoEventAnalysis feature.
 //
 // See also
 //
