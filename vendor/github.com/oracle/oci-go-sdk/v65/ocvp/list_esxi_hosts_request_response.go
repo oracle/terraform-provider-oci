@@ -57,6 +57,15 @@ type ListEsxiHostsRequest struct {
 	// The lifecycle state of the resource.
 	LifecycleState ListEsxiHostsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// If this flag/param is set to True, we return only deleted hosts with LeftOver billingCycle.
+	IsBillingDonorsOnly *bool `mandatory:"false" contributesTo:"query" name:"isBillingDonorsOnly"`
+
+	// If this flag/param is set to True, we return only active hosts.
+	IsSwapBillingOnly *bool `mandatory:"false" contributesTo:"query" name:"isSwapBillingOnly"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment as optional parameter.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

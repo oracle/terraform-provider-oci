@@ -10,12 +10,13 @@
 package jms
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// WorkItemSummary The LCM work request for a JVM installation site.
+// WorkItemSummary Work item to complete a work request.
 type WorkItemSummary struct {
 
 	// The unique ID of ths work item.
@@ -25,6 +26,8 @@ type WorkItemSummary struct {
 	WorkRequestId *string `mandatory:"true" json:"workRequestId"`
 
 	InstallationSite *InstallationSite `mandatory:"true" json:"installationSite"`
+
+	Details WorkItemDetails `mandatory:"true" json:"details"`
 
 	// The status of the work item.
 	Status WorkItemStatusEnum `mandatory:"true" json:"status"`
@@ -53,4 +56,46 @@ func (m WorkItemSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *WorkItemSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		TimeLastUpdated  *common.SDKTime    `json:"timeLastUpdated"`
+		Id               *string            `json:"id"`
+		WorkRequestId    *string            `json:"workRequestId"`
+		InstallationSite *InstallationSite  `json:"installationSite"`
+		Details          workitemdetails    `json:"details"`
+		Status           WorkItemStatusEnum `json:"status"`
+		RetryCount       *int               `json:"retryCount"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.TimeLastUpdated = model.TimeLastUpdated
+
+	m.Id = model.Id
+
+	m.WorkRequestId = model.WorkRequestId
+
+	m.InstallationSite = model.InstallationSite
+
+	nn, e = model.Details.UnmarshalPolymorphicJSON(model.Details.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Details = nn.(WorkItemDetails)
+	} else {
+		m.Details = nil
+	}
+
+	m.Status = model.Status
+
+	m.RetryCount = model.RetryCount
+
+	return
 }

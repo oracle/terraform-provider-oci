@@ -270,6 +270,7 @@ type ListInstallationSitesJreSecurityStatusEnum string
 
 // Set of constants representing the allowable values for ListInstallationSitesJreSecurityStatusEnum
 const (
+	ListInstallationSitesJreSecurityStatusEarlyAccess     ListInstallationSitesJreSecurityStatusEnum = "EARLY_ACCESS"
 	ListInstallationSitesJreSecurityStatusUnknown         ListInstallationSitesJreSecurityStatusEnum = "UNKNOWN"
 	ListInstallationSitesJreSecurityStatusUpToDate        ListInstallationSitesJreSecurityStatusEnum = "UP_TO_DATE"
 	ListInstallationSitesJreSecurityStatusUpdateRequired  ListInstallationSitesJreSecurityStatusEnum = "UPDATE_REQUIRED"
@@ -277,6 +278,7 @@ const (
 )
 
 var mappingListInstallationSitesJreSecurityStatusEnum = map[string]ListInstallationSitesJreSecurityStatusEnum{
+	"EARLY_ACCESS":     ListInstallationSitesJreSecurityStatusEarlyAccess,
 	"UNKNOWN":          ListInstallationSitesJreSecurityStatusUnknown,
 	"UP_TO_DATE":       ListInstallationSitesJreSecurityStatusUpToDate,
 	"UPDATE_REQUIRED":  ListInstallationSitesJreSecurityStatusUpdateRequired,
@@ -284,6 +286,7 @@ var mappingListInstallationSitesJreSecurityStatusEnum = map[string]ListInstallat
 }
 
 var mappingListInstallationSitesJreSecurityStatusEnumLowerCase = map[string]ListInstallationSitesJreSecurityStatusEnum{
+	"early_access":     ListInstallationSitesJreSecurityStatusEarlyAccess,
 	"unknown":          ListInstallationSitesJreSecurityStatusUnknown,
 	"up_to_date":       ListInstallationSitesJreSecurityStatusUpToDate,
 	"update_required":  ListInstallationSitesJreSecurityStatusUpdateRequired,
@@ -302,6 +305,7 @@ func GetListInstallationSitesJreSecurityStatusEnumValues() []ListInstallationSit
 // GetListInstallationSitesJreSecurityStatusEnumStringValues Enumerates the set of values in String for ListInstallationSitesJreSecurityStatusEnum
 func GetListInstallationSitesJreSecurityStatusEnumStringValues() []string {
 	return []string{
+		"EARLY_ACCESS",
 		"UNKNOWN",
 		"UP_TO_DATE",
 		"UPDATE_REQUIRED",

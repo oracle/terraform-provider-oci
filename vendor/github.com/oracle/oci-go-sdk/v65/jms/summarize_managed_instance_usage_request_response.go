@@ -36,7 +36,7 @@ type SummarizeManagedInstanceUsageRequest struct {
 	// The version of the related Java Runtime.
 	JreVersion *string `mandatory:"false" contributesTo:"query" name:"jreVersion"`
 
-	// The file system path of the installation.
+	// The file system path of the Java Runtime installation.
 	InstallationPath *string `mandatory:"false" contributesTo:"query" name:"installationPath"`
 
 	// The Fleet-unique identifier of the related application.
