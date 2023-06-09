@@ -21,7 +21,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v65/operationsinsights"
+	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
