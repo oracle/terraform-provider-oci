@@ -135,12 +135,19 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"AUTONOMOUS_DATABASE",
 								"COMPUTE_INSTANCE",
+								"COMPUTE_INSTANCE_MOVABLE",
+								"COMPUTE_INSTANCE_NON_MOVABLE",
 								"DATABASE",
 								"VOLUME_GROUP",
 							}, true),
 						},
 
 						// Optional
+						"destination_capacity_reservation_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"destination_compartment_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -152,6 +159,11 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 							Computed: true,
 						},
 						"is_movable": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_retain_fault_domain": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
@@ -178,6 +190,48 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
+									},
+									"destination_subnet_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"source_vnic_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"vnic_mappings": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"destination_nsg_id_list": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"destination_primary_private_ip_address": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"destination_primary_private_ip_hostname_label": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
 									},
 									"destination_subnet_id": {
 										Type:     schema.TypeString,
@@ -783,6 +837,69 @@ func AssociateDrProtectionGroupDetailsToMap(obj *oci_disaster_recovery.Associate
 	return result
 }
 
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToComputeInstanceMovableVnicMappingDetails(fieldKeyFormat string) (oci_disaster_recovery.ComputeInstanceMovableVnicMappingDetails, error) {
+	result := oci_disaster_recovery.ComputeInstanceMovableVnicMappingDetails{}
+
+	if destinationNsgIdList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_nsg_id_list")); ok {
+		interfaces := destinationNsgIdList.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "destination_nsg_id_list")) {
+			result.DestinationNsgIdList = tmp
+		}
+	}
+
+	if destinationPrimaryPrivateIpAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_primary_private_ip_address")); ok {
+		tmp := destinationPrimaryPrivateIpAddress.(string)
+		result.DestinationPrimaryPrivateIpAddress = &tmp
+	}
+
+	if destinationPrimaryPrivateIpHostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_primary_private_ip_hostname_label")); ok {
+		tmp := destinationPrimaryPrivateIpHostnameLabel.(string)
+		result.DestinationPrimaryPrivateIpHostnameLabel = &tmp
+	}
+
+	if destinationSubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_subnet_id")); ok {
+		tmp := destinationSubnetId.(string)
+		result.DestinationSubnetId = &tmp
+	}
+
+	if sourceVnicId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_vnic_id")); ok {
+		tmp := sourceVnicId.(string)
+		result.SourceVnicId = &tmp
+	}
+
+	return result, nil
+}
+
+func ComputeInstanceMovableVnicMappingDetailsToMap(obj oci_disaster_recovery.ComputeInstanceMovableVnicMapping) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["destination_nsg_id_list"] = obj.DestinationNsgIdList
+
+	if obj.DestinationPrimaryPrivateIpAddress != nil {
+		result["destination_primary_private_ip_address"] = string(*obj.DestinationPrimaryPrivateIpAddress)
+	}
+
+	if obj.DestinationPrimaryPrivateIpHostnameLabel != nil {
+		result["destination_primary_private_ip_hostname_label"] = string(*obj.DestinationPrimaryPrivateIpHostnameLabel)
+	}
+
+	if obj.DestinationSubnetId != nil {
+		result["destination_subnet_id"] = string(*obj.DestinationSubnetId)
+	}
+
+	if obj.SourceVnicId != nil {
+		result["source_vnic_id"] = string(*obj.SourceVnicId)
+	}
+
+	return result
+}
+
 func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToComputeInstanceVnicMappingDetails(fieldKeyFormat string) (oci_disaster_recovery.ComputeInstanceVnicMappingDetails, error) {
 	result := oci_disaster_recovery.ComputeInstanceVnicMappingDetails{}
 
@@ -882,6 +999,52 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 			details.MemberId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("COMPUTE_INSTANCE_MOVABLE"):
+		details := oci_disaster_recovery.CreateDrProtectionGroupMemberComputeInstanceMovableDetails{}
+		if destinationCapacityReservationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_capacity_reservation_id")); ok {
+			tmp := destinationCapacityReservationId.(string)
+			details.DestinationCapacityReservationId = &tmp
+		}
+		if destinationCompartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_compartment_id")); ok {
+			tmp := destinationCompartmentId.(string)
+			details.DestinationCompartmentId = &tmp
+		}
+		if destinationDedicatedVmHostId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_dedicated_vm_host_id")); ok {
+			tmp := destinationDedicatedVmHostId.(string)
+			details.DestinationDedicatedVmHostId = &tmp
+		}
+		if isRetainFaultDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_retain_fault_domain")); ok {
+			tmp := isRetainFaultDomain.(bool)
+			details.IsRetainFaultDomain = &tmp
+		}
+		if vnicMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vnic_mappings")); ok {
+			interfaces := vnicMappings.([]interface{})
+			tmp := make([]oci_disaster_recovery.ComputeInstanceMovableVnicMappingDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "vnic_mappings"), stateDataIndex)
+				converted, err := s.mapToComputeInstanceMovableVnicMappingDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vnic_mappings")) {
+				details.VnicMappings = tmp
+			}
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			details.MemberId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("COMPUTE_INSTANCE_NON_MOVABLE"):
+		details := oci_disaster_recovery.CreateDrProtectionGroupMemberComputeInstanceNonMovableDetails{}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			details.MemberId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("DATABASE"):
 		details := oci_disaster_recovery.CreateDrProtectionGroupMemberDatabaseDetails{}
 		if passwordVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_vault_secret_id")); ok {
@@ -921,18 +1084,24 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousDatabaseDetails{}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
 			tmp := memberId.(string)
-			details.MemberId = &tmp
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
 		}
 		baseObject = details
 	case strings.ToLower("COMPUTE_INSTANCE"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberComputeInstanceDetails{}
 		if destinationCompartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_compartment_id")); ok {
 			tmp := destinationCompartmentId.(string)
-			details.DestinationCompartmentId = &tmp
+			if tmp != "" {
+				details.DestinationCompartmentId = &tmp
+			}
 		}
 		if destinationDedicatedVmHostId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_dedicated_vm_host_id")); ok {
 			tmp := destinationDedicatedVmHostId.(string)
-			details.DestinationDedicatedVmHostId = &tmp
+			if tmp != "" {
+				details.DestinationDedicatedVmHostId = &tmp
+			}
 		}
 		if isMovable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_movable")); ok {
 			tmp := isMovable.(bool)
@@ -956,25 +1125,89 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 		}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
 			tmp := memberId.(string)
-			details.MemberId = &tmp
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("COMPUTE_INSTANCE_MOVABLE"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberComputeInstanceMovableDetails{}
+		if destinationCapacityReservationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_capacity_reservation_id")); ok {
+			tmp := destinationCapacityReservationId.(string)
+			if tmp != "" {
+				details.DestinationCapacityReservationId = &tmp
+			}
+		}
+		if destinationCompartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_compartment_id")); ok {
+			tmp := destinationCompartmentId.(string)
+			if tmp != "" {
+				details.DestinationCompartmentId = &tmp
+			}
+		}
+		if destinationDedicatedVmHostId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_dedicated_vm_host_id")); ok {
+			tmp := destinationDedicatedVmHostId.(string)
+			if tmp != "" {
+				details.DestinationDedicatedVmHostId = &tmp
+			}
+		}
+		if isRetainFaultDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_retain_fault_domain")); ok {
+			tmp := isRetainFaultDomain.(bool)
+			details.IsRetainFaultDomain = &tmp
+		}
+		if vnicMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vnic_mappings")); ok {
+			interfaces := vnicMappings.([]interface{})
+			tmp := make([]oci_disaster_recovery.ComputeInstanceMovableVnicMappingDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "vnic_mappings"), stateDataIndex)
+				converted, err := s.mapToComputeInstanceMovableVnicMappingDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vnic_mappings")) {
+				details.VnicMappings = tmp
+			}
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("COMPUTE_INSTANCE_NON_MOVABLE"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails{}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
 		}
 		baseObject = details
 	case strings.ToLower("DATABASE"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberDatabaseDetails{}
 		if passwordVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_vault_secret_id")); ok {
 			tmp := passwordVaultSecretId.(string)
-			details.PasswordVaultSecretId = &tmp
+			if tmp != "" {
+				details.PasswordVaultSecretId = &tmp
+			}
 		}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
 			tmp := memberId.(string)
-			details.MemberId = &tmp
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
 		}
 		baseObject = details
 	case strings.ToLower("VOLUME_GROUP"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberVolumeGroupDetails{}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
 			tmp := memberId.(string)
-			details.MemberId = &tmp
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
 		}
 		baseObject = details
 	default:
@@ -1012,6 +1245,40 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 			vnicMapping = append(vnicMapping, ComputeInstanceVnicMappingToMap(item))
 		}
 		result["vnic_mapping"] = vnicMapping
+
+		if v.MemberId != nil {
+			result["member_id"] = string(*v.MemberId)
+		}
+	case oci_disaster_recovery.DrProtectionGroupMemberComputeInstanceMovable:
+		result["member_type"] = "COMPUTE_INSTANCE_MOVABLE"
+
+		if v.DestinationCapacityReservationId != nil {
+			result["destination_capacity_reservation_id"] = string(*v.DestinationCapacityReservationId)
+		}
+
+		if v.DestinationCompartmentId != nil {
+			result["destination_compartment_id"] = string(*v.DestinationCompartmentId)
+		}
+
+		if v.DestinationDedicatedVmHostId != nil {
+			result["destination_dedicated_vm_host_id"] = string(*v.DestinationDedicatedVmHostId)
+		}
+
+		if v.IsRetainFaultDomain != nil {
+			result["is_retain_fault_domain"] = bool(*v.IsRetainFaultDomain)
+		}
+
+		vnicMappings := []interface{}{}
+		for _, item := range v.VnicMappings {
+			vnicMappings = append(vnicMappings, ComputeInstanceMovableVnicMappingDetailsToMap(item))
+		}
+		result["vnic_mappings"] = vnicMappings
+
+		if v.MemberId != nil {
+			result["member_id"] = string(*v.MemberId)
+		}
+	case oci_disaster_recovery.DrProtectionGroupMemberComputeInstanceNonMovable:
+		result["member_type"] = "COMPUTE_INSTANCE_NON_MOVABLE"
 
 		if v.MemberId != nil {
 			result["member_id"] = string(*v.MemberId)

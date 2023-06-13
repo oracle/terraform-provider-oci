@@ -51,6 +51,10 @@ resource "oci_identity_tag_namespace" "test_tag_namespace" {
   description    = var.tag_namespace_description
   name           = var.tag_namespace_name
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   #Optional
   defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.tag_namespace_defined_tags_value}")
   freeform_tags = var.tag_namespace_freeform_tags
