@@ -53,10 +53,10 @@ resource "oci_disaster_recovery_dr_protection_group" "test_peer" {
 
   #Optional
   members {
-    #Required   
-    member_id   = oci_core_volume_group.test_volume_group.id
+    #Required
+    member_id   = data.oci_core_volume_groups.test_volume_groups.volume_groups.0.id
     member_type = var.dr_protection_group_members_member_type
-    
+
     #Optional
     is_movable                       = var.dr_protection_group_members_is_movable
   }
@@ -81,6 +81,11 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
     peer_id     = oci_disaster_recovery_dr_protection_group.test_peer.id
     peer_region = var.dr_protection_group_association_peer_region
   }
+
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.dr_protection_group_defined_tags_value}")
   freeform_tags = var.dr_protection_group_freeform_tags
 }

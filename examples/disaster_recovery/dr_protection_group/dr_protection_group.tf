@@ -89,6 +89,10 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
     namespace = data.oci_objectstorage_namespace.test_namespace.namespace
   }
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   #Optional
   association {
     #Required
