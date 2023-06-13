@@ -40,6 +40,9 @@ type Page struct {
 
 	// The form fields detected on the page.
 	DocumentFields []DocumentField `mandatory:"false" json:"documentFields"`
+
+	// The signatures detected on the page.
+	Signatures []Signature `mandatory:"false" json:"signatures"`
 }
 
 func (m Page) String() string {

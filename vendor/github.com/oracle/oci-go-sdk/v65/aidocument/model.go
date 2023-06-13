@@ -28,8 +28,6 @@ type Model struct {
 	// The type of the Document model.
 	ModelType ModelModelTypeEnum `mandatory:"true" json:"modelType"`
 
-	TrainingDataset Dataset `mandatory:"true" json:"trainingDataset"`
-
 	// The version of the model.
 	ModelVersion *string `mandatory:"true" json:"modelVersion"`
 
@@ -48,6 +46,12 @@ type Model struct {
 	// An optional description of the model.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The tenancy id of the model.
+	TenancyId *string `mandatory:"false" json:"tenancyId"`
+
+	// the alias name of the model.
+	AliasName *string `mandatory:"false" json:"aliasName"`
+
 	// The collection of labels used to train the custom model.
 	Labels []string `mandatory:"false" json:"labels"`
 
@@ -60,9 +64,17 @@ type Model struct {
 	// The total hours actually used for model training.
 	TrainedTimeInHours *float64 `mandatory:"false" json:"trainedTimeInHours"`
 
+	TrainingDataset Dataset `mandatory:"false" json:"trainingDataset"`
+
 	TestingDataset Dataset `mandatory:"false" json:"testingDataset"`
 
 	ValidationDataset Dataset `mandatory:"false" json:"validationDataset"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) collection of active custom Key Value models that need to be composed.
+	ComponentModels []ComponentModel `mandatory:"false" json:"componentModels"`
+
+	// Set to true when the model is created by using multiple key value extraction models.
+	IsComposedModel *bool `mandatory:"false" json:"isComposedModel"`
 
 	// When the model was updated, as an RFC3339 datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -112,12 +124,17 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName            *string                           `json:"displayName"`
 		Description            *string                           `json:"description"`
+		TenancyId              *string                           `json:"tenancyId"`
+		AliasName              *string                           `json:"aliasName"`
 		Labels                 []string                          `json:"labels"`
 		IsQuickMode            *bool                             `json:"isQuickMode"`
 		MaxTrainingTimeInHours *float64                          `json:"maxTrainingTimeInHours"`
 		TrainedTimeInHours     *float64                          `json:"trainedTimeInHours"`
+		TrainingDataset        dataset                           `json:"trainingDataset"`
 		TestingDataset         dataset                           `json:"testingDataset"`
 		ValidationDataset      dataset                           `json:"validationDataset"`
+		ComponentModels        []ComponentModel                  `json:"componentModels"`
+		IsComposedModel        *bool                             `json:"isComposedModel"`
 		TimeUpdated            *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleDetails       *string                           `json:"lifecycleDetails"`
 		Metrics                modelmetrics                      `json:"metrics"`
@@ -127,7 +144,6 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 		Id                     *string                           `json:"id"`
 		CompartmentId          *string                           `json:"compartmentId"`
 		ModelType              ModelModelTypeEnum                `json:"modelType"`
-		TrainingDataset        dataset                           `json:"trainingDataset"`
 		ModelVersion           *string                           `json:"modelVersion"`
 		ProjectId              *string                           `json:"projectId"`
 		TimeCreated            *common.SDKTime                   `json:"timeCreated"`
@@ -143,6 +159,10 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 
 	m.Description = model.Description
 
+	m.TenancyId = model.TenancyId
+
+	m.AliasName = model.AliasName
+
 	m.Labels = make([]string, len(model.Labels))
 	for i, n := range model.Labels {
 		m.Labels[i] = n
@@ -153,6 +173,16 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	m.MaxTrainingTimeInHours = model.MaxTrainingTimeInHours
 
 	m.TrainedTimeInHours = model.TrainedTimeInHours
+
+	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TrainingDataset = nn.(Dataset)
+	} else {
+		m.TrainingDataset = nil
+	}
 
 	nn, e = model.TestingDataset.UnmarshalPolymorphicJSON(model.TestingDataset.JsonData)
 	if e != nil {
@@ -173,6 +203,13 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ValidationDataset = nil
 	}
+
+	m.ComponentModels = make([]ComponentModel, len(model.ComponentModels))
+	for i, n := range model.ComponentModels {
+		m.ComponentModels[i] = n
+	}
+
+	m.IsComposedModel = model.IsComposedModel
 
 	m.TimeUpdated = model.TimeUpdated
 
@@ -199,16 +236,6 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	m.CompartmentId = model.CompartmentId
 
 	m.ModelType = model.ModelType
-
-	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.TrainingDataset = nn.(Dataset)
-	} else {
-		m.TrainingDataset = nil
-	}
 
 	m.ModelVersion = model.ModelVersion
 

@@ -17,7 +17,7 @@ import (
 	"net/http"
 )
 
-//AIServiceDocumentClient a client for AIServiceDocument
+// AIServiceDocumentClient a client for AIServiceDocument
 type AIServiceDocumentClient struct {
 	common.BaseClient
 	config *common.ConfigurationProvider
@@ -42,7 +42,8 @@ func NewAIServiceDocumentClientWithConfigurationProvider(configProvider common.C
 
 // NewAIServiceDocumentClientWithOboToken Creates a new default AIServiceDocument client with the given configuration provider.
 // The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
-//  as well as reading the region
+//
+//	as well as reading the region
 func NewAIServiceDocumentClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client AIServiceDocumentClient, err error) {
 	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
 	if err != nil {
@@ -1117,6 +1118,59 @@ func (client AIServiceDocumentClient) listWorkRequests(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchModel Updates the model metadata only selected path parameter.
+func (client AIServiceDocumentClient) PatchModel(ctx context.Context, request PatchModelRequest) (response PatchModelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.patchModel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchModelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchModelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchModelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchModelResponse")
+	}
+	return
+}
+
+// patchModel implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceDocumentClient) patchModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/models/{modelId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchModelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/PatchModel"
+		err = common.PostProcessServiceError(err, "AIServiceDocument", "PatchModel", apiReferenceLink)
 		return response, err
 	}
 

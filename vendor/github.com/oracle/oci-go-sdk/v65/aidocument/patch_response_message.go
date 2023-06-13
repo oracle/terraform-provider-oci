@@ -15,27 +15,27 @@ import (
 	"strings"
 )
 
-// DetectedDocumentType The detected document type.
-type DetectedDocumentType struct {
+// PatchResponseMessage The response containing the details of the patch operation status.
+type PatchResponseMessage struct {
 
-	// The document type.
-	DocumentType *string `mandatory:"true" json:"documentType"`
+	// The response message containing details of operation.
+	Message *string `mandatory:"true" json:"message"`
 
-	// The confidence score between 0 and 1.
-	Confidence *float32 `mandatory:"true" json:"confidence"`
+	// Model ID representing the conflicting patch operation.
+	ModelId *string `mandatory:"false" json:"modelId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Key-Value Extraction model that was used to extract the key-value pairs.
-	DocumentId *string `mandatory:"false" json:"documentId"`
+	// Compartment ID representing the conflicting Model Compartment.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 
-func (m DetectedDocumentType) String() string {
+func (m PatchResponseMessage) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DetectedDocumentType) ValidateEnumValue() (bool, error) {
+func (m PatchResponseMessage) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

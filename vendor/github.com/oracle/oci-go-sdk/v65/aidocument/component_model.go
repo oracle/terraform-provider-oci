@@ -15,27 +15,21 @@ import (
 	"strings"
 )
 
-// DetectedDocumentType The detected document type.
-type DetectedDocumentType struct {
+// ComponentModel The custom model selected for Composition.
+type ComponentModel struct {
 
-	// The document type.
-	DocumentType *string `mandatory:"true" json:"documentType"`
-
-	// The confidence score between 0 and 1.
-	Confidence *float32 `mandatory:"true" json:"confidence"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Key-Value Extraction model that was used to extract the key-value pairs.
-	DocumentId *string `mandatory:"false" json:"documentId"`
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of active custom Key Value model that need to be composed.
+	ModelId *string `mandatory:"true" json:"modelId"`
 }
 
-func (m DetectedDocumentType) String() string {
+func (m ComponentModel) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DetectedDocumentType) ValidateEnumValue() (bool, error) {
+func (m ComponentModel) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
