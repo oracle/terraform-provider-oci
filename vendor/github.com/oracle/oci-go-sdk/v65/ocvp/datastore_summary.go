@@ -26,7 +26,7 @@ type DatastoreSummary struct {
 	DatastoreType DatastoreTypesEnum `mandatory:"true" json:"datastoreType"`
 
 	// Size of the Block Storage Volume in GB.
-	Capacity *float32 `mandatory:"true" json:"capacity"`
+	Capacity *float64 `mandatory:"true" json:"capacity"`
 }
 
 func (m DatastoreSummary) String() string {

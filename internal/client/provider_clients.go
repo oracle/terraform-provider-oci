@@ -5,7 +5,11 @@ package client
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
+
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_identity_domains "github.com/oracle/oci-go-sdk/v65/identitydomains"
 
@@ -159,4 +163,18 @@ func CreateSDKClients(clients *OracleClients, configProvider oci_common.Configur
 	clients.WorkRequestClient = &workRequestClient
 
 	return
+}
+func setCustomConfiguration(oClient interface {
+	SetCustomClientConfiguration(config common.CustomClientConfiguration)
+}) error {
+	if tfresource.RealmSpecificServiceEndpointTemplateEnabled != "" {
+		value, err := strconv.ParseBool(tfresource.RealmSpecificServiceEndpointTemplateEnabled)
+		if err != nil {
+			return err
+		}
+		oClient.SetCustomClientConfiguration(oci_common.CustomClientConfiguration{
+			RealmSpecificServiceEndpointTemplateEnabled: oci_common.Bool(value),
+		})
+	}
+	return nil
 }

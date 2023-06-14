@@ -30,10 +30,10 @@ type DeployedApplicationUsage struct {
 	// The type of the deployed application.
 	ApplicationType *string `mandatory:"false" json:"applicationType"`
 
-	// Whether or not deployed application is clustered.
+	// Whether or not the deployed application is clustered.
 	IsClustered *bool `mandatory:"false" json:"isClustered"`
 
-	// The approximate count of Java server instances running the deployed application.
+	// The approximate count of Java Server instances running the deployed application.
 	ApproximateJavaServerInstanceCount *int `mandatory:"false" json:"approximateJavaServerInstanceCount"`
 
 	// Lower bound of the specified time period filter. JMS provides a view of the data that is _per day_. The query uses only the date element of the parameter.

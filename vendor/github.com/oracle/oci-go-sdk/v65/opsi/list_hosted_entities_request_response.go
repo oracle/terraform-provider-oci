@@ -44,9 +44,9 @@ type ListHostedEntitiesRequest struct {
 	TimeIntervalEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeIntervalEnd"`
 
 	// Filter by one or more platform types.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType []ListHostedEntitiesPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource.
@@ -172,6 +172,8 @@ const (
 	ListHostedEntitiesPlatformTypeSolaris ListHostedEntitiesPlatformTypeEnum = "SOLARIS"
 	ListHostedEntitiesPlatformTypeSunos   ListHostedEntitiesPlatformTypeEnum = "SUNOS"
 	ListHostedEntitiesPlatformTypeZlinux  ListHostedEntitiesPlatformTypeEnum = "ZLINUX"
+	ListHostedEntitiesPlatformTypeWindows ListHostedEntitiesPlatformTypeEnum = "WINDOWS"
+	ListHostedEntitiesPlatformTypeAix     ListHostedEntitiesPlatformTypeEnum = "AIX"
 )
 
 var mappingListHostedEntitiesPlatformTypeEnum = map[string]ListHostedEntitiesPlatformTypeEnum{
@@ -179,6 +181,8 @@ var mappingListHostedEntitiesPlatformTypeEnum = map[string]ListHostedEntitiesPla
 	"SOLARIS": ListHostedEntitiesPlatformTypeSolaris,
 	"SUNOS":   ListHostedEntitiesPlatformTypeSunos,
 	"ZLINUX":  ListHostedEntitiesPlatformTypeZlinux,
+	"WINDOWS": ListHostedEntitiesPlatformTypeWindows,
+	"AIX":     ListHostedEntitiesPlatformTypeAix,
 }
 
 var mappingListHostedEntitiesPlatformTypeEnumLowerCase = map[string]ListHostedEntitiesPlatformTypeEnum{
@@ -186,6 +190,8 @@ var mappingListHostedEntitiesPlatformTypeEnumLowerCase = map[string]ListHostedEn
 	"solaris": ListHostedEntitiesPlatformTypeSolaris,
 	"sunos":   ListHostedEntitiesPlatformTypeSunos,
 	"zlinux":  ListHostedEntitiesPlatformTypeZlinux,
+	"windows": ListHostedEntitiesPlatformTypeWindows,
+	"aix":     ListHostedEntitiesPlatformTypeAix,
 }
 
 // GetListHostedEntitiesPlatformTypeEnumValues Enumerates the set of values for ListHostedEntitiesPlatformTypeEnum
@@ -204,6 +210,8 @@ func GetListHostedEntitiesPlatformTypeEnumStringValues() []string {
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
+		"AIX",
 	}
 }
 

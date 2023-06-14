@@ -11,7 +11,6 @@ variable "compartment_ocid" {}
 variable "summarize_resource_inventory_time_end" {}
 variable "summarize_resource_inventory_time_start" {}
 
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -27,4 +26,3 @@ data "oci_jms_summarize_resource_inventory" "test_summarize_resource_inventories
   time_end       = var.summarize_resource_inventory_time_end
   time_start     = var.summarize_resource_inventory_time_start
 }
-

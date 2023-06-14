@@ -12,8 +12,6 @@ variable "java_family_family_version" {
 }
 variable "java_family_display_name" {}
 
-
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid

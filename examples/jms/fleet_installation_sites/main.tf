@@ -26,8 +26,6 @@ variable "fleet_installation_site_path_contains" {}
 variable "fleet_installation_site_time_start" {}
 variable "fleet_installation_site_time_end" {}
 
-
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid

@@ -185,6 +185,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"access_uri",
+				"full_path",
 				"time_expires",
 			},
 			ResourceName: resourceName,

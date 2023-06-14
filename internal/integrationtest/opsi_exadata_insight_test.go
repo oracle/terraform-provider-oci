@@ -208,7 +208,6 @@ func TestOpsiExadataInsightResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "enterprise_manager_bridge_id"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_type.#", "1"),
-				//resource.TestCheckResourceAttr(datasourceName, "id.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "state.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "status.#", "1"),
 

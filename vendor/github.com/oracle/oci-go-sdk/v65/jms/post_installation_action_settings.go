@@ -24,10 +24,18 @@ type PostInstallationActionSettings struct {
 
 	// Restores JDK root certificates with the certificates that are available in the operating system.
 	// The following action is supported by the field:
-	// - Replace JDK root certificates with a list provided by the operating system
+	// - Replace JDK root certificates with a list provided by the operating system.
 	ShouldReplaceCertificatesOperatingSystem *bool `mandatory:"false" json:"shouldReplaceCertificatesOperatingSystem"`
 
 	MinimumKeySizeSettings *MinimumKeySizeSettings `mandatory:"false" json:"minimumKeySizeSettings"`
+
+	// Sets FileHandler and ConsoleHandler as handlers in logging.properties file.
+	AddLoggingHandler *bool `mandatory:"false" json:"addLoggingHandler"`
+
+	// Sets the logging level in logging.properties file.
+	GlobalLoggingLevel GlobalLoggingLevelEnum `mandatory:"false" json:"globalLoggingLevel,omitempty"`
+
+	Proxies *Proxies `mandatory:"false" json:"proxies"`
 }
 
 func (m PostInstallationActionSettings) String() string {
@@ -40,6 +48,9 @@ func (m PostInstallationActionSettings) String() string {
 func (m PostInstallationActionSettings) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingGlobalLoggingLevelEnum(string(m.GlobalLoggingLevel)); !ok && m.GlobalLoggingLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GlobalLoggingLevel: %s. Supported values are: %s.", m.GlobalLoggingLevel, strings.Join(GetGlobalLoggingLevelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

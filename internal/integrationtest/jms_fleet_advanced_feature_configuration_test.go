@@ -99,6 +99,9 @@ func TestJmsFleetAdvancedFeatureConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "lcm.0.post_installation_actions.0.minimum_key_size_settings.0.jar.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "lcm.0.post_installation_actions.0.minimum_key_size_settings.0.tls.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "lcm.0.post_installation_actions.0.should_replace_certificates_operating_system"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "java_migration_analysis.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "performance_tuning_analysis.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_modified"),
 			),
 		},
 	})

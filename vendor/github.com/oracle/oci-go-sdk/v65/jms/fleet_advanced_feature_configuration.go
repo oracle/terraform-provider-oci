@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// FleetAdvancedFeatureConfiguration Advanced feature metadata for the fleet
+// FleetAdvancedFeatureConfiguration Metadata for the advanced features in the Fleet.
 type FleetAdvancedFeatureConfiguration struct {
 
-	// Namespace for the fleet advanced feature
+	// Namespace for the Fleet advanced feature.
 	AnalyticNamespace *string `mandatory:"true" json:"analyticNamespace"`
 
-	// Bucket name required to store jfr and related data
+	// Bucket name required to store JFR and related data.
 	AnalyticBucketName *string `mandatory:"true" json:"analyticBucketName"`
 
 	Lcm *Lcm `mandatory:"true" json:"lcm"`
@@ -31,6 +31,10 @@ type FleetAdvancedFeatureConfiguration struct {
 	AdvancedUsageTracking *AdvancedUsageTracking `mandatory:"true" json:"advancedUsageTracking"`
 
 	JfrRecording *JfrRecording `mandatory:"true" json:"jfrRecording"`
+
+	PerformanceTuningAnalysis *PerformanceTuningAnalysis `mandatory:"true" json:"performanceTuningAnalysis"`
+
+	JavaMigrationAnalysis *JavaMigrationAnalysis `mandatory:"true" json:"javaMigrationAnalysis"`
 
 	// The date and time of the last modification to the Fleet Agent Configuration (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeLastModified *common.SDKTime `mandatory:"true" json:"timeLastModified"`

@@ -15,8 +15,6 @@ variable "fleet_blocklist_operation" {
   default = "DELETE_JAVA_INSTALLATION"
 }
 
-
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid

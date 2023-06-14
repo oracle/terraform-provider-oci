@@ -110,6 +110,11 @@ func OpsiExadataInsightResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"dbm_private_endpoint_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"member_database_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -124,6 +129,56 @@ func OpsiExadataInsightResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"connection_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"hosts": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"host_ip": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"port": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"protocol": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"service_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
 									},
 									"credential_details": {
 										Type:     schema.TypeList,
@@ -167,6 +222,12 @@ func OpsiExadataInsightResource() *schema.Resource {
 													ForceNew: true,
 												},
 												"user_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"wallet_secret_id": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
@@ -908,6 +969,17 @@ func (s *OpsiExadataInsightResourceCrud) mapToCreatePeComanagedDatabaseInsightDe
 		result.CompartmentId = &tmp
 	}
 
+	if connectionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_details")); ok {
+		if tmpList := connectionDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connection_details"), 0)
+			tmp, err := s.mapToPeComanagedDatabaseConnectionDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert connection_details, encountered error: %v", err)
+			}
+			result.ConnectionDetails = &tmp
+		}
+	}
+
 	if credentialDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_details")); ok {
 		if tmpList := credentialDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "credential_details"), 0)
@@ -978,6 +1050,10 @@ func CreatePeComanagedDatabaseInsightDetailsToMap(obj oci_opsi.CreatePeComanaged
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.ConnectionDetails != nil {
+		result["connection_details"] = []interface{}{PeComanagedDatabaseConnectionDetailsToMap(obj.ConnectionDetails)}
+	}
+
 	if obj.CredentialDetails != nil {
 		credentialDetailsArray := []interface{}{}
 		if credentialDetailsMap := CredentialDetailsToMap(&obj.CredentialDetails); credentialDetailsMap != nil {
@@ -1030,6 +1106,11 @@ func (s *OpsiExadataInsightResourceCrud) mapToCreatePeComanagedExadataVmclusterD
 		result.CompartmentId = &tmp
 	}
 
+	if dbmPrivateEndpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbm_private_endpoint_id")); ok {
+		tmp := dbmPrivateEndpointId.(string)
+		result.DbmPrivateEndpointId = &tmp
+	}
+
 	if memberDatabaseDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_database_details")); ok {
 		interfaces := memberDatabaseDetails.([]interface{})
 		tmp := make([]oci_opsi.CreatePeComanagedDatabaseInsightDetails, len(interfaces))
@@ -1065,6 +1146,10 @@ func CreatePeComanagedExadataVmclusterDetailsToMap(obj oci_opsi.CreatePeComanage
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DbmPrivateEndpointId != nil {
+		result["dbm_private_endpoint_id"] = string(*obj.DbmPrivateEndpointId)
 	}
 
 	memberDatabaseDetails := []interface{}{}
@@ -1114,6 +1199,10 @@ func (s *OpsiExadataInsightResourceCrud) mapToCredentialDetails(fieldKeyFormat s
 		if userName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_name")); ok {
 			tmp := userName.(string)
 			details.UserName = &tmp
+		}
+		if walletSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_secret_id")); ok {
+			tmp := walletSecretId.(string)
+			details.WalletSecretId = &tmp
 		}
 		if credentialSourceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_source_name")); ok {
 			tmp := credentialSourceName.(string)
@@ -1219,6 +1308,54 @@ func ExadataInsightSummaryToMap(obj oci_opsi.ExadataInsightSummary) map[string]i
 	}
 
 	return result
+}
+
+func (s *OpsiExadataInsightResourceCrud) mapToPeComanagedDatabaseConnectionDetails(fieldKeyFormat string) (oci_opsi.PeComanagedDatabaseConnectionDetails, error) {
+	result := oci_opsi.PeComanagedDatabaseConnectionDetails{}
+
+	if hosts, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hosts")); ok {
+		interfaces := hosts.([]interface{})
+		tmp := make([]oci_opsi.PeComanagedDatabaseHostDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "hosts"), stateDataIndex)
+			converted, err := s.mapToPeComanagedDatabaseHostDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "hosts")) {
+			result.Hosts = tmp
+		}
+	}
+
+	if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
+		result.Protocol = oci_opsi.PeComanagedDatabaseConnectionDetailsProtocolEnum(protocol.(string))
+	}
+
+	if serviceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_name")); ok {
+		tmp := serviceName.(string)
+		result.ServiceName = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *OpsiExadataInsightResourceCrud) mapToPeComanagedDatabaseHostDetails(fieldKeyFormat string) (oci_opsi.PeComanagedDatabaseHostDetails, error) {
+	result := oci_opsi.PeComanagedDatabaseHostDetails{}
+
+	if hostIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host_ip")); ok {
+		tmp := hostIp.(string)
+		result.HostIp = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *OpsiExadataInsightResourceCrud) populateTopLevelPolymorphicCreateExadataInsightRequest(request *oci_opsi.CreateExadataInsightRequest) error {
