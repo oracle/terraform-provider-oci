@@ -22,7 +22,7 @@ type GenerateAgentDeployScriptRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
-	// Attributes to generate agent deploy script for a Fleet.
+	// Attributes to generate the agent deploy script for a Fleet.
 	GenerateAgentDeployScriptDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

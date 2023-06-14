@@ -1,3 +1,18 @@
+## 5.1.0 (June 14, 2023)
+
+### Added
+- Support for Java Management Service 7.0
+- Support for Usage proxy: Adding APIs for MQS public API deprecation
+- Support for Allow user to select the billing interval of deleted nodes
+- Support for realm specific service endpoints
+- Support for CASPER - ObjectStorage to have Customer Specific Domains in Customer Zone DNS
+- Support for OPSI: TCPS Support for Cloud Databases
+- Support for Operations Insights AIX Support
+- Custom model features in Document Service
+### Bug Fix
+- Remove duplicate Create for resource
+- updated examples for devops artifact to show options and helm example and public docs
+
 ## 5.0.0 (June 06, 2023)
 
 ### Added

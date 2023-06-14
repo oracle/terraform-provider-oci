@@ -66,6 +66,41 @@ func (request DeleteObjectRequest) BinaryRequestBody() (*common.OCIReadSeekClose
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request DeleteObjectRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["namespaceName"] != nil {
+		templateParam := mandatoryParamMap["namespaceName"]
+		for _, template := range templateParam {
+			replacementParam := *request.NamespaceName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["bucketName"] != nil {
+		templateParam := mandatoryParamMap["bucketName"]
+		for _, template := range templateParam {
+			replacementParam := *request.BucketName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["objectName"] != nil {
+		templateParam := mandatoryParamMap["objectName"]
+		for _, template := range templateParam {
+			replacementParam := *request.ObjectName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteObjectRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

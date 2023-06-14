@@ -49,6 +49,8 @@ type CreatePeComanagedDatabaseInsightDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
 	DbmPrivateEndpointId *string `mandatory:"false" json:"dbmPrivateEndpointId"`
 
+	ConnectionDetails *PeComanagedDatabaseConnectionDetails `mandatory:"false" json:"connectionDetails"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -112,6 +114,7 @@ func (m *CreatePeComanagedDatabaseInsightDetails) UnmarshalJSON(data []byte) (e 
 		DefinedTags           map[string]map[string]interface{}                         `json:"definedTags"`
 		OpsiPrivateEndpointId *string                                                   `json:"opsiPrivateEndpointId"`
 		DbmPrivateEndpointId  *string                                                   `json:"dbmPrivateEndpointId"`
+		ConnectionDetails     *PeComanagedDatabaseConnectionDetails                     `json:"connectionDetails"`
 		SystemTags            map[string]map[string]interface{}                         `json:"systemTags"`
 		CompartmentId         *string                                                   `json:"compartmentId"`
 		DatabaseId            *string                                                   `json:"databaseId"`
@@ -133,6 +136,8 @@ func (m *CreatePeComanagedDatabaseInsightDetails) UnmarshalJSON(data []byte) (e 
 	m.OpsiPrivateEndpointId = model.OpsiPrivateEndpointId
 
 	m.DbmPrivateEndpointId = model.DbmPrivateEndpointId
+
+	m.ConnectionDetails = model.ConnectionDetails
 
 	m.SystemTags = model.SystemTags
 

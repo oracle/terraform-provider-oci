@@ -28,6 +28,8 @@ type ChangePeComanagedDatabaseInsightDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
 	OpsiPrivateEndpointId *string `mandatory:"true" json:"opsiPrivateEndpointId"`
+
+	ConnectionDetails *PeComanagedDatabaseConnectionDetails `mandatory:"false" json:"connectionDetails"`
 }
 
 func (m ChangePeComanagedDatabaseInsightDetails) String() string {
@@ -49,9 +51,10 @@ func (m ChangePeComanagedDatabaseInsightDetails) ValidateEnumValue() (bool, erro
 // UnmarshalJSON unmarshals from json
 func (m *ChangePeComanagedDatabaseInsightDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ServiceName           *string           `json:"serviceName"`
-		CredentialDetails     credentialdetails `json:"credentialDetails"`
-		OpsiPrivateEndpointId *string           `json:"opsiPrivateEndpointId"`
+		ConnectionDetails     *PeComanagedDatabaseConnectionDetails `json:"connectionDetails"`
+		ServiceName           *string                               `json:"serviceName"`
+		CredentialDetails     credentialdetails                     `json:"credentialDetails"`
+		OpsiPrivateEndpointId *string                               `json:"opsiPrivateEndpointId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -59,6 +62,8 @@ func (m *ChangePeComanagedDatabaseInsightDetails) UnmarshalJSON(data []byte) (e 
 		return
 	}
 	var nn interface{}
+	m.ConnectionDetails = model.ConnectionDetails
+
 	m.ServiceName = model.ServiceName
 
 	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)

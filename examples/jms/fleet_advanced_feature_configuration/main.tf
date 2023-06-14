@@ -11,8 +11,6 @@ variable "fleet_id" {
   default = "example-fleet-id"
 }
 
-
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid

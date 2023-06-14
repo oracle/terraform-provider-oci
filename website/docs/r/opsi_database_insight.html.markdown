@@ -22,6 +22,18 @@ resource "oci_opsi_database_insight" "test_database_insight" {
 	entity_source = var.database_insight_entity_source
 
 	#Optional
+	connection_details {
+
+		#Optional
+		hosts {
+
+			#Optional
+			host_ip = var.database_insight_connection_details_hosts_host_ip
+			port = var.database_insight_connection_details_hosts_port
+		}
+		protocol = var.database_insight_connection_details_protocol
+		service_name = oci_core_service.test_service.name
+	}
 	credential_details {
 		#Required
 		credential_type = var.database_insight_credential_details_credential_type
@@ -31,6 +43,7 @@ resource "oci_opsi_database_insight" "test_database_insight" {
 		password_secret_id = oci_vault_secret.test_secret.id
 		role = var.database_insight_credential_details_role
 		user_name = oci_identity_user.test_user.name
+		wallet_secret_id = oci_vault_secret.test_secret.id
 	}
 	database_id = oci_database_database.test_database.id
 	database_resource_type = var.database_insight_database_resource_type
@@ -53,14 +66,22 @@ resource "oci_opsi_database_insight" "test_database_insight" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier of database
+* `connection_details` - (Optional) Connection details of the private endpoints.
+	* `hosts` - (Required when entity_source=PE_COMANAGED_DATABASE) List of hosts and port for private endpoint accessed database resource.
+		* `host_ip` - (Applicable when entity_source=PE_COMANAGED_DATABASE) Host IP used for connection requests for Cloud DB resource.
+		* `port` - (Applicable when entity_source=PE_COMANAGED_DATABASE) Listener port number used for connection requests for rivate endpoint accessed db resource.
+	* `protocol` - (Optional) Protocol used for connection requests for private endpoint accssed database resource.
+	* `service_name` - (Optional) Database service name used for connection requests.
 * `credential_details` - (Required when entity_source=PE_COMANAGED_DATABASE) User credential details to connect to the database. This is supplied via the External Database Service. 
 	* `credential_source_name` - (Required when entity_source=PE_COMANAGED_DATABASE) Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
 	* `credential_type` - (Required) Credential type.
 	* `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 	* `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
 	* `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
-* `database_id` - (Required when entity_source=AUTONOMOUS_DATABASE | PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
-* `database_resource_type` - (Required when entity_source=PE_COMANAGED_DATABASE) Oracle Cloud Infrastructure database resource type
+	* `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
+* `database_id` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE | PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+* `database_resource_type` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE | PE_COMANAGED_DATABASE) Oracle Cloud Infrastructure database resource type
+* `dbm_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
 * `deployment_type` - (Required when entity_source=PE_COMANAGED_DATABASE) Database Deployment Type
 * `enterprise_manager_bridge_id` - (Required when entity_source=EM_MANAGED_EXTERNAL_DATABASE) OPSI Enterprise Manager Bridge OCID
@@ -83,12 +104,13 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - Compartment identifier of the database
-* `connection_credential_details` - User credential details to connect to the database. This is supplied via the External Database Service. 
-    * `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-    * `credential_type` - Credential type.
-    * `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
-    * `role` - database user role.
-    * `user_name` - database user name.
+* `connection_credential_details` - User credential details to connect to the database. This is supplied via the External Database Service.
+	* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+	* `credential_type` - Credential type.
+	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+	* `role` - database user role.
+	* `user_name` - database user name.
+	* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
 * `connection_details` - Connection details to connect to the database. HostName, protocol, and port should be specified.
     * `host_name` - Name of the listener host that will be used to create the connect string to the database.
     * `hosts` - List of hosts and port for private endpoint accessed database resource.
@@ -97,12 +119,13 @@ The following attributes are exported:
     * `port` - Listener port number used for connection requests.
     * `protocol` - Protocol used for connection requests for private endpoint accssed database resource.
     * `service_name` - Database service name used for connection requests.
-* `credential_details` - User credential details to connect to the database. This is supplied via the External Database Service. 
-    * `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-    * `credential_type` - Credential type.
-    * `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
-    * `role` - database user role.
-    * `user_name` - database user name.
+* `credential_details` - User credential details to connect to the database. This is supplied via the External Database Service.
+	* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+	* `credential_type` - Credential type.
+	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+	* `role` - database user role.
+	* `user_name` - database user name.
+	* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
 * `database_connection_status_details` - A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.
 * `database_display_name` - Display name of database
 * `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.

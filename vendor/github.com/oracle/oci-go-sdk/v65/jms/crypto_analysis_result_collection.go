@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// CryptoAnalysisResultCollection List of Crypto Event Analysis results.
+// CryptoAnalysisResultCollection List of Crypto event analysis results.
 type CryptoAnalysisResultCollection struct {
 
 	// A list of Crypto Event Analysis results.

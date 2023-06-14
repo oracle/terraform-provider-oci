@@ -21,8 +21,6 @@ variable "java_release_release_type" {
   default = "CPU"
 }
 
-
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid

@@ -30,7 +30,7 @@ type OperatingSystem struct {
 	// The architecture of the operating system as provided by the Java system property os.arch.
 	Architecture *string `mandatory:"true" json:"architecture"`
 
-	// Number of instances running the operating system
+	// Number of instances running the operating system.
 	ManagedInstanceCount *int `mandatory:"false" json:"managedInstanceCount"`
 }
 
