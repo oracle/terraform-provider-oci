@@ -838,6 +838,67 @@ func (client VirtualNetworkClient) attachServiceId(ctx context.Context, request 
 	return response, err
 }
 
+// AttachServiceVnicToDestination Attaches service VNIC, that needs to be live migrated, to destination shard and/or availability domain.
+// This is the first step for live migration of the VNIC from source to destination shard and/or availability domain.
+// **Note** that VNIC's ingress traffic will still be routed to source shard and/or availability domain.
+// A default retry strategy applies to this operation AttachServiceVnicToDestination()
+func (client VirtualNetworkClient) AttachServiceVnicToDestination(ctx context.Context, request AttachServiceVnicToDestinationRequest) (response AttachServiceVnicToDestinationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.attachServiceVnicToDestination, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachServiceVnicToDestinationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachServiceVnicToDestinationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachServiceVnicToDestinationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachServiceVnicToDestinationResponse")
+	}
+	return
+}
+
+// attachServiceVnicToDestination implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) attachServiceVnicToDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/{internalVnicId}/attachment/actions/attachServiceVnicToDestination", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachServiceVnicToDestinationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/AttachServiceVnicToDestination"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "AttachServiceVnicToDestination", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AttachServiceVnicToDestinationShard Attaches service VNIC, that needs to be live migrated, to destination shard. This is the first step
 // for live migration of the VNIC from source to destination shard.
 // **Note** that VNIC's ingress traffic will still be routed to source shard.
@@ -10377,6 +10438,67 @@ func (client VirtualNetworkClient) detachServiceVnicFromDestinationShard(ctx con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/DetachServiceVnicFromDestinationShard"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DetachServiceVnicFromDestinationShard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DetachServiceVnicFromSource Detaches service VNIC, getting live migrated, from source shard and/or availability domain. This is the last
+// step for live migration of the VNIC from source to destination shard and/or availability domain and removes all
+// migration related information associated with it.
+// A default retry strategy applies to this operation DetachServiceVnicFromSource()
+func (client VirtualNetworkClient) DetachServiceVnicFromSource(ctx context.Context, request DetachServiceVnicFromSourceRequest) (response DetachServiceVnicFromSourceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachServiceVnicFromSource, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachServiceVnicFromSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachServiceVnicFromSourceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachServiceVnicFromSourceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachServiceVnicFromSourceResponse")
+	}
+	return
+}
+
+// detachServiceVnicFromSource implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) detachServiceVnicFromSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/{internalVnicId}/attachment/actions/detachServiceVnicFromSource", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachServiceVnicFromSourceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/DetachServiceVnicFromSource"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DetachServiceVnicFromSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -22477,6 +22599,66 @@ func (client VirtualNetworkClient) rollbackUpgradeDrg(ctx context.Context, reque
 	return response, err
 }
 
+// RouteServiceVnicIngressTrafficToDestination Starts routing VNIC's ingress traffic to destination shard and/or availability domain. This API is called by
+// dataplane after getting live migrated, on the destination shard and/or availability domain.
+// A default retry strategy applies to this operation RouteServiceVnicIngressTrafficToDestination()
+func (client VirtualNetworkClient) RouteServiceVnicIngressTrafficToDestination(ctx context.Context, request RouteServiceVnicIngressTrafficToDestinationRequest) (response RouteServiceVnicIngressTrafficToDestinationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.routeServiceVnicIngressTrafficToDestination, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RouteServiceVnicIngressTrafficToDestinationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RouteServiceVnicIngressTrafficToDestinationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RouteServiceVnicIngressTrafficToDestinationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RouteServiceVnicIngressTrafficToDestinationResponse")
+	}
+	return
+}
+
+// routeServiceVnicIngressTrafficToDestination implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) routeServiceVnicIngressTrafficToDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/{internalVnicId}/attachment/actions/routeTrafficToDestination", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RouteServiceVnicIngressTrafficToDestinationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/RouteServiceVnicIngressTrafficToDestination"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RouteServiceVnicIngressTrafficToDestination", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RouteServiceVnicIngressTrafficToDestinationShard Starts routing VNIC's ingress traffic to destination shard. This API is called by dataplane after getting
 // live migrated, on the destination shard.
 func (client VirtualNetworkClient) RouteServiceVnicIngressTrafficToDestinationShard(ctx context.Context, request RouteServiceVnicIngressTrafficToDestinationShardRequest) (response RouteServiceVnicIngressTrafficToDestinationShardResponse, err error) {
@@ -24234,6 +24416,65 @@ func (client VirtualNetworkClient) updateFlowLogConfigAttachment(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FlowLogConfigAttachment/UpdateFlowLogConfigAttachment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateFlowLogConfigAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateGenericGatewayTargetOverrides Update an existing generic gateway with TargetOverrides
+// A default retry strategy applies to this operation UpdateGenericGatewayTargetOverrides()
+func (client VirtualNetworkClient) UpdateGenericGatewayTargetOverrides(ctx context.Context, request UpdateGenericGatewayTargetOverridesRequest) (response UpdateGenericGatewayTargetOverridesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateGenericGatewayTargetOverrides, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateGenericGatewayTargetOverridesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateGenericGatewayTargetOverridesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateGenericGatewayTargetOverridesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateGenericGatewayTargetOverridesResponse")
+	}
+	return
+}
+
+// updateGenericGatewayTargetOverrides implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateGenericGatewayTargetOverrides(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalGenericGateways/{internalGenericGatewayId}/actions/updateGenericGatewayTargetOverrides", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateGenericGatewayTargetOverridesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalGenericGateway/UpdateGenericGatewayTargetOverrides"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateGenericGatewayTargetOverrides", apiReferenceLink)
 		return response, err
 	}
 

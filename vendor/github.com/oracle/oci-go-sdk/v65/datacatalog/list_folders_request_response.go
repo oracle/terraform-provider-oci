@@ -69,7 +69,11 @@ type ListFoldersRequest struct {
 	// Specifies the fields to return in a folder summary response.
 	Fields []ListFoldersFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for TIMECREATED is descending. Default order for DISPLAYNAME is ascending. If no value is specified TIMECREATED is default.
+	// The key of the object type.
+	TypeKey *string `mandatory:"false" contributesTo:"query" name:"typeKey"`
+
+	// The field to sort by. Only one sort order may be provided. DISPLAYORBUSINESSNAME considers businessName of a given object if set, else its displayName is used.
+	// Default sort order for TIMECREATED is descending and default sort order for DISPLAYNAME and DISPLAYORBUSINESSNAME is ascending. If no order is specified, TIMECREATED is the default.
 	SortBy ListFoldersSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc'.
@@ -369,18 +373,21 @@ type ListFoldersSortByEnum string
 
 // Set of constants representing the allowable values for ListFoldersSortByEnum
 const (
-	ListFoldersSortByTimecreated ListFoldersSortByEnum = "TIMECREATED"
-	ListFoldersSortByDisplayname ListFoldersSortByEnum = "DISPLAYNAME"
+	ListFoldersSortByTimecreated           ListFoldersSortByEnum = "TIMECREATED"
+	ListFoldersSortByDisplayname           ListFoldersSortByEnum = "DISPLAYNAME"
+	ListFoldersSortByDisplayorbusinessname ListFoldersSortByEnum = "DISPLAYORBUSINESSNAME"
 )
 
 var mappingListFoldersSortByEnum = map[string]ListFoldersSortByEnum{
-	"TIMECREATED": ListFoldersSortByTimecreated,
-	"DISPLAYNAME": ListFoldersSortByDisplayname,
+	"TIMECREATED":           ListFoldersSortByTimecreated,
+	"DISPLAYNAME":           ListFoldersSortByDisplayname,
+	"DISPLAYORBUSINESSNAME": ListFoldersSortByDisplayorbusinessname,
 }
 
 var mappingListFoldersSortByEnumLowerCase = map[string]ListFoldersSortByEnum{
-	"timecreated": ListFoldersSortByTimecreated,
-	"displayname": ListFoldersSortByDisplayname,
+	"timecreated":           ListFoldersSortByTimecreated,
+	"displayname":           ListFoldersSortByDisplayname,
+	"displayorbusinessname": ListFoldersSortByDisplayorbusinessname,
 }
 
 // GetListFoldersSortByEnumValues Enumerates the set of values for ListFoldersSortByEnum
@@ -397,6 +404,7 @@ func GetListFoldersSortByEnumStringValues() []string {
 	return []string{
 		"TIMECREATED",
 		"DISPLAYNAME",
+		"DISPLAYORBUSINESSNAME",
 	}
 }
 

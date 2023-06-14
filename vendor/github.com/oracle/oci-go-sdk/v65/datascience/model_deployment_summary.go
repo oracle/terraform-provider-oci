@@ -52,6 +52,9 @@ type ModelDeploymentSummary struct {
 
 	CategoryLogDetails *CategoryLogDetails `mandatory:"false" json:"categoryLogDetails"`
 
+	// This value is the current count of the model deployment instances.
+	CurrentInstanceCount *int `mandatory:"false" json:"currentInstanceCount"`
+
 	// The mode of model deployment.
 	DeploymentMode ModelDeploymentDeploymentModeEnum `mandatory:"false" json:"deploymentMode,omitempty"`
 
@@ -92,6 +95,7 @@ func (m *ModelDeploymentSummary) UnmarshalJSON(data []byte) (e error) {
 		Description                         *string                             `json:"description"`
 		ModelDeploymentConfigurationDetails modeldeploymentconfigurationdetails `json:"modelDeploymentConfigurationDetails"`
 		CategoryLogDetails                  *CategoryLogDetails                 `json:"categoryLogDetails"`
+		CurrentInstanceCount                *int                                `json:"currentInstanceCount"`
 		DeploymentMode                      ModelDeploymentDeploymentModeEnum   `json:"deploymentMode"`
 		FreeformTags                        map[string]string                   `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{}   `json:"definedTags"`
@@ -123,6 +127,8 @@ func (m *ModelDeploymentSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.CategoryLogDetails = model.CategoryLogDetails
+
+	m.CurrentInstanceCount = model.CurrentInstanceCount
 
 	m.DeploymentMode = model.DeploymentMode
 

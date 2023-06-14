@@ -38,6 +38,9 @@ type TargetSummary struct {
 	// DetectorTemplate Identifier, can be renamed
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Emit problems to OCI Events
+	DoesEmitProblemsToEvents *bool `mandatory:"false" json:"doesEmitProblemsToEvents"`
+
 	TargetSummaryAdditionalDetails TargetSummaryAdditionalDetails `mandatory:"false" json:"targetSummaryAdditionalDetails"`
 
 	// The date and time the target was created. Format defined by RFC3339.
@@ -94,6 +97,7 @@ func (m TargetSummary) ValidateEnumValue() (bool, error) {
 func (m *TargetSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName                    *string                           `json:"displayName"`
+		DoesEmitProblemsToEvents       *bool                             `json:"doesEmitProblemsToEvents"`
 		TargetSummaryAdditionalDetails targetsummaryadditionaldetails    `json:"targetSummaryAdditionalDetails"`
 		TimeCreated                    *common.SDKTime                   `json:"timeCreated"`
 		TimeUpdated                    *common.SDKTime                   `json:"timeUpdated"`
@@ -115,6 +119,8 @@ func (m *TargetSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.DisplayName = model.DisplayName
+
+	m.DoesEmitProblemsToEvents = model.DoesEmitProblemsToEvents
 
 	nn, e = model.TargetSummaryAdditionalDetails.UnmarshalPolymorphicJSON(model.TargetSummaryAdditionalDetails.JsonData)
 	if e != nil {

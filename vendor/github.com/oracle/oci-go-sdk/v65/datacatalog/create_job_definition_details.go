@@ -37,6 +37,9 @@ type CreateJobDefinitionDetails struct {
 	// The key of the data asset for which the job is defined.
 	DataAssetKey *string `mandatory:"false" json:"dataAssetKey"`
 
+	// Unique key of the glossary to which this job applies.
+	GlossaryKey *string `mandatory:"false" json:"glossaryKey"`
+
 	// The key of the connection resource to be used for the job.
 	ConnectionKey *string `mandatory:"false" json:"connectionKey"`
 

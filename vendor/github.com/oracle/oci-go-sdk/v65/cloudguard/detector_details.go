@@ -45,6 +45,18 @@ type DetectorDetails struct {
 
 	// List of sighting types
 	SightingTypes []SightingType `mandatory:"false" json:"sightingTypes"`
+
+	// Description for DetectorRecipeDetectorRule.
+	Description *string `mandatory:"false" json:"description"`
+
+	// Recommendation for DetectorRecipeDetectorRule
+	Recommendation *string `mandatory:"false" json:"recommendation"`
+
+	// The id of the attached DataSource.
+	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
+
+	// Data Source entities mapping for a Detector Rule
+	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
 }
 
 func (m DetectorDetails) String() string {
@@ -77,6 +89,10 @@ func (m *DetectorDetails) UnmarshalJSON(data []byte) (e error) {
 		ProblemThreshold       *int                    `json:"problemThreshold"`
 		TargetTypes            []string                `json:"targetTypes"`
 		SightingTypes          []SightingType          `json:"sightingTypes"`
+		Description            *string                 `json:"description"`
+		Recommendation         *string                 `json:"recommendation"`
+		DataSourceId           *string                 `json:"dataSourceId"`
+		EntitiesMappings       []EntitiesMapping       `json:"entitiesMappings"`
 		IsEnabled              *bool                   `json:"isEnabled"`
 	}{}
 
@@ -119,6 +135,17 @@ func (m *DetectorDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SightingTypes = make([]SightingType, len(model.SightingTypes))
 	for i, n := range model.SightingTypes {
 		m.SightingTypes[i] = n
+	}
+
+	m.Description = model.Description
+
+	m.Recommendation = model.Recommendation
+
+	m.DataSourceId = model.DataSourceId
+
+	m.EntitiesMappings = make([]EntitiesMapping, len(model.EntitiesMappings))
+	for i, n := range model.EntitiesMappings {
+		m.EntitiesMappings[i] = n
 	}
 
 	m.IsEnabled = model.IsEnabled

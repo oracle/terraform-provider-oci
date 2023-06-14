@@ -40,10 +40,10 @@ type AclGroup struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Whether this ACL Group is associated with a bucket, compartment, or tenancy.
-	AclType AclGroupAclTypeEnum `mandatory:"true" json:"aclType"`
+	AclGroupType AclGroupAclGroupTypeEnum `mandatory:"true" json:"aclGroupType"`
 
 	// An ordered list of ACL IDs. The ACLs are evaluated first to last when determining network restrictions.
-	AclIds []Acl `mandatory:"true" json:"aclIds"`
+	AclIds []string `mandatory:"true" json:"aclIds"`
 
 	// The date and time the ACL Group was created as per RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
@@ -64,8 +64,8 @@ func (m AclGroup) String() string {
 // Not recommended for calling this function directly
 func (m AclGroup) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingAclGroupAclTypeEnum(string(m.AclType)); !ok && m.AclType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AclType: %s. Supported values are: %s.", m.AclType, strings.Join(GetAclGroupAclTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingAclGroupAclGroupTypeEnum(string(m.AclGroupType)); !ok && m.AclGroupType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AclGroupType: %s. Supported values are: %s.", m.AclGroupType, strings.Join(GetAclGroupAclGroupTypeEnumStringValues(), ",")))
 	}
 
 	for _, val := range m.AclGroupExceptions {
@@ -80,39 +80,39 @@ func (m AclGroup) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// AclGroupAclTypeEnum Enum with underlying type: string
-type AclGroupAclTypeEnum string
+// AclGroupAclGroupTypeEnum Enum with underlying type: string
+type AclGroupAclGroupTypeEnum string
 
-// Set of constants representing the allowable values for AclGroupAclTypeEnum
+// Set of constants representing the allowable values for AclGroupAclGroupTypeEnum
 const (
-	AclGroupAclTypeTenancy     AclGroupAclTypeEnum = "TENANCY"
-	AclGroupAclTypeCompartment AclGroupAclTypeEnum = "COMPARTMENT"
-	AclGroupAclTypeBucket      AclGroupAclTypeEnum = "BUCKET"
+	AclGroupAclGroupTypeTenancy     AclGroupAclGroupTypeEnum = "TENANCY"
+	AclGroupAclGroupTypeCompartment AclGroupAclGroupTypeEnum = "COMPARTMENT"
+	AclGroupAclGroupTypeBucket      AclGroupAclGroupTypeEnum = "BUCKET"
 )
 
-var mappingAclGroupAclTypeEnum = map[string]AclGroupAclTypeEnum{
-	"TENANCY":     AclGroupAclTypeTenancy,
-	"COMPARTMENT": AclGroupAclTypeCompartment,
-	"BUCKET":      AclGroupAclTypeBucket,
+var mappingAclGroupAclGroupTypeEnum = map[string]AclGroupAclGroupTypeEnum{
+	"TENANCY":     AclGroupAclGroupTypeTenancy,
+	"COMPARTMENT": AclGroupAclGroupTypeCompartment,
+	"BUCKET":      AclGroupAclGroupTypeBucket,
 }
 
-var mappingAclGroupAclTypeEnumLowerCase = map[string]AclGroupAclTypeEnum{
-	"tenancy":     AclGroupAclTypeTenancy,
-	"compartment": AclGroupAclTypeCompartment,
-	"bucket":      AclGroupAclTypeBucket,
+var mappingAclGroupAclGroupTypeEnumLowerCase = map[string]AclGroupAclGroupTypeEnum{
+	"tenancy":     AclGroupAclGroupTypeTenancy,
+	"compartment": AclGroupAclGroupTypeCompartment,
+	"bucket":      AclGroupAclGroupTypeBucket,
 }
 
-// GetAclGroupAclTypeEnumValues Enumerates the set of values for AclGroupAclTypeEnum
-func GetAclGroupAclTypeEnumValues() []AclGroupAclTypeEnum {
-	values := make([]AclGroupAclTypeEnum, 0)
-	for _, v := range mappingAclGroupAclTypeEnum {
+// GetAclGroupAclGroupTypeEnumValues Enumerates the set of values for AclGroupAclGroupTypeEnum
+func GetAclGroupAclGroupTypeEnumValues() []AclGroupAclGroupTypeEnum {
+	values := make([]AclGroupAclGroupTypeEnum, 0)
+	for _, v := range mappingAclGroupAclGroupTypeEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetAclGroupAclTypeEnumStringValues Enumerates the set of values in String for AclGroupAclTypeEnum
-func GetAclGroupAclTypeEnumStringValues() []string {
+// GetAclGroupAclGroupTypeEnumStringValues Enumerates the set of values in String for AclGroupAclGroupTypeEnum
+func GetAclGroupAclGroupTypeEnumStringValues() []string {
 	return []string{
 		"TENANCY",
 		"COMPARTMENT",
@@ -120,9 +120,9 @@ func GetAclGroupAclTypeEnumStringValues() []string {
 	}
 }
 
-// GetMappingAclGroupAclTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingAclGroupAclTypeEnum(val string) (AclGroupAclTypeEnum, bool) {
-	enum, ok := mappingAclGroupAclTypeEnumLowerCase[strings.ToLower(val)]
+// GetMappingAclGroupAclGroupTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAclGroupAclGroupTypeEnum(val string) (AclGroupAclGroupTypeEnum, bool) {
+	enum, ok := mappingAclGroupAclGroupTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

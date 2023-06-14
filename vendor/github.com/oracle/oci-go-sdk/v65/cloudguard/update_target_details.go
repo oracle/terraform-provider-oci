@@ -33,6 +33,9 @@ type UpdateTargetDetails struct {
 	// The details of target responder recipes to be updated.
 	TargetResponderRecipes []UpdateTargetResponderRecipe `mandatory:"false" json:"targetResponderRecipes"`
 
+	// Emit problems to OCI Events
+	DoesEmitProblemsToEvents *bool `mandatory:"false" json:"doesEmitProblemsToEvents"`
+
 	TargetDetails UpdateTargetAdditionalDetails `mandatory:"false" json:"targetDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -67,13 +70,14 @@ func (m UpdateTargetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName            *string                           `json:"displayName"`
-		LifecycleState         LifecycleStateEnum                `json:"lifecycleState"`
-		TargetDetectorRecipes  []UpdateTargetDetectorRecipe      `json:"targetDetectorRecipes"`
-		TargetResponderRecipes []UpdateTargetResponderRecipe     `json:"targetResponderRecipes"`
-		TargetDetails          updatetargetadditionaldetails     `json:"targetDetails"`
-		FreeformTags           map[string]string                 `json:"freeformTags"`
-		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName              *string                           `json:"displayName"`
+		LifecycleState           LifecycleStateEnum                `json:"lifecycleState"`
+		TargetDetectorRecipes    []UpdateTargetDetectorRecipe      `json:"targetDetectorRecipes"`
+		TargetResponderRecipes   []UpdateTargetResponderRecipe     `json:"targetResponderRecipes"`
+		DoesEmitProblemsToEvents *bool                             `json:"doesEmitProblemsToEvents"`
+		TargetDetails            updatetargetadditionaldetails     `json:"targetDetails"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -94,6 +98,8 @@ func (m *UpdateTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	for i, n := range model.TargetResponderRecipes {
 		m.TargetResponderRecipes[i] = n
 	}
+
+	m.DoesEmitProblemsToEvents = model.DoesEmitProblemsToEvents
 
 	nn, e = model.TargetDetails.UnmarshalPolymorphicJSON(model.TargetDetails.JsonData)
 	if e != nil {

@@ -40,6 +40,9 @@ type ListJobDefinitionsRequest struct {
 	// Unique data asset key.
 	DataAssetKey *string `mandatory:"false" contributesTo:"query" name:"dataAssetKey"`
 
+	// Unique glossary key.
+	GlossaryKey *string `mandatory:"false" contributesTo:"query" name:"glossaryKey"`
+
 	// Unique connection key.
 	ConnectionKey *string `mandatory:"false" contributesTo:"query" name:"connectionKey"`
 
@@ -315,6 +318,8 @@ const (
 	ListJobDefinitionsJobTypeScheduledExecutionInstance ListJobDefinitionsJobTypeEnum = "SCHEDULED_EXECUTION_INSTANCE"
 	ListJobDefinitionsJobTypeAsyncDelete                ListJobDefinitionsJobTypeEnum = "ASYNC_DELETE"
 	ListJobDefinitionsJobTypeImportDataAsset            ListJobDefinitionsJobTypeEnum = "IMPORT_DATA_ASSET"
+	ListJobDefinitionsJobTypeCreateScanProxy            ListJobDefinitionsJobTypeEnum = "CREATE_SCAN_PROXY"
+	ListJobDefinitionsJobTypeAsyncExportGlossary        ListJobDefinitionsJobTypeEnum = "ASYNC_EXPORT_GLOSSARY"
 )
 
 var mappingListJobDefinitionsJobTypeEnum = map[string]ListJobDefinitionsJobTypeEnum{
@@ -335,6 +340,8 @@ var mappingListJobDefinitionsJobTypeEnum = map[string]ListJobDefinitionsJobTypeE
 	"SCHEDULED_EXECUTION_INSTANCE": ListJobDefinitionsJobTypeScheduledExecutionInstance,
 	"ASYNC_DELETE":                 ListJobDefinitionsJobTypeAsyncDelete,
 	"IMPORT_DATA_ASSET":            ListJobDefinitionsJobTypeImportDataAsset,
+	"CREATE_SCAN_PROXY":            ListJobDefinitionsJobTypeCreateScanProxy,
+	"ASYNC_EXPORT_GLOSSARY":        ListJobDefinitionsJobTypeAsyncExportGlossary,
 }
 
 var mappingListJobDefinitionsJobTypeEnumLowerCase = map[string]ListJobDefinitionsJobTypeEnum{
@@ -355,6 +362,8 @@ var mappingListJobDefinitionsJobTypeEnumLowerCase = map[string]ListJobDefinition
 	"scheduled_execution_instance": ListJobDefinitionsJobTypeScheduledExecutionInstance,
 	"async_delete":                 ListJobDefinitionsJobTypeAsyncDelete,
 	"import_data_asset":            ListJobDefinitionsJobTypeImportDataAsset,
+	"create_scan_proxy":            ListJobDefinitionsJobTypeCreateScanProxy,
+	"async_export_glossary":        ListJobDefinitionsJobTypeAsyncExportGlossary,
 }
 
 // GetListJobDefinitionsJobTypeEnumValues Enumerates the set of values for ListJobDefinitionsJobTypeEnum
@@ -386,6 +395,8 @@ func GetListJobDefinitionsJobTypeEnumStringValues() []string {
 		"SCHEDULED_EXECUTION_INSTANCE",
 		"ASYNC_DELETE",
 		"IMPORT_DATA_ASSET",
+		"CREATE_SCAN_PROXY",
+		"ASYNC_EXPORT_GLOSSARY",
 	}
 }
 

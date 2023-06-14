@@ -39,6 +39,10 @@ type Attribute struct {
 	// State of the attribute.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// A message describing the current state in more detail. An object not in ACTIVE state may have functional limitations,
+	// see service documentation for details.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// The date and time the attribute was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2019-03-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

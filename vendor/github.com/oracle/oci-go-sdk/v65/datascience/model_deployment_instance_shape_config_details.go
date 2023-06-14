@@ -23,6 +23,9 @@ type ModelDeploymentInstanceShapeConfigDetails struct {
 
 	// A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the memory to be specified with in the range of 6 to 1024 GB. VM.Standard3.Flex memory range is between 6 to 512 GB and VM.Optimized3.Flex memory range is between 6 to 256 GB.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
+
+	// CPU baseline information for the burstable VM instance. The value can either be 12.5 or 50. If not set, the instance will be configured as a non-burstable VM and will use 100% of the CPU.
+	CpuBaseline *float32 `mandatory:"false" json:"cpuBaseline"`
 }
 
 func (m ModelDeploymentInstanceShapeConfigDetails) String() string {

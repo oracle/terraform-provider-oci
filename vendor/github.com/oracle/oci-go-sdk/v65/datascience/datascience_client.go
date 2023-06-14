@@ -2933,6 +2933,124 @@ func (client DataScienceClient) deleteProject(ctx context.Context, request commo
 	return response, err
 }
 
+// DisableMlApplicationInstanceViewTrigger Disable trigger of given name for given ML Application Instance View flow
+// A default retry strategy applies to this operation DisableMlApplicationInstanceViewTrigger()
+func (client DataScienceClient) DisableMlApplicationInstanceViewTrigger(ctx context.Context, request DisableMlApplicationInstanceViewTriggerRequest) (response DisableMlApplicationInstanceViewTriggerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableMlApplicationInstanceViewTrigger, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableMlApplicationInstanceViewTriggerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableMlApplicationInstanceViewTriggerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableMlApplicationInstanceViewTriggerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableMlApplicationInstanceViewTriggerResponse")
+	}
+	return
+}
+
+// disableMlApplicationInstanceViewTrigger implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) disableMlApplicationInstanceViewTrigger(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}/actions/disableTrigger", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableMlApplicationInstanceViewTriggerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/DisableMlApplicationInstanceViewTrigger"
+		err = common.PostProcessServiceError(err, "DataScience", "DisableMlApplicationInstanceViewTrigger", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableMlApplicationInstanceViewTrigger Enable trigger of given name for given ML Application Instance View flow
+// A default retry strategy applies to this operation EnableMlApplicationInstanceViewTrigger()
+func (client DataScienceClient) EnableMlApplicationInstanceViewTrigger(ctx context.Context, request EnableMlApplicationInstanceViewTriggerRequest) (response EnableMlApplicationInstanceViewTriggerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableMlApplicationInstanceViewTrigger, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableMlApplicationInstanceViewTriggerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableMlApplicationInstanceViewTriggerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableMlApplicationInstanceViewTriggerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableMlApplicationInstanceViewTriggerResponse")
+	}
+	return
+}
+
+// enableMlApplicationInstanceViewTrigger implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) enableMlApplicationInstanceViewTrigger(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}/actions/enableTrigger", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableMlApplicationInstanceViewTriggerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/EnableMlApplicationInstanceViewTrigger"
+		err = common.PostProcessServiceError(err, "DataScience", "EnableMlApplicationInstanceViewTrigger", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ExportModelArtifact Export model artifact from source to the service bucket
 // A default retry strategy applies to this operation ExportModelArtifact()
 func (client DataScienceClient) ExportModelArtifact(ctx context.Context, request ExportModelArtifactRequest) (response ExportModelArtifactResponse, err error) {
@@ -5532,6 +5650,124 @@ func (client DataScienceClient) putMlApplicationPackage(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/PutMlApplicationPackage"
 		err = common.PostProcessServiceError(err, "DataScience", "PutMlApplicationPackage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// TriggerMlApplicationInstanceFlow Trigger ML Application Instance flow if possible
+// A default retry strategy applies to this operation TriggerMlApplicationInstanceFlow()
+func (client DataScienceClient) TriggerMlApplicationInstanceFlow(ctx context.Context, request TriggerMlApplicationInstanceFlowRequest) (response TriggerMlApplicationInstanceFlowResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.triggerMlApplicationInstanceFlow, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TriggerMlApplicationInstanceFlowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TriggerMlApplicationInstanceFlowResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TriggerMlApplicationInstanceFlowResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TriggerMlApplicationInstanceFlowResponse")
+	}
+	return
+}
+
+// triggerMlApplicationInstanceFlow implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) triggerMlApplicationInstanceFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstances/{mlApplicationInstanceId}/actions/trigger", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TriggerMlApplicationInstanceFlowResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstance/TriggerMlApplicationInstanceFlow"
+		err = common.PostProcessServiceError(err, "DataScience", "TriggerMlApplicationInstanceFlow", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// TriggerMlApplicationInstanceViewFlow Trigger ML Application Instance View flow if possible
+// A default retry strategy applies to this operation TriggerMlApplicationInstanceViewFlow()
+func (client DataScienceClient) TriggerMlApplicationInstanceViewFlow(ctx context.Context, request TriggerMlApplicationInstanceViewFlowRequest) (response TriggerMlApplicationInstanceViewFlowResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.triggerMlApplicationInstanceViewFlow, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TriggerMlApplicationInstanceViewFlowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TriggerMlApplicationInstanceViewFlowResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TriggerMlApplicationInstanceViewFlowResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TriggerMlApplicationInstanceViewFlowResponse")
+	}
+	return
+}
+
+// triggerMlApplicationInstanceViewFlow implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) triggerMlApplicationInstanceViewFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}/actions/trigger", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TriggerMlApplicationInstanceViewFlowResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/TriggerMlApplicationInstanceViewFlow"
+		err = common.PostProcessServiceError(err, "DataScience", "TriggerMlApplicationInstanceViewFlow", apiReferenceLink)
 		return response, err
 	}
 

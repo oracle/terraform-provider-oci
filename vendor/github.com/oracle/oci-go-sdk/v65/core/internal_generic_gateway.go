@@ -68,6 +68,12 @@ type InternalGenericGateway struct {
 	// ags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Optional and valid only for ServiceGateway (SGW) or Private Access Gateway (PAGW) to support ADB-S colocation.
+	// In order to support ADB-S colocation, ADB-S traffic via SGW/PAGW needs to be routed to
+	// dedicated fleets. Thus the existing default routes will be overridden with the targets
+	// provided here by SGW/PAGW at the time of GGW creation.
+	Targets []TargetOverridePairDetails `mandatory:"false" json:"targets"`
 }
 
 func (m InternalGenericGateway) String() string {

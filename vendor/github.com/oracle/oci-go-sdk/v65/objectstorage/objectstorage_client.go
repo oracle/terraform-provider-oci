@@ -2202,67 +2202,6 @@ func (client ObjectStorageClient) getPreauthenticatedRequest(ctx context.Context
 	return response, err
 }
 
-// GetPrefixRenameStatus Get the status of prefix rename for the given work request ID.
-// A default retry strategy applies to this operation GetPrefixRenameStatus()
-func (client ObjectStorageClient) GetPrefixRenameStatus(ctx context.Context, request GetPrefixRenameStatusRequest) (response GetPrefixRenameStatusResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getPrefixRenameStatus, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetPrefixRenameStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetPrefixRenameStatusResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetPrefixRenameStatusResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetPrefixRenameStatusResponse")
-	}
-	return
-}
-
-// getPrefixRenameStatus implements the OCIOperation interface (enables retrying operations)
-func (client ObjectStorageClient) getPrefixRenameStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/actions/prefixRename/{workRequestId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	request.(GetPrefixRenameStatusRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response GetPrefixRenameStatusResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/GetPrefixRenameStatus"
-		err = common.PostProcessServiceError(err, "ObjectStorage", "GetPrefixRenameStatus", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetPrivateEndpoint Gets the current representation of the given Private Endpoint in the given Object Storage namespace.
 // A default retry strategy applies to this operation GetPrivateEndpoint()
 func (client ObjectStorageClient) GetPrivateEndpoint(ctx context.Context, request GetPrivateEndpointRequest) (response GetPrivateEndpointResponse, err error) {

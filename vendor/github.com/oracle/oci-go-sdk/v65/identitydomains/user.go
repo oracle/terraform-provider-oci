@@ -449,6 +449,8 @@ type User struct {
 
 	UrnIetfParamsScimSchemasOracleIdcsExtensionUserUser *ExtensionUserUser `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:user:User"`
 
+	UrnietfparamsscimschemasidcsextensioncustomUser *ExtensionCustomUser `mandatory:"false" json:"urn:ietf:params:scim:schemas:idcs:extension:custom:User"`
+
 	UrnIetfParamsScimSchemasOracleIdcsExtensionPasswordStateUser *ExtensionPasswordStateUser `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:passwordState:User"`
 
 	UrnIetfParamsScimSchemasOracleIdcsExtensionUserStateUser *ExtensionUserStateUser `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:userState:User"`

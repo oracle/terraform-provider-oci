@@ -62,6 +62,10 @@ func (m *instancecomponent) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := DataIntegrationScheduleInstanceComponent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ML_APPLICATION_INSTANCE_INTERNAL_TRIGGER":
+		mm := MlApplicationInstanceInternalTrigger{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATA_INTEGRATION_TASK_SCHEDULE":
 		mm := DataIntegrationTaskScheduleInstanceComponent{}
 		err = json.Unmarshal(data, &mm)

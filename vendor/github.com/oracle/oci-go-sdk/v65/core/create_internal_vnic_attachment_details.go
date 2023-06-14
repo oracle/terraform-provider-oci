@@ -77,6 +77,12 @@ type CreateInternalVnicAttachmentDetails struct {
 	// Specifies the shard to attach the VNIC to
 	ShardId *string `mandatory:"false" json:"shardId"`
 
+	// This parameter captures if a VNIC needs to be attached with latency sensitivity condition.
+	// This ensures that the VNIC will be placed in a dedicated latency sensitive configuration
+	// Only applicable in case of PE and NLB VNICs.
+	// Example: `false`
+	IsLatencySensitive *bool `mandatory:"false" json:"isLatencySensitive"`
+
 	// Property describing customer facing metrics
 	MetadataList []CfmMetadata `mandatory:"false" json:"metadataList"`
 

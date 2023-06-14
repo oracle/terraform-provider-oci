@@ -91,6 +91,60 @@ func (client *AIServiceDocumentClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
+// AnalyzeDocument Perform different types of document analysis.
+// A default retry strategy applies to this operation AnalyzeDocument()
+func (client AIServiceDocumentClient) AnalyzeDocument(ctx context.Context, request AnalyzeDocumentRequest) (response AnalyzeDocumentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.analyzeDocument, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AnalyzeDocumentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AnalyzeDocumentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AnalyzeDocumentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AnalyzeDocumentResponse")
+	}
+	return
+}
+
+// analyzeDocument implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceDocumentClient) analyzeDocument(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/analyzeDocument", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AnalyzeDocumentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/AnalyzeDocumentResult/AnalyzeDocument"
+		err = common.PostProcessServiceError(err, "AIServiceDocument", "AnalyzeDocument", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelProcessorJob Cancel a processor job.
 func (client AIServiceDocumentClient) CancelProcessorJob(ctx context.Context, request CancelProcessorJobRequest) (response CancelProcessorJobResponse, err error) {
 	var ociResponse common.OCIResponse

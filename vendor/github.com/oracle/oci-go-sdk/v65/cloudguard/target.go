@@ -41,6 +41,9 @@ type Target struct {
 	// The target description.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Emit problems to OCI Events
+	DoesEmitProblemsToEvents *bool `mandatory:"false" json:"doesEmitProblemsToEvents"`
+
 	// List of detector recipes associated with target
 	TargetDetectorRecipes []TargetDetectorRecipe `mandatory:"false" json:"targetDetectorRecipes"`
 
@@ -105,24 +108,25 @@ func (m Target) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Target) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName             *string                           `json:"displayName"`
-		Description             *string                           `json:"description"`
-		TargetDetectorRecipes   []TargetDetectorRecipe            `json:"targetDetectorRecipes"`
-		TargetResponderRecipes  []TargetResponderRecipe           `json:"targetResponderRecipes"`
-		TargetDetails           targetdetails                     `json:"targetDetails"`
-		InheritedByCompartments []string                          `json:"inheritedByCompartments"`
-		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleState          LifecycleStateEnum                `json:"lifecycleState"`
-		LifecyleDetails         *string                           `json:"lifecyleDetails"`
-		FreeformTags            map[string]string                 `json:"freeformTags"`
-		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
-		Id                      *string                           `json:"id"`
-		CompartmentId           *string                           `json:"compartmentId"`
-		TargetResourceType      TargetResourceTypeEnum            `json:"targetResourceType"`
-		TargetResourceId        *string                           `json:"targetResourceId"`
-		RecipeCount             *int                              `json:"recipeCount"`
+		DisplayName              *string                           `json:"displayName"`
+		Description              *string                           `json:"description"`
+		DoesEmitProblemsToEvents *bool                             `json:"doesEmitProblemsToEvents"`
+		TargetDetectorRecipes    []TargetDetectorRecipe            `json:"targetDetectorRecipes"`
+		TargetResponderRecipes   []TargetResponderRecipe           `json:"targetResponderRecipes"`
+		TargetDetails            targetdetails                     `json:"targetDetails"`
+		InheritedByCompartments  []string                          `json:"inheritedByCompartments"`
+		TimeCreated              *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated              *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleState           LifecycleStateEnum                `json:"lifecycleState"`
+		LifecyleDetails          *string                           `json:"lifecyleDetails"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
+		Id                       *string                           `json:"id"`
+		CompartmentId            *string                           `json:"compartmentId"`
+		TargetResourceType       TargetResourceTypeEnum            `json:"targetResourceType"`
+		TargetResourceId         *string                           `json:"targetResourceId"`
+		RecipeCount              *int                              `json:"recipeCount"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -133,6 +137,8 @@ func (m *Target) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description
+
+	m.DoesEmitProblemsToEvents = model.DoesEmitProblemsToEvents
 
 	m.TargetDetectorRecipes = make([]TargetDetectorRecipe, len(model.TargetDetectorRecipes))
 	for i, n := range model.TargetDetectorRecipes {

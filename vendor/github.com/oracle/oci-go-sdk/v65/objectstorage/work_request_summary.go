@@ -84,18 +84,21 @@ const (
 	WorkRequestSummaryOperationTypeCopyObject      WorkRequestSummaryOperationTypeEnum = "COPY_OBJECT"
 	WorkRequestSummaryOperationTypeReencrypt       WorkRequestSummaryOperationTypeEnum = "REENCRYPT"
 	WorkRequestSummaryOperationTypeBulkCopyObjects WorkRequestSummaryOperationTypeEnum = "BULK_COPY_OBJECTS"
+	WorkRequestSummaryOperationTypePrefixRename    WorkRequestSummaryOperationTypeEnum = "PREFIX_RENAME"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
 	"COPY_OBJECT":       WorkRequestSummaryOperationTypeCopyObject,
 	"REENCRYPT":         WorkRequestSummaryOperationTypeReencrypt,
 	"BULK_COPY_OBJECTS": WorkRequestSummaryOperationTypeBulkCopyObjects,
+	"PREFIX_RENAME":     WorkRequestSummaryOperationTypePrefixRename,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
 	"copy_object":       WorkRequestSummaryOperationTypeCopyObject,
 	"reencrypt":         WorkRequestSummaryOperationTypeReencrypt,
 	"bulk_copy_objects": WorkRequestSummaryOperationTypeBulkCopyObjects,
+	"prefix_rename":     WorkRequestSummaryOperationTypePrefixRename,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -113,6 +116,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"COPY_OBJECT",
 		"REENCRYPT",
 		"BULK_COPY_OBJECTS",
+		"PREFIX_RENAME",
 	}
 }
 

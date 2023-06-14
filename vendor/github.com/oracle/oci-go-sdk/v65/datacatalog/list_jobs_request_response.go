@@ -49,8 +49,12 @@ type ListJobsRequest struct {
 	// Unique data asset key.
 	DataAssetKey *string `mandatory:"false" contributesTo:"query" name:"dataAssetKey"`
 
+	// Unique glossary key.
+	GlossaryKey *string `mandatory:"false" contributesTo:"query" name:"glossaryKey"`
+
 	// Interval on which the job will be run. Value is specified as a cron-supported time specification "nickname".
 	// The following subset of those is supported: @monthly, @weekly, @daily, @hourly.
+	// For metastore sync, an additional option @default is supported, which will schedule jobs at a more granular frequency.
 	ScheduleCronExpression *string `mandatory:"false" contributesTo:"query" name:"scheduleCronExpression"`
 
 	// Date that the schedule should be operational. An RFC3339 (https://tools.ietf.org/html/rfc3339) formatted datetime string.
@@ -247,6 +251,8 @@ const (
 	ListJobsJobTypeScheduledExecutionInstance ListJobsJobTypeEnum = "SCHEDULED_EXECUTION_INSTANCE"
 	ListJobsJobTypeAsyncDelete                ListJobsJobTypeEnum = "ASYNC_DELETE"
 	ListJobsJobTypeImportDataAsset            ListJobsJobTypeEnum = "IMPORT_DATA_ASSET"
+	ListJobsJobTypeCreateScanProxy            ListJobsJobTypeEnum = "CREATE_SCAN_PROXY"
+	ListJobsJobTypeAsyncExportGlossary        ListJobsJobTypeEnum = "ASYNC_EXPORT_GLOSSARY"
 )
 
 var mappingListJobsJobTypeEnum = map[string]ListJobsJobTypeEnum{
@@ -267,6 +273,8 @@ var mappingListJobsJobTypeEnum = map[string]ListJobsJobTypeEnum{
 	"SCHEDULED_EXECUTION_INSTANCE": ListJobsJobTypeScheduledExecutionInstance,
 	"ASYNC_DELETE":                 ListJobsJobTypeAsyncDelete,
 	"IMPORT_DATA_ASSET":            ListJobsJobTypeImportDataAsset,
+	"CREATE_SCAN_PROXY":            ListJobsJobTypeCreateScanProxy,
+	"ASYNC_EXPORT_GLOSSARY":        ListJobsJobTypeAsyncExportGlossary,
 }
 
 var mappingListJobsJobTypeEnumLowerCase = map[string]ListJobsJobTypeEnum{
@@ -287,6 +295,8 @@ var mappingListJobsJobTypeEnumLowerCase = map[string]ListJobsJobTypeEnum{
 	"scheduled_execution_instance": ListJobsJobTypeScheduledExecutionInstance,
 	"async_delete":                 ListJobsJobTypeAsyncDelete,
 	"import_data_asset":            ListJobsJobTypeImportDataAsset,
+	"create_scan_proxy":            ListJobsJobTypeCreateScanProxy,
+	"async_export_glossary":        ListJobsJobTypeAsyncExportGlossary,
 }
 
 // GetListJobsJobTypeEnumValues Enumerates the set of values for ListJobsJobTypeEnum
@@ -318,6 +328,8 @@ func GetListJobsJobTypeEnumStringValues() []string {
 		"SCHEDULED_EXECUTION_INSTANCE",
 		"ASYNC_DELETE",
 		"IMPORT_DATA_ASSET",
+		"CREATE_SCAN_PROXY",
+		"ASYNC_EXPORT_GLOSSARY",
 	}
 }
 

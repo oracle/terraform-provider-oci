@@ -46,6 +46,9 @@ type CreateTargetDetails struct {
 	// The current state of the DetectorRule.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// Emit problems to OCI Events
+	DoesEmitProblemsToEvents *bool `mandatory:"false" json:"doesEmitProblemsToEvents"`
+
 	TargetDetails CreateTargetAdditionalDetails `mandatory:"false" json:"targetDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -83,17 +86,18 @@ func (m CreateTargetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description            *string                              `json:"description"`
-		TargetDetectorRecipes  []CreateTargetDetectorRecipeDetails  `json:"targetDetectorRecipes"`
-		TargetResponderRecipes []CreateTargetResponderRecipeDetails `json:"targetResponderRecipes"`
-		LifecycleState         LifecycleStateEnum                   `json:"lifecycleState"`
-		TargetDetails          createtargetadditionaldetails        `json:"targetDetails"`
-		FreeformTags           map[string]string                    `json:"freeformTags"`
-		DefinedTags            map[string]map[string]interface{}    `json:"definedTags"`
-		DisplayName            *string                              `json:"displayName"`
-		CompartmentId          *string                              `json:"compartmentId"`
-		TargetResourceType     TargetResourceTypeEnum               `json:"targetResourceType"`
-		TargetResourceId       *string                              `json:"targetResourceId"`
+		Description              *string                              `json:"description"`
+		TargetDetectorRecipes    []CreateTargetDetectorRecipeDetails  `json:"targetDetectorRecipes"`
+		TargetResponderRecipes   []CreateTargetResponderRecipeDetails `json:"targetResponderRecipes"`
+		LifecycleState           LifecycleStateEnum                   `json:"lifecycleState"`
+		DoesEmitProblemsToEvents *bool                                `json:"doesEmitProblemsToEvents"`
+		TargetDetails            createtargetadditionaldetails        `json:"targetDetails"`
+		FreeformTags             map[string]string                    `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{}    `json:"definedTags"`
+		DisplayName              *string                              `json:"displayName"`
+		CompartmentId            *string                              `json:"compartmentId"`
+		TargetResourceType       TargetResourceTypeEnum               `json:"targetResourceType"`
+		TargetResourceId         *string                              `json:"targetResourceId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -114,6 +118,8 @@ func (m *CreateTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.LifecycleState = model.LifecycleState
+
+	m.DoesEmitProblemsToEvents = model.DoesEmitProblemsToEvents
 
 	nn, e = model.TargetDetails.UnmarshalPolymorphicJSON(model.TargetDetails.JsonData)
 	if e != nil {

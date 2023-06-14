@@ -258,6 +258,8 @@ const (
 	ListJobExecutionsJobTypeScheduledExecutionInstance ListJobExecutionsJobTypeEnum = "SCHEDULED_EXECUTION_INSTANCE"
 	ListJobExecutionsJobTypeAsyncDelete                ListJobExecutionsJobTypeEnum = "ASYNC_DELETE"
 	ListJobExecutionsJobTypeImportDataAsset            ListJobExecutionsJobTypeEnum = "IMPORT_DATA_ASSET"
+	ListJobExecutionsJobTypeCreateScanProxy            ListJobExecutionsJobTypeEnum = "CREATE_SCAN_PROXY"
+	ListJobExecutionsJobTypeAsyncExportGlossary        ListJobExecutionsJobTypeEnum = "ASYNC_EXPORT_GLOSSARY"
 )
 
 var mappingListJobExecutionsJobTypeEnum = map[string]ListJobExecutionsJobTypeEnum{
@@ -278,6 +280,8 @@ var mappingListJobExecutionsJobTypeEnum = map[string]ListJobExecutionsJobTypeEnu
 	"SCHEDULED_EXECUTION_INSTANCE": ListJobExecutionsJobTypeScheduledExecutionInstance,
 	"ASYNC_DELETE":                 ListJobExecutionsJobTypeAsyncDelete,
 	"IMPORT_DATA_ASSET":            ListJobExecutionsJobTypeImportDataAsset,
+	"CREATE_SCAN_PROXY":            ListJobExecutionsJobTypeCreateScanProxy,
+	"ASYNC_EXPORT_GLOSSARY":        ListJobExecutionsJobTypeAsyncExportGlossary,
 }
 
 var mappingListJobExecutionsJobTypeEnumLowerCase = map[string]ListJobExecutionsJobTypeEnum{
@@ -298,6 +302,8 @@ var mappingListJobExecutionsJobTypeEnumLowerCase = map[string]ListJobExecutionsJ
 	"scheduled_execution_instance": ListJobExecutionsJobTypeScheduledExecutionInstance,
 	"async_delete":                 ListJobExecutionsJobTypeAsyncDelete,
 	"import_data_asset":            ListJobExecutionsJobTypeImportDataAsset,
+	"create_scan_proxy":            ListJobExecutionsJobTypeCreateScanProxy,
+	"async_export_glossary":        ListJobExecutionsJobTypeAsyncExportGlossary,
 }
 
 // GetListJobExecutionsJobTypeEnumValues Enumerates the set of values for ListJobExecutionsJobTypeEnum
@@ -329,6 +335,8 @@ func GetListJobExecutionsJobTypeEnumStringValues() []string {
 		"SCHEDULED_EXECUTION_INSTANCE",
 		"ASYNC_DELETE",
 		"IMPORT_DATA_ASSET",
+		"CREATE_SCAN_PROXY",
+		"ASYNC_EXPORT_GLOSSARY",
 	}
 }
 
