@@ -31,9 +31,9 @@ type HostImportableAgentEntitySummary struct {
 	HostName *string `mandatory:"true" json:"hostName"`
 
 	// Platform type.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType HostImportableAgentEntitySummaryPlatformTypeEnum `mandatory:"true" json:"platformType"`
 }
 
@@ -89,6 +89,8 @@ const (
 	HostImportableAgentEntitySummaryPlatformTypeSolaris HostImportableAgentEntitySummaryPlatformTypeEnum = "SOLARIS"
 	HostImportableAgentEntitySummaryPlatformTypeSunos   HostImportableAgentEntitySummaryPlatformTypeEnum = "SUNOS"
 	HostImportableAgentEntitySummaryPlatformTypeZlinux  HostImportableAgentEntitySummaryPlatformTypeEnum = "ZLINUX"
+	HostImportableAgentEntitySummaryPlatformTypeWindows HostImportableAgentEntitySummaryPlatformTypeEnum = "WINDOWS"
+	HostImportableAgentEntitySummaryPlatformTypeAix     HostImportableAgentEntitySummaryPlatformTypeEnum = "AIX"
 )
 
 var mappingHostImportableAgentEntitySummaryPlatformTypeEnum = map[string]HostImportableAgentEntitySummaryPlatformTypeEnum{
@@ -96,6 +98,8 @@ var mappingHostImportableAgentEntitySummaryPlatformTypeEnum = map[string]HostImp
 	"SOLARIS": HostImportableAgentEntitySummaryPlatformTypeSolaris,
 	"SUNOS":   HostImportableAgentEntitySummaryPlatformTypeSunos,
 	"ZLINUX":  HostImportableAgentEntitySummaryPlatformTypeZlinux,
+	"WINDOWS": HostImportableAgentEntitySummaryPlatformTypeWindows,
+	"AIX":     HostImportableAgentEntitySummaryPlatformTypeAix,
 }
 
 var mappingHostImportableAgentEntitySummaryPlatformTypeEnumLowerCase = map[string]HostImportableAgentEntitySummaryPlatformTypeEnum{
@@ -103,6 +107,8 @@ var mappingHostImportableAgentEntitySummaryPlatformTypeEnumLowerCase = map[strin
 	"solaris": HostImportableAgentEntitySummaryPlatformTypeSolaris,
 	"sunos":   HostImportableAgentEntitySummaryPlatformTypeSunos,
 	"zlinux":  HostImportableAgentEntitySummaryPlatformTypeZlinux,
+	"windows": HostImportableAgentEntitySummaryPlatformTypeWindows,
+	"aix":     HostImportableAgentEntitySummaryPlatformTypeAix,
 }
 
 // GetHostImportableAgentEntitySummaryPlatformTypeEnumValues Enumerates the set of values for HostImportableAgentEntitySummaryPlatformTypeEnum
@@ -121,6 +127,8 @@ func GetHostImportableAgentEntitySummaryPlatformTypeEnumStringValues() []string 
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
+		"AIX",
 	}
 }
 

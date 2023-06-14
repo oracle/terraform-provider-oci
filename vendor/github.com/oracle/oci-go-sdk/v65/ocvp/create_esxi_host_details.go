@@ -32,6 +32,9 @@ type CreateEsxiHostDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deleted ESXi Host with LeftOver billing cycle.
+	BillingDonorHostId *string `mandatory:"false" json:"billingDonorHostId"`
+
 	// The billing option currently used by the ESXi host.
 	// ListSupportedSkus.
 	CurrentSku SkuEnum `mandatory:"false" json:"currentSku,omitempty"`

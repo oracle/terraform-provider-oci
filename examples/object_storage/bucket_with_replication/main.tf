@@ -129,4 +129,3 @@ resource "oci_objectstorage_replication_policy" "bucket_rp" {
   destination_region_name = var.region
   destination_bucket_name = oci_objectstorage_bucket.bucket2.name
 }
-

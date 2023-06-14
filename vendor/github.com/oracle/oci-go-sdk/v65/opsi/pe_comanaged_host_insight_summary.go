@@ -70,9 +70,9 @@ type PeComanagedHostInsightSummary struct {
 	RootId *string `mandatory:"false" json:"rootId"`
 
 	// Platform type.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType PeComanagedHostInsightSummaryPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -205,6 +205,8 @@ const (
 	PeComanagedHostInsightSummaryPlatformTypeSolaris PeComanagedHostInsightSummaryPlatformTypeEnum = "SOLARIS"
 	PeComanagedHostInsightSummaryPlatformTypeSunos   PeComanagedHostInsightSummaryPlatformTypeEnum = "SUNOS"
 	PeComanagedHostInsightSummaryPlatformTypeZlinux  PeComanagedHostInsightSummaryPlatformTypeEnum = "ZLINUX"
+	PeComanagedHostInsightSummaryPlatformTypeWindows PeComanagedHostInsightSummaryPlatformTypeEnum = "WINDOWS"
+	PeComanagedHostInsightSummaryPlatformTypeAix     PeComanagedHostInsightSummaryPlatformTypeEnum = "AIX"
 )
 
 var mappingPeComanagedHostInsightSummaryPlatformTypeEnum = map[string]PeComanagedHostInsightSummaryPlatformTypeEnum{
@@ -212,6 +214,8 @@ var mappingPeComanagedHostInsightSummaryPlatformTypeEnum = map[string]PeComanage
 	"SOLARIS": PeComanagedHostInsightSummaryPlatformTypeSolaris,
 	"SUNOS":   PeComanagedHostInsightSummaryPlatformTypeSunos,
 	"ZLINUX":  PeComanagedHostInsightSummaryPlatformTypeZlinux,
+	"WINDOWS": PeComanagedHostInsightSummaryPlatformTypeWindows,
+	"AIX":     PeComanagedHostInsightSummaryPlatformTypeAix,
 }
 
 var mappingPeComanagedHostInsightSummaryPlatformTypeEnumLowerCase = map[string]PeComanagedHostInsightSummaryPlatformTypeEnum{
@@ -219,6 +223,8 @@ var mappingPeComanagedHostInsightSummaryPlatformTypeEnumLowerCase = map[string]P
 	"solaris": PeComanagedHostInsightSummaryPlatformTypeSolaris,
 	"sunos":   PeComanagedHostInsightSummaryPlatformTypeSunos,
 	"zlinux":  PeComanagedHostInsightSummaryPlatformTypeZlinux,
+	"windows": PeComanagedHostInsightSummaryPlatformTypeWindows,
+	"aix":     PeComanagedHostInsightSummaryPlatformTypeAix,
 }
 
 // GetPeComanagedHostInsightSummaryPlatformTypeEnumValues Enumerates the set of values for PeComanagedHostInsightSummaryPlatformTypeEnum
@@ -237,6 +243,8 @@ func GetPeComanagedHostInsightSummaryPlatformTypeEnumStringValues() []string {
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
+		"AIX",
 	}
 }
 

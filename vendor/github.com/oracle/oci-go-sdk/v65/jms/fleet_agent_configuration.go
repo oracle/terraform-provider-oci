@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// FleetAgentConfiguration Management Agent Configuration for a Fleet. Includes JRE scanning frequency and list of include/exclude file system paths.
+// FleetAgentConfiguration Management Agent Configuration for a Fleet. Includes JRE scanning frequency and a list of include/exclude file system paths.
 type FleetAgentConfiguration struct {
 
 	// The frequency (in minutes) of JRE scanning. (That is, how often should JMS scan for JRE installations.)

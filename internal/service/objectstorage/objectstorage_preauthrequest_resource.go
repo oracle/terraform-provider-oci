@@ -95,6 +95,10 @@ func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"full_path": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -288,6 +292,10 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) SetData() error {
 	}
 
 	s.D.Set("bucket_listing_action", s.Res.BucketListingAction)
+
+	if s.Res.FullPath != nil {
+		s.D.Set("full_path", *s.Res.FullPath)
+	}
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

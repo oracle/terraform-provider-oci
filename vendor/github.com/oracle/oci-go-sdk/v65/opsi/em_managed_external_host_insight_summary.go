@@ -85,9 +85,9 @@ type EmManagedExternalHostInsightSummary struct {
 	ExadataInsightId *string `mandatory:"false" json:"exadataInsightId"`
 
 	// Platform type.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType EmManagedExternalHostInsightSummaryPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -220,6 +220,8 @@ const (
 	EmManagedExternalHostInsightSummaryPlatformTypeSolaris EmManagedExternalHostInsightSummaryPlatformTypeEnum = "SOLARIS"
 	EmManagedExternalHostInsightSummaryPlatformTypeSunos   EmManagedExternalHostInsightSummaryPlatformTypeEnum = "SUNOS"
 	EmManagedExternalHostInsightSummaryPlatformTypeZlinux  EmManagedExternalHostInsightSummaryPlatformTypeEnum = "ZLINUX"
+	EmManagedExternalHostInsightSummaryPlatformTypeWindows EmManagedExternalHostInsightSummaryPlatformTypeEnum = "WINDOWS"
+	EmManagedExternalHostInsightSummaryPlatformTypeAix     EmManagedExternalHostInsightSummaryPlatformTypeEnum = "AIX"
 )
 
 var mappingEmManagedExternalHostInsightSummaryPlatformTypeEnum = map[string]EmManagedExternalHostInsightSummaryPlatformTypeEnum{
@@ -227,6 +229,8 @@ var mappingEmManagedExternalHostInsightSummaryPlatformTypeEnum = map[string]EmMa
 	"SOLARIS": EmManagedExternalHostInsightSummaryPlatformTypeSolaris,
 	"SUNOS":   EmManagedExternalHostInsightSummaryPlatformTypeSunos,
 	"ZLINUX":  EmManagedExternalHostInsightSummaryPlatformTypeZlinux,
+	"WINDOWS": EmManagedExternalHostInsightSummaryPlatformTypeWindows,
+	"AIX":     EmManagedExternalHostInsightSummaryPlatformTypeAix,
 }
 
 var mappingEmManagedExternalHostInsightSummaryPlatformTypeEnumLowerCase = map[string]EmManagedExternalHostInsightSummaryPlatformTypeEnum{
@@ -234,6 +238,8 @@ var mappingEmManagedExternalHostInsightSummaryPlatformTypeEnumLowerCase = map[st
 	"solaris": EmManagedExternalHostInsightSummaryPlatformTypeSolaris,
 	"sunos":   EmManagedExternalHostInsightSummaryPlatformTypeSunos,
 	"zlinux":  EmManagedExternalHostInsightSummaryPlatformTypeZlinux,
+	"windows": EmManagedExternalHostInsightSummaryPlatformTypeWindows,
+	"aix":     EmManagedExternalHostInsightSummaryPlatformTypeAix,
 }
 
 // GetEmManagedExternalHostInsightSummaryPlatformTypeEnumValues Enumerates the set of values for EmManagedExternalHostInsightSummaryPlatformTypeEnum
@@ -252,6 +258,8 @@ func GetEmManagedExternalHostInsightSummaryPlatformTypeEnumStringValues() []stri
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
+		"AIX",
 	}
 }
 

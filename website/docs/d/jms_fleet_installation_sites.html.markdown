@@ -77,7 +77,7 @@ The following attributes are exported:
 	* `operating_system` - Operating System of the platform on which the Java Runtime was reported. 
 		* `architecture` - The architecture of the operating system as provided by the Java system property os.arch.
 		* `family` - The operating system type, such as Windows or Linux
-		* `managed_instance_count` - Number of instances running the operating system
+		* `managed_instance_count` - Number of instances running the operating system.
 		* `name` - The name of the operating system as provided by the Java system property os.name.
 		* `version` - The version of the operating system as provided by the Java system property os.version.
 	* `path` - The file system path of the installation.

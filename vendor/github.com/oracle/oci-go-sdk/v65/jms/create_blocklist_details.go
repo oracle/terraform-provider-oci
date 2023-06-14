@@ -22,7 +22,7 @@ type CreateBlocklistDetails struct {
 	// The operation type
 	Operation OperationTypeEnum `mandatory:"true" json:"operation"`
 
-	// The reason for why the operation is blocklisted
+	// The reason why the operation is blocklisted
 	Reason *string `mandatory:"false" json:"reason"`
 }
 

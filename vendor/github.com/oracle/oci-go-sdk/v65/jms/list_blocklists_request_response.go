@@ -36,9 +36,9 @@ type ListBlocklistsRequest struct {
 	// The sort order, either 'asc' or 'desc'.
 	SortOrder ListBlocklistsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort blocklist records. Only one sort order may be provided.
+	// The field used to sort blocklist records. Only one sort order may be provided.
 	// Default order for _operation_ is **ascending**.
-	// If no value is specified _operation_ is default.
+	// If no value is specified, _operation_ is default.
 	SortBy ListBlocklistsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -128,45 +128,51 @@ type ListBlocklistsOperationEnum string
 
 // Set of constants representing the allowable values for ListBlocklistsOperationEnum
 const (
-	ListBlocklistsOperationCreateFleet                   ListBlocklistsOperationEnum = "CREATE_FLEET"
-	ListBlocklistsOperationDeleteFleet                   ListBlocklistsOperationEnum = "DELETE_FLEET"
-	ListBlocklistsOperationMoveFleet                     ListBlocklistsOperationEnum = "MOVE_FLEET"
-	ListBlocklistsOperationUpdateFleet                   ListBlocklistsOperationEnum = "UPDATE_FLEET"
-	ListBlocklistsOperationUpdateFleetAgentConfiguration ListBlocklistsOperationEnum = "UPDATE_FLEET_AGENT_CONFIGURATION"
-	ListBlocklistsOperationDeleteJavaInstallation        ListBlocklistsOperationEnum = "DELETE_JAVA_INSTALLATION"
-	ListBlocklistsOperationCreateJavaInstallation        ListBlocklistsOperationEnum = "CREATE_JAVA_INSTALLATION"
-	ListBlocklistsOperationCollectJfr                    ListBlocklistsOperationEnum = "COLLECT_JFR"
-	ListBlocklistsOperationRequestCryptoEventAnalysis    ListBlocklistsOperationEnum = "REQUEST_CRYPTO_EVENT_ANALYSIS"
-	ListBlocklistsOperationScanJavaServerUsage           ListBlocklistsOperationEnum = "SCAN_JAVA_SERVER_USAGE"
-	ListBlocklistsOperationScanLibraryUsage              ListBlocklistsOperationEnum = "SCAN_LIBRARY_USAGE"
+	ListBlocklistsOperationCreateFleet                      ListBlocklistsOperationEnum = "CREATE_FLEET"
+	ListBlocklistsOperationDeleteFleet                      ListBlocklistsOperationEnum = "DELETE_FLEET"
+	ListBlocklistsOperationMoveFleet                        ListBlocklistsOperationEnum = "MOVE_FLEET"
+	ListBlocklistsOperationUpdateFleet                      ListBlocklistsOperationEnum = "UPDATE_FLEET"
+	ListBlocklistsOperationUpdateFleetAgentConfiguration    ListBlocklistsOperationEnum = "UPDATE_FLEET_AGENT_CONFIGURATION"
+	ListBlocklistsOperationDeleteJavaInstallation           ListBlocklistsOperationEnum = "DELETE_JAVA_INSTALLATION"
+	ListBlocklistsOperationCreateJavaInstallation           ListBlocklistsOperationEnum = "CREATE_JAVA_INSTALLATION"
+	ListBlocklistsOperationCollectJfr                       ListBlocklistsOperationEnum = "COLLECT_JFR"
+	ListBlocklistsOperationRequestCryptoEventAnalysis       ListBlocklistsOperationEnum = "REQUEST_CRYPTO_EVENT_ANALYSIS"
+	ListBlocklistsOperationRequestPerformanceTuningAnalysis ListBlocklistsOperationEnum = "REQUEST_PERFORMANCE_TUNING_ANALYSIS"
+	ListBlocklistsOperationRequestJavaMigrationAnalysis     ListBlocklistsOperationEnum = "REQUEST_JAVA_MIGRATION_ANALYSIS"
+	ListBlocklistsOperationScanJavaServerUsage              ListBlocklistsOperationEnum = "SCAN_JAVA_SERVER_USAGE"
+	ListBlocklistsOperationScanLibraryUsage                 ListBlocklistsOperationEnum = "SCAN_LIBRARY_USAGE"
 )
 
 var mappingListBlocklistsOperationEnum = map[string]ListBlocklistsOperationEnum{
-	"CREATE_FLEET":                     ListBlocklistsOperationCreateFleet,
-	"DELETE_FLEET":                     ListBlocklistsOperationDeleteFleet,
-	"MOVE_FLEET":                       ListBlocklistsOperationMoveFleet,
-	"UPDATE_FLEET":                     ListBlocklistsOperationUpdateFleet,
-	"UPDATE_FLEET_AGENT_CONFIGURATION": ListBlocklistsOperationUpdateFleetAgentConfiguration,
-	"DELETE_JAVA_INSTALLATION":         ListBlocklistsOperationDeleteJavaInstallation,
-	"CREATE_JAVA_INSTALLATION":         ListBlocklistsOperationCreateJavaInstallation,
-	"COLLECT_JFR":                      ListBlocklistsOperationCollectJfr,
-	"REQUEST_CRYPTO_EVENT_ANALYSIS":    ListBlocklistsOperationRequestCryptoEventAnalysis,
-	"SCAN_JAVA_SERVER_USAGE":           ListBlocklistsOperationScanJavaServerUsage,
-	"SCAN_LIBRARY_USAGE":               ListBlocklistsOperationScanLibraryUsage,
+	"CREATE_FLEET":                        ListBlocklistsOperationCreateFleet,
+	"DELETE_FLEET":                        ListBlocklistsOperationDeleteFleet,
+	"MOVE_FLEET":                          ListBlocklistsOperationMoveFleet,
+	"UPDATE_FLEET":                        ListBlocklistsOperationUpdateFleet,
+	"UPDATE_FLEET_AGENT_CONFIGURATION":    ListBlocklistsOperationUpdateFleetAgentConfiguration,
+	"DELETE_JAVA_INSTALLATION":            ListBlocklistsOperationDeleteJavaInstallation,
+	"CREATE_JAVA_INSTALLATION":            ListBlocklistsOperationCreateJavaInstallation,
+	"COLLECT_JFR":                         ListBlocklistsOperationCollectJfr,
+	"REQUEST_CRYPTO_EVENT_ANALYSIS":       ListBlocklistsOperationRequestCryptoEventAnalysis,
+	"REQUEST_PERFORMANCE_TUNING_ANALYSIS": ListBlocklistsOperationRequestPerformanceTuningAnalysis,
+	"REQUEST_JAVA_MIGRATION_ANALYSIS":     ListBlocklistsOperationRequestJavaMigrationAnalysis,
+	"SCAN_JAVA_SERVER_USAGE":              ListBlocklistsOperationScanJavaServerUsage,
+	"SCAN_LIBRARY_USAGE":                  ListBlocklistsOperationScanLibraryUsage,
 }
 
 var mappingListBlocklistsOperationEnumLowerCase = map[string]ListBlocklistsOperationEnum{
-	"create_fleet":                     ListBlocklistsOperationCreateFleet,
-	"delete_fleet":                     ListBlocklistsOperationDeleteFleet,
-	"move_fleet":                       ListBlocklistsOperationMoveFleet,
-	"update_fleet":                     ListBlocklistsOperationUpdateFleet,
-	"update_fleet_agent_configuration": ListBlocklistsOperationUpdateFleetAgentConfiguration,
-	"delete_java_installation":         ListBlocklistsOperationDeleteJavaInstallation,
-	"create_java_installation":         ListBlocklistsOperationCreateJavaInstallation,
-	"collect_jfr":                      ListBlocklistsOperationCollectJfr,
-	"request_crypto_event_analysis":    ListBlocklistsOperationRequestCryptoEventAnalysis,
-	"scan_java_server_usage":           ListBlocklistsOperationScanJavaServerUsage,
-	"scan_library_usage":               ListBlocklistsOperationScanLibraryUsage,
+	"create_fleet":                        ListBlocklistsOperationCreateFleet,
+	"delete_fleet":                        ListBlocklistsOperationDeleteFleet,
+	"move_fleet":                          ListBlocklistsOperationMoveFleet,
+	"update_fleet":                        ListBlocklistsOperationUpdateFleet,
+	"update_fleet_agent_configuration":    ListBlocklistsOperationUpdateFleetAgentConfiguration,
+	"delete_java_installation":            ListBlocklistsOperationDeleteJavaInstallation,
+	"create_java_installation":            ListBlocklistsOperationCreateJavaInstallation,
+	"collect_jfr":                         ListBlocklistsOperationCollectJfr,
+	"request_crypto_event_analysis":       ListBlocklistsOperationRequestCryptoEventAnalysis,
+	"request_performance_tuning_analysis": ListBlocklistsOperationRequestPerformanceTuningAnalysis,
+	"request_java_migration_analysis":     ListBlocklistsOperationRequestJavaMigrationAnalysis,
+	"scan_java_server_usage":              ListBlocklistsOperationScanJavaServerUsage,
+	"scan_library_usage":                  ListBlocklistsOperationScanLibraryUsage,
 }
 
 // GetListBlocklistsOperationEnumValues Enumerates the set of values for ListBlocklistsOperationEnum
@@ -190,6 +196,8 @@ func GetListBlocklistsOperationEnumStringValues() []string {
 		"CREATE_JAVA_INSTALLATION",
 		"COLLECT_JFR",
 		"REQUEST_CRYPTO_EVENT_ANALYSIS",
+		"REQUEST_PERFORMANCE_TUNING_ANALYSIS",
+		"REQUEST_JAVA_MIGRATION_ANALYSIS",
 		"SCAN_JAVA_SERVER_USAGE",
 		"SCAN_LIBRARY_USAGE",
 	}

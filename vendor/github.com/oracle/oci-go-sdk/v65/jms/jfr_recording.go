@@ -18,7 +18,7 @@ import (
 // JfrRecording JfrRecording configuration
 type JfrRecording struct {
 
-	// JfrRecording flag to store enabled or disabled status
+	// JfrRecording flag to store enabled or disabled status.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 }
 

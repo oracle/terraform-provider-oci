@@ -27,6 +27,7 @@ const (
 	OperationTypesDowngradeHcx            OperationTypesEnum = "DOWNGRADE_HCX"
 	OperationTypesCancelDowngradeHcx      OperationTypesEnum = "CANCEL_DOWNGRADE_HCX"
 	OperationTypesRefreshHcxLicenseStatus OperationTypesEnum = "REFRESH_HCX_LICENSE_STATUS"
+	OperationTypesSwapBilling             OperationTypesEnum = "SWAP_BILLING"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -38,6 +39,7 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"DOWNGRADE_HCX":              OperationTypesDowngradeHcx,
 	"CANCEL_DOWNGRADE_HCX":       OperationTypesCancelDowngradeHcx,
 	"REFRESH_HCX_LICENSE_STATUS": OperationTypesRefreshHcxLicenseStatus,
+	"SWAP_BILLING":               OperationTypesSwapBilling,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -49,6 +51,7 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"downgrade_hcx":              OperationTypesDowngradeHcx,
 	"cancel_downgrade_hcx":       OperationTypesCancelDowngradeHcx,
 	"refresh_hcx_license_status": OperationTypesRefreshHcxLicenseStatus,
+	"swap_billing":               OperationTypesSwapBilling,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -71,6 +74,7 @@ func GetOperationTypesEnumStringValues() []string {
 		"DOWNGRADE_HCX",
 		"CANCEL_DOWNGRADE_HCX",
 		"REFRESH_HCX_LICENSE_STATUS",
+		"SWAP_BILLING",
 	}
 }
 
