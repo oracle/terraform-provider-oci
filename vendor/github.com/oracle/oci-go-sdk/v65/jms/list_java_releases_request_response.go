@@ -188,6 +188,7 @@ type ListJavaReleasesJreSecurityStatusEnum string
 
 // Set of constants representing the allowable values for ListJavaReleasesJreSecurityStatusEnum
 const (
+	ListJavaReleasesJreSecurityStatusEarlyAccess     ListJavaReleasesJreSecurityStatusEnum = "EARLY_ACCESS"
 	ListJavaReleasesJreSecurityStatusUnknown         ListJavaReleasesJreSecurityStatusEnum = "UNKNOWN"
 	ListJavaReleasesJreSecurityStatusUpToDate        ListJavaReleasesJreSecurityStatusEnum = "UP_TO_DATE"
 	ListJavaReleasesJreSecurityStatusUpdateRequired  ListJavaReleasesJreSecurityStatusEnum = "UPDATE_REQUIRED"
@@ -195,6 +196,7 @@ const (
 )
 
 var mappingListJavaReleasesJreSecurityStatusEnum = map[string]ListJavaReleasesJreSecurityStatusEnum{
+	"EARLY_ACCESS":     ListJavaReleasesJreSecurityStatusEarlyAccess,
 	"UNKNOWN":          ListJavaReleasesJreSecurityStatusUnknown,
 	"UP_TO_DATE":       ListJavaReleasesJreSecurityStatusUpToDate,
 	"UPDATE_REQUIRED":  ListJavaReleasesJreSecurityStatusUpdateRequired,
@@ -202,6 +204,7 @@ var mappingListJavaReleasesJreSecurityStatusEnum = map[string]ListJavaReleasesJr
 }
 
 var mappingListJavaReleasesJreSecurityStatusEnumLowerCase = map[string]ListJavaReleasesJreSecurityStatusEnum{
+	"early_access":     ListJavaReleasesJreSecurityStatusEarlyAccess,
 	"unknown":          ListJavaReleasesJreSecurityStatusUnknown,
 	"up_to_date":       ListJavaReleasesJreSecurityStatusUpToDate,
 	"update_required":  ListJavaReleasesJreSecurityStatusUpdateRequired,
@@ -220,6 +223,7 @@ func GetListJavaReleasesJreSecurityStatusEnumValues() []ListJavaReleasesJreSecur
 // GetListJavaReleasesJreSecurityStatusEnumStringValues Enumerates the set of values in String for ListJavaReleasesJreSecurityStatusEnum
 func GetListJavaReleasesJreSecurityStatusEnumStringValues() []string {
 	return []string{
+		"EARLY_ACCESS",
 		"UNKNOWN",
 		"UP_TO_DATE",
 		"UPDATE_REQUIRED",

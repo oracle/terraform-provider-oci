@@ -18,7 +18,7 @@ import (
 // AdvancedUsageTracking AdvancedUsageTracking configuration
 type AdvancedUsageTracking struct {
 
-	// AdvancedUsageTracking flag to store enabled or disabled status
+	// AdvancedUsageTracking flag to store enabled or disabled status.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 }
 

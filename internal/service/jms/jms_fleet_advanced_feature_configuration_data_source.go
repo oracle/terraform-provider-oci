@@ -85,6 +85,23 @@ func JmsFleetAdvancedFeatureConfigurationDataSource() *schema.Resource {
 					},
 				},
 			},
+			"java_migration_analysis": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"jfr_recording": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -126,12 +143,20 @@ func JmsFleetAdvancedFeatureConfigurationDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"add_logging_handler": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"disabled_tls_versions": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
+									},
+									"global_logging_level": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 									"minimum_key_size_settings": {
 										Type:     schema.TypeList,
@@ -209,12 +234,78 @@ func JmsFleetAdvancedFeatureConfigurationDataSource() *schema.Resource {
 											},
 										},
 									},
+									"proxies": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"ftp_proxy_host": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"ftp_proxy_port": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"http_proxy_host": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"http_proxy_port": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"https_proxy_host": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"https_proxy_port": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"socks_proxy_host": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"socks_proxy_port": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"use_system_proxies": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"should_replace_certificates_operating_system": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
 								},
 							},
+						},
+					},
+				},
+			},
+			"performance_tuning_analysis": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
 						},
 					},
 				},
@@ -291,6 +382,12 @@ func (s *JmsFleetAdvancedFeatureConfigurationDataSourceCrud) SetData() error {
 		s.D.Set("crypto_event_analysis", nil)
 	}
 
+	if s.Res.JavaMigrationAnalysis != nil {
+		s.D.Set("java_migration_analysis", []interface{}{JavaMigrationAnalysisToMap(s.Res.JavaMigrationAnalysis)})
+	} else {
+		s.D.Set("java_migration_analysis", nil)
+	}
+
 	if s.Res.JfrRecording != nil {
 		s.D.Set("jfr_recording", []interface{}{JfrRecordingToMap(s.Res.JfrRecording)})
 	} else {
@@ -301,6 +398,12 @@ func (s *JmsFleetAdvancedFeatureConfigurationDataSourceCrud) SetData() error {
 		s.D.Set("lcm", []interface{}{LcmToMap(s.Res.Lcm)})
 	} else {
 		s.D.Set("lcm", nil)
+	}
+
+	if s.Res.PerformanceTuningAnalysis != nil {
+		s.D.Set("performance_tuning_analysis", []interface{}{PerformanceTuningAnalysisToMap(s.Res.PerformanceTuningAnalysis)})
+	} else {
+		s.D.Set("performance_tuning_analysis", nil)
 	}
 
 	if s.Res.TimeLastModified != nil {
@@ -329,6 +432,16 @@ func CryptoEventAnalysisToMap(obj *oci_jms.CryptoEventAnalysis) map[string]inter
 
 	if obj.SummarizedEventsLog != nil {
 		result["summarized_events_log"] = []interface{}{SummarizedEventsLogToMap(obj.SummarizedEventsLog)}
+	}
+
+	return result
+}
+
+func JavaMigrationAnalysisToMap(obj *oci_jms.JavaMigrationAnalysis) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
 	}
 
 	return result
@@ -394,8 +507,22 @@ func MinimumKeySizeSettingsToMap(obj *oci_jms.MinimumKeySizeSettings) map[string
 	return result
 }
 
+func PerformanceTuningAnalysisToMap(obj *oci_jms.PerformanceTuningAnalysis) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	return result
+}
+
 func PostInstallationActionSettingsToMap(obj *oci_jms.PostInstallationActionSettings) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AddLoggingHandler != nil {
+		result["add_logging_handler"] = bool(*obj.AddLoggingHandler)
+	}
 
 	disabledTlsVersions := []interface{}{}
 	for _, item := range obj.DisabledTlsVersions {
@@ -403,12 +530,60 @@ func PostInstallationActionSettingsToMap(obj *oci_jms.PostInstallationActionSett
 	}
 	result["disabled_tls_versions"] = disabledTlsVersions
 
+	result["global_logging_level"] = string(obj.GlobalLoggingLevel)
+
 	if obj.MinimumKeySizeSettings != nil {
 		result["minimum_key_size_settings"] = []interface{}{MinimumKeySizeSettingsToMap(obj.MinimumKeySizeSettings)}
 	}
 
+	if obj.Proxies != nil {
+		result["proxies"] = []interface{}{ProxiesToMap(obj.Proxies)}
+	}
+
 	if obj.ShouldReplaceCertificatesOperatingSystem != nil {
 		result["should_replace_certificates_operating_system"] = bool(*obj.ShouldReplaceCertificatesOperatingSystem)
+	}
+
+	return result
+}
+
+func ProxiesToMap(obj *oci_jms.Proxies) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.FtpProxyHost != nil {
+		result["ftp_proxy_host"] = string(*obj.FtpProxyHost)
+	}
+
+	if obj.FtpProxyPort != nil {
+		result["ftp_proxy_port"] = int(*obj.FtpProxyPort)
+	}
+
+	if obj.HttpProxyHost != nil {
+		result["http_proxy_host"] = string(*obj.HttpProxyHost)
+	}
+
+	if obj.HttpProxyPort != nil {
+		result["http_proxy_port"] = int(*obj.HttpProxyPort)
+	}
+
+	if obj.HttpsProxyHost != nil {
+		result["https_proxy_host"] = string(*obj.HttpsProxyHost)
+	}
+
+	if obj.HttpsProxyPort != nil {
+		result["https_proxy_port"] = int(*obj.HttpsProxyPort)
+	}
+
+	if obj.SocksProxyHost != nil {
+		result["socks_proxy_host"] = string(*obj.SocksProxyHost)
+	}
+
+	if obj.SocksProxyPort != nil {
+		result["socks_proxy_port"] = int(*obj.SocksProxyPort)
+	}
+
+	if obj.UseSystemProxies != nil {
+		result["use_system_proxies"] = bool(*obj.UseSystemProxies)
 	}
 
 	return result

@@ -52,7 +52,6 @@ variable "fleet_operation_log_ocid" {
   default = "example-operation-log-id"
 }
 
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid

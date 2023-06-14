@@ -107,6 +107,18 @@ type EsxiHostSummary struct {
 
 	// The OCPU count of the ESXi host.
 	HostOcpuCount *float32 `mandatory:"false" json:"hostOcpuCount"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deleted ESXi Host with LeftOver billing cycle.
+	BillingDonorHostId *string `mandatory:"false" json:"billingDonorHostId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the active ESXi Host to swap billing with current host.
+	SwapBillingHostId *string `mandatory:"false" json:"swapBillingHostId"`
+
+	// Indicates whether this host is in the progress of billing continuation.
+	IsBillingContinuationInProgress *bool `mandatory:"false" json:"isBillingContinuationInProgress"`
+
+	// Indicates whether this host is in the progress of swapping billing.
+	IsBillingSwappingInProgress *bool `mandatory:"false" json:"isBillingSwappingInProgress"`
 }
 
 func (m EsxiHostSummary) String() string {

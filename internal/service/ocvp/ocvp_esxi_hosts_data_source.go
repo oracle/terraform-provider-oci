@@ -18,12 +18,24 @@ func OcvpEsxiHostsDataSource() *schema.Resource {
 		Read: readOcvpEsxiHosts,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"sddc_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"compute_instance_id": {
 				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"is_billing_donors_only": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"is_swap_billing_only": {
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"display_name": {
@@ -64,6 +76,11 @@ func (s *OcvpEsxiHostsDataSourceCrud) VoidState() {
 func (s *OcvpEsxiHostsDataSourceCrud) Get() error {
 	request := oci_ocvp.ListEsxiHostsRequest{}
 
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
 	if computeInstanceId, ok := s.D.GetOkExists("compute_instance_id"); ok {
 		tmp := computeInstanceId.(string)
 		request.ComputeInstanceId = &tmp
@@ -72,6 +89,16 @@ func (s *OcvpEsxiHostsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if isBillingDonorsOnly, ok := s.D.GetOkExists("is_billing_donors_only"); ok {
+		tmp := isBillingDonorsOnly.(bool)
+		request.IsBillingDonorsOnly = &tmp
+	}
+
+	if isSwapBillingOnly, ok := s.D.GetOkExists("is_swap_billing_only"); ok {
+		tmp := isSwapBillingOnly.(bool)
+		request.IsSwapBillingOnly = &tmp
 	}
 
 	if sddcId, ok := s.D.GetOkExists("sddc_id"); ok {

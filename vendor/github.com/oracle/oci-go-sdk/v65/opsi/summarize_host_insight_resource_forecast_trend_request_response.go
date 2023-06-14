@@ -45,9 +45,9 @@ type SummarizeHostInsightResourceForecastTrendRequest struct {
 	TimeIntervalEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeIntervalEnd"`
 
 	// Filter by one or more platform types.
-	// Supported platformType(s) for MACS-managed external host insight: [LINUX].
+	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 	PlatformType []SummarizeHostInsightResourceForecastTrendPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -231,6 +231,8 @@ const (
 	SummarizeHostInsightResourceForecastTrendPlatformTypeSolaris SummarizeHostInsightResourceForecastTrendPlatformTypeEnum = "SOLARIS"
 	SummarizeHostInsightResourceForecastTrendPlatformTypeSunos   SummarizeHostInsightResourceForecastTrendPlatformTypeEnum = "SUNOS"
 	SummarizeHostInsightResourceForecastTrendPlatformTypeZlinux  SummarizeHostInsightResourceForecastTrendPlatformTypeEnum = "ZLINUX"
+	SummarizeHostInsightResourceForecastTrendPlatformTypeWindows SummarizeHostInsightResourceForecastTrendPlatformTypeEnum = "WINDOWS"
+	SummarizeHostInsightResourceForecastTrendPlatformTypeAix     SummarizeHostInsightResourceForecastTrendPlatformTypeEnum = "AIX"
 )
 
 var mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnum = map[string]SummarizeHostInsightResourceForecastTrendPlatformTypeEnum{
@@ -238,6 +240,8 @@ var mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnum = map[strin
 	"SOLARIS": SummarizeHostInsightResourceForecastTrendPlatformTypeSolaris,
 	"SUNOS":   SummarizeHostInsightResourceForecastTrendPlatformTypeSunos,
 	"ZLINUX":  SummarizeHostInsightResourceForecastTrendPlatformTypeZlinux,
+	"WINDOWS": SummarizeHostInsightResourceForecastTrendPlatformTypeWindows,
+	"AIX":     SummarizeHostInsightResourceForecastTrendPlatformTypeAix,
 }
 
 var mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnumLowerCase = map[string]SummarizeHostInsightResourceForecastTrendPlatformTypeEnum{
@@ -245,6 +249,8 @@ var mappingSummarizeHostInsightResourceForecastTrendPlatformTypeEnumLowerCase = 
 	"solaris": SummarizeHostInsightResourceForecastTrendPlatformTypeSolaris,
 	"sunos":   SummarizeHostInsightResourceForecastTrendPlatformTypeSunos,
 	"zlinux":  SummarizeHostInsightResourceForecastTrendPlatformTypeZlinux,
+	"windows": SummarizeHostInsightResourceForecastTrendPlatformTypeWindows,
+	"aix":     SummarizeHostInsightResourceForecastTrendPlatformTypeAix,
 }
 
 // GetSummarizeHostInsightResourceForecastTrendPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceForecastTrendPlatformTypeEnum
@@ -263,6 +269,8 @@ func GetSummarizeHostInsightResourceForecastTrendPlatformTypeEnumStringValues() 
 		"SOLARIS",
 		"SUNOS",
 		"ZLINUX",
+		"WINDOWS",
+		"AIX",
 	}
 }
 

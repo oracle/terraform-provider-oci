@@ -70,6 +70,9 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("billing_contract_end_date", s.Res.BillingContractEndDate.String())
 	}
 
+	if s.Res.BillingDonorHostId != nil {
+		s.D.Set("billing_donor_host_id", *s.Res.BillingDonorHostId)
+	}
 	if s.Res.CapacityReservationId != nil {
 		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
 	}
@@ -114,6 +117,14 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("host_shape_name", *s.Res.HostShapeName)
 	}
 
+	if s.Res.IsBillingContinuationInProgress != nil {
+		s.D.Set("is_billing_continuation_in_progress", *s.Res.IsBillingContinuationInProgress)
+	}
+
+	if s.Res.IsBillingSwappingInProgress != nil {
+		s.D.Set("is_billing_swapping_in_progress", *s.Res.IsBillingSwappingInProgress)
+	}
+
 	s.D.Set("next_sku", s.Res.NextSku)
 
 	if s.Res.NonUpgradedEsxiHostId != nil {
@@ -129,6 +140,10 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SwapBillingHostId != nil {
+		s.D.Set("swap_billing_host_id", *s.Res.SwapBillingHostId)
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

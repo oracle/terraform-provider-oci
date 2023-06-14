@@ -4,7 +4,7 @@
 
 // Object Storage Service API
 //
-// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// Use Object Storage and Archive Storage APIs to manage buckets, objects, and related resources.
 // For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
 // Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
@@ -55,6 +55,9 @@ type PreauthenticatedRequest struct {
 	// Deny: Prevents the user from performing a list operation.
 	// ListObjects: Authorizes the user to perform a list operation.
 	BucketListingAction PreauthenticatedRequestBucketListingActionEnum `mandatory:"false" json:"bucketListingAction,omitempty"`
+
+	// The full Path for the object.
+	FullPath *string `mandatory:"false" json:"fullPath"`
 }
 
 func (m PreauthenticatedRequest) String() string {

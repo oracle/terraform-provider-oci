@@ -25,8 +25,6 @@ variable "crypto_analysis_result_id" {
   default = "example-crypto-analysis-result-id"
 }
 
-
-
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid

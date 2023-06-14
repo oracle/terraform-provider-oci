@@ -53,8 +53,9 @@ The following attributes are exported:
 
 * `access_type` - The operation that can be performed on this resource.
 * `bucket_listing_action` - Specifies whether a list operation is allowed on a PAR with accessType "AnyObjectRead" or "AnyObjectReadWrite". Deny: Prevents the user from performing a list operation. ListObjects: Authorizes the user to perform a list operation. 
+* `full_path` - The full Path for the object.
 * `access_uri` - The URI to embed in the URL `https://objectstorage.${var.region}.oraclecloud.com{var.access_uri}` when using the pre-authenticated request.
-* `bucket` - The name of the bucket.  Example: `my-new-bucket1` 
+* `bucket` - The name of the bucket.  Example: `my-new-bucket1`
 * `id` - The unique identifier to use when directly addressing the pre-authenticated request.
 * `name` - The user-provided name of the pre-authenticated request.
 * `namespace` - The top-level namespace used for the request.

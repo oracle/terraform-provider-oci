@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DeployedApplicationUsageCollection Results of a deployed application usage search.  Contains deployed application usage items.
+// DeployedApplicationUsageCollection Results of a deployed application usage search. Contains deployed application usage items.
 type DeployedApplicationUsageCollection struct {
 
 	// A list of deployed application usages.
