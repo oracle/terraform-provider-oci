@@ -1,4 +1,4 @@
-## 5.1.0 (Unreleased)
+## 5.1.0 (June 14, 2023)
 
 ### Added
 - Support for Java Management Service 7.0
