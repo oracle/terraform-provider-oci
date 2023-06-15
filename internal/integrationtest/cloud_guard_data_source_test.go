@@ -36,7 +36,7 @@ var (
 	}
 
 	CloudGuardCloudGuardDataSourceDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"data_source_feed_provider": acctest.Representation{RepType: acctest.Optional, Create: `LOGGINGQUERY`},
@@ -56,6 +56,7 @@ var (
 		"data_source_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardDataSourceDataSourceDetailsRepresentation},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 	}
 	CloudGuardDataSourceDataSourceDetailsRepresentation = map[string]interface{}{
 		"data_source_feed_provider": acctest.Representation{RepType: acctest.Required, Create: `LOGGINGQUERY`},
@@ -88,6 +89,7 @@ func TestCloudGuardDataSourceResource_basic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
+	tenantId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -130,6 +132,7 @@ func TestCloudGuardDataSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -171,6 +174,7 @@ func TestCloudGuardDataSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -207,6 +211,7 @@ func TestCloudGuardDataSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -225,7 +230,7 @@ func TestCloudGuardDataSourceResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source", acctest.Optional, acctest.Update, CloudGuardDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "data_source_feed_provider", "LOGGINGQUERY"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -267,7 +272,7 @@ func TestCloudGuardDataSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "region_status_detail.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),

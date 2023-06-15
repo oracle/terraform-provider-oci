@@ -24,6 +24,10 @@ variable "data_source_freeform_tags" {
   default = { "bar-key" = "value" }
 }
 
+variable "data_source_status" {
+  default = "DISABLED"
+}
+
 //Has to be unique
 variable "data_source_display_name" {
   default = "displayName"
@@ -71,7 +75,11 @@ variable "data_source_data_source_details_logging_query_details_key_entities_cou
 }
 
 variable "data_source_data_source_details_query_start_time_start_policy_type" {
-  default = "NO_DELAY_START_POLICY"
+  default = "ABSOLUTE_TIME_START_POLICY"
+}
+
+variable "data_source_data_source_details_query_start_time_query_start_time" {
+  default = "2023-10-18T12:52:59.817Z"
 }
 
 provider "oci" {
@@ -115,10 +123,12 @@ resource "oci_cloud_guard_data_source" "test_data_source" {
 
     query_start_time {
       start_policy_type = var.data_source_data_source_details_query_start_time_start_policy_type
+      query_start_time = var.data_source_data_source_details_query_start_time_query_start_time
     }
   }
 
   #Optional
   defined_tags  = { "example-tag-namespace-all.example-tag" = var.data_source_defined_tags_value }
   freeform_tags = var.data_source_freeform_tags
+  status        = var.data_source_status
 }
