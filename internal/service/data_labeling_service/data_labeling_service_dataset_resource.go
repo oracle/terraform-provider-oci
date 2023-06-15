@@ -222,6 +222,90 @@ func DataLabelingServiceDatasetResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"initial_import_dataset_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"import_format": {
+							Type:     schema.TypeList,
+							Required: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"version": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"import_metadata_path": {
+							Type:     schema.TypeList,
+							Required: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"bucket": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"namespace": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"path": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"source_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"OBJECT_STORAGE",
+										}, true),
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"initial_record_generation_configuration": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -246,7 +330,16 @@ func DataLabelingServiceDatasetResource() *schema.Resource {
 			},
 
 			// Computed
+			"additional_properties": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_substate": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -390,6 +483,17 @@ func (s *DataLabelingServiceDatasetResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if initialImportDatasetConfiguration, ok := s.D.GetOkExists("initial_import_dataset_configuration"); ok {
+		if tmpList := initialImportDatasetConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "initial_import_dataset_configuration", 0)
+			tmp, err := s.mapToInitialImportDatasetConfiguration(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.InitialImportDatasetConfiguration = &tmp
+		}
 	}
 
 	if initialRecordGenerationConfiguration, ok := s.D.GetOkExists("initial_record_generation_configuration"); ok {
@@ -568,6 +672,13 @@ func (s *DataLabelingServiceDatasetResourceCrud) Get() error {
 }
 
 func (s *DataLabelingServiceDatasetResourceCrud) Update() error {
+
+	if _, ok := s.D.GetOkExists("importFormat"); ok && s.D.HasChange("importFormat") {
+		err := s.ImportPreAnnotatedData()
+		if err != nil {
+			return err
+		}
+	}
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -659,6 +770,9 @@ func (s *DataLabelingServiceDatasetResourceCrud) Delete() error {
 }
 
 func (s *DataLabelingServiceDatasetResourceCrud) SetData() error {
+	s.D.Set("additional_properties", s.Res.AdditionalProperties)
+	s.D.Set("additional_properties", s.Res.AdditionalProperties)
+
 	if s.Res.AnnotationFormat != nil {
 		s.D.Set("annotation_format", *s.Res.AnnotationFormat)
 	}
@@ -701,6 +815,12 @@ func (s *DataLabelingServiceDatasetResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InitialImportDatasetConfiguration != nil {
+		s.D.Set("initial_import_dataset_configuration", []interface{}{InitialImportDatasetConfigurationToMap(s.Res.InitialImportDatasetConfiguration)})
+	} else {
+		s.D.Set("initial_import_dataset_configuration", nil)
+	}
+
 	if s.Res.InitialRecordGenerationConfiguration != nil {
 		s.D.Set("initial_record_generation_configuration", []interface{}{InitialRecordGenerationConfigurationToMap(s.Res.InitialRecordGenerationConfiguration)})
 	} else {
@@ -721,6 +841,8 @@ func (s *DataLabelingServiceDatasetResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("lifecycle_substate", s.Res.LifecycleSubstate)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -734,6 +856,47 @@ func (s *DataLabelingServiceDatasetResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DataLabelingServiceDatasetResourceCrud) ImportPreAnnotatedData() error {
+	request := oci_data_labeling_service.ImportPreAnnotatedDataRequest{}
+
+	idTmp := s.D.Id()
+	request.DatasetId = &idTmp
+
+	if importFormat, ok := s.D.GetOkExists("import_format"); ok {
+		if tmpList := importFormat.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "import_format", 0)
+			tmp, err := s.mapToImportFormat(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ImportFormat = &tmp
+		}
+	}
+
+	if importMetadataPath, ok := s.D.GetOkExists("import_metadata_path"); ok {
+		if tmpList := importMetadataPath.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "import_metadata_path", 0)
+			tmp, err := s.mapToImportMetadataPath(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ImportMetadataPath = tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
+
+	_, err := s.Client.ImportPreAnnotatedData(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
 func (s *DataLabelingServiceDatasetResourceCrud) mapToDatasetFormatDetails(fieldKeyFormat string) (oci_data_labeling_service.DatasetFormatDetails, error) {
 	var baseObject oci_data_labeling_service.DatasetFormatDetails
 	//discriminator
@@ -884,6 +1047,133 @@ func DatasetSummaryToMap(obj oci_data_labeling_service.DatasetSummary) map[strin
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func (s *DataLabelingServiceDatasetResourceCrud) mapToImportFormat(fieldKeyFormat string) (oci_data_labeling_service.ImportFormat, error) {
+	result := oci_data_labeling_service.ImportFormat{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		result.Name = oci_data_labeling_service.ImportFormatNameEnum(name.(string))
+	}
+
+	if version, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version")); ok {
+		result.Version = oci_data_labeling_service.ImportFormatVersionEnum(version.(string))
+	}
+
+	return result, nil
+}
+
+func ImportFormatToMap(obj *oci_data_labeling_service.ImportFormat) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["name"] = string(obj.Name)
+
+	result["version"] = string(obj.Version)
+
+	return result
+}
+
+func (s *DataLabelingServiceDatasetResourceCrud) mapToImportMetadataPath(fieldKeyFormat string) (oci_data_labeling_service.ImportMetadataPath, error) {
+	var baseObject oci_data_labeling_service.ImportMetadataPath
+	//discriminator
+	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
+	var sourceType string
+	if ok {
+		sourceType = sourceTypeRaw.(string)
+	} else {
+		sourceType = "" // default value
+	}
+	switch strings.ToLower(sourceType) {
+	case strings.ToLower("OBJECT_STORAGE"):
+		details := oci_data_labeling_service.ObjectStorageImportMetadataPath{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
+	}
+	return baseObject, nil
+}
+
+func ImportMetadataPathToMap(obj *oci_data_labeling_service.ImportMetadataPath) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_data_labeling_service.ObjectStorageImportMetadataPath:
+		result["source_type"] = "OBJECT_STORAGE"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+	default:
+		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *DataLabelingServiceDatasetResourceCrud) mapToInitialImportDatasetConfiguration(fieldKeyFormat string) (oci_data_labeling_service.InitialImportDatasetConfiguration, error) {
+	result := oci_data_labeling_service.InitialImportDatasetConfiguration{}
+
+	if importFormat, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "import_format")); ok {
+		if tmpList := importFormat.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "import_format"), 0)
+			tmp, err := s.mapToImportFormat(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert import_format, encountered error: %v", err)
+			}
+			result.ImportFormat = &tmp
+		}
+	}
+
+	if importMetadataPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "import_metadata_path")); ok {
+		if tmpList := importMetadataPath.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "import_metadata_path"), 0)
+			tmp, err := s.mapToImportMetadataPath(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert import_metadata_path, encountered error: %v", err)
+			}
+			result.ImportMetadataPath = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func InitialImportDatasetConfigurationToMap(obj *oci_data_labeling_service.InitialImportDatasetConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ImportFormat != nil {
+		result["import_format"] = []interface{}{ImportFormatToMap(obj.ImportFormat)}
+	}
+
+	if obj.ImportMetadataPath != nil {
+		importMetadataPathArray := []interface{}{}
+		if importMetadataPathMap := ImportMetadataPathToMap(&obj.ImportMetadataPath); importMetadataPathMap != nil {
+			importMetadataPathArray = append(importMetadataPathArray, importMetadataPathMap)
+		}
+		result["import_metadata_path"] = importMetadataPathArray
 	}
 
 	return result

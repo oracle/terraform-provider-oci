@@ -66,6 +66,9 @@ func (s *DataLabelingServiceDatasetDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("additional_properties", s.Res.AdditionalProperties)
+	s.D.Set("additional_properties", s.Res.AdditionalProperties)
+
 	if s.Res.AnnotationFormat != nil {
 		s.D.Set("annotation_format", *s.Res.AnnotationFormat)
 	}
@@ -108,6 +111,12 @@ func (s *DataLabelingServiceDatasetDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InitialImportDatasetConfiguration != nil {
+		s.D.Set("initial_import_dataset_configuration", []interface{}{InitialImportDatasetConfigurationToMap(s.Res.InitialImportDatasetConfiguration)})
+	} else {
+		s.D.Set("initial_import_dataset_configuration", nil)
+	}
+
 	if s.Res.InitialRecordGenerationConfiguration != nil {
 		s.D.Set("initial_record_generation_configuration", []interface{}{InitialRecordGenerationConfigurationToMap(s.Res.InitialRecordGenerationConfiguration)})
 	} else {
@@ -127,6 +136,8 @@ func (s *DataLabelingServiceDatasetDataSourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	s.D.Set("lifecycle_substate", s.Res.LifecycleSubstate)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
