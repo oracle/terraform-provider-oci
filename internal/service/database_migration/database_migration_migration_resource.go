@@ -1071,6 +1071,7 @@ func migrationWaitForWorkRequest(wId *string, entityType string, action oci_data
 	retryPolicy.ShouldRetryOperation = migrationWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_database_migration.GetWorkRequestResponse{}
+
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
 			string(oci_database_migration.OperationStatusInProgress),
@@ -1342,7 +1343,6 @@ func (s *DatabaseMigrationMigrationResourceCrud) Delete() error {
 	// Wait until it finishes
 	_, delWorkRequestErr := migrationWaitForWorkRequest(workId, "migration",
 		oci_database_migration.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
-
 	return delWorkRequestErr
 }
 

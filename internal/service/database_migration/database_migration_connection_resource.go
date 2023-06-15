@@ -509,12 +509,6 @@ func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 			return true
 		}
 
-		// Only stop if the time Finished is set
-		/*
-			if workRequestResponse, ok := response.Response.(oci_database_migration.GetWorkRequestResponse); ok {
-				return workRequestResponse.TimeFinished == nil
-			}
-		*/
 		return false
 	}
 }
@@ -851,7 +845,8 @@ func (s *DatabaseMigrationConnectionResourceCrud) SetData() error {
 	return nil
 }
 
-func ConnectionSummaryToMapMig(obj oci_database_migration.ConnectionSummary) map[string]interface{} {
+func ConnectionSummaryToMap(obj oci_database_migration.ConnectionSummary, datasource bool) map[string]interface{} {
+
 	result := map[string]interface{}{}
 
 	if obj.CompartmentId != nil {
@@ -1235,7 +1230,7 @@ func SshDetailsToMapPass(obj *oci_database_migration.SshDetails, resourceData *s
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssh_details", 0)
 			if sshKey, ok := resourceData.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sshkey")); ok {
 				tmp := sshKey.(string)
-				result["sshKey"] = &tmp
+				result["sshkey"] = &tmp
 			}
 		}
 	}

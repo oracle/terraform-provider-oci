@@ -117,7 +117,7 @@ func (s *DatabaseMigrationConnectionsDataSourceCrud) SetData() error {
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, ConnectionSummaryToMapMig(item))
+		items = append(items, ConnectionSummaryToMap(item, true))
 	}
 	connection["items"] = items
 
