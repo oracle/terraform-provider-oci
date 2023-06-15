@@ -27,8 +27,6 @@ const (
 // x509FederationClientForOkeWorkloadIdentity retrieves a security token from Auth service.
 type x509FederationClientForOkeWorkloadIdentity struct {
 	tenancyID                    string
-	clusterID                    string
-	namespace                    string
 	sessionKeySupplier           sessionKeySupplier
 	securityToken                securityToken
 	authClient                   *common.BaseClient
@@ -39,13 +37,11 @@ type x509FederationClientForOkeWorkloadIdentity struct {
 }
 
 func newX509FederationClientForOkeWorkloadIdentity(endpoint string, saTokenProvider ServiceAccountTokenProvider,
-	kubernetesServiceAccountCert *x509.CertPool, clusterID string, namespace string) (federationClient, error) {
+	kubernetesServiceAccountCert *x509.CertPool) (federationClient, error) {
 	client := &x509FederationClientForOkeWorkloadIdentity{
 		proxymuxEndpoint:             endpoint,
 		saTokenProvider:              saTokenProvider,
 		kubernetesServiceAccountCert: kubernetesServiceAccountCert,
-		clusterID:                    clusterID,
-		namespace:                    namespace,
 	}
 
 	client.sessionKeySupplier = newSessionKeySupplier()
@@ -59,7 +55,7 @@ func (c *x509FederationClientForOkeWorkloadIdentity) renewSecurityToken() (err e
 	}
 
 	common.Logf("Renewing security token at: %v\n", time.Now().Format("15:04:05.000"))
-	if c.securityToken, err = c.getSecurityToken(c.clusterID, c.namespace); err != nil {
+	if c.securityToken, err = c.getSecurityToken(); err != nil {
 		return fmt.Errorf("failed to get security token: %s", err.Error())
 	}
 	common.Logf("Security token renewed at: %v\n", time.Now().Format("15:04:05.000"))
@@ -68,16 +64,14 @@ func (c *x509FederationClientForOkeWorkloadIdentity) renewSecurityToken() (err e
 }
 
 type workloadIdentityRequestPayload struct {
-	podkey    string `json:"podKey"`
-	clusterID string
-	namespace string
+	podkey string `json:"podKey"`
 }
 type token struct {
 	Token string
 }
 
 // getSecurityToken get security token from Proxymux
-func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken(clusterID string, namespace string) (securityToken, error) {
+func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securityToken, error) {
 	client := http.Client{
 		Timeout: 30 * time.Second,
 		Transport: &http.Transport{
@@ -88,7 +82,7 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken(clusterID 
 	}
 
 	publicKey := string(c.sessionKeySupplier.PublicKeyPemRaw())
-	rawPayload := workloadIdentityRequestPayload{podkey: publicKey, clusterID: clusterID, namespace: namespace}
+	rawPayload := workloadIdentityRequestPayload{podkey: publicKey}
 	payload, err := json.Marshal(rawPayload)
 	if err != nil {
 		return nil, fmt.Errorf("error getting security token%s", err)
