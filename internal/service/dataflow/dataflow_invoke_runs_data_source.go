@@ -41,6 +41,10 @@ func DataflowInvokeRunsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"pool_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -102,6 +106,11 @@ func (s *DataflowInvokeRunsDataSourceCrud) Get() error {
 	if ownerPrincipalId, ok := s.D.GetOkExists("owner_principal_id"); ok {
 		tmp := ownerPrincipalId.(string)
 		request.OwnerPrincipalId = &tmp
+	}
+
+	if poolId, ok := s.D.GetOkExists("pool_id"); ok {
+		tmp := poolId.(string)
+		request.PoolId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -194,6 +203,10 @@ func (s *DataflowInvokeRunsDataSourceCrud) SetData() error {
 
 		if r.OwnerUserName != nil {
 			invokeRun["owner_user_name"] = *r.OwnerUserName
+		}
+
+		if r.PoolId != nil {
+			invokeRun["pool_id"] = *r.PoolId
 		}
 
 		if r.RunDurationInMilliseconds != nil {

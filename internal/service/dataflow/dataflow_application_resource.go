@@ -230,6 +230,11 @@ func DataflowApplicationResource() *schema.Resource {
 					},
 				},
 			},
+			"pool_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"private_endpoint_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -500,6 +505,11 @@ func (s *DataflowApplicationResourceCrud) Create() error {
 		}
 	}
 
+	if poolId, ok := s.D.GetOkExists("pool_id"); ok {
+		tmp := poolId.(string)
+		request.PoolId = &tmp
+	}
+
 	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
 		tmp := privateEndpointId.(string)
 		request.PrivateEndpointId = &tmp
@@ -718,6 +728,11 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 		}
 	}
 
+	if poolId, ok := s.D.GetOkExists("pool_id"); ok {
+		tmp := poolId.(string)
+		request.PoolId = &tmp
+	}
+
 	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
 		tmp := privateEndpointId.(string)
 		request.PrivateEndpointId = &tmp
@@ -856,6 +871,10 @@ func (s *DataflowApplicationResourceCrud) SetData() error {
 		parameters = append(parameters, ApplicationParameterToMap(item))
 	}
 	s.D.Set("parameters", parameters)
+
+	if s.Res.PoolId != nil {
+		s.D.Set("pool_id", *s.Res.PoolId)
+	}
 
 	if s.Res.PrivateEndpointId != nil {
 		s.D.Set("private_endpoint_id", *s.Res.PrivateEndpointId)

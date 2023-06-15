@@ -75,6 +75,18 @@ variable "invoke_run_display_name" {
 variable "statement_code" {
 }
 
+
+resource "oci_dataflow_pool" "test_pool" {
+  compartment_id = var.compartment_id
+  description    = "description"
+  display_name   = "pool_name"
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+  configurations = [{shape: "VM.Standard2.1", shapeConfig: {ocpus: 1, memoryInGBs: 15}, min: 0, max: 1}]
+  schedules = [{dayOfWeek: "SUNDAY", startTime: 3}]
+}
+
 resource "oci_dataflow_application" "tf_application" {
   #Required
   compartment_id = var.compartment_id

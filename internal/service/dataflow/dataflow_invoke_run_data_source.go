@@ -183,6 +183,10 @@ func (s *DataflowInvokeRunDataSourceCrud) SetData() error {
 	}
 	s.D.Set("parameters", parameters)
 
+	if s.Res.PoolId != nil {
+		s.D.Set("pool_id", *s.Res.PoolId)
+	}
+
 	s.D.Set("private_endpoint_dns_zones", s.Res.PrivateEndpointDnsZones)
 
 	if s.Res.PrivateEndpointId != nil {

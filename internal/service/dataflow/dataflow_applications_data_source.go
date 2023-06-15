@@ -153,6 +153,10 @@ func (s *DataflowApplicationsDataSourceCrud) SetData() error {
 			application["owner_user_name"] = *r.OwnerUserName
 		}
 
+		if r.PoolId != nil {
+			application["pool_id"] = *r.PoolId
+		}
+
 		if r.SparkVersion != nil {
 			application["spark_version"] = *r.SparkVersion
 		}
