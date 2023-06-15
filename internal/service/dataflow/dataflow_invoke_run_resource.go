@@ -244,6 +244,12 @@ func DataflowInvokeRunResource() *schema.Resource {
 					},
 				},
 			},
+			"pool_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"spark_version": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -602,6 +608,11 @@ func (s *DataflowInvokeRunResourceCrud) Create() error {
 		}
 	}
 
+	if poolId, ok := s.D.GetOkExists("pool_id"); ok {
+		tmp := poolId.(string)
+		request.PoolId = &tmp
+	}
+
 	if sparkVersion, ok := s.D.GetOkExists("spark_version"); ok {
 		tmp := sparkVersion.(string)
 		request.SparkVersion = &tmp
@@ -645,6 +656,7 @@ func (s *DataflowInvokeRunResourceCrud) Get() error {
 }
 
 func (s *DataflowInvokeRunResourceCrud) Update() error {
+	fmt.Println("ML: in run update here is s.D", s.D)
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -668,26 +680,11 @@ func (s *DataflowInvokeRunResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if idleTimeoutInMinutes, ok := s.D.GetOkExists("idle_timeout_in_minutes"); ok {
-		tmp := idleTimeoutInMinutes.(string)
-		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
-		if err != nil {
-			return fmt.Errorf("unable to convert idleTimeoutInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
-		}
-		request.IdleTimeoutInMinutes = &tmpInt64
-	}
-
-	if maxDurationInMinutes, ok := s.D.GetOkExists("max_duration_in_minutes"); ok {
-		tmp := maxDurationInMinutes.(string)
-		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
-		if err != nil {
-			return fmt.Errorf("unable to convert maxDurationInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
-		}
-		request.MaxDurationInMinutes = &tmpInt64
-	}
-
 	if runId, ok := s.D.GetOkExists("run_id"); ok {
 		tmp := runId.(string)
+		request.RunId = &tmp
+	} else {
+		tmp := s.D.Id()
 		request.RunId = &tmp
 	}
 
@@ -846,6 +843,10 @@ func (s *DataflowInvokeRunResourceCrud) SetData() error {
 	}
 	s.D.Set("parameters", parameters)
 
+	if s.Res.PoolId != nil {
+		s.D.Set("pool_id", *s.Res.PoolId)
+	}
+
 	s.D.Set("private_endpoint_dns_zones", s.Res.PrivateEndpointDnsZones)
 
 	if s.Res.PrivateEndpointId != nil {
@@ -975,7 +976,6 @@ func (s *DataflowInvokeRunResourceCrud) mapToShapeConfig(fieldKeyFormat string) 
 
 func (s *DataflowInvokeRunResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_dataflow.ChangeRunCompartmentRequest{}
-
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 

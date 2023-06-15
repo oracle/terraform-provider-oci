@@ -10,6 +10,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_dataflow_applications", DataflowApplicationsDataSource())
 	tfresource.RegisterDatasource("oci_dataflow_invoke_run", DataflowInvokeRunDataSource())
 	tfresource.RegisterDatasource("oci_dataflow_invoke_runs", DataflowInvokeRunsDataSource())
+	tfresource.RegisterDatasource("oci_dataflow_pool", DataflowPoolDataSource())
+	tfresource.RegisterDatasource("oci_dataflow_pools", DataflowPoolsDataSource())
 	tfresource.RegisterDatasource("oci_dataflow_private_endpoint", DataflowPrivateEndpointDataSource())
 	tfresource.RegisterDatasource("oci_dataflow_private_endpoints", DataflowPrivateEndpointsDataSource())
 	tfresource.RegisterDatasource("oci_dataflow_run_log", DataflowRunLogDataSource())

@@ -167,6 +167,10 @@ func (s *DataflowApplicationDataSourceCrud) SetData() error {
 	}
 	s.D.Set("parameters", parameters)
 
+	if s.Res.PoolId != nil {
+		s.D.Set("pool_id", *s.Res.PoolId)
+	}
+
 	if s.Res.PrivateEndpointId != nil {
 		s.D.Set("private_endpoint_id", *s.Res.PrivateEndpointId)
 	}
