@@ -233,6 +233,10 @@ func FunctionsFunctionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -589,6 +593,8 @@ func (s *FunctionsFunctionResourceCrud) SetData() error {
 	} else {
 		s.D.Set("provisioned_concurrency_config", nil)
 	}
+
+	s.D.Set("shape", s.Res.Shape)
 
 	if s.Res.SourceDetails != nil {
 		sourceDetailsArray := []interface{}{}
