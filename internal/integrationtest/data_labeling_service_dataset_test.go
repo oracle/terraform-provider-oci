@@ -79,6 +79,12 @@ var (
 	datasetLabelSetRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: datasetLabelSetItemsRepresentation},
 	}
+
+	datasetInitialImportDatasetConfigurationRepresentation = map[string]interface{}{
+		"import_format":        acctest.RepresentationGroup{RepType: acctest.Required, Group: datasetInitialImportDatasetConfigurationImportFormatRepresentation},
+		"import_metadata_path": acctest.RepresentationGroup{RepType: acctest.Required, Group: datasetInitialImportDatasetConfigurationImportMetadataPathRepresentation},
+	}
+
 	//datasetInitialRecordGenerationConfigurationRepresentation = map[string]interface{}{}
 	datasetLabelSetItemsRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
@@ -89,6 +95,15 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: objectstorageBucket},
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: objectstorageNamespace},
+	}
+	datasetInitialImportDatasetConfigurationImportFormatRepresentation = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `JSONL_CONSOLIDATED`},
+	}
+	datasetInitialImportDatasetConfigurationImportMetadataPathRepresentation = map[string]interface{}{
+		"bucket":      acctest.Representation{RepType: acctest.Required, Create: `bucket`},
+		"namespace":   acctest.Representation{RepType: acctest.Required, Create: `namespace`},
+		"path":        acctest.Representation{RepType: acctest.Required, Create: `path`},
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE`},
 	}
 
 	objectstorageNamespace = "${data.oci_objectstorage_namespace.test_namespace.namespace}"
