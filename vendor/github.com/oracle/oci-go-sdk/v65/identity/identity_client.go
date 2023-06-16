@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, policies, and identity domains.
+// Use the Identity and Access Management Service API to manage users, groups, identity domains, compartments, policies, tagging, and limits. For information about managing users, groups, compartments, and policies, see Identity and Access Management (without identity domains) (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about tagging and service limits, see Tagging (https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm) and Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For information about creating, modifying, and deleting identity domains, see Identity and Access Management (with identity domains) (https://docs.cloud.oracle.com/iaas/Content/Identity/home.htm).
 //
 
 package identity
@@ -547,7 +547,6 @@ func (client IdentityClient) bulkDeleteResources(ctx context.Context, request co
 // BulkDeleteTags Deletes the specified tag key definitions. This operation triggers a process that removes the
 // tags from all resources in your tenancy. The tag key definitions must be within the same tag namespace.
 // The following actions happen immediately:
-//
 //   * If the tag is a cost-tracking tag, the tag no longer counts against your
 //   10 cost-tracking tags limit, even if you do not disable the tag before running this operation.
 //   * If the tag is used with dynamic groups, the rules that contain the tag are no longer
@@ -3963,7 +3962,7 @@ func (client IdentityClient) generateTotpSeed(ctx context.Context, request commo
 	return response, err
 }
 
-// GetAuthenticationPolicy Gets the authentication policy for the given tenancy. You must specify your tenant’s OCID as the value for
+// GetAuthenticationPolicy Gets the authentication policy for the given tenancy. You must specify your tenant's OCID as the value for
 // the compartment ID (remember that the tenancy is simply the root compartment).
 //
 // See also

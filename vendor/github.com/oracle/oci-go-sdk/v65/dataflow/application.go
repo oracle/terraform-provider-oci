@@ -52,11 +52,11 @@ type Application struct {
 	// The Spark version utilized to run the application.
 	SparkVersion *string `mandatory:"true" json:"sparkVersion"`
 
-	// The date and time a application was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// The date and time the resource was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time a application was updated, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// The date and time the resource was updated, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
@@ -125,6 +125,9 @@ type Application struct {
 	// (a-z, A-Z, 0-9, _).  The value can be a string of 0 or more characters of any kind.
 	// Example:  [ { name: "iterations", value: "10"}, { name: "input_file", value: "mydata.xml" }, { name: "variable_x", value: "${x}"} ]
 	Parameters []ApplicationParameter `mandatory:"false" json:"parameters"`
+
+	// The OCID of a pool. Unique Id to indentify a dataflow pool resource.
+	PoolId *string `mandatory:"false" json:"poolId"`
 
 	// The OCID of a private endpoint.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
