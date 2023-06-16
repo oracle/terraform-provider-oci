@@ -1,3 +1,27 @@
+## 5.2.0 (Unreleased)
+
+### Added
+- Support for ADB-S: Storage Allocation Enhancements
+- validate function for pool state
+- NSG Support for private Database Registrations/Private Endpoints.
+import dataset feature support
+- Support for ARM Support for Runner Component
+- Support for Cloudguard-Logging Integration for JWCC - Customer Enablement
+- Support for Java Management Service 7.0
+- Support for Usage proxy: Adding APIs for MQS public API deprecation
+- Support for Allow user to select the billing interval of deleted nodes
+support for realm specific service endpoints
+- Support for CASPER - ObjectStorage to have Customer Specific Domains in Customer Zone DNS
+- Support for OPSI: TCPS Support for Cloud Databases
+- Support for Operations Insights AIX Support
+- Custom model features in Document Service
+changes to README.md, License.txt, security.md and CONTRIBUTING.md for Github Audit Compliance.
+### Bug Fix
+- Corrected outdated documentation for db_name field of the oci_database_autonomous_database resource.
+- Fixed network-source/Domains/Polices resource discovery issue.
+- Remove duplicate Create for resource
+- updated examples for devops artifact to show options and helm example and public docs
+
 ## 5.1.0 (Unreleased)
 
 ### Added
