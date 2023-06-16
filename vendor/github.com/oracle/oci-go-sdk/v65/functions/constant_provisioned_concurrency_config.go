@@ -18,6 +18,8 @@ import (
 
 // ConstantProvisionedConcurrencyConfig Configuration specifying a constant amount of provisioned concurrency.
 type ConstantProvisionedConcurrencyConfig struct {
+
+	// Configuration specifying a constant amount of provisioned concurrency.
 	Count *int `mandatory:"true" json:"count"`
 }
 

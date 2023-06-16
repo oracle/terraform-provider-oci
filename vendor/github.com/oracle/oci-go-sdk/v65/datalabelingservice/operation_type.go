@@ -26,6 +26,7 @@ const (
 	OperationTypeAddDatasetLabels       OperationTypeEnum = "ADD_DATASET_LABELS"
 	OperationTypeRemoveDatasetLabels    OperationTypeEnum = "REMOVE_DATASET_LABELS"
 	OperationTypeRenameDatasetLabels    OperationTypeEnum = "RENAME_DATASET_LABELS"
+	OperationTypeImportDataset          OperationTypeEnum = "IMPORT_DATASET"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -37,6 +38,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"ADD_DATASET_LABELS":       OperationTypeAddDatasetLabels,
 	"REMOVE_DATASET_LABELS":    OperationTypeRemoveDatasetLabels,
 	"RENAME_DATASET_LABELS":    OperationTypeRenameDatasetLabels,
+	"IMPORT_DATASET":           OperationTypeImportDataset,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -48,6 +50,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"add_dataset_labels":       OperationTypeAddDatasetLabels,
 	"remove_dataset_labels":    OperationTypeRemoveDatasetLabels,
 	"rename_dataset_labels":    OperationTypeRenameDatasetLabels,
+	"import_dataset":           OperationTypeImportDataset,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -70,6 +73,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"ADD_DATASET_LABELS",
 		"REMOVE_DATASET_LABELS",
 		"RENAME_DATASET_LABELS",
+		"IMPORT_DATASET",
 	}
 }
 
