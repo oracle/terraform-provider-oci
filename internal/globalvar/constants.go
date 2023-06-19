@@ -81,5 +81,6 @@ const (
 const (
 	DebugTestSteps               = "DEBUG_TEST_STEPS"
 	DebugTestStepsShowConfigOnly = "DEBUG_TEST_STEPS_SHOW_CONFIG_ONLY"
+	SecurityTokenProfileForTest  = "terraform-federation-test"
 )
 const TerraformDocumentLink = "https://registry.terraform.io/providers/oracle/oci/latest/docs/"
