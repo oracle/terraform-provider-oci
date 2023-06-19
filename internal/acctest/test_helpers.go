@@ -641,6 +641,8 @@ func PreCheck(t *testing.T) {
 	copy(envVarChecklist, requiredTestEnvVars)
 	if getEnvSettingWithDefaultVar("use_obo_token", "false") != "false" {
 		envVarChecklist = append(envVarChecklist, requiredOboTokenAuthEnvVars...)
+	} else if getEnvSettingWithBlankDefaultVar("auth") == "SecurityToken" {
+		envVarChecklist = append(envVarChecklist, requiredSecurityTokenAuthEnvVars...)
 	} else {
 		envVarChecklist = append(envVarChecklist, requiredKeyAuthEnvVars...)
 	}
@@ -656,6 +658,9 @@ func PreCheck(t *testing.T) {
 var requiredTestEnvVars = []string{"compartment_ocid", "compartment_id_for_create", "compartment_id_for_update", "tags_import_if_exists"}
 var requiredKeyAuthEnvVars = []string{"tenancy_ocid", "user_ocid", "fingerprint"}
 var requiredOboTokenAuthEnvVars = []string{"tenancy_ocid", "obo_token"}
+
+var requiredSecurityTokenAuthEnvVars = []string{"config_file_profile"}
+
 var TestAccProvider *schema.Provider
 var TestAccProviders map[string]*schema.Provider
 
@@ -719,6 +724,9 @@ func GetTestClients(data *schema.ResourceData) *tf_client.OracleClients {
 		d.Set("private_key_path", getEnvSettingWithBlankDefaultVar("private_key_path"))
 		d.Set("private_key_password", getEnvSettingWithBlankDefaultVar("private_key_password"))
 		d.Set("private_key", getEnvSettingWithBlankDefaultVar("private_key"))
+	} else if auth = getEnvSettingWithBlankDefaultVar("auth"); auth == globalvar.AuthSecurityToken {
+		d.Set("auth", globalvar.AuthSecurityToken)
+		d.Set("config_file_profile", getEnvSettingWithDefaultVar("config_file_profile", globalvar.SecurityTokenProfileForTest))
 	} else {
 		d.Set("auth", getEnvSettingWithDefaultVar("auth", auth))
 	}
