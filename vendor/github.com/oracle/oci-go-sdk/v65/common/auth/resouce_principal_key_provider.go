@@ -36,8 +36,10 @@ const (
 	ResourcePrincipalTokenEndpoint = "OCI_RESOURCE_PRINCIPAL_RPT_ENDPOINT"
 	// KubernetesServiceAccountTokenPath that contains cluster information
 	KubernetesServiceAccountTokenPath = "/var/run/secrets/kubernetes.io/serviceaccount/token"
-	// KubernetesServiceAccountCertPath that contains cluster information
-	KubernetesServiceAccountCertPath = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+	// DefaultKubernetesServiceAccountCertPath that contains cluster information
+	DefaultKubernetesServiceAccountCertPath = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+	// OciKubernetesServiceAccountCertPath Environment variable for Kubernetes Service Account Cert Path
+	OciKubernetesServiceAccountCertPath = "OCI_KUBERNETES_SERVICE_ACCOUNT_CERT_PATH"
 	// KubernetesServiceHostEnvVar environment var holding the kubernetes host
 	KubernetesServiceHostEnvVar = "KUBERNETES_SERVICE_HOST"
 	// KubernetesProxymuxServicePort environment var holding the kubernetes port
@@ -109,10 +111,17 @@ func OkeWorkloadIdentityConfigurationProviderWithServiceAccountTokenProvider(saT
 	}
 
 	if version == ResourcePrincipalVersion1_1 || version == ResourcePrincipalVersion2_2 {
-		kubernetesServiceAccountCertRaw, err := ioutil.ReadFile(KubernetesServiceAccountCertPath)
+
+		saCertPath := requireEnv(OciKubernetesServiceAccountCertPath)
+
+		if saCertPath == nil {
+			tmp := DefaultKubernetesServiceAccountCertPath
+			saCertPath = &tmp
+		}
+
+		kubernetesServiceAccountCertRaw, err := ioutil.ReadFile(*saCertPath)
 		if err != nil {
-			err = fmt.Errorf("can not create resource principal, error getting Kubernetes Service Account Token at %s",
-				KubernetesServiceAccountCertPath)
+			err = fmt.Errorf("can not create resource principal, error getting Kubernetes Service Account Token at %s", *saCertPath)
 			return nil, resourcePrincipalError{err: err}
 		}
 
