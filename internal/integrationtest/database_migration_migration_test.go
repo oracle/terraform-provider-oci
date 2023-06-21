@@ -91,7 +91,7 @@ var (
 		"object_storage_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDataTransferMediumDetailsObjectStorageDetailsRepresentation},
 	}
 	migrationDatapumpSettingsRepresentation = map[string]interface{}{
-		"export_directory_object": acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDatapumpSettingsExportDirectoryObjectRepresentation},
+		"export_directory_object": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationMigrationDatapumpSettingsExportDirectoryObjectRepresentation},
 		"metadata_remaps":         acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDatapumpSettingsMetadataRemapsRepresentation},
 	}
 	migrationExcludeObjectsRepresentation = map[string]interface{}{
@@ -138,7 +138,7 @@ var (
 		"is_cluster":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"table_exists_action":       acctest.Representation{RepType: acctest.Optional, Create: `TRUNCATE`, Update: `REPLACE`},
 	}
-	migrationDatapumpSettingsExportDirectoryObjectRepresentation = map[string]interface{}{
+	DatabaseMigrationMigrationDatapumpSettingsExportDirectoryObjectRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `test_export_dir`, Update: `test_export_dir`},
 		"path": acctest.Representation{RepType: acctest.Required, Create: `/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log`, Update: `/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log`},
 	}
@@ -205,6 +205,12 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	/*databaseId := utils.GetEnvSettingWithBlankDefault("database_id")
+	databaseIdVariableStr := fmt.Sprintf("variable \"database_id\" { default = \"%s\" }\n", databaseId)*/
+
+	/*sourceDbId := utils.GetEnvSettingWithBlankDefault("source_connection_container_id")
+	sourceDbIdStr := fmt.Sprintf("variable \"source_db_id\" { default = \"%s\" }\n", sourceDbId)*/
 
 	compartmentIdU := utils.GetEnvSettingWithBlankDefault("compartment_id_for_update")
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
@@ -507,6 +513,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
+
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.url", "https://129.149.57.241"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.#", "1"),

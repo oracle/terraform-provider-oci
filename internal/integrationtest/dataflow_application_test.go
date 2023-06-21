@@ -70,6 +70,7 @@ var (
 		"metastore_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
 		"parameters":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowApplicationParametersRepresentation},
 		"private_endpoint_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_dataflow_private_endpoint.test_private_endpoint.id}`},
+		"pool_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_dataflow_pool.test_pool.id}`},
 		"type":                   acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
 		"warehouse_bucket_uri":   acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
 		"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForDataFlowResource},
@@ -106,6 +107,7 @@ var (
 
 	DataFlowApplicationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_pool", "test_pool", acctest.Required, acctest.Create, DataflowPoolRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, DataflowPrivateEndpointRepresentation) +
 		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, DataflowApplicationLogRepresentation) +
@@ -210,6 +212,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
+				resource.TestCheckResourceAttrSet(resourceName, "pool_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 				resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -266,6 +269,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
+				resource.TestCheckResourceAttrSet(resourceName, "pool_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 				resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -320,6 +324,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name2"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value2"),
+				resource.TestCheckResourceAttrSet(resourceName, "pool_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 				resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4.4"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -357,6 +362,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "applications.0.language", "SCALA"),
 				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.owner_principal_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.owner_user_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.pool_id"),
 				resource.TestCheckResourceAttr(datasourceName, "applications.0.spark_version", "2.4.4"),
 				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "applications.0.time_created"),

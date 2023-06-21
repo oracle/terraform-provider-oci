@@ -47,9 +47,22 @@ var exportDataflowRunStatementHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDataflowPoolHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_dataflow_pool",
+	DatasourceClass:        "oci_dataflow_pools",
+	DatasourceItemsAttr:    "pool_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "pool",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_dataflow.PoolLifecycleStateActive),
+	},
+}
+
 var dataflowResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataflowApplicationHints},
 		{TerraformResourceHints: exportDataflowPrivateEndpointHints},
+		{TerraformResourceHints: exportDataflowPoolHints},
 	},
 }

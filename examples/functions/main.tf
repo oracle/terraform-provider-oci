@@ -76,6 +76,7 @@ resource "oci_functions_application" "test_application" {
     domain_id  = var.application_trace_config.domain_id
     is_enabled = var.application_trace_config.is_enabled
   }
+  shape = var.application_shape
 }
 
 data "oci_functions_applications" "test_applications" {

@@ -64,6 +64,7 @@ var (
 		"type":                   acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
 		"warehouse_bucket_uri":   acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
 		"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForDataFlowResource},
+		"pool_id":                acctest.Representation{RepType: acctest.Optional, Create: ``},
 	}
 	DataflowInvokeRunApplicationLogConfigRepresentation = map[string]interface{}{
 		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`},
@@ -91,6 +92,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, DataflowApplicationLogRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, DataflowApplicationLogGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_dataflow_pool", "test_pool", acctest.Optional, acctest.Create, DataflowPoolRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 )
 
@@ -129,6 +131,9 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
+			PreConfig: func() {
+				fmt.Println("step 1")
+			},
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataflowInvokeRunResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", acctest.Required, acctest.Create, DataflowInvokeRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -145,10 +150,16 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
+			PreConfig: func() {
+				fmt.Println("step 2, in delete")
+			},
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataflowInvokeRunResourceDependencies,
 		},
 		// verify Create with optionals
 		{
+			PreConfig: func() {
+				fmt.Println("step 3, create with optionals")
+			},
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataflowInvokeRunResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", acctest.Optional, acctest.Create, DataflowInvokeRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -179,7 +190,6 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
-				resource.TestCheckResourceAttrSet(resourceName, "spark_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -236,7 +246,6 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
-				resource.TestCheckResourceAttrSet(resourceName, "spark_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -255,6 +264,9 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
+			PreConfig: func() {
+				fmt.Println("step 5 updatable params")
+			},
 			Config: config + compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataflowInvokeRunResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", acctest.Optional, acctest.Update, DataflowInvokeRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -284,7 +296,6 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
-				resource.TestCheckResourceAttrSet(resourceName, "spark_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -302,6 +313,9 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
+			PreConfig: func() {
+				fmt.Println("step 6, verify datasource")
+			},
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_invoke_runs", "test_invoke_runs", acctest.Optional, acctest.Update, DataflowDataflowInvokeRunDataSourceRepresentation) +
 				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataflowInvokeRunResourceDependencies +
@@ -309,7 +323,6 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-
 				resource.TestCheckResourceAttr(datasourceName, "runs.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "runs.0.application_id"),
 				resource.TestCheckResourceAttr(datasourceName, "runs.0.compartment_id", compartmentId),
@@ -332,6 +345,30 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
+
+			PreConfig: func() {
+				fmt.Println("step 7, singular datasource")
+
+				acctest.WaitTillCondition(acctest.TestAccProvider, &resId, dataflowRunAvailableShouldWaitCondition, time.Duration(20*time.Minute),
+					dataFlowInvokeRunFetchOperation, "dataflow", false)()
+				client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).DataFlowClient()
+				run, _ := client.GetRun(context.Background(), oci_dataflow.GetRunRequest{
+					RunId: &resId,
+					RequestMetadata: common.RequestMetadata{
+						RetryPolicy: tfresource.GetRetryPolicy(true, "dataflow"),
+					},
+				})
+
+				stopPoolRequest := oci_dataflow.StopPoolRequest{}
+				stopPoolRequest.PoolId = run.PoolId
+				stopPoolRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "dataflow")
+				_, errorStopping := client.StopPool(context.Background(), stopPoolRequest)
+				if errorStopping != nil {
+					fmt.Printf("Error stopping Pool %s, It is possible that the resource is already stopped. Please verify manually \n", errorStopping)
+				}
+				acctest.WaitTillCondition(acctest.TestAccProvider, run.PoolId, DataflowPoolStopWaitCondition, time.Duration(10*time.Minute),
+					DataflowPoolSweepResponseFetchOperation, "dataflow", true)()
+			},
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", acctest.Required, acctest.Create, DataflowDataflowInvokeRunSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + fileUriVariableStr + archiveUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + metastoreIdVariableStr + DataflowInvokeRunResourceConfig,

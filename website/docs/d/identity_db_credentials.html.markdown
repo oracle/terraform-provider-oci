@@ -46,6 +46,8 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `description` - The description you assign to the DB credential. Does not have to be unique, and it's changeable.
+
+	(For tenancies that support identity domains) You can have an empty description. 
 * `id` - The OCID of the DB credential.
 * `state` - The credential's current state. After creating a DB credential, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
 * `time_created` - Date and time the `DbCredential` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 

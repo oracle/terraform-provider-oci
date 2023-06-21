@@ -41,8 +41,8 @@ The following attributes are exported:
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `name` - The name you assign to the network source during creation. The name must be unique across the tenancy and cannot be changed. 
 * `public_source_list` - A list of allowed public IP addresses and CIDR ranges. 
-* `services` - A list of services allowed to make on-behalf-of requests. These requests can have different source IPs than those specified in the network source. Currently, only `all` and `none` are supported. The default is `all`. 
+* `services` - -- The services attribute has no effect and is reserved for use by Oracle. --  
 * `state` - The network source object's current state. After creating a network source, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 
-* `time_created` - Date and time the group was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - Date and time the network source was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `virtual_source_list` - A list of allowed VCN OCID and IP range pairs. Example:`"vcnId": "ocid1.vcn.oc1.iad.aaaaaaaaexampleuniqueID", "ipRanges": [ "129.213.39.0/24" ]` 
 

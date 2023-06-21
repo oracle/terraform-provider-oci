@@ -105,6 +105,9 @@ type CreateApplicationDetails struct {
 	// Example:  [ { name: "iterations", value: "10"}, { name: "input_file", value: "mydata.xml" }, { name: "variable_x", value: "${x}"} ]
 	Parameters []ApplicationParameter `mandatory:"false" json:"parameters"`
 
+	// The OCID of a pool. Unique Id to indentify a dataflow pool resource.
+	PoolId *string `mandatory:"false" json:"poolId"`
+
 	// The OCID of a private endpoint.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
