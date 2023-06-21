@@ -132,10 +132,6 @@ func IdentityDomainResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"regional_url": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -676,10 +672,6 @@ func ReplicatedRegionDetailsToMap(obj oci_identity.ReplicatedRegionDetails) map[
 
 	if obj.Region != nil {
 		result["region"] = string(*obj.Region)
-	}
-
-	if obj.RegionalUrl != nil {
-		result["regional_url"] = string(*obj.RegionalUrl)
 	}
 
 	result["state"] = string(obj.State)

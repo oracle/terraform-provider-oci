@@ -11,7 +11,7 @@ description: |-
 This resource provides the User resource in Oracle Cloud Infrastructure Identity service.
 
 Creates a new user in your tenancy. For conceptual information about users, your tenancy, and other
-IAM Service components, see [Overview of IAM](https://docs.cloud.oracle.com/iaas/Content/Identity/getstarted/identity-domains.htm).
+IAM Service components, see [Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 
 You must specify your tenancy's OCID as the compartment ID in the request object (remember that the
 tenancy is simply the root compartment). Notice that IAM resources (users, groups, compartments, and
@@ -66,11 +66,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the tenancy containing the user.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) (Updatable) The description you assign to the user during creation. Does not have to be unique, and it's changeable.
-
-	(For tenancies that support identity domains) You can have an empty description. 
-* `email` - (Optional) (Updatable) The email you assign to the user during creation. The email must be unique across all users in the tenancy.
-
-	(For tenancies that support identity domains) You must provide an email for each user. 
+* `email` - (Optional) (Updatable) The email you assign to the user. Has to be unique across the tenancy.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) The name you assign to the user during creation. This is the user's login for the Console. The name must be unique across all users in the tenancy and cannot be changed. 
 
@@ -94,11 +90,7 @@ The following attributes are exported:
 * `db_user_name` - DB username of the DB credential. Has to be unique across the tenancy.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the user. Does not have to be unique, and it's changeable.
-
-	(For tenancies that support identity domains) You can have an empty description. 
 * `email` - The email address you assign to the user. The email address must be unique across all users in the tenancy. 
-
-	(For tenancies that support identity domains) The email address is required unless the requirement is disabled at the tenancy level. 
 * `email_verified` - Whether the email address has been validated.
 * `external_identifier` - Identifier of the user in the identity provider
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

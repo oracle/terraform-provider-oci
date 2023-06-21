@@ -63,11 +63,7 @@ The following attributes are exported:
 * `db_user_name` - DB username of the DB credential. Has to be unique across the tenancy.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the user. Does not have to be unique, and it's changeable.
-
-	(For tenancies that support identity domains) You can have an empty description. 
 * `email` - The email address you assign to the user. The email address must be unique across all users in the tenancy. 
-
-	(For tenancies that support identity domains) The email address is required unless the requirement is disabled at the tenancy level. 
 * `email_verified` - Whether the email address has been validated.
 * `external_identifier` - Identifier of the user in the identity provider
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

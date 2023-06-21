@@ -10,7 +10,10 @@ description: |-
 # Data Source: oci_identity_iam_work_requests
 This data source provides the list of Iam Work Requests in Oracle Cloud Infrastructure Identity service.
 
-Lists the IAM work requests in compartment. The workRequestID is returned in the opc-work-request-id header for any asynchronous operation in the Identity and Access Management service.
+List the IAM work requests in compartment
+
+- If IAM workrequest  details are retrieved sucessfully, return 202 ACCEPTED.
+- If any internal error occurs, return 500 INTERNAL SERVER ERROR.
 
 
 ## Example Usage
@@ -52,7 +55,7 @@ The following attributes are exported:
 	* `entity_type` - The resource type the work request is affects.
 	* `entity_uri` - The URI path that the user can do a GET on to access the resource metadata.
 	* `identifier` - An OCID of the resource that the work request affects.
-* `status` - The status of the work request.
+* `status` - Status of the work request
 * `time_accepted` - Date and time the work was accepted, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 * `time_finished` - Date and time the work completed, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 * `time_started` - Date and time the work started, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 

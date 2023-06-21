@@ -10,7 +10,7 @@ description: |-
 # oci_identity_authentication_policy
 This resource provides the Authentication Policy resource in Oracle Cloud Infrastructure Identity service.
 
-Updates authentication policy for the specified tenancy.
+Updates authentication policy for the specified tenancy
 
 
 ## Example Usage
@@ -44,7 +44,7 @@ resource "oci_identity_authentication_policy" "test_authentication_policy" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment.
-* `network_policy` - (Optional) (Updatable) Network policy, which consists of a list of network source IDs. 
+* `network_policy` - (Optional) (Updatable) Network policy, Consists of a list of Network Source ids. 
 	* `network_source_ids` - (Optional) (Updatable) Network Source ids 
 * `password_policy` - (Optional) (Updatable) Password policy, currently set for the given compartment. 
 	* `is_lowercase_characters_required` - (Optional) (Updatable) At least one lower case character required.
@@ -63,7 +63,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - Compartment OCID.
-* `network_policy` - Network policy, which consists of a list of network source IDs. 
+* `network_policy` - Network policy, Consists of a list of Network Source ids. 
 	* `network_source_ids` - Network Source ids 
 * `password_policy` - Password policy, currently set for the given compartment. 
 	* `is_lowercase_characters_required` - At least one lower case character required.
