@@ -2128,7 +2128,7 @@ func (client DataSafeClient) createMaskingColumn(ctx context.Context, request co
 	return response, err
 }
 
-// CreateMaskingPolicy Creates a new masking policy and associates it with a sensitive data model or a reference target database.
+// CreateMaskingPolicy Creates a new masking policy and associates it with a sensitive data model or a target database.
 // To use a sensitive data model as the source of masking columns, set the columnSource attribute to
 // SENSITIVE_DATA_MODEL and provide the sensitiveDataModelId attribute. After creating a masking policy,
 // you can use the AddMaskingColumnsFromSdm operation to automatically add all the columns from
@@ -2252,6 +2252,65 @@ func (client DataSafeClient) createOnPremConnector(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/CreateOnPremConnector"
 		err = common.PostProcessServiceError(err, "DataSafe", "CreateOnPremConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreatePeerTargetDatabase Creates the peer target database under the primary target database in Data Safe.
+// A default retry strategy applies to this operation CreatePeerTargetDatabase()
+func (client DataSafeClient) CreatePeerTargetDatabase(ctx context.Context, request CreatePeerTargetDatabaseRequest) (response CreatePeerTargetDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createPeerTargetDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreatePeerTargetDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreatePeerTargetDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreatePeerTargetDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreatePeerTargetDatabaseResponse")
+	}
+	return
+}
+
+// createPeerTargetDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createPeerTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases/{targetDatabaseId}/peerTargetDatabases", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreatePeerTargetDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/PeerTargetDatabase/CreatePeerTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreatePeerTargetDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -3341,6 +3400,60 @@ func (client DataSafeClient) deleteOnPremConnector(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/DeleteOnPremConnector"
 		err = common.PostProcessServiceError(err, "DataSafe", "DeleteOnPremConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeletePeerTargetDatabase Removes the specified peer target database from Data Safe.
+// A default retry strategy applies to this operation DeletePeerTargetDatabase()
+func (client DataSafeClient) DeletePeerTargetDatabase(ctx context.Context, request DeletePeerTargetDatabaseRequest) (response DeletePeerTargetDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deletePeerTargetDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeletePeerTargetDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeletePeerTargetDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeletePeerTargetDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeletePeerTargetDatabaseResponse")
+	}
+	return
+}
+
+// deletePeerTargetDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deletePeerTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/targetDatabases/{targetDatabaseId}/peerTargetDatabases/{peerTargetDatabaseId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeletePeerTargetDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/PeerTargetDatabase/DeletePeerTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeletePeerTargetDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -5855,6 +5968,60 @@ func (client DataSafeClient) getOnPremConnector(ctx context.Context, request com
 	return response, err
 }
 
+// GetPeerTargetDatabase Returns the details of the specified Data Safe peer target database.
+// A default retry strategy applies to this operation GetPeerTargetDatabase()
+func (client DataSafeClient) GetPeerTargetDatabase(ctx context.Context, request GetPeerTargetDatabaseRequest) (response GetPeerTargetDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPeerTargetDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPeerTargetDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPeerTargetDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPeerTargetDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPeerTargetDatabaseResponse")
+	}
+	return
+}
+
+// getPeerTargetDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getPeerTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetDatabases/{targetDatabaseId}/peerTargetDatabases/{peerTargetDatabaseId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPeerTargetDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/PeerTargetDatabase/GetPeerTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetPeerTargetDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetProfile Lists the details of given profile available on the target.
 // The GetProfile operation returns only the profiles in the specified 'userAssessmentId'.
 // This does not include any subcompartments of the current compartment.
@@ -6180,7 +6347,7 @@ func (client DataSafeClient) getSecurityAssessment(ctx context.Context, request 
 	return response, err
 }
 
-// GetSecurityAssessmentComparison Gets the details of the comparison report on the security assessments submitted for comparison.
+// GetSecurityAssessmentComparison Gets the details of the comparison report for the security assessments submitted for comparison.
 // A default retry strategy applies to this operation GetSecurityAssessmentComparison()
 func (client DataSafeClient) GetSecurityAssessmentComparison(ctx context.Context, request GetSecurityAssessmentComparisonRequest) (response GetSecurityAssessmentComparisonResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6558,7 +6725,7 @@ func (client DataSafeClient) getUserAssessment(ctx context.Context, request comm
 	return response, err
 }
 
-// GetUserAssessmentComparison Gets the details of the comparison report for the user assessments provided.
+// GetUserAssessmentComparison Gets the details of the comparison report for the user assessments submitted for comparison.
 // A default retry strategy applies to this operation GetUserAssessmentComparison()
 func (client DataSafeClient) GetUserAssessmentComparison(ctx context.Context, request GetUserAssessmentComparisonRequest) (response GetUserAssessmentComparisonResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7897,7 +8064,7 @@ func (client DataSafeClient) listDiscoveryJobs(ctx context.Context, request comm
 	return response, err
 }
 
-// ListFindings List all the findings from all the targets in the specified assessment.
+// ListFindings List all the findings from all the targets in the specified compartment.
 // A default retry strategy applies to this operation ListFindings()
 func (client DataSafeClient) ListFindings(ctx context.Context, request ListFindingsRequest) (response ListFindingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8489,6 +8656,65 @@ func (client DataSafeClient) listOnPremConnectors(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnectorSummary/ListOnPremConnectors"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListOnPremConnectors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListPeerTargetDatabases Lists all the peer target databases under the primary target database identified by the OCID passed as path parameter.
+// A default retry strategy applies to this operation ListPeerTargetDatabases()
+func (client DataSafeClient) ListPeerTargetDatabases(ctx context.Context, request ListPeerTargetDatabasesRequest) (response ListPeerTargetDatabasesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listPeerTargetDatabases, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPeerTargetDatabasesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPeerTargetDatabasesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPeerTargetDatabasesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPeerTargetDatabasesResponse")
+	}
+	return
+}
+
+// listPeerTargetDatabases implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listPeerTargetDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetDatabases/{targetDatabaseId}/peerTargetDatabases", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPeerTargetDatabasesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/PeerTargetDatabase/ListPeerTargetDatabases"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListPeerTargetDatabases", apiReferenceLink)
 		return response, err
 	}
 
@@ -9395,7 +9621,7 @@ func (client DataSafeClient) listTargetDatabases(ctx context.Context, request co
 	return response, err
 }
 
-// ListUserAnalytics Gets a list of aggregated user details from the specified user assessment. This provides information about the overall state
+// ListUserAnalytics Gets a list of aggregated user details from the specified user assessment. This provides information about the overall state.
 // of database user security.  For example, the user details include how many users have the DBA role and how many users are in
 // the critical category. This data is especially useful content for dashboards or to support analytics.
 // When you perform the ListUserAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
@@ -10299,6 +10525,65 @@ func (client DataSafeClient) refreshSecurityAssessment(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/RefreshSecurityAssessment"
 		err = common.PostProcessServiceError(err, "DataSafe", "RefreshSecurityAssessment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RefreshTargetDatabase Refreshes the Data Safe target database to update it's state.
+// A default retry strategy applies to this operation RefreshTargetDatabase()
+func (client DataSafeClient) RefreshTargetDatabase(ctx context.Context, request RefreshTargetDatabaseRequest) (response RefreshTargetDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshTargetDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshTargetDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshTargetDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshTargetDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshTargetDatabaseResponse")
+	}
+	return
+}
+
+// refreshTargetDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) refreshTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases/{targetDatabaseId}/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshTargetDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/RefreshTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "RefreshTargetDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -11660,6 +11945,124 @@ func (client DataSafeClient) updateOnPremConnectorWallet(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnector/UpdateOnPremConnectorWallet"
 		err = common.PostProcessServiceError(err, "DataSafe", "UpdateOnPremConnectorWallet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdatePeerTargetDatabase Updates one or more attributes of the specified Data Safe peer target database.
+// A default retry strategy applies to this operation UpdatePeerTargetDatabase()
+func (client DataSafeClient) UpdatePeerTargetDatabase(ctx context.Context, request UpdatePeerTargetDatabaseRequest) (response UpdatePeerTargetDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updatePeerTargetDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdatePeerTargetDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdatePeerTargetDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdatePeerTargetDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdatePeerTargetDatabaseResponse")
+	}
+	return
+}
+
+// updatePeerTargetDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updatePeerTargetDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/targetDatabases/{targetDatabaseId}/peerTargetDatabases/{peerTargetDatabaseId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdatePeerTargetDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/PeerTargetDatabase/UpdatePeerTargetDatabase"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdatePeerTargetDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateReport Updates the specified report. Only tags can be updated.
+// A default retry strategy applies to this operation UpdateReport()
+func (client DataSafeClient) UpdateReport(ctx context.Context, request UpdateReportRequest) (response UpdateReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateReportResponse")
+	}
+	return
+}
+
+// updateReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/reports/{reportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/Report/UpdateReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateReport", apiReferenceLink)
 		return response, err
 	}
 

@@ -31,6 +31,12 @@ type AvailableAuditVolumeSummary struct {
 
 	// Represents the aggregated audit data volume available in the audit trails on the target database which is yet to be collected by Data Safe for the specified month.
 	Volume *int64 `mandatory:"true" json:"volume"`
+
+	// The OCID of the audit trail.
+	AuditTrailId *string `mandatory:"false" json:"auditTrailId"`
+
+	// Unique name of the database associated to the peer target database.
+	DatabaseUniqueName *string `mandatory:"false" json:"databaseUniqueName"`
 }
 
 func (m AvailableAuditVolumeSummary) String() string {

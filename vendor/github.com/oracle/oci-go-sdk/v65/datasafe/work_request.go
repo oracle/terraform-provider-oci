@@ -89,6 +89,10 @@ const (
 	WorkRequestOperationTypeDeactivateTargetDatabase              WorkRequestOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
 	WorkRequestOperationTypeDeleteTargetDatabase                  WorkRequestOperationTypeEnum = "DELETE_TARGET_DATABASE"
 	WorkRequestOperationTypeChangeTargetDatabaseCompartment       WorkRequestOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
+	WorkRequestOperationTypeCreatePeerTargetDatabase              WorkRequestOperationTypeEnum = "CREATE_PEER_TARGET_DATABASE"
+	WorkRequestOperationTypeUpdatePeerTargetDatabase              WorkRequestOperationTypeEnum = "UPDATE_PEER_TARGET_DATABASE"
+	WorkRequestOperationTypeDeletePeerTargetDatabase              WorkRequestOperationTypeEnum = "DELETE_PEER_TARGET_DATABASE"
+	WorkRequestOperationTypeRefreshTargetDatabase                 WorkRequestOperationTypeEnum = "REFRESH_TARGET_DATABASE"
 	WorkRequestOperationTypeProvisionPolicy                       WorkRequestOperationTypeEnum = "PROVISION_POLICY"
 	WorkRequestOperationTypeRetrievePolicy                        WorkRequestOperationTypeEnum = "RETRIEVE_POLICY"
 	WorkRequestOperationTypeUpdatePolicy                          WorkRequestOperationTypeEnum = "UPDATE_POLICY"
@@ -193,6 +197,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"DEACTIVATE_TARGET_DATABASE":                 WorkRequestOperationTypeDeactivateTargetDatabase,
 	"DELETE_TARGET_DATABASE":                     WorkRequestOperationTypeDeleteTargetDatabase,
 	"CHANGE_TARGET_DATABASE_COMPARTMENT":         WorkRequestOperationTypeChangeTargetDatabaseCompartment,
+	"CREATE_PEER_TARGET_DATABASE":                WorkRequestOperationTypeCreatePeerTargetDatabase,
+	"UPDATE_PEER_TARGET_DATABASE":                WorkRequestOperationTypeUpdatePeerTargetDatabase,
+	"DELETE_PEER_TARGET_DATABASE":                WorkRequestOperationTypeDeletePeerTargetDatabase,
+	"REFRESH_TARGET_DATABASE":                    WorkRequestOperationTypeRefreshTargetDatabase,
 	"PROVISION_POLICY":                           WorkRequestOperationTypeProvisionPolicy,
 	"RETRIEVE_POLICY":                            WorkRequestOperationTypeRetrievePolicy,
 	"UPDATE_POLICY":                              WorkRequestOperationTypeUpdatePolicy,
@@ -297,6 +305,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"deactivate_target_database":                 WorkRequestOperationTypeDeactivateTargetDatabase,
 	"delete_target_database":                     WorkRequestOperationTypeDeleteTargetDatabase,
 	"change_target_database_compartment":         WorkRequestOperationTypeChangeTargetDatabaseCompartment,
+	"create_peer_target_database":                WorkRequestOperationTypeCreatePeerTargetDatabase,
+	"update_peer_target_database":                WorkRequestOperationTypeUpdatePeerTargetDatabase,
+	"delete_peer_target_database":                WorkRequestOperationTypeDeletePeerTargetDatabase,
+	"refresh_target_database":                    WorkRequestOperationTypeRefreshTargetDatabase,
 	"provision_policy":                           WorkRequestOperationTypeProvisionPolicy,
 	"retrieve_policy":                            WorkRequestOperationTypeRetrievePolicy,
 	"update_policy":                              WorkRequestOperationTypeUpdatePolicy,
@@ -412,6 +424,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"DEACTIVATE_TARGET_DATABASE",
 		"DELETE_TARGET_DATABASE",
 		"CHANGE_TARGET_DATABASE_COMPARTMENT",
+		"CREATE_PEER_TARGET_DATABASE",
+		"UPDATE_PEER_TARGET_DATABASE",
+		"DELETE_PEER_TARGET_DATABASE",
+		"REFRESH_TARGET_DATABASE",
 		"PROVISION_POLICY",
 		"RETRIEVE_POLICY",
 		"UPDATE_POLICY",

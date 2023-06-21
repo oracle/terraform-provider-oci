@@ -19,7 +19,7 @@ import (
 type ApplySdmMaskingPolicyDifferenceDetails struct {
 
 	// The OCID of the SDM masking policy difference.
-	SdmMaskingPolicyDifferenceId *string `mandatory:"false" json:"sdmMaskingPolicyDifferenceId"`
+	SdmMaskingPolicyDifferenceId *string `mandatory:"true" json:"sdmMaskingPolicyDifferenceId"`
 }
 
 func (m ApplySdmMaskingPolicyDifferenceDetails) String() string {

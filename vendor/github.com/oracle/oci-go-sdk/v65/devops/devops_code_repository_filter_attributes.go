@@ -18,7 +18,7 @@ import (
 // DevopsCodeRepositoryFilterAttributes Attributes to filter DevOps code repository events.
 type DevopsCodeRepositoryFilterAttributes struct {
 
-	// Branch for push event.
+	// Branch for push event; source branch for pull requests
 	HeadRef *string `mandatory:"false" json:"headRef"`
 
 	FileFilter *FileFilter `mandatory:"false" json:"fileFilter"`

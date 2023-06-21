@@ -54,6 +54,8 @@ const (
 	OperationTypeUpdateRepository                        OperationTypeEnum = "UPDATE_REPOSITORY"
 	OperationTypeDeleteRepository                        OperationTypeEnum = "DELETE_REPOSITORY"
 	OperationTypeMirrorRepository                        OperationTypeEnum = "MIRROR_REPOSITORY"
+	OperationTypeForkRepository                          OperationTypeEnum = "FORK_REPOSITORY"
+	OperationTypeSyncForkRepository                      OperationTypeEnum = "SYNC_FORK_REPOSITORY"
 	OperationTypeScheduleCascadingProjectDeletion        OperationTypeEnum = "SCHEDULE_CASCADING_PROJECT_DELETION"
 	OperationTypeCancelScheduledCascadingProjectDeletion OperationTypeEnum = "CANCEL_SCHEDULED_CASCADING_PROJECT_DELETION"
 )
@@ -95,6 +97,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_REPOSITORY":                           OperationTypeUpdateRepository,
 	"DELETE_REPOSITORY":                           OperationTypeDeleteRepository,
 	"MIRROR_REPOSITORY":                           OperationTypeMirrorRepository,
+	"FORK_REPOSITORY":                             OperationTypeForkRepository,
+	"SYNC_FORK_REPOSITORY":                        OperationTypeSyncForkRepository,
 	"SCHEDULE_CASCADING_PROJECT_DELETION":         OperationTypeScheduleCascadingProjectDeletion,
 	"CANCEL_SCHEDULED_CASCADING_PROJECT_DELETION": OperationTypeCancelScheduledCascadingProjectDeletion,
 }
@@ -136,6 +140,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_repository":                           OperationTypeUpdateRepository,
 	"delete_repository":                           OperationTypeDeleteRepository,
 	"mirror_repository":                           OperationTypeMirrorRepository,
+	"fork_repository":                             OperationTypeForkRepository,
+	"sync_fork_repository":                        OperationTypeSyncForkRepository,
 	"schedule_cascading_project_deletion":         OperationTypeScheduleCascadingProjectDeletion,
 	"cancel_scheduled_cascading_project_deletion": OperationTypeCancelScheduledCascadingProjectDeletion,
 }
@@ -188,6 +194,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_REPOSITORY",
 		"DELETE_REPOSITORY",
 		"MIRROR_REPOSITORY",
+		"FORK_REPOSITORY",
+		"SYNC_FORK_REPOSITORY",
 		"SCHEDULE_CASCADING_PROJECT_DELETION",
 		"CANCEL_SCHEDULED_CASCADING_PROJECT_DELETION",
 	}

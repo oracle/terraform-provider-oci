@@ -28,7 +28,7 @@ type UpdateGenericGatewayTargetOverridesDetails struct {
 	// In order to support ADB-S colocation, ADB-S traffic via SGW/PAGW needs to be routed to
 	// dedicated fleets. Thus the existing default routes will be overridden with the targets
 	// provided here by SGW/PAGW at the time of GGW creation.
-	Targets []TargetOverridePairDetails `mandatory:"true" json:"targets"`
+	Targets []TargetOverridePairDetails `mandatory:"false" json:"targets"`
 }
 
 func (m UpdateGenericGatewayTargetOverridesDetails) String() string {

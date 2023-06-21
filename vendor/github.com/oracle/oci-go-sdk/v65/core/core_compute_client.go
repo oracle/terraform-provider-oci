@@ -876,6 +876,65 @@ func (client ComputeClient) createAppCatalogSubscription(ctx context.Context, re
 	return response, err
 }
 
+// CreateBigDataBmToVmInstanceMigration Creates bigData-bm-to-vm-instance-migration for given BM instance
+// A default retry strategy applies to this operation CreateBigDataBmToVmInstanceMigration()
+func (client ComputeClient) CreateBigDataBmToVmInstanceMigration(ctx context.Context, request CreateBigDataBmToVmInstanceMigrationRequest) (response CreateBigDataBmToVmInstanceMigrationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createBigDataBmToVmInstanceMigration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateBigDataBmToVmInstanceMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateBigDataBmToVmInstanceMigrationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateBigDataBmToVmInstanceMigrationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateBigDataBmToVmInstanceMigrationResponse")
+	}
+	return
+}
+
+// createBigDataBmToVmInstanceMigration implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) createBigDataBmToVmInstanceMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bigDataBmToVmInstanceMigrations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateBigDataBmToVmInstanceMigrationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BigDataBmToVmInstanceMigration/CreateBigDataBmToVmInstanceMigration"
+		err = common.PostProcessServiceError(err, "Compute", "CreateBigDataBmToVmInstanceMigration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateComputeCapacityReport Generates a report of the host capacity within an availability domain that is available for you
 // to create compute instances. Host capacity is the physical infrastructure that resources such as compute
 // instances run on.
@@ -2324,6 +2383,60 @@ func (client ComputeClient) getAppCatalogListingResourceVersion(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion"
 		err = common.PostProcessServiceError(err, "Compute", "GetAppCatalogListingResourceVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetBigDataBmToVmInstanceMigration Gets the bigData-bm-to-vm-instance migrations for the given migration id.
+// A default retry strategy applies to this operation GetBigDataBmToVmInstanceMigration()
+func (client ComputeClient) GetBigDataBmToVmInstanceMigration(ctx context.Context, request GetBigDataBmToVmInstanceMigrationRequest) (response GetBigDataBmToVmInstanceMigrationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBigDataBmToVmInstanceMigration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBigDataBmToVmInstanceMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBigDataBmToVmInstanceMigrationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBigDataBmToVmInstanceMigrationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBigDataBmToVmInstanceMigrationResponse")
+	}
+	return
+}
+
+// getBigDataBmToVmInstanceMigration implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getBigDataBmToVmInstanceMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bigDataBmToVmInstanceMigrations/{bigDataBmToVmInstanceMigrationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBigDataBmToVmInstanceMigrationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BigDataBmToVmInstanceMigration/GetBigDataBmToVmInstanceMigration"
+		err = common.PostProcessServiceError(err, "Compute", "GetBigDataBmToVmInstanceMigration", apiReferenceLink)
 		return response, err
 	}
 
@@ -3856,6 +3969,60 @@ func (client ComputeClient) listAppCatalogSubscriptions(ctx context.Context, req
 	return response, err
 }
 
+// ListBigDataBmToVmInstanceMigrations List bigData BM to VM instance migration summary that match search criteria
+// A default retry strategy applies to this operation ListBigDataBmToVmInstanceMigrations()
+func (client ComputeClient) ListBigDataBmToVmInstanceMigrations(ctx context.Context, request ListBigDataBmToVmInstanceMigrationsRequest) (response ListBigDataBmToVmInstanceMigrationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBigDataBmToVmInstanceMigrations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBigDataBmToVmInstanceMigrationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBigDataBmToVmInstanceMigrationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListBigDataBmToVmInstanceMigrationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBigDataBmToVmInstanceMigrationsResponse")
+	}
+	return
+}
+
+// listBigDataBmToVmInstanceMigrations implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listBigDataBmToVmInstanceMigrations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bigDataBmToVmInstanceMigrations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBigDataBmToVmInstanceMigrationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BigDataBmToVmInstanceMigrationCollection/ListBigDataBmToVmInstanceMigrations"
+		err = common.PostProcessServiceError(err, "Compute", "ListBigDataBmToVmInstanceMigrations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListBootVolumeAttachments Lists the boot volume attachments in the specified compartment. You can filter the
 // list by specifying an instance OCID, boot volume OCID, or both.
 func (client ComputeClient) ListBootVolumeAttachments(ctx context.Context, request ListBootVolumeAttachmentsRequest) (response ListBootVolumeAttachmentsResponse, err error) {
@@ -5337,6 +5504,65 @@ func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Conte
 	return response, err
 }
 
+// RetryBigDataBmToVmInstanceMigration Retry BM to VM instance migration for given migration resource
+// A default retry strategy applies to this operation RetryBigDataBmToVmInstanceMigration()
+func (client ComputeClient) RetryBigDataBmToVmInstanceMigration(ctx context.Context, request RetryBigDataBmToVmInstanceMigrationRequest) (response RetryBigDataBmToVmInstanceMigrationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.retryBigDataBmToVmInstanceMigration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetryBigDataBmToVmInstanceMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetryBigDataBmToVmInstanceMigrationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetryBigDataBmToVmInstanceMigrationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetryBigDataBmToVmInstanceMigrationResponse")
+	}
+	return
+}
+
+// retryBigDataBmToVmInstanceMigration implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) retryBigDataBmToVmInstanceMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bigDataBmToVmInstanceMigrations/{bigDataBmToVmInstanceMigrationId}/actions/retry", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetryBigDataBmToVmInstanceMigrationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BigDataBmToVmInstanceMigration/RetryBigDataBmToVmInstanceMigration"
+		err = common.PostProcessServiceError(err, "Compute", "RetryBigDataBmToVmInstanceMigration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // TerminateInstance Permanently terminates (deletes) the specified instance. Any attached VNICs and volumes are automatically detached
 // when the instance terminates.
 // To preserve the boot volume associated with the instance, specify `true` for `PreserveBootVolumeQueryParam`.
@@ -5391,6 +5617,65 @@ func (client ComputeClient) terminateInstance(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Compute", "TerminateInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateBigDataBmToVmInstanceMigration Update the BigDataBmToVmInstanceMigration resource for the given migration id.
+// A default retry strategy applies to this operation UpdateBigDataBmToVmInstanceMigration()
+func (client ComputeClient) UpdateBigDataBmToVmInstanceMigration(ctx context.Context, request UpdateBigDataBmToVmInstanceMigrationRequest) (response UpdateBigDataBmToVmInstanceMigrationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateBigDataBmToVmInstanceMigration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateBigDataBmToVmInstanceMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateBigDataBmToVmInstanceMigrationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateBigDataBmToVmInstanceMigrationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateBigDataBmToVmInstanceMigrationResponse")
+	}
+	return
+}
+
+// updateBigDataBmToVmInstanceMigration implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) updateBigDataBmToVmInstanceMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bigDataBmToVmInstanceMigrations/{bigDataBmToVmInstanceMigrationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateBigDataBmToVmInstanceMigrationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BigDataBmToVmInstanceMigration/UpdateBigDataBmToVmInstanceMigration"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateBigDataBmToVmInstanceMigration", apiReferenceLink)
 		return response, err
 	}
 

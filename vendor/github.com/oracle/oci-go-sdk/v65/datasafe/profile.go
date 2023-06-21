@@ -33,7 +33,7 @@ type Profile struct {
 	// The OCID of the target database.
 	TargetId *string `mandatory:"false" json:"targetId"`
 
-	// The number of users having a given profile.
+	// The number of users that have a given profile.
 	UserCount *int `mandatory:"false" json:"userCount"`
 
 	// Maximum times the user is allowed in fail login before the user account is locked.

@@ -69,6 +69,9 @@ type OperatorControl struct {
 	// Time when the operator control was last modified expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format. Example: '2020-05-22T21:10:29.600Z'
 	TimeOfModification *common.SDKTime `mandatory:"false" json:"timeOfModification"`
 
+	// Whether the operator control is a default Operator Control.
+	IsDefaultOperatorControl *bool `mandatory:"false" json:"isDefaultOperatorControl"`
+
 	// Time when deleted expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)timestamp format. Example: '2020-05-22T21:10:29.600Z'.
 	// Note a deleted operator control still stays in the system, so that you can still audit operator actions associated with access requests
 	// raised on target resources governed by the deleted operator control.

@@ -93,6 +93,10 @@ const (
 	WorkRequestSummaryOperationTypeDeactivateTargetDatabase              WorkRequestSummaryOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeDeleteTargetDatabase                  WorkRequestSummaryOperationTypeEnum = "DELETE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment       WorkRequestSummaryOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
+	WorkRequestSummaryOperationTypeCreatePeerTargetDatabase              WorkRequestSummaryOperationTypeEnum = "CREATE_PEER_TARGET_DATABASE"
+	WorkRequestSummaryOperationTypeUpdatePeerTargetDatabase              WorkRequestSummaryOperationTypeEnum = "UPDATE_PEER_TARGET_DATABASE"
+	WorkRequestSummaryOperationTypeDeletePeerTargetDatabase              WorkRequestSummaryOperationTypeEnum = "DELETE_PEER_TARGET_DATABASE"
+	WorkRequestSummaryOperationTypeRefreshTargetDatabase                 WorkRequestSummaryOperationTypeEnum = "REFRESH_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeCreateUserAssessment                  WorkRequestSummaryOperationTypeEnum = "CREATE_USER_ASSESSMENT"
 	WorkRequestSummaryOperationTypeAssessUserAssessment                  WorkRequestSummaryOperationTypeEnum = "ASSESS_USER_ASSESSMENT"
 	WorkRequestSummaryOperationTypeCreateSnapshotUserAssessment          WorkRequestSummaryOperationTypeEnum = "CREATE_SNAPSHOT_USER_ASSESSMENT"
@@ -196,6 +200,10 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"DEACTIVATE_TARGET_DATABASE":                 WorkRequestSummaryOperationTypeDeactivateTargetDatabase,
 	"DELETE_TARGET_DATABASE":                     WorkRequestSummaryOperationTypeDeleteTargetDatabase,
 	"CHANGE_TARGET_DATABASE_COMPARTMENT":         WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment,
+	"CREATE_PEER_TARGET_DATABASE":                WorkRequestSummaryOperationTypeCreatePeerTargetDatabase,
+	"UPDATE_PEER_TARGET_DATABASE":                WorkRequestSummaryOperationTypeUpdatePeerTargetDatabase,
+	"DELETE_PEER_TARGET_DATABASE":                WorkRequestSummaryOperationTypeDeletePeerTargetDatabase,
+	"REFRESH_TARGET_DATABASE":                    WorkRequestSummaryOperationTypeRefreshTargetDatabase,
 	"CREATE_USER_ASSESSMENT":                     WorkRequestSummaryOperationTypeCreateUserAssessment,
 	"ASSESS_USER_ASSESSMENT":                     WorkRequestSummaryOperationTypeAssessUserAssessment,
 	"CREATE_SNAPSHOT_USER_ASSESSMENT":            WorkRequestSummaryOperationTypeCreateSnapshotUserAssessment,
@@ -299,6 +307,10 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"deactivate_target_database":                 WorkRequestSummaryOperationTypeDeactivateTargetDatabase,
 	"delete_target_database":                     WorkRequestSummaryOperationTypeDeleteTargetDatabase,
 	"change_target_database_compartment":         WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment,
+	"create_peer_target_database":                WorkRequestSummaryOperationTypeCreatePeerTargetDatabase,
+	"update_peer_target_database":                WorkRequestSummaryOperationTypeUpdatePeerTargetDatabase,
+	"delete_peer_target_database":                WorkRequestSummaryOperationTypeDeletePeerTargetDatabase,
+	"refresh_target_database":                    WorkRequestSummaryOperationTypeRefreshTargetDatabase,
 	"create_user_assessment":                     WorkRequestSummaryOperationTypeCreateUserAssessment,
 	"assess_user_assessment":                     WorkRequestSummaryOperationTypeAssessUserAssessment,
 	"create_snapshot_user_assessment":            WorkRequestSummaryOperationTypeCreateSnapshotUserAssessment,
@@ -413,6 +425,10 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"DEACTIVATE_TARGET_DATABASE",
 		"DELETE_TARGET_DATABASE",
 		"CHANGE_TARGET_DATABASE_COMPARTMENT",
+		"CREATE_PEER_TARGET_DATABASE",
+		"UPDATE_PEER_TARGET_DATABASE",
+		"DELETE_PEER_TARGET_DATABASE",
+		"REFRESH_TARGET_DATABASE",
 		"CREATE_USER_ASSESSMENT",
 		"ASSESS_USER_ASSESSMENT",
 		"CREATE_SNAPSHOT_USER_ASSESSMENT",

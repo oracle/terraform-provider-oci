@@ -89,6 +89,9 @@ type ReplicationTarget struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Not used by File Systems but required for SPLAT tag integration.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Additional information about the current `lifecycleState`.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 }

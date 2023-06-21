@@ -94,9 +94,10 @@ func (client *AccessRequestsClient) ConfigurationProvider() *common.Configuratio
 }
 
 // ApproveAccessRequest Approves an access request.
+// A default retry strategy applies to this operation ApproveAccessRequest()
 func (client AccessRequestsClient) ApproveAccessRequest(ctx context.Context, request ApproveAccessRequestRequest) (response ApproveAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -152,9 +153,10 @@ func (client AccessRequestsClient) approveAccessRequest(ctx context.Context, req
 }
 
 // GetAccessRequest Gets details of an access request.
+// A default retry strategy applies to this operation GetAccessRequest()
 func (client AccessRequestsClient) GetAccessRequest(ctx context.Context, request GetAccessRequestRequest) (response GetAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -205,9 +207,10 @@ func (client AccessRequestsClient) getAccessRequest(ctx context.Context, request
 }
 
 // InteractionRequest Posts query for additional information for the given access request.
+// A default retry strategy applies to this operation InteractionRequest()
 func (client AccessRequestsClient) InteractionRequest(ctx context.Context, request InteractionRequestRequest) (response InteractionRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -263,9 +266,10 @@ func (client AccessRequestsClient) interactionRequest(ctx context.Context, reque
 }
 
 // ListAccessRequestHistories Returns a history of all status associated with the accessRequestId.
+// A default retry strategy applies to this operation ListAccessRequestHistories()
 func (client AccessRequestsClient) ListAccessRequestHistories(ctx context.Context, request ListAccessRequestHistoriesRequest) (response ListAccessRequestHistoriesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -316,9 +320,10 @@ func (client AccessRequestsClient) listAccessRequestHistories(ctx context.Contex
 }
 
 // ListAccessRequests Lists all access requests in the compartment.
+// A default retry strategy applies to this operation ListAccessRequests()
 func (client AccessRequestsClient) ListAccessRequests(ctx context.Context, request ListAccessRequestsRequest) (response ListAccessRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -369,9 +374,10 @@ func (client AccessRequestsClient) listAccessRequests(ctx context.Context, reque
 }
 
 // ListInteractions Lists the MoreInformation interaction between customer and operators.
+// A default retry strategy applies to this operation ListInteractions()
 func (client AccessRequestsClient) ListInteractions(ctx context.Context, request ListInteractionsRequest) (response ListInteractionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -422,9 +428,10 @@ func (client AccessRequestsClient) listInteractions(ctx context.Context, request
 }
 
 // RejectAccessRequest Rejects an access request.
+// A default retry strategy applies to this operation RejectAccessRequest()
 func (client AccessRequestsClient) RejectAccessRequest(ctx context.Context, request RejectAccessRequestRequest) (response RejectAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -480,9 +487,10 @@ func (client AccessRequestsClient) rejectAccessRequest(ctx context.Context, requ
 }
 
 // ReviewAccessRequest Reviews the access request.
+// A default retry strategy applies to this operation ReviewAccessRequest()
 func (client AccessRequestsClient) ReviewAccessRequest(ctx context.Context, request ReviewAccessRequestRequest) (response ReviewAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -538,9 +546,10 @@ func (client AccessRequestsClient) reviewAccessRequest(ctx context.Context, requ
 }
 
 // RevokeAccessRequest Revokes an already approved access request.
+// A default retry strategy applies to this operation RevokeAccessRequest()
 func (client AccessRequestsClient) RevokeAccessRequest(ctx context.Context, request RevokeAccessRequestRequest) (response RevokeAccessRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

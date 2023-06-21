@@ -94,9 +94,10 @@ func (client *OperatorActionsClient) ConfigurationProvider() *common.Configurati
 }
 
 // GetOperatorAction Gets the operator action associated with the specified operator action ID.
+// A default retry strategy applies to this operation GetOperatorAction()
 func (client OperatorActionsClient) GetOperatorAction(ctx context.Context, request GetOperatorActionRequest) (response GetOperatorActionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -147,9 +148,10 @@ func (client OperatorActionsClient) getOperatorAction(ctx context.Context, reque
 }
 
 // ListOperatorActions Lists all the OperatorActions available in the system.
+// A default retry strategy applies to this operation ListOperatorActions()
 func (client OperatorActionsClient) ListOperatorActions(ctx context.Context, request ListOperatorActionsRequest) (response ListOperatorActionsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

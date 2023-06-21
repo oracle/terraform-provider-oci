@@ -54,6 +54,9 @@ type OutboundConnectorSummary interface {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// Not used by File Systems but required for SPLAT tag integration.
+	GetSystemTags() map[string]map[string]interface{}
 }
 
 type outboundconnectorsummary struct {
@@ -66,6 +69,7 @@ type outboundconnectorsummary struct {
 	AvailabilityDomain *string                                    `mandatory:"false" json:"availabilityDomain"`
 	FreeformTags       map[string]string                          `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{}          `mandatory:"false" json:"definedTags"`
+	SystemTags         map[string]map[string]interface{}          `mandatory:"false" json:"systemTags"`
 	ConnectorType      string                                     `json:"connectorType"`
 }
 
@@ -88,6 +92,7 @@ func (m *outboundconnectorsummary) UnmarshalJSON(data []byte) error {
 	m.AvailabilityDomain = s.Model.AvailabilityDomain
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SystemTags = s.Model.SystemTags
 	m.ConnectorType = s.Model.ConnectorType
 
 	return err
@@ -150,6 +155,11 @@ func (m outboundconnectorsummary) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m outboundconnectorsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetSystemTags returns SystemTags
+func (m outboundconnectorsummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m outboundconnectorsummary) String() string {
