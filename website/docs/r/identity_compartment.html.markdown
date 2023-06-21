@@ -23,7 +23,7 @@ is simply the root compartment. For information about OCIDs, see
 You must also specify a *name* for the compartment, which must be unique across all compartments in
 your tenancy. You can use this name or the OCID when writing policies that apply
 to the compartment. For more information about policies, see
-[How Policies Work](https://docs.cloud.oracle.com/iaas/Content/Identity/policieshow/how-policies-work.htm).
+[How Policies Work](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policies.htm).
 
 You must also specify a *description* for the compartment (although it can be an empty string). It does
 not have to be unique, and you can change it anytime with
