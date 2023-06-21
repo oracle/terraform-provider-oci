@@ -62,11 +62,11 @@ require (
 	go.opencensus.io v0.22.4 // indirect
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
-	golang.org/x/net v0.0.0-20211015210444-4f30a5c0130f // indirect
+	golang.org/x/net v0.0.0-20220722155237-a158d28d115b // indirect
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43 // indirect
 	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/tools v0.1.11 // indirect
+	golang.org/x/text v0.3.8 // indirect
+	golang.org/x/tools v0.1.12 // indirect
 	google.golang.org/api v0.34.0 // indirect
 	google.golang.org/appengine v1.6.6 // indirect
 	google.golang.org/genproto v0.0.0-20200904004341-0bd0a958aa1d // indirect
