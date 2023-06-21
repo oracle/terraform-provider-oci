@@ -1,3 +1,15 @@
+## 5.2.0 (June 21, 2023)
+
+### Added
+- Support for ADB-S: Storage Allocation Enhancements
+- validate function for pool state
+- NSG Support for private Database Registrations/Private Endpoints.
+- import dataset feature support
+- Support for ARM Support for Runner Component
+### Bug Fix
+- Corrected outdated documentation for db_name field of the oci_database_autonomous_database resource.
+- Fixed network-source/Domains/Polices resource discovery issue.
+
 ## 5.1.0 (June 14, 2023)
 
 ### Added

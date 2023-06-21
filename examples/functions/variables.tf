@@ -100,3 +100,7 @@ variable "pbf_listing_version_id" {
 
 variable "pbf_trigger_name" {
 }
+
+variable "application_shape" {
+  default = "GENERIC_X86"
+}

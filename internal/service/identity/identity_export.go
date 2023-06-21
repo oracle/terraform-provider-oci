@@ -29,6 +29,7 @@ func init() {
 	exportIdentityTagHints.ProcessDiscoveredResourcesFn = processTagDefinitions
 	tf_export.RegisterTenancyGraphs("identity", identityResourceGraph)
 	tf_export.RegisterCompartmentGraphs("tagging", taggingResourceGraph)
+	tf_export.RegisterCompartmentGraphs("identity", identityCompartmentResourceGraph)
 	tf_export.BuildAvailabilityResourceGraph("oci_identity_compartment", customAssociationIdentityCompartment)
 }
 
@@ -506,6 +507,13 @@ var identityResourceGraph = tf_export.TerraformResourceGraph{
 				"user_id": "id",
 			},
 		},
+	},
+}
+
+var identityCompartmentResourceGraph = tf_export.TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{TerraformResourceHints: exportIdentityPolicyHints},
+		{TerraformResourceHints: exportIdentityDomainHints},
 	},
 }
 

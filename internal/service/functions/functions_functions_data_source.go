@@ -164,6 +164,8 @@ func (s *FunctionsFunctionsDataSourceCrud) SetData() error {
 			function["provisioned_concurrency_config"] = nil
 		}
 
+		function["shape"] = r.Shape
+
 		if r.SourceDetails != nil {
 			sourceDetailsArray := []interface{}{}
 			if sourceDetailsMap := FunctionSourceDetailsToMap(&r.SourceDetails); sourceDetailsMap != nil {

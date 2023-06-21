@@ -10,11 +10,7 @@ description: |-
 # Data Source: oci_identity_iam_work_request_logs
 This data source provides the list of Iam Work Request Logs in Oracle Cloud Infrastructure Identity service.
 
-Gets logs for a specified IAM work request. For asynchronous operations in Identity and Access Management service, opc-work-request-id header values contains
-iam work request id that can be provided in this API to track the current status of the operation.
-
-- If workrequest exists, returns 202 ACCEPTED
-- If workrequest does not exist, returns 404 NOT FOUND
+Gets logs for a specified IAM work request. The workRequestID is returned in the opc-work-request-id header for any asynchronous operation in the Identity and Access Management service.
 
 
 ## Example Usage

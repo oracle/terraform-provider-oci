@@ -2706,7 +2706,7 @@ func TestUnitGetDiscoverResourceWithGraphSteps(t *testing.T) {
 		ctx.Services = []string{"identity"}
 		result, err := getDiscoverResourceWithGraphSteps(ctx)
 		assert.NoError(t, err)
-		assert.Equal(t, 0, len(result))
+		assert.Equal(t, 1, len(result))
 	})
 
 	// With targetResource

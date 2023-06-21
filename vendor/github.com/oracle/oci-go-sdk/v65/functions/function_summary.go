@@ -46,6 +46,9 @@ type FunctionSummary struct {
 
 	SourceDetails FunctionSourceDetails `mandatory:"false" json:"sourceDetails"`
 
+	// The processor shape (`GENERIC_X86`/`GENERIC_ARM`) on which to run functions in the application, extracted from the image manifest.
+	Shape FunctionSummaryShapeEnum `mandatory:"false" json:"shape,omitempty"`
+
 	// Maximum usable memory for the function (MiB).
 	MemoryInMBs *int64 `mandatory:"false" json:"memoryInMBs"`
 
@@ -92,6 +95,9 @@ func (m FunctionSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingFunctionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFunctionLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingFunctionSummaryShapeEnum(string(m.Shape)); !ok && m.Shape != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shape: %s. Supported values are: %s.", m.Shape, strings.Join(GetFunctionSummaryShapeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -108,6 +114,7 @@ func (m *FunctionSummary) UnmarshalJSON(data []byte) (e error) {
 		Image                        *string                              `json:"image"`
 		ImageDigest                  *string                              `json:"imageDigest"`
 		SourceDetails                functionsourcedetails                `json:"sourceDetails"`
+		Shape                        FunctionSummaryShapeEnum             `json:"shape"`
 		MemoryInMBs                  *int64                               `json:"memoryInMBs"`
 		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
 		ProvisionedConcurrencyConfig functionprovisionedconcurrencyconfig `json:"provisionedConcurrencyConfig"`
@@ -147,6 +154,8 @@ func (m *FunctionSummary) UnmarshalJSON(data []byte) (e error) {
 		m.SourceDetails = nil
 	}
 
+	m.Shape = model.Shape
+
 	m.MemoryInMBs = model.MemoryInMBs
 
 	m.TimeoutInSeconds = model.TimeoutInSeconds
@@ -176,4 +185,50 @@ func (m *FunctionSummary) UnmarshalJSON(data []byte) (e error) {
 	m.Id = model.Id
 
 	return
+}
+
+// FunctionSummaryShapeEnum Enum with underlying type: string
+type FunctionSummaryShapeEnum string
+
+// Set of constants representing the allowable values for FunctionSummaryShapeEnum
+const (
+	FunctionSummaryShapeX86    FunctionSummaryShapeEnum = "GENERIC_X86"
+	FunctionSummaryShapeArm    FunctionSummaryShapeEnum = "GENERIC_ARM"
+	FunctionSummaryShapeX86Arm FunctionSummaryShapeEnum = "GENERIC_X86_ARM"
+)
+
+var mappingFunctionSummaryShapeEnum = map[string]FunctionSummaryShapeEnum{
+	"GENERIC_X86":     FunctionSummaryShapeX86,
+	"GENERIC_ARM":     FunctionSummaryShapeArm,
+	"GENERIC_X86_ARM": FunctionSummaryShapeX86Arm,
+}
+
+var mappingFunctionSummaryShapeEnumLowerCase = map[string]FunctionSummaryShapeEnum{
+	"generic_x86":     FunctionSummaryShapeX86,
+	"generic_arm":     FunctionSummaryShapeArm,
+	"generic_x86_arm": FunctionSummaryShapeX86Arm,
+}
+
+// GetFunctionSummaryShapeEnumValues Enumerates the set of values for FunctionSummaryShapeEnum
+func GetFunctionSummaryShapeEnumValues() []FunctionSummaryShapeEnum {
+	values := make([]FunctionSummaryShapeEnum, 0)
+	for _, v := range mappingFunctionSummaryShapeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetFunctionSummaryShapeEnumStringValues Enumerates the set of values in String for FunctionSummaryShapeEnum
+func GetFunctionSummaryShapeEnumStringValues() []string {
+	return []string{
+		"GENERIC_X86",
+		"GENERIC_ARM",
+		"GENERIC_X86_ARM",
+	}
+}
+
+// GetMappingFunctionSummaryShapeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingFunctionSummaryShapeEnum(val string) (FunctionSummaryShapeEnum, bool) {
+	enum, ok := mappingFunctionSummaryShapeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -59,7 +59,13 @@ type Dataset struct {
 	// A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in FAILED or NEEDS_ATTENTION state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The sub-state of the dataset.
+	// IMPORT_DATASET - The dataset is being imported.
+	LifecycleSubstate DatasetLifecycleSubstateEnum `mandatory:"false" json:"lifecycleSubstate,omitempty"`
+
 	InitialRecordGenerationConfiguration *InitialRecordGenerationConfiguration `mandatory:"false" json:"initialRecordGenerationConfiguration"`
+
+	InitialImportDatasetConfiguration *InitialImportDatasetConfiguration `mandatory:"false" json:"initialImportDatasetConfiguration"`
 
 	// The labeling instructions for human labelers in rich text format
 	LabelingInstructions *string `mandatory:"false" json:"labelingInstructions"`
@@ -75,6 +81,10 @@ type Dataset struct {
 	// The usage of system tag keys. These predefined keys are scoped to namespaces.
 	// For example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only.
+	// For example: `{"bar-key": "value"}`
+	AdditionalProperties map[string]string `mandatory:"false" json:"additionalProperties"`
 }
 
 func (m Dataset) String() string {
@@ -90,6 +100,9 @@ func (m Dataset) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatasetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDatasetLifecycleSubstateEnum(string(m.LifecycleSubstate)); !ok && m.LifecycleSubstate != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubstate: %s. Supported values are: %s.", m.LifecycleSubstate, strings.Join(GetDatasetLifecycleSubstateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -102,11 +115,14 @@ func (m *Dataset) UnmarshalJSON(data []byte) (e error) {
 		DisplayName                          *string                               `json:"displayName"`
 		Description                          *string                               `json:"description"`
 		LifecycleDetails                     *string                               `json:"lifecycleDetails"`
+		LifecycleSubstate                    DatasetLifecycleSubstateEnum          `json:"lifecycleSubstate"`
 		InitialRecordGenerationConfiguration *InitialRecordGenerationConfiguration `json:"initialRecordGenerationConfiguration"`
+		InitialImportDatasetConfiguration    *InitialImportDatasetConfiguration    `json:"initialImportDatasetConfiguration"`
 		LabelingInstructions                 *string                               `json:"labelingInstructions"`
 		FreeformTags                         map[string]string                     `json:"freeformTags"`
 		DefinedTags                          map[string]map[string]interface{}     `json:"definedTags"`
 		SystemTags                           map[string]map[string]interface{}     `json:"systemTags"`
+		AdditionalProperties                 map[string]string                     `json:"additionalProperties"`
 		Id                                   *string                               `json:"id"`
 		CompartmentId                        *string                               `json:"compartmentId"`
 		TimeCreated                          *common.SDKTime                       `json:"timeCreated"`
@@ -129,7 +145,11 @@ func (m *Dataset) UnmarshalJSON(data []byte) (e error) {
 
 	m.LifecycleDetails = model.LifecycleDetails
 
+	m.LifecycleSubstate = model.LifecycleSubstate
+
 	m.InitialRecordGenerationConfiguration = model.InitialRecordGenerationConfiguration
+
+	m.InitialImportDatasetConfiguration = model.InitialImportDatasetConfiguration
 
 	m.LabelingInstructions = model.LabelingInstructions
 
@@ -138,6 +158,8 @@ func (m *Dataset) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.SystemTags = model.SystemTags
+
+	m.AdditionalProperties = model.AdditionalProperties
 
 	m.Id = model.Id
 
@@ -235,5 +257,43 @@ func GetDatasetLifecycleStateEnumStringValues() []string {
 // GetMappingDatasetLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDatasetLifecycleStateEnum(val string) (DatasetLifecycleStateEnum, bool) {
 	enum, ok := mappingDatasetLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DatasetLifecycleSubstateEnum Enum with underlying type: string
+type DatasetLifecycleSubstateEnum string
+
+// Set of constants representing the allowable values for DatasetLifecycleSubstateEnum
+const (
+	DatasetLifecycleSubstateImportDataset DatasetLifecycleSubstateEnum = "IMPORT_DATASET"
+)
+
+var mappingDatasetLifecycleSubstateEnum = map[string]DatasetLifecycleSubstateEnum{
+	"IMPORT_DATASET": DatasetLifecycleSubstateImportDataset,
+}
+
+var mappingDatasetLifecycleSubstateEnumLowerCase = map[string]DatasetLifecycleSubstateEnum{
+	"import_dataset": DatasetLifecycleSubstateImportDataset,
+}
+
+// GetDatasetLifecycleSubstateEnumValues Enumerates the set of values for DatasetLifecycleSubstateEnum
+func GetDatasetLifecycleSubstateEnumValues() []DatasetLifecycleSubstateEnum {
+	values := make([]DatasetLifecycleSubstateEnum, 0)
+	for _, v := range mappingDatasetLifecycleSubstateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDatasetLifecycleSubstateEnumStringValues Enumerates the set of values in String for DatasetLifecycleSubstateEnum
+func GetDatasetLifecycleSubstateEnumStringValues() []string {
+	return []string{
+		"IMPORT_DATASET",
+	}
+}
+
+// GetMappingDatasetLifecycleSubstateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDatasetLifecycleSubstateEnum(val string) (DatasetLifecycleSubstateEnum, bool) {
+	enum, ok := mappingDatasetLifecycleSubstateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -4,7 +4,7 @@
 
 // Identity and Access Management Service API
 //
-// APIs for managing users, groups, compartments, policies, and identity domains.
+// Use the Identity and Access Management Service API to manage users, groups, identity domains, compartments, policies, tagging, and limits. For information about managing users, groups, compartments, and policies, see Identity and Access Management (without identity domains) (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm). For information about tagging and service limits, see Tagging (https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/taggingoverview.htm) and Service Limits (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm). For information about creating, modifying, and deleting identity domains, see Identity and Access Management (with identity domains) (https://docs.cloud.oracle.com/iaas/Content/Identity/home.htm).
 //
 
 package identity
@@ -21,17 +21,25 @@ import (
 type NetworkSourcesSummary struct {
 
 	// The OCID of the network source.
-	Id *string `mandatory:"false" json:"id"`
+	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the tenancy (root compartment) containing the network source.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name you assign to the network source during creation. The name must be unique across
 	// the tenancy and cannot be changed.
-	Name *string `mandatory:"false" json:"name"`
+	Name *string `mandatory:"true" json:"name"`
 
 	// The description you assign to the network source. Does not have to be unique, and it's changeable.
-	Description *string `mandatory:"false" json:"description"`
+	Description *string `mandatory:"true" json:"description"`
+
+	// The network source object's current state. After creating a network source, make sure its `lifecycleState` changes from CREATING to
+	// ACTIVE before using it.
+	LifecycleState NetworkSourcesLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Date and time the network source was created, in the format defined by RFC3339.
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// A list of allowed public IP addresses and CIDR ranges.
 	PublicSourceList []string `mandatory:"false" json:"publicSourceList"`
@@ -42,10 +50,6 @@ type NetworkSourcesSummary struct {
 
 	// -- The services attribute has no effect and is reserved for use by Oracle. --
 	Services []string `mandatory:"false" json:"services"`
-
-	// Date and time the group was created, in the format defined by RFC3339.
-	// Example: `2016-08-25T21:10:29.600Z`
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -67,6 +71,9 @@ func (m NetworkSourcesSummary) String() string {
 // Not recommended for calling this function directly
 func (m NetworkSourcesSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingNetworkSourcesLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetNetworkSourcesLifecycleStateEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

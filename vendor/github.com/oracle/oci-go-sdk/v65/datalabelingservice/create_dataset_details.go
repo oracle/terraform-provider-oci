@@ -39,6 +39,8 @@ type CreateDatasetDetails struct {
 
 	InitialRecordGenerationConfiguration *InitialRecordGenerationConfiguration `mandatory:"false" json:"initialRecordGenerationConfiguration"`
 
+	InitialImportDatasetConfiguration *InitialImportDatasetConfiguration `mandatory:"false" json:"initialImportDatasetConfiguration"`
+
 	// The labeling instructions for human labelers in rich text format
 	LabelingInstructions *string `mandatory:"false" json:"labelingInstructions"`
 
@@ -73,6 +75,7 @@ func (m *CreateDatasetDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName                          *string                               `json:"displayName"`
 		Description                          *string                               `json:"description"`
 		InitialRecordGenerationConfiguration *InitialRecordGenerationConfiguration `json:"initialRecordGenerationConfiguration"`
+		InitialImportDatasetConfiguration    *InitialImportDatasetConfiguration    `json:"initialImportDatasetConfiguration"`
 		LabelingInstructions                 *string                               `json:"labelingInstructions"`
 		FreeformTags                         map[string]string                     `json:"freeformTags"`
 		DefinedTags                          map[string]map[string]interface{}     `json:"definedTags"`
@@ -93,6 +96,8 @@ func (m *CreateDatasetDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.InitialRecordGenerationConfiguration = model.InitialRecordGenerationConfiguration
+
+	m.InitialImportDatasetConfiguration = model.InitialImportDatasetConfiguration
 
 	m.LabelingInstructions = model.LabelingInstructions
 

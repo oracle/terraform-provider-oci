@@ -820,6 +820,45 @@ func TestUnitGetTestClients(t *testing.T) {
 	}
 }
 
+func TestUnitGetTestClientsSecurityToken(t *testing.T) {
+	r := &schema.Resource{
+		Schema: provider.SchemaMap(),
+	}
+	d := r.Data(nil)
+	os.Setenv("auth", globalvar.AuthSecurityToken)
+	getEnvSettingWithDefaultVar = func(key string, value string) string {
+		return value
+	}
+	getEnvSettingWithBlankDefaultVar = func(key string) string {
+		return "dummy_value"
+	}
+	tfProviderConfigVar = func(d *schema.ResourceData) (interface{}, error) {
+		return &tf_client.OracleClients{
+			Configuration: map[string]string{"auth": "SecurityToken"},
+		}, nil
+	}
+	type args struct {
+		data *schema.ResourceData
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			name: "Test positive case",
+			args: args{
+				data: d,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			client := GetTestClients(tt.args.data)
+			assert.NotEmpty(t, client)
+		})
+	}
+}
+
 func TestUnitGetUpdatedRepresentationCopy(t *testing.T) {
 	auditEventResourceRepresentation := map[string]interface{}{
 		"end_time": Representation{RepType: Required, Create: `create`},

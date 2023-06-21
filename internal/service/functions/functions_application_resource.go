@@ -116,6 +116,12 @@ func FunctionsApplicationResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"syslog_url": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -285,6 +291,10 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
 			request.NetworkSecurityGroupIds = tmp
 		}
+	}
+
+	if shape, ok := s.D.GetOkExists("shape"); ok {
+		request.Shape = oci_functions.CreateApplicationDetailsShapeEnum(shape.(string))
 	}
 
 	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
@@ -467,6 +477,8 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
 	s.D.Set("network_security_group_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
+
+	s.D.Set("shape", s.Res.Shape)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
