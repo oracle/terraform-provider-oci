@@ -132,8 +132,6 @@ func (s *IdentityNetworkSourcesDataSourceCrud) SetData() error {
 
 		networkSource["services"] = r.Services
 
-		networkSource["state"] = r.LifecycleState
-
 		if r.TimeCreated != nil {
 			networkSource["time_created"] = r.TimeCreated.String()
 		}

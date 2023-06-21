@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_authentication_policy
 This data source provides details about a specific Authentication Policy resource in Oracle Cloud Infrastructure Identity service.
 
-Gets the authentication policy for the given tenancy. You must specify your tenant's OCID as the value for
+Gets the authentication policy for the given tenancy. You must specify your tenant’s OCID as the value for
 the compartment ID (remember that the tenancy is simply the root compartment).
 
 
@@ -35,7 +35,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - Compartment OCID.
-* `network_policy` - Network policy, which consists of a list of network source IDs. 
+* `network_policy` - Network policy, Consists of a list of Network Source ids. 
 	* `network_source_ids` - Network Source ids 
 * `password_policy` - Password policy, currently set for the given compartment. 
 	* `is_lowercase_characters_required` - At least one lower case character required.
