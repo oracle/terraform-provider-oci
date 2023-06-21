@@ -1,4 +1,4 @@
-## 5.2.0 (Unreleased)
+## 5.2.0 (June 21, 2023)
 
 ### Added
 - Support for ADB-S: Storage Allocation Enhancements
