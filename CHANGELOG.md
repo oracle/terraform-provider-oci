@@ -1,54 +1,46 @@
-## 5.2.0 (Unreleased)
+## 5.2.1 (June 21, 2023)
+### Fixed
+- Reverted Identity compartment level discovery changes
+
+## 5.2.0 (June 21, 2023)
 
 ### Added
 - Support for ADB-S: Storage Allocation Enhancements
 - validate function for pool state
 - NSG Support for private Database Registrations/Private Endpoints.
-import dataset feature support
+- import dataset feature support
 - Support for ARM Support for Runner Component
-- Support for Cloudguard-Logging Integration for JWCC - Customer Enablement
-- Support for Java Management Service 7.0
-- Support for Usage proxy: Adding APIs for MQS public API deprecation
-- Support for Allow user to select the billing interval of deleted nodes
-support for realm specific service endpoints
-- Support for CASPER - ObjectStorage to have Customer Specific Domains in Customer Zone DNS
-- Support for OPSI: TCPS Support for Cloud Databases
-- Support for Operations Insights AIX Support
-- Custom model features in Document Service
-changes to README.md, License.txt, security.md and CONTRIBUTING.md for Github Audit Compliance.
 ### Bug Fix
 - Corrected outdated documentation for db_name field of the oci_database_autonomous_database resource.
 - Fixed network-source/Domains/Polices resource discovery issue.
-- Remove duplicate Create for resource
-- updated examples for devops artifact to show options and helm example and public docs
 
-## 5.1.0 (Unreleased)
+## 5.1.0 (June 14, 2023)
 
 ### Added
 - Support for Java Management Service 7.0
 - Support for Usage proxy: Adding APIs for MQS public API deprecation
 - Support for Allow user to select the billing interval of deleted nodes
-support for realm specific service endpoints
+- Support for realm specific service endpoints
 - Support for CASPER - ObjectStorage to have Customer Specific Domains in Customer Zone DNS
 - Support for OPSI: TCPS Support for Cloud Databases
 - Support for Operations Insights AIX Support
 - Custom model features in Document Service
-changes to README.md, License.txt, security.md and CONTRIBUTING.md for Github Audit Compliance.
 ### Bug Fix
 - Remove duplicate Create for resource
 - updated examples for devops artifact to show options and helm example and public docs
 
-## 5.0.0 (Unreleased)
+## 5.0.0 (June 06, 2023)
 
 ### Added
 - Support for Capacity Availability API
 - Support for Datalake/Lakehouse Feature for MySQL HeatWave
 - Support for Bulk include/exclude of migration objects enhancement. DatabaseMigration service
-support for region override in resource principal
+- Support for region override in resource principal
+- Changes to README.md, License.txt, security.md and CONTRIBUTING.md for Github Audit Compliance.
 ### Deprecation
-- Deprecated oci_identity_swift_password resource and datasource
+- Removed oci_identity_swift_password resource and datasource
 
-## 4.123.0 (Unreleased)
+## 4.123.0 (May 31, 2023)
 
 ### Added
 - Support for move db operation
@@ -60,67 +52,59 @@ support for region override in resource principal
 - Add polling for PDB resources.
 - trigger recreation while change subnet_id for endpoint config and ignore order in configurations for addons
 
-## 4.122.0 (Unreleased)
+## 4.122.0 (May 24, 2023)
 
 ### Added
 - Remove hardcoded passwords from golden_gate integration test codes
 - ExaDB-C@C (EXACC) Data Plane Guest VMs (API/UI Only)
 - Support for Node Subsetting | ADB-D
-- Changes for setting resource ID in state file before workrequest completion
 - Support for DNS Secondary Egress and creating DNS zones from zone files
 - Support for unified agent config CRI parser
 - Support for Create oci_dns_rrsets data source
+- Changes for setting resource ID in state file before workrequest completion
 ### Bug Fix
 - Populate user resource optional fields only if they arent empty
-: Remove system tags from SZ requests
+- Remove system tags from SZ requests
 - adding fix for cloudguard detector rule condition paramter unmarshalling issue
 
-## 4.121.0 (Unreleased)
+## 4.121.0 (May 17, 2023)
 
 ### Added
 - Support for FAaaS - Fusion Analytics Warehouse Integration
 - Support for Scheduler for full and incremental backup
 ### Bug Fix
 - Data Safe - ExaCS DB registration issue
-- Fix APM Synthetic service example documentation to handle RMS-6682
+- Fix APM Synthetic service example documentation
 
-## 4.120.0 (Unreleased)
+## 4.120.0 (May 10, 2023)
 
 ### Added
 - Support for ADB-S: Convert ADG Standby db to Snapshot Standby (Disconnect/Reconnect)
 - Support for EXACC | LACP for client/backup networks (post MVP)
 - Support for Support Standard Shape-based SDDC with Block Storage as datastore
 
-## 4.119.0 (Unreleased)
+## 4.119.0 (May 03, 2023)
 
 ### Added
 - Support for Oracle Process Automation (OPA) - Enable OPA Attachment with OIC
 - Support for OKE: On-Demand Node Upgrade
-ignore_fields similar to corresponding resource tests
+- Added ignore_fields similar to corresponding resource tests
 - Support for TLS Certs and SCAN port configuration [Phase 1]| ADB-D
 - Support for High Memory VM
 - Support for Visual Builder Cloud Service console plugin UI and Spec update for Matrix, VCN OCID and NAT gateway IP
-- fix for unsuccessful delete removing resource from state when circuit breaker is open
-- Support for Cancel a full or incremental automatic backup
-- Support for Enabling outbound private access using PE RCE for OIC Gen3 customers
-- Support for Fractional OCPU | Expose ADB.usedDataStorageSizeInGBs to customers | ADB-D and ADB on ExaC@C Fractional OCPU | Expose ADB.usedDataStorageSizeInGBs to customers
 ### Bug Fix
-- Fix APM Synthetic service example to handle RMS-6682
-- Fixed network source resource to correctly discover when using Oracle Resource Manager for discovery
-- Fix dbHome assigning database when it is not apart of the config.
-- Fixed Resource Discovery issue with oci_network_load_balancer_listener resource
+- Fix APM Synthetic service example to handle
 
-## 4.118.0 (Unreleased)
+## 4.118.0 (April 26, 2023)
 
 ### Added
-- Support for DBM Service: External Exadata Infrastructure Monitoring
 - Support for Enabling outbound private access using PE RCE for OIC Gen3 customers
 - Support for Fractional OCPU | Expose ADB.usedDataStorageSizeInGBs to customers | ADB-D and ADB on ExaC@C Fractional OCPU | Expose ADB.usedDataStorageSizeInGBs to customers
+- Added - Support for Cancel a full or incremental automatic backup
 ### Bug Fix
 - Fix dbHome assigning database when it is not apart of the config.
-- Fixed Resource Discovery issue with oci_network_load_balancer_listener resource
 
-## 4.117.0 (Unreleased)
+## 4.117.0 (April 19, 2023)
 
 ### Added
 - Support for ODA Supports Private Endpoint, fixed related issues.
@@ -129,7 +113,7 @@ ignore_fields similar to corresponding resource tests
 - TERRAFORM_GITHUB_ISSUE#1813: terraform always wants to modify if capacity mode is
 - for deleting log objects
 
-## 4.116.0 (Unreleased)
+## 4.116.0 (April 12, 2023)
 
 ### Added
 - Support for [Exacs Application VIP] Terraform
@@ -138,19 +122,19 @@ ignore_fields similar to corresponding resource tests
 - fix the bug where NAT gateways are not discovered when they are present in a compartment different than the corresponding VCN
 - updating shape_config for fungible instance
 
-## 4.115.0 (Unreleased)
+## 4.115.0 (April 04, 2023)
 
 ### Added
-- Support for Preemptible Worker NOdes
+- Retire service data connectivity
 - Support for Preemptible Worker Nodes
 - Support for LBaaS: HTTP healthchecks for HTTPS backendsets
 - Support for OpenSearch Resize Terraform update
-- Retire service data connectivity
+- README.md of service examples with magic button
 ### Bug Fix
 - Detector_recipe_resource entityMapping fix
 - Update marketplace documentation and make a resource discoverable
 
-## 4.114.0 (Unreleased)
+## 4.114.0 (March 29, 2023)
 
 ### Added
 - Support for ACD & OKV Wallet Naming | ADB-D & ADB-C@C
@@ -158,14 +142,12 @@ ignore_fields similar to corresponding resource tests
 - Support for SCM: Support validating the credentials of the connection
 - Support for RDMA Network Instances
 - Support for Enhanced Cluster/Serverless/Cluster AddOns
-- Support for ExaCS | DBRS integration
-- Support for ADB on ExaCC | Long Term Backup Retention
 ### Bug Fix
 - Fixed oci_database_db_home resource documentation.
 - support for metric extraction in Scheduled task and is_enabled field in object collection rule
 - multiple terminating lifescyle states issue for integration test
 
-## 4.113.0 (Unreleased)
+## 4.113.0 (March 22, 2023)
 
 ### Added
 - Support for GoldenGate Additional Connection Types R3
@@ -178,10 +160,9 @@ ignore_fields similar to corresponding resource tests
 - Set compartment_id for oci_artifacts_container_configuration to fix state file inconsistency
 - Test enabling resource discovery for core resources: oci_core_compute_capacity_reservation
 - Edit Volume ID inside a VolumeGroup results the VG gets destoried
-- Normalizing resource name before writing it to config in Resource Discovery
-- Normalizing resource name before writing it to config in Resource Discovery
+- Resource Discovery failing for DNS service with oci_dns_rrset resource
 
-## 4.112.0 (Unreleased)
+## 4.112.0 (March 15, 2023)
 
 ### Added
 - Support for GoldenGate Maintenance
@@ -192,7 +173,7 @@ ignore_fields similar to corresponding resource tests
 - Investigate Replication Resource Discovery
 - Fixed response reordering issue in Network Firewall
 
-## 4.111.0 (Unreleased)
+## 4.111.0 (March 08, 2023)
 
 ### Added
 - Support for OCI Data Science Custom Container Images for Model Deployment
@@ -201,7 +182,7 @@ ignore_fields similar to corresponding resource tests
 - Support for ADB-S: Long-Term Automatic Backup Retention
 - Support for UpdateInstanceConstraint in Terraform
 
-## 4.110.0 (Unreleased)
+## 4.110.0 (March 01, 2023)
 
 ### Added
 - adding examples for ADG and CADG, fixing is_dataguard_enabled appearing twice
@@ -209,17 +190,15 @@ ignore_fields similar to corresponding resource tests
 - Added Resource discovery support for datascience model resource
 - fix list repositories failure
 - Enabling resource discovery for core - Compute Imaging CP resources
-- Reverted oci_marketplace_listing_package_agreement back to resource from data source
 
-## 4.109.0 (Unreleased)
+## 4.109.0 (February 22, 2023)
 
 ### Added
 - Support for Async Inferencing Support for Anomaly Detection
 - Support for DBM: Database Eco System For External Databases
 - Changes on test and resource files for DMS Validation and Migration error cause and resolution. Reviewer comments addressed.
 ### Bug Fix
-Removed ForceNew: true from database db system resource
-
+- Removed ForceNew: true from database db system resource
 
 ## 4.108.1 (February 21, 2023)
 
@@ -234,58 +213,49 @@ Removed ForceNew: true from database db system resource
 - Support for ADB-C@C | Node Subsetting
 - Support for Recovery Cloud Service Onboarding
 - Resource discovery for
-- Devops Deploy Helm Attestation with helm args and helm diff.
 
-## 4.107.0 (Unreleased)
+## 4.107.0 (February 08, 2023)
 
 ### Added
 - Support for ADB-S: New ECPU-based SKUs for ADW and ATP
 - Support for Operations Insights : Customizable configuration
 - Support for ADB-D & ADB-CC | Autonomous Data Guard v3
 - Support for ADB-D | Oracle Home Version Control
+- Support for Devops Deploy Helm Attestation with helm args and helm diff
 ### Bug Fix
 - Fix oci_core_instance to enable updating KMS Key id associated with the boot volume
 - Resource Discovery is not getting detected for Custom table resource in metering_computation service
 
-## 4.106.0 (Unreleased)
+## 4.106.0 (January 31, 2023)
 
 ### Added
 - Support for ADB-D and ADB on ExaCC | ECPU Billing
 - apm_config: support for usage and ownership details
-- Support for ADB-S: Ability to Switch DB Tools On/Off
 - Support for ADB-S: Support Vault Secret ID for ADMIN Password
 - Support for OCI Search Service with OpenSearch Local Role Based Access Control
 - Support for Confidential VM
 - Support for DevOps Deploy Shell stage
 - Support for Fix Terraform Resource Discovery for Route Tables, Security List, DhcpOptions and Vlans
-- Adding Json format to error message
-- Support for ExaCS | Infrastructure patching v2
-### Bug Fix
-- update preview changelog
 
-## 4.105.0 (Unreleased)
+## 4.105.0 (January 25, 2023)
 
 ### Added
 - Support for ODSC - ML Pipelines
 - Support for ADB-S: Ability to Set Custom Private IP During PE Provisioning
 - Support for ExaCS | Infrastructure patching v2
 
-### Bug Fix
-fixed preview changelog
-
-## 4.104.0 (Unreleased)
+## 4.104.0 (January 18, 2023)
 
 ### Added
-- Support for ODSC - Model Store - Model Versioning
-- Support for ExaCC Multi-Rack storage expansion
-- Support for Configurable timeouts to OCI Service Mesh
 - Support for ExaCS Private DNS Integration
-
+- Support for Configurable timeouts to OCI Service Mesh
+- Support for ExaCC Multi-Rack storage expansion
+- Support for ODSC - Model Store - Model Versioning
+- Support for FSS : Support for cross region replication
 ### Bug Fix
-- fix timeout urls
-- Fixed the doc links
-
-## 4.103.0 (Unreleased)
+- Fix for timeout urls
+- Fix for container repository resource discovery
+## 4.103.0 (January 11, 2023)
 
 ### Added
 - DIS - support for workspace projects and folders
@@ -295,82 +265,81 @@ fixed preview changelog
 - Support for BDS - Cluster Profiles
 ### Deprecation
 - Datasource oci_adm_vulnerability_audit_application_dependency_vulnerability is being deprecated use oci_adm_vulnerability_audit_application_dependency_vulnerabities instead
-- Datasource oci_apm_synthetics_public_vantage_point is being deprecated use oci_apm_synthetics_public_vantage_points instead
-- Datasource oci_cloud_bridge_appliance_image is being deprecated use oci_cloud_bridge_appliance_images instead
-- Datasource oci_cloud_guard_data_source_event is being deprecated use oci_cloud_guard_data_source_events instead
-- Datasource oci_cloud_guard_problem_entity is being deprecated use oci_cloud_guard_problem_entities instead
-- Datasource oci_cloud_migrations_migration_plan_available_shape is being deprecated use oci_cloud_migrations_migration_plan_available_shapes instead
-- Datasource oci_data_labeling_service/data_labeling_service_annotation_format is being deprecated use oci_data_labeling_service_annotation_formats instead
-- Datasource oci_data_safe_alert_policy_rule is being deprecated use oci_data_safe_alert_policy_rules instead
-- Datasource oci_data_safe_audit_event_analytic is being deprecated use oci_data_safe_audit_event_analytics instead
-- Datasource oci_data_safe_audit_profile_available_audit_volume is being deprecated use oci_data_safe_audit_profile_available_audit_volumes instead
-- Datasource oci_data_safe_audit_profile_collected_audit_volume is being deprecated use oci_data_safe_audit_profile_collected_audit_volumes instead
-- Datasource oci_data_safe_discovery_analytic is being deprecated use oci_data_safe_discovery_analytics instead
-- Datasource oci_data_safe_masking_analytic is being deprecated use oci_data_safe_masking_analytics instead
-- Datasource oci_data_safe_masking_reports_masked_column is being deprecated use oci_data_safe_masking_reports_masked_columns instead
-- Datasource oci_database_management_db_management_private_endpoint_associated_database is being deprecated use oci_database_management_db_management_private_endpoint_associated_databases instead
-- Datasource oci_database_management_job_executions_status is being deprecated use oci_database_management_job_executions_statuses instead
-- Datasource oci_database_management_managed_database_sql_tuning_advisor_task is being deprecated use oci_database_management_managed_database_sql_tuning_advisor_tasks instead
-- Datasource oci_database_management_managed_database_sql_tuning_advisor_tasks_finding is being deprecated use oci_database_management_managed_database_sql_tuning_advisor_tasks_findings instead
-- Datasource oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendation is being deprecated use oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendations instead
-- Datasource oci_database_management_managed_database_user_consumer_group_privilege is being deprecated use oci_database_management_managed_database_user_consumer_group_privileges instead
-- Datasource oci_database_management_managed_database_user_data_access_container is being deprecated use oci_database_management_managed_database_user_data_access_containers instead
-- Datasource oci_database_management_managed_database_user_object_privilege is being deprecated use oci_database_management_managed_database_user_object_privileges instead
-- Datasource oci_database_management_managed_database_user_proxied_for_user is being deprecated use oci_database_management_managed_database_user_proxied_for_users instead
-- Datasource oci_database_management_managed_database_user_role is being deprecated use oci_database_management_managed_database_user_roles instead
-- Datasource oci_database_management_managed_databases_asm_property is being deprecated use oci_database_management_managed_databases_asm_properties instead
-- Datasource oci_database_management_managed_databases_database_parameter is being deprecated use oci_database_management_managed_databases_database_parameters instead
-- Datasource oci_database_management_managed_databases_user_proxy_user is being deprecated use oci_database_management_managed_databases_user_proxy_users instead
-- Datasource oci_database_management_managed_databases_user_system_privilege is being deprecated use oci_database_management_managed_databases_user_system_privileges instead
-- Datasource oci_devops_repository_author is being deprecated use oci_devops_repository_authors instead
-- Datasource oci_devops_repository_path is being deprecated use oci_devops_repository_paths instead
-- Datasource oci_em_warehouse_em_warehouse_etl_run is being deprecated use oci_em_warehouse_em_warehouse_etl_runs instead
-- Datasource oci_fusion_apps_fusion_environment_time_available_for_refresh is being deprecated use oci_fusion_apps_fusion_environment_time_available_for_refreshs instead
-- Datasource oci_golden_gate_message is being deprecated use oci_golden_gate_messages instead
-- Datasource oci_golden_gate_trail_file is being deprecated use oci_golden_gate_trail_files instead
-- Datasource oci_golden_gate_trail_sequence is being deprecated use oci_golden_gate_trail_sequences instead
-- Datasource oci_jms_fleet_installation_site is being deprecated use oci_jms_fleet_installation_sites instead
-- Datasource oci_opensearch_opensearch_version is being deprecated use oci_opensearch_opensearch_versions instead
-- Datasource oci_opsi_awr_hub_awr_snapshot is being deprecated use oci_opsi_awr_hub_awr_snapshots instead
-- Datasource oci_opsi_importable_compute_entity is being deprecated use oci_opsi_importable_compute_entities instead
-- Datasource oci_optimizer_profile_level is being deprecated use oci_optimizer_profile_levels instead
-- Datasource oci_optimizer_recommendation_strategy is being deprecated use oci_optimizer_recommendation_strategies instead
-- Datasource oci_osp_gateway_invoices_invoice_line is being deprecated use oci_osp_gateway_invoices_invoice_lines instead
-- Datasource oci_usage_proxy_subscription_product is being deprecated use oci_usage_proxy_subscription_products instead
-- Datasource oci_usage_proxy_subscription_redemption is being deprecated use oci_usage_proxy_subscription_redemptions instead
+- Datasource oci_apm_synthetics_public_vantage_point is being deprecated use oci_apm_synthetics_public_vantage_points instead  
+- Datasource oci_cloud_bridge_appliance_image is being deprecated use oci_cloud_bridge_appliance_images instead  
+- Datasource oci_cloud_guard_data_source_event is being deprecated use oci_cloud_guard_data_source_events instead  
+- Datasource oci_cloud_guard_problem_entity is being deprecated use oci_cloud_guard_problem_entities instead  
+- Datasource oci_cloud_migrations_migration_plan_available_shape is being deprecated use oci_cloud_migrations_migration_plan_available_shapes instead  
+- Datasource oci_data_labeling_service/data_labeling_service_annotation_format is being deprecated use oci_data_labeling_service_annotation_formats instead  
+- Datasource oci_data_safe_alert_policy_rule is being deprecated use oci_data_safe_alert_policy_rules instead  
+- Datasource oci_data_safe_audit_event_analytic is being deprecated use oci_data_safe_audit_event_analytics instead  
+- Datasource oci_data_safe_audit_profile_available_audit_volume is being deprecated use oci_data_safe_audit_profile_available_audit_volumes instead  
+- Datasource oci_data_safe_audit_profile_collected_audit_volume is being deprecated use oci_data_safe_audit_profile_collected_audit_volumes instead  
+- Datasource oci_data_safe_discovery_analytic is being deprecated use oci_data_safe_discovery_analytics instead  
+- Datasource oci_data_safe_masking_analytic is being deprecated use oci_data_safe_masking_analytics instead  
+- Datasource oci_data_safe_masking_reports_masked_column is being deprecated use oci_data_safe_masking_reports_masked_columns instead  
+- Datasource oci_database_management_db_management_private_endpoint_associated_database is being deprecated use oci_database_management_db_management_private_endpoint_associated_databases instead  
+- Datasource oci_database_management_job_executions_status is being deprecated use oci_database_management_job_executions_statuses instead  
+- Datasource oci_database_management_managed_database_sql_tuning_advisor_task is being deprecated use oci_database_management_managed_database_sql_tuning_advisor_tasks instead  
+- Datasource oci_database_management_managed_database_sql_tuning_advisor_tasks_finding is being deprecated use oci_database_management_managed_database_sql_tuning_advisor_tasks_findings instead  
+- Datasource oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendation is being deprecated use oci_database_management_managed_database_sql_tuning_advisor_tasks_recommendations instead  
+- Datasource oci_database_management_managed_database_user_consumer_group_privilege is being deprecated use oci_database_management_managed_database_user_consumer_group_privileges instead  
+- Datasource oci_database_management_managed_database_user_data_access_container is being deprecated use oci_database_management_managed_database_user_data_access_containers instead  
+- Datasource oci_database_management_managed_database_user_object_privilege is being deprecated use oci_database_management_managed_database_user_object_privileges instead  
+- Datasource oci_database_management_managed_database_user_proxied_for_user is being deprecated use oci_database_management_managed_database_user_proxied_for_users instead  
+- Datasource oci_database_management_managed_database_user_role is being deprecated use oci_database_management_managed_database_user_roles instead  
+- Datasource oci_database_management_managed_databases_asm_property is being deprecated use oci_database_management_managed_databases_asm_properties instead  
+- Datasource oci_database_management_managed_databases_database_parameter is being deprecated use oci_database_management_managed_databases_database_parameters instead  
+- Datasource oci_database_management_managed_databases_user_proxy_user is being deprecated use oci_database_management_managed_databases_user_proxy_users instead  
+- Datasource oci_database_management_managed_databases_user_system_privilege is being deprecated use oci_database_management_managed_databases_user_system_privileges instead  
+- Datasource oci_devops_repository_author is being deprecated use oci_devops_repository_authors instead  
+- Datasource oci_devops_repository_path is being deprecated use oci_devops_repository_paths instead  
+- Datasource oci_em_warehouse_em_warehouse_etl_run is being deprecated use oci_em_warehouse_em_warehouse_etl_runs instead  
+- Datasource oci_fusion_apps_fusion_environment_time_available_for_refresh is being deprecated use oci_fusion_apps_fusion_environment_time_available_for_refreshs instead  
+- Datasource oci_golden_gate_message is being deprecated use oci_golden_gate_messages instead  
+- Datasource oci_golden_gate_trail_file is being deprecated use oci_golden_gate_trail_files instead  
+- Datasource oci_golden_gate_trail_sequence is being deprecated use oci_golden_gate_trail_sequences instead  
+- Datasource oci_jms_fleet_installation_site is being deprecated use oci_jms_fleet_installation_sites instead  
+- Datasource oci_opensearch_opensearch_version is being deprecated use oci_opensearch_opensearch_versions instead  
+- Datasource oci_opsi_awr_hub_awr_snapshot is being deprecated use oci_opsi_awr_hub_awr_snapshots instead  
+- Datasource oci_opsi_importable_compute_entity is being deprecated use oci_opsi_importable_compute_entities instead  
+- Datasource oci_optimizer_profile_level is being deprecated use oci_optimizer_profile_levels instead  
+- Datasource oci_optimizer_recommendation_strategy is being deprecated use oci_optimizer_recommendation_strategies instead  
+- Datasource oci_osp_gateway_invoices_invoice_line is being deprecated use oci_osp_gateway_invoices_invoice_lines instead  
+- Datasource oci_usage_proxy_subscription_product is being deprecated use oci_usage_proxy_subscription_products instead  
+- Datasource oci_usage_proxy_subscription_redemption is being deprecated use oci_usage_proxy_subscription_redemptions instead  
 - Datasource oci_usage_proxy_subscription_reward in favour of deprecated use usage_proxy_subscription_rewards instead
 ### Bug Fix
 - Container Instances Tests and Example
 - filters fix for computed list/set type
 - fixed md conflicts
 
-## 4.102.0 (Unreleased)
+## 4.102.0 (December 14, 2022)
 
 ### Added
-- Support for DBCS | Support X9 (Intel) for VM DB
-- Support for availability_configuration, maintenance_window_schedule
-- Support for UDX Standards : Support egress only services
-- Support for Database Management Support for PDB for Metrics and Perfhub
-- Support for Allow users to cancel work requests in Service Mesh
-- Support for Launch Queue Service in OCI
-- Support for OMA Integration with FAaaS
 - Poll for workrequest and not workrequest and resource state due to infrequent get requests
-- Fixed security token error message
+- Support for OMA Integration with FAaaS
+- Support for Launch Queue Service in OCI
+- Support for Allow users to cancel work requests in Service Mesh
+- Support for Database Management Support for PDB for Metrics and Perfhub
+- Support for UDX Standards : Support egress only services
+- Support for availability_configuration, maintenance_window_schedule
+- Support for DBCS | Support X9 (Intel) for VM DB
 ### Bug Fix
-- Autonomous Database Test Fixed
-- Unified agent config provider
 - Appmgmt Control Service federated tests fix
+- Unified agent config provider
+- Autonomous Database Test Fixed
 
-## 4.101.0 (Unreleased)
+## 4.101.0 (December 07, 2022)
 
 ### Added
-- support for Golden Gate Deployment and Connection Type.
+- Support for Golden Gate Deployment and Connection Type.
 - Support for Token Authentication in API Gateway
 - Support for Container Instances
 - Support for Complete Terraform testing for Diagnostics using TFACTL feature
 - Support for Report Scheduling Support in Data Safe audit
 - Support for Devops Deployment Stage Level Parameters
-- Support for Add BackupSummary.compartmentId in API
+- Support for Add BackupSummary compartmentId in API
 - Support for Managed Read Replicas - Load Balancing
 - Support for Managed Read Replicas
 - Support for OPSI: ExaCS Support
@@ -379,23 +348,15 @@ fixed preview changelog
 - Support for Java Management Service 6.0
 - Missing is_default field for API Gateway
 - Support for Update Service Override for Public Logging
-- Missed change in go upgrade changes
-- Build target with -buildvcs=false
 - Golang upgrade to 1.18.8
-- Support for Terraform support to Import from URL PAR Terraform platform does not support properly hiding nested fields in plan diff [mysql] Terraform support to Import from URL PAR
-- Support for mTLS and Scan port configuration of AVM Clusters on ExaCC
-- Support for Dev and Deployment of Site Guard as Service in OCI
 ### Bug Fix
 - Fix bug of not being able to update nodepool which uses quantityPerSubnet
 - Fixing incorrect state mappings in Operator Control
 - oci_datascience_model Terraform Code Documentation correction
 - Empty check for optional values
 - Delay in updating network firewall
-- support environment variable for TF_VAR_private_key and TF_VAR_private_key_password
-- changed hashicorp to oracle in timeout links
-- auto_backup_window field is not updated for dbSystem / database resource
 
-## 4.100.0 (Unreleased)
+## 4.100.0 (November 16, 2022)
 
 ### Added
 - Support for mTLS and Scan port configuration of AVM Clusters on ExaCC
@@ -403,22 +364,19 @@ fixed preview changelog
 ### Bug Fix
 - auto_backup_window field is not updated for dbSystem / database resource
 
-## 4.99.0 (Unreleased)
+## 4.99.0 (November 09, 2022)
 
 ### Added
-- multi vm support manual updates
-- Support for ADB-S: Cross-Region Refreshable Clones
-- Updated resource discovery document
-- [ADM-Detect] UX/API improvements
-- Support for ScanProxy in Data Flow
 - Edge Node Support for BDS
-- error check validtion in build
-Changelog update
-- Support for Oracle Process Automation (OPA) - Customer Facing Release
+- Support for ScanProxy in Data Flow
+- [ADM-Detect] UX/API improvements
+- Updated resource discovery document
+- Support for ADB-S: Cross-Region Refreshable Clones
+- multi vm support manual updates
 ### Bug Fix
 - APMDomainGeneratedTests: replace deprecated map() function with tomap()
 
-## 4.98.0 (Unreleased)
+## 4.98.0 (November 02, 2022)
 
 ### Added
 - Support for Oracle Process Automation (OPA) - Customer Facing Release
@@ -429,7 +387,7 @@ Changelog update
 ### Bug Fix
 - Update failures with SCH terraform provider
 
-## 4.97.0 (Unreleased)
+## 4.97.0 (October 28, 2022)
 
 ### Added
 - Resource discovery find resources for individual step in parallel
@@ -437,6 +395,7 @@ Changelog update
 - Concurrecy control for discovery
 - maxparallel variables based on number of available cores
 - Support for OCI Digital Media Services
+- Support for Dev and Deployment of Site Guard as Service in OCI
 - Support for Data Flow Studio support
 
 ### Bug Fix
@@ -446,21 +405,21 @@ Changelog update
 - Documentaion fix for datascience modeldeployment
 - oci_mysql_mysql_configuration is missing resource discovery
 
-## 4.96.0 (Unreleased)
+## 4.96.0 (October 05, 2022)
 
 ### Added
 - resource discovery for private DNS zones and rrsets
 - Support for BDS - Start/Stop Cluster
 - Support for OPSI Windows/Solaris support
 - Support for OCI Bastions - DNS Support
-- generate terraform config for services with non zero resource only
+- Generate terraform config for services with non zero resource only
 - Id based RD without resourceType
 - Support for EXACC Elastic Compute
 ### Bug Fix
 - Support for repeated Deployments on each apply
 - canaryStrategy code added to fix the issue
 
-## 4.95.0 (Unreleased)
+## 4.95.0 (September 28, 2022)
 
 ### Added
 - Support for NoSQL - Add functionality in OCI console
@@ -469,9 +428,9 @@ Changelog update
 - Support for Stack Monitoring: Home page for OCI compute and Monitoring Support for TCPS
 ### Bug Fix
 - [mysql] Terraform support DbSystem change shape without ForceNew
-Removed Computed schema struct from field is_active_data_guard_enabled for database data guard association resource
+- Removed Computed schema struct from field is_active_data_guard_enabled for database data guard association resource
 
-## 4.94.0 (Unreleased)
+## 4.94.0 (September 21, 2022)
 
 ### Added
 - Support for Data Integration Service (DIS) Feature/Enhancement Release - 22b removing one check in test
@@ -483,35 +442,33 @@ Removed Computed schema struct from field is_active_data_guard_enabled for datab
 - Support for Oracle Cloud Bridge
 - Support for Ingest Time Rules and new optional attributes in Object Collection Rule
 - Support for Oracle Cloud Migrations
-- Isolate register resource and datasource
 ### Bug Fix
 - update the load balancer ports
 - Resource discovery bug for export drg route distribution
 - Remove Rrset from resource discovery to fix duplicate resource in config
 
-## 4.93.0 (Unreleased)
+## 4.93.0 (September 14, 2022)
 
 ### Added
 - Support for API Gateway Dynamic Routing
 - Support for API Gateway Dynamic Authentication
 - Support for API Gateway Request Based Authorization
 - Import Export Artifact Datascience
-- Resource discovery support export attribute as variables
 ### Bug Fix
 - resource discovery deadlocks and improve error handling
 
-## 4.92.0 (Unreleased)
+## 4.92.0 (September 07, 2022)
 
 ### Added
-Terraform code changes to fix compilation error for RegistryLifeCycleState.
 - Support for preferred credentials
 - Support for Exacc allow prior versions infra maintenance
-Notification Per Dimension
-Support Message Entity for entity shape Support data preview for derived entity, Deprecated deleteConnectionValidation, listConnectionValidations, getConnectionValidation
+- Support for Notification Per Dimension
+- Support Message Entity for entity shape Support data preview for derived entity, Deprecated deleteConnectionValidation, listConnectionValidations, getConnectionValidation
 - Support for new Logging integration apis for Cloudguard
-support for resource discovery for private dns resources
+- Support for resource discovery for private dns resources
+- Support for export attribute as variables in Resource Discovery
 
-## 4.91.0 (Unreleased)
+## 4.91.0 (August 31, 2022)
 
 ### Added
 - Support for FAAAS Service
@@ -520,32 +477,30 @@ changed for per-based autotune for block volumes
 - Capability to Add a SCAN Data Source as a Private DataSource to PAC, Added - Support of Network Security Groups, Added - Support Public ACL to whitelist OCI Services, Added - OAC access to Github
 - Support for In-place Upgrade support
 
-## 4.90.0 (Unreleased)
+## 4.90.0 (August 24, 2022)
 
 ### Added
+- Support for EM Warehouse resourceUsage API Addendum
 - Support for File Filter Devops
-- Support for EM Warehouse resourceUsage API Addendum:coreUser[API CHANGE ONLY]
 - Support for Cloud Advisor - Organizations Support
 - Changes for usage proxy service
 - Support for Add Configuration variables to MDS
 
-## 4.89.0 (Unreleased)
+## 4.89.0 (August 17, 2022)
 
 ### Added
 - OCI Connector Hub supports support for Logging Analytics as a target for Streaming Source
-- Finalize changelog and release for version v4.88.1
 - Customer Managed Encryption Key for BDS cluster
 - Data Flow - add applicationLogConfig support
 - Support for Single Node SDDC
 - support for E3, E4, Standard3, and Optimized3 flexible compute shapes for Data Science Jobs, Model Deployment, and Jobs
-- Validate project module name during build
 
-## 4.88.1 (Aug 11, 2022)
+## 4.88.1 (August 11, 2022)
 
 ### Bug Fix
-- Fix provider registry for oracle/oci
+Fix provider registry for oracle/oci 
 
-## 4.88.0 (Unreleased)
+## 4.88.0 (August 10, 2022)
 
 ### Added
 - Optimizer stats feature added
@@ -557,10 +512,21 @@ support for - ExaCC Historical MR
 - OCI Compute Support for OPSI service
 - Support for Java Management Service 5.0
 - Support for data science notebook session runtime configuration
+- Support of Announcements Service Subscriptions
+- support for rack SN as a system tag
+- Support for ExaCS - Monthly Security Patching
+- Support patch management
+- Support for Private Access Connection in Devops Build Service
+- Support for new data source TimeMaintenanceRebootDueMax
+- Support for Exacc Monthly Security Patching
+- support for Child Tables for NoSQL Database Cloud
+- Support for listing volumes/replicas by group/replica group id. Also support to view volume group membership status
+- Support for ExaCS in Opctl
 ### Bug Fix
 supporting terraform version 0.12+ and ignoring systemTags for security zone and recipe
+- enabled preserve_data_volumes in oci_core_instance delete API and host_type in opsi_host_insights_data_source list api
 
-## 4.87.0 (Unreleased)
+## 4.87.0 (August 10, 2022)
 
 ### Added
 - Support of Announcements Service Subscriptions
@@ -573,64 +539,62 @@ supporting terraform version 0.12+ and ignoring systemTags for security zone and
 - support for Child Tables for NoSQL Database Cloud
 - Support for listing volumes/replicas by group/replica group id. Also support to view volume group membership status
 - Support for ExaCS in Opctl
-- ZIP files creation in GitHub Actions workflow
 
-## 4.86.0 (Unreleased)
+### Bug Fix
+- Enabled preserve_data_volumes in oci_core_instance delete API
+- Enabled host_type in opsi_host_insights_data_source list api
+
+## 4.86.1 (July 28, 2022)
+
+### Bug Fix
+- Fix module name in go.mod
+
+## 4.86.0 (July 26, 2022)
 
 ### Added
 - Support for Standby lifecyclestate to created target for ADBS resource
 - Support for new fields port, protocol, role, and ssl secret id to enable/modify database management service
 - Support for Data Science - Model Deploy Omnivorous Compute/Flex shape support
 - management_agents compartment_id_in_subtree and agent in pluginlist
-- Automated default description for service examples
 ### Bug Fix
-fix for test error logging output
+- fix for test error logging output
 
-## 4.85.0 (Unreleased)
-
-### Added
-- Automated default description for service examples
-
-## 4.85.0 (Unreleased)
+## 4.85.0 (July 20, 2022)
 
 ### Added
 - Support for Network Firewall
 - Support for Autonomous Shared Database service wallet with GracePeriod feature during wallet rotation. Added - Support for Autonomous Shared Database service wallet with GracePeriod feature during wallet rotation.
 - Support for Operations Insights VMBM API Updates
 - routeTable support for IVR
+- Automated default description for service examples
 - Fix for rm warning in create zips script
-- fixed breaking change on opsi host insights data source
-- GitHub Actions workflow for creation of magic buttons
-- readme.md filename changes
 ### Bug Fix
 Fixed UpdateIpsecTunnel API Default Params
 
-## 4.84.0 (Unreleased)
+## 4.84.0 (July 13, 2022)
 
 ### Added
 - Support for Native Pod Networking
 - Support for Point-in-time Recovery for non-HA MySQL Database System
 - Support for database/db system tags, fault domains, license model, node count, private ip, and time-zone to creating data guard association (with new db system) service
-- Default description for service examples
 
-## 4.83.0 (Unreleased)
+## 4.83.0 (July 07, 2022)
 
 ### Added
 - Support for BackupPolicy to the DBSystemSummary
-- Refactoring integration test code
 
-## 4.82.0 (Unreleased)
+## 4.82.0 (June 28, 2022)
 
 ### Added
-- Operations Insights EM DataWarehouse
-- VN Path Analyzer Resource
-parameter `bootVolumeVpusPerGB` to Launch Instance API
-- Support VSS app scan settings
-- Support for character sets for Autonomous Database on Shared Infrastructure
-- Support for safe delete
 - Data Plane Guest VM Events
+- Support for safe delete
+- Support for character sets for Autonomous Database on Shared Infrastructure
+- Support VSS app scan settings
+- Parameter `bootVolumeVpusPerGB` to Launch Instance API
+- VN Path Analyzer Resource
+- Operations Insights EM DataWarehouse
 
-## 4.81.0 (Unreleased)
+## 4.81.0 (June 22, 2022)
 
 ### Added
 - Support for APM Configuration Options
@@ -640,19 +604,23 @@ Data Labeling Service [DLS] FY22Q4 v3 Release
 : Regression introduced database server datasource
 - New Datasource DevopsRepoFileLineDataSource
 
-## 4.80.0 (Unreleased)
+## 4.80.1 (June 16, 2022)
+### Bug Fix
+- Fixed terraform crash for oci_core_route_table resource
+
+## 4.80.0 (June 15, 2022)
 
 ### Added
 - duplicate resource for backendSet with the support of list of backend
 - database tools - add mysql connection support
-support for Web Application Acceleration service
+- support for Web Application Acceleration service
 - Support for onesubscription service
-quota resource locking
+- quota resource locking
 - ADBD time zone for database service
 ### Bug Fix
-- [UDX-20702] [Terraform] Mysql - Add return body to UpdateBackup api call
+- Mysql - Add return body to UpdateBackup api call
 
-## 4.79.0 (Unreleased)
+## 4.79.0 (June 08, 2022)
 
 ### Added
 - BM Platform Config Support
@@ -660,7 +628,7 @@ quota resource locking
 ### Bug Fix
 - Resolve terraform not dropping resolver rules and view and async polling
 
-## 4.78.0 (Unreleased)
+## 4.78.0 (June 01, 2022)
 
 ### Added
 - Support for License Manager service
@@ -671,12 +639,12 @@ quota resource locking
 - Support for OKE Fault domain placement
 - Changes for list dbusers and sql tuning recommendations
 - Support for Auto Attach iSCSI Volumes through OCA
-Support for Capacity Reservation for OCVP
+- Support for Capacity Reservation for OCVP
 ### Bug Fix
 - Add nsgIds, tags and etc in updateNodePool request
 - Updated description for base64encoded_content in documentation for oci_devops_deploy_artifact
 
-## 4.77.0 (Unreleased)
+## 4.77.0 (May 25, 2022)
 
 ### Added
 - Support for customer managed encryption keys in Oracle Analytics Cloud
@@ -685,30 +653,32 @@ Support for Capacity Reservation for OCVP
 - Supporting Usage plan and Subscriber in API Gateway
 ### Bug Fix
 - Fix defaults and backwards compatibility tests
+- Fix for configurationId and dataStorageSizeGB update in DbSystem
 
-## 4.76.0 (Unreleased)
+## 4.76.0 (May 19, 2022)
 
 ### Added
 - Support for AMD E4 shape for VMDB
-Helm chart Support in OCI DevOps
+- Helm chart Support in OCI DevOps
 - support for ADBD CharacterSet
-support for Service Mesh
+- support for Service Mesh
 - Terraform Changes for ADM Support in DLC Build Service
 - New ADBS fields to distinguish between cross-region and local dg
+- Support for Bitbucket as Source Code repository
 - Data plane events ExaCC V1
 ### Bug Fix
 - Improve description of isHighlyAvailable option for updateDbSystem operation
 
-## 4.75.0 (Unreleased)
+## 4.75.0 (May 11, 2022)
 
 ### Added
-- support for securityzones
+- Support for securityzones
 - Updating state of closed ADG Standby to not show as Available
 - Support for Resource Usage Tracking
 ### Bug Fix
 - Fixed the test cases for APIGateway Client mTLS feature
 
-## 4.74.0 (Unreleased)
+## 4.74.0 (May 04, 2022)
 
 ### Added
 - E4 Dense Availability for OCVS
@@ -717,9 +687,9 @@ support for Service Mesh
 - Support for App Dependency Management service
 - support for rename database, added tests for extending database-name length.
 
-## 4.73.0 (Unreleased)
+## 4.73.0 (April 27, 2022)
 
-###  Added
+### Added
 - Support for budget organization feature
 - WAF request body inspection
 - VM DB Operating System & GI Upgrade
@@ -730,20 +700,20 @@ support for Service Mesh
 - Support for E4 Dense - 32 and 128 Core
 - Support for Stack Monitoring feature for External Database
 - Support for Monitoring source feature for Service Connector Hub
-###  Bug Fix
+### Bug Fix
 - fix failing TestStackMonitoringDiscoveryJobResource_basic
 - fix cloud vm cluster polling for work request.
 - Add compute_nodes field to Update cloud vm cluster.
 
-## 4.72.0 (Unreleased)
+## 4.72.0 (April 20, 2022)
 
 ### Added
-Ingress Route Table For NatGateway
 - Support for Stack Monitoring service
 - Support for apm traces
 - Support IORM operation on CloudVmCluster
+- Support for Redemption Code in Oracle Support Rewards
 
-## 4.71.0 (Unreleased)
+## 4.71.0 (April 14, 2022)
 
 ### Added
 - Support for cross region ADG on ADB-Shared Databases
@@ -754,7 +724,7 @@ Ingress Route Table For NatGateway
 - updated vcn_route_type documentation in drg attachment
 - Data Safe Target Database lifecycle state``
 
-## 4.70.0 (Unreleased)
+## 4.70.0 (April 07, 2022)
 
 ### Added
 - TF Samples for devops deployment service realated to B/G and Private Oke
@@ -766,14 +736,14 @@ Ingress Route Table For NatGateway
 - Support for JMS life cycle management
 - Support for private OKE environments and blue-green/canary stages
 - Support for BGP disable and BFD feature in Fastconnect service
-- Data Catalog 2.3 Release
 - Support for diagnostic reboot for compute VM instances
 - Alarms, Top Processes, zLinux support
+
 ### Bug Fix
 - updating certificates in load balancer SSL configuration
 - Data Safe test failure and resource discovery fixes
 
-## 4.69.0 (Unreleased)
+## 4.69.0 (March 23, 2022)
 
 ### Added
 - Support for MySQL Database Service Deletion Policy on Db Systems
@@ -786,54 +756,47 @@ Ingress Route Table For NatGateway
 ### Bug Fix
 - Update kmskey and vault id separately.
 
-## 4.68.0 (Unreleased)
+## 4.68.0 (March 16, 2022)
 
 ### Added
 - Support for Multi Autonomous VM Clusters in ExaCC
-- Unlimited key and package types
+- Management Agent Support for Unlimited key and package types
 - NLB IPv6 examples
 - Support for Data Safe Discovery and Masking
-- DBM:Storage_Management
-routing tags for database_tools tests
-- Support for Improving Unit Test Coverage for Export Compartment
-- Account Management - Finance Data (Subscriptions and Usage) osub_billing_schedule
-- Account Management - Finance Data (Subscriptions and Usage) osub_organization_subscription
-- Account Management - Finance Data (Subscriptions and Usage) osub_subscription
-- Remove Admin user credentials from required fields during restore for Mysql service
-- Account Management - Finance Data (Subscriptions and Usage) osub_usage
-support for addOnFeatures for OCM
-- Support for deployments to private clusters via build service for OKE
+- Support for DBM Storage_Management
+- Support for Data Safe audit and alert
+- Routing tags for database_tools tests
 ### Bug Fix
-handle timeout for oke create request
-- fix tests and examples for GoldenGate
-remove system tags from oke request
+- Handle timeout for oke create request
+- AutoScaling documentation update
 
-## 4.67.0 (Unreleased)
+## 4.67.0 (March 10, 2022)
 
 ### Added
-- Support for Improving Unit Test Coverage for Export Compartment
+- Support for Ignore Oracle Tags on demand from the provider
 - Account Management - Finance Data (Subscriptions and Usage) osub_billing_schedule
 - Account Management - Finance Data (Subscriptions and Usage) osub_organization_subscription
 - Account Management - Finance Data (Subscriptions and Usage) osub_subscription
 - Remove Admin user credentials from required fields during restore for Mysql service
 - Account Management - Finance Data (Subscriptions and Usage) osub_usage
-  support for addOnFeatures for OCM
+- Support for addOnFeatures for OCM
 - Support for deployments to private clusters via build service for OKE
+- Support for Auto Increment (Auto-Scale) for Storage
 ### Bug Fix
-- fix tests and examples for GoldenGate
-  remove system tags from oke request
+- Fix tests and examples for GoldenGate
+- Remove system tags from oke request
 
-## 4.66.0 (Unreleased)
+## 4.66.0 (March 02, 2022)
 
 ### Added
 - vcn-route-type option to drg attachment
 - match_type MATCH_ALL for drg route distribution statements.
+- support for Managed Egress in Notebooks and Jobs
 - DBAAS EXACC - Infra Patching V2
 - Support for enabling and disable High Availability in active DbSystems (MDS)
 - Logging Analytics - Common Scope Filter in Dashboard
-- Support for Managed Egress in Notebooks and Jobs
 
-## 4.65.0 (Unreleased)
+## 4.65.0 (February 23, 2022)
 
 ### Added
 - Support for ShapeConfig in List Shape in Core service
@@ -847,7 +810,7 @@ remove system tags from oke request
 - Missing issue routing tags for database tests
 - Fix devops build service create buildRun test
 
-## 4.64.0 (Unreleased)
+## 4.64.0 (February 16, 2022)
 
 ### Added
 - Support for NoSQL service supporting auto scaling pricing model
@@ -858,7 +821,7 @@ remove system tags from oke request
 - IPA instance pools 409 conflict issue and pool ignore size issue
 - core service - fix agent_config section in core instance resource for updates
 
-## 4.63.0 (Unreleased)
+## 4.63.0 (February 09, 2022)
 
 ### Added
 - Support for osp_gateway service supporting invoices and subscriptions
@@ -867,7 +830,7 @@ remove system tags from oke request
 
 ### Fixed
 - Adding missing visualbuilder service code
-## 4.62.0 (Unreleased)
+## 4.62.0 (February 02, 2022)
 
 ### Added
 - Support for Marketplace API to Get Listing id from Image id
@@ -877,7 +840,7 @@ remove system tags from oke request
 ### Bug Fix
 - Failed Nodepool work requests clean up the resources created
 
-## 4.61.0 (Unreleased)
+## 4.61.0 (January 26, 2022)
 
 ### Added
 support for - Cluster Network: new optional parameter to Update API
@@ -885,21 +848,21 @@ support for - Cluster Network: new optional parameter to Update API
 - Support for structured streaming for Data Flow
 - Documention change for Cross Region ADG
 
-## 4.60.0 (Unreleased)
+## 4.60.0 (January 19, 2022)
 
 ### Added
 - Autonomous Data Guard v2-Observer Support
 - Support for Visual Builder Runtime
-- Support for - OCI - Data Labeling Service
+- Support for container engine boot volume encryption
+- Support for - OCI - Data Labeling Servic
 - Support For - Cross Region Volume Group Replication
 - Support Scale Storage separately for DATA and RECO for VMDB
 - Support for ADBS refreshable clone reconnect
-- Support for container engine boot volume encryption
 - Support For - Standard Tags
 - Support for allow customer to choose Dataguard type
 - Support for - DevOps Project Service - fixed defined tags assertion test case fix
 
-## 4.59.0 (Unreleased)
+## 4.59.0 (January 12, 2022)
 
 ### Added
 - Support for allow customer to choose Dataguard type
