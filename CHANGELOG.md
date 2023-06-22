@@ -1,3 +1,7 @@
+## 5.2.1 (June 21, 2023)
+### Fixed
+- Reverted Identity compartment level discovery changes
+
 ## 5.2.0 (June 21, 2023)
 
 ### Added

@@ -28,9 +28,7 @@ resource "oci_identity_db_credential" "test_db_credential" {
 
 The following arguments are supported:
 
-* `description` - (Required) The description you assign to the DB credentials during creation.
-
-	(For tenancies that support identity domains) You can have an empty description. 
+* `description` - (Required) The description you assign to the DB credentials during creation. 
 * `password` - (Required) The password for the DB credentials during creation. 
 * `user_id` - (Required) The OCID of the user.
 
@@ -43,8 +41,6 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `description` - The description you assign to the DB credential. Does not have to be unique, and it's changeable.
-
-	(For tenancies that support identity domains) You can have an empty description. 
 * `id` - The OCID of the DB credential.
 * `lifecycle_details` - The detailed status of INACTIVE lifecycleState.
 * `state` - The credential's current state. After creating a DB credential, make sure its `lifecycleState` changes from CREATING to ACTIVE before using it. 

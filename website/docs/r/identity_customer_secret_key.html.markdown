@@ -12,7 +12,7 @@ This resource provides the Customer Secret Key resource in Oracle Cloud Infrastr
 
 Creates a new secret key for the specified user. Secret keys are used for authentication with the Object Storage Service's Amazon S3
 compatible API. The secret key consists of an Access Key/Secret Key pair. For information, see
-[Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/access/managing-user-credentials.htm).
+[Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcredentials.htm).
 
 You must specify a *description* for the secret key (although it can be an empty string). It does not
 have to be unique, and you can change it anytime with
