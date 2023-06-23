@@ -27,6 +27,13 @@ resource "oci_database_management_external_db_system" "test_external_db_system" 
 		license_model = var.external_db_system_database_management_config_license_model
 	}
 	display_name = var.external_db_system_display_name
+	stack_monitoring_config {
+		#Required
+		is_enabled = var.external_db_system_stack_monitoring_config_is_enabled
+
+		#Optional
+		metadata = var.external_db_system_stack_monitoring_config_metadata
+	}
 }
 ```
 
@@ -39,6 +46,9 @@ The following arguments are supported:
 	* `license_model` - (Required) The Oracle license model that applies to the external database. 
 * `db_system_discovery_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system discovery.
 * `display_name` - (Optional) (Updatable) The user-friendly name for the DB system. The name does not have to be unique.
+* `stack_monitoring_config` - (Optional) The details of the associated service that will be enabled or disabled for an external DB System.
+	* `is_enabled` - (Required) The status of the associated service.
+	* `metadata` - (Optional) The associated service-specific inputs in JSON string format, which Database Management can identify.
 
 
 ** IMPORTANT **
@@ -58,6 +68,9 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
 * `is_cluster` - Indicates whether the DB system is a cluster DB system or not.
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `stack_monitoring_config` - The configuration details of Stack Monitoring for an external DB system.
+	* `is_enabled` - The status of the associated service.
+	* `metadata` - The associated service-specific inputs in JSON string format, which Database Management can identify.
 * `state` - The current lifecycle state of the external DB system resource.
 * `time_created` - The date and time the external DB system was created.
 * `time_updated` - The date and time the external DB system was last updated.

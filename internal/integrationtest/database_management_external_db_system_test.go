@@ -93,17 +93,26 @@ var (
 		"enable_database_management": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
 	}
 	ignoreLicenseModelChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`database_management_config`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`database_management_config`, `stack_monitoring_config`}},
 	}
 	DatabaseManagementExternalDbSystemRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"db_system_discovery_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_external_db_system_discovery.test_external_db_system_discovery.id}`},
 		"database_management_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementExternalDbSystemDatabaseManagementConfigRepresentation},
+		"stack_monitoring_config":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementExternalDbSystemStackMonitoringConfigRepresentation},
 		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `EXAMPLE-displayName-Value`, Update: `displayName2`},
 		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreLicenseModelChangesRepresentation},
 	}
 	DatabaseManagementExternalDbSystemDatabaseManagementConfigRepresentation = map[string]interface{}{
 		"license_model": acctest.Representation{RepType: acctest.Required, Create: `LICENSE_INCLUDED`},
+	}
+	DatabaseManagementExternalDbSystemStackMonitoringConfigRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+	}
+	DatabaseManagementExternalDbSystemDisableStackMonitoringRepresentation = map[string]interface{}{
+		"external_db_system_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_external_db_system.test_external_db_system.id}`},
+		"is_enabled":              acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"enable_stack_monitoring": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
 	}
 
 	DatabaseManagementExternalDbSystemResourceDependencies = ""
@@ -184,6 +193,8 @@ func TestDatabaseManagementExternalDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_discovery_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "EXAMPLE-displayName-Value"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "stack_monitoring_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "stack_monitoring_config.0.is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -210,6 +221,8 @@ func TestDatabaseManagementExternalDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_discovery_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "stack_monitoring_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "stack_monitoring_config.0.is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -252,6 +265,8 @@ func TestDatabaseManagementExternalDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "home_directory"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_cluster"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "stack_monitoring_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "stack_monitoring_config.0.is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
@@ -263,6 +278,23 @@ func TestDatabaseManagementExternalDbSystemResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_discovery", "test_external_db_system_discovery", acctest.Required, acctest.Create, DatabaseManagementExternalDbSystemDiscoveryPatchOperationsRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system", "test_external_db_system", acctest.Required, acctest.Create, DatabaseManagementExternalDbSystemRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_database_managements_management", "test_external_db_system_database_managements_management", acctest.Optional, acctest.Update, DatabaseManagementExternalDbSystemDisableDatabaseManagementRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "db_system_discovery_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// disable Stack Monitoring
+		{
+			Config: config + compartmentIdVariableStr + agentIdVariableStr + dbHostNameVariableStr + dbPortVariableStr + dbServiceNameVariableStr + dbCredentialNameVariableStr + dbUserNameVariableStr + dbPasswordSecretIdVariableStr + DatabaseManagementExternalDbSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_discovery", "test_external_db_system_discovery", acctest.Required, acctest.Create, DatabaseManagementExternalDbSystemDiscoveryPatchOperationsRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system", "test_external_db_system", acctest.Required, acctest.Create, DatabaseManagementExternalDbSystemRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_database_managements_management", "test_external_db_system_database_managements_management", acctest.Optional, acctest.Update, DatabaseManagementExternalDbSystemDisableDatabaseManagementRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_stack_monitorings_management", "test_external_db_system_stack_monitoring_management", acctest.Optional, acctest.Update, DatabaseManagementExternalDbSystemDisableStackMonitoringRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_discovery_id"),
