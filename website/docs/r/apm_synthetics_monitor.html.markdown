@@ -22,7 +22,12 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
 	display_name = var.monitor_display_name
 	monitor_type = var.monitor_monitor_type
 	repeat_interval_in_seconds = var.monitor_repeat_interval_in_seconds
-	vantage_points = var.vantage_points
+        vantage_points {
+          #Required
+          name  = var.monitor_vantage_points_name
+          #Optional
+          display_name = var.monitor_vantage_points_param_display_name
+        }
 
 	#Optional
 	availability_configuration {
@@ -131,6 +136,8 @@ The following arguments are supported:
 * `monitor_type` - (Required) Type of monitor.
 * `repeat_interval_in_seconds` - (Required) (Updatable) Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds.
 * `vantage_points` - (Required) (Updatable) A list of vantage points from which to execute the monitor. Use /publicVantagePoints to fetch public vantage points.
+	* `display_name` - Unique name that can be edited. The name should not contain any confidential information.
+	* `name` - Name of the vantage point.
 * `configuration` - (Optional) (Updatable) Details of monitor configuration.
 	* `config_type` - (Optional) (Updatable) Type of configuration.
 	* `dns_configuration` - (Optional) (Updatable) Dns settings.
