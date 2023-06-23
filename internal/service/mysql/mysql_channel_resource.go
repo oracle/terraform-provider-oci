@@ -184,6 +184,11 @@ func MysqlChannelResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"delay_in_seconds": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"filters": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -205,6 +210,11 @@ func MysqlChannelResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"tables_without_primary_key_handling": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 
 						// Computed
@@ -879,6 +889,10 @@ func (s *MysqlChannelResourceCrud) mapToCreateChannelTargetDetails(fieldKeyForma
 			tmp := channelName.(string)
 			details.ChannelName = &tmp
 		}
+		if delayInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "delay_in_seconds")); ok {
+			tmp := delayInSeconds.(int)
+			details.DelayInSeconds = &tmp
+		}
 		if dbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_system_id")); ok {
 			tmp := dbSystemId.(string)
 			details.DbSystemId = &tmp
@@ -898,6 +912,9 @@ func (s *MysqlChannelResourceCrud) mapToCreateChannelTargetDetails(fieldKeyForma
 			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "filters")) {
 				details.Filters = tmp
 			}
+		}
+		if tablesWithoutPrimaryKeyHandling, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tables_without_primary_key_handling")); ok {
+			details.TablesWithoutPrimaryKeyHandling = oci_mysql.ChannelTargetDbSystemTablesWithoutPrimaryKeyHandlingEnum(tablesWithoutPrimaryKeyHandling.(string))
 		}
 		baseObject = details
 	default:
@@ -927,6 +944,10 @@ func (s *MysqlChannelResourceCrud) mapToUpdateChannelTargetDetails(fieldKeyForma
 			tmp := channelName.(string)
 			details.ChannelName = &tmp
 		}
+		if delayInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "delay_in_seconds")); ok {
+			tmp := delayInSeconds.(int)
+			details.DelayInSeconds = &tmp
+		}
 		if filters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "filters")); ok {
 			interfaces := filters.([]interface{})
 			tmp := make([]oci_mysql.ChannelFilter, len(interfaces))
@@ -942,6 +963,9 @@ func (s *MysqlChannelResourceCrud) mapToUpdateChannelTargetDetails(fieldKeyForma
 			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "filters")) {
 				details.Filters = tmp
 			}
+		}
+		if tablesWithoutPrimaryKeyHandling, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tables_without_primary_key_handling")); ok {
+			details.TablesWithoutPrimaryKeyHandling = oci_mysql.ChannelTargetDbSystemTablesWithoutPrimaryKeyHandlingEnum(tablesWithoutPrimaryKeyHandling.(string))
 		}
 		baseObject = details
 	default:
