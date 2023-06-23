@@ -232,6 +232,9 @@ func (s *LoadBalancerBackendResourceCrud) Create() error {
 		return err
 	}
 
+	var compositeId string
+	compositeId = GetBackendCompositeId(s.buildID(), s.D.Get("backendset_name").(string), s.D.Get("load_balancer_id").(string))
+	s.D.SetId(compositeId)
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
