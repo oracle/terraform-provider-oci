@@ -52,6 +52,9 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
 * `is_cluster` - Indicates whether the DB system is a cluster DB system or not.
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `stack_monitoring_config` - The configuration details of Stack Monitoring for an external DB system.
+	* `is_enabled` - The status of the associated service.
+	* `metadata` - The associated service-specific inputs in JSON string format, which Database Management can identify.
 * `state` - The current lifecycle state of the external DB system resource.
 * `time_created` - The date and time the external DB system was created.
 * `time_updated` - The date and time the external DB system was last updated.
