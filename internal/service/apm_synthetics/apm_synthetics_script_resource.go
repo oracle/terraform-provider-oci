@@ -590,7 +590,9 @@ func ScriptParameterInfoToMap(obj oci_apm_synthetics.ScriptParameterInfo) map[st
 		result["script_parameter"] = ScriptParameters
 		result["is_secret"] = bool(*obj.ScriptParameter.IsSecret)
 		result["param_name"] = string(*obj.ScriptParameter.ParamName)
-		result["param_value"] = string(*obj.ScriptParameter.ParamValue)
+		if obj.ScriptParameter.ParamValue != nil {
+			result["param_value"] = string(*obj.ScriptParameter.ParamValue)
+		}
 
 	}
 

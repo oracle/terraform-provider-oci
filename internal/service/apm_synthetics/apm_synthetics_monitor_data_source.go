@@ -173,7 +173,7 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 
 	vantagePoints := []interface{}{}
 	for _, item := range s.Res.VantagePoints {
-		vantagePoints = append(vantagePoints, item.Name)
+		vantagePoints = append(vantagePoints, VantagePointInfoToMap(item))
 	}
 	s.D.Set("vantage_points", vantagePoints)
 
