@@ -18,62 +18,62 @@ import (
 	"strings"
 )
 
-// ExternalExadataStorageServerSummary The storage server of the Exadata infrastructure.
+// ExternalExadataStorageServerSummary The Exadata storage server of the Exadata infrastructure.
 type ExternalExadataStorageServerSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the resource. English letters, numbers, "-", "_" and "." only.
+	// The name of the Exadata resource. English letters, numbers, "-", "_" and "." only.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The version of the resource.
+	// The version of the Exadata resource.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The internal ID.
+	// The internal ID of the Exadata resource.
 	InternalId *string `mandatory:"false" json:"internalId"`
 
-	// The status of the entity.
+	// The status of the Exadata resource.
 	Status *string `mandatory:"false" json:"status"`
 
-	// The timestamp of the creation.
+	// The timestamp of the creation of the Exadata resource.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The timestamp of the last update.
+	// The timestamp of the last update of the Exadata resource.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The details of the lifecycle state.
+	// The details of the lifecycle state of the Exadata resource.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The additional details of the resource defined in `{"key": "value"}` format.
 	// Example: `{"bar-key": "value"}`
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 
-	// The make model of the storage server.
+	// The make model of the Exadata storage server.
 	MakeModel *string `mandatory:"false" json:"makeModel"`
 
-	// The IP address of the storage server.
+	// The IP address of the Exadata storage server.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
-	// The CPU count of the storage server
+	// The CPU count of the Exadata storage server.
 	CpuCount *float32 `mandatory:"false" json:"cpuCount"`
 
-	// The storage server memory size in GB
+	// The Exadata storage server memory size in GB.
 	MemoryGB *float64 `mandatory:"false" json:"memoryGB"`
 
-	// The maximum hard disk IO operations per second of the storage server
+	// The maximum hard disk IO operations per second of the Exadata storage server.
 	MaxHardDiskIOPS *int `mandatory:"false" json:"maxHardDiskIOPS"`
 
-	// The maximum hard disk IO throughput in MB/s of the storage server
+	// The maximum hard disk IO throughput in MB/s of the Exadata storage server.
 	MaxHardDiskThroughput *int `mandatory:"false" json:"maxHardDiskThroughput"`
 
-	// The maximum flash disk IO operations per second of the storage server
+	// The maximum flash disk IO operations per second of the Exadata storage server.
 	MaxFlashDiskIOPS *int `mandatory:"false" json:"maxFlashDiskIOPS"`
 
-	// The maximum flash disk IO throughput in MB/s of the storage server
+	// The maximum flash disk IO throughput in MB/s of the Exadata storage server.
 	MaxFlashDiskThroughput *int `mandatory:"false" json:"maxFlashDiskThroughput"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of connector.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connector.
 	ConnectorId *string `mandatory:"false" json:"connectorId"`
 
 	// The current lifecycle state of the database resource.

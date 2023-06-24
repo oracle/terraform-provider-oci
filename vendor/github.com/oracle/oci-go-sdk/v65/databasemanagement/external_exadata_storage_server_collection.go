@@ -20,7 +20,7 @@ import (
 // ExternalExadataStorageServerCollection The Exadata storage server list.
 type ExternalExadataStorageServerCollection struct {
 
-	// A list of Exadata storage server.
+	// A list of Exadata storage servers.
 	Items []ExternalExadataStorageServerSummary `mandatory:"true" json:"items"`
 }
 

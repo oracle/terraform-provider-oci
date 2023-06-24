@@ -26,22 +26,22 @@ const (
 // Workload RPST Issuance Service (WRIS)
 // x509FederationClientForOkeWorkloadIdentity retrieves a security token from Auth service.
 type x509FederationClientForOkeWorkloadIdentity struct {
-	tenancyID                     string
-	sessionKeySupplier            sessionKeySupplier
-	securityToken                 securityToken
-	authClient                    *common.BaseClient
-	mux                           sync.Mutex
-	proxymuxEndpoint              string
-	kubernetesServiceAccountToken string // jwt
-	kubernetesServiceAccountCert  *x509.CertPool
+	tenancyID                    string
+	sessionKeySupplier           sessionKeySupplier
+	securityToken                securityToken
+	authClient                   *common.BaseClient
+	mux                          sync.Mutex
+	proxymuxEndpoint             string
+	saTokenProvider              ServiceAccountTokenProvider
+	kubernetesServiceAccountCert *x509.CertPool
 }
 
-func newX509FederationClientForOkeWorkloadIdentity(endpoint string, kubernetesServiceAccountToken string,
+func newX509FederationClientForOkeWorkloadIdentity(endpoint string, saTokenProvider ServiceAccountTokenProvider,
 	kubernetesServiceAccountCert *x509.CertPool) (federationClient, error) {
 	client := &x509FederationClientForOkeWorkloadIdentity{
-		proxymuxEndpoint:              endpoint,
-		kubernetesServiceAccountToken: kubernetesServiceAccountToken,
-		kubernetesServiceAccountCert:  kubernetesServiceAccountCert,
+		proxymuxEndpoint:             endpoint,
+		saTokenProvider:              saTokenProvider,
+		kubernetesServiceAccountCert: kubernetesServiceAccountCert,
 	}
 
 	client.sessionKeySupplier = newSessionKeySupplier()
@@ -64,7 +64,7 @@ func (c *x509FederationClientForOkeWorkloadIdentity) renewSecurityToken() (err e
 }
 
 type workloadIdentityRequestPayload struct {
-	Podkey string `json:"podKey"`
+	podkey string `json:"podKey"`
 }
 type token struct {
 	Token string
@@ -82,7 +82,7 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 	}
 
 	publicKey := string(c.sessionKeySupplier.PublicKeyPemRaw())
-	rawPayload := workloadIdentityRequestPayload{Podkey: publicKey}
+	rawPayload := workloadIdentityRequestPayload{podkey: publicKey}
 	payload, err := json.Marshal(rawPayload)
 	if err != nil {
 		return nil, fmt.Errorf("error getting security token%s", err)
@@ -94,7 +94,14 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 		common.Logf("error %s", err)
 		return nil, fmt.Errorf("error getting security token %s", err)
 	}
-	request.Header.Add("Authorization", "Bearer "+c.kubernetesServiceAccountToken)
+
+	kubernetesServiceAccountToken, err := c.saTokenProvider.ServiceAccountToken()
+	if err != nil {
+		common.Logf("error %s", err)
+		return nil, fmt.Errorf("error getting service account token %s", err)
+	}
+
+	request.Header.Add("Authorization", "Bearer "+kubernetesServiceAccountToken)
 	request.Header.Set("Content-Type", "application/json")
 	opcRequestID := utils.GenerateOpcRequestID()
 	request.Header.Set("opc-request-id", opcRequestID)

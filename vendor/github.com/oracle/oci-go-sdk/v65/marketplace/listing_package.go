@@ -39,6 +39,9 @@ type ListingPackage interface {
 	GetTimeCreated() *common.SDKTime
 
 	GetOperatingSystem() *OperatingSystem
+
+	// The regions where you can deploy the listing package. (Some packages have restrictions that limit their deployment to United States regions only.)
+	GetRegions() []Region
 }
 
 type listingpackage struct {
@@ -50,6 +53,7 @@ type listingpackage struct {
 	ResourceId      *string          `mandatory:"false" json:"resourceId"`
 	TimeCreated     *common.SDKTime  `mandatory:"false" json:"timeCreated"`
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
+	Regions         []Region         `mandatory:"false" json:"regions"`
 	PackageType     string           `json:"packageType"`
 }
 
@@ -71,6 +75,7 @@ func (m *listingpackage) UnmarshalJSON(data []byte) error {
 	m.ResourceId = s.Model.ResourceId
 	m.TimeCreated = s.Model.TimeCreated
 	m.OperatingSystem = s.Model.OperatingSystem
+	m.Regions = s.Model.Regions
 	m.PackageType = s.Model.PackageType
 
 	return err
@@ -132,6 +137,11 @@ func (m listingpackage) GetTimeCreated() *common.SDKTime {
 //GetOperatingSystem returns OperatingSystem
 func (m listingpackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
+}
+
+//GetRegions returns Regions
+func (m listingpackage) GetRegions() []Region {
+	return m.Regions
 }
 
 func (m listingpackage) String() string {

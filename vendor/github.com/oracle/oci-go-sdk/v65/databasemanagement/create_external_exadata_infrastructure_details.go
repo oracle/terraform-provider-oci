@@ -17,16 +17,16 @@ import (
 	"strings"
 )
 
-// CreateExternalExadataInfrastructureDetails The details of creating external Exadata infrastructure.
+// CreateExternalExadataInfrastructureDetails The details required to create the external Exadata infrastructure.
 type CreateExternalExadataInfrastructureDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name of the Exadata infrastructure.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The list of all the rac database system OCIDs.
+	// The list of DB systems in the Exadata infrastructure.
 	DbSystemIds []string `mandatory:"true" json:"dbSystemIds"`
 
 	// The unique key of the discovery request.
@@ -35,7 +35,7 @@ type CreateExternalExadataInfrastructureDetails struct {
 	// The Oracle license model that applies to the database management resources.
 	LicenseModel CreateExternalExadataInfrastructureDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
-	// The list of all the storage server names to be included for monitoering purpose. If not specified, all the storage servers associated with the database systems are included.
+	// The list of all the Exadata storage server names to be included for monitoring purposes. If not specified, all the Exadata storage servers associated with the DB systems are included.
 	StorageServerNames []string `mandatory:"false" json:"storageServerNames"`
 }
 

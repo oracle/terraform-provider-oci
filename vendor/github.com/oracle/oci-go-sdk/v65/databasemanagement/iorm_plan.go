@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// IormPlan The IORM plan from a storage server.
+// IormPlan The IORM plan from an Exadata storage server.
 type IormPlan struct {
 
 	// The status of the IORM plan.

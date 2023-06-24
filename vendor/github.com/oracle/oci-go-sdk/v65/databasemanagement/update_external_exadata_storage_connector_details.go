@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// UpdateExternalExadataStorageConnectorDetails The connector details of the storage server to be updated.
+// UpdateExternalExadataStorageConnectorDetails The connector details of the Exadata storage server to be updated.
 type UpdateExternalExadataStorageConnectorDetails struct {
 
-	// The connector name if OCI connector is created.
+	// The name of the Exadata storage server connector.
 	ConnectorName *string `mandatory:"false" json:"connectorName"`
 
-	// The unique connection string of the connection. For example, "https://slcm21celadm02.us.oracle.com:443/MS/RESTService/".
+	// The unique string of the connection. For example, "https://<storage-server-name>/MS/RESTService/".
 	ConnectionUri *string `mandatory:"false" json:"connectionUri"`
 
 	CredentialInfo *RestCredential `mandatory:"false" json:"credentialInfo"`

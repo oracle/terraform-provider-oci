@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ChangeExternalExadataInfrastructureCompartmentDetails The details required to change the compartment of an Exadata infrastructure.
+// ChangeExternalExadataInfrastructureCompartmentDetails The details required to change the compartment of the Exadata infrastructure.
 type ChangeExternalExadataInfrastructureCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the

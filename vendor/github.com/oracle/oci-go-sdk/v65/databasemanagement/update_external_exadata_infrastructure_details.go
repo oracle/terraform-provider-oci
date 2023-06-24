@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// UpdateExternalExadataInfrastructureDetails The details of updating external Exadata infrastructure.
+// UpdateExternalExadataInfrastructureDetails The details required to update the external Exadata infrastructure.
 type UpdateExternalExadataInfrastructureDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The unique key of the discovery request.
@@ -32,10 +32,10 @@ type UpdateExternalExadataInfrastructureDetails struct {
 	// The name of the Exadata infrastructure.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The list of all the rac database system OCIDs. If not specified, it keeps the existing database systems
+	// The list of all the DB systems OCIDs.
 	DbSystemIds []string `mandatory:"false" json:"dbSystemIds"`
 
-	// The list of the names of the storage servers to be monitored. If not specified, it includes all the storage servers associated with the monitored database systems.
+	// The list of the names of Exadata storage servers to be monitored. If not specified, it includes all Exadata storage servers associated with the monitored DB systems.
 	StorageServerNames []string `mandatory:"false" json:"storageServerNames"`
 }
 
