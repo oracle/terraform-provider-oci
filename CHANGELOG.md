@@ -1,3 +1,19 @@
+## 5.3.0 (Unreleased)
+
+### Added
+- Support for DBCS | Support A1 (Ampere) for VM DB
+- Support for International Expansion of Paid Listings - Phase 2
+- Changelog and version update for hotfix
+- Support for ECPU Support for License Manager
+Support for Sql Endpoints in Data Flow
+- Support for OCI Container Registry (OCIR): Tagging
+- Support for Automatic Primary Key Handling and Delayed Replication in MDS Channels
+- Support for DBM: SQL Plan Management Support
+- Using session token for integration test
+### Bug Fix
+- Fix APM Synthetic service vantage points schema
+- Fixed target_resource_details of oci_bastion_session having unexpected diff after creation
+
 ## 5.2.1 (June 21, 2023)
 ### Fixed
 - Reverted Identity compartment level discovery changes
