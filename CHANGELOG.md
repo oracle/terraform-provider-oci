@@ -1,3 +1,19 @@
+## 5.3.0 (Unreleased)
+
+### Added
+- Support for DBCS | Support A1 (Ampere) for VM DB
+- OKV integration with ExaCC to manage TDE Keys
+- Support for International Expansion of Paid Listings - Phase 2
+- Support for ECPU Support for License Manager
+- Support for Sql Endpoints in Data Flow
+- Support for OCI Container Registry (OCIR): Tagging
+- Support for Automatic Primary Key Handling and Delayed Replication in MDS Channels
+- Support for DBM: SQL Plan Management Support
+### Bug Fix
+- Fixed network source resource discovery issue
+- Fix APM Synthetic service vantage points schema
+- Fixed target_resource_details of oci_bastion_session having unexpected diff after creation
+
 ## 5.2.1 (June 21, 2023)
 ### Fixed
 - Reverted Identity compartment level discovery changes
