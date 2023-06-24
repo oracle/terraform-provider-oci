@@ -34,6 +34,10 @@ type UpdateSqlJobDetails struct {
 	// The SQL text to be executed as part of the job.
 	SqlText *string `mandatory:"false" json:"sqlText"`
 
+	InBinds *JobInBindsDetails `mandatory:"false" json:"inBinds"`
+
+	OutBinds *JobOutBindsDetails `mandatory:"false" json:"outBinds"`
+
 	// The database user name used to execute the SQL job. If the job is being executed on a
 	// Managed Database Group, then the user name should exist on all the databases in the
 	// group with the same password.
@@ -115,6 +119,8 @@ func (m *UpdateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 		ResultLocation  jobexecutionresultlocation `json:"resultLocation"`
 		ScheduleDetails *JobScheduleDetails        `json:"scheduleDetails"`
 		SqlText         *string                    `json:"sqlText"`
+		InBinds         *JobInBindsDetails         `json:"inBinds"`
+		OutBinds        *JobOutBindsDetails        `json:"outBinds"`
 		SqlType         SqlJobSqlTypeEnum          `json:"sqlType"`
 		UserName        *string                    `json:"userName"`
 		Password        *string                    `json:"password"`
@@ -144,6 +150,10 @@ func (m *UpdateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ScheduleDetails = model.ScheduleDetails
 
 	m.SqlText = model.SqlText
+
+	m.InBinds = model.InBinds
+
+	m.OutBinds = model.OutBinds
 
 	m.SqlType = model.SqlType
 

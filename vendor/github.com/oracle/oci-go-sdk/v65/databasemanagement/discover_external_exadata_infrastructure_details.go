@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// DiscoverExternalExadataInfrastructureDetails The connection information and the discovery options for the Exadata discovery.
+// DiscoverExternalExadataInfrastructureDetails The connection details and the discovery options for the Exadata discovery.
 type DiscoverExternalExadataInfrastructureDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The type of the discovery.
+	// The type of discovery.
 	DiscoveryType DiscoverExternalExadataInfrastructureDetailsDiscoveryTypeEnum `mandatory:"true" json:"discoveryType"`
 
-	// The list of the database system identifiers.
+	// The list of the DB system identifiers.
 	DbSystemIds []string `mandatory:"true" json:"dbSystemIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of Exadata infrastructure system. For rediscover only.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure. This is applicable for rediscovery only.
 	ExadataInfrastructureId *string `mandatory:"false" json:"exadataInfrastructureId"`
 }
 

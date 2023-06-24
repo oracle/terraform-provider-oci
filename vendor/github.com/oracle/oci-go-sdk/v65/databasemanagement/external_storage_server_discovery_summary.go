@@ -18,16 +18,16 @@ import (
 	"strings"
 )
 
-// ExternalStorageServerDiscoverySummary The Exadata storage server.
+// ExternalStorageServerDiscoverySummary The summary of the Exadata storage server discovery.
 type ExternalStorageServerDiscoverySummary struct {
 
 	// The name of the entity.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Null for new discover case.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the entity discovered.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent could be used for monitoring.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent used for monitoring.
 	AgentId *string `mandatory:"false" json:"agentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated connector.
@@ -36,34 +36,34 @@ type ExternalStorageServerDiscoverySummary struct {
 	// The version of the entity.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The internal identifier.
+	// The internal identifier of the entity.
 	InternalId *string `mandatory:"false" json:"internalId"`
 
 	// The status of the entity.
 	Status *string `mandatory:"false" json:"status"`
 
-	// The error code of the discovery on the resource
+	// The error code of the discovery.
 	DiscoverErrorCode *string `mandatory:"false" json:"discoverErrorCode"`
 
-	// The error message of the discovery on the resource
+	// The error message of the discovery.
 	DiscoverErrorMsg *string `mandatory:"false" json:"discoverErrorMsg"`
 
-	// The IP address of the storage server.
+	// The IP address of the Exadata storage server.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
-	// The make model of the storage server.
+	// The make model of the Exadata storage server.
 	MakeModel *string `mandatory:"false" json:"makeModel"`
 
-	// The cpu count of the storage server.
+	// The CPU count of the Exadata storage server.
 	CpuCount *int `mandatory:"false" json:"cpuCount"`
 
-	// The memory size in GB of the storage server.
+	// The memory size in GB of the Exadata storage server.
 	MemoryGB *float64 `mandatory:"false" json:"memoryGB"`
 
-	// The connector name of the storage server in rediscovery case.
+	// The name of the Exadata storage server connector in case of rediscovery.
 	ConnectorName *string `mandatory:"false" json:"connectorName"`
 
-	// The status of the entity discover.
+	// The status of the entity discovery.
 	DiscoverStatus EntityDiscoveredDiscoverStatusEnum `mandatory:"false" json:"discoverStatus,omitempty"`
 }
 

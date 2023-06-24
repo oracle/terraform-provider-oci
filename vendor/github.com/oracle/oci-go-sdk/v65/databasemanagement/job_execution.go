@@ -84,6 +84,10 @@ type JobExecution struct {
 	// The SQL text executed as part of the job.
 	SqlText *string `mandatory:"false" json:"sqlText"`
 
+	InBinds *JobInBindsDetails `mandatory:"false" json:"inBinds"`
+
+	OutBinds *JobOutBindsDetails `mandatory:"false" json:"outBinds"`
+
 	ScheduleDetails *JobScheduleDetails `mandatory:"false" json:"scheduleDetails"`
 }
 
@@ -132,6 +136,8 @@ func (m *JobExecution) UnmarshalJSON(data []byte) (e error) {
 		TimeCompleted          *common.SDKTime           `json:"timeCompleted"`
 		UserName               *string                   `json:"userName"`
 		SqlText                *string                   `json:"sqlText"`
+		InBinds                *JobInBindsDetails        `json:"inBinds"`
+		OutBinds               *JobOutBindsDetails       `json:"outBinds"`
 		ScheduleDetails        *JobScheduleDetails       `json:"scheduleDetails"`
 		Id                     *string                   `json:"id"`
 		Name                   *string                   `json:"name"`
@@ -179,6 +185,10 @@ func (m *JobExecution) UnmarshalJSON(data []byte) (e error) {
 	m.UserName = model.UserName
 
 	m.SqlText = model.SqlText
+
+	m.InBinds = model.InBinds
+
+	m.OutBinds = model.OutBinds
 
 	m.ScheduleDetails = model.ScheduleDetails
 

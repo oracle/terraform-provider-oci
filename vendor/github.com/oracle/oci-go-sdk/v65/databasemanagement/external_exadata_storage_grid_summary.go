@@ -18,38 +18,38 @@ import (
 	"strings"
 )
 
-// ExternalExadataStorageGridSummary The storage server grid of the Exadata infrastructure.
+// ExternalExadataStorageGridSummary The Exadata storage server grid of the Exadata infrastructure.
 type ExternalExadataStorageGridSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the resource. English letters, numbers, "-", "_" and "." only.
+	// The name of the Exadata resource. English letters, numbers, "-", "_" and "." only.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The version of the resource.
+	// The version of the Exadata resource.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The internal ID.
+	// The internal ID of the Exadata resource.
 	InternalId *string `mandatory:"false" json:"internalId"`
 
-	// The status of the entity.
+	// The status of the Exadata resource.
 	Status *string `mandatory:"false" json:"status"`
 
-	// The timestamp of the creation.
+	// The timestamp of the creation of the Exadata resource.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The timestamp of the last update.
+	// The timestamp of the last update of the Exadata resource.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The details of the lifecycle state.
+	// The details of the lifecycle state of the Exadata resource.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The additional details of the resource defined in `{"key": "value"}` format.
 	// Example: `{"bar-key": "value"}`
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 
-	// The number of the storage servers in the Exadata infrastructure.
+	// The number of Exadata storage servers in the Exadata infrastructure.
 	ServerCount *float32 `mandatory:"false" json:"serverCount"`
 
 	// The current lifecycle state of the database resource.

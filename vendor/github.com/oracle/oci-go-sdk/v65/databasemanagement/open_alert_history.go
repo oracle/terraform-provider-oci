@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// OpenAlertHistory The open alerts current existing in a storage server.
+// OpenAlertHistory The existing open alerts in the Exadata storage server.
 type OpenAlertHistory struct {
 
 	// A list of open alerts.

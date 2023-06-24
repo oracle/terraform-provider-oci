@@ -21,7 +21,7 @@ type UpdateExternalExadataStorageConnectorRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connector to the Exadata storage server.
 	ExternalExadataStorageConnectorId *string `mandatory:"true" contributesTo:"path" name:"externalExadataStorageConnectorId"`
 
-	// The details required to add connections to the storage servers.
+	// The details required to update connections to the Exadata storage servers.
 	UpdateExternalExadataStorageConnectorDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

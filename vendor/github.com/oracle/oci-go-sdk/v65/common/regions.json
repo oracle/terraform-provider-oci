@@ -316,5 +316,11 @@
         "realmKey": "oc19",
         "regionIdentifier": "eu-madrid-2",
         "realmDomainComponent": "oraclecloud.eu"
+    },
+    {
+        "regionKey": "str",
+        "realmKey": "oc19",
+        "regionIdentifier": "eu-frankfurt-2",
+        "realmDomainComponent": "oraclecloud.eu"
     }
 ]

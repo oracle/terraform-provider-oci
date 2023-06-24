@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// DatabasePlanDirective Manage resource allocations among databases. Besides name, need to have at least one other property.
+// DatabasePlanDirective Manages resource allocation among databases. Besides the name, at least one other property must be available.
 type DatabasePlanDirective struct {
 
 	// The name of a database or a profile.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The relative priority a database in the database plan. A higher share value implies
+	// The relative priority of a database in the database plan. A higher share value implies
 	// higher priority and more access to the I/O resources.
 	// Use either share or (level, allocation). All plan directives in a database plan
 	// should use the same setting.
@@ -111,17 +111,16 @@ type DatabasePlanDirective struct {
 	// distinguish between databases with the same name running in different Oracle ASM clusters.
 	AsmCluster *string `mandatory:"false" json:"asmCluster"`
 
-	// Enables you to create a profile, or template, to ease management and configuration of resource plans
+	// Enables you to create a profile or template, to ease management and configuration of resource plans
 	// in environments with many databases.
-	// type=database: Specifies a directive that applies to a specific database.
+	// - type=database: Specifies a directive that applies to a specific database.
 	// If type in not specified, then the directive defaults to the database type.
-	// type=profile: Specifies a directive that applies to a profile rather than a specific database.
+	// - type=profile: Specifies a directive that applies to a profile rather than a specific database.
 	//   To associate a database with an IORM profile, you must set the database initialization
-	//   parameter db_performance_profile to the value of the profile name. Databases that map to a profile i
-	//   nherit the settings specified in the profile.
+	//   parameter db_performance_profile to the value of the profile name. Databases that map to a profile inherit the settings specified in the profile.
 	Type DatabasePlanTypeEnumEnum `mandatory:"false" json:"type,omitempty"`
 
-	// Enables you specify different plan directives based on the Oracle Data Guard database role.
+	// Enables you to specify different plan directives based on the Oracle Data Guard database role.
 	Role DatabasePlanRoleEnumEnum `mandatory:"false" json:"role,omitempty"`
 }
 

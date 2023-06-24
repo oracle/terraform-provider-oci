@@ -18,7 +18,7 @@ import (
 // DbSystemStoragePerformanceSummary Representation of storage performance summary per shapeType .
 type DbSystemStoragePerformanceSummary struct {
 
-	// ShapeType of the DbSystems INTEL , AMD or INTEL_FLEX_X9
+	// ShapeType of the DbSystems INTEL , AMD, INTEL_FLEX_X9 or AMPERE_FLEX_A1
 	ShapeType DbSystemStoragePerformanceSummaryShapeTypeEnum `mandatory:"true" json:"shapeType"`
 
 	// List of storage performance for the DATA disks
@@ -52,21 +52,24 @@ type DbSystemStoragePerformanceSummaryShapeTypeEnum string
 
 // Set of constants representing the allowable values for DbSystemStoragePerformanceSummaryShapeTypeEnum
 const (
-	DbSystemStoragePerformanceSummaryShapeTypeAmd         DbSystemStoragePerformanceSummaryShapeTypeEnum = "AMD"
-	DbSystemStoragePerformanceSummaryShapeTypeIntel       DbSystemStoragePerformanceSummaryShapeTypeEnum = "INTEL"
-	DbSystemStoragePerformanceSummaryShapeTypeIntelFlexX9 DbSystemStoragePerformanceSummaryShapeTypeEnum = "INTEL_FLEX_X9"
+	DbSystemStoragePerformanceSummaryShapeTypeAmd          DbSystemStoragePerformanceSummaryShapeTypeEnum = "AMD"
+	DbSystemStoragePerformanceSummaryShapeTypeIntel        DbSystemStoragePerformanceSummaryShapeTypeEnum = "INTEL"
+	DbSystemStoragePerformanceSummaryShapeTypeIntelFlexX9  DbSystemStoragePerformanceSummaryShapeTypeEnum = "INTEL_FLEX_X9"
+	DbSystemStoragePerformanceSummaryShapeTypeAmpereFlexA1 DbSystemStoragePerformanceSummaryShapeTypeEnum = "AMPERE_FLEX_A1"
 )
 
 var mappingDbSystemStoragePerformanceSummaryShapeTypeEnum = map[string]DbSystemStoragePerformanceSummaryShapeTypeEnum{
-	"AMD":           DbSystemStoragePerformanceSummaryShapeTypeAmd,
-	"INTEL":         DbSystemStoragePerformanceSummaryShapeTypeIntel,
-	"INTEL_FLEX_X9": DbSystemStoragePerformanceSummaryShapeTypeIntelFlexX9,
+	"AMD":            DbSystemStoragePerformanceSummaryShapeTypeAmd,
+	"INTEL":          DbSystemStoragePerformanceSummaryShapeTypeIntel,
+	"INTEL_FLEX_X9":  DbSystemStoragePerformanceSummaryShapeTypeIntelFlexX9,
+	"AMPERE_FLEX_A1": DbSystemStoragePerformanceSummaryShapeTypeAmpereFlexA1,
 }
 
 var mappingDbSystemStoragePerformanceSummaryShapeTypeEnumLowerCase = map[string]DbSystemStoragePerformanceSummaryShapeTypeEnum{
-	"amd":           DbSystemStoragePerformanceSummaryShapeTypeAmd,
-	"intel":         DbSystemStoragePerformanceSummaryShapeTypeIntel,
-	"intel_flex_x9": DbSystemStoragePerformanceSummaryShapeTypeIntelFlexX9,
+	"amd":            DbSystemStoragePerformanceSummaryShapeTypeAmd,
+	"intel":          DbSystemStoragePerformanceSummaryShapeTypeIntel,
+	"intel_flex_x9":  DbSystemStoragePerformanceSummaryShapeTypeIntelFlexX9,
+	"ampere_flex_a1": DbSystemStoragePerformanceSummaryShapeTypeAmpereFlexA1,
 }
 
 // GetDbSystemStoragePerformanceSummaryShapeTypeEnumValues Enumerates the set of values for DbSystemStoragePerformanceSummaryShapeTypeEnum
@@ -84,6 +87,7 @@ func GetDbSystemStoragePerformanceSummaryShapeTypeEnumStringValues() []string {
 		"AMD",
 		"INTEL",
 		"INTEL_FLEX_X9",
+		"AMPERE_FLEX_A1",
 	}
 }
 

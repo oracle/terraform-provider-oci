@@ -471,7 +471,7 @@ func (client DbManagementClient) changeExternalDbSystemCompartment(ctx context.C
 	return response, err
 }
 
-// ChangeExternalExadataInfrastructureCompartment Moves the Exadata infrastructure  and its related resources (storage server, storage server connectors and storage server grid) to the specified compartment.
+// ChangeExternalExadataInfrastructureCompartment Moves the Exadata infrastructure and its related resources (Exadata storage server, Exadata storage server connectors and Exadata storage server grid) to the specified compartment.
 //
 // See also
 //
@@ -660,6 +660,181 @@ func (client DbManagementClient) changeManagedDatabaseGroupCompartment(ctx conte
 	return response, err
 }
 
+// ChangePlanRetention Changes the retention period of unused plans. The period can range
+// between 5 and 523 weeks.
+// The database purges plans that have not been used for longer than
+// the plan retention period.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangePlanRetention.go.html to see an example of how to use ChangePlanRetention API.
+func (client DbManagementClient) ChangePlanRetention(ctx context.Context, request ChangePlanRetentionRequest) (response ChangePlanRetentionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changePlanRetention, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangePlanRetentionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangePlanRetentionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangePlanRetentionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangePlanRetentionResponse")
+	}
+	return
+}
+
+// changePlanRetention implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) changePlanRetention(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/changePlanRetention", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangePlanRetentionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ChangePlanRetention"
+		err = common.PostProcessServiceError(err, "DbManagement", "ChangePlanRetention", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSpaceBudget Changes the disk space limit for the SQL Management Base. The allowable
+// range for this limit is between 1% and 50%.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeSpaceBudget.go.html to see an example of how to use ChangeSpaceBudget API.
+func (client DbManagementClient) ChangeSpaceBudget(ctx context.Context, request ChangeSpaceBudgetRequest) (response ChangeSpaceBudgetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeSpaceBudget, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSpaceBudgetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSpaceBudgetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSpaceBudgetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSpaceBudgetResponse")
+	}
+	return
+}
+
+// changeSpaceBudget implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) changeSpaceBudget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/changeSpaceBudget", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSpaceBudgetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ChangeSpaceBudget"
+		err = common.PostProcessServiceError(err, "DbManagement", "ChangeSpaceBudget", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSqlPlanBaselinesAttributes Changes one or more attributes of a single plan or all plans associated with a SQL statement.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeSqlPlanBaselinesAttributes.go.html to see an example of how to use ChangeSqlPlanBaselinesAttributes API.
+func (client DbManagementClient) ChangeSqlPlanBaselinesAttributes(ctx context.Context, request ChangeSqlPlanBaselinesAttributesRequest) (response ChangeSqlPlanBaselinesAttributesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeSqlPlanBaselinesAttributes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSqlPlanBaselinesAttributesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSqlPlanBaselinesAttributesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSqlPlanBaselinesAttributesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSqlPlanBaselinesAttributesResponse")
+	}
+	return
+}
+
+// changeSqlPlanBaselinesAttributes implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) changeSqlPlanBaselinesAttributes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/changeSqlPlanBaselinesAttributes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSqlPlanBaselinesAttributesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ChangeSqlPlanBaselinesAttributes"
+		err = common.PostProcessServiceError(err, "DbManagement", "ChangeSqlPlanBaselinesAttributes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CheckExternalDbSystemConnectorConnectionStatus Checks the status of the external DB system component connection specified in this connector.
 // This operation will refresh the connectionStatus and timeConnectionStatusLastUpdated fields.
 //
@@ -724,7 +899,7 @@ func (client DbManagementClient) checkExternalDbSystemConnectorConnectionStatus(
 	return response, err
 }
 
-// CheckExternalExadataStorageConnector Check the status of the Exadata storage server connection specified by exadataStorageConnectorId.
+// CheckExternalExadataStorageConnector Checks the status of the Exadata storage server connection specified by exadataStorageConnectorId.
 //
 // See also
 //
@@ -780,6 +955,123 @@ func (client DbManagementClient) checkExternalExadataStorageConnector(ctx contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalExadataStorageConnector/CheckExternalExadataStorageConnector"
 		err = common.PostProcessServiceError(err, "DbManagement", "CheckExternalExadataStorageConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ConfigureAutomaticCaptureFilters Configures automatic capture filters to capture only those statements
+// that match the filter criteria.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ConfigureAutomaticCaptureFilters.go.html to see an example of how to use ConfigureAutomaticCaptureFilters API.
+func (client DbManagementClient) ConfigureAutomaticCaptureFilters(ctx context.Context, request ConfigureAutomaticCaptureFiltersRequest) (response ConfigureAutomaticCaptureFiltersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.configureAutomaticCaptureFilters, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConfigureAutomaticCaptureFiltersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConfigureAutomaticCaptureFiltersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConfigureAutomaticCaptureFiltersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConfigureAutomaticCaptureFiltersResponse")
+	}
+	return
+}
+
+// configureAutomaticCaptureFilters implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) configureAutomaticCaptureFilters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/configureAutomaticCaptureFilters", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConfigureAutomaticCaptureFiltersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ConfigureAutomaticCaptureFilters"
+		err = common.PostProcessServiceError(err, "DbManagement", "ConfigureAutomaticCaptureFilters", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ConfigureAutomaticSpmEvolveAdvisorTask Configures the Automatic SPM Evolve Advisor task `SYS_AUTO_SPM_EVOLVE_TASK`
+// by specifying task parameters. As the task is owned by `SYS`, only `SYS` can
+// set task parameters.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ConfigureAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use ConfigureAutomaticSpmEvolveAdvisorTask API.
+func (client DbManagementClient) ConfigureAutomaticSpmEvolveAdvisorTask(ctx context.Context, request ConfigureAutomaticSpmEvolveAdvisorTaskRequest) (response ConfigureAutomaticSpmEvolveAdvisorTaskResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.configureAutomaticSpmEvolveAdvisorTask, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConfigureAutomaticSpmEvolveAdvisorTaskResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConfigureAutomaticSpmEvolveAdvisorTaskResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConfigureAutomaticSpmEvolveAdvisorTaskResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConfigureAutomaticSpmEvolveAdvisorTaskResponse")
+	}
+	return
+}
+
+// configureAutomaticSpmEvolveAdvisorTask implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) configureAutomaticSpmEvolveAdvisorTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/configureAutomaticSpmEvolveAdvisorTask", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConfigureAutomaticSpmEvolveAdvisorTaskResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ConfigureAutomaticSpmEvolveAdvisorTask"
+		err = common.PostProcessServiceError(err, "DbManagement", "ConfigureAutomaticSpmEvolveAdvisorTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -1038,7 +1330,7 @@ func (client DbManagementClient) createExternalDbSystemDiscovery(ctx context.Con
 	return response, err
 }
 
-// CreateExternalExadataInfrastructure Creates an OCI resource for the Exadata infrastructure and enable monitoring service on the exadata infrastructure.
+// CreateExternalExadataInfrastructure Creates an OCI resource for the Exadata infrastructure and enables the Monitoring service for the Exadata infrastructure.
 // The following resource/subresources are created:
 //   Infrastructure
 //   Storage server connectors
@@ -1106,9 +1398,7 @@ func (client DbManagementClient) createExternalExadataInfrastructure(ctx context
 	return response, err
 }
 
-// CreateExternalExadataStorageConnector Create the storage server connector after validating the connection information.
-// Or only validates the connection information for creating the connection to the storage server.
-// The connector for one storage server is associated with the Exadata infrastructure discovery or existing Exadata infrastructure.
+// CreateExternalExadataStorageConnector Creates the Exadata storage server connector after validating the connection information.
 //
 // See also
 //
@@ -1588,7 +1878,7 @@ func (client DbManagementClient) deleteExternalDbSystemDiscovery(ctx context.Con
 	return response, err
 }
 
-// DeleteExternalExadataInfrastructure Deletes the the Exadata infrastructure specified by externalExadataInfrastructureId.
+// DeleteExternalExadataInfrastructure Deletes the Exadata infrastructure specified by externalExadataInfrastructureId.
 //
 // See also
 //
@@ -1645,7 +1935,7 @@ func (client DbManagementClient) deleteExternalExadataInfrastructure(ctx context
 	return response, err
 }
 
-// DeleteExternalExadataStorageConnector Deletes the storage server connector specified by exadataStorageConnectorId.
+// DeleteExternalExadataStorageConnector Deletes the Exadata storage server connector specified by exadataStorageConnectorId.
 //
 // See also
 //
@@ -1874,6 +2164,122 @@ func (client DbManagementClient) deletePreferredCredential(ctx context.Context, 
 	return response, err
 }
 
+// DisableAutomaticInitialPlanCapture Disables automatic initial plan capture.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableAutomaticInitialPlanCapture.go.html to see an example of how to use DisableAutomaticInitialPlanCapture API.
+func (client DbManagementClient) DisableAutomaticInitialPlanCapture(ctx context.Context, request DisableAutomaticInitialPlanCaptureRequest) (response DisableAutomaticInitialPlanCaptureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.disableAutomaticInitialPlanCapture, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableAutomaticInitialPlanCaptureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableAutomaticInitialPlanCaptureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableAutomaticInitialPlanCaptureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableAutomaticInitialPlanCaptureResponse")
+	}
+	return
+}
+
+// disableAutomaticInitialPlanCapture implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableAutomaticInitialPlanCapture(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/disableAutomaticInitialPlanCapture", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableAutomaticInitialPlanCaptureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisableAutomaticInitialPlanCapture"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableAutomaticInitialPlanCapture", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableAutomaticSpmEvolveAdvisorTask Disables the Automatic SPM Evolve Advisor task.
+// One client controls both Automatic SQL Tuning Advisor and Automatic SPM Evolve Advisor.
+// Thus, the same task enables or disables both.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use DisableAutomaticSpmEvolveAdvisorTask API.
+func (client DbManagementClient) DisableAutomaticSpmEvolveAdvisorTask(ctx context.Context, request DisableAutomaticSpmEvolveAdvisorTaskRequest) (response DisableAutomaticSpmEvolveAdvisorTaskResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.disableAutomaticSpmEvolveAdvisorTask, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableAutomaticSpmEvolveAdvisorTaskResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableAutomaticSpmEvolveAdvisorTaskResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableAutomaticSpmEvolveAdvisorTaskResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableAutomaticSpmEvolveAdvisorTaskResponse")
+	}
+	return
+}
+
+// disableAutomaticSpmEvolveAdvisorTask implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableAutomaticSpmEvolveAdvisorTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/disableAutomaticSpmEvolveAdvisorTask", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableAutomaticSpmEvolveAdvisorTaskResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisableAutomaticSpmEvolveAdvisorTask"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableAutomaticSpmEvolveAdvisorTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisableExternalDbSystemDatabaseManagement Disables Database Management service for all the components of the specified
 // external DB system (except databases).
 //
@@ -1938,12 +2344,76 @@ func (client DbManagementClient) disableExternalDbSystemDatabaseManagement(ctx c
 	return response, err
 }
 
-// DisableExternalExadataInfrastructureManagement Disables Database Management service for the Exadata infrastructure specified by externalExadataInfrastructureId.
-// It covers the following components
-//           Exadata infrastructure
-//           Exadata storage grid
-//           Exadata storage server
-// Database systems within the Exdata infrastructure will not be impacted and should be disabled explicitly if needed.
+// DisableExternalDbSystemStackMonitoring Disables Stack Monitoring for all the components of the specified
+// external DB system (except databases).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalDbSystemStackMonitoring.go.html to see an example of how to use DisableExternalDbSystemStackMonitoring API.
+// A default retry strategy applies to this operation DisableExternalDbSystemStackMonitoring()
+func (client DbManagementClient) DisableExternalDbSystemStackMonitoring(ctx context.Context, request DisableExternalDbSystemStackMonitoringRequest) (response DisableExternalDbSystemStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableExternalDbSystemStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableExternalDbSystemStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableExternalDbSystemStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableExternalDbSystemStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableExternalDbSystemStackMonitoringResponse")
+	}
+	return
+}
+
+// disableExternalDbSystemStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableExternalDbSystemStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalDbSystems/{externalDbSystemId}/actions/disableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableExternalDbSystemStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalDbSystem/DisableExternalDbSystemStackMonitoring"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableExternalDbSystemStackMonitoring", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableExternalExadataInfrastructureManagement Disables Database Management for the Exadata infrastructure specified by externalExadataInfrastructureId.
+// It covers the following components:
+// - Exadata infrastructure
+// - Exadata storage grid
+// - Exadata storage server
+// Note that Database Management will not be disabled for the DB systems within the Exadata infrastructure and should be disabled explicitly, if required.
 //
 // See also
 //
@@ -2006,18 +2476,137 @@ func (client DbManagementClient) disableExternalExadataInfrastructureManagement(
 	return response, err
 }
 
+// DisableHighFrequencyAutomaticSpmEvolveAdvisorTask Disables the high-frequency Automatic SPM Evolve Advisor task.
+// It is available only on Oracle Exadata Database Machine, Oracle Database Exadata
+// Cloud Service (ExaCS) and Oracle Database Exadata Cloud@Customer (ExaCC).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableHighFrequencyAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use DisableHighFrequencyAutomaticSpmEvolveAdvisorTask API.
+func (client DbManagementClient) DisableHighFrequencyAutomaticSpmEvolveAdvisorTask(ctx context.Context, request DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskRequest) (response DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.disableHighFrequencyAutomaticSpmEvolveAdvisorTask, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse")
+	}
+	return
+}
+
+// disableHighFrequencyAutomaticSpmEvolveAdvisorTask implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableHighFrequencyAutomaticSpmEvolveAdvisorTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/disableHighFrequencyAutomaticSpmEvolveAdvisorTask", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisableHighFrequencyAutomaticSpmEvolveAdvisorTask"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableHighFrequencyAutomaticSpmEvolveAdvisorTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableSqlPlanBaselinesUsage Disables the use of SQL plan baselines stored in SQL Management Base.
+// When disabled, the optimizer does not use any SQL plan baselines.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableSqlPlanBaselinesUsage.go.html to see an example of how to use DisableSqlPlanBaselinesUsage API.
+func (client DbManagementClient) DisableSqlPlanBaselinesUsage(ctx context.Context, request DisableSqlPlanBaselinesUsageRequest) (response DisableSqlPlanBaselinesUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.disableSqlPlanBaselinesUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableSqlPlanBaselinesUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableSqlPlanBaselinesUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableSqlPlanBaselinesUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableSqlPlanBaselinesUsageResponse")
+	}
+	return
+}
+
+// disableSqlPlanBaselinesUsage implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableSqlPlanBaselinesUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/disableSqlPlanBaselinesUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableSqlPlanBaselinesUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisableSqlPlanBaselinesUsage"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableSqlPlanBaselinesUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DiscoverExternalExadataInfrastructure Completes the Exadata system prechecking on the following:
-// Verifies if the database systems are valid RAC database systems. Otherwise, return 400 status code with NON_RAC_DATABASE_SYSTEM error code.
-// Verifies if the ASM connectors defined for each database system.  Otherwise,  return 400 status code with CONNECTOR_NOT_DEFINED error code.
-// Verifies if the agents associated with ASM are valid and could be used for the storage servers. Otherwise, return 400 status code with INVALID_AGENT error code.
-// Verifies if it is an Exadata system. Otherwise, return 400 status code with INVALID_EXADATA_SYSTEM error code.
-// Starts the discovery process for the Exadata system infrastructure.The following resources/components could be discovered
-//   storage servers from each database systems
-//   storage grid for all storage server
-//   exadata infrastructure
-// The same API covers both new discovery and re-discovery cases.
-//   For the new discovery case, new managed resources/sub-resources are created or override the existing one.
-//   For re-discovery case, the existing managed resources/sub-resources are checked to find out which ones should be added or which one should be
+// - Verifies if the DB systems are valid RAC DB systems or return 400 status code with NON_RAC_DATABASE_SYSTEM error code.
+// - Verifies if the ASM connector defined for each DB system or return 400 status code with CONNECTOR_NOT_DEFINED error code.
+// - Verifies if the agents associated with ASM are valid and could be used for the Exadata storage servers or return 400 status code with
+// INVALID_AGENT error code.
+// - Verifies if it is an Exadata system or return 400 status code with INVALID_EXADATA_SYSTEM error code.
+// Starts the discovery process for the Exadata system infrastructure. The following resources/components are discovered
+// - Exadata storage servers from each DB systems
+// - Exadata storage grid for all Exadata storage servers
+// - Exadata infrastructure
+// The same API covers both new discovery and rediscovery cases.
+//   For the new discovery case, new managed resources/sub-resources are created or the existing ones are overridden.
+//   For rediscovery case, the existing managed resources/sub-resources are checked to find out which ones should be added or which ones
+// should be
 //     removed based on the unique key defined for each resource/sub-resource.
 //
 // See also
@@ -2081,6 +2670,63 @@ func (client DbManagementClient) discoverExternalExadataInfrastructure(ctx conte
 	return response, err
 }
 
+// DropSqlPlanBaselines Drops a single plan or all plans associated with a SQL statement.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DropSqlPlanBaselines.go.html to see an example of how to use DropSqlPlanBaselines API.
+func (client DbManagementClient) DropSqlPlanBaselines(ctx context.Context, request DropSqlPlanBaselinesRequest) (response DropSqlPlanBaselinesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.dropSqlPlanBaselines, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DropSqlPlanBaselinesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DropSqlPlanBaselinesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DropSqlPlanBaselinesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DropSqlPlanBaselinesResponse")
+	}
+	return
+}
+
+// dropSqlPlanBaselines implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) dropSqlPlanBaselines(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/dropSqlPlanBaselines", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DropSqlPlanBaselinesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DropSqlPlanBaselines"
+		err = common.PostProcessServiceError(err, "DbManagement", "DropSqlPlanBaselines", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DropTablespace Drops the tablespace specified by tablespaceName within the Managed Database specified by managedDatabaseId.
 //
 // See also
@@ -2136,6 +2782,135 @@ func (client DbManagementClient) dropTablespace(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/Tablespace/DropTablespace"
 		err = common.PostProcessServiceError(err, "DbManagement", "DropTablespace", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableAutomaticInitialPlanCapture Enables automatic initial plan capture. When enabled, the database checks whether
+// executed SQL statements are eligible for automatic capture. It creates initial
+// plan baselines for eligible statements.
+// By default, the database creates a SQL plan baseline for every eligible repeatable
+// statement, including all recursive SQL and monitoring SQL. Thus, automatic capture
+// may result in the creation of an extremely large number of plan baselines. To limit
+// the statements that are eligible for plan baselines, configure filters.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableAutomaticInitialPlanCapture.go.html to see an example of how to use EnableAutomaticInitialPlanCapture API.
+func (client DbManagementClient) EnableAutomaticInitialPlanCapture(ctx context.Context, request EnableAutomaticInitialPlanCaptureRequest) (response EnableAutomaticInitialPlanCaptureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.enableAutomaticInitialPlanCapture, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableAutomaticInitialPlanCaptureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableAutomaticInitialPlanCaptureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableAutomaticInitialPlanCaptureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableAutomaticInitialPlanCaptureResponse")
+	}
+	return
+}
+
+// enableAutomaticInitialPlanCapture implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableAutomaticInitialPlanCapture(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/enableAutomaticInitialPlanCapture", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableAutomaticInitialPlanCaptureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/EnableAutomaticInitialPlanCapture"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableAutomaticInitialPlanCapture", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableAutomaticSpmEvolveAdvisorTask Enables the Automatic SPM Evolve Advisor task. By default, the automatic task
+// `SYS_AUTO_SPM_EVOLVE_TASK` runs every day in the scheduled maintenance window.
+// The SPM Evolve Advisor performs the following tasks:
+// - Checks AWR for top SQL
+// - Looks for alternative plans in all available sources
+// - Adds unaccepted plans to the plan history
+// - Tests the execution of as many plans as possible during the maintenance window
+// - Adds the alternative plan to the baseline if it performs better than the current plan
+// One client controls both Automatic SQL Tuning Advisor and Automatic SPM Evolve Advisor.
+// Thus, the same task enables or disables both.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use EnableAutomaticSpmEvolveAdvisorTask API.
+func (client DbManagementClient) EnableAutomaticSpmEvolveAdvisorTask(ctx context.Context, request EnableAutomaticSpmEvolveAdvisorTaskRequest) (response EnableAutomaticSpmEvolveAdvisorTaskResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.enableAutomaticSpmEvolveAdvisorTask, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableAutomaticSpmEvolveAdvisorTaskResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableAutomaticSpmEvolveAdvisorTaskResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableAutomaticSpmEvolveAdvisorTaskResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableAutomaticSpmEvolveAdvisorTaskResponse")
+	}
+	return
+}
+
+// enableAutomaticSpmEvolveAdvisorTask implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableAutomaticSpmEvolveAdvisorTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/enableAutomaticSpmEvolveAdvisorTask", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableAutomaticSpmEvolveAdvisorTaskResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/EnableAutomaticSpmEvolveAdvisorTask"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableAutomaticSpmEvolveAdvisorTask", apiReferenceLink)
 		return response, err
 	}
 
@@ -2207,11 +2982,75 @@ func (client DbManagementClient) enableExternalDbSystemDatabaseManagement(ctx co
 	return response, err
 }
 
-// EnableExternalExadataInfrastructureManagement Enables Database Management service for the exadata infrastructure specified by externalExadataInfrastructureId. It covers the following
-// components
-//   Exadata infrastructure
-//   Exadata storage grid
-//   Exadata storage server
+// EnableExternalDbSystemStackMonitoring Enables Stack Monitoring for all the components of the specified
+// external DB system (except databases).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalDbSystemStackMonitoring.go.html to see an example of how to use EnableExternalDbSystemStackMonitoring API.
+// A default retry strategy applies to this operation EnableExternalDbSystemStackMonitoring()
+func (client DbManagementClient) EnableExternalDbSystemStackMonitoring(ctx context.Context, request EnableExternalDbSystemStackMonitoringRequest) (response EnableExternalDbSystemStackMonitoringResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableExternalDbSystemStackMonitoring, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableExternalDbSystemStackMonitoringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableExternalDbSystemStackMonitoringResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableExternalDbSystemStackMonitoringResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableExternalDbSystemStackMonitoringResponse")
+	}
+	return
+}
+
+// enableExternalDbSystemStackMonitoring implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableExternalDbSystemStackMonitoring(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalDbSystems/{externalDbSystemId}/actions/enableStackMonitoring", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableExternalDbSystemStackMonitoringResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalDbSystem/EnableExternalDbSystemStackMonitoring"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableExternalDbSystemStackMonitoring", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableExternalExadataInfrastructureManagement Enables Database Management for the Exadata infrastructure specified by externalExadataInfrastructureId. It covers the following
+// components:
+// - Exadata infrastructure
+// - Exadata storage grid
+// - Exadata storage server
 //
 // See also
 //
@@ -2267,6 +3106,128 @@ func (client DbManagementClient) enableExternalExadataInfrastructureManagement(c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalExadataInfrastructure/EnableExternalExadataInfrastructureManagement"
 		err = common.PostProcessServiceError(err, "DbManagement", "EnableExternalExadataInfrastructureManagement", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableHighFrequencyAutomaticSpmEvolveAdvisorTask Enables the high-frequency Automatic SPM Evolve Advisor task. The high-frequency
+// task runs every hour and runs for no longer than 30 minutes. These settings
+// are not configurable.
+// The high-frequency task complements the standard Automatic SPM Evolve Advisor task.
+// They are independent and are scheduled through two different frameworks.
+// It is available only on Oracle Exadata Database Machine, Oracle Database Exadata
+// Cloud Service (ExaCS) and Oracle Database Exadata Cloud@Customer (ExaCC).
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableHighFrequencyAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use EnableHighFrequencyAutomaticSpmEvolveAdvisorTask API.
+func (client DbManagementClient) EnableHighFrequencyAutomaticSpmEvolveAdvisorTask(ctx context.Context, request EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskRequest) (response EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.enableHighFrequencyAutomaticSpmEvolveAdvisorTask, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse")
+	}
+	return
+}
+
+// enableHighFrequencyAutomaticSpmEvolveAdvisorTask implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableHighFrequencyAutomaticSpmEvolveAdvisorTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/enableHighFrequencyAutomaticSpmEvolveAdvisorTask", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/EnableHighFrequencyAutomaticSpmEvolveAdvisorTask"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableHighFrequencyAutomaticSpmEvolveAdvisorTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableSqlPlanBaselinesUsage Enables the use of SQL plan baselines stored in SQL Management Base.
+// When enabled, the optimizer uses SQL plan baselines to select plans
+// to avoid potential performance regressions.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableSqlPlanBaselinesUsage.go.html to see an example of how to use EnableSqlPlanBaselinesUsage API.
+func (client DbManagementClient) EnableSqlPlanBaselinesUsage(ctx context.Context, request EnableSqlPlanBaselinesUsageRequest) (response EnableSqlPlanBaselinesUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.enableSqlPlanBaselinesUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableSqlPlanBaselinesUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableSqlPlanBaselinesUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableSqlPlanBaselinesUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableSqlPlanBaselinesUsageResponse")
+	}
+	return
+}
+
+// enableSqlPlanBaselinesUsage implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableSqlPlanBaselinesUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/enableSqlPlanBaselinesUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableSqlPlanBaselinesUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/EnableSqlPlanBaselinesUsage"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableSqlPlanBaselinesUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -3271,7 +4232,7 @@ func (client DbManagementClient) getExternalDbSystemDiscovery(ctx context.Contex
 	return response, err
 }
 
-// GetExternalExadataInfrastructure Gets the details for the the Exadata infrastructure specified by externalExadataInfrastructureId. It includes the database systems and storage grid within the
+// GetExternalExadataInfrastructure Gets the details for the Exadata infrastructure specified by externalExadataInfrastructureId. It includes the DB systems and storage grid within the
 // Exadata infrastructure.
 //
 // See also
@@ -3330,7 +4291,7 @@ func (client DbManagementClient) getExternalExadataInfrastructure(ctx context.Co
 	return response, err
 }
 
-// GetExternalExadataStorageConnector Gets the details for the storage server connector specified by exadataStorageConnectorId.
+// GetExternalExadataStorageConnector Gets the details for the Exadata storage server connector specified by exadataStorageConnectorId.
 //
 // See also
 //
@@ -3388,7 +4349,7 @@ func (client DbManagementClient) getExternalExadataStorageConnector(ctx context.
 	return response, err
 }
 
-// GetExternalExadataStorageGrid Gets the details for the storage server grid specified by exadataStorageGridId.
+// GetExternalExadataStorageGrid Gets the details for the Exadata storage server grid specified by exadataStorageGridId.
 //
 // See also
 //
@@ -3446,7 +4407,7 @@ func (client DbManagementClient) getExternalExadataStorageGrid(ctx context.Conte
 	return response, err
 }
 
-// GetExternalExadataStorageServer Gets the summary for the storage server specified by exadataStorageServerId.
+// GetExternalExadataStorageServer Gets the summary for the Exadata storage server specified by exadataStorageServerId.
 //
 // See also
 //
@@ -3562,7 +4523,7 @@ func (client DbManagementClient) getExternalListener(ctx context.Context, reques
 	return response, err
 }
 
-// GetIormPlan Get the IORM plan from the specific exadata storage server.
+// GetIormPlan Get the IORM plan from the specific Exadata storage server.
 //
 // See also
 //
@@ -3905,7 +4866,7 @@ func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, re
 	return response, err
 }
 
-// GetOpenAlertHistory Get open alerts from storage server.
+// GetOpenAlertHistory Gets the open alerts from the specified Exadata storage server.
 //
 // See also
 //
@@ -4252,6 +5213,124 @@ func (client DbManagementClient) getPreferredCredential(ctx context.Context, req
 	return response, err
 }
 
+// GetSqlPlanBaseline Gets the SQL plan baseline details for the specified planName.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetSqlPlanBaseline.go.html to see an example of how to use GetSqlPlanBaseline API.
+// A default retry strategy applies to this operation GetSqlPlanBaseline()
+func (client DbManagementClient) GetSqlPlanBaseline(ctx context.Context, request GetSqlPlanBaselineRequest) (response GetSqlPlanBaselineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSqlPlanBaseline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSqlPlanBaselineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSqlPlanBaselineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSqlPlanBaselineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSqlPlanBaselineResponse")
+	}
+	return
+}
+
+// getSqlPlanBaseline implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getSqlPlanBaseline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/{planName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSqlPlanBaselineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetSqlPlanBaseline"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetSqlPlanBaseline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSqlPlanBaselineConfiguration Gets the configuration details of SQL plan baselines for the specified
+// Managed Database. The details include the settings for the capture and use of
+// SQL plan baselines, SPM Evolve Advisor task, and SQL Management Base.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetSqlPlanBaselineConfiguration.go.html to see an example of how to use GetSqlPlanBaselineConfiguration API.
+// A default retry strategy applies to this operation GetSqlPlanBaselineConfiguration()
+func (client DbManagementClient) GetSqlPlanBaselineConfiguration(ctx context.Context, request GetSqlPlanBaselineConfigurationRequest) (response GetSqlPlanBaselineConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSqlPlanBaselineConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSqlPlanBaselineConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSqlPlanBaselineConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSqlPlanBaselineConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSqlPlanBaselineConfigurationResponse")
+	}
+	return
+}
+
+// getSqlPlanBaselineConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getSqlPlanBaselineConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselineConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSqlPlanBaselineConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/GetSqlPlanBaselineConfiguration"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetSqlPlanBaselineConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetTablespace Gets the details of the tablespace specified by tablespaceName within the Managed Database specified by managedDatabaseId.
 //
 // See also
@@ -4309,7 +5388,7 @@ func (client DbManagementClient) getTablespace(ctx context.Context, request comm
 	return response, err
 }
 
-// GetTopSqlCpuActivity Get SQL ID with top cpu activity from storage server.
+// GetTopSqlCpuActivity Gets the SQL IDs with the top CPU activity from the Exadata storage server.
 //
 // See also
 //
@@ -4826,6 +5905,64 @@ func (client DbManagementClient) listConsumerGroupPrivileges(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListConsumerGroupPrivileges"
 		err = common.PostProcessServiceError(err, "DbManagement", "ListConsumerGroupPrivileges", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCursorCacheStatements Lists the SQL statements from shared SQL area, also called the cursor cache.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCursorCacheStatements.go.html to see an example of how to use ListCursorCacheStatements API.
+// A default retry strategy applies to this operation ListCursorCacheStatements()
+func (client DbManagementClient) ListCursorCacheStatements(ctx context.Context, request ListCursorCacheStatementsRequest) (response ListCursorCacheStatementsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCursorCacheStatements, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCursorCacheStatementsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCursorCacheStatementsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCursorCacheStatementsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCursorCacheStatementsResponse")
+	}
+	return
+}
+
+// listCursorCacheStatements implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listCursorCacheStatements(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/cursorCacheStatements", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCursorCacheStatementsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListCursorCacheStatements"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListCursorCacheStatements", apiReferenceLink)
 		return response, err
 	}
 
@@ -5700,7 +6837,7 @@ func (client DbManagementClient) listExternalDbSystems(ctx context.Context, requ
 	return response, err
 }
 
-// ListExternalExadataInfrastructures Lists the Exadata infrastructures for a specific compartment.
+// ListExternalExadataInfrastructures Lists the Exadata infrastructure resources in the specified compartment.
 //
 // See also
 //
@@ -5758,7 +6895,7 @@ func (client DbManagementClient) listExternalExadataInfrastructures(ctx context.
 	return response, err
 }
 
-// ListExternalExadataStorageConnectors Lists the connectors for the specific Exadata infrastructures.
+// ListExternalExadataStorageConnectors Lists the Exadata storage server connectors for the specified Exadata infrastructure.
 //
 // See also
 //
@@ -5816,7 +6953,7 @@ func (client DbManagementClient) listExternalExadataStorageConnectors(ctx contex
 	return response, err
 }
 
-// ListExternalExadataStorageServers Lists all the storage servers for the exadata infrastructure or storage grid.
+// ListExternalExadataStorageServers Lists the Exadata storage servers for the specified Exadata infrastructure.
 //
 // See also
 //
@@ -6762,6 +7899,122 @@ func (client DbManagementClient) listRoles(ctx context.Context, request common.O
 	return response, err
 }
 
+// ListSqlPlanBaselineJobs Lists the database jobs used for loading SQL plan baselines in the specified Managed Database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSqlPlanBaselineJobs.go.html to see an example of how to use ListSqlPlanBaselineJobs API.
+// A default retry strategy applies to this operation ListSqlPlanBaselineJobs()
+func (client DbManagementClient) ListSqlPlanBaselineJobs(ctx context.Context, request ListSqlPlanBaselineJobsRequest) (response ListSqlPlanBaselineJobsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlPlanBaselineJobs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlPlanBaselineJobsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlPlanBaselineJobsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlPlanBaselineJobsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlPlanBaselineJobsResponse")
+	}
+	return
+}
+
+// listSqlPlanBaselineJobs implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listSqlPlanBaselineJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselineJobs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlPlanBaselineJobsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListSqlPlanBaselineJobs"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListSqlPlanBaselineJobs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSqlPlanBaselines Lists the SQL plan baselines for the specified Managed Database.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSqlPlanBaselines.go.html to see an example of how to use ListSqlPlanBaselines API.
+// A default retry strategy applies to this operation ListSqlPlanBaselines()
+func (client DbManagementClient) ListSqlPlanBaselines(ctx context.Context, request ListSqlPlanBaselinesRequest) (response ListSqlPlanBaselinesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlPlanBaselines, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlPlanBaselinesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlPlanBaselinesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlPlanBaselinesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlPlanBaselinesResponse")
+	}
+	return
+}
+
+// listSqlPlanBaselines implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listSqlPlanBaselines(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlPlanBaselinesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListSqlPlanBaselines"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListSqlPlanBaselines", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSystemPrivileges Gets the list of system privileges granted to a specific user.
 //
 // See also
@@ -7155,6 +8408,126 @@ func (client DbManagementClient) listWorkRequests(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DbManagement", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// LoadSqlPlanBaselinesFromAwr Loads plans from Automatic Workload Repository (AWR) snapshots. You must
+// specify the beginning and ending of the snapshot range. Optionally, you
+// can apply a filter to load only plans that meet specified criteria. By
+// default, the optimizer uses the loaded plans the next time that the database
+// executes the SQL statements.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/LoadSqlPlanBaselinesFromAwr.go.html to see an example of how to use LoadSqlPlanBaselinesFromAwr API.
+func (client DbManagementClient) LoadSqlPlanBaselinesFromAwr(ctx context.Context, request LoadSqlPlanBaselinesFromAwrRequest) (response LoadSqlPlanBaselinesFromAwrResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.loadSqlPlanBaselinesFromAwr, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = LoadSqlPlanBaselinesFromAwrResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = LoadSqlPlanBaselinesFromAwrResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(LoadSqlPlanBaselinesFromAwrResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into LoadSqlPlanBaselinesFromAwrResponse")
+	}
+	return
+}
+
+// loadSqlPlanBaselinesFromAwr implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) loadSqlPlanBaselinesFromAwr(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/loadSqlPlanBaselinesFromAwr", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response LoadSqlPlanBaselinesFromAwrResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/LoadSqlPlanBaselinesFromAwr"
+		err = common.PostProcessServiceError(err, "DbManagement", "LoadSqlPlanBaselinesFromAwr", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// LoadSqlPlanBaselinesFromCursorCache Loads plans for statements directly from the shared SQL area, also called
+// the cursor cache. By applying a filter on the module name, the schema, or
+// the SQL ID you identify the SQL statement or set of SQL statements to load.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/LoadSqlPlanBaselinesFromCursorCache.go.html to see an example of how to use LoadSqlPlanBaselinesFromCursorCache API.
+func (client DbManagementClient) LoadSqlPlanBaselinesFromCursorCache(ctx context.Context, request LoadSqlPlanBaselinesFromCursorCacheRequest) (response LoadSqlPlanBaselinesFromCursorCacheResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.loadSqlPlanBaselinesFromCursorCache, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = LoadSqlPlanBaselinesFromCursorCacheResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = LoadSqlPlanBaselinesFromCursorCacheResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(LoadSqlPlanBaselinesFromCursorCacheResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into LoadSqlPlanBaselinesFromCursorCacheResponse")
+	}
+	return
+}
+
+// loadSqlPlanBaselinesFromCursorCache implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) loadSqlPlanBaselinesFromCursorCache(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselines/actions/loadSqlPlanBaselinesFromCursorCache", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response LoadSqlPlanBaselinesFromCursorCacheResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/LoadSqlPlanBaselinesFromCursorCache"
+		err = common.PostProcessServiceError(err, "DbManagement", "LoadSqlPlanBaselinesFromCursorCache", apiReferenceLink)
 		return response, err
 	}
 
@@ -8509,6 +9882,122 @@ func (client DbManagementClient) summarizeManagedDatabaseAvailabilityMetrics(ctx
 	return response, err
 }
 
+// SummarizeSqlPlanBaselines Gets the number of SQL plan baselines aggregated by their attributes.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeSqlPlanBaselines.go.html to see an example of how to use SummarizeSqlPlanBaselines API.
+// A default retry strategy applies to this operation SummarizeSqlPlanBaselines()
+func (client DbManagementClient) SummarizeSqlPlanBaselines(ctx context.Context, request SummarizeSqlPlanBaselinesRequest) (response SummarizeSqlPlanBaselinesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeSqlPlanBaselines, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeSqlPlanBaselinesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeSqlPlanBaselinesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeSqlPlanBaselinesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeSqlPlanBaselinesResponse")
+	}
+	return
+}
+
+// summarizeSqlPlanBaselines implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) summarizeSqlPlanBaselines(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselineStats", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeSqlPlanBaselinesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeSqlPlanBaselines"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeSqlPlanBaselines", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeSqlPlanBaselinesByLastExecution Gets the number of SQL plan baselines aggregated by the age of their last execution in weeks.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeSqlPlanBaselinesByLastExecution.go.html to see an example of how to use SummarizeSqlPlanBaselinesByLastExecution API.
+// A default retry strategy applies to this operation SummarizeSqlPlanBaselinesByLastExecution()
+func (client DbManagementClient) SummarizeSqlPlanBaselinesByLastExecution(ctx context.Context, request SummarizeSqlPlanBaselinesByLastExecutionRequest) (response SummarizeSqlPlanBaselinesByLastExecutionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeSqlPlanBaselinesByLastExecution, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeSqlPlanBaselinesByLastExecutionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeSqlPlanBaselinesByLastExecutionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeSqlPlanBaselinesByLastExecutionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeSqlPlanBaselinesByLastExecutionResponse")
+	}
+	return
+}
+
+// summarizeSqlPlanBaselinesByLastExecution implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) summarizeSqlPlanBaselinesByLastExecution(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/sqlPlanBaselineExecutionStats", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeSqlPlanBaselinesByLastExecutionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/SummarizeSqlPlanBaselinesByLastExecution"
+		err = common.PostProcessServiceError(err, "DbManagement", "SummarizeSqlPlanBaselinesByLastExecution", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // TestPreferredCredential Tests the preferred credential.
 //
 // See also
@@ -9022,7 +10511,7 @@ func (client DbManagementClient) updateExternalDbSystemDiscovery(ctx context.Con
 	return response, err
 }
 
-// UpdateExternalExadataInfrastructure Updates the details for the the Exadata infrastructure specified by externalExadataInfrastructureId.
+// UpdateExternalExadataInfrastructure Updates the details for the Exadata infrastructure specified by externalExadataInfrastructureId.
 //
 // See also
 //
@@ -9085,7 +10574,7 @@ func (client DbManagementClient) updateExternalExadataInfrastructure(ctx context
 	return response, err
 }
 
-// UpdateExternalExadataStorageConnector Updates the details for the storage server connector specified by exadataStorageConnectorId.
+// UpdateExternalExadataStorageConnector Updates the Exadata storage server connector specified by exadataStorageConnectorId.
 //
 // See also
 //

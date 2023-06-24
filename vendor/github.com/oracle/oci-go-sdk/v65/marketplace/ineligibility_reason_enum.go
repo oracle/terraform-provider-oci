@@ -18,42 +18,63 @@ type IneligibilityReasonEnumEnum string
 
 // Set of constants representing the allowable values for IneligibilityReasonEnumEnum
 const (
-	IneligibilityReasonEnumIneligibleAccountCountry         IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_COUNTRY"
-	IneligibilityReasonEnumIneligibleRegion                 IneligibilityReasonEnumEnum = "INELIGIBLE_REGION"
-	IneligibilityReasonEnumIneligibleAccountBlacklisted     IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_BLACKLISTED"
-	IneligibilityReasonEnumIneligibleAccountFeatureDisabled IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_FEATURE_DISABLED"
-	IneligibilityReasonEnumIneligibleAccountCurrency        IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_CURRENCY"
-	IneligibilityReasonEnumIneligibleAccountNotPaid         IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_NOT_PAID"
-	IneligibilityReasonEnumIneligibleAccountInternal        IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_INTERNAL"
-	IneligibilityReasonEnumIneligibleAccountGovSubscription IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_GOV_SUBSCRIPTION"
-	IneligibilityReasonEnumIneligiblePaidListingThrottled   IneligibilityReasonEnumEnum = "INELIGIBLE_PAID_LISTING_THROTTLED"
-	IneligibilityReasonEnumNotAuthorized                    IneligibilityReasonEnumEnum = "NOT_AUTHORIZED"
+	IneligibilityReasonEnumIneligibleAccountCountry                      IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_COUNTRY"
+	IneligibilityReasonEnumIneligibleRegion                              IneligibilityReasonEnumEnum = "INELIGIBLE_REGION"
+	IneligibilityReasonEnumIneligibleAccountBlacklisted                  IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_BLACKLISTED"
+	IneligibilityReasonEnumIneligibleAccountFeatureDisabled              IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_FEATURE_DISABLED"
+	IneligibilityReasonEnumIneligibleAccountCurrency                     IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_CURRENCY"
+	IneligibilityReasonEnumIneligibleAccountNotPaid                      IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_NOT_PAID"
+	IneligibilityReasonEnumIneligibleAccountInternal                     IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_INTERNAL"
+	IneligibilityReasonEnumIneligibleAccountGovSubscription              IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_GOV_SUBSCRIPTION"
+	IneligibilityReasonEnumIneligiblePaidListingThrottled                IneligibilityReasonEnumEnum = "INELIGIBLE_PAID_LISTING_THROTTLED"
+	IneligibilityReasonEnumIneligibleAccountNotAvailable                 IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_NOT_AVAILABLE"
+	IneligibilityReasonEnumIneligibleAccountNotMonthlyInclusive          IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_NOT_MONTHLY_INCLUSIVE"
+	IneligibilityReasonEnumImageMetaDataSo                               IneligibilityReasonEnumEnum = "IMAGE_META_DATA_SO"
+	IneligibilityReasonEnumIneligibleAccountTenancyNotAllowedAccessImage IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_TENANCY_NOT_ALLOWED_ACCESS_IMAGE"
+	IneligibilityReasonEnumIneligibleAccountGovLaunchNonGovListing       IneligibilityReasonEnumEnum = "INELIGIBLE_ACCOUNT_GOV_LAUNCH_NON_GOV_LISTING"
+	IneligibilityReasonEnumAgreementNotAccepted                          IneligibilityReasonEnumEnum = "AGREEMENT_NOT_ACCEPTED"
+	IneligibilityReasonEnumNotAuthorized                                 IneligibilityReasonEnumEnum = "NOT_AUTHORIZED"
+	IneligibilityReasonEnumEligible                                      IneligibilityReasonEnumEnum = "ELIGIBLE"
 )
 
 var mappingIneligibilityReasonEnumEnum = map[string]IneligibilityReasonEnumEnum{
-	"INELIGIBLE_ACCOUNT_COUNTRY":          IneligibilityReasonEnumIneligibleAccountCountry,
-	"INELIGIBLE_REGION":                   IneligibilityReasonEnumIneligibleRegion,
-	"INELIGIBLE_ACCOUNT_BLACKLISTED":      IneligibilityReasonEnumIneligibleAccountBlacklisted,
-	"INELIGIBLE_ACCOUNT_FEATURE_DISABLED": IneligibilityReasonEnumIneligibleAccountFeatureDisabled,
-	"INELIGIBLE_ACCOUNT_CURRENCY":         IneligibilityReasonEnumIneligibleAccountCurrency,
-	"INELIGIBLE_ACCOUNT_NOT_PAID":         IneligibilityReasonEnumIneligibleAccountNotPaid,
-	"INELIGIBLE_ACCOUNT_INTERNAL":         IneligibilityReasonEnumIneligibleAccountInternal,
-	"INELIGIBLE_ACCOUNT_GOV_SUBSCRIPTION": IneligibilityReasonEnumIneligibleAccountGovSubscription,
-	"INELIGIBLE_PAID_LISTING_THROTTLED":   IneligibilityReasonEnumIneligiblePaidListingThrottled,
-	"NOT_AUTHORIZED":                      IneligibilityReasonEnumNotAuthorized,
+	"INELIGIBLE_ACCOUNT_COUNTRY":                          IneligibilityReasonEnumIneligibleAccountCountry,
+	"INELIGIBLE_REGION":                                   IneligibilityReasonEnumIneligibleRegion,
+	"INELIGIBLE_ACCOUNT_BLACKLISTED":                      IneligibilityReasonEnumIneligibleAccountBlacklisted,
+	"INELIGIBLE_ACCOUNT_FEATURE_DISABLED":                 IneligibilityReasonEnumIneligibleAccountFeatureDisabled,
+	"INELIGIBLE_ACCOUNT_CURRENCY":                         IneligibilityReasonEnumIneligibleAccountCurrency,
+	"INELIGIBLE_ACCOUNT_NOT_PAID":                         IneligibilityReasonEnumIneligibleAccountNotPaid,
+	"INELIGIBLE_ACCOUNT_INTERNAL":                         IneligibilityReasonEnumIneligibleAccountInternal,
+	"INELIGIBLE_ACCOUNT_GOV_SUBSCRIPTION":                 IneligibilityReasonEnumIneligibleAccountGovSubscription,
+	"INELIGIBLE_PAID_LISTING_THROTTLED":                   IneligibilityReasonEnumIneligiblePaidListingThrottled,
+	"INELIGIBLE_ACCOUNT_NOT_AVAILABLE":                    IneligibilityReasonEnumIneligibleAccountNotAvailable,
+	"INELIGIBLE_ACCOUNT_NOT_MONTHLY_INCLUSIVE":            IneligibilityReasonEnumIneligibleAccountNotMonthlyInclusive,
+	"IMAGE_META_DATA_SO":                                  IneligibilityReasonEnumImageMetaDataSo,
+	"INELIGIBLE_ACCOUNT_TENANCY_NOT_ALLOWED_ACCESS_IMAGE": IneligibilityReasonEnumIneligibleAccountTenancyNotAllowedAccessImage,
+	"INELIGIBLE_ACCOUNT_GOV_LAUNCH_NON_GOV_LISTING":       IneligibilityReasonEnumIneligibleAccountGovLaunchNonGovListing,
+	"AGREEMENT_NOT_ACCEPTED":                              IneligibilityReasonEnumAgreementNotAccepted,
+	"NOT_AUTHORIZED":                                      IneligibilityReasonEnumNotAuthorized,
+	"ELIGIBLE":                                            IneligibilityReasonEnumEligible,
 }
 
 var mappingIneligibilityReasonEnumEnumLowerCase = map[string]IneligibilityReasonEnumEnum{
-	"ineligible_account_country":          IneligibilityReasonEnumIneligibleAccountCountry,
-	"ineligible_region":                   IneligibilityReasonEnumIneligibleRegion,
-	"ineligible_account_blacklisted":      IneligibilityReasonEnumIneligibleAccountBlacklisted,
-	"ineligible_account_feature_disabled": IneligibilityReasonEnumIneligibleAccountFeatureDisabled,
-	"ineligible_account_currency":         IneligibilityReasonEnumIneligibleAccountCurrency,
-	"ineligible_account_not_paid":         IneligibilityReasonEnumIneligibleAccountNotPaid,
-	"ineligible_account_internal":         IneligibilityReasonEnumIneligibleAccountInternal,
-	"ineligible_account_gov_subscription": IneligibilityReasonEnumIneligibleAccountGovSubscription,
-	"ineligible_paid_listing_throttled":   IneligibilityReasonEnumIneligiblePaidListingThrottled,
-	"not_authorized":                      IneligibilityReasonEnumNotAuthorized,
+	"ineligible_account_country":                          IneligibilityReasonEnumIneligibleAccountCountry,
+	"ineligible_region":                                   IneligibilityReasonEnumIneligibleRegion,
+	"ineligible_account_blacklisted":                      IneligibilityReasonEnumIneligibleAccountBlacklisted,
+	"ineligible_account_feature_disabled":                 IneligibilityReasonEnumIneligibleAccountFeatureDisabled,
+	"ineligible_account_currency":                         IneligibilityReasonEnumIneligibleAccountCurrency,
+	"ineligible_account_not_paid":                         IneligibilityReasonEnumIneligibleAccountNotPaid,
+	"ineligible_account_internal":                         IneligibilityReasonEnumIneligibleAccountInternal,
+	"ineligible_account_gov_subscription":                 IneligibilityReasonEnumIneligibleAccountGovSubscription,
+	"ineligible_paid_listing_throttled":                   IneligibilityReasonEnumIneligiblePaidListingThrottled,
+	"ineligible_account_not_available":                    IneligibilityReasonEnumIneligibleAccountNotAvailable,
+	"ineligible_account_not_monthly_inclusive":            IneligibilityReasonEnumIneligibleAccountNotMonthlyInclusive,
+	"image_meta_data_so":                                  IneligibilityReasonEnumImageMetaDataSo,
+	"ineligible_account_tenancy_not_allowed_access_image": IneligibilityReasonEnumIneligibleAccountTenancyNotAllowedAccessImage,
+	"ineligible_account_gov_launch_non_gov_listing":       IneligibilityReasonEnumIneligibleAccountGovLaunchNonGovListing,
+	"agreement_not_accepted":                              IneligibilityReasonEnumAgreementNotAccepted,
+	"not_authorized":                                      IneligibilityReasonEnumNotAuthorized,
+	"eligible":                                            IneligibilityReasonEnumEligible,
 }
 
 // GetIneligibilityReasonEnumEnumValues Enumerates the set of values for IneligibilityReasonEnumEnum
@@ -77,7 +98,14 @@ func GetIneligibilityReasonEnumEnumStringValues() []string {
 		"INELIGIBLE_ACCOUNT_INTERNAL",
 		"INELIGIBLE_ACCOUNT_GOV_SUBSCRIPTION",
 		"INELIGIBLE_PAID_LISTING_THROTTLED",
+		"INELIGIBLE_ACCOUNT_NOT_AVAILABLE",
+		"INELIGIBLE_ACCOUNT_NOT_MONTHLY_INCLUSIVE",
+		"IMAGE_META_DATA_SO",
+		"INELIGIBLE_ACCOUNT_TENANCY_NOT_ALLOWED_ACCESS_IMAGE",
+		"INELIGIBLE_ACCOUNT_GOV_LAUNCH_NON_GOV_LISTING",
+		"AGREEMENT_NOT_ACCEPTED",
 		"NOT_AUTHORIZED",
+		"ELIGIBLE",
 	}
 }
 

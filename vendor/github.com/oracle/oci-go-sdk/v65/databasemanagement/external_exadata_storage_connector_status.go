@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// ExternalExadataStorageConnectorStatus The status of a Exadata storage server connector.
+// ExternalExadataStorageConnectorStatus The status of an Exadata storage server connector.
 type ExternalExadataStorageConnectorStatus struct {
 
 	// The connection status of the connector.
 	Status ExternalExadataStorageConnectorStatusStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata storage connector.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata storage server connector.
 	Id *string `mandatory:"false" json:"id"`
 
 	// The error message indicating the reason for failure or `null` if the connection was successful.

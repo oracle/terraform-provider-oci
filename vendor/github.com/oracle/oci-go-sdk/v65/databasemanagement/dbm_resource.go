@@ -18,34 +18,34 @@ import (
 	"strings"
 )
 
-// DbmResource The base exadata resource.
+// DbmResource The base Exadata resource.
 type DbmResource interface {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata resource.
 	GetId() *string
 
-	// The name of the resource. English letters, numbers, "-", "_" and "." only.
+	// The name of the Exadata resource. English letters, numbers, "-", "_" and "." only.
 	GetDisplayName() *string
 
-	// The version of the resource.
+	// The version of the Exadata resource.
 	GetVersion() *string
 
-	// The internal ID.
+	// The internal ID of the Exadata resource.
 	GetInternalId() *string
 
-	// The status of the entity.
+	// The status of the Exadata resource.
 	GetStatus() *string
 
 	// The current lifecycle state of the database resource.
 	GetLifecycleState() DbmResourceLifecycleStateEnum
 
-	// The timestamp of the creation.
+	// The timestamp of the creation of the Exadata resource.
 	GetTimeCreated() *common.SDKTime
 
-	// The timestamp of the last update.
+	// The timestamp of the last update of the Exadata resource.
 	GetTimeUpdated() *common.SDKTime
 
-	// The details of the lifecycle state.
+	// The details of the lifecycle state of the Exadata resource.
 	GetLifecycleDetails() *string
 
 	// The additional details of the resource defined in `{"key": "value"}` format.
