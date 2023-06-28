@@ -51,11 +51,13 @@ resource "oci_mysql_channel" "test_channel" {
 		#Optional
 		applier_username = var.channel_target_applier_username
 		channel_name = oci_mysql_channel.test_channel.name
+		delay_in_seconds = var.channel_target_delay_in_seconds
 		filters {
 			#Required
 			type = var.channel_target_filters_type
 			value = var.channel_target_filters_value
 		}
+		tables_without_primary_key_handling = var.channel_target_tables_without_primary_key_handling
 	}
 
 	#Optional
@@ -97,11 +99,13 @@ The following arguments are supported:
 	* `applier_username` - (Optional) (Updatable) The username for the replication applier of the target MySQL DB System.
 	* `channel_name` - (Optional) (Updatable) The case-insensitive name that identifies the replication channel. Channel names must follow the rules defined for [MySQL identifiers](https://dev.mysql.com/doc/refman/8.0/en/identifiers.html). The names of non-Deleted Channels must be unique for each DB System. 
 	* `db_system_id` - (Required) The OCID of the target DB System.
+	* `delay_in_seconds` - (Optional) (Updatable) Specifies the amount of time, in seconds, that the channel waits before  applying a transaction received from the source. 
 	* `filters` - (Optional) (Updatable) Replication filter rules to be applied at the DB System Channel target. 
 		* `type` - (Required) (Updatable) The type of the filter rule.
 
 			For details on each type, see [Replication Filtering Rules](https://dev.mysql.com/doc/refman/8.0/en/replication-rules.html) 
 		* `value` - (Required) (Updatable) The body of the filter rule. This can represent a database, a table, or a database pair (represented as "db1->db2"). For more information, see [Replication Filtering Rules](https://dev.mysql.com/doc/refman/8.0/en/replication-rules.html). 
+	* `tables_without_primary_key_handling` - (Optional) (Updatable) Specifies how a replication channel handles the creation and alteration of tables  that do not have a primary key. The default value is set to ALLOW. 
 	* `target_type` - (Required) (Updatable) The specific target identifier.
 
 
@@ -138,11 +142,13 @@ The following attributes are exported:
 	* `applier_username` - The username for the replication applier of the target MySQL DB System.
 	* `channel_name` - The case-insensitive name that identifies the replication channel. Channel names must follow the rules defined for [MySQL identifiers](https://dev.mysql.com/doc/refman/8.0/en/identifiers.html). The names of non-Deleted Channels must be unique for each DB System. 
 	* `db_system_id` - The OCID of the source DB System.
+	* `delay_in_seconds` - Specifies the amount of time, in seconds, that the channel waits before  applying a transaction received from the source. 
 	* `filters` - Replication filter rules to be applied at the DB System Channel target. 
 		* `type` - The type of the filter rule.
 
 			For details on each type, see [Replication Filtering Rules](https://dev.mysql.com/doc/refman/8.0/en/replication-rules.html) 
 		* `value` - The body of the filter rule. This can represent a database, a table, or a database pair (represented as "db1->db2"). For more information, see [Replication Filtering Rules](https://dev.mysql.com/doc/refman/8.0/en/replication-rules.html). 
+	* `tables_without_primary_key_handling` - Specifies how a replication channel handles the creation and alteration of tables  that do not have a primary key. 
 	* `target_type` - The specific target identifier.
 * `time_created` - The date and time the Channel was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `time_updated` - The time the Channel was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

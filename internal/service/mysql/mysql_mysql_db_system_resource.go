@@ -519,6 +519,10 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"delay_in_seconds": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
 									"filters": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -539,6 +543,10 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 												},
 											},
 										},
+									},
+									"tables_without_primary_key_handling": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 									"target_type": {
 										Type:     schema.TypeString,
@@ -1590,11 +1598,17 @@ func ChannelTargetToMap(obj *oci_mysql.ChannelTarget) map[string]interface{} {
 			result["db_system_id"] = string(*v.DbSystemId)
 		}
 
+		if v.DelayInSeconds != nil {
+			result["delay_in_seconds"] = int(*v.DelayInSeconds)
+		}
+
 		filters := []interface{}{}
 		for _, item := range v.Filters {
 			filters = append(filters, ChannelFilterToMap(item))
 		}
 		result["filters"] = filters
+
+		result["tables_without_primary_key_handling"] = string(v.TablesWithoutPrimaryKeyHandling)
 	default:
 		log.Printf("[WARN] Received 'target_type' of unknown type %v", *obj)
 		return nil

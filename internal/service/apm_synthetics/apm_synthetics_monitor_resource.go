@@ -56,8 +56,20 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 				Required: true,
 				MaxItems: 50,
 				MinItems: 1,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+					},
 				},
 			},
 
@@ -701,9 +713,14 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 		interfaces := vantagePoints.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(string)
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "vantage_points", stateDataIndex)
+			converted, err := s.mapToVantagePointInfo(fieldKeyFormat)
+			if err != nil {
+				return err
 			}
+			name := converted.Name
+			tmp[i] = *name
 		}
 		if len(tmp) != 0 || s.D.HasChange("vantage_points") {
 			request.VantagePoints = tmp
@@ -879,9 +896,14 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 		interfaces := vantagePoints.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(string)
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "vantage_points", stateDataIndex)
+			converted, err := s.mapToVantagePointInfo(fieldKeyFormat)
+			if err != nil {
+				return err
 			}
+			name := converted.Name
+			tmp[i] = *name
 		}
 		if len(tmp) != 0 || s.D.HasChange("vantage_points") {
 			request.VantagePoints = tmp
@@ -1021,7 +1043,7 @@ func (s *ApmSyntheticsMonitorResourceCrud) SetData() error {
 
 	vantagePoints := []interface{}{}
 	for _, item := range s.Res.VantagePoints {
-		vantagePoints = append(vantagePoints, item.Name)
+		vantagePoints = append(vantagePoints, VantagePointInfoToMap(item))
 	}
 	s.D.Set("vantage_points", vantagePoints)
 
@@ -1606,7 +1628,7 @@ func MonitorSummaryToMap(obj oci_apm_synthetics.MonitorSummary) map[string]inter
 
 	vantagePoints := []interface{}{}
 	for _, item := range obj.VantagePoints {
-		vantagePoints = append(vantagePoints, item.Name)
+		vantagePoints = append(vantagePoints, VantagePointInfoToMap(item))
 	}
 	result["vantage_points"] = vantagePoints
 
@@ -1858,4 +1880,20 @@ func MonitorScriptParameterInfoToMap(obj oci_apm_synthetics.MonitorScriptParamet
 	}
 
 	return result
+}
+
+func (s *ApmSyntheticsMonitorResourceCrud) mapToVantagePointInfo(fieldKeyFormat string) (oci_apm_synthetics.VantagePointInfo, error) {
+	result := oci_apm_synthetics.VantagePointInfo{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	return result, nil
 }

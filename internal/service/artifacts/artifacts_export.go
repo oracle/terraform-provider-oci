@@ -78,6 +78,9 @@ var exportArtifactsContainerImageSignatureHints = &tf_export.TerraformResourceHi
 	IsDatasourceCollection: true,
 	ResourceAbbreviation:   "container_image_signature",
 	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_artifacts.ContainerImageSignatureLifecycleStateAvailable),
+	},
 }
 
 var exportArtifactsRepositoryHints = &tf_export.TerraformResourceHints{

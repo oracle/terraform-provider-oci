@@ -53,6 +53,23 @@ type ContainerImageSignatureSummary struct {
 
 	// An RFC 3339 timestamp indicating when the image was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The current state of the container image signature.
+	LifecycleState ContainerImageSignatureLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+
+	// The system tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
 }
 
 func (m ContainerImageSignatureSummary) String() string {
@@ -66,6 +83,9 @@ func (m ContainerImageSignatureSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingContainerImageSignatureSummarySigningAlgorithmEnum(string(m.SigningAlgorithm)); !ok && m.SigningAlgorithm != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SigningAlgorithm: %s. Supported values are: %s.", m.SigningAlgorithm, strings.Join(GetContainerImageSignatureSummarySigningAlgorithmEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingContainerImageSignatureLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetContainerImageSignatureLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

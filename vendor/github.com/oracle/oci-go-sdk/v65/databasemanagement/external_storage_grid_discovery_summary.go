@@ -18,16 +18,16 @@ import (
 	"strings"
 )
 
-// ExternalStorageGridDiscoverySummary The Exadata storage server grid.
+// ExternalStorageGridDiscoverySummary The summary of the Exadata storage server grid discovery.
 type ExternalStorageGridDiscoverySummary struct {
 
 	// The name of the entity.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Null for new discover case.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the entity discovered.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent could be used for monitoring.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent used for monitoring.
 	AgentId *string `mandatory:"false" json:"agentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated connector.
@@ -36,22 +36,22 @@ type ExternalStorageGridDiscoverySummary struct {
 	// The version of the entity.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The internal identifier.
+	// The internal identifier of the entity.
 	InternalId *string `mandatory:"false" json:"internalId"`
 
 	// The status of the entity.
 	Status *string `mandatory:"false" json:"status"`
 
-	// The error code of the discovery on the resource
+	// The error code of the discovery.
 	DiscoverErrorCode *string `mandatory:"false" json:"discoverErrorCode"`
 
-	// The error message of the discovery on the resource
+	// The error message of the discovery.
 	DiscoverErrorMsg *string `mandatory:"false" json:"discoverErrorMsg"`
 
-	// The total number of the storage servers discovered.
+	// The total number of Exadata storage servers discovered.
 	CountOfStorageServersDiscovered *int `mandatory:"false" json:"countOfStorageServersDiscovered"`
 
-	// The status of the entity discover.
+	// The status of the entity discovery.
 	DiscoverStatus EntityDiscoveredDiscoverStatusEnum `mandatory:"false" json:"discoverStatus,omitempty"`
 }
 

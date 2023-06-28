@@ -604,9 +604,9 @@ func (s *BastionSessionResourceCrud) mapToCreateSessionTargetResourceDetails(fie
 func TargetResourceDetailsToMap(obj *oci_bastion.TargetResourceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
-	case oci_bastion.CreateDynamicPortForwardingSessionTargetResourceDetails:
+	case oci_bastion.DynamicPortForwardingSessionTargetResourceDetails:
 		result["session_type"] = "DYNAMIC_PORT_FORWARDING"
-	case oci_bastion.CreateManagedSshSessionTargetResourceDetails:
+	case oci_bastion.ManagedSshSessionTargetResourceDetails:
 		result["session_type"] = "MANAGED_SSH"
 
 		if v.TargetResourceId != nil {
@@ -624,7 +624,7 @@ func TargetResourceDetailsToMap(obj *oci_bastion.TargetResourceDetails) map[stri
 		if v.TargetResourcePrivateIpAddress != nil {
 			result["target_resource_private_ip_address"] = string(*v.TargetResourcePrivateIpAddress)
 		}
-	case oci_bastion.CreatePortForwardingSessionTargetResourceDetails:
+	case oci_bastion.PortForwardingSessionTargetResourceDetails:
 		result["session_type"] = "PORT_FORWARDING"
 
 		if v.TargetResourceFqdn != nil {
@@ -643,7 +643,7 @@ func TargetResourceDetailsToMap(obj *oci_bastion.TargetResourceDetails) map[stri
 			result["target_resource_private_ip_address"] = string(*v.TargetResourcePrivateIpAddress)
 		}
 	default:
-		log.Printf("[WARN] Received 'session_type' of unknown type %v", *obj)
+		log.Printf("[WARN] Received 'session_type' of unknown type %T", *obj)
 		return nil
 	}
 

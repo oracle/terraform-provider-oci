@@ -62,6 +62,14 @@ func DatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Computed: true,
 			},
+			"key_store_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"key_store_wallet_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -251,6 +259,14 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.KeyStoreId != nil {
+		s.D.Set("key_store_id", *s.Res.KeyStoreId)
+	}
+
+	if s.Res.KeyStoreWalletName != nil {
+		s.D.Set("key_store_wallet_name", *s.Res.KeyStoreWalletName)
 	}
 
 	if s.Res.KmsKeyId != nil {

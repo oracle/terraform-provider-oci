@@ -37,6 +37,18 @@ resource "oci_core_vcn" "test_vcn" {
   compartment_id = var.compartment_ocid
 }
 
+data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
+  compartment_id = var.compartment_ocid
+
+  #Optional
+  state        = "ACTIVE"
+  shape_name   = "VM.Standard.E2.4"
+}
+
+data "oci_identity_availability_domains" "test_availability_domains" {
+  compartment_id = var.tenancy_ocid
+}
+
 resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   #Required
   admin_password      = "BEstrO0ng_#11"
@@ -73,26 +85,6 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 
 }
 
-data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
-  compartment_id = var.compartment_ocid
-
-  #Optional
-  state        = "ACTIVE"
-  shape_name   = "VM.Standard.E2.4"
-}
-
-data "oci_mysql_shapes" "test_shapes" {
-  compartment_id = var.compartment_ocid
-}
-
-data "oci_identity_availability_domains" "test_availability_domains" {
-  compartment_id = var.tenancy_ocid
-}
-
-output "configuration_id" {
-  value = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-}
-
 resource "oci_mysql_channel" "test_channel" {
   #Required
   source {
@@ -122,6 +114,8 @@ resource "oci_mysql_channel" "test_channel" {
       type = "REPLICATE_DO_DB"
       value = "value"
     }
+    delay_in_seconds = "60"
+    tables_without_primary_key_handling = "GENERATE_IMPLICIT_PRIMARY_KEY"
   }
 }
 
@@ -139,6 +133,6 @@ data "oci_mysql_channel" "test_channel" {
   channel_id   = oci_mysql_channel.test_channel.id
 }
 
-//data "oci_mysql_mysql_db_system" "test_mysql_db_system" {
-//  db_system_id = oci_mysql_mysql_db_system.test_mysql_backup_db_system.id
-//}
+output "channel_id" {
+  value = data.oci_mysql_channel.test_channel.id
+}

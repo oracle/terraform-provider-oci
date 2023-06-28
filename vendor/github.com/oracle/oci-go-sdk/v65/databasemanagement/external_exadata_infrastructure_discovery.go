@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ExternalExadataInfrastructureDiscovery The discovery result of the Exadata infrastructure.
+// ExternalExadataInfrastructureDiscovery The result of the Exadata infrastructure discovery.
 type ExternalExadataInfrastructureDiscovery struct {
 
 	// The name of the entity.
@@ -27,10 +27,10 @@ type ExternalExadataInfrastructureDiscovery struct {
 	// The unique key of the discovery request.
 	DiscoveryKey *string `mandatory:"true" json:"discoveryKey"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Null for new discover case.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the entity discovered.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent could be used for monitoring.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the agent used for monitoring.
 	AgentId *string `mandatory:"false" json:"agentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated connector.
@@ -39,30 +39,30 @@ type ExternalExadataInfrastructureDiscovery struct {
 	// The version of the entity.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The internal identifier.
+	// The internal identifier of the entity.
 	InternalId *string `mandatory:"false" json:"internalId"`
 
 	// The status of the entity.
 	Status *string `mandatory:"false" json:"status"`
 
-	// The error code of the discovery on the resource
+	// The error code of the discovery.
 	DiscoverErrorCode *string `mandatory:"false" json:"discoverErrorCode"`
 
-	// The error message of the discovery on the resource
+	// The error message of the discovery.
 	DiscoverErrorMsg *string `mandatory:"false" json:"discoverErrorMsg"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The Oracle home path of the infrastructure.
+	// The Oracle home path of the Exadata infrastructure.
 	GridHomePath *string `mandatory:"false" json:"gridHomePath"`
 
-	// The list of all the rac database systems.
+	// The list of DB systems in the Exadata infrastructure.
 	DbSystems []ExternalDatabaseSystemDiscoverySummary `mandatory:"false" json:"dbSystems"`
 
 	StorageGrid *ExternalStorageGridDiscoverySummary `mandatory:"false" json:"storageGrid"`
 
-	// The list of all the storage servers.
+	// The list of storage servers in the Exadata infrastructure.
 	StorageServers []ExternalStorageServerDiscoverySummary `mandatory:"false" json:"storageServers"`
 
 	// The Oracle license model that applies to the database management resources.
@@ -71,7 +71,7 @@ type ExternalExadataInfrastructureDiscovery struct {
 	// The size of the Exadata infrastructure.
 	RackSize ExternalExadataInfrastructureDiscoveryRackSizeEnum `mandatory:"false" json:"rackSize,omitempty"`
 
-	// The status of the entity discover.
+	// The status of the entity discovery.
 	DiscoverStatus EntityDiscoveredDiscoverStatusEnum `mandatory:"false" json:"discoverStatus,omitempty"`
 }
 

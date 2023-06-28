@@ -20,7 +20,7 @@ import (
 // ExternalExadataStorageConnectorCollection The Exadata storage server connector list.
 type ExternalExadataStorageConnectorCollection struct {
 
-	// A list of Exadata storage server connector.
+	// A list of Exadata storage server connectors.
 	Items []ExternalExadataStorageConnectorSummary `mandatory:"true" json:"items"`
 }
 

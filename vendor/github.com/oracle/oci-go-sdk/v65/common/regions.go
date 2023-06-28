@@ -108,6 +108,8 @@ const (
 	RegionEUDccDublin1 Region = "eu-dcc-dublin-1"
 	//RegionEUMadrid2 region Madrid
 	RegionEUMadrid2 Region = "eu-madrid-2"
+	//RegionEUFrankfurt2 region Frankfurt
+	RegionEUFrankfurt2 Region = "eu-frankfurt-2"
 	//RegionEUJovanovac1 region Jovanovac
 	RegionEUJovanovac1 Region = "eu-jovanovac-1"
 )
@@ -165,6 +167,7 @@ var shortNameRegion = map[string]Region{
 	"dus": RegionEUDccRating1,
 	"ork": RegionEUDccDublin1,
 	"vll": RegionEUMadrid2,
+	"str": RegionEUFrankfurt2,
 	"beg": RegionEUJovanovac1,
 }
 
@@ -241,7 +244,8 @@ var regionRealm = map[Region]string{
 	RegionEUDccRating1: "oc14",
 	RegionEUDccDublin1: "oc14",
 
-	RegionEUMadrid2: "oc19",
+	RegionEUMadrid2:    "oc19",
+	RegionEUFrankfurt2: "oc19",
 
 	RegionEUJovanovac1: "oc20",
 }

@@ -39,14 +39,12 @@ var (
 	}
 
 	ApmSyntheticsApmSyntheticsmonitorDataSourceRepresentation = map[string]interface{}{
-		"apm_domain_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
-		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"is_maintenance_window_active": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_maintenance_window_set":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"monitor_type":                 acctest.Representation{RepType: acctest.Optional, Create: `SCRIPTED_BROWSER`},
-		"script_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
-		"status":                       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmSyntheticsmonitorDataSourceFilterRepresentation}}
+		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"monitor_type":  acctest.Representation{RepType: acctest.Optional, Create: `SCRIPTED_BROWSER`},
+		"script_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
+		"status":        acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmSyntheticsmonitorDataSourceFilterRepresentation}}
 	ApmSyntheticsmonitorDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `display_name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_apm_synthetics_monitor.test_monitor.display_name}`}},
@@ -57,7 +55,7 @@ var (
 		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"monitor_type":                acctest.Representation{RepType: acctest.Required, Create: `SCRIPTED_BROWSER`},
 		"repeat_interval_in_seconds":  acctest.Representation{RepType: acctest.Required, Create: `600`, Update: `1200`},
-		"vantage_points":              acctest.Representation{RepType: acctest.Required, Create: []string{`OraclePublic-us-ashburn-1`}},
+		"vantage_points":              acctest.RepresentationGroup{RepType: acctest.Required, Group: monitorVantagePointsRepresentation},
 		"availability_configuration":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorAvailabilityConfigurationRepresentation},
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
@@ -71,6 +69,10 @@ var (
 		"timeout_in_seconds":          acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `120`},
 		"configuration":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorConfigurationRepresentation},
 		"script_parameters":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsmonitorScriptParametersRepresentation},
+	}
+	monitorVantagePointsRepresentation = map[string]interface{}{
+		"name":         acctest.Representation{RepType: acctest.Required, Create: `OraclePublic-us-ashburn-1`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `US East (Ashburn)`},
 	}
 
 	ApmSyntheticsmonitorConfigurationRepresentation = map[string]interface{}{
@@ -182,7 +184,7 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "60"),
 				resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
 				resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -242,7 +244,7 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "120"),
 				resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
 				resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -262,8 +264,6 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "is_maintenance_window_active", "false"),
-				resource.TestCheckResourceAttr(datasourceName, "is_maintenance_window_set", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "monitor_type", "SCRIPTED_BROWSER"),
 				resource.TestCheckResourceAttrSet(datasourceName, "script_id"),
 				resource.TestCheckResourceAttr(datasourceName, "status", "DISABLED"),
@@ -320,7 +320,7 @@ func TestApmSyntheticsMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "120"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point_count"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "vantage_points.#", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_points.0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_points.0.name"),
 			),
 		},
 		// verify resource import

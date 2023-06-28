@@ -58,8 +58,10 @@ The following attributes are exported:
 
 * `compartment_id` - The compartment OCID to which the container image belongs. Inferred from the container repository.
 * `created_by` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user or principal that created the resource.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `digest` - The container image digest.
 * `display_name` - The repository name and the most recent version associated with the image. If there are no versions associated with the image, then last known version and digest are used instead. If the last known version is unavailable, then 'unknown' is used instead of the version.  Example: `ubuntu:latest` or `ubuntu:latest@sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container image.  Example: `ocid1.containerimage.oc1..exampleuniqueID` 
 * `layers` - Layers of which the image is composed, ordered by the layer digest.
 	* `digest` - The sha256 digest of the image layer.
@@ -71,6 +73,7 @@ The following attributes are exported:
 * `repository_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container repository.
 * `repository_name` - The container repository name.
 * `state` - The current state of the container image.
+* `system_tags` - The system tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - An RFC 3339 timestamp indicating when the image was created.
 * `time_last_pulled` - An RFC 3339 timestamp indicating when the image was last pulled.
 * `version` - The most recent version associated with this image.

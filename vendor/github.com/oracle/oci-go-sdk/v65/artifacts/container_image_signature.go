@@ -56,6 +56,23 @@ type ContainerImageSignature struct {
 
 	// An RFC 3339 timestamp indicating when the image was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The current state of the container image signature.
+	LifecycleState ContainerImageSignatureLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+
+	// The system tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
 }
 
 func (m ContainerImageSignature) String() string {
@@ -69,6 +86,9 @@ func (m ContainerImageSignature) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingContainerImageSignatureSigningAlgorithmEnum(string(m.SigningAlgorithm)); !ok && m.SigningAlgorithm != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SigningAlgorithm: %s. Supported values are: %s.", m.SigningAlgorithm, strings.Join(GetContainerImageSignatureSigningAlgorithmEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingContainerImageSignatureLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetContainerImageSignatureLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -124,5 +144,51 @@ func GetContainerImageSignatureSigningAlgorithmEnumStringValues() []string {
 // GetMappingContainerImageSignatureSigningAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingContainerImageSignatureSigningAlgorithmEnum(val string) (ContainerImageSignatureSigningAlgorithmEnum, bool) {
 	enum, ok := mappingContainerImageSignatureSigningAlgorithmEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ContainerImageSignatureLifecycleStateEnum Enum with underlying type: string
+type ContainerImageSignatureLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ContainerImageSignatureLifecycleStateEnum
+const (
+	ContainerImageSignatureLifecycleStateAvailable ContainerImageSignatureLifecycleStateEnum = "AVAILABLE"
+	ContainerImageSignatureLifecycleStateDeleting  ContainerImageSignatureLifecycleStateEnum = "DELETING"
+	ContainerImageSignatureLifecycleStateDeleted   ContainerImageSignatureLifecycleStateEnum = "DELETED"
+)
+
+var mappingContainerImageSignatureLifecycleStateEnum = map[string]ContainerImageSignatureLifecycleStateEnum{
+	"AVAILABLE": ContainerImageSignatureLifecycleStateAvailable,
+	"DELETING":  ContainerImageSignatureLifecycleStateDeleting,
+	"DELETED":   ContainerImageSignatureLifecycleStateDeleted,
+}
+
+var mappingContainerImageSignatureLifecycleStateEnumLowerCase = map[string]ContainerImageSignatureLifecycleStateEnum{
+	"available": ContainerImageSignatureLifecycleStateAvailable,
+	"deleting":  ContainerImageSignatureLifecycleStateDeleting,
+	"deleted":   ContainerImageSignatureLifecycleStateDeleted,
+}
+
+// GetContainerImageSignatureLifecycleStateEnumValues Enumerates the set of values for ContainerImageSignatureLifecycleStateEnum
+func GetContainerImageSignatureLifecycleStateEnumValues() []ContainerImageSignatureLifecycleStateEnum {
+	values := make([]ContainerImageSignatureLifecycleStateEnum, 0)
+	for _, v := range mappingContainerImageSignatureLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetContainerImageSignatureLifecycleStateEnumStringValues Enumerates the set of values in String for ContainerImageSignatureLifecycleStateEnum
+func GetContainerImageSignatureLifecycleStateEnumStringValues() []string {
+	return []string{
+		"AVAILABLE",
+		"DELETING",
+		"DELETED",
+	}
+}
+
+// GetMappingContainerImageSignatureLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingContainerImageSignatureLifecycleStateEnum(val string) (ContainerImageSignatureLifecycleStateEnum, bool) {
+	enum, ok := mappingContainerImageSignatureLifecycleStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

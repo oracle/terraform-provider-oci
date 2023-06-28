@@ -20,7 +20,7 @@ import (
 // TopSqlCpuActivity A list of SQL IDs with most CPU activity.
 type TopSqlCpuActivity struct {
 
-	// A list of sql cpu activity.
+	// A list of sql CPU activity.
 	Activity []SqlCpuActivity `mandatory:"true" json:"activity"`
 }
 

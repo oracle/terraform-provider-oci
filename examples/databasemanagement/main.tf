@@ -805,6 +805,101 @@ data "oci_database_management_external_db_system_connectors" "test_external_db_s
 #  enable_database_management = false
 #}
 
+# Enable Stack Monitoring for ExternalDbSystem
+resource "oci_database_management_external_db_system_stack_monitorings_management" "test_external_db_system_stack_monitoring_management" {
+  #Required
+  external_db_system_id      = oci_database_management_external_db_system.test_external_db_system.id
+  enable_stack_monitoring    = true
+  is_enabled                 = true
+}
+
+## Disable Stack Monitoring for ExternalDbSystem
+#resource "oci_database_management_external_db_system_stack_monitorings_management" "test_external_db_system_stack_monitoring_management" {
+#  #Required
+#  external_db_system_id      = oci_database_management_external_db_system.test_external_db_system.id
+#  enable_stack_monitoring    = false
+#}
+
+####################### SQL Plan Management #########################
+variable "managed_database_sql_plan_baseline_is_accepted" {
+  default = false
+}
+
+variable "managed_database_sql_plan_baseline_is_adaptive" {
+  default = false
+}
+
+variable "managed_database_sql_plan_baseline_is_enabled" {
+  default = true
+}
+
+variable "managed_database_sql_plan_baseline_is_fixed" {
+  default = false
+}
+
+variable "managed_database_sql_plan_baseline_is_reproduced" {
+  default = false
+}
+
+variable "managed_database_sql_plan_baseline_origin" {
+  default = "AUTO_CAPTURE"
+}
+
+variable "managed_database_sql_plan_baseline_plan_name" {
+  default = "planName"
+}
+
+variable "managed_database_sql_plan_baseline_sql_handle" {
+  default = "sqlHandle"
+}
+
+variable "managed_database_sql_plan_baseline_sql_text" {
+  default = "sqlText"
+}
+
+variable "managed_database_sql_plan_baseline_job_name" {
+  default = "TestJobName"
+}
+
+# Get SQL Plan Baseline configuration details for the managed database
+data "oci_database_management_managed_database_sql_plan_baseline_configuration" "test_managed_database_sql_plan_baseline_configuration" {
+  #Required
+  managed_database_id = var.managed_database_id
+}
+
+# List SQL Plan Baselines
+data "oci_database_management_managed_database_sql_plan_baselines" "test_managed_database_sql_plan_baselines" {
+  #Required
+  managed_database_id = var.managed_database_id
+
+  #Optional
+  origin        = var.managed_database_sql_plan_baseline_origin
+  plan_name     = var.managed_database_sql_plan_baseline_plan_name
+  is_enabled    = var.managed_database_sql_plan_baseline_is_enabled
+  is_accepted   = var.managed_database_sql_plan_baseline_is_accepted
+  is_adaptive   = var.managed_database_sql_plan_baseline_is_adaptive
+  is_fixed      = var.managed_database_sql_plan_baseline_is_fixed
+  is_reproduced = var.managed_database_sql_plan_baseline_is_reproduced
+  sql_handle    = var.managed_database_sql_plan_baseline_sql_handle
+  sql_text      = var.managed_database_sql_plan_baseline_sql_text
+}
+
+data "oci_database_management_managed_database_sql_plan_baseline_jobs" "test_managed_database_sql_plan_baseline_jobs" {
+  #Required
+  managed_database_id = var.managed_database_id
+
+  #Optional
+  name = var.managed_database_sql_plan_baseline_job_name
+}
+
+data "oci_database_management_managed_database_cursor_cache_statements" "test_managed_database_cursor_cache_statements" {
+  #Required
+  managed_database_id = var.managed_database_id
+
+  #Optional
+  sql_text = var.managed_database_sql_plan_baseline_sql_text
+}
+
 ####################### Exadata Infrastructure Monitoring #########################
 
 variable "external_exadata_infrastructure_database_managements_management_license_model" {

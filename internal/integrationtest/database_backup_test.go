@@ -41,7 +41,62 @@ var (
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `Monthly Backup`},
 	}
 
-	DatabaseDatabaseBackupResourceDependencies = DbSystemResourceConfig + `
+	CoreInternetGatewayDatabaseBackupRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `MyInternetGateway`, Update: `displayName2`},
+		"enabled":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+	}
+
+	DbSystemDatabaseBackupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create, CoreInternetGatewayDatabaseBackupRepresentation)
+
+	DbSystemResourceConfigDependencies = DbSystemDatabaseBackupResourceDependencies + AvailabilityDomainConfig + DefinedTagsDependencies + `
+
+	resource "oci_database_db_system" "test_db_system" {
+		availability_domain = "${"${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"}"
+		compartment_id = "${var.compartment_id}"
+		subnet_id = "${oci_core_subnet.test_subnet.id}"
+		database_edition = "ENTERPRISE_EDITION"
+		disk_redundancy = "NORMAL"
+		shape = "VM.Standard2.16"
+		cpu_core_count = "16"
+        ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+		domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
+		hostname = "myoracledb"
+		data_storage_size_in_gb = "256"
+		license_model = "LICENSE_INCLUDED"
+		node_count = "1"
+		display_name = "tfDbSystemTest"
+		db_home {
+			db_version = "19.0.0.0"
+			display_name = "dbHome1"
+			database {
+				admin_password = "BEstrO0ng_#11"
+				kms_key_id = "${var.kms_key_id}"
+                vault_id = "${var.vault_id}"
+                kms_key_version_id = "${var.kms_key_version_id}"
+				db_name = "tfDbName"
+			}
+		}
+	}
+	
+	data "oci_database_db_homes" "t" {
+		compartment_id = "${var.compartment_id}"
+		db_system_id = "${oci_database_db_system.test_db_system.id}"
+		filter {
+			name = "display_name"
+			values = ["dbHome1"]
+		}
+	}`
+
+	DatabaseDatabaseBackupResourceDependencies = DbSystemResourceConfigDependencies + `
 data "oci_database_databases" "db" {
        compartment_id = "${var.compartment_id}"
        db_home_id = "${data.oci_database_db_homes.t.db_homes.0.db_home_id}"
@@ -70,7 +125,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 	resourceName := "oci_database_backup.test_backup"
 	datasourceName := "data.oci_database_backups.test_backups"
 
-	var resId string
+	var resId, compId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseBackupResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, DatabaseBackupRepresentation), "database", "backup", t)
@@ -86,8 +141,9 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					compId = "oci_database_backup:" + resId
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&compId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

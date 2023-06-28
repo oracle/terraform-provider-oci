@@ -69,6 +69,34 @@ func DatabaseManagementExternalDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"stack_monitoring_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"metadata": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"discovery_agent_id": {
@@ -198,6 +226,17 @@ func (s *DatabaseManagementExternalDbSystemResourceCrud) Create() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if stackMonitoringConfig, ok := s.D.GetOkExists("stack_monitoring_config"); ok {
+		if tmpList := stackMonitoringConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "stack_monitoring_config", 0)
+			tmp, err := s.mapToAssociatedServiceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.StackMonitoringConfig = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
@@ -434,6 +473,12 @@ func (s *DatabaseManagementExternalDbSystemResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.StackMonitoringConfig != nil {
+		s.D.Set("stack_monitoring_config", []interface{}{ExternalDbSystemStackMonitoringConfigDetailsToMap(s.Res.StackMonitoringConfig)})
+	} else {
+		s.D.Set("stack_monitoring_config", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -447,6 +492,22 @@ func (s *DatabaseManagementExternalDbSystemResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DatabaseManagementExternalDbSystemResourceCrud) mapToAssociatedServiceDetails(fieldKeyFormat string) (oci_database_management.AssociatedServiceDetails, error) {
+	result := oci_database_management.AssociatedServiceDetails{}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	if metadata, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metadata")); ok {
+		tmp := metadata.(string)
+		result.Metadata = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *DatabaseManagementExternalDbSystemResourceCrud) mapToExternalDbSystemDatabaseManagementConfigDetails(fieldKeyFormat string) (oci_database_management.ExternalDbSystemDatabaseManagementConfigDetails, error) {
 	result := oci_database_management.ExternalDbSystemDatabaseManagementConfigDetails{}
 
@@ -455,6 +516,20 @@ func (s *DatabaseManagementExternalDbSystemResourceCrud) mapToExternalDbSystemDa
 	}
 
 	return result, nil
+}
+
+func ExternalDbSystemStackMonitoringConfigDetailsToMap(obj *oci_database_management.ExternalDbSystemStackMonitoringConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	if obj.Metadata != nil {
+		result["metadata"] = string(*obj.Metadata)
+	}
+
+	return result
 }
 
 func ExternalDbSystemDatabaseManagementConfigDetailsToMap(obj *oci_database_management.ExternalDbSystemDatabaseManagementConfigDetails) map[string]interface{} {

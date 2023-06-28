@@ -53,6 +53,8 @@ type ExternalDbSystem struct {
 
 	DatabaseManagementConfig *ExternalDbSystemDatabaseManagementConfigDetails `mandatory:"false" json:"databaseManagementConfig"`
 
+	StackMonitoringConfig *ExternalDbSystemStackMonitoringConfigDetails `mandatory:"false" json:"stackMonitoringConfig"`
+
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 }

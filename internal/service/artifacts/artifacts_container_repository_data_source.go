@@ -79,9 +79,15 @@ func (s *ArtifactsContainerRepositoryDataSourceCrud) SetData() error {
 		s.D.Set("created_by", *s.Res.CreatedBy)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.ImageCount != nil {
 		s.D.Set("image_count", *s.Res.ImageCount)
@@ -103,6 +109,10 @@ func (s *ArtifactsContainerRepositoryDataSourceCrud) SetData() error {
 		s.D.Set("layers_size_in_bytes", strconv.FormatInt(*s.Res.LayersSizeInBytes, 10))
 	}
 
+	if s.Res.Namespace != nil {
+		s.D.Set("namespace", *s.Res.Namespace)
+	}
+
 	if s.Res.Readme != nil {
 		s.D.Set("readme", []interface{}{ContainerRepositoryReadmeToMap(s.Res.Readme)})
 	} else {
@@ -110,6 +120,10 @@ func (s *ArtifactsContainerRepositoryDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

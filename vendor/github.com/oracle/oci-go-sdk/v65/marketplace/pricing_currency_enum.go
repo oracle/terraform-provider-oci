@@ -25,6 +25,10 @@ const (
 	PricingCurrencyEnumBrl PricingCurrencyEnumEnum = "BRL"
 	PricingCurrencyEnumJpy PricingCurrencyEnumEnum = "JPY"
 	PricingCurrencyEnumOmr PricingCurrencyEnumEnum = "OMR"
+	PricingCurrencyEnumEur PricingCurrencyEnumEnum = "EUR"
+	PricingCurrencyEnumChf PricingCurrencyEnumEnum = "CHF"
+	PricingCurrencyEnumMxn PricingCurrencyEnumEnum = "MXN"
+	PricingCurrencyEnumClp PricingCurrencyEnumEnum = "CLP"
 )
 
 var mappingPricingCurrencyEnumEnum = map[string]PricingCurrencyEnumEnum{
@@ -35,6 +39,10 @@ var mappingPricingCurrencyEnumEnum = map[string]PricingCurrencyEnumEnum{
 	"BRL": PricingCurrencyEnumBrl,
 	"JPY": PricingCurrencyEnumJpy,
 	"OMR": PricingCurrencyEnumOmr,
+	"EUR": PricingCurrencyEnumEur,
+	"CHF": PricingCurrencyEnumChf,
+	"MXN": PricingCurrencyEnumMxn,
+	"CLP": PricingCurrencyEnumClp,
 }
 
 var mappingPricingCurrencyEnumEnumLowerCase = map[string]PricingCurrencyEnumEnum{
@@ -45,6 +53,10 @@ var mappingPricingCurrencyEnumEnumLowerCase = map[string]PricingCurrencyEnumEnum
 	"brl": PricingCurrencyEnumBrl,
 	"jpy": PricingCurrencyEnumJpy,
 	"omr": PricingCurrencyEnumOmr,
+	"eur": PricingCurrencyEnumEur,
+	"chf": PricingCurrencyEnumChf,
+	"mxn": PricingCurrencyEnumMxn,
+	"clp": PricingCurrencyEnumClp,
 }
 
 // GetPricingCurrencyEnumEnumValues Enumerates the set of values for PricingCurrencyEnumEnum
@@ -66,6 +78,10 @@ func GetPricingCurrencyEnumEnumStringValues() []string {
 		"BRL",
 		"JPY",
 		"OMR",
+		"EUR",
+		"CHF",
+		"MXN",
+		"CLP",
 	}
 }
 

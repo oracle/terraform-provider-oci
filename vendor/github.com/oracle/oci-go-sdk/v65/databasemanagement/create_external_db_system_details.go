@@ -30,6 +30,8 @@ type CreateExternalDbSystemDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	DatabaseManagementConfig *ExternalDbSystemDatabaseManagementConfigDetails `mandatory:"false" json:"databaseManagementConfig"`
+
+	StackMonitoringConfig *AssociatedServiceDetails `mandatory:"false" json:"stackMonitoringConfig"`
 }
 
 func (m CreateExternalDbSystemDetails) String() string {

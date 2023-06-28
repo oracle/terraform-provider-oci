@@ -148,8 +148,12 @@ variable "monitor_maintenance_window_schedule_time_started" {
   default = "2024-12-18T22:47:12.654Z"
 }
 
-variable "vantage_points" {
-  default = ["OraclePublic-us-ashburn-1"]
+variable "monitor_vantage_points_name" {
+  default = "OraclePublic-us-ashburn-1"
+}
+
+variable "monitor_vantage_points_param_display_name" {
+  default = "US East (Ashburn)"
 }
 
 provider "oci" {
@@ -166,7 +170,12 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
   display_name               = var.monitor_display_name
   monitor_type               = var.monitor_monitor_type
   repeat_interval_in_seconds = var.monitor_repeat_interval_in_seconds
-  vantage_points   = var.vantage_points
+  vantage_points {
+    #Required
+    name  = var.monitor_vantage_points_name
+    #Optional
+    display_name = var.monitor_vantage_points_param_display_name
+  }
 
   #Optional
   configuration {
@@ -264,7 +273,7 @@ variable "script_parameters_param_name" {
 }
 
 variable "script_parameters_param_value" {
-  default = "myTest1"
+  default = ""
 }
 
 

@@ -19,14 +19,17 @@ type ResourceUnitEnum string
 // Set of constants representing the allowable values for ResourceUnitEnum
 const (
 	ResourceUnitOcpu ResourceUnitEnum = "OCPU"
+	ResourceUnitEcpu ResourceUnitEnum = "ECPU"
 )
 
 var mappingResourceUnitEnum = map[string]ResourceUnitEnum{
 	"OCPU": ResourceUnitOcpu,
+	"ECPU": ResourceUnitEcpu,
 }
 
 var mappingResourceUnitEnumLowerCase = map[string]ResourceUnitEnum{
 	"ocpu": ResourceUnitOcpu,
+	"ecpu": ResourceUnitEcpu,
 }
 
 // GetResourceUnitEnumValues Enumerates the set of values for ResourceUnitEnum
@@ -42,6 +45,7 @@ func GetResourceUnitEnumValues() []ResourceUnitEnum {
 func GetResourceUnitEnumStringValues() []string {
 	return []string{
 		"OCPU",
+		"ECPU",
 	}
 }
 

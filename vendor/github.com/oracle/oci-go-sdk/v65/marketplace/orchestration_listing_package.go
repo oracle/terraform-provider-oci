@@ -40,14 +40,14 @@ type OrchestrationListingPackage struct {
 
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 
+	// The regions where you can deploy the listing package. (Some packages have restrictions that limit their deployment to United States regions only.)
+	Regions []Region `mandatory:"false" json:"regions"`
+
 	// Link to the orchestration resource.
 	ResourceLink *string `mandatory:"false" json:"resourceLink"`
 
 	// List of variables for the orchestration resource.
 	Variables []OrchestrationVariable `mandatory:"false" json:"variables"`
-
-	// The regions where you can deploy this listing package. (Some packages have restrictions that limit their deployment to United States regions only.)
-	Regions []Region `mandatory:"false" json:"regions"`
 }
 
 //GetDescription returns Description
@@ -83,6 +83,11 @@ func (m OrchestrationListingPackage) GetTimeCreated() *common.SDKTime {
 //GetOperatingSystem returns OperatingSystem
 func (m OrchestrationListingPackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
+}
+
+//GetRegions returns Regions
+func (m OrchestrationListingPackage) GetRegions() []Region {
+	return m.Regions
 }
 
 func (m OrchestrationListingPackage) String() string {
