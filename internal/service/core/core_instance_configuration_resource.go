@@ -72,6 +72,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"compute",
+								"instance_options",
 							}, true),
 						},
 
@@ -390,18 +391,20 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
 															// Required
+
+															// Optional
 															"desired_state": {
 																Type:     schema.TypeString,
-																Required: true,
+																Optional: true,
+																Computed: true,
 																ForceNew: true,
 															},
 															"name": {
 																Type:     schema.TypeString,
-																Required: true,
+																Optional: true,
+																Computed: true,
 																ForceNew: true,
 															},
-
-															// Optional
 
 															// Computed
 														},
@@ -787,9 +790,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
+
+												// Optional
 												"preemption_action": {
 													Type:     schema.TypeList,
-													Required: true,
+													Optional: true,
+													Computed: true,
 													ForceNew: true,
 													MaxItems: 1,
 													MinItems: 1,
@@ -818,8 +824,6 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 														},
 													},
 												},
-
-												// Optional
 
 												// Computed
 											},
@@ -869,6 +873,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												},
 												"ocpus": {
 													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"vcpus": {
+													Type:     schema.TypeInt,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
@@ -928,8 +938,1093 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"instance_source_image_filter_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"compartment_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"defined_tags_filter": {
+																Type:             schema.TypeMap,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+																Elem:             schema.TypeString,
+															},
+															"operating_system": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"operating_system_version": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
 												"kms_key_id": {
 													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"options": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"block_volumes": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"attach_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"iscsi",
+																	"paravirtualized",
+																}, true),
+															},
+
+															// Optional
+															"device": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"display_name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_pv_encryption_in_transit_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_read_only": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_shareable": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"use_chap": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"create_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"autotune_policies": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"autotune_type": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			ForceNew:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"DETACHED_VOLUME",
+																				"PERFORMANCE_BASED",
+																			}, true),
+																		},
+
+																		// Optional
+																		"max_vpus_per_gb": {
+																			Type:             schema.TypeString,
+																			Optional:         true,
+																			Computed:         true,
+																			ForceNew:         true,
+																			ValidateFunc:     tfresource.ValidateInt64TypeString,
+																			DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"availability_domain": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+															},
+															"backup_policy_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"block_volume_replicas": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																MinItems: 1,
+																MaxItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"availability_domain": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			ForceNew:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																		},
+
+																		// Optional
+																		"display_name": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"compartment_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
+															"defined_tags": {
+																Type:             schema.TypeMap,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+																Elem:             schema.TypeString,
+															},
+															"display_name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"freeform_tags": {
+																Type:     schema.TypeMap,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem:     schema.TypeString,
+															},
+															"is_auto_tune_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"kms_key_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"size_in_gbs": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																ValidateFunc:     tfresource.ValidateInt64TypeString,
+																DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+															},
+															"source_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"type": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			ForceNew:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"volume",
+																				"volumeBackup",
+																			}, true),
+																		},
+
+																		// Optional
+																		"id": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"vpus_per_gb": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																ValidateFunc:     tfresource.ValidateInt64TypeString,
+																DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"volume_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"launch_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"agent_config": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"are_all_plugins_disabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_management_disabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_monitoring_disabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"plugins_config": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+																		"desired_state": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+																		"name": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+
+															// Computed
+														},
+													},
+												},
+												"availability_config": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"recovery_action": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_live_migration_preferred": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"availability_domain": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+												},
+												"capacity_reservation_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"compartment_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"create_vnic_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"assign_private_dns_record": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"assign_public_ip": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"defined_tags": {
+																Type:             schema.TypeMap,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+																Elem:             schema.TypeString,
+															},
+															"display_name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"freeform_tags": {
+																Type:     schema.TypeMap,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem:     schema.TypeString,
+															},
+															"hostname_label": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"nsg_ids": {
+																Type:     schema.TypeSet,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Set:      tfresource.LiteralTypeHashCodeForSets,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"private_ip": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"skip_source_dest_check": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"subnet_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"dedicated_vm_host_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"defined_tags": {
+													Type:             schema.TypeMap,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+													Elem:             schema.TypeString,
+												},
+												"display_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"extended_metadata": {
+													Type:             schema.TypeMap,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
+													Elem:             schema.TypeString,
+												},
+												"fault_domain": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"freeform_tags": {
+													Type:     schema.TypeMap,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem:     schema.TypeString,
+												},
+												"instance_options": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"are_legacy_imds_endpoints_disabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"ipxe_script": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_pv_encryption_in_transit_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"launch_mode": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"launch_options": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"boot_volume_type": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"firmware": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_consistent_volume_naming_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_pv_encryption_in_transit_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"network_type": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"remote_data_volume_type": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"metadata": {
+													Type:     schema.TypeMap,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem:     schema.TypeString,
+												},
+												"platform_config": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"AMD_MILAN_BM",
+																	"AMD_ROME_BM",
+																	"AMD_ROME_BM_GPU",
+																	"AMD_VM",
+																	"INTEL_ICELAKE_BM",
+																	"INTEL_SKYLAKE_BM",
+																	"INTEL_VM",
+																}, true),
+															},
+
+															// Optional
+															"are_virtual_instructions_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_access_control_service_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_input_output_memory_management_unit_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_measured_boot_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_memory_encryption_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_secure_boot_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_symmetric_multi_threading_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_trusted_platform_module_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"numa_nodes_per_socket": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"percentage_of_cores_enabled": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"preemptible_instance_config": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"preemption_action": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"type": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			ForceNew:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"TERMINATE",
+																			}, true),
+																		},
+
+																		// Optional
+																		"preserve_boot_volume": {
+																			Type:     schema.TypeBool,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+
+															// Computed
+														},
+													},
+												},
+												"preferred_maintenance_action": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"shape": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"shape_config": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"baseline_ocpu_utilization": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"memory_in_gbs": {
+																Type:     schema.TypeFloat,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"nvmes": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"ocpus": {
+																Type:     schema.TypeFloat,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"vcpus": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"source_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"source_type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"bootVolume",
+																	"image",
+																}, true),
+															},
+
+															// Optional
+															"boot_volume_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"boot_volume_size_in_gbs": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																ValidateFunc:     tfresource.ValidateInt64TypeString,
+																DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+															},
+															"boot_volume_vpus_per_gb": {
+																Type:             schema.TypeString,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																ValidateFunc:     tfresource.ValidateInt64TypeString,
+																DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+															},
+															"image_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"kms_key_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"instance_source_image_filter_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+																		"compartment_id": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+																		"defined_tags_filter": {
+																			Type:             schema.TypeMap,
+																			Optional:         true,
+																			Computed:         true,
+																			ForceNew:         true,
+																			DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+																			Elem:             schema.TypeString,
+																		},
+																		"operating_system": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+																		"operating_system_version": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+									"secondary_vnics": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"create_vnic_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"assign_private_dns_record": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"assign_public_ip": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"defined_tags": {
+																Type:             schema.TypeMap,
+																Optional:         true,
+																Computed:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+																Elem:             schema.TypeString,
+															},
+															"display_name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"freeform_tags": {
+																Type:     schema.TypeMap,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem:     schema.TypeString,
+															},
+															"hostname_label": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"nsg_ids": {
+																Type:     schema.TypeSet,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Set:      tfresource.LiteralTypeHashCodeForSets,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"private_ip": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"skip_source_dest_check": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"subnet_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"display_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"nic_index": {
+													Type:     schema.TypeInt,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
@@ -1259,6 +2354,79 @@ func (s *CoreInstanceConfigurationResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *CoreInstanceConfigurationResourceCrud) mapToComputeInstanceDetails(fieldKeyFormat string) (oci_core.ComputeInstanceDetails, error) {
+	result := oci_core.ComputeInstanceDetails{}
+
+	if blockVolumes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_volumes")); ok {
+		interfaces := blockVolumes.([]interface{})
+		tmp := make([]oci_core.InstanceConfigurationBlockVolumeDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "block_volumes"), stateDataIndex)
+			converted, err := s.mapToInstanceConfigurationBlockVolumeDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "block_volumes")) {
+			result.BlockVolumes = tmp
+		}
+	}
+
+	if launchDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "launch_details")); ok {
+		if tmpList := launchDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "launch_details"), 0)
+			tmp, err := s.mapToInstanceConfigurationLaunchInstanceDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert launch_details, encountered error: %v", err)
+			}
+			result.LaunchDetails = &tmp
+		}
+	}
+
+	if secondaryVnics, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secondary_vnics")); ok {
+		interfaces := secondaryVnics.([]interface{})
+		tmp := make([]oci_core.InstanceConfigurationAttachVnicDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "secondary_vnics"), stateDataIndex)
+			converted, err := s.mapToInstanceConfigurationAttachVnicDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "secondary_vnics")) {
+			result.SecondaryVnics = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ComputeInstanceDetailsToMap(obj oci_core.ComputeInstanceDetails, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	blockVolumes := []interface{}{}
+	for _, item := range obj.BlockVolumes {
+		blockVolumes = append(blockVolumes, InstanceConfigurationBlockVolumeDetailsToMap(item))
+	}
+	result["block_volumes"] = blockVolumes
+
+	if obj.LaunchDetails != nil {
+		result["launch_details"] = []interface{}{InstanceConfigurationLaunchInstanceDetailsToMap(obj.LaunchDetails, datasource)}
+	}
+
+	secondaryVnics := []interface{}{}
+	for _, item := range obj.SecondaryVnics {
+		secondaryVnics = append(secondaryVnics, InstanceConfigurationAttachVnicDetailsToMap(item, datasource))
+	}
+	result["secondary_vnics"] = secondaryVnics
+
+	return result
 }
 
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceAgentPluginConfigDetails(fieldKeyFormat string) (oci_core.InstanceAgentPluginConfigDetails, error) {
@@ -1963,6 +3131,25 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 			}
 		}
 		baseObject = details
+	case strings.ToLower("instance_options"):
+		details := oci_core.ComputeInstanceOptions{}
+		if options, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "options")); ok {
+			interfaces := options.([]interface{})
+			tmp := make([]oci_core.ComputeInstanceDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "options"), stateDataIndex)
+				converted, err := s.mapToComputeInstanceDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "options")) {
+				details.Options = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown instance_type '%v' was specified", instanceType)
 	}
@@ -1990,6 +3177,14 @@ func InstanceConfigurationInstanceDetailsToMap(obj *oci_core.InstanceConfigurati
 			secondaryVnics = append(secondaryVnics, InstanceConfigurationAttachVnicDetailsToMap(item, datasource))
 		}
 		result["secondary_vnics"] = secondaryVnics
+	case oci_core.ComputeInstanceOptions:
+		result["instance_type"] = "instance_options"
+
+		options := []interface{}{}
+		for _, item := range v.Options {
+			options = append(options, ComputeInstanceDetailsToMap(item, datasource))
+		}
+		result["options"] = options
 	default:
 		log.Printf("[WARN] Received 'instance_type' of unknown type %v", *obj)
 		return nil
@@ -2068,9 +3263,15 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 			tmp := imageId.(string)
 			details.ImageId = &tmp
 		}
-		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
-			tmp := kmsKeyId.(string)
-			details.KmsKeyId = &tmp
+		if instanceSourceImageFilterDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_source_image_filter_details")); ok {
+			if tmpList := instanceSourceImageFilterDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "instance_source_image_filter_details"), 0)
+				tmp, err := s.mapToInstanceConfigurationInstanceSourceImageFilterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert instance_source_image_filter_details, encountered error: %v", err)
+				}
+				details.InstanceSourceImageFilterDetails = &tmp
+			}
 		}
 		baseObject = details
 	default:
@@ -2106,9 +3307,64 @@ func InstanceConfigurationInstanceSourceDetailsToMap(obj *oci_core.InstanceConfi
 		if v.KmsKeyId != nil {
 			result["kms_key_id"] = string(*v.KmsKeyId)
 		}
+
+		if v.InstanceSourceImageFilterDetails != nil {
+			result["instance_source_image_filter_details"] = []interface{}{InstanceConfigurationInstanceSourceImageFilterDetailsToMap(v.InstanceSourceImageFilterDetails)}
+		}
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstanceSourceImageFilterDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationInstanceSourceImageFilterDetails, error) {
+	result := oci_core.InstanceConfigurationInstanceSourceImageFilterDetails{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if definedTagsFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags_filter")); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTagsFilter.(map[string]interface{}))
+		if err != nil {
+			return result, err
+		}
+		result.DefinedTagsFilter = convertedDefinedTags
+	}
+
+	if operatingSystem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system")); ok {
+		tmp := operatingSystem.(string)
+		result.OperatingSystem = &tmp
+	}
+
+	if operatingSystemVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system_version")); ok {
+		tmp := operatingSystemVersion.(string)
+		result.OperatingSystemVersion = &tmp
+	}
+
+	return result, nil
+}
+
+func InstanceConfigurationInstanceSourceImageFilterDetailsToMap(obj *oci_core.InstanceConfigurationInstanceSourceImageFilterDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTagsFilter != nil {
+		result["defined_tags_filter"] = tfresource.DefinedTagsToMap(obj.DefinedTagsFilter)
+	}
+
+	if obj.OperatingSystem != nil {
+		result["operating_system"] = string(*obj.OperatingSystem)
+	}
+
+	if obj.OperatingSystemVersion != nil {
+		result["operating_system_version"] = string(*obj.OperatingSystemVersion)
 	}
 
 	return result
@@ -2869,6 +4125,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.Ocpus = &tmp
 	}
 
+	if vcpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcpus")); ok {
+		tmp := vcpus.(int)
+		result.Vcpus = &tmp
+	}
+
 	return result, nil
 }
 
@@ -2887,6 +4148,10 @@ func InstanceConfigurationLaunchInstanceShapeConfigDetailsToMap(obj *oci_core.In
 
 	if obj.Ocpus != nil {
 		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	if obj.Vcpus != nil {
+		result["vcpus"] = int(*obj.Vcpus)
 	}
 
 	return result

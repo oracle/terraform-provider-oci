@@ -174,6 +174,10 @@ var (
 		"desired_state": acctest.Representation{RepType: acctest.Required, Create: `ENABLED`},
 		"name":          acctest.Representation{RepType: acctest.Required, Create: `Compute Instance Monitoring`},
 	}
+	CoreInstanceSourceDetailsInstanceSourceImageFilterDetailsRepresentation = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"operating_system": acctest.Representation{RepType: acctest.Optional, Create: `Oracle Linux`},
+	}
 
 	InstanceWithPVEncryptionInTransitEnabled = `
 resource "oci_core_instance" "test_instance" {
@@ -509,6 +513,85 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":                   acctest.Representation{RepType: acctest.Optional, Create: `RUNNING`},
 		"filter":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceDataSourceFilterRepresentation}}
+
+	// ---- Architecture Agnostic Launch with Instance Configuration ----
+	InstanceRepresentationWithInstanceConfiguration = map[string]interface{}{
+		"availability_domain":                 acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"agent_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAgentConfigRepresentation},
+		"availability_config":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAvailabilityConfigRepresentation},
+		"create_vnic_details":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceCreateVnicDetailsRepresentation},
+		"defined_tags":                        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"fault_domain":                        acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
+		"freeform_tags":                       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":                      acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"instance_options":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceInstanceOptionsRepresentation},
+		"instance_configuration_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
+		"ipxe_script":                         acctest.Representation{RepType: acctest.Optional, Create: `ipxeScript`},
+		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
+	}
+	InstanceConfigurationRepresentationWithImageFilters = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `example-instance-configuration`},
+		"instance_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: InstanceConfigurationInstanceDetailsRepresentationWithImageFilters},
+	}
+	InstanceConfigurationInstanceDetailsRepresentationWithImageFilters = map[string]interface{}{
+		"instance_type": acctest.Representation{RepType: acctest.Required, Create: `instance_options`},
+		"options":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: InstanceConfigurationInstanceDetailsOptionsRepresentationWithImageFilters},
+	}
+	InstanceConfigurationInstanceDetailsOptionsRepresentationWithImageFilters = map[string]interface{}{
+		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: InstanceConfigurationInstanceDetailsOptionsLaunchDetailsRepresentationWithImageFilters},
+	}
+	InstanceConfigurationInstanceDetailsOptionsLaunchDetailsRepresentationWithImageFilters = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceCreateVnicDetailsRepresentation},
+		"compartment_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `example-instance-configuration-instance`},
+		"extended_metadata": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{
+			"some_string":   "stringA",
+			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
+		}},
+		"metadata":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"user_data": "abcd"}},
+		"shape":          acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.1`},
+		"shape_config":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
+		"source_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: InstanceConfigurationInstanceDetailsOptionsLaunchDetailsSourceDetailsRepresentationWithImageFilters},
+	}
+	InstanceConfigurationInstanceDetailsOptionsLaunchDetailsSourceDetailsRepresentationWithImageFilters = map[string]interface{}{
+		"source_type":                          acctest.Representation{RepType: acctest.Required, Create: `image`},
+		"instance_source_image_filter_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsInstanceSourceImageFilterDetailsRepresentation},
+	}
+	InstanceResourceDependenciesWithInstanceConfiguration = CoreInstanceResourceDependenciesWithoutDHV +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, InstanceConfigurationRepresentationWithImageFilters)
+
+	// ---- Launch with source detail image filters ----
+	InstanceRepresentationWithImageFilters = map[string]interface{}{
+		"availability_domain":                 acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":                               acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"update_operation_constraint":         acctest.Representation{RepType: acctest.Optional, Create: `ALLOW_DOWNTIME`, Update: `ALLOW_DOWNTIME`},
+		"agent_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAgentConfigRepresentation},
+		"availability_config":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAvailabilityConfigRepresentation},
+		"create_vnic_details":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceCreateVnicDetailsRepresentation},
+		"defined_tags":                        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"fault_domain":                        acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
+		"freeform_tags":                       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":                      acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"instance_options":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceInstanceOptionsRepresentation},
+		"ipxe_script":                         acctest.Representation{RepType: acctest.Optional, Create: `ipxeScript`},
+		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
+		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: InstanceSourceDetailsRepresentationWithImageFilters},
+		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
+	}
+	InstanceSourceDetailsRepresentationWithImageFilters = map[string]interface{}{
+		"source_type":                          acctest.Representation{RepType: acctest.Required, Create: `image`},
+		"instance_source_image_filter_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsInstanceSourceImageFilterDetailsRepresentation},
+	}
 )
 
 // issue-routing-tag: core/computeSharedOwnershipVmAndBm
@@ -658,6 +741,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
 				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_vpus_per_gb", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
@@ -731,6 +815,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
 				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_vpus_per_gb", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
@@ -801,6 +886,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
 				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_vpus_per_gb", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
@@ -876,6 +962,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.networking_bandwidth_in_gbps"),
 				resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.processor_description"),
+				resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.0.vcpus", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.boot_volume_vpus_per_gb", "10"),
 				resource.TestCheckResourceAttrSet(datasourceName, "instances.0.source_details.0.source_id"),
@@ -934,6 +1021,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.networking_bandwidth_in_gbps"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.ocpus", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.processor_description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.vcpus", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.boot_volume_vpus_per_gb", "10"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
@@ -1553,6 +1641,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_8"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
 					// currently E3 subcore is forced to use launch_mode = PARAVIRTUALIZED
 					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
 
@@ -1581,6 +1670,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "region"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E3.Flex"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_8"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -1648,6 +1738,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_8"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
@@ -1720,6 +1811,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_8"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
@@ -1788,6 +1880,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.baseline_ocpu_utilization", "BASELINE_1_2"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "4"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
@@ -1858,6 +1951,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.memory_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.networking_bandwidth_in_gbps"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.0.vcpus", "2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.processor_description"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.source_details.0.source_id"),
@@ -1915,6 +2009,7 @@ func TestCoreInstanceResource_flexShape(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.memory_in_gbs"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.networking_bandwidth_in_gbps"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.vcpus", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.processor_description"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
@@ -1965,6 +2060,7 @@ func TestCoreInstanceResource_ConfidentialflexShape(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_VM"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_memory_encryption_enabled", "true"),
@@ -2047,6 +2143,290 @@ func TestAccResourceCoreFungibleInstance_UpdateShapeConfig(t *testing.T) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestCoreInstanceResource_aailInstanceConfiguration(t *testing.T) {
+
+	httpreplay.SetScenario("TestCoreInstanceResource_aailInstanceConfiguration")
+	defer httpreplay.SaveScenario()
+
+	provider := acctest.TestAccProvider
+	config := `
+		provider oci {
+			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+		}
+	` + acctest.CommonTestVariables()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+	datasourceName := "data.oci_core_instances.test_instances"
+	singularDatasourceName := "data.oci_core_instance.test_instance"
+
+	managementEndpoint := utils.GetEnvSettingWithBlankDefault("management_endpoint")
+	managementEndpointStr := fmt.Sprintf("variable \"management_endpoint\" { default = \"%s\" }\n", managementEndpoint)
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.PreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// Step 0: verify Create with optionals
+			{
+				Config: config + compartmentIdVariableStr + managementEndpointStr + InstanceResourceDependenciesWithInstanceConfiguration +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, InstanceRepresentationWithInstanceConfiguration),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+
+			// Step 1: verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + managementEndpointStr + InstanceResourceDependenciesWithInstanceConfiguration +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, InstanceRepresentationWithInstanceConfiguration),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("3. Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// Step 2: verify datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", acctest.Optional, acctest.Update, CoreCoreInstanceDataSourceRepresentation) +
+					compartmentIdVariableStr + managementEndpointStr + InstanceResourceDependenciesWithInstanceConfiguration +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, InstanceRepresentationWithInstanceConfiguration),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "RUNNING"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.instance_configuration_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.image"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.region"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.gpus"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.local_disks"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.local_disks_total_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.max_vnic_attachments"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.memory_in_gbs"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.networking_bandwidth_in_gbps"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape_config.0.vcpus", "2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.shape_config.0.processor_description"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.source_details.0.source_id"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
+				),
+			},
+			// Step 3: verify singular datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreCoreInstanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + managementEndpointStr + InstanceResourceDependenciesWithInstanceConfiguration +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, InstanceRepresentationWithInstanceConfiguration),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "region"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.gpus"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.local_disks_total_size_in_gbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.max_vnic_attachments"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.memory_in_gbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.networking_bandwidth_in_gbps"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.vcpus", "2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.processor_description"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				),
+			},
+		},
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestCoreInstanceResource_imageSourceWithImageFilters(t *testing.T) {
+
+	httpreplay.SetScenario("TestCoreInstanceResource_imageSourceWithImageFilters")
+	defer httpreplay.SaveScenario()
+
+	provider := acctest.TestAccProvider
+	config := `
+		provider oci {
+			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+		}
+	` + acctest.CommonTestVariables()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+
+	managementEndpoint := utils.GetEnvSettingWithBlankDefault("management_endpoint")
+	managementEndpointStr := fmt.Sprintf("variable \"management_endpoint\" { default = \"%s\" }\n", managementEndpoint)
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.PreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			// Step 0: verify Create with optionals
+			{
+				Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependenciesWithoutDHV +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, InstanceRepresentationWithImageFilters),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.instance_source_image_filter_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.instance_source_image_filter_details.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.instance_source_image_filter_details.0.operating_system", "Oracle Linux"),
+					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+
+			// Step 1: verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependenciesWithoutDHV +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, InstanceRepresentationWithImageFilters),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.instance_source_image_filter_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.instance_source_image_filter_details.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.instance_source_image_filter_details.0.operating_system", "Oracle Linux"),
+					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("3. Resource recreated when it was supposed to be updated.")
 						}
 						return err
 					},
