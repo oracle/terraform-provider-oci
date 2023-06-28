@@ -107,6 +107,12 @@ type Database struct {
 
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store.
+	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
+
+	// The wallet name for Oracle Key Vault.
+	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
 }
 
 func (m Database) String() string {

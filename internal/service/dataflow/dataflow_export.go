@@ -58,11 +58,23 @@ var exportDataflowPoolHints = &tf_export.TerraformResourceHints{
 		string(oci_dataflow.PoolLifecycleStateActive),
 	},
 }
+var exportDataflowSqlEndpointHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_dataflow_sql_endpoint",
+	DatasourceClass:        "oci_dataflow_sql_endpoints",
+	DatasourceItemsAttr:    "sql_endpoint_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "sql_endpoint",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_dataflow.SqlEndpointLifecycleStateActive),
+	},
+}
 
 var dataflowResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataflowApplicationHints},
 		{TerraformResourceHints: exportDataflowPrivateEndpointHints},
 		{TerraformResourceHints: exportDataflowPoolHints},
+		{TerraformResourceHints: exportDataflowSqlEndpointHints},
 	},
 }

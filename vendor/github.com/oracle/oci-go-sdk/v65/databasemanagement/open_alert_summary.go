@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// OpenAlertSummary An alert from storage server.
+// OpenAlertSummary An alert from the Exadata storage server.
 type OpenAlertSummary struct {
 
 	// The severity of the alert.
 	Severity AlertSeverityEnumEnum `mandatory:"false" json:"severity,omitempty"`
 
-	// The type of the alert.
+	// The type of alert.
 	Type AlertTypeEnumEnum `mandatory:"false" json:"type,omitempty"`
 
 	// The start time of the alert.

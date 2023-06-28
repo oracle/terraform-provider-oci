@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// SqlCpuActivity SQL CPU activity from storage server.
+// SqlCpuActivity The SQL CPU activity from the Exadata storage server.
 type SqlCpuActivity struct {
 
 	// The database name.

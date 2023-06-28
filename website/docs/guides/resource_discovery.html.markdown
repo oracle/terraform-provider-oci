@@ -612,6 +612,7 @@ dataflow
 * oci\_dataflow\_private\_endpoint
 * oci\_dataflow\_run\_statement
 * oci\_dataflow\_pool
+* oci\_dataflow\_sql\_endpoint
 
 dataintegration
 

@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateExternalExadataStorageConnector.go.html to see an example of how to use CreateExternalExadataStorageConnectorRequest.
 type CreateExternalExadataStorageConnectorRequest struct {
 
-	// The details required to add connections to the storage servers.
+	// The details required to add connections to the Exadata storage servers.
 	CreateExternalExadataStorageConnectorDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

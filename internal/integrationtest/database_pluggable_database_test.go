@@ -126,7 +126,7 @@ var (
 			database_edition = "ENTERPRISE_EDITION"
 			availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 			disk_redundancy = "NORMAL"
-			shape = "VM.Standard2.4"
+			shape = "VM.Standard2.8"
 			ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
 			display_name = "-tf-dbSystem-001"
 			domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
@@ -136,7 +136,7 @@ var (
 			node_count = "1"
 			fault_domains = ["FAULT-DOMAIN-1"]
 			db_home {
-				db_version = "19.11.0.0"
+				db_version = "21.8.0.0"
 				display_name = "-tf-db-home"
 				database {
 					admin_password = "BEstrO0ng_#11"
@@ -211,7 +211,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_pluggable_databases.test_pluggable_databases"
 	singularDatasourceName := "data.oci_database_pluggable_database.test_pluggable_database"
 
-	var resId, resId2 string
+	var resId, resId2, compId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabasePluggableDatabaseResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRepresentation), "database", "pluggableDatabase", t)
@@ -257,8 +257,9 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					compId = "oci_database_pluggable_database:" + resId
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&compId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -341,6 +342,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				"pdb_admin_password",
 				"should_pdb_admin_account_be_locked",
 				"tde_wallet_password",
+				"rotate_key_trigger",
 			},
 			ResourceName: resourceName,
 		},

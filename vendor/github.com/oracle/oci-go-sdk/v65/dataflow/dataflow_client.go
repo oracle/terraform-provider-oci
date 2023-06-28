@@ -339,6 +339,68 @@ func (client DataFlowClient) changeRunCompartment(ctx context.Context, request c
 	return response, err
 }
 
+// ChangeSqlEndpointCompartment Moves an Sql Endpoint from one compartment to another. When provided, If-Match is checked against ETag values of the Sql Endpoint.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ChangeSqlEndpointCompartment.go.html to see an example of how to use ChangeSqlEndpointCompartment API.
+func (client DataFlowClient) ChangeSqlEndpointCompartment(ctx context.Context, request ChangeSqlEndpointCompartmentRequest) (response ChangeSqlEndpointCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSqlEndpointCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSqlEndpointCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSqlEndpointCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSqlEndpointCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSqlEndpointCompartmentResponse")
+	}
+	return
+}
+
+// changeSqlEndpointCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) changeSqlEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlEndpoints/{sqlEndpointId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSqlEndpointCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/SqlEndpoint/ChangeSqlEndpointCompartment"
+		err = common.PostProcessServiceError(err, "DataFlow", "ChangeSqlEndpointCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateApplication Creates an application.
 //
 // See also
@@ -581,6 +643,68 @@ func (client DataFlowClient) createRun(ctx context.Context, request common.OCIRe
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/CreateRun"
 		err = common.PostProcessServiceError(err, "DataFlow", "CreateRun", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSqlEndpoint Create a new Sql Endpoint.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateSqlEndpoint.go.html to see an example of how to use CreateSqlEndpoint API.
+func (client DataFlowClient) CreateSqlEndpoint(ctx context.Context, request CreateSqlEndpointRequest) (response CreateSqlEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSqlEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSqlEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSqlEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSqlEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSqlEndpointResponse")
+	}
+	return
+}
+
+// createSqlEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) createSqlEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlEndpoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSqlEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataFlow", "CreateSqlEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -867,6 +991,63 @@ func (client DataFlowClient) deleteRun(ctx context.Context, request common.OCIRe
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/DeleteRun"
 		err = common.PostProcessServiceError(err, "DataFlow", "DeleteRun", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSqlEndpoint Delete a Sql Endpoint resource, identified by the SqlEndpoint id.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteSqlEndpoint.go.html to see an example of how to use DeleteSqlEndpoint API.
+func (client DataFlowClient) DeleteSqlEndpoint(ctx context.Context, request DeleteSqlEndpointRequest) (response DeleteSqlEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSqlEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSqlEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSqlEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSqlEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSqlEndpointResponse")
+	}
+	return
+}
+
+// deleteSqlEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) deleteSqlEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sqlEndpoints/{sqlEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSqlEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/SqlEndpoint/DeleteSqlEndpoint"
+		err = common.PostProcessServiceError(err, "DataFlow", "DeleteSqlEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1214,6 +1395,64 @@ func (client DataFlowClient) getRunLog(ctx context.Context, request common.OCIRe
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/GetRunLog"
 		err = common.PostProcessServiceError(err, "DataFlow", "GetRunLog", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSqlEndpoint Retrieves a SQL Endpoint using a sqlEndpointId.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetSqlEndpoint.go.html to see an example of how to use GetSqlEndpoint API.
+// A default retry strategy applies to this operation GetSqlEndpoint()
+func (client DataFlowClient) GetSqlEndpoint(ctx context.Context, request GetSqlEndpointRequest) (response GetSqlEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSqlEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSqlEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSqlEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSqlEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSqlEndpointResponse")
+	}
+	return
+}
+
+// getSqlEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) getSqlEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlEndpoints/{sqlEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSqlEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/SqlEndpoint/GetSqlEndpoint"
+		err = common.PostProcessServiceError(err, "DataFlow", "GetSqlEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -1620,6 +1859,66 @@ func (client DataFlowClient) listRuns(ctx context.Context, request common.OCIReq
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/RunSummary/ListRuns"
 		err = common.PostProcessServiceError(err, "DataFlow", "ListRuns", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSqlEndpoints Lists all Sql Endpoints in the specified compartment.
+// The query must include compartmentId or sqlEndpointId.
+// If the query does not include either compartmentId or sqlEndpointId, an error is returned.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListSqlEndpoints.go.html to see an example of how to use ListSqlEndpoints API.
+// A default retry strategy applies to this operation ListSqlEndpoints()
+func (client DataFlowClient) ListSqlEndpoints(ctx context.Context, request ListSqlEndpointsRequest) (response ListSqlEndpointsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlEndpoints, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlEndpointsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlEndpointsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlEndpointsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlEndpointsResponse")
+	}
+	return
+}
+
+// listSqlEndpoints implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) listSqlEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlEndpoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlEndpointsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/SqlEndpointCollection/ListSqlEndpoints"
+		err = common.PostProcessServiceError(err, "DataFlow", "ListSqlEndpoints", apiReferenceLink)
 		return response, err
 	}
 
@@ -2210,6 +2509,63 @@ func (client DataFlowClient) updateRun(ctx context.Context, request common.OCIRe
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/UpdateRun"
 		err = common.PostProcessServiceError(err, "DataFlow", "UpdateRun", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSqlEndpoint Update a Sql Endpoint resource, identified by the SqlEndpoint id.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdateSqlEndpoint.go.html to see an example of how to use UpdateSqlEndpoint API.
+func (client DataFlowClient) UpdateSqlEndpoint(ctx context.Context, request UpdateSqlEndpointRequest) (response UpdateSqlEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSqlEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSqlEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSqlEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSqlEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSqlEndpointResponse")
+	}
+	return
+}
+
+// updateSqlEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) updateSqlEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sqlEndpoints/{sqlEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSqlEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/SqlEndpoint/UpdateSqlEndpoint"
+		err = common.PostProcessServiceError(err, "DataFlow", "UpdateSqlEndpoint", apiReferenceLink)
 		return response, err
 	}
 

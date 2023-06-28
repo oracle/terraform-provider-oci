@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// ExternalExadataInfrastructureCollection The Exadata infrastructure list.
+// ExternalExadataInfrastructureCollection A list of the Exadata infrastructure resources.
 type ExternalExadataInfrastructureCollection struct {
 
-	// A list of Exadata infrastructure.
+	// A list of Exadata infrastructures.
 	Items []ExternalExadataInfrastructureSummary `mandatory:"true" json:"items"`
 }
 

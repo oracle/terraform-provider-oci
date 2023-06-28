@@ -56,6 +56,23 @@ type ContainerRepository struct {
 	// Total storage size in GBs that will be charged.
 	BillableSizeInGBs *int64 `mandatory:"true" json:"billableSizeInGBs"`
 
+	// The tenancy namespace used in the container repository path.
+	Namespace *string `mandatory:"true" json:"namespace"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+
+	// The system tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
+
 	Readme *ContainerRepositoryReadme `mandatory:"false" json:"readme"`
 
 	// An RFC 3339 timestamp indicating when an image was last pushed to the repository.

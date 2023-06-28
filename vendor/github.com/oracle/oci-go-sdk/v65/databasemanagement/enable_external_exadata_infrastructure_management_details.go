@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// EnableExternalExadataInfrastructureManagementDetails Details to enable Management on an Exadata infrastructure.
+// EnableExternalExadataInfrastructureManagementDetails The details required to enable Database Management on the Exadata infrastructure.
 type EnableExternalExadataInfrastructureManagementDetails struct {
 
 	// The Oracle license model.

@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DiscoverExternalExadataInfrastructure.go.html to see an example of how to use DiscoverExternalExadataInfrastructureRequest.
 type DiscoverExternalExadataInfrastructureRequest struct {
 
-	// The details required to discover and monitor the Exadata system infrastructure.
+	// The details required to discover and monitor the Exadata infrastructure.
 	DiscoverExternalExadataInfrastructureDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.
