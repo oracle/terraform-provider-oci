@@ -1,4 +1,4 @@
-## 5.3.0 (Unreleased)
+## 5.3.0 (June 28, 2023)
 
 ### Added
 - Support for DBCS | Support A1 (Ampere) for VM DB
