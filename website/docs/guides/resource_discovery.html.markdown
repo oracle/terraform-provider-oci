@@ -587,6 +587,7 @@ database
 * oci\_database\_vm\_cluster\_remove\_virtual\_machine
 * oci\_database\_cloud\_autonomous\_vm\_cluster
 * oci\_database\_application\_vip
+* oci\_database\_oneoff\_patch
 
 database_migration
 
