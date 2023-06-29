@@ -104,7 +104,7 @@ var (
 		"phone_number":             acctest.Representation{RepType: acctest.Optional, Create: `1234567891`, Update: `1234567892`},
 	}
 	DatabaseExadataInfrastructureMaintenanceWindowRepresentation = map[string]interface{}{
-		"preference":                       acctest.Representation{RepType: acctest.Required, Create: `NO_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
+		"preference":                       acctest.Representation{RepType: acctest.Optional, Create: `NO_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
 		"custom_action_timeout_in_mins":    acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `25`},
 		"hours_of_day":                     acctest.Representation{RepType: acctest.Optional, Update: []string{`15`, `20`}},
 		"is_custom_action_timeout_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
