@@ -2695,62 +2695,6 @@ func (client LogAnalyticsClient) enableSourceEventTypes(ctx context.Context, req
 	return response, err
 }
 
-// EstimatePurgeArchivalDataSize This API estimates the size of archival data to be purged based on datatype and logsets, if listed
-// A default retry strategy applies to this operation EstimatePurgeArchivalDataSize()
-func (client LogAnalyticsClient) EstimatePurgeArchivalDataSize(ctx context.Context, request EstimatePurgeArchivalDataSizeRequest) (response EstimatePurgeArchivalDataSizeResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.estimatePurgeArchivalDataSize, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = EstimatePurgeArchivalDataSizeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = EstimatePurgeArchivalDataSizeResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(EstimatePurgeArchivalDataSizeResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into EstimatePurgeArchivalDataSizeResponse")
-	}
-	return
-}
-
-// estimatePurgeArchivalDataSize implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) estimatePurgeArchivalDataSize(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/estimatePurgeArchivalDataSize", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response EstimatePurgeArchivalDataSizeResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/EstimatePurgeArchivalDataSize"
-		err = common.PostProcessServiceError(err, "LogAnalytics", "EstimatePurgeArchivalDataSize", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // EstimatePurgeDataSize This API estimates the size of data to be purged based based on time interval, purge query etc.
 // A default retry strategy applies to this operation EstimatePurgeDataSize()
 func (client LogAnalyticsClient) EstimatePurgeDataSize(ctx context.Context, request EstimatePurgeDataSizeRequest) (response EstimatePurgeDataSizeResponse, err error) {
@@ -8358,67 +8302,6 @@ func (client LogAnalyticsClient) pauseScheduledTask(ctx context.Context, request
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &scheduledtask{})
-	return response, err
-}
-
-// PurgeArchivalData This API purges archival data for the given the timeframe and associated logsets, if any.
-// A default retry strategy applies to this operation PurgeArchivalData()
-func (client LogAnalyticsClient) PurgeArchivalData(ctx context.Context, request PurgeArchivalDataRequest) (response PurgeArchivalDataResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.purgeArchivalData, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = PurgeArchivalDataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = PurgeArchivalDataResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(PurgeArchivalDataResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into PurgeArchivalDataResponse")
-	}
-	return
-}
-
-// purgeArchivalData implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) purgeArchivalData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
-		extraHeaders["Expect"] = "100-continue"
-	}
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/purgeArchivalData", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response PurgeArchivalDataResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/PurgeArchivalData"
-		err = common.PostProcessServiceError(err, "LogAnalytics", "PurgeArchivalData", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 

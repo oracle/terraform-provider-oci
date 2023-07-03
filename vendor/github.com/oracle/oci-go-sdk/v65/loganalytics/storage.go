@@ -22,9 +22,6 @@ type Storage struct {
 	IsArchivingEnabled *bool `mandatory:"true" json:"isArchivingEnabled"`
 
 	ArchivingConfiguration *ArchivingConfiguration `mandatory:"true" json:"archivingConfiguration"`
-
-	// This defines the log sets specific archiving configuration
-	LogSetArchivingConfiguration []LogSetArchivingDetail `mandatory:"false" json:"logSetArchivingConfiguration"`
 }
 
 func (m Storage) String() string {

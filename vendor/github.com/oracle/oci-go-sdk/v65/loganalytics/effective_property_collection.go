@@ -19,7 +19,7 @@ import (
 type EffectivePropertyCollection struct {
 
 	// A list of properties and their effective values.
-	Items []EffectiveProperty `mandatory:"false" json:"items"`
+	Items []EffectivePropertySummary `mandatory:"false" json:"items"`
 }
 
 func (m EffectivePropertyCollection) String() string {

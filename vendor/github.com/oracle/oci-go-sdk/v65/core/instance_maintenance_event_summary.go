@@ -33,15 +33,35 @@ type InstanceMaintenanceEventSummary struct {
 	// The OCID of the compartment that contains the instance.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// They are the instance actions performed during the scheduled maintenance event.
-	// Maintenance actions are reboot, livemigrate, disable, terminate, rebuild-in-place, start, stop.
-	InstanceAction *string `mandatory:"true" json:"instanceAction"`
+	// This indicates the priority and allowed actions for this Maintenance. Higher priority forms of Maintenance have
+	// tighter restrictions and may not be rescheduled, while lower priority/severity Maintenance can be rescheduled,
+	// deferred, or even cancelled. Please see the
+	// Instance Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/placeholder.htm) documentation for details.
+	MaintenanceCategory InstanceMaintenanceEventMaintenanceCategoryEnum `mandatory:"true" json:"maintenanceCategory"`
 
-	// It is the scheduled soft due date and time of the maintenance event which is going to start after this time.
-	TimeNotBefore *common.SDKTime `mandatory:"true" json:"timeNotBefore"`
+	// This is the reason that Maintenance is being performed. See
+	// Instance Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/placeholder.htm) documentation for details.
+	MaintenanceReason InstanceMaintenanceEventMaintenanceReasonEnum `mandatory:"true" json:"maintenanceReason"`
 
-	// It is the scheduled soft due date and time of the maintenance event which is not going to start after this time.
-	TimeNotAfter *common.SDKTime `mandatory:"true" json:"timeNotAfter"`
+	// This is the action that will be performed on the Instance by OCI when the Maintenance begins.
+	InstanceAction InstanceMaintenanceEventInstanceActionEnum `mandatory:"true" json:"instanceAction"`
+
+	// These are alternative actions to the requested instanceAction that can be taken to resolve the Maintenance.
+	AlternativeResolutionActions []InstanceMaintenanceAlternativeResolutionActionsEnum `mandatory:"true" json:"alternativeResolutionActions"`
+
+	// The beginning of the time window when Maintenance is scheduled to begin. The Maintenance will not begin before
+	// this time.
+	TimeWindowStart *common.SDKTime `mandatory:"true" json:"timeWindowStart"`
+
+	// The end of the time window when Maintenance is scheduled to begin. The Maintenance must be started before this
+	// time is reached or it will be rescheduled.
+	TimeWindowEnd *common.SDKTime `mandatory:"true" json:"timeWindowEnd"`
+
+	// This is the estimated duration of the Maintenance, once the Maintenance has entered the STARTED state.
+	EstimatedDuration *string `mandatory:"true" json:"estimatedDuration"`
+
+	// Indicates if this MaintenanceEvent is capable of being rescheduled up to the timeHardDueDate.
+	CanReschedule *bool `mandatory:"true" json:"canReschedule"`
 
 	// The date and time the maintenance event was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
@@ -52,6 +72,11 @@ type InstanceMaintenanceEventSummary struct {
 
 	// The creator of the maintenance event.
 	CreatedBy InstanceMaintenanceEventCreatedByEnum `mandatory:"true" json:"createdBy"`
+
+	// A unique identifier that will group Instances that have a relationship with one another and must be scheduled
+	// together for the Maintenance to proceed. Any Instances that have a relationship with one another from a Maintenance
+	// perspective will have a matching correlationToken.
+	CorrelationToken *string `mandatory:"true" json:"correlationToken"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -84,6 +109,21 @@ func (m InstanceMaintenanceEventSummary) String() string {
 // Not recommended for calling this function directly
 func (m InstanceMaintenanceEventSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingInstanceMaintenanceEventMaintenanceCategoryEnum(string(m.MaintenanceCategory)); !ok && m.MaintenanceCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceCategory: %s. Supported values are: %s.", m.MaintenanceCategory, strings.Join(GetInstanceMaintenanceEventMaintenanceCategoryEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingInstanceMaintenanceEventMaintenanceReasonEnum(string(m.MaintenanceReason)); !ok && m.MaintenanceReason != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceReason: %s. Supported values are: %s.", m.MaintenanceReason, strings.Join(GetInstanceMaintenanceEventMaintenanceReasonEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingInstanceMaintenanceEventInstanceActionEnum(string(m.InstanceAction)); !ok && m.InstanceAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceAction: %s. Supported values are: %s.", m.InstanceAction, strings.Join(GetInstanceMaintenanceEventInstanceActionEnumStringValues(), ",")))
+	}
+	for _, val := range m.AlternativeResolutionActions {
+		if _, ok := GetMappingInstanceMaintenanceAlternativeResolutionActionsEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AlternativeResolutionActions: %s. Supported values are: %s.", val, strings.Join(GetInstanceMaintenanceAlternativeResolutionActionsEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingInstanceMaintenanceEventLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInstanceMaintenanceEventLifecycleStateEnumStringValues(), ",")))
 	}

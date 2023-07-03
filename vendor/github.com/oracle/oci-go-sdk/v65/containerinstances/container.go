@@ -111,6 +111,8 @@ type Container struct {
 
 	// The number of container restart attempts. Depending on the restart policy, a restart might be attempted after a health check failure or a container exit.
 	ContainerRestartAttemptCount *int `mandatory:"false" json:"containerRestartAttemptCount"`
+
+	SecurityContext SecurityContext `mandatory:"false" json:"securityContext"`
 }
 
 func (m Container) String() string {
@@ -152,6 +154,7 @@ func (m *Container) UnmarshalJSON(data []byte) (e error) {
 		IsResourcePrincipalDisabled  *bool                             `json:"isResourcePrincipalDisabled"`
 		ResourceConfig               *ContainerResourceConfig          `json:"resourceConfig"`
 		ContainerRestartAttemptCount *int                              `json:"containerRestartAttemptCount"`
+		SecurityContext              securitycontext                   `json:"securityContext"`
 		Id                           *string                           `json:"id"`
 		DisplayName                  *string                           `json:"displayName"`
 		CompartmentId                *string                           `json:"compartmentId"`
@@ -220,6 +223,16 @@ func (m *Container) UnmarshalJSON(data []byte) (e error) {
 	m.ResourceConfig = model.ResourceConfig
 
 	m.ContainerRestartAttemptCount = model.ContainerRestartAttemptCount
+
+	nn, e = model.SecurityContext.UnmarshalPolymorphicJSON(model.SecurityContext.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SecurityContext = nn.(SecurityContext)
+	} else {
+		m.SecurityContext = nil
+	}
 
 	m.Id = model.Id
 

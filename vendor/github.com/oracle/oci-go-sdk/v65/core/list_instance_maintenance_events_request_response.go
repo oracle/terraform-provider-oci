@@ -23,6 +23,9 @@ type ListInstanceMaintenanceEventsRequest struct {
 	// A filter to only return resources that match the given lifecycle state.
 	LifecycleState InstanceMaintenanceEventLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to only return resources that have a matching correlationToken.
+	CorrelationToken *string `mandatory:"false" contributesTo:"query" name:"correlationToken"`
+
 	// A filter to only return resources that match the given instance action.
 	InstanceAction *string `mandatory:"false" contributesTo:"query" name:"instanceAction"`
 

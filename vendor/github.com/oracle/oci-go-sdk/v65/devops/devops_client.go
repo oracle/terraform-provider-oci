@@ -1472,65 +1472,6 @@ func (client DevopsClient) deleteDeployStage(ctx context.Context, request common
 	return response, err
 }
 
-// DeleteGitRef Deletes a Repository's Ref by its name. Returns an error if the name is ambiguous. Can be disambiguated by using full names like "heads/<name>" or "tags/<name>".
-// A default retry strategy applies to this operation DeleteGitRef()
-func (client DevopsClient) DeleteGitRef(ctx context.Context, request DeleteGitRefRequest) (response DeleteGitRefResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.deleteGitRef, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteGitRefResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteGitRefResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteGitRefResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteGitRefResponse")
-	}
-	return
-}
-
-// deleteGitRef implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) deleteGitRef(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/repositories/{repositoryId}/refs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteGitRefResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/DeleteGitRef"
-		err = common.PostProcessServiceError(err, "Devops", "DeleteGitRef", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteProject Deletes a project resource by identifier
 // A default retry strategy applies to this operation DeleteProject()
 func (client DevopsClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
@@ -4948,65 +4889,6 @@ func (client DevopsClient) updateDeployment(ctx context.Context, request common.
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &deployment{})
-	return response, err
-}
-
-// UpdateGitRef Creates a new reference or updates an existing one.
-// A default retry strategy applies to this operation UpdateGitRef()
-func (client DevopsClient) UpdateGitRef(ctx context.Context, request UpdateGitRefRequest) (response UpdateGitRefResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.updateGitRef, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateGitRefResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateGitRefResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateGitRefResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateGitRefResponse")
-	}
-	return
-}
-
-// updateGitRef implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) updateGitRef(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/repositories/{repositoryId}/refs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateGitRefResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/UpdateGitRef"
-		err = common.PostProcessServiceError(err, "Devops", "UpdateGitRef", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &repositoryref{})
 	return response, err
 }
 

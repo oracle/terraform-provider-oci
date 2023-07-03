@@ -75,6 +75,9 @@ type Instance struct {
 	// For more information, see Capacity Reservations (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
+	// The OCID of the cluster placement group of the instance.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// The OCID of the dedicated virtual machine host that the instance is placed on.
 	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
 
@@ -219,6 +222,7 @@ func (m Instance) ValidateEnumValue() (bool, error) {
 func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		CapacityReservationId      *string                                `json:"capacityReservationId"`
+		ClusterPlacementGroupId    *string                                `json:"clusterPlacementGroupId"`
 		DedicatedVmHostId          *string                                `json:"dedicatedVmHostId"`
 		DefinedTags                map[string]map[string]interface{}      `json:"definedTags"`
 		DisplayName                *string                                `json:"displayName"`
@@ -258,6 +262,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.CapacityReservationId = model.CapacityReservationId
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.DedicatedVmHostId = model.DedicatedVmHostId
 

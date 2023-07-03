@@ -46,6 +46,9 @@ type InstanceReservationConfigDetails struct {
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
 	ClusterConfig *ClusterConfigDetails `mandatory:"false" json:"clusterConfig"`
+
+	// The OCID of the cluster placement group for this instance reservation capacity configuration.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 }
 
 func (m InstanceReservationConfigDetails) String() string {

@@ -32,6 +32,12 @@ type ListScheduledActivitiesRequest struct {
 	// A filter that returns all resources that match the specified status
 	LifecycleState ScheduledActivityLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter that returns all resources that match the specified scheduledActivityAssociationId.
+	ScheduledActivityAssociationId *string `mandatory:"false" contributesTo:"query" name:"scheduledActivityAssociationId"`
+
+	// A filter that returns all resources that match the specified scheduledActivityPhase.
+	ScheduledActivityPhase ScheduledActivityScheduledActivityPhaseEnum `mandatory:"false" contributesTo:"query" name:"scheduledActivityPhase" omitEmpty:"true"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
@@ -88,6 +94,9 @@ func (request ListScheduledActivitiesRequest) ValidateEnumValue() (bool, error) 
 	}
 	if _, ok := GetMappingScheduledActivityLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetScheduledActivityLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingScheduledActivityScheduledActivityPhaseEnum(string(request.ScheduledActivityPhase)); !ok && request.ScheduledActivityPhase != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduledActivityPhase: %s. Supported values are: %s.", request.ScheduledActivityPhase, strings.Join(GetScheduledActivityScheduledActivityPhaseEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListScheduledActivitiesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListScheduledActivitiesSortOrderEnumStringValues(), ",")))

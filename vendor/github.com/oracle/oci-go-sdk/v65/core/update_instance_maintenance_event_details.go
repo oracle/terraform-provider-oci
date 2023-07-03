@@ -24,11 +24,19 @@ import (
 // UpdateInstanceMaintenanceEventDetails Specifies the properties for updating maintenance due date.
 type UpdateInstanceMaintenanceEventDetails struct {
 
-	// It is the scheduled soft due date and time of the maintenance event which is going to start after this time.
-	TimeNotBefore *common.SDKTime `mandatory:"true" json:"timeNotBefore"`
+	// The beginning of the time window when Maintenance is scheduled to begin. The Maintenance will not begin before
+	// this time.
+	// The timeWindowEnd is automatically calculated based on the maintenanceReason and the instanceAction.
+	TimeWindowStart *common.SDKTime `mandatory:"false" json:"timeWindowStart"`
 
-	// It is the scheduled soft due date and time of the maintenance event which is not going to start after this time.
-	TimeNotAfter *common.SDKTime `mandatory:"false" json:"timeNotAfter"`
+	// One of the alternativeResolutionActions that was provided in the InstanceMaintenanceEvent.
+	AlternativeResolutionAction InstanceMaintenanceAlternativeResolutionActionsEnum `mandatory:"false" json:"alternativeResolutionAction,omitempty"`
+
+	// This field is only applicable when setting the alternativeResolutionAction.
+	// For Instances that have local storage, this must be set to true to verify that the local storage
+	// will be deleted during the migration. For instances without, this parameter has no effect.
+	// In cases where the local storage will be lost, this parameter must be set or the request will fail.
+	CanDeleteLocalStorage *bool `mandatory:"false" json:"canDeleteLocalStorage"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
@@ -55,6 +63,9 @@ func (m UpdateInstanceMaintenanceEventDetails) String() string {
 func (m UpdateInstanceMaintenanceEventDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingInstanceMaintenanceAlternativeResolutionActionsEnum(string(m.AlternativeResolutionAction)); !ok && m.AlternativeResolutionAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AlternativeResolutionAction: %s. Supported values are: %s.", m.AlternativeResolutionAction, strings.Join(GetInstanceMaintenanceAlternativeResolutionActionsEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

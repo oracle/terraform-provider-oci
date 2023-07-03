@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -15,11 +15,14 @@ import (
 	"strings"
 )
 
-// QueueStats The stats for a queue and its dead letter queue.
+// QueueStats The stats for a queue and its dead letter queue. If channelId is specified in request field, it will return channel specific stats response.
 type QueueStats struct {
 	Queue *Stats `mandatory:"true" json:"queue"`
 
 	Dlq *Stats `mandatory:"true" json:"dlq"`
+
+	// If channelId is presented in GetStats call, the channel id will be returned in the GetStats response.
+	ChannelId *string `mandatory:"false" json:"channelId"`
 }
 
 func (m QueueStats) String() string {

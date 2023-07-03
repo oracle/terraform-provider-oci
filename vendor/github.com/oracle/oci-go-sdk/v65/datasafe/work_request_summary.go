@@ -177,6 +177,13 @@ const (
 	WorkRequestSummaryOperationTypeRemoveScheduleReport                  WorkRequestSummaryOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
 	WorkRequestSummaryOperationTypeUpdateAllAlert                        WorkRequestSummaryOperationTypeEnum = "UPDATE_ALL_ALERT"
 	WorkRequestSummaryOperationTypePatchTargetAlertPolicyAssociation     WorkRequestSummaryOperationTypeEnum = "PATCH_TARGET_ALERT_POLICY_ASSOCIATION"
+	WorkRequestSummaryOperationTypeCreateAlertPolicy                     WorkRequestSummaryOperationTypeEnum = "CREATE_ALERT_POLICY"
+	WorkRequestSummaryOperationTypeUpdateAlertPolicy                     WorkRequestSummaryOperationTypeEnum = "UPDATE_ALERT_POLICY"
+	WorkRequestSummaryOperationTypeDeleteAlertPolicy                     WorkRequestSummaryOperationTypeEnum = "DELETE_ALERT_POLICY"
+	WorkRequestSummaryOperationTypeCreateAlertPolicyRule                 WorkRequestSummaryOperationTypeEnum = "CREATE_ALERT_POLICY_RULE"
+	WorkRequestSummaryOperationTypeUpdateAlertPolicyRule                 WorkRequestSummaryOperationTypeEnum = "UPDATE_ALERT_POLICY_RULE"
+	WorkRequestSummaryOperationTypeDeleteAlertPolicyRule                 WorkRequestSummaryOperationTypeEnum = "DELETE_ALERT_POLICY_RULE"
+	WorkRequestSummaryOperationTypeChangeAlertPolicyCompartment          WorkRequestSummaryOperationTypeEnum = "CHANGE_ALERT_POLICY_COMPARTMENT"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -284,6 +291,13 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"REMOVE_SCHEDULE_REPORT":                     WorkRequestSummaryOperationTypeRemoveScheduleReport,
 	"UPDATE_ALL_ALERT":                           WorkRequestSummaryOperationTypeUpdateAllAlert,
 	"PATCH_TARGET_ALERT_POLICY_ASSOCIATION":      WorkRequestSummaryOperationTypePatchTargetAlertPolicyAssociation,
+	"CREATE_ALERT_POLICY":                        WorkRequestSummaryOperationTypeCreateAlertPolicy,
+	"UPDATE_ALERT_POLICY":                        WorkRequestSummaryOperationTypeUpdateAlertPolicy,
+	"DELETE_ALERT_POLICY":                        WorkRequestSummaryOperationTypeDeleteAlertPolicy,
+	"CREATE_ALERT_POLICY_RULE":                   WorkRequestSummaryOperationTypeCreateAlertPolicyRule,
+	"UPDATE_ALERT_POLICY_RULE":                   WorkRequestSummaryOperationTypeUpdateAlertPolicyRule,
+	"DELETE_ALERT_POLICY_RULE":                   WorkRequestSummaryOperationTypeDeleteAlertPolicyRule,
+	"CHANGE_ALERT_POLICY_COMPARTMENT":            WorkRequestSummaryOperationTypeChangeAlertPolicyCompartment,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -391,6 +405,13 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"remove_schedule_report":                     WorkRequestSummaryOperationTypeRemoveScheduleReport,
 	"update_all_alert":                           WorkRequestSummaryOperationTypeUpdateAllAlert,
 	"patch_target_alert_policy_association":      WorkRequestSummaryOperationTypePatchTargetAlertPolicyAssociation,
+	"create_alert_policy":                        WorkRequestSummaryOperationTypeCreateAlertPolicy,
+	"update_alert_policy":                        WorkRequestSummaryOperationTypeUpdateAlertPolicy,
+	"delete_alert_policy":                        WorkRequestSummaryOperationTypeDeleteAlertPolicy,
+	"create_alert_policy_rule":                   WorkRequestSummaryOperationTypeCreateAlertPolicyRule,
+	"update_alert_policy_rule":                   WorkRequestSummaryOperationTypeUpdateAlertPolicyRule,
+	"delete_alert_policy_rule":                   WorkRequestSummaryOperationTypeDeleteAlertPolicyRule,
+	"change_alert_policy_compartment":            WorkRequestSummaryOperationTypeChangeAlertPolicyCompartment,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -509,6 +530,13 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"REMOVE_SCHEDULE_REPORT",
 		"UPDATE_ALL_ALERT",
 		"PATCH_TARGET_ALERT_POLICY_ASSOCIATION",
+		"CREATE_ALERT_POLICY",
+		"UPDATE_ALERT_POLICY",
+		"DELETE_ALERT_POLICY",
+		"CREATE_ALERT_POLICY_RULE",
+		"UPDATE_ALERT_POLICY_RULE",
+		"DELETE_ALERT_POLICY_RULE",
+		"CHANGE_ALERT_POLICY_COMPARTMENT",
 	}
 }
 

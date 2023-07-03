@@ -33,15 +33,35 @@ type InstanceMaintenanceEvent struct {
 	// The OCID of the compartment that contains the instance.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// They are the instance actions performed during the scheduled maintenance event.
-	// Maintenance actions are reboot, livemigrate, disable, terminate, rebuild-in-place, start, stop.
-	InstanceAction *string `mandatory:"true" json:"instanceAction"`
+	// This indicates the priority and allowed actions for this Maintenance. Higher priority forms of Maintenance have
+	// tighter restrictions and may not be rescheduled, while lower priority/severity Maintenance can be rescheduled,
+	// deferred, or even cancelled. Please see the
+	// Instance Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/placeholder.htm) documentation for details.
+	MaintenanceCategory InstanceMaintenanceEventMaintenanceCategoryEnum `mandatory:"true" json:"maintenanceCategory"`
 
-	// It is the scheduled soft due date and time of the maintenance event which is going to start after this time.
-	TimeNotBefore *common.SDKTime `mandatory:"true" json:"timeNotBefore"`
+	// This is the reason that Maintenance is being performed. See
+	// Instance Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/placeholder.htm) documentation for details.
+	MaintenanceReason InstanceMaintenanceEventMaintenanceReasonEnum `mandatory:"true" json:"maintenanceReason"`
 
-	// It is the scheduled soft due date and time of the maintenance event which is not going to start after this time.
-	TimeNotAfter *common.SDKTime `mandatory:"true" json:"timeNotAfter"`
+	// This is the action that will be performed on the Instance by OCI when the Maintenance begins.
+	InstanceAction InstanceMaintenanceEventInstanceActionEnum `mandatory:"true" json:"instanceAction"`
+
+	// These are alternative actions to the requested instanceAction that can be taken to resolve the Maintenance.
+	AlternativeResolutionActions []InstanceMaintenanceAlternativeResolutionActionsEnum `mandatory:"true" json:"alternativeResolutionActions"`
+
+	// The beginning of the time window when Maintenance is scheduled to begin. The Maintenance will not begin before
+	// this time.
+	TimeWindowStart *common.SDKTime `mandatory:"true" json:"timeWindowStart"`
+
+	// The end of the time window when Maintenance is scheduled to begin. The Maintenance must be started before this
+	// time is reached or it will be rescheduled.
+	TimeWindowEnd *common.SDKTime `mandatory:"true" json:"timeWindowEnd"`
+
+	// This is the estimated duration of the Maintenance, once the Maintenance has entered the STARTED state.
+	EstimatedDuration *string `mandatory:"true" json:"estimatedDuration"`
+
+	// Indicates if this MaintenanceEvent is capable of being rescheduled up to the timeHardDueDate.
+	CanReschedule *bool `mandatory:"true" json:"canReschedule"`
 
 	// The date and time the maintenance event was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
@@ -52,6 +72,11 @@ type InstanceMaintenanceEvent struct {
 
 	// The creator of the maintenance event.
 	CreatedBy InstanceMaintenanceEventCreatedByEnum `mandatory:"true" json:"createdBy"`
+
+	// A unique identifier that will group Instances that have a relationship with one another and must be scheduled
+	// together for the Maintenance to proceed. Any Instances that have a relationship with one another from a Maintenance
+	// perspective will have a matching correlationToken.
+	CorrelationToken *string `mandatory:"true" json:"correlationToken"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
@@ -73,6 +98,10 @@ type InstanceMaintenanceEvent struct {
 
 	// It is the descriptive information about the maintenance taking place on the customer instance.
 	Description *string `mandatory:"false" json:"description"`
+
+	// For Instances that have local storage, this field is set to true when local storage
+	// will be deleted as a result of the Maintenance.
+	CanDeleteLocalStorage *bool `mandatory:"false" json:"canDeleteLocalStorage"`
 }
 
 func (m InstanceMaintenanceEvent) String() string {
@@ -84,6 +113,21 @@ func (m InstanceMaintenanceEvent) String() string {
 // Not recommended for calling this function directly
 func (m InstanceMaintenanceEvent) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingInstanceMaintenanceEventMaintenanceCategoryEnum(string(m.MaintenanceCategory)); !ok && m.MaintenanceCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceCategory: %s. Supported values are: %s.", m.MaintenanceCategory, strings.Join(GetInstanceMaintenanceEventMaintenanceCategoryEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingInstanceMaintenanceEventMaintenanceReasonEnum(string(m.MaintenanceReason)); !ok && m.MaintenanceReason != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceReason: %s. Supported values are: %s.", m.MaintenanceReason, strings.Join(GetInstanceMaintenanceEventMaintenanceReasonEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingInstanceMaintenanceEventInstanceActionEnum(string(m.InstanceAction)); !ok && m.InstanceAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceAction: %s. Supported values are: %s.", m.InstanceAction, strings.Join(GetInstanceMaintenanceEventInstanceActionEnumStringValues(), ",")))
+	}
+	for _, val := range m.AlternativeResolutionActions {
+		if _, ok := GetMappingInstanceMaintenanceAlternativeResolutionActionsEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AlternativeResolutionActions: %s. Supported values are: %s.", val, strings.Join(GetInstanceMaintenanceAlternativeResolutionActionsEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingInstanceMaintenanceEventLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInstanceMaintenanceEventLifecycleStateEnumStringValues(), ",")))
 	}
@@ -97,13 +141,173 @@ func (m InstanceMaintenanceEvent) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
+// InstanceMaintenanceEventMaintenanceCategoryEnum Enum with underlying type: string
+type InstanceMaintenanceEventMaintenanceCategoryEnum string
+
+// Set of constants representing the allowable values for InstanceMaintenanceEventMaintenanceCategoryEnum
+const (
+	InstanceMaintenanceEventMaintenanceCategoryEmergency    InstanceMaintenanceEventMaintenanceCategoryEnum = "EMERGENCY"
+	InstanceMaintenanceEventMaintenanceCategoryMandatory    InstanceMaintenanceEventMaintenanceCategoryEnum = "MANDATORY"
+	InstanceMaintenanceEventMaintenanceCategoryFlexible     InstanceMaintenanceEventMaintenanceCategoryEnum = "FLEXIBLE"
+	InstanceMaintenanceEventMaintenanceCategoryOptional     InstanceMaintenanceEventMaintenanceCategoryEnum = "OPTIONAL"
+	InstanceMaintenanceEventMaintenanceCategoryNotification InstanceMaintenanceEventMaintenanceCategoryEnum = "NOTIFICATION"
+)
+
+var mappingInstanceMaintenanceEventMaintenanceCategoryEnum = map[string]InstanceMaintenanceEventMaintenanceCategoryEnum{
+	"EMERGENCY":    InstanceMaintenanceEventMaintenanceCategoryEmergency,
+	"MANDATORY":    InstanceMaintenanceEventMaintenanceCategoryMandatory,
+	"FLEXIBLE":     InstanceMaintenanceEventMaintenanceCategoryFlexible,
+	"OPTIONAL":     InstanceMaintenanceEventMaintenanceCategoryOptional,
+	"NOTIFICATION": InstanceMaintenanceEventMaintenanceCategoryNotification,
+}
+
+var mappingInstanceMaintenanceEventMaintenanceCategoryEnumLowerCase = map[string]InstanceMaintenanceEventMaintenanceCategoryEnum{
+	"emergency":    InstanceMaintenanceEventMaintenanceCategoryEmergency,
+	"mandatory":    InstanceMaintenanceEventMaintenanceCategoryMandatory,
+	"flexible":     InstanceMaintenanceEventMaintenanceCategoryFlexible,
+	"optional":     InstanceMaintenanceEventMaintenanceCategoryOptional,
+	"notification": InstanceMaintenanceEventMaintenanceCategoryNotification,
+}
+
+// GetInstanceMaintenanceEventMaintenanceCategoryEnumValues Enumerates the set of values for InstanceMaintenanceEventMaintenanceCategoryEnum
+func GetInstanceMaintenanceEventMaintenanceCategoryEnumValues() []InstanceMaintenanceEventMaintenanceCategoryEnum {
+	values := make([]InstanceMaintenanceEventMaintenanceCategoryEnum, 0)
+	for _, v := range mappingInstanceMaintenanceEventMaintenanceCategoryEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceMaintenanceEventMaintenanceCategoryEnumStringValues Enumerates the set of values in String for InstanceMaintenanceEventMaintenanceCategoryEnum
+func GetInstanceMaintenanceEventMaintenanceCategoryEnumStringValues() []string {
+	return []string{
+		"EMERGENCY",
+		"MANDATORY",
+		"FLEXIBLE",
+		"OPTIONAL",
+		"NOTIFICATION",
+	}
+}
+
+// GetMappingInstanceMaintenanceEventMaintenanceCategoryEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceMaintenanceEventMaintenanceCategoryEnum(val string) (InstanceMaintenanceEventMaintenanceCategoryEnum, bool) {
+	enum, ok := mappingInstanceMaintenanceEventMaintenanceCategoryEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// InstanceMaintenanceEventMaintenanceReasonEnum Enum with underlying type: string
+type InstanceMaintenanceEventMaintenanceReasonEnum string
+
+// Set of constants representing the allowable values for InstanceMaintenanceEventMaintenanceReasonEnum
+const (
+	InstanceMaintenanceEventMaintenanceReasonEvacuation           InstanceMaintenanceEventMaintenanceReasonEnum = "EVACUATION"
+	InstanceMaintenanceEventMaintenanceReasonEnvironmentalFactors InstanceMaintenanceEventMaintenanceReasonEnum = "ENVIRONMENTAL_FACTORS"
+	InstanceMaintenanceEventMaintenanceReasonDecommission         InstanceMaintenanceEventMaintenanceReasonEnum = "DECOMMISSION"
+	InstanceMaintenanceEventMaintenanceReasonHardwareReplacement  InstanceMaintenanceEventMaintenanceReasonEnum = "HARDWARE_REPLACEMENT"
+	InstanceMaintenanceEventMaintenanceReasonFirmwareUpdate       InstanceMaintenanceEventMaintenanceReasonEnum = "FIRMWARE_UPDATE"
+	InstanceMaintenanceEventMaintenanceReasonSecurityUpdate       InstanceMaintenanceEventMaintenanceReasonEnum = "SECURITY_UPDATE"
+)
+
+var mappingInstanceMaintenanceEventMaintenanceReasonEnum = map[string]InstanceMaintenanceEventMaintenanceReasonEnum{
+	"EVACUATION":            InstanceMaintenanceEventMaintenanceReasonEvacuation,
+	"ENVIRONMENTAL_FACTORS": InstanceMaintenanceEventMaintenanceReasonEnvironmentalFactors,
+	"DECOMMISSION":          InstanceMaintenanceEventMaintenanceReasonDecommission,
+	"HARDWARE_REPLACEMENT":  InstanceMaintenanceEventMaintenanceReasonHardwareReplacement,
+	"FIRMWARE_UPDATE":       InstanceMaintenanceEventMaintenanceReasonFirmwareUpdate,
+	"SECURITY_UPDATE":       InstanceMaintenanceEventMaintenanceReasonSecurityUpdate,
+}
+
+var mappingInstanceMaintenanceEventMaintenanceReasonEnumLowerCase = map[string]InstanceMaintenanceEventMaintenanceReasonEnum{
+	"evacuation":            InstanceMaintenanceEventMaintenanceReasonEvacuation,
+	"environmental_factors": InstanceMaintenanceEventMaintenanceReasonEnvironmentalFactors,
+	"decommission":          InstanceMaintenanceEventMaintenanceReasonDecommission,
+	"hardware_replacement":  InstanceMaintenanceEventMaintenanceReasonHardwareReplacement,
+	"firmware_update":       InstanceMaintenanceEventMaintenanceReasonFirmwareUpdate,
+	"security_update":       InstanceMaintenanceEventMaintenanceReasonSecurityUpdate,
+}
+
+// GetInstanceMaintenanceEventMaintenanceReasonEnumValues Enumerates the set of values for InstanceMaintenanceEventMaintenanceReasonEnum
+func GetInstanceMaintenanceEventMaintenanceReasonEnumValues() []InstanceMaintenanceEventMaintenanceReasonEnum {
+	values := make([]InstanceMaintenanceEventMaintenanceReasonEnum, 0)
+	for _, v := range mappingInstanceMaintenanceEventMaintenanceReasonEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceMaintenanceEventMaintenanceReasonEnumStringValues Enumerates the set of values in String for InstanceMaintenanceEventMaintenanceReasonEnum
+func GetInstanceMaintenanceEventMaintenanceReasonEnumStringValues() []string {
+	return []string{
+		"EVACUATION",
+		"ENVIRONMENTAL_FACTORS",
+		"DECOMMISSION",
+		"HARDWARE_REPLACEMENT",
+		"FIRMWARE_UPDATE",
+		"SECURITY_UPDATE",
+	}
+}
+
+// GetMappingInstanceMaintenanceEventMaintenanceReasonEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceMaintenanceEventMaintenanceReasonEnum(val string) (InstanceMaintenanceEventMaintenanceReasonEnum, bool) {
+	enum, ok := mappingInstanceMaintenanceEventMaintenanceReasonEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// InstanceMaintenanceEventInstanceActionEnum Enum with underlying type: string
+type InstanceMaintenanceEventInstanceActionEnum string
+
+// Set of constants representing the allowable values for InstanceMaintenanceEventInstanceActionEnum
+const (
+	InstanceMaintenanceEventInstanceActionRebootMigration InstanceMaintenanceEventInstanceActionEnum = "REBOOT_MIGRATION"
+	InstanceMaintenanceEventInstanceActionTerminate       InstanceMaintenanceEventInstanceActionEnum = "TERMINATE"
+	InstanceMaintenanceEventInstanceActionStop            InstanceMaintenanceEventInstanceActionEnum = "STOP"
+	InstanceMaintenanceEventInstanceActionNone            InstanceMaintenanceEventInstanceActionEnum = "NONE"
+)
+
+var mappingInstanceMaintenanceEventInstanceActionEnum = map[string]InstanceMaintenanceEventInstanceActionEnum{
+	"REBOOT_MIGRATION": InstanceMaintenanceEventInstanceActionRebootMigration,
+	"TERMINATE":        InstanceMaintenanceEventInstanceActionTerminate,
+	"STOP":             InstanceMaintenanceEventInstanceActionStop,
+	"NONE":             InstanceMaintenanceEventInstanceActionNone,
+}
+
+var mappingInstanceMaintenanceEventInstanceActionEnumLowerCase = map[string]InstanceMaintenanceEventInstanceActionEnum{
+	"reboot_migration": InstanceMaintenanceEventInstanceActionRebootMigration,
+	"terminate":        InstanceMaintenanceEventInstanceActionTerminate,
+	"stop":             InstanceMaintenanceEventInstanceActionStop,
+	"none":             InstanceMaintenanceEventInstanceActionNone,
+}
+
+// GetInstanceMaintenanceEventInstanceActionEnumValues Enumerates the set of values for InstanceMaintenanceEventInstanceActionEnum
+func GetInstanceMaintenanceEventInstanceActionEnumValues() []InstanceMaintenanceEventInstanceActionEnum {
+	values := make([]InstanceMaintenanceEventInstanceActionEnum, 0)
+	for _, v := range mappingInstanceMaintenanceEventInstanceActionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceMaintenanceEventInstanceActionEnumStringValues Enumerates the set of values in String for InstanceMaintenanceEventInstanceActionEnum
+func GetInstanceMaintenanceEventInstanceActionEnumStringValues() []string {
+	return []string{
+		"REBOOT_MIGRATION",
+		"TERMINATE",
+		"STOP",
+		"NONE",
+	}
+}
+
+// GetMappingInstanceMaintenanceEventInstanceActionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceMaintenanceEventInstanceActionEnum(val string) (InstanceMaintenanceEventInstanceActionEnum, bool) {
+	enum, ok := mappingInstanceMaintenanceEventInstanceActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
 // InstanceMaintenanceEventLifecycleStateEnum Enum with underlying type: string
 type InstanceMaintenanceEventLifecycleStateEnum string
 
 // Set of constants representing the allowable values for InstanceMaintenanceEventLifecycleStateEnum
 const (
-	InstanceMaintenanceEventLifecycleStateRequested  InstanceMaintenanceEventLifecycleStateEnum = "REQUESTED"
-	InstanceMaintenanceEventLifecycleStatePlanned    InstanceMaintenanceEventLifecycleStateEnum = "PLANNED"
 	InstanceMaintenanceEventLifecycleStateScheduled  InstanceMaintenanceEventLifecycleStateEnum = "SCHEDULED"
 	InstanceMaintenanceEventLifecycleStateStarted    InstanceMaintenanceEventLifecycleStateEnum = "STARTED"
 	InstanceMaintenanceEventLifecycleStateProcessing InstanceMaintenanceEventLifecycleStateEnum = "PROCESSING"
@@ -113,8 +317,6 @@ const (
 )
 
 var mappingInstanceMaintenanceEventLifecycleStateEnum = map[string]InstanceMaintenanceEventLifecycleStateEnum{
-	"REQUESTED":  InstanceMaintenanceEventLifecycleStateRequested,
-	"PLANNED":    InstanceMaintenanceEventLifecycleStatePlanned,
 	"SCHEDULED":  InstanceMaintenanceEventLifecycleStateScheduled,
 	"STARTED":    InstanceMaintenanceEventLifecycleStateStarted,
 	"PROCESSING": InstanceMaintenanceEventLifecycleStateProcessing,
@@ -124,8 +326,6 @@ var mappingInstanceMaintenanceEventLifecycleStateEnum = map[string]InstanceMaint
 }
 
 var mappingInstanceMaintenanceEventLifecycleStateEnumLowerCase = map[string]InstanceMaintenanceEventLifecycleStateEnum{
-	"requested":  InstanceMaintenanceEventLifecycleStateRequested,
-	"planned":    InstanceMaintenanceEventLifecycleStatePlanned,
 	"scheduled":  InstanceMaintenanceEventLifecycleStateScheduled,
 	"started":    InstanceMaintenanceEventLifecycleStateStarted,
 	"processing": InstanceMaintenanceEventLifecycleStateProcessing,
@@ -146,8 +346,6 @@ func GetInstanceMaintenanceEventLifecycleStateEnumValues() []InstanceMaintenance
 // GetInstanceMaintenanceEventLifecycleStateEnumStringValues Enumerates the set of values in String for InstanceMaintenanceEventLifecycleStateEnum
 func GetInstanceMaintenanceEventLifecycleStateEnumStringValues() []string {
 	return []string{
-		"REQUESTED",
-		"PLANNED",
 		"SCHEDULED",
 		"STARTED",
 		"PROCESSING",

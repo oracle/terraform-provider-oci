@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -15,28 +15,31 @@ import (
 	"strings"
 )
 
-// CreateQueueDetails The information about new Queue.
+// CreateQueueDetails The information about a new queue.
 type CreateQueueDetails struct {
 
-	// Queue Identifier
+	// The user-friendly name of the queue.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment Identifier
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the queue.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The retention period of the messages in the queue, in seconds.
+	// The retention period of messages in the queue, in seconds.
 	RetentionInSeconds *int `mandatory:"false" json:"retentionInSeconds"`
 
-	// The default visibility of the messages consumed from the queue.
+	// The default visibility timeout of the messages consumed from the queue, in seconds.
 	VisibilityInSeconds *int `mandatory:"false" json:"visibilityInSeconds"`
 
 	// The default polling timeout of the messages in the queue, in seconds.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
+	// The percentage of allocated queue resources that can be consumed by a single channel. For example, if a queue has a storage limit of 2Gb, and a single channel consumption limit is 0.1 (10%), that means data size of a single channel  can't exceed 200Mb. Consumption limit of 100% (default) means that a single channel can consume up-to all allocated queue's resources.
+	ChannelConsumptionLimit *int `mandatory:"false" json:"channelConsumptionLimit"`
+
 	// The number of times a message can be delivered to a consumer before being moved to the dead letter queue. A value of 0 indicates that the DLQ is not used.
 	DeadLetterQueueDeliveryCount *int `mandatory:"false" json:"deadLetterQueueDeliveryCount"`
 
-	// Id of the custom master encryption key which will be used to encrypt messages content
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the custom encryption key to be used to encrypt messages content.
 	CustomEncryptionKeyId *string `mandatory:"false" json:"customEncryptionKeyId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -91,7 +91,9 @@ func (client *QueueClient) ConfigurationProvider() *common.ConfigurationProvider
 	return client.config
 }
 
-// DeleteMessage Deletes from the queue the message represented by the receipt.
+// DeleteMessage Deletes the message represented by the receipt from the queue.
+// You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to delete messages.
+// The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 // A default retry strategy applies to this operation DeleteMessage()
 func (client QueueClient) DeleteMessage(ctx context.Context, request DeleteMessageRequest) (response DeleteMessageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -146,6 +148,8 @@ func (client QueueClient) deleteMessage(ctx context.Context, request common.OCIR
 }
 
 // DeleteMessages Deletes multiple messages from the queue.
+// You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to delete messages.
+// The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 // A default retry strategy applies to this operation DeleteMessages()
 func (client QueueClient) DeleteMessages(ctx context.Context, request DeleteMessagesRequest) (response DeleteMessagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -199,7 +203,12 @@ func (client QueueClient) deleteMessages(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// GetMessages Consumes message from the queue.
+// GetMessages Consumes messages from the queue.
+// You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to consume messages.
+// The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
+// GetMessages accepts optional channelFilter query parameter that can filter source channels of the messages.
+// When channelFilter is present, service will return available messages from the channel which ID exactly matched the filter.
+// When filter is not specified, messages will be returned from a random non-empty channel within a queue.
 func (client QueueClient) GetMessages(ctx context.Context, request GetMessagesRequest) (response GetMessagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -253,6 +262,8 @@ func (client QueueClient) getMessages(ctx context.Context, request common.OCIReq
 }
 
 // GetStats Gets the statistics for the queue and its dead letter queue.
+// You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to get a queue's statistics.
+// The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 // A default retry strategy applies to this operation GetStats()
 func (client QueueClient) GetStats(ctx context.Context, request GetStatsRequest) (response GetStatsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -306,7 +317,66 @@ func (client QueueClient) getStats(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// PutMessages Puts messages in the queue
+// ListChannels Gets the list of IDs of non-empty channels.
+// It will return an approximate list of IDs of non-empty channels. That information is based on the queue level statistics.
+// API supports optional channelFilter parameter which will filter the returned results according to the specified filter.
+// List of channel IDs is approximate, because statistics is refreshed once per-second, and that list represents a snapshot of the past information. API is paginated.
+// A default retry strategy applies to this operation ListChannels()
+func (client QueueClient) ListChannels(ctx context.Context, request ListChannelsRequest) (response ListChannelsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listChannels, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListChannelsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListChannelsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListChannelsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListChannelsResponse")
+	}
+	return
+}
+
+// listChannels implements the OCIOperation interface (enables retrying operations)
+func (client QueueClient) listChannels(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/queues/{queueId}/channels", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListChannelsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/ChannelCollection/ListChannels"
+		err = common.PostProcessServiceError(err, "Queue", "ListChannels", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PutMessages Puts messages into the queue.
+// You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to produce messages.
+// The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 func (client QueueClient) PutMessages(ctx context.Context, request PutMessagesRequest) (response PutMessagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -360,6 +430,8 @@ func (client QueueClient) putMessages(ctx context.Context, request common.OCIReq
 }
 
 // UpdateMessage Updates the visibility of the message represented by the receipt.
+// You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to update messages.
+// The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 // A default retry strategy applies to this operation UpdateMessage()
 func (client QueueClient) UpdateMessage(ctx context.Context, request UpdateMessageRequest) (response UpdateMessageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -414,6 +486,8 @@ func (client QueueClient) updateMessage(ctx context.Context, request common.OCIR
 }
 
 // UpdateMessages Updates multiple messages in the queue.
+// You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to update messages.
+// The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 // A default retry strategy applies to this operation UpdateMessages()
 func (client QueueClient) UpdateMessages(ctx context.Context, request UpdateMessagesRequest) (response UpdateMessagesResponse, err error) {
 	var ociResponse common.OCIResponse

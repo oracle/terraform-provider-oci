@@ -41,6 +41,9 @@ type CapacityReservationInstanceSummary struct {
 	// The fault domain the instance is running in.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
+	// The OCID of the cluster placement group of the instance.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	ShapeConfig *InstanceReservationShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 }
 

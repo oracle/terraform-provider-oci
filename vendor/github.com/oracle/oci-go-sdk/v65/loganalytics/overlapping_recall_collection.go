@@ -19,7 +19,7 @@ import (
 type OverlappingRecallCollection struct {
 
 	// This is the array of overlapping recall requests
-	Items []OverlappingRecall `mandatory:"true" json:"items"`
+	Items []OverlappingRecallSummary `mandatory:"true" json:"items"`
 }
 
 func (m OverlappingRecallCollection) String() string {

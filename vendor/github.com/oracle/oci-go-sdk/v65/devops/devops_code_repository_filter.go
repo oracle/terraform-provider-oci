@@ -22,7 +22,7 @@ type DevopsCodeRepositoryFilter struct {
 
 	Exclude *DevopsCodeRepositoryFilterExclusionAttributes `mandatory:"false" json:"exclude"`
 
-	// The events only support PUSH.
+	// The events, for example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED.
 	Events []DevopsCodeRepositoryFilterEventsEnum `mandatory:"false" json:"events,omitempty"`
 }
 

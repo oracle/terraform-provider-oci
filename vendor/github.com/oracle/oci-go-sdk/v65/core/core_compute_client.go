@@ -6194,15 +6194,21 @@ func (client ComputeClient) updateInstanceConsoleConnection(ctx context.Context,
 }
 
 // UpdateInstanceMaintenanceEvent Updates the maintenance event for the given instance.
+// A default retry strategy applies to this operation UpdateInstanceMaintenanceEvent()
 func (client ComputeClient) UpdateInstanceMaintenanceEvent(ctx context.Context, request UpdateInstanceMaintenanceEventRequest) (response UpdateInstanceMaintenanceEventResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.updateInstanceMaintenanceEvent, policy)
 	if err != nil {
 		if ociResponse != nil {

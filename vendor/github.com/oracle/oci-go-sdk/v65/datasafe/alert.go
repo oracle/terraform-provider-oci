@@ -76,6 +76,12 @@ type Alert struct {
 	// A comment for the alert. Entered by the user.
 	Comment *string `mandatory:"false" json:"comment"`
 
+	// The key of the rule of alert policy that triggered alert.
+	AlertPolicyRuleKey *string `mandatory:"false" json:"alertPolicyRuleKey"`
+
+	// The display name of the rule of alert policy that triggered alert.
+	AlertPolicyRuleName *string `mandatory:"false" json:"alertPolicyRuleName"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

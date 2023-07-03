@@ -75,6 +75,10 @@ func (m *monitorconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := BrowserMonitorConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "NETWORK_CONFIG":
+		mm := NetworkMonitorConfiguration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for MonitorConfiguration: %s.", m.ConfigType)
 		return *m, nil
@@ -116,6 +120,7 @@ const (
 	MonitorConfigurationConfigTypeScriptedBrowserConfig MonitorConfigurationConfigTypeEnum = "SCRIPTED_BROWSER_CONFIG"
 	MonitorConfigurationConfigTypeRestConfig            MonitorConfigurationConfigTypeEnum = "REST_CONFIG"
 	MonitorConfigurationConfigTypeScriptedRestConfig    MonitorConfigurationConfigTypeEnum = "SCRIPTED_REST_CONFIG"
+	MonitorConfigurationConfigTypeNetworkConfig         MonitorConfigurationConfigTypeEnum = "NETWORK_CONFIG"
 )
 
 var mappingMonitorConfigurationConfigTypeEnum = map[string]MonitorConfigurationConfigTypeEnum{
@@ -123,6 +128,7 @@ var mappingMonitorConfigurationConfigTypeEnum = map[string]MonitorConfigurationC
 	"SCRIPTED_BROWSER_CONFIG": MonitorConfigurationConfigTypeScriptedBrowserConfig,
 	"REST_CONFIG":             MonitorConfigurationConfigTypeRestConfig,
 	"SCRIPTED_REST_CONFIG":    MonitorConfigurationConfigTypeScriptedRestConfig,
+	"NETWORK_CONFIG":          MonitorConfigurationConfigTypeNetworkConfig,
 }
 
 var mappingMonitorConfigurationConfigTypeEnumLowerCase = map[string]MonitorConfigurationConfigTypeEnum{
@@ -130,6 +136,7 @@ var mappingMonitorConfigurationConfigTypeEnumLowerCase = map[string]MonitorConfi
 	"scripted_browser_config": MonitorConfigurationConfigTypeScriptedBrowserConfig,
 	"rest_config":             MonitorConfigurationConfigTypeRestConfig,
 	"scripted_rest_config":    MonitorConfigurationConfigTypeScriptedRestConfig,
+	"network_config":          MonitorConfigurationConfigTypeNetworkConfig,
 }
 
 // GetMonitorConfigurationConfigTypeEnumValues Enumerates the set of values for MonitorConfigurationConfigTypeEnum
@@ -148,6 +155,7 @@ func GetMonitorConfigurationConfigTypeEnumStringValues() []string {
 		"SCRIPTED_BROWSER_CONFIG",
 		"REST_CONFIG",
 		"SCRIPTED_REST_CONFIG",
+		"NETWORK_CONFIG",
 	}
 }
 

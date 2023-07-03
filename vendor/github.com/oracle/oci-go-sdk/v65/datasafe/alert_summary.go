@@ -66,6 +66,12 @@ type AlertSummary struct {
 	// Type of the alert. Indicates the Data Safe feature triggering the alert.
 	AlertType AlertTypeEnum `mandatory:"false" json:"alertType,omitempty"`
 
+	// The key of the rule of alert policy that triggered alert.
+	AlertPolicyRuleKey *string `mandatory:"false" json:"alertPolicyRuleKey"`
+
+	// The display name of the rule of alert policy that triggered alert.
+	AlertPolicyRuleName *string `mandatory:"false" json:"alertPolicyRuleName"`
+
 	// Map that contains maps of values.
 	//  Example: `{"Operations": {"CostCenter": "42"}}`
 	FeatureDetails map[string]map[string]interface{} `mandatory:"false" json:"featureDetails"`
