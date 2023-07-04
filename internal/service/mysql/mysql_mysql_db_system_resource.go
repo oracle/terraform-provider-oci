@@ -1135,11 +1135,11 @@ func (s *MysqlMysqlDbSystemResourceCrud) Delete() error {
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
-	if s.Res.AnalyticsCluster != nil {
-		s.D.Set("analytics_cluster", []interface{}{AnalyticsClusterSummaryToMap(s.Res.AnalyticsCluster)})
-	} else {
-		s.D.Set("analytics_cluster", nil)
-	}
+	//if s.Res.AnalyticsCluster != nil {
+	//	s.D.Set("analytics_cluster", []interface{}{AnalyticsClusterSummaryToMap(s.Res.AnalyticsCluster)})
+	//} else {
+	//	s.D.Set("analytics_cluster", nil)
+	//}
 
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
@@ -1220,10 +1220,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
-
-	if s.Res.IsAnalyticsClusterAttached != nil {
-		s.D.Set("is_analytics_cluster_attached", *s.Res.IsAnalyticsClusterAttached)
-	}
+	//
+	//if s.Res.IsAnalyticsClusterAttached != nil {
+	//	s.D.Set("is_analytics_cluster_attached", *s.Res.IsAnalyticsClusterAttached)
+	//}
 
 	if s.Res.IsHeatWaveClusterAttached != nil {
 		s.D.Set("is_heat_wave_cluster_attached", *s.Res.IsHeatWaveClusterAttached)
@@ -1296,29 +1296,29 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 	return nil
 }
 
-func AnalyticsClusterSummaryToMap(obj *oci_mysql.AnalyticsClusterSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.ClusterSize != nil {
-		result["cluster_size"] = int(*obj.ClusterSize)
-	}
-
-	if obj.ShapeName != nil {
-		result["shape_name"] = string(*obj.ShapeName)
-	}
-
-	result["state"] = string(obj.LifecycleState)
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	if obj.TimeUpdated != nil {
-		result["time_updated"] = obj.TimeUpdated.String()
-	}
-
-	return result
-}
+//func AnalyticsClusterSummaryToMap(obj *oci_mysql.AnalyticsClusterSummary) map[string]interface{} {
+//	result := map[string]interface{}{}
+//
+//	if obj.ClusterSize != nil {
+//		result["cluster_size"] = int(*obj.ClusterSize)
+//	}
+//
+//	if obj.ShapeName != nil {
+//		result["shape_name"] = string(*obj.ShapeName)
+//	}
+//
+//	result["state"] = string(obj.LifecycleState)
+//
+//	if obj.TimeCreated != nil {
+//		result["time_created"] = obj.TimeCreated.String()
+//	}
+//
+//	if obj.TimeUpdated != nil {
+//		result["time_updated"] = obj.TimeUpdated.String()
+//	}
+//
+//	return result
+//}
 
 func (s *MysqlMysqlDbSystemResourceCrud) mapToAnonymousTransactionsHandling(fieldKeyFormat string) (oci_mysql.AnonymousTransactionsHandling, error) {
 	var baseObject oci_mysql.AnonymousTransactionsHandling

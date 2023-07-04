@@ -100,10 +100,10 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	if isAnalyticsClusterAttached, ok := s.D.GetOkExists("is_analytics_cluster_attached"); ok {
-		tmp := isAnalyticsClusterAttached.(bool)
-		request.IsAnalyticsClusterAttached = &tmp
-	}
+	//if isAnalyticsClusterAttached, ok := s.D.GetOkExists("is_analytics_cluster_attached"); ok {
+	//	tmp := isAnalyticsClusterAttached.(bool)
+	//	request.IsAnalyticsClusterAttached = &tmp
+	//}
 
 	if isHeatWaveClusterAttached, ok := s.D.GetOkExists("is_heat_wave_cluster_attached"); ok {
 		tmp := isHeatWaveClusterAttached.(bool)
@@ -155,11 +155,11 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
-		if r.AnalyticsCluster != nil {
-			mysqlDbSystem["analytics_cluster"] = []interface{}{AnalyticsClusterSummaryToMap(r.AnalyticsCluster)}
-		} else {
-			mysqlDbSystem["analytics_cluster"] = nil
-		}
+		//if r.AnalyticsCluster != nil {
+		//	mysqlDbSystem["analytics_cluster"] = []interface{}{AnalyticsClusterSummaryToMap(r.AnalyticsCluster)}
+		//} else {
+		//	mysqlDbSystem["analytics_cluster"] = nil
+		//}
 
 		if r.AvailabilityDomain != nil {
 			mysqlDbSystem["availability_domain"] = *r.AvailabilityDomain
@@ -219,9 +219,9 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 			mysqlDbSystem["id"] = *r.Id
 		}
 
-		if r.IsAnalyticsClusterAttached != nil {
-			mysqlDbSystem["is_analytics_cluster_attached"] = *r.IsAnalyticsClusterAttached
-		}
+		//if r.IsAnalyticsClusterAttached != nil {
+		//	mysqlDbSystem["is_analytics_cluster_attached"] = *r.IsAnalyticsClusterAttached
+		//}
 
 		if r.IsHeatWaveClusterAttached != nil {
 			mysqlDbSystem["is_heat_wave_cluster_attached"] = *r.IsHeatWaveClusterAttached

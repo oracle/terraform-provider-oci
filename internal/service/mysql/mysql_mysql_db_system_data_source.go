@@ -66,11 +66,11 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	if s.Res.AnalyticsCluster != nil {
-		s.D.Set("analytics_cluster", []interface{}{AnalyticsClusterSummaryToMap(s.Res.AnalyticsCluster)})
-	} else {
-		s.D.Set("analytics_cluster", nil)
-	}
+	//if s.Res.AnalyticsCluster != nil {
+	//	s.D.Set("analytics_cluster", []interface{}{AnalyticsClusterSummaryToMap(s.Res.AnalyticsCluster)})
+	//} else {
+	//	s.D.Set("analytics_cluster", nil)
+	//}
 
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
@@ -152,9 +152,9 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
 
-	if s.Res.IsAnalyticsClusterAttached != nil {
-		s.D.Set("is_analytics_cluster_attached", *s.Res.IsAnalyticsClusterAttached)
-	}
+	//if s.Res.IsAnalyticsClusterAttached != nil {
+	//	s.D.Set("is_analytics_cluster_attached", *s.Res.IsAnalyticsClusterAttached)
+	//}
 
 	if s.Res.IsHeatWaveClusterAttached != nil {
 		s.D.Set("is_heat_wave_cluster_attached", *s.Res.IsHeatWaveClusterAttached)
