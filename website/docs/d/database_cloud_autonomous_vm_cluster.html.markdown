@@ -110,6 +110,8 @@ The following attributes are exported:
 
 	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
 * `time_created` - The date and time that the cloud Autonomous VM cluster was created.
+* `time_database_ssl_certificate_expires` - The date and time of Database SSL certificate expiration.
+* `time_ords_certificate_expires` - The date and time of ORDS certificate expiration.
 * `time_updated` - The last date and time that the cloud Autonomous VM cluster was updated.
 * `total_autonomous_data_storage_in_tbs` - The total data disk group size for Autonomous Databases, in TBs.
 * `total_container_databases` - The total number of Autonomous Container Databases that can be created with the allocated local storage.
