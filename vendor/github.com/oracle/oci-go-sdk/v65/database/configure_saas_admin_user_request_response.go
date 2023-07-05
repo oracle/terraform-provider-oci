@@ -76,8 +76,8 @@ type ConfigureSaasAdminUserResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The SaasAdminUserStatus instance
-	SaasAdminUserStatus `presentIn:"body"`
+	// The AutonomousDatabase instance
+	AutonomousDatabase `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`

@@ -50,6 +50,10 @@ type InternalVnicAttachment struct {
 	// Shape of VNIC that is used to allocate resource in the data plane.
 	VnicShape InternalVnicAttachmentVnicShapeEnum `mandatory:"false" json:"vnicShape,omitempty"`
 
+	VnicShapeConfig *VnicShapeConfig `mandatory:"false" json:"vnicShapeConfig"`
+
+	VnicaasVnicShapeConfig *VnicassVnicShapeConfig `mandatory:"false" json:"vnicaasVnicShapeConfig"`
+
 	// The instance that a VNIC is attached to
 	InstanceId *string `mandatory:"false" json:"instanceId"`
 

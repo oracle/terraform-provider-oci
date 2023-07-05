@@ -44,14 +44,6 @@ type CreateClusterNetworkInstancePoolDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format.
-	// The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format
-	InstanceDisplayNameFormatter *string `mandatory:"false" json:"instanceDisplayNameFormatter"`
-
-	// A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format.
-	// The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format
-	InstanceHostnameFormatter *string `mandatory:"false" json:"instanceHostnameFormatter"`
 }
 
 func (m CreateClusterNetworkInstancePoolDetails) String() string {

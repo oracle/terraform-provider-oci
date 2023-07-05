@@ -58,6 +58,8 @@ type UpdateHealthCheckerDetails struct {
 
 	// Base64 encoded pattern to be validated as UDP or TCP health check probe response.
 	ResponseData []byte `mandatory:"false" json:"responseData"`
+
+	Dns *DnsHealthCheckerDetails `mandatory:"false" json:"dns"`
 }
 
 func (m UpdateHealthCheckerDetails) String() string {

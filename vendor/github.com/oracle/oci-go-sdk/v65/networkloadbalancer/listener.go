@@ -48,6 +48,14 @@ type Listener struct {
 	// An array that represents the PPV2 Options that can be enabled on TCP Listeners.
 	// Example: ["VCN_ID"]
 	InternalProxyProtocolOptions []MetadataOptionsEnum `mandatory:"false" json:"internalProxyProtocolOptions"`
+
+	// The duration for TCP idle timeout
+	// Example: `200`
+	TcpIdleTimeout *int `mandatory:"false" json:"tcpIdleTimeout"`
+
+	// The duration for UDP idle timeout
+	// Example: `200`
+	UdpIdleTimeout *int `mandatory:"false" json:"udpIdleTimeout"`
 }
 
 func (m Listener) String() string {

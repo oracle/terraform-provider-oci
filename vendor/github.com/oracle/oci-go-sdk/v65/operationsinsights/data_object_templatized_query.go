@@ -21,8 +21,17 @@ import (
 // DataObjectTemplatizedQuery Information required in a structured template to form and execute query on a data object.
 type DataObjectTemplatizedQuery struct {
 
+	// List of bind parameters to be applied in the query.
+	BindParams []DataObjectBindParameter `mandatory:"false" json:"bindParams"`
+
 	// List of items to be added into the SELECT clause of the query; items will be added with comma separation.
 	SelectList []string `mandatory:"false" json:"selectList"`
+
+	// Unique data object name that will be added into the FROM clause of the query, just like a view name in FROM clause.
+	// - Use actual name of the data objects (e.g: tables, views) in case of Warehouse (e.g: Awr hub) data objects query. SCHEMA.VIEW name syntax can also be used here.
+	// e.g: SYS.DBA_HIST_SNAPSHOT or DBA_HIST_SNAPSHOT
+	// - Use name of the data object (e.g: SQL_STATS_DO) in case of OPSI data objects. Identifier of the OPSI data object cannot be used here.
+	FromClause *string `mandatory:"false" json:"fromClause"`
 
 	// List of items to be added into the WHERE clause of the query; items will be added with AND separation.
 	// Item can contain a single condition or multiple conditions.
@@ -40,6 +49,11 @@ type DataObjectTemplatizedQuery struct {
 	OrderByList []string `mandatory:"false" json:"orderByList"`
 
 	TimeFilters *DataObjectQueryTimeFilters `mandatory:"false" json:"timeFilters"`
+}
+
+//GetBindParams returns BindParams
+func (m DataObjectTemplatizedQuery) GetBindParams() []DataObjectBindParameter {
+	return m.BindParams
 }
 
 func (m DataObjectTemplatizedQuery) String() string {

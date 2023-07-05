@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateDisasterRecoveryDetails The following are the details necessary to create a disaster recovery (DR) association for an existing Autonomous Database. This may be in the same region, or in another.
+// CreateCrossTenancyDisasterRecoveryDetails The following are the details necessary to create a cross-tenancy disaster recovery (DR) association for an existing Autonomous Database. This may be in the same region, or in another.
 // *IMPORTANT*
 // For creating a standby databases in a cross-tenancy local DR association:
 //   - To create the standby database in different tenancy, use the compartment OCID in the tenancy where the standby is located.
@@ -37,7 +37,7 @@ import (
 //   - licenseModel
 //   - whitelistedIps
 //   - isMtlsConnectionRequired
-type CreateDisasterRecoveryDetails struct {
+type CreateCrossTenancyDisasterRecoveryDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -267,258 +267,258 @@ type CreateDisasterRecoveryDetails struct {
 }
 
 //GetCompartmentId returns CompartmentId
-func (m CreateDisasterRecoveryDetails) GetCompartmentId() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
 //GetCharacterSet returns CharacterSet
-func (m CreateDisasterRecoveryDetails) GetCharacterSet() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetCharacterSet() *string {
 	return m.CharacterSet
 }
 
 //GetNcharacterSet returns NcharacterSet
-func (m CreateDisasterRecoveryDetails) GetNcharacterSet() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetNcharacterSet() *string {
 	return m.NcharacterSet
 }
 
 //GetDbName returns DbName
-func (m CreateDisasterRecoveryDetails) GetDbName() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetDbName() *string {
 	return m.DbName
 }
 
 //GetCpuCoreCount returns CpuCoreCount
-func (m CreateDisasterRecoveryDetails) GetCpuCoreCount() *int {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
 //GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
-func (m CreateDisasterRecoveryDetails) GetBackupRetentionPeriodInDays() *int {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetBackupRetentionPeriodInDays() *int {
 	return m.BackupRetentionPeriodInDays
 }
 
 //GetComputeModel returns ComputeModel
-func (m CreateDisasterRecoveryDetails) GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum {
 	return m.ComputeModel
 }
 
 //GetComputeCount returns ComputeCount
-func (m CreateDisasterRecoveryDetails) GetComputeCount() *float32 {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetComputeCount() *float32 {
 	return m.ComputeCount
 }
 
 //GetOcpuCount returns OcpuCount
-func (m CreateDisasterRecoveryDetails) GetOcpuCount() *float32 {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetOcpuCount() *float32 {
 	return m.OcpuCount
 }
 
 //GetDbWorkload returns DbWorkload
-func (m CreateDisasterRecoveryDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
 }
 
 //GetDataStorageSizeInTBs returns DataStorageSizeInTBs
-func (m CreateDisasterRecoveryDetails) GetDataStorageSizeInTBs() *int {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
 }
 
 //GetDataStorageSizeInGBs returns DataStorageSizeInGBs
-func (m CreateDisasterRecoveryDetails) GetDataStorageSizeInGBs() *int {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetDataStorageSizeInGBs() *int {
 	return m.DataStorageSizeInGBs
 }
 
 //GetIsFreeTier returns IsFreeTier
-func (m CreateDisasterRecoveryDetails) GetIsFreeTier() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsFreeTier() *bool {
 	return m.IsFreeTier
 }
 
 //GetKmsKeyId returns KmsKeyId
-func (m CreateDisasterRecoveryDetails) GetKmsKeyId() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
 //GetVaultId returns VaultId
-func (m CreateDisasterRecoveryDetails) GetVaultId() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
 //GetAdminPassword returns AdminPassword
-func (m CreateDisasterRecoveryDetails) GetAdminPassword() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetAdminPassword() *string {
 	return m.AdminPassword
 }
 
 //GetDisplayName returns DisplayName
-func (m CreateDisasterRecoveryDetails) GetDisplayName() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 //GetLicenseModel returns LicenseModel
-func (m CreateDisasterRecoveryDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
 }
 
 //GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
-func (m CreateDisasterRecoveryDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
 	return m.IsPreviewVersionWithServiceTermsAccepted
 }
 
 //GetIsAutoScalingEnabled returns IsAutoScalingEnabled
-func (m CreateDisasterRecoveryDetails) GetIsAutoScalingEnabled() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
 }
 
 //GetIsDedicated returns IsDedicated
-func (m CreateDisasterRecoveryDetails) GetIsDedicated() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsDedicated() *bool {
 	return m.IsDedicated
 }
 
 //GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
-func (m CreateDisasterRecoveryDetails) GetAutonomousContainerDatabaseId() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
 }
 
 //GetInMemoryPercentage returns InMemoryPercentage
-func (m CreateDisasterRecoveryDetails) GetInMemoryPercentage() *int {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetInMemoryPercentage() *int {
 	return m.InMemoryPercentage
 }
 
 //GetIsAccessControlEnabled returns IsAccessControlEnabled
-func (m CreateDisasterRecoveryDetails) GetIsAccessControlEnabled() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsAccessControlEnabled() *bool {
 	return m.IsAccessControlEnabled
 }
 
 //GetWhitelistedIps returns WhitelistedIps
-func (m CreateDisasterRecoveryDetails) GetWhitelistedIps() []string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetWhitelistedIps() []string {
 	return m.WhitelistedIps
 }
 
 //GetArePrimaryWhitelistedIpsUsed returns ArePrimaryWhitelistedIpsUsed
-func (m CreateDisasterRecoveryDetails) GetArePrimaryWhitelistedIpsUsed() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetArePrimaryWhitelistedIpsUsed() *bool {
 	return m.ArePrimaryWhitelistedIpsUsed
 }
 
 //GetStandbyWhitelistedIps returns StandbyWhitelistedIps
-func (m CreateDisasterRecoveryDetails) GetStandbyWhitelistedIps() []string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetStandbyWhitelistedIps() []string {
 	return m.StandbyWhitelistedIps
 }
 
 //GetIsDataGuardEnabled returns IsDataGuardEnabled
-func (m CreateDisasterRecoveryDetails) GetIsDataGuardEnabled() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsDataGuardEnabled() *bool {
 	return m.IsDataGuardEnabled
 }
 
 //GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
-func (m CreateDisasterRecoveryDetails) GetIsLocalDataGuardEnabled() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsLocalDataGuardEnabled() *bool {
 	return m.IsLocalDataGuardEnabled
 }
 
 //GetSubnetId returns SubnetId
-func (m CreateDisasterRecoveryDetails) GetSubnetId() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
 //GetNsgIds returns NsgIds
-func (m CreateDisasterRecoveryDetails) GetNsgIds() []string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
 //GetPrivateEndpointLabel returns PrivateEndpointLabel
-func (m CreateDisasterRecoveryDetails) GetPrivateEndpointLabel() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetPrivateEndpointLabel() *string {
 	return m.PrivateEndpointLabel
 }
 
 //GetFreeformTags returns FreeformTags
-func (m CreateDisasterRecoveryDetails) GetFreeformTags() map[string]string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
 //GetDefinedTags returns DefinedTags
-func (m CreateDisasterRecoveryDetails) GetDefinedTags() map[string]map[string]interface{} {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
 //GetPrivateEndpointIp returns PrivateEndpointIp
-func (m CreateDisasterRecoveryDetails) GetPrivateEndpointIp() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetPrivateEndpointIp() *string {
 	return m.PrivateEndpointIp
 }
 
 //GetDbVersion returns DbVersion
-func (m CreateDisasterRecoveryDetails) GetDbVersion() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetDbVersion() *string {
 	return m.DbVersion
 }
 
 //GetCustomerContacts returns CustomerContacts
-func (m CreateDisasterRecoveryDetails) GetCustomerContacts() []CustomerContact {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
 }
 
 //GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
-func (m CreateDisasterRecoveryDetails) GetIsMtlsConnectionRequired() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsMtlsConnectionRequired() *bool {
 	return m.IsMtlsConnectionRequired
 }
 
 //GetResourcePoolLeaderId returns ResourcePoolLeaderId
-func (m CreateDisasterRecoveryDetails) GetResourcePoolLeaderId() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetResourcePoolLeaderId() *string {
 	return m.ResourcePoolLeaderId
 }
 
 //GetResourcePoolSummary returns ResourcePoolSummary
-func (m CreateDisasterRecoveryDetails) GetResourcePoolSummary() *ResourcePoolSummary {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetResourcePoolSummary() *ResourcePoolSummary {
 	return m.ResourcePoolSummary
 }
 
 //GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
-func (m CreateDisasterRecoveryDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	return m.AutonomousMaintenanceScheduleType
 }
 
 //GetIsOracleServiceGatewayAllowed returns IsOracleServiceGatewayAllowed
-func (m CreateDisasterRecoveryDetails) GetIsOracleServiceGatewayAllowed() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsOracleServiceGatewayAllowed() *bool {
 	return m.IsOracleServiceGatewayAllowed
 }
 
 //GetScheduledOperations returns ScheduledOperations
-func (m CreateDisasterRecoveryDetails) GetScheduledOperations() []ScheduledOperationDetails {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
 }
 
 //GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
-func (m CreateDisasterRecoveryDetails) GetIsAutoScalingForStorageEnabled() *bool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsAutoScalingForStorageEnabled() *bool {
 	return m.IsAutoScalingForStorageEnabled
 }
 
 //GetMaxCpuCoreCount returns MaxCpuCoreCount
-func (m CreateDisasterRecoveryDetails) GetMaxCpuCoreCount() *int {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetMaxCpuCoreCount() *int {
 	return m.MaxCpuCoreCount
 }
 
 //GetDatabaseEdition returns DatabaseEdition
-func (m CreateDisasterRecoveryDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
 }
 
 //GetDbToolsDetails returns DbToolsDetails
-func (m CreateDisasterRecoveryDetails) GetDbToolsDetails() []DatabaseTool {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetDbToolsDetails() []DatabaseTool {
 	return m.DbToolsDetails
 }
 
 //GetSecretId returns SecretId
-func (m CreateDisasterRecoveryDetails) GetSecretId() *string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetSecretId() *string {
 	return m.SecretId
 }
 
 //GetSecretVersionNumber returns SecretVersionNumber
-func (m CreateDisasterRecoveryDetails) GetSecretVersionNumber() *int {
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetSecretVersionNumber() *int {
 	return m.SecretVersionNumber
 }
 
-func (m CreateDisasterRecoveryDetails) String() string {
+func (m CreateCrossTenancyDisasterRecoveryDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateDisasterRecoveryDetails) ValidateEnumValue() (bool, error) {
+func (m CreateCrossTenancyDisasterRecoveryDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
@@ -546,14 +546,14 @@ func (m CreateDisasterRecoveryDetails) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m CreateDisasterRecoveryDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreateDisasterRecoveryDetails CreateDisasterRecoveryDetails
+func (m CreateCrossTenancyDisasterRecoveryDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateCrossTenancyDisasterRecoveryDetails CreateCrossTenancyDisasterRecoveryDetails
 	s := struct {
 		DiscriminatorParam string `json:"source"`
-		MarshalTypeCreateDisasterRecoveryDetails
+		MarshalTypeCreateCrossTenancyDisasterRecoveryDetails
 	}{
-		"DISASTER_RECOVERY",
-		(MarshalTypeCreateDisasterRecoveryDetails)(m),
+		"CROSS_TENANCY_DISASTER_RECOVERY",
+		(MarshalTypeCreateCrossTenancyDisasterRecoveryDetails)(m),
 	}
 
 	return json.Marshal(&s)

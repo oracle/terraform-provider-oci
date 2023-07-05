@@ -21,8 +21,11 @@ type AutonomousDatabasePeerSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the tenancy that this peer Autonomous Database belongs to.
-	TenantId *string `mandatory:"true" json:"tenantId"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the peer Autonomous Database.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The name of the region where this peer Autonomous Database clone exists.
+	Region *string `mandatory:"false" json:"region"`
 }
 
 func (m AutonomousDatabasePeerSummary) String() string {

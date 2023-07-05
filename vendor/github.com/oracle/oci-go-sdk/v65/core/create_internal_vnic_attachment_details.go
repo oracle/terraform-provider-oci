@@ -68,6 +68,10 @@ type CreateInternalVnicAttachmentDetails struct {
 	// Shape of VNIC that is used to allocate resource in the data plane.
 	VnicShape CreateInternalVnicAttachmentDetailsVnicShapeEnum `mandatory:"false" json:"vnicShape,omitempty"`
 
+	VnicShapeConfig *VnicShapeConfig `mandatory:"false" json:"vnicShapeConfig"`
+
+	VnicaasVnicShapeConfig *VnicassVnicShapeConfig `mandatory:"false" json:"vnicaasVnicShapeConfig"`
+
 	// The substrate IP address of the instance
 	SubstrateIp *string `mandatory:"false" json:"substrateIp"`
 

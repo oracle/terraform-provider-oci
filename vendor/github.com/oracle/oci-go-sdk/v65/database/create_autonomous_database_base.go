@@ -379,10 +379,6 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := CreateAutonomousDatabaseCloneDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DISASTER_RECOVERY":
-		mm := CreateDisasterRecoveryDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "CLONE_TO_REFRESHABLE":
 		mm := CreateRefreshableAutonomousDatabaseCloneDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -393,6 +389,10 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		return mm, err
 	case "CROSS_REGION_DISASTER_RECOVERY":
 		mm := CreateCrossRegionDisasterRecoveryDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CROSS_TENANCY_DISASTER_RECOVERY":
+		mm := CreateCrossTenancyDisasterRecoveryDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "BACKUP_FROM_TIMESTAMP":

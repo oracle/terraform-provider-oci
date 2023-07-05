@@ -32,6 +32,20 @@ type ExadataInsightsDataObject struct {
 
 	// Description of OPSI data object.
 	Description *string `mandatory:"false" json:"description"`
+
+	// Name of the data object, which can be used in data object queries just like how view names are used in a query.
+	Name *string `mandatory:"false" json:"name"`
+
+	// Names of all the groups to which the data object belongs to.
+	GroupNames []string `mandatory:"false" json:"groupNames"`
+
+	// Time period supported by the data object for quering data.
+	// Time period is in ISO 8601 format with respect to current time. Default is last 30 days represented by P30D.
+	// Examples: P90D (last 90 days), P4W (last 4 weeks), P2M (last 2 months), P1Y (last 12 months).
+	SupportedQueryTimePeriod *string `mandatory:"false" json:"supportedQueryTimePeriod"`
+
+	// Supported query parameters by this OPSI data object that can be configured while a data object query involving this data object is executed.
+	SupportedQueryParams []OpsiDataObjectSupportedQueryParam `mandatory:"false" json:"supportedQueryParams"`
 }
 
 //GetIdentifier returns Identifier
@@ -49,9 +63,29 @@ func (m ExadataInsightsDataObject) GetDescription() *string {
 	return m.Description
 }
 
+//GetName returns Name
+func (m ExadataInsightsDataObject) GetName() *string {
+	return m.Name
+}
+
+//GetGroupNames returns GroupNames
+func (m ExadataInsightsDataObject) GetGroupNames() []string {
+	return m.GroupNames
+}
+
+//GetSupportedQueryTimePeriod returns SupportedQueryTimePeriod
+func (m ExadataInsightsDataObject) GetSupportedQueryTimePeriod() *string {
+	return m.SupportedQueryTimePeriod
+}
+
 //GetColumnsMetadata returns ColumnsMetadata
 func (m ExadataInsightsDataObject) GetColumnsMetadata() []DataObjectColumnMetadata {
 	return m.ColumnsMetadata
+}
+
+//GetSupportedQueryParams returns SupportedQueryParams
+func (m ExadataInsightsDataObject) GetSupportedQueryParams() []OpsiDataObjectSupportedQueryParam {
+	return m.SupportedQueryParams
 }
 
 func (m ExadataInsightsDataObject) String() string {

@@ -20,11 +20,15 @@ import (
 
 // DataObjectQuery Information required to form and execute query on a data object.
 type DataObjectQuery interface {
+
+	// List of bind parameters to be applied in the query.
+	GetBindParams() []DataObjectBindParameter
 }
 
 type dataobjectquery struct {
-	JsonData  []byte
-	QueryType string `json:"queryType"`
+	JsonData   []byte
+	BindParams []DataObjectBindParameter `mandatory:"false" json:"bindParams"`
+	QueryType  string                    `json:"queryType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -38,6 +42,7 @@ func (m *dataobjectquery) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.BindParams = s.Model.BindParams
 	m.QueryType = s.Model.QueryType
 
 	return err
@@ -52,6 +57,10 @@ func (m *dataobjectquery) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 
 	var err error
 	switch m.QueryType {
+	case "STANDARD_QUERY":
+		mm := DataObjectStandardQuery{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "TEMPLATIZED_QUERY":
 		mm := DataObjectTemplatizedQuery{}
 		err = json.Unmarshal(data, &mm)
@@ -60,6 +69,11 @@ func (m *dataobjectquery) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		common.Logf("Recieved unsupported enum value for DataObjectQuery: %s.", m.QueryType)
 		return *m, nil
 	}
+}
+
+//GetBindParams returns BindParams
+func (m dataobjectquery) GetBindParams() []DataObjectBindParameter {
+	return m.BindParams
 }
 
 func (m dataobjectquery) String() string {
@@ -84,14 +98,17 @@ type DataObjectQueryQueryTypeEnum string
 // Set of constants representing the allowable values for DataObjectQueryQueryTypeEnum
 const (
 	DataObjectQueryQueryTypeTemplatizedQuery DataObjectQueryQueryTypeEnum = "TEMPLATIZED_QUERY"
+	DataObjectQueryQueryTypeStandardQuery    DataObjectQueryQueryTypeEnum = "STANDARD_QUERY"
 )
 
 var mappingDataObjectQueryQueryTypeEnum = map[string]DataObjectQueryQueryTypeEnum{
 	"TEMPLATIZED_QUERY": DataObjectQueryQueryTypeTemplatizedQuery,
+	"STANDARD_QUERY":    DataObjectQueryQueryTypeStandardQuery,
 }
 
 var mappingDataObjectQueryQueryTypeEnumLowerCase = map[string]DataObjectQueryQueryTypeEnum{
 	"templatized_query": DataObjectQueryQueryTypeTemplatizedQuery,
+	"standard_query":    DataObjectQueryQueryTypeStandardQuery,
 }
 
 // GetDataObjectQueryQueryTypeEnumValues Enumerates the set of values for DataObjectQueryQueryTypeEnum
@@ -107,6 +124,7 @@ func GetDataObjectQueryQueryTypeEnumValues() []DataObjectQueryQueryTypeEnum {
 func GetDataObjectQueryQueryTypeEnumStringValues() []string {
 	return []string{
 		"TEMPLATIZED_QUERY",
+		"STANDARD_QUERY",
 	}
 }
 

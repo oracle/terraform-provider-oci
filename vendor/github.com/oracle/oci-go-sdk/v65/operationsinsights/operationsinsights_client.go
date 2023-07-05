@@ -5278,6 +5278,60 @@ func (client OperationsInsightsClient) listSqlTexts(ctx context.Context, request
 	return response, err
 }
 
+// ListWarehouseDataObjects Gets a list of Warehouse data objects (e.g: views, tables), based on the query parameters specified.
+// A default retry strategy applies to this operation ListWarehouseDataObjects()
+func (client OperationsInsightsClient) ListWarehouseDataObjects(ctx context.Context, request ListWarehouseDataObjectsRequest) (response ListWarehouseDataObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWarehouseDataObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWarehouseDataObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWarehouseDataObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWarehouseDataObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWarehouseDataObjectsResponse")
+	}
+	return
+}
+
+// listWarehouseDataObjects implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) listWarehouseDataObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/{warehouseType}/{warehouseId}/dataObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWarehouseDataObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiWarehouseDataObjects/ListWarehouseDataObjects"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ListWarehouseDataObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client OperationsInsightsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
@@ -5488,6 +5542,61 @@ func (client OperationsInsightsClient) queryOpsiDataObjectData(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiDataObjects/QueryOpsiDataObjectData"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "QueryOpsiDataObjectData", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &querydataobjectresultsetrowscollection{})
+	return response, err
+}
+
+// QueryWarehouseDataObjectData Queries Warehouse data objects (e.g: views, tables) with the inputs provided and sends the result set back.
+// Any data to which an OperationsInsightsWarehouseUser with a permission to the corresponding Warehouse can be queried.
+// A default retry strategy applies to this operation QueryWarehouseDataObjectData()
+func (client OperationsInsightsClient) QueryWarehouseDataObjectData(ctx context.Context, request QueryWarehouseDataObjectDataRequest) (response QueryWarehouseDataObjectDataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.queryWarehouseDataObjectData, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = QueryWarehouseDataObjectDataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = QueryWarehouseDataObjectDataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(QueryWarehouseDataObjectDataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into QueryWarehouseDataObjectDataResponse")
+	}
+	return
+}
+
+// queryWarehouseDataObjectData implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) queryWarehouseDataObjectData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/{warehouseType}/{warehouseId}/actions/queryData", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response QueryWarehouseDataObjectDataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiWarehouseDataObjects/QueryWarehouseDataObjectData"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "QueryWarehouseDataObjectData", apiReferenceLink)
 		return response, err
 	}
 

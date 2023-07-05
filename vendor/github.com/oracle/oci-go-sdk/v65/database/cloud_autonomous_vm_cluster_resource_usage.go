@@ -70,15 +70,6 @@ type CloudAutonomousVmClusterResourceUsage struct {
 	// The number of CPUs reserved in an Autonomous VM Cluster.
 	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
 
-	// The number of provisionable Autonomous Container Databases in an Autonomous VM Cluster.
-	ProvisionableAutonomousContainerDatabases *float32 `mandatory:"false" json:"provisionableAutonomousContainerDatabases"`
-
-	// The number of provisioned Autonomous Container Databases in an Autonomous VM Cluster.
-	ProvisionedAutonomousContainerDatabases *float32 `mandatory:"false" json:"provisionedAutonomousContainerDatabases"`
-
-	// The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
-	NonProvisionableAutonomousContainerDatabases *float32 `mandatory:"false" json:"nonProvisionableAutonomousContainerDatabases"`
-
 	// List of Autonomous VM resource usages.
 	AutonomousVmResourceUsage []AutonomousVmResourceUsage `mandatory:"false" json:"autonomousVmResourceUsage"`
 }

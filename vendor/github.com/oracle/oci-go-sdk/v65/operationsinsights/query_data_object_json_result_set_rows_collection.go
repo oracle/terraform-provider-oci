@@ -26,6 +26,10 @@ type QueryDataObjectJsonResultSetRowsCollection struct {
 
 	// Array of QueryDataObjectResultSetColumnMetadata objects that describe the result set columns.
 	ItemsMetadata []QueryDataObjectResultSetColumnMetadata `mandatory:"true" json:"itemsMetadata"`
+
+	// Time taken for executing the data object query (in seconds).
+	// Consider optimizing the query or reducing the target data range, if query execution time is longer.
+	QueryExecutionTime *float64 `mandatory:"false" json:"queryExecutionTime"`
 }
 
 func (m QueryDataObjectJsonResultSetRowsCollection) String() string {

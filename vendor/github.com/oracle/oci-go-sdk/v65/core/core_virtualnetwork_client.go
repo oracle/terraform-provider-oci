@@ -26759,6 +26759,64 @@ func (client VirtualNetworkClient) updateVnicShape(ctx context.Context, request 
 	return response, err
 }
 
+// UpdateVnicShapeConfig Request to update the shape config of the given VNIC.
+func (client VirtualNetworkClient) UpdateVnicShapeConfig(ctx context.Context, request UpdateVnicShapeConfigRequest) (response UpdateVnicShapeConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateVnicShapeConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVnicShapeConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVnicShapeConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateVnicShapeConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateVnicShapeConfigResponse")
+	}
+	return
+}
+
+// updateVnicShapeConfig implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateVnicShapeConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/vnicAttachments/actions/updateVnicShapeConfig", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateVnicShapeConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/UpdateVnicShapeConfig"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVnicShapeConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateVnicWorker Updates the specified vnicWorker.
 func (client VirtualNetworkClient) UpdateVnicWorker(ctx context.Context, request UpdateVnicWorkerRequest) (response UpdateVnicWorkerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -26805,6 +26863,64 @@ func (client VirtualNetworkClient) updateVnicWorker(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VnicWorker/UpdateVnicWorker"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVnicWorker", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateVnicaasVnicShapeConfig Request to change the shape config of the given VNIC.
+func (client VirtualNetworkClient) UpdateVnicaasVnicShapeConfig(ctx context.Context, request UpdateVnicaasVnicShapeConfigRequest) (response UpdateVnicaasVnicShapeConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateVnicaasVnicShapeConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVnicaasVnicShapeConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVnicaasVnicShapeConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateVnicaasVnicShapeConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateVnicaasVnicShapeConfigResponse")
+	}
+	return
+}
+
+// updateVnicaasVnicShapeConfig implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateVnicaasVnicShapeConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalVnics/vnicAttachments/actions/updateVnicaasVnicShapeConfig", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateVnicaasVnicShapeConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/UpdateVnicaasVnicShapeConfig"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateVnicaasVnicShapeConfig", apiReferenceLink)
 		return response, err
 	}
 

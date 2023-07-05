@@ -91,7 +91,7 @@ type CloudAutonomousVmCluster struct {
 	// The number of CPU cores on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
-	// The compute model of the Cloud Autonomous VM Cluster. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The compute model of the Cloud Autonomous VM Cluster.
 	ComputeModel CloudAutonomousVmClusterComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
@@ -144,7 +144,7 @@ type CloudAutonomousVmCluster struct {
 
 	// For Autonomous Databases on Dedicated Exadata Infrastructure:
 	// - These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
-	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
 
 	// The number of Autonomous Container Databases that can be created with the currently available local storage.
@@ -162,7 +162,7 @@ type CloudAutonomousVmCluster struct {
 	// The local node storage allocated in GBs.
 	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
 
-	// The amount of memory (in GBs) enabled per OCPU or ECPU. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The amount of memory (in GBs) enabled per OCPU or ECPU.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db servers.
@@ -185,12 +185,6 @@ type CloudAutonomousVmCluster struct {
 
 	// The number of CPUs reserved in an Autonomous VM Cluster.
 	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
-
-	// The number of provisioned Autonomous Container Databases in an Autonomous VM Cluster.
-	ProvisionedAutonomousContainerDatabases *float32 `mandatory:"false" json:"provisionedAutonomousContainerDatabases"`
-
-	// The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
-	NonProvisionableAutonomousContainerDatabases *float32 `mandatory:"false" json:"nonProvisionableAutonomousContainerDatabases"`
 }
 
 func (m CloudAutonomousVmCluster) String() string {

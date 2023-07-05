@@ -31,6 +31,10 @@ type UpdateBackendSetDetails struct {
 	// The value is true by default.
 	IsPreserveSource *bool `mandatory:"false" json:"isPreserveSource"`
 
+	// If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy.
+	// The value is false by default.
+	IsFailOpen *bool `mandatory:"false" json:"isFailOpen"`
+
 	// The IP version associated with the backend set.
 	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`
 

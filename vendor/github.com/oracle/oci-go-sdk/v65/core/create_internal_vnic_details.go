@@ -211,6 +211,10 @@ type CreateInternalVnicDetails struct {
 
 	// Shape of VNIC that will be used to allocate resource in the data plane once the VNIC is attached
 	VnicShape CreateInternalVnicDetailsVnicShapeEnum `mandatory:"false" json:"vnicShape,omitempty"`
+
+	VnicShapeConfig *VnicShapeConfig `mandatory:"false" json:"vnicShapeConfig"`
+
+	VnicaasVnicShapeConfig *VnicassVnicShapeConfig `mandatory:"false" json:"vnicaasVnicShapeConfig"`
 }
 
 func (m CreateInternalVnicDetails) String() string {
