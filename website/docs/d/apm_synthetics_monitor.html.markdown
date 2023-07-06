@@ -35,17 +35,25 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `availability_configuration` - Monitor availability configuration details.
-	* `max_allowed_failures_per_interval` - Intervals with failed runs more than this value will be classified as UNAVAILABLE.
-	* `min_allowed_runs_per_interval` - Intervals with runs less than this value will be classified as UNKNOWN and excluded from the availability calculations.
-* `batch_interval_in_seconds` - Time interval between 2 runs in round robin batch mode (*SchedulingPolicy - BATCHED_ROUND_ROBIN).
+	* `max_allowed_failures_per_interval` - Maximum number of failed runs allowed in an interval. If an interval has more failed runs than the specified value, then the interval will be classified as UNAVAILABLE.
+	* `min_allowed_runs_per_interval` - Minimum number of runs allowed in an interval. If an interval has fewer runs than the specified value, then the interval will be classified as UNKNOWN and will be excluded from the availability calculations.
+* `batch_interval_in_seconds` - Time interval between two runs in round robin batch mode (SchedulingPolicy - BATCHED_ROUND_ROBIN).
 * `configuration` - Details of monitor configuration.
+	* `client_certificate_details` - Details for client certificate.
+		* `client_certificate` - Client certificate in pem format. 
+			* `content` - Content of the client certificate file.
+			* `file_name` - Name of the certificate file. The name should not contain any confidential information.
+		* `private_key` - The private key associated with the client certificate in pem format. 
+			* `content` - Content of the private key file.
+			* `file_name` - Name of the private key file.
 	* `config_type` - Type of configuration.
-	* `dns_configuration` - Dns settings.
-		* `is_override_dns` - If isOverrideDns is true, then dns will be overridden.
-		* `override_dns_ip` - Override dns ip value. This value will be honored only if *ref-isOverrideDns is set to true.
+	* `dns_configuration` - Information about the DNS settings.
+		* `is_override_dns` - If isOverrideDns is true, then DNS settings will be overridden.
+		* `override_dns_ip` - Attribute to override the DNS IP value. This value will be honored only if isOverrideDns is set to true.
 	* `is_certificate_validation_enabled` - If certificate validation is enabled, then the call will fail in case of certification errors.
+	* `is_default_snapshot_enabled` - If disabled then auto snapshots are not collected.
 	* `is_failure_retried` - If isFailureRetried is enabled, then a failed call will be retried.
-	* `is_redirection_enabled` - If redirection enabled, then redirects will be allowed while accessing target URL.
+	* `is_redirection_enabled` - If redirection is enabled, then redirects will be allowed while accessing target URL.
 	* `network_configuration` - Details of the network configuration.
 		* `number_of_hops` - Number of hops.
 		* `probe_mode` - Type of probe mode when TCP protocol is selected.
@@ -59,11 +67,11 @@ The following attributes are exported:
 		* `auth_request_method` - Request method.
 		* `auth_request_post_body` - Request post body.
 		* `auth_token` - Authentication token.
-		* `auth_url` - URL to get authetication token.
-		* `auth_user_name` - Username for authentication.
+		* `auth_url` - URL to get authentication token.
+		* `auth_user_name` - User name for authentication.
 		* `auth_user_password` - User password for authentication.
-		* `oauth_scheme` - Request http oauth scheme.
-	* `req_authentication_scheme` - Request http authentication scheme.
+		* `oauth_scheme` - Request HTTP OAuth scheme.
+	* `req_authentication_scheme` - Request HTTP authentication scheme.
 	* `request_headers` - List of request headers. Example: `[{"headerName": "content-type", "headerValue":"json"}]` 
 		* `header_name` - Name of the header.
 		* `header_value` - Value of the header.
@@ -80,14 +88,14 @@ The following attributes are exported:
 * `display_name` - Unique name that can be edited. The name should not contain any confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the monitor.
-* `is_run_now` - If isRunNow is enabled, then the monitor will run now.
+* `is_run_now` - If isRunNow is enabled, then the monitor will run immediately.
 * `is_run_once` - If runOnce is enabled, then the monitor will run once.
-* `maintenance_window_schedule` - Details used to schedule maintenance window.
-	* `time_ended` - End time for the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
-	* `time_started` - Start time for the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
-* `monitor_type` - Type of the monitor.
+* `maintenance_window_schedule` - Details required to schedule maintenance window.
+	* `time_ended` - End time of the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
+	* `time_started` - Start time of the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
+* `monitor_type` - Type of monitor.
 * `repeat_interval_in_seconds` - Interval in seconds after the start time when the job should be repeated. Minimum repeatIntervalInSeconds should be 300 seconds for Scripted REST, Scripted Browser and Browser monitors, and 60 seconds for REST monitor. 
-* `scheduling_policy` - Scheduling policy on Vantage points.
+* `scheduling_policy` - Scheduling policy to decide the distribution of monitor executions on vantage points.
 * `script_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the script. scriptId is mandatory for creation of SCRIPTED_BROWSER and SCRIPTED_REST monitor types. For other monitor types, it should be set to null. 
 * `script_name` - Name of the script.
 * `script_parameters` - List of script parameters. Example: `[{"monitorScriptParameter": {"paramName": "userid", "paramValue":"testuser"}, "isSecret": false, "isOverwritten": false}]` 
