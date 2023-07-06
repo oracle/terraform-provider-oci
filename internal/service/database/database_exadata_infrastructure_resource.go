@@ -376,6 +376,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"rack_serial_number": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"monthly_db_server_version": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1065,6 +1069,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 	}
 
 	s.D.Set("ntp_server", s.Res.NtpServer)
+
+	if s.Res.RackSerialNumber != nil {
+		s.D.Set("rack_serial_number", *s.Res.RackSerialNumber)
+	}
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
