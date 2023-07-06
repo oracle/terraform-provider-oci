@@ -97,7 +97,6 @@ var (
 		"database_type":     acctest.Representation{RepType: acctest.Required, Create: `AUTONOMOUS`},
 		"vault_details":     acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionVaultDetailsRepresentation},
 		"database_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.database_id}`},
-		"private_endpoint":  acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionPrivateEndpointRepresentation},
 		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `TF_display_test_create`, Update: `TF_display_test_update`},
 	}
 
@@ -110,6 +109,16 @@ var (
 		"vault_details":     acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionVaultDetailsRepresentation},
 		"database_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.database_id}`},
 		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `TF_display_test_create`, Update: `TF_display_test_update`},
+	}
+
+	connectionRepresentationUserManagedOciTarget = map[string]interface{}{
+		"admin_credentials":  acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionAdminCredentialsRepresentation},
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"database_type":      acctest.Representation{RepType: acctest.Required, Create: `USER_MANAGED_OCI`},
+		"vault_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionVaultDetailsRepresentation},
+		"connect_descriptor": acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionConnectDescriptorRepresentationMIG},
+		"database_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.database_id}`},
+		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `TF_display_test_create_target`, Update: `TF_tgt_display_test_update_target`},
 	}
 
 	connectionConnectDescriptorRepresentationMIG = map[string]interface{}{
@@ -127,13 +136,24 @@ var (
 		"private_endpoint":   acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionPrivateEndpointRepresentation},
 	}
 
+	connectionRepresentationNoSshSource = map[string]interface{}{
+		"admin_credentials":  acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionAdminCredentialsRepresentation},
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"database_type":      acctest.Representation{RepType: acctest.Required, Create: `MANUAL`},
+		"vault_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionVaultDetailsRepresentation},
+		"connect_descriptor": acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionConnectDescriptorRepresentationMIG},
+		"database_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.database_container_source_id}`},
+		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `TF_display_test_create_source`, Update: `TF_display_test_update_source`},
+		"private_endpoint":   acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionPrivateEndpointRepresentation},
+	}
+
 	connectionAdminCredentialsRepresentation = map[string]interface{}{
 		"password": acctest.Representation{RepType: acctest.Required, Create: `Cr3dential_23#`, Update: `Cr3dential_23#`},
 		"username": acctest.Representation{RepType: acctest.Required, Create: `admin`, Update: `admin`},
 	}
 
 	connectionAdminCredentialsRepresentationUPDATE = map[string]interface{}{
-		"password": acctest.Representation{RepType: acctest.Required, Create: `DMS-pswd-2023#-sjc`},
+		"password": acctest.Representation{RepType: acctest.Required, Create: `DMS-pswd-2023#`},
 		"username": acctest.Representation{RepType: acctest.Required, Create: `admin`},
 	}
 
@@ -161,10 +181,9 @@ var (
 		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.vcn_id}`},
 	}
 	connectionSshDetailsRepresentation = map[string]interface{}{
-		"host":   acctest.Representation{RepType: acctest.Required, Create: `10.0.0.220`, Update: `10.0.0.220`},
-		"sshkey": acctest.Representation{RepType: acctest.Required, Create: `${var.ssh_key}`, Update: `${var.ssh_key}`},
-		"user":   acctest.Representation{RepType: acctest.Required, Create: `opc`, Update: `opc`},
-
+		"host":          acctest.Representation{RepType: acctest.Required, Create: `10.0.0.220`, Update: `10.0.0.220`},
+		"sshkey":        acctest.Representation{RepType: acctest.Required, Create: `${var.ssh_key}`, Update: `${var.ssh_key}`},
+		"user":          acctest.Representation{RepType: acctest.Required, Create: `opc`, Update: `opc`},
 		"sudo_location": acctest.Representation{RepType: acctest.Required, Create: `/usr/bin/sudo`, Update: `/usr/bin/sudo`},
 	}
 
@@ -180,42 +199,42 @@ var (
 	}
 
 	SubnetData = `
-	data "oci_core_subnet" "test_subnet" {
-    subnet_id = "${var.subnet_id}"
-}`
+		data "oci_core_subnet" "test_subnet" {
+		subnet_id = "${var.subnet_id}"
+	}`
 	SubnetDataDomainOutput = `
-	output "oci_core_subnet_test_subnetSource_subnet_domain_name" {
-     value = "${oci_core_subnet.test_subnet.subnet_domain_name}"
-}`
+		output "oci_core_subnet_test_subnetSource_subnet_domain_name" {
+	    value = "${oci_core_subnet.test_subnet.subnet_domain_name}"
+	}`
 
 	SubnetDataIDOutput = `
-	output "oci_core_subnet_test_subnetSource_id" {
-     value = "${oci_core_subnet.test_subnet.id}"
-}`
+		output "oci_core_subnet_test_subnetSource_id" {
+	    value = "${oci_core_subnet.test_subnet.id}"
+	}`
 	SubnetDataDNSOutput = `
-	output "oci_core_subnet_test_subnet_DNS" {
-     value = "${oci_core_subnet.test_subnet.dns_label}"
-}`
+		output "oci_core_subnet_test_subnet_DNS" {
+	    value = "${oci_core_subnet.test_subnet.dns_label}"
+	}`
 
 	VCNDataDNSOutput = `
-	output "oci_core_vcn_test_vcn_DNS" {
-     value = "${oci_core_vcn.test_vcn.dns_label}"
-}`
+		output "oci_core_vcn_test_vcn_DNS" {
+	    value = "${oci_core_vcn.test_vcn.dns_label}"
+	}`
 	VCNDataDomainNameOutput = `
-	output "oci_core_vcn_test_vcn_domain_name" {
-     value = "${oci_core_vcn.test_vcn.vcn_domain_name}"
-}`
+		output "oci_core_vcn_test_vcn_domain_name" {
+	    value = "${oci_core_vcn.test_vcn.vcn_domain_name}"
+	}`
 
 	DatabaseDataA = `
-	data "oci_database_autonomous_database" "t" {
-	compartment_id = "${var.compartment_id}"
-	db_home_id = "${data.oci_database_autonomous_db_homes.t.db_homes.0.id}"	
-}`
+		data "oci_database_autonomous_database" "t" {
+		compartment_id = "${var.compartment_id}"
+		db_home_id = "${data.oci_database_autonomous_db_homes.t.db_homes.0.id}"
+	}`
 	DatabaseHomeConfigA = `
-	data "oci_database_autonomous_db_homes" "t" {
-	compartment_id = "${var.compartment_id}"
-	db_system_id = "${oci_database_db_system.t.id}"
-}`
+		data "oci_database_autonomous_db_homes" "t" {
+		compartment_id = "${var.compartment_id}"
+		db_system_id = "${oci_database_db_system.t.id}"
+	}`
 	AutonomousDatabaseResourceDependenciesCON = acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions", acctest.Required, acctest.Create,
 			acctest.RepresentationCopyWithNewProperties(DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation, map[string]interface{}{
@@ -237,7 +256,7 @@ var (
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Optional, Create: `256`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `tfGGmyDB`},
-		"domain":                  acctest.Representation{RepType: acctest.Optional, Create: `myDB`},
+		"domain":                  acctest.Representation{RepType: acctest.Optional, Create: `sub10031523100.vcnabmartin.oraclevcn.com`},
 		"node_count":              acctest.Representation{RepType: acctest.Optional, Create: `1`},
 		"db_system_options":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: goldenGateDbSystemOption},
 		"private_ip":              acctest.Representation{RepType: acctest.Required, Create: `10.0.0.125`},
