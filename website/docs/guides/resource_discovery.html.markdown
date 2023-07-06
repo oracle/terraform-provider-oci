@@ -949,6 +949,7 @@ osmanagement
 osp_gateway
 
 * oci\_osp\_gateway\_subscription
+* oci\_osp\_gateway\_address\_action\_verification
 
 queue
 

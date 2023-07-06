@@ -84,15 +84,17 @@ func (s *OspGatewaySubscriptionDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("account_type", s.Res.AccountType)
+
 	if s.Res.BillToCustAccountId != nil {
 		s.D.Set("bill_to_cust_account_id", *s.Res.BillToCustAccountId)
 	}
 
-	//if s.Res.BillingAddress != nil {
-	//	s.D.Set("billing_address", []interface{}{BillingAddressToMap(s.Res.BillingAddress)})
-	//} else {
-	//	s.D.Set("billing_address", nil)
-	//}
+	if s.Res.BillingAddress != nil {
+		s.D.Set("billing_address", []interface{}{AddressToMap(s.Res.BillingAddress)})
+	} else {
+		s.D.Set("billing_address", nil)
+	}
 
 	if s.Res.CurrencyCode != nil {
 		s.D.Set("currency_code", *s.Res.CurrencyCode)
@@ -144,6 +146,10 @@ func (s *OspGatewaySubscriptionDataSourceCrud) SetData() error {
 		s.D.Set("tax_info", []interface{}{TaxInfoToMap(s.Res.TaxInfo)})
 	} else {
 		s.D.Set("tax_info", nil)
+	}
+
+	if s.Res.TimePersonalToCorporateConv != nil {
+		s.D.Set("time_personal_to_corporate_conv", s.Res.TimePersonalToCorporateConv.String())
 	}
 
 	if s.Res.TimePlanUpgrade != nil {

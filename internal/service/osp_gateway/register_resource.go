@@ -6,5 +6,6 @@ package osp_gateway
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_osp_gateway_address_action_verification", OspGatewayAddressActionVerificationResource())
 	tfresource.RegisterResource("oci_osp_gateway_subscription", OspGatewaySubscriptionResource())
 }

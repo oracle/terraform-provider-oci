@@ -25,6 +25,7 @@ resource "oci_osp_gateway_subscription" "test_subscription" {
 		subscription_plan_number = var.subscription_subscription_subscription_plan_number
 
 		#Optional
+		account_type = var.subscription_subscription_account_type
 		bill_to_cust_account_id = oci_osp_gateway_bill_to_cust_account.test_bill_to_cust_account.id
 		billing_address {
 
@@ -32,14 +33,29 @@ resource "oci_osp_gateway_subscription" "test_subscription" {
 			address_key = var.subscription_subscription_billing_address_address_key
 			city = var.subscription_subscription_billing_address_city
 			company_name = var.subscription_subscription_billing_address_company_name
+			contributor_class = var.subscription_subscription_billing_address_contributor_class
 			country = var.subscription_subscription_billing_address_country
+			county = var.subscription_subscription_billing_address_county
+			department_name = var.subscription_subscription_billing_address_department_name
 			email_address = var.subscription_subscription_billing_address_email_address
 			first_name = var.subscription_subscription_billing_address_first_name
+			internal_number = var.subscription_subscription_billing_address_internal_number
+			job_title = var.subscription_subscription_billing_address_job_title
 			last_name = var.subscription_subscription_billing_address_last_name
 			line1 = var.subscription_subscription_billing_address_line1
 			line2 = var.subscription_subscription_billing_address_line2
+			line3 = var.subscription_subscription_billing_address_line3
+			line4 = var.subscription_subscription_billing_address_line4
+			middle_name = var.subscription_subscription_billing_address_middle_name
+			municipal_inscription = var.subscription_subscription_billing_address_municipal_inscription
+			phone_country_code = var.subscription_subscription_billing_address_phone_country_code
+			phone_number = var.subscription_subscription_billing_address_phone_number
 			postal_code = var.subscription_subscription_billing_address_postal_code
+			province = var.subscription_subscription_billing_address_province
 			state = var.subscription_subscription_billing_address_state
+			state_inscription = var.subscription_subscription_billing_address_state_inscription
+			street_name = var.subscription_subscription_billing_address_street_name
+			street_number = var.subscription_subscription_billing_address_street_number
 		}
 		currency_code = var.subscription_subscription_currency_code
 		gsi_org_code = var.subscription_subscription_gsi_org_code
@@ -85,6 +101,7 @@ resource "oci_osp_gateway_subscription" "test_subscription" {
 			tax_payer_id = oci_osp_gateway_tax_payer.test_tax_payer.id
 			tax_reg_number = var.subscription_subscription_tax_info_tax_reg_number
 		}
+		time_personal_to_corporate_conv = var.subscription_subscription_time_personal_to_corporate_conv
 		time_plan_upgrade = var.subscription_subscription_time_plan_upgrade
 		time_start = var.subscription_subscription_time_start
 		upgrade_state = var.subscription_subscription_upgrade_state
@@ -102,19 +119,35 @@ The following arguments are supported:
 * `email` - (Required) (Updatable) User email
 * `osp_home_region` - (Required) (Updatable) The home region's public name of the logged in user. 
 * `subscription` - (Required) (Updatable) Subscription details object which extends the SubscriptionSummary
+	* `account_type` - (Optional) (Updatable) Account type.
 	* `bill_to_cust_account_id` - (Optional) (Updatable) Bill to customer Account id.
-	* `billing_address` - (Optional) (Updatable) Billing address details model.
+	* `billing_address` - (Optional) (Updatable) Address details model.
 		* `address_key` - (Optional) (Updatable) Address identifier.
 		* `city` - (Optional) (Updatable) Name of the city.
 		* `company_name` - (Optional) (Updatable) Name of the customer company.
+		* `contributor_class` - (Optional) (Updatable) Contributor class of the customer company.
 		* `country` - (Optional) (Updatable) Country of the address.
+		* `county` - (Optional) (Updatable) County of the address.
+		* `department_name` - (Optional) (Updatable) Department name of the customer company.
 		* `email_address` - (Optional) (Updatable) Contact person email address.
 		* `first_name` - (Optional) (Updatable) First name of the contact person.
+		* `internal_number` - (Optional) (Updatable) Internal number of the customer company.
+		* `job_title` - (Optional) (Updatable) Job title of the contact person.
 		* `last_name` - (Optional) (Updatable) Last name of the contact person.
 		* `line1` - (Optional) (Updatable) Address line 1.
 		* `line2` - (Optional) (Updatable) Address line 2.
+		* `line3` - (Optional) (Updatable) Address line 3.
+		* `line4` - (Optional) (Updatable) Address line 4.
+		* `middle_name` - (Optional) (Updatable) Middle name of the contact person.
+		* `municipal_inscription` - (Optional) (Updatable) Municipal Inscription.
+		* `phone_country_code` - (Optional) (Updatable) Phone country code of the contact person.
+		* `phone_number` - (Optional) (Updatable) Phone number of the contact person.
 		* `postal_code` - (Optional) (Updatable) Post code of the address.
+		* `province` - (Optional) (Updatable) Province of the address.
 		* `state` - (Optional) (Updatable) State of the address.
+		* `state_inscription` - (Optional) (Updatable) State Inscription.
+		* `street_name` - (Optional) (Updatable) Street name of the address.
+		* `street_number` - (Optional) (Updatable) Street number of the address.
 	* `currency_code` - (Optional) (Updatable) Currency code
 	* `gsi_org_code` - (Optional) (Updatable) GSI Subscription external code.
 	* `id` - (Optional) (Updatable) Subscription id identifier (OCID).
@@ -147,6 +180,7 @@ The following arguments are supported:
 		* `tax_cnpj` - (Optional) (Updatable) Brazilian companies' CNPJ number.
 		* `tax_payer_id` - (Optional) (Updatable) Tay payer identifier.
 		* `tax_reg_number` - (Optional) (Updatable) Tax registration number.
+	* `time_personal_to_corporate_conv` - (Optional) (Updatable) Date of upgrade/conversion when account type changed from PERSONAL to CORPORATE
 	* `time_plan_upgrade` - (Optional) (Updatable) Date of upgrade/conversion when planType changed from FREE_TIER to PAYG
 	* `time_start` - (Optional) (Updatable) Start date of the subscription.
 	* `upgrade_state` - (Optional) (Updatable) Status of the upgrade.
@@ -161,19 +195,35 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `account_type` - Account type.
 * `bill_to_cust_account_id` - Bill to customer Account id.
-* `billing_address` - Billing address details model.
+* `billing_address` - Address details model.
 	* `address_key` - Address identifier.
 	* `city` - Name of the city.
 	* `company_name` - Name of the customer company.
+	* `contributor_class` - Contributor class of the customer company.
 	* `country` - Country of the address.
+	* `county` - County of the address.
+	* `department_name` - Department name of the customer company.
 	* `email_address` - Contact person email address.
 	* `first_name` - First name of the contact person.
+	* `internal_number` - Internal number of the customer company.
+	* `job_title` - Job title of the contact person.
 	* `last_name` - Last name of the contact person.
 	* `line1` - Address line 1.
 	* `line2` - Address line 2.
+	* `line3` - Address line 3.
+	* `line4` - Address line 4.
+	* `middle_name` - Middle name of the contact person.
+	* `municipal_inscription` - Municipal Inscription.
+	* `phone_country_code` - Phone country code of the contact person.
+	* `phone_number` - Phone number of the contact person.
 	* `postal_code` - Post code of the address.
+	* `province` - Province of the address.
 	* `state` - State of the address.
+	* `state_inscription` - State Inscription.
+	* `street_name` - Street name of the address.
+	* `street_number` - Street number of the address.
 * `currency_code` - Currency code
 * `gsi_org_code` - GSI Subscription external code.
 * `id` - Subscription id identifier (OCID).
@@ -206,6 +256,7 @@ The following attributes are exported:
 	* `tax_cnpj` - Brazilian companies' CNPJ number.
 	* `tax_payer_id` - Tay payer identifier.
 	* `tax_reg_number` - Tax registration number.
+* `time_personal_to_corporate_conv` - Date of upgrade/conversion when account type changed from PERSONAL to CORPORATE
 * `time_plan_upgrade` - Date of upgrade/conversion when planType changed from FREE_TIER to PAYG
 * `time_start` - Start date of the subscription.
 * `upgrade_state` - Status of the upgrade.
