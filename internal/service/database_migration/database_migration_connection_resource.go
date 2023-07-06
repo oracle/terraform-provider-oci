@@ -845,7 +845,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) SetData() error {
 	return nil
 }
 
-func ConnectionSummaryToMap(obj oci_database_migration.ConnectionSummary, datasource bool) map[string]interface{} {
+func ConnectionSummaryToMap(obj oci_database_migration.ConnectionSummary) map[string]interface{} {
 
 	result := map[string]interface{}{}
 
