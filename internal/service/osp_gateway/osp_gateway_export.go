@@ -31,6 +31,11 @@ var exportOspGatewaySubscriptionHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation:   "subscription",
 }
 
+var exportOspGatewayAddressActionVerificationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_osp_gateway_address_action_verification",
+	ResourceAbbreviation: "address_action_verification",
+}
+
 var ospGatewayResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {},
 }

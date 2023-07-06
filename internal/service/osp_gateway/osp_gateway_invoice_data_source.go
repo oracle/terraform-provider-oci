@@ -233,8 +233,16 @@ func OspGatewayInvoiceDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"account_number": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"amount_paid": {
 							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"card_type": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"credit_card_type": {
@@ -266,6 +274,10 @@ func OspGatewayInvoiceDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"paypal_reference": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"routing_number": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -574,6 +586,34 @@ func PaymentDetailToMap(obj *oci_osp_gateway.PaymentDetail) map[string]interface
 
 		if v.TimeExpiration != nil {
 			result["time_expiration"] = v.TimeExpiration.Format(time.RFC3339Nano)
+		}
+
+		if v.AmountPaid != nil {
+			result["amount_paid"] = float32(*v.AmountPaid)
+		}
+
+		if v.PaidBy != nil {
+			result["paid_by"] = string(*v.PaidBy)
+		}
+
+		if v.TimePaidOn != nil {
+			result["time_paid_on"] = v.TimePaidOn.String()
+		}
+	case oci_osp_gateway.EcheckPaymentDetail:
+		result["payment_method"] = "ECHECK"
+
+		if v.AccountNumber != nil {
+			result["account_number"] = string(*v.AccountNumber)
+		}
+
+		result["card_type"] = string(v.CardType)
+
+		if v.NameOnCard != nil {
+			result["name_on_card"] = string(*v.NameOnCard)
+		}
+
+		if v.RoutingNumber != nil {
+			result["routing_number"] = string(*v.RoutingNumber)
 		}
 
 		if v.AmountPaid != nil {

@@ -75,6 +75,7 @@ func TestOspGatewaySubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "osp_home_region", homeRegion),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "account_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bill_to_cust_account_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "billing_address.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "currency_code"),
