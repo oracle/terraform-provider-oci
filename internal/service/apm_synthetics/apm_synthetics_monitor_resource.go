@@ -116,6 +116,74 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"client_certificate_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"client_certificate": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"content": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"file_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"private_key": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"content": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"file_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
 						"config_type": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -155,6 +223,11 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 							},
 						},
 						"is_certificate_validation_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_default_snapshot_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
@@ -1101,6 +1174,78 @@ func AvailabilityConfigurationToMap(obj *oci_apm_synthetics.AvailabilityConfigur
 	return result
 }
 
+func (s *ApmSyntheticsMonitorResourceCrud) mapToClientCertificate(fieldKeyFormat string) (oci_apm_synthetics.ClientCertificate, error) {
+	result := oci_apm_synthetics.ClientCertificate{}
+
+	if content, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "content")); ok {
+		tmp := content.(string)
+		result.Content = &tmp
+	}
+
+	if fileName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "file_name")); ok {
+		tmp := fileName.(string)
+		result.FileName = &tmp
+	}
+
+	return result, nil
+}
+
+func ClientCertificateToMap(obj *oci_apm_synthetics.ClientCertificate) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Content != nil {
+		result["content"] = string(*obj.Content)
+	}
+
+	if obj.FileName != nil {
+		result["file_name"] = string(*obj.FileName)
+	}
+
+	return result
+}
+
+func (s *ApmSyntheticsMonitorResourceCrud) mapToClientCertificateDetails(fieldKeyFormat string) (oci_apm_synthetics.ClientCertificateDetails, error) {
+	result := oci_apm_synthetics.ClientCertificateDetails{}
+
+	if clientCertificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_certificate")); ok {
+		if tmpList := clientCertificate.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "client_certificate"), 0)
+			tmp, err := s.mapToClientCertificate(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert client_certificate, encountered error: %v", err)
+			}
+			result.ClientCertificate = &tmp
+		}
+	}
+
+	if privateKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key")); ok {
+		if tmpList := privateKey.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "private_key"), 0)
+			tmp, err := s.mapToPrivateKey(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert private_key, encountered error: %v", err)
+			}
+			result.PrivateKey = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ClientCertificateDetailsToMap(obj *oci_apm_synthetics.ClientCertificateDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ClientCertificate != nil {
+		result["client_certificate"] = []interface{}{ClientCertificateToMap(obj.ClientCertificate)}
+	}
+
+	if obj.PrivateKey != nil {
+		result["private_key"] = []interface{}{PrivateKeyToMap(obj.PrivateKey)}
+	}
+
+	return result
+}
+
 func (s *ApmSyntheticsMonitorResourceCrud) mapToDnsConfiguration(fieldKeyFormat string) (oci_apm_synthetics.DnsConfiguration, error) {
 	result := oci_apm_synthetics.DnsConfiguration{}
 
@@ -1214,6 +1359,10 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 			tmp := isCertificateValidationEnabled.(bool)
 			details.IsCertificateValidationEnabled = &tmp
 		}
+		if isDefaultSnapshotEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_default_snapshot_enabled")); ok {
+			tmp := isDefaultSnapshotEnabled.(bool)
+			details.IsDefaultSnapshotEnabled = &tmp
+		}
 		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
 			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
@@ -1222,6 +1371,18 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
 				}
 				details.NetworkConfiguration = &tmp
+			}
+		}
+		if verifyResponseCodes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_response_codes")); ok {
+			interfaces := verifyResponseCodes.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "verify_response_codes")) {
+				details.VerifyResponseCodes = tmp
 			}
 		}
 		if verifyTexts, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_texts")); ok {
@@ -1257,6 +1418,16 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 		baseObject = details
 	case strings.ToLower("REST_CONFIG"):
 		details := oci_apm_synthetics.RestMonitorConfiguration{}
+		if clientCertificateDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_certificate_details")); ok {
+			if tmpList := clientCertificateDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "client_certificate_details"), 0)
+				tmp, err := s.mapToClientCertificateDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert client_certificate_details, encountered error: %v", err)
+				}
+				details.ClientCertificateDetails = &tmp
+			}
+		}
 		if isCertificateValidationEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_certificate_validation_enabled")); ok {
 			tmp := isCertificateValidationEnabled.(bool)
 			details.IsCertificateValidationEnabled = &tmp
@@ -1364,6 +1535,10 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 			tmp := isCertificateValidationEnabled.(bool)
 			details.IsCertificateValidationEnabled = &tmp
 		}
+		if isDefaultSnapshotEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_default_snapshot_enabled")); ok {
+			tmp := isDefaultSnapshotEnabled.(bool)
+			details.IsDefaultSnapshotEnabled = &tmp
+		}
 		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
 			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
@@ -1401,6 +1576,21 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 				details.NetworkConfiguration = &tmp
 			}
 		}
+		if reqAuthenticationScheme, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "req_authentication_scheme")); ok {
+			details.ReqAuthenticationScheme = oci_apm_synthetics.RequestAuthenticationSchemesForScriptedRestEnum(reqAuthenticationScheme.(string))
+		}
+		if verifyResponseCodes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_response_codes")); ok {
+			interfaces := verifyResponseCodes.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "verify_response_codes")) {
+				details.VerifyResponseCodes = tmp
+			}
+		}
 		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
 			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
@@ -1432,9 +1622,16 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 			result["is_certificate_validation_enabled"] = bool(*v.IsCertificateValidationEnabled)
 		}
 
+		if v.IsDefaultSnapshotEnabled != nil {
+			result["is_default_snapshot_enabled"] = bool(*v.IsDefaultSnapshotEnabled)
+		}
+
 		if v.NetworkConfiguration != nil {
 			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
 		}
+
+		result["verify_response_codes"] = v.VerifyResponseCodes
+		result["verify_response_codes"] = v.VerifyResponseCodes
 
 		verifyTexts := []interface{}{}
 		for _, item := range v.VerifyTexts {
@@ -1451,6 +1648,10 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 		}
 	case oci_apm_synthetics.RestMonitorConfiguration:
 		result["config_type"] = "REST_CONFIG"
+
+		if v.ClientCertificateDetails != nil {
+			result["client_certificate_details"] = []interface{}{ClientCertificateDetailsToMap(v.ClientCertificateDetails)}
+		}
 
 		if v.IsCertificateValidationEnabled != nil {
 			result["is_certificate_validation_enabled"] = bool(*v.IsCertificateValidationEnabled)
@@ -1508,6 +1709,10 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 			result["is_certificate_validation_enabled"] = bool(*v.IsCertificateValidationEnabled)
 		}
 
+		if v.IsDefaultSnapshotEnabled != nil {
+			result["is_default_snapshot_enabled"] = bool(*v.IsDefaultSnapshotEnabled)
+		}
+
 		if v.NetworkConfiguration != nil {
 			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
 		}
@@ -1525,6 +1730,11 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 		if v.NetworkConfiguration != nil {
 			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
 		}
+
+		result["req_authentication_scheme"] = string(v.ReqAuthenticationScheme)
+
+		result["verify_response_codes"] = v.VerifyResponseCodes
+		result["verify_response_codes"] = v.VerifyResponseCodes
 
 		if v.DnsConfiguration != nil {
 			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
@@ -1681,6 +1891,36 @@ func NetworkConfigurationToMap(obj *oci_apm_synthetics.NetworkConfiguration) map
 
 	if obj.TransmissionRate != nil {
 		result["transmission_rate"] = int(*obj.TransmissionRate)
+	}
+
+	return result
+}
+
+func (s *ApmSyntheticsMonitorResourceCrud) mapToPrivateKey(fieldKeyFormat string) (oci_apm_synthetics.PrivateKey, error) {
+	result := oci_apm_synthetics.PrivateKey{}
+
+	if content, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "content")); ok {
+		tmp := content.(string)
+		result.Content = &tmp
+	}
+
+	if fileName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "file_name")); ok {
+		tmp := fileName.(string)
+		result.FileName = &tmp
+	}
+
+	return result, nil
+}
+
+func PrivateKeyToMap(obj *oci_apm_synthetics.PrivateKey) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Content != nil {
+		result["content"] = string(*obj.Content)
+	}
+
+	if obj.FileName != nil {
+		result["file_name"] = string(*obj.FileName)
 	}
 
 	return result
