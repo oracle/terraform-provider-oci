@@ -370,6 +370,11 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"wallet_location": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},
@@ -400,7 +405,11 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-
+									"wallet_location": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									// Computed
 								},
 							},
@@ -2508,12 +2517,20 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateHostDumpTransferDeta
 	switch strings.ToLower(kind) {
 	case strings.ToLower("CURL"):
 		details := oci_database_migration.CurlTransferDetails{}
+		if walletLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_location")); ok {
+			tmp := walletLocation.(string)
+			details.WalletLocation = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("OCI_CLI"):
 		details := oci_database_migration.OciCliDumpTransferDetails{}
 		if ociHome, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oci_home")); ok {
 			tmp := ociHome.(string)
 			details.OciHome = &tmp
+		}
+		if walletLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_location")); ok {
+			tmp := walletLocation.(string)
+			details.WalletLocation = &tmp
 		}
 		baseObject = details
 	default:
@@ -2535,12 +2552,20 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateHostDumpTransferDeta
 	switch strings.ToLower(kind) {
 	case strings.ToLower("CURL"):
 		details := oci_database_migration.UpdateCurlTransferDetails{}
+		if walletLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_location")); ok {
+			tmp := walletLocation.(string)
+			details.WalletLocation = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("OCI_CLI"):
 		details := oci_database_migration.UpdateOciCliDumpTransferDetails{}
 		if ociHome, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oci_home")); ok {
 			tmp := ociHome.(string)
 			details.OciHome = &tmp
+		}
+		if walletLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wallet_location")); ok {
+			tmp := walletLocation.(string)
+			details.WalletLocation = &tmp
 		}
 		baseObject = details
 	default:
@@ -2554,11 +2579,19 @@ func HostDumpTransferDetailsToMap(obj *oci_database_migration.HostDumpTransferDe
 	switch v := (*obj).(type) {
 	case oci_database_migration.CurlTransferDetails:
 		result["kind"] = "CURL"
+
+		if v.WalletLocation != nil {
+			result["wallet_location"] = string(*v.WalletLocation)
+		}
 	case oci_database_migration.OciCliDumpTransferDetails:
 		result["kind"] = "OCI_CLI"
 
 		if v.OciHome != nil {
 			result["oci_home"] = string(*v.OciHome)
+		}
+
+		if v.WalletLocation != nil {
+			result["wallet_location"] = string(*v.WalletLocation)
 		}
 	default:
 		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
