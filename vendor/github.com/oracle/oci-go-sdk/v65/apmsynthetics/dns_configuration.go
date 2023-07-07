@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// DnsConfiguration Dns settings.
+// DnsConfiguration Information about the DNS settings.
 type DnsConfiguration struct {
 
-	// If isOverrideDns is true, then dns will be overridden.
+	// If isOverrideDns is true, then DNS settings will be overridden.
 	IsOverrideDns *bool `mandatory:"false" json:"isOverrideDns"`
 
-	// Override dns ip value. This value will be honored only if *ref-isOverrideDns is set to true.
+	// Attribute to override the DNS IP value. This value will be honored only if isOverrideDns is set to true.
 	OverrideDnsIp *string `mandatory:"false" json:"overrideDnsIp"`
 }
 

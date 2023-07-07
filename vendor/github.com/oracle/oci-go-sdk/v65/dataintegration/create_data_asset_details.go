@@ -94,16 +94,36 @@ func (m *createdataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 
 	var err error
 	switch m.ModelType {
+	case "HDFS_DATA_ASSET":
+		mm := CreateDataAssetFromHdfs{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LAKE_DATA_ASSET":
+		mm := CreateDataAssetFromLake{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_HEATWAVE_DATA_ASSET":
+		mm := CreateDataAssetFromMySqlHeatWave{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_S3_DATA_ASSET":
+		mm := CreateDataAssetFromAmazonS3{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REST_DATA_ASSET":
+		mm := CreateDataAssetFromRest{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_SIEBEL_DATA_ASSET":
+		mm := CreateDataAssetFromOracleSiebel{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GENERIC_JDBC_DATA_ASSET":
 		mm := CreateDataAssetFromJdbc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MYSQL_DATA_ASSET":
 		mm := CreateDataAssetFromMySql{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "LAKE_DATA_ASSET":
-		mm := CreateDataAssetFromLake{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_DATA_ASSET":
@@ -114,12 +134,12 @@ func (m *createdataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := CreateDataAssetFromAdwc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "AMAZON_S3_DATA_ASSET":
-		mm := CreateDataAssetFromAmazonS3{}
+	case "ORACLE_EBS_DATA_ASSET":
+		mm := CreateDataAssetFromOracleEbs{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "REST_DATA_ASSET":
-		mm := CreateDataAssetFromRest{}
+	case "ORACLE_PEOPLESOFT_DATA_ASSET":
+		mm := CreateDataAssetFromOraclePeopleSoft{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "FUSION_APP_DATA_ASSET":
@@ -215,6 +235,11 @@ const (
 	CreateDataAssetDetailsModelTypeFusionAppDataAsset           CreateDataAssetDetailsModelTypeEnum = "FUSION_APP_DATA_ASSET"
 	CreateDataAssetDetailsModelTypeAmazonS3DataAsset            CreateDataAssetDetailsModelTypeEnum = "AMAZON_S3_DATA_ASSET"
 	CreateDataAssetDetailsModelTypeLakeDataAsset                CreateDataAssetDetailsModelTypeEnum = "LAKE_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeOraclePeoplesoftDataAsset    CreateDataAssetDetailsModelTypeEnum = "ORACLE_PEOPLESOFT_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeOracleSiebelDataAsset        CreateDataAssetDetailsModelTypeEnum = "ORACLE_SIEBEL_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeOracleEbsDataAsset           CreateDataAssetDetailsModelTypeEnum = "ORACLE_EBS_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeHdfsDataAsset                CreateDataAssetDetailsModelTypeEnum = "HDFS_DATA_ASSET"
+	CreateDataAssetDetailsModelTypeMysqlHeatwaveDataAsset       CreateDataAssetDetailsModelTypeEnum = "MYSQL_HEATWAVE_DATA_ASSET"
 	CreateDataAssetDetailsModelTypeRestDataAsset                CreateDataAssetDetailsModelTypeEnum = "REST_DATA_ASSET"
 )
 
@@ -228,6 +253,11 @@ var mappingCreateDataAssetDetailsModelTypeEnum = map[string]CreateDataAssetDetai
 	"FUSION_APP_DATA_ASSET":            CreateDataAssetDetailsModelTypeFusionAppDataAsset,
 	"AMAZON_S3_DATA_ASSET":             CreateDataAssetDetailsModelTypeAmazonS3DataAsset,
 	"LAKE_DATA_ASSET":                  CreateDataAssetDetailsModelTypeLakeDataAsset,
+	"ORACLE_PEOPLESOFT_DATA_ASSET":     CreateDataAssetDetailsModelTypeOraclePeoplesoftDataAsset,
+	"ORACLE_SIEBEL_DATA_ASSET":         CreateDataAssetDetailsModelTypeOracleSiebelDataAsset,
+	"ORACLE_EBS_DATA_ASSET":            CreateDataAssetDetailsModelTypeOracleEbsDataAsset,
+	"HDFS_DATA_ASSET":                  CreateDataAssetDetailsModelTypeHdfsDataAsset,
+	"MYSQL_HEATWAVE_DATA_ASSET":        CreateDataAssetDetailsModelTypeMysqlHeatwaveDataAsset,
 	"REST_DATA_ASSET":                  CreateDataAssetDetailsModelTypeRestDataAsset,
 }
 
@@ -241,6 +271,11 @@ var mappingCreateDataAssetDetailsModelTypeEnumLowerCase = map[string]CreateDataA
 	"fusion_app_data_asset":            CreateDataAssetDetailsModelTypeFusionAppDataAsset,
 	"amazon_s3_data_asset":             CreateDataAssetDetailsModelTypeAmazonS3DataAsset,
 	"lake_data_asset":                  CreateDataAssetDetailsModelTypeLakeDataAsset,
+	"oracle_peoplesoft_data_asset":     CreateDataAssetDetailsModelTypeOraclePeoplesoftDataAsset,
+	"oracle_siebel_data_asset":         CreateDataAssetDetailsModelTypeOracleSiebelDataAsset,
+	"oracle_ebs_data_asset":            CreateDataAssetDetailsModelTypeOracleEbsDataAsset,
+	"hdfs_data_asset":                  CreateDataAssetDetailsModelTypeHdfsDataAsset,
+	"mysql_heatwave_data_asset":        CreateDataAssetDetailsModelTypeMysqlHeatwaveDataAsset,
 	"rest_data_asset":                  CreateDataAssetDetailsModelTypeRestDataAsset,
 }
 
@@ -265,6 +300,11 @@ func GetCreateDataAssetDetailsModelTypeEnumStringValues() []string {
 		"FUSION_APP_DATA_ASSET",
 		"AMAZON_S3_DATA_ASSET",
 		"LAKE_DATA_ASSET",
+		"ORACLE_PEOPLESOFT_DATA_ASSET",
+		"ORACLE_SIEBEL_DATA_ASSET",
+		"ORACLE_EBS_DATA_ASSET",
+		"HDFS_DATA_ASSET",
+		"MYSQL_HEATWAVE_DATA_ASSET",
 		"REST_DATA_ASSET",
 	}
 }

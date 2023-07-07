@@ -56,13 +56,13 @@ type MonitorSummary struct {
 	// Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that.
 	TimeoutInSeconds *int `mandatory:"true" json:"timeoutInSeconds"`
 
-	// If isRunNow is enabled, then the monitor will run now.
+	// If isRunNow is enabled, then the monitor will run immediately.
 	IsRunNow *bool `mandatory:"true" json:"isRunNow"`
 
-	// Scheduling policy on Vantage points.
+	// Scheduling policy to decide the distribution of monitor executions on vantage points.
 	SchedulingPolicy SchedulingPolicyEnum `mandatory:"true" json:"schedulingPolicy"`
 
-	// Time interval between 2 runs in round robin batch mode (*SchedulingPolicy - BATCHED_ROUND_ROBIN).
+	// Time interval between two runs in round robin batch mode (SchedulingPolicy - BATCHED_ROUND_ROBIN).
 	BatchIntervalInSeconds *int `mandatory:"true" json:"batchIntervalInSeconds"`
 
 	// Specify the endpoint on which to run the monitor.

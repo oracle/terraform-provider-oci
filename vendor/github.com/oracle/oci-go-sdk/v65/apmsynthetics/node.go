@@ -15,37 +15,37 @@ import (
 	"strings"
 )
 
-// Node Network node
+// Node Details of the network node.
 type Node struct {
 
-	// id of node
+	// ID of the network node.
 	Id *string `mandatory:"true" json:"id"`
 
-	// ip address of node
+	// IP address of the network node.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
-	// display name of node
+	// Display name of the network node.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// geo info
+	// Geographical information of the network node.
 	GeoInfo *string `mandatory:"false" json:"geoInfo"`
 
-	// links outgoing from this node
+	// Outgoing links from the network node.
 	OutgoingLinks []string `mandatory:"false" json:"outgoingLinks"`
 
-	// consecutive anonymous node count
+	// Number of consecutive anonymous network nodes.
 	ConsecutiveAnonymousCount *int `mandatory:"false" json:"consecutiveAnonymousCount"`
 
-	// level of this node
+	// Level of the network node.
 	Level *int `mandatory:"false" json:"level"`
 
-	// average packet response time in milli seconds
+	// Average packet response time in milliseconds.
 	AvgPacketResponseTimeInMs *float64 `mandatory:"false" json:"avgPacketResponseTimeInMs"`
 
-	// average packet loss percentage
+	// Percentage of the average packet loss.
 	AvgPacketLossPercent *float64 `mandatory:"false" json:"avgPacketLossPercent"`
 
-	// type of node
+	// Type of network node.
 	Type NodeTypeEnum `mandatory:"false" json:"type,omitempty"`
 }
 

@@ -18,24 +18,27 @@ type RequestAuthenticationSchemesEnum string
 
 // Set of constants representing the allowable values for RequestAuthenticationSchemesEnum
 const (
-	RequestAuthenticationSchemesOauth  RequestAuthenticationSchemesEnum = "OAUTH"
-	RequestAuthenticationSchemesNone   RequestAuthenticationSchemesEnum = "NONE"
-	RequestAuthenticationSchemesBasic  RequestAuthenticationSchemesEnum = "BASIC"
-	RequestAuthenticationSchemesBearer RequestAuthenticationSchemesEnum = "BEARER"
+	RequestAuthenticationSchemesOauth             RequestAuthenticationSchemesEnum = "OAUTH"
+	RequestAuthenticationSchemesNone              RequestAuthenticationSchemesEnum = "NONE"
+	RequestAuthenticationSchemesBasic             RequestAuthenticationSchemesEnum = "BASIC"
+	RequestAuthenticationSchemesBearer            RequestAuthenticationSchemesEnum = "BEARER"
+	RequestAuthenticationSchemesResourcePrincipal RequestAuthenticationSchemesEnum = "RESOURCE_PRINCIPAL"
 )
 
 var mappingRequestAuthenticationSchemesEnum = map[string]RequestAuthenticationSchemesEnum{
-	"OAUTH":  RequestAuthenticationSchemesOauth,
-	"NONE":   RequestAuthenticationSchemesNone,
-	"BASIC":  RequestAuthenticationSchemesBasic,
-	"BEARER": RequestAuthenticationSchemesBearer,
+	"OAUTH":              RequestAuthenticationSchemesOauth,
+	"NONE":               RequestAuthenticationSchemesNone,
+	"BASIC":              RequestAuthenticationSchemesBasic,
+	"BEARER":             RequestAuthenticationSchemesBearer,
+	"RESOURCE_PRINCIPAL": RequestAuthenticationSchemesResourcePrincipal,
 }
 
 var mappingRequestAuthenticationSchemesEnumLowerCase = map[string]RequestAuthenticationSchemesEnum{
-	"oauth":  RequestAuthenticationSchemesOauth,
-	"none":   RequestAuthenticationSchemesNone,
-	"basic":  RequestAuthenticationSchemesBasic,
-	"bearer": RequestAuthenticationSchemesBearer,
+	"oauth":              RequestAuthenticationSchemesOauth,
+	"none":               RequestAuthenticationSchemesNone,
+	"basic":              RequestAuthenticationSchemesBasic,
+	"bearer":             RequestAuthenticationSchemesBearer,
+	"resource_principal": RequestAuthenticationSchemesResourcePrincipal,
 }
 
 // GetRequestAuthenticationSchemesEnumValues Enumerates the set of values for RequestAuthenticationSchemesEnum
@@ -54,6 +57,7 @@ func GetRequestAuthenticationSchemesEnumStringValues() []string {
 		"NONE",
 		"BASIC",
 		"BEARER",
+		"RESOURCE_PRINCIPAL",
 	}
 }
 

@@ -93,16 +93,12 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ModelType {
-	case "MYSQL_CONNECTION":
-		mm := CreateConnectionFromMySql{}
+	case "ORACLE_SIEBEL_CONNECTION":
+		mm := CreateConnectionFromOracleSiebel{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AMAZON_S3_CONNECTION":
 		mm := CreateConnectionFromAmazonS3{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "GENERIC_JDBC_CONNECTION":
-		mm := CreateConnectionFromJdbc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "BICC_CONNECTION":
@@ -113,12 +109,40 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateConnectionFromAtp{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "BIP_CONNECTION":
-		mm := CreateConnectionFromBip{}
+	case "HDFS_CONNECTION":
+		mm := CreateConnectionFromHdfs{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_HEATWAVE_CONNECTION":
+		mm := CreateConnectionFromMySqlHeatWave{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "REST_BASIC_AUTH_CONNECTION":
 		mm := CreateConnectionFromRestBasicAuth{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLEDB_CONNECTION":
+		mm := CreateConnectionFromOracle{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_PEOPLESOFT_CONNECTION":
+		mm := CreateConnectionFromOraclePeopleSoft{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_EBS_CONNECTION":
+		mm := CreateConnectionFromOracleEbs{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_CONNECTION":
+		mm := CreateConnectionFromMySql{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC_JDBC_CONNECTION":
+		mm := CreateConnectionFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BIP_CONNECTION":
+		mm := CreateConnectionFromBip{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ADWC_CONNECTION":
@@ -127,10 +151,6 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "REST_NO_AUTH_CONNECTION":
 		mm := CreateConnectionFromRestNoAuth{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "ORACLEDB_CONNECTION":
-		mm := CreateConnectionFromOracle{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_OBJECT_STORAGE_CONNECTION":
@@ -223,6 +243,11 @@ const (
 	CreateConnectionDetailsModelTypeAmazonS3Connection            CreateConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
 	CreateConnectionDetailsModelTypeBipConnection                 CreateConnectionDetailsModelTypeEnum = "BIP_CONNECTION"
 	CreateConnectionDetailsModelTypeLakeConnection                CreateConnectionDetailsModelTypeEnum = "LAKE_CONNECTION"
+	CreateConnectionDetailsModelTypeOraclePeoplesoftConnection    CreateConnectionDetailsModelTypeEnum = "ORACLE_PEOPLESOFT_CONNECTION"
+	CreateConnectionDetailsModelTypeOracleEbsConnection           CreateConnectionDetailsModelTypeEnum = "ORACLE_EBS_CONNECTION"
+	CreateConnectionDetailsModelTypeOracleSiebelConnection        CreateConnectionDetailsModelTypeEnum = "ORACLE_SIEBEL_CONNECTION"
+	CreateConnectionDetailsModelTypeHdfsConnection                CreateConnectionDetailsModelTypeEnum = "HDFS_CONNECTION"
+	CreateConnectionDetailsModelTypeMysqlHeatwaveConnection       CreateConnectionDetailsModelTypeEnum = "MYSQL_HEATWAVE_CONNECTION"
 	CreateConnectionDetailsModelTypeRestNoAuthConnection          CreateConnectionDetailsModelTypeEnum = "REST_NO_AUTH_CONNECTION"
 	CreateConnectionDetailsModelTypeRestBasicAuthConnection       CreateConnectionDetailsModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
 )
@@ -238,6 +263,11 @@ var mappingCreateConnectionDetailsModelTypeEnum = map[string]CreateConnectionDet
 	"AMAZON_S3_CONNECTION":             CreateConnectionDetailsModelTypeAmazonS3Connection,
 	"BIP_CONNECTION":                   CreateConnectionDetailsModelTypeBipConnection,
 	"LAKE_CONNECTION":                  CreateConnectionDetailsModelTypeLakeConnection,
+	"ORACLE_PEOPLESOFT_CONNECTION":     CreateConnectionDetailsModelTypeOraclePeoplesoftConnection,
+	"ORACLE_EBS_CONNECTION":            CreateConnectionDetailsModelTypeOracleEbsConnection,
+	"ORACLE_SIEBEL_CONNECTION":         CreateConnectionDetailsModelTypeOracleSiebelConnection,
+	"HDFS_CONNECTION":                  CreateConnectionDetailsModelTypeHdfsConnection,
+	"MYSQL_HEATWAVE_CONNECTION":        CreateConnectionDetailsModelTypeMysqlHeatwaveConnection,
 	"REST_NO_AUTH_CONNECTION":          CreateConnectionDetailsModelTypeRestNoAuthConnection,
 	"REST_BASIC_AUTH_CONNECTION":       CreateConnectionDetailsModelTypeRestBasicAuthConnection,
 }
@@ -253,6 +283,11 @@ var mappingCreateConnectionDetailsModelTypeEnumLowerCase = map[string]CreateConn
 	"amazon_s3_connection":             CreateConnectionDetailsModelTypeAmazonS3Connection,
 	"bip_connection":                   CreateConnectionDetailsModelTypeBipConnection,
 	"lake_connection":                  CreateConnectionDetailsModelTypeLakeConnection,
+	"oracle_peoplesoft_connection":     CreateConnectionDetailsModelTypeOraclePeoplesoftConnection,
+	"oracle_ebs_connection":            CreateConnectionDetailsModelTypeOracleEbsConnection,
+	"oracle_siebel_connection":         CreateConnectionDetailsModelTypeOracleSiebelConnection,
+	"hdfs_connection":                  CreateConnectionDetailsModelTypeHdfsConnection,
+	"mysql_heatwave_connection":        CreateConnectionDetailsModelTypeMysqlHeatwaveConnection,
 	"rest_no_auth_connection":          CreateConnectionDetailsModelTypeRestNoAuthConnection,
 	"rest_basic_auth_connection":       CreateConnectionDetailsModelTypeRestBasicAuthConnection,
 }
@@ -279,6 +314,11 @@ func GetCreateConnectionDetailsModelTypeEnumStringValues() []string {
 		"AMAZON_S3_CONNECTION",
 		"BIP_CONNECTION",
 		"LAKE_CONNECTION",
+		"ORACLE_PEOPLESOFT_CONNECTION",
+		"ORACLE_EBS_CONNECTION",
+		"ORACLE_SIEBEL_CONNECTION",
+		"HDFS_CONNECTION",
+		"MYSQL_HEATWAVE_CONNECTION",
 		"REST_NO_AUTH_CONNECTION",
 		"REST_BASIC_AUTH_CONNECTION",
 	}

@@ -31,7 +31,7 @@ type GeoSummary struct {
 	// The common English-language name for the country.
 	CountryName *string `mandatory:"false" json:"countryName"`
 
-	// Degrees north of the Equator.
+	// Degrees north of the equator.
 	Latitude *float64 `mandatory:"false" json:"latitude"`
 
 	// Degrees east of the prime meridian.
