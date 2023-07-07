@@ -97,33 +97,42 @@ type OtherPaymentDetailCreditCardTypeEnum string
 
 // Set of constants representing the allowable values for OtherPaymentDetailCreditCardTypeEnum
 const (
-	OtherPaymentDetailCreditCardTypeVisa       OtherPaymentDetailCreditCardTypeEnum = "VISA"
-	OtherPaymentDetailCreditCardTypeAmex       OtherPaymentDetailCreditCardTypeEnum = "AMEX"
-	OtherPaymentDetailCreditCardTypeMastercard OtherPaymentDetailCreditCardTypeEnum = "MASTERCARD"
-	OtherPaymentDetailCreditCardTypeDiscover   OtherPaymentDetailCreditCardTypeEnum = "DISCOVER"
-	OtherPaymentDetailCreditCardTypeJcb        OtherPaymentDetailCreditCardTypeEnum = "JCB"
-	OtherPaymentDetailCreditCardTypeDiner      OtherPaymentDetailCreditCardTypeEnum = "DINER"
-	OtherPaymentDetailCreditCardTypeElo        OtherPaymentDetailCreditCardTypeEnum = "ELO"
+	OtherPaymentDetailCreditCardTypeVisa              OtherPaymentDetailCreditCardTypeEnum = "VISA"
+	OtherPaymentDetailCreditCardTypeAmex              OtherPaymentDetailCreditCardTypeEnum = "AMEX"
+	OtherPaymentDetailCreditCardTypeMastercard        OtherPaymentDetailCreditCardTypeEnum = "MASTERCARD"
+	OtherPaymentDetailCreditCardTypeDiscover          OtherPaymentDetailCreditCardTypeEnum = "DISCOVER"
+	OtherPaymentDetailCreditCardTypeJcb               OtherPaymentDetailCreditCardTypeEnum = "JCB"
+	OtherPaymentDetailCreditCardTypeDiner             OtherPaymentDetailCreditCardTypeEnum = "DINER"
+	OtherPaymentDetailCreditCardTypeElo               OtherPaymentDetailCreditCardTypeEnum = "ELO"
+	OtherPaymentDetailCreditCardTypeSaving            OtherPaymentDetailCreditCardTypeEnum = "SAVING"
+	OtherPaymentDetailCreditCardTypeChecking          OtherPaymentDetailCreditCardTypeEnum = "CHECKING"
+	OtherPaymentDetailCreditCardTypeCorporateChecking OtherPaymentDetailCreditCardTypeEnum = "CORPORATE_CHECKING"
 )
 
 var mappingOtherPaymentDetailCreditCardTypeEnum = map[string]OtherPaymentDetailCreditCardTypeEnum{
-	"VISA":       OtherPaymentDetailCreditCardTypeVisa,
-	"AMEX":       OtherPaymentDetailCreditCardTypeAmex,
-	"MASTERCARD": OtherPaymentDetailCreditCardTypeMastercard,
-	"DISCOVER":   OtherPaymentDetailCreditCardTypeDiscover,
-	"JCB":        OtherPaymentDetailCreditCardTypeJcb,
-	"DINER":      OtherPaymentDetailCreditCardTypeDiner,
-	"ELO":        OtherPaymentDetailCreditCardTypeElo,
+	"VISA":               OtherPaymentDetailCreditCardTypeVisa,
+	"AMEX":               OtherPaymentDetailCreditCardTypeAmex,
+	"MASTERCARD":         OtherPaymentDetailCreditCardTypeMastercard,
+	"DISCOVER":           OtherPaymentDetailCreditCardTypeDiscover,
+	"JCB":                OtherPaymentDetailCreditCardTypeJcb,
+	"DINER":              OtherPaymentDetailCreditCardTypeDiner,
+	"ELO":                OtherPaymentDetailCreditCardTypeElo,
+	"SAVING":             OtherPaymentDetailCreditCardTypeSaving,
+	"CHECKING":           OtherPaymentDetailCreditCardTypeChecking,
+	"CORPORATE_CHECKING": OtherPaymentDetailCreditCardTypeCorporateChecking,
 }
 
 var mappingOtherPaymentDetailCreditCardTypeEnumLowerCase = map[string]OtherPaymentDetailCreditCardTypeEnum{
-	"visa":       OtherPaymentDetailCreditCardTypeVisa,
-	"amex":       OtherPaymentDetailCreditCardTypeAmex,
-	"mastercard": OtherPaymentDetailCreditCardTypeMastercard,
-	"discover":   OtherPaymentDetailCreditCardTypeDiscover,
-	"jcb":        OtherPaymentDetailCreditCardTypeJcb,
-	"diner":      OtherPaymentDetailCreditCardTypeDiner,
-	"elo":        OtherPaymentDetailCreditCardTypeElo,
+	"visa":               OtherPaymentDetailCreditCardTypeVisa,
+	"amex":               OtherPaymentDetailCreditCardTypeAmex,
+	"mastercard":         OtherPaymentDetailCreditCardTypeMastercard,
+	"discover":           OtherPaymentDetailCreditCardTypeDiscover,
+	"jcb":                OtherPaymentDetailCreditCardTypeJcb,
+	"diner":              OtherPaymentDetailCreditCardTypeDiner,
+	"elo":                OtherPaymentDetailCreditCardTypeElo,
+	"saving":             OtherPaymentDetailCreditCardTypeSaving,
+	"checking":           OtherPaymentDetailCreditCardTypeChecking,
+	"corporate_checking": OtherPaymentDetailCreditCardTypeCorporateChecking,
 }
 
 // GetOtherPaymentDetailCreditCardTypeEnumValues Enumerates the set of values for OtherPaymentDetailCreditCardTypeEnum
@@ -145,6 +154,9 @@ func GetOtherPaymentDetailCreditCardTypeEnumStringValues() []string {
 		"JCB",
 		"DINER",
 		"ELO",
+		"SAVING",
+		"CHECKING",
+		"CORPORATE_CHECKING",
 	}
 }
 

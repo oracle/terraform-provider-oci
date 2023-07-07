@@ -77,7 +77,7 @@ type ClusterSummary struct {
 	// Available CNIs and network options for existing and new node pools of the cluster
 	ClusterPodNetworkOptions []ClusterPodNetworkOptionDetails `mandatory:"false" json:"clusterPodNetworkOptions"`
 
-	// Type of cluster
+	// Type of cluster. Values can be BASIC_CLUSTER or ENHANCED_CLUSTER. For more information, see Cluster Types (https://docs.cloud.oracle.com/Content/ContEng/Tasks/contengcomparingenhancedwithbasicclusters_topic.htm)
 	Type ClusterTypeEnum `mandatory:"false" json:"type,omitempty"`
 }
 

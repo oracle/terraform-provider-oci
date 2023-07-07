@@ -49,6 +49,12 @@ type CreateModelDetails struct {
 
 	ValidationDataset Dataset `mandatory:"false" json:"validationDataset"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) list of active custom Key Value models that need to be composed.
+	ComponentModels []ComponentModel `mandatory:"false" json:"componentModels"`
+
+	// the alias name of the model.
+	AliasName *string `mandatory:"false" json:"aliasName"`
+
 	// A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only.
 	// For example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -87,6 +93,8 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 		MaxTrainingTimeInHours *float64                          `json:"maxTrainingTimeInHours"`
 		TestingDataset         dataset                           `json:"testingDataset"`
 		ValidationDataset      dataset                           `json:"validationDataset"`
+		ComponentModels        []ComponentModel                  `json:"componentModels"`
+		AliasName              *string                           `json:"aliasName"`
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 		ModelType              ModelModelTypeEnum                `json:"modelType"`
@@ -129,6 +137,13 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ValidationDataset = nil
 	}
+
+	m.ComponentModels = make([]ComponentModel, len(model.ComponentModels))
+	for i, n := range model.ComponentModels {
+		m.ComponentModels[i] = n
+	}
+
+	m.AliasName = model.AliasName
 
 	m.FreeformTags = model.FreeformTags
 

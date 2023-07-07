@@ -66,6 +66,10 @@ func (m *dataentitydetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := DataEntityFromDataStoreEntityDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OBJECT_ENTITY":
+		mm := DataEntityFromObjectEntityDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "TABLE_ENTITY":
 		mm := DataEntityFromTableEntityDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -101,6 +105,7 @@ const (
 	DataEntityDetailsModelTypeTableEntity     DataEntityDetailsModelTypeEnum = "TABLE_ENTITY"
 	DataEntityDetailsModelTypeFileEntity      DataEntityDetailsModelTypeEnum = "FILE_ENTITY"
 	DataEntityDetailsModelTypeSqlEntity       DataEntityDetailsModelTypeEnum = "SQL_ENTITY"
+	DataEntityDetailsModelTypeObjectEntity    DataEntityDetailsModelTypeEnum = "OBJECT_ENTITY"
 	DataEntityDetailsModelTypeDataStoreEntity DataEntityDetailsModelTypeEnum = "DATA_STORE_ENTITY"
 )
 
@@ -109,6 +114,7 @@ var mappingDataEntityDetailsModelTypeEnum = map[string]DataEntityDetailsModelTyp
 	"TABLE_ENTITY":      DataEntityDetailsModelTypeTableEntity,
 	"FILE_ENTITY":       DataEntityDetailsModelTypeFileEntity,
 	"SQL_ENTITY":        DataEntityDetailsModelTypeSqlEntity,
+	"OBJECT_ENTITY":     DataEntityDetailsModelTypeObjectEntity,
 	"DATA_STORE_ENTITY": DataEntityDetailsModelTypeDataStoreEntity,
 }
 
@@ -117,6 +123,7 @@ var mappingDataEntityDetailsModelTypeEnumLowerCase = map[string]DataEntityDetail
 	"table_entity":      DataEntityDetailsModelTypeTableEntity,
 	"file_entity":       DataEntityDetailsModelTypeFileEntity,
 	"sql_entity":        DataEntityDetailsModelTypeSqlEntity,
+	"object_entity":     DataEntityDetailsModelTypeObjectEntity,
 	"data_store_entity": DataEntityDetailsModelTypeDataStoreEntity,
 }
 
@@ -136,6 +143,7 @@ func GetDataEntityDetailsModelTypeEnumStringValues() []string {
 		"TABLE_ENTITY",
 		"FILE_ENTITY",
 		"SQL_ENTITY",
+		"OBJECT_ENTITY",
 		"DATA_STORE_ENTITY",
 	}
 }

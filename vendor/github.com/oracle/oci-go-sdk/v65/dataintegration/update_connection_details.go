@@ -102,8 +102,8 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateConnectionFromLake{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "GENERIC_JDBC_CONNECTION":
-		mm := UpdateConnectionFromJdbc{}
+	case "ORACLE_EBS_CONNECTION":
+		mm := UpdateConnectionFromOracleEbs{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_OBJECT_STORAGE_CONNECTION":
@@ -118,16 +118,40 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateConnectionFromRestNoAuth{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HDFS_CONNECTION":
+		mm := UpdateConnectionFromHdfs{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REST_BASIC_AUTH_CONNECTION":
+		mm := UpdateConnectionFromRestBasicAuth{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_SIEBEL_CONNECTION":
+		mm := UpdateConnectionFromOracleSiebel{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_HEATWAVE_CONNECTION":
+		mm := UpdateConnectionFromMySqlHeatWave{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BIP_CONNECTION":
+		mm := UpdateConnectionFromBip{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL_CONNECTION":
+		mm := UpdateConnectionFromMySql{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC_JDBC_CONNECTION":
+		mm := UpdateConnectionFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AMAZON_S3_CONNECTION":
 		mm := UpdateConnectionFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ATP_CONNECTION":
 		mm := UpdateConnectionFromAtp{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "REST_BASIC_AUTH_CONNECTION":
-		mm := UpdateConnectionFromRestBasicAuth{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLEDB_CONNECTION":
@@ -138,12 +162,8 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateConnectionFromAdwc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "BIP_CONNECTION":
-		mm := UpdateConnectionFromBip{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MYSQL_CONNECTION":
-		mm := UpdateConnectionFromMySql{}
+	case "ORACLE_PEOPLESOFT_CONNECTION":
+		mm := UpdateConnectionFromOraclePeopleSoft{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -233,6 +253,11 @@ const (
 	UpdateConnectionDetailsModelTypeAmazonS3Connection            UpdateConnectionDetailsModelTypeEnum = "AMAZON_S3_CONNECTION"
 	UpdateConnectionDetailsModelTypeBipConnection                 UpdateConnectionDetailsModelTypeEnum = "BIP_CONNECTION"
 	UpdateConnectionDetailsModelTypeLakeConnection                UpdateConnectionDetailsModelTypeEnum = "LAKE_CONNECTION"
+	UpdateConnectionDetailsModelTypeOraclePeoplesoftConnection    UpdateConnectionDetailsModelTypeEnum = "ORACLE_PEOPLESOFT_CONNECTION"
+	UpdateConnectionDetailsModelTypeOracleEbsConnection           UpdateConnectionDetailsModelTypeEnum = "ORACLE_EBS_CONNECTION"
+	UpdateConnectionDetailsModelTypeOracleSiebelConnection        UpdateConnectionDetailsModelTypeEnum = "ORACLE_SIEBEL_CONNECTION"
+	UpdateConnectionDetailsModelTypeHdfsConnection                UpdateConnectionDetailsModelTypeEnum = "HDFS_CONNECTION"
+	UpdateConnectionDetailsModelTypeMysqlHeatwaveConnection       UpdateConnectionDetailsModelTypeEnum = "MYSQL_HEATWAVE_CONNECTION"
 	UpdateConnectionDetailsModelTypeRestNoAuthConnection          UpdateConnectionDetailsModelTypeEnum = "REST_NO_AUTH_CONNECTION"
 	UpdateConnectionDetailsModelTypeRestBasicAuthConnection       UpdateConnectionDetailsModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
 )
@@ -248,6 +273,11 @@ var mappingUpdateConnectionDetailsModelTypeEnum = map[string]UpdateConnectionDet
 	"AMAZON_S3_CONNECTION":             UpdateConnectionDetailsModelTypeAmazonS3Connection,
 	"BIP_CONNECTION":                   UpdateConnectionDetailsModelTypeBipConnection,
 	"LAKE_CONNECTION":                  UpdateConnectionDetailsModelTypeLakeConnection,
+	"ORACLE_PEOPLESOFT_CONNECTION":     UpdateConnectionDetailsModelTypeOraclePeoplesoftConnection,
+	"ORACLE_EBS_CONNECTION":            UpdateConnectionDetailsModelTypeOracleEbsConnection,
+	"ORACLE_SIEBEL_CONNECTION":         UpdateConnectionDetailsModelTypeOracleSiebelConnection,
+	"HDFS_CONNECTION":                  UpdateConnectionDetailsModelTypeHdfsConnection,
+	"MYSQL_HEATWAVE_CONNECTION":        UpdateConnectionDetailsModelTypeMysqlHeatwaveConnection,
 	"REST_NO_AUTH_CONNECTION":          UpdateConnectionDetailsModelTypeRestNoAuthConnection,
 	"REST_BASIC_AUTH_CONNECTION":       UpdateConnectionDetailsModelTypeRestBasicAuthConnection,
 }
@@ -263,6 +293,11 @@ var mappingUpdateConnectionDetailsModelTypeEnumLowerCase = map[string]UpdateConn
 	"amazon_s3_connection":             UpdateConnectionDetailsModelTypeAmazonS3Connection,
 	"bip_connection":                   UpdateConnectionDetailsModelTypeBipConnection,
 	"lake_connection":                  UpdateConnectionDetailsModelTypeLakeConnection,
+	"oracle_peoplesoft_connection":     UpdateConnectionDetailsModelTypeOraclePeoplesoftConnection,
+	"oracle_ebs_connection":            UpdateConnectionDetailsModelTypeOracleEbsConnection,
+	"oracle_siebel_connection":         UpdateConnectionDetailsModelTypeOracleSiebelConnection,
+	"hdfs_connection":                  UpdateConnectionDetailsModelTypeHdfsConnection,
+	"mysql_heatwave_connection":        UpdateConnectionDetailsModelTypeMysqlHeatwaveConnection,
 	"rest_no_auth_connection":          UpdateConnectionDetailsModelTypeRestNoAuthConnection,
 	"rest_basic_auth_connection":       UpdateConnectionDetailsModelTypeRestBasicAuthConnection,
 }
@@ -289,6 +324,11 @@ func GetUpdateConnectionDetailsModelTypeEnumStringValues() []string {
 		"AMAZON_S3_CONNECTION",
 		"BIP_CONNECTION",
 		"LAKE_CONNECTION",
+		"ORACLE_PEOPLESOFT_CONNECTION",
+		"ORACLE_EBS_CONNECTION",
+		"ORACLE_SIEBEL_CONNECTION",
+		"HDFS_CONNECTION",
+		"MYSQL_HEATWAVE_CONNECTION",
 		"REST_NO_AUTH_CONNECTION",
 		"REST_BASIC_AUTH_CONNECTION",
 	}

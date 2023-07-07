@@ -55,11 +55,23 @@ type ModelSummary struct {
 	// The precision of the trained model.
 	Precision *float32 `mandatory:"false" json:"precision"`
 
+	// The tenancy id of the model.
+	TenancyId *string `mandatory:"false" json:"tenancyId"`
+
+	// the alias name of the model.
+	AliasName *string `mandatory:"false" json:"aliasName"`
+
 	TrainingDataset Dataset `mandatory:"false" json:"trainingDataset"`
 
 	TestingDataset Dataset `mandatory:"false" json:"testingDataset"`
 
 	ValidationDataset Dataset `mandatory:"false" json:"validationDataset"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) list of active custom Key Value models that need to be composed.
+	ComponentModels []ComponentModel `mandatory:"false" json:"componentModels"`
+
+	// Set to true when the model is created by using multiple key value extraction models.
+	IsComposedModel *bool `mandatory:"false" json:"isComposedModel"`
 
 	// A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only.
 	// For example: `{"bar-key": "value"}`
@@ -104,9 +116,13 @@ func (m *ModelSummary) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated       *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleDetails  *string                           `json:"lifecycleDetails"`
 		Precision         *float32                          `json:"precision"`
+		TenancyId         *string                           `json:"tenancyId"`
+		AliasName         *string                           `json:"aliasName"`
 		TrainingDataset   dataset                           `json:"trainingDataset"`
 		TestingDataset    dataset                           `json:"testingDataset"`
 		ValidationDataset dataset                           `json:"validationDataset"`
+		ComponentModels   []ComponentModel                  `json:"componentModels"`
+		IsComposedModel   *bool                             `json:"isComposedModel"`
 		FreeformTags      map[string]string                 `json:"freeformTags"`
 		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags        map[string]map[string]interface{} `json:"systemTags"`
@@ -133,6 +149,10 @@ func (m *ModelSummary) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.Precision = model.Precision
+
+	m.TenancyId = model.TenancyId
+
+	m.AliasName = model.AliasName
 
 	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
 	if e != nil {
@@ -163,6 +183,13 @@ func (m *ModelSummary) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ValidationDataset = nil
 	}
+
+	m.ComponentModels = make([]ComponentModel, len(model.ComponentModels))
+	for i, n := range model.ComponentModels {
+		m.ComponentModels[i] = n
+	}
+
+	m.IsComposedModel = model.IsComposedModel
 
 	m.FreeformTags = model.FreeformTags
 

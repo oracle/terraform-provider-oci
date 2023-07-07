@@ -18,6 +18,14 @@ import (
 
 // CurlTransferDetails Optional properties for Curl-based dump transfer in source or target host.
 type CurlTransferDetails struct {
+
+	// Directory path to OCI SSL wallet location on Db server node.
+	WalletLocation *string `mandatory:"false" json:"walletLocation"`
+}
+
+//GetWalletLocation returns WalletLocation
+func (m CurlTransferDetails) GetWalletLocation() *string {
+	return m.WalletLocation
 }
 
 func (m CurlTransferDetails) String() string {
