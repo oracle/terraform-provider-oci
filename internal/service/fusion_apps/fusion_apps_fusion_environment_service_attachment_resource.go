@@ -178,7 +178,35 @@ func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) Create() erro
 	}
 
 	workId := response.OpcWorkRequestId
+	s.setIdFromWorkRequest(workId)
 	return s.getFusionEnvironmentServiceAttachmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) setIdFromWorkRequest(workId *string) {
+	var identifier *string
+	var err error
+
+	workRequestResponse := oci_fusion_apps.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_fusion_apps.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "serviceattachments") {
+				identifier = res.Identifier
+				break
+			}
+		}
+	}
+	if identifier != nil {
+		compositeId := GetFusionEnvironmentServiceAttachmentCompositeId(s.D.Get("fusion_environment_id").(string), *identifier)
+		s.D.SetId(compositeId)
+	}
 }
 
 func (s *FusionAppsFusionEnvironmentServiceAttachmentResourceCrud) getFusionEnvironmentServiceAttachmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
