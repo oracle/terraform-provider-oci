@@ -226,6 +226,9 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Create() error {
 		return err
 	}
 
+	var compositeId string
+	compositeId = GetLoadBalancerRoutingPolicyCompositeId(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
+	s.D.SetId(compositeId)
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID

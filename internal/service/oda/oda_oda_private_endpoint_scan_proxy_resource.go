@@ -205,7 +205,34 @@ func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.setIdFromWorkRequest(workId)
 	return s.getOdaPrivateEndpointScanProxyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) setIdFromWorkRequest(workId *string) {
+	var identifier *string
+	var err error
+
+	workRequestResponse := oci_oda.GetWorkRequestResponse{}
+	workRequestResponse, err = s.OdaClient.GetWorkRequest(context.Background(),
+		oci_oda.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.ResourceType != nil && strings.Contains(strings.ToLower(*res.ResourceType), "oda") {
+				identifier = res.ResourceId
+				break
+			}
+		}
+	}
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 }
 
 func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) getOdaPrivateEndpointScanProxyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
