@@ -1,4 +1,4 @@
-## 5.4.0 (Unreleased)
+## 5.4.0 (July 12, 2023)
 
 ### Added
 - Support for Multitenant support for Workload Identity (WRIS)
