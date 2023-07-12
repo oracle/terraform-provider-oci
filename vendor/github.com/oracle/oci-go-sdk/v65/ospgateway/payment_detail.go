@@ -65,6 +65,10 @@ func (m *paymentdetail) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 
 	var err error
 	switch m.PaymentMethod {
+	case "ECHECK":
+		mm := EcheckPaymentDetail{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OTHER":
 		mm := OtherPaymentDetail{}
 		err = json.Unmarshal(data, &mm)
@@ -121,18 +125,21 @@ type PaymentDetailPaymentMethodEnum string
 const (
 	PaymentDetailPaymentMethodCreditCard PaymentDetailPaymentMethodEnum = "CREDIT_CARD"
 	PaymentDetailPaymentMethodPaypal     PaymentDetailPaymentMethodEnum = "PAYPAL"
+	PaymentDetailPaymentMethodEcheck     PaymentDetailPaymentMethodEnum = "ECHECK"
 	PaymentDetailPaymentMethodOther      PaymentDetailPaymentMethodEnum = "OTHER"
 )
 
 var mappingPaymentDetailPaymentMethodEnum = map[string]PaymentDetailPaymentMethodEnum{
 	"CREDIT_CARD": PaymentDetailPaymentMethodCreditCard,
 	"PAYPAL":      PaymentDetailPaymentMethodPaypal,
+	"ECHECK":      PaymentDetailPaymentMethodEcheck,
 	"OTHER":       PaymentDetailPaymentMethodOther,
 }
 
 var mappingPaymentDetailPaymentMethodEnumLowerCase = map[string]PaymentDetailPaymentMethodEnum{
 	"credit_card": PaymentDetailPaymentMethodCreditCard,
 	"paypal":      PaymentDetailPaymentMethodPaypal,
+	"echeck":      PaymentDetailPaymentMethodEcheck,
 	"other":       PaymentDetailPaymentMethodOther,
 }
 
@@ -150,6 +157,7 @@ func GetPaymentDetailPaymentMethodEnumStringValues() []string {
 	return []string{
 		"CREDIT_CARD",
 		"PAYPAL",
+		"ECHECK",
 		"OTHER",
 	}
 }

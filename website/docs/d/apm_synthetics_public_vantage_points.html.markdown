@@ -52,7 +52,7 @@ The following attributes are exported:
 		* `city_name` - Common English-language name for the city.
 		* `country_code` - The ISO 3166-1 alpha-2 country code. For a list of codes, see Country Codes.
 		* `country_name` - The common English-language name for the country.
-		* `latitude` - Degrees north of the Equator.
+		* `latitude` - Degrees north of the equator.
 		* `longitude` - Degrees east of the prime meridian.
 	* `name` - Unique permanent name of the vantage point.
 

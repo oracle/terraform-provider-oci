@@ -303,8 +303,16 @@ func OspGatewayInvoicesDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"account_number": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"amount_paid": {
 													Type:     schema.TypeFloat,
+													Computed: true,
+												},
+												"card_type": {
+													Type:     schema.TypeString,
 													Computed: true,
 												},
 												"credit_card_type": {
@@ -336,6 +344,10 @@ func OspGatewayInvoicesDataSource() *schema.Resource {
 													Computed: true,
 												},
 												"paypal_reference": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"routing_number": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},

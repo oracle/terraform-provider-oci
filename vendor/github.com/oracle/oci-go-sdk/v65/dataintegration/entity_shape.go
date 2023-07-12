@@ -53,6 +53,10 @@ func (m *entityshape) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 
 	var err error
 	switch m.ModelType {
+	case "OBJECT_ENTITY":
+		mm := EntityShapeFromObject{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SQL_ENTITY":
 		mm := EntityShapeFromSql{}
 		err = json.Unmarshal(data, &mm)
@@ -93,18 +97,21 @@ type EntityShapeModelTypeEnum string
 
 // Set of constants representing the allowable values for EntityShapeModelTypeEnum
 const (
-	EntityShapeModelTypeFileEntity EntityShapeModelTypeEnum = "FILE_ENTITY"
-	EntityShapeModelTypeSqlEntity  EntityShapeModelTypeEnum = "SQL_ENTITY"
+	EntityShapeModelTypeFileEntity   EntityShapeModelTypeEnum = "FILE_ENTITY"
+	EntityShapeModelTypeSqlEntity    EntityShapeModelTypeEnum = "SQL_ENTITY"
+	EntityShapeModelTypeObjectEntity EntityShapeModelTypeEnum = "OBJECT_ENTITY"
 )
 
 var mappingEntityShapeModelTypeEnum = map[string]EntityShapeModelTypeEnum{
-	"FILE_ENTITY": EntityShapeModelTypeFileEntity,
-	"SQL_ENTITY":  EntityShapeModelTypeSqlEntity,
+	"FILE_ENTITY":   EntityShapeModelTypeFileEntity,
+	"SQL_ENTITY":    EntityShapeModelTypeSqlEntity,
+	"OBJECT_ENTITY": EntityShapeModelTypeObjectEntity,
 }
 
 var mappingEntityShapeModelTypeEnumLowerCase = map[string]EntityShapeModelTypeEnum{
-	"file_entity": EntityShapeModelTypeFileEntity,
-	"sql_entity":  EntityShapeModelTypeSqlEntity,
+	"file_entity":   EntityShapeModelTypeFileEntity,
+	"sql_entity":    EntityShapeModelTypeSqlEntity,
+	"object_entity": EntityShapeModelTypeObjectEntity,
 }
 
 // GetEntityShapeModelTypeEnumValues Enumerates the set of values for EntityShapeModelTypeEnum
@@ -121,6 +128,7 @@ func GetEntityShapeModelTypeEnumStringValues() []string {
 	return []string{
 		"FILE_ENTITY",
 		"SQL_ENTITY",
+		"OBJECT_ENTITY",
 	}
 }
 

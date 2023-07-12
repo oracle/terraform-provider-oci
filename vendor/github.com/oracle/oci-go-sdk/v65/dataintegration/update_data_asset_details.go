@@ -103,16 +103,24 @@ func (m *updatedataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := UpdateDataAssetFromRest{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "ORACLE_ATP_DATA_ASSET":
-		mm := UpdateDataAssetFromAtp{}
+	case "MYSQL_HEATWAVE_DATA_ASSET":
+		mm := UpdateDataAssetFromMySqlHeatWave{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_EBS_DATA_ASSET":
+		mm := UpdateDataAssetFromOracleEbs{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_ADWC_DATA_ASSET":
 		mm := UpdateDataAssetFromAdwc{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "GENERIC_JDBC_DATA_ASSET":
-		mm := UpdateDataAssetFromJdbc{}
+	case "HDFS_DATA_ASSET":
+		mm := UpdateDataAssetFromHdfs{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_PEOPLESOFT_DATA_ASSET":
+		mm := UpdateDataAssetFromOraclePeopleSoft{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_OBJECT_STORAGE_DATA_ASSET":
@@ -123,20 +131,32 @@ func (m *updatedataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := UpdateDataAssetFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "FUSION_APP_DATA_ASSET":
-		mm := UpdateDataAssetFromFusionApp{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "MYSQL_DATA_ASSET":
 		mm := UpdateDataAssetFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "ORACLE_DATA_ASSET":
-		mm := UpdateDataAssetFromOracle{}
+	case "ORACLE_SIEBEL_DATA_ASSET":
+		mm := UpdateDataAssetFromOracleSiebel{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "LAKE_DATA_ASSET":
 		mm := UpdateDataAssetFromLake{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_ATP_DATA_ASSET":
+		mm := UpdateDataAssetFromAtp{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC_JDBC_DATA_ASSET":
+		mm := UpdateDataAssetFromJdbc{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FUSION_APP_DATA_ASSET":
+		mm := UpdateDataAssetFromFusionApp{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_DATA_ASSET":
+		mm := UpdateDataAssetFromOracle{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -225,6 +245,11 @@ const (
 	UpdateDataAssetDetailsModelTypeFusionAppDataAsset           UpdateDataAssetDetailsModelTypeEnum = "FUSION_APP_DATA_ASSET"
 	UpdateDataAssetDetailsModelTypeAmazonS3DataAsset            UpdateDataAssetDetailsModelTypeEnum = "AMAZON_S3_DATA_ASSET"
 	UpdateDataAssetDetailsModelTypeLakeDataAsset                UpdateDataAssetDetailsModelTypeEnum = "LAKE_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeOraclePeoplesoftDataAsset    UpdateDataAssetDetailsModelTypeEnum = "ORACLE_PEOPLESOFT_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeOracleSiebelDataAsset        UpdateDataAssetDetailsModelTypeEnum = "ORACLE_SIEBEL_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeOracleEbsDataAsset           UpdateDataAssetDetailsModelTypeEnum = "ORACLE_EBS_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeHdfsDataAsset                UpdateDataAssetDetailsModelTypeEnum = "HDFS_DATA_ASSET"
+	UpdateDataAssetDetailsModelTypeMysqlHeatwaveDataAsset       UpdateDataAssetDetailsModelTypeEnum = "MYSQL_HEATWAVE_DATA_ASSET"
 	UpdateDataAssetDetailsModelTypeRestDataAsset                UpdateDataAssetDetailsModelTypeEnum = "REST_DATA_ASSET"
 )
 
@@ -238,6 +263,11 @@ var mappingUpdateDataAssetDetailsModelTypeEnum = map[string]UpdateDataAssetDetai
 	"FUSION_APP_DATA_ASSET":            UpdateDataAssetDetailsModelTypeFusionAppDataAsset,
 	"AMAZON_S3_DATA_ASSET":             UpdateDataAssetDetailsModelTypeAmazonS3DataAsset,
 	"LAKE_DATA_ASSET":                  UpdateDataAssetDetailsModelTypeLakeDataAsset,
+	"ORACLE_PEOPLESOFT_DATA_ASSET":     UpdateDataAssetDetailsModelTypeOraclePeoplesoftDataAsset,
+	"ORACLE_SIEBEL_DATA_ASSET":         UpdateDataAssetDetailsModelTypeOracleSiebelDataAsset,
+	"ORACLE_EBS_DATA_ASSET":            UpdateDataAssetDetailsModelTypeOracleEbsDataAsset,
+	"HDFS_DATA_ASSET":                  UpdateDataAssetDetailsModelTypeHdfsDataAsset,
+	"MYSQL_HEATWAVE_DATA_ASSET":        UpdateDataAssetDetailsModelTypeMysqlHeatwaveDataAsset,
 	"REST_DATA_ASSET":                  UpdateDataAssetDetailsModelTypeRestDataAsset,
 }
 
@@ -251,6 +281,11 @@ var mappingUpdateDataAssetDetailsModelTypeEnumLowerCase = map[string]UpdateDataA
 	"fusion_app_data_asset":            UpdateDataAssetDetailsModelTypeFusionAppDataAsset,
 	"amazon_s3_data_asset":             UpdateDataAssetDetailsModelTypeAmazonS3DataAsset,
 	"lake_data_asset":                  UpdateDataAssetDetailsModelTypeLakeDataAsset,
+	"oracle_peoplesoft_data_asset":     UpdateDataAssetDetailsModelTypeOraclePeoplesoftDataAsset,
+	"oracle_siebel_data_asset":         UpdateDataAssetDetailsModelTypeOracleSiebelDataAsset,
+	"oracle_ebs_data_asset":            UpdateDataAssetDetailsModelTypeOracleEbsDataAsset,
+	"hdfs_data_asset":                  UpdateDataAssetDetailsModelTypeHdfsDataAsset,
+	"mysql_heatwave_data_asset":        UpdateDataAssetDetailsModelTypeMysqlHeatwaveDataAsset,
 	"rest_data_asset":                  UpdateDataAssetDetailsModelTypeRestDataAsset,
 }
 
@@ -275,6 +310,11 @@ func GetUpdateDataAssetDetailsModelTypeEnumStringValues() []string {
 		"FUSION_APP_DATA_ASSET",
 		"AMAZON_S3_DATA_ASSET",
 		"LAKE_DATA_ASSET",
+		"ORACLE_PEOPLESOFT_DATA_ASSET",
+		"ORACLE_SIEBEL_DATA_ASSET",
+		"ORACLE_EBS_DATA_ASSET",
+		"HDFS_DATA_ASSET",
+		"MYSQL_HEATWAVE_DATA_ASSET",
 		"REST_DATA_ASSET",
 	}
 }

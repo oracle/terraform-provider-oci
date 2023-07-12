@@ -99,6 +99,7 @@ resource "oci_database_migration_migration" "test_migration" {
 
 			#Optional
 			oci_home = var.migration_dump_transfer_details_source_oci_home
+			wallet_location = var.migration_dump_transfer_details_source_wallet_location
 		}
 		target {
 			#Required
@@ -106,6 +107,7 @@ resource "oci_database_migration_migration" "test_migration" {
 
 			#Optional
 			oci_home = var.migration_dump_transfer_details_target_oci_home
+			wallet_location = var.migration_dump_transfer_details_target_wallet_location
 		}
 	}
 	exclude_objects {
@@ -231,9 +233,11 @@ The following arguments are supported:
 	* `source` - (Optional) (Updatable) Optional additional properties for dump transfer in source or target host. Default kind is CURL 
 		* `kind` - (Required) (Updatable) Type of dump transfer to use during migration in source or target host. Default kind is CURL 
 		* `oci_home` - (Required when kind=OCI_CLI) (Updatable) Path to the Oracle Cloud Infrastructure CLI installation in the node. 
+		* `wallet_location` - (Optional) (Updatable) Directory path to Oracle Cloud Infrastructure SSL wallet location on Db server node. 
 	* `target` - (Optional) (Updatable) Optional additional properties for dump transfer in source or target host. Default kind is CURL 
 		* `kind` - (Required) (Updatable) Type of dump transfer to use during migration in source or target host. Default kind is CURL 
 		* `oci_home` - (Required when kind=OCI_CLI) (Updatable) Path to the Oracle Cloud Infrastructure CLI installation in the node. 
+		* `wallet_location` - (Optional) (Updatable) Directory path to Oracle Cloud Infrastructure SSL wallet location on Db server node. 
 * `exclude_objects` - (Optional) (Updatable) Database objects to exclude from migration, cannot be specified alongside 'includeObjects' 
 	* `object` - (Required) (Updatable) Name of the object (regular expression is allowed) 
 	* `owner` - (Required) (Updatable) Owner of the object (regular expression is allowed) 
@@ -327,9 +331,11 @@ The following attributes are exported:
 	* `source` - Optional additional properties for dump transfer in source or target host. Default kind is CURL 
 		* `kind` - Type of dump transfer to use during migration in source or target host. Default kind is CURL 
 		* `oci_home` - Path to the Oracle Cloud Infrastructure CLI installation in the node. 
+		* `wallet_location` - Directory path to Oracle Cloud Infrastructure SSL wallet location on Db server node. 
 	* `target` - Optional additional properties for dump transfer in source or target host. Default kind is CURL 
 		* `kind` - Type of dump transfer to use during migration in source or target host. Default kind is CURL 
 		* `oci_home` - Path to the Oracle Cloud Infrastructure CLI installation in the node. 
+		* `wallet_location` - Directory path to Oracle Cloud Infrastructure SSL wallet location on Db server node. 
 * `exclude_objects` - Database objects to exclude from migration. If 'includeObjects' are specified, only exclude object types can be specified with general wildcards (.*) for owner and objectName. 
 	* `object` - Name of the object (regular expression is allowed) 
 	* `owner` - Owner of the object (regular expression is allowed) 

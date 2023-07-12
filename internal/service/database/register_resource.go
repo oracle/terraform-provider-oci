@@ -48,6 +48,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_database_key_store", DatabaseKeyStoreResource())
 	tfresource.RegisterResource("oci_database_maintenance_run", DatabaseMaintenanceRunResource())
 	tfresource.RegisterResource("oci_database_migration", DatabaseMigrationResource())
+	tfresource.RegisterResource("oci_database_oneoff_patch", DatabaseOneoffPatchResource())
 	tfresource.RegisterResource("oci_database_pluggable_database", DatabasePluggableDatabaseResource())
 	tfresource.RegisterResource("oci_database_pluggable_database_pluggabledatabasemanagements_management", DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource())
 	tfresource.RegisterResource("oci_database_pluggable_databases_local_clone", DatabasePluggableDatabasesLocalCloneResource())

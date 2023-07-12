@@ -57,6 +57,10 @@ variable "volume_backup_type" {
   default = "FULL"
 }
 
+variable "kms_key_ocid" {
+
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -79,6 +83,17 @@ resource "oci_core_volume_backup" "test_volume_backup" {
   display_name  = var.volume_backup_display_name
   freeform_tags = var.volume_backup_freeform_tags
   type          = var.volume_backup_type
+}
+
+resource "oci_core_volume_backup" "test_volume_backup_kms_key_id" {
+  #Required
+  volume_id = oci_core_volume.test_volume.id
+
+  #Optional
+  display_name  = var.volume_backup_display_name
+  freeform_tags = var.volume_backup_freeform_tags
+  type          = var.volume_backup_type
+  kms_key_id    = var.kms_key_ocid
 }
 
 resource "oci_core_volume_backup" "test_volume_backup_cross_region_sourced" {

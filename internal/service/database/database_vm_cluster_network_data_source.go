@@ -89,6 +89,12 @@ func (s *DatabaseVmClusterNetworkDataSourceCrud) SetData() error {
 
 	s.D.Set("dns", s.Res.Dns)
 
+	drScans := []interface{}{}
+	for _, item := range s.Res.DrScans {
+		drScans = append(drScans, DrScanDetailsToMap(item))
+	}
+	s.D.Set("dr_scans", drScans)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {

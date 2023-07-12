@@ -50,6 +50,10 @@ func (m *createentityshapedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 
 	var err error
 	switch m.ModelType {
+	case "OBJECT_ENTITY":
+		mm := CreateEntityShapeFromObject{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SQL_ENTITY":
 		mm := CreateEntityShapeFromSql{}
 		err = json.Unmarshal(data, &mm)
@@ -85,18 +89,21 @@ type CreateEntityShapeDetailsModelTypeEnum string
 
 // Set of constants representing the allowable values for CreateEntityShapeDetailsModelTypeEnum
 const (
-	CreateEntityShapeDetailsModelTypeFileEntity CreateEntityShapeDetailsModelTypeEnum = "FILE_ENTITY"
-	CreateEntityShapeDetailsModelTypeSqlEntity  CreateEntityShapeDetailsModelTypeEnum = "SQL_ENTITY"
+	CreateEntityShapeDetailsModelTypeFileEntity   CreateEntityShapeDetailsModelTypeEnum = "FILE_ENTITY"
+	CreateEntityShapeDetailsModelTypeSqlEntity    CreateEntityShapeDetailsModelTypeEnum = "SQL_ENTITY"
+	CreateEntityShapeDetailsModelTypeObjectEntity CreateEntityShapeDetailsModelTypeEnum = "OBJECT_ENTITY"
 )
 
 var mappingCreateEntityShapeDetailsModelTypeEnum = map[string]CreateEntityShapeDetailsModelTypeEnum{
-	"FILE_ENTITY": CreateEntityShapeDetailsModelTypeFileEntity,
-	"SQL_ENTITY":  CreateEntityShapeDetailsModelTypeSqlEntity,
+	"FILE_ENTITY":   CreateEntityShapeDetailsModelTypeFileEntity,
+	"SQL_ENTITY":    CreateEntityShapeDetailsModelTypeSqlEntity,
+	"OBJECT_ENTITY": CreateEntityShapeDetailsModelTypeObjectEntity,
 }
 
 var mappingCreateEntityShapeDetailsModelTypeEnumLowerCase = map[string]CreateEntityShapeDetailsModelTypeEnum{
-	"file_entity": CreateEntityShapeDetailsModelTypeFileEntity,
-	"sql_entity":  CreateEntityShapeDetailsModelTypeSqlEntity,
+	"file_entity":   CreateEntityShapeDetailsModelTypeFileEntity,
+	"sql_entity":    CreateEntityShapeDetailsModelTypeSqlEntity,
+	"object_entity": CreateEntityShapeDetailsModelTypeObjectEntity,
 }
 
 // GetCreateEntityShapeDetailsModelTypeEnumValues Enumerates the set of values for CreateEntityShapeDetailsModelTypeEnum
@@ -113,6 +120,7 @@ func GetCreateEntityShapeDetailsModelTypeEnumStringValues() []string {
 	return []string{
 		"FILE_ENTITY",
 		"SQL_ENTITY",
+		"OBJECT_ENTITY",
 	}
 }
 

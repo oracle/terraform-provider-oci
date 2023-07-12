@@ -40,6 +40,10 @@ variable "monitor_configuration_is_certificate_validation_enabled" {
   default = false
 }
 
+variable "monitor_configuration_is_default_snapshot_enabled" {
+  default = false
+}
+
 variable "monitor_configuration_is_failure_retried" {
   default = false
 }
@@ -185,6 +189,7 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
     is_certificate_validation_enabled = var.monitor_configuration_is_certificate_validation_enabled
     is_failure_retried                = var.monitor_configuration_is_failure_retried
     is_redirection_enabled            = var.monitor_configuration_is_redirection_enabled
+    is_default_snapshot_enabled       = var.monitor_configuration_is_default_snapshot_enabled
 
     #Optional
     network_configuration {

@@ -52,6 +52,15 @@ variable "target_connection_id"{
 variable "ssh_key" {
 }
 
+variable "src_database_id" {
+}
+
+variable "tgt_database_id" {
+}
+
+variable "bucket_id" {
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -168,6 +177,45 @@ resource "oci_database_migration_connection" "test_connection_source" {
   }
 }
 
+resource "oci_database_migration_connection" "test_connection_source_no_ssh" {
+  admin_credentials {
+    password = "ORcl##4567890"
+    username = "admin"
+  }
+  compartment_id = var.compartment_id
+  database_type = "USER_MANAGED_OCI"
+  database_id = var.src_database_id
+  display_name = "TF_display_test_create_source"
+
+  connect_descriptor {
+    connect_string = "(description=(address=(port=1521)(host=10.0.0.42))(connect_data=(service_name=pdb.sub10311806420.vcntesttf.oraclevcn.com)))"
+  }
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+}
+
+resource "oci_database_migration_connection" "test_connection_target_usr_managed_oci" {
+  admin_credentials {
+    password = random_string.autonomous_database_admin_password.result
+    username = "admin"
+  }
+  compartment_id = var.compartment_id
+  database_type = "USER_MANAGED_OCI"
+  database_id = var.tgt_database_id
+  display_name = "TF_display_test_create_target"
+
+  connect_descriptor {
+    connect_string = "(description=(address=(port=1521)(host=10.0.0.42))(connect_data=(service_name=pdb.sub10311806420.vcntesttf.oraclevcn.com)))"
+  }
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+}
 
 resource "oci_database_migration_migration" "test_migration" {
   compartment_id = var.compartment_id
@@ -223,6 +271,46 @@ resource "oci_database_migration_migration" "test_migration" {
     compartment_id = var.compartment_id
     key_id = var.kms_key_id
     vault_id = var.kms_vault_id
+  }
+}
+
+resource "oci_database_migration_migration" "test_no_ssh_migration" {
+  compartment_id = var.compartment_id
+  source_database_connection_id = oci_database_migration_connection.test_connection_source_no_ssh.id
+  target_database_connection_id = oci_database_migration_connection.test_connection_target_usr_managed_oci.id
+  type = "OFFLINE"
+  data_transfer_medium_details {
+    object_storage_details {
+      bucket = var.bucket_id
+      namespace = "namespace"
+    }
+  }
+  datapump_settings {
+    export_directory_object {
+      name = "test_export_dir"
+      path = "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"
+    }
+    import_directory_object {
+      name = "test_export_dir"
+      path = "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"
+    }
+  }
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+  dump_transfer_details {
+    source {
+      kind = "OCI_CLI"
+      oci_home = "ociHome"
+      wallet_location =  "wallet_location"
+    }
+    target {
+      kind = "OCI_CLI"
+      oci_home = "ociHome"
+      wallet_location =  "wallet_location"
+    }
   }
 }
 

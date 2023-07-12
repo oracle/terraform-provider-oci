@@ -18,10 +18,10 @@ import (
 // RequestAuthenticationDetails Details for request HTTP authentication.
 type RequestAuthenticationDetails struct {
 
-	// Request http oauth scheme.
+	// Request HTTP OAuth scheme.
 	OauthScheme OAuthSchemesEnum `mandatory:"false" json:"oauthScheme,omitempty"`
 
-	// Username for authentication.
+	// User name for authentication.
 	AuthUserName *string `mandatory:"false" json:"authUserName"`
 
 	// User password for authentication.
@@ -30,7 +30,7 @@ type RequestAuthenticationDetails struct {
 	// Authentication token.
 	AuthToken *string `mandatory:"false" json:"authToken"`
 
-	// URL to get authetication token.
+	// URL to get authentication token.
 	AuthUrl *string `mandatory:"false" json:"authUrl"`
 
 	// List of authentication headers. Example: `[{"headerName": "content-type", "headerValue":"json"}]`

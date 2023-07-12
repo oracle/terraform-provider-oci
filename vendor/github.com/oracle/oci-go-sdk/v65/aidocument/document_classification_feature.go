@@ -24,6 +24,9 @@ type DocumentClassificationFeature struct {
 
 	// The custom model ID.
 	ModelId *string `mandatory:"false" json:"modelId"`
+
+	// The custom model tenancy ID when modelId represents aliasName.
+	TenancyId *string `mandatory:"false" json:"tenancyId"`
 }
 
 func (m DocumentClassificationFeature) String() string {

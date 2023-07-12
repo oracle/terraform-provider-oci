@@ -92,6 +92,11 @@ func CoreBootVolumeBackupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -105,10 +110,6 @@ func CoreBootVolumeBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"image_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"kms_key_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -299,6 +300,11 @@ func (s *CoreBootVolumeBackupResourceCrud) createBootVolumeBackup() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
+	}
+
 	if type_, ok := s.D.GetOkExists("type"); ok {
 		request.Type = oci_core.CreateBootVolumeBackupDetailsTypeEnum(type_.(string))
 	}
@@ -433,6 +439,11 @@ func (s *CoreBootVolumeBackupResourceCrud) Update() error {
 	}
 	if !hasAttributeSet {
 		return nil
+	}
+
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")

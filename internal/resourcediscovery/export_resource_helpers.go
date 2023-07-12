@@ -270,7 +270,7 @@ func (r *resourceDiscoveryBaseStep) writeTmpConfigurationForImport() error {
 	builder.WriteString("## This is tmp config to run import for resources\n\n")
 	for _, resource := range r.discoveredResources {
 		if resource.TerraformTypeInfo != nil && resource.TerraformTypeInfo.IsDataSource {
-			builder.WriteString(fmt.Sprintf("data %s %s {}\n\n", resource.TerraformClass, resource.TerraformName))
+			fmt.Println("Skipping the data source as we are just writing temp configuration to import the resource", resource.TerraformClass, resource.TerraformName)
 		} else {
 			builder.WriteString(fmt.Sprintf("resource %s %s {}\n\n", resource.TerraformClass, resource.TerraformName))
 		}
