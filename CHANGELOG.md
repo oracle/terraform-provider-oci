@@ -20,7 +20,7 @@
 - Adding rack_serial_number in database_exadata_infrastructure_resource.go
 - Resolved Resource Discovery issue for Terraform Version Greater than 1.3
 
-## 5.4.0 (Unreleased)
+## 5.4.0 (July 12, 2023)
 
 ### Added
 - Support for Multitenant support for Workload Identity (WRIS)
