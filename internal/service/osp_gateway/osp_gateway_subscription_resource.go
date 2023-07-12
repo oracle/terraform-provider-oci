@@ -60,6 +60,11 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 						},
 
 						// Optional
+						"account_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"bill_to_cust_account_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -90,7 +95,22 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"contributor_class": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"country": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"county": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"department_name": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -101,6 +121,16 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 										Computed: true,
 									},
 									"first_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"internal_number": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"job_title": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -120,12 +150,62 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"line3": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"line4": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"middle_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"municipal_inscription": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"phone_country_code": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"phone_number": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"postal_code": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
+									"province": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"state": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"state_inscription": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"street_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"street_number": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -337,6 +417,12 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 								},
 							},
 						},
+						"time_personal_to_corporate_conv": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
 						"time_plan_upgrade": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -373,6 +459,10 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 			// Optional
 
 			// Computed
+			"account_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"bill_to_cust_account_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -399,7 +489,19 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"contributor_class": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"country": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"county": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"department_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -408,6 +510,14 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 							Computed: true,
 						},
 						"first_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"internal_number": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"job_title": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -423,11 +533,51 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"line3": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"line4": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"middle_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"municipal_inscription": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"phone_country_code": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"phone_number": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"postal_code": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"province": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state_inscription": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"street_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"street_number": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -593,6 +743,10 @@ func OspGatewaySubscriptionResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"time_personal_to_corporate_conv": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"time_plan_upgrade": {
 				Type:     schema.TypeString,
@@ -784,12 +938,14 @@ func (s *OspGatewaySubscriptionResourceCrud) SetData() error {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 
+	s.D.Set("account_type", s.Res.AccountType)
+
 	if s.Res.BillToCustAccountId != nil {
 		s.D.Set("bill_to_cust_account_id", *s.Res.BillToCustAccountId)
 	}
 
 	if s.Res.BillingAddress != nil {
-		s.D.Set("billing_address", []interface{}{BillingAddressToMap(s.Res.BillingAddress)})
+		s.D.Set("billing_address", []interface{}{AddressToMap(s.Res.BillingAddress)})
 	} else {
 		s.D.Set("billing_address", nil)
 	}
@@ -846,6 +1002,10 @@ func (s *OspGatewaySubscriptionResourceCrud) SetData() error {
 		s.D.Set("tax_info", nil)
 	}
 
+	if s.Res.TimePersonalToCorporateConv != nil {
+		s.D.Set("time_personal_to_corporate_conv", s.Res.TimePersonalToCorporateConv.String())
+	}
+
 	if s.Res.TimePlanUpgrade != nil {
 		s.D.Set("time_plan_upgrade", s.Res.TimePlanUpgrade.String())
 	}
@@ -879,8 +1039,8 @@ func parseSubscriptionCompositeId(compositeId string) (subscriptionId string, er
 	return
 }
 
-func (s *OspGatewaySubscriptionResourceCrud) mapToBillingAddress(fieldKeyFormat string) (oci_osp_gateway.BillingAddress, error) {
-	result := oci_osp_gateway.BillingAddress{}
+func (s *OspGatewaySubscriptionResourceCrud) mapToAddress(fieldKeyFormat string) (oci_osp_gateway.Address, error) {
+	result := oci_osp_gateway.Address{}
 
 	if addressKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address_key")); ok {
 		tmp := addressKey.(string)
@@ -897,9 +1057,24 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToBillingAddress(fieldKeyFormat 
 		result.CompanyName = &tmp
 	}
 
+	if contributorClass, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "contributor_class")); ok {
+		tmp := contributorClass.(string)
+		result.ContributorClass = &tmp
+	}
+
 	if country, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "country")); ok {
 		tmp := country.(string)
 		result.Country = &tmp
+	}
+
+	if county, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "county")); ok {
+		tmp := county.(string)
+		result.County = &tmp
+	}
+
+	if departmentName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "department_name")); ok {
+		tmp := departmentName.(string)
+		result.DepartmentName = &tmp
 	}
 
 	if emailAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "email_address")); ok {
@@ -910,6 +1085,16 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToBillingAddress(fieldKeyFormat 
 	if firstName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "first_name")); ok {
 		tmp := firstName.(string)
 		result.FirstName = &tmp
+	}
+
+	if internalNumber, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "internal_number")); ok {
+		tmp := internalNumber.(string)
+		result.InternalNumber = &tmp
+	}
+
+	if jobTitle, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_title")); ok {
+		tmp := jobTitle.(string)
+		result.JobTitle = &tmp
 	}
 
 	if lastName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "last_name")); ok {
@@ -927,9 +1112,44 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToBillingAddress(fieldKeyFormat 
 		result.Line2 = &tmp
 	}
 
+	if line3, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "line3")); ok {
+		tmp := line3.(string)
+		result.Line3 = &tmp
+	}
+
+	if line4, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "line4")); ok {
+		tmp := line4.(string)
+		result.Line4 = &tmp
+	}
+
+	if middleName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "middle_name")); ok {
+		tmp := middleName.(string)
+		result.MiddleName = &tmp
+	}
+
+	if municipalInscription, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "municipal_inscription")); ok {
+		tmp := municipalInscription.(string)
+		result.MunicipalInscription = &tmp
+	}
+
+	if phoneCountryCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "phone_country_code")); ok {
+		tmp := phoneCountryCode.(string)
+		result.PhoneCountryCode = &tmp
+	}
+
+	if phoneNumber, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "phone_number")); ok {
+		tmp := phoneNumber.(string)
+		result.PhoneNumber = &tmp
+	}
+
 	if postalCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "postal_code")); ok {
 		tmp := postalCode.(string)
 		result.PostalCode = &tmp
+	}
+
+	if province, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "province")); ok {
+		tmp := province.(string)
+		result.Province = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
@@ -937,10 +1157,25 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToBillingAddress(fieldKeyFormat 
 		result.State = &tmp
 	}
 
+	if stateInscription, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state_inscription")); ok {
+		tmp := stateInscription.(string)
+		result.StateInscription = &tmp
+	}
+
+	if streetName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "street_name")); ok {
+		tmp := streetName.(string)
+		result.StreetName = &tmp
+	}
+
+	if streetNumber, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "street_number")); ok {
+		tmp := streetNumber.(string)
+		result.StreetNumber = &tmp
+	}
+
 	return result, nil
 }
 
-func BillingAddressToMap(obj *oci_osp_gateway.BillingAddress) map[string]interface{} {
+func AddressToMap(obj *oci_osp_gateway.Address) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AddressKey != nil {
@@ -955,8 +1190,20 @@ func BillingAddressToMap(obj *oci_osp_gateway.BillingAddress) map[string]interfa
 		result["company_name"] = string(*obj.CompanyName)
 	}
 
+	if obj.ContributorClass != nil {
+		result["contributor_class"] = string(*obj.ContributorClass)
+	}
+
 	if obj.Country != nil {
 		result["country"] = string(*obj.Country)
+	}
+
+	if obj.County != nil {
+		result["county"] = string(*obj.County)
+	}
+
+	if obj.DepartmentName != nil {
+		result["department_name"] = string(*obj.DepartmentName)
 	}
 
 	if obj.EmailAddress != nil {
@@ -965,6 +1212,14 @@ func BillingAddressToMap(obj *oci_osp_gateway.BillingAddress) map[string]interfa
 
 	if obj.FirstName != nil {
 		result["first_name"] = string(*obj.FirstName)
+	}
+
+	if obj.InternalNumber != nil {
+		result["internal_number"] = string(*obj.InternalNumber)
+	}
+
+	if obj.JobTitle != nil {
+		result["job_title"] = string(*obj.JobTitle)
 	}
 
 	if obj.LastName != nil {
@@ -979,12 +1234,52 @@ func BillingAddressToMap(obj *oci_osp_gateway.BillingAddress) map[string]interfa
 		result["line2"] = string(*obj.Line2)
 	}
 
+	if obj.Line3 != nil {
+		result["line3"] = string(*obj.Line3)
+	}
+
+	if obj.Line4 != nil {
+		result["line4"] = string(*obj.Line4)
+	}
+
+	if obj.MiddleName != nil {
+		result["middle_name"] = string(*obj.MiddleName)
+	}
+
+	if obj.MunicipalInscription != nil {
+		result["municipal_inscription"] = string(*obj.MunicipalInscription)
+	}
+
+	if obj.PhoneCountryCode != nil {
+		result["phone_country_code"] = string(*obj.PhoneCountryCode)
+	}
+
+	if obj.PhoneNumber != nil {
+		result["phone_number"] = string(*obj.PhoneNumber)
+	}
+
 	if obj.PostalCode != nil {
 		result["postal_code"] = string(*obj.PostalCode)
 	}
 
+	if obj.Province != nil {
+		result["province"] = string(*obj.Province)
+	}
+
 	if obj.State != nil {
 		result["state"] = string(*obj.State)
+	}
+
+	if obj.StateInscription != nil {
+		result["state_inscription"] = string(*obj.StateInscription)
+	}
+
+	if obj.StreetName != nil {
+		result["street_name"] = string(*obj.StreetName)
+	}
+
+	if obj.StreetNumber != nil {
+		result["street_number"] = string(*obj.StreetNumber)
 	}
 
 	return result
@@ -1168,6 +1463,10 @@ func PaymentOptionToMap(obj oci_osp_gateway.PaymentOption) map[string]interface{
 func (s *OspGatewaySubscriptionResourceCrud) mapToSubscription(fieldKeyFormat string) (oci_osp_gateway.Subscription, error) {
 	result := oci_osp_gateway.Subscription{}
 
+	if accountType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_type")); ok {
+		result.AccountType = oci_osp_gateway.SubscriptionAccountTypeEnum(accountType.(string))
+	}
+
 	if billToCustAccountId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bill_to_cust_account_id")); ok {
 		tmp := billToCustAccountId.(string)
 		result.BillToCustAccountId = &tmp
@@ -1176,7 +1475,7 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToSubscription(fieldKeyFormat st
 	if billingAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_address")); ok {
 		if tmpList := billingAddress.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "billing_address"), 0)
-			tmp, err := s.mapToBillingAddress(fieldKeyFormatNextLevel)
+			tmp, err := s.mapToAddress(fieldKeyFormatNextLevel)
 			if err != nil {
 				return result, fmt.Errorf("unable to convert billing_address, encountered error: %v", err)
 			}
@@ -1272,6 +1571,14 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToSubscription(fieldKeyFormat st
 		}
 	}
 
+	if timePersonalToCorporateConv, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_personal_to_corporate_conv")); ok {
+		tmp, err := time.Parse(time.RFC3339, timePersonalToCorporateConv.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimePersonalToCorporateConv = &oci_common.SDKTime{Time: tmp}
+	}
+
 	if timePlanUpgrade, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_plan_upgrade")); ok {
 		tmp, err := time.Parse(time.RFC3339, timePlanUpgrade.(string))
 		if err != nil {
@@ -1333,12 +1640,14 @@ func (s *OspGatewaySubscriptionResourceCrud) mapToTaxInfo(fieldKeyFormat string)
 func SubscriptionToMap(obj *oci_osp_gateway.Subscription) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["account_type"] = string(obj.AccountType)
+
 	if obj.BillToCustAccountId != nil {
 		result["bill_to_cust_account_id"] = string(*obj.BillToCustAccountId)
 	}
 
 	if obj.BillingAddress != nil {
-		result["billing_address"] = []interface{}{BillingAddressToMap(obj.BillingAddress)}
+		result["billing_address"] = []interface{}{AddressToMap(obj.BillingAddress)}
 	}
 
 	if obj.CurrencyCode != nil {
@@ -1391,6 +1700,10 @@ func SubscriptionToMap(obj *oci_osp_gateway.Subscription) map[string]interface{}
 
 	if obj.TaxInfo != nil {
 		result["tax_info"] = []interface{}{TaxInfoToMap(obj.TaxInfo)}
+	}
+
+	if obj.TimePersonalToCorporateConv != nil {
+		result["time_personal_to_corporate_conv"] = obj.TimePersonalToCorporateConv.Format(time.RFC3339Nano)
 	}
 
 	if obj.TimePlanUpgrade != nil {
@@ -1411,12 +1724,14 @@ func SubscriptionToMap(obj *oci_osp_gateway.Subscription) map[string]interface{}
 func SubscriptionSummaryToMap(obj oci_osp_gateway.SubscriptionSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["account_type"] = string(obj.AccountType)
+
 	if obj.BillToCustAccountId != nil {
 		result["bill_to_cust_account_id"] = string(*obj.BillToCustAccountId)
 	}
 
 	if obj.BillingAddress != nil {
-		result["billing_address"] = []interface{}{BillingAddressToMap(obj.BillingAddress)}
+		result["billing_address"] = []interface{}{AddressToMap(obj.BillingAddress)}
 	}
 
 	if obj.CurrencyCode != nil {
@@ -1469,6 +1784,10 @@ func SubscriptionSummaryToMap(obj oci_osp_gateway.SubscriptionSummary) map[strin
 
 	if obj.TaxInfo != nil {
 		result["tax_info"] = []interface{}{TaxInfoToMap(obj.TaxInfo)}
+	}
+
+	if obj.TimePersonalToCorporateConv != nil {
+		result["time_personal_to_corporate_conv"] = obj.TimePersonalToCorporateConv.String()
 	}
 
 	if obj.TimePlanUpgrade != nil {

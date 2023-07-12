@@ -15,22 +15,22 @@ import (
 	"strings"
 )
 
-// VantagePointNode Vantage Point Node
+// VantagePointNode Details of the vantage point node.
 type VantagePointNode struct {
 
-	// name of Vantage Point node
+	// Name of the vantage point node.
 	Name *string `mandatory:"true" json:"name"`
 
-	// id of Vantage Point node
+	// ID of the vantage point node.
 	Id *string `mandatory:"false" json:"id"`
 
-	// display name of Vantage Point node
+	// Display name of the vantage point node.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// geo info
+	// Geographical information of the vantage point node.
 	GeoInfo *string `mandatory:"false" json:"geoInfo"`
 
-	// links outgoing from this Vantage Point node
+	// Outgoing links from the vantage point node.
 	OutgoingLinks []string `mandatory:"false" json:"outgoingLinks"`
 }
 

@@ -421,6 +421,16 @@ var exportDatabaseApplicationVipHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatabaseOneoffPatchHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_oneoff_patch",
+	DatasourceClass:      "oci_database_oneoff_patches",
+	DatasourceItemsAttr:  "oneoff_patches",
+	ResourceAbbreviation: "oneoff_patch",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.OneoffPatchLifecycleStateAvailable),
+	},
+}
+
 var exportDatabasePluggableDatabaseHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_database_pluggable_database",
 	DatasourceClass:      "oci_database_pluggable_databases",
@@ -456,6 +466,7 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseExternalNonContainerDatabaseHints},
 		{TerraformResourceHints: exportDatabasePluggableDatabaseHints},
 		{TerraformResourceHints: exportDatabaseCloudAutonomousVmClusterHints},
+		{TerraformResourceHints: exportDatabaseOneoffPatchHints},
 	},
 	"oci_database_autonomous_container_database": {
 		{

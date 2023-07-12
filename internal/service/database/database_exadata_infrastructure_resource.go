@@ -287,6 +287,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"dr_network_bonding_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -374,6 +379,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 			},
 			"memory_size_in_gbs": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"rack_serial_number": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"monthly_db_server_version": {
@@ -1066,6 +1075,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 
 	s.D.Set("ntp_server", s.Res.NtpServer)
 
+	if s.Res.RackSerialNumber != nil {
+		s.D.Set("rack_serial_number", *s.Res.RackSerialNumber)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -1337,6 +1350,10 @@ func (s *DatabaseExadataInfrastructureResourceCrud) mapToNetworkBondingModeDetai
 		result.ClientNetworkBondingMode = oci_database.NetworkBondingModeDetailsClientNetworkBondingModeEnum(clientNetworkBondingMode.(string))
 	}
 
+	if drNetworkBondingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dr_network_bonding_mode")); ok {
+		result.DrNetworkBondingMode = oci_database.NetworkBondingModeDetailsDrNetworkBondingModeEnum(drNetworkBondingMode.(string))
+	}
+
 	return result, nil
 }
 
@@ -1346,6 +1363,8 @@ func NetworkBondingModeDetailsToMap(obj *oci_database.NetworkBondingModeDetails)
 	result["backup_network_bonding_mode"] = string(obj.BackupNetworkBondingMode)
 
 	result["client_network_bonding_mode"] = string(obj.ClientNetworkBondingMode)
+
+	result["dr_network_bonding_mode"] = string(obj.DrNetworkBondingMode)
 
 	return result
 }

@@ -112,12 +112,13 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
+
+						// Optional
 						"custom_action_timeout_in_mins": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-						// Optional
 						"days_of_week": {
 							Type:     schema.TypeList,
 							Optional: true,

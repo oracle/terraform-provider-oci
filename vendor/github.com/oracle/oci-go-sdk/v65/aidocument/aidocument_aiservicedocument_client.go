@@ -88,6 +88,64 @@ func (client *AIServiceDocumentClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
+// AnalyzeDocument Perform different types of document analysis.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/AnalyzeDocument.go.html to see an example of how to use AnalyzeDocument API.
+// A default retry strategy applies to this operation AnalyzeDocument()
+func (client AIServiceDocumentClient) AnalyzeDocument(ctx context.Context, request AnalyzeDocumentRequest) (response AnalyzeDocumentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.analyzeDocument, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AnalyzeDocumentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AnalyzeDocumentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AnalyzeDocumentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AnalyzeDocumentResponse")
+	}
+	return
+}
+
+// analyzeDocument implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceDocumentClient) analyzeDocument(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/analyzeDocument", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AnalyzeDocumentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/AnalyzeDocumentResult/AnalyzeDocument"
+		err = common.PostProcessServiceError(err, "AIServiceDocument", "AnalyzeDocument", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelProcessorJob Cancel a processor job.
 //
 // See also
@@ -1134,6 +1192,63 @@ func (client AIServiceDocumentClient) listWorkRequests(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchModel Updates the model metadata only selected path parameter.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/PatchModel.go.html to see an example of how to use PatchModel API.
+func (client AIServiceDocumentClient) PatchModel(ctx context.Context, request PatchModelRequest) (response PatchModelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.patchModel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchModelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchModelResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchModelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchModelResponse")
+	}
+	return
+}
+
+// patchModel implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceDocumentClient) patchModel(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/models/{modelId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchModelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/PatchModel"
+		err = common.PostProcessServiceError(err, "AIServiceDocument", "PatchModel", apiReferenceLink)
 		return response, err
 	}
 

@@ -1,3 +1,17 @@
+## 5.4.0 (July 12, 2023)
+
+### Added
+- Support for Multitenant support for Workload Identity (WRIS)
+- Support for KMS key Rotation for Block/Boot Volume Backups
+- Support for 3rd VM Cluster Network for DR (Data Guard) | Exa-DB-C@C (ExaCC)
+- Support for Upgrade - Personal to Corporate
+- Support for APM - Synthetics - Disable automatic screenshots - API Only
+- Support migration without SSH to DB Host.
+- Support for Patch One-Off Download Support DBCS-EXaCS-ExaCC Update
+### Bug Fix
+- Adding rack_serial_number in database_exadata_infrastructure_resource.go
+- Resolved Resource Discovery issue for Terraform Version Greater than 1.3
+
 ## 5.3.0 (June 28, 2023)
 
 ### Added

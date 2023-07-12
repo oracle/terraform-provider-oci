@@ -18,10 +18,10 @@ import (
 // VantagePointExecution Details of a vantage point execution.
 type VantagePointExecution struct {
 
-	// Vantage point name.
+	// Name of the vantage point.
 	Name *string `mandatory:"false" json:"name"`
 
-	// list of execution times in milli seconds.
+	// List of execution times in milliseconds.
 	Executions []int64 `mandatory:"false" json:"executions"`
 }
 

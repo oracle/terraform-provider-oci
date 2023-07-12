@@ -474,6 +474,7 @@ containerengine
 * oci\_containerengine\_node\_pool
 * oci\_containerengine\_virtual\_node\_pool
 * oci\_containerengine\_addon
+* oci\_containerengine\_cluster\_workload\_mapping
 
 core
 
@@ -587,6 +588,7 @@ database
 * oci\_database\_vm\_cluster\_remove\_virtual\_machine
 * oci\_database\_cloud\_autonomous\_vm\_cluster
 * oci\_database\_application\_vip
+* oci\_database\_oneoff\_patch
 
 database_migration
 
@@ -948,6 +950,7 @@ osmanagement
 osp_gateway
 
 * oci\_osp\_gateway\_subscription
+* oci\_osp\_gateway\_address\_action\_verification
 
 queue
 

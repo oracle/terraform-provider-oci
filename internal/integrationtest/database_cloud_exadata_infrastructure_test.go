@@ -77,7 +77,7 @@ var (
 		"email": acctest.Representation{RepType: acctest.Optional, Create: `test@oracle.com`, Update: `test2@oracle.com`},
 	}
 	DatabaseCloudExadataInfrastructureMaintenanceWindowRepresentation = map[string]interface{}{
-		"preference": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_PREFERENCE`},
+		"preference": acctest.Representation{RepType: acctest.Optional, Create: `CUSTOM_PREFERENCE`},
 		//"custom_action_timeout_in_mins":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"days_of_week": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureMaintenanceWindowDaysOfWeekRepresentation},
 		"hours_of_day": acctest.Representation{RepType: acctest.Optional, Create: []string{`4`}, Update: []string{`8`}},

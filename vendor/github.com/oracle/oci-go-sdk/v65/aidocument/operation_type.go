@@ -26,6 +26,7 @@ const (
 	OperationTypeUpdateModel   OperationTypeEnum = "UPDATE_MODEL"
 	OperationTypeDeleteModel   OperationTypeEnum = "DELETE_MODEL"
 	OperationTypeMoveModel     OperationTypeEnum = "MOVE_MODEL"
+	OperationTypeComposeModel  OperationTypeEnum = "COMPOSE_MODEL"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -37,6 +38,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_MODEL":   OperationTypeUpdateModel,
 	"DELETE_MODEL":   OperationTypeDeleteModel,
 	"MOVE_MODEL":     OperationTypeMoveModel,
+	"COMPOSE_MODEL":  OperationTypeComposeModel,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -48,6 +50,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_model":   OperationTypeUpdateModel,
 	"delete_model":   OperationTypeDeleteModel,
 	"move_model":     OperationTypeMoveModel,
+	"compose_model":  OperationTypeComposeModel,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -70,6 +73,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_MODEL",
 		"DELETE_MODEL",
 		"MOVE_MODEL",
+		"COMPOSE_MODEL",
 	}
 }
 

@@ -35,6 +35,10 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"dr_scan_listener_port_tcp": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"exadata_infrastructure_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -120,6 +124,34 @@ func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 			},
 
 			// Computed
+			"dr_scans": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"hostname": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ips": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"scan_listener_port_tcp": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"scans": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -295,6 +327,11 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 		}
 	}
 
+	if drScanListenerPortTcp, ok := s.D.GetOkExists("dr_scan_listener_port_tcp"); ok {
+		tmp := drScanListenerPortTcp.(int)
+		request.DrScanListenerPortTcp = &tmp
+	}
+
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
 		tmp := exadataInfrastructureId.(string)
 		request.ExadataInfrastructureId = &tmp
@@ -368,6 +405,12 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) SetData() error {
 
 	s.D.Set("dns", s.Res.Dns)
 
+	drScans := []interface{}{}
+	for _, item := range s.Res.DrScans {
+		drScans = append(drScans, DrScanDetailsToMap(item))
+	}
+	s.D.Set("dr_scans", drScans)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("ntp", s.Res.Ntp)
@@ -385,6 +428,23 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) SetData() error {
 	s.D.Set("vm_networks", vmNetworks)
 
 	return nil
+}
+
+func DrScanDetailsToMap(obj oci_database.DrScanDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Hostname != nil {
+		result["hostname"] = string(*obj.Hostname)
+	}
+
+	result["ips"] = obj.Ips
+	result["ips"] = obj.Ips
+
+	if obj.ScanListenerPortTcp != nil {
+		result["scan_listener_port_tcp"] = int(*obj.ScanListenerPortTcp)
+	}
+
+	return result
 }
 
 func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) mapToInfoForNetworkGenDetails(fieldKeyFormat string) (oci_database.InfoForNetworkGenDetails, error) {

@@ -27,9 +27,15 @@ type BrowserMonitorConfiguration struct {
 	// If certificate validation is enabled, then the call will fail in case of certification errors.
 	IsCertificateValidationEnabled *bool `mandatory:"false" json:"isCertificateValidationEnabled"`
 
+	// If disabled then auto snapshots are not collected.
+	IsDefaultSnapshotEnabled *bool `mandatory:"false" json:"isDefaultSnapshotEnabled"`
+
 	// Verifies all the search strings present in the response.
 	// If any search string is not present in the response, then it will be considered as a failure.
 	VerifyTexts []VerifyText `mandatory:"false" json:"verifyTexts"`
+
+	// Expected HTTP response codes. For status code range, set values such as 2xx, 3xx.
+	VerifyResponseCodes []string `mandatory:"false" json:"verifyResponseCodes"`
 
 	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }

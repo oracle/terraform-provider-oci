@@ -101,7 +101,9 @@ The following attributes are exported:
 * `is_payable` - Whether invoice can be payed
 * `is_pdf_email_available` - Is emailing pdf allowed
 * `last_payment_detail` - Payment related details
+	* `account_number` - Account number of the card owner
 	* `amount_paid` - Amount that paid
+	* `card_type` - Echeck card type
 	* `credit_card_type` - Credit card type
 	* `echeck_routing` - Last four routing digits of the card
 	* `last_digits` - Last four digits of the card
@@ -110,6 +112,7 @@ The following attributes are exported:
 	* `payment_method` - Payment method
 	* `paypal_id` - The id (email address) of the paypal payment
 	* `paypal_reference` - paypal payment reference
+	* `routing_number` - Routing number of the echeck card
 	* `time_expiration` - Expired date of the credit card
 	* `time_paid_on` - Paid the invoice on this day
 * `payment_terms` - Payment terms
