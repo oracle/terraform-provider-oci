@@ -144,7 +144,7 @@ func (client DataplaneClient) generateScopedAccessToken(ctx context.Context, req
 	return response, err
 }
 
-// GenerateUserSecurityToken Exchanges a valid user token-based signature (API key, UPST, OBO, and delegation) for a short-lived UPST of the authenticated
+// GenerateUserSecurityToken Exchanges a valid user token-based signature (API key and UPST) for a short-lived UPST of the authenticated
 // user principal. When not specified, the user session duration is set to a default of 60 minutes in all realms. Resulting UPSTs
 // are refreshable while the user session has not expired.
 func (client DataplaneClient) GenerateUserSecurityToken(ctx context.Context, request GenerateUserSecurityTokenRequest) (response GenerateUserSecurityTokenResponse, err error) {

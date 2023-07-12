@@ -14,6 +14,27 @@ import (
 // ListResourceTypeSchemaAttributesRequest wrapper for the ListResourceTypeSchemaAttributes operation
 type ListResourceTypeSchemaAttributesRequest struct {
 
+	// OPTIONAL. The filter string that is used to request a subset of resources. The filter string MUST be a valid filter expression. See the Filtering section of the SCIM specification for more information (Section 3.4.2.2). The string should contain at least one condition that each item must match in order to be returned in the search results. Each condition specifies an attribute, an operator, and a value. Conditions within a filter can be connected by logical operators (such as AND and OR). Sets of conditions can be grouped together using parentheses.
+	Filter *string `mandatory:"false" contributesTo:"query" name:"filter"`
+
+	// OPTIONAL. A string that indicates the attribute whose value SHALL be used to order the returned responses. The sortBy attribute MUST be in standard attribute notation form. See the Attribute Notation section of the SCIM specification for more information (Section 3.10). Also, see the Sorting section of the SCIM specification for more information (Section 3.4.2.3).
+	SortBy *string `mandatory:"false" contributesTo:"query" name:"sortBy"`
+
+	// A string that indicates the order in which the sortBy parameter is applied. Allowed values are 'ascending' and 'descending'. See (Sorting Section (https://tools.ietf.org/html/draft-ietf-scim-api-19#section-3.4.2.3)). OPTIONAL.
+	SortOrder ListResourceTypeSchemaAttributesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// OPTIONAL. An integer that indicates the 1-based index of the first query result. See the Pagination section of the SCIM specification for more information. (Section 3.4.2.4). The number of results pages to return. The first page is 1. Specify 2 to access the second page of results, and so on.
+	StartIndex *int `mandatory:"false" contributesTo:"query" name:"startIndex"`
+
+	// OPTIONAL. An integer that indicates the desired maximum number of query results per page. 1000 is the largest value that you can use. See the Pagination section of the System for Cross-Domain Identity Management Protocol specification for more information. (Section 3.4.2.4).
+	Count *int `mandatory:"false" contributesTo:"query" name:"count"`
+
+	// A comma-delimited string that specifies the names of resource attributes that should be returned in the response. By default, a response that contains resource attributes contains only attributes that are defined in the schema for that resource type as returned=always or returned=default. An attribute that is defined as returned=request is returned in a response only if the request specifies its name in the value of this query parameter. If a request specifies this query parameter, the response contains the attributes that this query parameter specifies, as well as any attribute that is defined as returned=always.
+	Attributes *string `mandatory:"false" contributesTo:"query" name:"attributes"`
+
+	// A multi-valued list of strings indicating the return type of attribute definition. The specified set of attributes can be fetched by the return type of the attribute. One or more values can be given together to fetch more than one group of attributes. If 'attributes' query parameter is also available, union of the two is fetched. Valid values - all, always, never, request, default. Values are case-insensitive.
+	AttributeSets []AttributeSetsEnum `contributesTo:"query" name:"attributeSets" omitEmpty:"true" collectionFormat:"multi"`
+
 	// The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.
 	Authorization *string `mandatory:"false" contributesTo:"header" name:"authorization"`
 
@@ -69,6 +90,15 @@ func (request ListResourceTypeSchemaAttributesRequest) RetryPolicy() *common.Ret
 // Not recommended for calling this function directly
 func (request ListResourceTypeSchemaAttributesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListResourceTypeSchemaAttributesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListResourceTypeSchemaAttributesSortOrderEnumStringValues(), ",")))
+	}
+	for _, val := range request.AttributeSets {
+		if _, ok := GetMappingAttributeSetsEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeSets: %s. Supported values are: %s.", val, strings.Join(GetAttributeSetsEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -98,4 +128,46 @@ func (response ListResourceTypeSchemaAttributesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListResourceTypeSchemaAttributesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListResourceTypeSchemaAttributesSortOrderEnum Enum with underlying type: string
+type ListResourceTypeSchemaAttributesSortOrderEnum string
+
+// Set of constants representing the allowable values for ListResourceTypeSchemaAttributesSortOrderEnum
+const (
+	ListResourceTypeSchemaAttributesSortOrderAscending  ListResourceTypeSchemaAttributesSortOrderEnum = "ASCENDING"
+	ListResourceTypeSchemaAttributesSortOrderDescending ListResourceTypeSchemaAttributesSortOrderEnum = "DESCENDING"
+)
+
+var mappingListResourceTypeSchemaAttributesSortOrderEnum = map[string]ListResourceTypeSchemaAttributesSortOrderEnum{
+	"ASCENDING":  ListResourceTypeSchemaAttributesSortOrderAscending,
+	"DESCENDING": ListResourceTypeSchemaAttributesSortOrderDescending,
+}
+
+var mappingListResourceTypeSchemaAttributesSortOrderEnumLowerCase = map[string]ListResourceTypeSchemaAttributesSortOrderEnum{
+	"ascending":  ListResourceTypeSchemaAttributesSortOrderAscending,
+	"descending": ListResourceTypeSchemaAttributesSortOrderDescending,
+}
+
+// GetListResourceTypeSchemaAttributesSortOrderEnumValues Enumerates the set of values for ListResourceTypeSchemaAttributesSortOrderEnum
+func GetListResourceTypeSchemaAttributesSortOrderEnumValues() []ListResourceTypeSchemaAttributesSortOrderEnum {
+	values := make([]ListResourceTypeSchemaAttributesSortOrderEnum, 0)
+	for _, v := range mappingListResourceTypeSchemaAttributesSortOrderEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListResourceTypeSchemaAttributesSortOrderEnumStringValues Enumerates the set of values in String for ListResourceTypeSchemaAttributesSortOrderEnum
+func GetListResourceTypeSchemaAttributesSortOrderEnumStringValues() []string {
+	return []string{
+		"ASCENDING",
+		"DESCENDING",
+	}
+}
+
+// GetMappingListResourceTypeSchemaAttributesSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListResourceTypeSchemaAttributesSortOrderEnum(val string) (ListResourceTypeSchemaAttributesSortOrderEnum, bool) {
+	enum, ok := mappingListResourceTypeSchemaAttributesSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

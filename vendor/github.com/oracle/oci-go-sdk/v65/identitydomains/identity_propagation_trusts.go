@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// Schemas The SCIM protocol defines a standard set of query parameters that can be used to filter, sort, and paginate to return zero or more resources in a query response. Queries MAY be made against a single resource or a resource type endpoint (e.g., /Users), or the service provider Base URI.
-type Schemas struct {
+// IdentityPropagationTrusts The SCIM protocol defines a standard set of query parameters that can be used to filter, sort, and paginate to return zero or more resources in a query response. Queries MAY be made against a single resource or a resource type endpoint (e.g., /Users), or the service provider Base URI.
+type IdentityPropagationTrusts struct {
 
 	// The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior. REQUIRED.
 	Schemas []string `mandatory:"true" json:"schemas"`
@@ -26,7 +26,7 @@ type Schemas struct {
 	TotalResults *int `mandatory:"true" json:"totalResults"`
 
 	// A multi-valued list of complex objects containing the requested resources. This MAY be a subset of the full set of resources if pagination is requested. REQUIRED if "totalResults" is non-zero.
-	Resources []Schema `mandatory:"true" json:"Resources"`
+	Resources []IdentityPropagationTrust `mandatory:"true" json:"Resources"`
 
 	// The 1-based index of the first result in the current set of list results.  REQUIRED when partial results returned due to pagination.
 	StartIndex *int `mandatory:"true" json:"startIndex"`
@@ -35,14 +35,14 @@ type Schemas struct {
 	ItemsPerPage *int `mandatory:"true" json:"itemsPerPage"`
 }
 
-func (m Schemas) String() string {
+func (m IdentityPropagationTrusts) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m Schemas) ValidateEnumValue() (bool, error) {
+func (m IdentityPropagationTrusts) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

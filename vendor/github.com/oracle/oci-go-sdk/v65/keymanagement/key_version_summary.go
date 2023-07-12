@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// KeyVersionSummary The representation of KeyVersionSummary
+// KeyVersionSummary The details of the KeyVersion.
 type KeyVersionSummary struct {
 
 	// The OCID of the compartment that contains this key version.
@@ -44,6 +44,8 @@ type KeyVersionSummary struct {
 	// An optional property to indicate when to delete the key version, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2019-04-03T21:10:29.600Z`
 	TimeOfDeletion *common.SDKTime `mandatory:"false" json:"timeOfDeletion"`
+
+	ExternalKeyReferenceDetails *ExternalKeyReferenceDetails `mandatory:"false" json:"externalKeyReferenceDetails"`
 }
 
 func (m KeyVersionSummary) String() string {

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// GeneratedKey The representation of GeneratedKey
+// GeneratedKey The reponse to the regeuest to generate the key to encrypt or decrypt the data.
 type GeneratedKey struct {
 
 	// The encrypted data encryption key generated from a master encryption key.

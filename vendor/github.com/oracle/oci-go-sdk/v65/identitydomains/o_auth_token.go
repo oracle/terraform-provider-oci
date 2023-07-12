@@ -16,51 +16,33 @@ import (
 	"strings"
 )
 
-// SchemaLocalizedCanonicalValues A collection of Localized canonical values.
-type SchemaLocalizedCanonicalValues struct {
+// OAuthToken Generate the Access Token in JSON Web Token format (JWT).
+type OAuthToken struct {
 
-	// Localized display value
-	// **SCIM++ Properties:**
-	//  - caseExact: true
-	//  - multiValued: false
-	//  - mutability: readWrite
-	//  - required: false
-	//  - returned: default
-	//  - type: string
-	//  - uniqueness: none
-	Value *string `mandatory:"false" json:"value"`
+	// Access Token used to access the scopes
+	AccessToken *string `mandatory:"true" json:"access_token"`
 
-	// Canonical values
-	// **SCIM++ Properties:**
-	//  - caseExact: true
-	//  - multiValued: true
-	//  - mutability: readOnly
-	//  - required: false
-	//  - returned: default
-	//  - type: string
-	//  - uniqueness: none
-	CanonicalValue []string `mandatory:"false" json:"canonicalValue"`
+	// Expiry time of the Access Token in seconds
+	ExpiresIn *float32 `mandatory:"true" json:"expires_in"`
 
-	// Locale used
-	// **SCIM++ Properties:**
-	//  - caseExact: true
-	//  - multiValued: false
-	//  - mutability: readWrite
-	//  - required: false
-	//  - returned: default
-	//  - type: string
-	//  - uniqueness: none
-	Locale *string `mandatory:"false" json:"locale"`
+	// Type of Access Token (Bearer)
+	TokenType *string `mandatory:"true" json:"token_type"`
+
+	// Refresh Token used to regenerate the Access Token (only when the <b>offline_access</b> scope is used)
+	RefreshToken *string `mandatory:"false" json:"refresh_token"`
+
+	// Identity Token generated for the associated client and user (only in 3-legged flows)
+	IdToken *string `mandatory:"false" json:"id_token"`
 }
 
-func (m SchemaLocalizedCanonicalValues) String() string {
+func (m OAuthToken) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m SchemaLocalizedCanonicalValues) ValidateEnumValue() (bool, error) {
+func (m OAuthToken) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

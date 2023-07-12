@@ -27,6 +27,21 @@ type ResourceTypeSchemaAttributeSearchRequest struct {
 
 	// A multi-valued list of strings indicating the return type of attribute definition. The specified set of attributes can be fetched by the return type of the attribute. One or more values can be given together to fetch more than one group of attributes. If "attributes" query parameter is also available, union of the two is fetched. Valid values : all, always, never, request, default. Values are case-insensitive. OPTIONAL.
 	AttributeSets []AttributeSetsEnum `mandatory:"false" json:"attributeSets,omitempty"`
+
+	// The filter string that is used to request a subset of resources. The filter string MUST be a valid filter expression. See Section 3.4.2.2 (https://tools.ietf.org/html/draft-ietf-scim-api-19#section-3.4.2.2). OPTIONAL.
+	Filter *string `mandatory:"false" json:"filter"`
+
+	// A string that indicates the attribute whose value SHALL be used to order the returned responses. The sortBy attribute MUST be in standard attribute notation (Section 3.10 (https://tools.ietf.org/html/draft-ietf-scim-api-19#section-3.10)) form. See Sorting section (https://tools.ietf.org/html/draft-ietf-scim-api-19#section-3.4.2.3). OPTIONAL.
+	SortBy *string `mandatory:"false" json:"sortBy"`
+
+	// A string that indicates the order in which the sortBy parameter is applied. Allowed values are "ascending" and "descending". See (Sorting Section (https://tools.ietf.org/html/draft-ietf-scim-api-19#section-3.4.2.3)). OPTIONAL.
+	SortOrder SortOrderEnum `mandatory:"false" json:"sortOrder,omitempty"`
+
+	// An integer that indicates the 1-based index of the first query result. See Pagination Section (https://tools.ietf.org/html/draft-ietf-scim-api-19#section-3.4.2.4). OPTIONAL.
+	StartIndex *int `mandatory:"false" json:"startIndex"`
+
+	// An integer that indicates the desired maximum number of query results per page. 1000 is the largest value that you can use. See the Pagination section of the System for Cross-Domain Identity Management Protocol specification for more information. (Section 3.4.2.4 (https://tools.ietf.org/html/draft-ietf-scim-api-19#section-3.4.2.4)). OPTIONAL.
+	Count *int `mandatory:"false" json:"count"`
 }
 
 func (m ResourceTypeSchemaAttributeSearchRequest) String() string {
@@ -45,6 +60,9 @@ func (m ResourceTypeSchemaAttributeSearchRequest) ValidateEnumValue() (bool, err
 		}
 	}
 
+	if _, ok := GetMappingSortOrderEnum(string(m.SortOrder)); !ok && m.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", m.SortOrder, strings.Join(GetSortOrderEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

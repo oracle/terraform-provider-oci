@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// VerifyDataDetails The representation of VerifyDataDetails
+// VerifyDataDetails The details of the message that you want to verify.
 type VerifyDataDetails struct {
 
 	// The OCID of the key used to sign the message.

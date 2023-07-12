@@ -185,6 +185,15 @@ type CloudAutonomousVmClusterSummary struct {
 
 	// The number of CPUs reserved in an Autonomous VM Cluster.
 	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
+
+	// The number of provisionable Autonomous Container Databases in an Autonomous VM Cluster.
+	ProvisionableAutonomousContainerDatabases *int `mandatory:"false" json:"provisionableAutonomousContainerDatabases"`
+
+	// The number of provisioned Autonomous Container Databases in an Autonomous VM Cluster.
+	ProvisionedAutonomousContainerDatabases *int `mandatory:"false" json:"provisionedAutonomousContainerDatabases"`
+
+	// The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
+	NonProvisionableAutonomousContainerDatabases *int `mandatory:"false" json:"nonProvisionableAutonomousContainerDatabases"`
 }
 
 func (m CloudAutonomousVmClusterSummary) String() string {

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// WrappingKey The representation of WrappingKey
+// WrappingKey The public RSA wrapping key associated with the vault
 type WrappingKey struct {
 
 	// The OCID of the compartment that contains this key.

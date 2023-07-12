@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// EncryptedData The representation of EncryptedData
+// EncryptedData The response to a request to encrypt the plaintext data.
 type EncryptedData struct {
 
 	// The encrypted data.

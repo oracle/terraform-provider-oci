@@ -27,6 +27,7 @@ type VaultReplicaSummary struct {
 	// Region to which vault is replicated to
 	Region *string `mandatory:"false" json:"region"`
 
+	// Status of the Vault
 	Status VaultReplicaSummaryStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 

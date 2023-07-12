@@ -86,6 +86,9 @@ type Container struct {
 	// `/bin/bash`. For those containers, you can use the argument list to specify the main command in the container process.
 	Arguments []string `mandatory:"false" json:"arguments"`
 
+	// A list of additional configurable container capabilities.
+	AdditionalCapabilities []ContainerCapabilityEnum `mandatory:"false" json:"additionalCapabilities,omitempty"`
+
 	// The working directory within the container's filesystem for
 	// the container process. If not specified, the default
 	// working directory from the image is used.
@@ -128,6 +131,12 @@ func (m Container) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetContainerLifecycleStateEnumStringValues(), ",")))
 	}
 
+	for _, val := range m.AdditionalCapabilities {
+		if _, ok := GetMappingContainerCapabilityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdditionalCapabilities: %s. Supported values are: %s.", val, strings.Join(GetContainerCapabilityEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -147,6 +156,7 @@ func (m *Container) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated                  *common.SDKTime                   `json:"timeUpdated"`
 		Command                      []string                          `json:"command"`
 		Arguments                    []string                          `json:"arguments"`
+		AdditionalCapabilities       []ContainerCapabilityEnum         `json:"additionalCapabilities"`
 		WorkingDirectory             *string                           `json:"workingDirectory"`
 		EnvironmentVariables         map[string]string                 `json:"environmentVariables"`
 		VolumeMounts                 []VolumeMount                     `json:"volumeMounts"`
@@ -194,6 +204,11 @@ func (m *Container) UnmarshalJSON(data []byte) (e error) {
 	m.Arguments = make([]string, len(model.Arguments))
 	for i, n := range model.Arguments {
 		m.Arguments[i] = n
+	}
+
+	m.AdditionalCapabilities = make([]ContainerCapabilityEnum, len(model.AdditionalCapabilities))
+	for i, n := range model.AdditionalCapabilities {
+		m.AdditionalCapabilities[i] = n
 	}
 
 	m.WorkingDirectory = model.WorkingDirectory

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// RestoreKeyFromObjectStoreDetails The representation of RestoreKeyFromObjectStoreDetails
+// RestoreKeyFromObjectStoreDetails The details of the backup location from which you want to restore the Key.
 type RestoreKeyFromObjectStoreDetails struct {
 	BackupLocation BackupLocation `mandatory:"false" json:"backupLocation"`
 }

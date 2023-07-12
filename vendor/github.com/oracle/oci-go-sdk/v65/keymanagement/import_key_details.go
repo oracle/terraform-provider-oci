@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ImportKeyDetails The representation of ImportKeyDetails
+// ImportKeyDetails The details of the Key that you wish to import.
 type ImportKeyDetails struct {
 
 	// The OCID of the compartment that contains this key.

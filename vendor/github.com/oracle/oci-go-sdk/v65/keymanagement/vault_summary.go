@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// VaultSummary The representation of VaultSummary
+// VaultSummary The details of the Vault.
 type VaultSummary struct {
 
 	// The OCID of the compartment that contains a particular vault.
@@ -57,6 +57,8 @@ type VaultSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	ExternalKeyManagerMetadataSummary *ExternalKeyManagerMetadataSummary `mandatory:"false" json:"externalKeyManagerMetadataSummary"`
 }
 
 func (m VaultSummary) String() string {
@@ -161,16 +163,19 @@ type VaultSummaryVaultTypeEnum string
 // Set of constants representing the allowable values for VaultSummaryVaultTypeEnum
 const (
 	VaultSummaryVaultTypeVirtualPrivate VaultSummaryVaultTypeEnum = "VIRTUAL_PRIVATE"
+	VaultSummaryVaultTypeExternal       VaultSummaryVaultTypeEnum = "EXTERNAL"
 	VaultSummaryVaultTypeDefault        VaultSummaryVaultTypeEnum = "DEFAULT"
 )
 
 var mappingVaultSummaryVaultTypeEnum = map[string]VaultSummaryVaultTypeEnum{
 	"VIRTUAL_PRIVATE": VaultSummaryVaultTypeVirtualPrivate,
+	"EXTERNAL":        VaultSummaryVaultTypeExternal,
 	"DEFAULT":         VaultSummaryVaultTypeDefault,
 }
 
 var mappingVaultSummaryVaultTypeEnumLowerCase = map[string]VaultSummaryVaultTypeEnum{
 	"virtual_private": VaultSummaryVaultTypeVirtualPrivate,
+	"external":        VaultSummaryVaultTypeExternal,
 	"default":         VaultSummaryVaultTypeDefault,
 }
 
@@ -187,6 +192,7 @@ func GetVaultSummaryVaultTypeEnumValues() []VaultSummaryVaultTypeEnum {
 func GetVaultSummaryVaultTypeEnumStringValues() []string {
 	return []string{
 		"VIRTUAL_PRIVATE",
+		"EXTERNAL",
 		"DEFAULT",
 	}
 }

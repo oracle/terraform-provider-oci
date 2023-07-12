@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// SignDataDetails The representation of SignDataDetails
+// SignDataDetails The details of the message that you want to sign.
 type SignDataDetails struct {
 
 	// The base64-encoded binary data object denoting the message or message digest to sign. You can have a message up to 4096 bytes in size. To sign a larger message, provide the message digest.

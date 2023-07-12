@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeKeyCompartmentDetails The representation of ChangeKeyCompartmentDetails
+// ChangeKeyCompartmentDetails The deatils of the compartment that you wish to move the Key.
 type ChangeKeyCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that you want to move the key to.

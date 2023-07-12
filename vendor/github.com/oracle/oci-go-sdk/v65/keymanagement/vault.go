@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// Vault The representation of Vault
+// Vault The logical entity where the Vault service creates and durably stores keys.
 type Vault struct {
 
 	// The OCID of the compartment that contains this vault.
@@ -72,7 +72,10 @@ type Vault struct {
 
 	ReplicaDetails *VaultReplicaDetails `mandatory:"false" json:"replicaDetails"`
 
+	// A Boolean value that indicates whether the Vault is primary Vault or replica Vault.
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
+
+	ExternalKeyManagerMetadataSummary *ExternalKeyManagerMetadataSummary `mandatory:"false" json:"externalKeyManagerMetadataSummary"`
 }
 
 func (m Vault) String() string {
@@ -178,16 +181,19 @@ type VaultVaultTypeEnum string
 const (
 	VaultVaultTypeVirtualPrivate VaultVaultTypeEnum = "VIRTUAL_PRIVATE"
 	VaultVaultTypeDefault        VaultVaultTypeEnum = "DEFAULT"
+	VaultVaultTypeExternal       VaultVaultTypeEnum = "EXTERNAL"
 )
 
 var mappingVaultVaultTypeEnum = map[string]VaultVaultTypeEnum{
 	"VIRTUAL_PRIVATE": VaultVaultTypeVirtualPrivate,
 	"DEFAULT":         VaultVaultTypeDefault,
+	"EXTERNAL":        VaultVaultTypeExternal,
 }
 
 var mappingVaultVaultTypeEnumLowerCase = map[string]VaultVaultTypeEnum{
 	"virtual_private": VaultVaultTypeVirtualPrivate,
 	"default":         VaultVaultTypeDefault,
+	"external":        VaultVaultTypeExternal,
 }
 
 // GetVaultVaultTypeEnumValues Enumerates the set of values for VaultVaultTypeEnum
@@ -204,6 +210,7 @@ func GetVaultVaultTypeEnumStringValues() []string {
 	return []string{
 		"VIRTUAL_PRIVATE",
 		"DEFAULT",
+		"EXTERNAL",
 	}
 }
 

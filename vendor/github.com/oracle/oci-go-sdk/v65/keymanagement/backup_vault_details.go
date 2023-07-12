@@ -16,10 +16,11 @@ import (
 	"strings"
 )
 
-// BackupVaultDetails The representation of BackupVaultDetails
+// BackupVaultDetails The details of the Vault that you wish to backup.
 type BackupVaultDetails struct {
 	BackupLocation BackupLocation `mandatory:"false" json:"backupLocation"`
 
+	// A Boolean value that indicates whether the Keys should be included during backing up the Vault.
 	IsIncludeKeys *bool `mandatory:"false" json:"isIncludeKeys"`
 }
 

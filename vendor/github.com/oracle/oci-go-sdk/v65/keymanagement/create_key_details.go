@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// CreateKeyDetails The representation of CreateKeyDetails
+// CreateKeyDetails The details of the key that you want to create.
 type CreateKeyDetails struct {
 
 	// The OCID of the compartment where you want to create the master encryption key.
@@ -42,7 +42,12 @@ type CreateKeyDetails struct {
 	// the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists
 	// on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,
 	// a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported.
+	// A protection mode of `EXTERNAL` mean that the key persists on the customer's external key manager which is hosted externally outside of oracle.
+	// Oracle only hold a reference to that key.
+	// All cryptographic operations that use a key with a protection mode of `EXTERNAL` are performed by external key manager.
 	ProtectionMode CreateKeyDetailsProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`
+
+	ExternalKeyReference *ExternalKeyReference `mandatory:"false" json:"externalKeyReference"`
 }
 
 func (m CreateKeyDetails) String() string {
@@ -71,16 +76,19 @@ type CreateKeyDetailsProtectionModeEnum string
 const (
 	CreateKeyDetailsProtectionModeHsm      CreateKeyDetailsProtectionModeEnum = "HSM"
 	CreateKeyDetailsProtectionModeSoftware CreateKeyDetailsProtectionModeEnum = "SOFTWARE"
+	CreateKeyDetailsProtectionModeExternal CreateKeyDetailsProtectionModeEnum = "EXTERNAL"
 )
 
 var mappingCreateKeyDetailsProtectionModeEnum = map[string]CreateKeyDetailsProtectionModeEnum{
 	"HSM":      CreateKeyDetailsProtectionModeHsm,
 	"SOFTWARE": CreateKeyDetailsProtectionModeSoftware,
+	"EXTERNAL": CreateKeyDetailsProtectionModeExternal,
 }
 
 var mappingCreateKeyDetailsProtectionModeEnumLowerCase = map[string]CreateKeyDetailsProtectionModeEnum{
 	"hsm":      CreateKeyDetailsProtectionModeHsm,
 	"software": CreateKeyDetailsProtectionModeSoftware,
+	"external": CreateKeyDetailsProtectionModeExternal,
 }
 
 // GetCreateKeyDetailsProtectionModeEnumValues Enumerates the set of values for CreateKeyDetailsProtectionModeEnum
@@ -97,6 +105,7 @@ func GetCreateKeyDetailsProtectionModeEnumStringValues() []string {
 	return []string{
 		"HSM",
 		"SOFTWARE",
+		"EXTERNAL",
 	}
 }
 

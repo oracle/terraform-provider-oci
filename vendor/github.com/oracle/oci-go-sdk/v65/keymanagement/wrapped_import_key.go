@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// WrappedImportKey The representation of WrappedImportKey
+// WrappedImportKey The details of the wrapped import Key.
 type WrappedImportKey struct {
 
 	// The key material to import, wrapped by the vault's RSA public wrapping key and base64-encoded.

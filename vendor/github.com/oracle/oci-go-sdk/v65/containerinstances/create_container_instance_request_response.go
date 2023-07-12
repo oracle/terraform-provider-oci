@@ -27,6 +27,15 @@ type CreateContainerInstanceRequest struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The ID of the hypervisor.
+	OpcHostSerial *string `mandatory:"false" contributesTo:"header" name:"opc-host-serial"`
+
+	// The pool name for targeted launch.
+	OpcPoolName *string `mandatory:"false" contributesTo:"header" name:"opc-pool-name"`
+
+	// The fleet id for targeted launch.
+	OpcFleetId *string `mandatory:"false" contributesTo:"header" name:"opc-fleet-id"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

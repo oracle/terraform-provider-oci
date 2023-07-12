@@ -17,6 +17,8 @@ import (
 
 // ReplicationStatusDetails Details of replication status across all replica regions
 type ReplicationStatusDetails struct {
+
+	// Replica Details.
 	ReplicaDetails []ReplicaDetails `mandatory:"false" json:"replicaDetails"`
 }
 

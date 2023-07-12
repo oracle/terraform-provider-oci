@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// VerifiedData The representation of VerifiedData
+// VerifiedData The response to a request to verify the message.
 type VerifiedData struct {
 
 	// A Boolean value that indicates whether the signature was verified.

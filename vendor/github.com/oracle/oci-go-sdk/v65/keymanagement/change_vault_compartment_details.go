@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeVaultCompartmentDetails The representation of ChangeVaultCompartmentDetails
+// ChangeVaultCompartmentDetails The details of the compartment you wish to move the Vault.
 type ChangeVaultCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the vault to.

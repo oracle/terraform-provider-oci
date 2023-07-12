@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DecryptedData The representation of DecryptedData
+// DecryptedData The response to a request to decrypt the encrypted data.
 type DecryptedData struct {
 
 	// The decrypted data, expressed as a base64-encoded value.

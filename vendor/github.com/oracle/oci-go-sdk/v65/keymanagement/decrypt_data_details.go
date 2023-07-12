@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DecryptDataDetails The representation of DecryptDataDetails
+// DecryptDataDetails The details of the encrypted data that you want to decrypt.
 type DecryptDataDetails struct {
 
 	// The encrypted data to decrypt.

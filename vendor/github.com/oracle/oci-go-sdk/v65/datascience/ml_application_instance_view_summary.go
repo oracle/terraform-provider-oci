@@ -21,8 +21,8 @@ type MlApplicationInstanceViewSummary struct {
 	// The OCID of the MlApplicationInstanceView. Unique identifier that is immutable after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// This field is a copy from MlApplicationInstance created by the consumer. The name must be unique for the given namespace (consumer tenancy namespace).
-	Name *string `mandatory:"true" json:"name"`
+	// The name of the MlApplicationInstance (created by the consumer) which this MlApplicationInstanceView is mirroring.
+	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.
 	MlApplicationId *string `mandatory:"true" json:"mlApplicationId"`

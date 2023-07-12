@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// VaultUsage The representation of VaultUsage
+// VaultUsage The details of the number of Keys and KeyVersions usage in a Vault.
 type VaultUsage struct {
 
 	// The number of keys in this vault that persist on a hardware security module (HSM), across all compartments, excluding keys in a `DELETED` state.

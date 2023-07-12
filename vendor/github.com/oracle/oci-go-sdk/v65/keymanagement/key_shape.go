@@ -18,7 +18,7 @@ import (
 // KeyShape The cryptographic properties of a key.
 type KeyShape struct {
 
-	// The algorithm used by a key's key versions to encrypt or decrypt.
+	// The algorithm used by a key's key versions to encrypt or decrypt. Only AES algorithm is supported for `External` keys.
 	Algorithm KeyShapeAlgorithmEnum `mandatory:"true" json:"algorithm"`
 
 	// The length of the key in bytes, expressed as an integer. Supported values include the following:

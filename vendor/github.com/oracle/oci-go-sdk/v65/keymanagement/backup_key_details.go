@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// BackupKeyDetails The representation of BackupKeyDetails
+// BackupKeyDetails The details of the Key that you wish to backup.
 type BackupKeyDetails struct {
 	BackupLocation BackupLocation `mandatory:"false" json:"backupLocation"`
 }

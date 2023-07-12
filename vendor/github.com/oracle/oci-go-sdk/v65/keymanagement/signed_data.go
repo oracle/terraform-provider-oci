@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// SignedData The representation of SignedData
+// SignedData The response to a request to sign the message.
 type SignedData struct {
 
 	// The OCID of the key used to sign the message.

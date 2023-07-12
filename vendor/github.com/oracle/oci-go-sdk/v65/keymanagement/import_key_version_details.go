@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ImportKeyVersionDetails The representation of ImportKeyVersionDetails
+// ImportKeyVersionDetails The details of the KeyVersion that you wish to import.
 type ImportKeyVersionDetails struct {
 	WrappedImportKey *WrappedImportKey `mandatory:"true" json:"wrappedImportKey"`
 

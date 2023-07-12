@@ -17,6 +17,7 @@ type ChangeVaultCompartmentRequest struct {
 	// The OCID of the vault.
 	VaultId *string `mandatory:"true" contributesTo:"path" name:"vaultId"`
 
+	// ChangeVaultCompartmentDetails
 	ChangeVaultCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a

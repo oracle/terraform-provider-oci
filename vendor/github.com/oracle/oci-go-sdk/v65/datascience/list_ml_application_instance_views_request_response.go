@@ -17,8 +17,8 @@ type ListMlApplicationInstanceViewsRequest struct {
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources that match the entire name given.
-	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+	// A filter to return only resources that match the entire displayName given.
+	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// unique MlApplication identifier
 	MlApplicationId *string `mandatory:"false" contributesTo:"query" name:"mlApplicationId"`

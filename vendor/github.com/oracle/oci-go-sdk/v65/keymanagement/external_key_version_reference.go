@@ -2,13 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Identity Domains API
+// Vault Key Management API
 //
-// Use the Identity Domains API to manage resources within an identity domain, for example, users, dynamic resource groups, groups, and identity providers. For information about managing resources within identity domains, see Identity and Access Management (with identity domains) (https://docs.oracle.com/iaas/Content/Identity/home.htm). This REST API is SCIM compliant.
-// Use the table of contents and search tool to explore the Identity Domains API.
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
-package identitydomains
+package keymanagement
 
 import (
 	"fmt"
@@ -16,21 +15,21 @@ import (
 	"strings"
 )
 
-// ExtensionCustomUser Custom User Attributes
-type ExtensionCustomUser struct {
+// ExternalKeyVersionReference A reference to key version on external key manager.
+type ExternalKeyVersionReference struct {
 
-	// Custom User Attributes
-	Description *string `mandatory:"false" json:"description"`
+	// Key version ID associated with the external key.
+	ExternalKeyVersionId *string `mandatory:"false" json:"externalKeyVersionId"`
 }
 
-func (m ExtensionCustomUser) String() string {
+func (m ExternalKeyVersionReference) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ExtensionCustomUser) ValidateEnumValue() (bool, error) {
+func (m ExternalKeyVersionReference) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

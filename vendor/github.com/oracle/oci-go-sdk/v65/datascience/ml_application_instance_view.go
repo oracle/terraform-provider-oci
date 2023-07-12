@@ -22,8 +22,8 @@ type MlApplicationInstanceView struct {
 	// The OCID of the MlApplicationInstanceView. Unique identifier that is immutable after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// This field is a copy from MlApplicationInstance created by the consumer. The name must be unique for the given namespace (consumer tenancy namespace) and MlApplication.
-	Name *string `mandatory:"true" json:"name"`
+	// The name of the MlApplicationInstance (created by the consumer) which this MlApplicationInstanceView is mirroring.
+	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The OCID of the MlApplicationInstance (created by the consumer) which this MlApplicationInstanceView is mirroring.
 	MlApplicationInstanceId *string `mandatory:"true" json:"mlApplicationInstanceId"`
@@ -116,7 +116,7 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 		PredictionUris                       []PredictionUri                                `json:"predictionUris"`
 		SystemTags                           map[string]map[string]interface{}              `json:"systemTags"`
 		Id                                   *string                                        `json:"id"`
-		Name                                 *string                                        `json:"name"`
+		DisplayName                          *string                                        `json:"displayName"`
 		MlApplicationInstanceId              *string                                        `json:"mlApplicationInstanceId"`
 		MlApplicationId                      *string                                        `json:"mlApplicationId"`
 		MlApplicationImplementationId        *string                                        `json:"mlApplicationImplementationId"`
@@ -175,7 +175,7 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 
 	m.Id = model.Id
 
-	m.Name = model.Name
+	m.DisplayName = model.DisplayName
 
 	m.MlApplicationInstanceId = model.MlApplicationInstanceId
 
@@ -218,6 +218,7 @@ const (
 	MlApplicationInstanceViewLifecycleStateActive         MlApplicationInstanceViewLifecycleStateEnum = "ACTIVE"
 	MlApplicationInstanceViewLifecycleStateInactive       MlApplicationInstanceViewLifecycleStateEnum = "INACTIVE"
 	MlApplicationInstanceViewLifecycleStateDeleting       MlApplicationInstanceViewLifecycleStateEnum = "DELETING"
+	MlApplicationInstanceViewLifecycleStateDeleted        MlApplicationInstanceViewLifecycleStateEnum = "DELETED"
 	MlApplicationInstanceViewLifecycleStateNeedsAttention MlApplicationInstanceViewLifecycleStateEnum = "NEEDS_ATTENTION"
 	MlApplicationInstanceViewLifecycleStateFailed         MlApplicationInstanceViewLifecycleStateEnum = "FAILED"
 )
@@ -228,6 +229,7 @@ var mappingMlApplicationInstanceViewLifecycleStateEnum = map[string]MlApplicatio
 	"ACTIVE":          MlApplicationInstanceViewLifecycleStateActive,
 	"INACTIVE":        MlApplicationInstanceViewLifecycleStateInactive,
 	"DELETING":        MlApplicationInstanceViewLifecycleStateDeleting,
+	"DELETED":         MlApplicationInstanceViewLifecycleStateDeleted,
 	"NEEDS_ATTENTION": MlApplicationInstanceViewLifecycleStateNeedsAttention,
 	"FAILED":          MlApplicationInstanceViewLifecycleStateFailed,
 }
@@ -238,6 +240,7 @@ var mappingMlApplicationInstanceViewLifecycleStateEnumLowerCase = map[string]MlA
 	"active":          MlApplicationInstanceViewLifecycleStateActive,
 	"inactive":        MlApplicationInstanceViewLifecycleStateInactive,
 	"deleting":        MlApplicationInstanceViewLifecycleStateDeleting,
+	"deleted":         MlApplicationInstanceViewLifecycleStateDeleted,
 	"needs_attention": MlApplicationInstanceViewLifecycleStateNeedsAttention,
 	"failed":          MlApplicationInstanceViewLifecycleStateFailed,
 }
@@ -259,6 +262,7 @@ func GetMlApplicationInstanceViewLifecycleStateEnumStringValues() []string {
 		"ACTIVE",
 		"INACTIVE",
 		"DELETING",
+		"DELETED",
 		"NEEDS_ATTENTION",
 		"FAILED",
 	}
@@ -281,6 +285,7 @@ const (
 	MlApplicationInstanceViewLifecycleSubstateActive         MlApplicationInstanceViewLifecycleSubstateEnum = "ACTIVE"
 	MlApplicationInstanceViewLifecycleSubstateInactive       MlApplicationInstanceViewLifecycleSubstateEnum = "INACTIVE"
 	MlApplicationInstanceViewLifecycleSubstateDeleting       MlApplicationInstanceViewLifecycleSubstateEnum = "DELETING"
+	MlApplicationInstanceViewLifecycleSubstateDeleted        MlApplicationInstanceViewLifecycleSubstateEnum = "DELETED"
 	MlApplicationInstanceViewLifecycleSubstateNeedsAttention MlApplicationInstanceViewLifecycleSubstateEnum = "NEEDS_ATTENTION"
 	MlApplicationInstanceViewLifecycleSubstateFailed         MlApplicationInstanceViewLifecycleSubstateEnum = "FAILED"
 )
@@ -292,6 +297,7 @@ var mappingMlApplicationInstanceViewLifecycleSubstateEnum = map[string]MlApplica
 	"ACTIVE":          MlApplicationInstanceViewLifecycleSubstateActive,
 	"INACTIVE":        MlApplicationInstanceViewLifecycleSubstateInactive,
 	"DELETING":        MlApplicationInstanceViewLifecycleSubstateDeleting,
+	"DELETED":         MlApplicationInstanceViewLifecycleSubstateDeleted,
 	"NEEDS_ATTENTION": MlApplicationInstanceViewLifecycleSubstateNeedsAttention,
 	"FAILED":          MlApplicationInstanceViewLifecycleSubstateFailed,
 }
@@ -303,6 +309,7 @@ var mappingMlApplicationInstanceViewLifecycleSubstateEnumLowerCase = map[string]
 	"active":          MlApplicationInstanceViewLifecycleSubstateActive,
 	"inactive":        MlApplicationInstanceViewLifecycleSubstateInactive,
 	"deleting":        MlApplicationInstanceViewLifecycleSubstateDeleting,
+	"deleted":         MlApplicationInstanceViewLifecycleSubstateDeleted,
 	"needs_attention": MlApplicationInstanceViewLifecycleSubstateNeedsAttention,
 	"failed":          MlApplicationInstanceViewLifecycleSubstateFailed,
 }
@@ -325,6 +332,7 @@ func GetMlApplicationInstanceViewLifecycleSubstateEnumStringValues() []string {
 		"ACTIVE",
 		"INACTIVE",
 		"DELETING",
+		"DELETED",
 		"NEEDS_ATTENTION",
 		"FAILED",
 	}

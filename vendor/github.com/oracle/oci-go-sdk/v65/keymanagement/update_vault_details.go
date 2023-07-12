@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateVaultDetails The representation of UpdateVaultDetails
+// UpdateVaultDetails The details of the Vault that you wish to update.
 type UpdateVaultDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

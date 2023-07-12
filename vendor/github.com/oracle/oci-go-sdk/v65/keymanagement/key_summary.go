@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// KeySummary The representation of KeySummary
+// KeySummary The details of the Key.
 type KeySummary struct {
 
 	// The OCID of the compartment that contains the key.
@@ -54,10 +54,15 @@ type KeySummary struct {
 	// the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists
 	// on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,
 	// a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported.
+	// A protection mode of `EXTERNAL` mean that the key persists on the customer's external key manager which is hosted externally outside of oracle.
+	// Oracle only hold a reference to that key.
+	// All cryptographic operations that use a key with a protection mode of `EXTERNAL` are performed by external key manager.
 	ProtectionMode KeySummaryProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`
 
 	// The algorithm used by a key's key versions to encrypt or decrypt data.
 	Algorithm KeySummaryAlgorithmEnum `mandatory:"false" json:"algorithm,omitempty"`
+
+	ExternalKeyReferenceDetails *ExternalKeyReferenceDetails `mandatory:"false" json:"externalKeyReferenceDetails"`
 }
 
 func (m KeySummary) String() string {
@@ -178,16 +183,19 @@ type KeySummaryProtectionModeEnum string
 const (
 	KeySummaryProtectionModeHsm      KeySummaryProtectionModeEnum = "HSM"
 	KeySummaryProtectionModeSoftware KeySummaryProtectionModeEnum = "SOFTWARE"
+	KeySummaryProtectionModeExternal KeySummaryProtectionModeEnum = "EXTERNAL"
 )
 
 var mappingKeySummaryProtectionModeEnum = map[string]KeySummaryProtectionModeEnum{
 	"HSM":      KeySummaryProtectionModeHsm,
 	"SOFTWARE": KeySummaryProtectionModeSoftware,
+	"EXTERNAL": KeySummaryProtectionModeExternal,
 }
 
 var mappingKeySummaryProtectionModeEnumLowerCase = map[string]KeySummaryProtectionModeEnum{
 	"hsm":      KeySummaryProtectionModeHsm,
 	"software": KeySummaryProtectionModeSoftware,
+	"external": KeySummaryProtectionModeExternal,
 }
 
 // GetKeySummaryProtectionModeEnumValues Enumerates the set of values for KeySummaryProtectionModeEnum
@@ -204,6 +212,7 @@ func GetKeySummaryProtectionModeEnumStringValues() []string {
 	return []string{
 		"HSM",
 		"SOFTWARE",
+		"EXTERNAL",
 	}
 }
 

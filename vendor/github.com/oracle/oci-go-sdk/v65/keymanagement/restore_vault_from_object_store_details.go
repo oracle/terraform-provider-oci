@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// RestoreVaultFromObjectStoreDetails The representation of RestoreVaultFromObjectStoreDetails
+// RestoreVaultFromObjectStoreDetails The details of the backup location from which you want to restore the Vault.
 type RestoreVaultFromObjectStoreDetails struct {
 	BackupLocation BackupLocation `mandatory:"false" json:"backupLocation"`
 }

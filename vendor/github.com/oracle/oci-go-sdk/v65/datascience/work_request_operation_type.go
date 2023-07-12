@@ -39,6 +39,7 @@ const (
 	WorkRequestOperationTypePipelineRunCancel                 WorkRequestOperationTypeEnum = "PIPELINE_RUN_CANCEL"
 	WorkRequestOperationTypePipelineRunDelete                 WorkRequestOperationTypeEnum = "PIPELINE_RUN_DELETE"
 	WorkRequestOperationTypeMlApplicationPackageUpload        WorkRequestOperationTypeEnum = "ML_APPLICATION_PACKAGE_UPLOAD"
+	WorkRequestOperationTypeMlApplicationTriggerStart         WorkRequestOperationTypeEnum = "ML_APPLICATION_TRIGGER_START"
 	WorkRequestOperationTypeMlApplicationImplementationDelete WorkRequestOperationTypeEnum = "ML_APPLICATION_IMPLEMENTATION_DELETE"
 	WorkRequestOperationTypeMlApplicationInstanceCreate       WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_CREATE"
 	WorkRequestOperationTypeMlApplicationInstanceUpdate       WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_UPDATE"
@@ -47,6 +48,10 @@ const (
 	WorkRequestOperationTypeMlApplicationInstanceViewUpdate   WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_UPDATE"
 	WorkRequestOperationTypeMlApplicationInstanceViewDelete   WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_DELETE"
 	WorkRequestOperationTypeMlApplicationInstanceViewUpgrade  WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_UPGRADE"
+	WorkRequestOperationTypePrivateEndpointCreate             WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_CREATE"
+	WorkRequestOperationTypePrivateEndpointDelete             WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_DELETE"
+	WorkRequestOperationTypePrivateEndpointMove               WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_MOVE"
+	WorkRequestOperationTypePrivateEndpointUpdate             WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_UPDATE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -71,6 +76,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PIPELINE_RUN_CANCEL":                  WorkRequestOperationTypePipelineRunCancel,
 	"PIPELINE_RUN_DELETE":                  WorkRequestOperationTypePipelineRunDelete,
 	"ML_APPLICATION_PACKAGE_UPLOAD":        WorkRequestOperationTypeMlApplicationPackageUpload,
+	"ML_APPLICATION_TRIGGER_START":         WorkRequestOperationTypeMlApplicationTriggerStart,
 	"ML_APPLICATION_IMPLEMENTATION_DELETE": WorkRequestOperationTypeMlApplicationImplementationDelete,
 	"ML_APPLICATION_INSTANCE_CREATE":       WorkRequestOperationTypeMlApplicationInstanceCreate,
 	"ML_APPLICATION_INSTANCE_UPDATE":       WorkRequestOperationTypeMlApplicationInstanceUpdate,
@@ -79,6 +85,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"ML_APPLICATION_INSTANCE_VIEW_UPDATE":  WorkRequestOperationTypeMlApplicationInstanceViewUpdate,
 	"ML_APPLICATION_INSTANCE_VIEW_DELETE":  WorkRequestOperationTypeMlApplicationInstanceViewDelete,
 	"ML_APPLICATION_INSTANCE_VIEW_UPGRADE": WorkRequestOperationTypeMlApplicationInstanceViewUpgrade,
+	"PRIVATE_ENDPOINT_CREATE":              WorkRequestOperationTypePrivateEndpointCreate,
+	"PRIVATE_ENDPOINT_DELETE":              WorkRequestOperationTypePrivateEndpointDelete,
+	"PRIVATE_ENDPOINT_MOVE":                WorkRequestOperationTypePrivateEndpointMove,
+	"PRIVATE_ENDPOINT_UPDATE":              WorkRequestOperationTypePrivateEndpointUpdate,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -103,6 +113,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"pipeline_run_cancel":                  WorkRequestOperationTypePipelineRunCancel,
 	"pipeline_run_delete":                  WorkRequestOperationTypePipelineRunDelete,
 	"ml_application_package_upload":        WorkRequestOperationTypeMlApplicationPackageUpload,
+	"ml_application_trigger_start":         WorkRequestOperationTypeMlApplicationTriggerStart,
 	"ml_application_implementation_delete": WorkRequestOperationTypeMlApplicationImplementationDelete,
 	"ml_application_instance_create":       WorkRequestOperationTypeMlApplicationInstanceCreate,
 	"ml_application_instance_update":       WorkRequestOperationTypeMlApplicationInstanceUpdate,
@@ -111,6 +122,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"ml_application_instance_view_update":  WorkRequestOperationTypeMlApplicationInstanceViewUpdate,
 	"ml_application_instance_view_delete":  WorkRequestOperationTypeMlApplicationInstanceViewDelete,
 	"ml_application_instance_view_upgrade": WorkRequestOperationTypeMlApplicationInstanceViewUpgrade,
+	"private_endpoint_create":              WorkRequestOperationTypePrivateEndpointCreate,
+	"private_endpoint_delete":              WorkRequestOperationTypePrivateEndpointDelete,
+	"private_endpoint_move":                WorkRequestOperationTypePrivateEndpointMove,
+	"private_endpoint_update":              WorkRequestOperationTypePrivateEndpointUpdate,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -146,6 +161,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PIPELINE_RUN_CANCEL",
 		"PIPELINE_RUN_DELETE",
 		"ML_APPLICATION_PACKAGE_UPLOAD",
+		"ML_APPLICATION_TRIGGER_START",
 		"ML_APPLICATION_IMPLEMENTATION_DELETE",
 		"ML_APPLICATION_INSTANCE_CREATE",
 		"ML_APPLICATION_INSTANCE_UPDATE",
@@ -154,6 +170,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"ML_APPLICATION_INSTANCE_VIEW_UPDATE",
 		"ML_APPLICATION_INSTANCE_VIEW_DELETE",
 		"ML_APPLICATION_INSTANCE_VIEW_UPGRADE",
+		"PRIVATE_ENDPOINT_CREATE",
+		"PRIVATE_ENDPOINT_DELETE",
+		"PRIVATE_ENDPOINT_MOVE",
+		"PRIVATE_ENDPOINT_UPDATE",
 	}
 }
 

@@ -805,9 +805,12 @@ func (client KmsManagementClient) getWrappingKey(ctx context.Context, request co
 	return response, err
 }
 
-// ImportKey Imports AES key material to create a new key with. The key material must be base64-encoded and
-// wrapped by the vault's public RSA wrapping key before you can import it. Key Management supports AES symmetric keys
-// that are exactly 16, 24, or 32 bytes. Furthermore, the key length must match what you specify at the time of import.
+// ImportKey Imports AES and RSA keys to create a new key. The key material must be base64-encoded
+// and wrapped by the vault's public RSA wrapping key before you can import it.
+// Key Management supports both RSA and AES keys. The AES keys are symmetric keys
+// of length 128 bits (16 bytes), 192 bits (24 bytes), or 256 bits (32 bytes), and the RSA keys are asymmetric keys of length 2048 bits (256 bytes), 3072 bits (384 bytes), and 4096 bits (512 bytes).
+// Furthermore, the key length must match what you specify at the time of import. When importing an asymmetric key,
+// only private key must be wrapped in PKCS8 format while the corresponding public key is generated internally by KMS.
 func (client KmsManagementClient) ImportKey(ctx context.Context, request ImportKeyRequest) (response ImportKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -865,11 +868,12 @@ func (client KmsManagementClient) importKey(ctx context.Context, request common.
 	return response, err
 }
 
-// ImportKeyVersion Imports AES key material to create a new key version with, and then rotates the key to begin using the new
+// ImportKeyVersion Imports AES key material to create a new key version and then rotate the key to begin using the new
 // key version. The key material must be base64-encoded and wrapped by the vault's public RSA wrapping key
 // before you can import it. Key Management supports AES symmetric keys that are exactly 16, 24, or 32 bytes.
 // Furthermore, the key length must match the length of the specified key and what you specify as the length
-// at the time of import.
+// at the time of import. When importing an asymmetric key, only the private key must be wrapped in PKCS8 format
+// while the corresponding public key is generated internally by KMS.
 func (client KmsManagementClient) ImportKeyVersion(ctx context.Context, request ImportKeyVersionRequest) (response ImportKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

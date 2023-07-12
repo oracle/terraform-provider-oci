@@ -14,10 +14,6 @@ import (
 // ListAlarmSuppressionsRequest wrapper for the ListAlarmSuppressions operation
 type ListAlarmSuppressionsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the alarm suppressions for this request.
-	// Example: `ocid1.compartment.oc1..exampleuniqueID`
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
-
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm that is the target of the alarm suppression.
 	AlarmId *string `mandatory:"true" contributesTo:"query" name:"alarmId"`
 

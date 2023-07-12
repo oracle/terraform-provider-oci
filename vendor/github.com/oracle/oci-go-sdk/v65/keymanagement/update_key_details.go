@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateKeyDetails The representation of UpdateKeyDetails
+// UpdateKeyDetails The details of the Key that you wish to update.
 type UpdateKeyDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

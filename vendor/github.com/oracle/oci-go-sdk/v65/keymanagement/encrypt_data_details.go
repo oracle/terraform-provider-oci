@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// EncryptDataDetails The representation of EncryptDataDetails
+// EncryptDataDetails The details of the plaintext data that you want to encrypt.
 type EncryptDataDetails struct {
 
 	// The OCID of the key to encrypt with.

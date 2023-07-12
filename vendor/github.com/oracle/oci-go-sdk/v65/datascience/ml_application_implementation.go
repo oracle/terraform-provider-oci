@@ -189,6 +189,7 @@ const (
 	MlApplicationImplementationLifecycleStateNeedsAttention MlApplicationImplementationLifecycleStateEnum = "NEEDS_ATTENTION"
 	MlApplicationImplementationLifecycleStateFailed         MlApplicationImplementationLifecycleStateEnum = "FAILED"
 	MlApplicationImplementationLifecycleStateDeleting       MlApplicationImplementationLifecycleStateEnum = "DELETING"
+	MlApplicationImplementationLifecycleStateUpdating       MlApplicationImplementationLifecycleStateEnum = "UPDATING"
 )
 
 var mappingMlApplicationImplementationLifecycleStateEnum = map[string]MlApplicationImplementationLifecycleStateEnum{
@@ -197,6 +198,7 @@ var mappingMlApplicationImplementationLifecycleStateEnum = map[string]MlApplicat
 	"NEEDS_ATTENTION": MlApplicationImplementationLifecycleStateNeedsAttention,
 	"FAILED":          MlApplicationImplementationLifecycleStateFailed,
 	"DELETING":        MlApplicationImplementationLifecycleStateDeleting,
+	"UPDATING":        MlApplicationImplementationLifecycleStateUpdating,
 }
 
 var mappingMlApplicationImplementationLifecycleStateEnumLowerCase = map[string]MlApplicationImplementationLifecycleStateEnum{
@@ -205,6 +207,7 @@ var mappingMlApplicationImplementationLifecycleStateEnumLowerCase = map[string]M
 	"needs_attention": MlApplicationImplementationLifecycleStateNeedsAttention,
 	"failed":          MlApplicationImplementationLifecycleStateFailed,
 	"deleting":        MlApplicationImplementationLifecycleStateDeleting,
+	"updating":        MlApplicationImplementationLifecycleStateUpdating,
 }
 
 // GetMlApplicationImplementationLifecycleStateEnumValues Enumerates the set of values for MlApplicationImplementationLifecycleStateEnum
@@ -224,6 +227,7 @@ func GetMlApplicationImplementationLifecycleStateEnumStringValues() []string {
 		"NEEDS_ATTENTION",
 		"FAILED",
 		"DELETING",
+		"UPDATING",
 	}
 }
 

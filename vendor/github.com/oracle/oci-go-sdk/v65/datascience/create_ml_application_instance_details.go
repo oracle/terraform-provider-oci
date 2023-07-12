@@ -19,14 +19,14 @@ import (
 // CreateMlApplicationInstanceDetails The information about new MlApplicationInstance.
 type CreateMlApplicationInstanceDetails struct {
 
-	// Resource name which must be unique in the context of given ML Application and consumer tenancy.
-	Name *string `mandatory:"true" json:"name"`
-
 	// The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.
 	MlApplicationId *string `mandatory:"true" json:"mlApplicationId"`
 
 	// The OCID of the compartment where the MlApplicationInstance is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The name of MlApplicationInstance. System will generate displayName when not provided.
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The OCID of ML Application Implementation selected as a certain solution for a given ML problem (ML Application)
 	MlApplicationImplementationId *string `mandatory:"false" json:"mlApplicationImplementationId"`
@@ -67,13 +67,13 @@ func (m CreateMlApplicationInstanceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateMlApplicationInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		DisplayName                   *string                           `json:"displayName"`
 		MlApplicationImplementationId *string                           `json:"mlApplicationImplementationId"`
 		AuthConfiguration             authconfiguration                 `json:"authConfiguration"`
 		Configuration                 []ConfigurationProperty           `json:"configuration"`
 		IsEnabled                     *bool                             `json:"isEnabled"`
 		FreeformTags                  map[string]string                 `json:"freeformTags"`
 		DefinedTags                   map[string]map[string]interface{} `json:"definedTags"`
-		Name                          *string                           `json:"name"`
 		MlApplicationId               *string                           `json:"mlApplicationId"`
 		CompartmentId                 *string                           `json:"compartmentId"`
 	}{}
@@ -83,6 +83,8 @@ func (m *CreateMlApplicationInstanceDetails) UnmarshalJSON(data []byte) (e error
 		return
 	}
 	var nn interface{}
+	m.DisplayName = model.DisplayName
+
 	m.MlApplicationImplementationId = model.MlApplicationImplementationId
 
 	nn, e = model.AuthConfiguration.UnmarshalPolymorphicJSON(model.AuthConfiguration.JsonData)
@@ -105,8 +107,6 @@ func (m *CreateMlApplicationInstanceDetails) UnmarshalJSON(data []byte) (e error
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
-
-	m.Name = model.Name
 
 	m.MlApplicationId = model.MlApplicationId
 

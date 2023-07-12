@@ -21,8 +21,8 @@ type MlApplicationInstanceSummary struct {
 	// The OCID of the MlApplicationInstance. Unique identifier that is immutable after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Resource name which must be unique in the context of given ML Application and tenancy.
-	Name *string `mandatory:"true" json:"name"`
+	// The name of MlApplicationInstance. System will generate displayName when not provided during creation.
+	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.
 	MlApplicationId *string `mandatory:"true" json:"mlApplicationId"`

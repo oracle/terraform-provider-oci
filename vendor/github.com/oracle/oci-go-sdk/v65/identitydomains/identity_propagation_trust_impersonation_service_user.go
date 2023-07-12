@@ -16,47 +16,65 @@ import (
 	"strings"
 )
 
-// SchemaLocalizedDisplayName Attribute's localized display name
-// **SCIM++ Properties:**
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
-type SchemaLocalizedDisplayName struct {
+// IdentityPropagationTrustImpersonationServiceUser Impersonating Principal
+type IdentityPropagationTrustImpersonationServiceUser struct {
 
-	// Localized display value
+	// The ID of the service user
 	// **SCIM++ Properties:**
 	//  - caseExact: true
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: true
+	//  - returned: request
+	//  - type: string
+	//  - uniqueness: none
+	Value *string `mandatory:"true" json:"value"`
+
+	// Rule expression to be used for matching inbound token for impersonation.
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: true
+	//  - returned: request
+	//  - type: string
+	//  - uniqueness: none
+	Rule *string `mandatory:"true" json:"rule"`
+
+	// The OCID of the Service User.
+	// **SCIM++ Properties:**
+	//  - caseExact: true
+	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: readWrite
 	//  - required: false
-	//  - returned: default
+	//  - returned: request
 	//  - type: string
 	//  - uniqueness: none
-	Value *string `mandatory:"false" json:"value"`
+	Ocid *string `mandatory:"false" json:"ocid"`
 
-	// Locale used
+	// The URI that corresponds to the Service User.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
+	//  - idcsSearchable: false
 	//  - multiValued: false
-	//  - mutability: readWrite
+	//  - mutability: readOnly
 	//  - required: false
 	//  - returned: default
-	//  - type: string
+	//  - type: reference
 	//  - uniqueness: none
-	Locale *string `mandatory:"false" json:"locale"`
+	Ref *string `mandatory:"false" json:"$ref"`
 }
 
-func (m SchemaLocalizedDisplayName) String() string {
+func (m IdentityPropagationTrustImpersonationServiceUser) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m SchemaLocalizedDisplayName) ValidateEnumValue() (bool, error) {
+func (m IdentityPropagationTrustImpersonationServiceUser) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

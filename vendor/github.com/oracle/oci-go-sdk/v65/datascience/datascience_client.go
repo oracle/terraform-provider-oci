@@ -417,6 +417,65 @@ func (client DataScienceClient) cancelWorkRequest(ctx context.Context, request c
 	return response, err
 }
 
+// ChangeDataSciencePrivateEndpointCompartment Moves a private endpoint into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeDataSciencePrivateEndpointCompartment()
+func (client DataScienceClient) ChangeDataSciencePrivateEndpointCompartment(ctx context.Context, request ChangeDataSciencePrivateEndpointCompartmentRequest) (response ChangeDataSciencePrivateEndpointCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeDataSciencePrivateEndpointCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDataSciencePrivateEndpointCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDataSciencePrivateEndpointCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDataSciencePrivateEndpointCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDataSciencePrivateEndpointCompartmentResponse")
+	}
+	return
+}
+
+// changeDataSciencePrivateEndpointCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) changeDataSciencePrivateEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dataSciencePrivateEndpoints/{dataSciencePrivateEndpointId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDataSciencePrivateEndpointCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/DataSciencePrivateEndpoint/ChangeDataSciencePrivateEndpointCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeDataSciencePrivateEndpointCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeJobCompartment Changes a job's compartment
 func (client DataScienceClient) ChangeJobCompartment(ctx context.Context, request ChangeJobCompartmentRequest) (response ChangeJobCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1148,6 +1207,65 @@ func (client DataScienceClient) changeProjectCompartment(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Project/ChangeProjectCompartment"
 		err = common.PostProcessServiceError(err, "DataScience", "ChangeProjectCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateDataSciencePrivateEndpoint Creates a Data Science private endpoint to be used by a Data Science resource.
+// A default retry strategy applies to this operation CreateDataSciencePrivateEndpoint()
+func (client DataScienceClient) CreateDataSciencePrivateEndpoint(ctx context.Context, request CreateDataSciencePrivateEndpointRequest) (response CreateDataSciencePrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDataSciencePrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDataSciencePrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDataSciencePrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDataSciencePrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDataSciencePrivateEndpointResponse")
+	}
+	return
+}
+
+// createDataSciencePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) createDataSciencePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dataSciencePrivateEndpoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDataSciencePrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DataScience", "CreateDataSciencePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -2287,6 +2405,59 @@ func (client DataScienceClient) deactivateNotebookSession(ctx context.Context, r
 	return response, err
 }
 
+// DeleteDataSciencePrivateEndpoint Deletes a private endpoint using `privateEndpointId`.
+func (client DataScienceClient) DeleteDataSciencePrivateEndpoint(ctx context.Context, request DeleteDataSciencePrivateEndpointRequest) (response DeleteDataSciencePrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDataSciencePrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDataSciencePrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDataSciencePrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDataSciencePrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDataSciencePrivateEndpointResponse")
+	}
+	return
+}
+
+// deleteDataSciencePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) deleteDataSciencePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dataSciencePrivateEndpoints/{dataSciencePrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDataSciencePrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/DataSciencePrivateEndpoint/DeleteDataSciencePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteDataSciencePrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteJob Deletes a job.
 // A default retry strategy applies to this operation DeleteJob()
 func (client DataScienceClient) DeleteJob(ctx context.Context, request DeleteJobRequest) (response DeleteJobResponse, err error) {
@@ -3103,6 +3274,60 @@ func (client DataScienceClient) exportModelArtifact(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/ExportModelArtifact"
 		err = common.PostProcessServiceError(err, "DataScience", "ExportModelArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDataSciencePrivateEndpoint Retrieves an private endpoint using a `privateEndpointId`.
+// A default retry strategy applies to this operation GetDataSciencePrivateEndpoint()
+func (client DataScienceClient) GetDataSciencePrivateEndpoint(ctx context.Context, request GetDataSciencePrivateEndpointRequest) (response GetDataSciencePrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDataSciencePrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDataSciencePrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDataSciencePrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDataSciencePrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDataSciencePrivateEndpointResponse")
+	}
+	return
+}
+
+// getDataSciencePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getDataSciencePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataSciencePrivateEndpoints/{dataSciencePrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDataSciencePrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/DataSciencePrivateEndpoint/GetDataSciencePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataScience", "GetDataSciencePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 
@@ -4464,6 +4689,60 @@ func (client DataScienceClient) importModelArtifact(ctx context.Context, request
 	return response, err
 }
 
+// ListDataSciencePrivateEndpoints Lists all Data Science private endpoints in the specified compartment. The query must include compartmentId. The query can also include one other parameter. If the query doesn't include compartmentId, or includes compartmentId with two or more other parameters, then an error is returned.
+// A default retry strategy applies to this operation ListDataSciencePrivateEndpoints()
+func (client DataScienceClient) ListDataSciencePrivateEndpoints(ctx context.Context, request ListDataSciencePrivateEndpointsRequest) (response ListDataSciencePrivateEndpointsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDataSciencePrivateEndpoints, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDataSciencePrivateEndpointsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDataSciencePrivateEndpointsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDataSciencePrivateEndpointsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDataSciencePrivateEndpointsResponse")
+	}
+	return
+}
+
+// listDataSciencePrivateEndpoints implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listDataSciencePrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataSciencePrivateEndpoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDataSciencePrivateEndpointsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/DataSciencePrivateEndpoint/ListDataSciencePrivateEndpoints"
+		err = common.PostProcessServiceError(err, "DataScience", "ListDataSciencePrivateEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListFastLaunchJobConfigs List fast launch capable job configs in the specified compartment.
 // A default retry strategy applies to this operation ListFastLaunchJobConfigs()
 func (client DataScienceClient) ListFastLaunchJobConfigs(ctx context.Context, request ListFastLaunchJobConfigsRequest) (response ListFastLaunchJobConfigsResponse, err error) {
@@ -5657,6 +5936,67 @@ func (client DataScienceClient) putMlApplicationPackage(ctx context.Context, req
 	return response, err
 }
 
+// RecoverMlApplicationInstanceView When MlApplicationInstanceView is in NEEDS_ATTENTION/FAILED state, providers can initiate recovery of the resource.
+// The failed operation details(create/upgrade/update/delete) is available in 'lifecycleDetails' of the resource.
+// The optional 'If-Match' header is checked against 'ETag' values of the resource.
+// A default retry strategy applies to this operation RecoverMlApplicationInstanceView()
+func (client DataScienceClient) RecoverMlApplicationInstanceView(ctx context.Context, request RecoverMlApplicationInstanceViewRequest) (response RecoverMlApplicationInstanceViewResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.recoverMlApplicationInstanceView, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RecoverMlApplicationInstanceViewResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RecoverMlApplicationInstanceViewResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RecoverMlApplicationInstanceViewResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RecoverMlApplicationInstanceViewResponse")
+	}
+	return
+}
+
+// recoverMlApplicationInstanceView implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) recoverMlApplicationInstanceView(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}/actions/recover", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RecoverMlApplicationInstanceViewResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/RecoverMlApplicationInstanceView"
+		err = common.PostProcessServiceError(err, "DataScience", "RecoverMlApplicationInstanceView", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // TriggerMlApplicationInstanceFlow Trigger ML Application Instance flow if possible
 // A default retry strategy applies to this operation TriggerMlApplicationInstanceFlow()
 func (client DataScienceClient) TriggerMlApplicationInstanceFlow(ctx context.Context, request TriggerMlApplicationInstanceFlowRequest) (response TriggerMlApplicationInstanceFlowResponse, err error) {
@@ -5768,6 +6108,61 @@ func (client DataScienceClient) triggerMlApplicationInstanceViewFlow(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/TriggerMlApplicationInstanceViewFlow"
 		err = common.PostProcessServiceError(err, "DataScience", "TriggerMlApplicationInstanceViewFlow", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDataSciencePrivateEndpoint Updates a private endpoint using a `privateEndpointId`.  If changes to a private endpoint match
+// a previously defined private endpoint, then a 409 status code is returned.  This indicates
+// that a conflict has been detected.
+func (client DataScienceClient) UpdateDataSciencePrivateEndpoint(ctx context.Context, request UpdateDataSciencePrivateEndpointRequest) (response UpdateDataSciencePrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDataSciencePrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDataSciencePrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDataSciencePrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDataSciencePrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDataSciencePrivateEndpointResponse")
+	}
+	return
+}
+
+// updateDataSciencePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateDataSciencePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dataSciencePrivateEndpoints/{dataSciencePrivateEndpointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDataSciencePrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/DataSciencePrivateEndpoint/UpdateDataSciencePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateDataSciencePrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
 

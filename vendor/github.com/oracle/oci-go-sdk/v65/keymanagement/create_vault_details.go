@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// CreateVaultDetails The representation of CreateVaultDetails
+// CreateVaultDetails The details of the vault that you want to create.
 type CreateVaultDetails struct {
 
 	// The OCID of the compartment where you want to create this vault.
@@ -37,6 +37,8 @@ type CreateVaultDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	ExternalKeyManagerMetadata *ExternalKeyManagerMetadata `mandatory:"false" json:"externalKeyManagerMetadata"`
 }
 
 func (m CreateVaultDetails) String() string {
@@ -65,16 +67,19 @@ type CreateVaultDetailsVaultTypeEnum string
 const (
 	CreateVaultDetailsVaultTypeVirtualPrivate CreateVaultDetailsVaultTypeEnum = "VIRTUAL_PRIVATE"
 	CreateVaultDetailsVaultTypeDefault        CreateVaultDetailsVaultTypeEnum = "DEFAULT"
+	CreateVaultDetailsVaultTypeExternal       CreateVaultDetailsVaultTypeEnum = "EXTERNAL"
 )
 
 var mappingCreateVaultDetailsVaultTypeEnum = map[string]CreateVaultDetailsVaultTypeEnum{
 	"VIRTUAL_PRIVATE": CreateVaultDetailsVaultTypeVirtualPrivate,
 	"DEFAULT":         CreateVaultDetailsVaultTypeDefault,
+	"EXTERNAL":        CreateVaultDetailsVaultTypeExternal,
 }
 
 var mappingCreateVaultDetailsVaultTypeEnumLowerCase = map[string]CreateVaultDetailsVaultTypeEnum{
 	"virtual_private": CreateVaultDetailsVaultTypeVirtualPrivate,
 	"default":         CreateVaultDetailsVaultTypeDefault,
+	"external":        CreateVaultDetailsVaultTypeExternal,
 }
 
 // GetCreateVaultDetailsVaultTypeEnumValues Enumerates the set of values for CreateVaultDetailsVaultTypeEnum
@@ -91,6 +96,7 @@ func GetCreateVaultDetailsVaultTypeEnumStringValues() []string {
 	return []string{
 		"VIRTUAL_PRIVATE",
 		"DEFAULT",
+		"EXTERNAL",
 	}
 }
 

@@ -93,6 +93,11 @@ type AlarmSummary struct {
 	// The configuration details for suppressing an alarm.
 	Suppression *Suppression `mandatory:"false" json:"suppression"`
 
+	// Whether the alarm sends a separate message for each metric stream.
+	// See Creating an Alarm That Splits Messages by Metric Stream (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/create-alarm-split.htm).
+	// Example: `true`
+	IsNotificationsPerMetricDimensionEnabled *bool `mandatory:"false" json:"isNotificationsPerMetricDimensionEnabled"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

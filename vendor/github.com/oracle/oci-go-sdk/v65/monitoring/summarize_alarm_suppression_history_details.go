@@ -21,9 +21,6 @@ import (
 // SummarizeAlarmSuppressionHistoryDetails The configuration details for returning history of suppressions for the specified alarm.
 type SummarizeAlarmSuppressionHistoryDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the alarm.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
-
 	// A filter to suppress only alarm state entries that include the set of specified dimension key-value pairs.
 	// If you specify {"availabilityDomain": "phx-ad-1"}
 	// and the alarm state entry corresponds to the set {"availabilityDomain": "phx-ad-1" and "resourceId": "ocid1.instance.region1.phx.exampleuniqueID"},

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// KeyVersion The representation of KeyVersion
+// KeyVersion The details of the KeyVersion associated with the Key.
 type KeyVersion struct {
 
 	// The OCID of the compartment that contains this key version.
@@ -55,7 +55,10 @@ type KeyVersion struct {
 
 	ReplicaDetails *KeyVersionReplicaDetails `mandatory:"false" json:"replicaDetails"`
 
+	// A Boolean value that indicates whether the KeyVersion belongs to primary Vault or replica Vault.
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
+
+	ExternalKeyReferenceDetails *ExternalKeyReferenceDetails `mandatory:"false" json:"externalKeyReferenceDetails"`
 }
 
 func (m KeyVersion) String() string {

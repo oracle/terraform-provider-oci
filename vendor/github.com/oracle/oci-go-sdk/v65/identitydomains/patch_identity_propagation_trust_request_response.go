@@ -11,11 +11,11 @@ import (
 	"strings"
 )
 
-// PutSchemaRequest wrapper for the PutSchema operation
-type PutSchemaRequest struct {
+// PatchIdentityPropagationTrustRequest wrapper for the PatchIdentityPropagationTrust operation
+type PatchIdentityPropagationTrustRequest struct {
 
 	// ID of the resource
-	SchemaId *string `mandatory:"true" contributesTo:"path" name:"schemaId"`
+	IdentityPropagationTrustId *string `mandatory:"true" contributesTo:"path" name:"identityPropagationTrustId"`
 
 	// The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.
 	Authorization *string `mandatory:"false" contributesTo:"header" name:"authorization"`
@@ -23,8 +23,14 @@ type PutSchemaRequest struct {
 	// An endpoint-specific schema version number to use in the Request. Allowed version values are Earliest Version or Latest Version as specified in each REST API endpoint description, or any sequential number inbetween. All schema attributes/body parameters are a part of version 1. After version 1, any attributes added or deprecated will be tagged with the version that they were added to or deprecated in. If no version is provided, the latest schema version is returned.
 	ResourceTypeSchemaVersion *string `mandatory:"false" contributesTo:"header" name:"resource_type_schema_version"`
 
-	// Replace the current instance of Schema with provided payload.
-	// Before you specify an attribute-value in a request to replace a resource, please check the **'mutability'** property of that attribute in the resource-type schema below. Clicking on an attribute-row will expand that row to show the **SCIM++ Properties** of that attribute.
+	// A comma-delimited string that specifies the names of resource attributes that should be returned in the response. By default, a response that contains resource attributes contains only attributes that are defined in the schema for that resource type as returned=always or returned=default. An attribute that is defined as returned=request is returned in a response only if the request specifies its name in the value of this query parameter. If a request specifies this query parameter, the response contains the attributes that this query parameter specifies, as well as any attribute that is defined as returned=always.
+	Attributes *string `mandatory:"false" contributesTo:"query" name:"attributes"`
+
+	// A multi-valued list of strings indicating the return type of attribute definition. The specified set of attributes can be fetched by the return type of the attribute. One or more values can be given together to fetch more than one group of attributes. If 'attributes' query parameter is also available, union of the two is fetched. Valid values - all, always, never, request, default. Values are case-insensitive.
+	AttributeSets []AttributeSetsEnum `contributesTo:"query" name:"attributeSets" omitEmpty:"true" collectionFormat:"multi"`
+
+	// Update the IdentityPropagationTrust with SCIM Patch schema.
+	// Before you specify an attribute-value in a request to update a resource, please check the **'mutability'** property of that attribute in the resource-type schema below. Clicking on an attribute-row will expand that row to show the **SCIM++ Properties** of that attribute.
 	//  - Your request to create, update or replace a resource may specify in its payload a value for any attribute that is defined as *mutability:readWrite* or *mutability:writeOnly* or *mutability:immutable*:
 	//  - The SCIM APIs to create a resource will ignore silently any value that you specify for an attribute that is defined as *mutability:readOnly*.
 	//  - The SCIM APIs to update or replace a resource will fail with an error 400 Bad Request if you specify a value for an attribute that is defined as *mutability:readOnly*.
@@ -34,7 +40,7 @@ type PutSchemaRequest struct {
 	//  - If you request a specific set of attributes, the SCIM APIs to read a resource (or to search a resource-type) will return in each resource the set of attributes that you requested, as well as any attribute that is defined as *returned:always*.
 	//  - If you do not request a specific set of attributes, the SCIM APIs to read a resource (or to search a resource-type) will return in each resource the the set of attributes defined as *returned:default*, as well as any attribute that is defined as *returned:always*.
 	//  - The SCIM APIs to read a resource (or to search a resource-type) will ignore silently any request to return an attribute that is defined as *returned:never*.
-	Schema `contributesTo:"body"`
+	PatchOp `contributesTo:"body"`
 
 	// Used to make the request conditional on an ETag
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
@@ -51,12 +57,12 @@ type PutSchemaRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request PutSchemaRequest) String() string {
+func (request PatchIdentityPropagationTrustRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request PutSchemaRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request PatchIdentityPropagationTrustRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -66,36 +72,42 @@ func (request PutSchemaRequest) HTTPRequest(method, path string, binaryRequestBo
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request PutSchemaRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request PatchIdentityPropagationTrustRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request PutSchemaRequest) RetryPolicy() *common.RetryPolicy {
+func (request PatchIdentityPropagationTrustRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request PutSchemaRequest) ValidateEnumValue() (bool, error) {
+func (request PatchIdentityPropagationTrustRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	for _, val := range request.AttributeSets {
+		if _, ok := GetMappingAttributeSetsEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeSets: %s. Supported values are: %s.", val, strings.Join(GetAttributeSetsEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
 
-// PutSchemaResponse wrapper for the PutSchema operation
-type PutSchemaResponse struct {
+// PatchIdentityPropagationTrustResponse wrapper for the PatchIdentityPropagationTrust operation
+type PatchIdentityPropagationTrustResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The Schema instance
-	Schema `presentIn:"body"`
+	// The IdentityPropagationTrust instance
+	IdentityPropagationTrust `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
@@ -104,11 +116,11 @@ type PutSchemaResponse struct {
 	Etag *string `presentIn:"header" name:"etag"`
 }
 
-func (response PutSchemaResponse) String() string {
+func (response PatchIdentityPropagationTrustResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response PutSchemaResponse) HTTPResponse() *http.Response {
+func (response PatchIdentityPropagationTrustResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

@@ -16,40 +16,24 @@ import (
 	"strings"
 )
 
-// SchemaResolveValueUsingResourceType This attribute gives a maps for resolving Resource Type after reading it's value from "csvColumnForResolvingResourceType" attribute
-type SchemaResolveValueUsingResourceType struct {
+// OAuthTokenError Error message that appears during Access Token generation
+type OAuthTokenError struct {
 
-	// Specifies the value which should be resolved by a Resource type.
-	// **SCIM++ Properties:**
-	//  - caseExact: false
-	//  - multiValued: false
-	//  - mutability: readWrite
-	//  - required: false
-	//  - returned: default
-	//  - type: string
-	//  - uniqueness: none
-	ValueToBeResolved *string `mandatory:"false" json:"valueToBeResolved"`
+	// Error values based on the OAuth specification
+	Error *string `mandatory:"true" json:"error"`
 
-	// Specifies the Resource type with which the value given in \"valueToBeResolved\" attribute should be resolved
-	// **SCIM++ Properties:**
-	//  - caseExact: false
-	//  - multiValued: false
-	//  - mutability: readWrite
-	//  - required: false
-	//  - returned: default
-	//  - type: string
-	//  - uniqueness: none
-	ResolveBy *string `mandatory:"false" json:"resolveBy"`
+	// Detailed error messages
+	ErrorDescription *string `mandatory:"true" json:"error_description"`
 }
 
-func (m SchemaResolveValueUsingResourceType) String() string {
+func (m OAuthTokenError) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m SchemaResolveValueUsingResourceType) ValidateEnumValue() (bool, error) {
+func (m OAuthTokenError) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

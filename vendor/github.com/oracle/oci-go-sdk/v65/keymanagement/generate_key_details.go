@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// GenerateKeyDetails The representation of GenerateKeyDetails
+// GenerateKeyDetails The details of the key that you want to encrypt or decrypt data.
 type GenerateKeyDetails struct {
 
 	// If true, the generated key is also returned unencrypted.
