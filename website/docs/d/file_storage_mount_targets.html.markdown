@@ -58,6 +58,22 @@ The following attributes are exported:
 * `export_set_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated export set. Controls what file systems will be exported through Network File System (NFS) protocol on this mount target. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target.
+* `idmap_type` - The method used to map a Unix UID to secondary groups. If NONE, the mount target will not use the Unix UID for ID mapping.
+* `kerberos` - Allows administrator to configure a mount target to interact with the administrator's Kerberos infrastructure. 
+	* `backup_key_tab_secret_version` - Version of the keytab secert in the Vault to use as a backup.
+	* `current_key_tab_secret_version` - Version of the keytab secret in the Vault to use.
+	* `is_kerberos_enabled` - Specifies whether to enable or disable Kerberos.
+	* `kerberos_realm` - The Kerberos realm that the mount target will join.
+	* `key_tab_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the keytab secret in the Vault.
+* `ldap_idmap` - Mount target details about the LDAP ID mapping configuration. 
+	* `cache_lifetime_seconds` - The maximum amount of time the mount target is allowed to use a cached entry.
+	* `cache_refresh_interval_seconds` - The amount of time that the mount target should allow an entry to persist in its cache before attempting to refresh the entry.
+	* `group_search_base` - All LDAP searches are recursive starting at this group.  Example: `CN=Group,DC=domain,DC=com` 
+	* `negative_cache_lifetime_seconds` - The amount of time that a mount target will maintain information that a user is not found in the ID mapping configuration.
+	* `outbound_connector1id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the first connector to use to communicate with the LDAP server.
+	* `outbound_connector2id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second connector to use to communicate with the LDAP server.
+	* `schema_type` - Schema type of the LDAP account.
+	* `user_search_base` - All LDAP searches are recursive starting at this user.  Example: `CN=User,DC=domain,DC=com` 
 * `lifecycle_details` - Additional information about the current 'lifecycleState'.
 * `nsg_ids` - A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `private_ip_ids` - The OCIDs of the private IP addresses associated with this mount target.

@@ -63,6 +63,14 @@ func FileStorageExportResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"allowed_auth": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"anonymous_gid": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -82,6 +90,11 @@ func FileStorageExportResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_anonymous_access_allowed": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"require_privileged_source_port": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -91,6 +104,11 @@ func FileStorageExportResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"is_idmap_groups_for_sys_auth": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -204,6 +222,11 @@ func (s *FileStorageExportResourceCrud) Create() error {
 		request.FileSystemId = &tmp
 	}
 
+	if isIdmapGroupsForSysAuth, ok := s.D.GetOkExists("is_idmap_groups_for_sys_auth"); ok {
+		tmp := isIdmapGroupsForSysAuth.(bool)
+		request.IsIdmapGroupsForSysAuth = &tmp
+	}
+
 	if path, ok := s.D.GetOkExists("path"); ok {
 		tmp := path.(string)
 		request.Path = &tmp
@@ -264,6 +287,11 @@ func (s *FileStorageExportResourceCrud) Update() error {
 		}
 	}
 
+	if isIdmapGroupsForSysAuth, ok := s.D.GetOkExists("is_idmap_groups_for_sys_auth"); ok {
+		tmp := isIdmapGroupsForSysAuth.(bool)
+		request.IsIdmapGroupsForSysAuth = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.UpdateExport(context.Background(), request)
@@ -302,6 +330,10 @@ func (s *FileStorageExportResourceCrud) SetData() error {
 		s.D.Set("file_system_id", *s.Res.FileSystemId)
 	}
 
+	if s.Res.IsIdmapGroupsForSysAuth != nil {
+		s.D.Set("is_idmap_groups_for_sys_auth", *s.Res.IsIdmapGroupsForSysAuth)
+	}
+
 	if s.Res.Path != nil {
 		s.D.Set("path", *s.Res.Path)
 	}
@@ -320,6 +352,19 @@ func (s *FileStorageExportResourceCrud) mapToClientOptions(fieldKeyFormat string
 
 	if access, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access")); ok {
 		result.Access = oci_file_storage.ClientOptionsAccessEnum(access.(string))
+	}
+
+	if allowedAuth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowed_auth")); ok {
+		interfaces := allowedAuth.([]interface{})
+		tmp := make([]oci_file_storage.ClientOptionsAllowedAuthEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_file_storage.ClientOptionsAllowedAuthEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowed_auth")) {
+			result.AllowedAuth = tmp
+		}
 	}
 
 	if anonymousGid, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "anonymous_gid")); ok {
@@ -344,6 +389,11 @@ func (s *FileStorageExportResourceCrud) mapToClientOptions(fieldKeyFormat string
 		result.IdentitySquash = oci_file_storage.ClientOptionsIdentitySquashEnum(identitySquash.(string))
 	}
 
+	if isAnonymousAccessAllowed, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_anonymous_access_allowed")); ok {
+		tmp := isAnonymousAccessAllowed.(bool)
+		result.IsAnonymousAccessAllowed = &tmp
+	}
+
 	if requirePrivilegedSourcePort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "require_privileged_source_port")); ok {
 		tmp := requirePrivilegedSourcePort.(bool)
 		result.RequirePrivilegedSourcePort = &tmp
@@ -362,6 +412,9 @@ func ClientOptionsToMap(obj oci_file_storage.ClientOptions) map[string]interface
 
 	result["access"] = string(obj.Access)
 
+	result["allowed_auth"] = obj.AllowedAuth
+	result["allowed_auth"] = obj.AllowedAuth
+
 	if obj.AnonymousGid != nil {
 		result["anonymous_gid"] = strconv.FormatInt(*obj.AnonymousGid, 10)
 	}
@@ -371,6 +424,10 @@ func ClientOptionsToMap(obj oci_file_storage.ClientOptions) map[string]interface
 	}
 
 	result["identity_squash"] = string(obj.IdentitySquash)
+
+	if obj.IsAnonymousAccessAllowed != nil {
+		result["is_anonymous_access_allowed"] = bool(*obj.IsAnonymousAccessAllowed)
+	}
 
 	if obj.RequirePrivilegedSourcePort != nil {
 		result["require_privileged_source_port"] = bool(*obj.RequirePrivilegedSourcePort)
