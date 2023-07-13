@@ -16,6 +16,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_file_storage_replication_target", FileStorageReplicationTargetDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_replication_targets", FileStorageReplicationTargetsDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_replications", FileStorageReplicationsDataSource())
+	tfresource.RegisterDatasource("oci_file_storage_outbound_connector", FileStorageOutboundConnectorDataSource())
+	tfresource.RegisterDatasource("oci_file_storage_outbound_connectors", FileStorageOutboundConnectorsDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_snapshot", FileStorageSnapshotDataSource())
 	tfresource.RegisterDatasource("oci_file_storage_snapshots", FileStorageSnapshotsDataSource())
 }
