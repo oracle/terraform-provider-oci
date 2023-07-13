@@ -26,7 +26,7 @@ resource "oci_core_network_security_group" "test_network_security_group" {
   vcn_id         = oci_core_vcn.test_vcn.id
   lifecycle {
     ignore_changes = [
-      "defined_tags"]
+    "defined_tags"]
   }
 }
 
@@ -36,21 +36,21 @@ resource "oci_core_vcn" "test_vcn" {
   dns_label      = "testvcn"
   lifecycle {
     ignore_changes = [
-      "defined_tags"]
+    "defined_tags"]
   }
 }
 
 resource "oci_core_subnet" "test_subnet" {
-  cidr_block        = "10.0.0.0/24"
-  compartment_id    = var.compartment_ocid
-  dns_label         = "testsubnet"
-  route_table_id    = oci_core_route_table.test_route_table.id
+  cidr_block     = "10.0.0.0/24"
+  compartment_id = var.compartment_ocid
+  dns_label      = "testsubnet"
+  route_table_id = oci_core_route_table.test_route_table.id
   security_list_ids = [
-    "${oci_core_security_list.test_sec_list.id}"]
-  vcn_id            = oci_core_vcn.test_vcn.id
+  "${oci_core_security_list.test_sec_list.id}"]
+  vcn_id = oci_core_vcn.test_vcn.id
   lifecycle {
     ignore_changes = [
-      "defined_tags"]
+    "defined_tags"]
   }
 }
 
@@ -58,9 +58,9 @@ resource "oci_core_security_list" "test_sec_list" {
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_vcn.test_vcn.id
   egress_security_rules {
-    destination  = "0.0.0.0/0"
-    protocol     = "all"
-    stateless    = "false"
+    destination = "0.0.0.0/0"
+    protocol    = "all"
+    stateless   = "false"
   }
 
   ingress_security_rules {
@@ -118,55 +118,43 @@ data "oci_identity_availability_domains" "test_availability_domains" {
   compartment_id = var.tenancy_ocid
 }
 
-resource "oci_identity_tag_namespace" "tag-namespace1" {
-  #Required
-  compartment_id = var.tenancy_ocid
-  description    = "example tag namespace"
-  name           = var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"
+resource "time_sleep" "wait_90_seconds" {
+  depends_on = [oci_core_subnet.test_subnet, oci_core_internet_gateway.test_ig]
 
-  is_retired     = false
-}
-
-resource "oci_identity_tag" "tag1" {
-  #Required
-  description      = "example tag"
-  name             = "example-tag"
-  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
-
-  is_retired       = false
+  create_duration = "90s"
 }
 
 resource "oci_container_instances_container_instance" "test_container_instance" {
+  depends_on = [time_sleep.wait_90_seconds]
+
   #Required
-  availability_domain      = data.oci_identity_availability_domains.test_availability_domains.availability_domains.2.name
-  compartment_id           = var.compartment_ocid
+  availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains.2.name
+  compartment_id      = var.compartment_ocid
   containers {
     #Required
-    image_url                      = "busybox"
+    image_url = "busybox"
 
     #Optional
-    additional_capabilities = [
-      "CAP_NET_ADMIN"]
     arguments = [
       "-c",
-      "sleep 24h"]
+    "sleep 24h"]
     command = [
-      "/bin/sh"]
+    "/bin/sh"]
     display_name = "displayName"
     environment_variables = {
       "environment" = "variable"
     }
     health_checks {
       #Required
-      health_check_type        = "HTTP"
+      health_check_type = "HTTP"
 
       #Optional
-      failure_action           = "KILL"
-      failure_threshold        = "10"
+      failure_action    = "KILL"
+      failure_threshold = "10"
       headers {
 
         #Optional
-        name = "name"
+        name  = "name"
         value = "value"
       }
       initial_delay_in_seconds = "10"
@@ -186,8 +174,8 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
     }
     volume_mounts {
       #Required
-      mount_path   = "/mnt"
-      volume_name  = "volumeName"
+      mount_path  = "/mnt"
+      volume_name = "volumeName"
 
       #Optional
       is_read_only = "false"
@@ -206,44 +194,43 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
     subnet_id = oci_core_subnet.test_subnet.id
 
     #Optional
-    defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")
+    defined_tags = map("tf_test_namespace.test_tag", "value")
     display_name = "displayName"
     freeform_tags = {
       "freeformTag" = "freeformTags"
     }
-    hostname_label = "hostnamelabel"
-    is_public_ip_assigned = "true"
-    nsg_ids = []
-    private_ip = "10.0.0.7"
+    hostname_label         = "hostnamelabel"
+    is_public_ip_assigned  = "true"
+    nsg_ids                = []
+    private_ip             = "10.0.0.7"
     skip_source_dest_check = "false"
   }
 
   #Optional
   container_restart_policy = "ALWAYS"
-  defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")
-  display_name = "displayName"
+  defined_tags             = map("tf_test_namespace.test_tag", "value")
+  display_name             = "displayName"
   dns_config {
 
     #Optional
     nameservers = [
-      "8.8.8.8"]
+    "8.8.8.8"]
     options = [
-      "options"]
+    "options"]
     searches = [
-      "search domain"]
+    "search domain"]
   }
   freeform_tags = {
     "bar-key" = "foo-value"
   }
   graceful_shutdown_timeout_in_seconds = "10"
   lifecycle {
-    ignore_changes = [
-      "defined_tags"]
+    ignore_changes = ["defined_tags", "vnics[0].defined_tags"]
   }
-  state           = "ACTIVE"
+  state = "ACTIVE"
   volumes {
     #Required
-    name = "volumeName"
+    name        = "volumeName"
     volume_type = "EMPTYDIR"
 
     #Optional
