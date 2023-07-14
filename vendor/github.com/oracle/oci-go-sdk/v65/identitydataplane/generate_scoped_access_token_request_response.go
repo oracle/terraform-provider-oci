@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateScopedAccessToken.go.html to see an example of how to use GenerateScopedAccessTokenRequest.
 type GenerateScopedAccessTokenRequest struct {
 
-	// Scoped Access token request
+	// Scoped access token request
 	GenerateScopedAccessTokenDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request.

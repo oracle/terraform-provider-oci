@@ -42,6 +42,9 @@ type ListPatchHistoriesRequest struct {
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
+	// The type of a BDS patch history entity.
+	PatchType PatchHistorySummaryPatchTypeEnum `mandatory:"false" contributesTo:"query" name:"patchType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -86,6 +89,9 @@ func (request ListPatchHistoriesRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListPatchHistoriesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListPatchHistoriesSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingPatchHistorySummaryPatchTypeEnum(string(request.PatchType)); !ok && request.PatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchType: %s. Supported values are: %s.", request.PatchType, strings.Join(GetPatchHistorySummaryPatchTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

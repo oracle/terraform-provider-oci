@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ContainerCollection A list of matching Containers.
+// ContainerCollection A list of containers.
 type ContainerCollection struct {
 
-	// List of Containers.
+	// List of containers.
 	Items []ContainerSummary `mandatory:"true" json:"items"`
 }
 

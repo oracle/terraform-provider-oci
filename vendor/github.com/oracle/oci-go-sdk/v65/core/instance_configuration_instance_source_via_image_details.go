@@ -44,6 +44,8 @@ type InstanceConfigurationInstanceSourceViaImageDetails struct {
 	//   * `30`-`120`: Represents the Ultra High Performance option.
 	// For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.
 	BootVolumeVpusPerGB *int64 `mandatory:"false" json:"bootVolumeVpusPerGB"`
+
+	InstanceSourceImageFilterDetails *InstanceConfigurationInstanceSourceImageFilterDetails `mandatory:"false" json:"instanceSourceImageFilterDetails"`
 }
 
 func (m InstanceConfigurationInstanceSourceViaImageDetails) String() string {

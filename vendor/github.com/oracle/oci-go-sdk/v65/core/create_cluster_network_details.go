@@ -21,7 +21,12 @@ import (
 	"strings"
 )
 
-// CreateClusterNetworkDetails The data to create a cluster network.
+// CreateClusterNetworkDetails The data to create a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+// Use cluster networks with instance pools when you want predictable capacity for a specific number of identical
+// instances that are managed as a group.
+// For details about creating compute clusters, which let you manage instances in the RDMA network independently
+// of each other or use different types of instances in the network group,
+// see CreateComputeClusterDetails.
 type CreateClusterNetworkDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment

@@ -16,44 +16,43 @@ import (
 	"strings"
 )
 
-// CreateContainerInstanceDetails The information about new ContainerInstance.
+// CreateContainerInstanceDetails Information to create a container instance.
 type CreateContainerInstanceDetails struct {
 
-	// Compartment Identifier
+	// The compartment OCID.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Availability Domain where the ContainerInstance should be created.
+	// The availability domain where the container instance runs.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The shape of the Container Instance. The shape determines the resources available to the Container Instance.
+	// The shape of the container instance. The shape determines the resources available to the container instance.
 	Shape *string `mandatory:"true" json:"shape"`
 
 	ShapeConfig *CreateContainerInstanceShapeConfigDetails `mandatory:"true" json:"shapeConfig"`
 
-	// The Containers to create on this Instance.
+	// The containers to create on this container instance.
 	Containers []CreateContainerDetails `mandatory:"true" json:"containers"`
 
-	// The networks to make available to containers on this Instance.
+	// The networks available to containers on this container instance.
 	Vnics []CreateContainerVnicDetails `mandatory:"true" json:"vnics"`
 
-	// Human-readable name for the ContainerInstance. If none is provided,
-	// OCI will select one for you.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. If you don't provide a name, a name is generated automatically.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Fault Domain where the ContainerInstance should run.
+	// The fault domain where the container instance runs.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
-	// A Volume represents a directory with data that is accessible across multiple containers in a
-	// ContainerInstance.
-	// Up to 32 volumes can be attached to single container instance.
+	// A volume is a directory with data that is accessible across multiple containers in a
+	// container instance.
+	// You can attach up to 32 volumes to single container instance.
 	Volumes []CreateContainerVolumeDetails `mandatory:"false" json:"volumes"`
 
 	DnsConfig *CreateContainerDnsConfigDetails `mandatory:"false" json:"dnsConfig"`
 
-	// Duration in seconds processes within a Container have to gracefully terminate. This applies whenever a Container must be halted, such as when the Container Instance is deleted. Processes will first be sent a termination signal. After this timeout is reached, the processes will be sent a termination signal.
+	// The amount of time that processes in a container have to gracefully end when the container must be stopped. For example, when you delete a container instance. After the timeout is reached, the processes are sent a signal to be deleted.
 	GracefulShutdownTimeoutInSeconds *int64 `mandatory:"false" json:"gracefulShutdownTimeoutInSeconds"`
 
-	// The image pull secrets for accessing private registry to pull images for containers
+	// The image pulls secrets so you can access private registry to pull container images.
 	ImagePullSecrets []CreateImagePullSecretDetails `mandatory:"false" json:"imagePullSecrets"`
 
 	// Container restart policy
@@ -64,7 +63,7 @@ type CreateContainerInstanceDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`.
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 

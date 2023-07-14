@@ -15,12 +15,12 @@ import (
 	"strings"
 )
 
-// ContainerVnic An interface to a virtual network available to Containers on a Container Instance.
+// ContainerVnic An interface to a virtual network available to containers on a container instance.
 type ContainerVnic struct {
 
-	// The ID of the Virtual Network Interface Card (VNIC) over which
-	// Containers accessing this network can communicate with the
-	// larger Virtual Client Network.
+	// The identifier of the virtual network interface card (VNIC) over which
+	// the containers accessing this network can communicate with the
+	// larger virtual cloud network.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 }
 

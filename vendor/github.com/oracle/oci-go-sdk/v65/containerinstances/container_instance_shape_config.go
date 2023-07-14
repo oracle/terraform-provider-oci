@@ -15,20 +15,20 @@ import (
 	"strings"
 )
 
-// ContainerInstanceShapeConfig The shape configuration for a Container Instance. The shape configuration determines
-// the resources allocated to the Instance and it's containers.
+// ContainerInstanceShapeConfig The shape configuration for a container instance. The shape configuration determines
+// the resources thats are available to the container instance and its containers.
 type ContainerInstanceShapeConfig struct {
 
-	// The total number of OCPUs available to the instance.
+	// The total number of OCPUs available to the container instance.
 	Ocpus *float32 `mandatory:"true" json:"ocpus"`
 
-	// The total amount of memory available to the instance, in gigabytes.
+	// The total amount of memory available to the container instance, in gigabytes.
 	MemoryInGBs *float32 `mandatory:"true" json:"memoryInGBs"`
 
-	// A short description of the instance's processor (CPU).
+	// A short description of the container instance's processor (CPU).
 	ProcessorDescription *string `mandatory:"true" json:"processorDescription"`
 
-	// The networking bandwidth available to the instance, in gigabits per second.
+	// The networking bandwidth available to the container instance, in gigabits per second.
 	NetworkingBandwidthInGbps *float32 `mandatory:"true" json:"networkingBandwidthInGbps"`
 }
 

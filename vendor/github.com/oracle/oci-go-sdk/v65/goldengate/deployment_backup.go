@@ -52,7 +52,7 @@ type DeploymentBackup struct {
 	TimeBackupFinished *common.SDKTime `mandatory:"false" json:"timeBackupFinished"`
 
 	// The size of the backup stored in object storage (in bytes)
-	SizeInBytes *float32 `mandatory:"false" json:"sizeInBytes"`
+	SizeInBytes *int64 `mandatory:"false" json:"sizeInBytes"`
 
 	// Possible Deployment backup types.
 	BackupType DeploymentBackupTypeEnum `mandatory:"false" json:"backupType,omitempty"`

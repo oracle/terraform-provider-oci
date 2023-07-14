@@ -24,7 +24,7 @@ type AssociateDrProtectionGroupDetails struct {
 	Role DrProtectionGroupRoleEnum `mandatory:"true" json:"role"`
 
 	// The OCID of the peer (remote) DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.iad.exampleocid2`
+	// Example: `ocid1.drprotectiongroup.oc1.iad.&lt;unique_id&gt;`
 	PeerId *string `mandatory:"false" json:"peerId"`
 
 	// The region of the peer (remote) DR Protection Group.

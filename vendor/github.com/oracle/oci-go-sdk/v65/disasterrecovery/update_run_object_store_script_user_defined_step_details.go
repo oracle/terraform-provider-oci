@@ -22,9 +22,9 @@ import (
 type UpdateRunObjectStoreScriptUserDefinedStepDetails struct {
 
 	// The OCID of the instance where this script or command should be executed.
-	RunOnInstanceId *string `mandatory:"false" json:"runOnInstanceId"`
+	RunOnInstanceId *string `mandatory:"true" json:"runOnInstanceId"`
 
-	ObjectStorageScriptLocation *UpdateObjectStorageScriptLocationDetails `mandatory:"false" json:"objectStorageScriptLocation"`
+	ObjectStorageScriptLocation *UpdateObjectStorageScriptLocationDetails `mandatory:"true" json:"objectStorageScriptLocation"`
 }
 
 func (m UpdateRunObjectStoreScriptUserDefinedStepDetails) String() string {

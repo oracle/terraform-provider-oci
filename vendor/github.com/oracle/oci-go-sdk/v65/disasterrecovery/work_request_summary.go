@@ -27,14 +27,14 @@ type WorkRequestSummary struct {
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
 	// The ID (OCID) of the work request.
-	// Example: `ocid1.workrequest.oc1.phx.exampleocid1`
+	// Example: `ocid1.workrequest.oc1.phx.&lt;unique_id&gt;`
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the compartment that contains the work request. Work requests should be scoped to
 	// the same compartment as the resource the work request affects. If the work request affects multiple resources,
 	// and those resources are not in the same compartment, it is up to the service team to pick the primary
 	// resource whose compartment should be used.
-	// Example: `ocid1.compartment.oc1..exampleocid1`
+	// Example: `ocid1.compartment.oc1..&lt;unique_id&gt;`
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The resources affected by this work request.

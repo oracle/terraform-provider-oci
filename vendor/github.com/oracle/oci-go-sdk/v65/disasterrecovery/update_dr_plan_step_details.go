@@ -22,7 +22,7 @@ import (
 type UpdateDrPlanStepDetails struct {
 
 	// The unique id of this step.
-	// Example: `sgid1.step..examplestepsgid`
+	// Example: `sgid1.step..&lt;unique_id&gt;`
 	Id *string `mandatory:"false" json:"id"`
 
 	// The display name of this step in a group.

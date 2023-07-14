@@ -22,12 +22,12 @@ import (
 type UpdateRunLocalScriptUserDefinedStepDetails struct {
 
 	// The OCID of the instance where this script or command should be executed.
-	// Example: `ocid1.instance.oc1.phx.exampleocid1`
-	RunOnInstanceId *string `mandatory:"false" json:"runOnInstanceId"`
+	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
+	RunOnInstanceId *string `mandatory:"true" json:"runOnInstanceId"`
 
 	// The script name and arguments.
 	// Example: `/usr/bin/python3 /home/opc/scripts/my_app_script.py arg1 arg2 arg3`
-	ScriptCommand *string `mandatory:"false" json:"scriptCommand"`
+	ScriptCommand *string `mandatory:"true" json:"scriptCommand"`
 
 	// The userid on the instance to be used for executing the script or command.
 	// Example: `opc`

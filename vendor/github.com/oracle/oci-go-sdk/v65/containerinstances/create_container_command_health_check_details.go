@@ -19,7 +19,7 @@ import (
 // CreateContainerCommandHealthCheckDetails Container Health Check Command type.
 type CreateContainerCommandHealthCheckDetails struct {
 
-	// The list of strings which will be concatenated to a single command for checking container's status.
+	// The list of strings that will be simplified to a single command for checking the status of the container.
 	Command []string `mandatory:"true" json:"command"`
 
 	// Health check name.

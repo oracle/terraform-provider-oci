@@ -59,11 +59,18 @@ type MountTarget struct {
 	// mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`
 
+	// The method used to map a Unix UID to secondary groups. If NONE, the mount target will not use the Unix UID for ID mapping.
+	IdmapType MountTargetIdmapTypeEnum `mandatory:"false" json:"idmapType,omitempty"`
+
+	LdapIdmap *LdapIdmap `mandatory:"false" json:"ldapIdmap"`
+
 	// A list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this mount target.
 	// A maximum of 5 is allowed.
 	// Setting this to an empty array after the list is created removes the mount target from all NSGs.
 	// For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	Kerberos *Kerberos `mandatory:"false" json:"kerberos"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
@@ -90,6 +97,9 @@ func (m MountTarget) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetMountTargetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingMountTargetIdmapTypeEnum(string(m.IdmapType)); !ok && m.IdmapType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IdmapType: %s. Supported values are: %s.", m.IdmapType, strings.Join(GetMountTargetIdmapTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -147,5 +157,47 @@ func GetMountTargetLifecycleStateEnumStringValues() []string {
 // GetMappingMountTargetLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingMountTargetLifecycleStateEnum(val string) (MountTargetLifecycleStateEnum, bool) {
 	enum, ok := mappingMountTargetLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// MountTargetIdmapTypeEnum Enum with underlying type: string
+type MountTargetIdmapTypeEnum string
+
+// Set of constants representing the allowable values for MountTargetIdmapTypeEnum
+const (
+	MountTargetIdmapTypeLdap MountTargetIdmapTypeEnum = "LDAP"
+	MountTargetIdmapTypeNone MountTargetIdmapTypeEnum = "NONE"
+)
+
+var mappingMountTargetIdmapTypeEnum = map[string]MountTargetIdmapTypeEnum{
+	"LDAP": MountTargetIdmapTypeLdap,
+	"NONE": MountTargetIdmapTypeNone,
+}
+
+var mappingMountTargetIdmapTypeEnumLowerCase = map[string]MountTargetIdmapTypeEnum{
+	"ldap": MountTargetIdmapTypeLdap,
+	"none": MountTargetIdmapTypeNone,
+}
+
+// GetMountTargetIdmapTypeEnumValues Enumerates the set of values for MountTargetIdmapTypeEnum
+func GetMountTargetIdmapTypeEnumValues() []MountTargetIdmapTypeEnum {
+	values := make([]MountTargetIdmapTypeEnum, 0)
+	for _, v := range mappingMountTargetIdmapTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMountTargetIdmapTypeEnumStringValues Enumerates the set of values in String for MountTargetIdmapTypeEnum
+func GetMountTargetIdmapTypeEnumStringValues() []string {
+	return []string{
+		"LDAP",
+		"NONE",
+	}
+}
+
+// GetMappingMountTargetIdmapTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMountTargetIdmapTypeEnum(val string) (MountTargetIdmapTypeEnum, bool) {
+	enum, ok := mappingMountTargetIdmapTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
