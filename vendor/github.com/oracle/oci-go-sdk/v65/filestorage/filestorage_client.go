@@ -203,7 +203,7 @@ func (client FileStorageClient) changeFilesystemSnapshotPolicyCompartment(ctx co
 	return response, err
 }
 
-// ChangeMountTargetCompartment Moves a mount target and its associated export set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+// ChangeMountTargetCompartment Moves a mount target and its associated export set or share set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 //
 // See also
 //
@@ -253,6 +253,65 @@ func (client FileStorageClient) changeMountTargetCompartment(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/ChangeMountTargetCompartment"
 		err = common.PostProcessServiceError(err, "FileStorage", "ChangeMountTargetCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeOutboundConnectorCompartment Moves an outbound connector into a different compartment within the same tenancy.
+// For information about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeOutboundConnectorCompartment.go.html to see an example of how to use ChangeOutboundConnectorCompartment API.
+func (client FileStorageClient) ChangeOutboundConnectorCompartment(ctx context.Context, request ChangeOutboundConnectorCompartmentRequest) (response ChangeOutboundConnectorCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeOutboundConnectorCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeOutboundConnectorCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeOutboundConnectorCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeOutboundConnectorCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeOutboundConnectorCompartmentResponse")
+	}
+	return
+}
+
+// changeOutboundConnectorCompartment implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) changeOutboundConnectorCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/outboundConnectors/{outboundConnectorId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeOutboundConnectorCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/OutboundConnector/ChangeOutboundConnectorCompartment"
+		err = common.PostProcessServiceError(err, "FileStorage", "ChangeOutboundConnectorCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -617,6 +676,84 @@ func (client FileStorageClient) createMountTarget(ctx context.Context, request c
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateOutboundConnector Creates a new outbound connector in the specified compartment.
+// You can associate an outbound connector with a mount target only when
+// they exist in the same availability domain.
+// For information about access control and compartments, see
+// Overview of the IAM
+// Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// For information about availability domains, see Regions and
+// Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
+// To get a list of availability domains, use the
+// `ListAvailabilityDomains` operation in the Identity and Access
+// Management Service API.
+// All Oracle Cloud Infrastructure Services resources, including
+// outbound connectors, get an Oracle-assigned, unique ID called an
+// Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)).
+// When you create a resource, you can find its OCID in the response.
+// You can also retrieve a resource's OCID by using a List API operation on that resource
+// type, or by viewing the resource in the Console.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateOutboundConnector.go.html to see an example of how to use CreateOutboundConnector API.
+func (client FileStorageClient) CreateOutboundConnector(ctx context.Context, request CreateOutboundConnectorRequest) (response CreateOutboundConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOutboundConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOutboundConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOutboundConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOutboundConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOutboundConnectorResponse")
+	}
+	return
+}
+
+// createOutboundConnector implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) createOutboundConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/outboundConnectors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOutboundConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/OutboundConnector/CreateOutboundConnector"
+		err = common.PostProcessServiceError(err, "FileStorage", "CreateOutboundConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &outboundconnector{})
 	return response, err
 }
 
@@ -992,6 +1129,63 @@ func (client FileStorageClient) deleteMountTarget(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/DeleteMountTarget"
 		err = common.PostProcessServiceError(err, "FileStorage", "DeleteMountTarget", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteOutboundConnector Deletes the specified outbound connector.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteOutboundConnector.go.html to see an example of how to use DeleteOutboundConnector API.
+func (client FileStorageClient) DeleteOutboundConnector(ctx context.Context, request DeleteOutboundConnectorRequest) (response DeleteOutboundConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOutboundConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOutboundConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOutboundConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOutboundConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOutboundConnectorResponse")
+	}
+	return
+}
+
+// deleteOutboundConnector implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) deleteOutboundConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/outboundConnectors/{outboundConnectorId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOutboundConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/OutboundConnector/DeleteOutboundConnector"
+		err = common.PostProcessServiceError(err, "FileStorage", "DeleteOutboundConnector", apiReferenceLink)
 		return response, err
 	}
 
@@ -1515,6 +1709,63 @@ func (client FileStorageClient) getMountTarget(ctx context.Context, request comm
 	return response, err
 }
 
+// GetOutboundConnector Gets the specified outbound connector's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetOutboundConnector.go.html to see an example of how to use GetOutboundConnector API.
+func (client FileStorageClient) GetOutboundConnector(ctx context.Context, request GetOutboundConnectorRequest) (response GetOutboundConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOutboundConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOutboundConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOutboundConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOutboundConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOutboundConnectorResponse")
+	}
+	return
+}
+
+// getOutboundConnector implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) getOutboundConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/outboundConnectors/{outboundConnectorId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOutboundConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/OutboundConnector/GetOutboundConnector"
+		err = common.PostProcessServiceError(err, "FileStorage", "GetOutboundConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &outboundconnector{})
+	return response, err
+}
+
 // GetReplication Gets the specified replication's information.
 //
 // See also
@@ -1974,6 +2225,79 @@ func (client FileStorageClient) listMountTargets(ctx context.Context, request co
 	return response, err
 }
 
+// listoutboundconnectorsummary allows to unmarshal list of polymorphic OutboundConnectorSummary
+type listoutboundconnectorsummary []outboundconnectorsummary
+
+// UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
+func (m *listoutboundconnectorsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+	res := make([]OutboundConnectorSummary, len(*m))
+	for i, v := range *m {
+		nn, err := v.UnmarshalPolymorphicJSON(v.JsonData)
+		if err != nil {
+			return nil, err
+		}
+		res[i] = nn.(OutboundConnectorSummary)
+	}
+	return res, nil
+}
+
+// ListOutboundConnectors Lists the outbound connector resources in the specified compartment.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListOutboundConnectors.go.html to see an example of how to use ListOutboundConnectors API.
+func (client FileStorageClient) ListOutboundConnectors(ctx context.Context, request ListOutboundConnectorsRequest) (response ListOutboundConnectorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOutboundConnectors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOutboundConnectorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOutboundConnectorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOutboundConnectorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOutboundConnectorsResponse")
+	}
+	return
+}
+
+// listOutboundConnectors implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) listOutboundConnectors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/outboundConnectors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOutboundConnectorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/OutboundConnectorSummary/ListOutboundConnectors"
+		err = common.PostProcessServiceError(err, "FileStorage", "ListOutboundConnectors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &listoutboundconnectorsummary{})
+	return response, err
+}
+
 // ListReplicationTargets Lists the replication target resources in the specified compartment.
 //
 // See also
@@ -2091,6 +2415,8 @@ func (client FileStorageClient) listReplications(ctx context.Context, request co
 // ListSnapshots Lists snapshots of the specified file system, or by file system snapshot policy and compartment,
 // or by file system snapshot policy and file system.
 // If file system ID is not specified, a file system snapshot policy ID and compartment ID must be specified.
+// Users can only sort by time created when listing snapshots by file system snapshot policy ID and compartment ID
+// (sort by name is NOT supported for listing snapshots by policy and compartment).
 //
 // See also
 //
@@ -2554,6 +2880,63 @@ func (client FileStorageClient) updateMountTarget(ctx context.Context, request c
 	return response, err
 }
 
+// UpdateOutboundConnector Updates the specified outbound connector's information.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateOutboundConnector.go.html to see an example of how to use UpdateOutboundConnector API.
+func (client FileStorageClient) UpdateOutboundConnector(ctx context.Context, request UpdateOutboundConnectorRequest) (response UpdateOutboundConnectorResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateOutboundConnector, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateOutboundConnectorResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateOutboundConnectorResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateOutboundConnectorResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateOutboundConnectorResponse")
+	}
+	return
+}
+
+// updateOutboundConnector implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) updateOutboundConnector(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/outboundConnectors/{outboundConnectorId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateOutboundConnectorResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/OutboundConnector/UpdateOutboundConnector"
+		err = common.PostProcessServiceError(err, "FileStorage", "UpdateOutboundConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &outboundconnector{})
+	return response, err
+}
+
 // UpdateReplication Updates the information for the specified replication and its associated replication target.
 //
 // See also
@@ -2661,6 +3044,65 @@ func (client FileStorageClient) updateSnapshot(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Snapshot/UpdateSnapshot"
 		err = common.PostProcessServiceError(err, "FileStorage", "UpdateSnapshot", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ValidateKeyTabs Validates keytab contents for the secret details passed on the request or validte keytab contents associated with
+// the mount target passed in the request. The keytabs are deserialized, the contents are validated for compatibility
+// and the principal, key version number and encryption type of each entry is provided as part of the response.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ValidateKeyTabs.go.html to see an example of how to use ValidateKeyTabs API.
+func (client FileStorageClient) ValidateKeyTabs(ctx context.Context, request ValidateKeyTabsRequest) (response ValidateKeyTabsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.validateKeyTabs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateKeyTabsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateKeyTabsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateKeyTabsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateKeyTabsResponse")
+	}
+	return
+}
+
+// validateKeyTabs implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) validateKeyTabs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/actions/validateKeyTabs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateKeyTabsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/ValidateKeyTabs"
+		err = common.PostProcessServiceError(err, "FileStorage", "ValidateKeyTabs", apiReferenceLink)
 		return response, err
 	}
 

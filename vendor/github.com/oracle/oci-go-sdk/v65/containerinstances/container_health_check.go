@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ContainerHealthCheck Type of container health check which could be either HTTP, TCP or Command.
+// ContainerHealthCheck Type of container health check which could be either HTTP, TCP, or Command.
 type ContainerHealthCheck interface {
 
 	// Health check name.

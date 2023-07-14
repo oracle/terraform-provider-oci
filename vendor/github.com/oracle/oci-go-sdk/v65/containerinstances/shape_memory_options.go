@@ -15,22 +15,22 @@ import (
 	"strings"
 )
 
-// ShapeMemoryOptions For a flexible shape, the amount of memory available for instances that use this shape.
+// ShapeMemoryOptions For a flexible shape, the amount of memory available for container instances that use this shape.
 type ShapeMemoryOptions struct {
 
-	// The minimum amount of memory, in gigabytes.
+	// The minimum amount of memory (GB).
 	MinInGBs *float32 `mandatory:"true" json:"minInGBs"`
 
-	// The maximum amount of memory, in gigabytes.
+	// The maximum amount of memory (GB).
 	MaxInGBs *float32 `mandatory:"true" json:"maxInGBs"`
 
-	// The default amount of memory per OCPU available for this shape, in gigabytes.
+	// The default amount of memory per OCPU available for this shape (GB).
 	DefaultPerOcpuInGBs *float32 `mandatory:"true" json:"defaultPerOcpuInGBs"`
 
-	// The minimum amount of memory per OCPU available for this shape, in gigabytes.
+	// The minimum amount of memory per OCPU available for this shape (GB).
 	MinPerOcpuInGBs *float32 `mandatory:"true" json:"minPerOcpuInGBs"`
 
-	// The maximum amount of memory per OCPU available for this shape, in gigabytes.
+	// The maximum amount of memory per OCPU available for this shape (GB).
 	MaxPerOcpuInGBs *float32 `mandatory:"true" json:"maxPerOcpuInGBs"`
 }
 

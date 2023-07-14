@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ContainerInstanceCollection Results of a containerInstance search. Contains boh ContainerInstanceSummary items and other information, such as metadata.
+// ContainerInstanceCollection Summary information about a list of container instances.
 type ContainerInstanceCollection struct {
 
-	// List of containerInstances.
+	// List of container instances.
 	Items []ContainerInstanceSummary `mandatory:"true" json:"items"`
 }
 

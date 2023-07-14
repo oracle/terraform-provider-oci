@@ -20,24 +20,30 @@ type DrProtectionGroupMemberTypeEnum string
 
 // Set of constants representing the allowable values for DrProtectionGroupMemberTypeEnum
 const (
-	DrProtectionGroupMemberTypeComputeInstance    DrProtectionGroupMemberTypeEnum = "COMPUTE_INSTANCE"
-	DrProtectionGroupMemberTypeVolumeGroup        DrProtectionGroupMemberTypeEnum = "VOLUME_GROUP"
-	DrProtectionGroupMemberTypeDatabase           DrProtectionGroupMemberTypeEnum = "DATABASE"
-	DrProtectionGroupMemberTypeAutonomousDatabase DrProtectionGroupMemberTypeEnum = "AUTONOMOUS_DATABASE"
+	DrProtectionGroupMemberTypeComputeInstance           DrProtectionGroupMemberTypeEnum = "COMPUTE_INSTANCE"
+	DrProtectionGroupMemberTypeComputeInstanceMovable    DrProtectionGroupMemberTypeEnum = "COMPUTE_INSTANCE_MOVABLE"
+	DrProtectionGroupMemberTypeComputeInstanceNonMovable DrProtectionGroupMemberTypeEnum = "COMPUTE_INSTANCE_NON_MOVABLE"
+	DrProtectionGroupMemberTypeVolumeGroup               DrProtectionGroupMemberTypeEnum = "VOLUME_GROUP"
+	DrProtectionGroupMemberTypeDatabase                  DrProtectionGroupMemberTypeEnum = "DATABASE"
+	DrProtectionGroupMemberTypeAutonomousDatabase        DrProtectionGroupMemberTypeEnum = "AUTONOMOUS_DATABASE"
 )
 
 var mappingDrProtectionGroupMemberTypeEnum = map[string]DrProtectionGroupMemberTypeEnum{
-	"COMPUTE_INSTANCE":    DrProtectionGroupMemberTypeComputeInstance,
-	"VOLUME_GROUP":        DrProtectionGroupMemberTypeVolumeGroup,
-	"DATABASE":            DrProtectionGroupMemberTypeDatabase,
-	"AUTONOMOUS_DATABASE": DrProtectionGroupMemberTypeAutonomousDatabase,
+	"COMPUTE_INSTANCE":             DrProtectionGroupMemberTypeComputeInstance,
+	"COMPUTE_INSTANCE_MOVABLE":     DrProtectionGroupMemberTypeComputeInstanceMovable,
+	"COMPUTE_INSTANCE_NON_MOVABLE": DrProtectionGroupMemberTypeComputeInstanceNonMovable,
+	"VOLUME_GROUP":                 DrProtectionGroupMemberTypeVolumeGroup,
+	"DATABASE":                     DrProtectionGroupMemberTypeDatabase,
+	"AUTONOMOUS_DATABASE":          DrProtectionGroupMemberTypeAutonomousDatabase,
 }
 
 var mappingDrProtectionGroupMemberTypeEnumLowerCase = map[string]DrProtectionGroupMemberTypeEnum{
-	"compute_instance":    DrProtectionGroupMemberTypeComputeInstance,
-	"volume_group":        DrProtectionGroupMemberTypeVolumeGroup,
-	"database":            DrProtectionGroupMemberTypeDatabase,
-	"autonomous_database": DrProtectionGroupMemberTypeAutonomousDatabase,
+	"compute_instance":             DrProtectionGroupMemberTypeComputeInstance,
+	"compute_instance_movable":     DrProtectionGroupMemberTypeComputeInstanceMovable,
+	"compute_instance_non_movable": DrProtectionGroupMemberTypeComputeInstanceNonMovable,
+	"volume_group":                 DrProtectionGroupMemberTypeVolumeGroup,
+	"database":                     DrProtectionGroupMemberTypeDatabase,
+	"autonomous_database":          DrProtectionGroupMemberTypeAutonomousDatabase,
 }
 
 // GetDrProtectionGroupMemberTypeEnumValues Enumerates the set of values for DrProtectionGroupMemberTypeEnum
@@ -53,6 +59,8 @@ func GetDrProtectionGroupMemberTypeEnumValues() []DrProtectionGroupMemberTypeEnu
 func GetDrProtectionGroupMemberTypeEnumStringValues() []string {
 	return []string{
 		"COMPUTE_INSTANCE",
+		"COMPUTE_INSTANCE_MOVABLE",
+		"COMPUTE_INSTANCE_NON_MOVABLE",
 		"VOLUME_GROUP",
 		"DATABASE",
 		"AUTONOMOUS_DATABASE",

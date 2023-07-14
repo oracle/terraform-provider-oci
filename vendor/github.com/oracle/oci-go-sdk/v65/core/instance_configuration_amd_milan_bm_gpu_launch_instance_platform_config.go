@@ -22,7 +22,8 @@ import (
 	"strings"
 )
 
-// InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfig The platform configuration of a bare metal instance that uses a GPU shape on the AMD Milan platform.
+// InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfig The platform configuration used when launching a bare metal GPU instance with the following shape: BM.GPU.GM4.8 (also
+// named BM.GPU.A100-v2.8) (the AMD Milan platform).
 type InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfig struct {
 
 	// Whether Secure Boot is enabled on the instance.

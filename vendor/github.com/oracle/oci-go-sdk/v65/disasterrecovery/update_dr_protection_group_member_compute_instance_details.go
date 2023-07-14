@@ -22,7 +22,7 @@ import (
 type UpdateDrProtectionGroupMemberComputeInstanceDetails struct {
 
 	// The OCID of the member.
-	// Example: `ocid1.database.oc1.phx.exampleocid1`
+	// Example: `ocid1.database.oc1.phx.&lt;unique_id&gt;`
 	MemberId *string `mandatory:"true" json:"memberId"`
 
 	// A flag indicating if this compute instance should be moved during DR operations.
@@ -33,12 +33,12 @@ type UpdateDrProtectionGroupMemberComputeInstanceDetails struct {
 	VnicMapping []ComputeInstanceVnicMappingDetails `mandatory:"false" json:"vnicMapping"`
 
 	// The OCID of the compartment for this compute instance in the destination region.
-	// Example: `ocid1.compartment.oc1..exampleocid1`
+	// Example: `ocid1.compartment.oc1..&lt;unique_id&gt;`
 	DestinationCompartmentId *string `mandatory:"false" json:"destinationCompartmentId"`
 
 	// The OCID of the dedicated VM Host in the destination region where this compute instance
 	// should be launched
-	// Example: `ocid1.dedicatedvmhost.oc1.iad.exampleocid2`
+	// Example: `ocid1.dedicatedvmhost.oc1.iad.&lt;unique_id&gt;`
 	DestinationDedicatedVmHostId *string `mandatory:"false" json:"destinationDedicatedVmHostId"`
 }
 

@@ -15,33 +15,31 @@ import (
 	"strings"
 )
 
-// ContainerSummary A reduced set of details about a single Container returned by list APIs.
+// ContainerSummary Summary information about a container.
 type ContainerSummary struct {
 
-	// Unique identifier that is immutable on creation
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Display name for the Container. Can be renamed.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment Identifier
+	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Availability Domain where the Container's Instance is running.
+	// The availability domain where the container instance that hosts this container runs.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The current state of the Container.
+	// The current state of the container.
 	LifecycleState ContainerLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The time the the Container was created. An RFC3339 formatted datetime string
+	// The time the the container was created in the format defined by RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The identifier of the Container Instance on which this container is running.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance on which the container is running.
 	ContainerInstanceId *string `mandatory:"true" json:"containerInstanceId"`
 
-	// The container image information. Currently only support public docker registry. Can be either image name,
-	// e.g `containerImage`, image name with version, e.g `containerImage:v1` or complete docker image Url e.g
-	// `docker.io/library/containerImage:latest`.
+	// A URL identifying the image that the container runs in, such as docker.io/library/busybox:latest. If you do not provide a tag, the tag will default to latest.
 	// If no registry is provided, will default the registry to public docker hub `docker.io/library`.
 	// The registry used for container image must be reachable over the Container Instance's VNIC.
 	ImageUrl *string `mandatory:"true" json:"imageUrl"`
@@ -51,29 +49,28 @@ type ContainerSummary struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`.
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`.
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Fault Domain where the Container's Instance is running.
+	// The fault domain where the container instance that hosts the container runs.
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
-	// A message describing the current state in more detail. For example, can be used to provide
-	// actionable information for a resource in Failed state.
+	// A message that describes the current state of the container in more detail. Can be used to provide
+	// actionable information.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The time the Container was updated. An RFC3339 formatted datetime string
+	// The time the container was updated in the format defined by RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	ResourceConfig *ContainerResourceConfig `mandatory:"false" json:"resourceConfig"`
 
-	// Determines if the Container will have access to the Container Instance Resource Principal.
-	// This method utilizes resource principal version 2.2. Please refer to
-	// https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm#sdk_authentication_methods_resource_principal
-	// for detailed explanation of how to leverage the exposed resource principal elements.
+	// Determines whether the container will have access to the container instance resource principal.
+	// This method utilizes resource principal version 2.2. For information on how to use the exposed resource principal elements, see
+	// https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm#sdk_authentication_methods_resource_principal.
 	IsResourcePrincipalDisabled *bool `mandatory:"false" json:"isResourcePrincipalDisabled"`
 }
 

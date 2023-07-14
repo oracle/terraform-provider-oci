@@ -22,8 +22,8 @@ import (
 type UpdateInvokeFunctionUserDefinedStepDetails struct {
 
 	// The OCID of function to be invoked.
-	// Example: `ocid1.fnfunc.oc1.iad.exampleocid2`
-	FunctionId *string `mandatory:"false" json:"functionId"`
+	// Example: `ocid1.fnfunc.oc1.iad.&lt;unique_id&gt;`
+	FunctionId *string `mandatory:"true" json:"functionId"`
 
 	// The request body for the function.
 	// Example: `{ "FnParam1", "FnParam2" }`

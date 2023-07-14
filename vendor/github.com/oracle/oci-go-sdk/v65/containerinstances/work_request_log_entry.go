@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// WorkRequestLogEntry A log message from the execution of a work request.
+// WorkRequestLogEntry A log message from a work request.
 type WorkRequestLogEntry struct {
 
 	// Human-readable log message.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the log message was written. An RFC3339 formatted datetime string
+	// The time the log message was written, in the format defined by RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

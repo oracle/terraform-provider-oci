@@ -15,20 +15,20 @@ import (
 	"strings"
 )
 
-// ContainerResourceConfig The resource configuration for a Container. The resource configuration determines
-// the guaranteed resources allocated to the container and the maximum allowed resources for a container.
+// ContainerResourceConfig The resource configuration for a container. The resource configuration determines
+// the amount of resources allocated to the container and the maximum allowed resources for a container.
 type ContainerResourceConfig struct {
 
-	// The maximum amount of CPU utilization which may be consumed by the Container's
-	// process. If no value is provided, then the process may consume
-	// all CPU resources on the Instance.
+	// The maximum amount of CPUs that can be consumed by the container's process.
+	// If you do not set a value, then the process
+	// may use all available CPU resources on the container instance.
 	// CPU usage is defined in terms of logical CPUs. This means that the
 	// maximum possible value on an E3 ContainerInstance with 1 OCPU is 2.0.
 	VcpusLimit *float32 `mandatory:"false" json:"vcpusLimit"`
 
-	// The maximum amount of memory which may be consumed by the Container's
-	// process. If no value is provided, then the process
-	// may use all available memory on the Instance.
+	// The maximum amount of memory that can be consumed by the container's
+	// process. If you do not set a value, then the process
+	// may use all available memory on the instance.
 	MemoryLimitInGBs *float32 `mandatory:"false" json:"memoryLimitInGBs"`
 }
 

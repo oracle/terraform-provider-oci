@@ -21,15 +21,25 @@ import (
 type ComputeInstanceVnicMappingDetails struct {
 
 	// The OCID of the VNIC.
-	// Example: `ocid1.vnic.oc1.phx.exampleocid1`
+	// Example: `ocid1.vnic.oc1.phx.&lt;unique_id&gt;`
 	SourceVnicId *string `mandatory:"true" json:"sourceVnicId"`
 
 	// The OCID of the destination (remote) subnet to which this VNIC should connect.
-	// Example: `ocid1.subnet.oc1.iad.exampleocid2`
+	// Example: `ocid1.subnet.oc1.iad.&lt;unique_id&gt;`
 	DestinationSubnetId *string `mandatory:"true" json:"destinationSubnetId"`
 
-	// A list of destination region's network security group (NSG) Ids which this VNIC should use.
-	// Example: `[ ocid1.networksecuritygroup.oc1.iad.abcd1, ocid1.networksecuritygroup.oc1.iad.wxyz2 ]`
+	// The primary private IP address to assign. This address must belong to the destination subnet.
+	// Example: `10.0.3.3`
+	DestinationPrimaryPrivateIpAddress *string `mandatory:"false" json:"destinationPrimaryPrivateIpAddress"`
+
+	// The hostname to assign for this primary private IP.
+	// The value is the hostname portion of the private IP's fully qualified domain name (FQDN)
+	// (for example, bminstance1 in FQDN bminstance1.subnet123.vcn1.oraclevcn.com).
+	// Example: `bminstance1`
+	DestinationPrimaryPrivateIpHostnameLabel *string `mandatory:"false" json:"destinationPrimaryPrivateIpHostnameLabel"`
+
+	// A list of network security group (NSG) IDs in the destination region which this VNIC should use.
+	// Example: `[ ocid1.networksecuritygroup.oc1.iad.&lt;unique_id&gt;, ocid1.networksecuritygroup.oc1.iad.&lt;unique_id&gt; ]`
 	DestinationNsgIdList []string `mandatory:"false" json:"destinationNsgIdList"`
 }
 

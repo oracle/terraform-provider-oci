@@ -19,10 +19,10 @@ import (
 // ContainerHttpHealthCheck Container Health Check HTTP type.
 type ContainerHttpHealthCheck struct {
 
-	// Container health check Http's path
+	// Container health check HTTP path.
 	Path *string `mandatory:"true" json:"path"`
 
-	// Container health check Http's port
+	// Container health check HTTP port.
 	Port *int `mandatory:"true" json:"port"`
 
 	// Health check name.
@@ -46,7 +46,7 @@ type ContainerHttpHealthCheck struct {
 	// A message describing the current status in more details.
 	StatusDetails *string `mandatory:"false" json:"statusDetails"`
 
-	// Container health check Http's headers.
+	// Container health check HTTP headers.
 	Headers []HealthCheckHttpHeader `mandatory:"false" json:"headers"`
 
 	// Status of container

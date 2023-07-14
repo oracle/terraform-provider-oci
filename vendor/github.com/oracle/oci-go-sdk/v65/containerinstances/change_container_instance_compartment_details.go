@@ -15,11 +15,10 @@ import (
 	"strings"
 )
 
-// ChangeContainerInstanceCompartmentDetails The information to be updated.
+// ChangeContainerInstanceCompartmentDetails The configuration details for the move operation.
 type ChangeContainerInstanceCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
-	// into which the resource should be moved.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the container instance to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

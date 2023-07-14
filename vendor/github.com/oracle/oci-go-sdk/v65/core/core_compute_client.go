@@ -540,7 +540,7 @@ func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx cont
 }
 
 // ChangeComputeClusterCompartment Moves a compute cluster into a different compartment within the same tenancy.
-// A compute cluster is a remote direct memory access (RDMA) network group.
+// A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
@@ -1058,12 +1058,16 @@ func (client ComputeClient) createComputeCapacityReservation(ctx context.Context
 	return response, err
 }
 
-// CreateComputeCluster Creates an empty compute cluster, which is a remote direct memory access (RDMA) network group.
+// CreateComputeCluster Creates an empty compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm). A compute cluster
+// is a remote direct memory access (RDMA) network group.
 // After the compute cluster is created, you can use the compute cluster's OCID with the
 // LaunchInstance operation to create instances in the compute cluster.
-// For more information, see Compute Clusters (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm).
-// To create a cluster network that uses intance pools to manage groups of identical instances,
-// see CreateClusterNetwork.
+// The instances must be created in the same compartment and availability domain as the cluster.
+// Use compute clusters when you want to manage instances in the cluster individually, or when you want
+// to use different types of instances in the RDMA network group.
+// If you want predictable capacity for a specific number of identical instances that are managed as a group,
+// create a cluster network that uses instance pools by using the
+// CreateClusterNetwork operation.
 //
 // See also
 //
@@ -1511,8 +1515,10 @@ func (client ComputeClient) deleteComputeCapacityReservation(ctx context.Context
 	return response, err
 }
 
-// DeleteComputeCluster Deletes the compute cluster, which is a remote direct memory access (RDMA) network group.
-// To delete a compute cluster, all instances in the cluster must be deleted first.
+// DeleteComputeCluster Deletes a compute cluster. A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a
+// remote direct memory access (RDMA) network group.
+// Before you delete a compute cluster, first delete all instances in the cluster by using
+// the TerminateInstance operation.
 //
 // See also
 //
@@ -2396,7 +2402,8 @@ func (client ComputeClient) getComputeCapacityReservation(ctx context.Context, r
 	return response, err
 }
 
-// GetComputeCluster Gets information about the specified compute cluster.
+// GetComputeCluster Gets information about a compute cluster. A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm)
+// is a remote direct memory access (RDMA) network group.
 //
 // See also
 //
@@ -4984,7 +4991,7 @@ func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Conte
 	return response, err
 }
 
-// TerminateInstance Terminates (deletes) the specified instance. Any attached VNICs and volumes are automatically detached
+// TerminateInstance Permanently terminates (deletes) the specified instance. Any attached VNICs and volumes are automatically detached
 // when the instance terminates.
 // To preserve the boot volume associated with the instance, specify `true` for `PreserveBootVolumeQueryParam`.
 // To delete the boot volume when the instance is deleted, specify `false` or do not specify a value for `PreserveBootVolumeQueryParam`.
@@ -5106,7 +5113,12 @@ func (client ComputeClient) updateComputeCapacityReservation(ctx context.Context
 	return response, err
 }
 
-// UpdateComputeCluster Updates the specified compute cluster.
+// UpdateComputeCluster Updates a compute cluster. A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a
+// remote direct memory access (RDMA) network group.
+// To create instances within a compute cluster, use the LaunchInstance
+// operation.
+// To delete instances from a compute cluster, use the TerminateInstance
+// operation.
 //
 // See also
 //

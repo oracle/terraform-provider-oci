@@ -18,10 +18,10 @@ import (
 // ContainerDnsConfig DNS settings for containers.
 type ContainerDnsConfig struct {
 
-	// Name server IP address
+	// IP address of the name server..
 	Nameservers []string `mandatory:"false" json:"nameservers"`
 
-	// Search list for host-name lookup.
+	// Search list for hostname lookup.
 	Searches []string `mandatory:"false" json:"searches"`
 
 	// Options allows certain internal resolver variables to be modified.
