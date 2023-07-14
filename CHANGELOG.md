@@ -1,3 +1,14 @@
+## 5.5.0 (Unreleased)
+
+### Added
+- Support for Remove internal-only additionalCapabilities parameter from Container Instances Public SDK/CLI and Terraform
+- Support for Architecture Agnostic Instance Launch for Customer Overlay Services
+- Support for FSS: Support Kerberos with NFSv3 in FSS
+- Support for Include capacity reservation checks
+### Bug Fix
+- updated document for content field of vault oci_vault_secret
+- Adding checks for ocpu_count and storage_size_in_gbs
+
 ## 5.4.0 (Unreleased)
 
 ### Added
