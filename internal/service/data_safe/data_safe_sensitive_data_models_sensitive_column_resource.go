@@ -324,7 +324,34 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnResourceCrud) Create() error 
 	}
 
 	workId := response.OpcWorkRequestId
+	s.setIdFromWorkRequest(workId)
 	return s.getSensitiveDataModelsSensitiveColumnFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *DataSafeSensitiveDataModelsSensitiveColumnResourceCrud) setIdFromWorkRequest(workId *string) {
+	var identifier *string
+	var err error
+
+	workRequestResponse := oci_data_safe.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_data_safe.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "sensitivecolumn") {
+				identifier = res.EntityUri
+				break
+			}
+		}
+	}
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
 }
 
 func (s *DataSafeSensitiveDataModelsSensitiveColumnResourceCrud) getSensitiveDataModelsSensitiveColumnFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,

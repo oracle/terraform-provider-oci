@@ -49,3 +49,19 @@ resource "oci_file_storage_file_system" "my_file_system_with_fs_snapshot_policy"
     "Department" = "Accounting"
   }
 }
+
+resource "oci_file_storage_file_system" "my_krb_file_system" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+
+  #Optional
+  display_name = var.krb_file_system
+  # defined_tags = {
+  #   "example-tag-namespace-all.example-tag" = "value"
+  # }
+
+  freeform_tags = {
+    "Department" = "Accounting"
+  }
+}

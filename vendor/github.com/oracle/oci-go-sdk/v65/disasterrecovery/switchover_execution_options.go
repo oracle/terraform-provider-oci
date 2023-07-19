@@ -21,11 +21,11 @@ import (
 // SwitchoverExecutionOptions Options for switchover execution.
 type SwitchoverExecutionOptions struct {
 
-	// A flag indicating whether a precheck was executed before the plan.
+	// A flag indicating whether prechecks should be executed before the plan execution.
 	// Example: `false`
 	ArePrechecksEnabled *bool `mandatory:"false" json:"arePrechecksEnabled"`
 
-	// A flag indicating whether warnigs was ignored during the switchover.
+	// A flag indicating whether warnings should be ignored during the plan execution.
 	// Example: `true`
 	AreWarningsIgnored *bool `mandatory:"false" json:"areWarningsIgnored"`
 }

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ShapeOcpuOptions For a flexible shape, the number of OCPUs available for instances that use this shape.
+// ShapeOcpuOptions For a flexible shape, the number of OCPUs available for container instances that use this shape.
 type ShapeOcpuOptions struct {
 
 	// The minimum number of OCPUs.

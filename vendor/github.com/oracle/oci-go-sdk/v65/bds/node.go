@@ -74,6 +74,9 @@ type Node struct {
 
 	// The aggregate size of all local disks, in gigabytes. If the instance does not have any local disks, this field is null.
 	LocalDisksTotalSizeInGBs *float64 `mandatory:"false" json:"localDisksTotalSizeInGBs"`
+
+	// The date and time the instance is expected to be stopped / started, in the format defined by RFC3339.
+	TimeMaintenanceRebootDue *common.SDKTime `mandatory:"false" json:"timeMaintenanceRebootDue"`
 }
 
 func (m Node) String() string {

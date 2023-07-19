@@ -52,10 +52,6 @@ func CoreInstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"shape": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 
 			// Optional
 			"async": {
@@ -216,6 +212,7 @@ func CoreInstanceResource() *schema.Resource {
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
+							Computed: true,
 							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
@@ -270,6 +267,7 @@ func CoreInstanceResource() *schema.Resource {
 			"extended_metadata": {
 				Type:             schema.TypeMap,
 				Optional:         true,
+				Computed:         true,
 				DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
@@ -299,6 +297,12 @@ func CoreInstanceResource() *schema.Resource {
 				Computed:   true,
 				ForceNew:   true,
 				Deprecated: tfresource.FieldDeprecatedAndOverridenByAnother("image", "source_details"),
+			},
+			"instance_configuration_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"instance_options": {
 				Type:     schema.TypeList,
@@ -385,6 +389,7 @@ func CoreInstanceResource() *schema.Resource {
 			"metadata": {
 				Type:     schema.TypeMap,
 				Optional: true,
+				Computed: true,
 				Elem:     schema.TypeString,
 			},
 			"platform_config": {
@@ -528,6 +533,11 @@ func CoreInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"shape_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -556,6 +566,11 @@ func CoreInstanceResource() *schema.Resource {
 						},
 						"ocpus": {
 							Type:     schema.TypeFloat,
+							Optional: true,
+							Computed: true,
+						},
+						"vcpus": {
+							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
@@ -613,11 +628,6 @@ func CoreInstanceResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"source_id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
 						"source_type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -630,6 +640,12 @@ func CoreInstanceResource() *schema.Resource {
 						},
 
 						// Optional
+						"source_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"boot_volume_size_in_gbs": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -644,6 +660,48 @@ func CoreInstanceResource() *schema.Resource {
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"instance_source_image_filter_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"defined_tags_filter": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+										Elem:             schema.TypeString,
+									},
+									"operating_system": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"operating_system_version": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 						"kms_key_id": {
 							Type:     schema.TypeString,
@@ -980,6 +1038,11 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	if image, ok := s.D.GetOkExists("image"); ok {
 		tmp := image.(string)
 		request.ImageId = &tmp
+	}
+
+	if instanceConfigurationId, ok := s.D.GetOkExists("instance_configuration_id"); ok {
+		tmp := instanceConfigurationId.(string)
+		request.InstanceConfigurationId = &tmp
 	}
 
 	if instanceOptions, ok := s.D.GetOkExists("instance_options"); ok {
@@ -1366,6 +1429,10 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 
 	if s.Res.ImageId != nil {
 		s.D.Set("image", *s.Res.ImageId)
+	}
+
+	if s.Res.InstanceConfigurationId != nil {
+		s.D.Set("instance_configuration_id", *s.Res.InstanceConfigurationId)
 	}
 
 	if s.Res.InstanceOptions != nil {
@@ -1835,6 +1902,16 @@ func (s *CoreInstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat str
 		} else {
 			details.BootVolumeVpusPerGB = &defaultVpusPerGb
 		}
+		if instanceSourceImageFilterDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_source_image_filter_details")); ok {
+			if tmpList := instanceSourceImageFilterDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "instance_source_image_filter_details"), 0)
+				tmp, err := s.mapToInstanceSourceImageFilterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert instance_source_image_filter_details, encountered error: %v", err)
+				}
+				details.InstanceSourceImageFilterDetails = &tmp
+			}
+		}
 		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
 			tmp := kmsKeyId.(string)
 			details.KmsKeyId = &tmp
@@ -1882,6 +1959,10 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 			result["boot_volume_vpus_per_gb"] = "10"
 		}
 
+		if v.InstanceSourceImageFilterDetails != nil {
+			result["instance_source_image_filter_details"] = []interface{}{InstanceSourceImageFilterDetailsToMap(v.InstanceSourceImageFilterDetails)}
+		}
+
 		if v.KmsKeyId != nil {
 			result["kms_key_id"] = string(*v.KmsKeyId)
 		}
@@ -1892,6 +1973,57 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *CoreInstanceResourceCrud) mapToInstanceSourceImageFilterDetails(fieldKeyFormat string) (oci_core.InstanceSourceImageFilterDetails, error) {
+	result := oci_core.InstanceSourceImageFilterDetails{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if definedTagsFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags_filter")); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTagsFilter.(map[string]interface{}))
+		if err != nil {
+			return result, err
+		}
+		result.DefinedTagsFilter = convertedDefinedTags
+	}
+
+	if operatingSystem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system")); ok {
+		tmp := operatingSystem.(string)
+		result.OperatingSystem = &tmp
+	}
+
+	if operatingSystemVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system_version")); ok {
+		tmp := operatingSystemVersion.(string)
+		result.OperatingSystemVersion = &tmp
+	}
+
+	return result, nil
+}
+
+func InstanceSourceImageFilterDetailsToMap(obj *oci_core.InstanceSourceImageFilterDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTagsFilter != nil {
+		result["defined_tags_filter"] = tfresource.DefinedTagsToMap(obj.DefinedTagsFilter)
+	}
+
+	if obj.OperatingSystem != nil {
+		result["operating_system"] = string(*obj.OperatingSystem)
+	}
+
+	if obj.OperatingSystemVersion != nil {
+		result["operating_system_version"] = string(*obj.OperatingSystemVersion)
 	}
 
 	return result
@@ -2563,6 +2695,11 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstanceShapeConfigDetails(fieldKe
 		result.Ocpus = &tmp
 	}
 
+	if vcpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcpus")); ok {
+		tmp := vcpus.(int)
+		result.Vcpus = &tmp
+	}
+
 	return result, nil
 }
 
@@ -2578,9 +2715,20 @@ func (s *CoreInstanceResourceCrud) mapToUpdateInstanceShapeConfigDetails(fieldKe
 		result.MemoryInGBs = &tmp
 	}
 
+	// Cannot update both ocpus and vcpus due to validation. Only submit vcpus if value has changed.
+	// Submit both ocpus and vcpus if both have changed in order to trigger validation.
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
-		tmp := float32(ocpus.(float64))
-		result.Ocpus = &tmp
+		if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ocpus")) || !s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vcpus")) {
+			tmp := float32(ocpus.(float64))
+			result.Ocpus = &tmp
+		}
+	}
+
+	if vcpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcpus")); ok {
+		if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vcpus")) {
+			tmp := vcpus.(int)
+			result.Vcpus = &tmp
+		}
 	}
 
 	return result, nil
@@ -2630,6 +2778,10 @@ func InstanceShapeConfigToMap(obj *oci_core.InstanceShapeConfig) map[string]inte
 
 	if obj.ProcessorDescription != nil {
 		result["processor_description"] = string(*obj.ProcessorDescription)
+	}
+
+	if obj.Vcpus != nil {
+		result["vcpus"] = int(*obj.Vcpus)
 	}
 
 	return result

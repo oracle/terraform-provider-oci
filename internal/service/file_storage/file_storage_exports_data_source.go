@@ -138,6 +138,10 @@ func (s *FileStorageExportsDataSourceCrud) SetData() error {
 			export["id"] = *r.Id
 		}
 
+		if r.IsIdmapGroupsForSysAuth != nil {
+			export["is_idmap_groups_for_sys_auth"] = *r.IsIdmapGroupsForSysAuth
+		}
+
 		if r.Path != nil {
 			export["path"] = *r.Path
 		}

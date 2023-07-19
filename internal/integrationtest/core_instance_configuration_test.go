@@ -50,6 +50,25 @@ var (
 		"instance_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsRepresentation},
 		"source":           acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
 	}
+
+	CoreInstanceConfigurationRepresentationWithOptions = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`, Update: `displayName2`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"instance_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsWithOptionsRepresentation},
+		"source":           acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+	}
+
+	CoreInstanceConfigurationRepresentationImageFilters = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`, Update: `displayName2`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"instance_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsRepresentation},
+		"source":           acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+	}
+
 	CoreInstanceConfigurationFromInstanceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -61,6 +80,11 @@ var (
 	CoreInstanceConfigurationInstanceDetailsLaunchRepresentation = map[string]interface{}{
 		"instance_type":  acctest.Representation{RepType: acctest.Required, Create: `compute`},
 		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation},
+	}
+
+	CoreInstanceConfigurationInstanceDetailsLaunchRepresentationWithFilterDetails = map[string]interface{}{
+		"instance_type":  acctest.Representation{RepType: acctest.Required, Create: `compute`},
+		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationImageFilters},
 	}
 
 	CoreInstanceConfigurationInstanceDetailsLaunchRepresentationForFlexShape = acctest.GetUpdatedRepresentationCopy("launch_details",
@@ -82,6 +106,18 @@ var (
 	CoreInstanceConfigurationInstanceDetailsRepresentation = map[string]interface{}{
 		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
 		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentation},
+	}
+	CoreInstanceConfigurationInstanceDetailsWithOptionsRepresentation = map[string]interface{}{
+		"instance_type": acctest.Representation{RepType: acctest.Required, Create: `instance_options`},
+		"options":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsOptionsRepresentation},
+	}
+	CoreInstanceConfigurationInstanceDetailsWithOptionsAndFilterDetailsRepresentation = map[string]interface{}{
+		"instance_type": acctest.Representation{RepType: acctest.Required, Create: `instance_options`},
+		"options":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsOptionsWithFilterDetailsRepresentation},
+	}
+	CoreInstanceConfigurationInstanceDetailsWithOptionsAndBlockVolumesRepresentation = map[string]interface{}{
+		"instance_type": acctest.Representation{RepType: acctest.Required, Create: `instance_options`},
+		"options":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsOptionsAndBlockVolumesRepresentation},
 	}
 	CoreInstanceConfigurationInstanceDetailsBlockVolumesRepresentation = map[string]interface{}{
 		"create_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesCreateDetailsRepresentation},
@@ -128,6 +164,16 @@ var (
 		"preferred_maintenance_action":        acctest.Representation{RepType: acctest.Optional, Create: `LIVE_MIGRATE`},
 		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
 	}
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationImageFilters = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsRepresentation},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"shape":               acctest.Representation{RepType: acctest.Optional, Create: InstanceConfigurationVmShape},
+		"source_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationImageFilters},
+		"shape_config":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
+	}
 	CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationForFlexShape = acctest.RepresentationCopyWithRemovedProperties(
 		acctest.GetMultipleUpdatedRepresenationCopy(
 			[]string{"shape", "source_details", "shape_config"},
@@ -152,6 +198,16 @@ var (
 	)
 	CoreInstanceConfigurationInstanceOptionsRepresentation = map[string]interface{}{
 		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+	CoreInstanceConfigurationInstanceDetailsOptionsRepresentation = map[string]interface{}{
+		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation},
+	}
+	CoreInstanceConfigurationInstanceDetailsOptionsWithFilterDetailsRepresentation = map[string]interface{}{
+		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationImageFilters},
+	}
+	CoreInstanceConfigurationInstanceDetailsOptionsAndBlockVolumesRepresentation = map[string]interface{}{
+		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation},
+		"block_volumes":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesRepresentation},
 	}
 	CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentation = map[string]interface{}{
 		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation},
@@ -204,6 +260,14 @@ var (
 		"source_type":             acctest.Representation{RepType: acctest.Required, Create: `image`},
 		"image_id":                acctest.Representation{RepType: acctest.Optional, Create: `${var.InstanceImageOCID[var.region]}`},
 		"boot_volume_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `55`},
+	}
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationImageFilters = map[string]interface{}{
+		"source_type":                          acctest.Representation{RepType: acctest.Required, Create: `image`},
+		"instance_source_image_filter_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsSourceDetailsInstanceSourceImageFilterDetailsRepresentation},
+	}
+	CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsSourceDetailsInstanceSourceImageFilterDetailsRepresentation = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"operating_system": acctest.Representation{RepType: acctest.Optional, Create: `Oracle Linux`},
 	}
 	CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationForFlexShape = acctest.GetUpdatedRepresentationCopy("image_id",
 		acctest.Representation{RepType: acctest.Optional, Create: `${var.FlexInstanceImageOCID[var.region]}`},
@@ -299,6 +363,52 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		// delete before next Create
 		{
 			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
+		},
+		// verify create regular instance configuration with imageFilter details
+		{
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentationWithFilterDetails}, CoreInstanceConfigurationRepresentationImageFilters)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.assign_public_ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.assign_private_dns_record", "true"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.instance_source_image_filter_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.instance_source_image_filter_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.instance_source_image_filter_details.0.operating_system", "Oracle Linux"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
 		},
 		// verify Create from instance_id
 		{
@@ -780,6 +890,182 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: core/computeManagement
+func TestCoreInstanceConfigurationResourceOptions_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreInstanceConfigurationResourceOptions_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	resourceName := "oci_core_instance_configuration.test_instance_configuration"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreInstanceConfigurationResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentationWithOptions), "core", "instanceConfiguration", t)
+	acctest.ResourceTest(t, testAccCheckCoreInstanceConfigurationDestroy, []resource.TestStep{
+		// verify Create with optionals to test instance options
+		{
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationRepresentationWithOptions),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "instance_options"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.launch_details.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.assign_public_ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.assign_private_dns_record", "true"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.display_name", "backend-servers"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// verify Update to the compartment
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsWithOptionsRepresentation}, CoreInstanceConfigurationRepresentationWithOptions),
+					map[string]interface{}{"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`}})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "instance_options"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.launch_details.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.assign_public_ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.assign_private_dns_record", "true"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.display_name", "backend-servers"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// verify recreate with optionals block_volumes.create_details
+		{
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsWithOptionsAndBlockVolumesRepresentation}, CoreInstanceConfigurationRepresentationWithOptions)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "instance_options"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.block_volumes.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.block_volumes.0.create_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.block_volumes.0.create_details.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.block_volumes.0.create_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.block_volumes.0.create_details.0.display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.block_volumes.0.create_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.block_volumes.0.create_details.0.size_in_gbs", "50"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.block_volumes.0.create_details.0.source_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.block_volumes.0.create_details.0.source_details.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.block_volumes.0.create_details.0.source_details.0.type", "volume"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.block_volumes.0.create_details.0.vpus_per_gb", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies,
+		},
+		// verify Create with imageFilter details for instance Options
+		{
+			Config: config + compartmentIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsWithOptionsAndFilterDetailsRepresentation}, CoreInstanceConfigurationRepresentationWithOptions)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "instance_options"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.launch_details.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.assign_public_ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.assign_private_dns_record", "true"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.display_name", "backend-servers"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.source_details.0.instance_source_image_filter_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.source_details.0.instance_source_image_filter_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.source_details.0.instance_source_image_filter_details.0.operating_system", "Oracle Linux"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+	})
+}
 func testAccCheckCoreInstanceConfigurationDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).ComputeManagementClient()

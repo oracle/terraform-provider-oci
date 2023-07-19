@@ -21,7 +21,7 @@ import (
 type UpdateDrPlanGroupDetails struct {
 
 	// The unique id of this group. Must not be modified by user.
-	// Example: `sgid1.group..examplegroupsgid`
+	// Example: `sgid1.group..&lt;unique_id&gt;`
 	Id *string `mandatory:"false" json:"id"`
 
 	// The display name of this group.

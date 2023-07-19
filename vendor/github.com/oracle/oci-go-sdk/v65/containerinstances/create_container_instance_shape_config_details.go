@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// CreateContainerInstanceShapeConfigDetails The size and amount of resources available to the Container Instance.
+// CreateContainerInstanceShapeConfigDetails The size and amount of resources available to the container instance.
 type CreateContainerInstanceShapeConfigDetails struct {
 
-	// The total number of OCPUs available to the instance.
+	// The total number of OCPUs available to the container instance.
 	Ocpus *float32 `mandatory:"true" json:"ocpus"`
 
-	// The total amount of memory available to the instance, in gigabytes.
+	// The total amount of memory available to the container instance (GB).
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
 }
 

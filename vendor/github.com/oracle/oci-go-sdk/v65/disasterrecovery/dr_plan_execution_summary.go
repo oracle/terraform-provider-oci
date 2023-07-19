@@ -21,11 +21,11 @@ import (
 type DrPlanExecutionSummary struct {
 
 	// The OCID of this plan execution.
-	// Example: `ocid1.drplanexecution.oc1.iad.exampleocid2`
+	// Example: `ocid1.drplanexecution.oc1.iad.&lt;unique_id&gt;`
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the compartment containing this plan execution.
-	// Example: `ocid1.compartment.oc1..exampleocid1`
+	// Example: `ocid1.compartment.oc1..&lt;unique_id&gt;`
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The display name of this DR Plan Execution.
@@ -33,19 +33,19 @@ type DrPlanExecutionSummary struct {
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The OCID of the DR Plan for this plan execution.
-	// Example: `ocid1.drplan.oc1.iad.exampleocid2`
+	// Example: `ocid1.drplan.oc1.iad.&lt;unique_id&gt;`
 	PlanId *string `mandatory:"true" json:"planId"`
 
 	// The type of the DR Plan executed.
 	PlanExecutionType DrPlanExecutionTypeEnum `mandatory:"true" json:"planExecutionType"`
 
 	// The OCID of DR Protection Group associated with this plan execution.
-	// Example: `ocid1.drprotectiongroup.oc1.iad.exampleocid2`
+	// Example: `ocid1.drprotectiongroup.oc1.iad.&lt;unique_id&gt;`
 	DrProtectionGroupId *string `mandatory:"true" json:"drProtectionGroupId"`
 
 	// The OCID of peer (remote) DR Protection Group associated with this plan execution's
 	// DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid1`
+	// Example: `ocid1.drprotectiongroup.oc1.phx.&lt;unique_id&gt;`
 	PeerDrProtectionGroupId *string `mandatory:"true" json:"peerDrProtectionGroupId"`
 
 	// The region of the peer (remote) DR Protection Group.

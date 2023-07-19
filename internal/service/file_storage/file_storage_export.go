@@ -28,10 +28,11 @@ var exportFileStorageFileSystemHints = &tf_export.TerraformResourceHints{
 }
 
 var exportFileStorageMountTargetHints = &tf_export.TerraformResourceHints{
-	ResourceClass:        "oci_file_storage_mount_target",
-	DatasourceClass:      "oci_file_storage_mount_targets",
-	DatasourceItemsAttr:  "mount_targets",
-	ResourceAbbreviation: "mount_target",
+	ResourceClass:          "oci_file_storage_mount_target",
+	DatasourceClass:        "oci_file_storage_mount_targets",
+	DatasourceItemsAttr:    "mount_targets",
+	ResourceAbbreviation:   "mount_target",
+	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_file_storage.MountTargetLifecycleStateActive),
 	},
@@ -81,6 +82,17 @@ var exportFileStorageFilesystemSnapshotPolicyHints = &tf_export.TerraformResourc
 	},
 }
 
+var exportFileStorageOutboundConnectorHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_file_storage_outbound_connector",
+	DatasourceClass:        "oci_file_storage_outbound_connectors",
+	DatasourceItemsAttr:    "outbound_connectors",
+	ResourceAbbreviation:   "outbound_connector",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_file_storage.OutboundConnectorLifecycleStateActive),
+	},
+}
+
 var fileStorageResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportFileStorageExportHints},
@@ -108,6 +120,12 @@ var customAssociationFileStorageIdentityAvailabilityDomain = []tf_export.Terrafo
 	},
 	{
 		TerraformResourceHints: exportFileStorageFilesystemSnapshotPolicyHints,
+		DatasourceQueryParams: map[string]string{
+			"availability_domain": "name",
+		},
+	},
+	{
+		TerraformResourceHints: exportFileStorageOutboundConnectorHints,
 		DatasourceQueryParams: map[string]string{
 			"availability_domain": "name",
 		},

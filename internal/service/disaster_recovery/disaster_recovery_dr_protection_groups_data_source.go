@@ -30,6 +30,10 @@ func DisasterRecoveryDrProtectionGroupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"role": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -86,6 +90,10 @@ func (s *DisasterRecoveryDrProtectionGroupsDataSourceCrud) Get() error {
 	if drProtectionGroupId, ok := s.D.GetOkExists("id"); ok {
 		tmp := drProtectionGroupId.(string)
 		request.DrProtectionGroupId = &tmp
+	}
+
+	if role, ok := s.D.GetOkExists("role"); ok {
+		request.Role = oci_disaster_recovery.ListDrProtectionGroupsRoleEnum(role.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

@@ -21,11 +21,11 @@ import (
 type RetryDrPlanExecutionDetails struct {
 
 	// The unique id of the group to retry as a whole, or the group containing the step being retried.
-	// Example: `sgid1.group..examplegroupsgid`
+	// Example: `sgid1.group..&lt;unique_id&gt;`
 	GroupId *string `mandatory:"true" json:"groupId"`
 
 	// The unique id of the step to retry (optional). Only needed when retrying a step.
-	// Example: `sgid1.step..examplestepsgid`
+	// Example: `sgid1.step..&lt;unique_id&gt;`
 	StepId *string `mandatory:"false" json:"stepId"`
 }
 

@@ -322,5 +322,11 @@
         "realmKey": "oc19",
         "regionIdentifier": "eu-frankfurt-2",
         "realmDomainComponent": "oraclecloud.eu"
+    },
+    {
+        "regionKey": "mty",
+        "realmKey": "oc1",
+        "regionIdentifier": "mx-monterrey-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

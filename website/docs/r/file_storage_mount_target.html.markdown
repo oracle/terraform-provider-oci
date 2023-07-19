@@ -58,7 +58,30 @@ resource "oci_file_storage_mount_target" "test_mount_target" {
 	display_name = var.mount_target_display_name
 	freeform_tags = {"Department"= "Finance"}
 	hostname_label = var.mount_target_hostname_label
+	idmap_type = var.mount_target_idmap_type
 	ip_address = var.mount_target_ip_address
+	kerberos {
+		#Required
+		kerberos_realm = var.mount_target_kerberos_kerberos_realm
+
+		#Optional
+		backup_key_tab_secret_version = var.mount_target_kerberos_backup_key_tab_secret_version
+		current_key_tab_secret_version = var.mount_target_kerberos_current_key_tab_secret_version
+		is_kerberos_enabled = var.mount_target_kerberos_is_kerberos_enabled
+		key_tab_secret_id = oci_vault_secret.test_secret.id
+	}
+	ldap_idmap {
+
+		#Optional
+		cache_lifetime_seconds = var.mount_target_ldap_idmap_cache_lifetime_seconds
+		cache_refresh_interval_seconds = var.mount_target_ldap_idmap_cache_refresh_interval_seconds
+		group_search_base = var.mount_target_ldap_idmap_group_search_base
+		negative_cache_lifetime_seconds = var.mount_target_ldap_idmap_negative_cache_lifetime_seconds
+		outbound_connector1id = oci_file_storage_outbound_connector1.test_outbound_connector1.id
+		outbound_connector2id = oci_file_storage_outbound_connector2.test_outbound_connector2.id
+		schema_type = var.mount_target_ldap_idmap_schema_type
+		user_search_base = var.mount_target_ldap_idmap_user_search_base
+	}
 	nsg_ids = var.mount_target_nsg_ids
 }
 ```
@@ -79,11 +102,27 @@ The following arguments are supported:
 	For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 
 	Example: `files-1` 
+* `idmap_type` - (Optional) (Updatable) The method used to map a Unix UID to secondary groups, if any.
 * `ip_address` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 
 	Note: This attribute value is stored in the [PrivateIp](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/) resource, not in the `mountTarget` resource. To update the `ipAddress`, use `GetMountTarget` to obtain the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target's private IPs (`privateIpIds`). Then, you can use [UpdatePrivateIp](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp) to update the `ipAddress` value.
 
 	Example: `10.0.3.3` 
+* `kerberos` - (Optional) (Updatable) Kerberos details needed to create configuration. 
+	* `backup_key_tab_secret_version` - (Optional) (Updatable) Version of the keytab Secret in the Vault to use as a backup.
+	* `current_key_tab_secret_version` - (Optional) (Updatable) Version of the keytab Secret in the Vault to use.
+	* `is_kerberos_enabled` - (Optional) (Updatable) Specifies whether to enable or disable Kerberos.
+	* `kerberos_realm` - (Required) (Updatable) The Kerberos realm that the mount target will join.
+	* `key_tab_secret_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the keytab Secret in the Vault.
+* `ldap_idmap` - (Optional) (Updatable) Mount target details about the LDAP ID mapping configuration. 
+	* `cache_lifetime_seconds` - (Optional) (Updatable) The maximum amount of time the mount target is allowed to use a cached entry.
+	* `cache_refresh_interval_seconds` - (Optional) (Updatable) The amount of time that the mount target should allow an entry to persist in its cache before attempting to refresh the entry.
+	* `group_search_base` - (Optional) (Updatable) All LDAP searches are recursive starting at this group.  Example: `CN=Group,DC=domain,DC=com` 
+	* `negative_cache_lifetime_seconds` - (Optional) (Updatable) The amount of time that a mount target will maintain information that a user is not found in the ID mapping configuration.
+	* `outbound_connector1id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the first connector to use to communicate with the LDAP server.
+	* `outbound_connector2id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second connector to use to communicate with the LDAP server.
+	* `schema_type` - (Optional) (Updatable) Schema type of the LDAP account.
+	* `user_search_base` - (Optional) (Updatable) All LDAP searches are recursive starting at this user.  Example: `CN=User,DC=domain,DC=com` 
 * `nsg_ids` - (Optional) (Updatable) A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in which to create the mount target. 
 
@@ -102,6 +141,22 @@ The following attributes are exported:
 * `export_set_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated export set. Controls what file systems will be exported through Network File System (NFS) protocol on this mount target. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the mount target.
+* `idmap_type` - The method used to map a Unix UID to secondary groups. If NONE, the mount target will not use the Unix UID for ID mapping.
+* `kerberos` - Allows administrator to configure a mount target to interact with the administrator's Kerberos infrastructure. 
+	* `backup_key_tab_secret_version` - Version of the keytab secert in the Vault to use as a backup.
+	* `current_key_tab_secret_version` - Version of the keytab secret in the Vault to use.
+	* `is_kerberos_enabled` - Specifies whether to enable or disable Kerberos.
+	* `kerberos_realm` - The Kerberos realm that the mount target will join.
+	* `key_tab_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the keytab secret in the Vault.
+* `ldap_idmap` - Mount target details about the LDAP ID mapping configuration. 
+	* `cache_lifetime_seconds` - The maximum amount of time the mount target is allowed to use a cached entry.
+	* `cache_refresh_interval_seconds` - The amount of time that the mount target should allow an entry to persist in its cache before attempting to refresh the entry.
+	* `group_search_base` - All LDAP searches are recursive starting at this group.  Example: `CN=Group,DC=domain,DC=com` 
+	* `negative_cache_lifetime_seconds` - The amount of time that a mount target will maintain information that a user is not found in the ID mapping configuration.
+	* `outbound_connector1id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the first connector to use to communicate with the LDAP server.
+	* `outbound_connector2id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second connector to use to communicate with the LDAP server.
+	* `schema_type` - Schema type of the LDAP account.
+	* `user_search_base` - All LDAP searches are recursive starting at this user.  Example: `CN=User,DC=domain,DC=com` 
 * `lifecycle_details` - Additional information about the current 'lifecycleState'.
 * `nsg_ids` - A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `private_ip_ids` - The OCIDs of the private IP addresses associated with this mount target.

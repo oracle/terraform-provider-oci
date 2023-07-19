@@ -15,12 +15,13 @@ import (
 	"strings"
 )
 
-// CreateContainerVnicDetails Create a Virtual Network Interface Card (VNIC) which gives
-// Containers on this Container Instance access to a Virtual Client Network (VCN).
-// This VNIC will be created in the same compartment as the specified subnet on
+// CreateContainerVnicDetails Information to create a virtual network interface card (VNIC) which gives
+// the containers on this container instance access to a virtual client network (VCN).
+// You use this object when creating the primary VNIC during container instance launch or when creating a secondary VNIC.
+// This VNIC is created in the same compartment as the specified subnet on
 // behalf of the customer.
-// The VNIC created by this call will contain both the tags specified
-// in this object as well as any tags specified in the parent ContainerInstance object.
+// The VNIC created by this call contains both the tags specified
+// in this object as well as any tags specified in the parent container instance.
 type CreateContainerVnicDetails struct {
 
 	// The OCID of the subnet to create the VNIC in.
@@ -30,7 +31,7 @@ type CreateContainerVnicDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The hostname for the VNIC's primary private IP.
+	// The hostname for the VNIC's primary private IP. Used for DNS.
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
 
 	// Whether the VNIC should be assigned a public IP address.
@@ -51,7 +52,7 @@ type CreateContainerVnicDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`.
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 

@@ -31,6 +31,10 @@ resource "oci_disaster_recovery_dr_plan" "test_dr_plan" {
   dr_protection_group_id = oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id
   type                   = var.dr_plan_type
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   #Optional
   defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.dr_plan_defined_tags_value}")
   freeform_tags = var.dr_plan_freeform_tags

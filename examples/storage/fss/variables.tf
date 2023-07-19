@@ -174,3 +174,116 @@ variable "filesystem_snapshot_policy_schedules_time_zone" {
 variable "filesystem_snapshot_policy_state" {
   default = "ACTIVE"
 }
+
+
+variable "krb_mount_target_display_name" {
+  default = "my_krb_mount_target"
+}
+
+variable "krb_mount_target_hostname_label" {
+  default = "hostnamelabel"
+}
+
+variable "krb_mount_target_kerberos_kerberos_realm" {
+  default = "kerberos.realm.com"
+}
+
+variable "krb_mount_target_kerberos_backup_key_tab_secret_version" {
+  default = 0
+}
+
+variable "krb_mount_target_kerberos_current_key_tab_secret_version" {
+  default = 1
+}
+
+variable "krb_mount_target_krb_enabled" {
+  default = "true"
+}
+
+variable "krb_mount_target_group_name" {
+  default = "group_name"
+}
+
+variable "krb_mount_target_user_name" {
+  default = "user_name"
+}
+
+variable "krb_mount_target_ldap_idmap_cache_lifetime_seconds" {
+  default = 300
+}
+
+variable "krb_mount_target_ldap_idmap_cache_refresh_interval_seconds" {
+  default = 300
+}
+
+variable "krb_mount_target_ldap_idmap_negative_cache_lifetime_seconds" {
+  default = 300
+}
+
+variable "ldap_outbound_connector_display_name" {
+  default = "my_ldap_outbound_connector"
+}
+
+variable "ldap_outbound_connector_bind_distinguished_name" {
+  default = "bindDistinguishedName"
+}
+
+variable "ldap_outbound_connector_endpoints_hostname" {
+  default = "hostname"
+}
+
+variable "ldap_outbound_connector_endpoints_port" {
+  default = 1080
+}
+
+variable "ldap_outbound_connector_password_secret_version" {
+  default = 1
+}
+
+variable "krb_vault_display_name" {
+  default = "my_krb_vault"
+}
+
+variable "krb_vault_type" {
+  default = "DEFAULT"
+}
+
+variable "krb_key_display_name" {
+  default = "my_krb_key"
+}
+
+variable "krb_key_shape_algorithm" {
+  default = "AES"
+}
+
+variable "krb_key_shape_length" {
+  default = "16"
+}
+
+variable "krb_keytab_content" {
+  default = "BQIAAAClAAIAI0FEMkNBTkFSWS5QSFhERVZQQ0FOUy5PUkFDTEVWQ04uQ09NAANuZnMARmtlcmJlcm9zLWFwaS1jYW5hcnktbW91bnQtdGFyZ2V0LTEuYWQyY2FuYXJ5LnBoeGRldnBjYW5zLm9yYWNsZXZjbi5jb20AAAABYgMUPgIAEgAgIvKmyzN+v/xsEQpwSzwxfFCEwtbV5ozYkk8VAmx9NhQAAAAC"
+}
+
+variable "krb_ldap_pwd_content" {
+  default = "dGVzdHB3ZAo="
+}
+
+variable "export_path_kfs_kmt" {
+  default = "/myfsspaths/kfs/path1"
+}
+
+variable "krb_file_system" {
+  default = "my_krb_file_system"
+}
+
+variable "krb_export_export_options_allowed_auth" {
+  default = ["KRB5"]
+}
+
+variable "krb_export_export_options_is_anonymous_access_allowed" {
+  default = "true"
+}
+
+variable "krb_export_is_idmap_groups_for_sys_auth" {
+  default = "false"
+}

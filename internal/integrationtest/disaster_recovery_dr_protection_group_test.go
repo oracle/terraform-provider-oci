@@ -37,8 +37,9 @@ var (
 
 	DisasterRecoveryDisasterRecoveryDrProtectionGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `My DR Protection Group`, Update: `displayName2`},
 		"dr_protection_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id}`},
+		"role":                   acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY`},
 		"state":                  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupDataSourceFilterRepresentation}}
 	DisasterRecoveryDrProtectionGroupDataSourceFilterRepresentation = map[string]interface{}{
@@ -48,7 +49,7 @@ var (
 
 	DisasterRecoveryDrProtectionGroupRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `My DR Protection Group`, Update: `displayName2`},
 		"log_location":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupLogLocationRepresentation},
 		"association":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DisasterRecoveryDrProtectionGroupAssociationRepresentation},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -138,7 +139,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Required, acctest.Create, DisasterRecoveryDrProtectionGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
 				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", testBucketName),
 				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
@@ -164,7 +165,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
 				resource.TestCheckResourceAttr(resourceName, "association.0.role", "STANDBY"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
@@ -204,7 +205,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
 				resource.TestCheckResourceAttr(resourceName, "association.0.role", "STANDBY"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
@@ -273,6 +274,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "dr_protection_group_id"),
+				resource.TestCheckResourceAttr(datasourceName, "role", "PRIMARY"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "dr_protection_group_collection.#", "1"),

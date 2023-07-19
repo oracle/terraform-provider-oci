@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ShapeNetworkingBandwidthOptions For a flexible shape, the amount of networking bandwidth available for instances that use this shape.
+// ShapeNetworkingBandwidthOptions For a flexible shape, the amount of networking bandwidth available for container instances that use this shape.
 type ShapeNetworkingBandwidthOptions struct {
 
 	// The minimum amount of networking bandwidth, in gigabits per second.

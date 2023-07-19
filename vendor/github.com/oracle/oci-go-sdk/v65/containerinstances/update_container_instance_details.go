@@ -18,7 +18,7 @@ import (
 // UpdateContainerInstanceDetails The information to be updated.
 type UpdateContainerInstanceDetails struct {
 
-	// ContainerInstance Identifier
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -26,7 +26,7 @@ type UpdateContainerInstanceDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`.
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 

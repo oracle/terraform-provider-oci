@@ -282,6 +282,7 @@ func (s *NetworkLoadBalancerBackendSetResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.D.SetId(s.ID())
 	return s.getBackendSetFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer"), oci_network_load_balancer.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 

@@ -15,20 +15,23 @@ import (
 	"strings"
 )
 
-// CreateContainerResourceConfigDetails The size and amount of resources available to the Container.
+// CreateContainerResourceConfigDetails The size and amount of resources available to the container.
 type CreateContainerResourceConfigDetails struct {
 
-	// The maximum amount of CPU utilization which may be consumed by the Container's process.
-	// If no value is provided, then the process may consume all CPU resources on the Instance.
+	// The maximum amount of CPUs that can be consumed by the container's process.
+	// If you do not set a value, then the process
+	// can use all available CPU resources on the instance.
 	// CPU usage is defined in terms of logical CPUs. This means that the maximum possible value on
 	// an E3 ContainerInstance with 1 OCPU is 2.0.
-	// A Container with that vcpusLimit could consume up to 100% of the CPU resources available on the Instance.
-	// Values may be fractional. A value of "1.5" means that the Container
-	// may consume at most the equivalent of 1 and a half logical CPUs worth of CPU capacity
+	// A container with a 2.0 vcpusLimit could consume up to 100% of the CPU resources available on the container instance.
+	// Values can be fractional. A value of "1.5" means that the container
+	// can consume at most the equivalent of 1 and a half logical CPUs worth of CPU capacity.
 	VcpusLimit *float32 `mandatory:"false" json:"vcpusLimit"`
 
-	// The maximum amount of memory which may be consumed by the Container's process.
-	// If no value is provided, then the process may use all available memory on the Instance.
+	// The maximum amount of memory that can be consumed by the container's
+	// process.
+	// If you do not set a value, then the process
+	// may use all available memory on the instance.
 	MemoryLimitInGBs *float32 `mandatory:"false" json:"memoryLimitInGBs"`
 }
 

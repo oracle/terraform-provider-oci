@@ -60,15 +60,6 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 						},
 
 						// Optional
-						"additional_capabilities": {
-							Type:     schema.TypeList,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
-							Elem: &schema.Schema{
-								Type: schema.TypeString,
-							},
-						},
 						"arguments": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -1650,19 +1641,6 @@ func ContainerInstanceSummaryToMap(obj oci_container_instances.ContainerInstance
 func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateContainerDetails(fieldKeyFormat string) (oci_container_instances.CreateContainerDetails, error) {
 	result := oci_container_instances.CreateContainerDetails{}
 
-	if additionalCapabilities, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_capabilities")); ok {
-		interfaces := additionalCapabilities.([]interface{})
-		tmp := make([]oci_container_instances.ContainerCapabilityEnum, len(interfaces))
-		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i], _ = oci_container_instances.GetMappingContainerCapabilityEnum(interfaces[i].(string))
-			}
-		}
-		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "additional_capabilities")) {
-			result.AdditionalCapabilities = tmp
-		}
-	}
-
 	if arguments, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "arguments")); ok {
 		interfaces := arguments.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -2672,10 +2650,6 @@ func ContainerToMap(obj oci_container_instances.Container) map[string]interface{
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
-	}
-
-	if obj.AdditionalCapabilities != nil {
-		result["additional_capabilities"] = obj.AdditionalCapabilities
 	}
 
 	if obj.Arguments != nil {

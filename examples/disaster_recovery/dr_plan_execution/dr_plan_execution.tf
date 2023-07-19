@@ -64,6 +64,10 @@ resource "oci_disaster_recovery_dr_plan_execution" "test_dr_plan_execution" {
   }
   plan_id = oci_disaster_recovery_dr_plan.test_dr_plan.id
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   #Optional
   defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.dr_plan_execution_defined_tags_value}")
   display_name  = var.dr_plan_execution_display_name

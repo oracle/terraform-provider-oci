@@ -178,6 +178,7 @@ func (s *FusionAppsFusionEnvironmentAdminUserResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.D.SetId(s.ID())
 	return s.getFusionEnvironmentAdminUserFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 

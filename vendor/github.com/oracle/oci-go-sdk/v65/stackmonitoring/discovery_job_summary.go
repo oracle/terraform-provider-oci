@@ -107,6 +107,7 @@ const (
 	DiscoveryJobSummaryResourceTypeOciOraclePdb   DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_PDB"
 	DiscoveryJobSummaryResourceTypeHost           DiscoveryJobSummaryResourceTypeEnum = "HOST"
 	DiscoveryJobSummaryResourceTypeOraclePsft     DiscoveryJobSummaryResourceTypeEnum = "ORACLE_PSFT"
+	DiscoveryJobSummaryResourceTypeOracleMft      DiscoveryJobSummaryResourceTypeEnum = "ORACLE_MFT"
 )
 
 var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryResourceTypeEnum{
@@ -120,6 +121,7 @@ var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryR
 	"OCI_ORACLE_PDB":  DiscoveryJobSummaryResourceTypeOciOraclePdb,
 	"HOST":            DiscoveryJobSummaryResourceTypeHost,
 	"ORACLE_PSFT":     DiscoveryJobSummaryResourceTypeOraclePsft,
+	"ORACLE_MFT":      DiscoveryJobSummaryResourceTypeOracleMft,
 }
 
 var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJobSummaryResourceTypeEnum{
@@ -133,6 +135,7 @@ var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJo
 	"oci_oracle_pdb":  DiscoveryJobSummaryResourceTypeOciOraclePdb,
 	"host":            DiscoveryJobSummaryResourceTypeHost,
 	"oracle_psft":     DiscoveryJobSummaryResourceTypeOraclePsft,
+	"oracle_mft":      DiscoveryJobSummaryResourceTypeOracleMft,
 }
 
 // GetDiscoveryJobSummaryResourceTypeEnumValues Enumerates the set of values for DiscoveryJobSummaryResourceTypeEnum
@@ -157,6 +160,7 @@ func GetDiscoveryJobSummaryResourceTypeEnumStringValues() []string {
 		"OCI_ORACLE_PDB",
 		"HOST",
 		"ORACLE_PSFT",
+		"ORACLE_MFT",
 	}
 }
 

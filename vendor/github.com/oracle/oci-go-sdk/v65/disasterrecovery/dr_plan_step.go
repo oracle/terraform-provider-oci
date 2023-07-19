@@ -22,11 +22,11 @@ import (
 type DrPlanStep struct {
 
 	// The unique id of this step. Must not be modified by the user.
-	// Example: `sgid1.step..examplestepsgid`
+	// Example: `sgid1.step..&lt;unique_id&gt;`
 	Id *string `mandatory:"true" json:"id"`
 
 	// The unique id of the group to which this step belongs. Must not be modified by user.
-	// Example: `sgid1.group..examplegroupsgid`
+	// Example: `sgid1.group..&lt;unique_id&gt;`
 	GroupId *string `mandatory:"true" json:"groupId"`
 
 	// The plan step type.
@@ -48,7 +48,7 @@ type DrPlanStep struct {
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
 	// The OCID of the member associated with this step.
-	// Example: `ocid1.database.oc1.phx.exampleocid1`
+	// Example: `ocid1.database.oc1.phx.&lt;unique_id&gt;`
 	MemberId *string `mandatory:"false" json:"memberId"`
 
 	UserDefinedStep DrPlanUserDefinedStep `mandatory:"false" json:"userDefinedStep"`

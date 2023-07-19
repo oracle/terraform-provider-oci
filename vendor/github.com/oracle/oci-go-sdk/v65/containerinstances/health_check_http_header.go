@@ -18,10 +18,10 @@ import (
 // HealthCheckHttpHeader Container Http headers for Http health check.
 type HealthCheckHttpHeader struct {
 
-	// Container Http header Key.
+	// Container HTTP header Key.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Container Http header value.
+	// Container HTTP header value.
 	Value *string `mandatory:"true" json:"value"`
 }
 

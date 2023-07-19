@@ -22,7 +22,7 @@ import (
 type DrProtectionGroupMember interface {
 
 	// The OCID of the member.
-	// Example: `ocid1.instance.oc1.phx.exampleocid1`
+	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
 	GetMemberId() *string
 }
 
@@ -62,12 +62,20 @@ func (m *drprotectiongroupmember) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := DrProtectionGroupMemberVolumeGroup{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "COMPUTE_INSTANCE_MOVABLE":
+		mm := DrProtectionGroupMemberComputeInstanceMovable{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUTONOMOUS_DATABASE":
 		mm := DrProtectionGroupMemberAutonomousDatabase{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "COMPUTE_INSTANCE":
 		mm := DrProtectionGroupMemberComputeInstance{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "COMPUTE_INSTANCE_NON_MOVABLE":
+		mm := DrProtectionGroupMemberComputeInstanceNonMovable{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DATABASE":

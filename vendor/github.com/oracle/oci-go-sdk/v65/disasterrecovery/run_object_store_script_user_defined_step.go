@@ -22,14 +22,14 @@ import (
 type RunObjectStoreScriptUserDefinedStep struct {
 
 	// The OCID of the instance where this script or command should be executed.
-	// Example: `ocid1.instance.oc1.phx.exampleocid1`
-	RunOnInstanceId *string `mandatory:"false" json:"runOnInstanceId"`
+	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
+	RunOnInstanceId *string `mandatory:"true" json:"runOnInstanceId"`
 
 	// The region of the instance where this script or command should be executed.
 	// Example: `us-phoenix-1`
-	RunOnInstanceRegion *string `mandatory:"false" json:"runOnInstanceRegion"`
+	RunOnInstanceRegion *string `mandatory:"true" json:"runOnInstanceRegion"`
 
-	ObjectStorageScriptLocation *ObjectStorageScriptLocation `mandatory:"false" json:"objectStorageScriptLocation"`
+	ObjectStorageScriptLocation *ObjectStorageScriptLocation `mandatory:"true" json:"objectStorageScriptLocation"`
 }
 
 func (m RunObjectStoreScriptUserDefinedStep) String() string {

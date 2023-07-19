@@ -50,9 +50,29 @@ var (
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `mount-target-5`, Update: `displayName2`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"hostname_label":      acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"idmap_type":          acctest.Representation{RepType: acctest.Optional, Create: `LDAP`, Update: `LDAP`},
 		"ip_address":          acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"kerberos":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetKerberosRepresentation},
+		"ldap_idmap":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetLdapIdmapRepresentation},
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+	FileStorageMountTargetKerberosRepresentation = map[string]interface{}{
+		"kerberos_realm":                 acctest.Representation{RepType: acctest.Required, Create: `kerberosRealm`, Update: `kerberosRealm2`},
+		"backup_key_tab_secret_version":  acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `0`},
+		"current_key_tab_secret_version": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `1`},
+		"is_kerberos_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"key_tab_secret_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_vault_secret.test_keytab_secret.id}`},
+	}
+	FileStorageMountTargetLdapIdmapRepresentation = map[string]interface{}{
+		"group_search_base":               acctest.Representation{RepType: acctest.Required, Create: `groupSearchBase`, Update: `groupSearchBase2`},
+		"user_search_base":                acctest.Representation{RepType: acctest.Required, Create: `userSearchBase`, Update: `userSearchBase2`},
+		"cache_lifetime_seconds":          acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
+		"cache_refresh_interval_seconds":  acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
+		"negative_cache_lifetime_seconds": acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `400`},
+		"outbound_connector1id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_outbound_connector.test_outbound_connector1.id}`},
+		"outbound_connector2id":           acctest.Representation{RepType: acctest.Optional, Update: `${oci_file_storage_outbound_connector.test_outbound_connector2.id}`},
+		"schema_type":                     acctest.Representation{RepType: acctest.Optional, Create: `RFC2307`},
 	}
 
 	FileStorageMountTargetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
@@ -63,8 +83,37 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
-		AvailabilityDomainConfig +
-		DefinedTagsDependencies
+		AvailabilityDomainConfig + DefinedTagsDependencies
+
+	FileStorageMountTargetResourceKerberosDependencies = acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(KmsVaultRepresentation, map[string]interface{}{
+		"vault_type": acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
+	})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(KmsKeyRepresentation, map[string]interface{}{
+			"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_vault.test_vault.management_endpoint}`},
+			"desired_state":       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_keytab_secret", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(VaultSecretRepresentation, map[string]interface{}{
+			"vault_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_vault.test_vault.id}`},
+			"key_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_key.test_key.id}`},
+			"secret_name": acctest.Representation{RepType: acctest.Required, Create: strconv.Itoa(int(time.Now().Unix())) + "_keytab"},
+			"secret_content": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(VaultSecretSecretContentRepresentation, map[string]interface{}{
+				"content": acctest.Representation{RepType: acctest.Required, Create: `BQIAAAClAAIAI0FEMkNBTkFSWS5QSFhERVZQQ0FOUy5PUkFDTEVWQ04uQ09NAANuZnMARmtlcmJlcm9zLWFwaS1jYW5hcnktbW91bnQtdGFyZ2V0LTEuYWQyY2FuYXJ5LnBoeGRldnBjYW5zLm9yYWNsZXZjbi5jb20AAAABYgMUPgIAEgAgIvKmyzN+v/xsEQpwSzwxfFCEwtbV5ozYkk8VAmx9NhQAAAAC`},
+			})},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_obc_pwd_secret", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(VaultSecretRepresentation, map[string]interface{}{
+			"vault_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_vault.test_vault.id}`},
+			"key_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_key.test_key.id}`},
+			"secret_name": acctest.Representation{RepType: acctest.Required, Create: strconv.Itoa(int(time.Now().Unix())) + "_pwd"},
+			"secret_content": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(VaultSecretSecretContentRepresentation, map[string]interface{}{
+				"content": acctest.Representation{RepType: acctest.Required, Create: `dGVzdHB3ZAo=`},
+			})},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_outbound_connector", "test_outbound_connector1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(FileStorageOutboundConnectorRepresentation, map[string]interface{}{
+			"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_obc_pwd_secret.id}`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_outbound_connector", "test_outbound_connector2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(FileStorageOutboundConnectorRepresentation, map[string]interface{}{
+			"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_obc_pwd_secret.id}`},
+		}))
 )
 
 // issue-routing-tag: file_storage/default
@@ -85,13 +134,13 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+FileStorageMountTargetResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+FileStorageMountTargetResourceDependencies+FileStorageMountTargetResourceKerberosDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create, FileStorageMountTargetRepresentation), "filestorage", "mountTarget", t)
 
 	acctest.ResourceTest(t, testAccCheckFileStorageMountTargetDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Required, acctest.Create, FileStorageMountTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -108,11 +157,11 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies,
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create, FileStorageMountTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -122,6 +171,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "idmap_type", "LDAP"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
@@ -129,6 +179,20 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.backup_key_tab_secret_version", "0"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.current_key_tab_secret_version", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.is_kerberos_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.kerberos_realm", "kerberosRealm"),
+				resource.TestCheckResourceAttrSet(resourceName, "kerberos.0.key_tab_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.cache_lifetime_seconds", "300"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.cache_refresh_interval_seconds", "300"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.group_search_base", "groupSearchBase"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.user_search_base", "userSearchBase"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.negative_cache_lifetime_seconds", "300"),
+				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -144,7 +208,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileStorageMountTargetResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(FileStorageMountTargetRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -156,12 +220,27 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "idmap_type", "LDAP"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.backup_key_tab_secret_version", "0"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.current_key_tab_secret_version", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.is_kerberos_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.kerberos_realm", "kerberosRealm"),
+				resource.TestCheckResourceAttrSet(resourceName, "kerberos.0.key_tab_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.cache_lifetime_seconds", "300"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.cache_refresh_interval_seconds", "300"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.group_search_base", "groupSearchBase"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.user_search_base", "userSearchBase"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.negative_cache_lifetime_seconds", "300"),
+				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -175,7 +254,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Update, FileStorageMountTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -185,12 +264,28 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "idmap_type", "LDAP"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.backup_key_tab_secret_version", "0"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.current_key_tab_secret_version", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.is_kerberos_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.kerberos_realm", "kerberosRealm2"),
+				resource.TestCheckResourceAttrSet(resourceName, "kerberos.0.key_tab_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.cache_lifetime_seconds", "400"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.cache_refresh_interval_seconds", "400"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.group_search_base", "groupSearchBase2"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.user_search_base", "userSearchBase2"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.negative_cache_lifetime_seconds", "400"),
+				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
+				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector2id"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -205,7 +300,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_mount_targets", "test_mount_targets", acctest.Optional, acctest.Update, FileStorageFileStorageMountTargetDataSourceRepresentation) +
-				compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+				compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Update, FileStorageMountTargetRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
@@ -221,6 +316,36 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.state", string(oci_file_storage.MountTargetLifecycleStateActive)),
 				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.time_created"),
+			),
+		},
+		// verify updates to kerberos and ldap parameters
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(FileStorageMountTargetRepresentation, map[string]interface{}{
+					"kerberos": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(FileStorageMountTargetKerberosRepresentation, map[string]interface{}{
+						"is_kerberos_enabled":            acctest.Representation{RepType: acctest.Optional, Update: `false`},
+						"key_tab_secret_id":              acctest.Representation{RepType: acctest.Optional, Update: ``},
+						"current_key_tab_secret_version": acctest.Representation{RepType: acctest.Optional, Update: `0`},
+					})},
+					"ldap_idmap": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(FileStorageMountTargetLdapIdmapRepresentation, map[string]interface{}{
+						"outbound_connector2id": acctest.Representation{RepType: acctest.Optional, Update: ``},
+					})},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "kerberos.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.backup_key_tab_secret_version", "0"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.current_key_tab_secret_version", "0"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.is_kerberos_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos.0.key_tab_secret_id", ""),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.outbound_connector2id", ""),
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
 			),
 		},
 		// verify resource import
@@ -249,8 +374,8 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 		// verify resource creation fails for the second mount target with the same ip_address
 		{
 			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", acctest.Optional, acctest.Update, FileStorageMountTargetRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", acctest.Optional, acctest.Update, FileStorageMountTargetRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithRemovedProperties(FileStorageMountTargetRepresentation, []string{"idmap_type", "kerberos", "ldap_idmap"})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithRemovedProperties(FileStorageMountTargetRepresentation, []string{"idmap_type", "kerberos", "ldap_idmap"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 			),

@@ -21,14 +21,14 @@ import (
 type DrPlanStepExecution struct {
 
 	// The unique id of this step. Must not be modified by user.
-	// Example: `sgid1.step..examplestepsgid`
+	// Example: `sgid1.step..&lt;unique_id&gt;`
 	StepId *string `mandatory:"true" json:"stepId"`
 
 	// The plan step type.
 	Type DrPlanStepTypeEnum `mandatory:"true" json:"type"`
 
 	// The unique id of the group to which this step belongs. Must not be modified by user.
-	// Example: `sgid1.group..examplegroupsgid`
+	// Example: `sgid1.group..&lt;unique_id&gt;`
 	GroupId *string `mandatory:"true" json:"groupId"`
 
 	// The display name of the step.

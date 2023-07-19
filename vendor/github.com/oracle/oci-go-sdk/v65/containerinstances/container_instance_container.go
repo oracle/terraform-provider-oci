@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ContainerInstanceContainer A container on a Container Instance.
+// ContainerInstanceContainer A container on a container instance.
 type ContainerInstanceContainer struct {
 
-	// The ID of the Container on this Instance.
+	// The OCID of the container.
 	ContainerId *string `mandatory:"true" json:"containerId"`
 
 	// Display name for the Container.

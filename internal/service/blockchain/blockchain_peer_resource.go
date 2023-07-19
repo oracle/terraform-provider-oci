@@ -189,7 +189,36 @@ func (s *BlockchainPeerResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.setIdFromWorkRequest(workId)
 	return s.getPeerFromWorkRequest(request.BlockchainPlatformId, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *BlockchainPeerResourceCrud) setIdFromWorkRequest(workId *string) {
+	var subTypeKey *string
+	var err error
+
+	workRequestResponse := oci_blockchain.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_blockchain.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "instance") {
+				for _, subTypeDetail := range res.SubTypeDetails {
+					subTypeKey = subTypeDetail.SubTypeKey
+				}
+				break
+			}
+		}
+	}
+	if subTypeKey != nil {
+		s.D.SetId(*subTypeKey)
+	}
 }
 
 func (s *BlockchainPeerResourceCrud) getPeerFromWorkRequest(blockchainPlatformId *string, workId *string, retryPolicy *oci_common.RetryPolicy,
