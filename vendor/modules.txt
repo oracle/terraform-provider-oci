@@ -253,6 +253,7 @@ github.com/oklog/run
 github.com/oracle/oci-go-sdk/v65/adm
 github.com/oracle/oci-go-sdk/v65/aianomalydetection
 github.com/oracle/oci-go-sdk/v65/aidocument
+github.com/oracle/oci-go-sdk/v65/ailanguage
 github.com/oracle/oci-go-sdk/v65/aivision
 github.com/oracle/oci-go-sdk/v65/analytics
 github.com/oracle/oci-go-sdk/v65/announcementsservice
