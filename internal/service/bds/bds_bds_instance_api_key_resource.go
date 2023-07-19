@@ -184,7 +184,41 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.setIdFromWorkRequest(workId)
 	return s.getBdsInstanceApiKeyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *BdsBdsInstanceApiKeyResourceCrud) setIdFromWorkRequest(workId *string) {
+	var identifier_str string
+	var identifier *string
+	var err error
+
+	workRequestResponse := oci_bds.GetWorkRequestResponse{}
+	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+		oci_bds.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"),
+			},
+		})
+	if err == nil {
+		// The work request response contains an array of objects
+		for _, res := range workRequestResponse.Resources {
+			if res.EntityType != nil && strings.Contains(strings.ToLower(*res.EntityType), "bds") && res.EntityUri != nil {
+				var pattern = `/\d*/`
+				var regex = regexp.MustCompile(pattern)
+				identifier_str = regex.ReplaceAllString(*res.EntityUri, "")
+				identifier = &identifier_str
+				break
+			}
+		}
+	}
+	if identifier != nil {
+		apiKeyId, _, err := parseBdsInstanceApiKeyCompositeId(*identifier)
+		if err == nil && apiKeyId != "" {
+			s.D.SetId(apiKeyId)
+		}
+	}
 }
 
 func (s *BdsBdsInstanceApiKeyResourceCrud) getBdsInstanceApiKeyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,

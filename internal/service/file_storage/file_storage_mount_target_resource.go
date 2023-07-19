@@ -5,6 +5,7 @@ package file_storage
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -69,11 +70,107 @@ func FileStorageMountTargetResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
+			"idmap_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"ip_address": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"kerberos": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"kerberos_realm": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"backup_key_tab_secret_version": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"current_key_tab_secret_version": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"is_kerberos_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"key_tab_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"ldap_idmap": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"cache_lifetime_seconds": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"cache_refresh_interval_seconds": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"group_search_base": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"negative_cache_lifetime_seconds": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"outbound_connector1id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"outbound_connector2id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"schema_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"user_search_base": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
@@ -223,9 +320,35 @@ func (s *FileStorageMountTargetResourceCrud) Create() error {
 		request.HostnameLabel = &tmp
 	}
 
+	if idmapType, ok := s.D.GetOkExists("idmap_type"); ok {
+		request.IdmapType = oci_file_storage.MountTargetIdmapTypeEnum(idmapType.(string))
+	}
+
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
 		tmp := ipAddress.(string)
 		request.IpAddress = &tmp
+	}
+
+	if kerberos, ok := s.D.GetOkExists("kerberos"); ok {
+		if tmpList := kerberos.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "kerberos", 0)
+			tmp, err := s.mapToCreateKerberosDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Kerberos = &tmp
+		}
+	}
+
+	if ldapIdmap, ok := s.D.GetOkExists("ldap_idmap"); ok {
+		if tmpList := ldapIdmap.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ldap_idmap", 0)
+			tmp, err := s.mapToCreateLdapIdmapDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LdapIdmap = &tmp
+		}
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -308,6 +431,32 @@ func (s *FileStorageMountTargetResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if idmapType, ok := s.D.GetOkExists("idmap_type"); ok {
+		request.IdmapType = oci_file_storage.MountTargetIdmapTypeEnum(idmapType.(string))
+	}
+
+	if kerberos, ok := s.D.GetOkExists("kerberos"); ok {
+		if tmpList := kerberos.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "kerberos", 0)
+			tmp, err := s.mapToUpdateKerberosDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Kerberos = &tmp
+		}
+	}
+
+	if ldapIdmap, ok := s.D.GetOkExists("ldap_idmap"); ok {
+		if tmpList := ldapIdmap.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ldap_idmap", 0)
+			tmp, err := s.mapToUpdateLdapIdmapDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LdapIdmap = &tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.MountTargetId = &tmp
 
@@ -371,6 +520,20 @@ func (s *FileStorageMountTargetResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("idmap_type", s.Res.IdmapType)
+
+	if s.Res.Kerberos != nil {
+		s.D.Set("kerberos", []interface{}{KerberosToMap(s.Res.Kerberos)})
+	} else {
+		s.D.Set("kerberos", nil)
+	}
+
+	if s.Res.LdapIdmap != nil {
+		s.D.Set("ldap_idmap", []interface{}{LdapIdmapToMap(s.Res.LdapIdmap)})
+	} else {
+		s.D.Set("ldap_idmap", nil)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -402,6 +565,220 @@ func (s *FileStorageMountTargetResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *FileStorageMountTargetResourceCrud) mapToCreateKerberosDetails(fieldKeyFormat string) (oci_file_storage.CreateKerberosDetails, error) {
+	result := oci_file_storage.CreateKerberosDetails{}
+
+	if backupKeyTabSecretVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_key_tab_secret_version")); ok {
+		tmp := backupKeyTabSecretVersion.(int)
+		result.BackupKeyTabSecretVersion = &tmp
+	}
+
+	if currentKeyTabSecretVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "current_key_tab_secret_version")); ok {
+		tmp := currentKeyTabSecretVersion.(int)
+		result.CurrentKeyTabSecretVersion = &tmp
+	}
+
+	if isKerberosEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_kerberos_enabled")); ok {
+		tmp := isKerberosEnabled.(bool)
+		result.IsKerberosEnabled = &tmp
+	}
+
+	if kerberosRealm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kerberos_realm")); ok {
+		tmp := kerberosRealm.(string)
+		result.KerberosRealm = &tmp
+	}
+
+	if keyTabSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_tab_secret_id")); ok {
+		tmp := keyTabSecretId.(string)
+		result.KeyTabSecretId = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *FileStorageMountTargetResourceCrud) mapToUpdateKerberosDetails(fieldKeyFormat string) (oci_file_storage.UpdateKerberosDetails, error) {
+	result := oci_file_storage.UpdateKerberosDetails{}
+
+	if backupKeyTabSecretVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_key_tab_secret_version")); ok {
+		tmp := backupKeyTabSecretVersion.(int)
+		result.BackupKeyTabSecretVersion = &tmp
+	}
+
+	if currentKeyTabSecretVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "current_key_tab_secret_version")); ok {
+		tmp := currentKeyTabSecretVersion.(int)
+		result.CurrentKeyTabSecretVersion = &tmp
+	}
+
+	if isKerberosEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_kerberos_enabled")); ok {
+		tmp := isKerberosEnabled.(bool)
+		result.IsKerberosEnabled = &tmp
+	}
+
+	if kerberosRealm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kerberos_realm")); ok {
+		tmp := kerberosRealm.(string)
+		result.KerberosRealm = &tmp
+	}
+
+	if keyTabSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_tab_secret_id")); ok {
+		tmp := keyTabSecretId.(string)
+		result.KeyTabSecretId = &tmp
+	}
+
+	return result, nil
+}
+
+func KerberosToMap(obj *oci_file_storage.Kerberos) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BackupKeyTabSecretVersion != nil {
+		result["backup_key_tab_secret_version"] = int(*obj.BackupKeyTabSecretVersion)
+	}
+
+	if obj.CurrentKeyTabSecretVersion != nil {
+		result["current_key_tab_secret_version"] = int(*obj.CurrentKeyTabSecretVersion)
+	}
+
+	if obj.IsKerberosEnabled != nil {
+		result["is_kerberos_enabled"] = bool(*obj.IsKerberosEnabled)
+	}
+
+	if obj.KerberosRealm != nil {
+		result["kerberos_realm"] = string(*obj.KerberosRealm)
+	}
+
+	if obj.KeyTabSecretId != nil {
+		result["key_tab_secret_id"] = string(*obj.KeyTabSecretId)
+	}
+
+	return result
+}
+
+func (s *FileStorageMountTargetResourceCrud) mapToCreateLdapIdmapDetails(fieldKeyFormat string) (oci_file_storage.CreateLdapIdmapDetails, error) {
+	result := oci_file_storage.CreateLdapIdmapDetails{}
+
+	if cacheLifetimeSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cache_lifetime_seconds")); ok {
+		tmp := cacheLifetimeSeconds.(int)
+		result.CacheLifetimeSeconds = &tmp
+	}
+
+	if cacheRefreshIntervalSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cache_refresh_interval_seconds")); ok {
+		tmp := cacheRefreshIntervalSeconds.(int)
+		result.CacheRefreshIntervalSeconds = &tmp
+	}
+
+	if groupSearchBase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_search_base")); ok {
+		tmp := groupSearchBase.(string)
+		result.GroupSearchBase = &tmp
+	}
+
+	if negativeCacheLifetimeSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "negative_cache_lifetime_seconds")); ok {
+		tmp := negativeCacheLifetimeSeconds.(int)
+		result.NegativeCacheLifetimeSeconds = &tmp
+	}
+
+	if outboundConnector1Id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "outbound_connector1id")); ok {
+		tmp := outboundConnector1Id.(string)
+		result.OutboundConnector1Id = &tmp
+	}
+
+	if outboundConnector2Id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "outbound_connector2id")); ok {
+		tmp := outboundConnector2Id.(string)
+		result.OutboundConnector2Id = &tmp
+	}
+
+	if schemaType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "schema_type")); ok {
+		result.SchemaType = oci_file_storage.CreateLdapIdmapDetailsSchemaTypeEnum(schemaType.(string))
+	}
+
+	if userSearchBase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_search_base")); ok {
+		tmp := userSearchBase.(string)
+		result.UserSearchBase = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *FileStorageMountTargetResourceCrud) mapToUpdateLdapIdmapDetails(fieldKeyFormat string) (oci_file_storage.UpdateLdapIdmapDetails, error) {
+	result := oci_file_storage.UpdateLdapIdmapDetails{}
+
+	if cacheLifetimeSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cache_lifetime_seconds")); ok {
+		tmp := cacheLifetimeSeconds.(int)
+		result.CacheLifetimeSeconds = &tmp
+	}
+
+	if cacheRefreshIntervalSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cache_refresh_interval_seconds")); ok {
+		tmp := cacheRefreshIntervalSeconds.(int)
+		result.CacheRefreshIntervalSeconds = &tmp
+	}
+
+	if groupSearchBase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_search_base")); ok {
+		tmp := groupSearchBase.(string)
+		result.GroupSearchBase = &tmp
+	}
+
+	if negativeCacheLifetimeSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "negative_cache_lifetime_seconds")); ok {
+		tmp := negativeCacheLifetimeSeconds.(int)
+		result.NegativeCacheLifetimeSeconds = &tmp
+	}
+
+	if outboundConnector1Id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "outbound_connector1id")); ok {
+		tmp := outboundConnector1Id.(string)
+		result.OutboundConnector1Id = &tmp
+	}
+
+	if outboundConnector2Id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "outbound_connector2id")); ok {
+		tmp := outboundConnector2Id.(string)
+		result.OutboundConnector2Id = &tmp
+	}
+
+	if schemaType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "schema_type")); ok {
+		result.SchemaType = oci_file_storage.UpdateLdapIdmapDetailsSchemaTypeEnum(schemaType.(string))
+	}
+
+	if userSearchBase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_search_base")); ok {
+		tmp := userSearchBase.(string)
+		result.UserSearchBase = &tmp
+	}
+
+	return result, nil
+}
+
+func LdapIdmapToMap(obj *oci_file_storage.LdapIdmap) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CacheLifetimeSeconds != nil {
+		result["cache_lifetime_seconds"] = int(*obj.CacheLifetimeSeconds)
+	}
+
+	if obj.CacheRefreshIntervalSeconds != nil {
+		result["cache_refresh_interval_seconds"] = int(*obj.CacheRefreshIntervalSeconds)
+	}
+
+	if obj.GroupSearchBase != nil {
+		result["group_search_base"] = string(*obj.GroupSearchBase)
+	}
+
+	if obj.NegativeCacheLifetimeSeconds != nil {
+		result["negative_cache_lifetime_seconds"] = int(*obj.NegativeCacheLifetimeSeconds)
+	}
+
+	if obj.OutboundConnector1Id != nil {
+		result["outbound_connector1id"] = string(*obj.OutboundConnector1Id)
+	}
+
+	if obj.OutboundConnector2Id != nil {
+		result["outbound_connector2id"] = string(*obj.OutboundConnector2Id)
+	}
+
+	result["schema_type"] = string(obj.SchemaType)
+
+	if obj.UserSearchBase != nil {
+		result["user_search_base"] = string(*obj.UserSearchBase)
+	}
+
+	return result
 }
 
 func (s *FileStorageMountTargetResourceCrud) updateCompartment(compartment interface{}) error {

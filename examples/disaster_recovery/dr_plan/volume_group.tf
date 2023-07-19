@@ -58,13 +58,17 @@ resource "oci_core_volume_group" "test_volume_group" {
     volume_ids              = oci_core_volume.source_volume_list.*.id
   }
 
+  lifecycle {
+    ignore_changes = [defined_tags]
+  }
+
   #Optional
   defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_group_defined_tags_value}")
   display_name     = var.volume_group_display_name
   freeform_tags    = var.volume_group_freeform_tags
   volume_group_replicas {
     #Required
-    availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name
+    availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name
 
     #Optional
     display_name = var.volume_group_volume_group_replicas_display_name

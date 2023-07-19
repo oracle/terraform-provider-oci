@@ -220,7 +220,8 @@ func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, re
 	return response, err
 }
 
-// ChangeClusterNetworkCompartment Moves a cluster network into a different compartment within the same tenancy. For
+// ChangeClusterNetworkCompartment Moves a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm)
+// into a different compartment within the same tenancy. For
 // information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When you move a cluster network to a different compartment, associated resources such as the instances
@@ -424,8 +425,15 @@ func (client ComputeManagementClient) changeInstancePoolCompartment(ctx context.
 	return response, err
 }
 
-// CreateClusterNetwork Creates a cluster network. For more information about cluster networks, see
-// Managing Cluster Networks (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+// CreateClusterNetwork Creates a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+// A cluster network is a group of high performance computing (HPC), GPU, or optimized bare metal
+// instances that are connected with an ultra low-latency remote direct memory access (RDMA) network.
+// Cluster networks with instance pools use instance pools to manage groups of identical instances.
+// Use cluster networks with instance pools when you want predictable capacity for a specific number of identical
+// instances that are managed as a group.
+// If you want to manage instances in the RDMA network independently of each other or use different types of instances
+// in the network group, create a compute cluster by using the CreateComputeCluster
+// operation.
 // To determine whether capacity is available for a specific shape before you create a cluster network,
 // use the CreateComputeCapacityReport
 // operation.
@@ -799,7 +807,7 @@ func (client ComputeManagementClient) detachLoadBalancer(ctx context.Context, re
 	return response, err
 }
 
-// GetClusterNetwork Gets information about the specified cluster network.
+// GetClusterNetwork Gets information about a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 //
 // See also
 //
@@ -1154,7 +1162,7 @@ func (client ComputeManagementClient) launchInstanceConfiguration(ctx context.Co
 	return response, err
 }
 
-// ListClusterNetworkInstances Lists the instances in the specified cluster network.
+// ListClusterNetworkInstances Lists the instances in a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 //
 // See also
 //
@@ -1211,7 +1219,8 @@ func (client ComputeManagementClient) listClusterNetworkInstances(ctx context.Co
 	return response, err
 }
 
-// ListClusterNetworks Lists the cluster networks in the specified compartment.
+// ListClusterNetworks Lists the cluster networks with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm)
+// in the specified compartment.
 //
 // See also
 //
@@ -1758,7 +1767,7 @@ func (client ComputeManagementClient) stopInstancePool(ctx context.Context, requ
 	return response, err
 }
 
-// TerminateClusterNetwork Terminates the specified cluster network.
+// TerminateClusterNetwork Deletes (terminates) a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 // When you delete a cluster network, all of its resources are permanently deleted,
 // including associated instances and instance pools.
 //
@@ -1879,7 +1888,8 @@ func (client ComputeManagementClient) terminateInstancePool(ctx context.Context,
 	return response, err
 }
 
-// UpdateClusterNetwork Updates the specified cluster network. The OCID of the cluster network remains the same.
+// UpdateClusterNetwork Updates a cluster network with instance pools (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+// The OCID of the cluster network remains the same.
 //
 // See also
 //

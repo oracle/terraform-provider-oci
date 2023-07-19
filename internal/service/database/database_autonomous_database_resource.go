@@ -1497,7 +1497,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok {
+	if ocpuCount, ok := s.D.GetOkExists("ocpu_count"); ok && s.D.HasChange("ocpu_count") {
 		tmp := float32(ocpuCount.(float64))
 		request.OcpuCount = &tmp
 	}
@@ -2341,7 +2341,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 				details.CustomerContacts = tmp
 			}
 		}
-		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok && s.D.HasChange("data_storage_size_in_gb") {
 			tmp := dataStorageSizeInGB.(int)
 			details.DataStorageSizeInGBs = &tmp
 		}

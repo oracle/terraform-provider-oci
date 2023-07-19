@@ -690,6 +690,7 @@ file_storage
 * oci\_file\_storage\_snapshot
 * oci\_file\_storage\_replication
 * oci\_file\_storage\_filesystem\_snapshot\_policy
+* oci\_file\_storage\_outbound\_connector
 
 functions
 

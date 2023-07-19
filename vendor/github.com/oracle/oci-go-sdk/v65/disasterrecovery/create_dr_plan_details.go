@@ -28,7 +28,7 @@ type CreateDrPlanDetails struct {
 	Type DrPlanTypeEnum `mandatory:"true" json:"type"`
 
 	// The OCID of the DR Protection Group to which this DR Plan belongs.
-	// Example: `ocid1.drprotectiongroup.oc1.iad.exampleocid2`
+	// Example: `ocid1.drprotectiongroup.oc1.iad.&lt;unique_id&gt;`
 	DrProtectionGroupId *string `mandatory:"true" json:"drProtectionGroupId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

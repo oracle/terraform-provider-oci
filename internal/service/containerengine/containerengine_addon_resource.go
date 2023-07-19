@@ -234,6 +234,7 @@ func (s *ContainerengineAddonResourceCrud) Create() error {
 		return err
 	}
 
+	s.D.SetId(s.ID())
 	workId := response.OpcWorkRequestId
 	err = s.getAddonFromWorkRequest(workId, s.D.Timeout(schema.TimeoutCreate))
 

@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// ContainerInstanceShapeSummary Details about a shape for a container Instance.
+// ContainerInstanceShapeSummary Details about a shape for a container instance.
 type ContainerInstanceShapeSummary struct {
 
 	// The name identifying the shape.
 	Name *string `mandatory:"true" json:"name"`
 
-	// A short description of the Instance's processor (CPU).
+	// A short description of the container instance's processor (CPU).
 	ProcessorDescription *string `mandatory:"true" json:"processorDescription"`
 
 	OcpuOptions *ShapeOcpuOptions `mandatory:"false" json:"ocpuOptions"`

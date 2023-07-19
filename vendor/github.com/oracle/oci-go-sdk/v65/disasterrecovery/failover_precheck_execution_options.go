@@ -21,7 +21,7 @@ import (
 // FailoverPrecheckExecutionOptions Options for failover precheck execution.
 type FailoverPrecheckExecutionOptions struct {
 
-	// A flag indicating whether warnigs was ignored during the failover.
+	// A flag indicating whether warnings should be ignored during the precheck.
 	// Example: `false`
 	AreWarningsIgnored *bool `mandatory:"false" json:"areWarningsIgnored"`
 }

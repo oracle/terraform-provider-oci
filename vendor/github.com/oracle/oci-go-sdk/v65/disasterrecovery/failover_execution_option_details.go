@@ -21,11 +21,11 @@ import (
 // FailoverExecutionOptionDetails Options for failover execution.
 type FailoverExecutionOptionDetails struct {
 
-	// A flag indicating whether a precheck should be executed before the plan.
+	// A flag indicating whether prechecks should be executed before the plan execution.
 	// Example: `true`
 	ArePrechecksEnabled *bool `mandatory:"false" json:"arePrechecksEnabled"`
 
-	// A flag indicating whether warnigs should be ignored during the failover.
+	// A flag indicating whether warnings should be ignored during the failover.
 	// Example: `false`
 	AreWarningsIgnored *bool `mandatory:"false" json:"areWarningsIgnored"`
 }

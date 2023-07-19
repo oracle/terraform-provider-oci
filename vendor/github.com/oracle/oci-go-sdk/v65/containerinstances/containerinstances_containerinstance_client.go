@@ -88,7 +88,7 @@ func (client *ContainerInstanceClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// ChangeContainerInstanceCompartment Moves a ContainerInstance resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeContainerInstanceCompartment Moves a container instance resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 //
 // See also
 //
@@ -146,7 +146,7 @@ func (client ContainerInstanceClient) changeContainerInstanceCompartment(ctx con
 	return response, err
 }
 
-// CreateContainerInstance Creates a new ContainerInstance.
+// CreateContainerInstance Creates a container instance and deploys the containers on it.
 //
 // See also
 //
@@ -209,7 +209,7 @@ func (client ContainerInstanceClient) createContainerInstance(ctx context.Contex
 	return response, err
 }
 
-// DeleteContainerInstance Deletes a ContainerInstance resource by identifier
+// DeleteContainerInstance Deletes a container instance and its containers.
 //
 // See also
 //
@@ -325,7 +325,7 @@ func (client ContainerInstanceClient) getContainer(ctx context.Context, request 
 	return response, err
 }
 
-// GetContainerInstance Gets a ContainerInstance by identifier
+// GetContainerInstance Gets information about the specified container instance.
 //
 // See also
 //
@@ -441,7 +441,7 @@ func (client ContainerInstanceClient) getWorkRequest(ctx context.Context, reques
 	return response, err
 }
 
-// ListContainerInstanceShapes Get a list of shapes for creating Container Instances and their details.
+// ListContainerInstanceShapes Lists the shapes that can be used to create container instances.
 //
 // See also
 //
@@ -499,7 +499,7 @@ func (client ContainerInstanceClient) listContainerInstanceShapes(ctx context.Co
 	return response, err
 }
 
-// ListContainerInstances Returns a list of ContainerInstances.
+// ListContainerInstances Returns a list of container instances.
 //
 // See also
 //
@@ -557,7 +557,7 @@ func (client ContainerInstanceClient) listContainerInstances(ctx context.Context
 	return response, err
 }
 
-// ListContainers Return a list of Containers.
+// ListContainers Returns a list of containers in a compartment.
 //
 // See also
 //
@@ -615,7 +615,7 @@ func (client ContainerInstanceClient) listContainers(ctx context.Context, reques
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWorkRequestErrors Return a paginated list of errors for a given work request.
 //
 // See also
 //
@@ -673,7 +673,7 @@ func (client ContainerInstanceClient) listWorkRequestErrors(ctx context.Context,
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// ListWorkRequestLogs Return a paginated list of logs for a given work request.
 //
 // See also
 //
@@ -847,7 +847,7 @@ func (client ContainerInstanceClient) restartContainerInstance(ctx context.Conte
 	return response, err
 }
 
-// RetrieveLogs Retrieve recent log from a single container by the container ID up to 256KB.
+// RetrieveLogs Retrieves recent logs from the specified container. The most recent 256 KB of logs are returned.
 //
 // See also
 //
@@ -1020,7 +1020,7 @@ func (client ContainerInstanceClient) stopContainerInstance(ctx context.Context,
 	return response, err
 }
 
-// UpdateContainer Update a Container.
+// UpdateContainer Updates a container.
 //
 // See also
 //
@@ -1078,7 +1078,7 @@ func (client ContainerInstanceClient) updateContainer(ctx context.Context, reque
 	return response, err
 }
 
-// UpdateContainerInstance Updates the ContainerInstance
+// UpdateContainerInstance Updates a container instance.
 //
 // See also
 //

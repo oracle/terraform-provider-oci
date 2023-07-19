@@ -56,6 +56,10 @@ func (m *instanceconfigurationinstancedetails) UnmarshalPolymorphicJSON(data []b
 
 	var err error
 	switch m.InstanceType {
+	case "instance_options":
+		mm := ComputeInstanceOptions{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "compute":
 		mm := ComputeInstanceDetails{}
 		err = json.Unmarshal(data, &mm)

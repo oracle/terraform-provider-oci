@@ -188,6 +188,10 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["image"] = *r.ImageId
 		}
 
+		if r.InstanceConfigurationId != nil {
+			instance["instance_configuration_id"] = *r.InstanceConfigurationId
+		}
+
 		if r.InstanceOptions != nil {
 			instance["instance_options"] = []interface{}{InstanceOptionsToMap(r.InstanceOptions)}
 		} else {

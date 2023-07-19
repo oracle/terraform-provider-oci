@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// ContainerEmptyDirVolume The empty director of container
+// ContainerEmptyDirVolume The empty directory of container.
 type ContainerEmptyDirVolume struct {
 
-	// The name of the volume. This has be unique cross single ContainerInstance.
+	// The name of the volume. This must be unique within a single container instance.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Volume type that we are using for empty dir where it could be either File Storage or Memory
+	// The volume type of the empty directory, can be either File Storage or Memory.
 	BackingStore ContainerEmptyDirVolumeBackingStoreEnum `mandatory:"false" json:"backingStore,omitempty"`
 }
 

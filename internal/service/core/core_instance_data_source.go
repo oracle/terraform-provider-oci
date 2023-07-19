@@ -122,6 +122,10 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("image", *s.Res.ImageId)
 	}
 
+	if s.Res.InstanceConfigurationId != nil {
+		s.D.Set("instance_configuration_id", *s.Res.InstanceConfigurationId)
+	}
+
 	if s.Res.InstanceOptions != nil {
 		s.D.Set("instance_options", []interface{}{InstanceOptionsToMap(s.Res.InstanceOptions)})
 	} else {

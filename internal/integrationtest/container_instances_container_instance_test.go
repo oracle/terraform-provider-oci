@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"testing"
 	"time"
@@ -56,7 +57,7 @@ var (
 		"shape_config":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceShapeConfigRepresentation},
 		"vnics":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceVnicsRepresentation},
 		"container_restart_policy":             acctest.Representation{RepType: acctest.Optional, Create: `ALWAYS`},
-		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${map("tf_test_namespace.test_tag", "value")}`, Update: `${map("tf_test_namespace.test_tag", "updatedValue")}`},
 		"display_name":                         acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"dns_config":                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceDnsConfigRepresentation},
 		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
@@ -67,7 +68,6 @@ var (
 	}
 	ContainerInstancesContainerInstanceContainersRepresentation = map[string]interface{}{
 		"image_url":                      acctest.Representation{RepType: acctest.Required, Create: `busybox`},
-		"additional_capabilities":        acctest.Representation{RepType: acctest.Optional, Create: []string{`CAP_NET_ADMIN`}},
 		"arguments":                      acctest.Representation{RepType: acctest.Optional, Create: []string{`-c`, `sleep 24h`}},
 		"command":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`/bin/sh`}},
 		"display_name":                   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -80,7 +80,6 @@ var (
 	}
 	ContainerInstancesContainerInstanceContainersSecondRepresentation = map[string]interface{}{
 		"image_url":                      acctest.Representation{RepType: acctest.Required, Create: `busybox`},
-		"additional_capabilities":        acctest.Representation{RepType: acctest.Optional, Create: []string{`CAP_NET_ADMIN`}},
 		"arguments":                      acctest.Representation{RepType: acctest.Optional, Create: []string{`-c`, `sleep 24h`}},
 		"command":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`/bin/sh`}},
 		"display_name":                   acctest.Representation{RepType: acctest.Optional, Create: `secondDisplayName`, Update: `secondDisplayName2`},
@@ -97,7 +96,7 @@ var (
 	}
 	ContainerInstancesContainerInstanceVnicsRepresentation = map[string]interface{}{
 		"subnet_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("tf_test_namespace.test_tag", "value")}`, Update: `${map("tf_test_namespace.test_tag", "updatedValue")}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"hostname_label":         acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`, Update: `hostnamelabel2`},
@@ -143,7 +142,7 @@ var (
 
 	//check how this works for multiple containers
 	ignoreChangesCIDefinedTagsRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `vnics[0].defined_tags`}},
 	}
 
 	CISubnetRepresentation = map[string]interface{}{
@@ -243,8 +242,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_sec_list", acctest.Required, acctest.Create, CISecurityListRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_ig", acctest.Required, acctest.Create, CIInternetGatewayRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CIRouteTableRepresentation) +
-		AvailabilityDomainConfig +
-		DefinedTagsDependencies
+		AvailabilityDomainConfig
 )
 
 // issue-routing-tag: container_instances/default
@@ -270,6 +268,12 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_container_instances_container_instance", "test_container_instance", acctest.Optional, acctest.Create, ContainerInstancesContainerInstanceRepresentation), "containerinstances", "containerInstance", t)
 
 	acctest.ResourceTest(t, testAccCheckContainerInstancesContainerInstanceDestroy, []resource.TestStep{
+		// Create dependencies and wait
+		{
+			Config: config + compartmentIdVariableStr + ContainerInstancesContainerInstanceResourceDependencies,
+			Check:  delayAndReturnNil(),
+		},
+
 		// verify default create and check power on
 		{
 			Config: config + compartmentIdVariableStr + ContainerInstancesContainerInstanceResourceDependencies +
@@ -388,7 +392,6 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "container_count"),
 				resource.TestCheckResourceAttr(resourceName, "container_restart_policy", "ALWAYS"),
 				resource.TestCheckResourceAttr(resourceName, "containers.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "containers.0.additional_capabilities.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.arguments.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.command.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.container_id"),
@@ -460,7 +463,6 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "container_count"),
 				resource.TestCheckResourceAttr(resourceName, "container_restart_policy", "ALWAYS"),
 				resource.TestCheckResourceAttr(resourceName, "containers.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "containers.0.additional_capabilities.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.arguments.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.command.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.container_id"),
@@ -527,7 +529,6 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "container_count"),
 				resource.TestCheckResourceAttr(resourceName, "container_restart_policy", "ALWAYS"),
 				resource.TestCheckResourceAttr(resourceName, "containers.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "containers.0.additional_capabilities.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.arguments.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.command.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.container_id"),
@@ -665,7 +666,6 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "container_count"),
 				resource.TestCheckResourceAttr(resourceName, "container_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "containers.0.additional_capabilities.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.arguments.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.command.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.container_id"),
@@ -683,7 +683,6 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "/subPath"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.working_directory", "/mnt"),
-				resource.TestCheckResourceAttr(resourceName, "containers.1.additional_capabilities.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.arguments.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.command.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.1.container_id"),
@@ -727,7 +726,6 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "container_count"),
 				resource.TestCheckResourceAttr(resourceName, "container_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "containers.0.additional_capabilities.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.arguments.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.command.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.container_id"),
@@ -745,7 +743,6 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "/subPath"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.working_directory", "/mnt"),
-				resource.TestCheckResourceAttr(resourceName, "containers.1.additional_capabilities.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.arguments.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.command.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.1.container_id"),
@@ -899,4 +896,13 @@ func ContainerInstancesContainerInstanceSweepResponseFetchOperation(client *tf_c
 		},
 	})
 	return err
+}
+
+func delayAndReturnNil() resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		log.Println("Beginning wait ...")
+		time.Sleep(90 * time.Second)
+		log.Println("Ending wait ...")
+		return nil
+	}
 }

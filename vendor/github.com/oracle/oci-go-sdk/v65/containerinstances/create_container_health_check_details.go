@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateContainerHealthCheckDetails Container Health Check is using for checking container status and taking appropriate actions on behalf of customers.
+// CreateContainerHealthCheckDetails Container Health Check is used to check and report the status of a container.
 type CreateContainerHealthCheckDetails interface {
 
 	// Health check name.

@@ -15,27 +15,27 @@ import (
 	"strings"
 )
 
-// CreateVolumeMountDetails Define the mapping from volume to a mount path in container.
+// CreateVolumeMountDetails Defines the mapping from volume to a mount path in a container.
 type CreateVolumeMountDetails struct {
 
-	// mountPath describes the volume access path.
+	// The volume access path.
 	MountPath *string `mandatory:"true" json:"mountPath"`
 
-	// The name of the volume.
+	// The name of the volume. Avoid entering confidential information.
 	VolumeName *string `mandatory:"true" json:"volumeName"`
 
-	// specifies a sub-path inside the referenced volume instead of its root
+	// A subpath inside the referenced volume.
 	SubPath *string `mandatory:"false" json:"subPath"`
 
-	// Whether the volume was mounted in read-only mode. Defaults to false if not specified.
+	// Whether the volume was mounted in read-only mode. By default, the volume is not read-only.
 	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`
 
-	// If there is more than 1 partitions in the volume, this is the number of partition which be referenced.
-	// Here is a example:
+	// If there is more than one partition in the volume, reference this number of partitions.
+	// Here is an example:
 	// Number  Start   End     Size    File system  Name                  Flags
-	//  1      1049kB  106MB   105MB   fat16        EFI System Partition  boot, esp
-	//  2      106MB   1180MB  1074MB  xfs
-	//  3      1180MB  50.0GB  48.8GB                                     lvm
+	// 1      1049kB  106MB   105MB   fat16        EFI System Partition  boot, esp
+	// 2      106MB   1180MB  1074MB  xfs
+	// 3      1180MB  50.0GB  48.8GB                                     lvm
 	Partition *int `mandatory:"false" json:"partition"`
 }
 
