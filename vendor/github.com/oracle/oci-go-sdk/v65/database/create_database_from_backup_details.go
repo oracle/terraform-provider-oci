@@ -38,6 +38,9 @@ type CreateDatabaseFromBackupDetails struct {
 
 	// The list of pluggable databases that needs to be restored into new database.
 	PluggableDatabases []string `mandatory:"false" json:"pluggableDatabases"`
+
+	// Database Storage Type, this option is applicable when database on Exadata VM cluster on Exascale Infrastructure. High Capacity will be selected if not specified.
+	VaultStorageType CreateDatabaseFromBackupDetailsVaultStorageTypeEnum `mandatory:"false" json:"vaultStorageType,omitempty"`
 }
 
 func (m CreateDatabaseFromBackupDetails) String() string {
@@ -50,8 +53,53 @@ func (m CreateDatabaseFromBackupDetails) String() string {
 func (m CreateDatabaseFromBackupDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateDatabaseFromBackupDetailsVaultStorageTypeEnum(string(m.VaultStorageType)); !ok && m.VaultStorageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VaultStorageType: %s. Supported values are: %s.", m.VaultStorageType, strings.Join(GetCreateDatabaseFromBackupDetailsVaultStorageTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateDatabaseFromBackupDetailsVaultStorageTypeEnum Enum with underlying type: string
+type CreateDatabaseFromBackupDetailsVaultStorageTypeEnum string
+
+// Set of constants representing the allowable values for CreateDatabaseFromBackupDetailsVaultStorageTypeEnum
+const (
+	CreateDatabaseFromBackupDetailsVaultStorageTypeHighCapacity  CreateDatabaseFromBackupDetailsVaultStorageTypeEnum = "HIGH_CAPACITY"
+	CreateDatabaseFromBackupDetailsVaultStorageTypeExteremeFlash CreateDatabaseFromBackupDetailsVaultStorageTypeEnum = "EXTEREME_FLASH"
+)
+
+var mappingCreateDatabaseFromBackupDetailsVaultStorageTypeEnum = map[string]CreateDatabaseFromBackupDetailsVaultStorageTypeEnum{
+	"HIGH_CAPACITY":  CreateDatabaseFromBackupDetailsVaultStorageTypeHighCapacity,
+	"EXTEREME_FLASH": CreateDatabaseFromBackupDetailsVaultStorageTypeExteremeFlash,
+}
+
+var mappingCreateDatabaseFromBackupDetailsVaultStorageTypeEnumLowerCase = map[string]CreateDatabaseFromBackupDetailsVaultStorageTypeEnum{
+	"high_capacity":  CreateDatabaseFromBackupDetailsVaultStorageTypeHighCapacity,
+	"extereme_flash": CreateDatabaseFromBackupDetailsVaultStorageTypeExteremeFlash,
+}
+
+// GetCreateDatabaseFromBackupDetailsVaultStorageTypeEnumValues Enumerates the set of values for CreateDatabaseFromBackupDetailsVaultStorageTypeEnum
+func GetCreateDatabaseFromBackupDetailsVaultStorageTypeEnumValues() []CreateDatabaseFromBackupDetailsVaultStorageTypeEnum {
+	values := make([]CreateDatabaseFromBackupDetailsVaultStorageTypeEnum, 0)
+	for _, v := range mappingCreateDatabaseFromBackupDetailsVaultStorageTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateDatabaseFromBackupDetailsVaultStorageTypeEnumStringValues Enumerates the set of values in String for CreateDatabaseFromBackupDetailsVaultStorageTypeEnum
+func GetCreateDatabaseFromBackupDetailsVaultStorageTypeEnumStringValues() []string {
+	return []string{
+		"HIGH_CAPACITY",
+		"EXTEREME_FLASH",
+	}
+}
+
+// GetMappingCreateDatabaseFromBackupDetailsVaultStorageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateDatabaseFromBackupDetailsVaultStorageTypeEnum(val string) (CreateDatabaseFromBackupDetailsVaultStorageTypeEnum, bool) {
+	enum, ok := mappingCreateDatabaseFromBackupDetailsVaultStorageTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

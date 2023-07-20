@@ -53,9 +53,8 @@ type InstanceMaintenanceEventSummary struct {
 	// this time.
 	TimeWindowStart *common.SDKTime `mandatory:"true" json:"timeWindowStart"`
 
-	// The end of the time window when Maintenance is scheduled to begin. The Maintenance must be started before this
-	// time is reached or it will be rescheduled.
-	TimeWindowEnd *common.SDKTime `mandatory:"true" json:"timeWindowEnd"`
+	// The duration of the time window Maintenance is scheduled to begin within.
+	StartWindowDuration *string `mandatory:"true" json:"startWindowDuration"`
 
 	// This is the estimated duration of the Maintenance, once the Maintenance has entered the STARTED state.
 	EstimatedDuration *string `mandatory:"true" json:"estimatedDuration"`
@@ -73,11 +72,6 @@ type InstanceMaintenanceEventSummary struct {
 	// The creator of the maintenance event.
 	CreatedBy InstanceMaintenanceEventCreatedByEnum `mandatory:"true" json:"createdBy"`
 
-	// A unique identifier that will group Instances that have a relationship with one another and must be scheduled
-	// together for the Maintenance to proceed. Any Instances that have a relationship with one another from a Maintenance
-	// perspective will have a matching correlationToken.
-	CorrelationToken *string `mandatory:"true" json:"correlationToken"`
-
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -92,12 +86,23 @@ type InstanceMaintenanceEventSummary struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The time at which the Maintenance actually started.
+	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
+
+	// The time at which the Maintenance actually finished.
+	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
+
 	// It is the scheduled hard due date and time of the maintenance event.
 	// The maintenance event will happen at this time and the due date will not be extended.
 	TimeHardDueDate *common.SDKTime `mandatory:"false" json:"timeHardDueDate"`
 
 	// It is the descriptive information about the maintenance taking place on the customer instance.
 	Description *string `mandatory:"false" json:"description"`
+
+	// A unique identifier that will group Instances that have a relationship with one another and must be scheduled
+	// together for the Maintenance to proceed. Any Instances that have a relationship with one another from a Maintenance
+	// perspective will have a matching correlationToken.
+	CorrelationToken *string `mandatory:"false" json:"correlationToken"`
 }
 
 func (m InstanceMaintenanceEventSummary) String() string {

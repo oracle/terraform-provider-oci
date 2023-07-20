@@ -105,14 +105,10 @@ type ListWorkRequestsResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response,
-	// then a partial list might have been returned. Include this value as the `page` parameter for the
-	// subsequent GET request to get the next batch of items.
+	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response,
-	// then a partial list might have been returned. Include this value as the `page` parameter for the
-	// subsequent GET request to get the previous batch of items.
+	// For list pagination. When this header appears in the response, previous pages of results exist. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcPrevPage *string `presentIn:"header" name:"opc-prev-page"`
 }
 
@@ -130,33 +126,36 @@ type ListWorkRequestsStatusEnum string
 
 // Set of constants representing the allowable values for ListWorkRequestsStatusEnum
 const (
-	ListWorkRequestsStatusAccepted   ListWorkRequestsStatusEnum = "ACCEPTED"
-	ListWorkRequestsStatusInProgress ListWorkRequestsStatusEnum = "IN_PROGRESS"
-	ListWorkRequestsStatusWaiting    ListWorkRequestsStatusEnum = "WAITING"
-	ListWorkRequestsStatusFailed     ListWorkRequestsStatusEnum = "FAILED"
-	ListWorkRequestsStatusSucceeded  ListWorkRequestsStatusEnum = "SUCCEEDED"
-	ListWorkRequestsStatusCanceling  ListWorkRequestsStatusEnum = "CANCELING"
-	ListWorkRequestsStatusCanceled   ListWorkRequestsStatusEnum = "CANCELED"
+	ListWorkRequestsStatusAccepted       ListWorkRequestsStatusEnum = "ACCEPTED"
+	ListWorkRequestsStatusInProgress     ListWorkRequestsStatusEnum = "IN_PROGRESS"
+	ListWorkRequestsStatusWaiting        ListWorkRequestsStatusEnum = "WAITING"
+	ListWorkRequestsStatusFailed         ListWorkRequestsStatusEnum = "FAILED"
+	ListWorkRequestsStatusSucceeded      ListWorkRequestsStatusEnum = "SUCCEEDED"
+	ListWorkRequestsStatusNeedsAttention ListWorkRequestsStatusEnum = "NEEDS_ATTENTION"
+	ListWorkRequestsStatusCanceling      ListWorkRequestsStatusEnum = "CANCELING"
+	ListWorkRequestsStatusCanceled       ListWorkRequestsStatusEnum = "CANCELED"
 )
 
 var mappingListWorkRequestsStatusEnum = map[string]ListWorkRequestsStatusEnum{
-	"ACCEPTED":    ListWorkRequestsStatusAccepted,
-	"IN_PROGRESS": ListWorkRequestsStatusInProgress,
-	"WAITING":     ListWorkRequestsStatusWaiting,
-	"FAILED":      ListWorkRequestsStatusFailed,
-	"SUCCEEDED":   ListWorkRequestsStatusSucceeded,
-	"CANCELING":   ListWorkRequestsStatusCanceling,
-	"CANCELED":    ListWorkRequestsStatusCanceled,
+	"ACCEPTED":        ListWorkRequestsStatusAccepted,
+	"IN_PROGRESS":     ListWorkRequestsStatusInProgress,
+	"WAITING":         ListWorkRequestsStatusWaiting,
+	"FAILED":          ListWorkRequestsStatusFailed,
+	"SUCCEEDED":       ListWorkRequestsStatusSucceeded,
+	"NEEDS_ATTENTION": ListWorkRequestsStatusNeedsAttention,
+	"CANCELING":       ListWorkRequestsStatusCanceling,
+	"CANCELED":        ListWorkRequestsStatusCanceled,
 }
 
 var mappingListWorkRequestsStatusEnumLowerCase = map[string]ListWorkRequestsStatusEnum{
-	"accepted":    ListWorkRequestsStatusAccepted,
-	"in_progress": ListWorkRequestsStatusInProgress,
-	"waiting":     ListWorkRequestsStatusWaiting,
-	"failed":      ListWorkRequestsStatusFailed,
-	"succeeded":   ListWorkRequestsStatusSucceeded,
-	"canceling":   ListWorkRequestsStatusCanceling,
-	"canceled":    ListWorkRequestsStatusCanceled,
+	"accepted":        ListWorkRequestsStatusAccepted,
+	"in_progress":     ListWorkRequestsStatusInProgress,
+	"waiting":         ListWorkRequestsStatusWaiting,
+	"failed":          ListWorkRequestsStatusFailed,
+	"succeeded":       ListWorkRequestsStatusSucceeded,
+	"needs_attention": ListWorkRequestsStatusNeedsAttention,
+	"canceling":       ListWorkRequestsStatusCanceling,
+	"canceled":        ListWorkRequestsStatusCanceled,
 }
 
 // GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatusEnum
@@ -176,6 +175,7 @@ func GetListWorkRequestsStatusEnumStringValues() []string {
 		"WAITING",
 		"FAILED",
 		"SUCCEEDED",
+		"NEEDS_ATTENTION",
 		"CANCELING",
 		"CANCELED",
 	}

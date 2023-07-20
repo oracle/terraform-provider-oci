@@ -57,6 +57,9 @@ type ExascaleDbStorageVaultSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The number of Exadata VM clusters used the Exadata Database Storage Vault.
+	ExaDbVmClusterCount *int `mandatory:"false" json:"exaDbVmClusterCount"`
 }
 
 func (m ExascaleDbStorageVaultSummary) String() string {

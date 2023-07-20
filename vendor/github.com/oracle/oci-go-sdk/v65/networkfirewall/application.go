@@ -19,11 +19,19 @@ import (
 // Application A protocol identifier (such as TCP, UDP, or ICMP)
 // and protocol-specific parameters (such as a port range).
 type Application interface {
+
+	// Name of the application.
+	GetName() *string
+
+	// OCID of the Network Firewall Policy this application belongs to.
+	GetParentResourceId() *string
 }
 
 type application struct {
-	JsonData []byte
-	Type     string `json:"type"`
+	JsonData         []byte
+	Name             *string `mandatory:"true" json:"name"`
+	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+	Type             string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -37,6 +45,8 @@ func (m *application) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.Name = s.Model.Name
+	m.ParentResourceId = s.Model.ParentResourceId
 	m.Type = s.Model.Type
 
 	return err
@@ -55,15 +65,7 @@ func (m *application) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := IcmpApplication{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "UDP":
-		mm := UdpApplication{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "TCP":
-		mm := TcpApplication{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "ICMP6":
+	case "ICMP_V6":
 		mm := Icmp6Application{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
@@ -71,6 +73,16 @@ func (m *application) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		common.Logf("Recieved unsupported enum value for Application: %s.", m.Type)
 		return *m, nil
 	}
+}
+
+//GetName returns Name
+func (m application) GetName() *string {
+	return m.Name
+}
+
+//GetParentResourceId returns ParentResourceId
+func (m application) GetParentResourceId() *string {
+	return m.ParentResourceId
 }
 
 func (m application) String() string {

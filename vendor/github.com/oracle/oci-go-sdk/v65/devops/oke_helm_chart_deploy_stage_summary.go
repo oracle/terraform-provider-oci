@@ -31,9 +31,6 @@ type OkeHelmChartDeployStageSummary struct {
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Kubernetes cluster environment OCID for deployment.
-	OkeClusterDeployEnvironmentId *string `mandatory:"true" json:"okeClusterDeployEnvironmentId"`
-
 	// Helm chart artifact OCID.
 	HelmChartDeployArtifactId *string `mandatory:"true" json:"helmChartDeployArtifactId"`
 
@@ -65,6 +62,11 @@ type OkeHelmChartDeployStageSummary struct {
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Kubernetes cluster environment OCID for deployment.
+	OkeClusterDeployEnvironmentId *string `mandatory:"false" json:"okeClusterDeployEnvironmentId"`
+
+	OkeEnvironmentDetails OkeEnvironmentDetails `mandatory:"false" json:"okeEnvironmentDetails"`
 
 	// List of values.yaml file artifact OCIDs.
 	ValuesArtifactIds []string `mandatory:"false" json:"valuesArtifactIds"`
@@ -231,6 +233,8 @@ func (m *OkeHelmChartDeployStageSummary) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                     map[string]string                 `json:"freeformTags"`
 		DefinedTags                      map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags                       map[string]map[string]interface{} `json:"systemTags"`
+		OkeClusterDeployEnvironmentId    *string                           `json:"okeClusterDeployEnvironmentId"`
+		OkeEnvironmentDetails            okeenvironmentdetails             `json:"okeEnvironmentDetails"`
 		ValuesArtifactIds                []string                          `json:"valuesArtifactIds"`
 		Namespace                        *string                           `json:"namespace"`
 		TimeoutInSeconds                 *int                              `json:"timeoutInSeconds"`
@@ -251,7 +255,6 @@ func (m *OkeHelmChartDeployStageSummary) UnmarshalJSON(data []byte) (e error) {
 		ProjectId                        *string                           `json:"projectId"`
 		DeployPipelineId                 *string                           `json:"deployPipelineId"`
 		CompartmentId                    *string                           `json:"compartmentId"`
-		OkeClusterDeployEnvironmentId    *string                           `json:"okeClusterDeployEnvironmentId"`
 		HelmChartDeployArtifactId        *string                           `json:"helmChartDeployArtifactId"`
 		ReleaseName                      *string                           `json:"releaseName"`
 	}{}
@@ -280,6 +283,18 @@ func (m *OkeHelmChartDeployStageSummary) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.SystemTags = model.SystemTags
+
+	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
+
+	nn, e = model.OkeEnvironmentDetails.UnmarshalPolymorphicJSON(model.OkeEnvironmentDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.OkeEnvironmentDetails = nn.(OkeEnvironmentDetails)
+	} else {
+		m.OkeEnvironmentDetails = nil
+	}
 
 	m.ValuesArtifactIds = make([]string, len(model.ValuesArtifactIds))
 	for i, n := range model.ValuesArtifactIds {
@@ -331,8 +346,6 @@ func (m *OkeHelmChartDeployStageSummary) UnmarshalJSON(data []byte) (e error) {
 	m.DeployPipelineId = model.DeployPipelineId
 
 	m.CompartmentId = model.CompartmentId
-
-	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
 
 	m.HelmChartDeployArtifactId = model.HelmChartDeployArtifactId
 

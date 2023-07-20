@@ -19,10 +19,10 @@ import (
 type DecryptionRuleMatchCriteria struct {
 
 	// An array of IP address list names to be evaluated against the traffic source address.
-	Sources []string `mandatory:"false" json:"sources"`
+	SourceAddress []string `mandatory:"false" json:"sourceAddress"`
 
 	// An array of IP address list names to be evaluated against the traffic destination address.
-	Destinations []string `mandatory:"false" json:"destinations"`
+	DestinationAddress []string `mandatory:"false" json:"destinationAddress"`
 }
 
 func (m DecryptionRuleMatchCriteria) String() string {

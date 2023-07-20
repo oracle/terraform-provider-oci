@@ -199,15 +199,18 @@ type DbNodeMaintenanceTypeEnum string
 
 // Set of constants representing the allowable values for DbNodeMaintenanceTypeEnum
 const (
-	DbNodeMaintenanceTypeVmdbRebootMigration DbNodeMaintenanceTypeEnum = "VMDB_REBOOT_MIGRATION"
+	DbNodeMaintenanceTypeVmdbRebootMigration    DbNodeMaintenanceTypeEnum = "VMDB_REBOOT_MIGRATION"
+	DbNodeMaintenanceTypeExadbxsRebootMigration DbNodeMaintenanceTypeEnum = "EXADBXS_REBOOT_MIGRATION"
 )
 
 var mappingDbNodeMaintenanceTypeEnum = map[string]DbNodeMaintenanceTypeEnum{
-	"VMDB_REBOOT_MIGRATION": DbNodeMaintenanceTypeVmdbRebootMigration,
+	"VMDB_REBOOT_MIGRATION":    DbNodeMaintenanceTypeVmdbRebootMigration,
+	"EXADBXS_REBOOT_MIGRATION": DbNodeMaintenanceTypeExadbxsRebootMigration,
 }
 
 var mappingDbNodeMaintenanceTypeEnumLowerCase = map[string]DbNodeMaintenanceTypeEnum{
-	"vmdb_reboot_migration": DbNodeMaintenanceTypeVmdbRebootMigration,
+	"vmdb_reboot_migration":    DbNodeMaintenanceTypeVmdbRebootMigration,
+	"exadbxs_reboot_migration": DbNodeMaintenanceTypeExadbxsRebootMigration,
 }
 
 // GetDbNodeMaintenanceTypeEnumValues Enumerates the set of values for DbNodeMaintenanceTypeEnum
@@ -223,6 +226,7 @@ func GetDbNodeMaintenanceTypeEnumValues() []DbNodeMaintenanceTypeEnum {
 func GetDbNodeMaintenanceTypeEnumStringValues() []string {
 	return []string{
 		"VMDB_REBOOT_MIGRATION",
+		"EXADBXS_REBOOT_MIGRATION",
 	}
 }
 

@@ -29,6 +29,12 @@ type ListInstanceMaintenanceEventsRequest struct {
 	// A filter to only return resources that match the given instance action.
 	InstanceAction *string `mandatory:"false" contributesTo:"query" name:"instanceAction"`
 
+	// Starting range to return the maintenances which are not completed (date-time is in RFC3339 (https://tools.ietf.org/html/rfc3339) format).
+	TimeWindowStartGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeWindowStartGreaterThanOrEqualTo"`
+
+	// Ending range to return the maintenances which are not completed (date-time is in RFC3339 (https://tools.ietf.org/html/rfc3339) format).
+	TimeWindowStartLessThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeWindowStartLessThanOrEqualTo"`
+
 	// For list pagination. The maximum number of results per page, or items to return in a paginated
 	// "List" call. For important details about how pagination works, see
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).

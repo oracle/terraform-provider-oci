@@ -54,6 +54,11 @@ type CreateVolumeGroupDetails struct {
 	// The list of volume group replicas that this volume group will be enabled to have
 	// in the specified destination availability domains.
 	VolumeGroupReplicas []VolumeGroupReplicaDetails `mandatory:"false" json:"volumeGroupReplicas"`
+
+	// Indicates whether the volume group is AD-local or Regional. Regional volume groups aren't restricted to any
+	// availability domain unlike AD-local volume groups. This is an optional field. The default behavior is to create
+	// AD_LOCAL volume groups.
+	VolumeGroupScope VolumeGroupVolumeGroupScopeEnum `mandatory:"false" json:"volumeGroupScope,omitempty"`
 }
 
 func (m CreateVolumeGroupDetails) String() string {
@@ -66,6 +71,9 @@ func (m CreateVolumeGroupDetails) String() string {
 func (m CreateVolumeGroupDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingVolumeGroupVolumeGroupScopeEnum(string(m.VolumeGroupScope)); !ok && m.VolumeGroupScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VolumeGroupScope: %s. Supported values are: %s.", m.VolumeGroupScope, strings.Join(GetVolumeGroupVolumeGroupScopeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -80,6 +88,7 @@ func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName         *string                           `json:"displayName"`
 		FreeformTags        map[string]string                 `json:"freeformTags"`
 		VolumeGroupReplicas []VolumeGroupReplicaDetails       `json:"volumeGroupReplicas"`
+		VolumeGroupScope    VolumeGroupVolumeGroupScopeEnum   `json:"volumeGroupScope"`
 		AvailabilityDomain  *string                           `json:"availabilityDomain"`
 		CompartmentId       *string                           `json:"compartmentId"`
 		SourceDetails       volumegroupsourcedetails          `json:"sourceDetails"`
@@ -102,6 +111,8 @@ func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 	for i, n := range model.VolumeGroupReplicas {
 		m.VolumeGroupReplicas[i] = n
 	}
+
+	m.VolumeGroupScope = model.VolumeGroupScope
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

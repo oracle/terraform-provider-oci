@@ -18,7 +18,7 @@ import (
 // UpdateTargetAlertPolicyAssociationDetails The details used to update a target-alert policy association.
 type UpdateTargetAlertPolicyAssociationDetails struct {
 
-	// Indicates if the target-alert policy association is enabled or disabled.
+	// Indicates if the target-alert policy association is enabled or disabled by user.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// The display name of the target-alert policy association.

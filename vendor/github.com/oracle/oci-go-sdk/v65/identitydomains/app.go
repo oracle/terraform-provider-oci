@@ -1145,31 +1145,31 @@ type App struct {
 	//  - uniqueness: none
 	Scopes []AppScopes `mandatory:"false" json:"scopes"`
 
-	UrnietfparamsscimschemasoracleidcsextensionradiusAppApp *AppExtensionRadiusAppApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:radiusApp:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionRadiusAppApp *AppExtensionRadiusAppApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:radiusApp:App"`
 
-	UrnietfparamsscimschemasoracleidcsextensionsamlServiceProviderApp *AppExtensionSamlServiceProviderApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:samlServiceProvider:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionSamlServiceProviderApp *AppExtensionSamlServiceProviderApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:samlServiceProvider:App"`
 
-	UrnietfparamsscimschemasoracleidcsextensionwebTierPolicyApp *AppExtensionWebTierPolicyApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:webTierPolicy:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionWebTierPolicyApp *AppExtensionWebTierPolicyApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:webTierPolicy:App"`
 
-	UrnietfparamsscimschemasoracleidcsextensionmanagedappApp *AppExtensionManagedappApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:managedapp:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionManagedappApp *AppExtensionManagedappApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:managedapp:App"`
 
-	UrnietfparamsscimschemasoracleidcsextensionformFillAppTemplateAppTemplate *AppExtensionFormFillAppTemplateAppTemplate `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:formFillAppTemplate:AppTemplate"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppTemplateAppTemplate *AppExtensionFormFillAppTemplateAppTemplate `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:formFillAppTemplate:AppTemplate"`
 
-	UrnietfparamsscimschemasoracleidcsextensionopcServiceApp *AppExtensionOpcServiceApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:opcService:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionOpcServiceApp *AppExtensionOpcServiceApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:opcService:App"`
 
-	UrnietfparamsscimschemasoracleidcsextensionkerberosRealmApp *AppExtensionKerberosRealmApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:kerberosRealm:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionKerberosRealmApp *AppExtensionKerberosRealmApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:kerberosRealm:App"`
 
-	UrnietfparamsscimschemasoracleidcsextensionrequestableApp *AppExtensionRequestableApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:requestable:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionRequestableApp *AppExtensionRequestableApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:requestable:App"`
 
-	UrnietfparamsscimschemasoracleidcsextensionformFillAppApp *AppExtensionFormFillAppApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:formFillApp:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionFormFillAppApp *AppExtensionFormFillAppApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:formFillApp:App"`
 
-	UrnietfparamsscimschemasoracleidcsextensiondbcsApp *AppExtensionDbcsApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:dbcs:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionDbcsApp *AppExtensionDbcsApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:dbcs:App"`
 
-	UrnietfparamsscimschemasoracleidcsextensionenterpriseAppApp *AppExtensionEnterpriseAppApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:enterpriseApp:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionEnterpriseAppApp *AppExtensionEnterpriseAppApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:enterpriseApp:App"`
 
 	UrnIetfParamsScimSchemasOracleIdcsExtensionOciTags *ExtensionOciTags `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:OCITags"`
 
-	UrnietfparamsscimschemasoracleidcsextensionmulticloudServiceAppApp *AppExtensionMulticloudServiceAppApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:multicloudServiceApp:App"`
+	UrnIetfParamsScimSchemasOracleIdcsExtensionMulticloudServiceAppApp *AppExtensionMulticloudServiceAppApp `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:multicloudServiceApp:App"`
 }
 
 func (m App) String() string {

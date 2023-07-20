@@ -10,48 +10,39 @@
 package networkfirewall
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// UdpApplication UDP Application used on the firewall policy rules.
-type UdpApplication struct {
+// CreateAddressListDetails The Request for creating the address List
+type CreateAddressListDetails struct {
 
-	// The minimum port in the range (inclusive), or the sole port of a single-port range.
-	MinimumPort *int `mandatory:"true" json:"minimumPort"`
+	// Unique name to identify the group of addresses to be used in the policy rules.
+	Name *string `mandatory:"true" json:"name"`
 
-	// The maximum port in the range (inclusive), which may be absent for a single-port range.
-	MaximumPort *int `mandatory:"false" json:"maximumPort"`
+	// Type of address List. The accepted values are - * FQDN * IP
+	Type AddressListTypeEnum `mandatory:"true" json:"type"`
+
+	// List of addresses.
+	Addresses []string `mandatory:"true" json:"addresses"`
 }
 
-func (m UdpApplication) String() string {
+func (m CreateAddressListDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UdpApplication) ValidateEnumValue() (bool, error) {
+func (m CreateAddressListDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingAddressListTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetAddressListTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m UdpApplication) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeUdpApplication UdpApplication
-	s := struct {
-		DiscriminatorParam string `json:"type"`
-		MarshalTypeUdpApplication
-	}{
-		"UDP",
-		(MarshalTypeUdpApplication)(m),
-	}
-
-	return json.Marshal(&s)
 }

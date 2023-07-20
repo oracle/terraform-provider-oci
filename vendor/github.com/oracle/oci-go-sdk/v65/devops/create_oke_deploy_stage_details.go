@@ -24,9 +24,6 @@ type CreateOkeDeployStageDetails struct {
 
 	DeployStagePredecessorCollection *DeployStagePredecessorCollection `mandatory:"true" json:"deployStagePredecessorCollection"`
 
-	// Kubernetes cluster environment OCID for deployment.
-	OkeClusterDeployEnvironmentId *string `mandatory:"true" json:"okeClusterDeployEnvironmentId"`
-
 	// List of Kubernetes manifest artifact OCIDs.
 	KubernetesManifestDeployArtifactIds []string `mandatory:"true" json:"kubernetesManifestDeployArtifactIds"`
 
@@ -41,6 +38,11 @@ type CreateOkeDeployStageDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Kubernetes cluster environment OCID for deployment.
+	OkeClusterDeployEnvironmentId *string `mandatory:"false" json:"okeClusterDeployEnvironmentId"`
+
+	OkeEnvironmentDetails OkeEnvironmentDetails `mandatory:"false" json:"okeEnvironmentDetails"`
 
 	// Default namespace to be used for Kubernetes deployment when not specified in the manifest.
 	Namespace *string `mandatory:"false" json:"namespace"`
@@ -115,11 +117,12 @@ func (m *CreateOkeDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName                         *string                           `json:"displayName"`
 		FreeformTags                        map[string]string                 `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
+		OkeClusterDeployEnvironmentId       *string                           `json:"okeClusterDeployEnvironmentId"`
+		OkeEnvironmentDetails               okeenvironmentdetails             `json:"okeEnvironmentDetails"`
 		Namespace                           *string                           `json:"namespace"`
 		RollbackPolicy                      deploystagerollbackpolicy         `json:"rollbackPolicy"`
 		DeployPipelineId                    *string                           `json:"deployPipelineId"`
 		DeployStagePredecessorCollection    *DeployStagePredecessorCollection `json:"deployStagePredecessorCollection"`
-		OkeClusterDeployEnvironmentId       *string                           `json:"okeClusterDeployEnvironmentId"`
 		KubernetesManifestDeployArtifactIds []string                          `json:"kubernetesManifestDeployArtifactIds"`
 	}{}
 
@@ -136,6 +139,18 @@ func (m *CreateOkeDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
+	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
+
+	nn, e = model.OkeEnvironmentDetails.UnmarshalPolymorphicJSON(model.OkeEnvironmentDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.OkeEnvironmentDetails = nn.(OkeEnvironmentDetails)
+	} else {
+		m.OkeEnvironmentDetails = nil
+	}
+
 	m.Namespace = model.Namespace
 
 	nn, e = model.RollbackPolicy.UnmarshalPolymorphicJSON(model.RollbackPolicy.JsonData)
@@ -151,8 +166,6 @@ func (m *CreateOkeDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DeployPipelineId = model.DeployPipelineId
 
 	m.DeployStagePredecessorCollection = model.DeployStagePredecessorCollection
-
-	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
 
 	m.KubernetesManifestDeployArtifactIds = make([]string, len(model.KubernetesManifestDeployArtifactIds))
 	for i, n := range model.KubernetesManifestDeployArtifactIds {

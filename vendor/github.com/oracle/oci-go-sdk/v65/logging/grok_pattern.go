@@ -5,8 +5,7 @@
 // Logging Management API
 //
 // Use the Logging Management API to create, read, list, update, move and delete
-// log groups, log objects, log saved searches, agent configurations, log data models,
-// continuous queries, and managed continuous queries.
+// log groups, log objects, log saved searches, and agent configurations.
 // For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
@@ -18,13 +17,13 @@ import (
 	"strings"
 )
 
-// GrokPattern grok pattern object.
+// GrokPattern Grok pattern object.
 type GrokPattern struct {
 
-	// The grok pattern.
+	// The Grok pattern.
 	Pattern *string `mandatory:"true" json:"pattern"`
 
-	// The name key to tag this grok pattern.
+	// The name key to tag this Grok pattern.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Specify the time field for the event time. If the event doesn't have this field, the current time is used.

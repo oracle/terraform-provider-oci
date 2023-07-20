@@ -118,6 +118,9 @@ type DatabaseSummary struct {
 
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
+
+	// Database Storage Type, this option is applicable when database on Exadata VM cluster on Exascale Infrastructure. High Capacity will be selected if not specified.
+	VaultStorageType DatabaseSummaryVaultStorageTypeEnum `mandatory:"false" json:"vaultStorageType,omitempty"`
 }
 
 func (m DatabaseSummary) String() string {
@@ -133,6 +136,9 @@ func (m DatabaseSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDatabaseSummaryVaultStorageTypeEnum(string(m.VaultStorageType)); !ok && m.VaultStorageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VaultStorageType: %s. Supported values are: %s.", m.VaultStorageType, strings.Join(GetDatabaseSummaryVaultStorageTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -210,5 +216,47 @@ func GetDatabaseSummaryLifecycleStateEnumStringValues() []string {
 // GetMappingDatabaseSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDatabaseSummaryLifecycleStateEnum(val string) (DatabaseSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingDatabaseSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DatabaseSummaryVaultStorageTypeEnum Enum with underlying type: string
+type DatabaseSummaryVaultStorageTypeEnum string
+
+// Set of constants representing the allowable values for DatabaseSummaryVaultStorageTypeEnum
+const (
+	DatabaseSummaryVaultStorageTypeHighCapacity  DatabaseSummaryVaultStorageTypeEnum = "HIGH_CAPACITY"
+	DatabaseSummaryVaultStorageTypeExteremeFlash DatabaseSummaryVaultStorageTypeEnum = "EXTEREME_FLASH"
+)
+
+var mappingDatabaseSummaryVaultStorageTypeEnum = map[string]DatabaseSummaryVaultStorageTypeEnum{
+	"HIGH_CAPACITY":  DatabaseSummaryVaultStorageTypeHighCapacity,
+	"EXTEREME_FLASH": DatabaseSummaryVaultStorageTypeExteremeFlash,
+}
+
+var mappingDatabaseSummaryVaultStorageTypeEnumLowerCase = map[string]DatabaseSummaryVaultStorageTypeEnum{
+	"high_capacity":  DatabaseSummaryVaultStorageTypeHighCapacity,
+	"extereme_flash": DatabaseSummaryVaultStorageTypeExteremeFlash,
+}
+
+// GetDatabaseSummaryVaultStorageTypeEnumValues Enumerates the set of values for DatabaseSummaryVaultStorageTypeEnum
+func GetDatabaseSummaryVaultStorageTypeEnumValues() []DatabaseSummaryVaultStorageTypeEnum {
+	values := make([]DatabaseSummaryVaultStorageTypeEnum, 0)
+	for _, v := range mappingDatabaseSummaryVaultStorageTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDatabaseSummaryVaultStorageTypeEnumStringValues Enumerates the set of values in String for DatabaseSummaryVaultStorageTypeEnum
+func GetDatabaseSummaryVaultStorageTypeEnumStringValues() []string {
+	return []string{
+		"HIGH_CAPACITY",
+		"EXTEREME_FLASH",
+	}
+}
+
+// GetMappingDatabaseSummaryVaultStorageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDatabaseSummaryVaultStorageTypeEnum(val string) (DatabaseSummaryVaultStorageTypeEnum, bool) {
+	enum, ok := mappingDatabaseSummaryVaultStorageTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -14,9 +14,6 @@ import (
 // ListServicesRequest wrapper for the ListServices operation
 type ListServicesRequest struct {
 
-	// Service stage of a service. The allowed values are "ProductionStage", "DevStage" and "LAStage".
-	ServiceStage *string `mandatory:"false" contributesTo:"query" name:"serviceStage"`
-
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

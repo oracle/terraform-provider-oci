@@ -9852,6 +9852,72 @@ func (client DataSafeClient) listTables(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// ListTargetAlertPolicyAssociationAnalytics Gets a list of target alert policy association aggregated details . A target alert policy association aggregation helps understand the overall  state of trails.
+// As an example, it helps understand how many associations are automatically disabled. It is especially useful to create dashboards or to support analytics.
+//
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+//
+// The parameter `compartmentIdInSubtree` applies when you perform TargetAlertPolicyAssociationAnalytics on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// A default retry strategy applies to this operation ListTargetAlertPolicyAssociationAnalytics()
+func (client DataSafeClient) ListTargetAlertPolicyAssociationAnalytics(ctx context.Context, request ListTargetAlertPolicyAssociationAnalyticsRequest) (response ListTargetAlertPolicyAssociationAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTargetAlertPolicyAssociationAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTargetAlertPolicyAssociationAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTargetAlertPolicyAssociationAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTargetAlertPolicyAssociationAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTargetAlertPolicyAssociationAnalyticsResponse")
+	}
+	return
+}
+
+// listTargetAlertPolicyAssociationAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listTargetAlertPolicyAssociationAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetAlertPolicyAssociationAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTargetAlertPolicyAssociationAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociationAnalyticCollection/ListTargetAlertPolicyAssociationAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetAlertPolicyAssociationAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListTargetAlertPolicyAssociations Gets a list of all target-alert policy associations.
 // A default retry strategy applies to this operation ListTargetAlertPolicyAssociations()
 func (client DataSafeClient) ListTargetAlertPolicyAssociations(ctx context.Context, request ListTargetAlertPolicyAssociationsRequest) (response ListTargetAlertPolicyAssociationsResponse, err error) {

@@ -27,9 +27,9 @@ type CreateExascaleDbStorageVaultDetails struct {
 	// The name of the availability domain that the Exadata Database Storage Vault is located in.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	HighCapacityDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
+	HighCapacityDatabaseStorage *ExascaleDbStorageInputDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
 
-	ExtremeFlashDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"extremeFlashDatabaseStorage"`
+	ExtremeFlashDatabaseStorage *ExascaleDbStorageInputDetails `mandatory:"true" json:"extremeFlashDatabaseStorage"`
 
 	// Exadata Database Storage Vault description.
 	Description *string `mandatory:"false" json:"description"`

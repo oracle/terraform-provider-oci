@@ -24,9 +24,9 @@ type UpdateExascaleDbStorageVaultDetails struct {
 	// Exadata Database Storage Vault description.
 	Description *string `mandatory:"false" json:"description"`
 
-	HighCapacityDatabaseStorage *ExascaleDbStorageDetails `mandatory:"false" json:"highCapacityDatabaseStorage"`
+	HighCapacityDatabaseStorage *ExascaleDbStorageInputDetails `mandatory:"false" json:"highCapacityDatabaseStorage"`
 
-	ExtremeFlashDatabaseStorage *ExascaleDbStorageDetails `mandatory:"false" json:"extremeFlashDatabaseStorage"`
+	ExtremeFlashDatabaseStorage *ExascaleDbStorageInputDetails `mandatory:"false" json:"extremeFlashDatabaseStorage"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

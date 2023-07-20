@@ -20,9 +20,6 @@ type ExadbVmClusterStorageDetails struct {
 
 	// Total Capacity
 	TotalSizeInGbs *int `mandatory:"false" json:"totalSizeInGbs"`
-
-	// Available Capacity
-	AvailableSizeInGbs *int `mandatory:"false" json:"availableSizeInGbs"`
 }
 
 func (m ExadbVmClusterStorageDetails) String() string {

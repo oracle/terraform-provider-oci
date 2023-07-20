@@ -36,6 +36,8 @@ type UpdateOkeHelmChartDeployStageDetails struct {
 	// Kubernetes cluster environment OCID for deployment.
 	OkeClusterDeployEnvironmentId *string `mandatory:"false" json:"okeClusterDeployEnvironmentId"`
 
+	OkeEnvironmentDetails OkeEnvironmentDetails `mandatory:"false" json:"okeEnvironmentDetails"`
+
 	// Helm chart artifact OCID.
 	HelmChartDeployArtifactId *string `mandatory:"false" json:"helmChartDeployArtifactId"`
 
@@ -152,6 +154,7 @@ func (m *UpdateOkeHelmChartDeployStageDetails) UnmarshalJSON(data []byte) (e err
 		FreeformTags                     map[string]string                 `json:"freeformTags"`
 		DefinedTags                      map[string]map[string]interface{} `json:"definedTags"`
 		OkeClusterDeployEnvironmentId    *string                           `json:"okeClusterDeployEnvironmentId"`
+		OkeEnvironmentDetails            okeenvironmentdetails             `json:"okeEnvironmentDetails"`
 		HelmChartDeployArtifactId        *string                           `json:"helmChartDeployArtifactId"`
 		ValuesArtifactIds                []string                          `json:"valuesArtifactIds"`
 		ReleaseName                      *string                           `json:"releaseName"`
@@ -188,6 +191,16 @@ func (m *UpdateOkeHelmChartDeployStageDetails) UnmarshalJSON(data []byte) (e err
 	m.DefinedTags = model.DefinedTags
 
 	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
+
+	nn, e = model.OkeEnvironmentDetails.UnmarshalPolymorphicJSON(model.OkeEnvironmentDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.OkeEnvironmentDetails = nn.(OkeEnvironmentDetails)
+	} else {
+		m.OkeEnvironmentDetails = nil
+	}
 
 	m.HelmChartDeployArtifactId = model.HelmChartDeployArtifactId
 

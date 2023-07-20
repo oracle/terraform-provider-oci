@@ -110,6 +110,10 @@ func (m *deployenvironmentsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 
 	var err error
 	switch m.DeployEnvironmentType {
+	case "CLUSTER_NAMESPACE":
+		mm := ClusterNamespaceDeployEnvironmentSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FUNCTION":
 		mm := FunctionDeployEnvironmentSummary{}
 		err = json.Unmarshal(data, &mm)

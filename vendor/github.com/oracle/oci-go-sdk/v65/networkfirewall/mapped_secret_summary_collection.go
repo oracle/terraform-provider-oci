@@ -10,48 +10,30 @@
 package networkfirewall
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// TcpApplication TCP Application used on the firewall policy rules.
-type TcpApplication struct {
+// MappedSecretSummaryCollection Collection of Mapped Secrets in the network firewall policy
+type MappedSecretSummaryCollection struct {
 
-	// The minimum port in the range (inclusive), or the sole port of a single-port range.
-	MinimumPort *int `mandatory:"true" json:"minimumPort"`
-
-	// The maximum port in the range (inclusive), which may be absent for a single-port range.
-	MaximumPort *int `mandatory:"false" json:"maximumPort"`
+	// Collection of Mapped Secrets.
+	Items []MappedSecretSummary `mandatory:"true" json:"items"`
 }
 
-func (m TcpApplication) String() string {
+func (m MappedSecretSummaryCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m TcpApplication) ValidateEnumValue() (bool, error) {
+func (m MappedSecretSummaryCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m TcpApplication) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeTcpApplication TcpApplication
-	s := struct {
-		DiscriminatorParam string `json:"type"`
-		MarshalTypeTcpApplication
-	}{
-		"TCP",
-		(MarshalTypeTcpApplication)(m),
-	}
-
-	return json.Marshal(&s)
 }

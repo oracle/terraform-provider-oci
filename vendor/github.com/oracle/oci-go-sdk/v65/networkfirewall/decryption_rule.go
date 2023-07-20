@@ -27,13 +27,18 @@ type DecryptionRule struct {
 	// Action:
 	// * NO_DECRYPT - Matching traffic is not decrypted.
 	// * DECRYPT - Matching traffic is decrypted with the specified `secret` according to the specified `decryptionProfile`.
-	Action DecryptionRuleActionEnum `mandatory:"true" json:"action"`
+	Action DecryptionActionTypeEnum `mandatory:"true" json:"action"`
+
+	// OCID of the Network Firewall Policy this decryption rule belongs to.
+	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
 
 	// The name of the decryption profile to use.
 	DecryptionProfile *string `mandatory:"false" json:"decryptionProfile"`
 
 	// The name of a mapped secret. Its `type` must match that of the specified decryption profile.
 	Secret *string `mandatory:"false" json:"secret"`
+
+	Position *RulePosition `mandatory:"false" json:"position"`
 }
 
 func (m DecryptionRule) String() string {
@@ -45,54 +50,12 @@ func (m DecryptionRule) String() string {
 // Not recommended for calling this function directly
 func (m DecryptionRule) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingDecryptionRuleActionEnum(string(m.Action)); !ok && m.Action != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetDecryptionRuleActionEnumStringValues(), ",")))
+	if _, ok := GetMappingDecryptionActionTypeEnum(string(m.Action)); !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetDecryptionActionTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// DecryptionRuleActionEnum Enum with underlying type: string
-type DecryptionRuleActionEnum string
-
-// Set of constants representing the allowable values for DecryptionRuleActionEnum
-const (
-	DecryptionRuleActionNoDecrypt DecryptionRuleActionEnum = "NO_DECRYPT"
-	DecryptionRuleActionDecrypt   DecryptionRuleActionEnum = "DECRYPT"
-)
-
-var mappingDecryptionRuleActionEnum = map[string]DecryptionRuleActionEnum{
-	"NO_DECRYPT": DecryptionRuleActionNoDecrypt,
-	"DECRYPT":    DecryptionRuleActionDecrypt,
-}
-
-var mappingDecryptionRuleActionEnumLowerCase = map[string]DecryptionRuleActionEnum{
-	"no_decrypt": DecryptionRuleActionNoDecrypt,
-	"decrypt":    DecryptionRuleActionDecrypt,
-}
-
-// GetDecryptionRuleActionEnumValues Enumerates the set of values for DecryptionRuleActionEnum
-func GetDecryptionRuleActionEnumValues() []DecryptionRuleActionEnum {
-	values := make([]DecryptionRuleActionEnum, 0)
-	for _, v := range mappingDecryptionRuleActionEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetDecryptionRuleActionEnumStringValues Enumerates the set of values in String for DecryptionRuleActionEnum
-func GetDecryptionRuleActionEnumStringValues() []string {
-	return []string{
-		"NO_DECRYPT",
-		"DECRYPT",
-	}
-}
-
-// GetMappingDecryptionRuleActionEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingDecryptionRuleActionEnum(val string) (DecryptionRuleActionEnum, bool) {
-	enum, ok := mappingDecryptionRuleActionEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
