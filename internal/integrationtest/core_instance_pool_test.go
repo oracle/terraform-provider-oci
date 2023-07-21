@@ -46,15 +46,17 @@ var (
 	}
 
 	CoreInstancePoolRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
-		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentation},
-		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
-		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
-		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
+		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"instance_configuration_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
+		"placement_configurations":        acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentation},
+		"size":                            acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"state":                           acctest.Representation{RepType: acctest.Optional, Create: `Running`},
+		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
+		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"load_balancers":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
+		"instance_display_name_formatter": acctest.Representation{RepType: acctest.Optional, Create: `host-$${launchCount}`, Update: `host2-$${launchCount}`},
+		"instance_hostname_formatter":     acctest.Representation{RepType: acctest.Optional, Create: `host-$${launchCount}`, Update: `host2-$${launchCount}`},
 	}
 
 	CoreInstancePoolRepresentationWithLifecycleSizeIgnoreChanges = map[string]interface{}{
@@ -148,8 +150,8 @@ var (
 	CoreInstancePoolResourceDependencies = utils.OciImageIdsVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, CoreInstancePoolConfigurationPoolRepresentation)) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Required, acctest.Create, backendSetRepresentation) +
@@ -216,6 +218,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_display_name_formatter", "host-${launchCount}"),
+				resource.TestCheckResourceAttr(resourceName, "instance_hostname_formatter", "host-${launchCount}"),
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
@@ -260,6 +264,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_display_name_formatter", "host-${launchCount}"),
+				resource.TestCheckResourceAttr(resourceName, "instance_hostname_formatter", "host-${launchCount}"),
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
@@ -296,6 +302,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_display_name_formatter", "host2-${launchCount}"),
+				resource.TestCheckResourceAttr(resourceName, "instance_hostname_formatter", "host2-${launchCount}"),
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
@@ -487,6 +495,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_display_name_formatter", "host2-${launchCount}"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_hostname_formatter", "host2-${launchCount}"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.instance_pool_id"),
