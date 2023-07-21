@@ -46,6 +46,11 @@ func AiDocumentModelResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"model_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"model_type": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -56,9 +61,74 @@ func AiDocumentModelResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"training_dataset": {
+
+			// Optional
+			"component_models": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"model_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"is_quick_mode": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"max_training_time_in_hours": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"model_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"testing_dataset": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
 				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
@@ -106,50 +176,7 @@ func AiDocumentModelResource() *schema.Resource {
 					},
 				},
 			},
-
-			// Optional
-			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"is_quick_mode": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-			},
-			"max_training_time_in_hours": {
-				Type:     schema.TypeFloat,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-			},
-			"model_version": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-			},
-			"testing_dataset": {
+			"training_dataset": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
@@ -253,6 +280,10 @@ func AiDocumentModelResource() *schema.Resource {
 			},
 
 			// Computed
+			"is_composed_model": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"labels": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -427,6 +458,10 @@ func AiDocumentModelResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"tenancy_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -519,6 +554,23 @@ func (s *AiDocumentModelResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if componentModels, ok := s.D.GetOkExists("component_models"); ok {
+		interfaces := componentModels.([]interface{})
+		tmp := make([]oci_ai_document.ComponentModel, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "component_models", stateDataIndex)
+			converted, err := s.mapToComponentModel(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("component_models") {
+			request.ComponentModels = tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -606,7 +658,18 @@ func (s *AiDocumentModelResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getModelFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_document"), oci_ai_document.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
+
+	err = s.getModelFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_document"), oci_ai_document.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *AiDocumentModelResourceCrud) getModelFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -798,7 +861,12 @@ func (s *AiDocumentModelResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getModelFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_document"), oci_ai_document.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getModelFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_document"), oci_ai_document.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *AiDocumentModelResourceCrud) Delete() error {
@@ -822,9 +890,16 @@ func (s *AiDocumentModelResourceCrud) Delete() error {
 }
 
 func (s *AiDocumentModelResourceCrud) SetData() error {
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	componentModels := []interface{}{}
+	for _, item := range s.Res.ComponentModels {
+		componentModels = append(componentModels, ComponentModelToMap(item))
+	}
+	s.D.Set("component_models", componentModels)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -840,6 +915,10 @@ func (s *AiDocumentModelResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsComposedModel != nil {
+		s.D.Set("is_composed_model", *s.Res.IsComposedModel)
+	}
 
 	if s.Res.IsQuickMode != nil {
 		s.D.Set("is_quick_mode", *s.Res.IsQuickMode)
@@ -880,6 +959,10 @@ func (s *AiDocumentModelResourceCrud) SetData() error {
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TenancyId != nil {
+		s.D.Set("tenancy_id", *s.Res.TenancyId)
 	}
 
 	if s.Res.TestingDataset != nil {
@@ -925,6 +1008,27 @@ func (s *AiDocumentModelResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func ComponentModelToMap(obj oci_ai_document.ComponentModel) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ModelId != nil {
+		result["model_id"] = string(*obj.ModelId)
+	}
+
+	return result
+}
+
+func (s *AiDocumentModelResourceCrud) mapToComponentModel(fieldKeyFormat string) (oci_ai_document.ComponentModel, error) {
+	var componentModel oci_ai_document.ComponentModel
+
+	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+		tmp := modelId.(string)
+		componentModel.ModelId = &tmp
+	}
+
+	return componentModel, nil
 }
 
 func (s *AiDocumentModelResourceCrud) mapToDataset(fieldKeyFormat string) (oci_ai_document.Dataset, error) {
@@ -1382,6 +1486,12 @@ func ModelSummaryToMap(obj oci_ai_document.ModelSummary) map[string]interface{} 
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	componentModels := []interface{}{}
+	for _, item := range obj.ComponentModels {
+		componentModels = append(componentModels, ComponentModelToMap(item))
+	}
+	result["component_models"] = componentModels
+
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
@@ -1399,6 +1509,10 @@ func ModelSummaryToMap(obj oci_ai_document.ModelSummary) map[string]interface{} 
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsComposedModel != nil {
+		result["is_composed_model"] = bool(*obj.IsComposedModel)
 	}
 
 	if obj.LifecycleDetails != nil {
@@ -1423,6 +1537,10 @@ func ModelSummaryToMap(obj oci_ai_document.ModelSummary) map[string]interface{} 
 
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TenancyId != nil {
+		result["tenancy_id"] = string(*obj.TenancyId)
 	}
 
 	if obj.TestingDataset != nil {

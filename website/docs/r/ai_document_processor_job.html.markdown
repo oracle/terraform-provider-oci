@@ -49,6 +49,7 @@ resource "oci_ai_document_processor_job" "test_processor_job" {
 			generate_searchable_pdf = var.processor_job_processor_config_features_generate_searchable_pdf
 			max_results = var.processor_job_processor_config_features_max_results
 			model_id = oci_ai_document_model.test_model.id
+			tenancy_id = oci_identity_tenancy.test_tenancy.id
 		}
 		processor_type = var.processor_job_processor_config_processor_type
 
@@ -78,7 +79,7 @@ The following arguments are supported:
 	* `source_type` - (Required) The type of input location. The allowed values are:
 		* `OBJECT_STORAGE_LOCATIONS`: A list of object locations in Object Storage.
 		* `INLINE_DOCUMENT_CONTENT`: The content of an inline document. 
-* `output_location` - (Required) The Object Storage Location.
+* `output_location` - (Required) The object storage location where to store analysis results.
 	* `bucket` - (Required) The Object Storage bucket name.
 	* `namespace` - (Required) The Object Storage namespace.
 	* `prefix` - (Required) The Object Storage folder name.
@@ -94,6 +95,7 @@ The following arguments are supported:
 		* `generate_searchable_pdf` - (Applicable when feature_type=TEXT_EXTRACTION) Whether or not to generate a searchable PDF file.
 		* `max_results` - (Applicable when feature_type=DOCUMENT_CLASSIFICATION | LANGUAGE_CLASSIFICATION) The maximum number of results to return.
 		* `model_id` - (Applicable when feature_type=DOCUMENT_CLASSIFICATION | KEY_VALUE_EXTRACTION) The custom model ID.
+		* `tenancy_id` - (Applicable when feature_type=DOCUMENT_CLASSIFICATION | KEY_VALUE_EXTRACTION) The custom model tenancy ID when modelId represents aliasName.
 	* `is_zip_output_enabled` - (Optional) Whether or not to generate a ZIP file containing the results.
 	* `language` - (Optional) The document language, abbreviated according to the BCP 47 Language-Tag syntax.
 	* `processor_type` - (Required) The type of the processor.
@@ -119,7 +121,7 @@ The following attributes are exported:
 		* `OBJECT_STORAGE_LOCATIONS`: A list of object locations in Object Storage.
 		* `INLINE_DOCUMENT_CONTENT`: The content of an inline document. 
 * `lifecycle_details` - The detailed status of FAILED state.
-* `output_location` - The Object Storage Location.
+* `output_location` - The object storage location where to store analysis results.
 	* `bucket` - The Object Storage bucket name.
 	* `namespace` - The Object Storage namespace.
 	* `prefix` - The Object Storage folder name.
@@ -136,6 +138,7 @@ The following attributes are exported:
 		* `generate_searchable_pdf` - Whether or not to generate a searchable PDF file.
 		* `max_results` - The maximum number of results to return.
 		* `model_id` - The custom model ID.
+		* `tenancy_id` - The custom model tenancy ID when modelId represents aliasName.
 	* `is_zip_output_enabled` - Whether or not to generate a ZIP file containing the results.
 	* `language` - The document language, abbreviated according to the BCP 47 Language-Tag syntax.
 	* `processor_type` - The type of the processor.

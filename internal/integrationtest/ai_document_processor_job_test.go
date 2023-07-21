@@ -52,7 +52,7 @@ var (
 	AiDocumentProcessorJobProcessorConfigFeaturesRepresentation = map[string]interface{}{
 		"feature_type":            acctest.Representation{RepType: acctest.Required, Create: `DOCUMENT_CLASSIFICATION`},
 		"generate_searchable_pdf": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"max_results":             acctest.Representation{RepType: acctest.Optional, Create: `5`},
+		"max_results":             acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
 )
 
@@ -121,7 +121,7 @@ func TestAiDocumentProcessorJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.feature_type", "DOCUMENT_CLASSIFICATION"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.generate_searchable_pdf", "false"),
-				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.max_results", "5"),
+				resource.TestCheckResourceAttr(resourceName, "processor_config.0.features.0.max_results", "10"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.is_zip_output_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "processor_config.0.processor_type", "GENERAL"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -155,7 +155,7 @@ func TestAiDocumentProcessorJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.0.feature_type", "DOCUMENT_CLASSIFICATION"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.0.generate_searchable_pdf", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.0.max_results", "5"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.features.0.max_results", "10"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.is_zip_output_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "processor_config.0.processor_type", "GENERAL"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
