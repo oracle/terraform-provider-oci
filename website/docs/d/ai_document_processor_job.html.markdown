@@ -46,7 +46,7 @@ The following attributes are exported:
 		* `OBJECT_STORAGE_LOCATIONS`: A list of object locations in Object Storage.
 		* `INLINE_DOCUMENT_CONTENT`: The content of an inline document. 
 * `lifecycle_details` - The detailed status of FAILED state.
-* `output_location` - The Object Storage Location.
+* `output_location` - The object storage location where to store analysis results.
 	* `bucket` - The Object Storage bucket name.
 	* `namespace` - The Object Storage namespace.
 	* `prefix` - The Object Storage folder name.
@@ -63,6 +63,7 @@ The following attributes are exported:
 		* `generate_searchable_pdf` - Whether or not to generate a searchable PDF file.
 		* `max_results` - The maximum number of results to return.
 		* `model_id` - The custom model ID.
+		* `tenancy_id` - The custom model tenancy ID when modelId represents aliasName.
 	* `is_zip_output_enabled` - Whether or not to generate a ZIP file containing the results.
 	* `language` - The document language, abbreviated according to the BCP 47 Language-Tag syntax.
 	* `processor_type` - The type of the processor.
