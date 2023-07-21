@@ -73,7 +73,7 @@ func GoldenGateTrailFilesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"size_in_bytes": {
-										Type:     schema.TypeFloat,
+										Type:     schema.TypeFloat, // keep TypeFloat instead of the computed TypeString
 										Computed: true,
 									},
 									"time_last_updated": {
