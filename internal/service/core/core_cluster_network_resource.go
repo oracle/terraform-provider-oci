@@ -67,9 +67,16 @@ func CoreClusterNetworkResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
-
 						// Computed
 						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"instance_display_name_formatter": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"instance_hostname_formatter": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -702,6 +709,14 @@ func InstancePoolToMap(obj oci_core.InstancePool) map[string]interface{} {
 
 	if obj.InstanceConfigurationId != nil {
 		result["instance_configuration_id"] = string(*obj.InstanceConfigurationId)
+	}
+
+	if obj.InstanceDisplayNameFormatter != nil {
+		result["instance_display_name_formatter"] = string(*obj.InstanceDisplayNameFormatter)
+	}
+
+	if obj.InstanceHostnameFormatter != nil {
+		result["instance_hostname_formatter"] = string(*obj.InstanceHostnameFormatter)
 	}
 
 	loadBalancers := []interface{}{}
