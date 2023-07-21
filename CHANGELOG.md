@@ -1,3 +1,11 @@
+## 5.6.0 (Unreleased)
+
+### Added
+- Support for Tersi for Test Connectivity feature GoldenGate Test Connectivity for Connections associated with Deployments
+- Model Compose and Model Alias features to custom Models in document service
+- Support for Budgets - Single Use Budgets
+- Support for Custom hostname Terraform Instance Pools - Custom hostname support
+
 ## 5.5.0 (Unreleased)
 
 ### Added
