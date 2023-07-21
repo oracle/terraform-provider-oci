@@ -33,6 +33,7 @@ const (
 	OperationTypeGoldengateDeploymentBackupCreate      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CREATE"
 	OperationTypeGoldengateDeploymentBackupDelete      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_DELETE"
 	OperationTypeGoldengateDeploymentBackupCancel      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL"
+	OperationTypeGoldengateDeploymentBackupCopy        OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_BACKUP_COPY"
 	OperationTypeGoldengateConnectionCreate            OperationTypeEnum = "GOLDENGATE_CONNECTION_CREATE"
 	OperationTypeGoldengateConnectionUpdate            OperationTypeEnum = "GOLDENGATE_CONNECTION_UPDATE"
 	OperationTypeGoldengateConnectionDelete            OperationTypeEnum = "GOLDENGATE_CONNECTION_DELETE"
@@ -63,6 +64,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_DEPLOYMENT_BACKUP_CREATE":      OperationTypeGoldengateDeploymentBackupCreate,
 	"GOLDENGATE_DEPLOYMENT_BACKUP_DELETE":      OperationTypeGoldengateDeploymentBackupDelete,
 	"GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL":      OperationTypeGoldengateDeploymentBackupCancel,
+	"GOLDENGATE_DEPLOYMENT_BACKUP_COPY":        OperationTypeGoldengateDeploymentBackupCopy,
 	"GOLDENGATE_CONNECTION_CREATE":             OperationTypeGoldengateConnectionCreate,
 	"GOLDENGATE_CONNECTION_UPDATE":             OperationTypeGoldengateConnectionUpdate,
 	"GOLDENGATE_CONNECTION_DELETE":             OperationTypeGoldengateConnectionDelete,
@@ -93,6 +95,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_deployment_backup_create":      OperationTypeGoldengateDeploymentBackupCreate,
 	"goldengate_deployment_backup_delete":      OperationTypeGoldengateDeploymentBackupDelete,
 	"goldengate_deployment_backup_cancel":      OperationTypeGoldengateDeploymentBackupCancel,
+	"goldengate_deployment_backup_copy":        OperationTypeGoldengateDeploymentBackupCopy,
 	"goldengate_connection_create":             OperationTypeGoldengateConnectionCreate,
 	"goldengate_connection_update":             OperationTypeGoldengateConnectionUpdate,
 	"goldengate_connection_delete":             OperationTypeGoldengateConnectionDelete,
@@ -134,6 +137,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_DEPLOYMENT_BACKUP_CREATE",
 		"GOLDENGATE_DEPLOYMENT_BACKUP_DELETE",
 		"GOLDENGATE_DEPLOYMENT_BACKUP_CANCEL",
+		"GOLDENGATE_DEPLOYMENT_BACKUP_COPY",
 		"GOLDENGATE_CONNECTION_CREATE",
 		"GOLDENGATE_CONNECTION_UPDATE",
 		"GOLDENGATE_CONNECTION_DELETE",

@@ -4,7 +4,7 @@
 
 // Budgets API
 //
-// Use the Budgets API to manage budgets and budget alerts.
+// Use the Budgets API to manage budgets and budget alerts. For more information, see Budgets Overview (https://docs.cloud.oracle.com/iaas/Content/Billing/Concepts/budgetsoverview.htm).
 //
 
 package budget
@@ -56,8 +56,14 @@ type BudgetSummary struct {
 	// The number of days offset from the first day of the month, at which the budget processing period starts. In months that have fewer days than this value, processing will begin on the last day of that month. For example, for a value of 12, processing starts every month on the 12th at midnight.
 	BudgetProcessingPeriodStartOffset *int `mandatory:"false" json:"budgetProcessingPeriodStartOffset"`
 
-	// The type of the budget processing period. Valid values are INVOICE and MONTH.
+	// The type of the budget processing period. Valid values are INVOICE, MONTH, and SINGLE_USE.
 	ProcessingPeriodType ProcessingPeriodTypeEnum `mandatory:"false" json:"processingPeriodType,omitempty"`
+
+	// The date when the one-time budget begins. For example, `2023-03-23`. The date-time format conforms to RFC 3339, and will be truncated to the starting point of the date provided after being converted to UTC time.
+	StartDate *common.SDKTime `mandatory:"false" json:"startDate"`
+
+	// The time when the one-time budget concludes. For example, - `2023-03-23`. The date-time format conforms to RFC 3339, and will be truncated to the starting point of the date provided after being converted to UTC time.
+	EndDate *common.SDKTime `mandatory:"false" json:"endDate"`
 
 	// The type of target on which the budget is applied.
 	TargetType TargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
