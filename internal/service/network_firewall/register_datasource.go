@@ -8,6 +8,6 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_network_firewall_network_firewall", NetworkFirewallNetworkFirewallDataSource())
 	tfresource.RegisterDatasource("oci_network_firewall_network_firewall_policies", NetworkFirewallNetworkFirewallPoliciesDataSource())
-	tfresource.RegisterDatasource("oci_network_firewall_network_firewall_policy", NetworkFirewallNetworkFirewallPolicyDataSource())
+	//tfresource.RegisterDatasource("oci_network_firewall_network_firewall_policy", NetworkFirewallNetworkFirewallPolicyDataSource())
 	tfresource.RegisterDatasource("oci_network_firewall_network_firewalls", NetworkFirewallNetworkFirewallsDataSource())
 }

@@ -3,9 +3,7 @@
 
 package network_firewall
 
-import "github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 func RegisterResource() {
-	tfresource.RegisterResource("oci_network_firewall_network_firewall", NetworkFirewallNetworkFirewallResource())
-	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy", NetworkFirewallNetworkFirewallPolicyResource())
+	//tfresource.RegisterResource("oci_network_firewall_network_firewall", NetworkFirewallNetworkFirewallResource())
+	//tfresource.RegisterResource("oci_network_firewall_network_firewall_policy", NetworkFirewallNetworkFirewallPolicyResource())
 }

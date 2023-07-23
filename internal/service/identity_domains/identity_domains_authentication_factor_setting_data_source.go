@@ -280,17 +280,17 @@ func (s *IdentityDomainsAuthenticationFactorSettingDataSourceCrud) SetData() err
 		s.D.Set("totp_settings", nil)
 	}
 
-	if s.Res.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", []interface{}{ExtensionFidoAuthenticationFactorSettingsToMap(s.Res.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings)})
-	} else {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", nil)
-	}
+	//if s.Res.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings != nil {
+	//	s.D.Set("urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", []interface{}{ExtensionFidoAuthenticationFactorSettingsToMap(s.Res.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings)})
+	//} else {
+	//	s.D.Set("urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", nil)
+	//}
 
-	if s.Res.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", []interface{}{ExtensionThirdPartyAuthenticationFactorSettingsToMap(s.Res.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings)})
-	} else {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", nil)
-	}
+	//if s.Res.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings != nil {
+	//	s.D.Set("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", []interface{}{ExtensionThirdPartyAuthenticationFactorSettingsToMap(s.Res.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings)})
+	//} else {
+	//	s.D.Set("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", nil)
+	//}
 
 	s.D.Set("user_enrollment_disabled_factors", s.Res.UserEnrollmentDisabledFactors)
 	s.D.Set("user_enrollment_disabled_factors", s.Res.UserEnrollmentDisabledFactors)

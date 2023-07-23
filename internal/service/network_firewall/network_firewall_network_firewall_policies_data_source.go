@@ -43,7 +43,7 @@ func NetworkFirewallNetworkFirewallPoliciesDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     tfresource.GetDataSourceItemSchema(NetworkFirewallNetworkFirewallPolicyResource()),
+							Elem:     schema.TypeString,
 						},
 					},
 				},
@@ -125,9 +125,9 @@ func (s *NetworkFirewallNetworkFirewallPoliciesDataSourceCrud) SetData() error {
 	networkFirewallPolicy := map[string]interface{}{}
 
 	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, NetworkFirewallPolicySummaryToMap(item))
-	}
+	//for _, item := range s.Res.Items {
+	//	//items = append(items, NetworkFirewallPolicySummaryToMap(item))
+	//}
 	networkFirewallPolicy["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {

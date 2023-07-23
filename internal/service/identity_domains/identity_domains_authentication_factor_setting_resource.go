@@ -1035,23 +1035,23 @@ func (s *IdentityDomainsAuthenticationFactorSettingResourceCrud) Create() error 
 
 	if urnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings, ok := s.D.GetOkExists("urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings"); ok {
 		if tmpList := urnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", 0)
-			tmp, err := s.mapToExtensionFidoAuthenticationFactorSettings(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings = &tmp
+			//fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", 0)
+			//tmp, err := s.mapToExtensionFidoAuthenticationFactorSettings(fieldKeyFormat)
+			//if err != nil {
+			//	return err
+			//}
+			//request.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings = &tmp
 		}
 	}
 
 	if urnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings, ok := s.D.GetOkExists("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings"); ok {
 		if tmpList := urnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", 0)
-			tmp, err := s.mapToExtensionThirdPartyAuthenticationFactorSettings(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings = &tmp
+			//fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", 0)
+			//tmp, err := s.mapToExtensionThirdPartyAuthenticationFactorSettings(fieldKeyFormat)
+			//if err != nil {
+			//	return err
+			//}
+			//request.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings = &tmp
 		}
 	}
 
@@ -1370,23 +1370,23 @@ func (s *IdentityDomainsAuthenticationFactorSettingResourceCrud) Update() error 
 
 	if urnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings, ok := s.D.GetOkExists("urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings"); ok {
 		if tmpList := urnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", 0)
-			tmp, err := s.mapToExtensionFidoAuthenticationFactorSettings(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings = &tmp
+			//fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", 0)
+			//tmp, err := s.mapToExtensionFidoAuthenticationFactorSettings(fieldKeyFormat)
+			//if err != nil {
+			//	return err
+			//}
+			////request.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings = &tmp
 		}
 	}
 
 	if urnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings, ok := s.D.GetOkExists("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings"); ok {
 		if tmpList := urnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", 0)
-			tmp, err := s.mapToExtensionThirdPartyAuthenticationFactorSettings(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings = &tmp
+			//fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", 0)
+			//tmp, err := s.mapToExtensionThirdPartyAuthenticationFactorSettings(fieldKeyFormat)
+			//if err != nil {
+			//	return err
+			//}
+			////request.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings = &tmp
 		}
 	}
 
@@ -1584,17 +1584,17 @@ func (s *IdentityDomainsAuthenticationFactorSettingResourceCrud) SetData() error
 		s.D.Set("totp_settings", nil)
 	}
 
-	if s.Res.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", []interface{}{ExtensionFidoAuthenticationFactorSettingsToMap(s.Res.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings)})
-	} else {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", nil)
-	}
+	//if s.Res.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings != nil {
+	//	s.D.Set("urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", []interface{}{ExtensionFidoAuthenticationFactorSettingsToMap(s.Res.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings)})
+	//} else {
+	//	s.D.Set("urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings", nil)
+	//}
 
-	if s.Res.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings != nil {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", []interface{}{ExtensionThirdPartyAuthenticationFactorSettingsToMap(s.Res.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings)})
-	} else {
-		s.D.Set("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", nil)
-	}
+	//if s.Res.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings != nil {
+	//	s.D.Set("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", []interface{}{ExtensionThirdPartyAuthenticationFactorSettingsToMap(s.Res.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings)})
+	//} else {
+	//	s.D.Set("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", nil)
+	//}
 
 	s.D.Set("user_enrollment_disabled_factors", s.Res.UserEnrollmentDisabledFactors)
 	s.D.Set("user_enrollment_disabled_factors", s.Res.UserEnrollmentDisabledFactors)
@@ -1768,13 +1768,13 @@ func AuthenticationFactorSettingToMap(obj oci_identity_domains.AuthenticationFac
 		result["totp_settings"] = []interface{}{AuthenticationFactorSettingsTotpSettingsToMap(obj.TotpSettings)}
 	}
 
-	if obj.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings != nil {
-		result["urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings"] = []interface{}{ExtensionFidoAuthenticationFactorSettingsToMap(obj.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings)}
-	}
+	//if obj.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings != nil {
+	//	result["urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings"] = []interface{}{ExtensionFidoAuthenticationFactorSettingsToMap(obj.UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings)}
+	//}
 
-	if obj.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings != nil {
-		result["urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings"] = []interface{}{ExtensionThirdPartyAuthenticationFactorSettingsToMap(obj.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings)}
-	}
+	//if obj.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings != nil {
+	//	result["urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings"] = []interface{}{ExtensionThirdPartyAuthenticationFactorSettingsToMap(obj.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings)}
+	//}
 
 	result["user_enrollment_disabled_factors"] = obj.UserEnrollmentDisabledFactors
 	result["user_enrollment_disabled_factors"] = obj.UserEnrollmentDisabledFactors
