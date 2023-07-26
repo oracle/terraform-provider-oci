@@ -36,6 +36,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_database_autonomous_virtual_machine", DatabaseAutonomousVirtualMachineDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_virtual_machines", DatabaseAutonomousVirtualMachinesDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_vm_cluster", DatabaseAutonomousVmClusterDataSource())
+	tfresource.RegisterDatasource("oci_database_autonomous_vm_cluster_acd_resource_usages", DatabaseAutonomousVmClusterAcdResourceUsagesDataSource())
+	tfresource.RegisterDatasource("oci_database_autonomous_vm_cluster_resource_usage", DatabaseAutonomousVmClusterResourceUsageDataSource())
 	tfresource.RegisterDatasource("oci_database_autonomous_vm_clusters", DatabaseAutonomousVmClustersDataSource())
 	tfresource.RegisterDatasource("oci_database_backup_destination", DatabaseBackupDestinationDataSource())
 	tfresource.RegisterDatasource("oci_database_backup_destinations", DatabaseBackupDestinationsDataSource())

@@ -119,6 +119,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.AutonomousDataStoragePercentage != nil {
+			autonomousVmCluster["autonomous_data_storage_percentage"] = *r.AutonomousDataStoragePercentage
+		}
+
 		if r.AutonomousDataStorageSizeInTBs != nil {
 			autonomousVmCluster["autonomous_data_storage_size_in_tbs"] = *r.AutonomousDataStorageSizeInTBs
 		}
@@ -143,6 +147,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.CpuCoreCountPerNode != nil {
 			autonomousVmCluster["cpu_core_count_per_node"] = *r.CpuCoreCountPerNode
+		}
+
+		if r.CpuPercentage != nil {
+			autonomousVmCluster["cpu_percentage"] = *r.CpuPercentage
 		}
 
 		if r.CpusEnabled != nil {
@@ -221,12 +229,28 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			autonomousVmCluster["node_count"] = *r.NodeCount
 		}
 
+		if r.NonProvisionableAutonomousContainerDatabases != nil {
+			autonomousVmCluster["non_provisionable_autonomous_container_databases"] = *r.NonProvisionableAutonomousContainerDatabases
+		}
+
 		if r.OcpusEnabled != nil {
 			autonomousVmCluster["ocpus_enabled"] = *r.OcpusEnabled
 		}
 
+		if r.ProvisionedAutonomousContainerDatabases != nil {
+			autonomousVmCluster["provisioned_autonomous_container_databases"] = *r.ProvisionedAutonomousContainerDatabases
+		}
+
+		if r.ProvisionedCpus != nil {
+			autonomousVmCluster["provisioned_cpus"] = *r.ProvisionedCpus
+		}
+
 		if r.ReclaimableCpus != nil {
 			autonomousVmCluster["reclaimable_cpus"] = *r.ReclaimableCpus
+		}
+
+		if r.ReservedCpus != nil {
+			autonomousVmCluster["reserved_cpus"] = *r.ReservedCpus
 		}
 
 		if r.ScanListenerPortNonTls != nil {
@@ -253,6 +277,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.TimeZone != nil {
 			autonomousVmCluster["time_zone"] = *r.TimeZone
+		}
+
+		if r.TotalAutonomousDataStorageInTBs != nil {
+			autonomousVmCluster["total_autonomous_data_storage_in_tbs"] = *r.TotalAutonomousDataStorageInTBs
 		}
 
 		if r.TotalContainerDatabases != nil {
