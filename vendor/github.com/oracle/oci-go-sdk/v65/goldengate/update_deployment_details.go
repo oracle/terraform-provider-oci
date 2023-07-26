@@ -59,6 +59,9 @@ type UpdateDeploymentDetails struct {
 	MaintenanceWindow *UpdateMaintenanceWindowDetails `mandatory:"false" json:"maintenanceWindow"`
 
 	MaintenanceConfiguration *UpdateMaintenanceConfigurationDetails `mandatory:"false" json:"maintenanceConfiguration"`
+
+	// A list of IP ranges in a CIDR format allowed to connect to the deployment's public endpoint
+	PublicAllowList []string `mandatory:"false" json:"publicAllowList"`
 }
 
 func (m UpdateDeploymentDetails) String() string {

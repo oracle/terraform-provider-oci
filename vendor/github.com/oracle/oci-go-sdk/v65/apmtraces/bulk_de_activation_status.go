@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// BulkDeActivationStatus Response of a bulk attribute de-activation operation.
+// BulkDeActivationStatus Response of a bulk attribute deactivation operation.
 type BulkDeActivationStatus struct {
 
 	// We preserve the order of the attribute items from the bulk activation request in this collection.  The ith object in this collection represents the

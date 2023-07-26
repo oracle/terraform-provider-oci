@@ -29,7 +29,7 @@ type QueryDataObjectJsonResultSetRowsCollection struct {
 
 	// Time taken for executing the data object query (in seconds).
 	// Consider optimizing the query or reducing the target data range, if query execution time is longer.
-	QueryExecutionTime *float64 `mandatory:"false" json:"queryExecutionTime"`
+	QueryExecutionTimeInSeconds *float64 `mandatory:"false" json:"queryExecutionTimeInSeconds"`
 }
 
 func (m QueryDataObjectJsonResultSetRowsCollection) String() string {

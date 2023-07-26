@@ -15,12 +15,12 @@ import (
 	"strings"
 )
 
-// BulkUnpinStatus Response of a bulk attribute un-pin operation.
+// BulkUnpinStatus Response of a bulk attribute unpin operation.
 type BulkUnpinStatus struct {
 
-	// We preserve the order of the attribute items from the bulk un-pin request in this collection.  The ith object in this collection represents the
-	// bulk un-pin operation status of the ith object in the BulkUnpinAttributeDetails object in the Bulk un-pin request.  If the
-	// bulk un-pin operation results in a processing error or a validation error, the operationStatus property in the  BulkUnpinMetadata object will
+	// We preserve the order of the attribute items from the bulk unpin request in this collection.  The ith object in this collection represents the
+	// bulk unpin operation status of the ith object in the BulkUnpinAttributeDetails object in the Bulk unpin request.  If the
+	// bulk unpin operation results in a processing error or a validation error, the operationStatus property in the  BulkUnpinMetadata object will
 	// contain the appropriate bulk error status for the bulk operation.
 	AttributeStatuses []AttributeUnpinResponse `mandatory:"true" json:"attributeStatuses"`
 

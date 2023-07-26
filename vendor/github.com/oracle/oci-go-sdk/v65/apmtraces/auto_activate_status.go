@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// AutoActivateStatus Status of auto activation for the given data key in the APM Domain.
+// AutoActivateStatus Status of autoactivation for the given data key in the APM Domain.
 type AutoActivateStatus struct {
 
-	// State of auto activation in this APM Domain.  If "ON" auto-activate is set to true, if "OFF" auto-activate is set to false.
+	// State of autoactivation in this APM Domain.  If "ON" auto-activate is set to true, if "OFF" auto-activate is set to false.
 	State *string `mandatory:"true" json:"state"`
 
-	// Data key type for which auto-activate needs was turned on or off.
+	// Data key type for which auto-activate needs needs to be turned on or off.
 	DataKey AutoActivateStatusDataKeyEnum `mandatory:"true" json:"dataKey"`
 }
 

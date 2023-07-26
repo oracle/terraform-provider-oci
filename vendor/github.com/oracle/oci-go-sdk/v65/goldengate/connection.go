@@ -80,6 +80,12 @@ type Connection interface {
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	GetNsgIds() []string
+
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	GetRoutingMethod() RoutingMethodEnum
 }
 
 type connection struct {
@@ -100,6 +106,7 @@ type connection struct {
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
 	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
+	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
 	ConnectionType   string                            `json:"connectionType"`
 }
 
@@ -130,6 +137,7 @@ func (m *connection) UnmarshalJSON(data []byte) error {
 	m.SubnetId = s.Model.SubnetId
 	m.IngressIps = s.Model.IngressIps
 	m.NsgIds = s.Model.NsgIds
+	m.RoutingMethod = s.Model.RoutingMethod
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -294,6 +302,11 @@ func (m connection) GetNsgIds() []string {
 	return m.NsgIds
 }
 
+//GetRoutingMethod returns RoutingMethod
+func (m connection) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 func (m connection) String() string {
 	return common.PointerString(m)
 }
@@ -307,6 +320,9 @@ func (m connection) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectionLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

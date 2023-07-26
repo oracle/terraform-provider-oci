@@ -89,6 +89,12 @@ type SnowflakeConnectionSummary struct {
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
+
 	// The Snowflake technology type.
 	TechnologyType SnowflakeConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -176,6 +182,11 @@ func (m SnowflakeConnectionSummary) GetNsgIds() []string {
 	return m.NsgIds
 }
 
+//GetRoutingMethod returns RoutingMethod
+func (m SnowflakeConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 func (m SnowflakeConnectionSummary) String() string {
 	return common.PointerString(m)
 }
@@ -188,6 +199,9 @@ func (m SnowflakeConnectionSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingConnectionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectionLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingSnowflakeConnectionTechnologyTypeEnum(string(m.TechnologyType)); !ok && m.TechnologyType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TechnologyType: %s. Supported values are: %s.", m.TechnologyType, strings.Join(GetSnowflakeConnectionTechnologyTypeEnumStringValues(), ",")))

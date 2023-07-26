@@ -15,14 +15,14 @@ import (
 	"strings"
 )
 
-// BulkUnpinMetadata Metadata about the bulk un-pin operation.  The bulk un-pin operation is atomic and binary.  If the processing of any of the attributes
-// in the bulk un-pin request results in a processing or validation error, then none of the attributes in the request are un-pinned.
+// BulkUnpinMetadata Metadata about the bulk unpin operation.  The bulk unpin operation is atomic and binary.  If the processing of any of the attributes
+// in the bulk unpin request results in a processing or validation error, then none of the attributes in the request are unpinned.
 type BulkUnpinMetadata struct {
 
-	// Operation status of the bulk un-pin operation.
-	// SUCCESS - The bulk un-pin operation has succeded and all the attributes in the bulk un-pin request have been un-pinned by this operation.
-	// The following are error statuses for the bulk un-pin operation.
-	// EMPTY_ATTRIBUTE_LIST - The bulk un-pin request object was empty and did not contain any attributes to be un-pinned.
+	// Operation status of the bulk unpin operation.
+	// SUCCESS - The bulk unpin operation has succeeded and all the attributes in the bulk unpin request have been unpinned by this operation.
+	// The following are error statuses for the bulk unpin operation.
+	// EMPTY_ATTRIBUTE_LIST - The bulk unpin request object was empty and did not contain any attributes to be unpinned.
 	// INVALID_BULK_REQUEST - The bulk request contains invalid attribute(s), or attribute(s) that resulted in a validation error, or an attribute that resulted
 	// in a processing error.
 	OperationStatus BulkUnpinMetadataOperationStatusEnum `mandatory:"true" json:"operationStatus"`
@@ -30,7 +30,7 @@ type BulkUnpinMetadata struct {
 	// Type of operation.
 	OperationType BulkUnpinMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number attributes (both string and numeric) that were un-pinned.
+	// Total number attributes (both string and numeric) in all attribute namespaces (TRACES and SYNTHETIC) that were unpinned.
 	AttributesUnpinned *int `mandatory:"true" json:"attributesUnpinned"`
 }
 

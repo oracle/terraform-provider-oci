@@ -87,6 +87,12 @@ type AmazonS3Connection struct {
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 }
 
 //GetId returns Id
@@ -169,6 +175,11 @@ func (m AmazonS3Connection) GetNsgIds() []string {
 	return m.NsgIds
 }
 
+//GetRoutingMethod returns RoutingMethod
+func (m AmazonS3Connection) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 func (m AmazonS3Connection) String() string {
 	return common.PointerString(m)
 }
@@ -184,6 +195,9 @@ func (m AmazonS3Connection) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingConnectionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectionLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

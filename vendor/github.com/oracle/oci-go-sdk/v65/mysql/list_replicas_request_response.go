@@ -43,6 +43,13 @@ type ListReplicasRequest struct {
 	// The read replica OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ReplicaId *string `mandatory:"false" contributesTo:"query" name:"replicaId"`
 
+	// The requested Configuration instance.
+	ConfigurationId *string `mandatory:"false" contributesTo:"query" name:"configurationId"`
+
+	// Filter instances if they are using the latest revision of the
+	// Configuration they are associated with.
+	IsUpToDate *bool `mandatory:"false" contributesTo:"query" name:"isUpToDate"`
+
 	// The field to sort by. You can sort by one field only. By default, the Time field is sorted in descending order and the Display Name field in ascending order.
 	SortBy ListReplicasSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 

@@ -53,6 +53,9 @@ type Span struct {
 	// List of tags associated with the span.
 	Tags []Tag `mandatory:"false" json:"tags"`
 
+	// Metadata about the tags in the span.
+	TagsMetadata map[string]TagMetadata `mandatory:"false" json:"tagsMetadata"`
+
 	// List of logs associated with the span.
 	Logs []SpanLogCollection `mandatory:"false" json:"logs"`
 }

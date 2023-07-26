@@ -1149,7 +1149,7 @@ func (client DatabaseClient) changeDbSystemCompartment(ctx context.Context, requ
 	return response, err
 }
 
-// ChangeDisasterRecoveryConfiguration This operation updates the cross-region disaster recovery (DR) details of the standby Shared Autonomous Database, and must be run on the standby side.
+// ChangeDisasterRecoveryConfiguration This operation updates the cross-region disaster recovery (DR) details of the standby Autonomous Database Serverless database, and must be run on the standby side.
 func (client DatabaseClient) ChangeDisasterRecoveryConfiguration(ctx context.Context, request ChangeDisasterRecoveryConfigurationRequest) (response ChangeDisasterRecoveryConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11571,7 +11571,7 @@ func (client DatabaseClient) listAutonomousDatabases(ctx context.Context, reques
 }
 
 // ListAutonomousDbPreviewVersions Gets a list of supported Autonomous Database versions. Note that preview version software is only available for
-// databases with shared Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
+// Autonomous Database Serverless (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) databases.
 func (client DatabaseClient) ListAutonomousDbPreviewVersions(ctx context.Context, request ListAutonomousDbPreviewVersionsRequest) (response ListAutonomousDbPreviewVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13811,6 +13811,59 @@ func (client DatabaseClient) listFlexComponents(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/FlexComponentCollection/ListFlexComponents"
 		err = common.PostProcessServiceError(err, "Database", "ListFlexComponents", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListGiVersionMinorVersions Gets a list of supported Oracle Grid Infrastructure minor versions for the given major version and shape family.
+func (client DatabaseClient) ListGiVersionMinorVersions(ctx context.Context, request ListGiVersionMinorVersionsRequest) (response ListGiVersionMinorVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listGiVersionMinorVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListGiVersionMinorVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListGiVersionMinorVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListGiVersionMinorVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListGiVersionMinorVersionsResponse")
+	}
+	return
+}
+
+// listGiVersionMinorVersions implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listGiVersionMinorVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/giVersions/{version}/minorVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListGiVersionMinorVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/GiVersionSummary/ListGiVersionMinorVersions"
+		err = common.PostProcessServiceError(err, "Database", "ListGiVersionMinorVersions", apiReferenceLink)
 		return response, err
 	}
 

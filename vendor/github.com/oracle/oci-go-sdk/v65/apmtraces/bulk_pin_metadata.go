@@ -20,7 +20,7 @@ import (
 type BulkPinMetadata struct {
 
 	// Operation status of the bulk pin operation.
-	// SUCCESS - The bulk pin operation has succeded and all the attributes in the bulk pin request have been pinned by this operation or pinned earlier.
+	// SUCCESS - The bulk pin operation has succeeded and all the attributes in the bulk pin request have been pinned by this operation or pinned earlier.
 	// The following are error statuses for the bulk pin operation.
 	// EMPTY_ATTRIBUTE_LIST - The bulk pin request object was empty and did not contain any attributes to be pinned.
 	// INVALID_BULK_REQUEST - The bulk request contains invalid attribute(s), or attribute(s) that resulted in a validation error, or an attribute that resulted
@@ -30,7 +30,7 @@ type BulkPinMetadata struct {
 	// Type of operation.
 	OperationType BulkPinMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number attributes (both string and numeric) that were pinned.
+	// Total number attributes (both string and numeric) in all attribute namespaces (TRACES and SYNTHETIC) that were pinned.
 	AttributesPinned *int `mandatory:"true" json:"attributesPinned"`
 }
 

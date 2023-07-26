@@ -80,6 +80,12 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 	// e.g: https://test.blob.core.windows.net
 	Endpoint *string `mandatory:"false" json:"endpoint"`
 
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
+
 	// The Azure Data Lake Storage technology type.
 	TechnologyType AzureDataLakeStorageConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -132,6 +138,11 @@ func (m CreateAzureDataLakeStorageConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
+//GetRoutingMethod returns RoutingMethod
+func (m CreateAzureDataLakeStorageConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 func (m CreateAzureDataLakeStorageConnectionDetails) String() string {
 	return common.PointerString(m)
 }
@@ -142,6 +153,9 @@ func (m CreateAzureDataLakeStorageConnectionDetails) String() string {
 func (m CreateAzureDataLakeStorageConnectionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAzureDataLakeStorageConnectionTechnologyTypeEnum(string(m.TechnologyType)); !ok && m.TechnologyType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TechnologyType: %s. Supported values are: %s.", m.TechnologyType, strings.Join(GetAzureDataLakeStorageConnectionTechnologyTypeEnumStringValues(), ",")))
 	}

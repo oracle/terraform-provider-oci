@@ -15,11 +15,15 @@ import (
 	"strings"
 )
 
-// BulkUnpinAttributeDetail Object that contains the details about a single attribute in the bulk request to be un-pinned.
+// BulkUnpinAttributeDetail Object that contains the details about a single attribute in the bulk request to be unpinned.
 type BulkUnpinAttributeDetail struct {
 
-	// Name of the attribute to be un-pinned.
+	// Name of the attribute to be unpinned.
 	AttributeName *string `mandatory:"true" json:"attributeName"`
+
+	// Namespace of the attribute to be unpinned.  The attributeNameSpace will default to TRACES if it is
+	// not passed in.
+	AttributeNameSpace BulkUnpinAttributeDetailAttributeNameSpaceEnum `mandatory:"false" json:"attributeNameSpace,omitempty"`
 }
 
 func (m BulkUnpinAttributeDetail) String() string {
@@ -32,8 +36,53 @@ func (m BulkUnpinAttributeDetail) String() string {
 func (m BulkUnpinAttributeDetail) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingBulkUnpinAttributeDetailAttributeNameSpaceEnum(string(m.AttributeNameSpace)); !ok && m.AttributeNameSpace != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeNameSpace: %s. Supported values are: %s.", m.AttributeNameSpace, strings.Join(GetBulkUnpinAttributeDetailAttributeNameSpaceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// BulkUnpinAttributeDetailAttributeNameSpaceEnum Enum with underlying type: string
+type BulkUnpinAttributeDetailAttributeNameSpaceEnum string
+
+// Set of constants representing the allowable values for BulkUnpinAttributeDetailAttributeNameSpaceEnum
+const (
+	BulkUnpinAttributeDetailAttributeNameSpaceTraces    BulkUnpinAttributeDetailAttributeNameSpaceEnum = "TRACES"
+	BulkUnpinAttributeDetailAttributeNameSpaceSynthetic BulkUnpinAttributeDetailAttributeNameSpaceEnum = "SYNTHETIC"
+)
+
+var mappingBulkUnpinAttributeDetailAttributeNameSpaceEnum = map[string]BulkUnpinAttributeDetailAttributeNameSpaceEnum{
+	"TRACES":    BulkUnpinAttributeDetailAttributeNameSpaceTraces,
+	"SYNTHETIC": BulkUnpinAttributeDetailAttributeNameSpaceSynthetic,
+}
+
+var mappingBulkUnpinAttributeDetailAttributeNameSpaceEnumLowerCase = map[string]BulkUnpinAttributeDetailAttributeNameSpaceEnum{
+	"traces":    BulkUnpinAttributeDetailAttributeNameSpaceTraces,
+	"synthetic": BulkUnpinAttributeDetailAttributeNameSpaceSynthetic,
+}
+
+// GetBulkUnpinAttributeDetailAttributeNameSpaceEnumValues Enumerates the set of values for BulkUnpinAttributeDetailAttributeNameSpaceEnum
+func GetBulkUnpinAttributeDetailAttributeNameSpaceEnumValues() []BulkUnpinAttributeDetailAttributeNameSpaceEnum {
+	values := make([]BulkUnpinAttributeDetailAttributeNameSpaceEnum, 0)
+	for _, v := range mappingBulkUnpinAttributeDetailAttributeNameSpaceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBulkUnpinAttributeDetailAttributeNameSpaceEnumStringValues Enumerates the set of values in String for BulkUnpinAttributeDetailAttributeNameSpaceEnum
+func GetBulkUnpinAttributeDetailAttributeNameSpaceEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYNTHETIC",
+	}
+}
+
+// GetMappingBulkUnpinAttributeDetailAttributeNameSpaceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBulkUnpinAttributeDetailAttributeNameSpaceEnum(val string) (BulkUnpinAttributeDetailAttributeNameSpaceEnum, bool) {
+	enum, ok := mappingBulkUnpinAttributeDetailAttributeNameSpaceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

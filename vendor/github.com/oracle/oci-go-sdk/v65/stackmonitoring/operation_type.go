@@ -28,7 +28,6 @@ const (
 	OperationTypeBulkAddResources        OperationTypeEnum = "BULK_ADD_RESOURCES"
 	OperationTypeBulkDeleteResources     OperationTypeEnum = "BULK_DELETE_RESOURCES"
 	OperationTypeUpdateAndPropagateTags  OperationTypeEnum = "UPDATE_AND_PROPAGATE_TAGS"
-	OperationTypeImportResources         OperationTypeEnum = "IMPORT_RESOURCES"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -42,7 +41,6 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"BULK_ADD_RESOURCES":        OperationTypeBulkAddResources,
 	"BULK_DELETE_RESOURCES":     OperationTypeBulkDeleteResources,
 	"UPDATE_AND_PROPAGATE_TAGS": OperationTypeUpdateAndPropagateTags,
-	"IMPORT_RESOURCES":          OperationTypeImportResources,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -56,7 +54,6 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"bulk_add_resources":        OperationTypeBulkAddResources,
 	"bulk_delete_resources":     OperationTypeBulkDeleteResources,
 	"update_and_propagate_tags": OperationTypeUpdateAndPropagateTags,
-	"import_resources":          OperationTypeImportResources,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -81,7 +78,6 @@ func GetOperationTypeEnumStringValues() []string {
 		"BULK_ADD_RESOURCES",
 		"BULK_DELETE_RESOURCES",
 		"UPDATE_AND_PROPAGATE_TAGS",
-		"IMPORT_RESOURCES",
 	}
 }
 

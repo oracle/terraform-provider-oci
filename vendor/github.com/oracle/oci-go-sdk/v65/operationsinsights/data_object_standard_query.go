@@ -25,13 +25,16 @@ type DataObjectStandardQuery struct {
 	// List of bind parameters to be applied in the query.
 	BindParams []DataObjectBindParameter `mandatory:"false" json:"bindParams"`
 
-	// SELECT statement with standard Oracle supported SQL syntax.
+	// Timeout (in seconds) to be set for the data object query execution.
+	QueryExecutionTimeoutInSeconds *float64 `mandatory:"false" json:"queryExecutionTimeoutInSeconds"`
+
+	// SQL query statement with standard Oracle supported SQL syntax.
 	// - When Warehouse (e.g: Awr hub) data objects are queried, use the actual names of underlying data objects (e.g: tables, views) in the query.
 	// The same query that works through JDBC connection with the OperationsInsightsWarehouseUsers credentials will work here and vice-versa.
 	// SCHEMA.VIEW syntax can also be used here.
 	// - When OPSI data objects are queried, use name of the respective OPSI data object, just like how views are used in a query.
 	// Identifier of the OPSI data object cannot be used in the query.
-	SelectStatement *string `mandatory:"false" json:"selectStatement"`
+	Statement *string `mandatory:"false" json:"statement"`
 
 	TimeFilters *DataObjectQueryTimeFilters `mandatory:"false" json:"timeFilters"`
 }
@@ -39,6 +42,11 @@ type DataObjectStandardQuery struct {
 //GetBindParams returns BindParams
 func (m DataObjectStandardQuery) GetBindParams() []DataObjectBindParameter {
 	return m.BindParams
+}
+
+//GetQueryExecutionTimeoutInSeconds returns QueryExecutionTimeoutInSeconds
+func (m DataObjectStandardQuery) GetQueryExecutionTimeoutInSeconds() *float64 {
+	return m.QueryExecutionTimeoutInSeconds
 }
 
 func (m DataObjectStandardQuery) String() string {

@@ -20,7 +20,7 @@ import (
 type BulkUpdateNotesMetadata struct {
 
 	// Operation status of the bulk update notes operation.
-	// SUCCESS - The bulk updates notes request has succeded and all the attributes in the bulk update notes request have been updated with the provided notes.
+	// SUCCESS - The bulk updates notes request has succeeded and all the attributes in the bulk update notes request have been updated with the provided notes.
 	// The following are error statuses for the bulk update notes operation.
 	// EMPTY_ATTRIBUTE_LIST - The bulk update notes request object was empty and did not contain any attributes for which notes had to be updated.
 	// INVALID_BULK_REQUEST - The bulk request contains invalid attribute(s), or attribute(s) that resulted in a validation error, or an attribute that resulted
@@ -30,7 +30,7 @@ type BulkUpdateNotesMetadata struct {
 	// Type of operation.
 	OperationType BulkUpdateNotesMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number attributes (both string and numeric) for which notes were updated.
+	// Total number attributes (both string and numeric) in all attribute namespaces (TRACES, SYNTHETIC) for which notes were updated.
 	AttributesNotesUpdated *int `mandatory:"true" json:"attributesNotesUpdated"`
 }
 

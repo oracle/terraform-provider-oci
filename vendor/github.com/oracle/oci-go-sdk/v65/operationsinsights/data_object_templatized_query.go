@@ -24,6 +24,9 @@ type DataObjectTemplatizedQuery struct {
 	// List of bind parameters to be applied in the query.
 	BindParams []DataObjectBindParameter `mandatory:"false" json:"bindParams"`
 
+	// Timeout (in seconds) to be set for the data object query execution.
+	QueryExecutionTimeoutInSeconds *float64 `mandatory:"false" json:"queryExecutionTimeoutInSeconds"`
+
 	// List of items to be added into the SELECT clause of the query; items will be added with comma separation.
 	SelectList []string `mandatory:"false" json:"selectList"`
 
@@ -54,6 +57,11 @@ type DataObjectTemplatizedQuery struct {
 //GetBindParams returns BindParams
 func (m DataObjectTemplatizedQuery) GetBindParams() []DataObjectBindParameter {
 	return m.BindParams
+}
+
+//GetQueryExecutionTimeoutInSeconds returns QueryExecutionTimeoutInSeconds
+func (m DataObjectTemplatizedQuery) GetQueryExecutionTimeoutInSeconds() *float64 {
+	return m.QueryExecutionTimeoutInSeconds
 }
 
 func (m DataObjectTemplatizedQuery) String() string {

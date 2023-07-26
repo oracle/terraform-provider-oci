@@ -171,6 +171,9 @@ type CloudVmClusterSummary struct {
 	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a grid infrastructure software image. This is a database software image of the type `GRID_IMAGE`.
+	GiSoftwareImageId *string `mandatory:"false" json:"giSoftwareImageId"`
 }
 
 func (m CloudVmClusterSummary) String() string {

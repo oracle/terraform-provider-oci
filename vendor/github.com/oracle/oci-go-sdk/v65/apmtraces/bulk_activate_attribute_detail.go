@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// BulkActivateAttributeDetail Object that contains the details about a single attribute in the bulk request to be activated.
+// BulkActivateAttributeDetail Object that contains the details about a single attribute in the bulk request to be activated.  The attributeNameSpace and
+// unit are optional parameters, and the attributeNameSpace will default to TRACES if it is not passed in.
 type BulkActivateAttributeDetail struct {
 
 	// Name of the attribute to be activated.
@@ -23,6 +24,13 @@ type BulkActivateAttributeDetail struct {
 
 	// Type of the attribute to be activated.
 	AttributeType BulkActivateAttributeDetailAttributeTypeEnum `mandatory:"true" json:"attributeType"`
+
+	// Unit of the attribute to be updated.
+	Unit BulkActivateAttributeDetailUnitEnum `mandatory:"false" json:"unit,omitempty"`
+
+	// Namespace of the attribute to be activated.  The attributeNameSpace will default to TRACES if it is
+	// not passed in.
+	AttributeNameSpace BulkActivateAttributeDetailAttributeNameSpaceEnum `mandatory:"false" json:"attributeNameSpace,omitempty"`
 }
 
 func (m BulkActivateAttributeDetail) String() string {
@@ -38,6 +46,12 @@ func (m BulkActivateAttributeDetail) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeType: %s. Supported values are: %s.", m.AttributeType, strings.Join(GetBulkActivateAttributeDetailAttributeTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingBulkActivateAttributeDetailUnitEnum(string(m.Unit)); !ok && m.Unit != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Unit: %s. Supported values are: %s.", m.Unit, strings.Join(GetBulkActivateAttributeDetailUnitEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBulkActivateAttributeDetailAttributeNameSpaceEnum(string(m.AttributeNameSpace)); !ok && m.AttributeNameSpace != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeNameSpace: %s. Supported values are: %s.", m.AttributeNameSpace, strings.Join(GetBulkActivateAttributeDetailAttributeNameSpaceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -83,5 +97,101 @@ func GetBulkActivateAttributeDetailAttributeTypeEnumStringValues() []string {
 // GetMappingBulkActivateAttributeDetailAttributeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingBulkActivateAttributeDetailAttributeTypeEnum(val string) (BulkActivateAttributeDetailAttributeTypeEnum, bool) {
 	enum, ok := mappingBulkActivateAttributeDetailAttributeTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// BulkActivateAttributeDetailUnitEnum Enum with underlying type: string
+type BulkActivateAttributeDetailUnitEnum string
+
+// Set of constants representing the allowable values for BulkActivateAttributeDetailUnitEnum
+const (
+	BulkActivateAttributeDetailUnitEpochTimeMs BulkActivateAttributeDetailUnitEnum = "EPOCH_TIME_MS"
+	BulkActivateAttributeDetailUnitBytes       BulkActivateAttributeDetailUnitEnum = "BYTES"
+	BulkActivateAttributeDetailUnitCount       BulkActivateAttributeDetailUnitEnum = "COUNT"
+	BulkActivateAttributeDetailUnitDurationMs  BulkActivateAttributeDetailUnitEnum = "DURATION_MS"
+	BulkActivateAttributeDetailUnitTraceStatus BulkActivateAttributeDetailUnitEnum = "TRACE_STATUS"
+)
+
+var mappingBulkActivateAttributeDetailUnitEnum = map[string]BulkActivateAttributeDetailUnitEnum{
+	"EPOCH_TIME_MS": BulkActivateAttributeDetailUnitEpochTimeMs,
+	"BYTES":         BulkActivateAttributeDetailUnitBytes,
+	"COUNT":         BulkActivateAttributeDetailUnitCount,
+	"DURATION_MS":   BulkActivateAttributeDetailUnitDurationMs,
+	"TRACE_STATUS":  BulkActivateAttributeDetailUnitTraceStatus,
+}
+
+var mappingBulkActivateAttributeDetailUnitEnumLowerCase = map[string]BulkActivateAttributeDetailUnitEnum{
+	"epoch_time_ms": BulkActivateAttributeDetailUnitEpochTimeMs,
+	"bytes":         BulkActivateAttributeDetailUnitBytes,
+	"count":         BulkActivateAttributeDetailUnitCount,
+	"duration_ms":   BulkActivateAttributeDetailUnitDurationMs,
+	"trace_status":  BulkActivateAttributeDetailUnitTraceStatus,
+}
+
+// GetBulkActivateAttributeDetailUnitEnumValues Enumerates the set of values for BulkActivateAttributeDetailUnitEnum
+func GetBulkActivateAttributeDetailUnitEnumValues() []BulkActivateAttributeDetailUnitEnum {
+	values := make([]BulkActivateAttributeDetailUnitEnum, 0)
+	for _, v := range mappingBulkActivateAttributeDetailUnitEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBulkActivateAttributeDetailUnitEnumStringValues Enumerates the set of values in String for BulkActivateAttributeDetailUnitEnum
+func GetBulkActivateAttributeDetailUnitEnumStringValues() []string {
+	return []string{
+		"EPOCH_TIME_MS",
+		"BYTES",
+		"COUNT",
+		"DURATION_MS",
+		"TRACE_STATUS",
+	}
+}
+
+// GetMappingBulkActivateAttributeDetailUnitEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBulkActivateAttributeDetailUnitEnum(val string) (BulkActivateAttributeDetailUnitEnum, bool) {
+	enum, ok := mappingBulkActivateAttributeDetailUnitEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// BulkActivateAttributeDetailAttributeNameSpaceEnum Enum with underlying type: string
+type BulkActivateAttributeDetailAttributeNameSpaceEnum string
+
+// Set of constants representing the allowable values for BulkActivateAttributeDetailAttributeNameSpaceEnum
+const (
+	BulkActivateAttributeDetailAttributeNameSpaceTraces    BulkActivateAttributeDetailAttributeNameSpaceEnum = "TRACES"
+	BulkActivateAttributeDetailAttributeNameSpaceSynthetic BulkActivateAttributeDetailAttributeNameSpaceEnum = "SYNTHETIC"
+)
+
+var mappingBulkActivateAttributeDetailAttributeNameSpaceEnum = map[string]BulkActivateAttributeDetailAttributeNameSpaceEnum{
+	"TRACES":    BulkActivateAttributeDetailAttributeNameSpaceTraces,
+	"SYNTHETIC": BulkActivateAttributeDetailAttributeNameSpaceSynthetic,
+}
+
+var mappingBulkActivateAttributeDetailAttributeNameSpaceEnumLowerCase = map[string]BulkActivateAttributeDetailAttributeNameSpaceEnum{
+	"traces":    BulkActivateAttributeDetailAttributeNameSpaceTraces,
+	"synthetic": BulkActivateAttributeDetailAttributeNameSpaceSynthetic,
+}
+
+// GetBulkActivateAttributeDetailAttributeNameSpaceEnumValues Enumerates the set of values for BulkActivateAttributeDetailAttributeNameSpaceEnum
+func GetBulkActivateAttributeDetailAttributeNameSpaceEnumValues() []BulkActivateAttributeDetailAttributeNameSpaceEnum {
+	values := make([]BulkActivateAttributeDetailAttributeNameSpaceEnum, 0)
+	for _, v := range mappingBulkActivateAttributeDetailAttributeNameSpaceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBulkActivateAttributeDetailAttributeNameSpaceEnumStringValues Enumerates the set of values in String for BulkActivateAttributeDetailAttributeNameSpaceEnum
+func GetBulkActivateAttributeDetailAttributeNameSpaceEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYNTHETIC",
+	}
+}
+
+// GetMappingBulkActivateAttributeDetailAttributeNameSpaceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBulkActivateAttributeDetailAttributeNameSpaceEnum(val string) (BulkActivateAttributeDetailAttributeNameSpaceEnum, bool) {
+	enum, ok := mappingBulkActivateAttributeDetailAttributeNameSpaceEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

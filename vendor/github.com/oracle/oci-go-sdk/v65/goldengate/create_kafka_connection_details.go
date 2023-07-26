@@ -92,6 +92,12 @@ type CreateKafkaConnectionDetails struct {
 	// The base64 encoded content of the producer.properties file.
 	ProducerProperties *string `mandatory:"false" json:"producerProperties"`
 
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
+
 	// The Kafka technology type.
 	TechnologyType KafkaConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -144,6 +150,11 @@ func (m CreateKafkaConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
+//GetRoutingMethod returns RoutingMethod
+func (m CreateKafkaConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 func (m CreateKafkaConnectionDetails) String() string {
 	return common.PointerString(m)
 }
@@ -154,6 +165,9 @@ func (m CreateKafkaConnectionDetails) String() string {
 func (m CreateKafkaConnectionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingKafkaConnectionTechnologyTypeEnum(string(m.TechnologyType)); !ok && m.TechnologyType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TechnologyType: %s. Supported values are: %s.", m.TechnologyType, strings.Join(GetKafkaConnectionTechnologyTypeEnumStringValues(), ",")))
 	}

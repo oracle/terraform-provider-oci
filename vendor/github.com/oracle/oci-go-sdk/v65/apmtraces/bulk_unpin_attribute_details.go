@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// BulkUnpinAttributeDetails Bulk request object containing the details of the attributes to be un-pinned.
+// BulkUnpinAttributeDetails Bulk request object containing the details of the attributes to be unpinned.
 type BulkUnpinAttributeDetails struct {
 
-	// Collection of objects containing the details about individual attribute to be un-pinned.
+	// Collection of objects containing the details about individual attribute to be unpinned.
 	AttributeDetails []BulkUnpinAttributeDetail `mandatory:"false" json:"attributeDetails"`
 }
 

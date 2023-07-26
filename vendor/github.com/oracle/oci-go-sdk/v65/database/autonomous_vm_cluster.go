@@ -89,9 +89,6 @@ type AutonomousVmCluster struct {
 	// The number of CPUs provisioned in an Autonomous VM Cluster.
 	ProvisionedCpus *float32 `mandatory:"false" json:"provisionedCpus"`
 
-	// The total number of CPUs in an Autonomous VM Cluster.
-	TotalCpus *float32 `mandatory:"false" json:"totalCpus"`
-
 	// The total data disk group size for Autonomous Databases, in TBs.
 	TotalAutonomousDataStorageInTBs *float32 `mandatory:"false" json:"totalAutonomousDataStorageInTBs"`
 
@@ -99,10 +96,10 @@ type AutonomousVmCluster struct {
 	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
 
 	// The number of provisioned Autonomous Container Databases in an Autonomous VM Cluster.
-	ProvisionedAutonomousContainerDatabases *float32 `mandatory:"false" json:"provisionedAutonomousContainerDatabases"`
+	ProvisionedAutonomousContainerDatabases *int `mandatory:"false" json:"provisionedAutonomousContainerDatabases"`
 
 	// The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
-	NonProvisionableAutonomousContainerDatabases *float32 `mandatory:"false" json:"nonProvisionableAutonomousContainerDatabases"`
+	NonProvisionableAutonomousContainerDatabases *int `mandatory:"false" json:"nonProvisionableAutonomousContainerDatabases"`
 
 	// The memory allocated in GBs.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`

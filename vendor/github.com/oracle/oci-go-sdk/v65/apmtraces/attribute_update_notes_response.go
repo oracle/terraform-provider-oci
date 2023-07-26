@@ -27,17 +27,22 @@ type AttributeUpdateNotesResponse struct {
 	// Type of operation - UPDATE_NOTES.
 	OperationType AttributeUpdateNotesResponseOperationTypeEnum `mandatory:"true" json:"operationType"`
 
+	// Namespace of the attribute whose notes were updated.  The attributeNameSpace will default to TRACES if it is
+	// not passed in.
+	AttributeNameSpace AttributeUpdateNotesResponseAttributeNameSpaceEnum `mandatory:"true" json:"attributeNameSpace"`
+
 	// Status of the attribute after this operation.  The attribute can have one of the following statuses after the update notes operation.  The attribute
 	// can have either a success status or an error status.  The status of the attribute must be correlated with the operation status property in the bulk operation metadata
-	// object.  The bulk operation will be successful only when all attributes in the bulk request are processed successful and they get a success status back.
+	// object.  The bulk operation will be successful only when all attributes in the bulk request are processed successfully and they get a success status back.
 	// The following are successful status values of individual attribute items in a bulk update notes operation.
 	// ATTRIBUTE_NOTES_UPDATED - The attribute's notes have been updated with the given notes.
-	// DUPLICATE_ATTRIBUTE - The attriubute is a duplicate of an attribute that was present in this bulk request.  Note that we de-duplicate the attribute collection, process only unique attributes,
+	// DUPLICATE_ATTRIBUTE - The attribute is a duplicate of an attribute that was present in this bulk request.  Note that we deduplicate the attribute collection, process only unique attributes,
 	// and call out duplicates.  A duplicate attribute in a bulk request will not prevent the processing of further attributes in the bulk operation.
 	// The following values are error statuses and the bulk processing is stopped when the first error is encountered.
 	// INVALID_ATTRIBUTE - The attribute is invalid.  The length of the notes is more than a 1000 characters.
 	// ATTRIBUTE_NOT_PROCESSED - The attribute was not processed, as there was another attribute in this bulk request collection that resulted in a processing error.
 	// ATTRIBUTE_DOES_NOT_EXIST - Attribute was neither active nor pinned inactive.
+	// NOTES_TOO_LONG - Attribute notes were too long (more than 1000 chars).
 	AttributeStatus AttributeUpdateNotesResponseAttributeStatusEnum `mandatory:"true" json:"attributeStatus"`
 
 	// Time when the attribute's notes were updated.
@@ -55,6 +60,9 @@ func (m AttributeUpdateNotesResponse) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingAttributeUpdateNotesResponseOperationTypeEnum(string(m.OperationType)); !ok && m.OperationType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetAttributeUpdateNotesResponseOperationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAttributeUpdateNotesResponseAttributeNameSpaceEnum(string(m.AttributeNameSpace)); !ok && m.AttributeNameSpace != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeNameSpace: %s. Supported values are: %s.", m.AttributeNameSpace, strings.Join(GetAttributeUpdateNotesResponseAttributeNameSpaceEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingAttributeUpdateNotesResponseAttributeStatusEnum(string(m.AttributeStatus)); !ok && m.AttributeStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeStatus: %s. Supported values are: %s.", m.AttributeStatus, strings.Join(GetAttributeUpdateNotesResponseAttributeStatusEnumStringValues(), ",")))
@@ -104,6 +112,48 @@ func GetMappingAttributeUpdateNotesResponseOperationTypeEnum(val string) (Attrib
 	return enum, ok
 }
 
+// AttributeUpdateNotesResponseAttributeNameSpaceEnum Enum with underlying type: string
+type AttributeUpdateNotesResponseAttributeNameSpaceEnum string
+
+// Set of constants representing the allowable values for AttributeUpdateNotesResponseAttributeNameSpaceEnum
+const (
+	AttributeUpdateNotesResponseAttributeNameSpaceTraces    AttributeUpdateNotesResponseAttributeNameSpaceEnum = "TRACES"
+	AttributeUpdateNotesResponseAttributeNameSpaceSynthetic AttributeUpdateNotesResponseAttributeNameSpaceEnum = "SYNTHETIC"
+)
+
+var mappingAttributeUpdateNotesResponseAttributeNameSpaceEnum = map[string]AttributeUpdateNotesResponseAttributeNameSpaceEnum{
+	"TRACES":    AttributeUpdateNotesResponseAttributeNameSpaceTraces,
+	"SYNTHETIC": AttributeUpdateNotesResponseAttributeNameSpaceSynthetic,
+}
+
+var mappingAttributeUpdateNotesResponseAttributeNameSpaceEnumLowerCase = map[string]AttributeUpdateNotesResponseAttributeNameSpaceEnum{
+	"traces":    AttributeUpdateNotesResponseAttributeNameSpaceTraces,
+	"synthetic": AttributeUpdateNotesResponseAttributeNameSpaceSynthetic,
+}
+
+// GetAttributeUpdateNotesResponseAttributeNameSpaceEnumValues Enumerates the set of values for AttributeUpdateNotesResponseAttributeNameSpaceEnum
+func GetAttributeUpdateNotesResponseAttributeNameSpaceEnumValues() []AttributeUpdateNotesResponseAttributeNameSpaceEnum {
+	values := make([]AttributeUpdateNotesResponseAttributeNameSpaceEnum, 0)
+	for _, v := range mappingAttributeUpdateNotesResponseAttributeNameSpaceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAttributeUpdateNotesResponseAttributeNameSpaceEnumStringValues Enumerates the set of values in String for AttributeUpdateNotesResponseAttributeNameSpaceEnum
+func GetAttributeUpdateNotesResponseAttributeNameSpaceEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYNTHETIC",
+	}
+}
+
+// GetMappingAttributeUpdateNotesResponseAttributeNameSpaceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAttributeUpdateNotesResponseAttributeNameSpaceEnum(val string) (AttributeUpdateNotesResponseAttributeNameSpaceEnum, bool) {
+	enum, ok := mappingAttributeUpdateNotesResponseAttributeNameSpaceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
 // AttributeUpdateNotesResponseAttributeStatusEnum Enum with underlying type: string
 type AttributeUpdateNotesResponseAttributeStatusEnum string
 
@@ -114,6 +164,7 @@ const (
 	AttributeUpdateNotesResponseAttributeStatusInvalidAttribute      AttributeUpdateNotesResponseAttributeStatusEnum = "INVALID_ATTRIBUTE"
 	AttributeUpdateNotesResponseAttributeStatusAttributeNotProcessed AttributeUpdateNotesResponseAttributeStatusEnum = "ATTRIBUTE_NOT_PROCESSED"
 	AttributeUpdateNotesResponseAttributeStatusAttributeDoesNotExist AttributeUpdateNotesResponseAttributeStatusEnum = "ATTRIBUTE_DOES_NOT_EXIST"
+	AttributeUpdateNotesResponseAttributeStatusNotesTooLong          AttributeUpdateNotesResponseAttributeStatusEnum = "NOTES_TOO_LONG"
 )
 
 var mappingAttributeUpdateNotesResponseAttributeStatusEnum = map[string]AttributeUpdateNotesResponseAttributeStatusEnum{
@@ -122,6 +173,7 @@ var mappingAttributeUpdateNotesResponseAttributeStatusEnum = map[string]Attribut
 	"INVALID_ATTRIBUTE":        AttributeUpdateNotesResponseAttributeStatusInvalidAttribute,
 	"ATTRIBUTE_NOT_PROCESSED":  AttributeUpdateNotesResponseAttributeStatusAttributeNotProcessed,
 	"ATTRIBUTE_DOES_NOT_EXIST": AttributeUpdateNotesResponseAttributeStatusAttributeDoesNotExist,
+	"NOTES_TOO_LONG":           AttributeUpdateNotesResponseAttributeStatusNotesTooLong,
 }
 
 var mappingAttributeUpdateNotesResponseAttributeStatusEnumLowerCase = map[string]AttributeUpdateNotesResponseAttributeStatusEnum{
@@ -130,6 +182,7 @@ var mappingAttributeUpdateNotesResponseAttributeStatusEnumLowerCase = map[string
 	"invalid_attribute":        AttributeUpdateNotesResponseAttributeStatusInvalidAttribute,
 	"attribute_not_processed":  AttributeUpdateNotesResponseAttributeStatusAttributeNotProcessed,
 	"attribute_does_not_exist": AttributeUpdateNotesResponseAttributeStatusAttributeDoesNotExist,
+	"notes_too_long":           AttributeUpdateNotesResponseAttributeStatusNotesTooLong,
 }
 
 // GetAttributeUpdateNotesResponseAttributeStatusEnumValues Enumerates the set of values for AttributeUpdateNotesResponseAttributeStatusEnum
@@ -149,6 +202,7 @@ func GetAttributeUpdateNotesResponseAttributeStatusEnumStringValues() []string {
 		"INVALID_ATTRIBUTE",
 		"ATTRIBUTE_NOT_PROCESSED",
 		"ATTRIBUTE_DOES_NOT_EXIST",
+		"NOTES_TOO_LONG",
 	}
 }
 

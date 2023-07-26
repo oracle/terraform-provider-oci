@@ -144,6 +144,9 @@ type Deployment struct {
 	// The time until OGG version is supported. After this date has passed OGG version will not be available anymore. The format is defined by
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeOggVersionSupportedUntil *common.SDKTime `mandatory:"false" json:"timeOggVersionSupportedUntil"`
+
+	// A list of IP ranges in a CIDR format allowed to connect to the deployment's public endpoint
+	PublicAllowList []string `mandatory:"false" json:"publicAllowList"`
 }
 
 func (m Deployment) String() string {

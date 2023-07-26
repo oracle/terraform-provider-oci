@@ -24,6 +24,15 @@ type GetTraceRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Include traces or spans that have a `minTraceStartTime` equal to or greater than this value.
+	TimeStartedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartedGreaterThanOrEqualTo"`
+
+	// Include traces or spans that have a `maxTraceEndTime` less than this value.
+	TimeEndedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEndedLessThan"`
+
+	// Name space from which the trace details need to be retrieved.
+	TraceNamespace GetTraceTraceNamespaceEnum `mandatory:"false" contributesTo:"query" name:"traceNamespace" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -60,6 +69,9 @@ func (request GetTraceRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request GetTraceRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingGetTraceTraceNamespaceEnum(string(request.TraceNamespace)); !ok && request.TraceNamespace != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TraceNamespace: %s. Supported values are: %s.", request.TraceNamespace, strings.Join(GetGetTraceTraceNamespaceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -87,4 +99,46 @@ func (response GetTraceResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetTraceResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetTraceTraceNamespaceEnum Enum with underlying type: string
+type GetTraceTraceNamespaceEnum string
+
+// Set of constants representing the allowable values for GetTraceTraceNamespaceEnum
+const (
+	GetTraceTraceNamespaceTraces    GetTraceTraceNamespaceEnum = "TRACES"
+	GetTraceTraceNamespaceSynthetic GetTraceTraceNamespaceEnum = "SYNTHETIC"
+)
+
+var mappingGetTraceTraceNamespaceEnum = map[string]GetTraceTraceNamespaceEnum{
+	"TRACES":    GetTraceTraceNamespaceTraces,
+	"SYNTHETIC": GetTraceTraceNamespaceSynthetic,
+}
+
+var mappingGetTraceTraceNamespaceEnumLowerCase = map[string]GetTraceTraceNamespaceEnum{
+	"traces":    GetTraceTraceNamespaceTraces,
+	"synthetic": GetTraceTraceNamespaceSynthetic,
+}
+
+// GetGetTraceTraceNamespaceEnumValues Enumerates the set of values for GetTraceTraceNamespaceEnum
+func GetGetTraceTraceNamespaceEnumValues() []GetTraceTraceNamespaceEnum {
+	values := make([]GetTraceTraceNamespaceEnum, 0)
+	for _, v := range mappingGetTraceTraceNamespaceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetTraceTraceNamespaceEnumStringValues Enumerates the set of values in String for GetTraceTraceNamespaceEnum
+func GetGetTraceTraceNamespaceEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYNTHETIC",
+	}
+}
+
+// GetMappingGetTraceTraceNamespaceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetTraceTraceNamespaceEnum(val string) (GetTraceTraceNamespaceEnum, bool) {
+	enum, ok := mappingGetTraceTraceNamespaceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

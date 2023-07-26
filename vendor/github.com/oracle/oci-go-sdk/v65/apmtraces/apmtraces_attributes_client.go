@@ -91,13 +91,13 @@ func (client *AttributesClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// BulkActivateAttribute Activates a set of attributes for the given APM Domain.  The API is case in-sensitive.  Any duplicates present in the bulk activation
-// request are de-duplicated and only unique attributes are activated.  A maximum number of 700 string attributes and 100 numeric attributes
+// BulkActivateAttribute Activates a set of attributes for the given APM Domain.  The API is not case-sensitive.  Any duplicates present in the bulk activation
+// request are deduplicated and only unique attributes are activated.  A maximum number of 700 string attributes and 100 numeric attributes
 // can be activated in an APM Domain subject to the available string and numeric slots.  Once an attribute has been activated, it may take sometime
-// for it to be appear in searches as the span processor might not have picked up the changes or any associated caches might not have refreshed.  The
+// for it to be appear in searches as ingest might not have picked up the changes or any associated caches might not have refreshed.  The
 // bulk activation operation is atomic, and the operation succeeds only if all the attributes in the request have been processed successfully and they
 // get a success status back.  If the processing of any attribute results in a processing or validation error, then none of the attributes in the bulk
-// request are activated.  Attributes that are activated are un-pinned by default if they are pinned.
+// request are activated.  Attributes that are activated are unpinned by default if they are pinned.
 func (client AttributesClient) BulkActivateAttribute(ctx context.Context, request BulkActivateAttributeRequest) (response BulkActivateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -150,14 +150,14 @@ func (client AttributesClient) bulkActivateAttribute(ctx context.Context, reques
 	return response, err
 }
 
-// BulkDeActivateAttribute De-activates a set of attributes for the given APM Domain.  The API is case in-sensitive.  Any duplicates present in the bulk de-activation
-// request are de-duplicated and only unique attributes are de-activated.  A maximum number of 700 string attributes and 100 numeric attributes
-// can be activated in an APM Domain subject to the available string and numeric slots.  Out of box attributes (Trace and Span) cannot be
-// de-activated, and will result in a processing error.  Once an attribute has been de-activated, it may take sometime for it to dissappear in
-// searches as the span processor might not have picked up the changes or any associated caches might not have refreshed.  The bulk de-activation
+// BulkDeActivateAttribute Deactivates a set of attributes for the given APM Domain.  The API is case in-sensitive.  Any duplicates present in the bulk deactivation
+// request are deduplicated and only unique attributes are deactivated.  A maximum number of 700 string attributes and 100 numeric attributes
+// can be deactivated in an APM Domain subject to the available string and numeric slots.  Out of box attributes (Trace and Span) cannot be
+// deactivated, and will result in a processing error.  Once an attribute has been deactivated, it may take sometime for it to disappear in
+// searches as ingest might not have picked up the changes or any associated caches might not have refreshed.  The bulk deactivation
 // operation is atomic, and the operation succeeds only if all the attributes in the request have been processed successfully and they get a success
 // status back.  If the processing of any attribute results in a processing or validation error, then none of the attributes in the bulk request
-// are de-activated.
+// are deactivated.
 func (client AttributesClient) BulkDeActivateAttribute(ctx context.Context, request BulkDeActivateAttributeRequest) (response BulkDeActivateAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -210,8 +210,8 @@ func (client AttributesClient) bulkDeActivateAttribute(ctx context.Context, requ
 	return response, err
 }
 
-// BulkPinAttribute Pin a set of attributes in the APM Domain.  Attributes the are marked pinned are not auto-promoted by the span processor.
-// Attributes that are de-activated are pinned by default.
+// BulkPinAttribute Pin a set of attributes in the APM Domain.  Attributes that are marked pinned are not autoactivated by ingest.
+// Attributes that are deactivated are pinned by default.
 func (client AttributesClient) BulkPinAttribute(ctx context.Context, request BulkPinAttributeRequest) (response BulkPinAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -264,7 +264,7 @@ func (client AttributesClient) bulkPinAttribute(ctx context.Context, request com
 	return response, err
 }
 
-// BulkUnpinAttribute Un-pin a set of attributes in the APM Domain.
+// BulkUnpinAttribute Unpin a set of attributes in the APM Domain.
 func (client AttributesClient) BulkUnpinAttribute(ctx context.Context, request BulkUnpinAttributeRequest) (response BulkUnpinAttributeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -317,8 +317,61 @@ func (client AttributesClient) bulkUnpinAttribute(ctx context.Context, request c
 	return response, err
 }
 
+// BulkUpdateAttribute Update a set of attribute properties in the APM Domain.
+func (client AttributesClient) BulkUpdateAttribute(ctx context.Context, request BulkUpdateAttributeRequest) (response BulkUpdateAttributeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.bulkUpdateAttribute, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BulkUpdateAttributeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BulkUpdateAttributeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BulkUpdateAttributeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BulkUpdateAttributeResponse")
+	}
+	return
+}
+
+// bulkUpdateAttribute implements the OCIOperation interface (enables retrying operations)
+func (client AttributesClient) bulkUpdateAttribute(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/attributes/actions/updateAttributes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BulkUpdateAttributeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-trace-explorer/20200630/BulkUpdateAttributeStatus/BulkUpdateAttribute"
+		err = common.PostProcessServiceError(err, "Attributes", "BulkUpdateAttribute", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // BulkUpdateAttributeNotes Add or edit notes to a set of attributes in the APM Domain.  Notes can be added to either an active or an inactive attribute.  The
-// notes will be preserved even if the attribute changes state (when an active attribute is de-activated or when an inactive attribute
+// notes will be preserved even if the attribute changes state (when an active attribute is deactivated or when an inactive attribute
 // is activated).
 func (client AttributesClient) BulkUpdateAttributeNotes(ctx context.Context, request BulkUpdateAttributeNotesRequest) (response BulkUpdateAttributeNotesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -372,7 +425,7 @@ func (client AttributesClient) bulkUpdateAttributeNotes(ctx context.Context, req
 	return response, err
 }
 
-// GetStatusAutoActivate Get auto activation status for a private data key or public data key in the APM Domain.
+// GetStatusAutoActivate Get autoactivation status for a private data key or public data key in the APM Domain.
 func (client AttributesClient) GetStatusAutoActivate(ctx context.Context, request GetStatusAutoActivateRequest) (response GetStatusAutoActivateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -425,7 +478,7 @@ func (client AttributesClient) getStatusAutoActivate(ctx context.Context, reques
 	return response, err
 }
 
-// PutToggleAutoActivate Turn on or off auto activate for private data key or public data key traffic a given APM Domain.
+// PutToggleAutoActivate Turn on or off autoactivate for private data key or public data key traffic a given APM Domain.
 func (client AttributesClient) PutToggleAutoActivate(ctx context.Context, request PutToggleAutoActivateRequest) (response PutToggleAutoActivateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

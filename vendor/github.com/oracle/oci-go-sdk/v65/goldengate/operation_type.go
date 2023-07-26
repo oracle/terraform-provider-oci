@@ -41,6 +41,7 @@ const (
 	OperationTypeGoldengateConnectionAssignmentCreate  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE"
 	OperationTypeGoldengateConnectionAssigmnentDelete  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE"
 	OperationTypeGoldengateDeploymentDiagnosticCollect OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT"
+	OperationTypeGoldengateOciLogging                  OperationTypeEnum = "GOLDENGATE_OCI_LOGGING"
 	OperationTypeGoldengateDeploymentWalletExport      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_WALLET_EXPORT"
 	OperationTypeGoldengateDeploymentWalletImport      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_WALLET_IMPORT"
 	OperationTypeGoldengateDeploymentUpgradeUpgrade    OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE"
@@ -72,6 +73,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE":  OperationTypeGoldengateConnectionAssignmentCreate,
 	"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE":  OperationTypeGoldengateConnectionAssigmnentDelete,
 	"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT": OperationTypeGoldengateDeploymentDiagnosticCollect,
+	"GOLDENGATE_OCI_LOGGING":                   OperationTypeGoldengateOciLogging,
 	"GOLDENGATE_DEPLOYMENT_WALLET_EXPORT":      OperationTypeGoldengateDeploymentWalletExport,
 	"GOLDENGATE_DEPLOYMENT_WALLET_IMPORT":      OperationTypeGoldengateDeploymentWalletImport,
 	"GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE":    OperationTypeGoldengateDeploymentUpgradeUpgrade,
@@ -103,6 +105,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_connection_assignment_create":  OperationTypeGoldengateConnectionAssignmentCreate,
 	"goldengate_connection_assigmnent_delete":  OperationTypeGoldengateConnectionAssigmnentDelete,
 	"goldengate_deployment_diagnostic_collect": OperationTypeGoldengateDeploymentDiagnosticCollect,
+	"goldengate_oci_logging":                   OperationTypeGoldengateOciLogging,
 	"goldengate_deployment_wallet_export":      OperationTypeGoldengateDeploymentWalletExport,
 	"goldengate_deployment_wallet_import":      OperationTypeGoldengateDeploymentWalletImport,
 	"goldengate_deployment_upgrade_upgrade":    OperationTypeGoldengateDeploymentUpgradeUpgrade,
@@ -145,6 +148,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE",
 		"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE",
 		"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT",
+		"GOLDENGATE_OCI_LOGGING",
 		"GOLDENGATE_DEPLOYMENT_WALLET_EXPORT",
 		"GOLDENGATE_DEPLOYMENT_WALLET_IMPORT",
 		"GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE",

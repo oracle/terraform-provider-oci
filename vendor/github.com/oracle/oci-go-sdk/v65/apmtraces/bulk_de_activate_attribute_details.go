@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// BulkDeActivateAttributeDetails Bulk request object containing the details of the attributes to be de-activated.
+// BulkDeActivateAttributeDetails Bulk request object containing the details of the attributes to be deactivated.
 type BulkDeActivateAttributeDetails struct {
 
-	// Collection of objects containing the details about individual attribute to be de-activated.
+	// Collection of objects containing the details about individual attribute to be deactivated.
 	AttributeDetails []BulkDeActivateAttributeDetail `mandatory:"false" json:"attributeDetails"`
 }
 

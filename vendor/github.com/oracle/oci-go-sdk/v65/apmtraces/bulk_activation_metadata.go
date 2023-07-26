@@ -22,7 +22,7 @@ type BulkActivationMetadata struct {
 
 	// Operation status of the bulk activation operation.  The bulk  activation operation could have either a success or an error status as defined below.
 	// The following is a success status for the bulk activation operation.
-	// SUCCESS - The bulk activation operation has succeded and all the attributes in the bulk activation request have been activated by this operation or activated earlier.
+	// SUCCESS - The bulk activation operation has succeeded and all the attributes in the bulk activation request have been activated by this operation or activated earlier.
 	// The following are error statuses for the bulk activation operation.  Note that none of the attributes (string or numeric) in the bulk request have been activated by this bulk
 	// activation operation if any of the below statuses.
 	// EMPTY_ATTRIBUTE_LIST - The bulk activation request object was empty and did not contain any attributes to be activated.
@@ -37,10 +37,10 @@ type BulkActivationMetadata struct {
 	// Type of operation.
 	OperationType BulkActivationMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number of string attributes that were activated.
+	// Total number of string attributes in all attribute namespaces (TRACES and SYNTHETIC) that were activated.
 	StringAttributesActivated *int `mandatory:"false" json:"stringAttributesActivated"`
 
-	// Total number of numeric attributes that were activated.
+	// Total number of numeric attributes in all attribute namespaces (TRACES and SYNTHETIC) that were activated.
 	NumericAttributesActivated *int `mandatory:"false" json:"numericAttributesActivated"`
 
 	// Total number of free slots available to activate string attributes in the APM Domain.  Note that if a bulk request has succeeded, this

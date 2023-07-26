@@ -15,11 +15,15 @@ import (
 	"strings"
 )
 
-// BulkDeActivateAttributeDetail Object that contains the details about a single attribute to be de-activated.
+// BulkDeActivateAttributeDetail Object that contains the details about a single attribute to be deactivated.
 type BulkDeActivateAttributeDetail struct {
 
-	// Name of the attribute to be de-activated.
+	// Name of the attribute to be deactivated.
 	AttributeName *string `mandatory:"true" json:"attributeName"`
+
+	// Namespace of the attribute to be deactivated.  The attributeNameSpace will default to TRACES if it is
+	// not passed in.
+	AttributeNameSpace BulkDeActivateAttributeDetailAttributeNameSpaceEnum `mandatory:"false" json:"attributeNameSpace,omitempty"`
 }
 
 func (m BulkDeActivateAttributeDetail) String() string {
@@ -32,8 +36,53 @@ func (m BulkDeActivateAttributeDetail) String() string {
 func (m BulkDeActivateAttributeDetail) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingBulkDeActivateAttributeDetailAttributeNameSpaceEnum(string(m.AttributeNameSpace)); !ok && m.AttributeNameSpace != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeNameSpace: %s. Supported values are: %s.", m.AttributeNameSpace, strings.Join(GetBulkDeActivateAttributeDetailAttributeNameSpaceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// BulkDeActivateAttributeDetailAttributeNameSpaceEnum Enum with underlying type: string
+type BulkDeActivateAttributeDetailAttributeNameSpaceEnum string
+
+// Set of constants representing the allowable values for BulkDeActivateAttributeDetailAttributeNameSpaceEnum
+const (
+	BulkDeActivateAttributeDetailAttributeNameSpaceTraces    BulkDeActivateAttributeDetailAttributeNameSpaceEnum = "TRACES"
+	BulkDeActivateAttributeDetailAttributeNameSpaceSynthetic BulkDeActivateAttributeDetailAttributeNameSpaceEnum = "SYNTHETIC"
+)
+
+var mappingBulkDeActivateAttributeDetailAttributeNameSpaceEnum = map[string]BulkDeActivateAttributeDetailAttributeNameSpaceEnum{
+	"TRACES":    BulkDeActivateAttributeDetailAttributeNameSpaceTraces,
+	"SYNTHETIC": BulkDeActivateAttributeDetailAttributeNameSpaceSynthetic,
+}
+
+var mappingBulkDeActivateAttributeDetailAttributeNameSpaceEnumLowerCase = map[string]BulkDeActivateAttributeDetailAttributeNameSpaceEnum{
+	"traces":    BulkDeActivateAttributeDetailAttributeNameSpaceTraces,
+	"synthetic": BulkDeActivateAttributeDetailAttributeNameSpaceSynthetic,
+}
+
+// GetBulkDeActivateAttributeDetailAttributeNameSpaceEnumValues Enumerates the set of values for BulkDeActivateAttributeDetailAttributeNameSpaceEnum
+func GetBulkDeActivateAttributeDetailAttributeNameSpaceEnumValues() []BulkDeActivateAttributeDetailAttributeNameSpaceEnum {
+	values := make([]BulkDeActivateAttributeDetailAttributeNameSpaceEnum, 0)
+	for _, v := range mappingBulkDeActivateAttributeDetailAttributeNameSpaceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBulkDeActivateAttributeDetailAttributeNameSpaceEnumStringValues Enumerates the set of values in String for BulkDeActivateAttributeDetailAttributeNameSpaceEnum
+func GetBulkDeActivateAttributeDetailAttributeNameSpaceEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYNTHETIC",
+	}
+}
+
+// GetMappingBulkDeActivateAttributeDetailAttributeNameSpaceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBulkDeActivateAttributeDetailAttributeNameSpaceEnum(val string) (BulkDeActivateAttributeDetailAttributeNameSpaceEnum, bool) {
+	enum, ok := mappingBulkDeActivateAttributeDetailAttributeNameSpaceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

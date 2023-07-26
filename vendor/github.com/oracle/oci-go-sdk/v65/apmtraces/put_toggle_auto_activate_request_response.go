@@ -17,7 +17,7 @@ type PutToggleAutoActivateRequest struct {
 	// The APM Domain ID for the intended request.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
-	// Auto activate toggle switch.  Set to true to turn on auto-activate.  Set to false to turn off auto-activate.
+	// Autoactivate toggle switch.  Set to true to turn on auto-activate.  Set to false to turn off auto-activate.
 	IsAutoActivateOn *bool `mandatory:"true" contributesTo:"query" name:"isAutoActivateOn"`
 
 	// Data key type for which auto-activate needs to be turned on or off.

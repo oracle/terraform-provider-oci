@@ -23,6 +23,10 @@ type BulkUpdateAttributeNotesDetail struct {
 
 	// Notes to be updated.  The size of notes cannot exceed 1000 chars.
 	Notes *string `mandatory:"true" json:"notes"`
+
+	// Namespace of the attribute for which the notes are to be updated.  The attributeNameSpace will default to TRACES if it is
+	// not passed in.
+	AttributeNameSpace BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum `mandatory:"false" json:"attributeNameSpace,omitempty"`
 }
 
 func (m BulkUpdateAttributeNotesDetail) String() string {
@@ -35,8 +39,53 @@ func (m BulkUpdateAttributeNotesDetail) String() string {
 func (m BulkUpdateAttributeNotesDetail) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingBulkUpdateAttributeNotesDetailAttributeNameSpaceEnum(string(m.AttributeNameSpace)); !ok && m.AttributeNameSpace != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeNameSpace: %s. Supported values are: %s.", m.AttributeNameSpace, strings.Join(GetBulkUpdateAttributeNotesDetailAttributeNameSpaceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum Enum with underlying type: string
+type BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum string
+
+// Set of constants representing the allowable values for BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum
+const (
+	BulkUpdateAttributeNotesDetailAttributeNameSpaceTraces    BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum = "TRACES"
+	BulkUpdateAttributeNotesDetailAttributeNameSpaceSynthetic BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum = "SYNTHETIC"
+)
+
+var mappingBulkUpdateAttributeNotesDetailAttributeNameSpaceEnum = map[string]BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum{
+	"TRACES":    BulkUpdateAttributeNotesDetailAttributeNameSpaceTraces,
+	"SYNTHETIC": BulkUpdateAttributeNotesDetailAttributeNameSpaceSynthetic,
+}
+
+var mappingBulkUpdateAttributeNotesDetailAttributeNameSpaceEnumLowerCase = map[string]BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum{
+	"traces":    BulkUpdateAttributeNotesDetailAttributeNameSpaceTraces,
+	"synthetic": BulkUpdateAttributeNotesDetailAttributeNameSpaceSynthetic,
+}
+
+// GetBulkUpdateAttributeNotesDetailAttributeNameSpaceEnumValues Enumerates the set of values for BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum
+func GetBulkUpdateAttributeNotesDetailAttributeNameSpaceEnumValues() []BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum {
+	values := make([]BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum, 0)
+	for _, v := range mappingBulkUpdateAttributeNotesDetailAttributeNameSpaceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBulkUpdateAttributeNotesDetailAttributeNameSpaceEnumStringValues Enumerates the set of values in String for BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum
+func GetBulkUpdateAttributeNotesDetailAttributeNameSpaceEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYNTHETIC",
+	}
+}
+
+// GetMappingBulkUpdateAttributeNotesDetailAttributeNameSpaceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBulkUpdateAttributeNotesDetailAttributeNameSpaceEnum(val string) (BulkUpdateAttributeNotesDetailAttributeNameSpaceEnum, bool) {
+	enum, ok := mappingBulkUpdateAttributeNotesDetailAttributeNameSpaceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -23,12 +23,16 @@ type DataObjectQuery interface {
 
 	// List of bind parameters to be applied in the query.
 	GetBindParams() []DataObjectBindParameter
+
+	// Timeout (in seconds) to be set for the data object query execution.
+	GetQueryExecutionTimeoutInSeconds() *float64
 }
 
 type dataobjectquery struct {
-	JsonData   []byte
-	BindParams []DataObjectBindParameter `mandatory:"false" json:"bindParams"`
-	QueryType  string                    `json:"queryType"`
+	JsonData                       []byte
+	BindParams                     []DataObjectBindParameter `mandatory:"false" json:"bindParams"`
+	QueryExecutionTimeoutInSeconds *float64                  `mandatory:"false" json:"queryExecutionTimeoutInSeconds"`
+	QueryType                      string                    `json:"queryType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -43,6 +47,7 @@ func (m *dataobjectquery) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.BindParams = s.Model.BindParams
+	m.QueryExecutionTimeoutInSeconds = s.Model.QueryExecutionTimeoutInSeconds
 	m.QueryType = s.Model.QueryType
 
 	return err
@@ -74,6 +79,11 @@ func (m *dataobjectquery) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 //GetBindParams returns BindParams
 func (m dataobjectquery) GetBindParams() []DataObjectBindParameter {
 	return m.BindParams
+}
+
+//GetQueryExecutionTimeoutInSeconds returns QueryExecutionTimeoutInSeconds
+func (m dataobjectquery) GetQueryExecutionTimeoutInSeconds() *float64 {
+	return m.QueryExecutionTimeoutInSeconds
 }
 
 func (m dataobjectquery) String() string {

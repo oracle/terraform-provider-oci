@@ -27,6 +27,15 @@ type GetSpanRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Include traces or spans that have a `minTraceStartTime` equal to or greater than this value.
+	TimeStartedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartedGreaterThanOrEqualTo"`
+
+	// Include traces or spans that have a `maxTraceEndTime` less than this value.
+	TimeEndedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEndedLessThan"`
+
+	// Name space from which the span details need to be retrieved.
+	SpanNamespace GetSpanSpanNamespaceEnum `mandatory:"false" contributesTo:"query" name:"spanNamespace" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -63,6 +72,9 @@ func (request GetSpanRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request GetSpanRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingGetSpanSpanNamespaceEnum(string(request.SpanNamespace)); !ok && request.SpanNamespace != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SpanNamespace: %s. Supported values are: %s.", request.SpanNamespace, strings.Join(GetGetSpanSpanNamespaceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -90,4 +102,46 @@ func (response GetSpanResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetSpanResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetSpanSpanNamespaceEnum Enum with underlying type: string
+type GetSpanSpanNamespaceEnum string
+
+// Set of constants representing the allowable values for GetSpanSpanNamespaceEnum
+const (
+	GetSpanSpanNamespaceTraces    GetSpanSpanNamespaceEnum = "TRACES"
+	GetSpanSpanNamespaceSynthetic GetSpanSpanNamespaceEnum = "SYNTHETIC"
+)
+
+var mappingGetSpanSpanNamespaceEnum = map[string]GetSpanSpanNamespaceEnum{
+	"TRACES":    GetSpanSpanNamespaceTraces,
+	"SYNTHETIC": GetSpanSpanNamespaceSynthetic,
+}
+
+var mappingGetSpanSpanNamespaceEnumLowerCase = map[string]GetSpanSpanNamespaceEnum{
+	"traces":    GetSpanSpanNamespaceTraces,
+	"synthetic": GetSpanSpanNamespaceSynthetic,
+}
+
+// GetGetSpanSpanNamespaceEnumValues Enumerates the set of values for GetSpanSpanNamespaceEnum
+func GetGetSpanSpanNamespaceEnumValues() []GetSpanSpanNamespaceEnum {
+	values := make([]GetSpanSpanNamespaceEnum, 0)
+	for _, v := range mappingGetSpanSpanNamespaceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetSpanSpanNamespaceEnumStringValues Enumerates the set of values in String for GetSpanSpanNamespaceEnum
+func GetGetSpanSpanNamespaceEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYNTHETIC",
+	}
+}
+
+// GetMappingGetSpanSpanNamespaceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetSpanSpanNamespaceEnum(val string) (GetSpanSpanNamespaceEnum, bool) {
+	enum, ok := mappingGetSpanSpanNamespaceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

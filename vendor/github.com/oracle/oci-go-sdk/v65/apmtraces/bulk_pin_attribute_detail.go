@@ -20,6 +20,10 @@ type BulkPinAttributeDetail struct {
 
 	// Name of the attribute to be pinned.
 	AttributeName *string `mandatory:"true" json:"attributeName"`
+
+	// Namespace of the attribute to be pinned.  The attributeNameSpace will default to TRACES if it is
+	// not passed in.
+	AttributeNameSpace BulkPinAttributeDetailAttributeNameSpaceEnum `mandatory:"false" json:"attributeNameSpace,omitempty"`
 }
 
 func (m BulkPinAttributeDetail) String() string {
@@ -32,8 +36,53 @@ func (m BulkPinAttributeDetail) String() string {
 func (m BulkPinAttributeDetail) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingBulkPinAttributeDetailAttributeNameSpaceEnum(string(m.AttributeNameSpace)); !ok && m.AttributeNameSpace != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AttributeNameSpace: %s. Supported values are: %s.", m.AttributeNameSpace, strings.Join(GetBulkPinAttributeDetailAttributeNameSpaceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// BulkPinAttributeDetailAttributeNameSpaceEnum Enum with underlying type: string
+type BulkPinAttributeDetailAttributeNameSpaceEnum string
+
+// Set of constants representing the allowable values for BulkPinAttributeDetailAttributeNameSpaceEnum
+const (
+	BulkPinAttributeDetailAttributeNameSpaceTraces    BulkPinAttributeDetailAttributeNameSpaceEnum = "TRACES"
+	BulkPinAttributeDetailAttributeNameSpaceSynthetic BulkPinAttributeDetailAttributeNameSpaceEnum = "SYNTHETIC"
+)
+
+var mappingBulkPinAttributeDetailAttributeNameSpaceEnum = map[string]BulkPinAttributeDetailAttributeNameSpaceEnum{
+	"TRACES":    BulkPinAttributeDetailAttributeNameSpaceTraces,
+	"SYNTHETIC": BulkPinAttributeDetailAttributeNameSpaceSynthetic,
+}
+
+var mappingBulkPinAttributeDetailAttributeNameSpaceEnumLowerCase = map[string]BulkPinAttributeDetailAttributeNameSpaceEnum{
+	"traces":    BulkPinAttributeDetailAttributeNameSpaceTraces,
+	"synthetic": BulkPinAttributeDetailAttributeNameSpaceSynthetic,
+}
+
+// GetBulkPinAttributeDetailAttributeNameSpaceEnumValues Enumerates the set of values for BulkPinAttributeDetailAttributeNameSpaceEnum
+func GetBulkPinAttributeDetailAttributeNameSpaceEnumValues() []BulkPinAttributeDetailAttributeNameSpaceEnum {
+	values := make([]BulkPinAttributeDetailAttributeNameSpaceEnum, 0)
+	for _, v := range mappingBulkPinAttributeDetailAttributeNameSpaceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBulkPinAttributeDetailAttributeNameSpaceEnumStringValues Enumerates the set of values in String for BulkPinAttributeDetailAttributeNameSpaceEnum
+func GetBulkPinAttributeDetailAttributeNameSpaceEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYNTHETIC",
+	}
+}
+
+// GetMappingBulkPinAttributeDetailAttributeNameSpaceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBulkPinAttributeDetailAttributeNameSpaceEnum(val string) (BulkPinAttributeDetailAttributeNameSpaceEnum, bool) {
+	enum, ok := mappingBulkPinAttributeDetailAttributeNameSpaceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

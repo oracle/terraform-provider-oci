@@ -17,7 +17,7 @@ type BulkUnpinAttributeRequest struct {
 	// The APM Domain ID for the intended request.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
-	// Request body containing the details about the set of attributes to be un-pinned.
+	// Request body containing the details about the set of attributes to be unpinned.
 	BulkUnpinAttributeDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request.  If you need to contact Oracle about a

@@ -15,18 +15,18 @@ import (
 	"strings"
 )
 
-// BulkDeActivationMetadata Metadata about the bulk de-activation operation.  The bulk de-activation operation is atomic and binary.  If the processing of any of the attributes
-// in the bulk de-activation request results in a processing or validation error, then none of the attributes in the request are de-activated.
-// The bulk de-activation request succeeds only when all the attributes in the bulk de-activation request are processed and they get a successful
+// BulkDeActivationMetadata Metadata about the bulk deactivation operation.  The bulk deactivation operation is atomic and binary.  If the processing of any of the attributes
+// in the bulk deactivation request results in a processing or validation error, then none of the attributes in the request are deactivated.
+// The bulk deactivation request succeeds only when all the attributes in the bulk deactivation request are processed and they get a successful
 // attributeStatus back.
 type BulkDeActivationMetadata struct {
 
-	// Operation sttus of the bulk de-activation operation.  The bulk de-activation operation could have either a success or an error status as defined below.  Note that
-	// if a bulk operation has not succeeded, we do not de-activate any tags in the request set.
-	// SUCCESS - The bulk de-activation operation has succeded and all the attributes in the bulk de-activation request have been de-activated by this operation or de-activated earlier.
-	// The following are error statuses for the bulk de-activation operation.  Note that none of the attributes (string or numeric) in the bulk request have been de-activated by this bulk
-	// de-activation operation if any of the below statuses are returned.
-	// EMPTY_ATTRIBUTE_LIST - The bulk de-activation request object was empty and did not contain any attributes to be de-activated.
+	// Operation status of the bulk deactivation operation.  The bulk deactivation operation could have either a success or an error status as defined below.  Note that
+	// if a bulk operation has not succeeded, we do not deactivate any tags in the request set.
+	// SUCCESS - The bulk deactivation operation has succeeded and all the attributes in the bulk deactivation request have been deactivated by this operation or deactivated earlier.
+	// The following are error statuses for the bulk deactivation operation.  Note that none of the attributes (string or numeric) in the bulk request have been deactivated by this bulk
+	// deactivation operation if any of the below statuses are returned.
+	// EMPTY_ATTRIBUTE_LIST - The bulk deactivation request object was empty and did not contain any attributes to be deactivated.
 	// NUMERIC_ATTRIBUTE_LIMIT_EXCEEDED - The number of numeric attributes in the bulk request exceeded the maximum limit (100) of numeric attributes that could be present in the APM Domain.
 	// STRING_ATTRIBUTE_LIMIT_EXCEEDED - The number of string attributes in the bulk request exceeded the maximum limit (700) of string attributes that could be present in the APM Domain.
 	// INVALID_BULK_REQUEST - The bulk request contains invalid attribute(s), or attribute(s) that resulted in a validation error, or an attribute that resulted
@@ -36,7 +36,7 @@ type BulkDeActivationMetadata struct {
 	// Type of operation.
 	OperationType BulkDeActivationMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number attributes (both string and numeric) that were de-activated.
+	// Total number attributes (both string and numeric) in all attribute namespaces (TRACES and SYNTHETIC) that were deactivated.
 	AttributesDeActivated *int `mandatory:"false" json:"attributesDeActivated"`
 
 	// Total number of free slots available for activation of additional string attributes.

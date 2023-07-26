@@ -21,10 +21,10 @@ type AutoActivateToggleStatus struct {
 	// Status of this operation.
 	Status AutoActivateToggleStatusStatusEnum `mandatory:"true" json:"status"`
 
-	// State of auto activation in this APM Domain.  If "ON" auto-activate is set to true, if "OFF" auto-activate is set to false.
+	// State of autoactivation in this APM Domain.  If "ON" auto-activate is set to true, if "OFF" auto-activate is set to false.
 	State *string `mandatory:"true" json:"state"`
 
-	// Data key type for which auto-activate needs was turned on or off.
+	// Data key type for which auto-activate needs needs to be turned on or off.
 	DataKey AutoActivateToggleStatusDataKeyEnum `mandatory:"true" json:"dataKey"`
 }
 
