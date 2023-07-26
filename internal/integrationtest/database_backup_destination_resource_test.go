@@ -39,9 +39,24 @@ var (
 		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backupDestinationMountTypeDetailsRepresentation},
 	}
 
+	backupDestinationADBCCNFSRepresentation = map[string]interface{}{
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `NFS1`},
+		"type":               acctest.Representation{RepType: acctest.Required, Create: `NFS`},
+		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backupDestinationADBCCMountTypeDetailsRepresentation},
+	}
+
 	backupDestinationMountTypeDetailsRepresentation = map[string]interface{}{
 		"mount_type":             acctest.Representation{RepType: acctest.Required, Create: `SELF_MOUNT`},
 		"local_mount_point_path": acctest.Representation{RepType: acctest.Optional, Create: `localMountPointPath`, Update: `localMountPointPath10`},
+	}
+
+	backupDestinationADBCCMountTypeDetailsRepresentation = map[string]interface{}{
+		"mount_type":        acctest.Representation{RepType: acctest.Required, Create: `AUTOMATED_MOUNT`},
+		"nfs_server":        acctest.Representation{RepType: acctest.Optional, Create: []string{`198.56.65.88`, `101.67.98.66`}},
+		"nfs_server_export": acctest.Representation{RepType: acctest.Optional, Create: `/mount/export`, Update: `/mount/export`},
 	}
 )
 

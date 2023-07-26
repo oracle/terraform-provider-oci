@@ -177,7 +177,7 @@ The following attributes are exported:
 * `reserved_cpus` - The number of CPUs reserved in an Autonomous VM Cluster.
 * `scan_listener_port_non_tls` - The SCAN Listener Non TLS port. Default is 1521.
 * `scan_listener_port_tls` - The SCAN Listenenr TLS port. Default is 2484.
-* `shape` - The model name of the Exadata hardware running the cloud Autonomous VM cluster.
+* `shape` - The model name of the Exadata hardware running the cloud Autonomous VM cluster. 
 * `state` - The current state of the cloud Autonomous VM cluster.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the cloud Autonomous VM Cluster is associated with.
 
