@@ -337,9 +337,9 @@ type AuthenticationFactorSetting struct {
 
 	IdentityStoreSettings *AuthenticationFactorSettingsIdentityStoreSettings `mandatory:"false" json:"identityStoreSettings"`
 
-	UrnIetfParamsScimSchemasOracleIdcsExtensionThirdPartyAuthenticationFactorSettings *ExtensionThirdPartyAuthenticationFactorSettings `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:thirdParty:AuthenticationFactorSettings"`
+	UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings *ExtensionThirdPartyAuthenticationFactorSettings `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:thirdParty:AuthenticationFactorSettings"`
 
-	UrnIetfParamsScimSchemasOracleIdcsExtensionFidoAuthenticationFactorSettings *ExtensionFidoAuthenticationFactorSettings `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:fido:AuthenticationFactorSettings"`
+	UrnietfparamsscimschemasoracleidcsextensionfidoAuthenticationFactorSettings *ExtensionFidoAuthenticationFactorSettings `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:fido:AuthenticationFactorSettings"`
 }
 
 func (m AuthenticationFactorSetting) String() string {
