@@ -66,6 +66,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AutonomousDataStoragePercentage != nil {
+		s.D.Set("autonomous_data_storage_percentage", *s.Res.AutonomousDataStoragePercentage)
+	}
+
 	if s.Res.AutonomousDataStorageSizeInTBs != nil {
 		s.D.Set("autonomous_data_storage_size_in_tbs", *s.Res.AutonomousDataStorageSizeInTBs)
 	}
@@ -94,6 +98,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.CpuCoreCountPerNode != nil {
 		s.D.Set("cpu_core_count_per_node", *s.Res.CpuCoreCountPerNode)
+	}
+
+	if s.Res.CpuPercentage != nil {
+		s.D.Set("cpu_percentage", *s.Res.CpuPercentage)
 	}
 
 	if s.Res.CpusEnabled != nil {
@@ -168,12 +176,28 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("node_count", *s.Res.NodeCount)
 	}
 
+	if s.Res.NonProvisionableAutonomousContainerDatabases != nil {
+		s.D.Set("non_provisionable_autonomous_container_databases", *s.Res.NonProvisionableAutonomousContainerDatabases)
+	}
+
 	if s.Res.OcpusEnabled != nil {
 		s.D.Set("ocpus_enabled", *s.Res.OcpusEnabled)
 	}
 
+	if s.Res.ProvisionedAutonomousContainerDatabases != nil {
+		s.D.Set("provisioned_autonomous_container_databases", *s.Res.ProvisionedAutonomousContainerDatabases)
+	}
+
+	if s.Res.ProvisionedCpus != nil {
+		s.D.Set("provisioned_cpus", *s.Res.ProvisionedCpus)
+	}
+
 	if s.Res.ReclaimableCpus != nil {
 		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
+	}
+
+	if s.Res.ReservedCpus != nil {
+		s.D.Set("reserved_cpus", *s.Res.ReservedCpus)
 	}
 
 	if s.Res.ScanListenerPortNonTls != nil {
@@ -200,6 +224,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.TimeZone != nil {
 		s.D.Set("time_zone", *s.Res.TimeZone)
+	}
+
+	if s.Res.TotalAutonomousDataStorageInTBs != nil {
+		s.D.Set("total_autonomous_data_storage_in_tbs", *s.Res.TotalAutonomousDataStorageInTBs)
 	}
 
 	if s.Res.TotalContainerDatabases != nil {
