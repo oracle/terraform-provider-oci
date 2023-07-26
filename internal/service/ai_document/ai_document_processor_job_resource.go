@@ -179,6 +179,12 @@ func AiDocumentProcessorJobResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"tenancy_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 
 									// Computed
 								},
@@ -460,12 +466,20 @@ func (s *AiDocumentProcessorJobResourceCrud) mapToDocumentFeature(fieldKeyFormat
 			tmp := modelId.(string)
 			details.ModelId = &tmp
 		}
+		if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("KEY_VALUE_EXTRACTION"):
 		details := oci_ai_document.DocumentKeyValueExtractionFeature{}
 		if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
 			tmp := modelId.(string)
 			details.ModelId = &tmp
+		}
+		if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("LANGUAGE_CLASSIFICATION"):
@@ -504,11 +518,19 @@ func DocumentFeatureToMap(obj oci_ai_document.DocumentFeature) map[string]interf
 		if v.ModelId != nil {
 			result["model_id"] = string(*v.ModelId)
 		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
 	case oci_ai_document.DocumentKeyValueExtractionFeature:
 		result["feature_type"] = "KEY_VALUE_EXTRACTION"
 
 		if v.ModelId != nil {
 			result["model_id"] = string(*v.ModelId)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
 		}
 	case oci_ai_document.DocumentLanguageClassificationFeature:
 		result["feature_type"] = "LANGUAGE_CLASSIFICATION"

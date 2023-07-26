@@ -4,7 +4,7 @@
 
 // Budgets API
 //
-// Use the Budgets API to manage budgets and budget alerts.
+// Use the Budgets API to manage budgets and budget alerts. For more information, see Budgets Overview (https://docs.cloud.oracle.com/iaas/Content/Billing/Concepts/budgetsoverview.htm).
 //
 
 package budget
@@ -18,18 +18,21 @@ type ProcessingPeriodTypeEnum string
 
 // Set of constants representing the allowable values for ProcessingPeriodTypeEnum
 const (
-	ProcessingPeriodTypeInvoice ProcessingPeriodTypeEnum = "INVOICE"
-	ProcessingPeriodTypeMonth   ProcessingPeriodTypeEnum = "MONTH"
+	ProcessingPeriodTypeInvoice   ProcessingPeriodTypeEnum = "INVOICE"
+	ProcessingPeriodTypeMonth     ProcessingPeriodTypeEnum = "MONTH"
+	ProcessingPeriodTypeSingleUse ProcessingPeriodTypeEnum = "SINGLE_USE"
 )
 
 var mappingProcessingPeriodTypeEnum = map[string]ProcessingPeriodTypeEnum{
-	"INVOICE": ProcessingPeriodTypeInvoice,
-	"MONTH":   ProcessingPeriodTypeMonth,
+	"INVOICE":    ProcessingPeriodTypeInvoice,
+	"MONTH":      ProcessingPeriodTypeMonth,
+	"SINGLE_USE": ProcessingPeriodTypeSingleUse,
 }
 
 var mappingProcessingPeriodTypeEnumLowerCase = map[string]ProcessingPeriodTypeEnum{
-	"invoice": ProcessingPeriodTypeInvoice,
-	"month":   ProcessingPeriodTypeMonth,
+	"invoice":    ProcessingPeriodTypeInvoice,
+	"month":      ProcessingPeriodTypeMonth,
+	"single_use": ProcessingPeriodTypeSingleUse,
 }
 
 // GetProcessingPeriodTypeEnumValues Enumerates the set of values for ProcessingPeriodTypeEnum
@@ -46,6 +49,7 @@ func GetProcessingPeriodTypeEnumStringValues() []string {
 	return []string{
 		"INVOICE",
 		"MONTH",
+		"SINGLE_USE",
 	}
 }
 

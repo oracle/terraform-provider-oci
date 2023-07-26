@@ -66,9 +66,19 @@ func (s *AiDocumentModelDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AliasName != nil {
+		s.D.Set("alias_name", *s.Res.AliasName)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	componentModels := []interface{}{}
+	for _, item := range s.Res.ComponentModels {
+		componentModels = append(componentModels, ComponentModelToMap(item))
+	}
+	s.D.Set("component_models", componentModels)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -84,6 +94,10 @@ func (s *AiDocumentModelDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsComposedModel != nil {
+		s.D.Set("is_composed_model", *s.Res.IsComposedModel)
+	}
 
 	if s.Res.IsQuickMode != nil {
 		s.D.Set("is_quick_mode", *s.Res.IsQuickMode)
@@ -124,6 +138,10 @@ func (s *AiDocumentModelDataSourceCrud) SetData() error {
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TenancyId != nil {
+		s.D.Set("tenancy_id", *s.Res.TenancyId)
 	}
 
 	if s.Res.TestingDataset != nil {

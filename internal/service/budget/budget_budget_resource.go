@@ -5,9 +5,11 @@ package budget
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_budget "github.com/oracle/oci-go-sdk/v65/budget"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -62,6 +64,12 @@ func BudgetBudgetResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"end_date": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -73,20 +81,26 @@ func BudgetBudgetResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"start_date": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+			},
+			// target_compartment_id conflicts with targets
 			"target_compartment_id": {
 				Type:          schema.TypeString,
 				Optional:      true,
 				Computed:      true,
 				ForceNew:      true,
-				ConflictsWith: []string{"target_type"},
-				Deprecated:    tfresource.FieldDeprecatedForAnother("target_compartment_id", "target_type"),
+				ConflictsWith: []string{"targets"},
+				Deprecated:    tfresource.FieldDeprecatedForAnother("target_compartment_id", "targets"),
 			},
 			"target_type": {
-				Type:          schema.TypeString,
-				Optional:      true,
-				Computed:      true,
-				ForceNew:      true,
-				ConflictsWith: []string{"target_compartment_id"},
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"targets": {
 				Type:     schema.TypeList,
@@ -96,6 +110,7 @@ func BudgetBudgetResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+				ConflictsWith: []string{"target_compartment_id"},
 			},
 
 			// Computed
@@ -233,6 +248,14 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if endDate, ok := s.D.GetOkExists("end_date"); ok {
+		tmp, err := time.Parse(time.RFC3339, endDate.(string))
+		if err != nil {
+			return err
+		}
+		request.EndDate = &oci_common.SDKTime{Time: tmp}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -243,6 +266,14 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 
 	if resetPeriod, ok := s.D.GetOkExists("reset_period"); ok {
 		request.ResetPeriod = oci_budget.ResetPeriodEnum(resetPeriod.(string))
+	}
+
+	if startDate, ok := s.D.GetOkExists("start_date"); ok {
+		tmp, err := time.Parse(time.RFC3339, startDate.(string))
+		if err != nil {
+			return err
+		}
+		request.StartDate = &oci_common.SDKTime{Time: tmp}
 	}
 
 	if targetCompartmentId, ok := s.D.GetOkExists("target_compartment_id"); ok {
@@ -329,6 +360,14 @@ func (s *BudgetBudgetResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if endDate, ok := s.D.GetOkExists("end_date"); ok {
+		tmp, err := time.Parse(time.RFC3339, endDate.(string))
+		if err != nil {
+			return err
+		}
+		request.EndDate = &oci_common.SDKTime{Time: tmp}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -339,6 +378,14 @@ func (s *BudgetBudgetResourceCrud) Update() error {
 
 	if resetPeriod, ok := s.D.GetOkExists("reset_period"); ok {
 		request.ResetPeriod = oci_budget.ResetPeriodEnum(resetPeriod.(string))
+	}
+
+	if startDate, ok := s.D.GetOkExists("start_date"); ok {
+		tmp, err := time.Parse(time.RFC3339, startDate.(string))
+		if err != nil {
+			return err
+		}
+		request.StartDate = &oci_common.SDKTime{Time: tmp}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "budget")
@@ -397,6 +444,10 @@ func (s *BudgetBudgetResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.EndDate != nil {
+		s.D.Set("end_date", s.Res.EndDate.Format(time.RFC3339Nano))
+	}
+
 	if s.Res.ForecastedSpend != nil {
 		s.D.Set("forecasted_spend", *s.Res.ForecastedSpend)
 	}
@@ -406,6 +457,10 @@ func (s *BudgetBudgetResourceCrud) SetData() error {
 	s.D.Set("processing_period_type", s.Res.ProcessingPeriodType)
 
 	s.D.Set("reset_period", s.Res.ResetPeriod)
+
+	if s.Res.StartDate != nil {
+		s.D.Set("start_date", s.Res.StartDate.Format(time.RFC3339Nano))
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

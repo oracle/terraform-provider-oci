@@ -1,4 +1,12 @@
-## 5.5.0 (Unreleased)
+## 5.6.0 (July 26, 2023)
+
+### Added
+- Support for Tersi for Test Connectivity feature GoldenGate Test Connectivity for Connections associated with Deployments
+- Model Compose and Model Alias features to custom Models in document service
+- Support for Budgets - Single Use Budgets
+- Support for Custom hostname Terraform Instance Pools - Custom hostname support
+
+## 5.5.0 (July 19, 2023)
 
 ### Added
 - Support for Remove internal-only additionalCapabilities parameter from Container Instances Public SDK/CLI and Terraform

@@ -19,7 +19,7 @@ import (
 type ComponentModel struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of active custom Key Value model that need to be composed.
-	ModelId *string `mandatory:"true" json:"modelId"`
+	ModelId *string `mandatory:"false" json:"modelId"`
 }
 
 func (m ComponentModel) String() string {

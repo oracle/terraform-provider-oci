@@ -32,12 +32,16 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `alias_name` - the alias name of the model.
 * `compartment_id` - The compartment identifier.
+* `component_models` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) collection of active custom Key Value models that need to be composed.
+	* `model_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of active custom Key Value model that need to be composed.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For example: `{"foo-namespace": {"bar-key": "value"}}` 
 * `description` - An optional description of the model.
 * `display_name` - A human-friendly name for the model, which can be changed.
 * `freeform_tags` - A simple key-value pair that is applied without any predefined name, type, or scope. It exists for cross-compatibility only. For example: `{"bar-key": "value"}` 
 * `id` - A unique identifier that is immutable after creation.
+* `is_composed_model` - Set to true when the model is created by using multiple key value extraction models.
 * `is_quick_mode` - Set to true when experimenting with a new model type or dataset, so model training is quick, with a predefined low number of passes through the training data.
 * `labels` - The collection of labels used to train the custom model.
 * `lifecycle_details` - A message describing the current state in more detail, that can provide actionable information if training failed.
@@ -72,6 +76,7 @@ The following attributes are exported:
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
 * `state` - The current state of the model.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. For example: `{"orcl-cloud": {"free-tier-retained": "true"}}` 
+* `tenancy_id` - The tenancy id of the model.
 * `testing_dataset` - The base entity which is the input for creating and training a model.
 	* `bucket` - The name of the Object Storage bucket that contains the input data file.
 	* `dataset_id` - OCID of the Data Labeling dataset.

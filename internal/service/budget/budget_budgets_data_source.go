@@ -5,6 +5,7 @@ package budget
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_budget "github.com/oracle/oci-go-sdk/v65/budget"
@@ -146,6 +147,10 @@ func (s *BudgetBudgetsDataSourceCrud) SetData() error {
 			budget["display_name"] = *r.DisplayName
 		}
 
+		if r.EndDate != nil {
+			budget["end_date"] = r.EndDate.Format(time.RFC3339Nano)
+		}
+
 		if r.ForecastedSpend != nil {
 			budget["forecasted_spend"] = *r.ForecastedSpend
 		}
@@ -159,6 +164,10 @@ func (s *BudgetBudgetsDataSourceCrud) SetData() error {
 		budget["processing_period_type"] = r.ProcessingPeriodType
 
 		budget["reset_period"] = r.ResetPeriod
+
+		if r.StartDate != nil {
+			budget["start_date"] = r.StartDate.Format(time.RFC3339Nano)
+		}
 
 		budget["state"] = r.LifecycleState
 
