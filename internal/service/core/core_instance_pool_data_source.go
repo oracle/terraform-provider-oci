@@ -84,6 +84,14 @@ func (s *CoreInstancePoolDataSourceCrud) SetData() error {
 		s.D.Set("instance_configuration_id", *s.Res.InstanceConfigurationId)
 	}
 
+	if s.Res.InstanceDisplayNameFormatter != nil {
+		s.D.Set("instance_display_name_formatter", *s.Res.InstanceDisplayNameFormatter)
+	}
+
+	if s.Res.InstanceHostnameFormatter != nil {
+		s.D.Set("instance_hostname_formatter", *s.Res.InstanceHostnameFormatter)
+	}
+
 	loadBalancers := []interface{}{}
 	for _, item := range s.Res.LoadBalancers {
 		if item.LifecycleState != oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetached {

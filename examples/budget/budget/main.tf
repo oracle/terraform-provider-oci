@@ -27,7 +27,7 @@ variable "subscription_id" {
 } 
 
 provider "oci" {
-  provider         = "4.67.0"
+  # version         = "4.67.0"
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -52,40 +52,6 @@ resource "oci_budget_budget" "test_budget" {
   budget_processing_period_start_offset = "11"
 }
 
-resource "oci_budget_budget" "test_budget_invoice" {
-  #Required
-  amount         = "1"
-  compartment_id = var.tenancy_ocid
-  reset_period   = "MONTHLY"
-  target_type    = "COMPARTMENT"
-
-  targets = [
-    var.subscription_id
-  ]
-
-  #Optional
-  description  = "budget invoice description"
-  display_name = "budget_invoice"
-  processing_period_type = "INVOICE"
-} 
-
-# get budget should happen after alert rule is successful
-# as alert rule creation updates the `alert_rule_count` field
-data "oci_budget_budget" "budget1" {
-  budget_id = oci_budget_budget.test_budget.id
-  depends_on = [
-    data.oci_budget_alert_rule.test_alert_rule
-  ]
-}
-
-data "oci_budget_budget" "budget_invoice" {
-  budget_id = oci_budget_budget.test_budget_invoice.id
-  depends_on = [
-    data.oci_budget_alert_rule.test_alert_rule
-  ]
-}
-
-
 data "oci_budget_budgets" "test_budgets" {
   #Required
   compartment_id = var.tenancy_ocid
@@ -96,40 +62,22 @@ data "oci_budget_budgets" "test_budgets" {
 
 output "budget" {
   value = {
-    amount           = data.oci_budget_budget.budget1.amount
-    compartment_id   = data.oci_budget_budget.budget1.compartment_id
-    reset_period     = data.oci_budget_budget.budget1.reset_period
-    targets          = data.oci_budget_budget.budget1.targets[0]
-    description      = data.oci_budget_budget.budget1.description
-    display_name     = data.oci_budget_budget.budget1.display_name
-    alert_rule_count = data.oci_budget_budget.budget1.alert_rule_count
-    state            = data.oci_budget_budget.budget1.state
-    time_created     = data.oci_budget_budget.budget1.time_created
-    time_updated     = data.oci_budget_budget.budget1.time_updated
-    version          = data.oci_budget_budget.budget1.version
+    amount           = oci_budget_budget.test_budget.amount
+    compartment_id   = oci_budget_budget.test_budget.compartment_id
+    reset_period     = oci_budget_budget.test_budget.reset_period
+    targets          = oci_budget_budget.test_budget.targets[0]
+    description      = oci_budget_budget.test_budget.description
+    display_name     = oci_budget_budget.test_budget.display_name
+    alert_rule_count = oci_budget_budget.test_budget.alert_rule_count
+    state            = oci_budget_budget.test_budget.state
+    time_created     = oci_budget_budget.test_budget.time_created
+    time_updated     = oci_budget_budget.test_budget.time_updated
+    version          = oci_budget_budget.test_budget.version
   }
   # These values are not always present
-  //    actual_spend        = data.oci_budget_budget.budget1.actual_spend
-  //    forecasted_spend    = data.oci_budget_budget.budget1.forecasted_spend
-  //    time_spend_computed = data.oci_budget_budget.budget1.time_spend_computed
-}
-
-output "budget_invoice" {
-  value = {
-    amount           = data.oci_budget_budget.budget_invoice.amount
-    compartment_id   = data.oci_budget_budget.budget_invoice.compartment_id
-    reset_period     = data.oci_budget_budget.budget_invoice.reset_period
-    targets          = data.oci_budget_budget.budget_invoice.targets[0]
-    description      = data.oci_budget_budget.budget_invoice.description
-    display_name     = data.oci_budget_budget.budget_invoice.display_name
-    alert_rule_count = data.oci_budget_budget.budget_invoice.alert_rule_count
-    state            = data.oci_budget_budget.budget_invoice.state
-    time_created     = data.oci_budget_budget.budget_invoice.time_created
-    time_updated     = data.oci_budget_budget.budget_invoice.time_updated
-    version          = data.oci_budget_budget.budget_invoice.version
-
-    processing_period_type = data.oci_budget_budget.budget_invoice.processing_period_type
-  }
+  //    actual_spend        = oci_budget_budget.test_budget.actual_spend
+  //    forecasted_spend    = oci_budget_budget.test_budget.forecasted_spend
+  //    time_spend_computed = oci_budget_budget.test_budget.time_spend_computed
 }
 
 resource "oci_budget_alert_rule" "test_alert_rule" {
@@ -179,5 +127,3 @@ data "oci_budget_alert_rules" "test_alert_rules" {
   //  display_name = oci_budget_alert_rule.test_alert_rule.display_name
   state = "ACTIVE"
 }
-
-

@@ -4,7 +4,7 @@
 
 // Budgets API
 //
-// Use the Budgets API to manage budgets and budget alerts.
+// Use the Budgets API to manage budgets and budget alerts. For more information, see Budgets Overview (https://docs.cloud.oracle.com/iaas/Content/Billing/Concepts/budgetsoverview.htm).
 //
 
 package budget

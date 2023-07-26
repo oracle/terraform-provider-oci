@@ -270,6 +270,8 @@ resource "oci_core_instance_pool" "test_instance_pool" {
   size = 2
   state = "RUNNING"
   display_name = "TestInstancePool"
+  instance_display_name_formatter = "host-$${launchCount}"
+  instance_hostname_formatter = "host-$${launchCount}"
 
   placement_configurations {
     availability_domain = data.oci_identity_availability_domain.ad.name

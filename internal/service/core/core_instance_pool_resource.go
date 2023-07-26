@@ -127,6 +127,16 @@ func CoreInstancePoolResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"instance_display_name_formatter": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"instance_hostname_formatter": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"load_balancers": {
 				Type:             schema.TypeList,
 				Optional:         true,
@@ -312,6 +322,16 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 		request.InstanceConfigurationId = &tmp
 	}
 
+	if instanceDisplayNameFormatter, ok := s.D.GetOkExists("instance_display_name_formatter"); ok {
+		tmp := instanceDisplayNameFormatter.(string)
+		request.InstanceDisplayNameFormatter = &tmp
+	}
+
+	if instanceHostnameFormatter, ok := s.D.GetOkExists("instance_hostname_formatter"); ok {
+		tmp := instanceHostnameFormatter.(string)
+		request.InstanceHostnameFormatter = &tmp
+	}
+
 	if loadBalancers, ok := s.D.GetOkExists("load_balancers"); ok {
 		interfaces := loadBalancers.([]interface{})
 		tmp := make([]oci_core.AttachLoadBalancerDetails, len(interfaces))
@@ -450,6 +470,16 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 		request.InstanceConfigurationId = &tmp
 	}
 
+	if instanceDisplayNameFormatter, ok := s.D.GetOkExists("instance_display_name_formatter"); ok {
+		tmp := instanceDisplayNameFormatter.(string)
+		request.InstanceDisplayNameFormatter = &tmp
+	}
+
+	if instanceHostnameFormatter, ok := s.D.GetOkExists("instance_hostname_formatter"); ok {
+		tmp := instanceHostnameFormatter.(string)
+		request.InstanceHostnameFormatter = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.InstancePoolId = &tmp
 
@@ -538,6 +568,14 @@ func (s *CoreInstancePoolResourceCrud) SetData() error {
 
 	if s.Res.InstanceConfigurationId != nil {
 		s.D.Set("instance_configuration_id", *s.Res.InstanceConfigurationId)
+	}
+
+	if s.Res.InstanceDisplayNameFormatter != nil {
+		s.D.Set("instance_display_name_formatter", *s.Res.InstanceDisplayNameFormatter)
+	}
+
+	if s.Res.InstanceHostnameFormatter != nil {
+		s.D.Set("instance_hostname_formatter", *s.Res.InstanceHostnameFormatter)
 	}
 
 	loadBalancers := []interface{}{}

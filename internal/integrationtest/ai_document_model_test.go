@@ -61,6 +61,46 @@ var (
 		"model_version":              acctest.Representation{RepType: acctest.Optional, Create: `modelVersion`},
 		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreAiDocumentDefinedTagsChangesRepresentation},
 	}
+
+	AiDocumentModelRepresentation2 = map[string]interface{}{
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"model_type":                 acctest.Representation{RepType: acctest.Required, Create: `KEY_VALUE_EXTRACTION`},
+		"project_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_document_project.test_project.id}`},
+		"training_dataset":           acctest.RepresentationGroup{RepType: acctest.Required, Group: AiDocumentModelTrainingDatasetRepresentation2},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags": "freeformTags2"}},
+		"is_quick_mode":              acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"max_training_time_in_hours": acctest.Representation{RepType: acctest.Optional, Create: `0.5`},
+		"model_version":              acctest.Representation{RepType: acctest.Optional, Create: `modelVersion`},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreAiDocumentDefinedTagsChangesRepresentation},
+	}
+
+	AiDocumentComposeModelRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"model_type":     acctest.Representation{RepType: acctest.Required, Create: `KEY_VALUE_EXTRACTION`},
+		"project_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_document_project.test_project.id}`},
+		"component_models": []acctest.RepresentationGroup{
+			{RepType: acctest.Optional, Group: AiDocumentModelComponentModelRepresentation1},
+			{RepType: acctest.Optional, Group: AiDocumentModelComponentModelRepresentation2},
+		},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags": "freeformTags2"}},
+		"is_quick_mode":              acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"max_training_time_in_hours": acctest.Representation{RepType: acctest.Optional, Create: `0.5`},
+		"model_version":              acctest.Representation{RepType: acctest.Optional, Create: `modelVersion`},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreAiDocumentDefinedTagsChangesRepresentation},
+	}
+	AiDocumentModelComponentModelRepresentation1 = map[string]interface{}{
+		"model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_document_model.test_model.id}`},
+	}
+	AiDocumentModelComponentModelRepresentation2 = map[string]interface{}{
+		"model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_ai_document_model.test_model2.id}`},
+	}
+
 	AiDocumentModelTrainingDatasetRepresentation = map[string]interface{}{
 		"dataset_type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE`},
 		"bucket":       acctest.Representation{RepType: acctest.Required, Create: `tf_test_bucket`},
@@ -68,7 +108,19 @@ var (
 		"object":       acctest.Representation{RepType: acctest.Required, Create: `tf_test_dataset_1680065500556.jsonl`},
 	}
 
+	AiDocumentModelTrainingDatasetRepresentation2 = map[string]interface{}{
+		"dataset_type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE`},
+		"bucket":       acctest.Representation{RepType: acctest.Required, Create: `tf_test_bucket`},
+		"namespace":    acctest.Representation{RepType: acctest.Required, Create: `axgexwaxnm7k`},
+		"object":       acctest.Representation{RepType: acctest.Required, Create: `tf_test_aadhar_1686719828190.jsonl`},
+	}
+
 	AiDocumentModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_ai_document_project", "test_project", acctest.Required, acctest.Create, AiDocumentProjectRepresentation) +
+		DefinedTagsDependencies
+
+	AiDocumentComposeModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_ai_document_project", "test_project", acctest.Required, acctest.Create, AiDocumentProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_document_model", "test_model", acctest.Required, acctest.Create, AiDocumentModelRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_document_model", "test_model2", acctest.Required, acctest.Create, AiDocumentModelRepresentation2) +
 		DefinedTagsDependencies
 )
 
@@ -88,6 +140,7 @@ func TestAiDocumentModelResource_basic(t *testing.T) {
 	resourceName := "oci_ai_document_model.test_model"
 	datasourceName := "data.oci_ai_document_models.test_models"
 	singularDatasourceName := "data.oci_ai_document_model.test_model"
+	composeResourceName := "oci_ai_document_model.test_compose_model"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
@@ -120,6 +173,39 @@ func TestAiDocumentModelResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + AiDocumentModelResourceDependencies,
 		},
+
+		// verify Create Compose Model
+		{
+			Config: config + compartmentIdVariableStr + AiDocumentComposeModelResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ai_document_model", "test_compose_model", acctest.Optional, acctest.Create, AiDocumentComposeModelRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(composeResourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(composeResourceName, "description", "description"),
+				resource.TestCheckResourceAttr(composeResourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(composeResourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(composeResourceName, "id"),
+				resource.TestCheckResourceAttr(composeResourceName, "is_quick_mode", "false"),
+				resource.TestCheckResourceAttr(composeResourceName, "max_training_time_in_hours", "0.5"),
+				resource.TestCheckResourceAttr(composeResourceName, "model_type", "KEY_VALUE_EXTRACTION"),
+				resource.TestCheckResourceAttr(composeResourceName, "model_version", "modelVersion"),
+				resource.TestCheckResourceAttrSet(composeResourceName, "project_id"),
+				resource.TestCheckResourceAttr(composeResourceName, "component_models.#", "2"),
+				resource.TestCheckResourceAttrSet(composeResourceName, "component_models.0.model_id"),
+				resource.TestCheckResourceAttrSet(composeResourceName, "state"),
+				resource.TestCheckResourceAttrSet(composeResourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, composeResourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + AiDocumentModelResourceDependencies,
+		},
+
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + AiDocumentModelResourceDependencies +
@@ -246,13 +332,14 @@ func TestAiDocumentModelResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_document_model", "test_model", acctest.Required, acctest.Create, AiDocumentAiDocumentModelSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + AiDocumentModelResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "component_models.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_composed_model"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_quick_mode", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "max_training_time_in_hours", "0.5"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metrics.#", "1"),
@@ -271,11 +358,10 @@ func TestAiDocumentModelResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + AiDocumentModelRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + AiDocumentModelRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ResourceName:      resourceName,
 		},
 	})
 }

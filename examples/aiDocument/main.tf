@@ -22,7 +22,7 @@ resource "oci_ai_document_project" "test_project" {
   compartment_id = var.compartment_id
 }
 
-resource "oci_ai_document_model" "test_model" {
+resource "oci_ai_document_model" "test_model1" {
   #Required
   compartment_id = var.compartment_id
   model_type = "KEY_VALUE_EXTRACTION"
@@ -38,6 +38,44 @@ resource "oci_ai_document_model" "test_model" {
   #Optional
   display_name = "test_tf_model"
   is_quick_mode = "false"
-  max_training_time_in_hours = "0.5"
+  model_version              = var.model_model_version
+}
+
+resource "oci_ai_document_model" "test_model2" {
+  #Required
+  compartment_id = var.compartment_id
+  model_type = "KEY_VALUE_EXTRACTION"
+  project_id = oci_ai_document_project.test_project.id
+
+  training_dataset {
+    bucket = "tf_test_bucket"
+    dataset_type = "OBJECT_STORAGE"
+    namespace = "axgexwaxnm7k"
+    object = "tf_test_aadhar_1686719828190.jsonl"
+  }
+
+  #Optional
+  display_name = "test_tf_model2"
+  is_quick_mode = "false"
+  model_version              = var.model_model_version
+}
+
+resource "oci_ai_document_model" "test_compose_model" {
+  #Required
+  compartment_id = var.compartment_id
+  model_type = "KEY_VALUE_EXTRACTION"
+  project_id = oci_ai_document_project.test_project.id
+
+  component_models {
+    model_id = oci_ai_document_model.test_model1.id
+  }
+
+  component_models {
+    model_id = oci_ai_document_model.test_model2.id
+  }
+
+  #Optional
+  display_name = "test_compose_model"
+  is_quick_mode = "false"
   model_version              = var.model_model_version
 }
