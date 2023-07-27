@@ -36,3 +36,16 @@ resource "oci_core_capture_filter" "example_capture_filter" {
   }
 }
 
+resource "oci_core_capture_filter" "example_flowlog_capture_filter" {
+  compartment_id = var.compartment_ocid
+  display_name   = "exampleFlowLogCaptureFilter"
+  filter_type    = "FLOWLOG"
+  flow_log_capture_filter_rules {
+    is_enabled = true
+    priority = "2"
+    sampling_rate = "5"
+    flow_log_type = "ALL"
+    rule_action = "EXCLUDE"
+  }
+}
+

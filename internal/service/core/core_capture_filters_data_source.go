@@ -26,6 +26,10 @@ func CoreCaptureFiltersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"filter_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -68,6 +72,10 @@ func (s *CoreCaptureFiltersDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if filterType, ok := s.D.GetOkExists("filter_type"); ok {
+		request.FilterType = oci_core.CaptureFilterFilterTypeEnum(filterType.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -119,6 +127,12 @@ func (s *CoreCaptureFiltersDataSourceCrud) SetData() error {
 		}
 
 		captureFilter["filter_type"] = r.FilterType
+
+		flowLogCaptureFilterRules := []interface{}{}
+		for _, item := range r.FlowLogCaptureFilterRules {
+			flowLogCaptureFilterRules = append(flowLogCaptureFilterRules, FlowLogCaptureFilterRuleDetailsToMap(item))
+		}
+		captureFilter["flow_log_capture_filter_rules"] = flowLogCaptureFilterRules
 
 		captureFilter["freeform_tags"] = r.FreeformTags
 

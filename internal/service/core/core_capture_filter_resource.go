@@ -51,6 +51,213 @@ func CoreCaptureFilterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"flow_log_capture_filter_rules": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"destination_cidr": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"flow_log_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"icmp_options": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"type": {
+										Type:     schema.TypeInt,
+										Required: true,
+									},
+
+									// Optional
+									"code": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"priority": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"protocol": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"rule_action": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"sampling_rate": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"source_cidr": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"tcp_options": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"destination_port_range": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"max": {
+													Type:     schema.TypeInt,
+													Required: true,
+												},
+												"min": {
+													Type:     schema.TypeInt,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"source_port_range": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"max": {
+													Type:     schema.TypeInt,
+													Required: true,
+												},
+												"min": {
+													Type:     schema.TypeInt,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"udp_options": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"destination_port_range": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"max": {
+													Type:     schema.TypeInt,
+													Required: true,
+												},
+												"min": {
+													Type:     schema.TypeInt,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"source_port_range": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"max": {
+													Type:     schema.TypeInt,
+													Required: true,
+												},
+												"min": {
+													Type:     schema.TypeInt,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -359,6 +566,23 @@ func (s *CoreCaptureFilterResourceCrud) Create() error {
 		request.FilterType = oci_core.CreateCaptureFilterDetailsFilterTypeEnum(filterType.(string))
 	}
 
+	if flowLogCaptureFilterRules, ok := s.D.GetOkExists("flow_log_capture_filter_rules"); ok {
+		interfaces := flowLogCaptureFilterRules.([]interface{})
+		tmp := make([]oci_core.FlowLogCaptureFilterRuleDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "flow_log_capture_filter_rules", stateDataIndex)
+			converted, err := s.mapToFlowLogCaptureFilterRuleDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("flow_log_capture_filter_rules") {
+			request.FlowLogCaptureFilterRules = tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -436,6 +660,23 @@ func (s *CoreCaptureFilterResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if flowLogCaptureFilterRules, ok := s.D.GetOkExists("flow_log_capture_filter_rules"); ok {
+		interfaces := flowLogCaptureFilterRules.([]interface{})
+		tmp := make([]oci_core.FlowLogCaptureFilterRuleDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "flow_log_capture_filter_rules", stateDataIndex)
+			converted, err := s.mapToFlowLogCaptureFilterRuleDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("flow_log_capture_filter_rules") {
+			request.FlowLogCaptureFilterRules = tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -495,6 +736,12 @@ func (s *CoreCaptureFilterResourceCrud) SetData() error {
 
 	s.D.Set("filter_type", s.Res.FilterType)
 
+	flowLogCaptureFilterRules := []interface{}{}
+	for _, item := range s.Res.FlowLogCaptureFilterRules {
+		flowLogCaptureFilterRules = append(flowLogCaptureFilterRules, FlowLogCaptureFilterRuleDetailsToMap(item))
+	}
+	s.D.Set("flow_log_capture_filter_rules", flowLogCaptureFilterRules)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -510,6 +757,129 @@ func (s *CoreCaptureFilterResourceCrud) SetData() error {
 	s.D.Set("vtap_capture_filter_rules", vtapCaptureFilterRules)
 
 	return nil
+}
+
+func (s *CoreCaptureFilterResourceCrud) mapToFlowLogCaptureFilterRuleDetails(fieldKeyFormat string) (oci_core.FlowLogCaptureFilterRuleDetails, error) {
+	result := oci_core.FlowLogCaptureFilterRuleDetails{}
+
+	if destinationCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_cidr")); ok {
+		tmp := destinationCidr.(string)
+		result.DestinationCidr = &tmp
+	}
+
+	if flowLogType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "flow_log_type")); ok {
+		result.FlowLogType = oci_core.FlowLogCaptureFilterRuleDetailsFlowLogTypeEnum(flowLogType.(string))
+	}
+
+	if icmpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "icmp_options")); ok {
+		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "icmp_options"), 0)
+			tmp, err := s.mapToIcmpOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert icmp_options, encountered error: %v", err)
+			}
+			result.IcmpOptions = &tmp
+		}
+	}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	if priority, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "priority")); ok {
+		tmp := priority.(int)
+		result.Priority = &tmp
+	}
+
+	if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
+		tmp := protocol.(string)
+		result.Protocol = &tmp
+	}
+
+	if ruleAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rule_action")); ok {
+		result.RuleAction = oci_core.FlowLogCaptureFilterRuleDetailsRuleActionEnum(ruleAction.(string))
+	}
+
+	if samplingRate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sampling_rate")); ok {
+		tmp := samplingRate.(int)
+		result.SamplingRate = &tmp
+	}
+
+	if sourceCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_cidr")); ok {
+		tmp := sourceCidr.(string)
+		result.SourceCidr = &tmp
+	}
+
+	if tcpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tcp_options")); ok {
+		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tcp_options"), 0)
+			tmp, err := s.mapToTcpOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert tcp_options, encountered error: %v", err)
+			}
+			result.TcpOptions = &tmp
+		}
+	}
+
+	if udpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "udp_options")); ok {
+		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "udp_options"), 0)
+			tmp, err := s.mapToUdpOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert udp_options, encountered error: %v", err)
+			}
+			result.UdpOptions = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func FlowLogCaptureFilterRuleDetailsToMap(obj oci_core.FlowLogCaptureFilterRuleDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DestinationCidr != nil {
+		result["destination_cidr"] = string(*obj.DestinationCidr)
+	}
+
+	result["flow_log_type"] = string(obj.FlowLogType)
+
+	if obj.IcmpOptions != nil {
+		result["icmp_options"] = []interface{}{IcmpOptionsToMap(obj.IcmpOptions)}
+	}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	if obj.Priority != nil {
+		result["priority"] = int(*obj.Priority)
+	}
+
+	if obj.Protocol != nil {
+		result["protocol"] = string(*obj.Protocol)
+	}
+
+	result["rule_action"] = string(obj.RuleAction)
+
+	if obj.SamplingRate != nil {
+		result["sampling_rate"] = int(*obj.SamplingRate)
+	}
+
+	if obj.SourceCidr != nil {
+		result["source_cidr"] = string(*obj.SourceCidr)
+	}
+
+	if obj.TcpOptions != nil {
+		result["tcp_options"] = []interface{}{TcpOptionsToMap(obj.TcpOptions)}
+	}
+
+	if obj.UdpOptions != nil {
+		result["udp_options"] = []interface{}{UdpOptionsToMap(obj.UdpOptions)}
+	}
+
+	return result
 }
 
 func (s *CoreCaptureFilterResourceCrud) mapToIcmpOptions(fieldKeyFormat string) (oci_core.IcmpOptions, error) {
