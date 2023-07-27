@@ -80,6 +80,12 @@ func (s *CoreCaptureFilterDataSourceCrud) SetData() error {
 
 	s.D.Set("filter_type", s.Res.FilterType)
 
+	flowLogCaptureFilterRules := []interface{}{}
+	for _, item := range s.Res.FlowLogCaptureFilterRules {
+		flowLogCaptureFilterRules = append(flowLogCaptureFilterRules, FlowLogCaptureFilterRuleDetailsToMap(item))
+	}
+	s.D.Set("flow_log_capture_filter_rules", flowLogCaptureFilterRules)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("state", s.Res.LifecycleState)
