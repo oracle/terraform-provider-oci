@@ -20,6 +20,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_opsi_host_insight", OpsiHostInsightDataSource())
 	tfresource.RegisterDatasource("oci_opsi_host_insights", OpsiHostInsightsDataSource())
 	tfresource.RegisterDatasource("oci_opsi_importable_compute_entities", OpsiImportableComputeEntitiesDataSource())
+	tfresource.RegisterDatasource("oci_opsi_news_report", OpsiNewsReportDataSource())
+	tfresource.RegisterDatasource("oci_opsi_news_reports", OpsiNewsReportsDataSource())
 	tfresource.RegisterDatasource("oci_opsi_importable_compute_entity", OpsiImportableComputeEntityDataSource())
 	tfresource.RegisterDatasource("oci_opsi_operations_insights_private_endpoint", OpsiOperationsInsightsPrivateEndpointDataSource())
 	tfresource.RegisterDatasource("oci_opsi_operations_insights_private_endpoints", OpsiOperationsInsightsPrivateEndpointsDataSource())
