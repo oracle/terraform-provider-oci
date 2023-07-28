@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// NamespaceSummary The is the namespace summary of a tenancy in Logan Analytics application
+// NamespaceSummary The is the namespace summary of a tenancy in Logging Analytics application
 type NamespaceSummary struct {
 
 	// This is the namespace name of a tenancy

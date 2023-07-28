@@ -89,6 +89,9 @@ type RecallArchivedDataResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
+	// The RecalledDataInfo instance
+	RecalledDataInfo `presentIn:"body"`
+
 	// Unique Oracle-assigned identifier for the request. When you contact Oracle about a specific request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
@@ -97,6 +100,9 @@ type RecallArchivedDataResponse struct {
 
 	// URI to entity or work request created.
 	Location *string `presentIn:"header" name:"location"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
 func (response RecallArchivedDataResponse) String() string {

@@ -34,6 +34,9 @@ type QueryAggregation struct {
 	// Explanation of why results may be partial. Only set if arePartialResults is true.
 	PartialResultReason *string `mandatory:"false" json:"partialResultReason"`
 
+	// True if the data returned by query is hidden.
+	IsContentHidden *bool `mandatory:"false" json:"isContentHidden"`
+
 	// Query result columns
 	Columns []AbstractColumn `mandatory:"false" json:"columns"`
 
@@ -70,6 +73,7 @@ func (m *QueryAggregation) UnmarshalJSON(data []byte) (e error) {
 		TotalMatchedCount      *int64                   `json:"totalMatchedCount"`
 		ArePartialResults      *bool                    `json:"arePartialResults"`
 		PartialResultReason    *string                  `json:"partialResultReason"`
+		IsContentHidden        *bool                    `json:"isContentHidden"`
 		Columns                []abstractcolumn         `json:"columns"`
 		Fields                 []abstractcolumn         `json:"fields"`
 		Items                  []map[string]interface{} `json:"items"`
@@ -89,6 +93,8 @@ func (m *QueryAggregation) UnmarshalJSON(data []byte) (e error) {
 	m.ArePartialResults = model.ArePartialResults
 
 	m.PartialResultReason = model.PartialResultReason
+
+	m.IsContentHidden = model.IsContentHidden
 
 	m.Columns = make([]AbstractColumn, len(model.Columns))
 	for i, n := range model.Columns {

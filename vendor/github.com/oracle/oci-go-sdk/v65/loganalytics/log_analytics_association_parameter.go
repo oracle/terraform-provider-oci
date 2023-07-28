@@ -39,6 +39,12 @@ type LogAnalyticsAssociationParameter struct {
 	// The status.  Either FAILED or SUCCEEDED.
 	Status LogAnalyticsAssociationParameterStatusEnum `mandatory:"false" json:"status,omitempty"`
 
+	// The status description.
+	StatusDescription *string `mandatory:"false" json:"statusDescription"`
+
+	// A list of association properties.
+	AssociationProperties []AssociationProperty `mandatory:"false" json:"associationProperties"`
+
 	// A list of missing properties.
 	MissingProperties []string `mandatory:"false" json:"missingProperties"`
 

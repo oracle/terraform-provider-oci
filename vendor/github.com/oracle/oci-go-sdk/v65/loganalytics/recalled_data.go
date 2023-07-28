@@ -36,6 +36,21 @@ type RecalledData struct {
 
 	// This is the size in bytes
 	StorageUsageInBytes *int64 `mandatory:"true" json:"storageUsageInBytes"`
+
+	// This is the size of the archival data not recalled yet within the specified time range
+	NotRecalledDataInBytes *int64 `mandatory:"true" json:"notRecalledDataInBytes"`
+
+	// This is the purpose of the recall
+	Purpose *string `mandatory:"true" json:"purpose"`
+
+	// This is the query associated with the recall
+	QueryString *string `mandatory:"true" json:"queryString"`
+
+	// This is the list of logsets associated with the recall
+	LogSets *string `mandatory:"true" json:"logSets"`
+
+	// This is the user who initiated the recall request
+	CreatedBy *string `mandatory:"true" json:"createdBy"`
 }
 
 func (m RecalledData) String() string {
@@ -64,16 +79,19 @@ type RecalledDataStatusEnum string
 const (
 	RecalledDataStatusRecalled RecalledDataStatusEnum = "RECALLED"
 	RecalledDataStatusPending  RecalledDataStatusEnum = "PENDING"
+	RecalledDataStatusFailed   RecalledDataStatusEnum = "FAILED"
 )
 
 var mappingRecalledDataStatusEnum = map[string]RecalledDataStatusEnum{
 	"RECALLED": RecalledDataStatusRecalled,
 	"PENDING":  RecalledDataStatusPending,
+	"FAILED":   RecalledDataStatusFailed,
 }
 
 var mappingRecalledDataStatusEnumLowerCase = map[string]RecalledDataStatusEnum{
 	"recalled": RecalledDataStatusRecalled,
 	"pending":  RecalledDataStatusPending,
+	"failed":   RecalledDataStatusFailed,
 }
 
 // GetRecalledDataStatusEnumValues Enumerates the set of values for RecalledDataStatusEnum
@@ -90,6 +108,7 @@ func GetRecalledDataStatusEnumStringValues() []string {
 	return []string{
 		"RECALLED",
 		"PENDING",
+		"FAILED",
 	}
 }
 
