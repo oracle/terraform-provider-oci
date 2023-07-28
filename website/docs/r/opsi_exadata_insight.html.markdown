@@ -169,3 +169,4 @@ ExadataInsights can be imported using the `id`, e.g.
 $ terraform import oci_opsi_exadata_insight.test_exadata_insight "id"
 ```
 
+

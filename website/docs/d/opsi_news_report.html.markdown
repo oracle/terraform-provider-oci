@@ -1,0 +1,52 @@
+---
+subcategory: "Opsi"
+layout: "oci"
+page_title: "Oracle Cloud Infrastructure: oci_opsi_news_report"
+sidebar_current: "docs-oci-datasource-opsi-news_report"
+description: |-
+  Provides details about a specific News Report in Oracle Cloud Infrastructure Opsi service
+---
+
+# Data Source: oci_opsi_news_report
+This data source provides details about a specific News Report resource in Oracle Cloud Infrastructure Opsi service.
+
+Gets details of a news report.
+
+## Example Usage
+
+```hcl
+data "oci_opsi_news_report" "test_news_report" {
+	#Required
+	news_report_id = oci_opsi_news_report.test_news_report.id
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `news_report_id` - (Required) Unique news report identifier.
+
+
+## Attributes Reference
+
+The following attributes are exported:
+
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `content_types` - Content types that the news report can handle.
+	* `capacity_planning_resources` - Supported resources for capacity planning content type.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `description` - The description of the news report. 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the news report resource.
+* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `locale` - Language of the news report.
+* `name` - The news report name.
+* `news_frequency` - News report frequency.
+* `ons_topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ONS topic.
+* `state` - The current state of the news report.
+* `status` - Indicates the status of a news report in Operations Insights.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `time_created` - The time the the news report was first enabled. An RFC3339 formatted datetime string.
+* `time_updated` - The time the news report was updated. An RFC3339 formatted datetime string.
+
