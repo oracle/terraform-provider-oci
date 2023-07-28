@@ -133,6 +133,19 @@ var exportOpsiOpsiConfigurationHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportOpsiNewsReportHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_opsi_news_report",
+	DatasourceClass:        "oci_opsi_news_reports",
+	DatasourceItemsAttr:    "news_report_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "news_report",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_opsi.LifecycleStateActive),
+		string(oci_opsi.LifecycleStateNeedsAttention),
+	},
+}
+
 var opsiResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOpsiEnterpriseManagerBridgeHints},
@@ -142,6 +155,7 @@ var opsiResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportOpsiOperationsInsightsWarehouseHints},
 		{TerraformResourceHints: exportOpsiOperationsInsightsPrivateEndpointHints},
 		{TerraformResourceHints: exportOpsiOpsiConfigurationHints},
+		{TerraformResourceHints: exportOpsiNewsReportHints},
 	},
 	"oci_opsi_operations_insights_warehouse": {
 		{
