@@ -34,9 +34,6 @@ type DeleteLogAnalyticsEmBridgeRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// If true, delete entities created by this bridge
-	IsDeleteEntities *bool `mandatory:"false" contributesTo:"query" name:"isDeleteEntities"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

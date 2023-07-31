@@ -75,9 +75,6 @@ type LogAnalyticsSourcePattern struct {
 
 	// The source entity type.
 	EntityType []string `mandatory:"false" json:"entityType"`
-
-	// A list of pattern properties.
-	PatternProperties []LogAnalyticsProperty `mandatory:"false" json:"patternProperties"`
 }
 
 func (m LogAnalyticsSourcePattern) String() string {

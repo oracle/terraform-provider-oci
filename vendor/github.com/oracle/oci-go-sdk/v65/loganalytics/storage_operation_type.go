@@ -22,7 +22,6 @@ const (
 	StorageOperationTypePurgeStorageData           StorageOperationTypeEnum = "PURGE_STORAGE_DATA"
 	StorageOperationTypeRecallArchivedStorageData  StorageOperationTypeEnum = "RECALL_ARCHIVED_STORAGE_DATA"
 	StorageOperationTypeReleaseRecalledStorageData StorageOperationTypeEnum = "RELEASE_RECALLED_STORAGE_DATA"
-	StorageOperationTypePurgeArchivalData          StorageOperationTypeEnum = "PURGE_ARCHIVAL_DATA"
 	StorageOperationTypeArchiveStorageData         StorageOperationTypeEnum = "ARCHIVE_STORAGE_DATA"
 	StorageOperationTypeCleanupArchivalStorageData StorageOperationTypeEnum = "CLEANUP_ARCHIVAL_STORAGE_DATA"
 	StorageOperationTypeEncryptActiveData          StorageOperationTypeEnum = "ENCRYPT_ACTIVE_DATA"
@@ -34,7 +33,6 @@ var mappingStorageOperationTypeEnum = map[string]StorageOperationTypeEnum{
 	"PURGE_STORAGE_DATA":            StorageOperationTypePurgeStorageData,
 	"RECALL_ARCHIVED_STORAGE_DATA":  StorageOperationTypeRecallArchivedStorageData,
 	"RELEASE_RECALLED_STORAGE_DATA": StorageOperationTypeReleaseRecalledStorageData,
-	"PURGE_ARCHIVAL_DATA":           StorageOperationTypePurgeArchivalData,
 	"ARCHIVE_STORAGE_DATA":          StorageOperationTypeArchiveStorageData,
 	"CLEANUP_ARCHIVAL_STORAGE_DATA": StorageOperationTypeCleanupArchivalStorageData,
 	"ENCRYPT_ACTIVE_DATA":           StorageOperationTypeEncryptActiveData,
@@ -46,7 +44,6 @@ var mappingStorageOperationTypeEnumLowerCase = map[string]StorageOperationTypeEn
 	"purge_storage_data":            StorageOperationTypePurgeStorageData,
 	"recall_archived_storage_data":  StorageOperationTypeRecallArchivedStorageData,
 	"release_recalled_storage_data": StorageOperationTypeReleaseRecalledStorageData,
-	"purge_archival_data":           StorageOperationTypePurgeArchivalData,
 	"archive_storage_data":          StorageOperationTypeArchiveStorageData,
 	"cleanup_archival_storage_data": StorageOperationTypeCleanupArchivalStorageData,
 	"encrypt_active_data":           StorageOperationTypeEncryptActiveData,
@@ -69,7 +66,6 @@ func GetStorageOperationTypeEnumStringValues() []string {
 		"PURGE_STORAGE_DATA",
 		"RECALL_ARCHIVED_STORAGE_DATA",
 		"RELEASE_RECALLED_STORAGE_DATA",
-		"PURGE_ARCHIVAL_DATA",
 		"ARCHIVE_STORAGE_DATA",
 		"CLEANUP_ARCHIVAL_STORAGE_DATA",
 		"ENCRYPT_ACTIVE_DATA",

@@ -23,12 +23,6 @@ type EstimateRecallDataSizeDetails struct {
 
 	// This is the end of the time range for the data to be recalled
 	TimeDataEnded *common.SDKTime `mandatory:"true" json:"timeDataEnded"`
-
-	// This is the list of logsets to be accounted for in the recalled data
-	LogSets *string `mandatory:"false" json:"logSets"`
-
-	// This indicates if only new data has to be recalled in the timeframe
-	IsRecallNewDataOnly *bool `mandatory:"false" json:"isRecallNewDataOnly"`
 }
 
 func (m EstimateRecallDataSizeDetails) String() string {

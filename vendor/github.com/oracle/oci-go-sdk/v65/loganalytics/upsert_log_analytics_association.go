@@ -41,9 +41,6 @@ type UpsertLogAnalyticsAssociation struct {
 
 	// The log group unique identifier.
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
-
-	// A list of association properties.
-	AssociationProperties []AssociationProperty `mandatory:"false" json:"associationProperties"`
 }
 
 func (m UpsertLogAnalyticsAssociation) String() string {

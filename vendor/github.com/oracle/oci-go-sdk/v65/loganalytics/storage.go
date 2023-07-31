@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// Storage This is the storage configuration and status of a tenancy in Logging Analytics application
+// Storage This is the storage configuration and status of a tenancy in Logan Analytics application
 type Storage struct {
 
 	// This indicates if old data can be archived for a tenancy

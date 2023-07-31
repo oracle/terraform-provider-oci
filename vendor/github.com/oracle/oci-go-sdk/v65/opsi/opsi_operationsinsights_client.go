@@ -463,69 +463,6 @@ func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.
 	return response, err
 }
 
-// ChangeNewsReportCompartment Moves a news report resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeNewsReportCompartment.go.html to see an example of how to use ChangeNewsReportCompartment API.
-// A default retry strategy applies to this operation ChangeNewsReportCompartment()
-func (client OperationsInsightsClient) ChangeNewsReportCompartment(ctx context.Context, request ChangeNewsReportCompartmentRequest) (response ChangeNewsReportCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeNewsReportCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeNewsReportCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeNewsReportCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeNewsReportCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeNewsReportCompartmentResponse")
-	}
-	return
-}
-
-// changeNewsReportCompartment implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) changeNewsReportCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/newsReports/{newsReportId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeNewsReportCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/NewsReports/ChangeNewsReportCompartment"
-		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeNewsReportCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeOperationsInsightsPrivateEndpointCompartment Moves a private endpoint from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 //
 // See also
@@ -1028,69 +965,6 @@ func (client OperationsInsightsClient) createHostInsight(ctx context.Context, re
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &hostinsight{})
-	return response, err
-}
-
-// CreateNewsReport Create a news report in Operations Insights. The report will be enabled in Operations Insights. Insights will be emailed as per selected frequency.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateNewsReport.go.html to see an example of how to use CreateNewsReport API.
-// A default retry strategy applies to this operation CreateNewsReport()
-func (client OperationsInsightsClient) CreateNewsReport(ctx context.Context, request CreateNewsReportRequest) (response CreateNewsReportResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createNewsReport, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateNewsReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateNewsReportResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateNewsReportResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateNewsReportResponse")
-	}
-	return
-}
-
-// createNewsReport implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) createNewsReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/newsReports", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateNewsReportResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/NewsReports/CreateNewsReport"
-		err = common.PostProcessServiceError(err, "OperationsInsights", "CreateNewsReport", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -1633,64 +1507,6 @@ func (client OperationsInsightsClient) deleteHostInsight(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/DeleteHostInsight"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteHostInsight", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteNewsReport Deletes a news report. The news report will be deleted and cannot be enabled again.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteNewsReport.go.html to see an example of how to use DeleteNewsReport API.
-// A default retry strategy applies to this operation DeleteNewsReport()
-func (client OperationsInsightsClient) DeleteNewsReport(ctx context.Context, request DeleteNewsReportRequest) (response DeleteNewsReportResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteNewsReport, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteNewsReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteNewsReportResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteNewsReportResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteNewsReportResponse")
-	}
-	return
-}
-
-// deleteNewsReport implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) deleteNewsReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/newsReports/{newsReportId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteNewsReportResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/NewsReports/DeleteNewsReport"
-		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteNewsReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -2961,64 +2777,6 @@ func (client OperationsInsightsClient) getHostInsight(ctx context.Context, reque
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &hostinsight{})
-	return response, err
-}
-
-// GetNewsReport Gets details of a news report.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetNewsReport.go.html to see an example of how to use GetNewsReport API.
-// A default retry strategy applies to this operation GetNewsReport()
-func (client OperationsInsightsClient) GetNewsReport(ctx context.Context, request GetNewsReportRequest) (response GetNewsReportResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getNewsReport, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetNewsReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetNewsReportResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetNewsReportResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetNewsReportResponse")
-	}
-	return
-}
-
-// getNewsReport implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) getNewsReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/newsReports/{newsReportId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetNewsReportResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/NewsReports/GetNewsReport"
-		err = common.PostProcessServiceError(err, "OperationsInsights", "GetNewsReport", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -5111,64 +4869,6 @@ func (client OperationsInsightsClient) listImportableEnterpriseManagerEntities(c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/EnterpriseManagerBridges/ListImportableEnterpriseManagerEntities"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "ListImportableEnterpriseManagerEntities", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListNewsReports Gets a list of news reports based on the query parameters specified. Either compartmentId or id query parameter must be specified.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListNewsReports.go.html to see an example of how to use ListNewsReports API.
-// A default retry strategy applies to this operation ListNewsReports()
-func (client OperationsInsightsClient) ListNewsReports(ctx context.Context, request ListNewsReportsRequest) (response ListNewsReportsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listNewsReports, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListNewsReportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListNewsReportsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListNewsReportsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListNewsReportsResponse")
-	}
-	return
-}
-
-// listNewsReports implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) listNewsReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/newsReports", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListNewsReportsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/NewsReport/ListNewsReports"
-		err = common.PostProcessServiceError(err, "OperationsInsights", "ListNewsReports", apiReferenceLink)
 		return response, err
 	}
 
@@ -9207,64 +8907,6 @@ func (client OperationsInsightsClient) updateHostInsight(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/UpdateHostInsight"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateHostInsight", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateNewsReport Updates the  configuration of a news report.
-//
-// See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateNewsReport.go.html to see an example of how to use UpdateNewsReport API.
-// A default retry strategy applies to this operation UpdateNewsReport()
-func (client OperationsInsightsClient) UpdateNewsReport(ctx context.Context, request UpdateNewsReportRequest) (response UpdateNewsReportResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateNewsReport, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateNewsReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateNewsReportResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateNewsReportResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateNewsReportResponse")
-	}
-	return
-}
-
-// updateNewsReport implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) updateNewsReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/newsReports/{newsReportId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateNewsReportResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/NewsReports/UpdateNewsReport"
-		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateNewsReport", apiReferenceLink)
 		return response, err
 	}
 

@@ -31,15 +31,6 @@ type EstimateRecallDataSizeResult struct {
 
 	// This indicates if the time range of data to be recalled overlaps with existing recalled data
 	IsOverlappingWithExistingRecalls *bool `mandatory:"false" json:"isOverlappingWithExistingRecalls"`
-
-	// This is the number of core groups estimated for this recall
-	CoreGroupCount *int `mandatory:"false" json:"coreGroupCount"`
-
-	// This is the max number of core groups that is available for any recall
-	CoreGroupCountLimit *int `mandatory:"false" json:"coreGroupCountLimit"`
-
-	// This is the size limit in bytes
-	SizeLimitInBytes *int64 `mandatory:"false" json:"sizeLimitInBytes"`
 }
 
 func (m EstimateRecallDataSizeResult) String() string {

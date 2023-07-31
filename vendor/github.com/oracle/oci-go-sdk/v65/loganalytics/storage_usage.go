@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// StorageUsage This is the storage usage information of a tenancy in Logging Analytics application
+// StorageUsage This is the storage usage information of a tenancy in Logan Analytics application
 type StorageUsage struct {
 
 	// This is the number of bytes of active data (non-archived)

@@ -18,7 +18,7 @@ import (
 )
 
 // ResourceFilters Information to filter the actual target resources in an operation.
-// e.g: While querying a DATABASE_INSIGHTS_DATA_OBJECT using /opsiDataObjects/actions/queryData API,
+// e.g: While quering a DATABASE_INSIGHTS_DATA_OBJECT using /opsiDataObjects/{opsiDataObjectidentifier}/actions/queryData API,
 // if resourceFilters is set with valid value for definedTagEquals field, only data of the database insights
 // resources for which the specified freeform tags exist will be considered for the actual query scope.
 type ResourceFilters struct {

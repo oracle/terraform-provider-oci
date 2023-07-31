@@ -46,9 +46,6 @@ type SummarizeExadataInsightResourceForecastTrendAggregation struct {
 
 	// Time series data result of the forecasting analysis.
 	ProjectedData []ProjectedDataItem `mandatory:"true" json:"projectedData"`
-
-	// Auto-ML algorithm leveraged for the forecast. Only applicable for Auto-ML forecast.
-	SelectedForecastAlgorithm *string `mandatory:"false" json:"selectedForecastAlgorithm"`
 }
 
 func (m SummarizeExadataInsightResourceForecastTrendAggregation) String() string {

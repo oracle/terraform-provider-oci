@@ -55,13 +55,10 @@ type TrendColumn struct {
 	// Sum across all column values for a given timestamp.
 	TotalIntervalCounts []int64 `mandatory:"false" json:"totalIntervalCounts"`
 
-	// Sum of column values for a given timestamp after applying filter.
 	TotalIntervalCountsAfterFilter []int64 `mandatory:"false" json:"totalIntervalCountsAfterFilter"`
 
-	// Number of aggregated groups for a given timestamp.
 	IntervalGroupCounts []int64 `mandatory:"false" json:"intervalGroupCounts"`
 
-	// Number of aggregated groups for a given timestamp after applying filter.
 	IntervalGroupCountsAfterFilter []int64 `mandatory:"false" json:"intervalGroupCountsAfterFilter"`
 
 	// Subsystem column belongs to.

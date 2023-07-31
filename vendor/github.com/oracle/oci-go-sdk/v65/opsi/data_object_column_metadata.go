@@ -27,7 +27,7 @@ type DataObjectColumnMetadata struct {
 	// Category of the column.
 	Category DataObjectColumnMetadataCategoryEnum `mandatory:"false" json:"category,omitempty"`
 
-	// Type name of a data object column.
+	// Type of a data object column.
 	DataTypeName DataObjectColumnMetadataDataTypeNameEnum `mandatory:"false" json:"dataTypeName,omitempty"`
 
 	// Display name of the column.

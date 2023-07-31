@@ -43,12 +43,6 @@ type ScheduledActivitySummary struct {
 	// Service availability / impact during scheduled activity execution, up down
 	ServiceAvailability ScheduledActivityServiceAvailabilityEnum `mandatory:"true" json:"serviceAvailability"`
 
-	// A property describing the phase of the scheduled activity.
-	ScheduledActivityPhase ScheduledActivityScheduledActivityPhaseEnum `mandatory:"true" json:"scheduledActivityPhase"`
-
-	// The unique identifier that associates a scheduled activity with others in one complete maintenance. For example, with ZDT, a complete upgrade maintenance includes 5 scheduled activities - PREPARE, EXECUTE, POST, PRE_MAINTENANCE, and POST_MAINTENANCE. All of them share the same unique identifier - scheduledActivityAssociationId.
-	ScheduledActivityAssociationId *string `mandatory:"true" json:"scheduledActivityAssociationId"`
-
 	// List of actions
 	Actions []Action `mandatory:"false" json:"actions"`
 
@@ -94,9 +88,6 @@ func (m ScheduledActivitySummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingScheduledActivityServiceAvailabilityEnum(string(m.ServiceAvailability)); !ok && m.ServiceAvailability != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceAvailability: %s. Supported values are: %s.", m.ServiceAvailability, strings.Join(GetScheduledActivityServiceAvailabilityEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingScheduledActivityScheduledActivityPhaseEnum(string(m.ScheduledActivityPhase)); !ok && m.ScheduledActivityPhase != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduledActivityPhase: %s. Supported values are: %s.", m.ScheduledActivityPhase, strings.Join(GetScheduledActivityScheduledActivityPhaseEnumStringValues(), ",")))
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -107,24 +98,22 @@ func (m ScheduledActivitySummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ScheduledActivitySummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Actions                        []action                                    `json:"actions"`
-		TimeFinished                   *common.SDKTime                             `json:"timeFinished"`
-		DelayInHours                   *int                                        `json:"delayInHours"`
-		TimeAccepted                   *common.SDKTime                             `json:"timeAccepted"`
-		TimeUpdated                    *common.SDKTime                             `json:"timeUpdated"`
-		LifecycleDetails               *string                                     `json:"lifecycleDetails"`
-		FreeformTags                   map[string]string                           `json:"freeformTags"`
-		DefinedTags                    map[string]map[string]interface{}           `json:"definedTags"`
-		Id                             *string                                     `json:"id"`
-		DisplayName                    *string                                     `json:"displayName"`
-		RunCycle                       ScheduledActivityRunCycleEnum               `json:"runCycle"`
-		FusionEnvironmentId            *string                                     `json:"fusionEnvironmentId"`
-		LifecycleState                 ScheduledActivityLifecycleStateEnum         `json:"lifecycleState"`
-		TimeScheduledStart             *common.SDKTime                             `json:"timeScheduledStart"`
-		TimeExpectedFinish             *common.SDKTime                             `json:"timeExpectedFinish"`
-		ServiceAvailability            ScheduledActivityServiceAvailabilityEnum    `json:"serviceAvailability"`
-		ScheduledActivityPhase         ScheduledActivityScheduledActivityPhaseEnum `json:"scheduledActivityPhase"`
-		ScheduledActivityAssociationId *string                                     `json:"scheduledActivityAssociationId"`
+		Actions             []action                                 `json:"actions"`
+		TimeFinished        *common.SDKTime                          `json:"timeFinished"`
+		DelayInHours        *int                                     `json:"delayInHours"`
+		TimeAccepted        *common.SDKTime                          `json:"timeAccepted"`
+		TimeUpdated         *common.SDKTime                          `json:"timeUpdated"`
+		LifecycleDetails    *string                                  `json:"lifecycleDetails"`
+		FreeformTags        map[string]string                        `json:"freeformTags"`
+		DefinedTags         map[string]map[string]interface{}        `json:"definedTags"`
+		Id                  *string                                  `json:"id"`
+		DisplayName         *string                                  `json:"displayName"`
+		RunCycle            ScheduledActivityRunCycleEnum            `json:"runCycle"`
+		FusionEnvironmentId *string                                  `json:"fusionEnvironmentId"`
+		LifecycleState      ScheduledActivityLifecycleStateEnum      `json:"lifecycleState"`
+		TimeScheduledStart  *common.SDKTime                          `json:"timeScheduledStart"`
+		TimeExpectedFinish  *common.SDKTime                          `json:"timeExpectedFinish"`
+		ServiceAvailability ScheduledActivityServiceAvailabilityEnum `json:"serviceAvailability"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -174,10 +163,6 @@ func (m *ScheduledActivitySummary) UnmarshalJSON(data []byte) (e error) {
 	m.TimeExpectedFinish = model.TimeExpectedFinish
 
 	m.ServiceAvailability = model.ServiceAvailability
-
-	m.ScheduledActivityPhase = model.ScheduledActivityPhase
-
-	m.ScheduledActivityAssociationId = model.ScheduledActivityAssociationId
 
 	return
 }

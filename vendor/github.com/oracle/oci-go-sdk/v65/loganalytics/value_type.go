@@ -26,7 +26,6 @@ const (
 	ValueTypeInteger   ValueTypeEnum = "INTEGER"
 	ValueTypeTimestamp ValueTypeEnum = "TIMESTAMP"
 	ValueTypeFacet     ValueTypeEnum = "FACET"
-	ValueTypeTable     ValueTypeEnum = "TABLE"
 )
 
 var mappingValueTypeEnum = map[string]ValueTypeEnum{
@@ -38,7 +37,6 @@ var mappingValueTypeEnum = map[string]ValueTypeEnum{
 	"INTEGER":   ValueTypeInteger,
 	"TIMESTAMP": ValueTypeTimestamp,
 	"FACET":     ValueTypeFacet,
-	"TABLE":     ValueTypeTable,
 }
 
 var mappingValueTypeEnumLowerCase = map[string]ValueTypeEnum{
@@ -50,7 +48,6 @@ var mappingValueTypeEnumLowerCase = map[string]ValueTypeEnum{
 	"integer":   ValueTypeInteger,
 	"timestamp": ValueTypeTimestamp,
 	"facet":     ValueTypeFacet,
-	"table":     ValueTypeTable,
 }
 
 // GetValueTypeEnumValues Enumerates the set of values for ValueTypeEnum
@@ -73,7 +70,6 @@ func GetValueTypeEnumStringValues() []string {
 		"INTEGER",
 		"TIMESTAMP",
 		"FACET",
-		"TABLE",
 	}
 }
 
