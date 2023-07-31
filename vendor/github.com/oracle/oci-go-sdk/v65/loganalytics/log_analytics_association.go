@@ -70,9 +70,6 @@ type LogAnalyticsAssociation struct {
 
 	// The log group compartment.
 	LogGroupCompartment *string `mandatory:"false" json:"logGroupCompartment"`
-
-	// A list of association properties.
-	AssociationProperties []AssociationProperty `mandatory:"false" json:"associationProperties"`
 }
 
 func (m LogAnalyticsAssociation) String() string {

@@ -18,7 +18,7 @@ import (
 // LogAnalyticsPreference The preference information
 type LogAnalyticsPreference struct {
 
-	// The preference name.
+	// The preference name. Currently, only "DEFAULT_HOMEPAGE" is supported.
 	Name *string `mandatory:"false" json:"name"`
 
 	// The preference value.
