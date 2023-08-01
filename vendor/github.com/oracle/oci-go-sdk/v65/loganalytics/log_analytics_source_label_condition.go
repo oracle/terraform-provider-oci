@@ -18,6 +18,11 @@ import (
 // LogAnalyticsSourceLabelCondition LogAnalyticsSourceLabelCondition
 type LogAnalyticsSourceLabelCondition struct {
 
+	// String representation of the label condition. This supports specifying multiple condition blocks at various nested levels.
+	ConditionString *string `mandatory:"false" json:"conditionString"`
+
+	ConditionBlock *ConditionBlock `mandatory:"false" json:"conditionBlock"`
+
 	// The message.
 	Message *string `mandatory:"false" json:"message"`
 
