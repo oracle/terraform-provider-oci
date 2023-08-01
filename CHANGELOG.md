@@ -1,4 +1,4 @@
-## 5.7.0 (Unreleased)
+## 5.7.0 (August 01, 2023)
 
 ### Added
 - Support for TLS & ORDS BYO Certificates (Phase 2) | ADB-C@C
