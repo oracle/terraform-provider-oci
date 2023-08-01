@@ -10,6 +10,7 @@
 package loganalytics
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -123,6 +124,12 @@ type LogAnalyticsSourceSummary struct {
 
 	// The last updated date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// An array of REST API endpoints for log collection.
+	Endpoints []LogAnalyticsEndpoint `mandatory:"false" json:"endpoints"`
+
+	// A list of source properties.
+	SourceProperties []LogAnalyticsProperty `mandatory:"false" json:"sourceProperties"`
 }
 
 func (m LogAnalyticsSourceSummary) String() string {
@@ -139,4 +146,190 @@ func (m LogAnalyticsSourceSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *LogAnalyticsSourceSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		LabelConditions           []LogAnalyticsSourceLabelCondition          `json:"labelConditions"`
+		AssociationCount          *int                                        `json:"associationCount"`
+		AssociationEntity         []LogAnalyticsAssociation                   `json:"associationEntity"`
+		DataFilterDefinitions     []LogAnalyticsSourceDataFilter              `json:"dataFilterDefinitions"`
+		DatabaseCredential        *string                                     `json:"databaseCredential"`
+		ExtendedFieldDefinitions  []LogAnalyticsSourceExtendedFieldDefinition `json:"extendedFieldDefinitions"`
+		IsForCloud                *bool                                       `json:"isForCloud"`
+		Labels                    []LogAnalyticsLabelView                     `json:"labels"`
+		MetricDefinitions         []LogAnalyticsMetric                        `json:"metricDefinitions"`
+		Metrics                   []LogAnalyticsSourceMetric                  `json:"metrics"`
+		OobParsers                []LogAnalyticsParser                        `json:"oobParsers"`
+		Parameters                []LogAnalyticsParameter                     `json:"parameters"`
+		PatternCount              *int                                        `json:"patternCount"`
+		Patterns                  []LogAnalyticsSourcePattern                 `json:"patterns"`
+		Description               *string                                     `json:"description"`
+		DisplayName               *string                                     `json:"displayName"`
+		EditVersion               *int64                                      `json:"editVersion"`
+		Functions                 []LogAnalyticsSourceFunction                `json:"functions"`
+		SourceId                  *int64                                      `json:"sourceId"`
+		Name                      *string                                     `json:"name"`
+		IsSecureContent           *bool                                       `json:"isSecureContent"`
+		IsSystem                  *bool                                       `json:"isSystem"`
+		Parsers                   []LogAnalyticsParser                        `json:"parsers"`
+		IsAutoAssociationEnabled  *bool                                       `json:"isAutoAssociationEnabled"`
+		IsAutoAssociationOverride *bool                                       `json:"isAutoAssociationOverride"`
+		RuleId                    *int64                                      `json:"ruleId"`
+		TypeName                  *string                                     `json:"typeName"`
+		TypeDisplayName           *string                                     `json:"typeDisplayName"`
+		WarningConfig             *int64                                      `json:"warningConfig"`
+		MetadataFields            []LogAnalyticsSourceMetadataField           `json:"metadataFields"`
+		LabelDefinitions          []LogAnalyticsLabelDefinition               `json:"labelDefinitions"`
+		EntityTypes               []LogAnalyticsSourceEntityType              `json:"entityTypes"`
+		IsTimezoneOverride        *bool                                       `json:"isTimezoneOverride"`
+		UserParsers               []LogAnalyticsParser                        `json:"userParsers"`
+		TimeUpdated               *common.SDKTime                             `json:"timeUpdated"`
+		Endpoints                 []loganalyticsendpoint                      `json:"endpoints"`
+		SourceProperties          []LogAnalyticsProperty                      `json:"sourceProperties"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.LabelConditions = make([]LogAnalyticsSourceLabelCondition, len(model.LabelConditions))
+	for i, n := range model.LabelConditions {
+		m.LabelConditions[i] = n
+	}
+
+	m.AssociationCount = model.AssociationCount
+
+	m.AssociationEntity = make([]LogAnalyticsAssociation, len(model.AssociationEntity))
+	for i, n := range model.AssociationEntity {
+		m.AssociationEntity[i] = n
+	}
+
+	m.DataFilterDefinitions = make([]LogAnalyticsSourceDataFilter, len(model.DataFilterDefinitions))
+	for i, n := range model.DataFilterDefinitions {
+		m.DataFilterDefinitions[i] = n
+	}
+
+	m.DatabaseCredential = model.DatabaseCredential
+
+	m.ExtendedFieldDefinitions = make([]LogAnalyticsSourceExtendedFieldDefinition, len(model.ExtendedFieldDefinitions))
+	for i, n := range model.ExtendedFieldDefinitions {
+		m.ExtendedFieldDefinitions[i] = n
+	}
+
+	m.IsForCloud = model.IsForCloud
+
+	m.Labels = make([]LogAnalyticsLabelView, len(model.Labels))
+	for i, n := range model.Labels {
+		m.Labels[i] = n
+	}
+
+	m.MetricDefinitions = make([]LogAnalyticsMetric, len(model.MetricDefinitions))
+	for i, n := range model.MetricDefinitions {
+		m.MetricDefinitions[i] = n
+	}
+
+	m.Metrics = make([]LogAnalyticsSourceMetric, len(model.Metrics))
+	for i, n := range model.Metrics {
+		m.Metrics[i] = n
+	}
+
+	m.OobParsers = make([]LogAnalyticsParser, len(model.OobParsers))
+	for i, n := range model.OobParsers {
+		m.OobParsers[i] = n
+	}
+
+	m.Parameters = make([]LogAnalyticsParameter, len(model.Parameters))
+	for i, n := range model.Parameters {
+		m.Parameters[i] = n
+	}
+
+	m.PatternCount = model.PatternCount
+
+	m.Patterns = make([]LogAnalyticsSourcePattern, len(model.Patterns))
+	for i, n := range model.Patterns {
+		m.Patterns[i] = n
+	}
+
+	m.Description = model.Description
+
+	m.DisplayName = model.DisplayName
+
+	m.EditVersion = model.EditVersion
+
+	m.Functions = make([]LogAnalyticsSourceFunction, len(model.Functions))
+	for i, n := range model.Functions {
+		m.Functions[i] = n
+	}
+
+	m.SourceId = model.SourceId
+
+	m.Name = model.Name
+
+	m.IsSecureContent = model.IsSecureContent
+
+	m.IsSystem = model.IsSystem
+
+	m.Parsers = make([]LogAnalyticsParser, len(model.Parsers))
+	for i, n := range model.Parsers {
+		m.Parsers[i] = n
+	}
+
+	m.IsAutoAssociationEnabled = model.IsAutoAssociationEnabled
+
+	m.IsAutoAssociationOverride = model.IsAutoAssociationOverride
+
+	m.RuleId = model.RuleId
+
+	m.TypeName = model.TypeName
+
+	m.TypeDisplayName = model.TypeDisplayName
+
+	m.WarningConfig = model.WarningConfig
+
+	m.MetadataFields = make([]LogAnalyticsSourceMetadataField, len(model.MetadataFields))
+	for i, n := range model.MetadataFields {
+		m.MetadataFields[i] = n
+	}
+
+	m.LabelDefinitions = make([]LogAnalyticsLabelDefinition, len(model.LabelDefinitions))
+	for i, n := range model.LabelDefinitions {
+		m.LabelDefinitions[i] = n
+	}
+
+	m.EntityTypes = make([]LogAnalyticsSourceEntityType, len(model.EntityTypes))
+	for i, n := range model.EntityTypes {
+		m.EntityTypes[i] = n
+	}
+
+	m.IsTimezoneOverride = model.IsTimezoneOverride
+
+	m.UserParsers = make([]LogAnalyticsParser, len(model.UserParsers))
+	for i, n := range model.UserParsers {
+		m.UserParsers[i] = n
+	}
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.Endpoints = make([]LogAnalyticsEndpoint, len(model.Endpoints))
+	for i, n := range model.Endpoints {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.Endpoints[i] = nn.(LogAnalyticsEndpoint)
+		} else {
+			m.Endpoints[i] = nil
+		}
+	}
+
+	m.SourceProperties = make([]LogAnalyticsProperty, len(model.SourceProperties))
+	for i, n := range model.SourceProperties {
+		m.SourceProperties[i] = n
+	}
+
+	return
 }
