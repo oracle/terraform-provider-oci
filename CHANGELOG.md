@@ -1,10 +1,9 @@
 ## 5.7.0 (Unreleased)
 
 ### Added
-Support for TLS & ORDS BYO Certificates (Phase 2) | ADB-C@C
-startCredentialRotation, completeCredentialRotation, getCredentialRotationStatus terraform implementation tests and examples
-Support for OPSI News Reports
-Support for Budgets - Single Use Budgets
+- Support for TLS & ORDS BYO Certificates (Phase 2) | ADB-C@C
+- Support for OPSI News Reports
+- Support for Budgets - Single Use Budgets
 
 ## 5.6.0 (July 26, 2023)
 
