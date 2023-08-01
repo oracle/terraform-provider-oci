@@ -96,6 +96,10 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := TailCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OUTLIER":
+		mm := OutlierCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DEMO_MODE":
 		mm := DemoModeCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
@@ -138,6 +142,10 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		return mm, err
 	case "BUCKET":
 		mm := BucketCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "RARE":
+		mm := RareCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ADD_INSIGHTS":
@@ -214,6 +222,10 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		return mm, err
 	case "CLUSTER_SPLIT":
 		mm := ClusterSplitCommandDescriptor{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FREQUENT":
+		mm := FrequentCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "CLUSTER_DETAILS":
@@ -387,6 +399,9 @@ const (
 	AbstractCommandDescriptorNameAnomaly         AbstractCommandDescriptorNameEnum = "ANOMALY"
 	AbstractCommandDescriptorNameDedup           AbstractCommandDescriptorNameEnum = "DEDUP"
 	AbstractCommandDescriptorNameTimeCluster     AbstractCommandDescriptorNameEnum = "TIME_CLUSTER"
+	AbstractCommandDescriptorNameFrequent        AbstractCommandDescriptorNameEnum = "FREQUENT"
+	AbstractCommandDescriptorNameRare            AbstractCommandDescriptorNameEnum = "RARE"
+	AbstractCommandDescriptorNameOutlier         AbstractCommandDescriptorNameEnum = "OUTLIER"
 )
 
 var mappingAbstractCommandDescriptorNameEnum = map[string]AbstractCommandDescriptorNameEnum{
@@ -440,6 +455,9 @@ var mappingAbstractCommandDescriptorNameEnum = map[string]AbstractCommandDescrip
 	"ANOMALY":          AbstractCommandDescriptorNameAnomaly,
 	"DEDUP":            AbstractCommandDescriptorNameDedup,
 	"TIME_CLUSTER":     AbstractCommandDescriptorNameTimeCluster,
+	"FREQUENT":         AbstractCommandDescriptorNameFrequent,
+	"RARE":             AbstractCommandDescriptorNameRare,
+	"OUTLIER":          AbstractCommandDescriptorNameOutlier,
 }
 
 var mappingAbstractCommandDescriptorNameEnumLowerCase = map[string]AbstractCommandDescriptorNameEnum{
@@ -493,6 +511,9 @@ var mappingAbstractCommandDescriptorNameEnumLowerCase = map[string]AbstractComma
 	"anomaly":          AbstractCommandDescriptorNameAnomaly,
 	"dedup":            AbstractCommandDescriptorNameDedup,
 	"time_cluster":     AbstractCommandDescriptorNameTimeCluster,
+	"frequent":         AbstractCommandDescriptorNameFrequent,
+	"rare":             AbstractCommandDescriptorNameRare,
+	"outlier":          AbstractCommandDescriptorNameOutlier,
 }
 
 // GetAbstractCommandDescriptorNameEnumValues Enumerates the set of values for AbstractCommandDescriptorNameEnum
@@ -557,6 +578,9 @@ func GetAbstractCommandDescriptorNameEnumStringValues() []string {
 		"ANOMALY",
 		"DEDUP",
 		"TIME_CLUSTER",
+		"FREQUENT",
+		"RARE",
+		"OUTLIER",
 	}
 }
 

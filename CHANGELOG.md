@@ -1,3 +1,10 @@
+## 5.7.0 (August 01, 2023)
+
+### Added
+- Support for TLS & ORDS BYO Certificates (Phase 2) | ADB-C@C
+- Support for OPSI News Reports
+- Support for Budgets - Single Use Budgets
+
 ## 5.6.0 (July 26, 2023)
 
 ### Added

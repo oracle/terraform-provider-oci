@@ -243,6 +243,14 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			autonomousVmCluster["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeDatabaseSslCertificateExpires != nil {
+			autonomousVmCluster["time_database_ssl_certificate_expires"] = r.TimeDatabaseSslCertificateExpires.String()
+		}
+
+		if r.TimeOrdsCertificateExpires != nil {
+			autonomousVmCluster["time_ords_certificate_expires"] = r.TimeOrdsCertificateExpires.String()
+		}
+
 		if r.TimeZone != nil {
 			autonomousVmCluster["time_zone"] = *r.TimeZone
 		}

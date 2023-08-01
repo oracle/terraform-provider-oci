@@ -80,6 +80,18 @@ type StorageWorkRequestSummary struct {
 
 	// The type of customer encryption key. It can be archival, active or all.
 	KeyType EncryptionKeyTypeEnum `mandatory:"false" json:"keyType,omitempty"`
+
+	// This is a list of logsets associated with this work request
+	LogSets *string `mandatory:"false" json:"logSets"`
+
+	// This is the purpose of the operation associated with this work request
+	Purpose *string `mandatory:"false" json:"purpose"`
+
+	// This is the query string applied on the operation associated with this work request
+	Query *string `mandatory:"false" json:"query"`
+
+	// This is the flag to indicate if only new data has to be recalled in this work request
+	IsRecallNewDataOnly *bool `mandatory:"false" json:"isRecallNewDataOnly"`
 }
 
 func (m StorageWorkRequestSummary) String() string {

@@ -409,6 +409,10 @@ func ContainerengineClusterResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_credential_expiration": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_deleted": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1245,6 +1249,10 @@ func ClusterMetadataToMap(obj *oci_containerengine.ClusterMetadata) map[string]i
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeCredentialExpiration != nil {
+		result["time_credential_expiration"] = obj.TimeCredentialExpiration.String()
 	}
 
 	if obj.TimeDeleted != nil {

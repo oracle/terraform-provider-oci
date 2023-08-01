@@ -937,6 +937,7 @@ opsi
 * oci\_opsi\_operations\_insights\_warehouse\_rotate\_warehouse\_wallet
 * oci\_opsi\_operations\_insights\_private\_endpoint
 * oci\_opsi\_opsi\_configuration
+* oci\_opsi\_news\_report
 
 optimizer
 

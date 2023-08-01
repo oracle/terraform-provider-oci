@@ -289,7 +289,7 @@ resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
 
   node_source_details {
     #Required
-    image_id    = local.oracle_linux_images.0
+    image_id    = local.image_id
     source_type = "IMAGE"
   }
 

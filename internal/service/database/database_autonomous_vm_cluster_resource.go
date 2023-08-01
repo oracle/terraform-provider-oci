@@ -389,6 +389,14 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_database_ssl_certificate_expires": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_ords_certificate_expires": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -803,6 +811,14 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeDatabaseSslCertificateExpires != nil {
+		s.D.Set("time_database_ssl_certificate_expires", s.Res.TimeDatabaseSslCertificateExpires.String())
+	}
+
+	if s.Res.TimeOrdsCertificateExpires != nil {
+		s.D.Set("time_ords_certificate_expires", s.Res.TimeOrdsCertificateExpires.String())
 	}
 
 	if s.Res.TimeZone != nil {
