@@ -140,24 +140,21 @@ type ListScheduledTasksTaskTypeEnum string
 
 // Set of constants representing the allowable values for ListScheduledTasksTaskTypeEnum
 const (
-	ListScheduledTasksTaskTypeSavedSearch             ListScheduledTasksTaskTypeEnum = "SAVED_SEARCH"
-	ListScheduledTasksTaskTypeAcceleration            ListScheduledTasksTaskTypeEnum = "ACCELERATION"
-	ListScheduledTasksTaskTypePurge                   ListScheduledTasksTaskTypeEnum = "PURGE"
-	ListScheduledTasksTaskTypeAccelerationMaintenance ListScheduledTasksTaskTypeEnum = "ACCELERATION_MAINTENANCE"
+	ListScheduledTasksTaskTypeSavedSearch  ListScheduledTasksTaskTypeEnum = "SAVED_SEARCH"
+	ListScheduledTasksTaskTypeAcceleration ListScheduledTasksTaskTypeEnum = "ACCELERATION"
+	ListScheduledTasksTaskTypePurge        ListScheduledTasksTaskTypeEnum = "PURGE"
 )
 
 var mappingListScheduledTasksTaskTypeEnum = map[string]ListScheduledTasksTaskTypeEnum{
-	"SAVED_SEARCH":             ListScheduledTasksTaskTypeSavedSearch,
-	"ACCELERATION":             ListScheduledTasksTaskTypeAcceleration,
-	"PURGE":                    ListScheduledTasksTaskTypePurge,
-	"ACCELERATION_MAINTENANCE": ListScheduledTasksTaskTypeAccelerationMaintenance,
+	"SAVED_SEARCH": ListScheduledTasksTaskTypeSavedSearch,
+	"ACCELERATION": ListScheduledTasksTaskTypeAcceleration,
+	"PURGE":        ListScheduledTasksTaskTypePurge,
 }
 
 var mappingListScheduledTasksTaskTypeEnumLowerCase = map[string]ListScheduledTasksTaskTypeEnum{
-	"saved_search":             ListScheduledTasksTaskTypeSavedSearch,
-	"acceleration":             ListScheduledTasksTaskTypeAcceleration,
-	"purge":                    ListScheduledTasksTaskTypePurge,
-	"acceleration_maintenance": ListScheduledTasksTaskTypeAccelerationMaintenance,
+	"saved_search": ListScheduledTasksTaskTypeSavedSearch,
+	"acceleration": ListScheduledTasksTaskTypeAcceleration,
+	"purge":        ListScheduledTasksTaskTypePurge,
 }
 
 // GetListScheduledTasksTaskTypeEnumValues Enumerates the set of values for ListScheduledTasksTaskTypeEnum
@@ -175,7 +172,6 @@ func GetListScheduledTasksTaskTypeEnumStringValues() []string {
 		"SAVED_SEARCH",
 		"ACCELERATION",
 		"PURGE",
-		"ACCELERATION_MAINTENANCE",
 	}
 }
 

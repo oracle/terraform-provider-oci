@@ -43,6 +43,12 @@ type ScheduledActivity struct {
 	// Current time the scheduled activity is scheduled to end. An RFC3339 formatted datetime string.
 	TimeExpectedFinish *common.SDKTime `mandatory:"true" json:"timeExpectedFinish"`
 
+	// A property describing the phase of the scheduled activity.
+	ScheduledActivityPhase ScheduledActivityScheduledActivityPhaseEnum `mandatory:"true" json:"scheduledActivityPhase"`
+
+	// The unique identifier that associates a scheduled activity with others in one complete maintenance. For example, with ZDT, a complete upgrade maintenance includes 5 scheduled activities - PREPARE, EXECUTE, POST, PRE_MAINTENANCE, and POST_MAINTENANCE. All of them share the same unique identifier - scheduledActivityAssociationId.
+	ScheduledActivityAssociationId *string `mandatory:"true" json:"scheduledActivityAssociationId"`
+
 	// List of actions
 	Actions []Action `mandatory:"false" json:"actions"`
 
@@ -80,6 +86,9 @@ func (m ScheduledActivity) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingScheduledActivityServiceAvailabilityEnum(string(m.ServiceAvailability)); !ok && m.ServiceAvailability != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceAvailability: %s. Supported values are: %s.", m.ServiceAvailability, strings.Join(GetScheduledActivityServiceAvailabilityEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingScheduledActivityScheduledActivityPhaseEnum(string(m.ScheduledActivityPhase)); !ok && m.ScheduledActivityPhase != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduledActivityPhase: %s. Supported values are: %s.", m.ScheduledActivityPhase, strings.Join(GetScheduledActivityScheduledActivityPhaseEnumStringValues(), ",")))
+	}
 
 	if _, ok := GetMappingScheduledActivityLifecycleDetailsEnum(string(m.LifecycleDetails)); !ok && m.LifecycleDetails != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleDetails: %s. Supported values are: %s.", m.LifecycleDetails, strings.Join(GetScheduledActivityLifecycleDetailsEnumStringValues(), ",")))
@@ -93,20 +102,22 @@ func (m ScheduledActivity) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ScheduledActivity) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Actions             []action                                 `json:"actions"`
-		TimeFinished        *common.SDKTime                          `json:"timeFinished"`
-		DelayInHours        *int                                     `json:"delayInHours"`
-		TimeCreated         *common.SDKTime                          `json:"timeCreated"`
-		TimeUpdated         *common.SDKTime                          `json:"timeUpdated"`
-		LifecycleDetails    ScheduledActivityLifecycleDetailsEnum    `json:"lifecycleDetails"`
-		Id                  *string                                  `json:"id"`
-		DisplayName         *string                                  `json:"displayName"`
-		RunCycle            ScheduledActivityRunCycleEnum            `json:"runCycle"`
-		FusionEnvironmentId *string                                  `json:"fusionEnvironmentId"`
-		LifecycleState      ScheduledActivityLifecycleStateEnum      `json:"lifecycleState"`
-		ServiceAvailability ScheduledActivityServiceAvailabilityEnum `json:"serviceAvailability"`
-		TimeScheduledStart  *common.SDKTime                          `json:"timeScheduledStart"`
-		TimeExpectedFinish  *common.SDKTime                          `json:"timeExpectedFinish"`
+		Actions                        []action                                    `json:"actions"`
+		TimeFinished                   *common.SDKTime                             `json:"timeFinished"`
+		DelayInHours                   *int                                        `json:"delayInHours"`
+		TimeCreated                    *common.SDKTime                             `json:"timeCreated"`
+		TimeUpdated                    *common.SDKTime                             `json:"timeUpdated"`
+		LifecycleDetails               ScheduledActivityLifecycleDetailsEnum       `json:"lifecycleDetails"`
+		Id                             *string                                     `json:"id"`
+		DisplayName                    *string                                     `json:"displayName"`
+		RunCycle                       ScheduledActivityRunCycleEnum               `json:"runCycle"`
+		FusionEnvironmentId            *string                                     `json:"fusionEnvironmentId"`
+		LifecycleState                 ScheduledActivityLifecycleStateEnum         `json:"lifecycleState"`
+		ServiceAvailability            ScheduledActivityServiceAvailabilityEnum    `json:"serviceAvailability"`
+		TimeScheduledStart             *common.SDKTime                             `json:"timeScheduledStart"`
+		TimeExpectedFinish             *common.SDKTime                             `json:"timeExpectedFinish"`
+		ScheduledActivityPhase         ScheduledActivityScheduledActivityPhaseEnum `json:"scheduledActivityPhase"`
+		ScheduledActivityAssociationId *string                                     `json:"scheduledActivityAssociationId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -152,6 +163,10 @@ func (m *ScheduledActivity) UnmarshalJSON(data []byte) (e error) {
 	m.TimeScheduledStart = model.TimeScheduledStart
 
 	m.TimeExpectedFinish = model.TimeExpectedFinish
+
+	m.ScheduledActivityPhase = model.ScheduledActivityPhase
+
+	m.ScheduledActivityAssociationId = model.ScheduledActivityAssociationId
 
 	return
 }
@@ -353,5 +368,51 @@ func GetScheduledActivityLifecycleDetailsEnumStringValues() []string {
 // GetMappingScheduledActivityLifecycleDetailsEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingScheduledActivityLifecycleDetailsEnum(val string) (ScheduledActivityLifecycleDetailsEnum, bool) {
 	enum, ok := mappingScheduledActivityLifecycleDetailsEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ScheduledActivityScheduledActivityPhaseEnum Enum with underlying type: string
+type ScheduledActivityScheduledActivityPhaseEnum string
+
+// Set of constants representing the allowable values for ScheduledActivityScheduledActivityPhaseEnum
+const (
+	ScheduledActivityScheduledActivityPhasePreMaintenance  ScheduledActivityScheduledActivityPhaseEnum = "PRE_MAINTENANCE"
+	ScheduledActivityScheduledActivityPhaseMaintenance     ScheduledActivityScheduledActivityPhaseEnum = "MAINTENANCE"
+	ScheduledActivityScheduledActivityPhasePostMaintenance ScheduledActivityScheduledActivityPhaseEnum = "POST_MAINTENANCE"
+)
+
+var mappingScheduledActivityScheduledActivityPhaseEnum = map[string]ScheduledActivityScheduledActivityPhaseEnum{
+	"PRE_MAINTENANCE":  ScheduledActivityScheduledActivityPhasePreMaintenance,
+	"MAINTENANCE":      ScheduledActivityScheduledActivityPhaseMaintenance,
+	"POST_MAINTENANCE": ScheduledActivityScheduledActivityPhasePostMaintenance,
+}
+
+var mappingScheduledActivityScheduledActivityPhaseEnumLowerCase = map[string]ScheduledActivityScheduledActivityPhaseEnum{
+	"pre_maintenance":  ScheduledActivityScheduledActivityPhasePreMaintenance,
+	"maintenance":      ScheduledActivityScheduledActivityPhaseMaintenance,
+	"post_maintenance": ScheduledActivityScheduledActivityPhasePostMaintenance,
+}
+
+// GetScheduledActivityScheduledActivityPhaseEnumValues Enumerates the set of values for ScheduledActivityScheduledActivityPhaseEnum
+func GetScheduledActivityScheduledActivityPhaseEnumValues() []ScheduledActivityScheduledActivityPhaseEnum {
+	values := make([]ScheduledActivityScheduledActivityPhaseEnum, 0)
+	for _, v := range mappingScheduledActivityScheduledActivityPhaseEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetScheduledActivityScheduledActivityPhaseEnumStringValues Enumerates the set of values in String for ScheduledActivityScheduledActivityPhaseEnum
+func GetScheduledActivityScheduledActivityPhaseEnumStringValues() []string {
+	return []string{
+		"PRE_MAINTENANCE",
+		"MAINTENANCE",
+		"POST_MAINTENANCE",
+	}
+}
+
+// GetMappingScheduledActivityScheduledActivityPhaseEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingScheduledActivityScheduledActivityPhaseEnum(val string) (ScheduledActivityScheduledActivityPhaseEnum, bool) {
+	enum, ok := mappingScheduledActivityScheduledActivityPhaseEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

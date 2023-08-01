@@ -241,6 +241,7 @@ const (
 	ListStorageWorkRequestsOperationTypePurgeStorageData           ListStorageWorkRequestsOperationTypeEnum = "PURGE_STORAGE_DATA"
 	ListStorageWorkRequestsOperationTypeRecallArchivedStorageData  ListStorageWorkRequestsOperationTypeEnum = "RECALL_ARCHIVED_STORAGE_DATA"
 	ListStorageWorkRequestsOperationTypeReleaseRecalledStorageData ListStorageWorkRequestsOperationTypeEnum = "RELEASE_RECALLED_STORAGE_DATA"
+	ListStorageWorkRequestsOperationTypePurgeArchivalData          ListStorageWorkRequestsOperationTypeEnum = "PURGE_ARCHIVAL_DATA"
 	ListStorageWorkRequestsOperationTypeArchiveStorageData         ListStorageWorkRequestsOperationTypeEnum = "ARCHIVE_STORAGE_DATA"
 	ListStorageWorkRequestsOperationTypeCleanupArchivalStorageData ListStorageWorkRequestsOperationTypeEnum = "CLEANUP_ARCHIVAL_STORAGE_DATA"
 	ListStorageWorkRequestsOperationTypeEncryptActiveData          ListStorageWorkRequestsOperationTypeEnum = "ENCRYPT_ACTIVE_DATA"
@@ -252,6 +253,7 @@ var mappingListStorageWorkRequestsOperationTypeEnum = map[string]ListStorageWork
 	"PURGE_STORAGE_DATA":            ListStorageWorkRequestsOperationTypePurgeStorageData,
 	"RECALL_ARCHIVED_STORAGE_DATA":  ListStorageWorkRequestsOperationTypeRecallArchivedStorageData,
 	"RELEASE_RECALLED_STORAGE_DATA": ListStorageWorkRequestsOperationTypeReleaseRecalledStorageData,
+	"PURGE_ARCHIVAL_DATA":           ListStorageWorkRequestsOperationTypePurgeArchivalData,
 	"ARCHIVE_STORAGE_DATA":          ListStorageWorkRequestsOperationTypeArchiveStorageData,
 	"CLEANUP_ARCHIVAL_STORAGE_DATA": ListStorageWorkRequestsOperationTypeCleanupArchivalStorageData,
 	"ENCRYPT_ACTIVE_DATA":           ListStorageWorkRequestsOperationTypeEncryptActiveData,
@@ -263,6 +265,7 @@ var mappingListStorageWorkRequestsOperationTypeEnumLowerCase = map[string]ListSt
 	"purge_storage_data":            ListStorageWorkRequestsOperationTypePurgeStorageData,
 	"recall_archived_storage_data":  ListStorageWorkRequestsOperationTypeRecallArchivedStorageData,
 	"release_recalled_storage_data": ListStorageWorkRequestsOperationTypeReleaseRecalledStorageData,
+	"purge_archival_data":           ListStorageWorkRequestsOperationTypePurgeArchivalData,
 	"archive_storage_data":          ListStorageWorkRequestsOperationTypeArchiveStorageData,
 	"cleanup_archival_storage_data": ListStorageWorkRequestsOperationTypeCleanupArchivalStorageData,
 	"encrypt_active_data":           ListStorageWorkRequestsOperationTypeEncryptActiveData,
@@ -285,6 +288,7 @@ func GetListStorageWorkRequestsOperationTypeEnumStringValues() []string {
 		"PURGE_STORAGE_DATA",
 		"RECALL_ARCHIVED_STORAGE_DATA",
 		"RELEASE_RECALLED_STORAGE_DATA",
+		"PURGE_ARCHIVAL_DATA",
 		"ARCHIVE_STORAGE_DATA",
 		"CLEANUP_ARCHIVAL_STORAGE_DATA",
 		"ENCRYPT_ACTIVE_DATA",

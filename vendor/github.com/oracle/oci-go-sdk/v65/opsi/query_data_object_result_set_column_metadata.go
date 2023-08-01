@@ -23,7 +23,7 @@ type QueryDataObjectResultSetColumnMetadata struct {
 	// Name of the column in a data object query result set.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Type of the column in a data object query result set.
+	// Type name of the column in a data object query result set.
 	DataTypeName QueryDataObjectResultSetColumnMetadataDataTypeNameEnum `mandatory:"false" json:"dataTypeName,omitempty"`
 }
 

@@ -137,6 +137,10 @@ func (m *abstractcolumn) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := TimeStatsDataColumn{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "TABLE_COLUMN":
+		mm := TableColumn{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CHART_COLUMN":
 		mm := ChartColumn{}
 		err = json.Unmarshal(data, &mm)
@@ -240,6 +244,7 @@ const (
 	AbstractColumnTypeTimeStatsDataColumn   AbstractColumnTypeEnum = "TIME_STATS_DATA_COLUMN"
 	AbstractColumnTypeTimeClusterColumn     AbstractColumnTypeEnum = "TIME_CLUSTER_COLUMN"
 	AbstractColumnTypeTimeClusterDataColumn AbstractColumnTypeEnum = "TIME_CLUSTER_DATA_COLUMN"
+	AbstractColumnTypeTableColumn           AbstractColumnTypeEnum = "TABLE_COLUMN"
 	AbstractColumnTypeTimeColumn            AbstractColumnTypeEnum = "TIME_COLUMN"
 	AbstractColumnTypeTrendColumn           AbstractColumnTypeEnum = "TREND_COLUMN"
 	AbstractColumnTypeClassifyColumn        AbstractColumnTypeEnum = "CLASSIFY_COLUMN"
@@ -253,6 +258,7 @@ var mappingAbstractColumnTypeEnum = map[string]AbstractColumnTypeEnum{
 	"TIME_STATS_DATA_COLUMN":   AbstractColumnTypeTimeStatsDataColumn,
 	"TIME_CLUSTER_COLUMN":      AbstractColumnTypeTimeClusterColumn,
 	"TIME_CLUSTER_DATA_COLUMN": AbstractColumnTypeTimeClusterDataColumn,
+	"TABLE_COLUMN":             AbstractColumnTypeTableColumn,
 	"TIME_COLUMN":              AbstractColumnTypeTimeColumn,
 	"TREND_COLUMN":             AbstractColumnTypeTrendColumn,
 	"CLASSIFY_COLUMN":          AbstractColumnTypeClassifyColumn,
@@ -266,6 +272,7 @@ var mappingAbstractColumnTypeEnumLowerCase = map[string]AbstractColumnTypeEnum{
 	"time_stats_data_column":   AbstractColumnTypeTimeStatsDataColumn,
 	"time_cluster_column":      AbstractColumnTypeTimeClusterColumn,
 	"time_cluster_data_column": AbstractColumnTypeTimeClusterDataColumn,
+	"table_column":             AbstractColumnTypeTableColumn,
 	"time_column":              AbstractColumnTypeTimeColumn,
 	"trend_column":             AbstractColumnTypeTrendColumn,
 	"classify_column":          AbstractColumnTypeClassifyColumn,
@@ -290,6 +297,7 @@ func GetAbstractColumnTypeEnumStringValues() []string {
 		"TIME_STATS_DATA_COLUMN",
 		"TIME_CLUSTER_COLUMN",
 		"TIME_CLUSTER_DATA_COLUMN",
+		"TABLE_COLUMN",
 		"TIME_COLUMN",
 		"TREND_COLUMN",
 		"CLASSIFY_COLUMN",

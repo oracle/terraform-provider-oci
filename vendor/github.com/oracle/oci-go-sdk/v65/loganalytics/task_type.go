@@ -18,24 +18,21 @@ type TaskTypeEnum string
 
 // Set of constants representing the allowable values for TaskTypeEnum
 const (
-	TaskTypeSavedSearch             TaskTypeEnum = "SAVED_SEARCH"
-	TaskTypeAcceleration            TaskTypeEnum = "ACCELERATION"
-	TaskTypePurge                   TaskTypeEnum = "PURGE"
-	TaskTypeAccelerationMaintenance TaskTypeEnum = "ACCELERATION_MAINTENANCE"
+	TaskTypeSavedSearch  TaskTypeEnum = "SAVED_SEARCH"
+	TaskTypeAcceleration TaskTypeEnum = "ACCELERATION"
+	TaskTypePurge        TaskTypeEnum = "PURGE"
 )
 
 var mappingTaskTypeEnum = map[string]TaskTypeEnum{
-	"SAVED_SEARCH":             TaskTypeSavedSearch,
-	"ACCELERATION":             TaskTypeAcceleration,
-	"PURGE":                    TaskTypePurge,
-	"ACCELERATION_MAINTENANCE": TaskTypeAccelerationMaintenance,
+	"SAVED_SEARCH": TaskTypeSavedSearch,
+	"ACCELERATION": TaskTypeAcceleration,
+	"PURGE":        TaskTypePurge,
 }
 
 var mappingTaskTypeEnumLowerCase = map[string]TaskTypeEnum{
-	"saved_search":             TaskTypeSavedSearch,
-	"acceleration":             TaskTypeAcceleration,
-	"purge":                    TaskTypePurge,
-	"acceleration_maintenance": TaskTypeAccelerationMaintenance,
+	"saved_search": TaskTypeSavedSearch,
+	"acceleration": TaskTypeAcceleration,
+	"purge":        TaskTypePurge,
 }
 
 // GetTaskTypeEnumValues Enumerates the set of values for TaskTypeEnum
@@ -53,7 +50,6 @@ func GetTaskTypeEnumStringValues() []string {
 		"SAVED_SEARCH",
 		"ACCELERATION",
 		"PURGE",
-		"ACCELERATION_MAINTENANCE",
 	}
 }
 
