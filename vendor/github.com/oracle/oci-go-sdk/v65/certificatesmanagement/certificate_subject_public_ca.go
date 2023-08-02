@@ -15,8 +15,8 @@ import (
 	"strings"
 )
 
-// CertificateSubject The subject of the certificate, which is a distinguished name that identifies the entity that owns the public key in the certificate.
-type CertificateSubject struct {
+// CertificateSubjectPublicCa The details of the configuration for creating a certificate which is issued by a public certificate authority (CA).
+type CertificateSubjectPublicCa struct {
 
 	// Common name or fully-qualified domain name (RDN CN).
 	CommonName *string `mandatory:"true" json:"commonName"`
@@ -68,16 +68,19 @@ type CertificateSubject struct {
 
 	// User ID (RDN UID).
 	UserId *string `mandatory:"false" json:"userId"`
+
+	// DNS zone Name or OCID.
+	DnsZoneNameOrId *string `mandatory:"false" json:"dnsZoneNameOrId"`
 }
 
-func (m CertificateSubject) String() string {
+func (m CertificateSubjectPublicCa) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CertificateSubject) ValidateEnumValue() (bool, error) {
+func (m CertificateSubjectPublicCa) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -18,7 +18,7 @@ import (
 
 // CreateCertificateIssuedByPublicCaConfigDetails The details of the configuration for creating a certificate which is issued by a public certificate authority (CA).
 type CreateCertificateIssuedByPublicCaConfigDetails struct {
-	Subject *CertificateSubject `mandatory:"true" json:"subject"`
+	Subject *CertificateSubjectPublicCa `mandatory:"true" json:"subject"`
 
 	Validity *PublicCaCertificateValidity `mandatory:"true" json:"validity"`
 
@@ -26,7 +26,7 @@ type CreateCertificateIssuedByPublicCaConfigDetails struct {
 	VersionName *string `mandatory:"false" json:"versionName"`
 
 	// A list of subject alternative names. A subject alternative name specifies the domain names, including subdomains, and IP addresses covered by the certificates issued by this CA.
-	SubjectAlternativeNames []CertificateSubjectAlternativeName `mandatory:"false" json:"subjectAlternativeNames"`
+	SubjectAlternativeNames []CertificateSubjectAlternativeNamePublicCa `mandatory:"false" json:"subjectAlternativeNames"`
 
 	// The name of the profile used to create the certificate, which depends on the type of certificate you need.
 	CertificateProfileType CertificateProfileTypeEnum `mandatory:"true" json:"certificateProfileType"`
@@ -35,7 +35,7 @@ type CreateCertificateIssuedByPublicCaConfigDetails struct {
 	PublicCertificateAuthority PublicCertificateAuthorityEnum `mandatory:"false" json:"publicCertificateAuthority,omitempty"`
 
 	// The algorithm to use to create key pairs.
-	KeyAlgorithm KeyAlgorithmEnum `mandatory:"false" json:"keyAlgorithm,omitempty"`
+	KeyAlgorithm KeyAlgorithmEnum `mandatory:"true" json:"keyAlgorithm"`
 }
 
 //GetVersionName returns VersionName

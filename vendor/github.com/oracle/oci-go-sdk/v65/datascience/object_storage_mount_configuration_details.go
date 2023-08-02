@@ -19,7 +19,7 @@ import (
 // ObjectStorageMountConfigurationDetails The Object Storage Configuration Details.
 type ObjectStorageMountConfigurationDetails struct {
 
-	// The local job path
+	// The local path
 	DestinationDirectoryName *string `mandatory:"true" json:"destinationDirectoryName"`
 
 	// The object storage namespace

@@ -58,7 +58,7 @@ type JobRun struct {
 	JobLogConfigurationOverrideDetails *JobLogConfigurationDetails `mandatory:"false" json:"jobLogConfigurationOverrideDetails"`
 
 	// Collection of JobStorageMountConfigurationDetails.
-	JobStorageMountConfigurationDetailsList []JobStorageMountConfigurationDetails `mandatory:"false" json:"jobStorageMountConfigurationDetailsList"`
+	JobStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"jobStorageMountConfigurationDetailsList"`
 
 	LogDetails *JobRunLogDetails `mandatory:"false" json:"logDetails"`
 
@@ -101,7 +101,7 @@ func (m *JobRun) UnmarshalJSON(data []byte) (e error) {
 		DisplayName                                *string                               `json:"displayName"`
 		JobEnvironmentConfigurationOverrideDetails jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationOverrideDetails"`
 		JobLogConfigurationOverrideDetails         *JobLogConfigurationDetails           `json:"jobLogConfigurationOverrideDetails"`
-		JobStorageMountConfigurationDetailsList    []jobstoragemountconfigurationdetails `json:"jobStorageMountConfigurationDetailsList"`
+		JobStorageMountConfigurationDetailsList    []storagemountconfigurationdetails    `json:"jobStorageMountConfigurationDetailsList"`
 		LogDetails                                 *JobRunLogDetails                     `json:"logDetails"`
 		LifecycleDetails                           *string                               `json:"lifecycleDetails"`
 		FreeformTags                               map[string]string                     `json:"freeformTags"`
@@ -140,14 +140,14 @@ func (m *JobRun) UnmarshalJSON(data []byte) (e error) {
 
 	m.JobLogConfigurationOverrideDetails = model.JobLogConfigurationOverrideDetails
 
-	m.JobStorageMountConfigurationDetailsList = make([]JobStorageMountConfigurationDetails, len(model.JobStorageMountConfigurationDetailsList))
+	m.JobStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.JobStorageMountConfigurationDetailsList))
 	for i, n := range model.JobStorageMountConfigurationDetailsList {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
 		if e != nil {
 			return e
 		}
 		if nn != nil {
-			m.JobStorageMountConfigurationDetailsList[i] = nn.(JobStorageMountConfigurationDetails)
+			m.JobStorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
 		} else {
 			m.JobStorageMountConfigurationDetailsList[i] = nil
 		}

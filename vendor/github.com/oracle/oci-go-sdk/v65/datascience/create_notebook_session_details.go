@@ -10,6 +10,7 @@
 package datascience
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -41,6 +42,9 @@ type CreateNotebookSessionDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	NotebookSessionRuntimeConfigDetails *NotebookSessionRuntimeConfigDetails `mandatory:"false" json:"notebookSessionRuntimeConfigDetails"`
+
+	// Collection of NotebookSessionStorageMountConfigurationDetails.
+	NotebookSessionStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"notebookSessionStorageMountConfigurationDetailsList"`
 }
 
 func (m CreateNotebookSessionDetails) String() string {
@@ -57,4 +61,55 @@ func (m CreateNotebookSessionDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateNotebookSessionDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                                         *string                              `json:"displayName"`
+		NotebookSessionConfigurationDetails                 *NotebookSessionConfigurationDetails `json:"notebookSessionConfigurationDetails"`
+		NotebookSessionConfigDetails                        *NotebookSessionConfigDetails        `json:"notebookSessionConfigDetails"`
+		FreeformTags                                        map[string]string                    `json:"freeformTags"`
+		DefinedTags                                         map[string]map[string]interface{}    `json:"definedTags"`
+		NotebookSessionRuntimeConfigDetails                 *NotebookSessionRuntimeConfigDetails `json:"notebookSessionRuntimeConfigDetails"`
+		NotebookSessionStorageMountConfigurationDetailsList []storagemountconfigurationdetails   `json:"notebookSessionStorageMountConfigurationDetailsList"`
+		ProjectId                                           *string                              `json:"projectId"`
+		CompartmentId                                       *string                              `json:"compartmentId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.NotebookSessionConfigurationDetails = model.NotebookSessionConfigurationDetails
+
+	m.NotebookSessionConfigDetails = model.NotebookSessionConfigDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.NotebookSessionRuntimeConfigDetails = model.NotebookSessionRuntimeConfigDetails
+
+	m.NotebookSessionStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.NotebookSessionStorageMountConfigurationDetailsList))
+	for i, n := range model.NotebookSessionStorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.NotebookSessionStorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.NotebookSessionStorageMountConfigurationDetailsList[i] = nil
+		}
+	}
+
+	m.ProjectId = model.ProjectId
+
+	m.CompartmentId = model.CompartmentId
+
+	return
 }

@@ -40,7 +40,7 @@ type CreateJobDetails struct {
 	JobLogConfigurationDetails *JobLogConfigurationDetails `mandatory:"false" json:"jobLogConfigurationDetails"`
 
 	// Collection of JobStorageMountConfigurationDetails.
-	JobStorageMountConfigurationDetailsList []JobStorageMountConfigurationDetails `mandatory:"false" json:"jobStorageMountConfigurationDetailsList"`
+	JobStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"jobStorageMountConfigurationDetailsList"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -74,7 +74,7 @@ func (m *CreateJobDetails) UnmarshalJSON(data []byte) (e error) {
 		Description                             *string                               `json:"description"`
 		JobEnvironmentConfigurationDetails      jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationDetails"`
 		JobLogConfigurationDetails              *JobLogConfigurationDetails           `json:"jobLogConfigurationDetails"`
-		JobStorageMountConfigurationDetailsList []jobstoragemountconfigurationdetails `json:"jobStorageMountConfigurationDetailsList"`
+		JobStorageMountConfigurationDetailsList []storagemountconfigurationdetails    `json:"jobStorageMountConfigurationDetailsList"`
 		FreeformTags                            map[string]string                     `json:"freeformTags"`
 		DefinedTags                             map[string]map[string]interface{}     `json:"definedTags"`
 		ProjectId                               *string                               `json:"projectId"`
@@ -104,14 +104,14 @@ func (m *CreateJobDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.JobLogConfigurationDetails = model.JobLogConfigurationDetails
 
-	m.JobStorageMountConfigurationDetailsList = make([]JobStorageMountConfigurationDetails, len(model.JobStorageMountConfigurationDetailsList))
+	m.JobStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.JobStorageMountConfigurationDetailsList))
 	for i, n := range model.JobStorageMountConfigurationDetailsList {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
 		if e != nil {
 			return e
 		}
 		if nn != nil {
-			m.JobStorageMountConfigurationDetailsList[i] = nn.(JobStorageMountConfigurationDetails)
+			m.JobStorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
 		} else {
 			m.JobStorageMountConfigurationDetailsList[i] = nil
 		}

@@ -32,10 +32,14 @@ type ListApplicationDependencyRecommendationsRequest struct {
 	// A filter to return only resources that match the entire GAV (Group Artifact Version) identifier given.
 	Gav *string `mandatory:"false" contributesTo:"query" name:"gav"`
 
+	// A filter to return only resources that match the entire PURL given (https://github.com/package-url/purl-spec/).
+	Purl *string `mandatory:"false" contributesTo:"query" name:"purl"`
+
 	// The field to sort by. Only one sort order may be provided.
 	// If sort order is dfs, the nodes are returned by going through the application dependency tree in a depth-first manner. Children are sorted based on their GAV property alphabetically (either ascending or descending, depending on the order parameter). Default order is ascending.
 	// If sort order is bfs, the nodes are returned by going through the application dependency tree in a breadth-first manner. Children are sorted based on their GAV property alphabetically (either ascending or descending, depending on the order parameter). Default order is ascending.
 	// Default order for gav is ascending where ascending corresponds to alphanumerical order.
+	// Default order for purl is ascending where ascending corresponds to alphabetical order
 	// Default order for nodeId is ascending where ascending corresponds to alphanumerical order.
 	// Sorting by DFS or BFS cannot be used in conjunction with the following query parameters: "gav", "cvssV2GreaterThanOrEqual", "cvssV3GreaterThanOrEqual" and "vulnerabilityId".
 	SortBy ListApplicationDependencyRecommendationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
@@ -164,6 +168,7 @@ type ListApplicationDependencyRecommendationsSortByEnum string
 // Set of constants representing the allowable values for ListApplicationDependencyRecommendationsSortByEnum
 const (
 	ListApplicationDependencyRecommendationsSortByGav    ListApplicationDependencyRecommendationsSortByEnum = "gav"
+	ListApplicationDependencyRecommendationsSortByPurl   ListApplicationDependencyRecommendationsSortByEnum = "purl"
 	ListApplicationDependencyRecommendationsSortByNodeid ListApplicationDependencyRecommendationsSortByEnum = "nodeId"
 	ListApplicationDependencyRecommendationsSortByDfs    ListApplicationDependencyRecommendationsSortByEnum = "dfs"
 	ListApplicationDependencyRecommendationsSortByBfs    ListApplicationDependencyRecommendationsSortByEnum = "bfs"
@@ -171,6 +176,7 @@ const (
 
 var mappingListApplicationDependencyRecommendationsSortByEnum = map[string]ListApplicationDependencyRecommendationsSortByEnum{
 	"gav":    ListApplicationDependencyRecommendationsSortByGav,
+	"purl":   ListApplicationDependencyRecommendationsSortByPurl,
 	"nodeId": ListApplicationDependencyRecommendationsSortByNodeid,
 	"dfs":    ListApplicationDependencyRecommendationsSortByDfs,
 	"bfs":    ListApplicationDependencyRecommendationsSortByBfs,
@@ -178,6 +184,7 @@ var mappingListApplicationDependencyRecommendationsSortByEnum = map[string]ListA
 
 var mappingListApplicationDependencyRecommendationsSortByEnumLowerCase = map[string]ListApplicationDependencyRecommendationsSortByEnum{
 	"gav":    ListApplicationDependencyRecommendationsSortByGav,
+	"purl":   ListApplicationDependencyRecommendationsSortByPurl,
 	"nodeid": ListApplicationDependencyRecommendationsSortByNodeid,
 	"dfs":    ListApplicationDependencyRecommendationsSortByDfs,
 	"bfs":    ListApplicationDependencyRecommendationsSortByBfs,
@@ -196,6 +203,7 @@ func GetListApplicationDependencyRecommendationsSortByEnumValues() []ListApplica
 func GetListApplicationDependencyRecommendationsSortByEnumStringValues() []string {
 	return []string{
 		"gav",
+		"purl",
 		"nodeId",
 		"dfs",
 		"bfs",

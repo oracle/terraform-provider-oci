@@ -23,9 +23,6 @@ type CertificateSubjectAlternativeName struct {
 
 	// The subject alternative name.
 	Value *string `mandatory:"true" json:"value"`
-
-	// DNS Zone Name or OCID, required only when CertificateConfigType is ISSUED_BY_PUBLIC_CA.
-	DnsZoneNameOrId *string `mandatory:"false" json:"dnsZoneNameOrId"`
 }
 
 func (m CertificateSubjectAlternativeName) String() string {

@@ -19,7 +19,7 @@ import (
 // FileStorageMountConfigurationDetails The File Storage Mount Configuration Details.
 type FileStorageMountConfigurationDetails struct {
 
-	// The local job path
+	// The local path
 	DestinationDirectoryName *string `mandatory:"true" json:"destinationDirectoryName"`
 
 	// OCID of the mount target
