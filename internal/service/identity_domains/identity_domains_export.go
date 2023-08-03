@@ -10,20 +10,34 @@ import (
 )
 
 func init() {
-	exportIdentityDomainsGroupHints.GetIdFn = getGetIdFn("groups")
-	exportIdentityDomainsGroupHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsUserHints.GetIdFn = getGetIdFn("users")
 	exportIdentityDomainsUserHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsGroupHints.GetIdFn = getGetIdFn("groups")
+	exportIdentityDomainsGroupHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsDynamicResourceGroupHints.GetIdFn = getGetIdFn("dynamicResourceGroups")
 	exportIdentityDomainsDynamicResourceGroupHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsPasswordPolicyHints.GetIdFn = getGetIdFn("passwordPolicies")
 	exportIdentityDomainsPasswordPolicyHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsIdentityProviderHints.GetIdFn = getGetIdFn("identityProviders")
 	exportIdentityDomainsIdentityProviderHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
-	exportIdentityDomainsKmsiSettingHints.GetIdFn = getGetIdFn("kmsiSettings")
-	exportIdentityDomainsKmsiSettingHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsAuthenticationFactorSettingHints.GetIdFn = getGetIdFn("authenticationFactorSettings")
 	exportIdentityDomainsAuthenticationFactorSettingHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsKmsiSettingHints.GetIdFn = getGetIdFn("kmsiSettings")
+	exportIdentityDomainsKmsiSettingHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsAccountRecoverySettingHints.GetIdFn = getGetIdFn("accountRecoverySettings")
+	exportIdentityDomainsAccountRecoverySettingHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsIdentitySettingHints.GetIdFn = getGetIdFn("identitySettings")
+	exportIdentityDomainsIdentitySettingHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsSecurityQuestionSettingHints.GetIdFn = getGetIdFn("securityQuestionSettings")
+	exportIdentityDomainsSecurityQuestionSettingHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsGrantHints.GetIdFn = getGetIdFn("grants")
+	exportIdentityDomainsGrantHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsAppRoleHints.GetIdFn = getGetIdFn("appRoles")
+	exportIdentityDomainsAppRoleHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsAppHints.GetIdFn = getGetIdFn("apps")
+	exportIdentityDomainsAppHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsSecurityQuestionHints.GetIdFn = getGetIdFn("securityQuestions")
+	exportIdentityDomainsSecurityQuestionHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 
 	//// User sub-resources
 	exportIdentityDomainsApiKeyHints.GetIdFn = getUserSubResourceGetIdFn("apiKeys")
@@ -67,11 +81,15 @@ func init() {
 	exportIdentityDomainsMySupportAccountHints.GetIdFn = getGetIdFn("mySupportAccounts")
 	exportIdentityDomainsMySupportAccountHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsMySupportAccountHints.FindResourcesOverrideFn = getFindMyResources("mySupportAccounts")
+	exportIdentityDomainsMyRequestHints.GetIdFn = getGetIdFn("myRequests")
+	exportIdentityDomainsMyRequestHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsMyRequestHints.FindResourcesOverrideFn = getFindMyResources("myRequests")
 
 	tf_export.RegisterTenancyGraphs("identity_domains", identityDomainsResourceGraph)
 
 }
 
+// Custom overrides for generating composite IDs within the resource discovery framework
 func processIdentityDomainsResources(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
 	for _, resource := range resources {
 		if resource.Parent == nil {
@@ -82,8 +100,6 @@ func processIdentityDomainsResources(ctx *tf_export.ResourceDiscoveryContext, re
 	}
 	return resources, nil
 }
-
-// Custom overrides for generating composite IDs within the resource discovery framework
 
 func getResourceUrl(resource *tf_export.OCIResource) (string, error) {
 	idcsEndpoint, ok := resource.SourceAttributes["url"].(string)
@@ -127,7 +143,7 @@ func getGetIdFn(resourceName string) func(*tf_export.OCIResource) (string, error
 	}
 }
 
-//region User sub-resources
+// region User sub-resources
 func findUserSubResources(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.TerraformResourceAssociation, parent *tf_export.OCIResource, resourceGraph *tf_export.TerraformResourceGraph) ([]*tf_export.OCIResource, error) {
 	licenseType, ok := parent.Parent.SourceAttributes["license_type"].(string)
 	if !ok {
@@ -166,7 +182,7 @@ func getUserSubResourceGetIdFn(resourceName string) func(*tf_export.OCIResource)
 	}
 }
 
-//endregion User sub-resources
+// endregion User sub-resources
 
 func getFindMyResources(resourceName string) func(*tf_export.ResourceDiscoveryContext, *tf_export.TerraformResourceAssociation, *tf_export.OCIResource, *tf_export.TerraformResourceGraph) ([]*tf_export.OCIResource, error) {
 	return func(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.TerraformResourceAssociation, parent *tf_export.OCIResource, resourceGraph *tf_export.TerraformResourceGraph) ([]*tf_export.OCIResource, error) {
@@ -190,6 +206,13 @@ func getFindMyResources(resourceName string) func(*tf_export.ResourceDiscoveryCo
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
+var exportIdentityDomainsUserHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_user",
+	DatasourceClass:      "oci_identity_domains_users",
+	DatasourceItemsAttr:  "users",
+	ResourceAbbreviation: "user",
+}
+
 var exportIdentityDomainsPasswordPolicyHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_identity_domains_password_policy",
 	DatasourceClass:      "oci_identity_domains_password_policies",
@@ -295,13 +318,6 @@ var exportIdentityDomainsMyApiKeyHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation: "my_api_key",
 }
 
-var exportIdentityDomainsUserHints = &tf_export.TerraformResourceHints{
-	ResourceClass:        "oci_identity_domains_user",
-	DatasourceClass:      "oci_identity_domains_users",
-	DatasourceItemsAttr:  "users",
-	ResourceAbbreviation: "user",
-}
-
 var exportIdentityDomainsGroupHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_identity_domains_group",
 	DatasourceClass:      "oci_identity_domains_groups",
@@ -330,8 +346,65 @@ var exportIdentityDomainsAuthenticationFactorSettingHints = &tf_export.Terraform
 	ResourceAbbreviation: "authentication_factor_setting",
 }
 
-/**
-Same as in identity_export.go
+var exportIdentityDomainsAccountRecoverySettingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_account_recovery_setting",
+	DatasourceClass:      "oci_identity_domains_account_recovery_settings",
+	DatasourceItemsAttr:  "account_recovery_settings",
+	ResourceAbbreviation: "account_recovery_setting",
+}
+
+var exportIdentityDomainsIdentitySettingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_identity_setting",
+	DatasourceClass:      "oci_identity_domains_identity_settings",
+	DatasourceItemsAttr:  "identity_settings",
+	ResourceAbbreviation: "identity_setting",
+}
+
+var exportIdentityDomainsMyRequestHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_my_request",
+	DatasourceClass:      "oci_identity_domains_my_requests",
+	DatasourceItemsAttr:  "my_requests",
+	ResourceAbbreviation: "my_request",
+}
+
+var exportIdentityDomainsSecurityQuestionSettingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_security_question_setting",
+	DatasourceClass:      "oci_identity_domains_security_question_settings",
+	DatasourceItemsAttr:  "security_question_settings",
+	ResourceAbbreviation: "security_question_setting",
+}
+
+var exportIdentityDomainsGrantHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_grant",
+	DatasourceClass:      "oci_identity_domains_grants",
+	DatasourceItemsAttr:  "grants",
+	ResourceAbbreviation: "grant",
+}
+
+var exportIdentityDomainsAppRoleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_app_role",
+	DatasourceClass:      "oci_identity_domains_app_roles",
+	DatasourceItemsAttr:  "app_roles",
+	ResourceAbbreviation: "app_role",
+}
+
+var exportIdentityDomainsAppHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_app",
+	DatasourceClass:      "oci_identity_domains_apps",
+	DatasourceItemsAttr:  "apps",
+	ResourceAbbreviation: "app",
+}
+
+var exportIdentityDomainsSecurityQuestionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_security_question",
+	DatasourceClass:      "oci_identity_domains_security_questions",
+	DatasourceItemsAttr:  "security_questions",
+	ResourceAbbreviation: "security_question",
+}
+
+/*
+IDCP oci_identity_domain resource is the dependency for all identity_domains resource.
+Thus add the hint here, which is the same as the hint in identity_export.
 */
 var exportIdentityDomainHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_identity_domain",
@@ -428,6 +501,48 @@ var identityDomainsResourceGraph = tf_export.TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportIdentityDomainsAuthenticationFactorSettingHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsIdentitySettingHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsAccountRecoverySettingHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsGrantHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsSecurityQuestionSettingHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsMyRequestHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsAppHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsAppRoleHints,
 			DatasourceQueryParams: map[string]string{
 				"idcs_endpoint": "url",
 			},

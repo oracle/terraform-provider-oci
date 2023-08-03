@@ -137,6 +137,8 @@ var (
 		"crl_enabled":                        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"crl_location":                       acctest.Representation{RepType: acctest.Optional, Create: `crlLocation`, Update: `crlLocation2`},
 		"crl_reload_duration":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"eku_validation_enabled":             acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"eku_values":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`server_auth`}, Update: []string{`client_auth`}},
 		"ocsp_allow_unknown_response_status": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"ocsp_enable_signed_response":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"ocsp_enabled":                       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -147,8 +149,7 @@ var (
 		"other_cert_match_attribute":         acctest.Representation{RepType: acctest.Optional, Create: `otherCertMatchAttribute`, Update: `otherCertMatchAttribute2`},
 	}
 
-	IdentityDomainsIdentityProviderResourceDependencies = TestDomainDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_group", "test_group", acctest.Required, acctest.Create, IdentityDomainsGroupRepresentation)
+	IdentityDomainsIdentityProviderResourceDependencies = TestDomainDependencies + acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_group", "test_group", acctest.Required, acctest.Create, IdentityDomainsGroupRepresentation)
 )
 
 // issue-routing-tag: identity_domains/default
@@ -276,6 +277,8 @@ func TestIdentityDomainsIdentityProviderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.crl_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.crl_location", "crlLocation"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.crl_reload_duration", "10"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.eku_validation_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.eku_values.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.ocsp_allow_unknown_response_status", "false"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.ocsp_enable_signed_response", "false"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.ocsp_enabled", "false"),
@@ -384,6 +387,8 @@ func TestIdentityDomainsIdentityProviderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.crl_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.crl_location", "crlLocation2"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.crl_reload_duration", "11"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.eku_validation_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.eku_values.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.ocsp_allow_unknown_response_status", "true"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.ocsp_enable_signed_response", "true"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.ocsp_enabled", "true"),
@@ -493,6 +498,8 @@ func TestIdentityDomainsIdentityProviderResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.crl_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.crl_location", "crlLocation2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.crl_reload_duration", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.eku_validation_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.eku_values.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.ocsp_allow_unknown_response_status", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.ocsp_enable_signed_response", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasoracleidcsextensionx509identity_provider.0.ocsp_enabled", "true"),

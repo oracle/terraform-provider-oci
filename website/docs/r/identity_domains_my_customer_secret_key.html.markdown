@@ -10,7 +10,7 @@ description: |-
 # oci_identity_domains_my_customer_secret_key
 This resource provides the My Customer Secret Key resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Add a user's customer secret key
+Add a user's own customer secret key.
 
 ## Example Usage
 
@@ -47,7 +47,7 @@ resource "oci_identity_domains_my_customer_secret_key" "test_my_customer_secret_
 
 The following arguments are supported:
 
-* `access_key` - (Optional) (Updatable) Access key
+* `access_key` - (Optional) (Updatable) The access key.
 
 	**SCIM++ Properties:**
 	* caseExact: true
@@ -105,7 +105,7 @@ The following arguments are supported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `expires_on` - (Optional) User credential expires on
+* `expires_on` - (Optional) When the user's credential expire.
 
 	**Added In:** 2109090424
 
@@ -366,7 +366,7 @@ The following arguments are supported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `status` - (Optional) User credential status
+* `status` - (Optional) The user's credential status.
 
 	**Added In:** 2109090424
 
@@ -434,7 +434,7 @@ The following arguments are supported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `display` - (Optional) (Updatable) User display name
+	* `display` - (Optional) (Updatable) The user's display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -445,7 +445,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `name` - (Optional) (Updatable) User name
+	* `name` - (Optional) (Updatable) The user's name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -456,7 +456,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - (Optional) User's ocid
+	* `ocid` - (Optional) The user's OCID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -467,7 +467,7 @@ The following arguments are supported:
 		* returned: always
 		* type: string
 		* uniqueness: none
-	* `ref` - (Optional) (Updatable) The URI that corresponds to the user linked to this credential
+	* `ref` - (Optional) (Updatable) The URI that corresponds to the user linked to this credential.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -478,7 +478,7 @@ The following arguments are supported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - (Optional) User's id
+	* `value` - (Optional) The user's ID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -498,7 +498,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `access_key` - Access key
+* `access_key` - The access key.
 
 	**SCIM++ Properties:**
 	* caseExact: true
@@ -555,7 +555,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `expires_on` - User credential expires on
+* `expires_on` - When the user's credential expire.
 
 	**Added In:** 2109090424
 
@@ -814,7 +814,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `status` - User credential status
+* `status` - The user's credential status.
 
 	**Added In:** 2109090424
 
@@ -882,7 +882,7 @@ The following attributes are exported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `display` - User display name
+	* `display` - The user's display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -893,7 +893,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `name` - User name
+	* `name` - The user's name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -904,7 +904,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - User's ocid
+	* `ocid` - The user's OCID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -915,7 +915,7 @@ The following attributes are exported:
 		* returned: always
 		* type: string
 		* uniqueness: none
-	* `ref` - The URI that corresponds to the user linked to this credential
+	* `ref` - The URI that corresponds to the user linked to this credential.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -926,7 +926,7 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - User's id
+	* `value` - The user's ID.
 
 		**SCIM++ Properties:**
 		* caseExact: true

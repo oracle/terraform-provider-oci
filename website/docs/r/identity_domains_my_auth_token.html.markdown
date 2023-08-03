@@ -10,7 +10,7 @@ description: |-
 # oci_identity_domains_my_auth_token
 This resource provides the My Auth Token resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Add user's auth token
+Create a user's own Auth token.
 
 ## Example Usage
 
@@ -90,7 +90,7 @@ The following arguments are supported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `expires_on` - (Optional) User credential expires on
+* `expires_on` - (Optional) When the user's credential expire.
 
 	**Added In:** 2109090424
 
@@ -351,7 +351,7 @@ The following arguments are supported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `status` - (Optional) User credential status
+* `status` - (Optional) The user's credential status.
 
 	**Added In:** 2109090424
 
@@ -408,7 +408,7 @@ The following arguments are supported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `user` - (Optional) User linked to auth token
+* `user` - (Optional) The user linked to the Auth token.
 
 	**SCIM++ Properties:**
 	* caseExact: false
@@ -419,7 +419,7 @@ The following arguments are supported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `display` - (Optional) (Updatable) User display name
+	* `display` - (Optional) (Updatable) The user's display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -430,7 +430,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `name` - (Optional) (Updatable) User name
+	* `name` - (Optional) (Updatable) The username.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -441,7 +441,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - (Optional) User's ocid
+	* `ocid` - (Optional) The user's OCID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -463,7 +463,7 @@ The following arguments are supported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - (Optional) User's id
+	* `value` - (Optional) The user's ID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -526,7 +526,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `expires_on` - User credential expires on
+* `expires_on` - When the user's credential expire.
 
 	**Added In:** 2109090424
 
@@ -785,7 +785,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `status` - User credential status
+* `status` - The user's credential status.
 
 	**Added In:** 2109090424
 
@@ -842,7 +842,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `user` - User linked to auth token
+* `user` - The user linked to the Auth token.
 
 	**SCIM++ Properties:**
 	* caseExact: false
@@ -853,7 +853,7 @@ The following attributes are exported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `display` - User display name
+	* `display` - The user's display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -864,7 +864,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `name` - User name
+	* `name` - The username.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -875,7 +875,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - User's ocid
+	* `ocid` - The user's OCID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -897,7 +897,7 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - User's id
+	* `value` - The user's ID.
 
 		**SCIM++ Properties:**
 		* caseExact: true

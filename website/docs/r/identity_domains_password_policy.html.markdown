@@ -10,7 +10,7 @@ description: |-
 # oci_identity_domains_password_policy
 This resource provides the Password Policy resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Create a Password Policy
+Create a password policy.
 
 ## Example Usage
 
@@ -32,6 +32,8 @@ resource "oci_identity_domains_password_policy" "test_password_policy" {
 	dictionary_word_disallowed = var.password_policy_dictionary_word_disallowed
 	disallowed_chars = var.password_policy_disallowed_chars
 	disallowed_substrings = var.password_policy_disallowed_substrings
+	disallowed_user_attribute_values = var.password_policy_disallowed_user_attribute_values
+	distinct_characters = var.password_policy_distinct_characters
 	external_id = "externalId"
 	first_name_disallowed = var.password_policy_first_name_disallowed
 	force_password_reset = var.password_policy_force_password_reset
@@ -202,6 +204,30 @@ The following arguments are supported:
 	* required: false
 	* returned: default
 	* type: string
+	* uniqueness: none
+* `disallowed_user_attribute_values` - (Optional) (Updatable) List of User attributes whose values are not allowed in the password.
+
+	**Added In:** 2303212224
+
+	**SCIM++ Properties:**
+	* idcsSearchable: false
+	* multiValued: true
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: string
+	* uniqueness: none
+* `distinct_characters` - (Optional) (Updatable) The number of distinct characters between old password and new password
+
+	**Added In:** 2303212224
+
+	**SCIM++ Properties:**
+	* caseExact: false
+	* multiValued: false
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: integer
 	* uniqueness: none
 * `domain_ocid` - (Optional) (Updatable) Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.
 
@@ -963,6 +989,30 @@ The following attributes are exported:
 	* required: false
 	* returned: default
 	* type: string
+	* uniqueness: none
+* `disallowed_user_attribute_values` - List of User attributes whose values are not allowed in the password.
+
+	**Added In:** 2303212224
+
+	**SCIM++ Properties:**
+	* idcsSearchable: false
+	* multiValued: true
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: string
+	* uniqueness: none
+* `distinct_characters` - The number of distinct characters between old password and new password
+
+	**Added In:** 2303212224
+
+	**SCIM++ Properties:**
+	* caseExact: false
+	* multiValued: false
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: integer
 	* uniqueness: none
 * `domain_ocid` - Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.
 

@@ -10,7 +10,7 @@ description: |-
 # oci_identity_domains_smtp_credential
 This resource provides the Smtp Credential resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Add a user's smtp credenials
+Create a user's SMTP credentials.
 
 ## Example Usage
 
