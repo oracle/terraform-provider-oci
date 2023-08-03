@@ -677,6 +677,11 @@ func IdentityDomainsUserResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"can_use_console": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"can_use_console_password": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -1490,6 +1495,11 @@ func IdentityDomainsUserResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"preferred_ui_landing_page": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"synced_from_app": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -1690,6 +1700,10 @@ func IdentityDomainsUserResource() *schema.Resource {
 									},
 								},
 							},
+						},
+						"group_membership_last_modified": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"idcs_app_roles_limited_to_groups": {
 							Type:     schema.TypeList,
@@ -3853,6 +3867,11 @@ func (s *IdentityDomainsUserResourceCrud) mapToExtensionCapabilitiesUser(fieldKe
 		result.CanUseAuthTokens = &tmp
 	}
 
+	if canUseConsole, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "can_use_console")); ok {
+		tmp := canUseConsole.(bool)
+		result.CanUseConsole = &tmp
+	}
+
 	if canUseConsolePassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "can_use_console_password")); ok {
 		tmp := canUseConsolePassword.(bool)
 		result.CanUseConsolePassword = &tmp
@@ -3890,6 +3909,10 @@ func ExtensionCapabilitiesUserToMap(obj *oci_identity_domains.ExtensionCapabilit
 
 	if obj.CanUseAuthTokens != nil {
 		result["can_use_auth_tokens"] = bool(*obj.CanUseAuthTokens)
+	}
+
+	if obj.CanUseConsole != nil {
+		result["can_use_console"] = bool(*obj.CanUseConsole)
 	}
 
 	if obj.CanUseConsolePassword != nil {
@@ -3976,28 +3999,28 @@ func (s *IdentityDomainsUserResourceCrud) mapToExtensionEnterprise20User(fieldKe
 	result := oci_identity_domains.ExtensionEnterprise20User{}
 
 	if costCenter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cost_center")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "cost_center")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "cost_center")) {
 			tmp := costCenter.(string)
 			result.CostCenter = &tmp
 		}
 	}
 
 	if department, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "department")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "department")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "department")) {
 			tmp := department.(string)
 			result.Department = &tmp
 		}
 	}
 
 	if division, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "division")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "division")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "division")) {
 			tmp := division.(string)
 			result.Division = &tmp
 		}
 	}
 
 	if employeeNumber, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "employee_number")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "employee_number")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "employee_number")) {
 			tmp := employeeNumber.(string)
 			result.EmployeeNumber = &tmp
 		}
@@ -4015,7 +4038,7 @@ func (s *IdentityDomainsUserResourceCrud) mapToExtensionEnterprise20User(fieldKe
 	}
 
 	if organization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "organization")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "organization")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "organization")) {
 			tmp := organization.(string)
 			result.Organization = &tmp
 		}
@@ -4759,7 +4782,7 @@ func (s *IdentityDomainsUserResourceCrud) mapToExtensionUserStateUser(fieldKeyFo
 	}
 
 	if maxConcurrentSessions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_concurrent_sessions")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "max_concurrent_sessions")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "max_concurrent_sessions")) {
 			tmp := maxConcurrentSessions.(int)
 			result.MaxConcurrentSessions = &tmp
 		}
@@ -4905,6 +4928,10 @@ func (s *IdentityDomainsUserResourceCrud) mapToExtensionUserUser(fieldKeyFormat 
 		result.NotificationEmailTemplateId = &tmp
 	}
 
+	if preferredUiLandingPage, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preferred_ui_landing_page")); ok {
+		result.PreferredUiLandingPage = oci_identity_domains.ExtensionUserUserPreferredUiLandingPageEnum(preferredUiLandingPage.(string))
+	}
+
 	if status, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "status")); ok {
 		result.Status = oci_identity_domains.ExtensionUserUserStatusEnum(status.(string))
 	}
@@ -4973,6 +5000,10 @@ func ExtensionUserUserToMap(obj *oci_identity_domains.ExtensionUserUser) map[str
 	}
 	result["grants"] = grants
 
+	if obj.GroupMembershipLastModified != nil {
+		result["group_membership_last_modified"] = string(*obj.GroupMembershipLastModified)
+	}
+
 	idcsAppRolesLimitedToGroups := []interface{}{}
 	for _, item := range obj.IdcsAppRolesLimitedToGroups {
 		idcsAppRolesLimitedToGroups = append(idcsAppRolesLimitedToGroups, UserExtIdcsAppRolesLimitedToGroupsToMap(item))
@@ -5002,6 +5033,8 @@ func ExtensionUserUserToMap(obj *oci_identity_domains.ExtensionUserUser) map[str
 	if obj.NotificationEmailTemplateId != nil {
 		result["notification_email_template_id"] = string(*obj.NotificationEmailTemplateId)
 	}
+
+	result["preferred_ui_landing_page"] = string(obj.PreferredUiLandingPage)
 
 	result["status"] = string(obj.Status)
 
@@ -6654,14 +6687,14 @@ func (s *IdentityDomainsUserResourceCrud) mapToUserIms(fieldKeyFormat string) (o
 	result := oci_identity_domains.UserIms{}
 
 	if display, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "display")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "display")) {
 			tmp := display.(string)
 			result.Display = &tmp
 		}
 	}
 
 	if primary, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "primary")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "primary")) {
 			tmp := primary.(bool)
 			result.Primary = &tmp
 		}
@@ -6672,7 +6705,7 @@ func (s *IdentityDomainsUserResourceCrud) mapToUserIms(fieldKeyFormat string) (o
 	}
 
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "value")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "value")) {
 			tmp := value.(string)
 			result.Value = &tmp
 		}
@@ -6705,14 +6738,14 @@ func (s *IdentityDomainsUserResourceCrud) mapToUserName(fieldKeyFormat string) (
 	result := oci_identity_domains.UserName{}
 
 	if familyName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "family_name")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "family_name")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "family_name")) {
 			tmp := familyName.(string)
 			result.FamilyName = &tmp
 		}
 	}
 
 	if formatted, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "formatted")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "formatted")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "formatted")) {
 			tmp := formatted.(string)
 			result.Formatted = &tmp
 		}
@@ -6720,28 +6753,28 @@ func (s *IdentityDomainsUserResourceCrud) mapToUserName(fieldKeyFormat string) (
 
 	if givenName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "given_name")); ok {
 		// if it's optional with an empty value ("", 0), don't set it to result
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "given_name")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "given_name")) {
 			tmp := givenName.(string)
 			result.GivenName = &tmp
 		}
 	}
 
 	if honorificPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "honorific_prefix")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "honorific_prefix")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "honorific_prefix")) {
 			tmp := honorificPrefix.(string)
 			result.HonorificPrefix = &tmp
 		}
 	}
 
 	if honorificSuffix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "honorific_suffix")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "honorific_suffix")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "honorific_suffix")) {
 			tmp := honorificSuffix.(string)
 			result.HonorificSuffix = &tmp
 		}
 	}
 
 	if middleName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "middle_name")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "middle_name")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "middle_name")) {
 			tmp := middleName.(string)
 			result.MiddleName = &tmp
 		}
@@ -6978,49 +7011,49 @@ func (s *IdentityDomainsUserResourceCrud) mapToaddresses(fieldKeyFormat string) 
 	result := oci_identity_domains.Addresses{}
 
 	if country, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "country")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "country")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "country")) {
 			tmp := country.(string)
 			result.Country = &tmp
 		}
 	}
 
 	if formatted, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "formatted")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "formatted")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "formatted")) {
 			tmp := formatted.(string)
 			result.Formatted = &tmp
 		}
 	}
 
 	if locality, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "locality")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "locality")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "locality")) {
 			tmp := locality.(string)
 			result.Locality = &tmp
 		}
 	}
 
 	if postalCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "postal_code")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "postal_code")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "postal_code")) {
 			tmp := postalCode.(string)
 			result.PostalCode = &tmp
 		}
 	}
 
 	if primary, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "primary")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "primary")) {
 			tmp := primary.(bool)
 			result.Primary = &tmp
 		}
 	}
 
 	if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "region")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "region")) {
 			tmp := region.(string)
 			result.Region = &tmp
 		}
 	}
 
 	if streetAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "street_address")); ok {
-		if !IsOptionalAndEmpty(s.D, fmt.Sprintf(fieldKeyFormat, "street_address")) {
+		if !IsOptionalAndEmpty(IdentityDomainsUserResource(), s.D, fmt.Sprintf(fieldKeyFormat, "street_address")) {
 			tmp := streetAddress.(string)
 			result.StreetAddress = &tmp
 		}

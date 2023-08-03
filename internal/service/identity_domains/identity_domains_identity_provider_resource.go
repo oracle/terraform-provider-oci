@@ -524,6 +524,19 @@ func IdentityDomainsIdentityProviderResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"eku_validation_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"eku_values": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"ocsp_allow_unknown_response_status": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -682,6 +695,10 @@ func IdentityDomainsIdentityProviderResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"last_notification_sent_time": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"meta": {
 				Type:     schema.TypeList,
@@ -1719,6 +1736,10 @@ func (s *IdentityDomainsIdentityProviderResourceCrud) SetData() error {
 		s.D.Set("jit_user_prov_ignore_error_on_absent_groups", *s.Res.JitUserProvIgnoreErrorOnAbsentGroups)
 	}
 
+	if s.Res.LastNotificationSentTime != nil {
+		s.D.Set("last_notification_sent_time", *s.Res.LastNotificationSentTime)
+	}
+
 	s.D.Set("logout_binding", s.Res.LogoutBinding)
 
 	if s.Res.LogoutEnabled != nil {
@@ -2048,6 +2069,24 @@ func (s *IdentityDomainsIdentityProviderResourceCrud) mapToExtensionX509Identity
 		result.CrlReloadDuration = &tmp
 	}
 
+	if ekuValidationEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "eku_validation_enabled")); ok {
+		tmp := ekuValidationEnabled.(bool)
+		result.EkuValidationEnabled = &tmp
+	}
+
+	if ekuValues, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "eku_values")); ok {
+		interfaces := ekuValues.([]interface{})
+		tmp := make([]oci_identity_domains.ExtensionX509IdentityProviderEkuValuesEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_identity_domains.ExtensionX509IdentityProviderEkuValuesEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "eku_values")) {
+			result.EkuValues = tmp
+		}
+	}
+
 	if ocspAllowUnknownResponseStatus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocsp_allow_unknown_response_status")); ok {
 		tmp := ocspAllowUnknownResponseStatus.(bool)
 		result.OcspAllowUnknownResponseStatus = &tmp
@@ -2139,6 +2178,13 @@ func ExtensionX509IdentityProviderToMap(obj *oci_identity_domains.ExtensionX509I
 	if obj.CrlReloadDuration != nil {
 		result["crl_reload_duration"] = int(*obj.CrlReloadDuration)
 	}
+
+	if obj.EkuValidationEnabled != nil {
+		result["eku_validation_enabled"] = bool(*obj.EkuValidationEnabled)
+	}
+
+	result["eku_values"] = obj.EkuValues
+	result["eku_values"] = obj.EkuValues
 
 	if obj.OcspAllowUnknownResponseStatus != nil {
 		result["ocsp_allow_unknown_response_status"] = bool(*obj.OcspAllowUnknownResponseStatus)
@@ -2299,6 +2345,10 @@ func IdentityProviderToMap(obj oci_identity_domains.IdentityProvider) map[string
 
 	if obj.JitUserProvIgnoreErrorOnAbsentGroups != nil {
 		result["jit_user_prov_ignore_error_on_absent_groups"] = bool(*obj.JitUserProvIgnoreErrorOnAbsentGroups)
+	}
+
+	if obj.LastNotificationSentTime != nil {
+		result["last_notification_sent_time"] = string(*obj.LastNotificationSentTime)
 	}
 
 	result["logout_binding"] = string(obj.LogoutBinding)

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_my_auth_tokens
 This data source provides the list of My Auth Tokens in Oracle Cloud Infrastructure Identity Domains service.
 
-Search AuthTokens
+Search for a user's own Auth token.
 
 ## Example Usage
 
@@ -93,7 +93,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `expires_on` - User credential expires on
+* `expires_on` - When the user's credential expire.
 
 	**Added In:** 2109090424
 
@@ -352,7 +352,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `status` - User credential status
+* `status` - The user's credential status.
 
 	**Added In:** 2109090424
 
@@ -409,7 +409,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `user` - User linked to auth token
+* `user` - The user linked to the Auth token.
 
 	**SCIM++ Properties:**
 	* caseExact: false
@@ -420,7 +420,7 @@ The following attributes are exported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `display` - User display name
+	* `display` - The user's display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -431,7 +431,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `name` - User name
+	* `name` - The username.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -442,7 +442,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - User's ocid
+	* `ocid` - The user's OCID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -464,7 +464,7 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - User's id
+	* `value` - The user's ID.
 
 		**SCIM++ Properties:**
 		* caseExact: true

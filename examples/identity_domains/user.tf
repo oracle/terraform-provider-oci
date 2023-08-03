@@ -704,6 +704,7 @@ resource "oci_identity_domains_user" "test_user" {
     */
   ]
   user_name = "userName"
+  /* Note: In most cases, a primary email is REQUIRED to create a user. Otherwise you might get a 400 error. Please see "emails" block below. */
 
   #Optional
   active = var.user_active
@@ -725,6 +726,8 @@ resource "oci_identity_domains_user" "test_user" {
   authorization  = var.user_authorization
   description    = var.user_description
   display_name   = var.user_display_name
+
+  /* One and only one "emails" block needs to have "primary" set to true */
   emails {
     #Required
     type  = var.user_emails_type
@@ -735,8 +738,12 @@ resource "oci_identity_domains_user" "test_user" {
     secondary = var.user_emails_secondary
     verified  = var.user_emails_verified
   }
-  #Note: If a new user is created without a recovery email being set, we automatically add one using the primary email value, to ensure the account can be recovered.
-  #So it is recommended to set an email of type "recovery" like below. If not, it is expected to see an update about recovery email when plan/apply after creation.
+  /* Note:
+    If a new user is created without a recovery email being set, we automatically add one using the primary email value,
+    to ensure the account can be recovered (when account recovery feature is enabled in the current domain).
+    So it is recommended to set an email of type "recovery" like below. If not, it is expected to see an update about
+    recovery email when plan/apply after creation.
+  */
   emails {
     #Required
     type = "recovery"

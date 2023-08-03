@@ -10,7 +10,7 @@ description: |-
 # oci_identity_domains_my_support_account
 This resource provides the My Support Account resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Create a Support Account
+Create a user's own support account.
 
 ## Example Usage
 
