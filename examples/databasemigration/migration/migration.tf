@@ -240,6 +240,12 @@ resource "oci_database_migration_migration" "test_migration" {
       type = "TABLESPACE"
     }
   }
+  exclude_objects {
+    object = ".*"
+    owner  = "owner"
+    is_omit_excluded_table_from_replication = "false"
+    type = "ALL"
+  }
   golden_gate_details {
     hub {
       rest_admin_credentials {
