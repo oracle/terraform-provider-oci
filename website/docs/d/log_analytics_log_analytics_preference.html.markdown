@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_log_analytics_log_analytics_preference
 This data source provides details about a specific Log Analytics Preference resource in Oracle Cloud Infrastructure Log Analytics service.
 
-Lists the preferences of the tenant. Currently, only "DEFAULT_HOMEPAGE" is supported.
+Lists the tenant preferences such as DEFAULT_HOMEPAGE and collection properties.
 
 
 ## Example Usage
@@ -34,6 +34,6 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `items` - An array of tenant preferences.
-	* `name` - The preference name. Currently, only "DEFAULT_HOMEPAGE" is supported.
+	* `name` - The preference name.
 	* `value` - The preference value.
 
