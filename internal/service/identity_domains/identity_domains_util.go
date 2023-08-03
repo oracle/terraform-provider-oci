@@ -69,10 +69,10 @@ func IsEmptyValued(rawValue interface{}) bool {
 	return rawValue == "" || rawValue == 0
 }
 
-func IsOptionalField(fieldPath []string) bool {
+func IsOptionalField(resource *schema.Resource, fieldPath []string) bool {
 	pathLen := len(fieldPath)
 	targetField := fieldPath[pathLen-1]
-	currentSchemaMap := IdentityDomainsUserResource().Schema
+	currentSchemaMap := resource.Schema
 
 	for i := 0; i < pathLen-1; i++ {
 		part := fieldPath[i]
@@ -85,6 +85,6 @@ func IsOptionalField(fieldPath []string) bool {
 	return currentSchemaMap[targetField].Optional
 }
 
-func IsOptionalAndEmpty(D *schema.ResourceData, fieldKey string) bool {
-	return IsOptionalField(strings.Split(fieldKey, ".")) && IsEmptyValued(D.Get(fieldKey))
+func IsOptionalAndEmpty(resource *schema.Resource, D *schema.ResourceData, fieldKey string) bool {
+	return IsOptionalField(resource, strings.Split(fieldKey, ".")) && IsEmptyValued(D.Get(fieldKey))
 }

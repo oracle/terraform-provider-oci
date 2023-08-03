@@ -10,7 +10,7 @@ description: |-
 # oci_identity_domains_user
 This resource provides the User resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Create a User
+Create a user.
 
 ## Example Usage
 
@@ -31,6 +31,7 @@ resource "oci_identity_domains_user" "test_user" {
 	}
 	schemas = ["urn:ietf:params:scim:schemas:core:2.0:User"]
 	user_name = "userName"
+	/* Note: In most cases, a primary email is REQUIRED to create a user. Otherwise you might get a 400 error. Please see "emails" block below. */
 
 	#Optional
 	active = var.user_active
@@ -52,15 +53,28 @@ resource "oci_identity_domains_user" "test_user" {
 	authorization = var.user_authorization
 	description = var.user_description
 	display_name = var.user_display_name
+
+	/* One and only one "emails" block needs to have "primary" set to true */
 	emails {
 		#Required
 		type = var.user_emails_type
 		value = var.user_emails_value
 
 		#Optional
-		primary = var.user_emails_primary
+		primary = true
 		secondary = var.user_emails_secondary
 		verified = var.user_emails_verified
+	}
+	/* Note:
+      If a new user is created without a recovery email being set, we automatically add one using the primary email value,
+      to ensure the account can be recovered (when account recovery feature is enabled in the current domain).
+      So it is recommended to set an email of type "recovery" like below. If not, it is expected to see an update about 
+      recovery email when plan/apply after creation.
+    */
+	emails {
+		#Required
+		type = "recovery"
+		value = var.user_emails_value
 	}
 	entitlements {
 		#Required
@@ -354,6 +368,7 @@ resource "oci_identity_domains_user" "test_user" {
 		is_group_membership_normalized = var.user_urnietfparamsscimschemasoracleidcsextensionuser_user_is_group_membership_normalized
 		is_group_membership_synced_to_users_groups = var.user_urnietfparamsscimschemasoracleidcsextensionuser_user_is_group_membership_synced_to_users_groups
 		notification_email_template_id = oci_identity_domains_notification_email_template.test_notification_email_template.id
+		preferred_ui_landing_page = var.user_urnietfparamsscimschemasoracleidcsextensionuser_user_preferred_ui_landing_page
 		synced_from_app {
 			#Required
 			type = var.user_urnietfparamsscimschemasoracleidcsextensionuser_user_synced_from_app_type
@@ -749,7 +764,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `membership_ocid` - (Optional) (Updatable) Membership Ocid
+	* `membership_ocid` - (Optional) (Updatable) The membership OCID.
 
 		**Added In:** 2103141444
 
@@ -773,7 +788,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - (Optional) (Updatable) Ocid of the User's group.
+	* `ocid` - (Optional) (Updatable) The OCID of the User's group.
 
 		**Added In:** 2102181953
 
@@ -1833,7 +1848,7 @@ The following arguments are supported:
 			* type: string
 			* uniqueness: none
 * `urnietfparamsscimschemasoracleidcsextensioncapabilities_user` - (Optional) (Updatable) User's Capabilities
-	* `can_use_api_keys` - (Optional) (Updatable) Indicates weather a user can use api keys
+	* `can_use_api_keys` - (Optional) (Updatable) Indicates whether a user can use API keys.
 
 		**Added In:** 2012271618
 
@@ -1846,7 +1861,7 @@ The following arguments are supported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_auth_tokens` - (Optional) (Updatable) Indicates weather a user can use auth tokens
+	* `can_use_auth_tokens` - (Optional) (Updatable) Indicates whether a user can use Auth tokens.
 
 		**Added In:** 2012271618
 
@@ -1859,7 +1874,20 @@ The following arguments are supported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_console_password` - (Optional) (Updatable) Indicates weather a user can use console password
+	* `can_use_console` - (Optional) (Updatable) Specifies whether user can access the Console.
+
+		**Added In:** 2206280902
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
+	* `can_use_console_password` - (Optional) (Updatable) Indicates whether a user can use Console passwords.
 
 		**Added In:** 2012271618
 
@@ -1872,7 +1900,7 @@ The following arguments are supported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_customer_secret_keys` - (Optional) (Updatable) Indicates weather a user can use customer secret keys
+	* `can_use_customer_secret_keys` - (Optional) (Updatable) Indicates whether a user can use customer secret keys.
 
 		**Added In:** 2012271618
 
@@ -1885,7 +1913,7 @@ The following arguments are supported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_db_credentials` - (Optional) (Updatable) Indicates weather a user can use db credentials
+	* `can_use_db_credentials` - (Optional) (Updatable) Indicates whether a user can use database credentials.
 
 		**Added In:** 2012271618
 
@@ -1898,7 +1926,7 @@ The following arguments are supported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_oauth2client_credentials` - (Optional) (Updatable) Indicates weather a user can use oauth2 client credentials
+	* `can_use_oauth2client_credentials` - (Optional) (Updatable) Indicates whether a user can use OAuth2 client credentials.
 
 		**Added In:** 2012271618
 
@@ -1911,7 +1939,7 @@ The following arguments are supported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_smtp_credentials` - (Optional) (Updatable) Indicates weather a user can use smtp credentials
+	* `can_use_smtp_credentials` - (Optional) (Updatable) Indicates whether a user can use SMTP credentials.
 
 		**Added In:** 2012271618
 
@@ -1924,7 +1952,7 @@ The following arguments are supported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-* `urnietfparamsscimschemasoracleidcsextensiondb_credentials_user` - (Optional) (Updatable) Db Credentials User extension
+* `urnietfparamsscimschemasoracleidcsextensiondb_credentials_user` - (Optional) (Updatable) The database credentials user extension.
 	* `db_login_attempts` - (Optional) (Updatable) The number of failed login attempts. The value is reset to 0 after a successful login.
 
 		**Added In:** 2102181953
@@ -1937,7 +1965,7 @@ The following arguments are supported:
 		* returned: request
 		* type: integer
 		* uniqueness: none
-	* `db_user_name` - (Optional) (Updatable) The Database User Name
+	* `db_user_name` - (Optional) (Updatable) The database username.
 
 		**Added In:** 2102181953
 
@@ -2044,7 +2072,7 @@ The following arguments are supported:
 			* type: string
 			* uniqueness: none
 * `urnietfparamsscimschemasoracleidcsextensionkerberos_user_user` - (Optional) (Updatable) Kerberos User extension
-	* `realm_users` - (Optional) (Updatable) A list of kerberos realm users for an Oracle Cloud Infrastructure IAM User
+	* `realm_users` - (Optional) (Updatable) A list of kerberos realm users for an Oracle Identity Cloud Service User
 
 		**SCIM++ Properties:**
 		* idcsCompositeKey: [value]
@@ -2054,7 +2082,7 @@ The following arguments are supported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `principal_name` - (Optional) (Updatable) Principal Name of the KerberosRealmUser associated with the Oracle Cloud Infrastructure IAM User.
+		* `principal_name` - (Optional) (Updatable) Principal Name of the KerberosRealmUser associated with the Oracle Identity Cloud Service User.
 
 			**SCIM++ Properties:**
 			* idcsPii: true
@@ -2065,7 +2093,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `realm_name` - (Optional) (Updatable) Realm Name for the KerberosRealmUser associated with the Oracle Cloud Infrastructure IAM User.
+		* `realm_name` - (Optional) (Updatable) Realm Name for the KerberosRealmUser associated with the Oracle Identity Cloud Service User.
 
 			**SCIM++ Properties:**
 			* idcsSearchable: true
@@ -2075,7 +2103,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `ref` - (Optional) (Updatable) The URI of the corresponding KerberosRealmUser resource associated with the Oracle Cloud Infrastructure IAM User.
+		* `ref` - (Optional) (Updatable) The URI of the corresponding KerberosRealmUser resource associated with the Oracle Identity Cloud Service User.
 
 			**SCIM++ Properties:**
 			* idcsSearchable: false
@@ -2085,7 +2113,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Required) (Updatable) id of the KerberosRealmUser associated with the Oracle Cloud Infrastructure IAM User.
+		* `value` - (Required) (Updatable) id of the KerberosRealmUser associated with the Oracle Identity Cloud Service User.
 
 			**SCIM++ Properties:**
 			* caseExact: true
@@ -2097,7 +2125,7 @@ The following arguments are supported:
 			* type: string
 			* uniqueness: none
 * `urnietfparamsscimschemasoracleidcsextensionmfa_user` - (Optional) (Updatable) This extension defines attributes used to manage Multi-Factor Authentication within a service provider. The extension is typically applied to a User resource, but MAY be applied to other resources that use MFA.
-	* `bypass_codes` - (Optional) (Updatable) A list of bypass codes belongs to user
+	* `bypass_codes` - (Optional) (Updatable) A list of bypass codes that belongs to the user.
 
 		**Added In:** 18.3.6
 
@@ -2121,7 +2149,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Required) (Updatable) The identifier of the User's bypass code.
+		* `value` - (Required) (Updatable) The user's bypass code identifier.
 
 			**Added In:** 18.3.6
 
@@ -2146,7 +2174,7 @@ The following arguments are supported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `authentication_method` - (Optional) (Updatable) Authentication method.
+		* `authentication_method` - (Optional) (Updatable) The authentication method.
 
 			**Added In:** 2009232244
 
@@ -2170,7 +2198,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `factor_status` - (Optional) (Updatable) Device authentication factor status.
+		* `factor_status` - (Optional) (Updatable) The device authentication factor status.
 
 			**Added In:** 18.4.2
 
@@ -2182,7 +2210,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `factor_type` - (Optional) (Updatable) Device authentication factor type.
+		* `factor_type` - (Optional) (Updatable) The device authentication factor type.
 
 			**Added In:** 18.4.2
 
@@ -2194,7 +2222,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `last_sync_time` - (Optional) (Updatable) Last Sync time for device.
+		* `last_sync_time` - (Optional) (Updatable) The last sync time for device.
 
 			**Added In:** 18.4.2
 
@@ -2206,7 +2234,7 @@ The following arguments are supported:
 			* returned: default
 			* type: dateTime
 			* uniqueness: none
-		* `ref` - (Optional) (Updatable) The URI of the corresponding Device resource which belongs to user
+		* `ref` - (Optional) (Updatable) The URI of the corresponding Device resource which belongs to user.
 
 			**Added In:** 18.3.6
 
@@ -2218,7 +2246,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `status` - (Optional) (Updatable) Device status.
+		* `status` - (Optional) (Updatable) The device's status.
 
 			**Added In:** 18.4.2
 
@@ -2230,7 +2258,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `third_party_vendor_name` - (Optional) (Updatable) Third party factor vendor name.
+		* `third_party_vendor_name` - (Optional) (Updatable) The third-party factor vendor name.
 
 			**Added In:** 2009232244
 
@@ -2242,7 +2270,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `value` - (Required) (Updatable) The identifier of the User's device.
+		* `value` - (Required) (Updatable) The user's device identifier.
 
 			**Added In:** 18.3.6
 
@@ -2255,7 +2283,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-	* `login_attempts` - (Optional) (Updatable) Number of incorrect Multi Factor Authentication login attempts made by this user. The user gets locked, if this reaches the threshold specified in the maxIncorrectAttempts attribute in AuthenticationFactorSettings
+	* `login_attempts` - (Optional) (Updatable) The number of incorrect multi factor authentication sign in attempts made by this user. The user is  locked if this reaches the threshold specified in the maxIncorrectAttempts attribute in AuthenticationFactorSettings.
 
 		**Added In:** 18.3.6
 
@@ -2263,11 +2291,13 @@ The following arguments are supported:
 		* idcsSearchable: false
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 		* required: false
 		* returned: default
 		* type: integer
 		* uniqueness: none
-	* `mfa_enabled_on` - (Optional) (Updatable) This represents the date when the user enrolled for multi factor authentication. This will be set to null, when the user resets his factors.
+	* `mfa_enabled_on` - (Optional) (Updatable) The date when the user enrolled in multi factor authentication. This will be set to null, when the user resets their factors.
 
 		**Added In:** 18.3.6
 
@@ -2292,7 +2322,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `mfa_status` - (Optional) (Updatable) User Opted for MFA
+	* `mfa_status` - (Optional) (Updatable) The user opted for MFA.
 
 		**Added In:** 18.3.6
 
@@ -2301,11 +2331,12 @@ The following arguments are supported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `preferred_authentication_factor` - (Optional) (Updatable) Preferred Authentication Factor Type
+	* `preferred_authentication_factor` - (Optional) (Updatable) The preferred authentication factor type.
 
 		**Added In:** 18.3.6
 
@@ -2318,7 +2349,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `preferred_authentication_method` - (Optional) (Updatable) Preferred Authentication method
+	* `preferred_authentication_method` - (Optional) (Updatable) The preferred authentication method.
 
 		**Added In:** 2009232244
 
@@ -2331,7 +2362,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `preferred_device` - (Optional) (Updatable) User preferred device
+	* `preferred_device` - (Optional) (Updatable) The user's preferred device.
 
 		**Added In:** 18.3.6
 
@@ -2344,7 +2375,7 @@ The following arguments are supported:
 		* returned: default
 		* type: complex
 		* uniqueness: none
-		* `display` - (Optional) (Updatable) Device display name
+		* `display` - (Optional) (Updatable) The device display name.
 
 			**Added In:** 18.3.6
 
@@ -2357,7 +2388,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `ref` - (Optional) (Updatable) The URI that corresponds to the device resource
+		* `ref` - (Optional) (Updatable) The URI that corresponds to the device resource.
 
 			**Added In:** 18.3.6
 
@@ -2369,7 +2400,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Required) (Updatable) The identifier of the User's preferred device
+		* `value` - (Required) (Updatable) The user's preferred device identifier.
 
 			**Added In:** 18.3.6
 
@@ -2382,7 +2413,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-	* `preferred_third_party_vendor` - (Optional) (Updatable) Preferred Third party vendor name
+	* `preferred_third_party_vendor` - (Optional) (Updatable) The preferred third-party vendor name.
 
 		**Added In:** 19.2.1
 
@@ -2431,7 +2462,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Required) (Updatable) The identifier of the User's trusted user agent.
+		* `value` - (Required) (Updatable) The user's trusted user agent identifier.
 
 			**Added In:** 18.3.6
 
@@ -2711,8 +2742,8 @@ The following arguments are supported:
 		* returned: request
 		* type: integer
 		* uniqueness: server
-* `urnietfparamsscimschemasoracleidcsextensionsecurity_questions_user` - (Optional) (Updatable) This extension defines attributes used to store Security Questions of User.
-	* `sec_questions` - (Optional) (Updatable) Security question and answers provided by end-user for Account recovery and/or MFA. While setting up security questions, end-user can also provide hint along with answer.
+* `urnietfparamsscimschemasoracleidcsextensionsecurity_questions_user` - (Optional) (Updatable) This extension defines the attributes used to store the security questions of a user.
+	* `sec_questions` - (Optional) (Updatable) The schema used to mnage security question and answers provided by a user for account recovery and/or MFA. While setting up security questions, a user can also provide a hint for the answer.
 
 		**SCIM++ Properties:**
 		* idcsCompositeKey: [value]
@@ -2722,7 +2753,7 @@ The following arguments are supported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `answer` - (Required) (Updatable) Answer provided by an user for a security question.
+		* `answer` - (Required) (Updatable) The answer provided by a user for a security question.
 
 			**SCIM++ Properties:**
 			* idcsCsvAttributeName: Answer
@@ -2735,7 +2766,7 @@ The following arguments are supported:
 			* type: string
 			* uniqueness: none
 			* idcsPii: true
-		* `hint_text` - (Optional) (Updatable) Hint for an answer given by user while setting up Security Question.
+		* `hint_text` - (Optional) (Updatable) The hint for an answer that's given by user when setting up a security question.
 
 			**SCIM++ Properties:**
 			* caseExact: false
@@ -2745,7 +2776,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `ref` - (Optional) (Updatable) The URI of the corresponding SecurityQuestion resource
+		* `ref` - (Optional) (Updatable) The URI of the corresponding Security Question resource.
 
 			**SCIM++ Properties:**
 			* idcsSearchable: false
@@ -2755,7 +2786,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Required) (Updatable) Id of the question selected by user while setting up Security Question.
+		* `value` - (Required) (Updatable) The identifier of the question selected by the user when setting up a security question.
 
 			**SCIM++ Properties:**
 			* caseExact: true
@@ -2915,7 +2946,7 @@ The following arguments are supported:
 			* uniqueness: none
 		* `value` - (Required) (Updatable) 
 * `urnietfparamsscimschemasoracleidcsextensionuser_credentials_user` - (Optional) (Updatable) User's credentials
-	* `api_keys` - (Optional) (Updatable) A list of api keys corresponding to user.
+	* `api_keys` - (Optional) (Updatable) A list of API keys corresponding to user.
 
 		**Added In:** 2012271618
 
@@ -2928,7 +2959,7 @@ The following arguments are supported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `key` - (Optional) (Updatable) The value of of the User's api key.
+		* `key` - (Optional) (Updatable) The user's API key value.
 
 			**Added In:** 2106240046
 
@@ -2941,7 +2972,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ocid` - (Optional) (Updatable) Ocid of the User's api key.
+		* `ocid` - (Optional) (Updatable) The user's API key OCID.
 
 			**Added In:** 2012271618
 
@@ -2954,7 +2985,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - (Optional) (Updatable) The URI of the corresponding ApiKey resource to which the user belongs
+		* `ref` - (Optional) (Updatable) The URI of the corresponding ApiKey resource to which the user belongs.
 
 			**Added In:** 2012271618
 
@@ -2966,7 +2997,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Optional) (Updatable) The identifier of the User's api key.
+		* `value` - (Optional) (Updatable) The user's API key identifier.
 
 			**Added In:** 2012271618
 
@@ -2979,7 +3010,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-	* `auth_tokens` - (Optional) (Updatable) A list of auth tokens corresponding to user.
+	* `auth_tokens` - (Optional) (Updatable) A list of Auth tokens corresponding to user.
 
 		**Added In:** 2012271618
 
@@ -2992,7 +3023,7 @@ The following arguments are supported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `ocid` - (Optional) (Updatable) Ocid of the User's auth token.
+		* `ocid` - (Optional) (Updatable) The user's Auth token OCID.
 
 			**Added In:** 2012271618
 
@@ -3005,7 +3036,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - (Optional) (Updatable) The URI of the corresponding AuthToken resource to which the user belongs
+		* `ref` - (Optional) (Updatable) The URI of the corresponding AuthToken resource to which the user belongs.
 
 			**Added In:** 2012271618
 
@@ -3017,7 +3048,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Optional) (Updatable) The identifier of the User's auth token.
+		* `value` - (Optional) (Updatable) The user's Auth token identifier.
 
 			**Added In:** 2012271618
 
@@ -3043,7 +3074,7 @@ The following arguments are supported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `ocid` - (Optional) (Updatable) Ocid of the User's customer secret key.
+		* `ocid` - (Optional) (Updatable) The user's customer secret key OCID.
 
 			**Added In:** 2102181953
 
@@ -3056,7 +3087,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - (Optional) (Updatable) The URI of the corresponding CustomerSecretKey resource to which the user belongs
+		* `ref` - (Optional) (Updatable) The URI of the corresponding CustomerSecretKey resource to which the user belongs.
 
 			**Added In:** 2102181953
 
@@ -3068,7 +3099,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Optional) (Updatable) The identifier of the User's customer secret key.
+		* `value` - (Optional) (Updatable) The user's customer secret key identifier.
 
 			**Added In:** 2102181953
 
@@ -3081,7 +3112,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-	* `db_credentials` - (Optional) (Updatable) A list of db credentials corresponding to user.
+	* `db_credentials` - (Optional) (Updatable) A list of database credentials corresponding to user.
 
 		**Added In:** 2102181953
 
@@ -3094,7 +3125,7 @@ The following arguments are supported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `ocid` - (Optional) (Updatable) Ocid of the User's db credential.
+		* `ocid` - (Optional) (Updatable) The user's database credential OCID.
 
 			**Added In:** 2102181953
 
@@ -3107,7 +3138,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - (Optional) (Updatable) The URI of the corresponding UserDbCredential resource to which the user belongs
+		* `ref` - (Optional) (Updatable) The URI of the corresponding UserDbCredential resource to which the user belongs.
 
 			**Added In:** 2102181953
 
@@ -3119,7 +3150,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Optional) (Updatable) The identifier of the User's db credential.
+		* `value` - (Optional) (Updatable) The user's database credential identifier.
 
 			**Added In:** 2102181953
 
@@ -3132,7 +3163,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-	* `o_auth2client_credentials` - (Optional) (Updatable) A list of oauth2 client credentials corresponding to user.
+	* `o_auth2client_credentials` - (Optional) (Updatable) A list of OAuth2 client credentials corresponding to a user.
 
 		**Added In:** 2012271618
 
@@ -3145,7 +3176,7 @@ The following arguments are supported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `ocid` - (Optional) (Updatable) Ocid of the User's oAuth2 client credential.
+		* `ocid` - (Optional) (Updatable) The user's OAuth2 client credential OCID.
 
 			**Added In:** 2012271618
 
@@ -3158,7 +3189,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - (Optional) (Updatable) The URI of the corresponding OAuth2ClientCredential resource to which the user belongs
+		* `ref` - (Optional) (Updatable) The URI of the corresponding OAuth2ClientCredential resource to which the user belongs.
 
 			**Added In:** 2012271618
 
@@ -3170,7 +3201,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Optional) (Updatable) The identifier of the User's oAuth2 client credential.
+		* `value` - (Optional) (Updatable) The user's OAuth2 client credential identifier.
 
 			**Added In:** 2012271618
 
@@ -3183,7 +3214,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-	* `smtp_credentials` - (Optional) (Updatable) A list of smtp credentials corresponding to user.
+	* `smtp_credentials` - (Optional) (Updatable) A list of SMTP credentials corresponding to user.
 
 		**Added In:** 2012271618
 
@@ -3196,7 +3227,7 @@ The following arguments are supported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `ocid` - (Optional) (Updatable) Ocid of the User's auth token.
+		* `ocid` - (Optional) (Updatable) The user's Auth token OCID.
 
 			**Added In:** 2012271618
 
@@ -3209,7 +3240,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - (Optional) (Updatable) The URI of the corresponding SmtpCredential resource to which the user belongs
+		* `ref` - (Optional) (Updatable) The URI of the corresponding SmtpCredential resource to which the user belongs.
 
 			**Added In:** 2012271618
 
@@ -3221,7 +3252,7 @@ The following arguments are supported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - (Optional) (Updatable) The identifier of the User's smtp credential.
+		* `value` - (Optional) (Updatable) The user's SMTP credential identifier.
 
 			**Added In:** 2012271618
 
@@ -3234,30 +3265,32 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-* `urnietfparamsscimschemasoracleidcsextensionuser_state_user` - (Optional) (Updatable) This extension defines attributes used to manage account passwords within a service provider. The extension is typically applied to a User resource, but MAY be applied to other resources that use passwords.
-	* `last_failed_login_date` - (Optional) (Updatable) The last failed login date
+* `urnietfparamsscimschemasoracleidcsextensionuser_state_user` - (Optional) (Updatable) This extension defines the attributes used to manage account passwords within a service provider. The extension is typically applied to a User resource, but MAY be applied to other resources that use passwords.
+	* `last_failed_login_date` - (Optional) (Updatable) The last failed login date.
 
 		**SCIM++ Properties:**
 		* idcsSearchable: false
 		* idcsAllowUpdatesInReadOnlyMode: true
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: dateTime
 		* uniqueness: none
-	* `last_successful_login_date` - (Optional) (Updatable) The last successful login date
+	* `last_successful_login_date` - (Optional) (Updatable) The last successful login date.
 
 		**SCIM++ Properties:**
 		* idcsSearchable: true
 		* idcsAllowUpdatesInReadOnlyMode: true
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: dateTime
 		* uniqueness: none
-	* `locked` - (Optional) (Updatable) A complex attribute that indicates an account is locked (blocking new sessions)
+	* `locked` - (Optional) (Updatable) A complex attribute that indicates an account is locked (blocking any new sessions).
 
 		**SCIM++ Properties:**
 		* idcsCsvAttributeNameMappings: [[columnHeaderName:Locked, mapsTo:locked.on], [columnHeaderName:Locked Reason, mapsTo:locked.reason], [columnHeaderName:Locked Date, mapsTo:locked.lockDate]]
@@ -3269,7 +3302,7 @@ The following arguments are supported:
 		* returned: default
 		* type: complex
 		* uniqueness: none
-		* `expired` - (Optional) (Updatable) Indicates whether user password is expired. If this value is false, password expiry will still be evaluated during user login.
+		* `expired` - (Optional) (Updatable) Indicates whether the user password is expired. If this value is false, password expiry is still evaluated during user login.
 
 			**Added In:** 20.1.3
 
@@ -3282,33 +3315,38 @@ The following arguments are supported:
 			* returned: request
 			* type: boolean
 			* uniqueness: none
-		* `lock_date` - (Optional) (Updatable) The date and time that the current resource was locked
+		* `lock_date` - (Optional) (Updatable) The date and time that the current resource was locked.
 
 			**SCIM++ Properties:**
 			* idcsSearchable: false
 			* multiValued: false
 			* mutability: readWrite
+			* idcsRequiresWriteForAccessFlows: true
 			* required: false
 			* returned: default
 			* type: dateTime
 			* uniqueness: none
-		* `on` - (Optional) (Updatable) Indicates tat the account is locked
+		* `on` - (Optional) (Updatable) Indicates that the account is locked.
 
 			**SCIM++ Properties:**
 			* caseExact: false
 			* idcsSearchable: true
 			* multiValued: false
 			* mutability: readWrite
+			* idcsRequiresWriteForAccessFlows: true
+			* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 			* required: false
 			* returned: default
 			* type: boolean
 			* uniqueness: none
-		* `reason` - (Optional) (Updatable) Indicates the reason for locking. Valid values are: 0 - failed password login attempts, 1 - admin lock, 2 - failed reset password attempts, 3 - failed MFA login attempts, 4 - failed MFA login attempts for federated user, 5 - failed Database login attempts
+		* `reason` - (Optional) (Updatable) Indicates the reason for locking the account. Valid values are: 0 - failed password login attempts, 1 - admin lock, 2 - failed reset password attempts, 3 - failed MFA login attempts, 4 - failed MFA login attempts for federated user, 5 - failed Database login attempts
 
 			**SCIM++ Properties:**
 			* idcsSearchable: false
 			* multiValued: false
 			* mutability: readWrite
+			* idcsRequiresWriteForAccessFlows: true
+			* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 			* required: false
 			* returned: default
 			* type: integer
@@ -3320,11 +3358,13 @@ The following arguments are supported:
 		* idcsAllowUpdatesInReadOnlyMode: true
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: integer
 		* uniqueness: none
-	* `max_concurrent_sessions` - (Optional) (Updatable) Maximum number of concurrent sessions for a User
+	* `max_concurrent_sessions` - (Optional) (Updatable) The maximum number of concurrent sessions for a user.
 
 		**Added In:** 20.1.3
 
@@ -3338,13 +3378,14 @@ The following arguments are supported:
 		* returned: default
 		* type: integer
 		* uniqueness: none
-	* `previous_successful_login_date` - (Optional) (Updatable) The previous successful login date
+	* `previous_successful_login_date` - (Optional) (Updatable) The previous successful login date.
 
 		**SCIM++ Properties:**
 		* caseExact: false
 		* idcsSearchable: false
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: dateTime
@@ -3357,6 +3398,7 @@ The following arguments are supported:
 		* idcsSearchable: false
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: integer
@@ -3373,7 +3415,7 @@ The following arguments are supported:
 		* returned: request
 		* type: integer
 		* uniqueness: none
-	* `recovery_locked` - (Optional) (Updatable) A complex attribute that indicates an password recovery is locked (blocking new sessions)
+	* `recovery_locked` - (Optional) (Updatable) A complex attribute that indicates a password recovery is locked (blocking any new sessions).
 
 		**Added In:** 19.1.4
 
@@ -3385,7 +3427,7 @@ The following arguments are supported:
 		* returned: default
 		* type: complex
 		* uniqueness: none
-		* `lock_date` - (Optional) (Updatable) The date and time that the current resource was locked
+		* `lock_date` - (Optional) (Updatable) The date and time that the current resource was locked.
 
 			**Added In:** 19.1.4
 
@@ -3393,11 +3435,12 @@ The following arguments are supported:
 			* idcsSearchable: false
 			* multiValued: false
 			* mutability: readWrite
+			* idcsRequiresWriteForAccessFlows: true
 			* required: false
 			* returned: default
 			* type: dateTime
 			* uniqueness: none
-		* `on` - (Optional) (Updatable) Indicates that the rev is locked
+		* `on` - (Optional) (Updatable) Indicates that the recovery is locked.
 
 			**Added In:** 19.1.4
 
@@ -3406,11 +3449,12 @@ The following arguments are supported:
 			* idcsSearchable: true
 			* multiValued: false
 			* mutability: readWrite
+			* idcsRequiresWriteForAccessFlows: true
 			* required: false
 			* returned: default
 			* type: boolean
 			* uniqueness: none
-* `urnietfparamsscimschemasoracleidcsextensionuser_user` - (Optional) (Updatable) Oracle Cloud Infrastructure IAM User
+* `urnietfparamsscimschemasoracleidcsextensionuser_user` - (Optional) (Updatable) Oracle Identity Cloud Service User
 	* `user_provider` - (Optional) (Updatable) Registration provider
 
 		**SCIM++ Properties:**
@@ -3553,7 +3597,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `legacy_group_name` - (Optional) (Updatable) The name (if any) under which this AppRole should appear in this User's group-memberships for reasons of backward compatibility. Oracle Cloud Infrastructure IAM distinguishes between Groups and AppRoles, but some services still expect AppRoles appear as if they were service-instance-specific Groups.
+		* `legacy_group_name` - (Optional) (Updatable) The name (if any) under which this AppRole should appear in this User's group-memberships for reasons of backward compatibility. Oracle Identity Cloud Service distinguishes between Groups and AppRoles, but some services still expect AppRoles appear as if they were service-instance-specific Groups.
 
 			**SCIM++ Properties:**
 			* idcsSearchable: true
@@ -3676,6 +3720,7 @@ The following arguments are supported:
 		* idcsSearchable: false
 		* multiValued: false
 		* mutability: immutable
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: never
 		* type: boolean
@@ -3688,11 +3733,12 @@ The following arguments are supported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: immutable
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: string
 		* uniqueness: none
-	* `delegated_authentication_target_app` - (Optional) (Updatable) If set, indicates the user's preferred authentication target app. If not set and the user's \"syncedFromApp\" is set and is enabled for delegated authentication, it is used. Otherwise, the user authenticates locally to Oracle Cloud Infrastructure IAM.
+	* `delegated_authentication_target_app` - (Optional) (Updatable) If set, indicates the user's preferred authentication target app. If not set and the user's \"syncedFromApp\" is set and is enabled for delegated authentication, it is used. Otherwise, the user authenticates locally to Oracle Identity Cloud Service.
 
 		**Added In:** 17.4.6
 
@@ -3788,7 +3834,10 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `grant_mechanism` - (Optional) (Updatable) Each value of grantMechanism indicates how (or by what component) some App (or App-Entitlement) was granted.\nA customer or the UI should use only grantMechanism values that start with 'ADMINISTRATOR':\n - 'ADMINISTRATOR_TO_USER' is for a direct grant to a specific User.\n - 'ADMINISTRATOR_TO_GROUP' is for a grant to a specific Group, which results in indirect grants to Users who are members of that Group.\n - 'ADMINISTRATOR_TO_APP' is for a grant to a specific App.  The grantee (client) App gains access to the granted (server) App.
+		* `grant_mechanism` - (Optional) (Updatable) Each value of grantMechanism indicates how (or by what component) some App (or App-Entitlement) was granted. A customer or the UI should use only grantMechanism values that start with 'ADMINISTRATOR':
+			* 'ADMINISTRATOR_TO_USER' is for a direct grant to a specific User.
+			* 'ADMINISTRATOR_TO_GROUP' is for a grant to a specific Group, which results in indirect grants to Users who are members of that Group.
+			* 'ADMINISTRATOR_TO_APP' is for a grant to a specific App.  The grantee (client) App gains access to the granted (server) App.
 
 			**SCIM++ Properties:**
 			* caseExact: true
@@ -3833,6 +3882,18 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
+	* `group_membership_last_modified` - (Optional) (Updatable) Specifies date time when a User's group membership was last modified.
+
+		**Added In:** 2304270343
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* multiValued: false
+		* mutability: readOnly
+		* required: false
+		* returned: request
+		* type: dateTime
+		* uniqueness: none
 	* `idcs_app_roles_limited_to_groups` - (Optional) (Updatable) Description:
 
 		**Added In:** 19.2.1
@@ -3858,7 +3919,7 @@ The following arguments are supported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `idcs_app_role_id` - (Required) (Updatable) The id of the Oracle Cloud Infrastructure IAM AppRole grant limited to one or more Groups.
+		* `idcs_app_role_id` - (Required) (Updatable) The id of the Oracle Identity Cloud Service AppRole grant limited to one or more Groups.
 
 			**Added In:** 19.2.1
 
@@ -3944,6 +4005,7 @@ The following arguments are supported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: readWrite
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: default
 		* type: boolean
@@ -3985,6 +4047,19 @@ The following arguments are supported:
 		* returned: never
 		* type: string
 		* uniqueness: none
+	* `preferred_ui_landing_page` - (Optional) (Updatable) User's preferred landing page following login, logout and reset password.
+
+		**Added In:** 2302092332
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
+		* uniqueness: none
 	* `status` - (Optional) (Updatable) A supplemental status indicating the reason why a user is disabled
 
 		**SCIM++ Properties:**
@@ -4022,7 +4097,7 @@ The following arguments are supported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ocid` - (Optional) (Updatable) Ocid of the User's Support Account.
+		* `ocid` - (Optional) (Updatable) The OCID of the user's support account.
 
 			**Added In:** 2103141444
 
@@ -4639,7 +4714,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `membership_ocid` - Membership Ocid
+	* `membership_ocid` - The membership OCID.
 
 		**Added In:** 2103141444
 
@@ -4663,7 +4738,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - Ocid of the User's group.
+	* `ocid` - The OCID of the User's group.
 
 		**Added In:** 2102181953
 
@@ -5721,7 +5796,7 @@ The following attributes are exported:
 			* type: string
 			* uniqueness: none
 * `urnietfparamsscimschemasoracleidcsextensioncapabilities_user` - User's Capabilities
-	* `can_use_api_keys` - Indicates weather a user can use api keys
+	* `can_use_api_keys` - Indicates whether a user can use API keys.
 
 		**Added In:** 2012271618
 
@@ -5734,7 +5809,7 @@ The following attributes are exported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_auth_tokens` - Indicates weather a user can use auth tokens
+	* `can_use_auth_tokens` - Indicates whether a user can use Auth tokens.
 
 		**Added In:** 2012271618
 
@@ -5747,7 +5822,20 @@ The following attributes are exported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_console_password` - Indicates weather a user can use console password
+	* `can_use_console` - Specifies whether user can access the Console.
+
+		**Added In:** 2206280902
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
+	* `can_use_console_password` - Indicates whether a user can use Console passwords.
 
 		**Added In:** 2012271618
 
@@ -5760,7 +5848,7 @@ The following attributes are exported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_customer_secret_keys` - Indicates weather a user can use customer secret keys
+	* `can_use_customer_secret_keys` - Indicates whether a user can use customer secret keys.
 
 		**Added In:** 2012271618
 
@@ -5773,7 +5861,7 @@ The following attributes are exported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_db_credentials` - Indicates weather a user can use db credentials
+	* `can_use_db_credentials` - Indicates whether a user can use database credentials.
 
 		**Added In:** 2012271618
 
@@ -5786,7 +5874,7 @@ The following attributes are exported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_oauth2client_credentials` - Indicates weather a user can use oauth2 client credentials
+	* `can_use_oauth2client_credentials` - Indicates whether a user can use OAuth2 client credentials.
 
 		**Added In:** 2012271618
 
@@ -5799,7 +5887,7 @@ The following attributes are exported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `can_use_smtp_credentials` - Indicates weather a user can use smtp credentials
+	* `can_use_smtp_credentials` - Indicates whether a user can use SMTP credentials.
 
 		**Added In:** 2012271618
 
@@ -5812,7 +5900,7 @@ The following attributes are exported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-* `urnietfparamsscimschemasoracleidcsextensiondb_credentials_user` - Db Credentials User extension
+* `urnietfparamsscimschemasoracleidcsextensiondb_credentials_user` - The database credentials user extension.
 	* `db_login_attempts` - The number of failed login attempts. The value is reset to 0 after a successful login.
 
 		**Added In:** 2102181953
@@ -5825,7 +5913,7 @@ The following attributes are exported:
 		* returned: request
 		* type: integer
 		* uniqueness: none
-	* `db_user_name` - The Database User Name
+	* `db_user_name` - The database username.
 
 		**Added In:** 2102181953
 
@@ -5932,7 +6020,7 @@ The following attributes are exported:
 			* type: string
 			* uniqueness: none
 * `urnietfparamsscimschemasoracleidcsextensionkerberos_user_user` - Kerberos User extension
-	* `realm_users` - A list of kerberos realm users for an Oracle Cloud Infrastructure IAM User
+	* `realm_users` - A list of kerberos realm users for an Oracle Identity Cloud Service User
 
 		**SCIM++ Properties:**
 		* idcsCompositeKey: [value]
@@ -5942,7 +6030,7 @@ The following attributes are exported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `principal_name` - Principal Name of the KerberosRealmUser associated with the Oracle Cloud Infrastructure IAM User.
+		* `principal_name` - Principal Name of the KerberosRealmUser associated with the Oracle Identity Cloud Service User.
 
 			**SCIM++ Properties:**
 			* idcsPii: true
@@ -5953,7 +6041,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `realm_name` - Realm Name for the KerberosRealmUser associated with the Oracle Cloud Infrastructure IAM User.
+		* `realm_name` - Realm Name for the KerberosRealmUser associated with the Oracle Identity Cloud Service User.
 
 			**SCIM++ Properties:**
 			* idcsSearchable: true
@@ -5963,7 +6051,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `ref` - The URI of the corresponding KerberosRealmUser resource associated with the Oracle Cloud Infrastructure IAM User.
+		* `ref` - The URI of the corresponding KerberosRealmUser resource associated with the Oracle Identity Cloud Service User.
 
 			**SCIM++ Properties:**
 			* idcsSearchable: false
@@ -5973,7 +6061,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - id of the KerberosRealmUser associated with the Oracle Cloud Infrastructure IAM User.
+		* `value` - id of the KerberosRealmUser associated with the Oracle Identity Cloud Service User.
 
 			**SCIM++ Properties:**
 			* caseExact: true
@@ -5985,7 +6073,7 @@ The following attributes are exported:
 			* type: string
 			* uniqueness: none
 * `urnietfparamsscimschemasoracleidcsextensionmfa_user` - This extension defines attributes used to manage Multi-Factor Authentication within a service provider. The extension is typically applied to a User resource, but MAY be applied to other resources that use MFA.
-	* `bypass_codes` - A list of bypass codes belongs to user
+	* `bypass_codes` - A list of bypass codes that belongs to the user.
 
 		**Added In:** 18.3.6
 
@@ -6009,7 +6097,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - The identifier of the User's bypass code.
+		* `value` - The user's bypass code identifier.
 
 			**Added In:** 18.3.6
 
@@ -6034,7 +6122,7 @@ The following attributes are exported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `authentication_method` - Authentication method.
+		* `authentication_method` - The authentication method.
 
 			**Added In:** 2009232244
 
@@ -6058,7 +6146,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `factor_status` - Device authentication factor status.
+		* `factor_status` - The device authentication factor status.
 
 			**Added In:** 18.4.2
 
@@ -6070,7 +6158,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `factor_type` - Device authentication factor type.
+		* `factor_type` - The device authentication factor type.
 
 			**Added In:** 18.4.2
 
@@ -6082,7 +6170,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `last_sync_time` - Last Sync time for device.
+		* `last_sync_time` - The last sync time for device.
 
 			**Added In:** 18.4.2
 
@@ -6094,7 +6182,7 @@ The following attributes are exported:
 			* returned: default
 			* type: dateTime
 			* uniqueness: none
-		* `ref` - The URI of the corresponding Device resource which belongs to user
+		* `ref` - The URI of the corresponding Device resource which belongs to user.
 
 			**Added In:** 18.3.6
 
@@ -6106,7 +6194,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `status` - Device status.
+		* `status` - The device's status.
 
 			**Added In:** 18.4.2
 
@@ -6118,7 +6206,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `third_party_vendor_name` - Third party factor vendor name.
+		* `third_party_vendor_name` - The third-party factor vendor name.
 
 			**Added In:** 2009232244
 
@@ -6130,7 +6218,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `value` - The identifier of the User's device.
+		* `value` - The user's device identifier.
 
 			**Added In:** 18.3.6
 
@@ -6143,7 +6231,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-	* `login_attempts` - Number of incorrect Multi Factor Authentication login attempts made by this user. The user gets locked, if this reaches the threshold specified in the maxIncorrectAttempts attribute in AuthenticationFactorSettings
+	* `login_attempts` - The number of incorrect multi factor authentication sign in attempts made by this user. The user is  locked if this reaches the threshold specified in the maxIncorrectAttempts attribute in AuthenticationFactorSettings.
 
 		**Added In:** 18.3.6
 
@@ -6151,11 +6239,13 @@ The following attributes are exported:
 		* idcsSearchable: false
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 		* required: false
 		* returned: default
 		* type: integer
 		* uniqueness: none
-	* `mfa_enabled_on` - This represents the date when the user enrolled for multi factor authentication. This will be set to null, when the user resets his factors.
+	* `mfa_enabled_on` - The date when the user enrolled in multi factor authentication. This will be set to null, when the user resets their factors.
 
 		**Added In:** 18.3.6
 
@@ -6180,7 +6270,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `mfa_status` - User Opted for MFA
+	* `mfa_status` - The user opted for MFA.
 
 		**Added In:** 18.3.6
 
@@ -6189,11 +6279,12 @@ The following attributes are exported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `preferred_authentication_factor` - Preferred Authentication Factor Type
+	* `preferred_authentication_factor` - The preferred authentication factor type.
 
 		**Added In:** 18.3.6
 
@@ -6206,7 +6297,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `preferred_authentication_method` - Preferred Authentication method
+	* `preferred_authentication_method` - The preferred authentication method.
 
 		**Added In:** 2009232244
 
@@ -6219,7 +6310,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `preferred_device` - User preferred device
+	* `preferred_device` - The user's preferred device.
 
 		**Added In:** 18.3.6
 
@@ -6232,7 +6323,7 @@ The following attributes are exported:
 		* returned: default
 		* type: complex
 		* uniqueness: none
-		* `display` - Device display name
+		* `display` - The device display name.
 
 			**Added In:** 18.3.6
 
@@ -6245,7 +6336,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `ref` - The URI that corresponds to the device resource
+		* `ref` - The URI that corresponds to the device resource.
 
 			**Added In:** 18.3.6
 
@@ -6257,7 +6348,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - The identifier of the User's preferred device
+		* `value` - The user's preferred device identifier.
 
 			**Added In:** 18.3.6
 
@@ -6270,7 +6361,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-	* `preferred_third_party_vendor` - Preferred Third party vendor name
+	* `preferred_third_party_vendor` - The preferred third-party vendor name.
 
 		**Added In:** 19.2.1
 
@@ -6319,7 +6410,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - The identifier of the User's trusted user agent.
+		* `value` - The user's trusted user agent identifier.
 
 			**Added In:** 18.3.6
 
@@ -6599,8 +6690,8 @@ The following attributes are exported:
 		* returned: request
 		* type: integer
 		* uniqueness: server
-* `urnietfparamsscimschemasoracleidcsextensionsecurity_questions_user` - This extension defines attributes used to store Security Questions of User.
-	* `sec_questions` - Security question and answers provided by end-user for Account recovery and/or MFA. While setting up security questions, end-user can also provide hint along with answer.
+* `urnietfparamsscimschemasoracleidcsextensionsecurity_questions_user` - This extension defines the attributes used to store the security questions of a user.
+	* `sec_questions` - The schema used to mnage security question and answers provided by a user for account recovery and/or MFA. While setting up security questions, a user can also provide a hint for the answer.
 
 		**SCIM++ Properties:**
 		* idcsCompositeKey: [value]
@@ -6610,7 +6701,7 @@ The following attributes are exported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `answer` - Answer provided by an user for a security question.
+		* `answer` - The answer provided by a user for a security question.
 
 			**SCIM++ Properties:**
 			* idcsCsvAttributeName: Answer
@@ -6623,7 +6714,7 @@ The following attributes are exported:
 			* type: string
 			* uniqueness: none
 			* idcsPii: true
-		* `hint_text` - Hint for an answer given by user while setting up Security Question.
+		* `hint_text` - The hint for an answer that's given by user when setting up a security question.
 
 			**SCIM++ Properties:**
 			* caseExact: false
@@ -6633,7 +6724,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `ref` - The URI of the corresponding SecurityQuestion resource
+		* `ref` - The URI of the corresponding Security Question resource.
 
 			**SCIM++ Properties:**
 			* idcsSearchable: false
@@ -6643,7 +6734,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - Id of the question selected by user while setting up Security Question.
+		* `value` - The identifier of the question selected by the user when setting up a security question.
 
 			**SCIM++ Properties:**
 			* caseExact: true
@@ -6803,7 +6894,7 @@ The following attributes are exported:
 			* uniqueness: none
 		* `value` - 
 * `urnietfparamsscimschemasoracleidcsextensionuser_credentials_user` - User's credentials
-	* `api_keys` - A list of api keys corresponding to user.
+	* `api_keys` - A list of API keys corresponding to user.
 
 		**Added In:** 2012271618
 
@@ -6816,7 +6907,7 @@ The following attributes are exported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `key` - The value of of the User's api key.
+		* `key` - The user's API key value.
 
 			**Added In:** 2106240046
 
@@ -6829,7 +6920,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ocid` - Ocid of the User's api key.
+		* `ocid` - The user's API key OCID.
 
 			**Added In:** 2012271618
 
@@ -6842,7 +6933,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - The URI of the corresponding ApiKey resource to which the user belongs
+		* `ref` - The URI of the corresponding ApiKey resource to which the user belongs.
 
 			**Added In:** 2012271618
 
@@ -6854,7 +6945,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - The identifier of the User's api key.
+		* `value` - The user's API key identifier.
 
 			**Added In:** 2012271618
 
@@ -6867,7 +6958,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-	* `auth_tokens` - A list of auth tokens corresponding to user.
+	* `auth_tokens` - A list of Auth tokens corresponding to user.
 
 		**Added In:** 2012271618
 
@@ -6880,7 +6971,7 @@ The following attributes are exported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `ocid` - Ocid of the User's auth token.
+		* `ocid` - The user's Auth token OCID.
 
 			**Added In:** 2012271618
 
@@ -6893,7 +6984,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - The URI of the corresponding AuthToken resource to which the user belongs
+		* `ref` - The URI of the corresponding AuthToken resource to which the user belongs.
 
 			**Added In:** 2012271618
 
@@ -6905,7 +6996,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - The identifier of the User's auth token.
+		* `value` - The user's Auth token identifier.
 
 			**Added In:** 2012271618
 
@@ -6931,7 +7022,7 @@ The following attributes are exported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `ocid` - Ocid of the User's customer secret key.
+		* `ocid` - The user's customer secret key OCID.
 
 			**Added In:** 2102181953
 
@@ -6944,7 +7035,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - The URI of the corresponding CustomerSecretKey resource to which the user belongs
+		* `ref` - The URI of the corresponding CustomerSecretKey resource to which the user belongs.
 
 			**Added In:** 2102181953
 
@@ -6956,7 +7047,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - The identifier of the User's customer secret key.
+		* `value` - The user's customer secret key identifier.
 
 			**Added In:** 2102181953
 
@@ -6969,7 +7060,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-	* `db_credentials` - A list of db credentials corresponding to user.
+	* `db_credentials` - A list of database credentials corresponding to user.
 
 		**Added In:** 2102181953
 
@@ -6982,7 +7073,7 @@ The following attributes are exported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `ocid` - Ocid of the User's db credential.
+		* `ocid` - The user's database credential OCID.
 
 			**Added In:** 2102181953
 
@@ -6995,7 +7086,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - The URI of the corresponding UserDbCredential resource to which the user belongs
+		* `ref` - The URI of the corresponding UserDbCredential resource to which the user belongs.
 
 			**Added In:** 2102181953
 
@@ -7007,7 +7098,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - The identifier of the User's db credential.
+		* `value` - The user's database credential identifier.
 
 			**Added In:** 2102181953
 
@@ -7020,7 +7111,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-	* `o_auth2client_credentials` - A list of oauth2 client credentials corresponding to user.
+	* `o_auth2client_credentials` - A list of OAuth2 client credentials corresponding to a user.
 
 		**Added In:** 2012271618
 
@@ -7033,7 +7124,7 @@ The following attributes are exported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `ocid` - Ocid of the User's oAuth2 client credential.
+		* `ocid` - The user's OAuth2 client credential OCID.
 
 			**Added In:** 2012271618
 
@@ -7046,7 +7137,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - The URI of the corresponding OAuth2ClientCredential resource to which the user belongs
+		* `ref` - The URI of the corresponding OAuth2ClientCredential resource to which the user belongs.
 
 			**Added In:** 2012271618
 
@@ -7058,7 +7149,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - The identifier of the User's oAuth2 client credential.
+		* `value` - The user's OAuth2 client credential identifier.
 
 			**Added In:** 2012271618
 
@@ -7071,7 +7162,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-	* `smtp_credentials` - A list of smtp credentials corresponding to user.
+	* `smtp_credentials` - A list of SMTP credentials corresponding to user.
 
 		**Added In:** 2012271618
 
@@ -7084,7 +7175,7 @@ The following attributes are exported:
 		* returned: request
 		* type: complex
 		* uniqueness: none
-		* `ocid` - Ocid of the User's auth token.
+		* `ocid` - The user's Auth token OCID.
 
 			**Added In:** 2012271618
 
@@ -7097,7 +7188,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - The URI of the corresponding SmtpCredential resource to which the user belongs
+		* `ref` - The URI of the corresponding SmtpCredential resource to which the user belongs.
 
 			**Added In:** 2012271618
 
@@ -7109,7 +7200,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `value` - The identifier of the User's smtp credential.
+		* `value` - The user's SMTP credential identifier.
 
 			**Added In:** 2012271618
 
@@ -7122,30 +7213,32 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-* `urnietfparamsscimschemasoracleidcsextensionuser_state_user` - This extension defines attributes used to manage account passwords within a service provider. The extension is typically applied to a User resource, but MAY be applied to other resources that use passwords.
-	* `last_failed_login_date` - The last failed login date
+* `urnietfparamsscimschemasoracleidcsextensionuser_state_user` - This extension defines the attributes used to manage account passwords within a service provider. The extension is typically applied to a User resource, but MAY be applied to other resources that use passwords.
+	* `last_failed_login_date` - The last failed login date.
 
 		**SCIM++ Properties:**
 		* idcsSearchable: false
 		* idcsAllowUpdatesInReadOnlyMode: true
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: dateTime
 		* uniqueness: none
-	* `last_successful_login_date` - The last successful login date
+	* `last_successful_login_date` - The last successful login date.
 
 		**SCIM++ Properties:**
 		* idcsSearchable: true
 		* idcsAllowUpdatesInReadOnlyMode: true
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: dateTime
 		* uniqueness: none
-	* `locked` - A complex attribute that indicates an account is locked (blocking new sessions)
+	* `locked` - A complex attribute that indicates an account is locked (blocking any new sessions).
 
 		**SCIM++ Properties:**
 		* idcsCsvAttributeNameMappings: [[columnHeaderName:Locked, mapsTo:locked.on], [columnHeaderName:Locked Reason, mapsTo:locked.reason], [columnHeaderName:Locked Date, mapsTo:locked.lockDate]]
@@ -7157,7 +7250,7 @@ The following attributes are exported:
 		* returned: default
 		* type: complex
 		* uniqueness: none
-		* `expired` - Indicates whether user password is expired. If this value is false, password expiry will still be evaluated during user login.
+		* `expired` - Indicates whether the user password is expired. If this value is false, password expiry is still evaluated during user login.
 
 			**Added In:** 20.1.3
 
@@ -7170,33 +7263,38 @@ The following attributes are exported:
 			* returned: request
 			* type: boolean
 			* uniqueness: none
-		* `lock_date` - The date and time that the current resource was locked
+		* `lock_date` - The date and time that the current resource was locked.
 
 			**SCIM++ Properties:**
 			* idcsSearchable: false
 			* multiValued: false
 			* mutability: readWrite
+			* idcsRequiresWriteForAccessFlows: true
 			* required: false
 			* returned: default
 			* type: dateTime
 			* uniqueness: none
-		* `on` - Indicates tat the account is locked
+		* `on` - Indicates that the account is locked.
 
 			**SCIM++ Properties:**
 			* caseExact: false
 			* idcsSearchable: true
 			* multiValued: false
 			* mutability: readWrite
+			* idcsRequiresWriteForAccessFlows: true
+			* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 			* required: false
 			* returned: default
 			* type: boolean
 			* uniqueness: none
-		* `reason` - Indicates the reason for locking. Valid values are: 0 - failed password login attempts, 1 - admin lock, 2 - failed reset password attempts, 3 - failed MFA login attempts, 4 - failed MFA login attempts for federated user, 5 - failed Database login attempts
+		* `reason` - Indicates the reason for locking the account. Valid values are: 0 - failed password login attempts, 1 - admin lock, 2 - failed reset password attempts, 3 - failed MFA login attempts, 4 - failed MFA login attempts for federated user, 5 - failed Database login attempts
 
 			**SCIM++ Properties:**
 			* idcsSearchable: false
 			* multiValued: false
 			* mutability: readWrite
+			* idcsRequiresWriteForAccessFlows: true
+			* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 			* required: false
 			* returned: default
 			* type: integer
@@ -7208,11 +7306,13 @@ The following attributes are exported:
 		* idcsAllowUpdatesInReadOnlyMode: true
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: integer
 		* uniqueness: none
-	* `max_concurrent_sessions` - Maximum number of concurrent sessions for a User
+	* `max_concurrent_sessions` - The maximum number of concurrent sessions for a user.
 
 		**Added In:** 20.1.3
 
@@ -7226,13 +7326,14 @@ The following attributes are exported:
 		* returned: default
 		* type: integer
 		* uniqueness: none
-	* `previous_successful_login_date` - The previous successful login date
+	* `previous_successful_login_date` - The previous successful login date.
 
 		**SCIM++ Properties:**
 		* caseExact: false
 		* idcsSearchable: false
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: dateTime
@@ -7245,6 +7346,7 @@ The following attributes are exported:
 		* idcsSearchable: false
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: integer
@@ -7261,7 +7363,7 @@ The following attributes are exported:
 		* returned: request
 		* type: integer
 		* uniqueness: none
-	* `recovery_locked` - A complex attribute that indicates an password recovery is locked (blocking new sessions)
+	* `recovery_locked` - A complex attribute that indicates a password recovery is locked (blocking any new sessions).
 
 		**Added In:** 19.1.4
 
@@ -7273,7 +7375,7 @@ The following attributes are exported:
 		* returned: default
 		* type: complex
 		* uniqueness: none
-		* `lock_date` - The date and time that the current resource was locked
+		* `lock_date` - The date and time that the current resource was locked.
 
 			**Added In:** 19.1.4
 
@@ -7281,11 +7383,12 @@ The following attributes are exported:
 			* idcsSearchable: false
 			* multiValued: false
 			* mutability: readWrite
+			* idcsRequiresWriteForAccessFlows: true
 			* required: false
 			* returned: default
 			* type: dateTime
 			* uniqueness: none
-		* `on` - Indicates that the rev is locked
+		* `on` - Indicates that the recovery is locked.
 
 			**Added In:** 19.1.4
 
@@ -7294,11 +7397,12 @@ The following attributes are exported:
 			* idcsSearchable: true
 			* multiValued: false
 			* mutability: readWrite
+			* idcsRequiresWriteForAccessFlows: true
 			* required: false
 			* returned: default
 			* type: boolean
 			* uniqueness: none
-* `urnietfparamsscimschemasoracleidcsextensionuser_user` - Oracle Cloud Infrastructure IAM User
+* `urnietfparamsscimschemasoracleidcsextensionuser_user` - Oracle Identity Cloud Service User
 	* `user_provider` - Registration provider
 
 		**SCIM++ Properties:**
@@ -7441,7 +7545,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `legacy_group_name` - The name (if any) under which this AppRole should appear in this User's group-memberships for reasons of backward compatibility. Oracle Cloud Infrastructure IAM distinguishes between Groups and AppRoles, but some services still expect AppRoles appear as if they were service-instance-specific Groups.
+		* `legacy_group_name` - The name (if any) under which this AppRole should appear in this User's group-memberships for reasons of backward compatibility. Oracle Identity Cloud Service distinguishes between Groups and AppRoles, but some services still expect AppRoles appear as if they were service-instance-specific Groups.
 
 			**SCIM++ Properties:**
 			* idcsSearchable: true
@@ -7564,6 +7668,7 @@ The following attributes are exported:
 		* idcsSearchable: false
 		* multiValued: false
 		* mutability: immutable
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: never
 		* type: boolean
@@ -7576,11 +7681,12 @@ The following attributes are exported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: immutable
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: request
 		* type: string
 		* uniqueness: none
-	* `delegated_authentication_target_app` - If set, indicates the user's preferred authentication target app. If not set and the user's \"syncedFromApp\" is set and is enabled for delegated authentication, it is used. Otherwise, the user authenticates locally to Oracle Cloud Infrastructure IAM.
+	* `delegated_authentication_target_app` - If set, indicates the user's preferred authentication target app. If not set and the user's \"syncedFromApp\" is set and is enabled for delegated authentication, it is used. Otherwise, the user authenticates locally to Oracle Identity Cloud Service.
 
 		**Added In:** 17.4.6
 
@@ -7676,7 +7782,10 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `grant_mechanism` - Each value of grantMechanism indicates how (or by what component) some App (or App-Entitlement) was granted.\nA customer or the UI should use only grantMechanism values that start with 'ADMINISTRATOR':\n - 'ADMINISTRATOR_TO_USER' is for a direct grant to a specific User.\n - 'ADMINISTRATOR_TO_GROUP' is for a grant to a specific Group, which results in indirect grants to Users who are members of that Group.\n - 'ADMINISTRATOR_TO_APP' is for a grant to a specific App.  The grantee (client) App gains access to the granted (server) App.
+		* `grant_mechanism` - Each value of grantMechanism indicates how (or by what component) some App (or App-Entitlement) was granted. A customer or the UI should use only grantMechanism values that start with 'ADMINISTRATOR':
+			* 'ADMINISTRATOR_TO_USER' is for a direct grant to a specific User.
+			* 'ADMINISTRATOR_TO_GROUP' is for a grant to a specific Group, which results in indirect grants to Users who are members of that Group.
+			* 'ADMINISTRATOR_TO_APP' is for a grant to a specific App.  The grantee (client) App gains access to the granted (server) App.
 
 			**SCIM++ Properties:**
 			* caseExact: true
@@ -7721,6 +7830,18 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
+	* `group_membership_last_modified` - Specifies date time when a User's group membership was last modified.
+
+		**Added In:** 2304270343
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* multiValued: false
+		* mutability: readOnly
+		* required: false
+		* returned: request
+		* type: dateTime
+		* uniqueness: none
 	* `idcs_app_roles_limited_to_groups` - Description:
 
 		**Added In:** 19.2.1
@@ -7746,7 +7867,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `idcs_app_role_id` - The id of the Oracle Cloud Infrastructure IAM AppRole grant limited to one or more Groups.
+		* `idcs_app_role_id` - The id of the Oracle Identity Cloud Service AppRole grant limited to one or more Groups.
 
 			**Added In:** 19.2.1
 
@@ -7832,6 +7953,7 @@ The following attributes are exported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: readWrite
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: default
 		* type: boolean
@@ -7873,6 +7995,19 @@ The following attributes are exported:
 		* returned: never
 		* type: string
 		* uniqueness: none
+	* `preferred_ui_landing_page` - User's preferred landing page following login, logout and reset password.
+
+		**Added In:** 2302092332
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
+		* uniqueness: none
 	* `status` - A supplemental status indicating the reason why a user is disabled
 
 		**SCIM++ Properties:**
@@ -7910,7 +8045,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ocid` - Ocid of the User's Support Account.
+		* `ocid` - The OCID of the user's support account.
 
 			**Added In:** 2103141444
 

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_my_groups
 This data source provides the list of My Groups in Oracle Cloud Infrastructure Identity Domains service.
 
-Search My Groups
+Search for 'My Groups'.
 
 ## Example Usage
 
@@ -77,7 +77,7 @@ The following attributes are exported:
 		* returned: default
 		* type: boolean
 		* uniqueness: none
-	* `display_name` - Group display name
+	* `display_name` - The Group display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -270,7 +270,7 @@ The following attributes are exported:
 		* returned: request
 		* type: string
 		* uniqueness: none
-	* `members` - Group members - when requesting members attribute, a max of 10,000 members will be returned in a single request. It is recommended to use startIndex and count to return members in pages instead of in a single response, eg : #attributes=members[startIndex=1%26count=10]
+	* `members` - The group members. <b>Important:</b> When requesting group members, a maximum of 10,000 members can be returned in a single request. If the response contains more than 10,000 members, the request will fail. Use 'startIndex' and 'count' to return members in pages instead of in a single response, for example: #attributes=members[startIndex=1%26count=10]. This REST API is SCIM compliant.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -284,7 +284,7 @@ The following attributes are exported:
 		* idcsPaginateResponse: true
 		* type: complex
 		* uniqueness: none
-		* `date_added` - The DateTime the member was added to the Group.
+		* `date_added` - The date and time that the member was added to the group.
 
 			**Added In:** 2012271618
 
@@ -295,7 +295,7 @@ The following attributes are exported:
 			* returned: default
 			* type: dateTime
 			* uniqueness: none
-		* `display` - Member display name
+		* `display` - The member's display name.
 
 			**SCIM++ Properties:**
 			* caseExact: false
@@ -306,7 +306,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `membership_ocid` - Membership Ocid
+		* `membership_ocid` - The membership OCID.
 
 			**Added In:** 2102181953
 
@@ -319,7 +319,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `name` - Member name
+		* `name` - The member's name.
 
 			**SCIM++ Properties:**
 			* caseExact: false
@@ -330,7 +330,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `ocid` - OCID of the member of this Group
+		* `ocid` - The OCID of the member of this group.
 
 			**Added In:** 2012271618
 
@@ -343,7 +343,7 @@ The following attributes are exported:
 			* returned: always
 			* type: string
 			* uniqueness: none
-		* `ref` - The URI that corresponds to the member Resource of this Group
+		* `ref` - The URI that corresponds to the member Resource of this group.
 
 			**SCIM++ Properties:**
 			* caseExact: true
@@ -354,7 +354,7 @@ The following attributes are exported:
 			* returned: default
 			* type: reference
 			* uniqueness: none
-		* `type` - Indicates the type of resource--for example, User or Group
+		* `type` - Indicates the type of resource, for example, User or Group.
 
 			**SCIM++ Properties:**
 			* caseExact: true
@@ -366,7 +366,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `value` - ID of the member of this Group
+		* `value` - The ID of the member of this Group
 
 			**SCIM++ Properties:**
 			* caseExact: true
@@ -443,7 +443,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-	* `non_unique_display_name` - A human readable name for Group as defined by the Service Consumer
+	* `non_unique_display_name` - A human readable name for the group as defined by the Service Consumer.
 
 		**Added In:** 2011192329
 
@@ -522,7 +522,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `urnietfparamsscimschemasoracleidcsextensiongroup_group` - Idcs Group
+	* `urnietfparamsscimschemasoracleidcsextensiongroup_group` - Oracle Identity Cloud Service Group
 		* `app_roles` - A list of appRoles that the user belongs to, either thorough direct membership, nested groups, or dynamically calculated
 
 			**SCIM++ Properties:**
@@ -668,7 +668,10 @@ The following attributes are exported:
 				* returned: default
 				* type: string
 				* uniqueness: none
-			* `grant_mechanism` - Each value of grantMechanism indicates how (or by what component) some App (or App-Entitlement) was granted.\nA customer or the UI should use only grantMechanism values that start with 'ADMINISTRATOR':\n - 'ADMINISTRATOR_TO_USER' is for a direct grant to a specific User.\n - 'ADMINISTRATOR_TO_GROUP' is for a grant to a specific Group, which results in indirect grants to Users who are members of that Group.\n - 'ADMINISTRATOR_TO_APP' is for a grant to a specific App.  The grantee (client) App gains access to the granted (server) App.
+			* `grant_mechanism` - Each value of grantMechanism indicates how (or by what component) some App (or App-Entitlement) was granted. A customer or the UI should use only grantMechanism values that start with 'ADMINISTRATOR':
+				* 'ADMINISTRATOR_TO_USER' is for a direct grant to a specific User.
+				* 'ADMINISTRATOR_TO_GROUP' is for a grant to a specific Group, which results in indirect grants to Users who are members of that Group.
+				* 'ADMINISTRATOR_TO_APP' is for a grant to a specific App.  The grantee (client) App gains access to the granted (server) App.
 
 				**SCIM++ Properties:**
 				* caseExact: true

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_my_smtp_credentials
 This data source provides the list of My Smtp Credentials in Oracle Cloud Infrastructure Identity Domains service.
 
-Search smtp credentials
+Search for a user's own SMTP credential.
 
 ## Example Usage
 

@@ -1295,7 +1295,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `domain_validation_level` - (Optional) (Updatable) Number of domain levels IDCS should use for origin comparision
+	* `domain_validation_level` - (Optional) (Updatable) Number of domain levels Oracle Identity Cloud Service should use for origin comparision
 
 		**Added In:** 2109020413
 
@@ -2586,7 +2586,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `domain_validation_level` - Number of domain levels IDCS should use for origin comparision
+	* `domain_validation_level` - Number of domain levels Oracle Identity Cloud Service should use for origin comparision
 
 		**Added In:** 2109020413
 

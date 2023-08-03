@@ -769,6 +769,14 @@ identity_domains
 * oci\_identity\_domains\_my\_support\_account
 * oci\_identity\_domains\_authentication\_factor\_setting
 * oci\_identity\_domains\_kmsi\_setting
+* oci\_identity\_domains\_account\_recovery\_setting
+* oci\_identity\_domains\_identity\_setting
+* oci\_identity\_domains\_my\_request
+* oci\_identity\_domains\_security\_question\_setting
+* oci\_identity\_domains\_grant
+* oci\_identity\_domains\_app\_role
+* oci\_identity\_domains\_app
+* oci\_identity\_domains\_security\_question
 
 integration
 

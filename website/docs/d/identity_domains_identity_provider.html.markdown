@@ -644,6 +644,19 @@ The following attributes are exported:
 	* returned: default
 	* type: boolean
 	* uniqueness: none
+* `last_notification_sent_time` - Records the notification timestamp for the IdP whose signing certificate is about to expire
+
+	**Added In:** 2302092332
+
+	**SCIM++ Properties:**
+	* caseExact: false
+	* idcsSearchable: false
+	* multiValued: false
+	* mutability: readOnly
+	* required: false
+	* returned: default
+	* type: dateTime
+	* uniqueness: none
 * `logout_binding` - HTTP binding to use for logout.
 
 	**SCIM++ Properties:**
@@ -1272,6 +1285,32 @@ The following attributes are exported:
 		* required: false
 		* returned: default
 		* type: integer
+		* uniqueness: none
+	* `eku_validation_enabled` - Set to true to enable EKU Validation
+
+		**Added In:** 2304270343
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
+	* `eku_values` - List of EKU which needs to be validated
+
+		**Added In:** 2304270343
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: true
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
 		* uniqueness: none
 	* `ocsp_allow_unknown_response_status` - Allow access if OCSP response is UNKNOWN or OCSP Responder does not respond within the timeout duration
 

@@ -10,7 +10,7 @@ description: |-
 # oci_identity_domains_api_key
 This resource provides the Api Key resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Add a user's api key
+Create a user's API key.
 
 ## Example Usage
 
@@ -425,7 +425,7 @@ The following arguments are supported:
 		* returned: never
 		* type: boolean
 		* uniqueness: none
-* `user` - (Optional) User linked to api key
+* `user` - (Optional) The user linked to the API key.
 
 	**SCIM++ Properties:**
 	* caseExact: false
@@ -436,7 +436,7 @@ The following arguments are supported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `display` - (Optional) (Updatable) User display name
+	* `display` - (Optional) (Updatable) The user's display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -447,7 +447,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `name` - (Optional) (Updatable) User name
+	* `name` - (Optional) (Updatable) The username.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -458,7 +458,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - (Optional) User's ocid
+	* `ocid` - (Optional) The user's OCID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -469,7 +469,7 @@ The following arguments are supported:
 		* returned: always
 		* type: string
 		* uniqueness: none
-	* `ref` - (Optional) (Updatable) The URI that corresponds to the user linked to this credential
+	* `ref` - (Optional) (Updatable) The URI that corresponds to the user linked to this credential.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -480,7 +480,7 @@ The following arguments are supported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - (Optional) User's id
+	* `value` - (Optional) The user's ID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -868,7 +868,7 @@ The following attributes are exported:
 		* returned: never
 		* type: boolean
 		* uniqueness: none
-* `user` - User linked to api key
+* `user` - The user linked to the API key.
 
 	**SCIM++ Properties:**
 	* caseExact: false
@@ -879,7 +879,7 @@ The following attributes are exported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `display` - User display name
+	* `display` - The user's display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -890,7 +890,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `name` - User name
+	* `name` - The username.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -901,7 +901,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - User's ocid
+	* `ocid` - The user's OCID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -912,7 +912,7 @@ The following attributes are exported:
 		* returned: always
 		* type: string
 		* uniqueness: none
-	* `ref` - The URI that corresponds to the user linked to this credential
+	* `ref` - The URI that corresponds to the user linked to this credential.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -923,7 +923,7 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - User's id
+	* `value` - The user's ID.
 
 		**SCIM++ Properties:**
 		* caseExact: true

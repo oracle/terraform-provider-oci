@@ -84,6 +84,7 @@ The following attributes are exported:
 	* idcsSearchable: true
 	* multiValued: false
 	* mutability: readOnly
+	* idcsRequiresWriteForAccessFlows: true
 	* required: false
 	* returned: default
 	* type: dateTime
@@ -255,6 +256,7 @@ The following attributes are exported:
 	* idcsSearchable: false
 	* multiValued: false
 	* mutability: readWrite
+	* idcsRequiresWriteForAccessFlows: true
 	* required: false
 	* returned: default
 	* type: dateTime
@@ -266,6 +268,7 @@ The following attributes are exported:
 	* idcsSearchable: false
 	* multiValued: false
 	* mutability: immutable
+	* idcsRequiresWriteForAccessFlows: true
 	* required: false
 	* returned: default
 	* type: string
@@ -343,6 +346,7 @@ The following attributes are exported:
 	* idcsSearchable: false
 	* multiValued: false
 	* mutability: immutable
+	* idcsRequiresWriteForAccessFlows: true
 	* required: true
 	* returned: always
 	* type: string
@@ -364,6 +368,7 @@ The following attributes are exported:
 	* idcsSearchable: true
 	* multiValued: false
 	* mutability: immutable
+	* idcsRequiresWriteForAccessFlows: true
 	* required: false
 	* returned: default
 	* type: string
@@ -431,6 +436,7 @@ The following attributes are exported:
 	* idcsSearchable: true
 	* multiValued: false
 	* mutability: readWrite
+	* idcsRequiresWriteForAccessFlows: true
 	* required: false
 	* returned: default
 	* type: string
@@ -443,6 +449,7 @@ The following attributes are exported:
 	* idcsSensitive: none
 	* multiValued: false
 	* mutability: readOnly
+	* idcsRequiresWriteForAccessFlows: true
 	* required: true
 	* returned: always
 	* type: string
@@ -469,6 +476,7 @@ The following attributes are exported:
 		* idcsSearchable: false
 		* multiValued: false
 		* mutability: readWrite
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: default
 		* type: string
@@ -482,6 +490,7 @@ The following attributes are exported:
 		* idcsSearchable: false
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: true
 		* returned: default
 		* type: dateTime
@@ -495,6 +504,7 @@ The following attributes are exported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: readWrite
+		* idcsRequiresWriteForAccessFlows: true
 		* required: true
 		* returned: default
 		* type: string
@@ -529,6 +539,7 @@ The following attributes are exported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: readWrite
+		* idcsRequiresWriteForAccessFlows: true
 		* required: false
 		* returned: always
 		* type: string
@@ -539,6 +550,7 @@ The following attributes are exported:
 		* caseExact: false
 		* multiValued: false
 		* mutability: readOnly
+		* idcsRequiresWriteForAccessFlows: true
 		* required: true
 		* returned: default
 		* type: reference
@@ -550,6 +562,7 @@ The following attributes are exported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: readWrite
+		* idcsRequiresWriteForAccessFlows: true
 		* required: true
 		* returned: default
 		* type: string

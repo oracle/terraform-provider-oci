@@ -246,6 +246,10 @@ func (s *IdentityDomainsIdentityProviderDataSourceCrud) SetData() error {
 		s.D.Set("jit_user_prov_ignore_error_on_absent_groups", *s.Res.JitUserProvIgnoreErrorOnAbsentGroups)
 	}
 
+	if s.Res.LastNotificationSentTime != nil {
+		s.D.Set("last_notification_sent_time", *s.Res.LastNotificationSentTime)
+	}
+
 	s.D.Set("logout_binding", s.Res.LogoutBinding)
 
 	if s.Res.LogoutEnabled != nil {
