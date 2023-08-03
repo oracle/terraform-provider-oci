@@ -83,6 +83,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"backup_retention_period_in_days": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"character_set": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -104,7 +109,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
@@ -493,10 +497,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						},
 					},
 				},
-			},
-			"backup_retention_period_in_days": {
-				Type:     schema.TypeInt,
-				Computed: true,
 			},
 			"connection_strings": {
 				Type:     schema.TypeList,
@@ -1352,9 +1352,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
-	if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+	if computeCount, ok := s.D.GetOkExists("compute_count"); ok && s.D.HasChange("compute_count") {
 		tmp := float32(computeCount.(float64))
 		request.ComputeCount = &tmp
+	}
+
+	if computeModel, ok := s.D.GetOkExists("compute_model"); ok && s.D.HasChange("compute_model") {
+		request.ComputeModel = oci_database.UpdateAutonomousDatabaseDetailsComputeModelEnum(computeModel.(string))
 	}
 
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok && s.D.HasChange("cpu_core_count") {
@@ -1379,7 +1383,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok && s.D.HasChange("data_storage_size_in_gb") {
 		tmp := dataStorageSizeInGB.(int)
 		request.DataStorageSizeInGBs = &tmp
 	}
@@ -1595,6 +1599,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		} else if s.D.HasChange("whitelisted_ips") {
 			request.WhitelistedIps = []string{""}
 		}
+	}
+
+	if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok && s.D.HasChange("backup_retention_period_in_days") {
+		tmp := backupRetentionPeriodInDays.(int)
+		request.BackupRetentionPeriodInDays = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -2329,6 +2338,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -2564,6 +2577,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -2788,6 +2805,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -3011,6 +3032,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
+		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
@@ -3428,6 +3453,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -3646,6 +3675,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
+		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
 		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
