@@ -136,6 +136,10 @@ func OperatorAccessControlOperatorControlAssignmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_default_assignment": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -224,6 +228,7 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) UpdatedTarg
 	return []string{
 		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplied),
 		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplyfailed),
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesUpdatefailed),
 	}
 }
 
@@ -236,6 +241,7 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) DeletedPend
 func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesDeleted),
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesDeletionfailed),
 	}
 }
 
@@ -501,6 +507,10 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) SetData() e
 
 	if s.Res.IsAutoApproveDuringMaintenance != nil {
 		s.D.Set("is_auto_approve_during_maintenance", *s.Res.IsAutoApproveDuringMaintenance)
+	}
+
+	if s.Res.IsDefaultAssignment != nil {
+		s.D.Set("is_default_assignment", *s.Res.IsDefaultAssignment)
 	}
 
 	if s.Res.IsEnforcedAlways != nil {

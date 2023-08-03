@@ -120,10 +120,16 @@ data "oci_identity_groups" "get_admin_approver_group" {
     name = "Administrators"
 }
 
+resource "random_string" "random_suffix" {
+  length  = 9
+  special = false
+  upper   = false
+}
+
 resource "oci_operator_access_control_operator_control" "test_operator_control" {
   #Required
   compartment_id        = var.compartment_id
-  operator_control_name = "tfexample-opctlForAssign51"
+  operator_control_name = "tfexample-${random_string.random_suffix.result}"
 
   #Optional
   approver_groups_list        = [data.oci_identity_groups.get_admin_approver_group.groups[0].id]
@@ -144,7 +150,7 @@ resource "oci_operator_access_control_operator_control_assignment" "test_operato
   is_enforced_always      = var.operator_control_assignment_is_enforced_always
   operator_control_id     = oci_operator_access_control_operator_control.test_operator_control.id
   resource_compartment_id = var.compartment_id
-  resource_id             = "ocid1.exadatainfrastructure.test..operatorControlAssignmentSingularDataSourceReprese"
+  resource_id             = "ocid1.exadatainfrastructure.test..${random_string.random_suffix.result}"
   resource_name           = var.operator_control_assignment_resource_name
   resource_type           = var.operator_control_assignment_resource_type
 
