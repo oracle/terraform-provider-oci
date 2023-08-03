@@ -122,6 +122,13 @@ func OperatorAccessControlAccessRequestDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"sub_resource_list": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"system_message": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -276,6 +283,8 @@ func (s *OperatorAccessControlAccessRequestDataSourceCrud) SetData() error {
 	s.D.Set("severity", s.Res.Severity)
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	s.D.Set("sub_resource_list", s.Res.SubResourceList)
 
 	if s.Res.SystemMessage != nil {
 		s.D.Set("system_message", *s.Res.SystemMessage)
