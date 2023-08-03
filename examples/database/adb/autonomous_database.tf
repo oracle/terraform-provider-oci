@@ -95,6 +95,19 @@ resource "oci_database_autonomous_database" "test_autonomous_database_apex" {
   is_free_tier             = "false"
 }
 
+resource "oci_database_autonomous_database" "test_autonomous_database_bck_ret_days" {
+  admin_password                       = random_string.autonomous_database_admin_password.result
+  compartment_id                       = var.compartment_ocid
+  cpu_core_count                       = "1"
+  data_storage_size_in_tbs             = "1"
+  backup_retention_period_in_days      = "15"
+  db_name                              = "adbBckRetDays"
+  db_version                           = "19c"
+  db_workload                          = "AJD"
+  license_model                        = "LICENSE_INCLUDED"
+  is_free_tier                         = "false"
+}
+
 resource "oci_database_autonomous_database" "test_autonomous_database_actions" {
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid
