@@ -108,6 +108,10 @@ func OperatorAccessControlOperatorControlResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"is_default_operator_control": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"last_modified_info": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -471,6 +475,10 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) SetData() error {
 	s.D.Set("email_id_list", s.Res.EmailIdList)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsDefaultOperatorControl != nil {
+		s.D.Set("is_default_operator_control", *s.Res.IsDefaultOperatorControl)
+	}
 
 	if s.Res.IsFullyPreApproved != nil {
 		s.D.Set("is_fully_pre_approved", *s.Res.IsFullyPreApproved)

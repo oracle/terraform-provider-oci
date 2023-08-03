@@ -56,6 +56,7 @@ The following attributes are exported:
 * `resource_type` - resourceType for which the AccessRequest is applicable
 * `severity` - Priority assigned to the access request by the operator
 * `state` - The current state of the AccessRequest.
+* `sub_resource_list` - The subresources requested for approval.
 * `system_message` - System message that will be displayed to the operator at login to the target resource.
 * `time_of_creation` - Time when the access request was created in [RFC 3339](https://tools.ietf.org/html/rfc3339)timestamp format. Example: '2020-05-22T21:10:29.600Z' 
 * `time_of_modification` - Time when the access request was last modified in [RFC 3339](https://tools.ietf.org/html/rfc3339)timestamp format. Example: '2020-05-22T21:10:29.600Z' 

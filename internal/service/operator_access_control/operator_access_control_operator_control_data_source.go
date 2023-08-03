@@ -88,6 +88,10 @@ func (s *OperatorAccessControlOperatorControlDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsDefaultOperatorControl != nil {
+		s.D.Set("is_default_operator_control", *s.Res.IsDefaultOperatorControl)
+	}
+
 	if s.Res.IsFullyPreApproved != nil {
 		s.D.Set("is_fully_pre_approved", *s.Res.IsFullyPreApproved)
 	}
