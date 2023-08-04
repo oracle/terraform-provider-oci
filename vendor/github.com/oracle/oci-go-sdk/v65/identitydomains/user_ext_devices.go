@@ -28,7 +28,7 @@ import (
 //  - uniqueness: none
 type UserExtDevices struct {
 
-	// The identifier of the User's device.
+	// The user's device identifier.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -41,7 +41,7 @@ type UserExtDevices struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"true" json:"value"`
 
-	// The URI of the corresponding Device resource which belongs to user
+	// The URI of the corresponding Device resource which belongs to user.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
@@ -65,7 +65,7 @@ type UserExtDevices struct {
 	//  - uniqueness: none
 	Display *string `mandatory:"false" json:"display"`
 
-	// Device status.
+	// The device's status.
 	// **Added In:** 18.4.2
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
@@ -77,7 +77,7 @@ type UserExtDevices struct {
 	//  - uniqueness: none
 	Status *string `mandatory:"false" json:"status"`
 
-	// Last Sync time for device.
+	// The last sync time for device.
 	// **Added In:** 18.4.2
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
@@ -89,7 +89,7 @@ type UserExtDevices struct {
 	//  - uniqueness: none
 	LastSyncTime *string `mandatory:"false" json:"lastSyncTime"`
 
-	// Device authentication factor type.
+	// The device authentication factor type.
 	// **Added In:** 18.4.2
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
@@ -101,7 +101,7 @@ type UserExtDevices struct {
 	//  - uniqueness: none
 	FactorType *string `mandatory:"false" json:"factorType"`
 
-	// Device authentication factor status.
+	// The device authentication factor status.
 	// **Added In:** 18.4.2
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
@@ -113,7 +113,7 @@ type UserExtDevices struct {
 	//  - uniqueness: none
 	FactorStatus *string `mandatory:"false" json:"factorStatus"`
 
-	// Authentication method.
+	// The authentication method.
 	// **Added In:** 2009232244
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
@@ -125,7 +125,7 @@ type UserExtDevices struct {
 	//  - uniqueness: none
 	AuthenticationMethod *string `mandatory:"false" json:"authenticationMethod"`
 
-	// Third party factor vendor name.
+	// The third-party factor vendor name.
 	// **Added In:** 2009232244
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false

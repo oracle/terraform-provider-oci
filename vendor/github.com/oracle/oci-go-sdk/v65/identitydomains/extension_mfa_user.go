@@ -19,7 +19,7 @@ import (
 // ExtensionMfaUser This extension defines attributes used to manage Multi-Factor Authentication within a service provider. The extension is typically applied to a User resource, but MAY be applied to other resources that use MFA.
 type ExtensionMfaUser struct {
 
-	// Preferred Authentication Factor Type
+	// The preferred authentication factor type.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -32,20 +32,21 @@ type ExtensionMfaUser struct {
 	//  - uniqueness: none
 	PreferredAuthenticationFactor ExtensionMfaUserPreferredAuthenticationFactorEnum `mandatory:"false" json:"preferredAuthenticationFactor,omitempty"`
 
-	// User Opted for MFA
+	// The user opted for MFA.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
 	MfaStatus ExtensionMfaUserMfaStatusEnum `mandatory:"false" json:"mfaStatus,omitempty"`
 
-	// Preferred Third party vendor name
+	// The preferred third-party vendor name.
 	// **Added In:** 19.2.1
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -58,7 +59,7 @@ type ExtensionMfaUser struct {
 	//  - uniqueness: none
 	PreferredThirdPartyVendor *string `mandatory:"false" json:"preferredThirdPartyVendor"`
 
-	// Preferred Authentication method
+	// The preferred authentication method.
 	// **Added In:** 2009232244
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -71,19 +72,21 @@ type ExtensionMfaUser struct {
 	//  - uniqueness: none
 	PreferredAuthenticationMethod *string `mandatory:"false" json:"preferredAuthenticationMethod"`
 
-	// Number of incorrect Multi Factor Authentication login attempts made by this user. The user gets locked, if this reaches the threshold specified in the maxIncorrectAttempts attribute in AuthenticationFactorSettings
+	// The number of incorrect multi factor authentication sign in attempts made by this user. The user is  locked if this reaches the threshold specified in the maxIncorrectAttempts attribute in AuthenticationFactorSettings.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: integer
 	//  - uniqueness: none
 	LoginAttempts *int `mandatory:"false" json:"loginAttempts"`
 
-	// This represents the date when the user enrolled for multi factor authentication. This will be set to null, when the user resets his factors.
+	// The date when the user enrolled in multi factor authentication. This will be set to null, when the user resets their factors.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
@@ -122,7 +125,7 @@ type ExtensionMfaUser struct {
 	//  - uniqueness: none
 	Devices []UserExtDevices `mandatory:"false" json:"devices"`
 
-	// A list of bypass codes belongs to user
+	// A list of bypass codes that belongs to the user.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [value]

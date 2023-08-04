@@ -30,6 +30,17 @@ type UpdateCpeDetails struct {
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE device type. You can provide
+	// a value if you want to generate CPE device configuration content for IPSec connections
+	// that use this CPE. For a list of possible values, see
+	// ListCpeDeviceShapes.
+	// For more information about generating CPE device configuration content, see:
+	//   * GetCpeDeviceConfigContent
+	//   * GetIpsecCpeDeviceConfigContent
+	//   * GetTunnelCpeDeviceConfigContent
+	//   * GetTunnelCpeDeviceConfig
+	CpeDeviceShapeId *string `mandatory:"false" json:"cpeDeviceShapeId"`
 }
 
 func (m UpdateCpeDetails) String() string {

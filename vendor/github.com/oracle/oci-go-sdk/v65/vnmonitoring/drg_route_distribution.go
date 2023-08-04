@@ -21,10 +21,13 @@ import (
 // the statement's action to take place. Each statement determines which routes are propagated.
 // You can assign a route distribution as a route table's import distribution. The statements in an import
 // route distribution specify how how incoming route advertisements through a referenced attachment or all attachments of a certain type are inserted into the route table.
-// You can assign a route distribution as a DRG attachment's export distribution. Export route distribution statements specify how routes in a
-// DRG attachment's assigned table are advertised out through the attachment. When a DRG attachment is created, a route distribution is created with a
-// single ACCEPT statement with match criteria MATCH_ALL.
-// Exporting routes through VCN attachments is unsupported, so no VCN attachments are assigned an export distribution.
+// You can assign a route distribution as a DRG attachment's export distribution unless the
+// attachment has the type VCN. Exporting routes through a VCN attachment is unsupported. Export
+// route distribution statements specify how routes in a DRG attachment's assigned table are
+// advertised out through the attachment. When a DRG is created, a route distribution is created
+// with a single ACCEPT statement with match criteria MATCH_ALL. By default, all DRG attachments
+// (except for those of type VCN), are assigned this distribution.
+//
 // The two auto-generated DRG route tables (one as the default for VCN attachments, and the other for all other types of attachments)
 // are each assigned an auto generated import route distribution. The default VCN table's import distribution has a single statement with match criteria MATCH_ALL to import routes from
 // each DRG attachment type. The other table's import distribution has a statement to import routes from attachments with the VCN type.

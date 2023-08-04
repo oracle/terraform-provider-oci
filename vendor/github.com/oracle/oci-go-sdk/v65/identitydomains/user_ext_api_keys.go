@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserExtApiKeys A list of api keys corresponding to user.
+// UserExtApiKeys A list of API keys corresponding to user.
 // **Added In:** 2012271618
 // **SCIM++ Properties:**
 //  - idcsCompositeKey: [value]
@@ -29,7 +29,7 @@ import (
 //  - uniqueness: none
 type UserExtApiKeys struct {
 
-	// The value of of the User's api key.
+	// The user's API key value.
 	// **Added In:** 2106240046
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -42,7 +42,7 @@ type UserExtApiKeys struct {
 	//  - uniqueness: none
 	Key *string `mandatory:"false" json:"key"`
 
-	// The identifier of the User's api key.
+	// The user's API key identifier.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -55,7 +55,7 @@ type UserExtApiKeys struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"false" json:"value"`
 
-	// Ocid of the User's api key.
+	// The user's API key OCID.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -68,7 +68,7 @@ type UserExtApiKeys struct {
 	//  - uniqueness: none
 	Ocid *string `mandatory:"false" json:"ocid"`
 
-	// The URI of the corresponding ApiKey resource to which the user belongs
+	// The URI of the corresponding ApiKey resource to which the user belongs.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false

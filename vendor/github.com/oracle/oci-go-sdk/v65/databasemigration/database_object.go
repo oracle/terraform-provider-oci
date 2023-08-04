@@ -27,6 +27,9 @@ type DatabaseObject struct {
 	// Type of object to exclude.
 	// If not specified, matching owners and object names of type TABLE would be excluded.
 	Type *string `mandatory:"false" json:"type"`
+
+	// Whether an excluded table should be omitted from replication. Only valid for database objects that have are of type TABLE and that are included in the exludeObjects.
+	IsOmitExcludedTableFromReplication *bool `mandatory:"false" json:"isOmitExcludedTableFromReplication"`
 }
 
 func (m DatabaseObject) String() string {

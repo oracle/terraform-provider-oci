@@ -40,11 +40,15 @@ type VirtualCircuit struct {
 	// Example: `10 Gbps`
 	BandwidthShapeName *string `mandatory:"false" json:"bandwidthShapeName"`
 
-	// BGP management option.
+	// Deprecated. Instead use the information in
+	// FastConnectProviderService.
 	BgpManagement VirtualCircuitBgpManagementEnum `mandatory:"false" json:"bgpManagement,omitempty"`
 
-	// The state of the BGP session associated with the virtual circuit.
+	// The state of the Ipv4 BGP session associated with the virtual circuit.
 	BgpSessionState VirtualCircuitBgpSessionStateEnum `mandatory:"false" json:"bgpSessionState,omitempty"`
+
+	// The state of the Ipv6 BGP session associated with the virtual circuit.
+	BgpIpv6SessionState VirtualCircuitBgpIpv6SessionStateEnum `mandatory:"false" json:"bgpIpv6SessionState,omitempty"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the virtual circuit.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
@@ -54,16 +58,41 @@ type VirtualCircuit struct {
 	// virtual circuit.
 	CrossConnectMappings []CrossConnectMapping `mandatory:"false" json:"crossConnectMappings"`
 
+	// The routing policy sets how routing information about the Oracle cloud is shared over a public virtual circuit.
+	// Policies available are: `ORACLE_SERVICE_NETWORK`, `REGIONAL`, `MARKET_LEVEL`, and `GLOBAL`.
+	// See Route Filtering (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details.
+	// By default, routing information is shared for all routes in the same market.
+	RoutingPolicy []VirtualCircuitRoutingPolicyEnum `mandatory:"false" json:"routingPolicy,omitempty"`
+
+	// Set to `ENABLED` (the default) to activate the BGP session of the virtual circuit, set to `DISABLED` to deactivate the virtual circuit.
+	BgpAdminState VirtualCircuitBgpAdminStateEnum `mandatory:"false" json:"bgpAdminState,omitempty"`
+
+	// Set to `true` to enable BFD for IPv4 BGP peering, or set to `false` to disable BFD. If this is not set, the default is `false`.
+	IsBfdEnabled *bool `mandatory:"false" json:"isBfdEnabled"`
+
+	// Deprecated. Instead use `customerAsn`.
+	// If you specify values for both, the request will be rejected.
+	CustomerBgpAsn *int `mandatory:"false" json:"customerBgpAsn"`
+
 	// The BGP ASN of the network at the other end of the BGP
 	// session from Oracle. If the session is between the customer's
 	// edge router and Oracle, the value is the customer's ASN. If the BGP
 	// session is between the provider's edge router and Oracle, the value
 	// is the provider's ASN.
-	CustomerBgpAsn *int `mandatory:"false" json:"customerBgpAsn"`
+	// Can be a 2-byte or 4-byte ASN. Uses "asplain" format.
+	CustomerAsn *int64 `mandatory:"false" json:"customerAsn"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's Drg
 	// that this virtual circuit uses. Applicable only to private virtual circuits.
@@ -85,6 +114,9 @@ type VirtualCircuit struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if the customer is connecting via a provider).
 	ProviderServiceId *string `mandatory:"false" json:"providerServiceId"`
+
+	// The service key name offered by the provider (if the customer is connecting via a provider).
+	ProviderServiceKeyName *string `mandatory:"false" json:"providerServiceKeyName"`
 
 	// Deprecated. Instead use `providerServiceId`.
 	ProviderServiceName *string `mandatory:"false" json:"providerServiceName"`
@@ -119,6 +151,9 @@ type VirtualCircuit struct {
 	// Whether the virtual circuit supports private or public peering. For more information,
 	// see FastConnect Overview (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 	Type VirtualCircuitTypeEnum `mandatory:"false" json:"type,omitempty"`
+
+	// The layer 3 IP MTU to use on this virtual circuit.
+	IpMtu VirtualCircuitIpMtuEnum `mandatory:"false" json:"ipMtu,omitempty"`
 }
 
 func (m VirtualCircuit) String() string {
@@ -137,6 +172,18 @@ func (m VirtualCircuit) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingVirtualCircuitBgpSessionStateEnum(string(m.BgpSessionState)); !ok && m.BgpSessionState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpSessionState: %s. Supported values are: %s.", m.BgpSessionState, strings.Join(GetVirtualCircuitBgpSessionStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingVirtualCircuitBgpIpv6SessionStateEnum(string(m.BgpIpv6SessionState)); !ok && m.BgpIpv6SessionState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpIpv6SessionState: %s. Supported values are: %s.", m.BgpIpv6SessionState, strings.Join(GetVirtualCircuitBgpIpv6SessionStateEnumStringValues(), ",")))
+	}
+	for _, val := range m.RoutingPolicy {
+		if _, ok := GetMappingVirtualCircuitRoutingPolicyEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingPolicy: %s. Supported values are: %s.", val, strings.Join(GetVirtualCircuitRoutingPolicyEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := GetMappingVirtualCircuitBgpAdminStateEnum(string(m.BgpAdminState)); !ok && m.BgpAdminState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpAdminState: %s. Supported values are: %s.", m.BgpAdminState, strings.Join(GetVirtualCircuitBgpAdminStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingVirtualCircuitLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVirtualCircuitLifecycleStateEnumStringValues(), ",")))
 	}
@@ -148,6 +195,9 @@ func (m VirtualCircuit) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVirtualCircuitTypeEnum(string(m.Type)); !ok && m.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetVirtualCircuitTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVirtualCircuitIpMtuEnum(string(m.IpMtu)); !ok && m.IpMtu != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMtu: %s. Supported values are: %s.", m.IpMtu, strings.Join(GetVirtualCircuitIpMtuEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -240,6 +290,140 @@ func GetVirtualCircuitBgpSessionStateEnumStringValues() []string {
 // GetMappingVirtualCircuitBgpSessionStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVirtualCircuitBgpSessionStateEnum(val string) (VirtualCircuitBgpSessionStateEnum, bool) {
 	enum, ok := mappingVirtualCircuitBgpSessionStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VirtualCircuitBgpIpv6SessionStateEnum Enum with underlying type: string
+type VirtualCircuitBgpIpv6SessionStateEnum string
+
+// Set of constants representing the allowable values for VirtualCircuitBgpIpv6SessionStateEnum
+const (
+	VirtualCircuitBgpIpv6SessionStateUp   VirtualCircuitBgpIpv6SessionStateEnum = "UP"
+	VirtualCircuitBgpIpv6SessionStateDown VirtualCircuitBgpIpv6SessionStateEnum = "DOWN"
+)
+
+var mappingVirtualCircuitBgpIpv6SessionStateEnum = map[string]VirtualCircuitBgpIpv6SessionStateEnum{
+	"UP":   VirtualCircuitBgpIpv6SessionStateUp,
+	"DOWN": VirtualCircuitBgpIpv6SessionStateDown,
+}
+
+var mappingVirtualCircuitBgpIpv6SessionStateEnumLowerCase = map[string]VirtualCircuitBgpIpv6SessionStateEnum{
+	"up":   VirtualCircuitBgpIpv6SessionStateUp,
+	"down": VirtualCircuitBgpIpv6SessionStateDown,
+}
+
+// GetVirtualCircuitBgpIpv6SessionStateEnumValues Enumerates the set of values for VirtualCircuitBgpIpv6SessionStateEnum
+func GetVirtualCircuitBgpIpv6SessionStateEnumValues() []VirtualCircuitBgpIpv6SessionStateEnum {
+	values := make([]VirtualCircuitBgpIpv6SessionStateEnum, 0)
+	for _, v := range mappingVirtualCircuitBgpIpv6SessionStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVirtualCircuitBgpIpv6SessionStateEnumStringValues Enumerates the set of values in String for VirtualCircuitBgpIpv6SessionStateEnum
+func GetVirtualCircuitBgpIpv6SessionStateEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+	}
+}
+
+// GetMappingVirtualCircuitBgpIpv6SessionStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVirtualCircuitBgpIpv6SessionStateEnum(val string) (VirtualCircuitBgpIpv6SessionStateEnum, bool) {
+	enum, ok := mappingVirtualCircuitBgpIpv6SessionStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VirtualCircuitRoutingPolicyEnum Enum with underlying type: string
+type VirtualCircuitRoutingPolicyEnum string
+
+// Set of constants representing the allowable values for VirtualCircuitRoutingPolicyEnum
+const (
+	VirtualCircuitRoutingPolicyOracleServiceNetwork VirtualCircuitRoutingPolicyEnum = "ORACLE_SERVICE_NETWORK"
+	VirtualCircuitRoutingPolicyRegional             VirtualCircuitRoutingPolicyEnum = "REGIONAL"
+	VirtualCircuitRoutingPolicyMarketLevel          VirtualCircuitRoutingPolicyEnum = "MARKET_LEVEL"
+	VirtualCircuitRoutingPolicyGlobal               VirtualCircuitRoutingPolicyEnum = "GLOBAL"
+)
+
+var mappingVirtualCircuitRoutingPolicyEnum = map[string]VirtualCircuitRoutingPolicyEnum{
+	"ORACLE_SERVICE_NETWORK": VirtualCircuitRoutingPolicyOracleServiceNetwork,
+	"REGIONAL":               VirtualCircuitRoutingPolicyRegional,
+	"MARKET_LEVEL":           VirtualCircuitRoutingPolicyMarketLevel,
+	"GLOBAL":                 VirtualCircuitRoutingPolicyGlobal,
+}
+
+var mappingVirtualCircuitRoutingPolicyEnumLowerCase = map[string]VirtualCircuitRoutingPolicyEnum{
+	"oracle_service_network": VirtualCircuitRoutingPolicyOracleServiceNetwork,
+	"regional":               VirtualCircuitRoutingPolicyRegional,
+	"market_level":           VirtualCircuitRoutingPolicyMarketLevel,
+	"global":                 VirtualCircuitRoutingPolicyGlobal,
+}
+
+// GetVirtualCircuitRoutingPolicyEnumValues Enumerates the set of values for VirtualCircuitRoutingPolicyEnum
+func GetVirtualCircuitRoutingPolicyEnumValues() []VirtualCircuitRoutingPolicyEnum {
+	values := make([]VirtualCircuitRoutingPolicyEnum, 0)
+	for _, v := range mappingVirtualCircuitRoutingPolicyEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVirtualCircuitRoutingPolicyEnumStringValues Enumerates the set of values in String for VirtualCircuitRoutingPolicyEnum
+func GetVirtualCircuitRoutingPolicyEnumStringValues() []string {
+	return []string{
+		"ORACLE_SERVICE_NETWORK",
+		"REGIONAL",
+		"MARKET_LEVEL",
+		"GLOBAL",
+	}
+}
+
+// GetMappingVirtualCircuitRoutingPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVirtualCircuitRoutingPolicyEnum(val string) (VirtualCircuitRoutingPolicyEnum, bool) {
+	enum, ok := mappingVirtualCircuitRoutingPolicyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VirtualCircuitBgpAdminStateEnum Enum with underlying type: string
+type VirtualCircuitBgpAdminStateEnum string
+
+// Set of constants representing the allowable values for VirtualCircuitBgpAdminStateEnum
+const (
+	VirtualCircuitBgpAdminStateEnabled  VirtualCircuitBgpAdminStateEnum = "ENABLED"
+	VirtualCircuitBgpAdminStateDisabled VirtualCircuitBgpAdminStateEnum = "DISABLED"
+)
+
+var mappingVirtualCircuitBgpAdminStateEnum = map[string]VirtualCircuitBgpAdminStateEnum{
+	"ENABLED":  VirtualCircuitBgpAdminStateEnabled,
+	"DISABLED": VirtualCircuitBgpAdminStateDisabled,
+}
+
+var mappingVirtualCircuitBgpAdminStateEnumLowerCase = map[string]VirtualCircuitBgpAdminStateEnum{
+	"enabled":  VirtualCircuitBgpAdminStateEnabled,
+	"disabled": VirtualCircuitBgpAdminStateDisabled,
+}
+
+// GetVirtualCircuitBgpAdminStateEnumValues Enumerates the set of values for VirtualCircuitBgpAdminStateEnum
+func GetVirtualCircuitBgpAdminStateEnumValues() []VirtualCircuitBgpAdminStateEnum {
+	values := make([]VirtualCircuitBgpAdminStateEnum, 0)
+	for _, v := range mappingVirtualCircuitBgpAdminStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVirtualCircuitBgpAdminStateEnumStringValues Enumerates the set of values in String for VirtualCircuitBgpAdminStateEnum
+func GetVirtualCircuitBgpAdminStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
+}
+
+// GetMappingVirtualCircuitBgpAdminStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVirtualCircuitBgpAdminStateEnum(val string) (VirtualCircuitBgpAdminStateEnum, bool) {
+	enum, ok := mappingVirtualCircuitBgpAdminStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

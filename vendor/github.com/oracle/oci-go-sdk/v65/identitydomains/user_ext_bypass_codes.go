@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserExtBypassCodes A list of bypass codes belongs to user
+// UserExtBypassCodes A list of bypass codes that belongs to the user.
 // **Added In:** 18.3.6
 // **SCIM++ Properties:**
 //  - idcsCompositeKey: [value]
@@ -28,7 +28,7 @@ import (
 //  - uniqueness: none
 type UserExtBypassCodes struct {
 
-	// The identifier of the User's bypass code.
+	// The user's bypass code identifier.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - caseExact: true

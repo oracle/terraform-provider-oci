@@ -60,6 +60,9 @@ type DhcpOptions struct {
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The search domain name type of DHCP options
+	DomainNameType DhcpOptionsDomainNameTypeEnum `mandatory:"false" json:"domainNameType,omitempty"`
 }
 
 func (m DhcpOptions) String() string {
@@ -75,6 +78,9 @@ func (m DhcpOptions) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDhcpOptionsLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDhcpOptionsDomainNameTypeEnum(string(m.DomainNameType)); !ok && m.DomainNameType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DomainNameType: %s. Supported values are: %s.", m.DomainNameType, strings.Join(GetDhcpOptionsDomainNameTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -87,6 +93,7 @@ func (m *DhcpOptions) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName    *string                           `json:"displayName"`
 		FreeformTags   map[string]string                 `json:"freeformTags"`
+		DomainNameType DhcpOptionsDomainNameTypeEnum     `json:"domainNameType"`
 		CompartmentId  *string                           `json:"compartmentId"`
 		Id             *string                           `json:"id"`
 		LifecycleState DhcpOptionsLifecycleStateEnum     `json:"lifecycleState"`
@@ -105,6 +112,8 @@ func (m *DhcpOptions) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.FreeformTags = model.FreeformTags
+
+	m.DomainNameType = model.DomainNameType
 
 	m.CompartmentId = model.CompartmentId
 
@@ -179,5 +188,51 @@ func GetDhcpOptionsLifecycleStateEnumStringValues() []string {
 // GetMappingDhcpOptionsLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDhcpOptionsLifecycleStateEnum(val string) (DhcpOptionsLifecycleStateEnum, bool) {
 	enum, ok := mappingDhcpOptionsLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DhcpOptionsDomainNameTypeEnum Enum with underlying type: string
+type DhcpOptionsDomainNameTypeEnum string
+
+// Set of constants representing the allowable values for DhcpOptionsDomainNameTypeEnum
+const (
+	DhcpOptionsDomainNameTypeSubnetDomain DhcpOptionsDomainNameTypeEnum = "SUBNET_DOMAIN"
+	DhcpOptionsDomainNameTypeVcnDomain    DhcpOptionsDomainNameTypeEnum = "VCN_DOMAIN"
+	DhcpOptionsDomainNameTypeCustomDomain DhcpOptionsDomainNameTypeEnum = "CUSTOM_DOMAIN"
+)
+
+var mappingDhcpOptionsDomainNameTypeEnum = map[string]DhcpOptionsDomainNameTypeEnum{
+	"SUBNET_DOMAIN": DhcpOptionsDomainNameTypeSubnetDomain,
+	"VCN_DOMAIN":    DhcpOptionsDomainNameTypeVcnDomain,
+	"CUSTOM_DOMAIN": DhcpOptionsDomainNameTypeCustomDomain,
+}
+
+var mappingDhcpOptionsDomainNameTypeEnumLowerCase = map[string]DhcpOptionsDomainNameTypeEnum{
+	"subnet_domain": DhcpOptionsDomainNameTypeSubnetDomain,
+	"vcn_domain":    DhcpOptionsDomainNameTypeVcnDomain,
+	"custom_domain": DhcpOptionsDomainNameTypeCustomDomain,
+}
+
+// GetDhcpOptionsDomainNameTypeEnumValues Enumerates the set of values for DhcpOptionsDomainNameTypeEnum
+func GetDhcpOptionsDomainNameTypeEnumValues() []DhcpOptionsDomainNameTypeEnum {
+	values := make([]DhcpOptionsDomainNameTypeEnum, 0)
+	for _, v := range mappingDhcpOptionsDomainNameTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDhcpOptionsDomainNameTypeEnumStringValues Enumerates the set of values in String for DhcpOptionsDomainNameTypeEnum
+func GetDhcpOptionsDomainNameTypeEnumStringValues() []string {
+	return []string{
+		"SUBNET_DOMAIN",
+		"VCN_DOMAIN",
+		"CUSTOM_DOMAIN",
+	}
+}
+
+// GetMappingDhcpOptionsDomainNameTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDhcpOptionsDomainNameTypeEnum(val string) (DhcpOptionsDomainNameTypeEnum, bool) {
+	enum, ok := mappingDhcpOptionsDomainNameTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

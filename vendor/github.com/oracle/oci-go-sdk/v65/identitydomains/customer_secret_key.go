@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CustomerSecretKey User's customer secret key
+// CustomerSecretKey The user's customer secret key.
 type CustomerSecretKey struct {
 
 	// REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \"enterprise\" extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.
@@ -162,7 +162,7 @@ type CustomerSecretKey struct {
 	//  - returned: default
 	Description *string `mandatory:"false" json:"description"`
 
-	// User credential status
+	// The user's credential status.
 	// **Added In:** 2109090424
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -175,7 +175,7 @@ type CustomerSecretKey struct {
 	//  - uniqueness: none
 	Status CustomerSecretKeyStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// User credential expires on
+	// When the user's credential expire.
 	// **Added In:** 2109090424
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -188,7 +188,7 @@ type CustomerSecretKey struct {
 	//  - uniqueness: none
 	ExpiresOn *string `mandatory:"false" json:"expiresOn"`
 
-	// Access key
+	// The access key.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - type: string

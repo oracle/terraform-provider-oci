@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ExtensionMeUser OCI IAM self service schema extension
+// ExtensionMeUser Oracle Identity Cloud Service self service schema extension
 type ExtensionMeUser struct {
 
 	// The current password is required if the user attempts to change the values of attributes that are used in recovering or verifying the user's own identity.  If the current password is specified, it will be used to authenticate the user regardless of any change in these attribute values

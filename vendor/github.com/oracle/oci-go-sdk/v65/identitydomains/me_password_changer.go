@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// MePasswordChanger Schema to handle userpassword change by self.
+// MePasswordChanger The schema used for a user changing their own password.
 type MePasswordChanger struct {
 
 	// REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \"enterprise\" extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.
@@ -44,7 +44,7 @@ type MePasswordChanger struct {
 	//  - idcsSearchable: false
 	Password *string `mandatory:"true" json:"password"`
 
-	// Old password attribute
+	// The old password attribute.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false

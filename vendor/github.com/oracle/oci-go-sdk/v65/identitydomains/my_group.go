@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// MyGroup Group resource.
+// MyGroup The Group resource.
 type MyGroup struct {
 
 	// REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \"enterprise\" extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.
@@ -31,7 +31,7 @@ type MyGroup struct {
 	//  - uniqueness: none
 	Schemas []string `mandatory:"true" json:"schemas"`
 
-	// Group display name
+	// The Group display name.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsCsvAttributeName: Display Name
@@ -170,7 +170,7 @@ type MyGroup struct {
 	//  - uniqueness: none
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
-	// A human readable name for Group as defined by the Service Consumer
+	// A human readable name for the group as defined by the Service Consumer.
 	// **Added In:** 2011192329
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -183,7 +183,7 @@ type MyGroup struct {
 	//  - type: string
 	NonUniqueDisplayName *string `mandatory:"false" json:"nonUniqueDisplayName"`
 
-	// Group members - when requesting members attribute, a max of 10,000 members will be returned in a single request. It is recommended to use startIndex and count to return members in pages instead of in a single response, eg : #attributes=members[startIndex=1%26count=10]
+	// The group members. <b>Important:</b> When requesting group members, a maximum of 10,000 members can be returned in a single request. If the response contains more than 10,000 members, the request will fail. Use 'startIndex' and 'count' to return members in pages instead of in a single response, for example: #attributes=members[startIndex=1%26count=10]. This REST API is SCIM compliant.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsCompositeKey: [value]

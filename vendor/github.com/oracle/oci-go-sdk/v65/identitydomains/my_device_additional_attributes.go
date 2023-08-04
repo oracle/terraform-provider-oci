@@ -28,6 +28,8 @@ type MyDeviceAdditionalAttributes struct {
 	//  - returned: always
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Key *string `mandatory:"true" json:"key"`
 
 	// Device Attribute Value
@@ -39,6 +41,8 @@ type MyDeviceAdditionalAttributes struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Value *string `mandatory:"true" json:"value"`
 }
 

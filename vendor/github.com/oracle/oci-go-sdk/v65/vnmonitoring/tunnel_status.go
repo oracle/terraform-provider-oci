@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// TunnelStatus Specific connection details for an IPSec tunnel.
+// TunnelStatus Deprecated. For tunnel information, instead see IPSecConnectionTunnel.
 type TunnelStatus struct {
 
 	// The IP address of Oracle's VPN headend.
@@ -62,18 +62,21 @@ const (
 	TunnelStatusLifecycleStateUp                 TunnelStatusLifecycleStateEnum = "UP"
 	TunnelStatusLifecycleStateDown               TunnelStatusLifecycleStateEnum = "DOWN"
 	TunnelStatusLifecycleStateDownForMaintenance TunnelStatusLifecycleStateEnum = "DOWN_FOR_MAINTENANCE"
+	TunnelStatusLifecycleStatePartialUp          TunnelStatusLifecycleStateEnum = "PARTIAL_UP"
 )
 
 var mappingTunnelStatusLifecycleStateEnum = map[string]TunnelStatusLifecycleStateEnum{
 	"UP":                   TunnelStatusLifecycleStateUp,
 	"DOWN":                 TunnelStatusLifecycleStateDown,
 	"DOWN_FOR_MAINTENANCE": TunnelStatusLifecycleStateDownForMaintenance,
+	"PARTIAL_UP":           TunnelStatusLifecycleStatePartialUp,
 }
 
 var mappingTunnelStatusLifecycleStateEnumLowerCase = map[string]TunnelStatusLifecycleStateEnum{
 	"up":                   TunnelStatusLifecycleStateUp,
 	"down":                 TunnelStatusLifecycleStateDown,
 	"down_for_maintenance": TunnelStatusLifecycleStateDownForMaintenance,
+	"partial_up":           TunnelStatusLifecycleStatePartialUp,
 }
 
 // GetTunnelStatusLifecycleStateEnumValues Enumerates the set of values for TunnelStatusLifecycleStateEnum
@@ -91,6 +94,7 @@ func GetTunnelStatusLifecycleStateEnumStringValues() []string {
 		"UP",
 		"DOWN",
 		"DOWN_FOR_MAINTENANCE",
+		"PARTIAL_UP",
 	}
 }
 

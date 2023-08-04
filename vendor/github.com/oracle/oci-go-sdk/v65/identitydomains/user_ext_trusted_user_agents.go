@@ -28,7 +28,7 @@ import (
 //  - uniqueness: none
 type UserExtTrustedUserAgents struct {
 
-	// The identifier of the User's trusted user agent.
+	// The user's trusted user agent identifier.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - caseExact: true

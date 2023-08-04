@@ -344,6 +344,18 @@ type PasswordPolicy struct {
 	//  - uniqueness: none
 	UserNameDisallowed *bool `mandatory:"false" json:"userNameDisallowed"`
 
+	// List of User attributes whose values are not allowed in the password.
+	// **Added In:** 2303212224
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: false
+	//  - multiValued: true
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: string
+	//  - uniqueness: none
+	DisallowedUserAttributeValues []string `mandatory:"false" json:"disallowedUserAttributeValues"`
+
 	// Minimum time after which the user can resubmit the reset password request
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -509,19 +521,17 @@ type PasswordPolicy struct {
 	//  - uniqueness: none
 	ForcePasswordReset *bool `mandatory:"false" json:"forcePasswordReset"`
 
-	// A list of groups that the password policy belongs to.
-	// **Added In:** 20.1.3
+	// The number of distinct characters between old password and new password
+	// **Added In:** 2303212224
 	// **SCIM++ Properties:**
 	//  - caseExact: false
-	//  - idcsCompositeKey: [value]
-	//  - idcsSearchable: true
-	//  - multiValued: true
+	//  - multiValued: false
 	//  - mutability: readWrite
 	//  - required: false
 	//  - returned: default
-	//  - type: complex
+	//  - type: integer
 	//  - uniqueness: none
-	Groups []PasswordPolicyGroups `mandatory:"false" json:"groups"`
+	DistinctCharacters *int `mandatory:"false" json:"distinctCharacters"`
 
 	// Password policy priority
 	// **Added In:** 20.1.3
@@ -535,6 +545,20 @@ type PasswordPolicy struct {
 	//  - idcsMinValue: 1
 	//  - uniqueness: server
 	Priority *int `mandatory:"false" json:"priority"`
+
+	// A list of groups that the password policy belongs to.
+	// **Added In:** 20.1.3
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsCompositeKey: [value]
+	//  - idcsSearchable: true
+	//  - multiValued: true
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: complex
+	//  - uniqueness: none
+	Groups []PasswordPolicyGroups `mandatory:"false" json:"groups"`
 
 	// List of password policy rules that have values set. This map of stringKey:stringValue pairs can be used to aid users while setting/resetting password
 	// **SCIM++ Properties:**

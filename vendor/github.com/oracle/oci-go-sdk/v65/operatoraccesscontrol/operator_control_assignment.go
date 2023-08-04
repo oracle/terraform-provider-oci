@@ -98,6 +98,9 @@ type OperatorControlAssignment struct {
 	// The message describing the error occurred during Assignment operation.
 	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 
+	// Whether the assignment is a default assignment.
+	IsDefaultAssignment *bool `mandatory:"false" json:"isDefaultAssignment"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
