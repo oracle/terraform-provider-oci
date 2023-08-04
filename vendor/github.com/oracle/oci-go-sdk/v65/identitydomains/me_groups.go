@@ -31,7 +31,7 @@ type MeGroups struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"true" json:"value"`
 
-	// Ocid of the User's group.
+	// The OCID of the User's group.
 	// **Added In:** 2102181953
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -101,7 +101,7 @@ type MeGroups struct {
 	//  - uniqueness: none
 	Type MeGroupsTypeEnum `mandatory:"false" json:"type,omitempty"`
 
-	// Membership Ocid
+	// The membership OCID.
 	// **Added In:** 2103141444
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: true

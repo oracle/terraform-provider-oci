@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserPasswordResetter Schema to handle userpassword reset by administrator.
+// UserPasswordResetter The schema used to handle a user password reset by an administrator.
 type UserPasswordResetter struct {
 
 	// REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \"enterprise\" extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.
@@ -154,7 +154,7 @@ type UserPasswordResetter struct {
 	//  - uniqueness: none
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
-	// A Boolean value indicating whether or not to send email notification after resetting the password of the OCI IAM user.
+	// Indicates whether to send an email notification after resetting the user's password.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: false
@@ -180,7 +180,7 @@ type UserPasswordResetter struct {
 
 	UserToken *UserPasswordResetterUserToken `mandatory:"false" json:"userToken"`
 
-	// Specifies the EmailTemplate to be used when sending notification to the user this request is for. If specified, it overrides the default EmailTemplate for this event.
+	// Specifies the EmailTemplate to be used when sending notifications to the user. If specified, it overrides the default EmailTemplate.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: false
@@ -192,7 +192,7 @@ type UserPasswordResetter struct {
 	//  - uniqueness: none
 	NotificationEmailTemplateId *string `mandatory:"false" json:"notificationEmailTemplateId"`
 
-	// One time password will be returned when user does not have primary email address
+	// A one time password will be returned when the user doesn't have a primary email address.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: false

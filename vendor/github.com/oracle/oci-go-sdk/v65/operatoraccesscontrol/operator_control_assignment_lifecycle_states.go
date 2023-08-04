@@ -24,6 +24,7 @@ const (
 	OperatorControlAssignmentLifecycleStatesApplied        OperatorControlAssignmentLifecycleStatesEnum = "APPLIED"
 	OperatorControlAssignmentLifecycleStatesApplyfailed    OperatorControlAssignmentLifecycleStatesEnum = "APPLYFAILED"
 	OperatorControlAssignmentLifecycleStatesUpdating       OperatorControlAssignmentLifecycleStatesEnum = "UPDATING"
+	OperatorControlAssignmentLifecycleStatesUpdatefailed   OperatorControlAssignmentLifecycleStatesEnum = "UPDATEFAILED"
 	OperatorControlAssignmentLifecycleStatesDeleting       OperatorControlAssignmentLifecycleStatesEnum = "DELETING"
 	OperatorControlAssignmentLifecycleStatesDeleted        OperatorControlAssignmentLifecycleStatesEnum = "DELETED"
 	OperatorControlAssignmentLifecycleStatesDeletionfailed OperatorControlAssignmentLifecycleStatesEnum = "DELETIONFAILED"
@@ -34,6 +35,7 @@ var mappingOperatorControlAssignmentLifecycleStatesEnum = map[string]OperatorCon
 	"APPLIED":        OperatorControlAssignmentLifecycleStatesApplied,
 	"APPLYFAILED":    OperatorControlAssignmentLifecycleStatesApplyfailed,
 	"UPDATING":       OperatorControlAssignmentLifecycleStatesUpdating,
+	"UPDATEFAILED":   OperatorControlAssignmentLifecycleStatesUpdatefailed,
 	"DELETING":       OperatorControlAssignmentLifecycleStatesDeleting,
 	"DELETED":        OperatorControlAssignmentLifecycleStatesDeleted,
 	"DELETIONFAILED": OperatorControlAssignmentLifecycleStatesDeletionfailed,
@@ -44,6 +46,7 @@ var mappingOperatorControlAssignmentLifecycleStatesEnumLowerCase = map[string]Op
 	"applied":        OperatorControlAssignmentLifecycleStatesApplied,
 	"applyfailed":    OperatorControlAssignmentLifecycleStatesApplyfailed,
 	"updating":       OperatorControlAssignmentLifecycleStatesUpdating,
+	"updatefailed":   OperatorControlAssignmentLifecycleStatesUpdatefailed,
 	"deleting":       OperatorControlAssignmentLifecycleStatesDeleting,
 	"deleted":        OperatorControlAssignmentLifecycleStatesDeleted,
 	"deletionfailed": OperatorControlAssignmentLifecycleStatesDeletionfailed,
@@ -65,6 +68,7 @@ func GetOperatorControlAssignmentLifecycleStatesEnumStringValues() []string {
 		"APPLIED",
 		"APPLYFAILED",
 		"UPDATING",
+		"UPDATEFAILED",
 		"DELETING",
 		"DELETED",
 		"DELETIONFAILED",

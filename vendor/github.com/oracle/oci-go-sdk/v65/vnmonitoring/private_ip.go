@@ -37,12 +37,17 @@ import (
 // LaunchInstance or
 // AttachVnic. To update the hostname
 // for a primary private IP, you use UpdateVnic.
+// `PrivateIp` objects that are created for use with the Oracle Cloud VMware Solution are
+// assigned to a VLAN and not a VNIC in a subnet. See the
+// descriptions of the relevant attributes in the `PrivateIp` object. Also see
+// Vlan.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type PrivateIp struct {
 
-	// The private IP's availability domain.
+	// The private IP's availability domain. This attribute will be null if this is a *secondary*
+	// private IP assigned to a VNIC that is in a *regional* subnet.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
@@ -63,13 +68,13 @@ type PrivateIp struct {
 
 	// The hostname for the private IP. Used for DNS. The value is the hostname
 	// portion of the private IP's fully qualified domain name (FQDN)
-	// (for example, `bminstance-1` in FQDN `bminstance-1.subnet123.vcn1.oraclevcn.com`).
+	// (for example, `bminstance1` in FQDN `bminstance1.subnet123.vcn1.oraclevcn.com`).
 	// Must be unique across all VNICs in the subnet and comply with
 	// RFC 952 (https://tools.ietf.org/html/rfc952) and
 	// RFC 1123 (https://tools.ietf.org/html/rfc1123).
 	// For more information, see
 	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
-	// Example: `bminstance-1`
+	// Example: `bminstance1`
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
 
 	// The private IP's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
@@ -77,7 +82,9 @@ type PrivateIp struct {
 
 	// The private IP address of the `privateIp` object. The address is within the CIDR
 	// of the VNIC's subnet.
-	//
+	// However, if the `PrivateIp` object is being used with a VLAN as part of
+	// the Oracle Cloud VMware Solution, the address is from the range specified by the
+	// `cidrBlock` attribute for the VLAN. See Vlan.
 	// Example: `10.0.3.3`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
@@ -86,7 +93,14 @@ type PrivateIp struct {
 	// Example: `true`
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
 
+	// Applicable only if the `PrivateIp` object is being used with a VLAN as part of
+	// the Oracle Cloud VMware Solution. The `vlanId` is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN. See
+	// Vlan.
+	VlanId *string `mandatory:"false" json:"vlanId"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the VNIC is in.
+	// However, if the `PrivateIp` object is being used with a VLAN as part of
+	// the Oracle Cloud VMware Solution, the `subnetId` is null.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The date and time the private IP was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -95,6 +109,8 @@ type PrivateIp struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC the private IP is assigned to. The VNIC and private IP
 	// must be in the same subnet.
+	// However, if the `PrivateIp` object is being used with a VLAN as part of
+	// the Oracle Cloud VMware Solution, the `vnicId` is null.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 }
 

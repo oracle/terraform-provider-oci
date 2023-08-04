@@ -85,6 +85,9 @@ type AutonomousDatabaseSummary struct {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
+	// Parameter that allows users to select an acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard
+	LocalAdgAutoFailoverMaxDataLossLimit *int `mandatory:"false" json:"localAdgAutoFailoverMaxDataLossLimit"`
+
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
 	ComputeModel AutonomousDatabaseSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 

@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// MyGroupMembers Group members - when requesting members attribute, a max of 10,000 members will be returned in a single request. It is recommended to use startIndex and count to return members in pages instead of in a single response, eg : #attributes=members[startIndex=1%26count=10]
+// MyGroupMembers The group members. <b>Important:</b> When requesting group members, a maximum of 10,000 members can be returned in a single request. If the response contains more than 10,000 members, the request will fail. Use 'startIndex' and 'count' to return members in pages instead of in a single response, for example: #attributes=members[startIndex=1%26count=10]. This REST API is SCIM compliant.
 type MyGroupMembers struct {
 
-	// ID of the member of this Group
+	// The ID of the member of this Group
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -31,7 +31,7 @@ type MyGroupMembers struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"true" json:"value"`
 
-	// Indicates the type of resource--for example, User or Group
+	// Indicates the type of resource, for example, User or Group.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -44,7 +44,7 @@ type MyGroupMembers struct {
 	//  - uniqueness: none
 	Type MyGroupMembersTypeEnum `mandatory:"true" json:"type"`
 
-	// The DateTime the member was added to the Group.
+	// The date and time that the member was added to the group.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -55,7 +55,7 @@ type MyGroupMembers struct {
 	//  - uniqueness: none
 	DateAdded *string `mandatory:"false" json:"dateAdded"`
 
-	// OCID of the member of this Group
+	// The OCID of the member of this group.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -68,7 +68,7 @@ type MyGroupMembers struct {
 	//  - uniqueness: none
 	Ocid *string `mandatory:"false" json:"ocid"`
 
-	// Membership Ocid
+	// The membership OCID.
 	// **Added In:** 2102181953
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -81,7 +81,7 @@ type MyGroupMembers struct {
 	//  - uniqueness: none
 	MembershipOcid *string `mandatory:"false" json:"membershipOcid"`
 
-	// The URI that corresponds to the member Resource of this Group
+	// The URI that corresponds to the member Resource of this group.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: false
@@ -93,7 +93,7 @@ type MyGroupMembers struct {
 	//  - uniqueness: none
 	Ref *string `mandatory:"false" json:"$ref"`
 
-	// Member display name
+	// The member's display name.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
@@ -105,7 +105,7 @@ type MyGroupMembers struct {
 	//  - uniqueness: none
 	Display *string `mandatory:"false" json:"display"`
 
-	// Member name
+	// The member's name.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: false

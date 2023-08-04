@@ -28,6 +28,8 @@ type MyDeviceNonCompliances struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Name *string `mandatory:"true" json:"name"`
 
 	// Device Compliance value
@@ -39,6 +41,8 @@ type MyDeviceNonCompliances struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Value *string `mandatory:"true" json:"value"`
 
 	// Device Compliance Action
@@ -50,6 +54,8 @@ type MyDeviceNonCompliances struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Action MyDeviceNonCompliancesActionEnum `mandatory:"true" json:"action"`
 }
 

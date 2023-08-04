@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserExtSmtpCredentials A list of smtp credentials corresponding to user.
+// UserExtSmtpCredentials A list of SMTP credentials corresponding to user.
 // **Added In:** 2012271618
 // **SCIM++ Properties:**
 //  - idcsCompositeKey: [value]
@@ -29,7 +29,7 @@ import (
 //  - uniqueness: none
 type UserExtSmtpCredentials struct {
 
-	// The identifier of the User's smtp credential.
+	// The user's SMTP credential identifier.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -42,7 +42,7 @@ type UserExtSmtpCredentials struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"false" json:"value"`
 
-	// Ocid of the User's auth token.
+	// The user's Auth token OCID.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -55,7 +55,7 @@ type UserExtSmtpCredentials struct {
 	//  - uniqueness: none
 	Ocid *string `mandatory:"false" json:"ocid"`
 
-	// The URI of the corresponding SmtpCredential resource to which the user belongs
+	// The URI of the corresponding SmtpCredential resource to which the user belongs.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false

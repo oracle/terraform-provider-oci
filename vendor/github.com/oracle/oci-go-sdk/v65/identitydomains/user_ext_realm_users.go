@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserExtRealmUsers A list of kerberos realm users for an OCI IAM User
+// UserExtRealmUsers A list of kerberos realm users for an Oracle Identity Cloud Service User
 // **SCIM++ Properties:**
 //  - idcsCompositeKey: [value]
 //  - multiValued: true
@@ -27,7 +27,7 @@ import (
 //  - uniqueness: none
 type UserExtRealmUsers struct {
 
-	// id of the KerberosRealmUser associated with the OCI IAM User.
+	// id of the KerberosRealmUser associated with the Oracle Identity Cloud Service User.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -39,7 +39,7 @@ type UserExtRealmUsers struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"true" json:"value"`
 
-	// The URI of the corresponding KerberosRealmUser resource associated with the OCI IAM User.
+	// The URI of the corresponding KerberosRealmUser resource associated with the Oracle Identity Cloud Service User.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - multiValued: false
@@ -50,7 +50,7 @@ type UserExtRealmUsers struct {
 	//  - uniqueness: none
 	Ref *string `mandatory:"false" json:"$ref"`
 
-	// Principal Name of the KerberosRealmUser associated with the OCI IAM User.
+	// Principal Name of the KerberosRealmUser associated with the Oracle Identity Cloud Service User.
 	// **SCIM++ Properties:**
 	//  - idcsPii: true
 	//  - idcsSearchable: true
@@ -62,7 +62,7 @@ type UserExtRealmUsers struct {
 	//  - uniqueness: none
 	PrincipalName *string `mandatory:"false" json:"principalName"`
 
-	// Realm Name for the KerberosRealmUser associated with the OCI IAM User.
+	// Realm Name for the KerberosRealmUser associated with the Oracle Identity Cloud Service User.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: true
 	//  - multiValued: false

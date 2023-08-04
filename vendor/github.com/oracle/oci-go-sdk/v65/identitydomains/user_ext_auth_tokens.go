@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserExtAuthTokens A list of auth tokens corresponding to user.
+// UserExtAuthTokens A list of Auth tokens corresponding to user.
 // **Added In:** 2012271618
 // **SCIM++ Properties:**
 //  - idcsCompositeKey: [value]
@@ -29,7 +29,7 @@ import (
 //  - uniqueness: none
 type UserExtAuthTokens struct {
 
-	// The identifier of the User's auth token.
+	// The user's Auth token identifier.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -42,7 +42,7 @@ type UserExtAuthTokens struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"false" json:"value"`
 
-	// Ocid of the User's auth token.
+	// The user's Auth token OCID.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -55,7 +55,7 @@ type UserExtAuthTokens struct {
 	//  - uniqueness: none
 	Ocid *string `mandatory:"false" json:"ocid"`
 
-	// The URI of the corresponding AuthToken resource to which the user belongs
+	// The URI of the corresponding AuthToken resource to which the user belongs.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false

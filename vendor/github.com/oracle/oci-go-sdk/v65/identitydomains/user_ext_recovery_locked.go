@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserExtRecoveryLocked A complex attribute that indicates an password recovery is locked (blocking new sessions)
+// UserExtRecoveryLocked A complex attribute that indicates a password recovery is locked (blocking any new sessions).
 // **Added In:** 19.1.4
 // **SCIM++ Properties:**
 //  - idcsSearchable: false
@@ -28,25 +28,27 @@ import (
 //  - uniqueness: none
 type UserExtRecoveryLocked struct {
 
-	// Indicates that the rev is locked
+	// Indicates that the recovery is locked.
 	// **Added In:** 19.1.4
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: boolean
 	//  - uniqueness: none
 	On *bool `mandatory:"false" json:"on"`
 
-	// The date and time that the current resource was locked
+	// The date and time that the current resource was locked.
 	// **Added In:** 19.1.4
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: dateTime

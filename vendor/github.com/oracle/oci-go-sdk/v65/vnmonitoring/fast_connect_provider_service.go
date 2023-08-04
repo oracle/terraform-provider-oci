@@ -35,6 +35,19 @@ type FastConnectProviderService struct {
 	// Who is responsible for managing the public peering BGP information.
 	PublicPeeringBgpManagement FastConnectProviderServicePublicPeeringBgpManagementEnum `mandatory:"true" json:"publicPeeringBgpManagement"`
 
+	// Who is responsible for managing the ASN information for the network at the other end
+	// of the connection from Oracle.
+	CustomerAsnManagement FastConnectProviderServiceCustomerAsnManagementEnum `mandatory:"true" json:"customerAsnManagement"`
+
+	// Who is responsible for managing the provider service key.
+	ProviderServiceKeyManagement FastConnectProviderServiceProviderServiceKeyManagementEnum `mandatory:"true" json:"providerServiceKeyManagement"`
+
+	// Who is responsible for managing the virtual circuit bandwidth.
+	BandwithShapeManagement FastConnectProviderServiceBandwithShapeManagementEnum `mandatory:"true" json:"bandwithShapeManagement"`
+
+	// Total number of cross-connect or cross-connect groups required for the virtual circuit.
+	RequiredTotalCrossConnects *int `mandatory:"true" json:"requiredTotalCrossConnects"`
+
 	// Provider service type.
 	Type FastConnectProviderServiceTypeEnum `mandatory:"true" json:"type"`
 
@@ -62,6 +75,15 @@ func (m FastConnectProviderService) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingFastConnectProviderServicePublicPeeringBgpManagementEnum(string(m.PublicPeeringBgpManagement)); !ok && m.PublicPeeringBgpManagement != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PublicPeeringBgpManagement: %s. Supported values are: %s.", m.PublicPeeringBgpManagement, strings.Join(GetFastConnectProviderServicePublicPeeringBgpManagementEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingFastConnectProviderServiceCustomerAsnManagementEnum(string(m.CustomerAsnManagement)); !ok && m.CustomerAsnManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CustomerAsnManagement: %s. Supported values are: %s.", m.CustomerAsnManagement, strings.Join(GetFastConnectProviderServiceCustomerAsnManagementEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingFastConnectProviderServiceProviderServiceKeyManagementEnum(string(m.ProviderServiceKeyManagement)); !ok && m.ProviderServiceKeyManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProviderServiceKeyManagement: %s. Supported values are: %s.", m.ProviderServiceKeyManagement, strings.Join(GetFastConnectProviderServiceProviderServiceKeyManagementEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingFastConnectProviderServiceBandwithShapeManagementEnum(string(m.BandwithShapeManagement)); !ok && m.BandwithShapeManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BandwithShapeManagement: %s. Supported values are: %s.", m.BandwithShapeManagement, strings.Join(GetFastConnectProviderServiceBandwithShapeManagementEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingFastConnectProviderServiceTypeEnum(string(m.Type)); !ok && m.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetFastConnectProviderServiceTypeEnumStringValues(), ",")))
@@ -210,6 +232,144 @@ func GetFastConnectProviderServiceSupportedVirtualCircuitTypesEnumStringValues()
 // GetMappingFastConnectProviderServiceSupportedVirtualCircuitTypesEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingFastConnectProviderServiceSupportedVirtualCircuitTypesEnum(val string) (FastConnectProviderServiceSupportedVirtualCircuitTypesEnum, bool) {
 	enum, ok := mappingFastConnectProviderServiceSupportedVirtualCircuitTypesEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// FastConnectProviderServiceCustomerAsnManagementEnum Enum with underlying type: string
+type FastConnectProviderServiceCustomerAsnManagementEnum string
+
+// Set of constants representing the allowable values for FastConnectProviderServiceCustomerAsnManagementEnum
+const (
+	FastConnectProviderServiceCustomerAsnManagementCustomerManaged FastConnectProviderServiceCustomerAsnManagementEnum = "CUSTOMER_MANAGED"
+	FastConnectProviderServiceCustomerAsnManagementProviderManaged FastConnectProviderServiceCustomerAsnManagementEnum = "PROVIDER_MANAGED"
+	FastConnectProviderServiceCustomerAsnManagementOracleManaged   FastConnectProviderServiceCustomerAsnManagementEnum = "ORACLE_MANAGED"
+)
+
+var mappingFastConnectProviderServiceCustomerAsnManagementEnum = map[string]FastConnectProviderServiceCustomerAsnManagementEnum{
+	"CUSTOMER_MANAGED": FastConnectProviderServiceCustomerAsnManagementCustomerManaged,
+	"PROVIDER_MANAGED": FastConnectProviderServiceCustomerAsnManagementProviderManaged,
+	"ORACLE_MANAGED":   FastConnectProviderServiceCustomerAsnManagementOracleManaged,
+}
+
+var mappingFastConnectProviderServiceCustomerAsnManagementEnumLowerCase = map[string]FastConnectProviderServiceCustomerAsnManagementEnum{
+	"customer_managed": FastConnectProviderServiceCustomerAsnManagementCustomerManaged,
+	"provider_managed": FastConnectProviderServiceCustomerAsnManagementProviderManaged,
+	"oracle_managed":   FastConnectProviderServiceCustomerAsnManagementOracleManaged,
+}
+
+// GetFastConnectProviderServiceCustomerAsnManagementEnumValues Enumerates the set of values for FastConnectProviderServiceCustomerAsnManagementEnum
+func GetFastConnectProviderServiceCustomerAsnManagementEnumValues() []FastConnectProviderServiceCustomerAsnManagementEnum {
+	values := make([]FastConnectProviderServiceCustomerAsnManagementEnum, 0)
+	for _, v := range mappingFastConnectProviderServiceCustomerAsnManagementEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetFastConnectProviderServiceCustomerAsnManagementEnumStringValues Enumerates the set of values in String for FastConnectProviderServiceCustomerAsnManagementEnum
+func GetFastConnectProviderServiceCustomerAsnManagementEnumStringValues() []string {
+	return []string{
+		"CUSTOMER_MANAGED",
+		"PROVIDER_MANAGED",
+		"ORACLE_MANAGED",
+	}
+}
+
+// GetMappingFastConnectProviderServiceCustomerAsnManagementEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingFastConnectProviderServiceCustomerAsnManagementEnum(val string) (FastConnectProviderServiceCustomerAsnManagementEnum, bool) {
+	enum, ok := mappingFastConnectProviderServiceCustomerAsnManagementEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// FastConnectProviderServiceProviderServiceKeyManagementEnum Enum with underlying type: string
+type FastConnectProviderServiceProviderServiceKeyManagementEnum string
+
+// Set of constants representing the allowable values for FastConnectProviderServiceProviderServiceKeyManagementEnum
+const (
+	FastConnectProviderServiceProviderServiceKeyManagementCustomerManaged FastConnectProviderServiceProviderServiceKeyManagementEnum = "CUSTOMER_MANAGED"
+	FastConnectProviderServiceProviderServiceKeyManagementProviderManaged FastConnectProviderServiceProviderServiceKeyManagementEnum = "PROVIDER_MANAGED"
+	FastConnectProviderServiceProviderServiceKeyManagementOracleManaged   FastConnectProviderServiceProviderServiceKeyManagementEnum = "ORACLE_MANAGED"
+)
+
+var mappingFastConnectProviderServiceProviderServiceKeyManagementEnum = map[string]FastConnectProviderServiceProviderServiceKeyManagementEnum{
+	"CUSTOMER_MANAGED": FastConnectProviderServiceProviderServiceKeyManagementCustomerManaged,
+	"PROVIDER_MANAGED": FastConnectProviderServiceProviderServiceKeyManagementProviderManaged,
+	"ORACLE_MANAGED":   FastConnectProviderServiceProviderServiceKeyManagementOracleManaged,
+}
+
+var mappingFastConnectProviderServiceProviderServiceKeyManagementEnumLowerCase = map[string]FastConnectProviderServiceProviderServiceKeyManagementEnum{
+	"customer_managed": FastConnectProviderServiceProviderServiceKeyManagementCustomerManaged,
+	"provider_managed": FastConnectProviderServiceProviderServiceKeyManagementProviderManaged,
+	"oracle_managed":   FastConnectProviderServiceProviderServiceKeyManagementOracleManaged,
+}
+
+// GetFastConnectProviderServiceProviderServiceKeyManagementEnumValues Enumerates the set of values for FastConnectProviderServiceProviderServiceKeyManagementEnum
+func GetFastConnectProviderServiceProviderServiceKeyManagementEnumValues() []FastConnectProviderServiceProviderServiceKeyManagementEnum {
+	values := make([]FastConnectProviderServiceProviderServiceKeyManagementEnum, 0)
+	for _, v := range mappingFastConnectProviderServiceProviderServiceKeyManagementEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetFastConnectProviderServiceProviderServiceKeyManagementEnumStringValues Enumerates the set of values in String for FastConnectProviderServiceProviderServiceKeyManagementEnum
+func GetFastConnectProviderServiceProviderServiceKeyManagementEnumStringValues() []string {
+	return []string{
+		"CUSTOMER_MANAGED",
+		"PROVIDER_MANAGED",
+		"ORACLE_MANAGED",
+	}
+}
+
+// GetMappingFastConnectProviderServiceProviderServiceKeyManagementEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingFastConnectProviderServiceProviderServiceKeyManagementEnum(val string) (FastConnectProviderServiceProviderServiceKeyManagementEnum, bool) {
+	enum, ok := mappingFastConnectProviderServiceProviderServiceKeyManagementEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// FastConnectProviderServiceBandwithShapeManagementEnum Enum with underlying type: string
+type FastConnectProviderServiceBandwithShapeManagementEnum string
+
+// Set of constants representing the allowable values for FastConnectProviderServiceBandwithShapeManagementEnum
+const (
+	FastConnectProviderServiceBandwithShapeManagementCustomerManaged FastConnectProviderServiceBandwithShapeManagementEnum = "CUSTOMER_MANAGED"
+	FastConnectProviderServiceBandwithShapeManagementProviderManaged FastConnectProviderServiceBandwithShapeManagementEnum = "PROVIDER_MANAGED"
+	FastConnectProviderServiceBandwithShapeManagementOracleManaged   FastConnectProviderServiceBandwithShapeManagementEnum = "ORACLE_MANAGED"
+)
+
+var mappingFastConnectProviderServiceBandwithShapeManagementEnum = map[string]FastConnectProviderServiceBandwithShapeManagementEnum{
+	"CUSTOMER_MANAGED": FastConnectProviderServiceBandwithShapeManagementCustomerManaged,
+	"PROVIDER_MANAGED": FastConnectProviderServiceBandwithShapeManagementProviderManaged,
+	"ORACLE_MANAGED":   FastConnectProviderServiceBandwithShapeManagementOracleManaged,
+}
+
+var mappingFastConnectProviderServiceBandwithShapeManagementEnumLowerCase = map[string]FastConnectProviderServiceBandwithShapeManagementEnum{
+	"customer_managed": FastConnectProviderServiceBandwithShapeManagementCustomerManaged,
+	"provider_managed": FastConnectProviderServiceBandwithShapeManagementProviderManaged,
+	"oracle_managed":   FastConnectProviderServiceBandwithShapeManagementOracleManaged,
+}
+
+// GetFastConnectProviderServiceBandwithShapeManagementEnumValues Enumerates the set of values for FastConnectProviderServiceBandwithShapeManagementEnum
+func GetFastConnectProviderServiceBandwithShapeManagementEnumValues() []FastConnectProviderServiceBandwithShapeManagementEnum {
+	values := make([]FastConnectProviderServiceBandwithShapeManagementEnum, 0)
+	for _, v := range mappingFastConnectProviderServiceBandwithShapeManagementEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetFastConnectProviderServiceBandwithShapeManagementEnumStringValues Enumerates the set of values in String for FastConnectProviderServiceBandwithShapeManagementEnum
+func GetFastConnectProviderServiceBandwithShapeManagementEnumStringValues() []string {
+	return []string{
+		"CUSTOMER_MANAGED",
+		"PROVIDER_MANAGED",
+		"ORACLE_MANAGED",
+	}
+}
+
+// GetMappingFastConnectProviderServiceBandwithShapeManagementEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingFastConnectProviderServiceBandwithShapeManagementEnum(val string) (FastConnectProviderServiceBandwithShapeManagementEnum, bool) {
+	enum, ok := mappingFastConnectProviderServiceBandwithShapeManagementEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

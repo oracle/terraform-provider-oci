@@ -23,6 +23,15 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type UpdateAutonomousDatabaseDetails struct {
 
+	// Retention period, in days, for long-term backups
+	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
+	ComputeModel UpdateAutonomousDatabaseDetailsComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
+	// Parameter that allows users to select an acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard
+	LocalAdgAutoFailoverMaxDataLossLimit *int `mandatory:"false" json:"localAdgAutoFailoverMaxDataLossLimit"`
+
 	// The number of CPUs to be made available to the Autonomous Database.<br>
 	// For Autonomous Databases on Dedicated Exadata Infrastructure:
 	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
@@ -241,6 +250,9 @@ func (m UpdateAutonomousDatabaseDetails) String() string {
 func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetUpdateAutonomousDatabaseDetailsComputeModelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsDbWorkloadEnum(string(m.DbWorkload)); !ok && m.DbWorkload != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetUpdateAutonomousDatabaseDetailsDbWorkloadEnumStringValues(), ",")))
 	}
@@ -263,6 +275,48 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UpdateAutonomousDatabaseDetailsComputeModelEnum Enum with underlying type: string
+type UpdateAutonomousDatabaseDetailsComputeModelEnum string
+
+// Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsComputeModelEnum
+const (
+	UpdateAutonomousDatabaseDetailsComputeModelEcpu UpdateAutonomousDatabaseDetailsComputeModelEnum = "ECPU"
+	UpdateAutonomousDatabaseDetailsComputeModelOcpu UpdateAutonomousDatabaseDetailsComputeModelEnum = "OCPU"
+)
+
+var mappingUpdateAutonomousDatabaseDetailsComputeModelEnum = map[string]UpdateAutonomousDatabaseDetailsComputeModelEnum{
+	"ECPU": UpdateAutonomousDatabaseDetailsComputeModelEcpu,
+	"OCPU": UpdateAutonomousDatabaseDetailsComputeModelOcpu,
+}
+
+var mappingUpdateAutonomousDatabaseDetailsComputeModelEnumLowerCase = map[string]UpdateAutonomousDatabaseDetailsComputeModelEnum{
+	"ecpu": UpdateAutonomousDatabaseDetailsComputeModelEcpu,
+	"ocpu": UpdateAutonomousDatabaseDetailsComputeModelOcpu,
+}
+
+// GetUpdateAutonomousDatabaseDetailsComputeModelEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsComputeModelEnum
+func GetUpdateAutonomousDatabaseDetailsComputeModelEnumValues() []UpdateAutonomousDatabaseDetailsComputeModelEnum {
+	values := make([]UpdateAutonomousDatabaseDetailsComputeModelEnum, 0)
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateAutonomousDatabaseDetailsComputeModelEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsComputeModelEnum
+func GetUpdateAutonomousDatabaseDetailsComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingUpdateAutonomousDatabaseDetailsComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateAutonomousDatabaseDetailsComputeModelEnum(val string) (UpdateAutonomousDatabaseDetailsComputeModelEnum, bool) {
+	enum, ok := mappingUpdateAutonomousDatabaseDetailsComputeModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // UpdateAutonomousDatabaseDetailsDbWorkloadEnum Enum with underlying type: string

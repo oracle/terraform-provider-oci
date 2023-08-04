@@ -486,18 +486,6 @@ type IdentityProvider struct {
 	//  - uniqueness: none
 	JitUserProvGroupMappingMode IdentityProviderJitUserProvGroupMappingModeEnum `mandatory:"false" json:"jitUserProvGroupMappingMode,omitempty"`
 
-	// The list of mappings between the Identity Domain Group and the IDP group.
-	// **Added In:** 2205120021
-	// **SCIM++ Properties:**
-	//  - idcsCompositeKey: [idpGroup]
-	//  - multiValued: true
-	//  - mutability: readWrite
-	//  - required: false
-	//  - returned: default
-	//  - type: complex
-	//  - uniqueness: none
-	JitUserProvGroupMappings []IdentityProviderJitUserProvGroupMappings `mandatory:"false" json:"jitUserProvGroupMappings"`
-
 	// Name of the assertion attribute containing the users groups
 	// **Added In:** 20.1.3
 	// **SCIM++ Properties:**
@@ -644,6 +632,31 @@ type IdentityProvider struct {
 	//  - type: boolean
 	//  - uniqueness: none
 	JitUserProvIgnoreErrorOnAbsentGroups *bool `mandatory:"false" json:"jitUserProvIgnoreErrorOnAbsentGroups"`
+
+	// Records the notification timestamp for the IdP whose signing certificate is about to expire
+	// **Added In:** 2302092332
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: default
+	//  - type: dateTime
+	//  - uniqueness: none
+	LastNotificationSentTime *string `mandatory:"false" json:"lastNotificationSentTime"`
+
+	// The list of mappings between the Identity Domain Group and the IDP group.
+	// **Added In:** 2205120021
+	// **SCIM++ Properties:**
+	//  - idcsCompositeKey: [idpGroup]
+	//  - multiValued: true
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: complex
+	//  - uniqueness: none
+	JitUserProvGroupMappings []IdentityProviderJitUserProvGroupMappings `mandatory:"false" json:"jitUserProvGroupMappings"`
 
 	JitUserProvAttributes *IdentityProviderJitUserProvAttributes `mandatory:"false" json:"jitUserProvAttributes"`
 

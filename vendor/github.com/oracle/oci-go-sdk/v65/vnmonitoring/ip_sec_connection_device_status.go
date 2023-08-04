@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// IpSecConnectionDeviceStatus Status of the IPSec connection.
+// IpSecConnectionDeviceStatus Deprecated. For tunnel information, instead see
+// IPSecConnectionTunnel.
 type IpSecConnectionDeviceStatus struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the IPSec connection.

@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ExtensionDbCredentialsUser Db Credentials User extension
+// ExtensionDbCredentialsUser The database credentials user extension.
 type ExtensionDbCredentialsUser struct {
 
-	// The Database User Name
+	// The database username.
 	// **Added In:** 2102181953
 	// **SCIM++ Properties:**
 	//  - multiValued: false

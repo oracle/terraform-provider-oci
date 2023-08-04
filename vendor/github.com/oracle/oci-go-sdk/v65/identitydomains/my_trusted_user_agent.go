@@ -39,6 +39,7 @@ type MyTrustedUserAgent struct {
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: immutable
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: true
 	//  - returned: always
 	//  - type: string
@@ -52,6 +53,7 @@ type MyTrustedUserAgent struct {
 	//  - idcsSensitive: none
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: true
 	//  - returned: always
 	//  - type: string
@@ -179,6 +181,7 @@ type MyTrustedUserAgent struct {
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: immutable
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: string
@@ -190,6 +193,7 @@ type MyTrustedUserAgent struct {
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: immutable
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: string
@@ -202,6 +206,7 @@ type MyTrustedUserAgent struct {
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: dateTime
@@ -215,6 +220,7 @@ type MyTrustedUserAgent struct {
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: dateTime
@@ -227,6 +233,7 @@ type MyTrustedUserAgent struct {
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: string

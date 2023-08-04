@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserExtDbCredentials A list of db credentials corresponding to user.
+// UserExtDbCredentials A list of database credentials corresponding to user.
 // **Added In:** 2102181953
 // **SCIM++ Properties:**
 //  - idcsCompositeKey: [value]
@@ -29,7 +29,7 @@ import (
 //  - uniqueness: none
 type UserExtDbCredentials struct {
 
-	// The identifier of the User's db credential.
+	// The user's database credential identifier.
 	// **Added In:** 2102181953
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -42,7 +42,7 @@ type UserExtDbCredentials struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"false" json:"value"`
 
-	// The URI of the corresponding UserDbCredential resource to which the user belongs
+	// The URI of the corresponding UserDbCredential resource to which the user belongs.
 	// **Added In:** 2102181953
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
@@ -54,7 +54,7 @@ type UserExtDbCredentials struct {
 	//  - uniqueness: none
 	Ref *string `mandatory:"false" json:"$ref"`
 
-	// Ocid of the User's db credential.
+	// The user's database credential OCID.
 	// **Added In:** 2102181953
 	// **SCIM++ Properties:**
 	//  - caseExact: true

@@ -26,6 +26,9 @@ type FusionApplicationsClient struct {
 // NewFusionApplicationsClientWithConfigurationProvider Creates a new default FusionApplications client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewFusionApplicationsClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client FusionApplicationsClient, err error) {
+	if enabled := common.CheckForEnabledServices("fusionapps"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err

@@ -29,6 +29,8 @@ type MyDeviceAuthenticationFactors struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Type MyDeviceAuthenticationFactorsTypeEnum `mandatory:"true" json:"type"`
 
 	// Authentication Factor Status
@@ -40,6 +42,8 @@ type MyDeviceAuthenticationFactors struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Status MyDeviceAuthenticationFactorsStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	// Authentication Factor public key issued by client
@@ -51,6 +55,8 @@ type MyDeviceAuthenticationFactors struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	PublicKey *string `mandatory:"false" json:"publicKey"`
 }
 

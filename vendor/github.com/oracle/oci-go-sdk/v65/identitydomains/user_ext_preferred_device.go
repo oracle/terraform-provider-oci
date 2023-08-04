@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserExtPreferredDevice User preferred device
+// UserExtPreferredDevice The user's preferred device.
 // **Added In:** 18.3.6
 // **SCIM++ Properties:**
 //  - caseExact: false
@@ -29,7 +29,7 @@ import (
 //  - uniqueness: none
 type UserExtPreferredDevice struct {
 
-	// The identifier of the User's preferred device
+	// The user's preferred device identifier.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -42,7 +42,7 @@ type UserExtPreferredDevice struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"true" json:"value"`
 
-	// The URI that corresponds to the device resource
+	// The URI that corresponds to the device resource.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
@@ -54,7 +54,7 @@ type UserExtPreferredDevice struct {
 	//  - uniqueness: none
 	Ref *string `mandatory:"false" json:"$ref"`
 
-	// Device display name
+	// The device display name.
 	// **Added In:** 18.3.6
 	// **SCIM++ Properties:**
 	//  - caseExact: false
