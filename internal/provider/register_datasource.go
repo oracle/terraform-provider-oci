@@ -4,6 +4,7 @@
 package provider
 
 import (
+	"github.com/oracle/oci-go-sdk/v65/common"
 	tf_adm "github.com/oracle/terraform-provider-oci/internal/service/adm"
 	tf_ai_anomaly_detection "github.com/oracle/terraform-provider-oci/internal/service/ai_anomaly_detection"
 	tf_ai_document "github.com/oracle/terraform-provider-oci/internal/service/ai_document"
@@ -114,111 +115,327 @@ import (
 )
 
 func init() {
-	tf_adm.RegisterDatasource()
-	tf_ai_anomaly_detection.RegisterDatasource()
-	tf_ai_document.RegisterDatasource()
-	tf_ai_language.RegisterDatasource()
-	tf_ai_vision.RegisterDatasource()
-	tf_analytics.RegisterDatasource()
-	tf_announcements_service.RegisterDatasource()
-	tf_apigateway.RegisterDatasource()
-	tf_apm.RegisterDatasource()
-	tf_apm_config.RegisterDatasource()
-	tf_apm_synthetics.RegisterDatasource()
-	tf_apm_traces.RegisterDatasource()
-	tf_appmgmt_control.RegisterDatasource()
-	tf_artifacts.RegisterDatasource()
-	tf_audit.RegisterDatasource()
-	tf_autoscaling.RegisterDatasource()
-	tf_bastion.RegisterDatasource()
-	tf_bds.RegisterDatasource()
-	tf_blockchain.RegisterDatasource()
-	tf_budget.RegisterDatasource()
-	tf_certificates_management.RegisterDatasource()
-	tf_cloud_bridge.RegisterDatasource()
-	tf_cloud_guard.RegisterDatasource()
-	tf_cloud_migrations.RegisterDatasource()
-	tf_computeinstanceagent.RegisterDatasource()
-	tf_container_instances.RegisterDatasource()
-	tf_containerengine.RegisterDatasource()
-	tf_core.RegisterDatasource()
-	tf_data_labeling_service.RegisterDatasource()
-	tf_data_safe.RegisterDatasource()
-	tf_database.RegisterDatasource()
-	tf_database_management.RegisterDatasource()
-	tf_database_migration.RegisterDatasource()
-	tf_database_tools.RegisterDatasource()
-	tf_datacatalog.RegisterDatasource()
-	tf_dataflow.RegisterDatasource()
-	tf_dataintegration.RegisterDatasource()
-	tf_datascience.RegisterDatasource()
-	tf_devops.RegisterDatasource()
-	tf_disaster_recovery.RegisterDatasource()
-	tf_dns.RegisterDatasource()
-	tf_em_warehouse.RegisterDatasource()
-	tf_email.RegisterDatasource()
-	tf_events.RegisterDatasource()
-	tf_file_storage.RegisterDatasource()
-	tf_functions.RegisterDatasource()
-	tf_fusion_apps.RegisterDatasource()
-	tf_generic_artifacts_content.RegisterDatasource()
-	tf_golden_gate.RegisterDatasource()
-	tf_health_checks.RegisterDatasource()
-	tf_identity.RegisterDatasource()
-	tf_identity_data_plane.RegisterDatasource()
-	tf_identity_domains.RegisterDatasource()
-	tf_integration.RegisterDatasource()
-	tf_jms.RegisterDatasource()
-	tf_kms.RegisterDatasource()
-	tf_license_manager.RegisterDatasource()
-	tf_limits.RegisterDatasource()
-	tf_load_balancer.RegisterDatasource()
-	tf_log_analytics.RegisterDatasource()
-	tf_logging.RegisterDatasource()
-	tf_management_agent.RegisterDatasource()
-	tf_management_dashboard.RegisterDatasource()
-	tf_marketplace.RegisterDatasource()
-	tf_media_services.RegisterDatasource()
-	tf_metering_computation.RegisterDatasource()
-	tf_monitoring.RegisterDatasource()
-	tf_mysql.RegisterDatasource()
-	tf_network_firewall.RegisterDatasource()
-	tf_network_load_balancer.RegisterDatasource()
-	tf_nosql.RegisterDatasource()
-	tf_objectstorage.RegisterDatasource()
-	tf_oce.RegisterDatasource()
-	tf_ocvp.RegisterDatasource()
-	tf_oda.RegisterDatasource()
-	tf_onesubscription.RegisterDatasource()
-	tf_ons.RegisterDatasource()
-	tf_opa.RegisterDatasource()
-	tf_opensearch.RegisterDatasource()
-	tf_operator_access_control.RegisterDatasource()
-	tf_opsi.RegisterDatasource()
-	tf_optimizer.RegisterDatasource()
-	tf_osmanagement.RegisterDatasource()
-	tf_osp_gateway.RegisterDatasource()
-	tf_osub_billing_schedule.RegisterDatasource()
-	tf_osub_organization_subscription.RegisterDatasource()
-	tf_osub_subscription.RegisterDatasource()
-	tf_osub_usage.RegisterDatasource()
-	tf_queue.RegisterDatasource()
-	tf_recovery.RegisterDatasource()
-	tf_resourcemanager.RegisterDatasource()
-	tf_sch.RegisterDatasource()
-	tf_secrets.RegisterDatasource()
-	tf_service_catalog.RegisterDatasource()
-	tf_service_manager_proxy.RegisterDatasource()
-	tf_service_mesh.RegisterDatasource()
-	tf_stack_monitoring.RegisterDatasource()
-	tf_streaming.RegisterDatasource()
-	tf_usage_proxy.RegisterDatasource()
-	tf_vault.RegisterDatasource()
-	tf_vbs_inst.RegisterDatasource()
-	tf_visual_builder.RegisterDatasource()
-	tf_vn_monitoring.RegisterDatasource()
-	tf_vulnerability_scanning.RegisterDatasource()
-	tf_waa.RegisterDatasource()
-	tf_waas.RegisterDatasource()
-	tf_waf.RegisterDatasource()
+
+	if common.CheckForEnabledServices("adm") {
+		tf_adm.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("aianomalydetection") {
+		tf_ai_anomaly_detection.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("aidocument") {
+		tf_ai_document.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("ailanguage") {
+		tf_ai_language.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("aivision") {
+		tf_ai_vision.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("analytics") {
+		tf_analytics.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("announcementsservice") {
+		tf_announcements_service.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("apigateway") {
+		tf_apigateway.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("apm") {
+		tf_apm.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("apmconfig") {
+		tf_apm_config.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("apmsynthetics") {
+		tf_apm_synthetics.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("apmtraces") {
+		tf_apm_traces.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("appmgmtcontrol") {
+		tf_appmgmt_control.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("artifacts") {
+		tf_artifacts.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("audit") {
+		tf_audit.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("autoscaling") {
+		tf_autoscaling.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("bastion") {
+		tf_bastion.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("bds") {
+		tf_bds.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("blockchain") {
+		tf_blockchain.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("budget") {
+		tf_budget.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("certificatesmanagement") {
+		tf_certificates_management.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("cloudbridge") {
+		tf_cloud_bridge.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("cloudguard") {
+		tf_cloud_guard.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("cloudmigrations") {
+		tf_cloud_migrations.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("computeinstanceagent") {
+		tf_computeinstanceagent.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("containerinstances") {
+		tf_container_instances.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("containerengine") {
+		tf_containerengine.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("core") {
+		tf_core.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("datalabelingservice") {
+		tf_data_labeling_service.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("datasafe") {
+		tf_data_safe.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("database") {
+		tf_database.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("databasemanagement") {
+		tf_database_management.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("databasemigration") {
+		tf_database_migration.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("databasetools") {
+		tf_database_tools.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("datacatalog") {
+		tf_datacatalog.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("dataflow") {
+		tf_dataflow.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("dataintegration") {
+		tf_dataintegration.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("datascience") {
+		tf_datascience.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("devops") {
+		tf_devops.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("disasterrecovery") {
+		tf_disaster_recovery.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("dns") {
+		tf_dns.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("emwarehouse") {
+		tf_em_warehouse.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("email") {
+		tf_email.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("events") {
+		tf_events.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("filestorage") {
+		tf_file_storage.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("functions") {
+		tf_functions.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("fusionapps") {
+		tf_fusion_apps.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("genericartifactscontent") {
+		tf_generic_artifacts_content.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("goldengate") {
+		tf_golden_gate.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("healthchecks") {
+		tf_health_checks.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("identity") {
+		tf_identity.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("identitydataplane") {
+		tf_identity_data_plane.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("identitydomains") {
+		tf_identity_domains.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("integration") {
+		tf_integration.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("jms") {
+		tf_jms.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("kms") {
+		tf_kms.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("licensemanager") {
+		tf_license_manager.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("limits") {
+		tf_limits.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("loadbalancer") {
+		tf_load_balancer.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("loganalytics") {
+		tf_log_analytics.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("logging") {
+		tf_logging.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("managementagent") {
+		tf_management_agent.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("managementdashboard") {
+		tf_management_dashboard.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("marketplace") {
+		tf_marketplace.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("mediaservices") {
+		tf_media_services.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("meteringcomputation") {
+		tf_metering_computation.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("monitoring") {
+		tf_monitoring.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("mysql") {
+		tf_mysql.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("networkfirewall") {
+		tf_network_firewall.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("networkloadbalancer") {
+		tf_network_load_balancer.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("nosql") {
+		tf_nosql.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("objectstorage") {
+		tf_objectstorage.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("oce") {
+		tf_oce.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("ocvp") {
+		tf_ocvp.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("oda") {
+		tf_oda.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("onesubscription") {
+		tf_onesubscription.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("ons") {
+		tf_ons.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("opa") {
+		tf_opa.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("opensearch") {
+		tf_opensearch.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("operatoraccesscontrol") {
+		tf_operator_access_control.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("opsi") {
+		tf_opsi.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("optimizer") {
+		tf_optimizer.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("osmanagement") {
+		tf_osmanagement.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("ospgateway") {
+		tf_osp_gateway.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("osubbillingschedule") {
+		tf_osub_billing_schedule.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("osuborganizationsubscription") {
+		tf_osub_organization_subscription.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("osubsubscription") {
+		tf_osub_subscription.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("osubusage") {
+		tf_osub_usage.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("queue") {
+		tf_queue.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("recovery") {
+		tf_recovery.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("resourcemanager") {
+		tf_resourcemanager.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("sch") {
+		tf_sch.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("secrets") {
+		tf_secrets.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("servicecatalog") {
+		tf_service_catalog.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("servicemanagerproxy") {
+		tf_service_manager_proxy.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("servicemesh") {
+		tf_service_mesh.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("stackmonitoring") {
+		tf_stack_monitoring.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("streaming") {
+		tf_streaming.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("usageproxy") {
+		tf_usage_proxy.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("vault") {
+		tf_vault.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("vbsinst") {
+		tf_vbs_inst.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("visualbuilder") {
+		tf_visual_builder.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("vnmonitoring") {
+		tf_vn_monitoring.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("vulnerabilityscanning") {
+		tf_vulnerability_scanning.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("waa") {
+		tf_waa.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("waas") {
+		tf_waas.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("waf") {
+		tf_waf.RegisterDatasource()
+	}
+
 }
