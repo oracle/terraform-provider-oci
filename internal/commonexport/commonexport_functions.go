@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
@@ -780,11 +781,15 @@ func getNotFoundChildren(parent string, resourceGraph *TerraformResourceGraph, c
 }
 
 func RegisterCompartmentGraphs(servicename string, graph TerraformResourceGraph) {
-	CompartmentResourceGraphs[servicename] = graph
+	if oci_common.CheckForEnabledServices(utils.GetSDKServiceName(servicename)) {
+		CompartmentResourceGraphs[servicename] = graph
+	}
 }
 
 func RegisterTenancyGraphs(servicename string, graph TerraformResourceGraph) {
-	TenancyResourceGraphs[servicename] = graph
+	if oci_common.CheckForEnabledServices(utils.GetSDKServiceName(servicename)) {
+		TenancyResourceGraphs[servicename] = graph
+	}
 }
 
 func RegisterRelatedResourcesGraph(resourceName string, association []TerraformResourceAssociation) {

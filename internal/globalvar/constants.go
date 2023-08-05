@@ -72,11 +72,13 @@ These missing attributes are also added to the lifecycle ignore_changes.
 )
 
 const (
-	SubnetService  = "subnet"
-	CoreService    = "core"
-	DeleteResource = "delete"
-	TfEnvPrefix    = "TF_VAR_"
-	OciEnvPrefix   = "OCI_"
+	SubnetService       = "subnet"
+	CoreService         = "core"
+	LoadBalancerService = "loadbalancer"
+	WorkRequest         = "workrequests"
+	DeleteResource      = "delete"
+	TfEnvPrefix         = "TF_VAR_"
+	OciEnvPrefix        = "OCI_"
 )
 const (
 	DebugTestSteps               = "DEBUG_TEST_STEPS"

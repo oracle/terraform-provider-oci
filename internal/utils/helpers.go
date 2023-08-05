@@ -355,3 +355,12 @@ func GetVarNameFromAttributeOfResources(attribute string, resourceType string, r
 	// Following format resourceType--attribute-attribute-...–resourceName
 	return fmt.Sprintf(globalvar.VariableResourceLevelFormat, resourceType, strings.ReplaceAll(attribute, ".", "-"), resourceName)
 }
+
+func GetSDKServiceName(clientServiceName string) string {
+
+	if clientServiceName == "" {
+		return ""
+	}
+	snakeCase := strings.Replace(strings.Split(clientServiceName, ".")[0], "oci_", "", 1)
+	return strings.Replace(snakeCase, "_", "", -1)
+}
