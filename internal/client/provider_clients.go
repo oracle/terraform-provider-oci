@@ -142,7 +142,9 @@ func CreateSDKClients(clients *OracleClients, configProvider oci_common.Configur
 			if host, ok := clientHostOverrides[serviceName]; ok {
 				serviceClientOverrides.HostUrlOverride = host
 			}
-
+			if !common.CheckForEnabledServices(utils.GetSDKServiceName(serviceName)) {
+				continue
+			}
 			clients.SdkClientMap[serviceName], err = clientRegistration.InitClientFn(configProvider, configureClient, serviceClientOverrides)
 			if err != nil {
 				return err
@@ -151,18 +153,18 @@ func CreateSDKClients(clients *OracleClients, configProvider oci_common.Configur
 			return fmt.Errorf("unable to initialize '%s' client", serviceName)
 		}
 	}
-
-	workRequestClient, err := oci_work_requests.NewWorkRequestClientWithConfigurationProvider(configProvider)
-	if err != nil {
-		return
+	if common.CheckForEnabledServices(globalvar.WorkRequest) {
+		workRequestClient, err := oci_work_requests.NewWorkRequestClientWithConfigurationProvider(configProvider)
+		if err != nil {
+			return err
+		}
+		err = configureClient(&workRequestClient.BaseClient)
+		if err != nil {
+			return err
+		}
+		clients.WorkRequestClient = &workRequestClient
 	}
-	err = configureClient(&workRequestClient.BaseClient)
-	if err != nil {
-		return
-	}
-	clients.WorkRequestClient = &workRequestClient
-
-	return
+	return nil
 }
 func setCustomConfiguration(oClient interface {
 	SetCustomClientConfiguration(config common.CustomClientConfiguration)
