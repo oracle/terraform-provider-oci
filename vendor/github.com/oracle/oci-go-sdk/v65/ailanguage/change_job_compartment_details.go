@@ -17,24 +17,22 @@ import (
 	"strings"
 )
 
-// MelConcept The MEL concepts details for health ner.
-type MelConcept struct {
+// ChangeJobCompartmentDetails Details for changing the compartment of a language job.
+type ChangeJobCompartmentDetails struct {
 
-	// Name of the ontology to which the Entity is mapped
-	OntologyName *string `mandatory:"true" json:"ontologyName"`
-
-	// This contains the list of matched concepts which are ranked by the relevant score with the input text
-	Concepts []MelConceptDetails `mandatory:"true" json:"concepts"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// where the resource should be moved.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 
-func (m MelConcept) String() string {
+func (m ChangeJobCompartmentDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m MelConcept) ValidateEnumValue() (bool, error) {
+func (m ChangeJobCompartmentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

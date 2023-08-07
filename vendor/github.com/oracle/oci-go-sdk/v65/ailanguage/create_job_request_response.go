@@ -11,11 +11,18 @@ import (
 	"strings"
 )
 
-// BatchDetectHealthEntityRequest wrapper for the BatchDetectHealthEntity operation
-type BatchDetectHealthEntityRequest struct {
+// CreateJobRequest wrapper for the CreateJob operation
+type CreateJobRequest struct {
 
-	// The details to make a health entity detect call.
-	BatchDetectHealthEntityDetails `contributesTo:"body"`
+	// Details for the new job.
+	CreateJobDetails `contributesTo:"body"`
+
+	// A token that uniquely identifies a request so it can be retried in case of a timeout or
+	// server error without risk of executing that same action again. Retry tokens expire after 24
+	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
+	// has been deleted and purged from the system, then a retry of the original creation request
+	// might be rejected.
+	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -25,12 +32,12 @@ type BatchDetectHealthEntityRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request BatchDetectHealthEntityRequest) String() string {
+func (request CreateJobRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request BatchDetectHealthEntityRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request CreateJobRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -40,21 +47,21 @@ func (request BatchDetectHealthEntityRequest) HTTPRequest(method, path string, b
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request BatchDetectHealthEntityRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request CreateJobRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request BatchDetectHealthEntityRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateJobRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request BatchDetectHealthEntityRequest) ValidateEnumValue() (bool, error) {
+func (request CreateJobRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -62,25 +69,31 @@ func (request BatchDetectHealthEntityRequest) ValidateEnumValue() (bool, error) 
 	return false, nil
 }
 
-// BatchDetectHealthEntityResponse wrapper for the BatchDetectHealthEntity operation
-type BatchDetectHealthEntityResponse struct {
+// CreateJobResponse wrapper for the CreateJob operation
+type CreateJobResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The BatchDetectHealthEntityResult instance
-	BatchDetectHealthEntityResult `presentIn:"body"`
+	// The Job instance
+	Job `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
+
+	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
-func (response BatchDetectHealthEntityResponse) String() string {
+func (response CreateJobResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response BatchDetectHealthEntityResponse) HTTPResponse() *http.Response {
+func (response CreateJobResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

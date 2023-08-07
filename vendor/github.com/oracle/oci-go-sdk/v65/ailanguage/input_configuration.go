@@ -17,24 +17,29 @@ import (
 	"strings"
 )
 
-// BatchDetectHealthEntityResult Result of health entity detect call.
-type BatchDetectHealthEntityResult struct {
+// InputConfiguration input documents configuration
+// by default TXT files will be processed and this behaviour will not change in future after adding new types
+type InputConfiguration struct {
 
-	// List of succeeded document response.
-	Documents []HealthEntityDocumentResult `mandatory:"true" json:"documents"`
+	// Type of documents supported
+	// for this release only TXT,CSV  and one element is allowed here.
+	// for future scope this is marked as list
+	DocumentTypes []string `mandatory:"false" json:"documentTypes"`
 
-	// List of failed document response.
-	Errors []DocumentError `mandatory:"false" json:"errors"`
+	// meta data about documents
+	//  For CSV valid JSON format is {"CSV" :{inputColumn: "reviewDetails", rowId: "reviewId", copyColumnsToOutput: ["reviewId" "userId"] , delimiter: ","}
+	// Note: In future if new file types added we will update here in documentation about input file meta data
+	Configuration map[string]DocumentsConfiguration `mandatory:"false" json:"configuration"`
 }
 
-func (m BatchDetectHealthEntityResult) String() string {
+func (m InputConfiguration) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m BatchDetectHealthEntityResult) ValidateEnumValue() (bool, error) {
+func (m InputConfiguration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

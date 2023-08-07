@@ -12,44 +12,51 @@
 package ailanguage
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// BatchDetectHealthEntityDetails The documents details for health entities detect call.
-type BatchDetectHealthEntityDetails struct {
+// ObjectStoragePrefixLocation Properties specific to object storage prefix location
+type ObjectStoragePrefixLocation struct {
 
-	// List of Documents for detect health entities.
-	Documents []TextDocument `mandatory:"true" json:"documents"`
+	// Object Storage namespace name.
+	NamespaceName *string `mandatory:"true" json:"namespaceName"`
 
-	// List of NLP health ontologies to be linked
-	LinkOntologies []string `mandatory:"false" json:"linkOntologies"`
+	// Object Storage bucket name.
+	BucketName *string `mandatory:"true" json:"bucketName"`
 
-	// is assertion on input text required. default value true.
-	IsDetectAssertions *bool `mandatory:"false" json:"isDetectAssertions"`
-
-	// is relationship on input text required. default value true.
-	IsDetectRelationships *bool `mandatory:"false" json:"isDetectRelationships"`
-
-	Profile *Profile `mandatory:"false" json:"profile"`
-
-	// Unique identifier model OCID of a model that should be used for inference
-	ModelId *string `mandatory:"false" json:"modelId"`
+	// The prefix (directory) in an Object Storage bucket.
+	Prefix *string `mandatory:"false" json:"prefix"`
 }
 
-func (m BatchDetectHealthEntityDetails) String() string {
+func (m ObjectStoragePrefixLocation) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m BatchDetectHealthEntityDetails) ValidateEnumValue() (bool, error) {
+func (m ObjectStoragePrefixLocation) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m ObjectStoragePrefixLocation) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeObjectStoragePrefixLocation ObjectStoragePrefixLocation
+	s := struct {
+		DiscriminatorParam string `json:"locationType"`
+		MarshalTypeObjectStoragePrefixLocation
+	}{
+		"OBJECT_STORAGE_PREFIX",
+		(MarshalTypeObjectStoragePrefixLocation)(m),
+	}
+
+	return json.Marshal(&s)
 }

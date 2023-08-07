@@ -20,9 +20,6 @@ import (
 // PiiEntity PII entity object.
 type PiiEntity struct {
 
-	// Unique id of the entity.
-	Id *string `mandatory:"false" json:"id"`
-
 	// The number of Unicode code points preceding this entity in the submitted text.
 	Offset *int `mandatory:"false" json:"offset"`
 

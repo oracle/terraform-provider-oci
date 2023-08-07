@@ -17,30 +17,27 @@ import (
 	"strings"
 )
 
-// AssertionDetails The assertion details for health ner.
-type AssertionDetails struct {
+// ObjectPrefixOutputLocation Object storage output location to write inference results
+type ObjectPrefixOutputLocation struct {
 
-	// id of the relation
-	Id *int `mandatory:"true" json:"id"`
+	// Object Storage namespace name.
+	NamespaceName *string `mandatory:"true" json:"namespaceName"`
 
-	// type of assertion ex, Status, Certainty, Temporality, Actor, etc.
-	Type *string `mandatory:"true" json:"type"`
+	// Object Storage bucket name.
+	BucketName *string `mandatory:"true" json:"bucketName"`
 
-	// Possible value for assertion type
-	Value *string `mandatory:"true" json:"value"`
-
-	// Score or confidence for health detected entity.
-	Score *float64 `mandatory:"true" json:"score"`
+	// The prefix (directory) in an Object Storage bucket.
+	Prefix *string `mandatory:"false" json:"prefix"`
 }
 
-func (m AssertionDetails) String() string {
+func (m ObjectPrefixOutputLocation) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m AssertionDetails) ValidateEnumValue() (bool, error) {
+func (m ObjectPrefixOutputLocation) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

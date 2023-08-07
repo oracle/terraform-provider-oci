@@ -17,33 +17,23 @@ import (
 	"strings"
 )
 
-// RelationEntity The relation entities details for health ner.
-type RelationEntity struct {
+// DocumentsConfiguration Input documents configuration
+type DocumentsConfiguration struct {
 
-	// id of the relation
-	Id *int `mandatory:"true" json:"id"`
-
-	// Subject entity of the relation. eg,MEDICINE_NAME, EXAMINATION
-	SubjectId *string `mandatory:"true" json:"subjectId"`
-
-	// Object entity of the relation. eg, MEDICINE_DOSAGE, MEDICINE_DURATION, MEASUREMENT
-	ObjectId *string `mandatory:"true" json:"objectId"`
-
-	// Type of relation between subject entity and object entity. eg,EXAMINATION_MEASUREMENT, FREQUENCY, DOSAGE
-	Type *string `mandatory:"true" json:"type"`
-
-	// Score or confidence for detected entity.
-	Score *float64 `mandatory:"true" json:"score"`
+	// meta data about documents
+	//  For CSV valid JSON format is {"CSV" :{inputColumn: "reviewDetails", rowId: "reviewId", copyColumnsToOutput: ["reviewId" "userId"] , delimiter: ","}
+	// Note: In future if new file types added we will update here in documentation about input file meta data
+	Config map[string]string `mandatory:"false" json:"config"`
 }
 
-func (m RelationEntity) String() string {
+func (m DocumentsConfiguration) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m RelationEntity) ValidateEnumValue() (bool, error) {
+func (m DocumentsConfiguration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

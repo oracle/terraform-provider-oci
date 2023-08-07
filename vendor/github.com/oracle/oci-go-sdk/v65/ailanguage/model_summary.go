@@ -47,8 +47,7 @@ type ModelSummary struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// For pre trained models this will identify model type version used for model creation
-	// For custom identifying the model by model id is difficult. This param provides ease of use for end customer.
+	// Identifying the model by model id is difficult. This param provides ease of use for end customer.
 	// <<service>>::<<service-name>>-<<model-type-version>>::<<custom model on which this training has to be done>>
 	// ex: ai-lang::NER_V1::CUSTOM-V0
 	Version *string `mandatory:"false" json:"version"`

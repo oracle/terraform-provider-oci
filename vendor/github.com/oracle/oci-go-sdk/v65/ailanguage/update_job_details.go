@@ -17,21 +17,32 @@ import (
 	"strings"
 )
 
-// ResolvedEntities Resolved entities.
-type ResolvedEntities struct {
+// UpdateJobDetails The information to be updated.
+type UpdateJobDetails struct {
 
-	// List of resolved entities
-	Details []ResolvedEntity `mandatory:"true" json:"details"`
+	// A user-friendly display name for the job.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// A short description of the job.
+	Description *string `mandatory:"false" json:"description"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m ResolvedEntities) String() string {
+func (m UpdateJobDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ResolvedEntities) ValidateEnumValue() (bool, error) {
+func (m UpdateJobDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -17,33 +17,21 @@ import (
 	"strings"
 )
 
-// HealthEntityDocumentResult The document response for health entity detect call.
-type HealthEntityDocumentResult struct {
+// JobCollection list of Jobs created in the compartment and/or after applying filters based on filters provided by user
+type JobCollection struct {
 
-	// Document unique identifier defined by the user.
-	Key *string `mandatory:"true" json:"key"`
-
-	// List of detected entities.
-	Entities []HealthEntity `mandatory:"true" json:"entities"`
-
-	// Map of resolved entities by entity type
-	ResolvedEntities map[string]ResolvedEntities `mandatory:"true" json:"resolvedEntities"`
-
-	// Language code of the document. Please refer to respective model API documentation (https://docs.cloud.oracle.com/iaas/language/using/overview.htm) for supported languages.
-	LanguageCode *string `mandatory:"true" json:"languageCode"`
-
-	// List of succeeded document response.
-	Relations []RelationEntity `mandatory:"false" json:"relations"`
+	// List of jobs.
+	Items []JobSummary `mandatory:"true" json:"items"`
 }
 
-func (m HealthEntityDocumentResult) String() string {
+func (m JobCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m HealthEntityDocumentResult) ValidateEnumValue() (bool, error) {
+func (m JobCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

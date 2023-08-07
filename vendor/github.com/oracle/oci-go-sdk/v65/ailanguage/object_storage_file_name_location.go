@@ -12,45 +12,51 @@
 package ailanguage
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// ResolvedEntity Resolved entity.
-type ResolvedEntity struct {
+// ObjectStorageFileNameLocation list of text files need to be used for prediction
+type ObjectStorageFileNameLocation struct {
 
-	// id of the resolved entity in input
-	Id *int `mandatory:"true" json:"id"`
+	// Object Storage namespace name.
+	NamespaceName *string `mandatory:"true" json:"namespaceName"`
 
-	// offset of resolved entity in input
-	Offset *int `mandatory:"true" json:"offset"`
+	// Object Storage bucket name.
+	BucketName *string `mandatory:"true" json:"bucketName"`
 
-	// length of resolved entity in input
-	Length *int `mandatory:"true" json:"length"`
-
-	// Entity text like name of person, location, and so on.
-	Text *string `mandatory:"true" json:"text"`
-
-	// Type of entity text like PER, LOC.
-	Type *string `mandatory:"true" json:"type"`
-
-	// key and value pair for resolved entities. keys can be specific for each type of resolved entity. Values can be instances of resolvedEntity, arrays of resolvedEntities, primitives, or custom JSON.
-	Value map[string]string `mandatory:"true" json:"value"`
+	// List of objects to be processed
+	ObjectNames []string `mandatory:"true" json:"objectNames"`
 }
 
-func (m ResolvedEntity) String() string {
+func (m ObjectStorageFileNameLocation) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ResolvedEntity) ValidateEnumValue() (bool, error) {
+func (m ObjectStorageFileNameLocation) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m ObjectStorageFileNameLocation) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeObjectStorageFileNameLocation ObjectStorageFileNameLocation
+	s := struct {
+		DiscriminatorParam string `json:"locationType"`
+		MarshalTypeObjectStorageFileNameLocation
+	}{
+		"OBJECT_STORAGE_FILE_LIST",
+		(MarshalTypeObjectStorageFileNameLocation)(m),
+	}
+
+	return json.Marshal(&s)
 }
