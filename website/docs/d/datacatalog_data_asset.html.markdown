@@ -44,6 +44,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly display name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `external_key` - External URI that can be used to reference the object. Format will differ based on the type of object. 
 * `key` - Unique data asset key that is immutable.
+* `lifecycle_details` - A message describing the current state in more detail. An object not in ACTIVE state may have functional limitations, see service documentation for details. 
 * `properties` - A map of maps that contains the properties which are specific to the asset type. Each data asset type definition defines it's set of required and optional properties. The map keys are category names and the values are maps of property name to property value. Every property is contained inside of a category. Most data assets have required properties within the "default" category. Example: `{"properties": { "default": { "host": "host1", "port": "1521", "database": "orcl"}}}` 
 * `state` - The current state of the data asset.
 * `time_created` - The date and time the data asset was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2019-03-25T21:10:29.600Z` 

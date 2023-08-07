@@ -38,7 +38,6 @@ func readSingularDatacatalogDataAsset(d *schema.ResourceData, m interface{}) err
 	sync := &DatacatalogDataAssetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataCatalogClient()
-
 	return tfresource.ReadResource(sync)
 }
 
@@ -91,6 +90,7 @@ func (s *DatacatalogDataAssetDataSourceCrud) Get() error {
 }
 
 func (s *DatacatalogDataAssetDataSourceCrud) SetData() error {
+
 	if s.Res == nil {
 		return nil
 	}
@@ -117,6 +117,9 @@ func (s *DatacatalogDataAssetDataSourceCrud) SetData() error {
 		s.D.Set("key", *s.Res.Key)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
 	if s.Res.Properties != nil {
 		s.D.Set("properties", propertiesToMap(s.Res.Properties))
 	}
