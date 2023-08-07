@@ -384,7 +384,6 @@ func (s *DatacatalogConnectionResourceCrud) SetData() error {
 	catalogId, connectionKey, dataAssetKey, err := parseConnectionCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("catalog_id", &catalogId)
-		s.D.Set("connection_key", &connectionKey)
 		s.D.Set("data_asset_key", &dataAssetKey)
 		s.D.SetId(connectionKey)
 	} else {
