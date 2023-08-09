@@ -34,6 +34,7 @@ type MyTrustedUserAgentUser struct {
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: true
 	//  - returned: default
 	//  - type: string
@@ -45,6 +46,7 @@ type MyTrustedUserAgentUser struct {
 	//  - caseExact: false
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: true
 	//  - returned: default
 	//  - type: reference
@@ -69,6 +71,7 @@ type MyTrustedUserAgentUser struct {
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: always
 	//  - type: string

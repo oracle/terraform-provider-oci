@@ -74,10 +74,17 @@ data "oci_identity_groups" "get_admin_approver_group" {
     name = "Administrators"
 }
 
+resource "random_string" "random_suffix" {
+  length  = 9
+  special = false
+  upper   = false
+}
+
+
 resource "oci_operator_access_control_operator_control" "test_operator_control" {
   #Required
   compartment_id        = var.compartment_id
-  operator_control_name = "tfexample-opctl51"
+  operator_control_name = "tfexample-${random_string.random_suffix.result}"
 
   #Optional
   approver_groups_list        = [data.oci_identity_groups.get_admin_approver_group.groups[0].id]

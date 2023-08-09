@@ -55,6 +55,8 @@ const (
 	TechnologyTypeMongodb                          TechnologyTypeEnum = "MONGODB"
 	TechnologyTypeMysqlServer                      TechnologyTypeEnum = "MYSQL_SERVER"
 	TechnologyTypePostgresqlServer                 TechnologyTypeEnum = "POSTGRESQL_SERVER"
+	TechnologyTypeSinglestoredb                    TechnologyTypeEnum = "SINGLESTOREDB"
+	TechnologyTypeSinglestoredbCloud               TechnologyTypeEnum = "SINGLESTOREDB_CLOUD"
 	TechnologyTypeSnowflake                        TechnologyTypeEnum = "SNOWFLAKE"
 )
 
@@ -96,6 +98,8 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"MONGODB":                              TechnologyTypeMongodb,
 	"MYSQL_SERVER":                         TechnologyTypeMysqlServer,
 	"POSTGRESQL_SERVER":                    TechnologyTypePostgresqlServer,
+	"SINGLESTOREDB":                        TechnologyTypeSinglestoredb,
+	"SINGLESTOREDB_CLOUD":                  TechnologyTypeSinglestoredbCloud,
 	"SNOWFLAKE":                            TechnologyTypeSnowflake,
 }
 
@@ -137,6 +141,8 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"mongodb":                              TechnologyTypeMongodb,
 	"mysql_server":                         TechnologyTypeMysqlServer,
 	"postgresql_server":                    TechnologyTypePostgresqlServer,
+	"singlestoredb":                        TechnologyTypeSinglestoredb,
+	"singlestoredb_cloud":                  TechnologyTypeSinglestoredbCloud,
 	"snowflake":                            TechnologyTypeSnowflake,
 }
 
@@ -189,6 +195,8 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"MONGODB",
 		"MYSQL_SERVER",
 		"POSTGRESQL_SERVER",
+		"SINGLESTOREDB",
+		"SINGLESTOREDB_CLOUD",
 		"SNOWFLAKE",
 	}
 }

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_my_api_key
 This data source provides details about a specific My Api Key resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Get user's api key
+Get a user's own API key.
 
 ## Example Usage
 
@@ -395,7 +395,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `user` - User linked to api key
+* `user` - The user linked to the API key.
 
 	**SCIM++ Properties:**
 	* caseExact: false
@@ -406,7 +406,7 @@ The following attributes are exported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `display` - User display name
+	* `display` - The user's display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -417,7 +417,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `name` - User name
+	* `name` - The username.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -428,7 +428,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - User's ocid
+	* `ocid` - The user's OCID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -439,7 +439,7 @@ The following attributes are exported:
 		* returned: always
 		* type: string
 		* uniqueness: none
-	* `ref` - The URI that corresponds to the user linked to this credential
+	* `ref` - The URI that corresponds to the user linked to this credential.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -450,7 +450,7 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - User's id
+	* `value` - The user's ID.
 
 		**SCIM++ Properties:**
 		* caseExact: true

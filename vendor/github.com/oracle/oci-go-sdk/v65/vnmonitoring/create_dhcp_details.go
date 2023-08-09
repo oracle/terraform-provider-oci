@@ -40,6 +40,9 @@ type CreateDhcpDetails struct {
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The search domain name type of DHCP options
+	DomainNameType CreateDhcpDetailsDomainNameTypeEnum `mandatory:"false" json:"domainNameType,omitempty"`
 }
 
 func (m CreateDhcpDetails) String() string {
@@ -52,6 +55,9 @@ func (m CreateDhcpDetails) String() string {
 func (m CreateDhcpDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateDhcpDetailsDomainNameTypeEnum(string(m.DomainNameType)); !ok && m.DomainNameType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DomainNameType: %s. Supported values are: %s.", m.DomainNameType, strings.Join(GetCreateDhcpDetailsDomainNameTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -61,12 +67,13 @@ func (m CreateDhcpDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDhcpDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags   map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName   *string                           `json:"displayName"`
-		FreeformTags  map[string]string                 `json:"freeformTags"`
-		CompartmentId *string                           `json:"compartmentId"`
-		Options       []dhcpoption                      `json:"options"`
-		VcnId         *string                           `json:"vcnId"`
+		DefinedTags    map[string]map[string]interface{}   `json:"definedTags"`
+		DisplayName    *string                             `json:"displayName"`
+		FreeformTags   map[string]string                   `json:"freeformTags"`
+		DomainNameType CreateDhcpDetailsDomainNameTypeEnum `json:"domainNameType"`
+		CompartmentId  *string                             `json:"compartmentId"`
+		Options        []dhcpoption                        `json:"options"`
+		VcnId          *string                             `json:"vcnId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -79,6 +86,8 @@ func (m *CreateDhcpDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.FreeformTags = model.FreeformTags
+
+	m.DomainNameType = model.DomainNameType
 
 	m.CompartmentId = model.CompartmentId
 
@@ -98,4 +107,50 @@ func (m *CreateDhcpDetails) UnmarshalJSON(data []byte) (e error) {
 	m.VcnId = model.VcnId
 
 	return
+}
+
+// CreateDhcpDetailsDomainNameTypeEnum Enum with underlying type: string
+type CreateDhcpDetailsDomainNameTypeEnum string
+
+// Set of constants representing the allowable values for CreateDhcpDetailsDomainNameTypeEnum
+const (
+	CreateDhcpDetailsDomainNameTypeSubnetDomain CreateDhcpDetailsDomainNameTypeEnum = "SUBNET_DOMAIN"
+	CreateDhcpDetailsDomainNameTypeVcnDomain    CreateDhcpDetailsDomainNameTypeEnum = "VCN_DOMAIN"
+	CreateDhcpDetailsDomainNameTypeCustomDomain CreateDhcpDetailsDomainNameTypeEnum = "CUSTOM_DOMAIN"
+)
+
+var mappingCreateDhcpDetailsDomainNameTypeEnum = map[string]CreateDhcpDetailsDomainNameTypeEnum{
+	"SUBNET_DOMAIN": CreateDhcpDetailsDomainNameTypeSubnetDomain,
+	"VCN_DOMAIN":    CreateDhcpDetailsDomainNameTypeVcnDomain,
+	"CUSTOM_DOMAIN": CreateDhcpDetailsDomainNameTypeCustomDomain,
+}
+
+var mappingCreateDhcpDetailsDomainNameTypeEnumLowerCase = map[string]CreateDhcpDetailsDomainNameTypeEnum{
+	"subnet_domain": CreateDhcpDetailsDomainNameTypeSubnetDomain,
+	"vcn_domain":    CreateDhcpDetailsDomainNameTypeVcnDomain,
+	"custom_domain": CreateDhcpDetailsDomainNameTypeCustomDomain,
+}
+
+// GetCreateDhcpDetailsDomainNameTypeEnumValues Enumerates the set of values for CreateDhcpDetailsDomainNameTypeEnum
+func GetCreateDhcpDetailsDomainNameTypeEnumValues() []CreateDhcpDetailsDomainNameTypeEnum {
+	values := make([]CreateDhcpDetailsDomainNameTypeEnum, 0)
+	for _, v := range mappingCreateDhcpDetailsDomainNameTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateDhcpDetailsDomainNameTypeEnumStringValues Enumerates the set of values in String for CreateDhcpDetailsDomainNameTypeEnum
+func GetCreateDhcpDetailsDomainNameTypeEnumStringValues() []string {
+	return []string{
+		"SUBNET_DOMAIN",
+		"VCN_DOMAIN",
+		"CUSTOM_DOMAIN",
+	}
+}
+
+// GetMappingCreateDhcpDetailsDomainNameTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateDhcpDetailsDomainNameTypeEnum(val string) (CreateDhcpDetailsDomainNameTypeEnum, bool) {
+	enum, ok := mappingCreateDhcpDetailsDomainNameTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

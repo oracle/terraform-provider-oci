@@ -16,39 +16,42 @@ import (
 	"strings"
 )
 
-// ExtensionUserStateUser This extension defines attributes used to manage account passwords within a service provider. The extension is typically applied to a User resource, but MAY be applied to other resources that use passwords.
+// ExtensionUserStateUser This extension defines the attributes used to manage account passwords within a service provider. The extension is typically applied to a User resource, but MAY be applied to other resources that use passwords.
 type ExtensionUserStateUser struct {
 
-	// The last successful login date
+	// The last successful login date.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: true
 	//  - idcsAllowUpdatesInReadOnlyMode: true
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: request
 	//  - type: dateTime
 	//  - uniqueness: none
 	LastSuccessfulLoginDate *string `mandatory:"false" json:"lastSuccessfulLoginDate"`
 
-	// The previous successful login date
+	// The previous successful login date.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: request
 	//  - type: dateTime
 	//  - uniqueness: none
 	PreviousSuccessfulLoginDate *string `mandatory:"false" json:"previousSuccessfulLoginDate"`
 
-	// The last failed login date
+	// The last failed login date.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - idcsAllowUpdatesInReadOnlyMode: true
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: request
 	//  - type: dateTime
@@ -61,6 +64,8 @@ type ExtensionUserStateUser struct {
 	//  - idcsAllowUpdatesInReadOnlyMode: true
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: request
 	//  - type: integer
@@ -73,6 +78,7 @@ type ExtensionUserStateUser struct {
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: request
 	//  - type: integer
@@ -91,7 +97,7 @@ type ExtensionUserStateUser struct {
 	//  - uniqueness: none
 	RecoveryEnrollAttempts *int `mandatory:"false" json:"recoveryEnrollAttempts"`
 
-	// Maximum number of concurrent sessions for a User
+	// The maximum number of concurrent sessions for a user.
 	// **Added In:** 20.1.3
 	// **SCIM++ Properties:**
 	//  - caseExact: false

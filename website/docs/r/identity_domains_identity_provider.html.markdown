@@ -121,6 +121,8 @@ resource "oci_identity_domains_identity_provider" "test_identity_provider" {
 		crl_enabled = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionx509identity_provider_crl_enabled
 		crl_location = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionx509identity_provider_crl_location
 		crl_reload_duration = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionx509identity_provider_crl_reload_duration
+		eku_validation_enabled = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionx509identity_provider_eku_validation_enabled
+		eku_values = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionx509identity_provider_eku_values
 		ocsp_allow_unknown_response_status = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionx509identity_provider_ocsp_allow_unknown_response_status
 		ocsp_enable_signed_response = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionx509identity_provider_ocsp_enable_signed_response
 		ocsp_enabled = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionx509identity_provider_ocsp_enabled
@@ -742,6 +744,19 @@ The following arguments are supported:
 	* required: false
 	* returned: default
 	* type: boolean
+	* uniqueness: none
+* `last_notification_sent_time` - (Optional) (Updatable) Records the notification timestamp for the IdP whose signing certificate is about to expire
+
+	**Added In:** 2302092332
+
+	**SCIM++ Properties:**
+	* caseExact: false
+	* idcsSearchable: false
+	* multiValued: false
+	* mutability: readOnly
+	* required: false
+	* returned: default
+	* type: dateTime
 	* uniqueness: none
 * `logout_binding` - (Optional) (Updatable) HTTP binding to use for logout.
 
@@ -1372,6 +1387,32 @@ The following arguments are supported:
 		* required: false
 		* returned: default
 		* type: integer
+		* uniqueness: none
+	* `eku_validation_enabled` - (Optional) (Updatable) Set to true to enable EKU Validation
+
+		**Added In:** 2304270343
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
+	* `eku_values` - (Optional) (Updatable) List of EKU which needs to be validated
+
+		**Added In:** 2304270343
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: true
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
 		* uniqueness: none
 	* `ocsp_allow_unknown_response_status` - (Optional) (Updatable) Allow access if OCSP response is UNKNOWN or OCSP Responder does not respond within the timeout duration
 
@@ -2141,6 +2182,19 @@ The following attributes are exported:
 	* returned: default
 	* type: boolean
 	* uniqueness: none
+* `last_notification_sent_time` - Records the notification timestamp for the IdP whose signing certificate is about to expire
+
+	**Added In:** 2302092332
+
+	**SCIM++ Properties:**
+	* caseExact: false
+	* idcsSearchable: false
+	* multiValued: false
+	* mutability: readOnly
+	* required: false
+	* returned: default
+	* type: dateTime
+	* uniqueness: none
 * `logout_binding` - HTTP binding to use for logout.
 
 	**SCIM++ Properties:**
@@ -2769,6 +2823,32 @@ The following attributes are exported:
 		* required: false
 		* returned: default
 		* type: integer
+		* uniqueness: none
+	* `eku_validation_enabled` - Set to true to enable EKU Validation
+
+		**Added In:** 2304270343
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
+	* `eku_values` - List of EKU which needs to be validated
+
+		**Added In:** 2304270343
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: true
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
 		* uniqueness: none
 	* `ocsp_allow_unknown_response_status` - Allow access if OCSP response is UNKNOWN or OCSP Responder does not respond within the timeout duration
 

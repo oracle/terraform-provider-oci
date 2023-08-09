@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_dynamic_resource_groups
 This data source provides the list of Dynamic Resource Groups in Oracle Cloud Infrastructure Identity Domains service.
 
-Search DynamicResourceGroups
+Search for Dynamic Resource Groups.
 
 ## Example Usage
 
@@ -223,7 +223,10 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `grant_mechanism` - Each value of grantMechanism indicates how (or by what component) some App (or App-Entitlement) was granted.\nA customer or the UI should use only grantMechanism values that start with 'ADMINISTRATOR':\n - 'ADMINISTRATOR_TO_USER' is for a direct grant to a specific User.\n - 'ADMINISTRATOR_TO_GROUP' is for a grant to a specific Group, which results in indirect grants to Users who are members of that Group.\n - 'ADMINISTRATOR_TO_APP' is for a grant to a specific App.  The grantee (client) App gains access to the granted (server) App.
+	* `grant_mechanism` - Each value of grantMechanism indicates how (or by what component) some App (or App-Entitlement) was granted. A customer or the UI should use only grantMechanism values that start with 'ADMINISTRATOR':
+		* 'ADMINISTRATOR_TO_USER' is for a direct grant to a specific User.
+		* 'ADMINISTRATOR_TO_GROUP' is for a grant to a specific Group, which results in indirect grants to Users who are members of that Group.
+		* 'ADMINISTRATOR_TO_APP' is for a grant to a specific App.  The grantee (client) App gains access to the granted (server) App.
 
 		**SCIM++ Properties:**
 		* caseExact: true

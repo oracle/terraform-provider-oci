@@ -10,7 +10,7 @@ description: |-
 # oci_log_analytics_log_analytics_preferences_management
 This resource provides the Log Analytics Preferences Management resource in Oracle Cloud Infrastructure Log Analytics service.
 
-Updates the tenant preferences. Currently, only "DEFAULT_HOMEPAGE" is supported.
+Updates the tenant preferences such as DEFAULT_HOMEPAGE and collection properties.
 
 
 ## Example Usage
@@ -35,7 +35,7 @@ resource "oci_log_analytics_log_analytics_preferences_management" "test_log_anal
 The following arguments are supported:
 
 * `items` - (Optional) An array of tenant preference details.
-	* `name` - (Optional) The preference name. Currently, only "DEFAULT_HOMEPAGE" is supported.
+	* `name` - (Optional) The preference name.
 	* `value` - (Optional) The preference value.
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
 

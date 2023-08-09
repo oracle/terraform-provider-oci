@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_my_oauth2client_credentials
 This data source provides the list of My O Auth2 Client Credentials in Oracle Cloud Infrastructure Identity Domains service.
 
-Search oauth2 client credentials
+Search for a user's own OAuth2 client credential.
 
 ## Example Usage
 
@@ -93,7 +93,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `expires_on` - User credential expires on
+* `expires_on` - When the user's credentials expire.
 
 	**Added In:** 2109090424
 
@@ -264,7 +264,7 @@ The following attributes are exported:
 	* returned: request
 	* type: string
 	* uniqueness: none
-* `is_reset_secret` - Specifies if secret need to be reset
+* `is_reset_secret` - Specifies whether the secret must be reset.
 
 	**Added In:** 2109090424
 
@@ -401,7 +401,7 @@ The following attributes are exported:
 		* multiValued: false
 		* required: true
 		* returned: default
-* `status` - User credential status
+* `status` - The user's credential status.
 
 	**Added In:** 2109090424
 
@@ -458,7 +458,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `user` - User linked to oauth2 client credential
+* `user` - The user linked to the OAuth2 client credential.
 
 	**SCIM++ Properties:**
 	* caseExact: false
@@ -469,7 +469,7 @@ The following attributes are exported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `display` - User display name
+	* `display` - The user's display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -480,7 +480,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `name` - User name
+	* `name` - The username.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -491,7 +491,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - User's ocid
+	* `ocid` - The user's OCID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -502,7 +502,7 @@ The following attributes are exported:
 		* returned: always
 		* type: string
 		* uniqueness: none
-	* `ref` - The URI that corresponds to the user linked to this credential
+	* `ref` - The URI that corresponds to the user linked to this credential.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -513,7 +513,7 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - User's id
+	* `value` - The user's ID.
 
 		**SCIM++ Properties:**
 		* caseExact: true

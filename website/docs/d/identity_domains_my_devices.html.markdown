@@ -74,6 +74,8 @@ The following attributes are exported:
 		* returned: always
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `value` - Device Attribute Value
 
 		**SCIM++ Properties:**
@@ -84,6 +86,8 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `app_version` - Mobile Authenticator App Version
 
 	**SCIM++ Properties:**
@@ -94,6 +98,8 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `authentication_factors` - Authentication Factors
 
 	**SCIM++ Properties:**
@@ -115,6 +121,8 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `status` - Authentication Factor Status
 
 		**SCIM++ Properties:**
@@ -125,6 +133,8 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `type` - Authentication Factor Type
 
 		**SCIM++ Properties:**
@@ -136,6 +146,8 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `authentication_method` - Authentication method used in device. For FIDO, it will contain SECURITY_KEY/WINDOWS_HELLO etc
 
 	**Added In:** 2009232244
@@ -148,6 +160,8 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `base_public_key` - Device base public Key
 
 	**SCIM++ Properties:**
@@ -158,6 +172,8 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `compartment_ocid` - Oracle Cloud Infrastructure Compartment Id (ocid) in which the resource lives.
 
 	**SCIM++ Properties:**
@@ -181,6 +197,8 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `delete_in_progress` - A boolean flag indicating this resource in the process of being deleted. Usually set to true when synchronous deletion of the resource would take too long.
 
 	**SCIM++ Properties:**
@@ -202,6 +220,8 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `device_uuid` - Unique id sent from device
 
 	**SCIM++ Properties:**
@@ -212,6 +232,8 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `display_name` - Device friendly display name
 
 	**SCIM++ Properties:**
@@ -223,6 +245,8 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `domain_ocid` - Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.
 
 	**SCIM++ Properties:**
@@ -425,6 +449,8 @@ The following attributes are exported:
 	* returned: default
 	* type: boolean
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `is_compliant` - Device Compliance Status
 
 	**SCIM++ Properties:**
@@ -442,6 +468,8 @@ The following attributes are exported:
 	* idcsSearchable: true
 	* multiValued: false
 	* mutability: readWrite
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* required: false
 	* returned: default
 	* type: dateTime
@@ -455,6 +483,8 @@ The following attributes are exported:
 	* idcsAllowUpdatesInReadOnlyMode: true
 	* multiValued: false
 	* mutability: readWrite
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* required: false
 	* returned: default
 	* type: dateTime
@@ -545,6 +575,8 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `name` - Device Compliance name
 
 		**SCIM++ Properties:**
@@ -555,6 +587,8 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `value` - Device Compliance value
 
 		**SCIM++ Properties:**
@@ -565,6 +599,8 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `ocid` - Unique Oracle Cloud Infrastructure identifier for the SCIM Resource.
 
 	**SCIM++ Properties:**
@@ -586,6 +622,8 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `phone_number` - User's Phone Number
 
 	**SCIM++ Properties:**
@@ -596,12 +634,16 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `platform` - Device Platform
 
 	**SCIM++ Properties:**
 	* idcsSearchable: false
 	* multiValued: false
 	* mutability: immutable
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* required: false
 	* returned: default
 	* type: string
@@ -626,6 +668,8 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `value` - The identifier of the push notification target
 
 		**SCIM++ Properties:**
@@ -637,6 +681,8 @@ The following attributes are exported:
 		* returned: always
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `reason` - Additional comments/reasons for the change in device status
 
 	**SCIM++ Properties:**
@@ -693,6 +739,8 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+	* idcsRequiresWriteForAccessFlows: true
+	* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `tags` - A list of tags on this resource.
 
 	**SCIM++ Properties:**
@@ -761,6 +809,8 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `third_party_factor_type` - Type of the third party authentication factor
 
 		**Added In:** 19.2.1
@@ -773,6 +823,8 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `third_party_vendor_name` - The vendor name of the third party factor
 
 		**Added In:** 19.2.1
@@ -785,6 +837,8 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `value` - The identifier of third party device
 
 		**Added In:** 19.2.1
@@ -797,6 +851,8 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 * `user` - Device member
 
 	**Deprecated Since: 17.3.4**
@@ -836,6 +892,8 @@ The following attributes are exported:
 		* returned: always
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `ref` - The URI that corresponds to the member Resource of this device
 
 		**Deprecated Since: 17.3.4**
@@ -848,6 +906,8 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	* `value` - The identifier of the user
 
 		**Deprecated Since: 17.3.4**
@@ -861,4 +921,6 @@ The following attributes are exported:
 		* returned: always
 		* type: string
 		* uniqueness: none
+		* idcsRequiresWriteForAccessFlows: true
+		* idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 

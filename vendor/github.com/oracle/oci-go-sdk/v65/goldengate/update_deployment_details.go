@@ -57,6 +57,8 @@ type UpdateDeploymentDetails struct {
 	OggData *UpdateOggDeploymentDetails `mandatory:"false" json:"oggData"`
 
 	MaintenanceWindow *UpdateMaintenanceWindowDetails `mandatory:"false" json:"maintenanceWindow"`
+
+	MaintenanceConfiguration *UpdateMaintenanceConfigurationDetails `mandatory:"false" json:"maintenanceConfiguration"`
 }
 
 func (m UpdateDeploymentDetails) String() string {

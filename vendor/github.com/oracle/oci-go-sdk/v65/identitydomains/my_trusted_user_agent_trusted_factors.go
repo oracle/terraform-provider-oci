@@ -26,6 +26,7 @@ type MyTrustedUserAgentTrustedFactors struct {
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: true
 	//  - returned: default
 	//  - type: string
@@ -39,6 +40,7 @@ type MyTrustedUserAgentTrustedFactors struct {
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: readOnly
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: true
 	//  - returned: default
 	//  - type: dateTime
@@ -52,6 +54,7 @@ type MyTrustedUserAgentTrustedFactors struct {
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: string

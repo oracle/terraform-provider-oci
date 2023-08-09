@@ -26,6 +26,11 @@ type SubnetTopology struct {
 	// Lists relationships between entities in the virtual network topology.
 	Relationships []TopologyEntityRelationship `mandatory:"true" json:"relationships"`
 
+	// Lists entities that are limited during ingestion.
+	// The values for the items in the list are the entity type names of the limitedEntities.
+	// Example: `vcn`
+	LimitedEntities []string `mandatory:"true" json:"limitedEntities"`
+
 	// Records when the virtual network topology was created, in RFC3339 (https://tools.ietf.org/html/rfc3339) format for date and time.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
@@ -41,6 +46,11 @@ func (m SubnetTopology) GetEntities() []interface{} {
 //GetRelationships returns Relationships
 func (m SubnetTopology) GetRelationships() []TopologyEntityRelationship {
 	return m.Relationships
+}
+
+//GetLimitedEntities returns LimitedEntities
+func (m SubnetTopology) GetLimitedEntities() []string {
+	return m.LimitedEntities
 }
 
 //GetTimeCreated returns TimeCreated
@@ -81,10 +91,11 @@ func (m SubnetTopology) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *SubnetTopology) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		SubnetId      *string                      `json:"subnetId"`
-		Entities      []interface{}                `json:"entities"`
-		Relationships []topologyentityrelationship `json:"relationships"`
-		TimeCreated   *common.SDKTime              `json:"timeCreated"`
+		SubnetId        *string                      `json:"subnetId"`
+		Entities        []interface{}                `json:"entities"`
+		Relationships   []topologyentityrelationship `json:"relationships"`
+		LimitedEntities []string                     `json:"limitedEntities"`
+		TimeCreated     *common.SDKTime              `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -110,6 +121,11 @@ func (m *SubnetTopology) UnmarshalJSON(data []byte) (e error) {
 		} else {
 			m.Relationships[i] = nil
 		}
+	}
+
+	m.LimitedEntities = make([]string, len(model.LimitedEntities))
+	for i, n := range model.LimitedEntities {
+		m.LimitedEntities[i] = n
 	}
 
 	m.TimeCreated = model.TimeCreated

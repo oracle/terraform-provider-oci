@@ -23,9 +23,12 @@ import (
 // Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type Vcn struct {
 
-	// The CIDR block IP address of the VCN.
+	// Deprecated. The first CIDR IP address from cidrBlocks.
 	// Example: `172.16.0.0/16`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
+
+	// The list of IPv4 CIDR blocks the VCN will use.
+	CidrBlocks []string `mandatory:"true" json:"cidrBlocks"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the VCN.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -35,6 +38,12 @@ type Vcn struct {
 
 	// The VCN's current state.
 	LifecycleState VcnLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The list of BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges.
+	Byoipv6CidrBlocks []string `mandatory:"false" json:"byoipv6CidrBlocks"`
+
+	// For an IPv6-enabled VCN, this is the list of Private IPv6 CIDR blocks for the VCN's IP address space.
+	Ipv6PrivateCidrBlocks []string `mandatory:"false" json:"ipv6PrivateCidrBlocks"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the VCN's default set of DHCP options.
 	DefaultDhcpOptionsId *string `mandatory:"false" json:"defaultDhcpOptionsId"`
@@ -55,7 +64,7 @@ type Vcn struct {
 
 	// A DNS label for the VCN, used in conjunction with the VNIC's hostname and
 	// subnet's DNS label to form a fully qualified domain name (FQDN) for each VNIC
-	// within this subnet (for example, `bminstance-1.subnet123.vcn1.oraclevcn.com`).
+	// within this subnet (for example, `bminstance1.subnet123.vcn1.oraclevcn.com`).
 	// Must be an alphanumeric string that begins with a letter.
 	// The value cannot be changed.
 	// The absence of this parameter means the Internet and VCN Resolver will
@@ -69,21 +78,9 @@ type Vcn struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// For an IPv6-enabled VCN, this is the IPv6 CIDR block for the VCN's private IP address space.
-	// The VCN size is always /56. Oracle
-	// provides the IPv6 CIDR block to use as the *same* CIDR for the `ipv6PublicCidrBlock`.
-	// When creating a subnet, specify the last 8 bits, 00 to FF.
-	// See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
-	// Example: `2001:0db8:0123::/56`
-	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
-
-	// For an IPv6-enabled VCN, this is the IPv6 CIDR block for the VCN's public IP address space.
-	// The VCN size is always /56. This CIDR is always provided by Oracle. If you don't provide a
-	// custom CIDR for the `ipv6CidrBlock` when creating the VCN, Oracle assigns that value and also
-	// uses it for `ipv6PublicCidrBlock`. Oracle uses addresses from this block for the `publicIpAddress`
-	// attribute of an Ipv6 that has internet access allowed.
-	// Example: `2001:0db8:0123::/48`
-	Ipv6PublicCidrBlock *string `mandatory:"false" json:"ipv6PublicCidrBlock"`
+	// For an IPv6-enabled VCN, this is the list of IPv6 CIDR blocks for the VCN's IP address space.
+	// The CIDRs are provided by Oracle and the sizes are always /56.
+	Ipv6CidrBlocks []string `mandatory:"false" json:"ipv6CidrBlocks"`
 
 	// The date and time the VCN was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
@@ -125,6 +122,7 @@ const (
 	VcnLifecycleStateAvailable    VcnLifecycleStateEnum = "AVAILABLE"
 	VcnLifecycleStateTerminating  VcnLifecycleStateEnum = "TERMINATING"
 	VcnLifecycleStateTerminated   VcnLifecycleStateEnum = "TERMINATED"
+	VcnLifecycleStateUpdating     VcnLifecycleStateEnum = "UPDATING"
 )
 
 var mappingVcnLifecycleStateEnum = map[string]VcnLifecycleStateEnum{
@@ -132,6 +130,7 @@ var mappingVcnLifecycleStateEnum = map[string]VcnLifecycleStateEnum{
 	"AVAILABLE":    VcnLifecycleStateAvailable,
 	"TERMINATING":  VcnLifecycleStateTerminating,
 	"TERMINATED":   VcnLifecycleStateTerminated,
+	"UPDATING":     VcnLifecycleStateUpdating,
 }
 
 var mappingVcnLifecycleStateEnumLowerCase = map[string]VcnLifecycleStateEnum{
@@ -139,6 +138,7 @@ var mappingVcnLifecycleStateEnumLowerCase = map[string]VcnLifecycleStateEnum{
 	"available":    VcnLifecycleStateAvailable,
 	"terminating":  VcnLifecycleStateTerminating,
 	"terminated":   VcnLifecycleStateTerminated,
+	"updating":     VcnLifecycleStateUpdating,
 }
 
 // GetVcnLifecycleStateEnumValues Enumerates the set of values for VcnLifecycleStateEnum
@@ -157,6 +157,7 @@ func GetVcnLifecycleStateEnumStringValues() []string {
 		"AVAILABLE",
 		"TERMINATING",
 		"TERMINATED",
+		"UPDATING",
 	}
 }
 

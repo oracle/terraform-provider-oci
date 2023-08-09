@@ -19,7 +19,7 @@ import (
 // AddDrgRouteRuleDetails Details needed when adding a DRG route rule.
 type AddDrgRouteRuleDetails struct {
 
-	// Type of destination for the rule. Required if `direction` = `EGRESS`.
+	// Type of destination for the rule.
 	// Allowed values:
 	//   * `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
 	DestinationType AddDrgRouteRuleDetailsDestinationTypeEnum `mandatory:"true" json:"destinationType"`

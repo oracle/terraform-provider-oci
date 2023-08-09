@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// MyAuthTokenUser User linked to auth token
+// MyAuthTokenUser The user linked to the Auth token.
 // **SCIM++ Properties:**
 //  - caseExact: false
 //  - idcsSearchable: true
@@ -28,7 +28,7 @@ import (
 //  - uniqueness: none
 type MyAuthTokenUser struct {
 
-	// User's id
+	// The user's ID.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -40,7 +40,7 @@ type MyAuthTokenUser struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"false" json:"value"`
 
-	// User's ocid
+	// The user's OCID.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -64,7 +64,7 @@ type MyAuthTokenUser struct {
 	//  - uniqueness: none
 	Ref *string `mandatory:"false" json:"$ref"`
 
-	// User display name
+	// The user's display name.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
@@ -76,7 +76,7 @@ type MyAuthTokenUser struct {
 	//  - uniqueness: none
 	Display *string `mandatory:"false" json:"display"`
 
-	// User name
+	// The username.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true

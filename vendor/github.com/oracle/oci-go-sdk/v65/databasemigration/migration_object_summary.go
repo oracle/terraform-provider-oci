@@ -30,6 +30,9 @@ type MigrationObjectSummary struct {
 
 	// Object status.
 	ObjectStatus ObjectStatusEnum `mandatory:"false" json:"objectStatus,omitempty"`
+
+	// Whether an excluded table should be omitted from replication. Only valid for database objects that have are of type TABLE and object status EXCLUDE.
+	IsOmitExcludedTableFromReplication *bool `mandatory:"false" json:"isOmitExcludedTableFromReplication"`
 }
 
 func (m MigrationObjectSummary) String() string {

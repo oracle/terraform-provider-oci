@@ -39,6 +39,9 @@ type CreateInternetGatewayDetails struct {
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the Internet Gateway is using.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m CreateInternetGatewayDetails) String() string {

@@ -28,6 +28,9 @@ type OperatorControlAssignmentClient struct {
 // NewOperatorControlAssignmentClientWithConfigurationProvider Creates a new default OperatorControlAssignment client with the given configuration provider.
 // the configuration provider will be used for the default signer as well as reading the region
 func NewOperatorControlAssignmentClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client OperatorControlAssignmentClient, err error) {
+	if enabled := common.CheckForEnabledServices("operatoraccesscontrol"); !enabled {
+		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
 		return client, err
@@ -95,9 +98,10 @@ func (client *OperatorControlAssignmentClient) ConfigurationProvider() *common.C
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlAssignmentCompartment.go.html to see an example of how to use ChangeOperatorControlAssignmentCompartment API.
+// A default retry strategy applies to this operation ChangeOperatorControlAssignmentCompartment()
 func (client OperatorControlAssignmentClient) ChangeOperatorControlAssignmentCompartment(ctx context.Context, request ChangeOperatorControlAssignmentCompartmentRequest) (response ChangeOperatorControlAssignmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -157,9 +161,10 @@ func (client OperatorControlAssignmentClient) changeOperatorControlAssignmentCom
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControlAssignment.go.html to see an example of how to use CreateOperatorControlAssignment API.
+// A default retry strategy applies to this operation CreateOperatorControlAssignment()
 func (client OperatorControlAssignmentClient) CreateOperatorControlAssignment(ctx context.Context, request CreateOperatorControlAssignmentRequest) (response CreateOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -219,9 +224,10 @@ func (client OperatorControlAssignmentClient) createOperatorControlAssignment(ct
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/DeleteOperatorControlAssignment.go.html to see an example of how to use DeleteOperatorControlAssignment API.
+// A default retry strategy applies to this operation DeleteOperatorControlAssignment()
 func (client OperatorControlAssignmentClient) DeleteOperatorControlAssignment(ctx context.Context, request DeleteOperatorControlAssignmentRequest) (response DeleteOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -276,9 +282,10 @@ func (client OperatorControlAssignmentClient) deleteOperatorControlAssignment(ct
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorControlAssignment.go.html to see an example of how to use GetOperatorControlAssignment API.
+// A default retry strategy applies to this operation GetOperatorControlAssignment()
 func (client OperatorControlAssignmentClient) GetOperatorControlAssignment(ctx context.Context, request GetOperatorControlAssignmentRequest) (response GetOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -333,9 +340,10 @@ func (client OperatorControlAssignmentClient) getOperatorControlAssignment(ctx c
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControlAssignments.go.html to see an example of how to use ListOperatorControlAssignments API.
+// A default retry strategy applies to this operation ListOperatorControlAssignments()
 func (client OperatorControlAssignmentClient) ListOperatorControlAssignments(ctx context.Context, request ListOperatorControlAssignmentsRequest) (response ListOperatorControlAssignmentsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -390,9 +398,10 @@ func (client OperatorControlAssignmentClient) listOperatorControlAssignments(ctx
 // See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/UpdateOperatorControlAssignment.go.html to see an example of how to use UpdateOperatorControlAssignment API.
+// A default retry strategy applies to this operation UpdateOperatorControlAssignment()
 func (client OperatorControlAssignmentClient) UpdateOperatorControlAssignment(ctx context.Context, request UpdateOperatorControlAssignmentRequest) (response UpdateOperatorControlAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

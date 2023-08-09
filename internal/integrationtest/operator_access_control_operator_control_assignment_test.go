@@ -64,7 +64,7 @@ var (
 		"is_auto_approve_during_maintenance": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_log_forwarded":                   acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 		"remote_syslog_server_address":       acctest.Representation{RepType: acctest.Optional, Create: `remoteSyslogServerAddress`, Update: `remoteSyslogServerAddress2`},
-		"remote_syslog_server_ca_cert":       acctest.Representation{RepType: acctest.Optional, Create: `remoteSyslogServerCACert`, Update: `remoteSyslogServerCACert2`},
+		"remote_syslog_server_ca_cert":       acctest.Representation{RepType: acctest.Optional, Create: `cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0`, Update: `cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0Mg==`},
 		"remote_syslog_server_port":          acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"time_assignment_from":               acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
 		"time_assignment_to":                 acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
@@ -110,6 +110,7 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_enforced_always", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_default_assignment", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "operator_control_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_id"),
@@ -125,8 +126,8 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 
 		// delete before next Create
 		{
-			ExpectNonEmptyPlan: true,
-			Config:             config + compartmentIdVariableStr + OperatorAccessControlOperatorControlAssignmentResourceDependencies,
+			//ExpectNonEmptyPlan: true,
+			Config: config + compartmentIdVariableStr + OperatorAccessControlOperatorControlAssignmentResourceDependencies,
 		},
 		// verify Create with optionals
 		{
@@ -140,10 +141,11 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_approve_during_maintenance", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_enforced_always", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_default_assignment", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_log_forwarded", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "operator_control_id"),
 				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_address", "remoteSyslogServerAddress"),
-				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_ca_cert", "remoteSyslogServerCACert"),
+				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_ca_cert", "cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0"),
 				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_port", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_id"),
@@ -176,10 +178,11 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_approve_during_maintenance", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_enforced_always", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_default_assignment", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_log_forwarded", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "operator_control_id"),
 				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_address", "remoteSyslogServerAddress2"),
-				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_ca_cert", "remoteSyslogServerCACert2"),
+				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_ca_cert", "cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0Mg=="),
 				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_port", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_compartment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "resource_id"),
@@ -220,7 +223,6 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 				compartmentIdVariableStr + OperatorAccessControlOperatorControlAssignmentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operator_control_assignment_id"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "assigner_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "comment", "comment2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -229,10 +231,11 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_approve_during_maintenance", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_default_assignment", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_enforced_always", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_log_forwarded", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "remote_syslog_server_address", "remoteSyslogServerAddress2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "remote_syslog_server_ca_cert", "remoteSyslogServerCACert2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "remote_syslog_server_ca_cert", "cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0Mg=="),
 				resource.TestCheckResourceAttr(singularDatasourceName, "remote_syslog_server_port", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "resource_name", "resourceName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "resource_type", "EXADATAINFRASTRUCTURE"),

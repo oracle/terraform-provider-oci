@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ExtensionGroupGroup Idcs Group
+// ExtensionGroupGroup Oracle Identity Cloud Service Group
 type ExtensionGroupGroup struct {
 
 	// Group description

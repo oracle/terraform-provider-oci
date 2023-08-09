@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserPasswordChanger Schema to handle userpassword change by administrator.
+// UserPasswordChanger The schema used to handle a user password change by an administrator.
 type UserPasswordChanger struct {
 
 	// REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \"enterprise\" extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.
@@ -31,7 +31,7 @@ type UserPasswordChanger struct {
 	//  - uniqueness: none
 	Schemas []string `mandatory:"true" json:"schemas"`
 
-	// Password attribute. Max length for password is controlled via Password Policy.
+	// The password attribute. The maximum length for the password is set in the password policy.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false
@@ -165,7 +165,7 @@ type UserPasswordChanger struct {
 	//  - uniqueness: none
 	ExternalId *string `mandatory:"false" json:"externalId"`
 
-	// A Boolean value indicating whether or not to send email notification after password is changed.
+	// Indicates whether to send an email notification after a password is changed.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: false
@@ -177,7 +177,7 @@ type UserPasswordChanger struct {
 	//  - uniqueness: none
 	BypassNotification *bool `mandatory:"false" json:"bypassNotification"`
 
-	// Specifies the EmailTemplate to be used when sending notification to the user this request is for. If specified, it overrides the default EmailTemplate for this event.
+	// Specifies the EmailTemplate to be used when sending a notification to the user. If specified, it overrides the default EmailTemplate.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: false

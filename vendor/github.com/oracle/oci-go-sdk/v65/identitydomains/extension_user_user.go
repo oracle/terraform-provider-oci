@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ExtensionUserUser OCI IAM User
+// ExtensionUserUser Oracle Identity Cloud Service User
 type ExtensionUserUser struct {
 
 	// A Boolean value indicating whether or not the user is federated.
@@ -27,6 +27,7 @@ type ExtensionUserUser struct {
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: boolean
@@ -70,6 +71,19 @@ type ExtensionUserUser struct {
 	//  - uniqueness: none
 	Provider ExtensionUserUserProviderEnum `mandatory:"false" json:"provider,omitempty"`
 
+	// User's preferred landing page following login, logout and reset password.
+	// **Added In:** 2302092332
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: string
+	//  - uniqueness: none
+	PreferredUiLandingPage ExtensionUserUserPreferredUiLandingPageEnum `mandatory:"false" json:"preferredUiLandingPage,omitempty"`
+
 	// User creation mechanism
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -77,11 +91,24 @@ type ExtensionUserUser struct {
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: immutable
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: request
 	//  - type: string
 	//  - uniqueness: none
 	CreationMechanism ExtensionUserUserCreationMechanismEnum `mandatory:"false" json:"creationMechanism,omitempty"`
+
+	// Specifies date time when a User's group membership was last modified.
+	// **Added In:** 2304270343
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - multiValued: false
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: request
+	//  - type: dateTime
+	//  - uniqueness: none
+	GroupMembershipLastModified *string `mandatory:"false" json:"groupMembershipLastModified"`
 
 	// A Boolean value indicating whether or not to hide the getting started page
 	// **SCIM++ Properties:**
@@ -102,6 +129,7 @@ type ExtensionUserUser struct {
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: immutable
+	//  - idcsRequiresWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: never
 	//  - type: boolean
@@ -268,6 +296,9 @@ func (m ExtensionUserUser) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingExtensionUserUserProviderEnum(string(m.Provider)); !ok && m.Provider != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Provider: %s. Supported values are: %s.", m.Provider, strings.Join(GetExtensionUserUserProviderEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingExtensionUserUserPreferredUiLandingPageEnum(string(m.PreferredUiLandingPage)); !ok && m.PreferredUiLandingPage != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PreferredUiLandingPage: %s. Supported values are: %s.", m.PreferredUiLandingPage, strings.Join(GetExtensionUserUserPreferredUiLandingPageEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingExtensionUserUserCreationMechanismEnum(string(m.CreationMechanism)); !ok && m.CreationMechanism != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CreationMechanism: %s. Supported values are: %s.", m.CreationMechanism, strings.Join(GetExtensionUserUserCreationMechanismEnumStringValues(), ",")))
 	}
@@ -366,6 +397,52 @@ func GetExtensionUserUserProviderEnumStringValues() []string {
 // GetMappingExtensionUserUserProviderEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExtensionUserUserProviderEnum(val string) (ExtensionUserUserProviderEnum, bool) {
 	enum, ok := mappingExtensionUserUserProviderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ExtensionUserUserPreferredUiLandingPageEnum Enum with underlying type: string
+type ExtensionUserUserPreferredUiLandingPageEnum string
+
+// Set of constants representing the allowable values for ExtensionUserUserPreferredUiLandingPageEnum
+const (
+	ExtensionUserUserPreferredUiLandingPageMyapps     ExtensionUserUserPreferredUiLandingPageEnum = "MyApps"
+	ExtensionUserUserPreferredUiLandingPageMyprofile  ExtensionUserUserPreferredUiLandingPageEnum = "MyProfile"
+	ExtensionUserUserPreferredUiLandingPageOciconsole ExtensionUserUserPreferredUiLandingPageEnum = "OciConsole"
+)
+
+var mappingExtensionUserUserPreferredUiLandingPageEnum = map[string]ExtensionUserUserPreferredUiLandingPageEnum{
+	"MyApps":     ExtensionUserUserPreferredUiLandingPageMyapps,
+	"MyProfile":  ExtensionUserUserPreferredUiLandingPageMyprofile,
+	"OciConsole": ExtensionUserUserPreferredUiLandingPageOciconsole,
+}
+
+var mappingExtensionUserUserPreferredUiLandingPageEnumLowerCase = map[string]ExtensionUserUserPreferredUiLandingPageEnum{
+	"myapps":     ExtensionUserUserPreferredUiLandingPageMyapps,
+	"myprofile":  ExtensionUserUserPreferredUiLandingPageMyprofile,
+	"ociconsole": ExtensionUserUserPreferredUiLandingPageOciconsole,
+}
+
+// GetExtensionUserUserPreferredUiLandingPageEnumValues Enumerates the set of values for ExtensionUserUserPreferredUiLandingPageEnum
+func GetExtensionUserUserPreferredUiLandingPageEnumValues() []ExtensionUserUserPreferredUiLandingPageEnum {
+	values := make([]ExtensionUserUserPreferredUiLandingPageEnum, 0)
+	for _, v := range mappingExtensionUserUserPreferredUiLandingPageEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExtensionUserUserPreferredUiLandingPageEnumStringValues Enumerates the set of values in String for ExtensionUserUserPreferredUiLandingPageEnum
+func GetExtensionUserUserPreferredUiLandingPageEnumStringValues() []string {
+	return []string{
+		"MyApps",
+		"MyProfile",
+		"OciConsole",
+	}
+}
+
+// GetMappingExtensionUserUserPreferredUiLandingPageEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExtensionUserUserPreferredUiLandingPageEnum(val string) (ExtensionUserUserPreferredUiLandingPageEnum, bool) {
+	enum, ok := mappingExtensionUserUserPreferredUiLandingPageEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

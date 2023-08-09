@@ -42,6 +42,31 @@ type UpdateSubnetDetails struct {
 	// security lists are associated *with the subnet*, but the rules are
 	// applied to the individual VNICs in the subnet.
 	SecurityListIds []string `mandatory:"false" json:"securityListIds"`
+
+	// The CIDR block of the subnet. The new CIDR block must meet the following criteria:
+	// - Must be valid.
+	// - The CIDR block's IP range must be completely within one of the VCN's CIDR block ranges.
+	// - The old and new CIDR block ranges must use the same network address. Example: `10.0.0.0/25` and `10.0.0.0/24`.
+	// - Must contain all IP addresses in use in the old CIDR range.
+	// - The new CIDR range's broadcast address (last IP address of CIDR range) must not be an IP address in use in the old CIDR range.
+	// **Note:** If you are changing the CIDR block, you cannot create VNICs or private IPs for this resource while the update is in progress.
+	// Example: `172.16.0.0/16`
+	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
+
+	// This is the IPv6 CIDR block for the subnet's IP address space.
+	// The subnet size is always /64.
+	// See IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+	// The provided CIDR must maintain the following rules -
+	// a. The IPv6 CIDR block is valid and correctly formatted.
+	// b. The IPv6 CIDR is within the parent VCN IPv6 range.
+	// Example: `2001:0db8:0123:1111::/64`
+	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
+
+	// The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet that meets the following criteria:
+	// - The CIDR blocks must be valid.
+	// - Multiple CIDR blocks must not overlap each other or the on-premises network CIDR block.
+	// - The number of CIDR blocks must not exceed the limit of IPv6 CIDR blocks allowed to a subnet.
+	Ipv6CidrBlocks []string `mandatory:"false" json:"ipv6CidrBlocks"`
 }
 
 func (m UpdateSubnetDetails) String() string {

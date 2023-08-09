@@ -19,15 +19,28 @@ import (
 // UpdateCrossConnectDetails Update a CrossConnect
 type UpdateCrossConnectDetails struct {
 
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Set to true to activate the cross-connect. You activate it after the physical cabling
 	// is complete, and you've confirmed the cross-connect's light levels are good and your side
 	// of the interface is up. Activation indicates to Oracle that the physical connection is ready.
 	// Example: `true`
 	IsActive *bool `mandatory:"false" json:"isActive"`
+
+	// A reference name or identifier for the physical fiber connection this cross-connect uses.
+	CustomerReferenceName *string `mandatory:"false" json:"customerReferenceName"`
+
+	MacsecProperties *UpdateMacsecProperties `mandatory:"false" json:"macsecProperties"`
 }
 
 func (m UpdateCrossConnectDetails) String() string {

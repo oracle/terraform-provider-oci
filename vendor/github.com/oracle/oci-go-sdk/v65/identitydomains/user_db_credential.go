@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserDbCredential User's Db Credential
+// UserDbCredential User's Database Credential
 type UserDbCredential struct {
 
 	// REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \"enterprise\" extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.
@@ -31,7 +31,7 @@ type UserDbCredential struct {
 	//  - uniqueness: none
 	Schemas []string `mandatory:"true" json:"schemas"`
 
-	// The db password of the user
+	// The user's database password.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - mutability: immutable
@@ -172,7 +172,7 @@ type UserDbCredential struct {
 	//  - returned: default
 	Description *string `mandatory:"false" json:"description"`
 
-	// The db password of the user with mixed salt
+	// The user's database password with mixed salt.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - mutability: readOnly
@@ -180,7 +180,7 @@ type UserDbCredential struct {
 	//  - required: false
 	MixedDbPassword *string `mandatory:"false" json:"mixedDbPassword"`
 
-	// The salt of the password
+	// The salt of the password.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - mutability: readOnly
@@ -188,7 +188,7 @@ type UserDbCredential struct {
 	//  - required: false
 	Salt *string `mandatory:"false" json:"salt"`
 
-	// The mixed salt of the password
+	// The mixed salt of the password.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - mutability: readOnly
@@ -196,14 +196,14 @@ type UserDbCredential struct {
 	//  - required: false
 	MixedSalt *string `mandatory:"false" json:"mixedSalt"`
 
-	// A DateTime that specifies the date and time when the current db password was set
+	// A DateTime that specifies the date and time when the current database password was set.
 	// **SCIM++ Properties:**
 	//  - type: dateTime
 	//  - mutability: readOnly
 	//  - returned: default
 	LastSetDate *string `mandatory:"false" json:"lastSetDate"`
 
-	// Indicates that the db password has expired
+	// Indicates that the database password has expired.
 	// **SCIM++ Properties:**
 	//  - type: boolean
 	//  - mutability: readOnly
@@ -223,7 +223,7 @@ type UserDbCredential struct {
 	//  - uniqueness: none
 	Status UserDbCredentialStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// User credential expires on
+	// When the user credential expires.
 	// **Added In:** 2109090424
 	// **SCIM++ Properties:**
 	//  - caseExact: false

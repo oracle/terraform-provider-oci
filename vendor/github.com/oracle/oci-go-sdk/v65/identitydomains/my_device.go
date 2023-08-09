@@ -179,6 +179,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Device Platform
@@ -186,6 +188,8 @@ type MyDevice struct {
 	//  - idcsSearchable: false
 	//  - multiValued: false
 	//  - mutability: immutable
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: string
@@ -202,6 +206,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Status MyDeviceStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	// Additional comments/reasons for the change in device status
@@ -224,6 +230,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	DeviceType *string `mandatory:"false" json:"deviceType"`
 
 	// Mobile Authenticator App Version
@@ -235,6 +243,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	AppVersion *string `mandatory:"false" json:"appVersion"`
 
 	// Mobile Authenticator App Package Id
@@ -246,6 +256,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	PackageId *string `mandatory:"false" json:"packageId"`
 
 	// Last Sync time for device
@@ -253,6 +265,8 @@ type MyDevice struct {
 	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: dateTime
@@ -266,6 +280,8 @@ type MyDevice struct {
 	//  - idcsAllowUpdatesInReadOnlyMode: true
 	//  - multiValued: false
 	//  - mutability: readWrite
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	//  - required: false
 	//  - returned: default
 	//  - type: dateTime
@@ -294,6 +310,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	CountryCode *string `mandatory:"false" json:"countryCode"`
 
 	// User's Phone Number
@@ -305,6 +323,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	PhoneNumber *string `mandatory:"false" json:"phoneNumber"`
 
 	// Flag that indicates whether the device is enrolled for account recovery
@@ -317,6 +337,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: boolean
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	IsAccRecEnabled *bool `mandatory:"false" json:"isAccRecEnabled"`
 
 	// Unique id sent from device
@@ -328,6 +350,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	DeviceUUID *string `mandatory:"false" json:"deviceUUID"`
 
 	// Device base public Key
@@ -339,6 +363,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	BasePublicKey *string `mandatory:"false" json:"basePublicKey"`
 
 	// Authentication method used in device. For FIDO, it will contain SECURITY_KEY/WINDOWS_HELLO etc
@@ -351,6 +377,8 @@ type MyDevice struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	AuthenticationMethod *string `mandatory:"false" json:"authenticationMethod"`
 
 	// Attribute added for replication log, it is not used by IDCS, just added as place holder

@@ -215,8 +215,8 @@ var (
 		"is_authentication_delegated":                acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_federated_user":                          acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_group_membership_normalized":             acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"user_flow_controlled_by_external_client":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_group_membership_synced_to_users_groups": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"user_flow_controlled_by_external_client":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 	IdentityDomainsUserX509CertificatesRepresentation = map[string]interface{}{
 		"value":   acctest.Representation{RepType: acctest.Required, Create: `MIIBPDCB56ADAgECAhAucicVzKJi9WsJknMUyFhRMA0GCSqGSIb3DQEBBAUAMA4xDDAKBgNVBAMTA29pZDAeFw0wNDA1MjUwMDEwMjNaFw0wNDExMjEwMDEwMjNaMDExCzAJBgNVBAYTAnVzMQwwCgYDVQQKEwNJTUMxFDASBgNVBAMTC0thbCBCYWlsZXlzMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMqsqm5/ZE2Fy57YmUNC6Lc6j70z+DNhmCADhsxpA4DXwrOkDDaIpAXG45y4NvsImjjpaFGxSE0upxBIQAHj9CMCAwEAATANBgkqhkiG9w0BAQQFAANBAGktTIBlB3VyN+7a9mRzdeYgS8ZwVsee1iGVRHCTfF1quxtVyWVwMX0dxffwz6pK0Pm3bV7uiEVu5qf3rO1hYSE=`},
@@ -238,26 +238,6 @@ var (
 	}
 
 	IdentityDomainsUserResourceDependencies = DefinedTagsDependencies + TestDomainDependencies + IdentityDomainsUserManager
-
-	IdentityDomainsUserManager = `
-resource "oci_identity_domains_user" "test_user_manager" {
-	# Required
-	emails {
-		value = "value@email.com"
-		type = "work"
-		primary = "true"
-	}
-	idcs_endpoint = "${data.oci_identity_domain.test_domain.url}"
-	name {
-		family_name = "managerFamilyName"
-	}
-	schemas = ["urn:ietf:params:scim:schemas:core:2.0:User"]
-	user_name = "managerUserName"
-	lifecycle {
-		ignore_changes = ["urnietfparamsscimschemasoracleidcsextension_oci_tags[0].defined_tags", "emails", "schemas"]
-	}
-}
-`
 )
 
 // issue-routing-tag: identity_domains/default
@@ -570,6 +550,11 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionuser_user.0.applicable_authentication_target_app.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionuser_user.0.creation_mechanism", "api"),
 				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionuser_user.0.do_not_show_getting_started", "true"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionuser_user.0.is_authentication_delegated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionuser_user.0.is_federated_user", "false"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionuser_user.0.is_group_membership_normalized", "false"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionuser_user.0.is_group_membership_synced_to_users_groups", "false"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextensionuser_user.0.user_flow_controlled_by_external_client", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_name"),
 				resource.TestCheckResourceAttr(resourceName, "user_type", "Employee"),
 				resource.TestCheckResourceAttr(resourceName, "x509certificates.#", "1"),
@@ -608,7 +593,6 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_identity_domains_user", "test_user", acctest.Required, acctest.Create, IdentityDomainsIdentityDomainsUserSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + IdentityDomainsUserResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				//resource.TestCheckResourceAttr(singularDatasourceName, "attribute_sets.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "idcs_endpoint"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
 
