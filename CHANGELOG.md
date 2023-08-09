@@ -1,4 +1,4 @@
-## 5.8.0 (Unreleased)
+## 5.8.0 (August 09, 2023)
 
 ### Added
 - Support for Oracle Cloud AI Services Language V2.3 - Enhancement
