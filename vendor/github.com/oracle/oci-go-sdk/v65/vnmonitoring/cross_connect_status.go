@@ -36,6 +36,19 @@ type CrossConnectStatus struct {
 	//   * **BAD:** There's measurable light but the signal-to-noise ratio is bad
 	//   * **GOOD:** Good light level
 	LightLevelIndicator CrossConnectStatusLightLevelIndicatorEnum `mandatory:"false" json:"lightLevelIndicator,omitempty"`
+
+	// Encryption status of this cross connect.
+	// Possible values:
+	// * **UP:** Traffic is encrypted over this cross-connect
+	// * **DOWN:** Traffic is not encrypted over this cross-connect
+	// * **CIPHER_MISMATCH:** The MACsec encryption cipher doesn't match the cipher on the CPE
+	// * **CKN_MISMATCH:** The MACsec Connectivity association Key Name (CKN) doesn't match the CKN on the CPE
+	// * **CAK_MISMATCH:** The MACsec Connectivity Association Key (CAK) doesn't match the CAK on the CPE
+	EncryptionStatus CrossConnectStatusEncryptionStatusEnum `mandatory:"false" json:"encryptionStatus,omitempty"`
+
+	// The light levels of the cross-connect (in dBm).
+	// Example: `[14.0, -14.0, 2.1, -10.1]`
+	LightLevelsInDBm []float32 `mandatory:"false" json:"lightLevelsInDBm"`
 }
 
 func (m CrossConnectStatus) String() string {
@@ -53,6 +66,9 @@ func (m CrossConnectStatus) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCrossConnectStatusLightLevelIndicatorEnum(string(m.LightLevelIndicator)); !ok && m.LightLevelIndicator != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LightLevelIndicator: %s. Supported values are: %s.", m.LightLevelIndicator, strings.Join(GetCrossConnectStatusLightLevelIndicatorEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCrossConnectStatusEncryptionStatusEnum(string(m.EncryptionStatus)); !ok && m.EncryptionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EncryptionStatus: %s. Supported values are: %s.", m.EncryptionStatus, strings.Join(GetCrossConnectStatusEncryptionStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -153,5 +169,59 @@ func GetCrossConnectStatusLightLevelIndicatorEnumStringValues() []string {
 // GetMappingCrossConnectStatusLightLevelIndicatorEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCrossConnectStatusLightLevelIndicatorEnum(val string) (CrossConnectStatusLightLevelIndicatorEnum, bool) {
 	enum, ok := mappingCrossConnectStatusLightLevelIndicatorEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CrossConnectStatusEncryptionStatusEnum Enum with underlying type: string
+type CrossConnectStatusEncryptionStatusEnum string
+
+// Set of constants representing the allowable values for CrossConnectStatusEncryptionStatusEnum
+const (
+	CrossConnectStatusEncryptionStatusUp             CrossConnectStatusEncryptionStatusEnum = "UP"
+	CrossConnectStatusEncryptionStatusDown           CrossConnectStatusEncryptionStatusEnum = "DOWN"
+	CrossConnectStatusEncryptionStatusCipherMismatch CrossConnectStatusEncryptionStatusEnum = "CIPHER_MISMATCH"
+	CrossConnectStatusEncryptionStatusCknMismatch    CrossConnectStatusEncryptionStatusEnum = "CKN_MISMATCH"
+	CrossConnectStatusEncryptionStatusCakMismatch    CrossConnectStatusEncryptionStatusEnum = "CAK_MISMATCH"
+)
+
+var mappingCrossConnectStatusEncryptionStatusEnum = map[string]CrossConnectStatusEncryptionStatusEnum{
+	"UP":              CrossConnectStatusEncryptionStatusUp,
+	"DOWN":            CrossConnectStatusEncryptionStatusDown,
+	"CIPHER_MISMATCH": CrossConnectStatusEncryptionStatusCipherMismatch,
+	"CKN_MISMATCH":    CrossConnectStatusEncryptionStatusCknMismatch,
+	"CAK_MISMATCH":    CrossConnectStatusEncryptionStatusCakMismatch,
+}
+
+var mappingCrossConnectStatusEncryptionStatusEnumLowerCase = map[string]CrossConnectStatusEncryptionStatusEnum{
+	"up":              CrossConnectStatusEncryptionStatusUp,
+	"down":            CrossConnectStatusEncryptionStatusDown,
+	"cipher_mismatch": CrossConnectStatusEncryptionStatusCipherMismatch,
+	"ckn_mismatch":    CrossConnectStatusEncryptionStatusCknMismatch,
+	"cak_mismatch":    CrossConnectStatusEncryptionStatusCakMismatch,
+}
+
+// GetCrossConnectStatusEncryptionStatusEnumValues Enumerates the set of values for CrossConnectStatusEncryptionStatusEnum
+func GetCrossConnectStatusEncryptionStatusEnumValues() []CrossConnectStatusEncryptionStatusEnum {
+	values := make([]CrossConnectStatusEncryptionStatusEnum, 0)
+	for _, v := range mappingCrossConnectStatusEncryptionStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCrossConnectStatusEncryptionStatusEnumStringValues Enumerates the set of values in String for CrossConnectStatusEncryptionStatusEnum
+func GetCrossConnectStatusEncryptionStatusEnumStringValues() []string {
+	return []string{
+		"UP",
+		"DOWN",
+		"CIPHER_MISMATCH",
+		"CKN_MISMATCH",
+		"CAK_MISMATCH",
+	}
+}
+
+// GetMappingCrossConnectStatusEncryptionStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCrossConnectStatusEncryptionStatusEnum(val string) (CrossConnectStatusEncryptionStatusEnum, bool) {
+	enum, ok := mappingCrossConnectStatusEncryptionStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

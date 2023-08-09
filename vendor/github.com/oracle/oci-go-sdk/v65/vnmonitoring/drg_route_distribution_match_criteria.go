@@ -60,6 +60,10 @@ func (m *drgroutedistributionmatchcriteria) UnmarshalPolymorphicJSON(data []byte
 		mm := DrgAttachmentTypeDrgRouteDistributionMatchCriteria{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MATCH_ALL":
+		mm := DrgAttachmentMatchAllDrgRouteDistributionMatchCriteria{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for DrgRouteDistributionMatchCriteria: %s.", m.MatchType)
 		return *m, nil
@@ -87,18 +91,21 @@ type DrgRouteDistributionMatchCriteriaMatchTypeEnum string
 
 // Set of constants representing the allowable values for DrgRouteDistributionMatchCriteriaMatchTypeEnum
 const (
-	DrgRouteDistributionMatchCriteriaMatchTypeType DrgRouteDistributionMatchCriteriaMatchTypeEnum = "DRG_ATTACHMENT_TYPE"
-	DrgRouteDistributionMatchCriteriaMatchTypeId   DrgRouteDistributionMatchCriteriaMatchTypeEnum = "DRG_ATTACHMENT_ID"
+	DrgRouteDistributionMatchCriteriaMatchTypeDrgAttachmentType DrgRouteDistributionMatchCriteriaMatchTypeEnum = "DRG_ATTACHMENT_TYPE"
+	DrgRouteDistributionMatchCriteriaMatchTypeDrgAttachmentId   DrgRouteDistributionMatchCriteriaMatchTypeEnum = "DRG_ATTACHMENT_ID"
+	DrgRouteDistributionMatchCriteriaMatchTypeMatchAll          DrgRouteDistributionMatchCriteriaMatchTypeEnum = "MATCH_ALL"
 )
 
 var mappingDrgRouteDistributionMatchCriteriaMatchTypeEnum = map[string]DrgRouteDistributionMatchCriteriaMatchTypeEnum{
-	"DRG_ATTACHMENT_TYPE": DrgRouteDistributionMatchCriteriaMatchTypeType,
-	"DRG_ATTACHMENT_ID":   DrgRouteDistributionMatchCriteriaMatchTypeId,
+	"DRG_ATTACHMENT_TYPE": DrgRouteDistributionMatchCriteriaMatchTypeDrgAttachmentType,
+	"DRG_ATTACHMENT_ID":   DrgRouteDistributionMatchCriteriaMatchTypeDrgAttachmentId,
+	"MATCH_ALL":           DrgRouteDistributionMatchCriteriaMatchTypeMatchAll,
 }
 
 var mappingDrgRouteDistributionMatchCriteriaMatchTypeEnumLowerCase = map[string]DrgRouteDistributionMatchCriteriaMatchTypeEnum{
-	"drg_attachment_type": DrgRouteDistributionMatchCriteriaMatchTypeType,
-	"drg_attachment_id":   DrgRouteDistributionMatchCriteriaMatchTypeId,
+	"drg_attachment_type": DrgRouteDistributionMatchCriteriaMatchTypeDrgAttachmentType,
+	"drg_attachment_id":   DrgRouteDistributionMatchCriteriaMatchTypeDrgAttachmentId,
+	"match_all":           DrgRouteDistributionMatchCriteriaMatchTypeMatchAll,
 }
 
 // GetDrgRouteDistributionMatchCriteriaMatchTypeEnumValues Enumerates the set of values for DrgRouteDistributionMatchCriteriaMatchTypeEnum
@@ -115,6 +122,7 @@ func GetDrgRouteDistributionMatchCriteriaMatchTypeEnumStringValues() []string {
 	return []string{
 		"DRG_ATTACHMENT_TYPE",
 		"DRG_ATTACHMENT_ID",
+		"MATCH_ALL",
 	}
 }
 

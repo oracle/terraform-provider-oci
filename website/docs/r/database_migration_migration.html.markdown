@@ -116,6 +116,7 @@ resource "oci_database_migration_migration" "test_migration" {
 		owner = var.migration_exclude_objects_owner
 
 		#Optional
+		is_omit_excluded_table_from_replication = var.migration_exclude_objects_is_omit_excluded_table_from_replication
 		type = var.migration_exclude_objects_type
 	}
 	freeform_tags = {"bar-key"= "value"}
@@ -177,6 +178,7 @@ resource "oci_database_migration_migration" "test_migration" {
 		owner = var.migration_include_objects_owner
 
 		#Optional
+		is_omit_excluded_table_from_replication = var.migration_include_objects_is_omit_excluded_table_from_replication
 		type = var.migration_include_objects_type
 	}
 	source_container_database_connection_id = oci_database_migration_connection.test_connection.id
@@ -239,6 +241,7 @@ The following arguments are supported:
 		* `oci_home` - (Required when kind=OCI_CLI) (Updatable) Path to the Oracle Cloud Infrastructure CLI installation in the node. 
 		* `wallet_location` - (Optional) (Updatable) Directory path to Oracle Cloud Infrastructure SSL wallet location on Db server node. 
 * `exclude_objects` - (Optional) (Updatable) Database objects to exclude from migration, cannot be specified alongside 'includeObjects' 
+	* `is_omit_excluded_table_from_replication` - (Optional) (Updatable) Whether an excluded table should be omitted from replication. Only valid for database objects that have are of type TABLE and that are included in the exludeObjects. 
 	* `object` - (Required) (Updatable) Name of the object (regular expression is allowed) 
 	* `owner` - (Required) (Updatable) Owner of the object (regular expression is allowed) 
 	* `type` - (Optional) (Updatable) Type of object to exclude. If not specified, matching owners and object names of type TABLE would be excluded. 
@@ -271,6 +274,7 @@ The following arguments are supported:
 			* `max_apply_parallelism` - (Optional) (Updatable) Defines the range in which the Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
 			* `min_apply_parallelism` - (Optional) (Updatable) Defines the range in which the Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
 * `include_objects` - (Optional) (Updatable) Database objects to include from migration, cannot be specified alongside 'excludeObjects' 
+	* `is_omit_excluded_table_from_replication` - (Optional) (Updatable) Whether an excluded table should be omitted from replication. Only valid for database objects that have are of type TABLE and that are included in the exludeObjects. 
 	* `object` - (Required) (Updatable) Name of the object (regular expression is allowed) 
 	* `owner` - (Required) (Updatable) Owner of the object (regular expression is allowed) 
 	* `type` - (Optional) (Updatable) Type of object to exclude. If not specified, matching owners and object names of type TABLE would be excluded. 
@@ -337,6 +341,7 @@ The following attributes are exported:
 		* `oci_home` - Path to the Oracle Cloud Infrastructure CLI installation in the node. 
 		* `wallet_location` - Directory path to Oracle Cloud Infrastructure SSL wallet location on Db server node. 
 * `exclude_objects` - Database objects to exclude from migration. If 'includeObjects' are specified, only exclude object types can be specified with general wildcards (.*) for owner and objectName. 
+	* `is_omit_excluded_table_from_replication` - Whether an excluded table should be omitted from replication. Only valid for database objects that have are of type TABLE and that are included in the exludeObjects. 
 	* `object` - Name of the object (regular expression is allowed) 
 	* `owner` - Owner of the object (regular expression is allowed) 
 	* `type` - Type of object to exclude. If not specified, matching owners and object names of type TABLE would be excluded. 
@@ -367,6 +372,7 @@ The following attributes are exported:
 			* `min_apply_parallelism` - Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
 * `id` - The OCID of the resource 
 * `include_objects` - Database objects to include from migration. 
+	* `is_omit_excluded_table_from_replication` - Whether an excluded table should be omitted from replication. Only valid for database objects that have are of type TABLE and that are included in the exludeObjects. 
 	* `object` - Name of the object (regular expression is allowed) 
 	* `owner` - Owner of the object (regular expression is allowed) 
 	* `type` - Type of object to exclude. If not specified, matching owners and object names of type TABLE would be excluded. 

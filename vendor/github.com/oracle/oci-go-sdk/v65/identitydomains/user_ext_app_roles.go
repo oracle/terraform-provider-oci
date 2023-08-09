@@ -107,7 +107,7 @@ type UserExtAppRoles struct {
 	//  - uniqueness: none
 	AdminRole *bool `mandatory:"false" json:"adminRole"`
 
-	// The name (if any) under which this AppRole should appear in this User's group-memberships for reasons of backward compatibility. OCI IAM distinguishes between Groups and AppRoles, but some services still expect AppRoles appear as if they were service-instance-specific Groups.
+	// The name (if any) under which this AppRole should appear in this User's group-memberships for reasons of backward compatibility. Oracle Identity Cloud Service distinguishes between Groups and AppRoles, but some services still expect AppRoles appear as if they were service-instance-specific Groups.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: true
 	//  - multiValued: false

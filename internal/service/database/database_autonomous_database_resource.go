@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -82,6 +83,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"backup_retention_period_in_days": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"character_set": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -103,7 +109,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
@@ -493,10 +498,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
-			"backup_retention_period_in_days": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
 			"connection_strings": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -687,6 +688,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"local_adg_auto_failover_max_data_loss_limit": {
+				Type:     schema.TypeInt,
+				Computed: true,
+				Optional: true,
 			},
 			"local_disaster_recovery_type": {
 				Type:     schema.TypeString,
@@ -1201,6 +1207,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedTarget() []string {
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 	request := oci_database.CreateAutonomousDatabaseRequest{}
+	localAdg, localAdgDataLossLimit := validateLocalAdgCreate(s)
 	err := s.populateTopLevelPolymorphicCreateAutonomousDatabaseRequest(&request)
 	if err != nil {
 		return err
@@ -1228,6 +1235,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 	}
 
 	s.Res = &response.AutonomousDatabase
+	log.Printf("local adg value is, %v, data loss limit is %v", localAdg, localAdgDataLossLimit)
+	if localAdg == true {
+		err := s.UpdateLocalAdg(localAdg, localAdgDataLossLimit)
+		if err != nil {
+			return fmt.Errorf("resource created but standby could not be enabled because %v", err)
+		}
+	}
 	return nil
 }
 
@@ -1338,9 +1352,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
-	if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+	if computeCount, ok := s.D.GetOkExists("compute_count"); ok && s.D.HasChange("compute_count") {
 		tmp := float32(computeCount.(float64))
 		request.ComputeCount = &tmp
+	}
+
+	if computeModel, ok := s.D.GetOkExists("compute_model"); ok && s.D.HasChange("compute_model") {
+		request.ComputeModel = oci_database.UpdateAutonomousDatabaseDetailsComputeModelEnum(computeModel.(string))
 	}
 
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok && s.D.HasChange("cpu_core_count") {
@@ -1365,7 +1383,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
+	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok && s.D.HasChange("data_storage_size_in_gb") {
 		tmp := dataStorageSizeInGB.(int)
 		request.DataStorageSizeInGBs = &tmp
 	}
@@ -1390,7 +1408,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.DbWorkload = oci_database.UpdateAutonomousDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
 	}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -1408,7 +1426,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.DbName = &tmp
 	}
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
@@ -1454,6 +1472,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateAutonomousDatabaseDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if localAdgAutoFailoverMaxDataLossLimit, ok := s.D.GetOkExists("local_adg_auto_failover_max_data_loss_limit"); ok && s.D.HasChange("local_adg_auto_failover_max_data_loss_limit") {
+		tmp := localAdgAutoFailoverMaxDataLossLimit.(int)
+		request.LocalAdgAutoFailoverMaxDataLossLimit = &tmp
 	}
 
 	if longTermBackupSchedule, ok := s.D.GetOkExists("long_term_backup_schedule"); ok {
@@ -1576,6 +1599,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		} else if s.D.HasChange("whitelisted_ips") {
 			request.WhitelistedIps = []string{""}
 		}
+	}
+
+	if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok && s.D.HasChange("backup_retention_period_in_days") {
+		tmp := backupRetentionPeriodInDays.(int)
+		request.BackupRetentionPeriodInDays = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -1804,6 +1832,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.LocalAdgAutoFailoverMaxDataLossLimit != nil {
+		s.D.Set("local_adg_auto_failover_max_data_loss_limit", *s.Res.LocalAdgAutoFailoverMaxDataLossLimit)
 	}
 
 	s.D.Set("local_disaster_recovery_type", s.Res.LocalDisasterRecoveryType)
@@ -2306,6 +2338,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -2385,9 +2421,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
-		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			tmp := isDataGuardEnabled.(bool)
-			details.IsDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -2397,9 +2432,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
-		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			tmp := isLocalDataGuardEnabled.(bool)
-			details.IsLocalDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -2543,6 +2577,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -2622,9 +2660,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
-		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			tmp := isDataGuardEnabled.(bool)
-			details.IsDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -2634,9 +2671,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
-		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			tmp := isLocalDataGuardEnabled.(bool)
-			details.IsLocalDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -2769,6 +2805,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -2848,9 +2888,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
-		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			tmp := isDataGuardEnabled.(bool)
-			details.IsDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -2860,9 +2899,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
-		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			tmp := isLocalDataGuardEnabled.(bool)
-			details.IsLocalDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -2995,6 +3033,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -3067,9 +3109,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
 		}
-		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			tmp := isDataGuardEnabled.(bool)
-			details.IsDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -3079,9 +3120,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
-		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			tmp := isLocalDataGuardEnabled.(bool)
-			details.IsLocalDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -3281,9 +3321,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
-		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			tmp := isDataGuardEnabled.(bool)
-			details.IsDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -3293,9 +3332,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
-		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			tmp := isLocalDataGuardEnabled.(bool)
-			details.IsLocalDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -3415,6 +3453,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -3498,9 +3540,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
-		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			tmp := isDataGuardEnabled.(bool)
-			details.IsDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -3510,9 +3551,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
-		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			tmp := isLocalDataGuardEnabled.(bool)
-			details.IsLocalDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -3636,6 +3676,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
+			tmp := backupRetentionPeriodInDays.(int)
+			details.BackupRetentionPeriodInDays = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -3719,9 +3763,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
-		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
-			tmp := isDataGuardEnabled.(bool)
-			details.IsDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
+			details.IsDataGuardEnabled = nil
 		}
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
@@ -3731,9 +3774,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
 		}
-		if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
-			tmp := isLocalDataGuardEnabled.(bool)
-			details.IsLocalDataGuardEnabled = &tmp
+		if _, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok {
+			details.IsLocalDataGuardEnabled = nil
 		}
 		if isMtlsConnectionRequired, ok := s.D.GetOkExists("is_mtls_connection_required"); ok {
 			tmp := isMtlsConnectionRequired.(bool)
@@ -4318,6 +4360,42 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) ConfigureAutonomousDatabaseVaul
 		if err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+func validateLocalAdgCreate(s *DatabaseAutonomousDatabaseResourceCrud) (bool, int) {
+	localAdg := false
+	var localAdgDataLossLimit int
+	if isLocalDataGuardEnabled, ok := s.D.GetOkExists("is_local_data_guard_enabled"); ok && isLocalDataGuardEnabled.(bool) == true {
+		localAdg = true
+		if localAdgAutoFailoverMaxDataLossLimit, ok := s.D.GetOkExists("local_adg_auto_failover_max_data_loss_limit"); ok {
+			localAdgDataLossLimit = localAdgAutoFailoverMaxDataLossLimit.(int)
+		}
+	}
+	return localAdg, localAdgDataLossLimit
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) UpdateLocalAdg(adg bool, limit int) error {
+	updateLocalAdgRequest := oci_database.UpdateAutonomousDatabaseRequest{}
+	updateLocalAdgRequest.IsLocalDataGuardEnabled = &adg
+	updateLocalAdgRequest.LocalAdgAutoFailoverMaxDataLossLimit = &limit
+
+	tmp := s.D.Id()
+	updateLocalAdgRequest.AutonomousDatabaseId = &tmp
+
+	updateLocalAdgRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), updateLocalAdgRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	if err != nil {
+		return err
 	}
 
 	return nil

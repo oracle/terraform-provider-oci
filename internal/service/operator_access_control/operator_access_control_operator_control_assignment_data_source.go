@@ -101,6 +101,10 @@ func (s *OperatorAccessControlOperatorControlAssignmentDataSourceCrud) SetData()
 		s.D.Set("is_auto_approve_during_maintenance", *s.Res.IsAutoApproveDuringMaintenance)
 	}
 
+	if s.Res.IsDefaultAssignment != nil {
+		s.D.Set("is_default_assignment", *s.Res.IsDefaultAssignment)
+	}
+
 	if s.Res.IsEnforcedAlways != nil {
 		s.D.Set("is_enforced_always", *s.Res.IsEnforcedAlways)
 	}

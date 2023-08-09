@@ -29,7 +29,7 @@ type DrgRouteRule struct {
 	//   a service gateway, this is the `cidrBlock` value associated with that Service. For example: `oci-phx-objectstorage`.
 	Destination *string `mandatory:"true" json:"destination"`
 
-	// The type of destination for the rule. the type is required if `direction` = `EGRESS`.
+	// The type of destination for the rule.
 	// Allowed values:
 	//   * `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
 	//   * `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a

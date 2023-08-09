@@ -47,6 +47,9 @@ type AccessRequest struct {
 	// The name of the target resource.
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
+	// The subresources requested for approval.
+	SubResourceList []string `mandatory:"false" json:"subResourceList"`
+
 	// The OCID of the compartment that contains the access request.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 

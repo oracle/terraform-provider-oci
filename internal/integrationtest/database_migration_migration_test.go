@@ -26,14 +26,14 @@ import (
 )
 
 var (
-	//Creating Migration resources with two different representations. Used by data source test steps.
 	DatabaseMigrationMigrationRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, DatabaseMigrationMigrationRepresentation)
 
-	DatabaseMigrationMigrationResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, migrationRepresentationMig)
+	DatabaseMigrationMigrationResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, DatabaseMigrationMigrationRepresentation)
 
 	DatabaseMigrationmigrationSingularDataSourceRepresentation = map[string]interface{}{
 		"migration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_migration.test_migration.id}`},
 	}
+
 	DatabaseMigrationmigrationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -44,14 +44,13 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_migration_migration.test_migration.id}`}},
 	}
 
-	//Creating representations used to create resources or to be used as groups by other representations.
 	DatabaseMigrationMigrationRepresentation = map[string]interface{}{
 		"compartment_id":                          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"source_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_id}`},
 		"target_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.target_connection_id}`},
 		"type":                                    acctest.Representation{RepType: acctest.Required, Create: `ONLINE`},
 		"advisor_settings":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationAdvisorSettingsRepresentation},
-		"csv_text":                                acctest.Representation{RepType: acctest.Optional, Create: `MY_BIZZ,SRC_CITY,TABLE,EXCLUDE`},
+		"exclude_objects":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationExcludeObjectsRepresentation},
 		"data_transfer_medium_details":            acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDataTransferMediumDetailsRepresentation},
 		"datapump_settings":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDatapumpSettingsRepresentation},
 		"display_name":                            acctest.Representation{RepType: acctest.Optional, Create: `TFtestOnline1`, Update: `TFtestOnline2`},
@@ -59,12 +58,12 @@ var (
 		"freeform_tags":                           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"golden_gate_details":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationGoldenGateDetailsRepresentation},
 		"source_container_database_connection_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.source_connection_container_id}`},
-		"vault_details":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationVaultDetailsRepresentation},
+		"vault_details":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationMigrationVaultDetailsRepresentation},
 	}
 
 	migrationRepresentationMig = map[string]interface{}{
 		"compartment_id":                          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"source_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_plus_id}`},
+		"source_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_id}`},
 		"target_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.target_connection_id}`},
 		"type":                                    acctest.Representation{RepType: acctest.Required, Create: `ONLINE`},
 		"exclude_objects":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationExcludeObjectsRepresentation},
@@ -72,21 +71,8 @@ var (
 		"datapump_settings":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDatapumpSettingsRepresentation},
 		"display_name":                            acctest.Representation{RepType: acctest.Optional, Create: `TF_ONLINE_MIG`, Update: `TF_ONLINE_MIG`},
 		"golden_gate_details":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationGoldenGateDetailsRepresentation},
-		"source_container_database_connection_id": acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_container_plus_id}`},
-		"vault_details":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationVaultDetailsRepresentation},
-	}
-
-	migrationRepresentationNoSshMig = map[string]interface{}{
-		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"source_database_connection_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_connection.test_connection_nossh_source.id}`},
-		"target_database_connection_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_connection.test_connection_usr_managed_oci.id}`},
-		"type":                          acctest.Representation{RepType: acctest.Required, Create: `OFFLINE`},
-		"exclude_objects":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationExcludeObjectsRepresentation},
-		"data_transfer_medium_details":  acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDataTransferMediumDetailsRepresentation},
-		"datapump_settings":             acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDatapumpSettingsNoSshRepresentation},
-		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `TF_OFFLINE_MIG`, Update: `TF_OFFLINE_MIG2`},
-		"vault_details":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationVaultDetailsRepresentation},
-		"dump_transfer_details":         acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDumpTransferRepresentation},
+		"source_container_database_connection_id": acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_container_id}`},
+		"vault_details":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationMigrationVaultDetailsRepresentation},
 	}
 
 	migrationDataTransferMediumDetailsRepresentation = map[string]interface{}{
@@ -108,15 +94,11 @@ var (
 		"export_directory_object": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationMigrationDatapumpSettingsExportDirectoryObjectRepresentation},
 		"metadata_remaps":         acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDatapumpSettingsMetadataRemapsRepresentation},
 	}
-	migrationDatapumpSettingsNoSshRepresentation = map[string]interface{}{
-		"export_directory_object": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationMigrationDatapumpSettingsExportDirectoryObjectRepresentation},
-		"import_directory_object": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDatapumpSettingsImportDirectoryObjectRepresentation},
-		"metadata_remaps":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDatapumpSettingsMetadataRemapsRepresentation},
-	}
 	migrationExcludeObjectsRepresentation = map[string]interface{}{
 		"object": acctest.Representation{RepType: acctest.Required, Create: `.*`, Update: `object2`},
 		"owner":  acctest.Representation{RepType: acctest.Required, Create: `owner`, Update: `owner2`},
-		"type":   acctest.Representation{RepType: acctest.Optional, Create: `ALL`, Update: `TABLE`},
+		"is_omit_excluded_table_from_replication": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"type": acctest.Representation{RepType: acctest.Optional, Create: `ALL`, Update: `TABLE`},
 	}
 
 	migrationDumpTransferRepresentation = map[string]interface{}{
@@ -125,21 +107,25 @@ var (
 	}
 
 	migrationSourceHostDumpTransferDetailsRepresentation = map[string]interface{}{
-		"kind":            acctest.Representation{RepType: acctest.Required, Create: `OCI_CLI`, Update: `OCI_CLI`},
-		"oci_home":        acctest.Representation{RepType: acctest.Optional, Create: `ociHome`, Update: `ociHome2`},
-		"wallet_location": acctest.Representation{RepType: acctest.Optional, Create: `walletLocation`, Update: `walletLocation2`},
+		"kind":     acctest.Representation{RepType: acctest.Required, Create: `OCI_CLI`},
+		"oci_home": acctest.Representation{RepType: acctest.Optional, Create: `/path/to/ociCli`},
 	}
 
 	migrationTargetHostDumpTransferDetailsRepresentation = map[string]interface{}{
-		"kind":            acctest.Representation{RepType: acctest.Required, Create: `OCI_CLI`, Update: `OCI_CLI`},
-		"oci_home":        acctest.Representation{RepType: acctest.Optional, Create: `ociHome`, Update: `ociHome2`},
-		"wallet_location": acctest.Representation{RepType: acctest.Optional, Create: `walletLocation`, Update: `walletLocation2`},
+		"kind":     acctest.Representation{RepType: acctest.Required, Create: `OCI_CLI`, Update: `OCI_CLI`},
+		"oci_home": acctest.Representation{RepType: acctest.Optional, Create: `ociHome`, Update: `ociHome2`},
 	}
 	migrationGoldenGateDetailsRepresentation = map[string]interface{}{
 		"hub":      acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationGoldenGateDetailsHubRepresentation},
 		"settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationGoldenGateDetailsSettingsRepresentation},
 	}
-	migrationVaultDetailsRepresentation = map[string]interface{}{
+	DatabaseMigrationMigrationIncludeObjectsRepresentation = map[string]interface{}{
+		"object": acctest.Representation{RepType: acctest.Required, Create: `object`, Update: `object2`},
+		"owner":  acctest.Representation{RepType: acctest.Required, Create: `owner`, Update: `owner2`},
+		"is_omit_excluded_table_from_replication": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"type": acctest.Representation{RepType: acctest.Optional, Create: `type`, Update: `type2`},
+	}
+	DatabaseMigrationMigrationVaultDetailsRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"key_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.kms_key_id}`},
 		"vault_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.kms_vault_id}`},
@@ -213,11 +199,8 @@ var (
 		"performance_profile":   acctest.Representation{RepType: acctest.Optional, Create: `LOW`, Update: `HIGH`},
 	}
 
-	/*DatabaseMigrationMigrationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, connectionRepresentationTarget) +
-	acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_source", acctest.Required, acctest.Create, connectionRepresentationSource)*/
-
-	DatabaseMigrationMigrationNoSshResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_usr_managed_oci", acctest.Required, acctest.Create, connectionRepresentationUserManagedOciTarget) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_nossh_source", acctest.Required, acctest.Create, connectionRepresentationNoSshSource)
+	DatabaseMigrationMigrationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, connectionRepresentationTarget) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_source", acctest.Required, acctest.Create, connectionRepresentationSource)
 )
 
 // issue-routing-tag: database_migration/default
@@ -227,16 +210,8 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	//Asigning values to variables used on representations. Environment variables are taken by tf config file and used to create resources.
-
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	/*databaseId := utils.GetEnvSettingWithBlankDefault("database_id")
-	databaseIdVariableStr := fmt.Sprintf("variable \"database_id\" { default = \"%s\" }\n", databaseId)*/
-
-	/*sourceDbId := utils.GetEnvSettingWithBlankDefault("source_connection_container_id")
-	sourceDbIdStr := fmt.Sprintf("variable \"source_db_id\" { default = \"%s\" }\n", sourceDbId)*/
 
 	compartmentIdU := utils.GetEnvSettingWithBlankDefault("compartment_id_for_update")
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
@@ -256,20 +231,14 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	databaseSourceContainerFDB := utils.GetEnvSettingWithBlankDefault("source_connection_container_plus_id")
 	databaseSourceContainerFDBStr := fmt.Sprintf("variable \"source_connection_container_plus_id\" { default = \"%s\" }\n", databaseSourceContainerFDB)
 
-	sourceDBId := utils.GetEnvSettingWithBlankDefault("database_source_id")
-	sourceDBStr := fmt.Sprintf("variable \"database_source\" { default = \"%s\" }\n", sourceDBId)
-
-	targetDBId := utils.GetEnvSettingWithBlankDefault("database_id")
-	targetDBStr := fmt.Sprintf("variable \"database_id\" { default = \"%s\" }\n", targetDBId)
-
 	kmsVaultId := utils.GetEnvSettingWithBlankDefault("kms_vault_id")
 	kmsVaultIdVariableStr := fmt.Sprintf("\nvariable \"kms_vault_id\" { default = \"%s\" }\n", kmsVaultId)
 
 	vcnId := utils.GetEnvSettingWithBlankDefault("vcn_id")
-	vcnIdVariableStr := fmt.Sprintf("variable \"vcn_id\" { default = \"%s\" }\n", vcnId)
+	vcnIdVariableStr := fmt.Sprintf("variable \"vcnId\" { default = \"%s\" }\n", vcnId)
 
 	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_id")
-	subnetIdStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
+	subnetIdStr := fmt.Sprintf("variable \"subnetId\" { default = \"%s\" }\n", subnetId)
 
 	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
 	KmsKeyIdVariableStr := fmt.Sprintf("\nvariable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
@@ -277,25 +246,20 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	bucketId := utils.GetEnvSettingWithBlankDefault("bucket_id")
 	bucketIdVariableStr := fmt.Sprintf("\nvariable \"bucket_id\" { default = \"%s\" }\n", bucketId)
 
-	sshKey := utils.GetEnvSettingWithBlankDefault("ssh_private_key")
+	sshKey := utils.GetEnvSettingWithBlankDefault("ssh_key")
 	sshKeyStr := fmt.Sprintf("variable \"ssh_key\" {\n type = \"string\"\n default = <<EOF\n%s\nEOF \n}\n", sshKey)
 
 	resourceName := "oci_database_migration_migration.test_migration"
-	resourceNoSshName := "oci_database_migration_migration.test_nossh_migration"
 	datasourceName := "data.oci_database_migration_migrations.test_migrations"
 	singularDatasourceName := "data.oci_database_migration_migration.test_migration"
-	var resId, resId2, resId3 string
-
-	//Initial configuration to build the test set
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+databaseSourceStr+databaseTargetStr+kmsVaultIdVariableStr+vcnIdVariableStr+subnetIdStr+KmsKeyIdVariableStr+databaseSourceContainerStr+bucketIdVariableStr+sshKeyStr+databaseSourceFDBStr+databaseSourceContainerFDBStr+sourceDBStr+targetDBStr+ //DatabaseMigrationMigrationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, migrationRepresentationMig)+
-		DatabaseMigrationMigrationNoSshResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_nossh_migration", acctest.Optional, acctest.Create, migrationRepresentationNoSshMig), "databasemigration", "migration", t)
+	var resId, resId2 string
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+databaseSourceStr+databaseTargetStr+kmsVaultIdVariableStr+vcnIdVariableStr+subnetIdStr+KmsKeyIdVariableStr+databaseSourceContainerStr+bucketIdVariableStr+sshKeyStr+databaseSourceFDBStr+databaseSourceContainerFDBStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, migrationRepresentationMig), "databasemigration", "migration", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseMigrationMigrationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + //DatabaseMigrationMigrationResourceDependencies +
+			Config: config + compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, migrationRepresentationMig),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -311,14 +275,12 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + sourceDBStr + targetDBStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + databaseSourceContainerStr, //+ DatabaseMigrationMigrationResourceDependencies,
+			Config: config + compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr, //+ DatabaseMigrationMigrationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + //DatabaseMigrationMigrationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, migrationRepresentationMig) +
-				DatabaseMigrationMigrationNoSshResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_nossh_migration", acctest.Optional, acctest.Create, migrationRepresentationNoSshMig),
+			Config: config + compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.#", "1"),
@@ -337,7 +299,26 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 					"type":      "TABLESPACE",
 				},
 					[]string{}),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TFtestOnline1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.0.oci_home", "/path/to/ociCli"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.0.oci_home", "ociHome"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.is_omit_excluded_table_from_replication", "false"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.owner", "owner"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.object", ".*"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.type", "ALL"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "datapump_settings.0.metadata_remaps", map[string]string{
+					"new_value": "DATA",
+					"old_value": "USERS",
+					"type":      "TABLESPACE",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TFtestOnline1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "gHxc%PX0BOiAdYsG"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
@@ -356,6 +337,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "MEDIUM"),
 
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_container_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
@@ -366,34 +348,10 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 
-				resource.TestCheckResourceAttr(resourceNoSshName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceNoSshName, "display_name", "TF_OFFLINE_MIG"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "type", "OFFLINE"),
-				resource.TestCheckResourceAttrSet(resourceNoSshName, "id"),
-				resource.TestCheckResourceAttrSet(resourceNoSshName, "source_database_connection_id"),
-				resource.TestCheckResourceAttrSet(resourceNoSshName, "state"),
-				resource.TestCheckResourceAttrSet(resourceNoSshName, "target_database_connection_id"),
-				resource.TestCheckResourceAttrSet(resourceNoSshName, "time_created"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.source.#", "1"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.source.0.kind", "OCI_CLI"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.source.0.oci_home", "ociHome"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.source.0.wallet_location", "walletLocation"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.target.#", "1"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.target.0.kind", "OCI_CLI"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.target.0.oci_home", "ociHome"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.target.0.wallet_location", "walletLocation"),
-
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
-					resId2, err = acctest.FromInstanceState(s, resourceNoSshName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId2, &compartmentId, resourceNoSshName); errExport != nil {
 							return errExport
 						}
 					}
@@ -404,14 +362,9 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + sourceDBStr + targetDBStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + //DatabaseMigrationMigrationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(migrationRepresentationMig, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
-					})) +
-				DatabaseMigrationMigrationNoSshResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_nossh_migration", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(migrationRepresentationNoSshMig, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(DatabaseMigrationMigrationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -432,7 +385,27 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 					"type":      "TABLESPACE",
 				},
 					[]string{}),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TFtestOnline1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.0.oci_home", "/path/to/ociCli"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.0.oci_home", "ociHome"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.is_omit_excluded_table_from_replication", "false"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.owner", "owner"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.object", ".*"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.type", "ALL"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "datapump_settings.0.metadata_remaps", map[string]string{
+					"new_value": "DATA",
+					"old_value": "USERS",
+					"type":      "TABLESPACE",
+				},
+					[]string{}),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TFtestOnline1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "gHxc%PX0BOiAdYsG"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
@@ -449,8 +422,8 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.acceptable_lag", "10"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "10"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "MEDIUM"),
-
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_container_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
@@ -461,16 +434,10 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 
-				resource.TestCheckResourceAttr(resourceNoSshName, "compartment_id", compartmentIdU),
-
 				func(s *terraform.State) (err error) {
-					resId3, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId3 {
-						return fmt.Errorf("update to the compartment: resource %s recreated when it was supposed to be updated", resourceName)
-					}
-					resId3, err = acctest.FromInstanceState(s, resourceNoSshName, "id")
-					if resId2 != resId3 {
-						return fmt.Errorf("update to the compartment: resource %s recreated when it was supposed to be updated", resourceNoSshName)
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
 				},
@@ -479,10 +446,8 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + sourceDBStr + targetDBStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + //DatabaseMigrationMigrationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, migrationRepresentationMig) +
-				DatabaseMigrationMigrationNoSshResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_nossh_migration", acctest.Optional, acctest.Update, migrationRepresentationNoSshMig),
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.#", "1"),
@@ -501,7 +466,22 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 					"type":      "TABLESPACE",
 				},
 					[]string{}),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_ONLINE_MIG"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TFtestOnline2"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.0.oci_home", "/path/to/ociCli"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.0.oci_home", "ociHome2"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.is_omit_excluded_table_from_replication", "true"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.owner", "owner2"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.object", "object2"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.type", "TABLE"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TFtestOnline2"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
@@ -527,6 +507,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.replicat.0.min_apply_parallelism", "0"),
 
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_container_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
@@ -536,32 +517,10 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
-
-				resource.TestCheckResourceAttr(resourceNoSshName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceNoSshName, "display_name", "TF_OFFLINE_MIG2"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "type", "OFFLINE"),
-				resource.TestCheckResourceAttrSet(resourceNoSshName, "id"),
-				resource.TestCheckResourceAttrSet(resourceNoSshName, "source_database_connection_id"),
-				resource.TestCheckResourceAttrSet(resourceNoSshName, "state"),
-				resource.TestCheckResourceAttrSet(resourceNoSshName, "target_database_connection_id"),
-				resource.TestCheckResourceAttrSet(resourceNoSshName, "time_created"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.source.#", "1"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.source.0.kind", "OCI_CLI"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.source.0.oci_home", "ociHome2"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.source.0.wallet_location", "walletLocation2"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.target.#", "1"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.target.0.kind", "OCI_CLI"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.target.0.oci_home", "ociHome2"),
-				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.target.0.wallet_location", "walletLocation2"),
 				func(s *terraform.State) (err error) {
-					resId3, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId3 {
-						return fmt.Errorf("updates to updatable parameters: resource %s recreated when it was supposed to be updated", resourceName)
-					}
-					resId3, err = acctest.FromInstanceState(s, resourceNoSshName, "id")
-					if resId2 != resId3 {
-						return fmt.Errorf("updates to updatable parameters: resource %s recreated when it was supposed to be updated", resourceNoSshName)
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
 					return err
 				},
@@ -571,8 +530,8 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", acctest.Optional, acctest.Update, DatabaseMigrationmigrationDataSourceRepresentation) +
-				compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + // DatabaseMigrationMigrationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, migrationRepresentationMig),
+				compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -585,7 +544,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, DatabaseMigrationmigrationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + DatabaseMigrationMigrationResourceConfig, // DatabaseMigrationMigrationResourceDependencies
+				compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + DatabaseMigrationMigrationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_id"),
@@ -600,7 +559,22 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 					"type":      "TABLESPACE",
 				},
 					[]string{}),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_ONLINE_MIG"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TFtestOnline2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dump_transfer_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dump_transfer_details.0.source.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dump_transfer_details.0.source.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dump_transfer_details.0.source.0.oci_home", "/path/to/ociCli"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dump_transfer_details.0.target.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dump_transfer_details.0.target.0.kind", "OCI_CLI"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dump_transfer_details.0.target.0.oci_home", "ociHome2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "exclude_objects.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.is_omit_excluded_table_from_replication", "true"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.owner", "owner2"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.object", "object2"),
+				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.type", "TABLE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TFtestOnline2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
@@ -631,6 +605,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
+				"csv_text",
 				"golden_gate_details.0.hub.0.rest_admin_credentials.0.password",
 				"golden_gate_details.0.hub.0.source_container_db_admin_credentials.0.password",
 				"golden_gate_details.0.hub.0.source_db_admin_credentials.0.password",

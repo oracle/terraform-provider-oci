@@ -79,6 +79,7 @@ func TestOperatorAccessControlAccessRequestResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "severity"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "sub_resource_list.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "system_message"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_creation"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_modification"),

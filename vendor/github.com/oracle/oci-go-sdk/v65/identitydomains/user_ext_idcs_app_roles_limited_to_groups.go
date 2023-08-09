@@ -28,7 +28,7 @@ import (
 //  - type: complex
 type UserExtIdcsAppRolesLimitedToGroups struct {
 
-	// The id of the OCI IAM AppRole grant limited to one or more Groups.
+	// The id of the Oracle Identity Cloud Service AppRole grant limited to one or more Groups.
 	// **Added In:** 19.2.1
 	// **SCIM++ Properties:**
 	//  - idcsCsvAttributeName: IDCS AppRole Name

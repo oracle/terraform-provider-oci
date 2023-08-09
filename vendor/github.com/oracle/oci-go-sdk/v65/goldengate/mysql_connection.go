@@ -254,6 +254,8 @@ const (
 	MysqlConnectionTechnologyTypeMariadb             MysqlConnectionTechnologyTypeEnum = "MARIADB"
 	MysqlConnectionTechnologyTypeMysqlServer         MysqlConnectionTechnologyTypeEnum = "MYSQL_SERVER"
 	MysqlConnectionTechnologyTypeOciMysql            MysqlConnectionTechnologyTypeEnum = "OCI_MYSQL"
+	MysqlConnectionTechnologyTypeSinglestoredb       MysqlConnectionTechnologyTypeEnum = "SINGLESTOREDB"
+	MysqlConnectionTechnologyTypeSinglestoredbCloud  MysqlConnectionTechnologyTypeEnum = "SINGLESTOREDB_CLOUD"
 )
 
 var mappingMysqlConnectionTechnologyTypeEnum = map[string]MysqlConnectionTechnologyTypeEnum{
@@ -265,6 +267,8 @@ var mappingMysqlConnectionTechnologyTypeEnum = map[string]MysqlConnectionTechnol
 	"MARIADB":                MysqlConnectionTechnologyTypeMariadb,
 	"MYSQL_SERVER":           MysqlConnectionTechnologyTypeMysqlServer,
 	"OCI_MYSQL":              MysqlConnectionTechnologyTypeOciMysql,
+	"SINGLESTOREDB":          MysqlConnectionTechnologyTypeSinglestoredb,
+	"SINGLESTOREDB_CLOUD":    MysqlConnectionTechnologyTypeSinglestoredbCloud,
 }
 
 var mappingMysqlConnectionTechnologyTypeEnumLowerCase = map[string]MysqlConnectionTechnologyTypeEnum{
@@ -276,6 +280,8 @@ var mappingMysqlConnectionTechnologyTypeEnumLowerCase = map[string]MysqlConnecti
 	"mariadb":                MysqlConnectionTechnologyTypeMariadb,
 	"mysql_server":           MysqlConnectionTechnologyTypeMysqlServer,
 	"oci_mysql":              MysqlConnectionTechnologyTypeOciMysql,
+	"singlestoredb":          MysqlConnectionTechnologyTypeSinglestoredb,
+	"singlestoredb_cloud":    MysqlConnectionTechnologyTypeSinglestoredbCloud,
 }
 
 // GetMysqlConnectionTechnologyTypeEnumValues Enumerates the set of values for MysqlConnectionTechnologyTypeEnum
@@ -298,6 +304,8 @@ func GetMysqlConnectionTechnologyTypeEnumStringValues() []string {
 		"MARIADB",
 		"MYSQL_SERVER",
 		"OCI_MYSQL",
+		"SINGLESTOREDB",
+		"SINGLESTOREDB_CLOUD",
 	}
 }
 

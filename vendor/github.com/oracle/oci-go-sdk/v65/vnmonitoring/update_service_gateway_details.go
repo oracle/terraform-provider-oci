@@ -36,6 +36,11 @@ type UpdateServiceGatewayDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the service gateway will use.
+	// For information about why you would associate a route table with a service gateway, see
+	// Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm).
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
 	// List of all the `Service` objects you want enabled on this service gateway. Sending an empty list
 	// means you want to disable all services. Omitting this parameter entirely keeps the
 	// existing list of services intact.

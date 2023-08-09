@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_password_policy
 This data source provides details about a specific Password Policy resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Get a Password Policy
+Get a password policy.
 
 ## Example Usage
 
@@ -166,6 +166,30 @@ The following attributes are exported:
 	* required: false
 	* returned: default
 	* type: string
+	* uniqueness: none
+* `disallowed_user_attribute_values` - List of User attributes whose values are not allowed in the password.
+
+	**Added In:** 2303212224
+
+	**SCIM++ Properties:**
+	* idcsSearchable: false
+	* multiValued: true
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: string
+	* uniqueness: none
+* `distinct_characters` - The number of distinct characters between old password and new password
+
+	**Added In:** 2303212224
+
+	**SCIM++ Properties:**
+	* caseExact: false
+	* multiValued: false
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: integer
 	* uniqueness: none
 * `domain_ocid` - Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.
 

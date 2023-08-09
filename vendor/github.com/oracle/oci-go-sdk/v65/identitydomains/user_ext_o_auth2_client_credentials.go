@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserExtOAuth2ClientCredentials A list of oauth2 client credentials corresponding to user.
+// UserExtOAuth2ClientCredentials A list of OAuth2 client credentials corresponding to a user.
 // **Added In:** 2012271618
 // **SCIM++ Properties:**
 //  - idcsCompositeKey: [value]
@@ -29,7 +29,7 @@ import (
 //  - uniqueness: none
 type UserExtOAuth2ClientCredentials struct {
 
-	// The identifier of the User's oAuth2 client credential.
+	// The user's OAuth2 client credential identifier.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -42,7 +42,7 @@ type UserExtOAuth2ClientCredentials struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"false" json:"value"`
 
-	// Ocid of the User's oAuth2 client credential.
+	// The user's OAuth2 client credential OCID.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -55,7 +55,7 @@ type UserExtOAuth2ClientCredentials struct {
 	//  - uniqueness: none
 	Ocid *string `mandatory:"false" json:"ocid"`
 
-	// The URI of the corresponding OAuth2ClientCredential resource to which the user belongs
+	// The URI of the corresponding OAuth2ClientCredential resource to which the user belongs.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false

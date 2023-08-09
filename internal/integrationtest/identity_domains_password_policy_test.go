@@ -57,6 +57,7 @@ var (
 		"dictionary_word_disallowed": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"disallowed_chars":           acctest.Representation{RepType: acctest.Optional, Create: `a,b,c`, Update: `x,y,z`},
 		"disallowed_substrings":      acctest.Representation{RepType: acctest.Optional, Create: []string{`disallowedSubstrings`}, Update: []string{`disallowedSubstrings2`}},
+		"distinct_characters":        acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"external_id":                acctest.Representation{RepType: acctest.Optional, Create: `externalId`},
 		"first_name_disallowed":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"force_password_reset":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -94,8 +95,7 @@ var (
 		"value": acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
 	}
 
-	IdentityDomainsPasswordPolicyResourceDependencies = TestDomainDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_group", "test_group", acctest.Required, acctest.Create, IdentityDomainsGroupRepresentation)
+	IdentityDomainsPasswordPolicyResourceDependencies = TestDomainDependencies + acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_group", "test_group", acctest.Required, acctest.Create, IdentityDomainsGroupRepresentation)
 )
 
 // issue-routing-tag: identity_domains/default
@@ -153,6 +153,7 @@ func TestIdentityDomainsPasswordPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dictionary_word_disallowed", "false"),
 				resource.TestCheckResourceAttr(resourceName, "disallowed_chars", "a,b,c"),
 				resource.TestCheckResourceAttr(resourceName, "disallowed_substrings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "distinct_characters", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_id"),
 				resource.TestCheckResourceAttr(resourceName, "first_name_disallowed", "false"),
 				resource.TestCheckResourceAttr(resourceName, "force_password_reset", "false"),
@@ -222,6 +223,7 @@ func TestIdentityDomainsPasswordPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dictionary_word_disallowed", "true"),
 				resource.TestCheckResourceAttr(resourceName, "disallowed_chars", "x,y,z"),
 				resource.TestCheckResourceAttr(resourceName, "disallowed_substrings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "distinct_characters", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_id"),
 				resource.TestCheckResourceAttr(resourceName, "first_name_disallowed", "true"),
 				resource.TestCheckResourceAttr(resourceName, "force_password_reset", "true"),
@@ -343,6 +345,7 @@ func TestIdentityDomainsPasswordPolicyResource_basic(t *testing.T) {
 				"attribute_sets",
 				"attributes",
 				"force_password_reset",
+				"distinct_characters",
 				"tags",
 			},
 			ResourceName: resourceName,

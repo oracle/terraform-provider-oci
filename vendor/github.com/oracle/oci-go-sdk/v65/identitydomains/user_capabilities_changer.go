@@ -144,7 +144,7 @@ type UserCapabilitiesChanger struct {
 	//  - uniqueness: none
 	TenancyOcid *string `mandatory:"false" json:"tenancyOcid"`
 
-	// Indicates weather a user can use api keys
+	// Indicates whether a user can use API keys.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
@@ -156,7 +156,7 @@ type UserCapabilitiesChanger struct {
 	//  - uniqueness: none
 	CanUseApiKeys *bool `mandatory:"false" json:"canUseApiKeys"`
 
-	// Indicates weather a user can use auth tokens
+	// Indicates whether a user can use Auth tokens.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
@@ -168,7 +168,7 @@ type UserCapabilitiesChanger struct {
 	//  - uniqueness: none
 	CanUseAuthTokens *bool `mandatory:"false" json:"canUseAuthTokens"`
 
-	// Indicates weather a user can use console password
+	// Indicates whether a user can use Console passwords.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
@@ -180,7 +180,7 @@ type UserCapabilitiesChanger struct {
 	//  - uniqueness: none
 	CanUseConsolePassword *bool `mandatory:"false" json:"canUseConsolePassword"`
 
-	// Indicates weather a user can use customer secret keys
+	// Indicates whether a user can use customer secret keys.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
@@ -192,7 +192,7 @@ type UserCapabilitiesChanger struct {
 	//  - uniqueness: none
 	CanUseCustomerSecretKeys *bool `mandatory:"false" json:"canUseCustomerSecretKeys"`
 
-	// Indicates weather a user can use oauth2 client credentials
+	// Indicates whether a user can use OAuth2 client credentials.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
@@ -204,7 +204,7 @@ type UserCapabilitiesChanger struct {
 	//  - uniqueness: none
 	CanUseOAuth2ClientCredentials *bool `mandatory:"false" json:"canUseOAuth2ClientCredentials"`
 
-	// Indicates weather a user can use smtp credentials
+	// Indicates whether a user can use SMTP credentials.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
@@ -216,7 +216,7 @@ type UserCapabilitiesChanger struct {
 	//  - uniqueness: none
 	CanUseSmtpCredentials *bool `mandatory:"false" json:"canUseSmtpCredentials"`
 
-	// Indicates weather a user can use db credentials
+	// Indicates whether a user can use database credentials.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - idcsSearchable: true
@@ -227,6 +227,19 @@ type UserCapabilitiesChanger struct {
 	//  - type: boolean
 	//  - uniqueness: none
 	CanUseDbCredentials *bool `mandatory:"false" json:"canUseDbCredentials"`
+
+	// Indicates whether a user can use the Console.
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsSearchable: true
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - idcsDefaultValue: false
+	//  - required: false
+	//  - returned: default
+	//  - type: boolean
+	//  - uniqueness: none
+	CanUseConsole *bool `mandatory:"false" json:"canUseConsole"`
 
 	UrnIetfParamsScimSchemasOracleIdcsExtensionSelfChangeUser *ExtensionSelfChangeUser `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:selfChange:User"`
 }

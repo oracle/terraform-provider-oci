@@ -102,6 +102,19 @@ func IdentityDomainsPasswordPolicyResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"disallowed_user_attribute_values": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"distinct_characters": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"external_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -601,6 +614,24 @@ func (s *IdentityDomainsPasswordPolicyResourceCrud) Create() error {
 		}
 	}
 
+	if disallowedUserAttributeValues, ok := s.D.GetOkExists("disallowed_user_attribute_values"); ok {
+		interfaces := disallowedUserAttributeValues.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("disallowed_user_attribute_values") {
+			request.DisallowedUserAttributeValues = tmp
+		}
+	}
+
+	if distinctCharacters, ok := s.D.GetOkExists("distinct_characters"); ok {
+		tmp := distinctCharacters.(int)
+		request.DistinctCharacters = &tmp
+	}
+
 	if externalId, ok := s.D.GetOkExists("external_id"); ok {
 		tmp := externalId.(string)
 		request.ExternalId = &tmp
@@ -929,6 +960,24 @@ func (s *IdentityDomainsPasswordPolicyResourceCrud) Update() error {
 		}
 	}
 
+	if disallowedUserAttributeValues, ok := s.D.GetOkExists("disallowed_user_attribute_values"); ok {
+		interfaces := disallowedUserAttributeValues.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("disallowed_user_attribute_values") {
+			request.DisallowedUserAttributeValues = tmp
+		}
+	}
+
+	if distinctCharacters, ok := s.D.GetOkExists("distinct_characters"); ok {
+		tmp := distinctCharacters.(int)
+		request.DistinctCharacters = &tmp
+	}
+
 	if externalId, ok := s.D.GetOkExists("external_id"); ok {
 		tmp := externalId.(string)
 		request.ExternalId = &tmp
@@ -1214,6 +1263,13 @@ func (s *IdentityDomainsPasswordPolicyResourceCrud) SetData() error {
 	s.D.Set("disallowed_substrings", s.Res.DisallowedSubstrings)
 	s.D.Set("disallowed_substrings", s.Res.DisallowedSubstrings)
 
+	s.D.Set("disallowed_user_attribute_values", s.Res.DisallowedUserAttributeValues)
+	s.D.Set("disallowed_user_attribute_values", s.Res.DisallowedUserAttributeValues)
+
+	if s.Res.DistinctCharacters != nil {
+		s.D.Set("distinct_characters", *s.Res.DistinctCharacters)
+	}
+
 	if s.Res.DomainOcid != nil {
 		s.D.Set("domain_ocid", *s.Res.DomainOcid)
 	}
@@ -1439,6 +1495,13 @@ func PasswordPolicyToMap(obj oci_identity_domains.PasswordPolicy) map[string]int
 
 	result["disallowed_substrings"] = obj.DisallowedSubstrings
 	result["disallowed_substrings"] = obj.DisallowedSubstrings
+
+	result["disallowed_user_attribute_values"] = obj.DisallowedUserAttributeValues
+	result["disallowed_user_attribute_values"] = obj.DisallowedUserAttributeValues
+
+	if obj.DistinctCharacters != nil {
+		result["distinct_characters"] = int(*obj.DistinctCharacters)
+	}
 
 	if obj.DomainOcid != nil {
 		result["domain_ocid"] = string(*obj.DomainOcid)

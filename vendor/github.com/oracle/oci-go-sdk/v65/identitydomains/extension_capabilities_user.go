@@ -19,7 +19,7 @@ import (
 // ExtensionCapabilitiesUser User's Capabilities
 type ExtensionCapabilitiesUser struct {
 
-	// Indicates weather a user can use api keys
+	// Indicates whether a user can use API keys.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -32,7 +32,7 @@ type ExtensionCapabilitiesUser struct {
 	//  - uniqueness: none
 	CanUseApiKeys *bool `mandatory:"false" json:"canUseApiKeys"`
 
-	// Indicates weather a user can use auth tokens
+	// Indicates whether a user can use Auth tokens.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -45,7 +45,7 @@ type ExtensionCapabilitiesUser struct {
 	//  - uniqueness: none
 	CanUseAuthTokens *bool `mandatory:"false" json:"canUseAuthTokens"`
 
-	// Indicates weather a user can use console password
+	// Indicates whether a user can use Console passwords.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -58,7 +58,7 @@ type ExtensionCapabilitiesUser struct {
 	//  - uniqueness: none
 	CanUseConsolePassword *bool `mandatory:"false" json:"canUseConsolePassword"`
 
-	// Indicates weather a user can use customer secret keys
+	// Indicates whether a user can use customer secret keys.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -71,7 +71,7 @@ type ExtensionCapabilitiesUser struct {
 	//  - uniqueness: none
 	CanUseCustomerSecretKeys *bool `mandatory:"false" json:"canUseCustomerSecretKeys"`
 
-	// Indicates weather a user can use oauth2 client credentials
+	// Indicates whether a user can use OAuth2 client credentials.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -84,7 +84,7 @@ type ExtensionCapabilitiesUser struct {
 	//  - uniqueness: none
 	CanUseOAuth2ClientCredentials *bool `mandatory:"false" json:"canUseOAuth2ClientCredentials"`
 
-	// Indicates weather a user can use smtp credentials
+	// Indicates whether a user can use SMTP credentials.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -97,7 +97,7 @@ type ExtensionCapabilitiesUser struct {
 	//  - uniqueness: none
 	CanUseSmtpCredentials *bool `mandatory:"false" json:"canUseSmtpCredentials"`
 
-	// Indicates weather a user can use db credentials
+	// Indicates whether a user can use database credentials.
 	// **Added In:** 2012271618
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -109,6 +109,19 @@ type ExtensionCapabilitiesUser struct {
 	//  - type: boolean
 	//  - uniqueness: none
 	CanUseDbCredentials *bool `mandatory:"false" json:"canUseDbCredentials"`
+
+	// Specifies whether user can access the Console.
+	// **Added In:** 2206280902
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: boolean
+	//  - uniqueness: none
+	CanUseConsole *bool `mandatory:"false" json:"canUseConsole"`
 }
 
 func (m ExtensionCapabilitiesUser) String() string {

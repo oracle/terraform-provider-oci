@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_my_user_db_credentials
 This data source provides the list of My User Db Credentials in Oracle Cloud Infrastructure Identity Domains service.
 
-Search a User's DBCredentials
+Search for a user's own database (DB) credential.
 
 ## Example Usage
 
@@ -61,7 +61,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `db_password` - The db password of the user
+* `db_password` - The user's database password.
 
 	**SCIM++ Properties:**
 	* type: string
@@ -100,13 +100,13 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `expired` - Indicates that the db password has expired
+* `expired` - Indicates that the database password has expired.
 
 	**SCIM++ Properties:**
 	* type: boolean
 	* mutability: readOnly
 	* returned: default
-* `expires_on` - User credential expires on
+* `expires_on` - When the user credential expires.
 
 	**Added In:** 2109090424
 
@@ -277,7 +277,7 @@ The following attributes are exported:
 	* returned: request
 	* type: string
 	* uniqueness: none
-* `last_set_date` - A DateTime that specifies the date and time when the current db password was set
+* `last_set_date` - A DateTime that specifies the date and time when the current database password was set.
 
 	**SCIM++ Properties:**
 	* type: dateTime
@@ -349,14 +349,14 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-* `mixed_db_password` - The db password of the user with mixed salt
+* `mixed_db_password` - The user's database password with mixed salt.
 
 	**SCIM++ Properties:**
 	* type: string
 	* mutability: readOnly
 	* returned: default
 	* required: false
-* `mixed_salt` - The mixed salt of the password
+* `mixed_salt` - The mixed salt of the password.
 
 	**SCIM++ Properties:**
 	* type: string
@@ -384,7 +384,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: global
-* `salt` - The salt of the password
+* `salt` - The salt of the password.
 
 	**SCIM++ Properties:**
 	* type: string
@@ -459,7 +459,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `user` - User linked to db credential
+* `user` - The user linked to the database credential.
 
 	**SCIM++ Properties:**
 	* caseExact: false
@@ -471,7 +471,7 @@ The following attributes are exported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `display` - User display name
+	* `display` - The user display name.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -482,7 +482,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `name` - User name
+	* `name` - The username.
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -493,7 +493,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `ocid` - User's ocid
+	* `ocid` - The user's OCID.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -504,7 +504,7 @@ The following attributes are exported:
 		* returned: always
 		* type: string
 		* uniqueness: none
-	* `ref` - The URI that corresponds to the user linked to this credential
+	* `ref` - The URI that corresponds to the user linked to this credential.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -515,7 +515,7 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - User's id
+	* `value` - The user's identifier.
 
 		**SCIM++ Properties:**
 		* caseExact: true

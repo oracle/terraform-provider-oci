@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// AuthToken User's Auth token resource
+// AuthToken The user's Auth token resource.
 type AuthToken struct {
 
 	// REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \"enterprise\" extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.
@@ -154,7 +154,7 @@ type AuthToken struct {
 	//  - returned: default
 	Description *string `mandatory:"false" json:"description"`
 
-	// User credential status
+	// The user's credential status.
 	// **Added In:** 2109090424
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -167,7 +167,7 @@ type AuthToken struct {
 	//  - uniqueness: none
 	Status AuthTokenStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// User credential expires on
+	// When the user's credential expire.
 	// **Added In:** 2109090424
 	// **SCIM++ Properties:**
 	//  - caseExact: false

@@ -117,7 +117,7 @@ type ExtensionFidoAuthenticationFactorSettings struct {
 	//  - uniqueness: none
 	ExcludeCredentials *bool `mandatory:"true" json:"excludeCredentials"`
 
-	// Number of domain levels IDCS should use for origin comparision
+	// Number of domain levels Oracle Identity Cloud Service should use for origin comparision
 	// **Added In:** 2109020413
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false

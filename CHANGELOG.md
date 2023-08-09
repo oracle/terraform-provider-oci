@@ -1,3 +1,16 @@
+## 5.8.0 (August 09, 2023)
+
+### Added
+- Support for Oracle Cloud AI Services Language V2.3 - Enhancement
+- Support for ADB-S: Phase 2 - New ECPU-based SKUs for ADW and ATP
+- Support for ADB-S: Automatic failover with upto RPO amount (1 min) of data loss
+- Support for IdentityDomains/IDCS API - Phase 2
+- Support for Exclude tables for replication only
+- Changes to enable C3 in OPCTL
+- Support for Logging Analytics Gingko Release
+### Bug Fix
+- Null pointer exception in CVM resource
+
 ## 5.7.0 (August 01, 2023)
 
 ### Added

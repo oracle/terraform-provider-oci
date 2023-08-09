@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UserExtSecQuestions Security question and answers provided by end-user for Account recovery and/or MFA. While setting up security questions, end-user can also provide hint along with answer.
+// UserExtSecQuestions The schema used to mnage security question and answers provided by a user for account recovery and/or MFA. While setting up security questions, a user can also provide a hint for the answer.
 // **SCIM++ Properties:**
 //  - idcsCompositeKey: [value]
 //  - multiValued: true
@@ -27,7 +27,7 @@ import (
 //  - uniqueness: none
 type UserExtSecQuestions struct {
 
-	// Id of the question selected by user while setting up Security Question.
+	// The identifier of the question selected by the user when setting up a security question.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -39,7 +39,7 @@ type UserExtSecQuestions struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"true" json:"value"`
 
-	// Answer provided by an user for a security question.
+	// The answer provided by a user for a security question.
 	// **SCIM++ Properties:**
 	//  - idcsCsvAttributeName: Answer
 	//  - idcsSearchable: false
@@ -53,7 +53,7 @@ type UserExtSecQuestions struct {
 	//  - idcsPii: true
 	Answer *string `mandatory:"true" json:"answer"`
 
-	// The URI of the corresponding SecurityQuestion resource
+	// The URI of the corresponding Security Question resource.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - multiValued: false
@@ -64,7 +64,7 @@ type UserExtSecQuestions struct {
 	//  - uniqueness: none
 	Ref *string `mandatory:"false" json:"$ref"`
 
-	// Hint for an answer given by user while setting up Security Question.
+	// The hint for an answer that's given by user when setting up a security question.
 	// **SCIM++ Properties:**
 	//  - caseExact: false
 	//  - multiValued: false

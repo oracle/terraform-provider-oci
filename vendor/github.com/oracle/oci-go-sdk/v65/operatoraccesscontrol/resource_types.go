@@ -24,6 +24,7 @@ const (
 	ResourceTypesExadatainfrastructure    ResourceTypesEnum = "EXADATAINFRASTRUCTURE"
 	ResourceTypesAutonomousvmcluster      ResourceTypesEnum = "AUTONOMOUSVMCLUSTER"
 	ResourceTypesCloudautonomousvmcluster ResourceTypesEnum = "CLOUDAUTONOMOUSVMCLUSTER"
+	ResourceTypesCccinfrastructure        ResourceTypesEnum = "CCCINFRASTRUCTURE"
 )
 
 var mappingResourceTypesEnum = map[string]ResourceTypesEnum{
@@ -31,6 +32,7 @@ var mappingResourceTypesEnum = map[string]ResourceTypesEnum{
 	"EXADATAINFRASTRUCTURE":    ResourceTypesExadatainfrastructure,
 	"AUTONOMOUSVMCLUSTER":      ResourceTypesAutonomousvmcluster,
 	"CLOUDAUTONOMOUSVMCLUSTER": ResourceTypesCloudautonomousvmcluster,
+	"CCCINFRASTRUCTURE":        ResourceTypesCccinfrastructure,
 }
 
 var mappingResourceTypesEnumLowerCase = map[string]ResourceTypesEnum{
@@ -38,6 +40,7 @@ var mappingResourceTypesEnumLowerCase = map[string]ResourceTypesEnum{
 	"exadatainfrastructure":    ResourceTypesExadatainfrastructure,
 	"autonomousvmcluster":      ResourceTypesAutonomousvmcluster,
 	"cloudautonomousvmcluster": ResourceTypesCloudautonomousvmcluster,
+	"cccinfrastructure":        ResourceTypesCccinfrastructure,
 }
 
 // GetResourceTypesEnumValues Enumerates the set of values for ResourceTypesEnum
@@ -56,6 +59,7 @@ func GetResourceTypesEnumStringValues() []string {
 		"EXADATAINFRASTRUCTURE",
 		"AUTONOMOUSVMCLUSTER",
 		"CLOUDAUTONOMOUSVMCLUSTER",
+		"CCCINFRASTRUCTURE",
 	}
 }
 

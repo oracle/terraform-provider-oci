@@ -384,6 +384,7 @@ const (
 	AuthenticationFactorSettingUserEnrollmentDisabledFactorsPhoneCall         AuthenticationFactorSettingUserEnrollmentDisabledFactorsEnum = "PHONE_CALL"
 	AuthenticationFactorSettingUserEnrollmentDisabledFactorsThirdparty        AuthenticationFactorSettingUserEnrollmentDisabledFactorsEnum = "THIRDPARTY"
 	AuthenticationFactorSettingUserEnrollmentDisabledFactorsFidoAuthenticator AuthenticationFactorSettingUserEnrollmentDisabledFactorsEnum = "FIDO_AUTHENTICATOR"
+	AuthenticationFactorSettingUserEnrollmentDisabledFactorsYubicoOtp         AuthenticationFactorSettingUserEnrollmentDisabledFactorsEnum = "YUBICO_OTP"
 )
 
 var mappingAuthenticationFactorSettingUserEnrollmentDisabledFactorsEnum = map[string]AuthenticationFactorSettingUserEnrollmentDisabledFactorsEnum{
@@ -396,6 +397,7 @@ var mappingAuthenticationFactorSettingUserEnrollmentDisabledFactorsEnum = map[st
 	"PHONE_CALL":         AuthenticationFactorSettingUserEnrollmentDisabledFactorsPhoneCall,
 	"THIRDPARTY":         AuthenticationFactorSettingUserEnrollmentDisabledFactorsThirdparty,
 	"FIDO_AUTHENTICATOR": AuthenticationFactorSettingUserEnrollmentDisabledFactorsFidoAuthenticator,
+	"YUBICO_OTP":         AuthenticationFactorSettingUserEnrollmentDisabledFactorsYubicoOtp,
 }
 
 var mappingAuthenticationFactorSettingUserEnrollmentDisabledFactorsEnumLowerCase = map[string]AuthenticationFactorSettingUserEnrollmentDisabledFactorsEnum{
@@ -408,6 +410,7 @@ var mappingAuthenticationFactorSettingUserEnrollmentDisabledFactorsEnumLowerCase
 	"phone_call":         AuthenticationFactorSettingUserEnrollmentDisabledFactorsPhoneCall,
 	"thirdparty":         AuthenticationFactorSettingUserEnrollmentDisabledFactorsThirdparty,
 	"fido_authenticator": AuthenticationFactorSettingUserEnrollmentDisabledFactorsFidoAuthenticator,
+	"yubico_otp":         AuthenticationFactorSettingUserEnrollmentDisabledFactorsYubicoOtp,
 }
 
 // GetAuthenticationFactorSettingUserEnrollmentDisabledFactorsEnumValues Enumerates the set of values for AuthenticationFactorSettingUserEnrollmentDisabledFactorsEnum
@@ -431,6 +434,7 @@ func GetAuthenticationFactorSettingUserEnrollmentDisabledFactorsEnumStringValues
 		"PHONE_CALL",
 		"THIRDPARTY",
 		"FIDO_AUTHENTICATOR",
+		"YUBICO_OTP",
 	}
 }
 

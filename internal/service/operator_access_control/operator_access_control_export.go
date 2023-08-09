@@ -35,6 +35,8 @@ var exportOperatorAccessControlOperatorControlAssignmentHints = &tf_export.Terra
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesCreated),
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplied),
+		string(oci_operator_access_control.OperatorControlAssignmentLifecycleStatesApplyfailed),
 	},
 }
 

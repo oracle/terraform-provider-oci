@@ -730,20 +730,22 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 	}
 	if !utils.IsMultiVm(*s.Infra.Shape, s.Infra.MaxDataStorageInTBs) {
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
-			if *s.Infra.ComputeCount != nodeCount {
+			if s.Infra.ComputeCount != nil && *s.Infra.ComputeCount != nodeCount {
 				request.ComputeNodes = []string{"ALL"}
 			} else {
 				request.ComputeNodes = []string{}
-				if shape, ok := s.D.GetOkExists("shape"); ok {
-					flexShape := shape.(string) + ".StorageServer"
+				if s.Infra.StorageCount != nil {
+					if shape, ok := s.D.GetOkExists("shape"); ok {
+						flexShape := shape.(string) + ".StorageServer"
 
-					if compartmentId, compOk := s.D.GetOkExists("compartment_id"); compOk {
-						flex, err := s.flexAvailableDbStorageInGBs(compartmentId.(string), flexShape)
+						if compartmentId, compOk := s.D.GetOkExists("compartment_id"); compOk {
+							flex, err := s.flexAvailableDbStorageInGBs(compartmentId.(string), flexShape)
 
-						if err == nil {
-							if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok {
-								tmp := flex**s.Infra.StorageCount - storageSizeInGBs.(int)
-								request.StorageSizeInGBs = &tmp
+							if err == nil {
+								if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok {
+									tmp := flex**s.Infra.StorageCount - storageSizeInGBs.(int)
+									request.StorageSizeInGBs = &tmp
+								}
 							}
 						}
 					}

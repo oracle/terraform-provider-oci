@@ -130,3 +130,11 @@ data "oci_log_analytics_namespace_rules" "rules" {
 
   depends_on = [oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_minimal, oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_full]
 }
+
+# Fetch rules summary
+data "oci_log_analytics_namespace_rules_summary" "rules_summary" {
+  compartment_id   = var.compartment_ocid
+  namespace        = data.oci_objectstorage_namespace.ns.namespace
+
+  depends_on = [oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_minimal, oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_full]
+}

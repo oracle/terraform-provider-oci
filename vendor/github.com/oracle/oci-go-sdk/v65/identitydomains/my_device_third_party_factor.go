@@ -38,6 +38,8 @@ type MyDeviceThirdPartyFactor struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	ThirdPartyVendorName *string `mandatory:"true" json:"thirdPartyVendorName"`
 
 	// The identifier of third party device
@@ -50,6 +52,8 @@ type MyDeviceThirdPartyFactor struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Value *string `mandatory:"true" json:"value"`
 
 	// Type of the third party authentication factor
@@ -62,6 +66,8 @@ type MyDeviceThirdPartyFactor struct {
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	ThirdPartyFactorType *string `mandatory:"false" json:"thirdPartyFactorType"`
 
 	// The URI that corresponds to the third party device resource
@@ -74,6 +80,8 @@ type MyDeviceThirdPartyFactor struct {
 	//  - returned: default
 	//  - type: reference
 	//  - uniqueness: none
+	//  - idcsRequiresWriteForAccessFlows: true
+	//  - idcsRequiresImmediateReadAfterWriteForAccessFlows: true
 	Ref *string `mandatory:"false" json:"$ref"`
 }
 

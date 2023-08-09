@@ -138,6 +138,12 @@ type Deployment struct {
 
 	// Description of the next maintenance.
 	NextMaintenanceDescription *string `mandatory:"false" json:"nextMaintenanceDescription"`
+
+	MaintenanceConfiguration *MaintenanceConfiguration `mandatory:"false" json:"maintenanceConfiguration"`
+
+	// The time until OGG version is supported. After this date has passed OGG version will not be available anymore. The format is defined by
+	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+	TimeOggVersionSupportedUntil *common.SDKTime `mandatory:"false" json:"timeOggVersionSupportedUntil"`
 }
 
 func (m Deployment) String() string {

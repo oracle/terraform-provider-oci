@@ -29,7 +29,7 @@ import (
 //  - uniqueness: none
 type UserExtCustomerSecretKeys struct {
 
-	// The identifier of the User's customer secret key.
+	// The user's customer secret key identifier.
 	// **Added In:** 2102181953
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -42,7 +42,7 @@ type UserExtCustomerSecretKeys struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"false" json:"value"`
 
-	// Ocid of the User's customer secret key.
+	// The user's customer secret key OCID.
 	// **Added In:** 2102181953
 	// **SCIM++ Properties:**
 	//  - caseExact: true
@@ -55,7 +55,7 @@ type UserExtCustomerSecretKeys struct {
 	//  - uniqueness: none
 	Ocid *string `mandatory:"false" json:"ocid"`
 
-	// The URI of the corresponding CustomerSecretKey resource to which the user belongs
+	// The URI of the corresponding CustomerSecretKey resource to which the user belongs.
 	// **Added In:** 2102181953
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false

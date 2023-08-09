@@ -19,7 +19,7 @@ import (
 // ExtensionKerberosUserUser Kerberos User extension
 type ExtensionKerberosUserUser struct {
 
-	// A list of kerberos realm users for an OCI IAM User
+	// A list of kerberos realm users for an Oracle Identity Cloud Service User
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [value]
 	//  - multiValued: true

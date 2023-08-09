@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_my_support_accounts
 This data source provides the list of My Support Accounts in Oracle Cloud Infrastructure Identity Domains service.
 
-Search Support Accounts
+Search for a user's own support account.
 
 ## Example Usage
 

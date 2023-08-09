@@ -37,9 +37,17 @@ type CrossConnect struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cross-connect group this cross-connect belongs to (if any).
 	CrossConnectGroupId *string `mandatory:"false" json:"crossConnectGroupId"`
 
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// The cross-connect's Oracle ID (OCID).
 	Id *string `mandatory:"false" json:"id"`
@@ -57,9 +65,22 @@ type CrossConnect struct {
 	// Example: `10 Gbps`
 	PortSpeedShapeName *string `mandatory:"false" json:"portSpeedShapeName"`
 
+	// A reference name or identifier for the physical fiber connection that this cross-connect
+	// uses.
+	CustomerReferenceName *string `mandatory:"false" json:"customerReferenceName"`
+
 	// The date and time the cross-connect was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	MacsecProperties *MacsecProperties `mandatory:"false" json:"macsecProperties"`
+
+	// The FastConnect device that terminates the physical connection.
+	OciPhysicalDeviceName *string `mandatory:"false" json:"ociPhysicalDeviceName"`
+
+	// The FastConnect device that terminates the logical connection.
+	// This device might be different than the device that terminates the physical connection.
+	OciLogicalDeviceName *string `mandatory:"false" json:"ociLogicalDeviceName"`
 }
 
 func (m CrossConnect) String() string {

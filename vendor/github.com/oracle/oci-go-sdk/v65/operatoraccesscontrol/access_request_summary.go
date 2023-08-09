@@ -39,6 +39,9 @@ type AccessRequestSummary struct {
 	// The name of the target resource.
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
+	// The subresources requested for approval.
+	SubResourceList []string `mandatory:"false" json:"subResourceList"`
+
 	// resourceType for which the AccessRequest is applicable
 	ResourceType ResourceTypesEnum `mandatory:"false" json:"resourceType,omitempty"`
 

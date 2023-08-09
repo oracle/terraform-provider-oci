@@ -69,6 +69,7 @@ The following attributes are exported:
 * `email_id_list` - List of emailId. 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. 
 * `id` - The OCID of the operator control.
+* `is_default_operator_control` - Whether the operator control is a default Operator Control. 
 * `is_fully_pre_approved` - Whether all the operator actions have been pre-approved. If yes, all access requests associated with a resource governed by this operator control  will be auto-approved. 
 * `last_modified_info` - Description associated with the latest modification of the operator control.
 * `operator_control_name` - Name of the operator control. The name must be unique.

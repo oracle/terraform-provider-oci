@@ -158,6 +158,13 @@ func OperatorAccessControlAccessRequestsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"sub_resource_list": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"system_message": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -344,6 +351,8 @@ func AccessRequestsSummaryToMap(obj oci_operator_access_control.AccessRequestSum
 	result["severity"] = string(obj.Severity)
 
 	result["state"] = string(obj.LifecycleState)
+
+	result["sub_resource_list"] = obj.SubResourceList
 
 	if obj.TimeOfCreation != nil {
 		result["time_of_creation"] = obj.TimeOfCreation.String()

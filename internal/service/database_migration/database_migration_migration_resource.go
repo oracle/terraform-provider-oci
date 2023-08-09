@@ -437,6 +437,11 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_omit_excluded_table_from_replication": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -698,6 +703,11 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_omit_excluded_table_from_replication": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"type": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -2792,6 +2802,11 @@ func DataPumpExcludeParametersToMap(obj oci_database_migration.DataPumpExcludePa
 func (s *DatabaseMigrationMigrationResourceCrud) mapToDatabaseObject(fieldKeyFormat string) (oci_database_migration.DatabaseObject, error) {
 	result := oci_database_migration.DatabaseObject{}
 
+	if isOmitExcludedTableFromReplication, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_omit_excluded_table_from_replication")); ok {
+		tmp := isOmitExcludedTableFromReplication.(bool)
+		result.IsOmitExcludedTableFromReplication = &tmp
+	}
+
 	if object, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object")); ok {
 		tmp := object.(string)
 		result.ObjectName = &tmp
@@ -2812,6 +2827,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToDatabaseObject(fieldKeyFor
 
 func DatabaseObjectToMap(obj oci_database_migration.DatabaseObject) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.IsOmitExcludedTableFromReplication != nil {
+		result["is_omit_excluded_table_from_replication"] = bool(*obj.IsOmitExcludedTableFromReplication)
+	}
 
 	if obj.ObjectName != nil {
 		result["object"] = string(*obj.ObjectName)

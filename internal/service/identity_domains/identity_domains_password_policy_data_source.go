@@ -166,6 +166,13 @@ func (s *IdentityDomainsPasswordPolicyDataSourceCrud) SetData() error {
 	s.D.Set("disallowed_substrings", s.Res.DisallowedSubstrings)
 	s.D.Set("disallowed_substrings", s.Res.DisallowedSubstrings)
 
+	s.D.Set("disallowed_user_attribute_values", s.Res.DisallowedUserAttributeValues)
+	s.D.Set("disallowed_user_attribute_values", s.Res.DisallowedUserAttributeValues)
+
+	if s.Res.DistinctCharacters != nil {
+		s.D.Set("distinct_characters", *s.Res.DistinctCharacters)
+	}
+
 	if s.Res.DomainOcid != nil {
 		s.D.Set("domain_ocid", *s.Res.DomainOcid)
 	}

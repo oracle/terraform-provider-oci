@@ -125,6 +125,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `adm` - Discovers adm resources within the specified compartment
     * `ai_anomaly_detection` - Discovers ai_anomaly_detection resources within the specified compartment
     * `ai_document` - Discovers ai_document resources within the specified compartment
+    * `ai_language` - Discovers ai_language resources within the specified compartment
     * `ai_vision` - Discovers ai_vision resources within the specified compartment
     * `analytics` - Discovers analytics resources within the specified compartment
     * `announcements_service` - Discovers announcements_service resources within the specified compartment
@@ -354,6 +355,12 @@ ai_document
 * oci\_ai\_document\_processor\_job
 * oci\_ai\_document\_project
 * oci\_ai\_document\_model
+
+ai_language
+    
+* oci\_ai\_language\_project
+* oci\_ai\_language\_model
+* oci\_ai\_language\_endpoint
 
 ai_vision
 
@@ -769,6 +776,14 @@ identity_domains
 * oci\_identity\_domains\_my\_support\_account
 * oci\_identity\_domains\_authentication\_factor\_setting
 * oci\_identity\_domains\_kmsi\_setting
+* oci\_identity\_domains\_account\_recovery\_setting
+* oci\_identity\_domains\_identity\_setting
+* oci\_identity\_domains\_my\_request
+* oci\_identity\_domains\_security\_question\_setting
+* oci\_identity\_domains\_grant
+* oci\_identity\_domains\_app\_role
+* oci\_identity\_domains\_app
+* oci\_identity\_domains\_security\_question
 
 integration
 
