@@ -67,6 +67,17 @@ type Secret struct {
 
 	RotationConfig *RotationConfig `mandatory:"false" json:"rotationConfig"`
 
+	// Additional information about the status of the secret rotation
+	RotationStatus SecretRotationStatusEnum `mandatory:"false" json:"rotationStatus,omitempty"`
+
+	// A property indicating when the secret was last rotated successfully, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-04-03T21:10:29.600Z`
+	LastRotationTime *common.SDKTime `mandatory:"false" json:"lastRotationTime"`
+
+	// A property indicating when the secret is scheduled to be rotated, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-04-03T21:10:29.600Z`
+	NextRotationTime *common.SDKTime `mandatory:"false" json:"nextRotationTime"`
+
 	// A list of rules that control how the secret is used and managed.
 	SecretRules []SecretRule `mandatory:"false" json:"secretRules"`
 
@@ -97,6 +108,9 @@ func (m Secret) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecretLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSecretRotationStatusEnum(string(m.RotationStatus)); !ok && m.RotationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RotationStatus: %s. Supported values are: %s.", m.RotationStatus, strings.Join(GetSecretRotationStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -114,6 +128,9 @@ func (m *Secret) UnmarshalJSON(data []byte) (e error) {
 		LifecycleDetails           *string                           `json:"lifecycleDetails"`
 		Metadata                   map[string]interface{}            `json:"metadata"`
 		RotationConfig             *RotationConfig                   `json:"rotationConfig"`
+		RotationStatus             SecretRotationStatusEnum          `json:"rotationStatus"`
+		LastRotationTime           *common.SDKTime                   `json:"lastRotationTime"`
+		NextRotationTime           *common.SDKTime                   `json:"nextRotationTime"`
 		SecretRules                []secretrule                      `json:"secretRules"`
 		TimeOfCurrentVersionExpiry *common.SDKTime                   `json:"timeOfCurrentVersionExpiry"`
 		TimeOfDeletion             *common.SDKTime                   `json:"timeOfDeletion"`
@@ -147,6 +164,12 @@ func (m *Secret) UnmarshalJSON(data []byte) (e error) {
 	m.Metadata = model.Metadata
 
 	m.RotationConfig = model.RotationConfig
+
+	m.RotationStatus = model.RotationStatus
+
+	m.LastRotationTime = model.LastRotationTime
+
+	m.NextRotationTime = model.NextRotationTime
 
 	m.SecretRules = make([]SecretRule, len(model.SecretRules))
 	for i, n := range model.SecretRules {
@@ -259,5 +282,55 @@ func GetSecretLifecycleStateEnumStringValues() []string {
 // GetMappingSecretLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSecretLifecycleStateEnum(val string) (SecretLifecycleStateEnum, bool) {
 	enum, ok := mappingSecretLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SecretRotationStatusEnum Enum with underlying type: string
+type SecretRotationStatusEnum string
+
+// Set of constants representing the allowable values for SecretRotationStatusEnum
+const (
+	SecretRotationStatusInProgress SecretRotationStatusEnum = "IN_PROGRESS"
+	SecretRotationStatusScheduled  SecretRotationStatusEnum = "SCHEDULED"
+	SecretRotationStatusFailed     SecretRotationStatusEnum = "FAILED"
+	SecretRotationStatusNotEnabled SecretRotationStatusEnum = "NOT_ENABLED"
+)
+
+var mappingSecretRotationStatusEnum = map[string]SecretRotationStatusEnum{
+	"IN_PROGRESS": SecretRotationStatusInProgress,
+	"SCHEDULED":   SecretRotationStatusScheduled,
+	"FAILED":      SecretRotationStatusFailed,
+	"NOT_ENABLED": SecretRotationStatusNotEnabled,
+}
+
+var mappingSecretRotationStatusEnumLowerCase = map[string]SecretRotationStatusEnum{
+	"in_progress": SecretRotationStatusInProgress,
+	"scheduled":   SecretRotationStatusScheduled,
+	"failed":      SecretRotationStatusFailed,
+	"not_enabled": SecretRotationStatusNotEnabled,
+}
+
+// GetSecretRotationStatusEnumValues Enumerates the set of values for SecretRotationStatusEnum
+func GetSecretRotationStatusEnumValues() []SecretRotationStatusEnum {
+	values := make([]SecretRotationStatusEnum, 0)
+	for _, v := range mappingSecretRotationStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSecretRotationStatusEnumStringValues Enumerates the set of values in String for SecretRotationStatusEnum
+func GetSecretRotationStatusEnumStringValues() []string {
+	return []string{
+		"IN_PROGRESS",
+		"SCHEDULED",
+		"FAILED",
+		"NOT_ENABLED",
+	}
+}
+
+// GetMappingSecretRotationStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSecretRotationStatusEnum(val string) (SecretRotationStatusEnum, bool) {
+	enum, ok := mappingSecretRotationStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

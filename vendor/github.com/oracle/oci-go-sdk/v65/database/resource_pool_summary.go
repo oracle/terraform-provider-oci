@@ -20,6 +20,9 @@ type ResourcePoolSummary struct {
 
 	// Resource pool size.
 	PoolSize *int `mandatory:"false" json:"poolSize"`
+
+	// Indicates if the resource pool should be deleted for the Autonomous Database.
+	IsDisabled *bool `mandatory:"false" json:"isDisabled"`
 }
 
 func (m ResourcePoolSummary) String() string {

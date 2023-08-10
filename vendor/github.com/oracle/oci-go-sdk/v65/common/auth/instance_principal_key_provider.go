@@ -8,6 +8,7 @@ import (
 	"crypto/rsa"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -15,7 +16,8 @@ import (
 )
 
 const (
-	metadataBaseURL             = `http://169.254.169.254/opc/v2`
+	defaultMetadataBaseURL      = `http://169.254.169.254/opc/v2`
+	metadataBaseURLEnvVar       = `OCI_METADATA_BASE_URL`
 	metadataFallbackURL         = `http://169.254.169.254/opc/v1`
 	regionPath                  = `/instance/region`
 	leafCertificatePath         = `/identity/cert.pem`
@@ -60,7 +62,7 @@ func (ipe instancePrincipalError) Error() string {
 // invalid because the KeyID could be already expired.
 func newInstancePrincipalKeyProvider(modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher, error),
 	tokenPurpose string) (provider *instancePrincipalKeyProvider, err error) {
-	updateX509CertRetrieverURLParas(metadataBaseURL)
+	updateX509CertRetrieverURLParas(getMetadataBaseURL())
 	clientModifier := newDispatcherModifier(modifier)
 
 	client, err := clientModifier.Modify(&http.Client{})
@@ -114,7 +116,7 @@ func getRegionForFederationClient(dispatcher common.HTTPRequestDispatcher, url s
 			return common.StringToRegion(body.String()), nil
 		}
 		common.Logf("Error in getting region from url: %s, Status code: %v, Error: %s", url, statusCode, err.Error())
-		if statusCode == 404 && strings.Compare(url, metadataBaseURL+regionPath) == 0 {
+		if statusCode == 404 && strings.Compare(url, getMetadataBaseURL()+regionPath) == 0 {
 			common.Logf("Falling back to http://169.254.169.254/opc/v1 to try again...\n")
 			updateX509CertRetrieverURLParas(metadataFallbackURL)
 			url = regionURL
@@ -159,4 +161,13 @@ func (p *instancePrincipalKeyProvider) TenancyOCID() (string, error) {
 
 func (p *instancePrincipalKeyProvider) Refreshable() bool {
 	return true
+}
+
+// Gets the Meta Data Base url from the Environment variable SNTL_METADATA_BASE_URL
+// If it is not present, returns default value instead
+func getMetadataBaseURL() string {
+	if baseURL := os.Getenv(metadataBaseURLEnvVar); baseURL != "" {
+		return baseURL
+	}
+	return defaultMetadataBaseURL
 }

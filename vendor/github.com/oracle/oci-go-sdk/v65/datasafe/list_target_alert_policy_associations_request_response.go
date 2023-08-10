@@ -41,13 +41,6 @@ type ListTargetAlertPolicyAssociationsRequest struct {
 	// The field to sort by. Only one sort parameter may be provided.
 	SortBy ListTargetAlertPolicyAssociationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// Indicates whether alert policy was disabled for target due to one of rules caused the
-	// generation of more than 100 alerts  per minute.
-	SystemStatus ListTargetAlertPolicyAssociationsSystemStatusEnum `mandatory:"false" contributesTo:"query" name:"systemStatus" omitEmpty:"true"`
-
-	// Indicates whether alert policy is enabled for target by user.
-	IsEnabled *bool `mandatory:"false" contributesTo:"query" name:"isEnabled"`
-
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -118,9 +111,6 @@ func (request ListTargetAlertPolicyAssociationsRequest) ValidateEnumValue() (boo
 	}
 	if _, ok := GetMappingListTargetAlertPolicyAssociationsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTargetAlertPolicyAssociationsSortByEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingListTargetAlertPolicyAssociationsSystemStatusEnum(string(request.SystemStatus)); !ok && request.SystemStatus != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SystemStatus: %s. Supported values are: %s.", request.SystemStatus, strings.Join(GetListTargetAlertPolicyAssociationsSystemStatusEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListTargetAlertPolicyAssociationsAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListTargetAlertPolicyAssociationsAccessLevelEnumStringValues(), ",")))
@@ -307,48 +297,6 @@ func GetListTargetAlertPolicyAssociationsSortByEnumStringValues() []string {
 // GetMappingListTargetAlertPolicyAssociationsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListTargetAlertPolicyAssociationsSortByEnum(val string) (ListTargetAlertPolicyAssociationsSortByEnum, bool) {
 	enum, ok := mappingListTargetAlertPolicyAssociationsSortByEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ListTargetAlertPolicyAssociationsSystemStatusEnum Enum with underlying type: string
-type ListTargetAlertPolicyAssociationsSystemStatusEnum string
-
-// Set of constants representing the allowable values for ListTargetAlertPolicyAssociationsSystemStatusEnum
-const (
-	ListTargetAlertPolicyAssociationsSystemStatusEnabled  ListTargetAlertPolicyAssociationsSystemStatusEnum = "ENABLED"
-	ListTargetAlertPolicyAssociationsSystemStatusDisabled ListTargetAlertPolicyAssociationsSystemStatusEnum = "DISABLED"
-)
-
-var mappingListTargetAlertPolicyAssociationsSystemStatusEnum = map[string]ListTargetAlertPolicyAssociationsSystemStatusEnum{
-	"ENABLED":  ListTargetAlertPolicyAssociationsSystemStatusEnabled,
-	"DISABLED": ListTargetAlertPolicyAssociationsSystemStatusDisabled,
-}
-
-var mappingListTargetAlertPolicyAssociationsSystemStatusEnumLowerCase = map[string]ListTargetAlertPolicyAssociationsSystemStatusEnum{
-	"enabled":  ListTargetAlertPolicyAssociationsSystemStatusEnabled,
-	"disabled": ListTargetAlertPolicyAssociationsSystemStatusDisabled,
-}
-
-// GetListTargetAlertPolicyAssociationsSystemStatusEnumValues Enumerates the set of values for ListTargetAlertPolicyAssociationsSystemStatusEnum
-func GetListTargetAlertPolicyAssociationsSystemStatusEnumValues() []ListTargetAlertPolicyAssociationsSystemStatusEnum {
-	values := make([]ListTargetAlertPolicyAssociationsSystemStatusEnum, 0)
-	for _, v := range mappingListTargetAlertPolicyAssociationsSystemStatusEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListTargetAlertPolicyAssociationsSystemStatusEnumStringValues Enumerates the set of values in String for ListTargetAlertPolicyAssociationsSystemStatusEnum
-func GetListTargetAlertPolicyAssociationsSystemStatusEnumStringValues() []string {
-	return []string{
-		"ENABLED",
-		"DISABLED",
-	}
-}
-
-// GetMappingListTargetAlertPolicyAssociationsSystemStatusEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListTargetAlertPolicyAssociationsSystemStatusEnum(val string) (ListTargetAlertPolicyAssociationsSystemStatusEnum, bool) {
-	enum, ok := mappingListTargetAlertPolicyAssociationsSystemStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

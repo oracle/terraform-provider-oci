@@ -71,15 +71,15 @@ type Connection interface {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	GetKeyId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	GetSubnetId() *string
-
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
 	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	GetIngressIps() []IngressIpDetails
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	GetNsgIds() []string
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	GetSubnetId() *string
 
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
@@ -103,9 +103,9 @@ type connection struct {
 	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
 	VaultId          *string                           `mandatory:"false" json:"vaultId"`
 	KeyId            *string                           `mandatory:"false" json:"keyId"`
-	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
 	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
+	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
 	ConnectionType   string                            `json:"connectionType"`
 }
@@ -134,9 +134,9 @@ func (m *connection) UnmarshalJSON(data []byte) error {
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.VaultId = s.Model.VaultId
 	m.KeyId = s.Model.KeyId
-	m.SubnetId = s.Model.SubnetId
 	m.IngressIps = s.Model.IngressIps
 	m.NsgIds = s.Model.NsgIds
+	m.SubnetId = s.Model.SubnetId
 	m.RoutingMethod = s.Model.RoutingMethod
 	m.ConnectionType = s.Model.ConnectionType
 
@@ -287,11 +287,6 @@ func (m connection) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetSubnetId returns SubnetId
-func (m connection) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 //GetIngressIps returns IngressIps
 func (m connection) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
@@ -300,6 +295,11 @@ func (m connection) GetIngressIps() []IngressIpDetails {
 //GetNsgIds returns NsgIds
 func (m connection) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+//GetSubnetId returns SubnetId
+func (m connection) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 //GetRoutingMethod returns RoutingMethod

@@ -51,10 +51,6 @@ type TargetAlertPolicyAssociation struct {
 	// Details about the current state of the target-alert policy association.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Indicates whether alert policy was disabled for target due to one of rules caused the
-	// generation of more than 100 alerts  per minute.
-	SystemStatus TargetAlertPolicyAssociationSystemStatusEnum `mandatory:"false" json:"systemStatus,omitempty"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -81,53 +77,8 @@ func (m TargetAlertPolicyAssociation) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAlertPolicyLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingTargetAlertPolicyAssociationSystemStatusEnum(string(m.SystemStatus)); !ok && m.SystemStatus != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SystemStatus: %s. Supported values are: %s.", m.SystemStatus, strings.Join(GetTargetAlertPolicyAssociationSystemStatusEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// TargetAlertPolicyAssociationSystemStatusEnum Enum with underlying type: string
-type TargetAlertPolicyAssociationSystemStatusEnum string
-
-// Set of constants representing the allowable values for TargetAlertPolicyAssociationSystemStatusEnum
-const (
-	TargetAlertPolicyAssociationSystemStatusEnabled  TargetAlertPolicyAssociationSystemStatusEnum = "ENABLED"
-	TargetAlertPolicyAssociationSystemStatusDisabled TargetAlertPolicyAssociationSystemStatusEnum = "DISABLED"
-)
-
-var mappingTargetAlertPolicyAssociationSystemStatusEnum = map[string]TargetAlertPolicyAssociationSystemStatusEnum{
-	"ENABLED":  TargetAlertPolicyAssociationSystemStatusEnabled,
-	"DISABLED": TargetAlertPolicyAssociationSystemStatusDisabled,
-}
-
-var mappingTargetAlertPolicyAssociationSystemStatusEnumLowerCase = map[string]TargetAlertPolicyAssociationSystemStatusEnum{
-	"enabled":  TargetAlertPolicyAssociationSystemStatusEnabled,
-	"disabled": TargetAlertPolicyAssociationSystemStatusDisabled,
-}
-
-// GetTargetAlertPolicyAssociationSystemStatusEnumValues Enumerates the set of values for TargetAlertPolicyAssociationSystemStatusEnum
-func GetTargetAlertPolicyAssociationSystemStatusEnumValues() []TargetAlertPolicyAssociationSystemStatusEnum {
-	values := make([]TargetAlertPolicyAssociationSystemStatusEnum, 0)
-	for _, v := range mappingTargetAlertPolicyAssociationSystemStatusEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetTargetAlertPolicyAssociationSystemStatusEnumStringValues Enumerates the set of values in String for TargetAlertPolicyAssociationSystemStatusEnum
-func GetTargetAlertPolicyAssociationSystemStatusEnumStringValues() []string {
-	return []string{
-		"ENABLED",
-		"DISABLED",
-	}
-}
-
-// GetMappingTargetAlertPolicyAssociationSystemStatusEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingTargetAlertPolicyAssociationSystemStatusEnum(val string) (TargetAlertPolicyAssociationSystemStatusEnum, bool) {
-	enum, ok := mappingTargetAlertPolicyAssociationSystemStatusEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

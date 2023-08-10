@@ -24,7 +24,7 @@ type Deployment struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The Oracle license model that applies to a Deployment.
@@ -147,6 +147,10 @@ type Deployment struct {
 
 	// A list of IP ranges in a CIDR format allowed to connect to the deployment's public endpoint
 	PublicAllowList []string `mandatory:"false" json:"publicAllowList"`
+
+	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
+	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
+	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
 }
 
 func (m Deployment) String() string {

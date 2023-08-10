@@ -20,6 +20,9 @@ type ListAutonomousDatabaseCharacterSetsRequest struct {
 	// Specifies whether this request is for an Autonomous Database Serverless instance. By default, this request will be for Autonomous Database on Dedicated Exadata Infrastructure.
 	IsShared *bool `mandatory:"false" contributesTo:"query" name:"isShared"`
 
+	// Specifies if the request is for an Autonomous Database Dedicated instance. The default request is for an Autonomous Database Dedicated instance.
+	IsDedicated *bool `mandatory:"false" contributesTo:"query" name:"isDedicated"`
+
 	// Specifies whether this request pertains to database character sets or national character sets.
 	CharacterSetType ListAutonomousDatabaseCharacterSetsCharacterSetTypeEnum `mandatory:"false" contributesTo:"query" name:"characterSetType" omitEmpty:"true"`
 

@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Data Safe API
+// Marketplace Service API
 //
-// APIs for using Oracle Data Safe.
+// Use the Marketplace API to manage applications in Oracle Cloud Infrastructure Marketplace. For more information, see Overview of Marketplace (https://docs.cloud.oracle.com/Content/Marketplace/Concepts/marketoverview.htm)
 //
 
-package datasafe
+package marketplace
 
 import (
 	"fmt"
@@ -15,22 +15,21 @@ import (
 	"strings"
 )
 
-// TargetAlertPolicyAssociationAggregationItems Details of target alert policy association aggregation items.
-type TargetAlertPolicyAssociationAggregationItems struct {
-	Dimensions *TargetAlertPolicyAssociationDimensions `mandatory:"false" json:"dimensions"`
+// WorkRequestCollection Results of a workRequest search. Contains both WorkRequest items and other information, such as metadata.
+type WorkRequestCollection struct {
 
-	// Total count of aggregated metric.
-	Count *int64 `mandatory:"false" json:"count"`
+	// List of workRequestSummary objects.
+	Items []WorkRequestSummary `mandatory:"true" json:"items"`
 }
 
-func (m TargetAlertPolicyAssociationAggregationItems) String() string {
+func (m WorkRequestCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m TargetAlertPolicyAssociationAggregationItems) ValidateEnumValue() (bool, error) {
+func (m WorkRequestCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

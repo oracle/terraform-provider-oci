@@ -74,6 +74,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
 	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing. It must be different from the last four passwords and it must not be a password used within the last 24 hours.
+	// This cannot be used in conjunction with with OCI vault secrets (secretId).
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, whitelistedIps, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, or isFreeTier.
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
@@ -256,7 +257,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
 
-	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID. This cannot be used in conjunction with adminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// The version of the vault secret. If no version is specified, the latest version will be used.

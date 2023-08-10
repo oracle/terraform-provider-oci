@@ -77,7 +77,8 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// **Important** The `adminPassword` must be specified for all Autonomous Databases except for refreshable clones. The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
+	// **Important** The `adminPassword` or `secretId` must be specified for all Autonomous Databases except for refreshable clones. The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
+	// This cannot be used in conjunction with with OCI vault secrets (secretId).
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
@@ -210,6 +211,7 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
 
 	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+	// This cannot be used in conjunction with adminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`
 
 	// The version of the vault secret. If no version is specified, the latest version will be used.

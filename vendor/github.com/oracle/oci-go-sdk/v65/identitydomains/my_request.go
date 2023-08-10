@@ -163,12 +163,48 @@ type MyRequest struct {
 	//  - caseExact: true
 	//  - idcsSearchable: true
 	//  - multiValued: false
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: default
+	//  - type: string
+	//  - uniqueness: none
+	Status MyRequestStatusEnum `mandatory:"false" json:"status,omitempty"`
+
+	// Requestor can set action to CANCEL to cancel the request or to ESCALATE to escalate the request while the request status is IN_PROGRESS. Requestor can't escalate the request if canceling or escalation is in progress.
+	// **Added In:** 2307071836
+	// **SCIM++ Properties:**
+	//  - caseExact: true
+	//  - idcsSearchable: true
+	//  - multiValued: false
 	//  - mutability: readWrite
 	//  - required: false
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
-	Status *string `mandatory:"false" json:"status"`
+	Action MyRequestActionEnum `mandatory:"false" json:"action,omitempty"`
+
+	// Time by when Request expires
+	// **Added In:** 2307071836
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: true
+	//  - multiValued: false
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: default
+	//  - type: dateTime
+	//  - uniqueness: none
+	Expires *string `mandatory:"false" json:"expires"`
+
+	// Approvals created for this request.
+	// **Added In:** 2307071836
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: false
+	//  - multiValued: true
+	//  - mutability: readOnly
+	//  - returned: request
+	//  - type: complex
+	//  - uniqueness: none
+	ApprovalDetails []MyRequestApprovalDetails `mandatory:"false" json:"approvalDetails"`
 
 	Requestor *MyRequestRequestor `mandatory:"false" json:"requestor"`
 }
@@ -189,8 +225,122 @@ func (m MyRequest) ValidateEnumValue() (bool, error) {
 		}
 	}
 
+	if _, ok := GetMappingMyRequestStatusEnum(string(m.Status)); !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetMyRequestStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMyRequestActionEnum(string(m.Action)); !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetMyRequestActionEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MyRequestStatusEnum Enum with underlying type: string
+type MyRequestStatusEnum string
+
+// Set of constants representing the allowable values for MyRequestStatusEnum
+const (
+	MyRequestStatusCreated    MyRequestStatusEnum = "CREATED"
+	MyRequestStatusComplete   MyRequestStatusEnum = "COMPLETE"
+	MyRequestStatusInProgress MyRequestStatusEnum = "IN_PROGRESS"
+	MyRequestStatusApproved   MyRequestStatusEnum = "APPROVED"
+	MyRequestStatusRejected   MyRequestStatusEnum = "REJECTED"
+	MyRequestStatusCanceled   MyRequestStatusEnum = "CANCELED"
+	MyRequestStatusExpired    MyRequestStatusEnum = "EXPIRED"
+	MyRequestStatusFailed     MyRequestStatusEnum = "FAILED"
+)
+
+var mappingMyRequestStatusEnum = map[string]MyRequestStatusEnum{
+	"CREATED":     MyRequestStatusCreated,
+	"COMPLETE":    MyRequestStatusComplete,
+	"IN_PROGRESS": MyRequestStatusInProgress,
+	"APPROVED":    MyRequestStatusApproved,
+	"REJECTED":    MyRequestStatusRejected,
+	"CANCELED":    MyRequestStatusCanceled,
+	"EXPIRED":     MyRequestStatusExpired,
+	"FAILED":      MyRequestStatusFailed,
+}
+
+var mappingMyRequestStatusEnumLowerCase = map[string]MyRequestStatusEnum{
+	"created":     MyRequestStatusCreated,
+	"complete":    MyRequestStatusComplete,
+	"in_progress": MyRequestStatusInProgress,
+	"approved":    MyRequestStatusApproved,
+	"rejected":    MyRequestStatusRejected,
+	"canceled":    MyRequestStatusCanceled,
+	"expired":     MyRequestStatusExpired,
+	"failed":      MyRequestStatusFailed,
+}
+
+// GetMyRequestStatusEnumValues Enumerates the set of values for MyRequestStatusEnum
+func GetMyRequestStatusEnumValues() []MyRequestStatusEnum {
+	values := make([]MyRequestStatusEnum, 0)
+	for _, v := range mappingMyRequestStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMyRequestStatusEnumStringValues Enumerates the set of values in String for MyRequestStatusEnum
+func GetMyRequestStatusEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"COMPLETE",
+		"IN_PROGRESS",
+		"APPROVED",
+		"REJECTED",
+		"CANCELED",
+		"EXPIRED",
+		"FAILED",
+	}
+}
+
+// GetMappingMyRequestStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMyRequestStatusEnum(val string) (MyRequestStatusEnum, bool) {
+	enum, ok := mappingMyRequestStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// MyRequestActionEnum Enum with underlying type: string
+type MyRequestActionEnum string
+
+// Set of constants representing the allowable values for MyRequestActionEnum
+const (
+	MyRequestActionCancel   MyRequestActionEnum = "CANCEL"
+	MyRequestActionEscalate MyRequestActionEnum = "ESCALATE"
+)
+
+var mappingMyRequestActionEnum = map[string]MyRequestActionEnum{
+	"CANCEL":   MyRequestActionCancel,
+	"ESCALATE": MyRequestActionEscalate,
+}
+
+var mappingMyRequestActionEnumLowerCase = map[string]MyRequestActionEnum{
+	"cancel":   MyRequestActionCancel,
+	"escalate": MyRequestActionEscalate,
+}
+
+// GetMyRequestActionEnumValues Enumerates the set of values for MyRequestActionEnum
+func GetMyRequestActionEnumValues() []MyRequestActionEnum {
+	values := make([]MyRequestActionEnum, 0)
+	for _, v := range mappingMyRequestActionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetMyRequestActionEnumStringValues Enumerates the set of values in String for MyRequestActionEnum
+func GetMyRequestActionEnumStringValues() []string {
+	return []string{
+		"CANCEL",
+		"ESCALATE",
+	}
+}
+
+// GetMappingMyRequestActionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingMyRequestActionEnum(val string) (MyRequestActionEnum, bool) {
+	enum, ok := mappingMyRequestActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -59,6 +59,17 @@ type SecretSummary struct {
 
 	RotationConfig *RotationConfig `mandatory:"false" json:"rotationConfig"`
 
+	// Additional information about the status of the secret rotation
+	RotationStatus SecretRotationStatusEnum `mandatory:"false" json:"rotationStatus,omitempty"`
+
+	// A property indicating when the secret was last rotated successfully, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-04-03T21:10:29.600Z`
+	LastRotationTime *common.SDKTime `mandatory:"false" json:"lastRotationTime"`
+
+	// A property indicating when the secret is scheduled to be rotated, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-04-03T21:10:29.600Z`
+	NextRotationTime *common.SDKTime `mandatory:"false" json:"nextRotationTime"`
+
 	// An optional property indicating when the current secret version will expire, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2019-04-03T21:10:29.600Z`
 	TimeOfCurrentVersionExpiry *common.SDKTime `mandatory:"false" json:"timeOfCurrentVersionExpiry"`
@@ -86,6 +97,9 @@ func (m SecretSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecretSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSecretRotationStatusEnum(string(m.RotationStatus)); !ok && m.RotationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RotationStatus: %s. Supported values are: %s.", m.RotationStatus, strings.Join(GetSecretRotationStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -101,6 +115,9 @@ func (m *SecretSummary) UnmarshalJSON(data []byte) (e error) {
 		KeyId                      *string                           `json:"keyId"`
 		LifecycleDetails           *string                           `json:"lifecycleDetails"`
 		RotationConfig             *RotationConfig                   `json:"rotationConfig"`
+		RotationStatus             SecretRotationStatusEnum          `json:"rotationStatus"`
+		LastRotationTime           *common.SDKTime                   `json:"lastRotationTime"`
+		NextRotationTime           *common.SDKTime                   `json:"nextRotationTime"`
 		TimeOfCurrentVersionExpiry *common.SDKTime                   `json:"timeOfCurrentVersionExpiry"`
 		TimeOfDeletion             *common.SDKTime                   `json:"timeOfDeletion"`
 		SecretGenerationContext    secretgenerationcontext           `json:"secretGenerationContext"`
@@ -129,6 +146,12 @@ func (m *SecretSummary) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.RotationConfig = model.RotationConfig
+
+	m.RotationStatus = model.RotationStatus
+
+	m.LastRotationTime = model.LastRotationTime
+
+	m.NextRotationTime = model.NextRotationTime
 
 	m.TimeOfCurrentVersionExpiry = model.TimeOfCurrentVersionExpiry
 

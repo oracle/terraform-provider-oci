@@ -20,13 +20,13 @@ import (
 type RotationConfig struct {
 	TargetSystemDetails TargetSystemDetails `mandatory:"true" json:"targetSystemDetails"`
 
-	// Enables auto rotation, when set to true rotationInterval must be set.
-	IsScheduledRotationEnabled *bool `mandatory:"true" json:"isScheduledRotationEnabled"`
-
 	// The time interval that indicates the frequency for rotating secret data, as described in ISO 8601 format.
-	// The minimum value is zero days and maximum value is 720 days.
+	// The minimum value is 1 day and maximum value is 360 days.
 	// For example, if you want to set the time interval for rotating a secret data as 30 days, the duration is expressed as “P30D.”
 	RotationInterval *string `mandatory:"false" json:"rotationInterval"`
+
+	// Enables auto rotation, when set to true rotationInterval must be set.
+	IsScheduledRotationEnabled *bool `mandatory:"false" json:"isScheduledRotationEnabled"`
 }
 
 func (m RotationConfig) String() string {
@@ -49,8 +49,8 @@ func (m RotationConfig) ValidateEnumValue() (bool, error) {
 func (m *RotationConfig) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		RotationInterval           *string             `json:"rotationInterval"`
-		TargetSystemDetails        targetsystemdetails `json:"targetSystemDetails"`
 		IsScheduledRotationEnabled *bool               `json:"isScheduledRotationEnabled"`
+		TargetSystemDetails        targetsystemdetails `json:"targetSystemDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -59,6 +59,8 @@ func (m *RotationConfig) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.RotationInterval = model.RotationInterval
+
+	m.IsScheduledRotationEnabled = model.IsScheduledRotationEnabled
 
 	nn, e = model.TargetSystemDetails.UnmarshalPolymorphicJSON(model.TargetSystemDetails.JsonData)
 	if e != nil {
@@ -69,8 +71,6 @@ func (m *RotationConfig) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.TargetSystemDetails = nil
 	}
-
-	m.IsScheduledRotationEnabled = model.IsScheduledRotationEnabled
 
 	return
 }

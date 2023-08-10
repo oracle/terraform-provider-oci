@@ -21,16 +21,6 @@ type AdbTargetSystemDetails struct {
 
 	// The unique identifier (OCID) for the autonomous database that Vault Secret connects to.
 	AdbId *string `mandatory:"true" json:"adbId"`
-
-	// The compartment OCID for the target system that Secret Management connects to.
-	// This is required for resource principal authentication.
-	// If not specified, the secret compartment will be taken as resource compartment as well.
-	ResourceCompartmentId *string `mandatory:"false" json:"resourceCompartmentId"`
-}
-
-//GetResourceCompartmentId returns ResourceCompartmentId
-func (m AdbTargetSystemDetails) GetResourceCompartmentId() *string {
-	return m.ResourceCompartmentId
 }
 
 func (m AdbTargetSystemDetails) String() string {

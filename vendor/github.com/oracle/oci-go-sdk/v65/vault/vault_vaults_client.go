@@ -535,6 +535,65 @@ func (client VaultsClient) listSecrets(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
+// RotateSecret API to force rotation of an existing secret in Vault and the specified target system; expects secret to have a valid Target System Details object
+// A default retry strategy applies to this operation RotateSecret()
+func (client VaultsClient) RotateSecret(ctx context.Context, request RotateSecretRequest) (response RotateSecretResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rotateSecret, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RotateSecretResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RotateSecretResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RotateSecretResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RotateSecretResponse")
+	}
+	return
+}
+
+// rotateSecret implements the OCIOperation interface (enables retrying operations)
+func (client VaultsClient) rotateSecret(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/actions/rotate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RotateSecretResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/Secret/RotateSecret"
+		err = common.PostProcessServiceError(err, "Vaults", "RotateSecret", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ScheduleSecretDeletion Schedules the deletion of the specified secret. This sets the lifecycle state of the secret
 // to `PENDING_DELETION` and then deletes it after the specified retention period ends.
 func (client VaultsClient) ScheduleSecretDeletion(ctx context.Context, request ScheduleSecretDeletionRequest) (response ScheduleSecretDeletionResponse, err error) {

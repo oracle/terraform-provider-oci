@@ -10,39 +10,45 @@
 package vault
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// RotateSecretDetails Details of the secret to be rotated by the Secrets in Vault Service
-type RotateSecretDetails struct {
+// FunctionTargetSystemDetails Details of the OCI function that vault secret connects to.
+type FunctionTargetSystemDetails struct {
 
-	// The OCID of the Vault in which the secret exists.
-	VaultId *string `mandatory:"false" json:"vaultId"`
-
-	// The OCID of the secret.
-	SecretId *string `mandatory:"false" json:"secretId"`
-
-	// The OCID of the compartment where you want to create the secret.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
-
-	// The user-friendly name of the secret. Avoid entering confidential information.
-	SecretName *string `mandatory:"false" json:"secretName"`
+	// The unique identifier (OCID) of the OCI Functions that vault secret connects to.
+	FunctionId *string `mandatory:"true" json:"functionId"`
 }
 
-func (m RotateSecretDetails) String() string {
+func (m FunctionTargetSystemDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m RotateSecretDetails) ValidateEnumValue() (bool, error) {
+func (m FunctionTargetSystemDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m FunctionTargetSystemDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeFunctionTargetSystemDetails FunctionTargetSystemDetails
+	s := struct {
+		DiscriminatorParam string `json:"targetSystemType"`
+		MarshalTypeFunctionTargetSystemDetails
+	}{
+		"FUNCTION",
+		(MarshalTypeFunctionTargetSystemDetails)(m),
+	}
+
+	return json.Marshal(&s)
 }

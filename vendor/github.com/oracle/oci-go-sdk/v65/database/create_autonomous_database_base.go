@@ -90,7 +90,8 @@ type CreateAutonomousDatabaseBase interface {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	GetVaultId() *string
 
-	// **Important** The `adminPassword` must be specified for all Autonomous Databases except for refreshable clones. The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
+	// **Important** The `adminPassword` or `secretId` must be specified for all Autonomous Databases except for refreshable clones. The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
+	// This cannot be used in conjunction with with OCI vault secrets (secretId).
 	GetAdminPassword() *string
 
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
@@ -237,6 +238,7 @@ type CreateAutonomousDatabaseBase interface {
 	GetDbToolsDetails() []DatabaseTool
 
 	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+	// This cannot be used in conjunction with adminPassword.
 	GetSecretId() *string
 
 	// The version of the vault secret. If no version is specified, the latest version will be used.

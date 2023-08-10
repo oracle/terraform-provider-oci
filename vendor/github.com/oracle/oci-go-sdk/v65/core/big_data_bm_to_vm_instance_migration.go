@@ -77,6 +77,15 @@ type BigDataBmToVmInstanceMigration struct {
 	// The combined size of the `metadata` and `extendedMetadata` objects can be a maximum of
 	// 32,000 bytes.
 	TargetExtendedMetadata map[string]interface{} `mandatory:"false" json:"targetExtendedMetadata"`
+
+	// The time at which the BigDataBmToVmInstanceMigration requested.
+	TimeRequested *common.SDKTime `mandatory:"false" json:"timeRequested"`
+
+	// The time at which the BigDataBmToVmInstanceMigration started.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// The time at which the BigDataBmToVmInstanceMigration completed.
+	TimeCompleted *common.SDKTime `mandatory:"false" json:"timeCompleted"`
 }
 
 func (m BigDataBmToVmInstanceMigration) String() string {

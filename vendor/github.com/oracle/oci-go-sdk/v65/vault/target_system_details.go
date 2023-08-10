@@ -18,17 +18,11 @@ import (
 
 // TargetSystemDetails The TargetSystemDetails provides the targetSystem type and type-specific connection metadata
 type TargetSystemDetails interface {
-
-	// The compartment OCID for the target system that Secret Management connects to.
-	// This is required for resource principal authentication.
-	// If not specified, the secret compartment will be taken as resource compartment as well.
-	GetResourceCompartmentId() *string
 }
 
 type targetsystemdetails struct {
-	JsonData              []byte
-	ResourceCompartmentId *string `mandatory:"false" json:"resourceCompartmentId"`
-	TargetSystemType      string  `json:"targetSystemType"`
+	JsonData         []byte
+	TargetSystemType string `json:"targetSystemType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -42,7 +36,6 @@ func (m *targetsystemdetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.ResourceCompartmentId = s.Model.ResourceCompartmentId
 	m.TargetSystemType = s.Model.TargetSystemType
 
 	return err
@@ -61,15 +54,14 @@ func (m *targetsystemdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := AdbTargetSystemDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "FUNCTION":
+		mm := FunctionTargetSystemDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for TargetSystemDetails: %s.", m.TargetSystemType)
 		return *m, nil
 	}
-}
-
-//GetResourceCompartmentId returns ResourceCompartmentId
-func (m targetsystemdetails) GetResourceCompartmentId() *string {
-	return m.ResourceCompartmentId
 }
 
 func (m targetsystemdetails) String() string {
@@ -93,18 +85,18 @@ type TargetSystemDetailsTargetSystemTypeEnum string
 
 // Set of constants representing the allowable values for TargetSystemDetailsTargetSystemTypeEnum
 const (
-	TargetSystemDetailsTargetSystemTypeId  TargetSystemDetailsTargetSystemTypeEnum = "ID"
-	TargetSystemDetailsTargetSystemTypeAdb TargetSystemDetailsTargetSystemTypeEnum = "ADB"
+	TargetSystemDetailsTargetSystemTypeAdb      TargetSystemDetailsTargetSystemTypeEnum = "ADB"
+	TargetSystemDetailsTargetSystemTypeFunction TargetSystemDetailsTargetSystemTypeEnum = "FUNCTION"
 )
 
 var mappingTargetSystemDetailsTargetSystemTypeEnum = map[string]TargetSystemDetailsTargetSystemTypeEnum{
-	"ID":  TargetSystemDetailsTargetSystemTypeId,
-	"ADB": TargetSystemDetailsTargetSystemTypeAdb,
+	"ADB":      TargetSystemDetailsTargetSystemTypeAdb,
+	"FUNCTION": TargetSystemDetailsTargetSystemTypeFunction,
 }
 
 var mappingTargetSystemDetailsTargetSystemTypeEnumLowerCase = map[string]TargetSystemDetailsTargetSystemTypeEnum{
-	"id":  TargetSystemDetailsTargetSystemTypeId,
-	"adb": TargetSystemDetailsTargetSystemTypeAdb,
+	"adb":      TargetSystemDetailsTargetSystemTypeAdb,
+	"function": TargetSystemDetailsTargetSystemTypeFunction,
 }
 
 // GetTargetSystemDetailsTargetSystemTypeEnumValues Enumerates the set of values for TargetSystemDetailsTargetSystemTypeEnum
@@ -119,8 +111,8 @@ func GetTargetSystemDetailsTargetSystemTypeEnumValues() []TargetSystemDetailsTar
 // GetTargetSystemDetailsTargetSystemTypeEnumStringValues Enumerates the set of values in String for TargetSystemDetailsTargetSystemTypeEnum
 func GetTargetSystemDetailsTargetSystemTypeEnumStringValues() []string {
 	return []string{
-		"ID",
 		"ADB",
+		"FUNCTION",
 	}
 }
 

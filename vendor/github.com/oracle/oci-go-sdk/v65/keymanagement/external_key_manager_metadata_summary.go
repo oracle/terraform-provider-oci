@@ -24,6 +24,7 @@ type ExternalKeyManagerMetadataSummary struct {
 	// OCID of the private endpoint.
 	PrivateEndpointId *string `mandatory:"true" json:"privateEndpointId"`
 
+	// Vendor of the external key manager.
 	Vendor *string `mandatory:"false" json:"vendor"`
 
 	OauthMetadataSummary *OauthMetadataSummary `mandatory:"false" json:"oauthMetadataSummary"`
