@@ -66,14 +66,14 @@ The following arguments are supported:
 
 		A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
 
-		Cannot be an IPv6 CIDR.
+		Cannot be an IPv6 prefix.
 
 		Example: `0.0.0.0/0` 
 	* `description` - (Optional) (Updatable) An optional description of your choice for the rule. 
 	* `destination` - (Optional) (Updatable) Conceptually, this is the range of IP addresses used for matching when routing traffic. Required if you provide a `destinationType`.
 
 		Allowed values:
-		* IP address range in CIDR notation. Can be an IPv4 or IPv6 CIDR. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. If you set this to an IPv6 CIDR, the route rule's target can only be a DRG or internet gateway. IPv6 addressing is supported for all commercial and government regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+		* IP address range in CIDR notation. Can be an IPv4 CIDR block or IPv6 prefix. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. If you set this to an IPv6 prefix, the route rule's target can only be a DRG or internet gateway. IPv6 addressing is supported for all commercial and government regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/), if you're setting up a route rule for traffic destined for a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`. 
 	* `destination_type` - (Optional) (Updatable) Type of destination for the rule. Required if you provide a `destination`.
 		* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
@@ -100,14 +100,14 @@ The following attributes are exported:
 
 		A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
 
-		Cannot be an IPv6 CIDR.
+		Cannot be an IPv6 prefix.
 
 		Example: `0.0.0.0/0` 
 	* `description` - An optional description of your choice for the rule. 
 	* `destination` - Conceptually, this is the range of IP addresses used for matching when routing traffic. Required if you provide a `destinationType`.
 
 		Allowed values:
-		* IP address range in CIDR notation. Can be an IPv4 or IPv6 CIDR. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. If you set this to an IPv6 CIDR, the route rule's target can only be a DRG or internet gateway. IPv6 addressing is supported for all commercial and government regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+		* IP address range in CIDR notation. Can be an IPv4 CIDR block or IPv6 prefix. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. If you set this to an IPv6 prefix, the route rule's target can only be a DRG or internet gateway. IPv6 addressing is supported for all commercial and government regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/), if you're setting up a route rule for traffic destined for a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`. 
 	* `destination_type` - Type of destination for the rule. Required if you provide a `destination`.
 		* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.

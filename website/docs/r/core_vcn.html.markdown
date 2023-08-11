@@ -80,9 +80,9 @@ resource "oci_core_vcn" "test_vcn" {
 
 The following arguments are supported:
 
-* `byoipv6cidr_details` - (Optional) The list of BYOIPv6 OCIDs and BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges. 
+* `byoipv6cidr_details` - (Optional) The list of BYOIPv6 OCIDs and BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 address ranges. 
 	* `byoipv6range_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource to which the CIDR block belongs.
-	* `ipv6cidr_block` - (Required) An IPv6 CIDR block required to create a VCN with a BYOIP prefix. It could be the whole CIDR block identified in `byoipv6RangeId`, or a subrange. Example: `2001:0db8:0123::/48` 
+	* `ipv6cidr_block` - (Required) An IPv6 prefix required to create a VCN with a BYOIP prefix. It could be the whole prefix identified in `byoipv6RangeId`, or a subrange. Example: `2001:0db8:0123::/48` 
 * `cidr_block` - (Optional) **Deprecated.** Do *not* set this value. Use `cidrBlocks` instead. Example: `10.0.0.0/16` 
 * `cidr_blocks` - (Optional) (Updatable) The list of one or more IPv4 CIDR blocks for the VCN that meet the following criteria:
 	* The CIDR blocks must be valid.
@@ -101,8 +101,8 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `ipv6private_cidr_blocks` - (Optional) The list of one or more ULA or Private IPv6 CIDR blocks for the vcn that meets the following criteria:
 	* The CIDR blocks must be valid.
-	* Multiple CIDR blocks must not overlap each other or the on-premises network CIDR block.
-	* The number of CIDR blocks must not exceed the limit of IPv6 CIDR blocks allowed to a vcn.
+	* Multiple CIDR blocks must not overlap each other or the on-premises network prefix.
+	* The number of CIDR blocks must not exceed the limit of IPv6 prefixes allowed to a VCN.
 
 	**Important:** Do *not* specify a value for `ipv6CidrBlock`. Use this parameter instead. 
 * `is_ipv6enabled` - (Optional) Whether IPv6 is enabled for the VCN. Default is `false`. If enabled, Oracle will assign the VCN a IPv6 /56 CIDR block. You may skip having Oracle allocate the VCN a IPv6 /56 CIDR block by setting isOracleGuaAllocationEnabled to `false`. For important details about IPv6 addressing in a VCN, see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).  Example: `true` 
@@ -116,7 +116,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `byoipv6cidr_blocks` - The list of BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges. 
+* `byoipv6cidr_blocks` - The list of BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 ranges. 
 * `cidr_block` - Deprecated. The first CIDR IP address from cidrBlocks.  Example: `172.16.0.0/16` 
 * `cidr_blocks` - The list of IPv4 CIDR blocks the VCN will use. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the VCN.
@@ -134,8 +134,8 @@ The following attributes are exported:
 	Example: `vcn1` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The VCN's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
-* `ipv6cidr_blocks` - For an IPv6-enabled VCN, this is the list of IPv6 CIDR blocks for the VCN's IP address space. The CIDRs are provided by Oracle and the sizes are always /56. 
-* `ipv6private_cidr_blocks` - For an IPv6-enabled VCN, this is the list of Private IPv6 CIDR blocks for the VCN's IP address space. 
+* `ipv6cidr_blocks` - For an IPv6-enabled VCN, this is the list of IPv6 prefixes for the VCN's IP address space. The prefixes are provided by Oracle and the sizes are always /56. 
+* `ipv6private_cidr_blocks` - For an IPv6-enabled VCN, this is the list of Private IPv6 prefixes for the VCN's IP address space. 
 * `state` - The VCN's current state.
 * `time_created` - The date and time the VCN was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_domain_name` - The VCN's domain name, which consists of the VCN's DNS label, and the `oraclevcn.com` domain.

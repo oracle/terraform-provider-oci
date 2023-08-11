@@ -10,8 +10,17 @@ description: |-
 # oci_core_cluster_network
 This resource provides the Cluster Network resource in Oracle Cloud Infrastructure Core service.
 
-Creates a cluster network. For more information about cluster networks, see
-[Managing Cluster Networks](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+Creates a [cluster network with instance pools](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+A cluster network is a group of high performance computing (HPC), GPU, or optimized bare metal
+instances that are connected with an ultra low-latency remote direct memory access (RDMA) network.
+Cluster networks with instance pools use instance pools to manage groups of identical instances.
+
+Use cluster networks with instance pools when you want predictable capacity for a specific number of identical
+instances that are managed as a group.
+
+If you want to manage instances in the RDMA network independently of each other or use different types of instances
+in the network group, create a compute cluster by using the [CreateComputeCluster](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ComputeCluster/CreateComputeCluster)
+operation.
 
 To determine whether capacity is available for a specific shape before you create a cluster network,
 use the [CreateComputeCapacityReport](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ComputeCapacityReport/CreateComputeCapacityReport)
@@ -50,6 +59,13 @@ resource "oci_core_cluster_network" "test_cluster_network" {
 	}
 
 	#Optional
+	cluster_configuration {
+		#Required
+		hpc_island_id = oci_core_hpc_island.test_hpc_island.id
+
+		#Optional
+		network_block_ids = var.cluster_network_cluster_configuration_network_block_ids
+	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.cluster_network_display_name
 	freeform_tags = {"Department"= "Finance"}
@@ -60,6 +76,11 @@ resource "oci_core_cluster_network" "test_cluster_network" {
 
 The following arguments are supported:
 
+* `cluster_configuration` - (Optional) The HPC cluster configuration requested when launching instances of a cluster network.
+
+	If the parameter is provided, instances will only be placed within the HPC island and list of network blocks  that you specify. If a list of network blocks are missing or not provided, the instances will be placed in any  HPC blocks in the HPC island that you specify. If the values of HPC island or network block that you provide are  not valid, an error is returned. 
+	* `hpc_island_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HPC island. 
+	* `network_block_ids` - (Optional) The list of network block OCIDs.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the cluster network. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -92,7 +113,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `hpc_island_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the hpc island used by the cluster network.
+* `hpc_island_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HPC island used by the cluster network.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster network.
 * `instance_pools` - The instance pools in the cluster network.
 
@@ -122,7 +143,7 @@ The following attributes are exported:
 			To get a list of fault domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
 
 			Example: `[FAULT-DOMAIN-1, FAULT-DOMAIN-2, FAULT-DOMAIN-3]` 
-		* `primary_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. 
+		* `primary_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet in which to place instances. 
 		* `secondary_vnic_subnets` - The set of secondary VNIC data for instances in the pool.
 			* `display_name` - The display name of the VNIC. This is also used to match against the instance configuration defined secondary VNIC. 
 			* `subnet_id` - The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
