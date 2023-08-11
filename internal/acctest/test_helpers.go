@@ -504,8 +504,8 @@ func GenericTestStepPreConfiguration(steps []resource.TestStep, stepNumber int, 
 }
 
 /*
-	This struct extends the HashiCorp plugin framework testing.T
-	It adds a slice to store all error messages encountered during test execution
+This struct extends the HashiCorp plugin framework testing.T
+It adds a slice to store all error messages encountered during test execution
 */
 type OciTestT struct {
 	T             *testing.T
