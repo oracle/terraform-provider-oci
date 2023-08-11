@@ -58,10 +58,10 @@ type OboTokenProvider interface {
 	OboToken() (string, error)
 }
 
-//EmptyOboTokenProvider always provides an empty obo token
+// EmptyOboTokenProvider always provides an empty obo token
 type emptyOboTokenProvider struct{}
 
-//OboToken provides the obo token
+// OboToken provides the obo token
 func (provider emptyOboTokenProvider) OboToken() (string, error) {
 	return "", nil
 }

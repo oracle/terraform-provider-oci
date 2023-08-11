@@ -97,47 +97,47 @@ type customVolumeAttachment struct {
 	state         oci_core.VolumeAttachmentLifecycleStateEnum
 }
 
-//GetAvailabilityDomain returns AvailabilityDomain
+// GetAvailabilityDomain returns AvailabilityDomain
 func (m customVolumeAttachment) GetAvailabilityDomain() *string {
 	return &m.ad
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m customVolumeAttachment) GetCompartmentId() *string {
 	return &m.compartmentId
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m customVolumeAttachment) GetId() *string {
 	return &m.id
 }
 
-//GetInstanceId returns InstanceId
+// GetInstanceId returns InstanceId
 func (m customVolumeAttachment) GetInstanceId() *string {
 	return &m.instanceId
 }
 
-//GetIsReadOnly returns IsReadOnly
+// GetIsReadOnly returns IsReadOnly
 func (m customVolumeAttachment) GetIsReadOnly() *bool {
 	return &m.isReadOnly
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m customVolumeAttachment) GetLifecycleState() oci_core.VolumeAttachmentLifecycleStateEnum {
 	return m.state
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m customVolumeAttachment) GetTimeCreated() *common.SDKTime {
 	return &m.timeCreated
 }
 
-//GetVolumeId returns VolumeId
+// GetVolumeId returns VolumeId
 func (m customVolumeAttachment) GetVolumeId() *string {
 	return &m.volumeId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m customVolumeAttachment) GetDisplayName() *string {
 	return &m.displayName
 }

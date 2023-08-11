@@ -72,7 +72,9 @@ type InterpolationString struct {
 	Value             string
 }
 
-/*  ctxLock is the common lock for the whole struct
+/*
+	ctxLock is the common lock for the whole struct
+
 WARN: Make sure NOT to pass ResourceDiscoveryContext as value,
 as that would copy the struct and locks should not be copied
 */
