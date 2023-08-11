@@ -183,6 +183,13 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
       sub_path     = "/subPath"
     }
     working_directory = "/mnt"
+    security_context {
+      security_context_type          = "LINUX"
+      is_non_root_user_check_enabled = false
+      is_root_file_system_readonly   = true
+      run_as_group                   = 10
+      run_as_user                    = 10
+    }
   }
   shape = "CI.Standard.E4.Flex"
   shape_config {
