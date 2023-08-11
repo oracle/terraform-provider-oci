@@ -51,4 +51,5 @@ The following attributes are exported:
 	* `ogg_version` - Version of OGG 
 	* `release_type` - The type of release. 
 	* `time_released` - The time the resource was released. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+	* `time_supported_until` - The time until OGG version is supported. After this date has passed OGG version will not be available anymore. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 

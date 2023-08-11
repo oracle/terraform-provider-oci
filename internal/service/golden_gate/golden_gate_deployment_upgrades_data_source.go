@@ -83,6 +83,14 @@ func GoldenGateDeploymentUpgradesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_cancel_allowed": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_reschedule_allowed": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"is_rollback_allowed": {
 										Type:     schema.TypeBool,
 										Computed: true,
@@ -132,11 +140,19 @@ func GoldenGateDeploymentUpgradesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"time_ogg_version_supported_until": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"time_released": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"time_schedule": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_schedule_max": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -284,6 +300,14 @@ func DeploymentUpgradeSummaryToMap(obj oci_golden_gate.DeploymentUpgradeSummary)
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsCancelAllowed != nil {
+		result["is_cancel_allowed"] = bool(*obj.IsCancelAllowed)
+	}
+
+	if obj.IsRescheduleAllowed != nil {
+		result["is_reschedule_allowed"] = bool(*obj.IsRescheduleAllowed)
+	}
+
 	if obj.IsRollbackAllowed != nil {
 		result["is_rollback_allowed"] = bool(*obj.IsRollbackAllowed)
 	}
@@ -326,12 +350,20 @@ func DeploymentUpgradeSummaryToMap(obj oci_golden_gate.DeploymentUpgradeSummary)
 		result["time_finished"] = obj.TimeFinished.String()
 	}
 
+	if obj.TimeOggVersionSupportedUntil != nil {
+		result["time_ogg_version_supported_until"] = obj.TimeOggVersionSupportedUntil.String()
+	}
+
 	if obj.TimeReleased != nil {
 		result["time_released"] = obj.TimeReleased.String()
 	}
 
 	if obj.TimeSchedule != nil {
 		result["time_schedule"] = obj.TimeSchedule.String()
+	}
+
+	if obj.TimeScheduleMax != nil {
+		result["time_schedule_max"] = obj.TimeScheduleMax.String()
 	}
 
 	if obj.TimeSnoozedUntil != nil {
