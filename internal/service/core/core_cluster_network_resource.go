@@ -205,8 +205,13 @@ func CoreClusterNetworkResource() *schema.Resource {
 							Required: true,
 							ForceNew: true,
 						},
-
 						// Optional
+						"placement_constraint": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"secondary_vnic_subnets": {
 							Type:     schema.TypeSet,
 							Optional: true,
@@ -241,6 +246,37 @@ func CoreClusterNetworkResource() *schema.Resource {
 			},
 
 			// Optional
+			"cluster_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"hpc_island_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"network_block_ids": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -360,6 +396,17 @@ func (s *CoreClusterNetworkResourceCrud) DeletedTarget() []string {
 
 func (s *CoreClusterNetworkResourceCrud) Create() error {
 	request := oci_core.CreateClusterNetworkRequest{}
+
+	if clusterConfiguration, ok := s.D.GetOkExists("cluster_configuration"); ok {
+		if tmpList := clusterConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cluster_configuration", 0)
+			tmp, err := s.mapToClusterConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ClusterConfiguration = &tmp
+		}
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -558,6 +605,42 @@ func (s *CoreClusterNetworkResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *CoreClusterNetworkResourceCrud) mapToClusterConfigurationDetails(fieldKeyFormat string) (oci_core.ClusterConfigurationDetails, error) {
+	result := oci_core.ClusterConfigurationDetails{}
+
+	if hpcIslandId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hpc_island_id")); ok {
+		tmp := hpcIslandId.(string)
+		result.HpcIslandId = &tmp
+	}
+
+	if networkBlockIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_block_ids")); ok {
+		interfaces := networkBlockIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "network_block_ids")) {
+			result.NetworkBlockIds = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ClusterConfigurationDetailsToMap(obj *oci_core.ClusterConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.HpcIslandId != nil {
+		result["hpc_island_id"] = string(*obj.HpcIslandId)
+	}
+
+	result["network_block_ids"] = obj.NetworkBlockIds
+
+	return result
+}
+
 func (s *CoreClusterNetworkResourceCrud) mapToClusterNetworkPlacementConfigurationDetails(fieldKeyFormat string) (oci_core.ClusterNetworkPlacementConfigurationDetails, error) {
 	result := oci_core.ClusterNetworkPlacementConfigurationDetails{}
 
@@ -568,6 +651,9 @@ func (s *CoreClusterNetworkResourceCrud) mapToClusterNetworkPlacementConfigurati
 	if primarySubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_subnet_id")); ok {
 		tmp := primarySubnetId.(string)
 		result.PrimarySubnetId = &tmp
+	}
+	if placementConstraint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_constraint")); ok {
+		result.PlacementConstraint = oci_core.ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum(placementConstraint.(string))
 	}
 
 	if secondaryVnicSubnets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secondary_vnic_subnets")); ok {
@@ -600,6 +686,7 @@ func ClusterNetworkPlacementConfigurationDetailsToMap(obj *oci_core.ClusterNetwo
 	if obj.PrimarySubnetId != nil {
 		result["primary_subnet_id"] = string(*obj.PrimarySubnetId)
 	}
+	result["placement_constraint"] = string(obj.PlacementConstraint)
 
 	secondaryVnicSubnets := []interface{}{}
 	for _, item := range obj.SecondaryVnicSubnets {
