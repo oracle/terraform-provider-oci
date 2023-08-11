@@ -438,7 +438,7 @@ resource "oci_core_volume" "test_volume" {
 `
 )
 
-//  issue-routing-tag: ocvp/default
+// issue-routing-tag: ocvp/default
 func TestOcvpSddcResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestOcvpSddcResource_basic")
 	defer httpreplay.SaveScenario()

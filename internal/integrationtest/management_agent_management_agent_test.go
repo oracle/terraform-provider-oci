@@ -51,7 +51,7 @@ var (
 )
 
 // issue-routing-tag: management_agent/default
-//This test can only be run against production where RQS scope is not in staging mode. this will fail in dev environments
+// This test can only be run against production where RQS scope is not in staging mode. this will fail in dev environments
 func TestManagementAgentManagementAgentResource_dataInSubcompartment(t *testing.T) {
 	httpreplay.SetScenario("TestManagementAgentManagementAgentResource_dataInSubcompartment")
 	defer httpreplay.SaveScenario()

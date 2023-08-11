@@ -24,11 +24,12 @@ import (
 
 /*
 Note:
- This tests creates a connection assignment, and requires an existing deployment and connection which is assignable to the deployment.
- Required environment variables:
-  - TF_VAR_compartment_id - defines where to create the assignment
-  - TF_VAR_deployment_id - deployment which we would like to assign connection to
-  - TF_VAR_connection_id - connection for assign
+
+	This tests creates a connection assignment, and requires an existing deployment and connection which is assignable to the deployment.
+	Required environment variables:
+	 - TF_VAR_compartment_id - defines where to create the assignment
+	 - TF_VAR_deployment_id - deployment which we would like to assign connection to
+	 - TF_VAR_connection_id - connection for assign
 */
 var (
 	GoldenGateConnectionAssignmentRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection_assignment", "test_connection_assignment", acctest.Optional, acctest.Create, GoldenGateConnectionAssignmentRepresentation)

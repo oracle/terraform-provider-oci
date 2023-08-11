@@ -469,7 +469,7 @@ func DataLabelingServicedatasetsSweepResponseFetchOperation(client *tf_client.Or
 	return err
 }
 
-//Function to get ObjectStorage Namespace
+// Function to get ObjectStorage Namespace
 func getobjectstoragenamespace(compartmentId string) string {
 	compartment := compartmentId
 	objectStorageClient := acctest.GetTestClients(&schema.ResourceData{}).ObjectStorageClient()
