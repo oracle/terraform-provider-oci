@@ -137,6 +137,12 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
 
+	if s.Res.MaintenanceConfiguration != nil {
+		s.D.Set("maintenance_configuration", []interface{}{MaintenanceConfigurationToMap(s.Res.MaintenanceConfiguration)})
+	} else {
+		s.D.Set("maintenance_configuration", nil)
+	}
+
 	if s.Res.MaintenanceWindow != nil {
 		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
 	} else {
@@ -185,6 +191,10 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	if s.Res.TimeOfNextMaintenance != nil {
 		s.D.Set("time_of_next_maintenance", s.Res.TimeOfNextMaintenance.String())
+	}
+
+	if s.Res.TimeOggVersionSupportedUntil != nil {
+		s.D.Set("time_ogg_version_supported_until", s.Res.TimeOggVersionSupportedUntil.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

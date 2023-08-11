@@ -104,6 +104,47 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"maintenance_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"bundle_release_upgrade_period_in_days": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"interim_release_upgrade_period_in_days": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"is_interim_release_auto_upgrade_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"major_release_upgrade_period_in_days": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"security_patch_upgrade_period_in_days": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"maintenance_window": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -285,6 +326,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_of_next_maintenance": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_ogg_version_supported_until": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -523,6 +568,17 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_golden_gate.LicenseModelEnum(licenseModel.(string))
+	}
+
+	if maintenanceConfiguration, ok := s.D.GetOkExists("maintenance_configuration"); ok {
+		if tmpList := maintenanceConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_configuration", 0)
+			tmp, err := s.mapToCreateMaintenanceConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceConfiguration = &tmp
+		}
 	}
 
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
@@ -776,6 +832,17 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 		request.LicenseModel = oci_golden_gate.LicenseModelEnum(licenseModel.(string))
 	}
 
+	if maintenanceConfiguration, ok := s.D.GetOkExists("maintenance_configuration"); ok {
+		if tmpList := maintenanceConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_configuration", 0)
+			tmp, err := s.mapToUpdateMaintenanceConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceConfiguration = &tmp
+		}
+	}
+
 	if maintenanceWindow, ok := s.D.GetOkExists("maintenance_window"); ok {
 		if tmpList := maintenanceWindow.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window", 0)
@@ -919,6 +986,12 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 
 	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
 
+	if s.Res.MaintenanceConfiguration != nil {
+		s.D.Set("maintenance_configuration", []interface{}{MaintenanceConfigurationToMap(s.Res.MaintenanceConfiguration)})
+	} else {
+		s.D.Set("maintenance_configuration", nil)
+	}
+
 	if s.Res.MaintenanceWindow != nil {
 		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
 	} else {
@@ -973,6 +1046,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("time_of_next_maintenance", s.Res.TimeOfNextMaintenance.String())
 	}
 
+	if s.Res.TimeOggVersionSupportedUntil != nil {
+		s.D.Set("time_ogg_version_supported_until", s.Res.TimeOggVersionSupportedUntil.String())
+	}
+
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
@@ -982,6 +1059,94 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *GoldenGateDeploymentResourceCrud) mapToCreateMaintenanceConfigurationDetails(fieldKeyFormat string) (oci_golden_gate.CreateMaintenanceConfigurationDetails, error) {
+	result := oci_golden_gate.CreateMaintenanceConfigurationDetails{}
+
+	if bundleReleaseUpgradePeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bundle_release_upgrade_period_in_days")); ok {
+		tmp := bundleReleaseUpgradePeriodInDays.(int)
+		result.BundleReleaseUpgradePeriodInDays = &tmp
+	}
+
+	if interimReleaseUpgradePeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "interim_release_upgrade_period_in_days")); ok {
+		tmp := interimReleaseUpgradePeriodInDays.(int)
+		result.InterimReleaseUpgradePeriodInDays = &tmp
+	}
+
+	if isInterimReleaseAutoUpgradeEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_interim_release_auto_upgrade_enabled")); ok {
+		tmp := isInterimReleaseAutoUpgradeEnabled.(bool)
+		result.IsInterimReleaseAutoUpgradeEnabled = &tmp
+	}
+
+	if majorReleaseUpgradePeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "major_release_upgrade_period_in_days")); ok {
+		tmp := majorReleaseUpgradePeriodInDays.(int)
+		result.MajorReleaseUpgradePeriodInDays = &tmp
+	}
+
+	if securityPatchUpgradePeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_patch_upgrade_period_in_days")); ok {
+		tmp := securityPatchUpgradePeriodInDays.(int)
+		result.SecurityPatchUpgradePeriodInDays = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *GoldenGateDeploymentResourceCrud) mapToUpdateMaintenanceConfigurationDetails(fieldKeyFormat string) (oci_golden_gate.UpdateMaintenanceConfigurationDetails, error) {
+	result := oci_golden_gate.UpdateMaintenanceConfigurationDetails{}
+
+	if bundleReleaseUpgradePeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bundle_release_upgrade_period_in_days")); ok {
+		tmp := bundleReleaseUpgradePeriodInDays.(int)
+		result.BundleReleaseUpgradePeriodInDays = &tmp
+	}
+
+	if interimReleaseUpgradePeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "interim_release_upgrade_period_in_days")); ok {
+		tmp := interimReleaseUpgradePeriodInDays.(int)
+		result.InterimReleaseUpgradePeriodInDays = &tmp
+	}
+
+	if isInterimReleaseAutoUpgradeEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_interim_release_auto_upgrade_enabled")); ok {
+		tmp := isInterimReleaseAutoUpgradeEnabled.(bool)
+		result.IsInterimReleaseAutoUpgradeEnabled = &tmp
+	}
+
+	if majorReleaseUpgradePeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "major_release_upgrade_period_in_days")); ok {
+		tmp := majorReleaseUpgradePeriodInDays.(int)
+		result.MajorReleaseUpgradePeriodInDays = &tmp
+	}
+
+	if securityPatchUpgradePeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_patch_upgrade_period_in_days")); ok {
+		tmp := securityPatchUpgradePeriodInDays.(int)
+		result.SecurityPatchUpgradePeriodInDays = &tmp
+	}
+
+	return result, nil
+}
+
+func MaintenanceConfigurationToMap(obj *oci_golden_gate.MaintenanceConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BundleReleaseUpgradePeriodInDays != nil {
+		result["bundle_release_upgrade_period_in_days"] = int(*obj.BundleReleaseUpgradePeriodInDays)
+	}
+
+	if obj.InterimReleaseUpgradePeriodInDays != nil {
+		result["interim_release_upgrade_period_in_days"] = int(*obj.InterimReleaseUpgradePeriodInDays)
+	}
+
+	if obj.IsInterimReleaseAutoUpgradeEnabled != nil {
+		result["is_interim_release_auto_upgrade_enabled"] = bool(*obj.IsInterimReleaseAutoUpgradeEnabled)
+	}
+
+	if obj.MajorReleaseUpgradePeriodInDays != nil {
+		result["major_release_upgrade_period_in_days"] = int(*obj.MajorReleaseUpgradePeriodInDays)
+	}
+
+	if obj.SecurityPatchUpgradePeriodInDays != nil {
+		result["security_patch_upgrade_period_in_days"] = int(*obj.SecurityPatchUpgradePeriodInDays)
+	}
+
+	return result
 }
 
 func (s *GoldenGateDeploymentResourceCrud) mapToUpdateMaintenanceWindowDetails(fieldKeyFormat string) (oci_golden_gate.UpdateMaintenanceWindowDetails, error) {
@@ -1065,7 +1230,8 @@ func (s *GoldenGateDeploymentResourceCrud) mapToCreateOggDeploymentDetails(field
 func (s *GoldenGateDeploymentResourceCrud) mapToUpdateOggDeploymentDetails(fieldKeyFormat string) (oci_golden_gate.UpdateOggDeploymentDetails, error) {
 	result := oci_golden_gate.UpdateOggDeploymentDetails{}
 
-	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+	adminPasswordKeyFormat := fmt.Sprintf(fieldKeyFormat, "admin_password")
+	if adminPassword, ok := s.D.GetOk(adminPasswordKeyFormat); ok && s.D.HasChange(adminPasswordKeyFormat) {
 		tmp := adminPassword.(string)
 		result.AdminPassword = &tmp
 	}
@@ -1080,7 +1246,8 @@ func (s *GoldenGateDeploymentResourceCrud) mapToUpdateOggDeploymentDetails(field
 		result.Certificate = &tmp
 	}
 
-	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+	keyKeyFormat := fmt.Sprintf(fieldKeyFormat, "key")
+	if key, ok := s.D.GetOk(keyKeyFormat); ok && s.D.HasChange(keyKeyFormat) {
 		tmp := key.(string)
 		result.Key = &tmp
 	}
