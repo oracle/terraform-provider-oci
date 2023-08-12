@@ -113,8 +113,6 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
 						// Optional
 						"client_certificate_details": {
 							Type:     schema.TypeList,
@@ -191,6 +189,7 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"BROWSER_CONFIG",
+								"NETWORK_CONFIG",
 								"REST_CONFIG",
 								"SCRIPTED_BROWSER_CONFIG",
 								"SCRIPTED_REST_CONFIG",
@@ -1416,6 +1415,33 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 			details.IsFailureRetried = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("NETWORK_CONFIG"):
+		details := oci_apm_synthetics.NetworkMonitorConfiguration{}
+		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = &tmp
+			}
+		}
+		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
+			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
+				tmp, err := s.mapToDnsConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dns_configuration, encountered error: %v", err)
+				}
+				details.DnsConfiguration = &tmp
+			}
+		}
+		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
+			tmp := isFailureRetried.(bool)
+			details.IsFailureRetried = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("REST_CONFIG"):
 		details := oci_apm_synthetics.RestMonitorConfiguration{}
 		if clientCertificateDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_certificate_details")); ok {
@@ -1638,6 +1664,20 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 			verifyTexts = append(verifyTexts, VerifyTextToMap(item))
 		}
 		result["verify_texts"] = verifyTexts
+
+		if v.DnsConfiguration != nil {
+			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
+		}
+
+		if v.IsFailureRetried != nil {
+			result["is_failure_retried"] = bool(*v.IsFailureRetried)
+		}
+	case oci_apm_synthetics.NetworkMonitorConfiguration:
+		result["config_type"] = "NETWORK_CONFIG"
+
+		if v.NetworkConfiguration != nil {
+			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
+		}
 
 		if v.DnsConfiguration != nil {
 			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
