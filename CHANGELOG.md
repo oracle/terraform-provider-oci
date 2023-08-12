@@ -1,3 +1,11 @@
+## 5.9.0 (Unreleased)
+
+### Added
+- Support for Topology aware placement for cluster networks
+- Support for Container Security Context
+- Support for GoldenGate Maintenance R2
+upport for DIS Application APIs and fix bugs.
+
 ## 5.8.0 (August 09, 2023)
 
 ### Added
