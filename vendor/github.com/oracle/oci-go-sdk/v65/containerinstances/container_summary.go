@@ -10,6 +10,7 @@
 package containerinstances
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -72,6 +73,8 @@ type ContainerSummary struct {
 	// This method utilizes resource principal version 2.2. For information on how to use the exposed resource principal elements, see
 	// https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm#sdk_authentication_methods_resource_principal.
 	IsResourcePrincipalDisabled *bool `mandatory:"false" json:"isResourcePrincipalDisabled"`
+
+	SecurityContext SecurityContext `mandatory:"false" json:"securityContext"`
 }
 
 func (m ContainerSummary) String() string {
@@ -91,4 +94,76 @@ func (m ContainerSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ContainerSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		FreeformTags                map[string]string                 `json:"freeformTags"`
+		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                  map[string]map[string]interface{} `json:"systemTags"`
+		FaultDomain                 *string                           `json:"faultDomain"`
+		LifecycleDetails            *string                           `json:"lifecycleDetails"`
+		TimeUpdated                 *common.SDKTime                   `json:"timeUpdated"`
+		ResourceConfig              *ContainerResourceConfig          `json:"resourceConfig"`
+		IsResourcePrincipalDisabled *bool                             `json:"isResourcePrincipalDisabled"`
+		SecurityContext             securitycontext                   `json:"securityContext"`
+		Id                          *string                           `json:"id"`
+		DisplayName                 *string                           `json:"displayName"`
+		CompartmentId               *string                           `json:"compartmentId"`
+		AvailabilityDomain          *string                           `json:"availabilityDomain"`
+		LifecycleState              ContainerLifecycleStateEnum       `json:"lifecycleState"`
+		TimeCreated                 *common.SDKTime                   `json:"timeCreated"`
+		ContainerInstanceId         *string                           `json:"containerInstanceId"`
+		ImageUrl                    *string                           `json:"imageUrl"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.FaultDomain = model.FaultDomain
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.ResourceConfig = model.ResourceConfig
+
+	m.IsResourcePrincipalDisabled = model.IsResourcePrincipalDisabled
+
+	nn, e = model.SecurityContext.UnmarshalPolymorphicJSON(model.SecurityContext.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SecurityContext = nn.(SecurityContext)
+	} else {
+		m.SecurityContext = nil
+	}
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.LifecycleState = model.LifecycleState
+
+	m.TimeCreated = model.TimeCreated
+
+	m.ContainerInstanceId = model.ContainerInstanceId
+
+	m.ImageUrl = model.ImageUrl
+
+	return
 }

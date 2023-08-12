@@ -52,6 +52,8 @@ type CreateClusterNetworkDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	ClusterConfiguration *ClusterConfigurationDetails `mandatory:"false" json:"clusterConfiguration"`
 }
 
 func (m CreateClusterNetworkDetails) String() string {

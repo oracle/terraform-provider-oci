@@ -68,6 +68,8 @@ type CreateContainerDetails struct {
 	// There are three types of health checks that we currently support HTTP, TCP, and Command.
 	HealthChecks []CreateContainerHealthCheckDetails `mandatory:"false" json:"healthChecks"`
 
+	SecurityContext CreateSecurityContextDetails `mandatory:"false" json:"securityContext"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -105,6 +107,7 @@ func (m *CreateContainerDetails) UnmarshalJSON(data []byte) (e error) {
 		IsResourcePrincipalDisabled *bool                                 `json:"isResourcePrincipalDisabled"`
 		ResourceConfig              *CreateContainerResourceConfigDetails `json:"resourceConfig"`
 		HealthChecks                []createcontainerhealthcheckdetails   `json:"healthChecks"`
+		SecurityContext             createsecuritycontextdetails          `json:"securityContext"`
 		FreeformTags                map[string]string                     `json:"freeformTags"`
 		DefinedTags                 map[string]map[string]interface{}     `json:"definedTags"`
 		ImageUrl                    *string                               `json:"imageUrl"`
@@ -151,6 +154,16 @@ func (m *CreateContainerDetails) UnmarshalJSON(data []byte) (e error) {
 		} else {
 			m.HealthChecks[i] = nil
 		}
+	}
+
+	nn, e = model.SecurityContext.UnmarshalPolymorphicJSON(model.SecurityContext.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SecurityContext = nn.(CreateSecurityContextDetails)
+	} else {
+		m.SecurityContext = nil
 	}
 
 	m.FreeformTags = model.FreeformTags
