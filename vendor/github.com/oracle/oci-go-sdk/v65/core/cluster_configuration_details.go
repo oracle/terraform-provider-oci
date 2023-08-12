@@ -21,24 +21,28 @@ import (
 	"strings"
 )
 
-// AddSubnetIpv6CidrDetails Details used when adding an IPv6 prefix to a subnet.
-type AddSubnetIpv6CidrDetails struct {
+// ClusterConfigurationDetails The HPC cluster configuration requested when launching instances of a cluster network.
+// If the parameter is provided, instances will only be placed within the HPC island and list of network blocks
+// that you specify. If a list of network blocks are missing or not provided, the instances will be placed in any
+// HPC blocks in the HPC island that you specify. If the values of HPC island or network block that you provide are
+// not valid, an error is returned.
+type ClusterConfigurationDetails struct {
 
-	// This field is not required and should only be specified when adding an IPv6 prefix
-	// to a subnet's IPv6 address space.
-	// SeeIPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
-	// Example: `2001:0db8:0123::/64`
-	Ipv6CidrBlock *string `mandatory:"true" json:"ipv6CidrBlock"`
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HPC island.
+	HpcIslandId *string `mandatory:"true" json:"hpcIslandId"`
+
+	// The list of network block OCIDs.
+	NetworkBlockIds []string `mandatory:"false" json:"networkBlockIds"`
 }
 
-func (m AddSubnetIpv6CidrDetails) String() string {
+func (m ClusterConfigurationDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m AddSubnetIpv6CidrDetails) ValidateEnumValue() (bool, error) {
+func (m ClusterConfigurationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

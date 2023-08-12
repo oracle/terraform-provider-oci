@@ -216,7 +216,7 @@ func (client VirtualNetworkClient) addDrgRouteRules(ctx context.Context, request
 	return response, err
 }
 
-// AddIpv6SubnetCidr Add an IPv6 CIDR to a subnet.
+// AddIpv6SubnetCidr Add an IPv6 prefix to a subnet.
 //
 // See also
 //
@@ -278,8 +278,8 @@ func (client VirtualNetworkClient) addIpv6SubnetCidr(ctx context.Context, reques
 	return response, err
 }
 
-// AddIpv6VcnCidr Add an IPv6 CIDR to a VCN. The VCN size is always /56 and assigned by Oracle.
-// Once added the IPv6 CIDR block cannot be removed or modified.
+// AddIpv6VcnCidr Add an IPv6 prefix to a VCN. The VCN size is always /56 and assigned by Oracle.
+// Once added the IPv6 prefix cannot be removed or modified.
 //
 // See also
 //
@@ -12299,7 +12299,7 @@ func (client VirtualNetworkClient) removeImportDrgRouteDistribution(ctx context.
 	return response, err
 }
 
-// RemoveIpv6SubnetCidr Remove an IPv6 CIDR from a subnet. At least one IPv6 CIDR should remain.
+// RemoveIpv6SubnetCidr Remove an IPv6 prefix from a subnet. At least one IPv6 CIDR should remain.
 //
 // See also
 //
@@ -12361,7 +12361,7 @@ func (client VirtualNetworkClient) removeIpv6SubnetCidr(ctx context.Context, req
 	return response, err
 }
 
-// RemoveIpv6VcnCidr Removing an existing IPv6 CIDR from a VCN.
+// RemoveIpv6VcnCidr Removing an existing IPv6 prefix from a VCN.
 //
 // See also
 //
