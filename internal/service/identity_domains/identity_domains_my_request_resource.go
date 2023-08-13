@@ -439,8 +439,7 @@ func (s *IdentityDomainsMyRequestResourceCrud) Create() error {
 	}
 
 	if status, ok := s.D.GetOkExists("status"); ok {
-		tmp := status.(string)
-		request.Status = &tmp
+		request.Status = oci_identity_domains.MyRequestStatusEnum(status.(string))
 	}
 
 	if tags, ok := s.D.GetOkExists("tags"); ok {
@@ -533,9 +532,7 @@ func (s *IdentityDomainsMyRequestResourceCrud) SetData() error {
 	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
-	if s.Res.Status != nil {
-		s.D.Set("status", *s.Res.Status)
-	}
+	s.D.Set("status", s.Res.Status)
 
 	tags := []interface{}{}
 	for _, item := range s.Res.Tags {
@@ -607,9 +604,7 @@ func MyRequestToMap(obj oci_identity_domains.MyRequest) map[string]interface{} {
 	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
-	if obj.Status != nil {
-		result["status"] = string(*obj.Status)
-	}
+	result["status"] = string(obj.Status)
 
 	tags := []interface{}{}
 	for _, item := range obj.Tags {
