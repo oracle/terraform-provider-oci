@@ -34,10 +34,6 @@ func MysqlMysqlDbSystemsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"is_analytics_cluster_attached": {
-				Type:     schema.TypeBool,
-				Optional: true,
-			},
 			"is_heat_wave_cluster_attached": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -100,11 +96,6 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	if isAnalyticsClusterAttached, ok := s.D.GetOkExists("is_analytics_cluster_attached"); ok {
-		tmp := isAnalyticsClusterAttached.(bool)
-		request.IsAnalyticsClusterAttached = &tmp
-	}
-
 	if isHeatWaveClusterAttached, ok := s.D.GetOkExists("is_heat_wave_cluster_attached"); ok {
 		tmp := isHeatWaveClusterAttached.(bool)
 		request.IsHeatWaveClusterAttached = &tmp
@@ -153,12 +144,6 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		mysqlDbSystem := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
-		}
-
-		if r.AnalyticsCluster != nil {
-			mysqlDbSystem["analytics_cluster"] = []interface{}{AnalyticsClusterSummaryToMap(r.AnalyticsCluster)}
-		} else {
-			mysqlDbSystem["analytics_cluster"] = nil
 		}
 
 		if r.AvailabilityDomain != nil {
@@ -217,10 +202,6 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			mysqlDbSystem["id"] = *r.Id
-		}
-
-		if r.IsAnalyticsClusterAttached != nil {
-			mysqlDbSystem["is_analytics_cluster_attached"] = *r.IsAnalyticsClusterAttached
 		}
 
 		if r.IsHeatWaveClusterAttached != nil {
