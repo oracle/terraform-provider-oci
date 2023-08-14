@@ -44,7 +44,6 @@ resource "oci_core_internet_gateway" "test_internet_gateway" {
 	enabled = var.internet_gateway_enabled
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.internet_gateway_display_name
-	enabled = var.internet_gateway_enabled
 	freeform_tags = {"Department"= "Finance"}
 	route_table_id = oci_core_route_table.test_route_table.id
 }
