@@ -163,12 +163,6 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `analytics_cluster` - DEPRECATED -- please use HeatWave API instead. A summary of an Analytics Cluster. 
-	* `cluster_size` - The number of analytics-processing compute instances, of the specified shape, in the Analytics Cluster. 
-	* `shape_name` - The shape determines resources to allocate to the Analytics Cluster nodes - CPU cores, memory. 
-	* `state` - The current state of the MySQL Analytics Cluster.
-	* `time_created` - The date and time the Analytics Cluster was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
-	* `time_updated` - The time the Analytics Cluster was last updated, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `availability_domain` - The availability domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
 
 	In a failover scenario, the Read/Write endpoint is redirected to one of the other availability domains and the MySQL instance in that domain is promoted to the primary instance. This redirection does not affect the IP address of the DB System in any way.
@@ -278,7 +272,6 @@ The following attributes are exported:
 * `hostname_label` - The hostname for the primary endpoint of the DB System. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com"). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 * `id` - The OCID of the DB System.
 * `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 
-* `is_analytics_cluster_attached` - DEPRECATED -- please use `isHeatWaveClusterAttached` instead. If the DB System has an Analytics Cluster attached. 
 * `is_heat_wave_cluster_attached` - If the DB System has a HeatWave Cluster attached. 
 * `is_highly_available` - Specifies if the DB System is highly available. 
 * `lifecycle_details` - Additional information about the current lifecycleState.

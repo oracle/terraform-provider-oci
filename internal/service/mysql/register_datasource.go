@@ -6,7 +6,6 @@ package mysql
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
-	//tfresource.RegisterDatasource("oci_mysql_analytics_cluster", MysqlAnalyticsClusterDataSource())
 	tfresource.RegisterDatasource("oci_mysql_channel", MysqlChannelDataSource())
 	tfresource.RegisterDatasource("oci_mysql_channels", MysqlChannelsDataSource())
 	tfresource.RegisterDatasource("oci_mysql_heat_wave_cluster", MysqlHeatWaveClusterDataSource())
