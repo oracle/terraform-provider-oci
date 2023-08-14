@@ -86,7 +86,8 @@ resource "oci_database_db_system" "t" {
         database_edition = "ENTERPRISE_EDITION"
         availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
         disk_redundancy = "NORMAL"
-        shape = "VM.Standard1.1"
+        shape = "VM.Standard2.1"
+        cpu_core_count =  "${var.cpu_core_count}"
         ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
         display_name = "-tf-dbSystem-001"
         domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
@@ -96,7 +97,7 @@ resource "oci_database_db_system" "t" {
         node_count = "1"
         fault_domains = ["FAULT-DOMAIN-1"]
         db_home {
-                db_version = "12.2.0.1"
+                db_version = "21.8.0.0"
                 display_name = "-tf-db-home"
                 database {
                         admin_password = "BEstrO0ng_#11"
@@ -160,4 +161,22 @@ resource "oci_database_pluggable_database" "test_pluggable_database" {
         pdb_admin_password = "BEstrO0ng_#11"
         pdb_name = "SalesPdb"
         tde_wallet_password = "BEstrO0ng_#11"
+}
+
+resource "oci_database_pluggable_database" "test_pluggable_database2" {
+  container_database_id = "${data.oci_database_database.t.id}"
+  lifecycle {
+    ignore_changes = ["defined_tags"]
+  }
+  pdb_admin_password = "BEstrO0ng_#11"
+  pdb_name = "Pdb2"
+  tde_wallet_password = "BEstrO0ng_#11"
+}
+
+data "oci_database_pluggable_database" "test_pluggable_database" {
+  pluggable_database_id = "${oci_database_pluggable_database.test_pluggable_database.id}"
+}
+
+data "oci_database_pluggable_database" "test_pluggable_database2" {
+  pluggable_database_id = "${oci_database_pluggable_database.test_pluggable_database2.id}"
 }

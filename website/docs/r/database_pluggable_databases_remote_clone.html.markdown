@@ -10,6 +10,7 @@ description: |-
 # oci_database_pluggable_databases_remote_clone
 This resource provides the Pluggable Databases Remote Clone resource in Oracle Cloud Infrastructure Database service.
 
+**Deprecated.** Use [CreatePluggableDatabase](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/PluggableDatabase/CreatePluggableDatabase) for Pluggable Database RemoteClone Operation.
 Clones a pluggable database (PDB) to a different database from the source PDB. The cloned PDB will be started upon completion of the clone operation. The source PDB must be in the `READ_WRITE` openMode when performing the clone.
 For Exadata Cloud@Customer instances, the source pluggable database (PDB) must be on the same Exadata Infrastructure as the target container database (CDB) to create a remote clone.
 
@@ -62,10 +63,15 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pluggable database.
 * `is_restricted` - The restricted mode of the pluggable database. If a pluggable database is opened in restricted mode, the user needs both create a session and have restricted session privileges to connect to it. 
 * `lifecycle_details` - Detailed message for the lifecycle state.
-* `open_mode` - The mode that pluggable database is in. Open mode can only be changed to READ_ONLY or MIGRATE directly from the backend (within the Oracle Database software). 
+* `open_mode` - **Deprecated.** Use [PluggableDatabaseNodeLevelDetails](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/datatypes/PluggableDatabaseNodeLevelDetails) for OpenMode details. The mode that pluggable database is in. Open mode can only be changed to READ_ONLY or MIGRATE directly from the backend (within the Oracle Database software). 
 * `pdb_name` - The name for the pluggable database (PDB). The name is unique in the context of a [container database](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/Database/). The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. The pluggable database name should not be same as the container database name.
+* `pdb_node_level_details` - Pluggable Database Node Level Details. Example: [{"nodeName" : "node1", "openMode" : "READ_WRITE"}, {"nodeName" : "node2", "openMode" : "READ_ONLY"}] 
+	* `node_name` - The Node name of the Database Instance.
+	* `open_mode` - The mode that pluggable database is in. Open mode can only be changed to READ_ONLY or MIGRATE directly from the backend (within the Oracle Database software). 
 * `pluggable_database_management_config` - The configuration of the Pluggable Database Management service.
 	* `management_status` - The status of the Pluggable Database Management service.
+* `refreshable_clone_config` - Pluggable Database Refreshable Clone Configuration.
+	* `is_refreshable_clone` - Indicates whether the Pluggable Database is a refreshable clone.
 * `state` - The current state of the pluggable database.
 * `time_created` - The date and time the pluggable database was created.
 

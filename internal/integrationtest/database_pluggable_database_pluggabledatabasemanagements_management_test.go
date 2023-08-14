@@ -122,6 +122,7 @@ var (
 			data_storage_size_in_gb = "256"
 			license_model = "LICENSE_INCLUDED"
 			node_count = "1"
+			cpu_core_count = "2"
 			fault_domains = ["FAULT-DOMAIN-1"]
 			db_home {
 				db_version = "19.0.0.0"
