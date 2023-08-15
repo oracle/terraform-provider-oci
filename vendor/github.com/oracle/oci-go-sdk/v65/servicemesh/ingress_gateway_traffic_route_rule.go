@@ -27,8 +27,8 @@ type IngressGatewayTrafficRouteRule interface {
 
 type ingressgatewaytrafficrouterule struct {
 	JsonData           []byte
-	Destinations       []VirtualServiceTrafficRuleTarget `mandatory:"true" json:"destinations"`
 	IngressGatewayHost *IngressGatewayHostRef            `mandatory:"false" json:"ingressGatewayHost"`
+	Destinations       []VirtualServiceTrafficRuleTarget `mandatory:"true" json:"destinations"`
 	Type               string                            `json:"type"`
 }
 
@@ -81,14 +81,14 @@ func (m *ingressgatewaytrafficrouterule) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetDestinations returns Destinations
-func (m ingressgatewaytrafficrouterule) GetDestinations() []VirtualServiceTrafficRuleTarget {
-	return m.Destinations
-}
-
 //GetIngressGatewayHost returns IngressGatewayHost
 func (m ingressgatewaytrafficrouterule) GetIngressGatewayHost() *IngressGatewayHostRef {
 	return m.IngressGatewayHost
+}
+
+//GetDestinations returns Destinations
+func (m ingressgatewaytrafficrouterule) GetDestinations() []VirtualServiceTrafficRuleTarget {
+	return m.Destinations
 }
 
 func (m ingressgatewaytrafficrouterule) String() string {

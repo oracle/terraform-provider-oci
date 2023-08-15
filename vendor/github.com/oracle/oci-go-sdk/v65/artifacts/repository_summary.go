@@ -55,6 +55,7 @@ type RepositorySummary interface {
 
 type repositorysummary struct {
 	JsonData       []byte
+	Description    *string                           `mandatory:"false" json:"description"`
 	Id             *string                           `mandatory:"true" json:"id"`
 	DisplayName    *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
@@ -63,7 +64,6 @@ type repositorysummary struct {
 	FreeformTags   map[string]string                 `mandatory:"true" json:"freeformTags"`
 	DefinedTags    map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 	TimeCreated    *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	Description    *string                           `mandatory:"false" json:"description"`
 	RepositoryType string                            `json:"repositoryType"`
 }
 
@@ -111,6 +111,11 @@ func (m *repositorysummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
+//GetDescription returns Description
+func (m repositorysummary) GetDescription() *string {
+	return m.Description
+}
+
 //GetId returns Id
 func (m repositorysummary) GetId() *string {
 	return m.Id
@@ -149,11 +154,6 @@ func (m repositorysummary) GetDefinedTags() map[string]map[string]interface{} {
 //GetTimeCreated returns TimeCreated
 func (m repositorysummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
-}
-
-//GetDescription returns Description
-func (m repositorysummary) GetDescription() *string {
-	return m.Description
 }
 
 func (m repositorysummary) String() string {

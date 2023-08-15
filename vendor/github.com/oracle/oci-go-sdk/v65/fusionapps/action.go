@@ -31,9 +31,9 @@ type Action interface {
 
 type action struct {
 	JsonData     []byte
-	Description  *string         `mandatory:"true" json:"description"`
 	ReferenceKey *string         `mandatory:"false" json:"referenceKey"`
 	State        ActionStateEnum `mandatory:"false" json:"state,omitempty"`
+	Description  *string         `mandatory:"true" json:"description"`
 	ActionType   string          `json:"actionType"`
 }
 
@@ -83,11 +83,6 @@ func (m *action) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetDescription returns Description
-func (m action) GetDescription() *string {
-	return m.Description
-}
-
 //GetReferenceKey returns ReferenceKey
 func (m action) GetReferenceKey() *string {
 	return m.ReferenceKey
@@ -96,6 +91,11 @@ func (m action) GetReferenceKey() *string {
 //GetState returns State
 func (m action) GetState() ActionStateEnum {
 	return m.State
+}
+
+//GetDescription returns Description
+func (m action) GetDescription() *string {
+	return m.Description
 }
 
 func (m action) String() string {

@@ -54,16 +54,16 @@ type Channel interface {
 
 type channel struct {
 	JsonData                            []byte
+	Description                         *string                           `mandatory:"false" json:"description"`
+	SessionExpiryDurationInMilliseconds *int64                            `mandatory:"false" json:"sessionExpiryDurationInMilliseconds"`
+	FreeformTags                        map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags                         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	Id                                  *string                           `mandatory:"true" json:"id"`
 	Name                                *string                           `mandatory:"true" json:"name"`
 	Category                            ChannelCategoryEnum               `mandatory:"true" json:"category"`
 	LifecycleState                      LifecycleStateEnum                `mandatory:"true" json:"lifecycleState"`
 	TimeCreated                         *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated                         *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
-	Description                         *string                           `mandatory:"false" json:"description"`
-	SessionExpiryDurationInMilliseconds *int64                            `mandatory:"false" json:"sessionExpiryDurationInMilliseconds"`
-	FreeformTags                        map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags                         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	Type                                string                            `json:"type"`
 }
 
@@ -168,6 +168,26 @@ func (m *channel) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
+//GetDescription returns Description
+func (m channel) GetDescription() *string {
+	return m.Description
+}
+
+//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+func (m channel) GetSessionExpiryDurationInMilliseconds() *int64 {
+	return m.SessionExpiryDurationInMilliseconds
+}
+
+//GetFreeformTags returns FreeformTags
+func (m channel) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m channel) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
 //GetId returns Id
 func (m channel) GetId() *string {
 	return m.Id
@@ -196,26 +216,6 @@ func (m channel) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m channel) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
-}
-
-//GetDescription returns Description
-func (m channel) GetDescription() *string {
-	return m.Description
-}
-
-//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
-func (m channel) GetSessionExpiryDurationInMilliseconds() *int64 {
-	return m.SessionExpiryDurationInMilliseconds
-}
-
-//GetFreeformTags returns FreeformTags
-func (m channel) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m channel) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
 }
 
 func (m channel) String() string {

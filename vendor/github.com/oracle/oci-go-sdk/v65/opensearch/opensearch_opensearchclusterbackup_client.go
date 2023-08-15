@@ -135,7 +135,7 @@ func (client OpensearchClusterBackupClient) deleteOpensearchClusterBackup(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackup/DeleteOpensearchClusterBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "DeleteOpensearchClusterBackup", apiReferenceLink)
 		return response, err
 	}
@@ -188,7 +188,7 @@ func (client OpensearchClusterBackupClient) getOpensearchClusterBackup(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackup/GetOpensearchClusterBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "GetOpensearchClusterBackup", apiReferenceLink)
 		return response, err
 	}
@@ -241,7 +241,7 @@ func (client OpensearchClusterBackupClient) listOpensearchClusterBackups(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackupCollection/ListOpensearchClusterBackups"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "ListOpensearchClusterBackups", apiReferenceLink)
 		return response, err
 	}
@@ -294,7 +294,7 @@ func (client OpensearchClusterBackupClient) updateOpensearchClusterBackup(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterBackup/UpdateOpensearchClusterBackup"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpensearchClusterBackup", "UpdateOpensearchClusterBackup", apiReferenceLink)
 		return response, err
 	}

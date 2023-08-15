@@ -60,6 +60,8 @@ type WebAppFirewallSummary interface {
 
 type webappfirewallsummary struct {
 	JsonData               []byte
+	TimeUpdated            *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails       *string                           `mandatory:"false" json:"lifecycleDetails"`
 	Id                     *string                           `mandatory:"true" json:"id"`
 	DisplayName            *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId          *string                           `mandatory:"true" json:"compartmentId"`
@@ -69,8 +71,6 @@ type webappfirewallsummary struct {
 	FreeformTags           map[string]string                 `mandatory:"true" json:"freeformTags"`
 	DefinedTags            map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 	SystemTags             map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
-	TimeUpdated            *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails       *string                           `mandatory:"false" json:"lifecycleDetails"`
 	BackendType            string                            `json:"backendType"`
 }
 
@@ -120,6 +120,16 @@ func (m *webappfirewallsummary) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
+//GetTimeUpdated returns TimeUpdated
+func (m webappfirewallsummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
+}
+
+//GetLifecycleDetails returns LifecycleDetails
+func (m webappfirewallsummary) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
+}
+
 //GetId returns Id
 func (m webappfirewallsummary) GetId() *string {
 	return m.Id
@@ -163,16 +173,6 @@ func (m webappfirewallsummary) GetDefinedTags() map[string]map[string]interface{
 //GetSystemTags returns SystemTags
 func (m webappfirewallsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m webappfirewallsummary) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetLifecycleDetails returns LifecycleDetails
-func (m webappfirewallsummary) GetLifecycleDetails() *string {
-	return m.LifecycleDetails
 }
 
 func (m webappfirewallsummary) String() string {

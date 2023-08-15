@@ -37,10 +37,10 @@ type ScmConfiguration interface {
 
 type scmconfiguration struct {
 	JsonData                  []byte
-	Branch                    *string `mandatory:"true" json:"branch"`
-	IsAutomergeEnabled        *bool   `mandatory:"true" json:"isAutomergeEnabled"`
 	BuildFileLocation         *string `mandatory:"false" json:"buildFileLocation"`
 	BuildFileSettingsSecretId *string `mandatory:"false" json:"buildFileSettingsSecretId"`
+	Branch                    *string `mandatory:"true" json:"branch"`
+	IsAutomergeEnabled        *bool   `mandatory:"true" json:"isAutomergeEnabled"`
 	ScmType                   string  `json:"scmType"`
 }
 
@@ -87,16 +87,6 @@ func (m *scmconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetBranch returns Branch
-func (m scmconfiguration) GetBranch() *string {
-	return m.Branch
-}
-
-//GetIsAutomergeEnabled returns IsAutomergeEnabled
-func (m scmconfiguration) GetIsAutomergeEnabled() *bool {
-	return m.IsAutomergeEnabled
-}
-
 //GetBuildFileLocation returns BuildFileLocation
 func (m scmconfiguration) GetBuildFileLocation() *string {
 	return m.BuildFileLocation
@@ -105,6 +95,16 @@ func (m scmconfiguration) GetBuildFileLocation() *string {
 //GetBuildFileSettingsSecretId returns BuildFileSettingsSecretId
 func (m scmconfiguration) GetBuildFileSettingsSecretId() *string {
 	return m.BuildFileSettingsSecretId
+}
+
+//GetBranch returns Branch
+func (m scmconfiguration) GetBranch() *string {
+	return m.Branch
+}
+
+//GetIsAutomergeEnabled returns IsAutomergeEnabled
+func (m scmconfiguration) GetIsAutomergeEnabled() *bool {
+	return m.IsAutomergeEnabled
 }
 
 func (m scmconfiguration) String() string {

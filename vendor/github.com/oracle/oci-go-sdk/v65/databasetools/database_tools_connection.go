@@ -55,16 +55,16 @@ type DatabaseToolsConnection interface {
 
 type databasetoolsconnection struct {
 	JsonData         []byte
+	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
+	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
+	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
 	LifecycleState   LifecycleStateEnum                `mandatory:"true" json:"lifecycleState"`
 	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
-	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Type             string                            `json:"type"`
 }
 
@@ -117,6 +117,26 @@ func (m *databasetoolsconnection) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
+//GetLifecycleDetails returns LifecycleDetails
+func (m databasetoolsconnection) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
+}
+
+//GetDefinedTags returns DefinedTags
+func (m databasetoolsconnection) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+//GetFreeformTags returns FreeformTags
+func (m databasetoolsconnection) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetSystemTags returns SystemTags
+func (m databasetoolsconnection) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
+}
+
 //GetId returns Id
 func (m databasetoolsconnection) GetId() *string {
 	return m.Id
@@ -145,26 +165,6 @@ func (m databasetoolsconnection) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m databasetoolsconnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
-}
-
-//GetLifecycleDetails returns LifecycleDetails
-func (m databasetoolsconnection) GetLifecycleDetails() *string {
-	return m.LifecycleDetails
-}
-
-//GetDefinedTags returns DefinedTags
-func (m databasetoolsconnection) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-//GetFreeformTags returns FreeformTags
-func (m databasetoolsconnection) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetSystemTags returns SystemTags
-func (m databasetoolsconnection) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
 }
 
 func (m databasetoolsconnection) String() string {

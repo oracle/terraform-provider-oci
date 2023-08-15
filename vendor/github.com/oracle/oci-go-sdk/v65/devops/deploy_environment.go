@@ -58,9 +58,6 @@ type DeployEnvironment interface {
 
 type deployenvironment struct {
 	JsonData              []byte
-	Id                    *string                             `mandatory:"true" json:"id"`
-	ProjectId             *string                             `mandatory:"true" json:"projectId"`
-	CompartmentId         *string                             `mandatory:"true" json:"compartmentId"`
 	Description           *string                             `mandatory:"false" json:"description"`
 	DisplayName           *string                             `mandatory:"false" json:"displayName"`
 	TimeCreated           *common.SDKTime                     `mandatory:"false" json:"timeCreated"`
@@ -70,6 +67,9 @@ type deployenvironment struct {
 	FreeformTags          map[string]string                   `mandatory:"false" json:"freeformTags"`
 	DefinedTags           map[string]map[string]interface{}   `mandatory:"false" json:"definedTags"`
 	SystemTags            map[string]map[string]interface{}   `mandatory:"false" json:"systemTags"`
+	Id                    *string                             `mandatory:"true" json:"id"`
+	ProjectId             *string                             `mandatory:"true" json:"projectId"`
+	CompartmentId         *string                             `mandatory:"true" json:"compartmentId"`
 	DeployEnvironmentType string                              `json:"deployEnvironmentType"`
 }
 
@@ -132,21 +132,6 @@ func (m *deployenvironment) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetId returns Id
-func (m deployenvironment) GetId() *string {
-	return m.Id
-}
-
-//GetProjectId returns ProjectId
-func (m deployenvironment) GetProjectId() *string {
-	return m.ProjectId
-}
-
-//GetCompartmentId returns CompartmentId
-func (m deployenvironment) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
 //GetDescription returns Description
 func (m deployenvironment) GetDescription() *string {
 	return m.Description
@@ -190,6 +175,21 @@ func (m deployenvironment) GetDefinedTags() map[string]map[string]interface{} {
 //GetSystemTags returns SystemTags
 func (m deployenvironment) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetId returns Id
+func (m deployenvironment) GetId() *string {
+	return m.Id
+}
+
+//GetProjectId returns ProjectId
+func (m deployenvironment) GetProjectId() *string {
+	return m.ProjectId
+}
+
+//GetCompartmentId returns CompartmentId
+func (m deployenvironment) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m deployenvironment) String() string {

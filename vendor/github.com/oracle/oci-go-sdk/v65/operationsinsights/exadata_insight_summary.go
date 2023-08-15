@@ -69,6 +69,12 @@ type ExadataInsightSummary interface {
 
 type exadatainsightsummary struct {
 	JsonData           []byte
+	ExadataDisplayName *string                           `mandatory:"false" json:"exadataDisplayName"`
+	ExadataType        ExadataTypeEnum                   `mandatory:"false" json:"exadataType,omitempty"`
+	ExadataRackType    ExadataRackTypeEnum               `mandatory:"false" json:"exadataRackType,omitempty"`
+	SystemTags         map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	TimeUpdated        *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails   *string                           `mandatory:"false" json:"lifecycleDetails"`
 	Id                 *string                           `mandatory:"true" json:"id"`
 	CompartmentId      *string                           `mandatory:"true" json:"compartmentId"`
 	ExadataName        *string                           `mandatory:"true" json:"exadataName"`
@@ -77,12 +83,6 @@ type exadatainsightsummary struct {
 	Status             ResourceStatusEnum                `mandatory:"true" json:"status"`
 	TimeCreated        *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	LifecycleState     ExadataInsightLifecycleStateEnum  `mandatory:"true" json:"lifecycleState"`
-	ExadataDisplayName *string                           `mandatory:"false" json:"exadataDisplayName"`
-	ExadataType        ExadataTypeEnum                   `mandatory:"false" json:"exadataType,omitempty"`
-	ExadataRackType    ExadataRackTypeEnum               `mandatory:"false" json:"exadataRackType,omitempty"`
-	SystemTags         map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	TimeUpdated        *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails   *string                           `mandatory:"false" json:"lifecycleDetails"`
 	EntitySource       string                            `json:"entitySource"`
 }
 
@@ -139,6 +139,36 @@ func (m *exadatainsightsummary) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
+//GetExadataDisplayName returns ExadataDisplayName
+func (m exadatainsightsummary) GetExadataDisplayName() *string {
+	return m.ExadataDisplayName
+}
+
+//GetExadataType returns ExadataType
+func (m exadatainsightsummary) GetExadataType() ExadataTypeEnum {
+	return m.ExadataType
+}
+
+//GetExadataRackType returns ExadataRackType
+func (m exadatainsightsummary) GetExadataRackType() ExadataRackTypeEnum {
+	return m.ExadataRackType
+}
+
+//GetSystemTags returns SystemTags
+func (m exadatainsightsummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
+}
+
+//GetTimeUpdated returns TimeUpdated
+func (m exadatainsightsummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
+}
+
+//GetLifecycleDetails returns LifecycleDetails
+func (m exadatainsightsummary) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
+}
+
 //GetId returns Id
 func (m exadatainsightsummary) GetId() *string {
 	return m.Id
@@ -177,36 +207,6 @@ func (m exadatainsightsummary) GetTimeCreated() *common.SDKTime {
 //GetLifecycleState returns LifecycleState
 func (m exadatainsightsummary) GetLifecycleState() ExadataInsightLifecycleStateEnum {
 	return m.LifecycleState
-}
-
-//GetExadataDisplayName returns ExadataDisplayName
-func (m exadatainsightsummary) GetExadataDisplayName() *string {
-	return m.ExadataDisplayName
-}
-
-//GetExadataType returns ExadataType
-func (m exadatainsightsummary) GetExadataType() ExadataTypeEnum {
-	return m.ExadataType
-}
-
-//GetExadataRackType returns ExadataRackType
-func (m exadatainsightsummary) GetExadataRackType() ExadataRackTypeEnum {
-	return m.ExadataRackType
-}
-
-//GetSystemTags returns SystemTags
-func (m exadatainsightsummary) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m exadatainsightsummary) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetLifecycleDetails returns LifecycleDetails
-func (m exadatainsightsummary) GetLifecycleDetails() *string {
-	return m.LifecycleDetails
 }
 
 func (m exadatainsightsummary) String() string {

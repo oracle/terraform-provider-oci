@@ -54,15 +54,15 @@ type CreateAssetSourceDetails interface {
 
 type createassetsourcedetails struct {
 	JsonData            []byte
-	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
-	EnvironmentId       *string                           `mandatory:"true" json:"environmentId"`
-	InventoryId         *string                           `mandatory:"true" json:"inventoryId"`
-	AssetsCompartmentId *string                           `mandatory:"true" json:"assetsCompartmentId"`
 	DisplayName         *string                           `mandatory:"false" json:"displayName"`
 	DiscoveryScheduleId *string                           `mandatory:"false" json:"discoveryScheduleId"`
 	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
+	EnvironmentId       *string                           `mandatory:"true" json:"environmentId"`
+	InventoryId         *string                           `mandatory:"true" json:"inventoryId"`
+	AssetsCompartmentId *string                           `mandatory:"true" json:"assetsCompartmentId"`
 	Type                string                            `json:"type"`
 }
 
@@ -110,26 +110,6 @@ func (m *createassetsourcedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createassetsourcedetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetEnvironmentId returns EnvironmentId
-func (m createassetsourcedetails) GetEnvironmentId() *string {
-	return m.EnvironmentId
-}
-
-//GetInventoryId returns InventoryId
-func (m createassetsourcedetails) GetInventoryId() *string {
-	return m.InventoryId
-}
-
-//GetAssetsCompartmentId returns AssetsCompartmentId
-func (m createassetsourcedetails) GetAssetsCompartmentId() *string {
-	return m.AssetsCompartmentId
-}
-
 //GetDisplayName returns DisplayName
 func (m createassetsourcedetails) GetDisplayName() *string {
 	return m.DisplayName
@@ -153,6 +133,26 @@ func (m createassetsourcedetails) GetDefinedTags() map[string]map[string]interfa
 //GetSystemTags returns SystemTags
 func (m createassetsourcedetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createassetsourcedetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetEnvironmentId returns EnvironmentId
+func (m createassetsourcedetails) GetEnvironmentId() *string {
+	return m.EnvironmentId
+}
+
+//GetInventoryId returns InventoryId
+func (m createassetsourcedetails) GetInventoryId() *string {
+	return m.InventoryId
+}
+
+//GetAssetsCompartmentId returns AssetsCompartmentId
+func (m createassetsourcedetails) GetAssetsCompartmentId() *string {
+	return m.AssetsCompartmentId
 }
 
 func (m createassetsourcedetails) String() string {

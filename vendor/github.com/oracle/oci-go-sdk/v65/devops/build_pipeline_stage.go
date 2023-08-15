@@ -64,10 +64,6 @@ type BuildPipelineStage interface {
 
 type buildpipelinestage struct {
 	JsonData                                []byte
-	Id                                      *string                                  `mandatory:"true" json:"id"`
-	ProjectId                               *string                                  `mandatory:"true" json:"projectId"`
-	BuildPipelineId                         *string                                  `mandatory:"true" json:"buildPipelineId"`
-	CompartmentId                           *string                                  `mandatory:"true" json:"compartmentId"`
 	DisplayName                             *string                                  `mandatory:"false" json:"displayName"`
 	Description                             *string                                  `mandatory:"false" json:"description"`
 	TimeCreated                             *common.SDKTime                          `mandatory:"false" json:"timeCreated"`
@@ -78,6 +74,10 @@ type buildpipelinestage struct {
 	FreeformTags                            map[string]string                        `mandatory:"false" json:"freeformTags"`
 	DefinedTags                             map[string]map[string]interface{}        `mandatory:"false" json:"definedTags"`
 	SystemTags                              map[string]map[string]interface{}        `mandatory:"false" json:"systemTags"`
+	Id                                      *string                                  `mandatory:"true" json:"id"`
+	ProjectId                               *string                                  `mandatory:"true" json:"projectId"`
+	BuildPipelineId                         *string                                  `mandatory:"true" json:"buildPipelineId"`
+	CompartmentId                           *string                                  `mandatory:"true" json:"compartmentId"`
 	BuildPipelineStageType                  string                                   `json:"buildPipelineStageType"`
 }
 
@@ -142,26 +142,6 @@ func (m *buildpipelinestage) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetId returns Id
-func (m buildpipelinestage) GetId() *string {
-	return m.Id
-}
-
-//GetProjectId returns ProjectId
-func (m buildpipelinestage) GetProjectId() *string {
-	return m.ProjectId
-}
-
-//GetBuildPipelineId returns BuildPipelineId
-func (m buildpipelinestage) GetBuildPipelineId() *string {
-	return m.BuildPipelineId
-}
-
-//GetCompartmentId returns CompartmentId
-func (m buildpipelinestage) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
 //GetDisplayName returns DisplayName
 func (m buildpipelinestage) GetDisplayName() *string {
 	return m.DisplayName
@@ -210,6 +190,26 @@ func (m buildpipelinestage) GetDefinedTags() map[string]map[string]interface{} {
 //GetSystemTags returns SystemTags
 func (m buildpipelinestage) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetId returns Id
+func (m buildpipelinestage) GetId() *string {
+	return m.Id
+}
+
+//GetProjectId returns ProjectId
+func (m buildpipelinestage) GetProjectId() *string {
+	return m.ProjectId
+}
+
+//GetBuildPipelineId returns BuildPipelineId
+func (m buildpipelinestage) GetBuildPipelineId() *string {
+	return m.BuildPipelineId
+}
+
+//GetCompartmentId returns CompartmentId
+func (m buildpipelinestage) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m buildpipelinestage) String() string {

@@ -36,10 +36,10 @@ type WebAppFirewallPolicyRule interface {
 
 type webappfirewallpolicyrule struct {
 	JsonData          []byte
-	Name              *string                                       `mandatory:"true" json:"name"`
-	ActionName        *string                                       `mandatory:"true" json:"actionName"`
 	ConditionLanguage WebAppFirewallPolicyRuleConditionLanguageEnum `mandatory:"false" json:"conditionLanguage,omitempty"`
 	Condition         *string                                       `mandatory:"false" json:"condition"`
+	Name              *string                                       `mandatory:"true" json:"name"`
+	ActionName        *string                                       `mandatory:"true" json:"actionName"`
 	Type              string                                        `json:"type"`
 }
 
@@ -90,16 +90,6 @@ func (m *webappfirewallpolicyrule) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetName returns Name
-func (m webappfirewallpolicyrule) GetName() *string {
-	return m.Name
-}
-
-//GetActionName returns ActionName
-func (m webappfirewallpolicyrule) GetActionName() *string {
-	return m.ActionName
-}
-
 //GetConditionLanguage returns ConditionLanguage
 func (m webappfirewallpolicyrule) GetConditionLanguage() WebAppFirewallPolicyRuleConditionLanguageEnum {
 	return m.ConditionLanguage
@@ -108,6 +98,16 @@ func (m webappfirewallpolicyrule) GetConditionLanguage() WebAppFirewallPolicyRul
 //GetCondition returns Condition
 func (m webappfirewallpolicyrule) GetCondition() *string {
 	return m.Condition
+}
+
+//GetName returns Name
+func (m webappfirewallpolicyrule) GetName() *string {
+	return m.Name
+}
+
+//GetActionName returns ActionName
+func (m webappfirewallpolicyrule) GetActionName() *string {
+	return m.ActionName
 }
 
 func (m webappfirewallpolicyrule) String() string {

@@ -61,8 +61,6 @@ type CreateConnectionDetails interface {
 
 type createconnectiondetails struct {
 	JsonData       []byte
-	DisplayName    *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
 	Description    *string                           `mandatory:"false" json:"description"`
 	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -71,6 +69,8 @@ type createconnectiondetails struct {
 	NsgIds         []string                          `mandatory:"false" json:"nsgIds"`
 	SubnetId       *string                           `mandatory:"false" json:"subnetId"`
 	RoutingMethod  RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
+	DisplayName    *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
 	ConnectionType string                            `json:"connectionType"`
 }
 
@@ -179,16 +179,6 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetDisplayName returns DisplayName
-func (m createconnectiondetails) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m createconnectiondetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
 //GetDescription returns Description
 func (m createconnectiondetails) GetDescription() *string {
 	return m.Description
@@ -227,6 +217,16 @@ func (m createconnectiondetails) GetSubnetId() *string {
 //GetRoutingMethod returns RoutingMethod
 func (m createconnectiondetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+//GetDisplayName returns DisplayName
+func (m createconnectiondetails) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createconnectiondetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createconnectiondetails) String() string {

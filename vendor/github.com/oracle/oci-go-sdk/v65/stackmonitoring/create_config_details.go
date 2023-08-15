@@ -36,10 +36,10 @@ type CreateConfigDetails interface {
 
 type createconfigdetails struct {
 	JsonData      []byte
-	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	DisplayName   *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	ConfigType    string                            `json:"configType"`
 }
 
@@ -82,11 +82,6 @@ func (m *createconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createconfigdetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
 //GetDisplayName returns DisplayName
 func (m createconfigdetails) GetDisplayName() *string {
 	return m.DisplayName
@@ -100,6 +95,11 @@ func (m createconfigdetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createconfigdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createconfigdetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createconfigdetails) String() string {

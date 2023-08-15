@@ -41,11 +41,11 @@ type CreateResolverEndpointDetails interface {
 
 type createresolverendpointdetails struct {
 	JsonData          []byte
+	ForwardingAddress *string `mandatory:"false" json:"forwardingAddress"`
+	ListeningAddress  *string `mandatory:"false" json:"listeningAddress"`
 	Name              *string `mandatory:"true" json:"name"`
 	IsForwarding      *bool   `mandatory:"true" json:"isForwarding"`
 	IsListening       *bool   `mandatory:"true" json:"isListening"`
-	ForwardingAddress *string `mandatory:"false" json:"forwardingAddress"`
-	ListeningAddress  *string `mandatory:"false" json:"listeningAddress"`
 	EndpointType      string  `json:"endpointType"`
 }
 
@@ -89,6 +89,16 @@ func (m *createresolverendpointdetails) UnmarshalPolymorphicJSON(data []byte) (i
 	}
 }
 
+//GetForwardingAddress returns ForwardingAddress
+func (m createresolverendpointdetails) GetForwardingAddress() *string {
+	return m.ForwardingAddress
+}
+
+//GetListeningAddress returns ListeningAddress
+func (m createresolverendpointdetails) GetListeningAddress() *string {
+	return m.ListeningAddress
+}
+
 //GetName returns Name
 func (m createresolverendpointdetails) GetName() *string {
 	return m.Name
@@ -102,16 +112,6 @@ func (m createresolverendpointdetails) GetIsForwarding() *bool {
 //GetIsListening returns IsListening
 func (m createresolverendpointdetails) GetIsListening() *bool {
 	return m.IsListening
-}
-
-//GetForwardingAddress returns ForwardingAddress
-func (m createresolverendpointdetails) GetForwardingAddress() *string {
-	return m.ForwardingAddress
-}
-
-//GetListeningAddress returns ListeningAddress
-func (m createresolverendpointdetails) GetListeningAddress() *string {
-	return m.ListeningAddress
 }
 
 func (m createresolverendpointdetails) String() string {

@@ -35,9 +35,9 @@ type CreateDatabaseInsightDetails interface {
 
 type createdatabaseinsightdetails struct {
 	JsonData      []byte
-	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	EntitySource  string                            `json:"entitySource"`
 }
 
@@ -83,11 +83,6 @@ func (m *createdatabaseinsightdetails) UnmarshalPolymorphicJSON(data []byte) (in
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createdatabaseinsightdetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
 //GetFreeformTags returns FreeformTags
 func (m createdatabaseinsightdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -96,6 +91,11 @@ func (m createdatabaseinsightdetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createdatabaseinsightdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createdatabaseinsightdetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createdatabaseinsightdetails) String() string {

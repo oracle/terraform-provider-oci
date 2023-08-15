@@ -47,14 +47,14 @@ type RemediationRunStage interface {
 
 type remediationrunstage struct {
 	JsonData          []byte
-	Status            RemediationRunStageStatusEnum `mandatory:"true" json:"status"`
-	TimeCreated       *common.SDKTime               `mandatory:"true" json:"timeCreated"`
-	RemediationRunId  *string                       `mandatory:"true" json:"remediationRunId"`
 	TimeStarted       *common.SDKTime               `mandatory:"false" json:"timeStarted"`
 	TimeFinished      *common.SDKTime               `mandatory:"false" json:"timeFinished"`
 	Summary           *string                       `mandatory:"false" json:"summary"`
 	PreviousStageType RemediationRunStageTypeEnum   `mandatory:"false" json:"previousStageType,omitempty"`
 	NextStageType     RemediationRunStageTypeEnum   `mandatory:"false" json:"nextStageType,omitempty"`
+	Status            RemediationRunStageStatusEnum `mandatory:"true" json:"status"`
+	TimeCreated       *common.SDKTime               `mandatory:"true" json:"timeCreated"`
+	RemediationRunId  *string                       `mandatory:"true" json:"remediationRunId"`
 	Type              string                        `json:"type"`
 }
 
@@ -113,21 +113,6 @@ func (m *remediationrunstage) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetStatus returns Status
-func (m remediationrunstage) GetStatus() RemediationRunStageStatusEnum {
-	return m.Status
-}
-
-//GetTimeCreated returns TimeCreated
-func (m remediationrunstage) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetRemediationRunId returns RemediationRunId
-func (m remediationrunstage) GetRemediationRunId() *string {
-	return m.RemediationRunId
-}
-
 //GetTimeStarted returns TimeStarted
 func (m remediationrunstage) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
@@ -151,6 +136,21 @@ func (m remediationrunstage) GetPreviousStageType() RemediationRunStageTypeEnum 
 //GetNextStageType returns NextStageType
 func (m remediationrunstage) GetNextStageType() RemediationRunStageTypeEnum {
 	return m.NextStageType
+}
+
+//GetStatus returns Status
+func (m remediationrunstage) GetStatus() RemediationRunStageStatusEnum {
+	return m.Status
+}
+
+//GetTimeCreated returns TimeCreated
+func (m remediationrunstage) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+//GetRemediationRunId returns RemediationRunId
+func (m remediationrunstage) GetRemediationRunId() *string {
+	return m.RemediationRunId
 }
 
 func (m remediationrunstage) String() string {

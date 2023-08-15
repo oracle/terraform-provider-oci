@@ -72,9 +72,6 @@ type HostInsightSummary interface {
 
 type hostinsightsummary struct {
 	JsonData              []byte
-	Id                    *string                           `mandatory:"true" json:"id"`
-	CompartmentId         *string                           `mandatory:"true" json:"compartmentId"`
-	HostName              *string                           `mandatory:"true" json:"hostName"`
 	HostDisplayName       *string                           `mandatory:"false" json:"hostDisplayName"`
 	HostType              *string                           `mandatory:"false" json:"hostType"`
 	ProcessorCount        *int                              `mandatory:"false" json:"processorCount"`
@@ -87,6 +84,9 @@ type hostinsightsummary struct {
 	TimeUpdated           *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
 	LifecycleState        LifecycleStateEnum                `mandatory:"false" json:"lifecycleState,omitempty"`
 	LifecycleDetails      *string                           `mandatory:"false" json:"lifecycleDetails"`
+	Id                    *string                           `mandatory:"true" json:"id"`
+	CompartmentId         *string                           `mandatory:"true" json:"compartmentId"`
+	HostName              *string                           `mandatory:"true" json:"hostName"`
 	EntitySource          string                            `json:"entitySource"`
 }
 
@@ -152,21 +152,6 @@ func (m *hostinsightsummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetId returns Id
-func (m hostinsightsummary) GetId() *string {
-	return m.Id
-}
-
-//GetCompartmentId returns CompartmentId
-func (m hostinsightsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetHostName returns HostName
-func (m hostinsightsummary) GetHostName() *string {
-	return m.HostName
-}
-
 //GetHostDisplayName returns HostDisplayName
 func (m hostinsightsummary) GetHostDisplayName() *string {
 	return m.HostDisplayName
@@ -225,6 +210,21 @@ func (m hostinsightsummary) GetLifecycleState() LifecycleStateEnum {
 //GetLifecycleDetails returns LifecycleDetails
 func (m hostinsightsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+//GetId returns Id
+func (m hostinsightsummary) GetId() *string {
+	return m.Id
+}
+
+//GetCompartmentId returns CompartmentId
+func (m hostinsightsummary) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetHostName returns HostName
+func (m hostinsightsummary) GetHostName() *string {
+	return m.HostName
 }
 
 func (m hostinsightsummary) String() string {

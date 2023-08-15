@@ -36,10 +36,10 @@ type CreateDatabaseBase interface {
 
 type createdatabasebase struct {
 	JsonData        []byte
-	DbHomeId        *string `mandatory:"true" json:"dbHomeId"`
 	DbVersion       *string `mandatory:"false" json:"dbVersion"`
 	KmsKeyId        *string `mandatory:"false" json:"kmsKeyId"`
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+	DbHomeId        *string `mandatory:"true" json:"dbHomeId"`
 	Source          string  `json:"source"`
 }
 
@@ -86,11 +86,6 @@ func (m *createdatabasebase) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetDbHomeId returns DbHomeId
-func (m createdatabasebase) GetDbHomeId() *string {
-	return m.DbHomeId
-}
-
 //GetDbVersion returns DbVersion
 func (m createdatabasebase) GetDbVersion() *string {
 	return m.DbVersion
@@ -104,6 +99,11 @@ func (m createdatabasebase) GetKmsKeyId() *string {
 //GetKmsKeyVersionId returns KmsKeyVersionId
 func (m createdatabasebase) GetKmsKeyVersionId() *string {
 	return m.KmsKeyVersionId
+}
+
+//GetDbHomeId returns DbHomeId
+func (m createdatabasebase) GetDbHomeId() *string {
+	return m.DbHomeId
 }
 
 func (m createdatabasebase) String() string {

@@ -40,10 +40,10 @@ type HealthCheck interface {
 
 type healthcheck struct {
 	JsonData           []byte
-	TimeoutInMs        *int64 `mandatory:"true" json:"timeoutInMs"`
-	IntervalInMs       *int64 `mandatory:"true" json:"intervalInMs"`
 	UnhealthyThreshold *int   `mandatory:"false" json:"unhealthyThreshold"`
 	HealthyThreshold   *int   `mandatory:"false" json:"healthyThreshold"`
+	TimeoutInMs        *int64 `mandatory:"true" json:"timeoutInMs"`
+	IntervalInMs       *int64 `mandatory:"true" json:"intervalInMs"`
 	Type               string `json:"type"`
 }
 
@@ -94,16 +94,6 @@ func (m *healthcheck) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetTimeoutInMs returns TimeoutInMs
-func (m healthcheck) GetTimeoutInMs() *int64 {
-	return m.TimeoutInMs
-}
-
-//GetIntervalInMs returns IntervalInMs
-func (m healthcheck) GetIntervalInMs() *int64 {
-	return m.IntervalInMs
-}
-
 //GetUnhealthyThreshold returns UnhealthyThreshold
 func (m healthcheck) GetUnhealthyThreshold() *int {
 	return m.UnhealthyThreshold
@@ -112,6 +102,16 @@ func (m healthcheck) GetUnhealthyThreshold() *int {
 //GetHealthyThreshold returns HealthyThreshold
 func (m healthcheck) GetHealthyThreshold() *int {
 	return m.HealthyThreshold
+}
+
+//GetTimeoutInMs returns TimeoutInMs
+func (m healthcheck) GetTimeoutInMs() *int64 {
+	return m.TimeoutInMs
+}
+
+//GetIntervalInMs returns IntervalInMs
+func (m healthcheck) GetIntervalInMs() *int64 {
+	return m.IntervalInMs
 }
 
 func (m healthcheck) String() string {

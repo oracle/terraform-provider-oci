@@ -62,15 +62,15 @@ type OutboundConnector interface {
 
 type outboundconnector struct {
 	JsonData           []byte
+	AvailabilityDomain *string                             `mandatory:"false" json:"availabilityDomain"`
+	FreeformTags       map[string]string                   `mandatory:"false" json:"freeformTags"`
+	DefinedTags        map[string]map[string]interface{}   `mandatory:"false" json:"definedTags"`
+	SystemTags         map[string]map[string]interface{}   `mandatory:"false" json:"systemTags"`
 	CompartmentId      *string                             `mandatory:"true" json:"compartmentId"`
 	Id                 *string                             `mandatory:"true" json:"id"`
 	LifecycleState     OutboundConnectorLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 	DisplayName        *string                             `mandatory:"true" json:"displayName"`
 	TimeCreated        *common.SDKTime                     `mandatory:"true" json:"timeCreated"`
-	AvailabilityDomain *string                             `mandatory:"false" json:"availabilityDomain"`
-	FreeformTags       map[string]string                   `mandatory:"false" json:"freeformTags"`
-	DefinedTags        map[string]map[string]interface{}   `mandatory:"false" json:"definedTags"`
-	SystemTags         map[string]map[string]interface{}   `mandatory:"false" json:"systemTags"`
 	ConnectorType      string                              `json:"connectorType"`
 }
 
@@ -118,6 +118,26 @@ func (m *outboundconnector) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
+//GetAvailabilityDomain returns AvailabilityDomain
+func (m outboundconnector) GetAvailabilityDomain() *string {
+	return m.AvailabilityDomain
+}
+
+//GetFreeformTags returns FreeformTags
+func (m outboundconnector) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m outboundconnector) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+//GetSystemTags returns SystemTags
+func (m outboundconnector) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
+}
+
 //GetCompartmentId returns CompartmentId
 func (m outboundconnector) GetCompartmentId() *string {
 	return m.CompartmentId
@@ -141,26 +161,6 @@ func (m outboundconnector) GetDisplayName() *string {
 //GetTimeCreated returns TimeCreated
 func (m outboundconnector) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
-}
-
-//GetAvailabilityDomain returns AvailabilityDomain
-func (m outboundconnector) GetAvailabilityDomain() *string {
-	return m.AvailabilityDomain
-}
-
-//GetFreeformTags returns FreeformTags
-func (m outboundconnector) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m outboundconnector) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-//GetSystemTags returns SystemTags
-func (m outboundconnector) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
 }
 
 func (m outboundconnector) String() string {

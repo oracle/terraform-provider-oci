@@ -57,9 +57,6 @@ type CreateTaskDetails interface {
 
 type createtaskdetails struct {
 	JsonData               []byte
-	Name                   *string               `mandatory:"true" json:"name"`
-	Identifier             *string               `mandatory:"true" json:"identifier"`
-	RegistryMetadata       *RegistryMetadata     `mandatory:"true" json:"registryMetadata"`
 	Key                    *string               `mandatory:"false" json:"key"`
 	ModelVersion           *string               `mandatory:"false" json:"modelVersion"`
 	ParentRef              *ParentReference      `mandatory:"false" json:"parentRef"`
@@ -70,6 +67,9 @@ type createtaskdetails struct {
 	Parameters             []Parameter           `mandatory:"false" json:"parameters"`
 	OpConfigValues         *ConfigValues         `mandatory:"false" json:"opConfigValues"`
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
+	Name                   *string               `mandatory:"true" json:"name"`
+	Identifier             *string               `mandatory:"true" json:"identifier"`
+	RegistryMetadata       *RegistryMetadata     `mandatory:"true" json:"registryMetadata"`
 	ModelType              string                `json:"modelType"`
 }
 
@@ -141,21 +141,6 @@ func (m *createtaskdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetName returns Name
-func (m createtaskdetails) GetName() *string {
-	return m.Name
-}
-
-//GetIdentifier returns Identifier
-func (m createtaskdetails) GetIdentifier() *string {
-	return m.Identifier
-}
-
-//GetRegistryMetadata returns RegistryMetadata
-func (m createtaskdetails) GetRegistryMetadata() *RegistryMetadata {
-	return m.RegistryMetadata
-}
-
 //GetKey returns Key
 func (m createtaskdetails) GetKey() *string {
 	return m.Key
@@ -204,6 +189,21 @@ func (m createtaskdetails) GetOpConfigValues() *ConfigValues {
 //GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m createtaskdetails) GetConfigProviderDelegate() *CreateConfigProvider {
 	return m.ConfigProviderDelegate
+}
+
+//GetName returns Name
+func (m createtaskdetails) GetName() *string {
+	return m.Name
+}
+
+//GetIdentifier returns Identifier
+func (m createtaskdetails) GetIdentifier() *string {
+	return m.Identifier
+}
+
+//GetRegistryMetadata returns RegistryMetadata
+func (m createtaskdetails) GetRegistryMetadata() *RegistryMetadata {
+	return m.RegistryMetadata
 }
 
 func (m createtaskdetails) String() string {

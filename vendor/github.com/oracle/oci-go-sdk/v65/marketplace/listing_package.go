@@ -46,14 +46,14 @@ type ListingPackage interface {
 
 type listingpackage struct {
 	JsonData        []byte
-	ListingId       *string          `mandatory:"true" json:"listingId"`
-	Version         *string          `mandatory:"true" json:"version"`
 	Description     *string          `mandatory:"false" json:"description"`
 	Pricing         *PricingModel    `mandatory:"false" json:"pricing"`
 	ResourceId      *string          `mandatory:"false" json:"resourceId"`
 	TimeCreated     *common.SDKTime  `mandatory:"false" json:"timeCreated"`
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 	Regions         []Region         `mandatory:"false" json:"regions"`
+	ListingId       *string          `mandatory:"true" json:"listingId"`
+	Version         *string          `mandatory:"true" json:"version"`
 	PackageType     string           `json:"packageType"`
 }
 
@@ -112,16 +112,6 @@ func (m *listingpackage) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetListingId returns ListingId
-func (m listingpackage) GetListingId() *string {
-	return m.ListingId
-}
-
-//GetVersion returns Version
-func (m listingpackage) GetVersion() *string {
-	return m.Version
-}
-
 //GetDescription returns Description
 func (m listingpackage) GetDescription() *string {
 	return m.Description
@@ -150,6 +140,16 @@ func (m listingpackage) GetOperatingSystem() *OperatingSystem {
 //GetRegions returns Regions
 func (m listingpackage) GetRegions() []Region {
 	return m.Regions
+}
+
+//GetListingId returns ListingId
+func (m listingpackage) GetListingId() *string {
+	return m.ListingId
+}
+
+//GetVersion returns Version
+func (m listingpackage) GetVersion() *string {
+	return m.Version
 }
 
 func (m listingpackage) String() string {

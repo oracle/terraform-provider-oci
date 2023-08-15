@@ -50,12 +50,12 @@ type CreateIdentityProviderDetails interface {
 
 type createidentityproviderdetails struct {
 	JsonData      []byte
+	FreeformTags  map[string]string                            `mandatory:"false" json:"freeformTags"`
+	DefinedTags   map[string]map[string]interface{}            `mandatory:"false" json:"definedTags"`
 	CompartmentId *string                                      `mandatory:"true" json:"compartmentId"`
 	Name          *string                                      `mandatory:"true" json:"name"`
 	Description   *string                                      `mandatory:"true" json:"description"`
 	ProductType   CreateIdentityProviderDetailsProductTypeEnum `mandatory:"true" json:"productType"`
-	FreeformTags  map[string]string                            `mandatory:"false" json:"freeformTags"`
-	DefinedTags   map[string]map[string]interface{}            `mandatory:"false" json:"definedTags"`
 	Protocol      string                                       `json:"protocol"`
 }
 
@@ -100,6 +100,16 @@ func (m *createidentityproviderdetails) UnmarshalPolymorphicJSON(data []byte) (i
 	}
 }
 
+//GetFreeformTags returns FreeformTags
+func (m createidentityproviderdetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m createidentityproviderdetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
 //GetCompartmentId returns CompartmentId
 func (m createidentityproviderdetails) GetCompartmentId() *string {
 	return m.CompartmentId
@@ -118,16 +128,6 @@ func (m createidentityproviderdetails) GetDescription() *string {
 //GetProductType returns ProductType
 func (m createidentityproviderdetails) GetProductType() CreateIdentityProviderDetailsProductTypeEnum {
 	return m.ProductType
-}
-
-//GetFreeformTags returns FreeformTags
-func (m createidentityproviderdetails) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m createidentityproviderdetails) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
 }
 
 func (m createidentityproviderdetails) String() string {

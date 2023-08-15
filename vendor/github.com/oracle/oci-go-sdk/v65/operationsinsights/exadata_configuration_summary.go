@@ -53,6 +53,7 @@ type ExadataConfigurationSummary interface {
 
 type exadataconfigurationsummary struct {
 	JsonData           []byte
+	VmclusterDetails   []VmClusterSummary                `mandatory:"false" json:"vmclusterDetails"`
 	ExadataInsightId   *string                           `mandatory:"true" json:"exadataInsightId"`
 	CompartmentId      *string                           `mandatory:"true" json:"compartmentId"`
 	ExadataName        *string                           `mandatory:"true" json:"exadataName"`
@@ -61,7 +62,6 @@ type exadataconfigurationsummary struct {
 	ExadataRackType    ExadataRackTypeEnum               `mandatory:"true" json:"exadataRackType"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 	FreeformTags       map[string]string                 `mandatory:"true" json:"freeformTags"`
-	VmclusterDetails   []VmClusterSummary                `mandatory:"false" json:"vmclusterDetails"`
 	EntitySource       string                            `json:"entitySource"`
 }
 
@@ -113,6 +113,11 @@ func (m *exadataconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
+//GetVmclusterDetails returns VmclusterDetails
+func (m exadataconfigurationsummary) GetVmclusterDetails() []VmClusterSummary {
+	return m.VmclusterDetails
+}
+
 //GetExadataInsightId returns ExadataInsightId
 func (m exadataconfigurationsummary) GetExadataInsightId() *string {
 	return m.ExadataInsightId
@@ -151,11 +156,6 @@ func (m exadataconfigurationsummary) GetDefinedTags() map[string]map[string]inte
 //GetFreeformTags returns FreeformTags
 func (m exadataconfigurationsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
-}
-
-//GetVmclusterDetails returns VmclusterDetails
-func (m exadataconfigurationsummary) GetVmclusterDetails() []VmClusterSummary {
-	return m.VmclusterDetails
 }
 
 func (m exadataconfigurationsummary) String() string {

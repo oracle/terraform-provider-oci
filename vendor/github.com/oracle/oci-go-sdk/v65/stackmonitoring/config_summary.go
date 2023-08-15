@@ -52,15 +52,15 @@ type ConfigSummary interface {
 
 type configsummary struct {
 	JsonData       []byte
-	Id             *string                           `mandatory:"true" json:"id"`
-	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
-	LifecycleState ConfigLifecycleStateEnum          `mandatory:"true" json:"lifecycleState"`
 	DisplayName    *string                           `mandatory:"false" json:"displayName"`
 	TimeCreated    *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
 	TimeUpdated    *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
 	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags     map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id             *string                           `mandatory:"true" json:"id"`
+	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
+	LifecycleState ConfigLifecycleStateEnum          `mandatory:"true" json:"lifecycleState"`
 	ConfigType     string                            `json:"configType"`
 }
 
@@ -108,21 +108,6 @@ func (m *configsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetId returns Id
-func (m configsummary) GetId() *string {
-	return m.Id
-}
-
-//GetCompartmentId returns CompartmentId
-func (m configsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetLifecycleState returns LifecycleState
-func (m configsummary) GetLifecycleState() ConfigLifecycleStateEnum {
-	return m.LifecycleState
-}
-
 //GetDisplayName returns DisplayName
 func (m configsummary) GetDisplayName() *string {
 	return m.DisplayName
@@ -151,6 +136,21 @@ func (m configsummary) GetDefinedTags() map[string]map[string]interface{} {
 //GetSystemTags returns SystemTags
 func (m configsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetId returns Id
+func (m configsummary) GetId() *string {
+	return m.Id
+}
+
+//GetCompartmentId returns CompartmentId
+func (m configsummary) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetLifecycleState returns LifecycleState
+func (m configsummary) GetLifecycleState() ConfigLifecycleStateEnum {
+	return m.LifecycleState
 }
 
 func (m configsummary) String() string {

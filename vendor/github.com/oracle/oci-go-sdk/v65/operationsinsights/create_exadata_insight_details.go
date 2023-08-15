@@ -35,9 +35,9 @@ type CreateExadataInsightDetails interface {
 
 type createexadatainsightdetails struct {
 	JsonData      []byte
-	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	EntitySource  string                            `json:"entitySource"`
 }
 
@@ -83,11 +83,6 @@ func (m *createexadatainsightdetails) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createexadatainsightdetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
 //GetFreeformTags returns FreeformTags
 func (m createexadatainsightdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -96,6 +91,11 @@ func (m createexadatainsightdetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createexadatainsightdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createexadatainsightdetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createexadatainsightdetails) String() string {

@@ -45,12 +45,12 @@ type CreateRepositoryDetails interface {
 
 type createrepositorydetails struct {
 	JsonData       []byte
-	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
-	IsImmutable    *bool                             `mandatory:"true" json:"isImmutable"`
 	DisplayName    *string                           `mandatory:"false" json:"displayName"`
 	Description    *string                           `mandatory:"false" json:"description"`
 	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
+	IsImmutable    *bool                             `mandatory:"true" json:"isImmutable"`
 	RepositoryType string                            `json:"repositoryType"`
 }
 
@@ -95,16 +95,6 @@ func (m *createrepositorydetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createrepositorydetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetIsImmutable returns IsImmutable
-func (m createrepositorydetails) GetIsImmutable() *bool {
-	return m.IsImmutable
-}
-
 //GetDisplayName returns DisplayName
 func (m createrepositorydetails) GetDisplayName() *string {
 	return m.DisplayName
@@ -123,6 +113,16 @@ func (m createrepositorydetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createrepositorydetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createrepositorydetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetIsImmutable returns IsImmutable
+func (m createrepositorydetails) GetIsImmutable() *bool {
+	return m.IsImmutable
 }
 
 func (m createrepositorydetails) String() string {

@@ -61,10 +61,6 @@ type TriggerCreateResult interface {
 
 type triggercreateresult struct {
 	JsonData         []byte
-	Id               *string                           `mandatory:"true" json:"id"`
-	ProjectId        *string                           `mandatory:"true" json:"projectId"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	Actions          json.RawMessage                   `mandatory:"true" json:"actions"`
 	DisplayName      *string                           `mandatory:"false" json:"displayName"`
 	Description      *string                           `mandatory:"false" json:"description"`
 	TimeCreated      *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
@@ -74,6 +70,10 @@ type triggercreateresult struct {
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id               *string                           `mandatory:"true" json:"id"`
+	ProjectId        *string                           `mandatory:"true" json:"projectId"`
+	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
+	Actions          json.RawMessage                   `mandatory:"true" json:"actions"`
 	TriggerSource    string                            `json:"triggerSource"`
 }
 
@@ -149,26 +149,6 @@ func (m *triggercreateresult) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetId returns Id
-func (m triggercreateresult) GetId() *string {
-	return m.Id
-}
-
-//GetProjectId returns ProjectId
-func (m triggercreateresult) GetProjectId() *string {
-	return m.ProjectId
-}
-
-//GetCompartmentId returns CompartmentId
-func (m triggercreateresult) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetActions returns Actions
-func (m triggercreateresult) GetActions() json.RawMessage {
-	return m.Actions
-}
-
 //GetDisplayName returns DisplayName
 func (m triggercreateresult) GetDisplayName() *string {
 	return m.DisplayName
@@ -212,6 +192,26 @@ func (m triggercreateresult) GetDefinedTags() map[string]map[string]interface{} 
 //GetSystemTags returns SystemTags
 func (m triggercreateresult) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetId returns Id
+func (m triggercreateresult) GetId() *string {
+	return m.Id
+}
+
+//GetProjectId returns ProjectId
+func (m triggercreateresult) GetProjectId() *string {
+	return m.ProjectId
+}
+
+//GetCompartmentId returns CompartmentId
+func (m triggercreateresult) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetActions returns Actions
+func (m triggercreateresult) GetActions() json.RawMessage {
+	return m.Actions
 }
 
 func (m triggercreateresult) String() string {

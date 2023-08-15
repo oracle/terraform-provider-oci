@@ -36,10 +36,10 @@ type BaseCreateAnnouncementsPreferencesDetails interface {
 
 type basecreateannouncementspreferencesdetails struct {
 	JsonData          []byte
-	PreferenceType    BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum `mandatory:"true" json:"preferenceType"`
 	IsUnsubscribed    *bool                                                       `mandatory:"false" json:"isUnsubscribed"`
 	CompartmentId     *string                                                     `mandatory:"false" json:"compartmentId"`
 	PreferredTimeZone *string                                                     `mandatory:"false" json:"preferredTimeZone"`
+	PreferenceType    BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum `mandatory:"true" json:"preferenceType"`
 	Type              string                                                      `json:"type"`
 }
 
@@ -86,11 +86,6 @@ func (m *basecreateannouncementspreferencesdetails) UnmarshalPolymorphicJSON(dat
 	}
 }
 
-//GetPreferenceType returns PreferenceType
-func (m basecreateannouncementspreferencesdetails) GetPreferenceType() BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum {
-	return m.PreferenceType
-}
-
 //GetIsUnsubscribed returns IsUnsubscribed
 func (m basecreateannouncementspreferencesdetails) GetIsUnsubscribed() *bool {
 	return m.IsUnsubscribed
@@ -104,6 +99,11 @@ func (m basecreateannouncementspreferencesdetails) GetCompartmentId() *string {
 //GetPreferredTimeZone returns PreferredTimeZone
 func (m basecreateannouncementspreferencesdetails) GetPreferredTimeZone() *string {
 	return m.PreferredTimeZone
+}
+
+//GetPreferenceType returns PreferenceType
+func (m basecreateannouncementspreferencesdetails) GetPreferenceType() BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum {
+	return m.PreferenceType
 }
 
 func (m basecreateannouncementspreferencesdetails) String() string {

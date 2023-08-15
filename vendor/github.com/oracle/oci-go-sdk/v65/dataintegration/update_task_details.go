@@ -60,8 +60,6 @@ type UpdateTaskDetails interface {
 
 type updatetaskdetails struct {
 	JsonData               []byte
-	Key                    *string           `mandatory:"true" json:"key"`
-	ObjectVersion          *int              `mandatory:"true" json:"objectVersion"`
 	ModelVersion           *string           `mandatory:"false" json:"modelVersion"`
 	ParentRef              *ParentReference  `mandatory:"false" json:"parentRef"`
 	Name                   *string           `mandatory:"false" json:"name"`
@@ -74,6 +72,8 @@ type updatetaskdetails struct {
 	OpConfigValues         *ConfigValues     `mandatory:"false" json:"opConfigValues"`
 	ConfigProviderDelegate *ConfigProvider   `mandatory:"false" json:"configProviderDelegate"`
 	RegistryMetadata       *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
+	Key                    *string           `mandatory:"true" json:"key"`
+	ObjectVersion          *int              `mandatory:"true" json:"objectVersion"`
 	ModelType              string            `json:"modelType"`
 }
 
@@ -146,16 +146,6 @@ func (m *updatetaskdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetKey returns Key
-func (m updatetaskdetails) GetKey() *string {
-	return m.Key
-}
-
-//GetObjectVersion returns ObjectVersion
-func (m updatetaskdetails) GetObjectVersion() *int {
-	return m.ObjectVersion
-}
-
 //GetModelVersion returns ModelVersion
 func (m updatetaskdetails) GetModelVersion() *string {
 	return m.ModelVersion
@@ -214,6 +204,16 @@ func (m updatetaskdetails) GetConfigProviderDelegate() *ConfigProvider {
 //GetRegistryMetadata returns RegistryMetadata
 func (m updatetaskdetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
+}
+
+//GetKey returns Key
+func (m updatetaskdetails) GetKey() *string {
+	return m.Key
+}
+
+//GetObjectVersion returns ObjectVersion
+func (m updatetaskdetails) GetObjectVersion() *int {
+	return m.ObjectVersion
 }
 
 func (m updatetaskdetails) String() string {

@@ -36,7 +36,7 @@ type updatejobdetails struct {
 	JsonData        []byte
 	Description     *string                    `mandatory:"false" json:"description"`
 	Timeout         *string                    `mandatory:"false" json:"timeout"`
-	ResultLocation  JobExecutionResultLocation `mandatory:"false" json:"resultLocation"`
+	ResultLocation  jobexecutionresultlocation `mandatory:"false" json:"resultLocation"`
 	ScheduleDetails *JobScheduleDetails        `mandatory:"false" json:"scheduleDetails"`
 	JobType         string                     `json:"jobType"`
 }
@@ -91,7 +91,7 @@ func (m updatejobdetails) GetTimeout() *string {
 }
 
 //GetResultLocation returns ResultLocation
-func (m updatejobdetails) GetResultLocation() JobExecutionResultLocation {
+func (m updatejobdetails) GetResultLocation() jobexecutionresultlocation {
 	return m.ResultLocation
 }
 

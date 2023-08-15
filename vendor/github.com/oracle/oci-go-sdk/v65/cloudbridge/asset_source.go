@@ -71,6 +71,10 @@ type AssetSource interface {
 
 type assetsource struct {
 	JsonData            []byte
+	DiscoveryScheduleId *string                           `mandatory:"false" json:"discoveryScheduleId"`
+	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Id                  *string                           `mandatory:"true" json:"id"`
 	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
 	DisplayName         *string                           `mandatory:"true" json:"displayName"`
@@ -81,10 +85,6 @@ type assetsource struct {
 	LifecycleDetails    *string                           `mandatory:"true" json:"lifecycleDetails"`
 	TimeCreated         *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated         *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
-	DiscoveryScheduleId *string                           `mandatory:"false" json:"discoveryScheduleId"`
-	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Type                string                            `json:"type"`
 }
 
@@ -145,6 +145,26 @@ func (m *assetsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
+//GetDiscoveryScheduleId returns DiscoveryScheduleId
+func (m assetsource) GetDiscoveryScheduleId() *string {
+	return m.DiscoveryScheduleId
+}
+
+//GetFreeformTags returns FreeformTags
+func (m assetsource) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m assetsource) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+//GetSystemTags returns SystemTags
+func (m assetsource) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
+}
+
 //GetId returns Id
 func (m assetsource) GetId() *string {
 	return m.Id
@@ -193,26 +213,6 @@ func (m assetsource) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m assetsource) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
-}
-
-//GetDiscoveryScheduleId returns DiscoveryScheduleId
-func (m assetsource) GetDiscoveryScheduleId() *string {
-	return m.DiscoveryScheduleId
-}
-
-//GetFreeformTags returns FreeformTags
-func (m assetsource) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m assetsource) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-//GetSystemTags returns SystemTags
-func (m assetsource) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
 }
 
 func (m assetsource) String() string {

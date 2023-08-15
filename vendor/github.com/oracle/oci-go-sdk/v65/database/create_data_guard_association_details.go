@@ -60,13 +60,13 @@ type CreateDataGuardAssociationDetails interface {
 
 type createdataguardassociationdetails struct {
 	JsonData                 []byte
-	DatabaseAdminPassword    *string                                             `mandatory:"true" json:"databaseAdminPassword"`
-	ProtectionMode           CreateDataGuardAssociationDetailsProtectionModeEnum `mandatory:"true" json:"protectionMode"`
-	TransportType            CreateDataGuardAssociationDetailsTransportTypeEnum  `mandatory:"true" json:"transportType"`
 	DatabaseSoftwareImageId  *string                                             `mandatory:"false" json:"databaseSoftwareImageId"`
 	IsActiveDataGuardEnabled *bool                                               `mandatory:"false" json:"isActiveDataGuardEnabled"`
 	PeerDbUniqueName         *string                                             `mandatory:"false" json:"peerDbUniqueName"`
 	PeerSidPrefix            *string                                             `mandatory:"false" json:"peerSidPrefix"`
+	DatabaseAdminPassword    *string                                             `mandatory:"true" json:"databaseAdminPassword"`
+	ProtectionMode           CreateDataGuardAssociationDetailsProtectionModeEnum `mandatory:"true" json:"protectionMode"`
+	TransportType            CreateDataGuardAssociationDetailsTransportTypeEnum  `mandatory:"true" json:"transportType"`
 	CreationType             string                                              `json:"creationType"`
 }
 
@@ -120,21 +120,6 @@ func (m *createdataguardassociationdetails) UnmarshalPolymorphicJSON(data []byte
 	}
 }
 
-//GetDatabaseAdminPassword returns DatabaseAdminPassword
-func (m createdataguardassociationdetails) GetDatabaseAdminPassword() *string {
-	return m.DatabaseAdminPassword
-}
-
-//GetProtectionMode returns ProtectionMode
-func (m createdataguardassociationdetails) GetProtectionMode() CreateDataGuardAssociationDetailsProtectionModeEnum {
-	return m.ProtectionMode
-}
-
-//GetTransportType returns TransportType
-func (m createdataguardassociationdetails) GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum {
-	return m.TransportType
-}
-
 //GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m createdataguardassociationdetails) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
@@ -153,6 +138,21 @@ func (m createdataguardassociationdetails) GetPeerDbUniqueName() *string {
 //GetPeerSidPrefix returns PeerSidPrefix
 func (m createdataguardassociationdetails) GetPeerSidPrefix() *string {
 	return m.PeerSidPrefix
+}
+
+//GetDatabaseAdminPassword returns DatabaseAdminPassword
+func (m createdataguardassociationdetails) GetDatabaseAdminPassword() *string {
+	return m.DatabaseAdminPassword
+}
+
+//GetProtectionMode returns ProtectionMode
+func (m createdataguardassociationdetails) GetProtectionMode() CreateDataGuardAssociationDetailsProtectionModeEnum {
+	return m.ProtectionMode
+}
+
+//GetTransportType returns TransportType
+func (m createdataguardassociationdetails) GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum {
+	return m.TransportType
 }
 
 func (m createdataguardassociationdetails) String() string {

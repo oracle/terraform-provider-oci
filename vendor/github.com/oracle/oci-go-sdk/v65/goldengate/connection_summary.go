@@ -90,12 +90,6 @@ type ConnectionSummary interface {
 
 type connectionsummary struct {
 	JsonData         []byte
-	Id               *string                           `mandatory:"true" json:"id"`
-	DisplayName      *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	LifecycleState   ConnectionLifecycleStateEnum      `mandatory:"true" json:"lifecycleState"`
-	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
 	Description      *string                           `mandatory:"false" json:"description"`
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -107,6 +101,12 @@ type connectionsummary struct {
 	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
+	Id               *string                           `mandatory:"true" json:"id"`
+	DisplayName      *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
+	LifecycleState   ConnectionLifecycleStateEnum      `mandatory:"true" json:"lifecycleState"`
+	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
 	ConnectionType   string                            `json:"connectionType"`
 }
 
@@ -222,36 +222,6 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetId returns Id
-func (m connectionsummary) GetId() *string {
-	return m.Id
-}
-
-//GetDisplayName returns DisplayName
-func (m connectionsummary) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m connectionsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetLifecycleState returns LifecycleState
-func (m connectionsummary) GetLifecycleState() ConnectionLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetTimeCreated returns TimeCreated
-func (m connectionsummary) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m connectionsummary) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
 //GetDescription returns Description
 func (m connectionsummary) GetDescription() *string {
 	return m.Description
@@ -305,6 +275,36 @@ func (m connectionsummary) GetSubnetId() *string {
 //GetRoutingMethod returns RoutingMethod
 func (m connectionsummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+//GetId returns Id
+func (m connectionsummary) GetId() *string {
+	return m.Id
+}
+
+//GetDisplayName returns DisplayName
+func (m connectionsummary) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+//GetCompartmentId returns CompartmentId
+func (m connectionsummary) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetLifecycleState returns LifecycleState
+func (m connectionsummary) GetLifecycleState() ConnectionLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+//GetTimeCreated returns TimeCreated
+func (m connectionsummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+//GetTimeUpdated returns TimeUpdated
+func (m connectionsummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
 }
 
 func (m connectionsummary) String() string {

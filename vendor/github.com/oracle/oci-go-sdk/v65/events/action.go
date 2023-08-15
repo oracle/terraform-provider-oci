@@ -40,11 +40,11 @@ type Action interface {
 
 type action struct {
 	JsonData         []byte
+	IsEnabled        *bool                    `mandatory:"false" json:"isEnabled"`
+	Description      *string                  `mandatory:"false" json:"description"`
 	Id               *string                  `mandatory:"true" json:"id"`
 	LifecycleMessage *string                  `mandatory:"true" json:"lifecycleMessage"`
 	LifecycleState   ActionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
-	IsEnabled        *bool                    `mandatory:"false" json:"isEnabled"`
-	Description      *string                  `mandatory:"false" json:"description"`
 	ActionType       string                   `json:"actionType"`
 }
 
@@ -96,6 +96,16 @@ func (m *action) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
+//GetIsEnabled returns IsEnabled
+func (m action) GetIsEnabled() *bool {
+	return m.IsEnabled
+}
+
+//GetDescription returns Description
+func (m action) GetDescription() *string {
+	return m.Description
+}
+
 //GetId returns Id
 func (m action) GetId() *string {
 	return m.Id
@@ -109,16 +119,6 @@ func (m action) GetLifecycleMessage() *string {
 //GetLifecycleState returns LifecycleState
 func (m action) GetLifecycleState() ActionLifecycleStateEnum {
 	return m.LifecycleState
-}
-
-//GetIsEnabled returns IsEnabled
-func (m action) GetIsEnabled() *bool {
-	return m.IsEnabled
-}
-
-//GetDescription returns Description
-func (m action) GetDescription() *string {
-	return m.Description
 }
 
 func (m action) String() string {

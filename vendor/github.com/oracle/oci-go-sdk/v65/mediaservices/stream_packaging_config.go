@@ -61,18 +61,18 @@ type StreamPackagingConfig interface {
 
 type streampackagingconfig struct {
 	JsonData              []byte
-	Id                    *string                                 `mandatory:"true" json:"id"`
-	CompartmentId         *string                                 `mandatory:"true" json:"compartmentId"`
-	DistributionChannelId *string                                 `mandatory:"true" json:"distributionChannelId"`
-	DisplayName           *string                                 `mandatory:"true" json:"displayName"`
-	SegmentTimeInSeconds  *int                                    `mandatory:"true" json:"segmentTimeInSeconds"`
-	Encryption            StreamPackagingConfigEncryption         `mandatory:"false" json:"encryption"`
+	Encryption            streampackagingconfigencryption         `mandatory:"false" json:"encryption"`
 	TimeCreated           *common.SDKTime                         `mandatory:"false" json:"timeCreated"`
 	TimeUpdated           *common.SDKTime                         `mandatory:"false" json:"timeUpdated"`
 	LifecycleState        StreamPackagingConfigLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 	FreeformTags          map[string]string                       `mandatory:"false" json:"freeformTags"`
 	DefinedTags           map[string]map[string]interface{}       `mandatory:"false" json:"definedTags"`
 	SystemTags            map[string]map[string]interface{}       `mandatory:"false" json:"systemTags"`
+	Id                    *string                                 `mandatory:"true" json:"id"`
+	CompartmentId         *string                                 `mandatory:"true" json:"compartmentId"`
+	DistributionChannelId *string                                 `mandatory:"true" json:"distributionChannelId"`
+	DisplayName           *string                                 `mandatory:"true" json:"displayName"`
+	SegmentTimeInSeconds  *int                                    `mandatory:"true" json:"segmentTimeInSeconds"`
 	StreamPackagingFormat string                                  `json:"streamPackagingFormat"`
 }
 
@@ -127,33 +127,8 @@ func (m *streampackagingconfig) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
-//GetId returns Id
-func (m streampackagingconfig) GetId() *string {
-	return m.Id
-}
-
-//GetCompartmentId returns CompartmentId
-func (m streampackagingconfig) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetDistributionChannelId returns DistributionChannelId
-func (m streampackagingconfig) GetDistributionChannelId() *string {
-	return m.DistributionChannelId
-}
-
-//GetDisplayName returns DisplayName
-func (m streampackagingconfig) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetSegmentTimeInSeconds returns SegmentTimeInSeconds
-func (m streampackagingconfig) GetSegmentTimeInSeconds() *int {
-	return m.SegmentTimeInSeconds
-}
-
 //GetEncryption returns Encryption
-func (m streampackagingconfig) GetEncryption() StreamPackagingConfigEncryption {
+func (m streampackagingconfig) GetEncryption() streampackagingconfigencryption {
 	return m.Encryption
 }
 
@@ -185,6 +160,31 @@ func (m streampackagingconfig) GetDefinedTags() map[string]map[string]interface{
 //GetSystemTags returns SystemTags
 func (m streampackagingconfig) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetId returns Id
+func (m streampackagingconfig) GetId() *string {
+	return m.Id
+}
+
+//GetCompartmentId returns CompartmentId
+func (m streampackagingconfig) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetDistributionChannelId returns DistributionChannelId
+func (m streampackagingconfig) GetDistributionChannelId() *string {
+	return m.DistributionChannelId
+}
+
+//GetDisplayName returns DisplayName
+func (m streampackagingconfig) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+//GetSegmentTimeInSeconds returns SegmentTimeInSeconds
+func (m streampackagingconfig) GetSegmentTimeInSeconds() *int {
+	return m.SegmentTimeInSeconds
 }
 
 func (m streampackagingconfig) String() string {

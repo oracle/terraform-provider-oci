@@ -81,8 +81,6 @@ type DatabaseInsightSummary interface {
 
 type databaseinsightsummary struct {
 	JsonData                        []byte
-	Id                              *string                           `mandatory:"true" json:"id"`
-	DatabaseId                      *string                           `mandatory:"true" json:"databaseId"`
 	CompartmentId                   *string                           `mandatory:"false" json:"compartmentId"`
 	DatabaseName                    *string                           `mandatory:"false" json:"databaseName"`
 	DatabaseDisplayName             *string                           `mandatory:"false" json:"databaseDisplayName"`
@@ -99,6 +97,8 @@ type databaseinsightsummary struct {
 	LifecycleState                  LifecycleStateEnum                `mandatory:"false" json:"lifecycleState,omitempty"`
 	LifecycleDetails                *string                           `mandatory:"false" json:"lifecycleDetails"`
 	DatabaseConnectionStatusDetails *string                           `mandatory:"false" json:"databaseConnectionStatusDetails"`
+	Id                              *string                           `mandatory:"true" json:"id"`
+	DatabaseId                      *string                           `mandatory:"true" json:"databaseId"`
 	EntitySource                    string                            `json:"entitySource"`
 }
 
@@ -165,16 +165,6 @@ func (m *databaseinsightsummary) UnmarshalPolymorphicJSON(data []byte) (interfac
 		common.Logf("Recieved unsupported enum value for DatabaseInsightSummary: %s.", m.EntitySource)
 		return *m, nil
 	}
-}
-
-//GetId returns Id
-func (m databaseinsightsummary) GetId() *string {
-	return m.Id
-}
-
-//GetDatabaseId returns DatabaseId
-func (m databaseinsightsummary) GetDatabaseId() *string {
-	return m.DatabaseId
 }
 
 //GetCompartmentId returns CompartmentId
@@ -255,6 +245,16 @@ func (m databaseinsightsummary) GetLifecycleDetails() *string {
 //GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
 func (m databaseinsightsummary) GetDatabaseConnectionStatusDetails() *string {
 	return m.DatabaseConnectionStatusDetails
+}
+
+//GetId returns Id
+func (m databaseinsightsummary) GetId() *string {
+	return m.Id
+}
+
+//GetDatabaseId returns DatabaseId
+func (m databaseinsightsummary) GetDatabaseId() *string {
+	return m.DatabaseId
 }
 
 func (m databaseinsightsummary) String() string {

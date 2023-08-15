@@ -48,8 +48,6 @@ type CreateDataAssetDetails interface {
 
 type createdataassetdetails struct {
 	JsonData         []byte
-	Name             *string           `mandatory:"true" json:"name"`
-	Identifier       *string           `mandatory:"true" json:"identifier"`
 	Key              *string           `mandatory:"false" json:"key"`
 	ModelVersion     *string           `mandatory:"false" json:"modelVersion"`
 	Description      *string           `mandatory:"false" json:"description"`
@@ -57,6 +55,8 @@ type createdataassetdetails struct {
 	ExternalKey      *string           `mandatory:"false" json:"externalKey"`
 	AssetProperties  map[string]string `mandatory:"false" json:"assetProperties"`
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
+	Name             *string           `mandatory:"true" json:"name"`
+	Identifier       *string           `mandatory:"true" json:"identifier"`
 	ModelType        string            `json:"modelType"`
 }
 
@@ -160,16 +160,6 @@ func (m *createdataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetName returns Name
-func (m createdataassetdetails) GetName() *string {
-	return m.Name
-}
-
-//GetIdentifier returns Identifier
-func (m createdataassetdetails) GetIdentifier() *string {
-	return m.Identifier
-}
-
 //GetKey returns Key
 func (m createdataassetdetails) GetKey() *string {
 	return m.Key
@@ -203,6 +193,16 @@ func (m createdataassetdetails) GetAssetProperties() map[string]string {
 //GetRegistryMetadata returns RegistryMetadata
 func (m createdataassetdetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
+}
+
+//GetName returns Name
+func (m createdataassetdetails) GetName() *string {
+	return m.Name
+}
+
+//GetIdentifier returns Identifier
+func (m createdataassetdetails) GetIdentifier() *string {
+	return m.Identifier
 }
 
 func (m createdataassetdetails) String() string {

@@ -40,12 +40,12 @@ type CreateTriggerDetails interface {
 
 type createtriggerdetails struct {
 	JsonData      []byte
-	ProjectId     *string                           `mandatory:"true" json:"projectId"`
-	Actions       json.RawMessage                   `mandatory:"true" json:"actions"`
 	DisplayName   *string                           `mandatory:"false" json:"displayName"`
 	Description   *string                           `mandatory:"false" json:"description"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	ProjectId     *string                           `mandatory:"true" json:"projectId"`
+	Actions       json.RawMessage                   `mandatory:"true" json:"actions"`
 	TriggerSource string                            `json:"triggerSource"`
 }
 
@@ -114,16 +114,6 @@ func (m *createtriggerdetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetProjectId returns ProjectId
-func (m createtriggerdetails) GetProjectId() *string {
-	return m.ProjectId
-}
-
-//GetActions returns Actions
-func (m createtriggerdetails) GetActions() json.RawMessage {
-	return m.Actions
-}
-
 //GetDisplayName returns DisplayName
 func (m createtriggerdetails) GetDisplayName() *string {
 	return m.DisplayName
@@ -142,6 +132,16 @@ func (m createtriggerdetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createtriggerdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetProjectId returns ProjectId
+func (m createtriggerdetails) GetProjectId() *string {
+	return m.ProjectId
+}
+
+//GetActions returns Actions
+func (m createtriggerdetails) GetActions() json.RawMessage {
+	return m.Actions
 }
 
 func (m createtriggerdetails) String() string {

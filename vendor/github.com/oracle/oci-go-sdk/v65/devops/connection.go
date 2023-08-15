@@ -60,9 +60,6 @@ type Connection interface {
 
 type connection struct {
 	JsonData                       []byte
-	Id                             *string                           `mandatory:"true" json:"id"`
-	CompartmentId                  *string                           `mandatory:"true" json:"compartmentId"`
-	ProjectId                      *string                           `mandatory:"true" json:"projectId"`
 	Description                    *string                           `mandatory:"false" json:"description"`
 	DisplayName                    *string                           `mandatory:"false" json:"displayName"`
 	TimeCreated                    *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
@@ -73,6 +70,9 @@ type connection struct {
 	FreeformTags                   map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags                     map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id                             *string                           `mandatory:"true" json:"id"`
+	CompartmentId                  *string                           `mandatory:"true" json:"compartmentId"`
+	ProjectId                      *string                           `mandatory:"true" json:"projectId"`
 	ConnectionType                 string                            `json:"connectionType"`
 }
 
@@ -144,21 +144,6 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 	}
 }
 
-//GetId returns Id
-func (m connection) GetId() *string {
-	return m.Id
-}
-
-//GetCompartmentId returns CompartmentId
-func (m connection) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetProjectId returns ProjectId
-func (m connection) GetProjectId() *string {
-	return m.ProjectId
-}
-
 //GetDescription returns Description
 func (m connection) GetDescription() *string {
 	return m.Description
@@ -207,6 +192,21 @@ func (m connection) GetDefinedTags() map[string]map[string]interface{} {
 //GetSystemTags returns SystemTags
 func (m connection) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetId returns Id
+func (m connection) GetId() *string {
+	return m.Id
+}
+
+//GetCompartmentId returns CompartmentId
+func (m connection) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetProjectId returns ProjectId
+func (m connection) GetProjectId() *string {
+	return m.ProjectId
 }
 
 func (m connection) String() string {

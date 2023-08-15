@@ -247,7 +247,6 @@ type CreateAutonomousDatabaseBase interface {
 
 type createautonomousdatabasebase struct {
 	JsonData                                 []byte
-	CompartmentId                            *string                                                           `mandatory:"true" json:"compartmentId"`
 	CharacterSet                             *string                                                           `mandatory:"false" json:"characterSet"`
 	NcharacterSet                            *string                                                           `mandatory:"false" json:"ncharacterSet"`
 	DbName                                   *string                                                           `mandatory:"false" json:"dbName"`
@@ -296,6 +295,7 @@ type createautonomousdatabasebase struct {
 	DbToolsDetails                           []DatabaseTool                                                    `mandatory:"false" json:"dbToolsDetails"`
 	SecretId                                 *string                                                           `mandatory:"false" json:"secretId"`
 	SecretVersionNumber                      *int                                                              `mandatory:"false" json:"secretVersionNumber"`
+	CompartmentId                            *string                                                           `mandatory:"true" json:"compartmentId"`
 	Source                                   string                                                            `json:"source"`
 }
 
@@ -413,11 +413,6 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		common.Logf("Recieved unsupported enum value for CreateAutonomousDatabaseBase: %s.", m.Source)
 		return *m, nil
 	}
-}
-
-//GetCompartmentId returns CompartmentId
-func (m createautonomousdatabasebase) GetCompartmentId() *string {
-	return m.CompartmentId
 }
 
 //GetCharacterSet returns CharacterSet
@@ -658,6 +653,11 @@ func (m createautonomousdatabasebase) GetSecretId() *string {
 //GetSecretVersionNumber returns SecretVersionNumber
 func (m createautonomousdatabasebase) GetSecretVersionNumber() *int {
 	return m.SecretVersionNumber
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createautonomousdatabasebase) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createautonomousdatabasebase) String() string {

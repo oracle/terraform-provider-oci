@@ -138,7 +138,7 @@ func (client QueueClient) deleteMessage(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/GetMessage/DeleteMessage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Queue", "DeleteMessage", apiReferenceLink)
 		return response, err
 	}
@@ -194,7 +194,7 @@ func (client QueueClient) deleteMessages(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/GetMessage/DeleteMessages"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Queue", "DeleteMessages", apiReferenceLink)
 		return response, err
 	}
@@ -252,7 +252,7 @@ func (client QueueClient) getMessages(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/GetMessage/GetMessages"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Queue", "GetMessages", apiReferenceLink)
 		return response, err
 	}
@@ -308,7 +308,7 @@ func (client QueueClient) getStats(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/QueueStats/GetStats"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Queue", "GetStats", apiReferenceLink)
 		return response, err
 	}
@@ -365,7 +365,7 @@ func (client QueueClient) listChannels(ctx context.Context, request common.OCIRe
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/ChannelCollection/ListChannels"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Queue", "ListChannels", apiReferenceLink)
 		return response, err
 	}
@@ -420,7 +420,7 @@ func (client QueueClient) putMessages(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/PutMessage/PutMessages"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Queue", "PutMessages", apiReferenceLink)
 		return response, err
 	}
@@ -476,7 +476,7 @@ func (client QueueClient) updateMessage(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/UpdatedMessage/UpdateMessage"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Queue", "UpdateMessage", apiReferenceLink)
 		return response, err
 	}
@@ -532,7 +532,7 @@ func (client QueueClient) updateMessages(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/GetMessage/UpdateMessages"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Queue", "UpdateMessages", apiReferenceLink)
 		return response, err
 	}

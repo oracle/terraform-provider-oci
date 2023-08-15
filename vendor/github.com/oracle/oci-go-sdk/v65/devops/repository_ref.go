@@ -37,11 +37,11 @@ type RepositoryRef interface {
 
 type repositoryref struct {
 	JsonData     []byte
+	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	RefName      *string                           `mandatory:"true" json:"refName"`
 	FullRefName  *string                           `mandatory:"true" json:"fullRefName"`
 	RepositoryId *string                           `mandatory:"true" json:"repositoryId"`
-	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	RefType      string                            `json:"refType"`
 }
 
@@ -89,6 +89,16 @@ func (m *repositoryref) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
+//GetFreeformTags returns FreeformTags
+func (m repositoryref) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m repositoryref) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
 //GetRefName returns RefName
 func (m repositoryref) GetRefName() *string {
 	return m.RefName
@@ -102,16 +112,6 @@ func (m repositoryref) GetFullRefName() *string {
 //GetRepositoryId returns RepositoryId
 func (m repositoryref) GetRepositoryId() *string {
 	return m.RepositoryId
-}
-
-//GetFreeformTags returns FreeformTags
-func (m repositoryref) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m repositoryref) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
 }
 
 func (m repositoryref) String() string {

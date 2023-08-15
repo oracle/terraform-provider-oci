@@ -55,8 +55,6 @@ type DbmResource interface {
 
 type dbmresource struct {
 	JsonData          []byte
-	Id                *string                       `mandatory:"true" json:"id"`
-	DisplayName       *string                       `mandatory:"true" json:"displayName"`
 	Version           *string                       `mandatory:"false" json:"version"`
 	InternalId        *string                       `mandatory:"false" json:"internalId"`
 	Status            *string                       `mandatory:"false" json:"status"`
@@ -65,6 +63,8 @@ type dbmresource struct {
 	TimeUpdated       *common.SDKTime               `mandatory:"false" json:"timeUpdated"`
 	LifecycleDetails  *string                       `mandatory:"false" json:"lifecycleDetails"`
 	AdditionalDetails map[string]string             `mandatory:"false" json:"additionalDetails"`
+	Id                *string                       `mandatory:"true" json:"id"`
+	DisplayName       *string                       `mandatory:"true" json:"displayName"`
 	ResourceType      string                        `json:"resourceType"`
 }
 
@@ -145,16 +145,6 @@ func (m *dbmresource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetId returns Id
-func (m dbmresource) GetId() *string {
-	return m.Id
-}
-
-//GetDisplayName returns DisplayName
-func (m dbmresource) GetDisplayName() *string {
-	return m.DisplayName
-}
-
 //GetVersion returns Version
 func (m dbmresource) GetVersion() *string {
 	return m.Version
@@ -193,6 +183,16 @@ func (m dbmresource) GetLifecycleDetails() *string {
 //GetAdditionalDetails returns AdditionalDetails
 func (m dbmresource) GetAdditionalDetails() map[string]string {
 	return m.AdditionalDetails
+}
+
+//GetId returns Id
+func (m dbmresource) GetId() *string {
+	return m.Id
+}
+
+//GetDisplayName returns DisplayName
+func (m dbmresource) GetDisplayName() *string {
+	return m.DisplayName
 }
 
 func (m dbmresource) String() string {

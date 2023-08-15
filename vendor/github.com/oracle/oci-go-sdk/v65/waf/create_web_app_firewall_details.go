@@ -44,12 +44,12 @@ type CreateWebAppFirewallDetails interface {
 
 type createwebappfirewalldetails struct {
 	JsonData               []byte
-	CompartmentId          *string                           `mandatory:"true" json:"compartmentId"`
-	WebAppFirewallPolicyId *string                           `mandatory:"true" json:"webAppFirewallPolicyId"`
 	DisplayName            *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags           map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags            map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags             map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	CompartmentId          *string                           `mandatory:"true" json:"compartmentId"`
+	WebAppFirewallPolicyId *string                           `mandatory:"true" json:"webAppFirewallPolicyId"`
 	BackendType            string                            `json:"backendType"`
 }
 
@@ -94,16 +94,6 @@ func (m *createwebappfirewalldetails) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createwebappfirewalldetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
-func (m createwebappfirewalldetails) GetWebAppFirewallPolicyId() *string {
-	return m.WebAppFirewallPolicyId
-}
-
 //GetDisplayName returns DisplayName
 func (m createwebappfirewalldetails) GetDisplayName() *string {
 	return m.DisplayName
@@ -122,6 +112,16 @@ func (m createwebappfirewalldetails) GetDefinedTags() map[string]map[string]inte
 //GetSystemTags returns SystemTags
 func (m createwebappfirewalldetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createwebappfirewalldetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
+func (m createwebappfirewalldetails) GetWebAppFirewallPolicyId() *string {
+	return m.WebAppFirewallPolicyId
 }
 
 func (m createwebappfirewalldetails) String() string {

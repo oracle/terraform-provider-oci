@@ -37,11 +37,11 @@ type CreateConnectionDetails interface {
 
 type createconnectiondetails struct {
 	JsonData       []byte
-	ProjectId      *string                           `mandatory:"true" json:"projectId"`
 	Description    *string                           `mandatory:"false" json:"description"`
 	DisplayName    *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	ProjectId      *string                           `mandatory:"true" json:"projectId"`
 	ConnectionType string                            `json:"connectionType"`
 }
 
@@ -105,11 +105,6 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetProjectId returns ProjectId
-func (m createconnectiondetails) GetProjectId() *string {
-	return m.ProjectId
-}
-
 //GetDescription returns Description
 func (m createconnectiondetails) GetDescription() *string {
 	return m.Description
@@ -128,6 +123,11 @@ func (m createconnectiondetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createconnectiondetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetProjectId returns ProjectId
+func (m createconnectiondetails) GetProjectId() *string {
+	return m.ProjectId
 }
 
 func (m createconnectiondetails) String() string {

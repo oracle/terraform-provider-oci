@@ -39,11 +39,11 @@ type CreateChannelDetails interface {
 
 type createchanneldetails struct {
 	JsonData                            []byte
-	Name                                *string                           `mandatory:"true" json:"name"`
 	Description                         *string                           `mandatory:"false" json:"description"`
 	SessionExpiryDurationInMilliseconds *int64                            `mandatory:"false" json:"sessionExpiryDurationInMilliseconds"`
 	FreeformTags                        map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Name                                *string                           `mandatory:"true" json:"name"`
 	Type                                string                            `json:"type"`
 }
 
@@ -139,11 +139,6 @@ func (m *createchanneldetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetName returns Name
-func (m createchanneldetails) GetName() *string {
-	return m.Name
-}
-
 //GetDescription returns Description
 func (m createchanneldetails) GetDescription() *string {
 	return m.Description
@@ -162,6 +157,11 @@ func (m createchanneldetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createchanneldetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetName returns Name
+func (m createchanneldetails) GetName() *string {
+	return m.Name
 }
 
 func (m createchanneldetails) String() string {

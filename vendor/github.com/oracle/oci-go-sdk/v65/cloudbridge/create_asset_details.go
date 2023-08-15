@@ -50,14 +50,14 @@ type CreateAssetDetails interface {
 
 type createassetdetails struct {
 	JsonData         []byte
-	InventoryId      *string                           `mandatory:"true" json:"inventoryId"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	SourceKey        *string                           `mandatory:"true" json:"sourceKey"`
-	ExternalAssetKey *string                           `mandatory:"true" json:"externalAssetKey"`
 	DisplayName      *string                           `mandatory:"false" json:"displayName"`
 	AssetSourceIds   []string                          `mandatory:"false" json:"assetSourceIds"`
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	InventoryId      *string                           `mandatory:"true" json:"inventoryId"`
+	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
+	SourceKey        *string                           `mandatory:"true" json:"sourceKey"`
+	ExternalAssetKey *string                           `mandatory:"true" json:"externalAssetKey"`
 	AssetType        string                            `json:"assetType"`
 }
 
@@ -120,26 +120,6 @@ func (m *createassetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetInventoryId returns InventoryId
-func (m createassetdetails) GetInventoryId() *string {
-	return m.InventoryId
-}
-
-//GetCompartmentId returns CompartmentId
-func (m createassetdetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetSourceKey returns SourceKey
-func (m createassetdetails) GetSourceKey() *string {
-	return m.SourceKey
-}
-
-//GetExternalAssetKey returns ExternalAssetKey
-func (m createassetdetails) GetExternalAssetKey() *string {
-	return m.ExternalAssetKey
-}
-
 //GetDisplayName returns DisplayName
 func (m createassetdetails) GetDisplayName() *string {
 	return m.DisplayName
@@ -158,6 +138,26 @@ func (m createassetdetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createassetdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetInventoryId returns InventoryId
+func (m createassetdetails) GetInventoryId() *string {
+	return m.InventoryId
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createassetdetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetSourceKey returns SourceKey
+func (m createassetdetails) GetSourceKey() *string {
+	return m.SourceKey
+}
+
+//GetExternalAssetKey returns ExternalAssetKey
+func (m createassetdetails) GetExternalAssetKey() *string {
+	return m.ExternalAssetKey
 }
 
 func (m createassetdetails) String() string {

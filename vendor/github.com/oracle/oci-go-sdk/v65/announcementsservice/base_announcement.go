@@ -88,14 +88,6 @@ type BaseAnnouncement interface {
 
 type baseannouncement struct {
 	JsonData              []byte
-	Id                    *string                              `mandatory:"true" json:"id"`
-	ReferenceTicketNumber *string                              `mandatory:"true" json:"referenceTicketNumber"`
-	Summary               *string                              `mandatory:"true" json:"summary"`
-	Services              []string                             `mandatory:"true" json:"services"`
-	AffectedRegions       []string                             `mandatory:"true" json:"affectedRegions"`
-	AnnouncementType      BaseAnnouncementAnnouncementTypeEnum `mandatory:"true" json:"announcementType"`
-	LifecycleState        BaseAnnouncementLifecycleStateEnum   `mandatory:"true" json:"lifecycleState"`
-	IsBanner              *bool                                `mandatory:"true" json:"isBanner"`
 	TimeOneTitle          *string                              `mandatory:"false" json:"timeOneTitle"`
 	TimeOneType           BaseAnnouncementTimeOneTypeEnum      `mandatory:"false" json:"timeOneType,omitempty"`
 	TimeOneValue          *common.SDKTime                      `mandatory:"false" json:"timeOneValue"`
@@ -107,6 +99,14 @@ type baseannouncement struct {
 	EnvironmentName       *string                              `mandatory:"false" json:"environmentName"`
 	PlatformType          BaseAnnouncementPlatformTypeEnum     `mandatory:"false" json:"platformType,omitempty"`
 	ChainId               *string                              `mandatory:"false" json:"chainId"`
+	Id                    *string                              `mandatory:"true" json:"id"`
+	ReferenceTicketNumber *string                              `mandatory:"true" json:"referenceTicketNumber"`
+	Summary               *string                              `mandatory:"true" json:"summary"`
+	Services              []string                             `mandatory:"true" json:"services"`
+	AffectedRegions       []string                             `mandatory:"true" json:"affectedRegions"`
+	AnnouncementType      BaseAnnouncementAnnouncementTypeEnum `mandatory:"true" json:"announcementType"`
+	LifecycleState        BaseAnnouncementLifecycleStateEnum   `mandatory:"true" json:"lifecycleState"`
+	IsBanner              *bool                                `mandatory:"true" json:"isBanner"`
 	Type                  string                               `json:"type"`
 }
 
@@ -168,46 +168,6 @@ func (m *baseannouncement) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetId returns Id
-func (m baseannouncement) GetId() *string {
-	return m.Id
-}
-
-//GetReferenceTicketNumber returns ReferenceTicketNumber
-func (m baseannouncement) GetReferenceTicketNumber() *string {
-	return m.ReferenceTicketNumber
-}
-
-//GetSummary returns Summary
-func (m baseannouncement) GetSummary() *string {
-	return m.Summary
-}
-
-//GetServices returns Services
-func (m baseannouncement) GetServices() []string {
-	return m.Services
-}
-
-//GetAffectedRegions returns AffectedRegions
-func (m baseannouncement) GetAffectedRegions() []string {
-	return m.AffectedRegions
-}
-
-//GetAnnouncementType returns AnnouncementType
-func (m baseannouncement) GetAnnouncementType() BaseAnnouncementAnnouncementTypeEnum {
-	return m.AnnouncementType
-}
-
-//GetLifecycleState returns LifecycleState
-func (m baseannouncement) GetLifecycleState() BaseAnnouncementLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetIsBanner returns IsBanner
-func (m baseannouncement) GetIsBanner() *bool {
-	return m.IsBanner
-}
-
 //GetTimeOneTitle returns TimeOneTitle
 func (m baseannouncement) GetTimeOneTitle() *string {
 	return m.TimeOneTitle
@@ -261,6 +221,46 @@ func (m baseannouncement) GetPlatformType() BaseAnnouncementPlatformTypeEnum {
 //GetChainId returns ChainId
 func (m baseannouncement) GetChainId() *string {
 	return m.ChainId
+}
+
+//GetId returns Id
+func (m baseannouncement) GetId() *string {
+	return m.Id
+}
+
+//GetReferenceTicketNumber returns ReferenceTicketNumber
+func (m baseannouncement) GetReferenceTicketNumber() *string {
+	return m.ReferenceTicketNumber
+}
+
+//GetSummary returns Summary
+func (m baseannouncement) GetSummary() *string {
+	return m.Summary
+}
+
+//GetServices returns Services
+func (m baseannouncement) GetServices() []string {
+	return m.Services
+}
+
+//GetAffectedRegions returns AffectedRegions
+func (m baseannouncement) GetAffectedRegions() []string {
+	return m.AffectedRegions
+}
+
+//GetAnnouncementType returns AnnouncementType
+func (m baseannouncement) GetAnnouncementType() BaseAnnouncementAnnouncementTypeEnum {
+	return m.AnnouncementType
+}
+
+//GetLifecycleState returns LifecycleState
+func (m baseannouncement) GetLifecycleState() BaseAnnouncementLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+//GetIsBanner returns IsBanner
+func (m baseannouncement) GetIsBanner() *bool {
+	return m.IsBanner
 }
 
 func (m baseannouncement) String() string {

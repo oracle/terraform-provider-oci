@@ -45,13 +45,13 @@ type CreateSensitiveTypeDetails interface {
 
 type createsensitivetypedetails struct {
 	JsonData         []byte
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
 	DisplayName      *string                           `mandatory:"false" json:"displayName"`
 	ShortName        *string                           `mandatory:"false" json:"shortName"`
 	Description      *string                           `mandatory:"false" json:"description"`
 	ParentCategoryId *string                           `mandatory:"false" json:"parentCategoryId"`
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
 	EntityType       string                            `json:"entityType"`
 }
 
@@ -101,11 +101,6 @@ func (m *createsensitivetypedetails) UnmarshalPolymorphicJSON(data []byte) (inte
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createsensitivetypedetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
 //GetDisplayName returns DisplayName
 func (m createsensitivetypedetails) GetDisplayName() *string {
 	return m.DisplayName
@@ -134,6 +129,11 @@ func (m createsensitivetypedetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createsensitivetypedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createsensitivetypedetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createsensitivetypedetails) String() string {

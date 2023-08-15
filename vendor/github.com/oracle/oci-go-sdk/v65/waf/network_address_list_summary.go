@@ -57,6 +57,8 @@ type NetworkAddressListSummary interface {
 
 type networkaddresslistsummary struct {
 	JsonData         []byte
+	TimeUpdated      *common.SDKTime                      `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails *string                              `mandatory:"false" json:"lifecycleDetails"`
 	Id               *string                              `mandatory:"true" json:"id"`
 	DisplayName      *string                              `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                              `mandatory:"true" json:"compartmentId"`
@@ -65,8 +67,6 @@ type networkaddresslistsummary struct {
 	FreeformTags     map[string]string                    `mandatory:"true" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{}    `mandatory:"true" json:"definedTags"`
 	SystemTags       map[string]map[string]interface{}    `mandatory:"true" json:"systemTags"`
-	TimeUpdated      *common.SDKTime                      `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails *string                              `mandatory:"false" json:"lifecycleDetails"`
 	Type             string                               `json:"type"`
 }
 
@@ -119,6 +119,16 @@ func (m *networkaddresslistsummary) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
+//GetTimeUpdated returns TimeUpdated
+func (m networkaddresslistsummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
+}
+
+//GetLifecycleDetails returns LifecycleDetails
+func (m networkaddresslistsummary) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
+}
+
 //GetId returns Id
 func (m networkaddresslistsummary) GetId() *string {
 	return m.Id
@@ -157,16 +167,6 @@ func (m networkaddresslistsummary) GetDefinedTags() map[string]map[string]interf
 //GetSystemTags returns SystemTags
 func (m networkaddresslistsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m networkaddresslistsummary) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetLifecycleDetails returns LifecycleDetails
-func (m networkaddresslistsummary) GetLifecycleDetails() *string {
-	return m.LifecycleDetails
 }
 
 func (m networkaddresslistsummary) String() string {

@@ -50,8 +50,6 @@ type UpdateConnectionDetails interface {
 
 type updateconnectiondetails struct {
 	JsonData             []byte
-	Key                  *string              `mandatory:"true" json:"key"`
-	ObjectVersion        *int                 `mandatory:"true" json:"objectVersion"`
 	ModelVersion         *string              `mandatory:"false" json:"modelVersion"`
 	ParentRef            *ParentReference     `mandatory:"false" json:"parentRef"`
 	Name                 *string              `mandatory:"false" json:"name"`
@@ -60,6 +58,8 @@ type updateconnectiondetails struct {
 	Identifier           *string              `mandatory:"false" json:"identifier"`
 	ConnectionProperties []ConnectionProperty `mandatory:"false" json:"connectionProperties"`
 	RegistryMetadata     *RegistryMetadata    `mandatory:"false" json:"registryMetadata"`
+	Key                  *string              `mandatory:"true" json:"key"`
+	ObjectVersion        *int                 `mandatory:"true" json:"objectVersion"`
 	ModelType            string               `json:"modelType"`
 }
 
@@ -172,16 +172,6 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetKey returns Key
-func (m updateconnectiondetails) GetKey() *string {
-	return m.Key
-}
-
-//GetObjectVersion returns ObjectVersion
-func (m updateconnectiondetails) GetObjectVersion() *int {
-	return m.ObjectVersion
-}
-
 //GetModelVersion returns ModelVersion
 func (m updateconnectiondetails) GetModelVersion() *string {
 	return m.ModelVersion
@@ -220,6 +210,16 @@ func (m updateconnectiondetails) GetConnectionProperties() []ConnectionProperty 
 //GetRegistryMetadata returns RegistryMetadata
 func (m updateconnectiondetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
+}
+
+//GetKey returns Key
+func (m updateconnectiondetails) GetKey() *string {
+	return m.Key
+}
+
+//GetObjectVersion returns ObjectVersion
+func (m updateconnectiondetails) GetObjectVersion() *int {
+	return m.ObjectVersion
 }
 
 func (m updateconnectiondetails) String() string {

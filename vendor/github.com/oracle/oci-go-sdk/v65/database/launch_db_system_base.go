@@ -150,13 +150,6 @@ type LaunchDbSystemBase interface {
 
 type launchdbsystembase struct {
 	JsonData                     []byte
-	CompartmentId                *string                                            `mandatory:"true" json:"compartmentId"`
-	AvailabilityDomain           *string                                            `mandatory:"true" json:"availabilityDomain"`
-	SubnetId                     *string                                            `mandatory:"true" json:"subnetId"`
-	Shape                        *string                                            `mandatory:"true" json:"shape"`
-	SshPublicKeys                []string                                           `mandatory:"true" json:"sshPublicKeys"`
-	Hostname                     *string                                            `mandatory:"true" json:"hostname"`
-	CpuCoreCount                 *int                                               `mandatory:"true" json:"cpuCoreCount"`
 	FaultDomains                 []string                                           `mandatory:"false" json:"faultDomains"`
 	DisplayName                  *string                                            `mandatory:"false" json:"displayName"`
 	BackupSubnetId               *string                                            `mandatory:"false" json:"backupSubnetId"`
@@ -177,6 +170,13 @@ type launchdbsystembase struct {
 	DefinedTags                  map[string]map[string]interface{}                  `mandatory:"false" json:"definedTags"`
 	PrivateIp                    *string                                            `mandatory:"false" json:"privateIp"`
 	DataCollectionOptions        *DataCollectionOptions                             `mandatory:"false" json:"dataCollectionOptions"`
+	CompartmentId                *string                                            `mandatory:"true" json:"compartmentId"`
+	AvailabilityDomain           *string                                            `mandatory:"true" json:"availabilityDomain"`
+	SubnetId                     *string                                            `mandatory:"true" json:"subnetId"`
+	Shape                        *string                                            `mandatory:"true" json:"shape"`
+	SshPublicKeys                []string                                           `mandatory:"true" json:"sshPublicKeys"`
+	Hostname                     *string                                            `mandatory:"true" json:"hostname"`
+	CpuCoreCount                 *int                                               `mandatory:"true" json:"cpuCoreCount"`
 	Source                       string                                             `json:"source"`
 }
 
@@ -252,41 +252,6 @@ func (m *launchdbsystembase) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		common.Logf("Recieved unsupported enum value for LaunchDbSystemBase: %s.", m.Source)
 		return *m, nil
 	}
-}
-
-//GetCompartmentId returns CompartmentId
-func (m launchdbsystembase) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetAvailabilityDomain returns AvailabilityDomain
-func (m launchdbsystembase) GetAvailabilityDomain() *string {
-	return m.AvailabilityDomain
-}
-
-//GetSubnetId returns SubnetId
-func (m launchdbsystembase) GetSubnetId() *string {
-	return m.SubnetId
-}
-
-//GetShape returns Shape
-func (m launchdbsystembase) GetShape() *string {
-	return m.Shape
-}
-
-//GetSshPublicKeys returns SshPublicKeys
-func (m launchdbsystembase) GetSshPublicKeys() []string {
-	return m.SshPublicKeys
-}
-
-//GetHostname returns Hostname
-func (m launchdbsystembase) GetHostname() *string {
-	return m.Hostname
-}
-
-//GetCpuCoreCount returns CpuCoreCount
-func (m launchdbsystembase) GetCpuCoreCount() *int {
-	return m.CpuCoreCount
 }
 
 //GetFaultDomains returns FaultDomains
@@ -387,6 +352,41 @@ func (m launchdbsystembase) GetPrivateIp() *string {
 //GetDataCollectionOptions returns DataCollectionOptions
 func (m launchdbsystembase) GetDataCollectionOptions() *DataCollectionOptions {
 	return m.DataCollectionOptions
+}
+
+//GetCompartmentId returns CompartmentId
+func (m launchdbsystembase) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetAvailabilityDomain returns AvailabilityDomain
+func (m launchdbsystembase) GetAvailabilityDomain() *string {
+	return m.AvailabilityDomain
+}
+
+//GetSubnetId returns SubnetId
+func (m launchdbsystembase) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+//GetShape returns Shape
+func (m launchdbsystembase) GetShape() *string {
+	return m.Shape
+}
+
+//GetSshPublicKeys returns SshPublicKeys
+func (m launchdbsystembase) GetSshPublicKeys() []string {
+	return m.SshPublicKeys
+}
+
+//GetHostname returns Hostname
+func (m launchdbsystembase) GetHostname() *string {
+	return m.Hostname
+}
+
+//GetCpuCoreCount returns CpuCoreCount
+func (m launchdbsystembase) GetCpuCoreCount() *int {
+	return m.CpuCoreCount
 }
 
 func (m launchdbsystembase) String() string {

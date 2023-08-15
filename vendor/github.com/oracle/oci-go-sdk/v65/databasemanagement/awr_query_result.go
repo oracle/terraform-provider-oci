@@ -36,10 +36,10 @@ type AwrQueryResult interface {
 
 type awrqueryresult struct {
 	JsonData          []byte
-	Name              *string  `mandatory:"true" json:"name"`
 	Version           *string  `mandatory:"false" json:"version"`
 	QueryKey          *string  `mandatory:"false" json:"queryKey"`
 	DbQueryTimeInSecs *float64 `mandatory:"false" json:"dbQueryTimeInSecs"`
+	Name              *string  `mandatory:"true" json:"name"`
 	AwrResultType     string   `json:"awrResultType"`
 }
 
@@ -130,11 +130,6 @@ func (m *awrqueryresult) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetName returns Name
-func (m awrqueryresult) GetName() *string {
-	return m.Name
-}
-
 //GetVersion returns Version
 func (m awrqueryresult) GetVersion() *string {
 	return m.Version
@@ -148,6 +143,11 @@ func (m awrqueryresult) GetQueryKey() *string {
 //GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m awrqueryresult) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
+}
+
+//GetName returns Name
+func (m awrqueryresult) GetName() *string {
+	return m.Name
 }
 
 func (m awrqueryresult) String() string {

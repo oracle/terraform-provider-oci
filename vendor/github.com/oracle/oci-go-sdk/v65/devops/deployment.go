@@ -70,10 +70,6 @@ type Deployment interface {
 
 type deployment struct {
 	JsonData                        []byte
-	Id                              *string                                   `mandatory:"true" json:"id"`
-	ProjectId                       *string                                   `mandatory:"true" json:"projectId"`
-	DeployPipelineId                *string                                   `mandatory:"true" json:"deployPipelineId"`
-	CompartmentId                   *string                                   `mandatory:"true" json:"compartmentId"`
 	DeployPipelineArtifacts         *DeployPipelineArtifactCollection         `mandatory:"false" json:"deployPipelineArtifacts"`
 	DeployPipelineEnvironments      *DeployPipelineEnvironmentCollection      `mandatory:"false" json:"deployPipelineEnvironments"`
 	DisplayName                     *string                                   `mandatory:"false" json:"displayName"`
@@ -88,6 +84,10 @@ type deployment struct {
 	FreeformTags                    map[string]string                         `mandatory:"false" json:"freeformTags"`
 	DefinedTags                     map[string]map[string]interface{}         `mandatory:"false" json:"definedTags"`
 	SystemTags                      map[string]map[string]interface{}         `mandatory:"false" json:"systemTags"`
+	Id                              *string                                   `mandatory:"true" json:"id"`
+	ProjectId                       *string                                   `mandatory:"true" json:"projectId"`
+	DeployPipelineId                *string                                   `mandatory:"true" json:"deployPipelineId"`
+	CompartmentId                   *string                                   `mandatory:"true" json:"compartmentId"`
 	DeploymentType                  string                                    `json:"deploymentType"`
 }
 
@@ -154,26 +154,6 @@ func (m *deployment) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		common.Logf("Recieved unsupported enum value for Deployment: %s.", m.DeploymentType)
 		return *m, nil
 	}
-}
-
-//GetId returns Id
-func (m deployment) GetId() *string {
-	return m.Id
-}
-
-//GetProjectId returns ProjectId
-func (m deployment) GetProjectId() *string {
-	return m.ProjectId
-}
-
-//GetDeployPipelineId returns DeployPipelineId
-func (m deployment) GetDeployPipelineId() *string {
-	return m.DeployPipelineId
-}
-
-//GetCompartmentId returns CompartmentId
-func (m deployment) GetCompartmentId() *string {
-	return m.CompartmentId
 }
 
 //GetDeployPipelineArtifacts returns DeployPipelineArtifacts
@@ -244,6 +224,26 @@ func (m deployment) GetDefinedTags() map[string]map[string]interface{} {
 //GetSystemTags returns SystemTags
 func (m deployment) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetId returns Id
+func (m deployment) GetId() *string {
+	return m.Id
+}
+
+//GetProjectId returns ProjectId
+func (m deployment) GetProjectId() *string {
+	return m.ProjectId
+}
+
+//GetDeployPipelineId returns DeployPipelineId
+func (m deployment) GetDeployPipelineId() *string {
+	return m.DeployPipelineId
+}
+
+//GetCompartmentId returns CompartmentId
+func (m deployment) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m deployment) String() string {

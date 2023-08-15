@@ -50,14 +50,14 @@ type OpsiDataObject interface {
 
 type opsidataobject struct {
 	JsonData                 []byte
-	Identifier               *string                             `mandatory:"true" json:"identifier"`
-	DisplayName              *string                             `mandatory:"true" json:"displayName"`
-	ColumnsMetadata          []DataObjectColumnMetadata          `mandatory:"true" json:"columnsMetadata"`
 	Description              *string                             `mandatory:"false" json:"description"`
 	Name                     *string                             `mandatory:"false" json:"name"`
 	GroupNames               []string                            `mandatory:"false" json:"groupNames"`
 	SupportedQueryTimePeriod *string                             `mandatory:"false" json:"supportedQueryTimePeriod"`
 	SupportedQueryParams     []OpsiDataObjectSupportedQueryParam `mandatory:"false" json:"supportedQueryParams"`
+	Identifier               *string                             `mandatory:"true" json:"identifier"`
+	DisplayName              *string                             `mandatory:"true" json:"displayName"`
+	ColumnsMetadata          []DataObjectColumnMetadata          `mandatory:"true" json:"columnsMetadata"`
 	DataObjectType           string                              `json:"dataObjectType"`
 }
 
@@ -112,21 +112,6 @@ func (m *opsidataobject) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetIdentifier returns Identifier
-func (m opsidataobject) GetIdentifier() *string {
-	return m.Identifier
-}
-
-//GetDisplayName returns DisplayName
-func (m opsidataobject) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetColumnsMetadata returns ColumnsMetadata
-func (m opsidataobject) GetColumnsMetadata() []DataObjectColumnMetadata {
-	return m.ColumnsMetadata
-}
-
 //GetDescription returns Description
 func (m opsidataobject) GetDescription() *string {
 	return m.Description
@@ -150,6 +135,21 @@ func (m opsidataobject) GetSupportedQueryTimePeriod() *string {
 //GetSupportedQueryParams returns SupportedQueryParams
 func (m opsidataobject) GetSupportedQueryParams() []OpsiDataObjectSupportedQueryParam {
 	return m.SupportedQueryParams
+}
+
+//GetIdentifier returns Identifier
+func (m opsidataobject) GetIdentifier() *string {
+	return m.Identifier
+}
+
+//GetDisplayName returns DisplayName
+func (m opsidataobject) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+//GetColumnsMetadata returns ColumnsMetadata
+func (m opsidataobject) GetColumnsMetadata() []DataObjectColumnMetadata {
+	return m.ColumnsMetadata
 }
 
 func (m opsidataobject) String() string {

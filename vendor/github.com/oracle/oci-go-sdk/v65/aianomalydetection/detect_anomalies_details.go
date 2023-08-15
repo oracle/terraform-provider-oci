@@ -31,8 +31,8 @@ type DetectAnomaliesDetails interface {
 
 type detectanomaliesdetails struct {
 	JsonData    []byte
-	ModelId     *string  `mandatory:"true" json:"modelId"`
 	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
+	ModelId     *string  `mandatory:"true" json:"modelId"`
 	RequestType string   `json:"requestType"`
 }
 
@@ -77,14 +77,14 @@ func (m *detectanomaliesdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetModelId returns ModelId
-func (m detectanomaliesdetails) GetModelId() *string {
-	return m.ModelId
-}
-
 //GetSensitivity returns Sensitivity
 func (m detectanomaliesdetails) GetSensitivity() *float32 {
 	return m.Sensitivity
+}
+
+//GetModelId returns ModelId
+func (m detectanomaliesdetails) GetModelId() *string {
+	return m.ModelId
 }
 
 func (m detectanomaliesdetails) String() string {

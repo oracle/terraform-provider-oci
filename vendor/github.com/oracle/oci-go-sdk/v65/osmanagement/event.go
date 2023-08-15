@@ -60,7 +60,6 @@ type Event interface {
 
 type event struct {
 	JsonData         []byte
-	Id               *string                           `mandatory:"true" json:"id"`
 	InstanceId       *string                           `mandatory:"false" json:"instanceId"`
 	CompartmentId    *string                           `mandatory:"false" json:"compartmentId"`
 	TenancyId        *string                           `mandatory:"false" json:"tenancyId"`
@@ -71,6 +70,7 @@ type event struct {
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id               *string                           `mandatory:"true" json:"id"`
 	EventType        string                            `json:"eventType"`
 }
 
@@ -124,11 +124,6 @@ func (m *event) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetId returns Id
-func (m event) GetId() *string {
-	return m.Id
-}
-
 //GetInstanceId returns InstanceId
 func (m event) GetInstanceId() *string {
 	return m.InstanceId
@@ -177,6 +172,11 @@ func (m event) GetDefinedTags() map[string]map[string]interface{} {
 //GetSystemTags returns SystemTags
 func (m event) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetId returns Id
+func (m event) GetId() *string {
+	return m.Id
 }
 
 func (m event) String() string {

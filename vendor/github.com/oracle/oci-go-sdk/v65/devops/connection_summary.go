@@ -60,9 +60,6 @@ type ConnectionSummary interface {
 
 type connectionsummary struct {
 	JsonData                       []byte
-	Id                             *string                           `mandatory:"true" json:"id"`
-	CompartmentId                  *string                           `mandatory:"true" json:"compartmentId"`
-	ProjectId                      *string                           `mandatory:"true" json:"projectId"`
 	DisplayName                    *string                           `mandatory:"false" json:"displayName"`
 	Description                    *string                           `mandatory:"false" json:"description"`
 	TimeCreated                    *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
@@ -73,6 +70,9 @@ type connectionsummary struct {
 	FreeformTags                   map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags                     map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id                             *string                           `mandatory:"true" json:"id"`
+	CompartmentId                  *string                           `mandatory:"true" json:"compartmentId"`
+	ProjectId                      *string                           `mandatory:"true" json:"projectId"`
 	ConnectionType                 string                            `json:"connectionType"`
 }
 
@@ -144,21 +144,6 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetId returns Id
-func (m connectionsummary) GetId() *string {
-	return m.Id
-}
-
-//GetCompartmentId returns CompartmentId
-func (m connectionsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetProjectId returns ProjectId
-func (m connectionsummary) GetProjectId() *string {
-	return m.ProjectId
-}
-
 //GetDisplayName returns DisplayName
 func (m connectionsummary) GetDisplayName() *string {
 	return m.DisplayName
@@ -207,6 +192,21 @@ func (m connectionsummary) GetDefinedTags() map[string]map[string]interface{} {
 //GetSystemTags returns SystemTags
 func (m connectionsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetId returns Id
+func (m connectionsummary) GetId() *string {
+	return m.Id
+}
+
+//GetCompartmentId returns CompartmentId
+func (m connectionsummary) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetProjectId returns ProjectId
+func (m connectionsummary) GetProjectId() *string {
+	return m.ProjectId
 }
 
 func (m connectionsummary) String() string {

@@ -136,7 +136,7 @@ func (client OpaInstanceClient) cancelWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -190,7 +190,7 @@ func (client OpaInstanceClient) changeOpaInstanceCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstance/ChangeOpaInstanceCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "ChangeOpaInstanceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client OpaInstanceClient) createOpaInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstance/CreateOpaInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "CreateOpaInstance", apiReferenceLink)
 		return response, err
 	}
@@ -303,7 +303,7 @@ func (client OpaInstanceClient) deleteOpaInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstance/DeleteOpaInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "DeleteOpaInstance", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +357,7 @@ func (client OpaInstanceClient) getOpaInstance(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstance/GetOpaInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "GetOpaInstance", apiReferenceLink)
 		return response, err
 	}
@@ -411,7 +411,7 @@ func (client OpaInstanceClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -465,7 +465,7 @@ func (client OpaInstanceClient) listOpaInstances(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstanceCollection/ListOpaInstances"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "ListOpaInstances", apiReferenceLink)
 		return response, err
 	}
@@ -519,7 +519,7 @@ func (client OpaInstanceClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -573,7 +573,7 @@ func (client OpaInstanceClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -627,7 +627,7 @@ func (client OpaInstanceClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -681,7 +681,7 @@ func (client OpaInstanceClient) updateOpaInstance(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opa/20210621/OpaInstance/UpdateOpaInstance"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OpaInstance", "UpdateOpaInstance", apiReferenceLink)
 		return response, err
 	}

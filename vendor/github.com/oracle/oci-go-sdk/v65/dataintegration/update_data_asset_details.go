@@ -51,8 +51,6 @@ type UpdateDataAssetDetails interface {
 
 type updatedataassetdetails struct {
 	JsonData         []byte
-	Key              *string           `mandatory:"true" json:"key"`
-	ObjectVersion    *int              `mandatory:"true" json:"objectVersion"`
 	ModelVersion     *string           `mandatory:"false" json:"modelVersion"`
 	Name             *string           `mandatory:"false" json:"name"`
 	Description      *string           `mandatory:"false" json:"description"`
@@ -61,6 +59,8 @@ type updatedataassetdetails struct {
 	ExternalKey      *string           `mandatory:"false" json:"externalKey"`
 	AssetProperties  map[string]string `mandatory:"false" json:"assetProperties"`
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
+	Key              *string           `mandatory:"true" json:"key"`
+	ObjectVersion    *int              `mandatory:"true" json:"objectVersion"`
 	ModelType        string            `json:"modelType"`
 }
 
@@ -165,16 +165,6 @@ func (m *updatedataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetKey returns Key
-func (m updatedataassetdetails) GetKey() *string {
-	return m.Key
-}
-
-//GetObjectVersion returns ObjectVersion
-func (m updatedataassetdetails) GetObjectVersion() *int {
-	return m.ObjectVersion
-}
-
 //GetModelVersion returns ModelVersion
 func (m updatedataassetdetails) GetModelVersion() *string {
 	return m.ModelVersion
@@ -213,6 +203,16 @@ func (m updatedataassetdetails) GetAssetProperties() map[string]string {
 //GetRegistryMetadata returns RegistryMetadata
 func (m updatedataassetdetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
+}
+
+//GetKey returns Key
+func (m updatedataassetdetails) GetKey() *string {
+	return m.Key
+}
+
+//GetObjectVersion returns ObjectVersion
+func (m updatedataassetdetails) GetObjectVersion() *int {
+	return m.ObjectVersion
 }
 
 func (m updatedataassetdetails) String() string {

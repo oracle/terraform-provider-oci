@@ -47,8 +47,6 @@ type CreateConnectionDetails interface {
 
 type createconnectiondetails struct {
 	JsonData             []byte
-	Name                 *string              `mandatory:"true" json:"name"`
-	Identifier           *string              `mandatory:"true" json:"identifier"`
 	Key                  *string              `mandatory:"false" json:"key"`
 	ModelVersion         *string              `mandatory:"false" json:"modelVersion"`
 	ParentRef            *ParentReference     `mandatory:"false" json:"parentRef"`
@@ -56,6 +54,8 @@ type createconnectiondetails struct {
 	ObjectStatus         *int                 `mandatory:"false" json:"objectStatus"`
 	ConnectionProperties []ConnectionProperty `mandatory:"false" json:"connectionProperties"`
 	RegistryMetadata     *RegistryMetadata    `mandatory:"false" json:"registryMetadata"`
+	Name                 *string              `mandatory:"true" json:"name"`
+	Identifier           *string              `mandatory:"true" json:"identifier"`
 	ModelType            string               `json:"modelType"`
 }
 
@@ -167,16 +167,6 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetName returns Name
-func (m createconnectiondetails) GetName() *string {
-	return m.Name
-}
-
-//GetIdentifier returns Identifier
-func (m createconnectiondetails) GetIdentifier() *string {
-	return m.Identifier
-}
-
 //GetKey returns Key
 func (m createconnectiondetails) GetKey() *string {
 	return m.Key
@@ -210,6 +200,16 @@ func (m createconnectiondetails) GetConnectionProperties() []ConnectionProperty 
 //GetRegistryMetadata returns RegistryMetadata
 func (m createconnectiondetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
+}
+
+//GetName returns Name
+func (m createconnectiondetails) GetName() *string {
+	return m.Name
+}
+
+//GetIdentifier returns Identifier
+func (m createconnectiondetails) GetIdentifier() *string {
+	return m.Identifier
 }
 
 func (m createconnectiondetails) String() string {

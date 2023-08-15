@@ -69,13 +69,6 @@ type DatabaseInsight interface {
 
 type databaseinsight struct {
 	JsonData                        []byte
-	Id                              *string                           `mandatory:"true" json:"id"`
-	CompartmentId                   *string                           `mandatory:"true" json:"compartmentId"`
-	Status                          ResourceStatusEnum                `mandatory:"true" json:"status"`
-	FreeformTags                    map[string]string                 `mandatory:"true" json:"freeformTags"`
-	DefinedTags                     map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
-	TimeCreated                     *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	LifecycleState                  LifecycleStateEnum                `mandatory:"true" json:"lifecycleState"`
 	DatabaseType                    *string                           `mandatory:"false" json:"databaseType"`
 	DatabaseVersion                 *string                           `mandatory:"false" json:"databaseVersion"`
 	ProcessorCount                  *int                              `mandatory:"false" json:"processorCount"`
@@ -83,6 +76,13 @@ type databaseinsight struct {
 	TimeUpdated                     *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
 	LifecycleDetails                *string                           `mandatory:"false" json:"lifecycleDetails"`
 	DatabaseConnectionStatusDetails *string                           `mandatory:"false" json:"databaseConnectionStatusDetails"`
+	Id                              *string                           `mandatory:"true" json:"id"`
+	CompartmentId                   *string                           `mandatory:"true" json:"compartmentId"`
+	Status                          ResourceStatusEnum                `mandatory:"true" json:"status"`
+	FreeformTags                    map[string]string                 `mandatory:"true" json:"freeformTags"`
+	DefinedTags                     map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+	TimeCreated                     *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	LifecycleState                  LifecycleStateEnum                `mandatory:"true" json:"lifecycleState"`
 	EntitySource                    string                            `json:"entitySource"`
 }
 
@@ -147,41 +147,6 @@ func (m *databaseinsight) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 	}
 }
 
-//GetId returns Id
-func (m databaseinsight) GetId() *string {
-	return m.Id
-}
-
-//GetCompartmentId returns CompartmentId
-func (m databaseinsight) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetStatus returns Status
-func (m databaseinsight) GetStatus() ResourceStatusEnum {
-	return m.Status
-}
-
-//GetFreeformTags returns FreeformTags
-func (m databaseinsight) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m databaseinsight) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-//GetTimeCreated returns TimeCreated
-func (m databaseinsight) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetLifecycleState returns LifecycleState
-func (m databaseinsight) GetLifecycleState() LifecycleStateEnum {
-	return m.LifecycleState
-}
-
 //GetDatabaseType returns DatabaseType
 func (m databaseinsight) GetDatabaseType() *string {
 	return m.DatabaseType
@@ -215,6 +180,41 @@ func (m databaseinsight) GetLifecycleDetails() *string {
 //GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
 func (m databaseinsight) GetDatabaseConnectionStatusDetails() *string {
 	return m.DatabaseConnectionStatusDetails
+}
+
+//GetId returns Id
+func (m databaseinsight) GetId() *string {
+	return m.Id
+}
+
+//GetCompartmentId returns CompartmentId
+func (m databaseinsight) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetStatus returns Status
+func (m databaseinsight) GetStatus() ResourceStatusEnum {
+	return m.Status
+}
+
+//GetFreeformTags returns FreeformTags
+func (m databaseinsight) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m databaseinsight) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+//GetTimeCreated returns TimeCreated
+func (m databaseinsight) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+//GetLifecycleState returns LifecycleState
+func (m databaseinsight) GetLifecycleState() LifecycleStateEnum {
+	return m.LifecycleState
 }
 
 func (m databaseinsight) String() string {

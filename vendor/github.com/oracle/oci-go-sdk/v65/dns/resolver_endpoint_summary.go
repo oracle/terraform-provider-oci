@@ -61,6 +61,8 @@ type ResolverEndpointSummary interface {
 
 type resolverendpointsummary struct {
 	JsonData          []byte
+	ForwardingAddress *string                                   `mandatory:"false" json:"forwardingAddress"`
+	ListeningAddress  *string                                   `mandatory:"false" json:"listeningAddress"`
 	Name              *string                                   `mandatory:"true" json:"name"`
 	IsForwarding      *bool                                     `mandatory:"true" json:"isForwarding"`
 	IsListening       *bool                                     `mandatory:"true" json:"isListening"`
@@ -69,8 +71,6 @@ type resolverendpointsummary struct {
 	TimeUpdated       *common.SDKTime                           `mandatory:"true" json:"timeUpdated"`
 	LifecycleState    ResolverEndpointSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 	Self              *string                                   `mandatory:"true" json:"self"`
-	ForwardingAddress *string                                   `mandatory:"false" json:"forwardingAddress"`
-	ListeningAddress  *string                                   `mandatory:"false" json:"listeningAddress"`
 	EndpointType      string                                    `json:"endpointType"`
 }
 
@@ -119,6 +119,16 @@ func (m *resolverendpointsummary) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
+//GetForwardingAddress returns ForwardingAddress
+func (m resolverendpointsummary) GetForwardingAddress() *string {
+	return m.ForwardingAddress
+}
+
+//GetListeningAddress returns ListeningAddress
+func (m resolverendpointsummary) GetListeningAddress() *string {
+	return m.ListeningAddress
+}
+
 //GetName returns Name
 func (m resolverendpointsummary) GetName() *string {
 	return m.Name
@@ -157,16 +167,6 @@ func (m resolverendpointsummary) GetLifecycleState() ResolverEndpointSummaryLife
 //GetSelf returns Self
 func (m resolverendpointsummary) GetSelf() *string {
 	return m.Self
-}
-
-//GetForwardingAddress returns ForwardingAddress
-func (m resolverendpointsummary) GetForwardingAddress() *string {
-	return m.ForwardingAddress
-}
-
-//GetListeningAddress returns ListeningAddress
-func (m resolverendpointsummary) GetListeningAddress() *string {
-	return m.ListeningAddress
 }
 
 func (m resolverendpointsummary) String() string {

@@ -78,6 +78,9 @@ type IdentityProvider interface {
 
 type identityprovider struct {
 	JsonData       []byte
+	InactiveStatus *int64                             `mandatory:"false" json:"inactiveStatus"`
+	FreeformTags   map[string]string                  `mandatory:"false" json:"freeformTags"`
+	DefinedTags    map[string]map[string]interface{}  `mandatory:"false" json:"definedTags"`
 	Id             *string                            `mandatory:"true" json:"id"`
 	CompartmentId  *string                            `mandatory:"true" json:"compartmentId"`
 	Name           *string                            `mandatory:"true" json:"name"`
@@ -85,9 +88,6 @@ type identityprovider struct {
 	ProductType    *string                            `mandatory:"true" json:"productType"`
 	TimeCreated    *common.SDKTime                    `mandatory:"true" json:"timeCreated"`
 	LifecycleState IdentityProviderLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
-	InactiveStatus *int64                             `mandatory:"false" json:"inactiveStatus"`
-	FreeformTags   map[string]string                  `mandatory:"false" json:"freeformTags"`
-	DefinedTags    map[string]map[string]interface{}  `mandatory:"false" json:"definedTags"`
 	Protocol       string                             `json:"protocol"`
 }
 
@@ -136,6 +136,21 @@ func (m *identityprovider) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
+//GetInactiveStatus returns InactiveStatus
+func (m identityprovider) GetInactiveStatus() *int64 {
+	return m.InactiveStatus
+}
+
+//GetFreeformTags returns FreeformTags
+func (m identityprovider) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m identityprovider) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
 //GetId returns Id
 func (m identityprovider) GetId() *string {
 	return m.Id
@@ -169,21 +184,6 @@ func (m identityprovider) GetTimeCreated() *common.SDKTime {
 //GetLifecycleState returns LifecycleState
 func (m identityprovider) GetLifecycleState() IdentityProviderLifecycleStateEnum {
 	return m.LifecycleState
-}
-
-//GetInactiveStatus returns InactiveStatus
-func (m identityprovider) GetInactiveStatus() *int64 {
-	return m.InactiveStatus
-}
-
-//GetFreeformTags returns FreeformTags
-func (m identityprovider) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m identityprovider) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
 }
 
 func (m identityprovider) String() string {

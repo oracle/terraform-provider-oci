@@ -39,10 +39,10 @@ type CreateScheduledTaskDetails interface {
 
 type createscheduledtaskdetails struct {
 	JsonData      []byte
-	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	DisplayName   *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	Kind          string                            `json:"kind"`
 }
 
@@ -89,11 +89,6 @@ func (m *createscheduledtaskdetails) UnmarshalPolymorphicJSON(data []byte) (inte
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createscheduledtaskdetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
 //GetDisplayName returns DisplayName
 func (m createscheduledtaskdetails) GetDisplayName() *string {
 	return m.DisplayName
@@ -107,6 +102,11 @@ func (m createscheduledtaskdetails) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createscheduledtaskdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetCompartmentId returns CompartmentId
+func (m createscheduledtaskdetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createscheduledtaskdetails) String() string {

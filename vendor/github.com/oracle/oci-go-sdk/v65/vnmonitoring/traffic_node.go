@@ -31,9 +31,9 @@ type TrafficNode interface {
 type trafficnode struct {
 	JsonData              []byte
 	EgressTraffic         *EgressTrafficSpec `mandatory:"false" json:"egressTraffic"`
-	NextHopRoutingAction  RoutingAction      `mandatory:"false" json:"nextHopRoutingAction"`
-	EgressSecurityAction  SecurityAction     `mandatory:"false" json:"egressSecurityAction"`
-	IngressSecurityAction SecurityAction     `mandatory:"false" json:"ingressSecurityAction"`
+	NextHopRoutingAction  routingaction      `mandatory:"false" json:"nextHopRoutingAction"`
+	EgressSecurityAction  securityaction     `mandatory:"false" json:"egressSecurityAction"`
+	IngressSecurityAction securityaction     `mandatory:"false" json:"ingressSecurityAction"`
 	Type                  string             `json:"type"`
 }
 
@@ -86,17 +86,17 @@ func (m trafficnode) GetEgressTraffic() *EgressTrafficSpec {
 }
 
 //GetNextHopRoutingAction returns NextHopRoutingAction
-func (m trafficnode) GetNextHopRoutingAction() RoutingAction {
+func (m trafficnode) GetNextHopRoutingAction() routingaction {
 	return m.NextHopRoutingAction
 }
 
 //GetEgressSecurityAction returns EgressSecurityAction
-func (m trafficnode) GetEgressSecurityAction() SecurityAction {
+func (m trafficnode) GetEgressSecurityAction() securityaction {
 	return m.EgressSecurityAction
 }
 
 //GetIngressSecurityAction returns IngressSecurityAction
-func (m trafficnode) GetIngressSecurityAction() SecurityAction {
+func (m trafficnode) GetIngressSecurityAction() securityaction {
 	return m.IngressSecurityAction
 }
 

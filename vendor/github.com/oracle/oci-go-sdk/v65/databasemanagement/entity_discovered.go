@@ -54,7 +54,6 @@ type EntityDiscovered interface {
 
 type entitydiscovered struct {
 	JsonData          []byte
-	DisplayName       *string                            `mandatory:"true" json:"displayName"`
 	Id                *string                            `mandatory:"false" json:"id"`
 	AgentId           *string                            `mandatory:"false" json:"agentId"`
 	ConnectorId       *string                            `mandatory:"false" json:"connectorId"`
@@ -64,6 +63,7 @@ type entitydiscovered struct {
 	DiscoverStatus    EntityDiscoveredDiscoverStatusEnum `mandatory:"false" json:"discoverStatus,omitempty"`
 	DiscoverErrorCode *string                            `mandatory:"false" json:"discoverErrorCode"`
 	DiscoverErrorMsg  *string                            `mandatory:"false" json:"discoverErrorMsg"`
+	DisplayName       *string                            `mandatory:"true" json:"displayName"`
 	EntityType        string                             `json:"entityType"`
 }
 
@@ -128,11 +128,6 @@ func (m *entitydiscovered) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetDisplayName returns DisplayName
-func (m entitydiscovered) GetDisplayName() *string {
-	return m.DisplayName
-}
-
 //GetId returns Id
 func (m entitydiscovered) GetId() *string {
 	return m.Id
@@ -176,6 +171,11 @@ func (m entitydiscovered) GetDiscoverErrorCode() *string {
 //GetDiscoverErrorMsg returns DiscoverErrorMsg
 func (m entitydiscovered) GetDiscoverErrorMsg() *string {
 	return m.DiscoverErrorMsg
+}
+
+//GetDisplayName returns DisplayName
+func (m entitydiscovered) GetDisplayName() *string {
+	return m.DisplayName
 }
 
 func (m entitydiscovered) String() string {

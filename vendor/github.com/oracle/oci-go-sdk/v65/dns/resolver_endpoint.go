@@ -61,6 +61,8 @@ type ResolverEndpoint interface {
 
 type resolverendpoint struct {
 	JsonData          []byte
+	ForwardingAddress *string                            `mandatory:"false" json:"forwardingAddress"`
+	ListeningAddress  *string                            `mandatory:"false" json:"listeningAddress"`
 	Name              *string                            `mandatory:"true" json:"name"`
 	IsForwarding      *bool                              `mandatory:"true" json:"isForwarding"`
 	IsListening       *bool                              `mandatory:"true" json:"isListening"`
@@ -69,8 +71,6 @@ type resolverendpoint struct {
 	TimeUpdated       *common.SDKTime                    `mandatory:"true" json:"timeUpdated"`
 	LifecycleState    ResolverEndpointLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 	Self              *string                            `mandatory:"true" json:"self"`
-	ForwardingAddress *string                            `mandatory:"false" json:"forwardingAddress"`
-	ListeningAddress  *string                            `mandatory:"false" json:"listeningAddress"`
 	EndpointType      string                             `json:"endpointType"`
 }
 
@@ -119,6 +119,16 @@ func (m *resolverendpoint) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
+//GetForwardingAddress returns ForwardingAddress
+func (m resolverendpoint) GetForwardingAddress() *string {
+	return m.ForwardingAddress
+}
+
+//GetListeningAddress returns ListeningAddress
+func (m resolverendpoint) GetListeningAddress() *string {
+	return m.ListeningAddress
+}
+
 //GetName returns Name
 func (m resolverendpoint) GetName() *string {
 	return m.Name
@@ -157,16 +167,6 @@ func (m resolverendpoint) GetLifecycleState() ResolverEndpointLifecycleStateEnum
 //GetSelf returns Self
 func (m resolverendpoint) GetSelf() *string {
 	return m.Self
-}
-
-//GetForwardingAddress returns ForwardingAddress
-func (m resolverendpoint) GetForwardingAddress() *string {
-	return m.ForwardingAddress
-}
-
-//GetListeningAddress returns ListeningAddress
-func (m resolverendpoint) GetListeningAddress() *string {
-	return m.ListeningAddress
 }
 
 func (m resolverendpoint) String() string {

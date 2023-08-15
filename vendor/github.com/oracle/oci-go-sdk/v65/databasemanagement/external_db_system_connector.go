@@ -58,6 +58,10 @@ type ExternalDbSystemConnector interface {
 
 type externaldbsystemconnector struct {
 	JsonData                        []byte
+	ConnectionStatus                *string                                     `mandatory:"false" json:"connectionStatus"`
+	ConnectionFailureMessage        *string                                     `mandatory:"false" json:"connectionFailureMessage"`
+	LifecycleDetails                *string                                     `mandatory:"false" json:"lifecycleDetails"`
+	TimeConnectionStatusLastUpdated *common.SDKTime                             `mandatory:"false" json:"timeConnectionStatusLastUpdated"`
 	Id                              *string                                     `mandatory:"true" json:"id"`
 	DisplayName                     *string                                     `mandatory:"true" json:"displayName"`
 	CompartmentId                   *string                                     `mandatory:"true" json:"compartmentId"`
@@ -65,10 +69,6 @@ type externaldbsystemconnector struct {
 	LifecycleState                  ExternalDbSystemConnectorLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 	TimeCreated                     *common.SDKTime                             `mandatory:"true" json:"timeCreated"`
 	TimeUpdated                     *common.SDKTime                             `mandatory:"true" json:"timeUpdated"`
-	ConnectionStatus                *string                                     `mandatory:"false" json:"connectionStatus"`
-	ConnectionFailureMessage        *string                                     `mandatory:"false" json:"connectionFailureMessage"`
-	LifecycleDetails                *string                                     `mandatory:"false" json:"lifecycleDetails"`
-	TimeConnectionStatusLastUpdated *common.SDKTime                             `mandatory:"false" json:"timeConnectionStatusLastUpdated"`
 	ConnectorType                   string                                      `json:"connectorType"`
 }
 
@@ -118,6 +118,26 @@ func (m *externaldbsystemconnector) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
+//GetConnectionStatus returns ConnectionStatus
+func (m externaldbsystemconnector) GetConnectionStatus() *string {
+	return m.ConnectionStatus
+}
+
+//GetConnectionFailureMessage returns ConnectionFailureMessage
+func (m externaldbsystemconnector) GetConnectionFailureMessage() *string {
+	return m.ConnectionFailureMessage
+}
+
+//GetLifecycleDetails returns LifecycleDetails
+func (m externaldbsystemconnector) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
+}
+
+//GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
+func (m externaldbsystemconnector) GetTimeConnectionStatusLastUpdated() *common.SDKTime {
+	return m.TimeConnectionStatusLastUpdated
+}
+
 //GetId returns Id
 func (m externaldbsystemconnector) GetId() *string {
 	return m.Id
@@ -151,26 +171,6 @@ func (m externaldbsystemconnector) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m externaldbsystemconnector) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
-}
-
-//GetConnectionStatus returns ConnectionStatus
-func (m externaldbsystemconnector) GetConnectionStatus() *string {
-	return m.ConnectionStatus
-}
-
-//GetConnectionFailureMessage returns ConnectionFailureMessage
-func (m externaldbsystemconnector) GetConnectionFailureMessage() *string {
-	return m.ConnectionFailureMessage
-}
-
-//GetLifecycleDetails returns LifecycleDetails
-func (m externaldbsystemconnector) GetLifecycleDetails() *string {
-	return m.LifecycleDetails
-}
-
-//GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
-func (m externaldbsystemconnector) GetTimeConnectionStatusLastUpdated() *common.SDKTime {
-	return m.TimeConnectionStatusLastUpdated
 }
 
 func (m externaldbsystemconnector) String() string {

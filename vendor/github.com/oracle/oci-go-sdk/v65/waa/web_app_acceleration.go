@@ -61,6 +61,8 @@ type WebAppAcceleration interface {
 
 type webappacceleration struct {
 	JsonData                   []byte
+	TimeUpdated                *common.SDKTime                      `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails           *string                              `mandatory:"false" json:"lifecycleDetails"`
 	Id                         *string                              `mandatory:"true" json:"id"`
 	DisplayName                *string                              `mandatory:"true" json:"displayName"`
 	CompartmentId              *string                              `mandatory:"true" json:"compartmentId"`
@@ -70,8 +72,6 @@ type webappacceleration struct {
 	FreeformTags               map[string]string                    `mandatory:"true" json:"freeformTags"`
 	DefinedTags                map[string]map[string]interface{}    `mandatory:"true" json:"definedTags"`
 	SystemTags                 map[string]map[string]interface{}    `mandatory:"true" json:"systemTags"`
-	TimeUpdated                *common.SDKTime                      `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails           *string                              `mandatory:"false" json:"lifecycleDetails"`
 	BackendType                string                               `json:"backendType"`
 }
 
@@ -121,6 +121,16 @@ func (m *webappacceleration) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
+//GetTimeUpdated returns TimeUpdated
+func (m webappacceleration) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
+}
+
+//GetLifecycleDetails returns LifecycleDetails
+func (m webappacceleration) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
+}
+
 //GetId returns Id
 func (m webappacceleration) GetId() *string {
 	return m.Id
@@ -164,16 +174,6 @@ func (m webappacceleration) GetDefinedTags() map[string]map[string]interface{} {
 //GetSystemTags returns SystemTags
 func (m webappacceleration) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m webappacceleration) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetLifecycleDetails returns LifecycleDetails
-func (m webappacceleration) GetLifecycleDetails() *string {
-	return m.LifecycleDetails
 }
 
 func (m webappacceleration) String() string {

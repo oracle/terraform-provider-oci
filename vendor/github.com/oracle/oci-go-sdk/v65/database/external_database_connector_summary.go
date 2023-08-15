@@ -63,6 +63,9 @@ type ExternalDatabaseConnectorSummary interface {
 
 type externaldatabaseconnectorsummary struct {
 	JsonData                        []byte
+	FreeformTags                    map[string]string                           `mandatory:"false" json:"freeformTags"`
+	DefinedTags                     map[string]map[string]interface{}           `mandatory:"false" json:"definedTags"`
+	LifecycleDetails                *string                                     `mandatory:"false" json:"lifecycleDetails"`
 	CompartmentId                   *string                                     `mandatory:"true" json:"compartmentId"`
 	DisplayName                     *string                                     `mandatory:"true" json:"displayName"`
 	Id                              *string                                     `mandatory:"true" json:"id"`
@@ -71,9 +74,6 @@ type externaldatabaseconnectorsummary struct {
 	ExternalDatabaseId              *string                                     `mandatory:"true" json:"externalDatabaseId"`
 	ConnectionStatus                *string                                     `mandatory:"true" json:"connectionStatus"`
 	TimeConnectionStatusLastUpdated *common.SDKTime                             `mandatory:"true" json:"timeConnectionStatusLastUpdated"`
-	FreeformTags                    map[string]string                           `mandatory:"false" json:"freeformTags"`
-	DefinedTags                     map[string]map[string]interface{}           `mandatory:"false" json:"definedTags"`
-	LifecycleDetails                *string                                     `mandatory:"false" json:"lifecycleDetails"`
 	ConnectorType                   string                                      `json:"connectorType"`
 }
 
@@ -123,6 +123,21 @@ func (m *externaldatabaseconnectorsummary) UnmarshalPolymorphicJSON(data []byte)
 	}
 }
 
+//GetFreeformTags returns FreeformTags
+func (m externaldatabaseconnectorsummary) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m externaldatabaseconnectorsummary) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+//GetLifecycleDetails returns LifecycleDetails
+func (m externaldatabaseconnectorsummary) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
+}
+
 //GetCompartmentId returns CompartmentId
 func (m externaldatabaseconnectorsummary) GetCompartmentId() *string {
 	return m.CompartmentId
@@ -161,21 +176,6 @@ func (m externaldatabaseconnectorsummary) GetConnectionStatus() *string {
 //GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
 func (m externaldatabaseconnectorsummary) GetTimeConnectionStatusLastUpdated() *common.SDKTime {
 	return m.TimeConnectionStatusLastUpdated
-}
-
-//GetFreeformTags returns FreeformTags
-func (m externaldatabaseconnectorsummary) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m externaldatabaseconnectorsummary) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-//GetLifecycleDetails returns LifecycleDetails
-func (m externaldatabaseconnectorsummary) GetLifecycleDetails() *string {
-	return m.LifecycleDetails
 }
 
 func (m externaldatabaseconnectorsummary) String() string {

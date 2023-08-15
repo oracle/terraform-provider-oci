@@ -136,7 +136,7 @@ func (client QueueAdminClient) changeQueueCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/ChangeQueueCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "ChangeQueueCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client QueueAdminClient) createQueue(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/CreateQueue"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "CreateQueue", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client QueueAdminClient) deleteQueue(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/DeleteQueue"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "DeleteQueue", apiReferenceLink)
 		return response, err
 	}
@@ -303,7 +303,7 @@ func (client QueueAdminClient) getQueue(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/GetQueue"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "GetQueue", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +357,7 @@ func (client QueueAdminClient) getWorkRequest(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -411,7 +411,7 @@ func (client QueueAdminClient) listQueues(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/QueueCollection/ListQueues"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "ListQueues", apiReferenceLink)
 		return response, err
 	}
@@ -465,7 +465,7 @@ func (client QueueAdminClient) listWorkRequestErrors(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/WorkRequestErrorCollection/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -519,7 +519,7 @@ func (client QueueAdminClient) listWorkRequestLogs(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/WorkRequestLogEntryCollection/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -573,7 +573,7 @@ func (client QueueAdminClient) listWorkRequests(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/WorkRequestSummaryCollection/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -629,7 +629,7 @@ func (client QueueAdminClient) purgeQueue(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/PurgeQueue"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "PurgeQueue", apiReferenceLink)
 		return response, err
 	}
@@ -683,7 +683,7 @@ func (client QueueAdminClient) updateQueue(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/UpdateQueue"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "QueueAdmin", "UpdateQueue", apiReferenceLink)
 		return response, err
 	}

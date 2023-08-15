@@ -56,6 +56,7 @@ type DatabaseConfigurationSummary interface {
 
 type databaseconfigurationsummary struct {
 	JsonData            []byte
+	ProcessorCount      *int                              `mandatory:"false" json:"processorCount"`
 	DatabaseInsightId   *string                           `mandatory:"true" json:"databaseInsightId"`
 	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
 	DatabaseName        *string                           `mandatory:"true" json:"databaseName"`
@@ -65,7 +66,6 @@ type databaseconfigurationsummary struct {
 	CdbName             *string                           `mandatory:"true" json:"cdbName"`
 	DefinedTags         map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 	FreeformTags        map[string]string                 `mandatory:"true" json:"freeformTags"`
-	ProcessorCount      *int                              `mandatory:"false" json:"processorCount"`
 	EntitySource        string                            `json:"entitySource"`
 }
 
@@ -126,6 +126,11 @@ func (m *databaseconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (in
 	}
 }
 
+//GetProcessorCount returns ProcessorCount
+func (m databaseconfigurationsummary) GetProcessorCount() *int {
+	return m.ProcessorCount
+}
+
 //GetDatabaseInsightId returns DatabaseInsightId
 func (m databaseconfigurationsummary) GetDatabaseInsightId() *string {
 	return m.DatabaseInsightId
@@ -169,11 +174,6 @@ func (m databaseconfigurationsummary) GetDefinedTags() map[string]map[string]int
 //GetFreeformTags returns FreeformTags
 func (m databaseconfigurationsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
-}
-
-//GetProcessorCount returns ProcessorCount
-func (m databaseconfigurationsummary) GetProcessorCount() *int {
-	return m.ProcessorCount
 }
 
 func (m databaseconfigurationsummary) String() string {

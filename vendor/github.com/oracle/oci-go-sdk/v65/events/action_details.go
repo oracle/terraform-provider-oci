@@ -31,8 +31,8 @@ type ActionDetails interface {
 
 type actiondetails struct {
 	JsonData    []byte
-	IsEnabled   *bool   `mandatory:"true" json:"isEnabled"`
 	Description *string `mandatory:"false" json:"description"`
+	IsEnabled   *bool   `mandatory:"true" json:"isEnabled"`
 	ActionType  string  `json:"actionType"`
 }
 
@@ -81,14 +81,14 @@ func (m *actiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetIsEnabled returns IsEnabled
-func (m actiondetails) GetIsEnabled() *bool {
-	return m.IsEnabled
-}
-
 //GetDescription returns Description
 func (m actiondetails) GetDescription() *string {
 	return m.Description
+}
+
+//GetIsEnabled returns IsEnabled
+func (m actiondetails) GetIsEnabled() *bool {
+	return m.IsEnabled
 }
 
 func (m actiondetails) String() string {

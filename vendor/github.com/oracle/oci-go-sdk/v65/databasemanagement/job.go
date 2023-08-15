@@ -70,6 +70,15 @@ type Job interface {
 
 type job struct {
 	JsonData                []byte
+	Description             *string                    `mandatory:"false" json:"description"`
+	ManagedDatabaseGroupId  *string                    `mandatory:"false" json:"managedDatabaseGroupId"`
+	ManagedDatabaseId       *string                    `mandatory:"false" json:"managedDatabaseId"`
+	ManagedDatabasesDetails []JobDatabase              `mandatory:"false" json:"managedDatabasesDetails"`
+	DatabaseSubType         DatabaseSubTypeEnum        `mandatory:"false" json:"databaseSubType,omitempty"`
+	Timeout                 *string                    `mandatory:"false" json:"timeout"`
+	ResultLocation          jobexecutionresultlocation `mandatory:"false" json:"resultLocation"`
+	ScheduleDetails         *JobScheduleDetails        `mandatory:"false" json:"scheduleDetails"`
+	SubmissionErrorMessage  *string                    `mandatory:"false" json:"submissionErrorMessage"`
 	Id                      *string                    `mandatory:"true" json:"id"`
 	CompartmentId           *string                    `mandatory:"true" json:"compartmentId"`
 	Name                    *string                    `mandatory:"true" json:"name"`
@@ -77,15 +86,6 @@ type job struct {
 	LifecycleState          JobLifecycleStateEnum      `mandatory:"true" json:"lifecycleState"`
 	TimeCreated             *common.SDKTime            `mandatory:"true" json:"timeCreated"`
 	TimeUpdated             *common.SDKTime            `mandatory:"true" json:"timeUpdated"`
-	Description             *string                    `mandatory:"false" json:"description"`
-	ManagedDatabaseGroupId  *string                    `mandatory:"false" json:"managedDatabaseGroupId"`
-	ManagedDatabaseId       *string                    `mandatory:"false" json:"managedDatabaseId"`
-	ManagedDatabasesDetails []JobDatabase              `mandatory:"false" json:"managedDatabasesDetails"`
-	DatabaseSubType         DatabaseSubTypeEnum        `mandatory:"false" json:"databaseSubType,omitempty"`
-	Timeout                 *string                    `mandatory:"false" json:"timeout"`
-	ResultLocation          JobExecutionResultLocation `mandatory:"false" json:"resultLocation"`
-	ScheduleDetails         *JobScheduleDetails        `mandatory:"false" json:"scheduleDetails"`
-	SubmissionErrorMessage  *string                    `mandatory:"false" json:"submissionErrorMessage"`
 	JobType                 string                     `json:"jobType"`
 }
 
@@ -140,6 +140,51 @@ func (m *job) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
+//GetDescription returns Description
+func (m job) GetDescription() *string {
+	return m.Description
+}
+
+//GetManagedDatabaseGroupId returns ManagedDatabaseGroupId
+func (m job) GetManagedDatabaseGroupId() *string {
+	return m.ManagedDatabaseGroupId
+}
+
+//GetManagedDatabaseId returns ManagedDatabaseId
+func (m job) GetManagedDatabaseId() *string {
+	return m.ManagedDatabaseId
+}
+
+//GetManagedDatabasesDetails returns ManagedDatabasesDetails
+func (m job) GetManagedDatabasesDetails() []JobDatabase {
+	return m.ManagedDatabasesDetails
+}
+
+//GetDatabaseSubType returns DatabaseSubType
+func (m job) GetDatabaseSubType() DatabaseSubTypeEnum {
+	return m.DatabaseSubType
+}
+
+//GetTimeout returns Timeout
+func (m job) GetTimeout() *string {
+	return m.Timeout
+}
+
+//GetResultLocation returns ResultLocation
+func (m job) GetResultLocation() jobexecutionresultlocation {
+	return m.ResultLocation
+}
+
+//GetScheduleDetails returns ScheduleDetails
+func (m job) GetScheduleDetails() *JobScheduleDetails {
+	return m.ScheduleDetails
+}
+
+//GetSubmissionErrorMessage returns SubmissionErrorMessage
+func (m job) GetSubmissionErrorMessage() *string {
+	return m.SubmissionErrorMessage
+}
+
 //GetId returns Id
 func (m job) GetId() *string {
 	return m.Id
@@ -173,51 +218,6 @@ func (m job) GetTimeCreated() *common.SDKTime {
 //GetTimeUpdated returns TimeUpdated
 func (m job) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
-}
-
-//GetDescription returns Description
-func (m job) GetDescription() *string {
-	return m.Description
-}
-
-//GetManagedDatabaseGroupId returns ManagedDatabaseGroupId
-func (m job) GetManagedDatabaseGroupId() *string {
-	return m.ManagedDatabaseGroupId
-}
-
-//GetManagedDatabaseId returns ManagedDatabaseId
-func (m job) GetManagedDatabaseId() *string {
-	return m.ManagedDatabaseId
-}
-
-//GetManagedDatabasesDetails returns ManagedDatabasesDetails
-func (m job) GetManagedDatabasesDetails() []JobDatabase {
-	return m.ManagedDatabasesDetails
-}
-
-//GetDatabaseSubType returns DatabaseSubType
-func (m job) GetDatabaseSubType() DatabaseSubTypeEnum {
-	return m.DatabaseSubType
-}
-
-//GetTimeout returns Timeout
-func (m job) GetTimeout() *string {
-	return m.Timeout
-}
-
-//GetResultLocation returns ResultLocation
-func (m job) GetResultLocation() JobExecutionResultLocation {
-	return m.ResultLocation
-}
-
-//GetScheduleDetails returns ScheduleDetails
-func (m job) GetScheduleDetails() *JobScheduleDetails {
-	return m.ScheduleDetails
-}
-
-//GetSubmissionErrorMessage returns SubmissionErrorMessage
-func (m job) GetSubmissionErrorMessage() *string {
-	return m.SubmissionErrorMessage
 }
 
 func (m job) String() string {
