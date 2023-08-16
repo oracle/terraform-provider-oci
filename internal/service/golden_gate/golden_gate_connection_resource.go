@@ -2133,6 +2133,54 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	//set common fields
+	result["id"] = *obj.GetId()
+
+	if obj.GetDisplayName() != nil {
+		result["display_name"] = *obj.GetDisplayName()
+	}
+	result["compartment_id"] = *obj.GetCompartmentId()
+	result["state"] = string(obj.GetLifecycleState())
+
+	if obj.GetTimeCreated() != nil {
+		result["time_created"] = obj.GetTimeCreated().String()
+	}
+	if obj.GetTimeUpdated() != nil {
+		result["time_updated"] = obj.GetTimeUpdated().String()
+	}
+	if obj.GetDescription() != nil {
+		result["description"] = *obj.GetDescription()
+	}
+	result["freeform_tags"] = obj.GetFreeformTags()
+	if obj.GetDefinedTags() != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.GetDefinedTags())
+	}
+	if obj.GetSystemTags() != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.GetSystemTags())
+	}
+	if obj.GetLifecycleDetails() != nil {
+		result["lifecycle_details"] = *obj.GetLifecycleDetails()
+	}
+
+	if obj.GetVaultId() != nil {
+		result["vault_id"] = *obj.GetVaultId()
+	}
+	if obj.GetSubnetId() != nil {
+		result["subnet_id"] = *obj.GetSubnetId()
+	}
+
+	ingressIps := []interface{}{}
+	for _, item := range obj.GetIngressIps() {
+		ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+	}
+	result["ingress_ips"] = ingressIps
+
+	if obj.GetNsgIds() != nil {
+		result["nsg_ids"] = obj.GetNsgIds()
+	}
+
+	// set type specific fields
 	switch v := (obj).(type) {
 	case oci_golden_gate.AmazonS3ConnectionSummary:
 		result["connection_type"] = "AMAZON_S3"

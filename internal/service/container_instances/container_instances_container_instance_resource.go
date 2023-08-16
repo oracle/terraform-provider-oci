@@ -264,6 +264,57 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 								},
 							},
 						},
+						"security_context": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"is_non_root_user_check_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"is_root_file_system_readonly": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"run_as_group": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"run_as_user": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"security_context_type": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"LINUX",
+										}, true),
+									},
+
+									// Computed
+								},
+							},
+						},
 						"volume_mounts": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -1726,6 +1777,17 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateContainerDe
 		}
 	}
 
+	if securityContext, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_context")); ok {
+		if tmpList := securityContext.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "security_context"), 0)
+			tmp, err := s.mapToCreateSecurityContextDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert security_context, encountered error: %v", err)
+			}
+			result.SecurityContext = tmp
+		}
+	}
+
 	if volumeMounts, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_mounts")); ok {
 		interfaces := volumeMounts.([]interface{})
 		tmp := make([]oci_container_instances.CreateVolumeMountDetails, len(interfaces))
@@ -2348,6 +2410,71 @@ func ImagePullSecretToMap(obj oci_container_instances.ImagePullSecret, d *schema
 	return result
 }
 
+func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateSecurityContextDetails(fieldKeyFormat string) (oci_container_instances.CreateSecurityContextDetails, error) {
+	var baseObject oci_container_instances.CreateSecurityContextDetails
+	//discriminator
+	securityContextTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_context_type"))
+	var securityContextType string
+	if ok {
+		securityContextType = securityContextTypeRaw.(string)
+	} else {
+		securityContextType = "LINUX" // default value
+	}
+	switch strings.ToLower(securityContextType) {
+	case strings.ToLower("LINUX"):
+		details := oci_container_instances.CreateLinuxSecurityContextDetails{}
+		if isNonRootUserCheckEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_non_root_user_check_enabled")); ok {
+			tmp := isNonRootUserCheckEnabled.(bool)
+			details.IsNonRootUserCheckEnabled = &tmp
+		}
+		if isRootFileSystemReadonly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_root_file_system_readonly")); ok {
+			tmp := isRootFileSystemReadonly.(bool)
+			details.IsRootFileSystemReadonly = &tmp
+		}
+		if runAsGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_as_group")); ok {
+			tmp := runAsGroup.(int)
+			details.RunAsGroup = &tmp
+		}
+		if runAsUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "run_as_user")); ok {
+			tmp := runAsUser.(int)
+			details.RunAsUser = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown security_context_type '%v' was specified", securityContextType)
+	}
+	return baseObject, nil
+}
+
+func SecurityContextToMap(obj *oci_container_instances.SecurityContext) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_container_instances.LinuxSecurityContext:
+		result["security_context_type"] = "LINUX"
+
+		if v.IsNonRootUserCheckEnabled != nil {
+			result["is_non_root_user_check_enabled"] = bool(*v.IsNonRootUserCheckEnabled)
+		}
+
+		if v.IsRootFileSystemReadonly != nil {
+			result["is_root_file_system_readonly"] = bool(*v.IsRootFileSystemReadonly)
+		}
+
+		if v.RunAsGroup != nil {
+			result["run_as_group"] = int(*v.RunAsGroup)
+		}
+
+		if v.RunAsUser != nil {
+			result["run_as_user"] = int(*v.RunAsUser)
+		}
+	default:
+		log.Printf("[WARN] Received 'security_context_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateVolumeMountDetails(fieldKeyFormat string) (oci_container_instances.CreateVolumeMountDetails, error) {
 	result := oci_container_instances.CreateVolumeMountDetails{}
 
@@ -2694,6 +2821,15 @@ func ContainerToMap(obj oci_container_instances.Container) map[string]interface{
 	if obj.WorkingDirectory != nil {
 		result["working_directory"] = obj.WorkingDirectory
 	}
+
+	if obj.SecurityContext != nil {
+		securityContextArray := []interface{}{}
+		if securityContextMap := SecurityContextToMap(&obj.SecurityContext); securityContextMap != nil {
+			securityContextArray = append(securityContextArray, securityContextMap)
+		}
+		result["security_context"] = securityContextArray
+	}
+
 	return result
 }
 

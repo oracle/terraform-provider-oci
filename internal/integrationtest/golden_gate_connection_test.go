@@ -442,10 +442,13 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		}
 
 		// DataSource representation
+
+		resourceCompartmentLocation := connectionRepresentation["compartment_id"].(acctest.Representation).Update.(string)
+		displayName := connectionRepresentation["display_name"].(acctest.Representation).Update.(string)
 		dataSourceRepresentation := map[string]interface{}{
-			"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+			"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: resourceCompartmentLocation},
 			"connection_type": acctest.Representation{RepType: acctest.Optional, Create: []string{connectionType}},
-			"display_name":    acctest.Representation{RepType: acctest.Optional, Create: `TF-connection-test-updated`},
+			"display_name":    acctest.Representation{RepType: acctest.Optional, Create: displayName},
 			"state":           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 			"technology_type": acctest.Representation{RepType: acctest.Optional, Create: []string{technologyType}},
 		}
@@ -459,12 +462,21 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		dataSourcesValidatorFunctions = append(dataSourcesValidatorFunctions, resource.TestCheckResourceAttr(checkDataSourcesName, "connection_collection.#", "1"))
 		dataSourcesValidatorFunctions = append(dataSourcesValidatorFunctions, resource.TestCheckResourceAttr(checkDataSourcesName, "connection_collection.0.items.#", "1"))
 
+		resourceFunctions := make([]resource.TestCheckFunc, 0, len(resourceCheckFunctions))
+		for _, value := range resourceCheckFunctions {
+			resourceFunctions = append(resourceFunctions, value)
+		}
+		updatedResourceFunctions := make([]resource.TestCheckFunc, 0, len(updatedResourceCheckFunctions))
+		for _, value := range updatedResourceCheckFunctions {
+			updatedResourceFunctions = append(updatedResourceFunctions, value)
+		}
+
 		// EXECUTE TESTS
 		acctest.ResourceTest(t, testAccCheckGoldenGateConnectionDestroy, []resource.TestStep{
 			// 0. resource test
 			{
 				Config: connectionSpecificConfig + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Create, connectionRepresentation),
-				Check:  acctest.ComposeAggregateTestCheckFuncArrayWrapper(make([]resource.TestCheckFunc, 0, len(resourceCheckFunctions))),
+				Check:  acctest.ComposeAggregateTestCheckFuncArrayWrapper(resourceFunctions),
 			},
 			// 1. singular datasource test
 			{
@@ -479,14 +491,14 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 			{
 				Config: connectionSpecificConfig +
 					acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Update, connectionRepresentation),
-				Check: acctest.ComposeAggregateTestCheckFuncArrayWrapper(make([]resource.TestCheckFunc, 0, len(updatedResourceCheckFunctions))),
+				Check: acctest.ComposeAggregateTestCheckFuncArrayWrapper(updatedResourceFunctions),
 			},
 			// 3. datasource test
 			{
 				Config: connectionSpecificConfig +
 					acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Update, connectionRepresentation) +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_connections", resourceName, acctest.Optional, acctest.Create, dataSourceRepresentation),
-				Check: acctest.ComposeAggregateTestCheckFuncArrayWrapper(make([]resource.TestCheckFunc, 0, len(dataSourcesValidatorFunctions))),
+				Check: acctest.ComposeAggregateTestCheckFuncArrayWrapper(dataSourcesValidatorFunctions),
 			},
 			// 4. verify resource import
 			{

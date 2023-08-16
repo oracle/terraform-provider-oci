@@ -48,6 +48,7 @@ var (
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"instance_pools":          acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreClusterNetworkInstancePoolsRepresentation},
 		"placement_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreClusterNetworkPlacementConfigurationRepresentation},
+		"cluster_configuration":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkClusterConfigurationRepresentation},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `hpc-cluster-network`, Update: `displayName2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -62,7 +63,14 @@ var (
 	CoreClusterNetworkPlacementConfigurationRepresentation = map[string]interface{}{
 		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"primary_subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"placement_constraint":   acctest.Representation{RepType: acctest.Optional, Create: `SINGLE_TIER`},
 		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentation},
+	}
+	CoreClusterNetworkClusterConfigurationRepresentation = map[string]interface{}{
+		"hpc_island_id": acctest.Representation{RepType: acctest.Required, Create: `${var.hpc_island_id}`},
+		//Testing with this needs capacity to be available in single HPCIsland with this networkBlockId. Because of capacity issues
+		// Skipping the test. Anyways the current infra does not support this field as it requires multi block placement constraint.
+		//"network_block_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`networkblockId`}},
 	}
 	CoreClusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentation = map[string]interface{}{
 		"subnet_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
@@ -86,7 +94,7 @@ var (
 
 	CoreClusterNetworkInstanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.GetMultipleUpdatedRepresenationCopy(
 		[]string{"shape", "source_details"}, []interface{}{
-			acctest.Representation{RepType: acctest.Optional, Create: `BM.HPC2.36`},
+			acctest.Representation{RepType: acctest.Optional, Create: `BM.Optimized3.36`}, // modified shape because of capacity issues
 			acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetUpdatedRepresentationCopy("image_id", acctest.Representation{RepType: acctest.Optional, Create: `${var.image_id}`}, CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)},
 		}, CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
 		[]string{"shape_config", "dedicated_vm_host_id", "is_pv_encryption_in_transit_enabled", "preferred_maintenance_action"})
@@ -124,19 +132,22 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 	imageId := utils.GetEnvSettingWithBlankDefault("image_id")
 	imageIdVariableStr := fmt.Sprintf("variable \"image_id\" { default = \"%s\" }\n", imageId)
 
+	hpcIslandId := utils.GetEnvSettingWithBlankDefault("hpc_island_id")
+	hpcIslandIdVariableStr := fmt.Sprintf("variable \"hpc_island_id\" { default = \"%s\" }\n", hpcIslandId)
+
 	resourceName := "oci_core_cluster_network.test_cluster_network"
 	datasourceName := "data.oci_core_cluster_networks.test_cluster_networks"
 	singularDatasourceName := "data.oci_core_cluster_network.test_cluster_network"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
-	acctest.SaveConfigContent(config+logicalAdVariableStr+compartmentIdVariableStr+imageIdVariableStr+ClusterNetworkResourceDependenciesWithoutSecondaryVnic+
+	acctest.SaveConfigContent(config+logicalAdVariableStr+compartmentIdVariableStr+imageIdVariableStr+hpcIslandIdVariableStr+ClusterNetworkResourceDependenciesWithoutSecondaryVnic+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, CoreClusterNetworkRepresentation), "core", "clusterNetwork", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreClusterNetworkDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + ClusterNetworkResourceDependenciesWithoutSecondaryVnic +
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + hpcIslandIdVariableStr + ClusterNetworkResourceDependenciesWithoutSecondaryVnic +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, CoreClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -160,9 +171,12 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + CoreClusterNetworkResourceDependencies +
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + hpcIslandIdVariableStr + CoreClusterNetworkResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Create, CoreClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_configuration.0.hpc_island_id"),
+				//resource.TestCheckResourceAttr(resourceName, "cluster_configuration.0.network_block_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "hpc-cluster-network"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -180,6 +194,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.placement_constraint", "SINGLE_TIER"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
@@ -206,12 +221,15 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + logicalAdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + imageIdVariableStr + CoreClusterNetworkResourceDependencies +
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + compartmentIdUVariableStr + imageIdVariableStr + hpcIslandIdVariableStr + CoreClusterNetworkResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(CoreClusterNetworkRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_configuration.0.hpc_island_id"),
+				//resource.TestCheckResourceAttr(resourceName, "cluster_configuration.0.network_block_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "hpc-cluster-network"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -229,6 +247,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.placement_constraint", "SINGLE_TIER"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
@@ -253,9 +272,12 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + CoreClusterNetworkResourceDependencies +
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + hpcIslandIdVariableStr + CoreClusterNetworkResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Update, CoreClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cluster_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_configuration.0.hpc_island_id"),
+				//resource.TestCheckResourceAttr(resourceName, "cluster_configuration.0.network_block_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -271,6 +293,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.placement_constraint", "SINGLE_TIER"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.primary_subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
@@ -296,7 +319,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cluster_networks", "test_cluster_networks", acctest.Optional, acctest.Update, CoreCoreClusterNetworkDataSourceRepresentation) +
-				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + CoreClusterNetworkResourceDependencies +
+				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + hpcIslandIdVariableStr + CoreClusterNetworkResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Update, CoreClusterNetworkRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -329,7 +352,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, CoreCoreClusterNetworkSingularDataSourceRepresentation) +
-				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + CoreClusterNetworkResourceConfig,
+				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + hpcIslandIdVariableStr + CoreClusterNetworkResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_network_id"),
 
@@ -349,6 +372,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configuration.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configuration.0.placement_constraint", "SINGLE_TIER"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
 					"display_name": "backend-servers",
@@ -361,11 +385,13 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + CoreClusterNetworkRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + CoreClusterNetworkRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"cluster_configuration",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }

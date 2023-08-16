@@ -395,7 +395,7 @@ func DatacatalogMetastoreSweepResponseFetchOperation(client *tf_client.OracleCli
 	return err
 }
 
-//Function to get ObjectStorage Namespace
+// Function to get ObjectStorage Namespace
 func getObjectStorageNamespace(compartmentId string) string {
 	compartment := compartmentId
 	objectStorageClient := acctest.GetTestClients(&schema.ResourceData{}).ObjectStorageClient()
