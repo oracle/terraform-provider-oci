@@ -21,25 +21,6 @@ type PromoteZoneDnssecKeyVersionDetails struct {
 
 	// The UUID of the DnssecKeyVersion that is being promoted.
 	DnssecKeyVersionUuid *string `mandatory:"true" json:"dnssecKeyVersionUuid"`
-
-	// The minimum length of time, in seconds, from now until when the predecessor DnssecKeyVersion should be
-	// unpublished. If that precedes scheduled removal of the predecessor, the removal will be accelerated.
-	// For KskDnssecKeyVersion, to avoid service disruption, this delay should be no less than the TTL of the
-	// replaced DS records in the parent zone, increased to account for slow propagation if new DS records in the
-	// parent zone are not yet resolvable.
-	// When providing a value for a ZskDnssecKeyVersion, in order to avoid disruption, more time has to pass
-	// between the new key introduction and old key removal than: the key set TTL combined with the maximum
-	// record TTL on the zone combined with buffer time for system automation to handle signing changes. The
-	// provided value cannot result in a time past the current scheduled expiration for the predecessor
-	// DnssecKeyVersion.
-	// TODO: Link to docs with expanded explanation and examples on timing.
-	PredecessorUnpublishDelayInSeconds *int `mandatory:"false" json:"predecessorUnpublishDelayInSeconds"`
-
-	// Optional length of time, in seconds, from now until when the new ZskDnssecKeyVersion should start being
-	// used for signing and when the old ZskDnssecKeyVersion should stop being used for signing. If this change has
-	// already occurred then this will have no effect.
-	// TODO: Link to docs with expanded explanation and examples on timing.
-	ActivationDelayInSeconds *int `mandatory:"false" json:"activationDelayInSeconds"`
 }
 
 func (m PromoteZoneDnssecKeyVersionDetails) String() string {

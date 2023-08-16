@@ -136,7 +136,7 @@ func (client ServiceMeshClient) cancelWorkRequest(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client ServiceMeshClient) changeAccessPolicyCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/ChangeAccessPolicyCompartment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeAccessPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -254,7 +254,7 @@ func (client ServiceMeshClient) changeIngressGatewayCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/ChangeIngressGatewayCompartment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeIngressGatewayCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -313,7 +313,7 @@ func (client ServiceMeshClient) changeIngressGatewayRouteTableCompartment(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/ChangeIngressGatewayRouteTableCompartment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeIngressGatewayRouteTableCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -372,7 +372,7 @@ func (client ServiceMeshClient) changeMeshCompartment(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/ChangeMeshCompartment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeMeshCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -431,7 +431,7 @@ func (client ServiceMeshClient) changeVirtualDeploymentCompartment(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/ChangeVirtualDeploymentCompartment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeVirtualDeploymentCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -490,7 +490,7 @@ func (client ServiceMeshClient) changeVirtualServiceCompartment(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/ChangeVirtualServiceCompartment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeVirtualServiceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -549,7 +549,7 @@ func (client ServiceMeshClient) changeVirtualServiceRouteTableCompartment(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/ChangeVirtualServiceRouteTableCompartment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ChangeVirtualServiceRouteTableCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -608,7 +608,7 @@ func (client ServiceMeshClient) createAccessPolicy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/CreateAccessPolicy"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateAccessPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -667,7 +667,7 @@ func (client ServiceMeshClient) createIngressGateway(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/CreateIngressGateway"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateIngressGateway", apiReferenceLink)
 		return response, err
 	}
@@ -726,7 +726,7 @@ func (client ServiceMeshClient) createIngressGatewayRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/CreateIngressGatewayRouteTable"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateIngressGatewayRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -785,7 +785,7 @@ func (client ServiceMeshClient) createMesh(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/CreateMesh"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateMesh", apiReferenceLink)
 		return response, err
 	}
@@ -844,7 +844,7 @@ func (client ServiceMeshClient) createVirtualDeployment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/CreateVirtualDeployment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateVirtualDeployment", apiReferenceLink)
 		return response, err
 	}
@@ -903,7 +903,7 @@ func (client ServiceMeshClient) createVirtualService(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/CreateVirtualService"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateVirtualService", apiReferenceLink)
 		return response, err
 	}
@@ -962,7 +962,7 @@ func (client ServiceMeshClient) createVirtualServiceRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/CreateVirtualServiceRouteTable"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "CreateVirtualServiceRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -1016,7 +1016,7 @@ func (client ServiceMeshClient) deleteAccessPolicy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/DeleteAccessPolicy"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteAccessPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1070,7 +1070,7 @@ func (client ServiceMeshClient) deleteIngressGateway(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/DeleteIngressGateway"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteIngressGateway", apiReferenceLink)
 		return response, err
 	}
@@ -1124,7 +1124,7 @@ func (client ServiceMeshClient) deleteIngressGatewayRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/DeleteIngressGatewayRouteTable"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteIngressGatewayRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -1178,7 +1178,7 @@ func (client ServiceMeshClient) deleteMesh(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/DeleteMesh"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteMesh", apiReferenceLink)
 		return response, err
 	}
@@ -1232,7 +1232,7 @@ func (client ServiceMeshClient) deleteVirtualDeployment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/DeleteVirtualDeployment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteVirtualDeployment", apiReferenceLink)
 		return response, err
 	}
@@ -1286,7 +1286,7 @@ func (client ServiceMeshClient) deleteVirtualService(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/DeleteVirtualService"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteVirtualService", apiReferenceLink)
 		return response, err
 	}
@@ -1340,7 +1340,7 @@ func (client ServiceMeshClient) deleteVirtualServiceRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/DeleteVirtualServiceRouteTable"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "DeleteVirtualServiceRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -1394,7 +1394,7 @@ func (client ServiceMeshClient) getAccessPolicy(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/GetAccessPolicy"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetAccessPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1448,7 +1448,7 @@ func (client ServiceMeshClient) getIngressGateway(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/GetIngressGateway"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetIngressGateway", apiReferenceLink)
 		return response, err
 	}
@@ -1502,7 +1502,7 @@ func (client ServiceMeshClient) getIngressGatewayRouteTable(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/GetIngressGatewayRouteTable"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetIngressGatewayRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -1556,7 +1556,7 @@ func (client ServiceMeshClient) getMesh(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/GetMesh"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetMesh", apiReferenceLink)
 		return response, err
 	}
@@ -1610,7 +1610,7 @@ func (client ServiceMeshClient) getProxyDetails(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/ProxyDetails/GetProxyDetails"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetProxyDetails", apiReferenceLink)
 		return response, err
 	}
@@ -1664,7 +1664,7 @@ func (client ServiceMeshClient) getVirtualDeployment(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/GetVirtualDeployment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetVirtualDeployment", apiReferenceLink)
 		return response, err
 	}
@@ -1718,7 +1718,7 @@ func (client ServiceMeshClient) getVirtualService(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/GetVirtualService"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetVirtualService", apiReferenceLink)
 		return response, err
 	}
@@ -1772,7 +1772,7 @@ func (client ServiceMeshClient) getVirtualServiceRouteTable(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/GetVirtualServiceRouteTable"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetVirtualServiceRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -1826,7 +1826,7 @@ func (client ServiceMeshClient) getWorkRequest(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1880,7 +1880,7 @@ func (client ServiceMeshClient) listAccessPolicies(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/ListAccessPolicies"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListAccessPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -1934,7 +1934,7 @@ func (client ServiceMeshClient) listIngressGatewayRouteTables(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/ListIngressGatewayRouteTables"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListIngressGatewayRouteTables", apiReferenceLink)
 		return response, err
 	}
@@ -1988,7 +1988,7 @@ func (client ServiceMeshClient) listIngressGateways(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/ListIngressGateways"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListIngressGateways", apiReferenceLink)
 		return response, err
 	}
@@ -2042,7 +2042,7 @@ func (client ServiceMeshClient) listMeshes(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/ListMeshes"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListMeshes", apiReferenceLink)
 		return response, err
 	}
@@ -2096,7 +2096,7 @@ func (client ServiceMeshClient) listVirtualDeployments(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/ListVirtualDeployments"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListVirtualDeployments", apiReferenceLink)
 		return response, err
 	}
@@ -2150,7 +2150,7 @@ func (client ServiceMeshClient) listVirtualServiceRouteTables(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/ListVirtualServiceRouteTables"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListVirtualServiceRouteTables", apiReferenceLink)
 		return response, err
 	}
@@ -2204,7 +2204,7 @@ func (client ServiceMeshClient) listVirtualServices(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/ListVirtualServices"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListVirtualServices", apiReferenceLink)
 		return response, err
 	}
@@ -2258,7 +2258,7 @@ func (client ServiceMeshClient) listWorkRequestErrors(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/WorkRequest/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -2312,7 +2312,7 @@ func (client ServiceMeshClient) listWorkRequestLogs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/WorkRequest/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -2366,7 +2366,7 @@ func (client ServiceMeshClient) listWorkRequests(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -2425,7 +2425,7 @@ func (client ServiceMeshClient) updateAccessPolicy(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/AccessPolicy/UpdateAccessPolicy"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateAccessPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -2484,7 +2484,7 @@ func (client ServiceMeshClient) updateIngressGateway(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGateway/UpdateIngressGateway"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateIngressGateway", apiReferenceLink)
 		return response, err
 	}
@@ -2543,7 +2543,7 @@ func (client ServiceMeshClient) updateIngressGatewayRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/IngressGatewayRouteTable/UpdateIngressGatewayRouteTable"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateIngressGatewayRouteTable", apiReferenceLink)
 		return response, err
 	}
@@ -2602,7 +2602,7 @@ func (client ServiceMeshClient) updateMesh(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/Mesh/UpdateMesh"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateMesh", apiReferenceLink)
 		return response, err
 	}
@@ -2661,7 +2661,7 @@ func (client ServiceMeshClient) updateVirtualDeployment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualDeployment/UpdateVirtualDeployment"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateVirtualDeployment", apiReferenceLink)
 		return response, err
 	}
@@ -2720,7 +2720,7 @@ func (client ServiceMeshClient) updateVirtualService(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualService/UpdateVirtualService"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateVirtualService", apiReferenceLink)
 		return response, err
 	}
@@ -2779,7 +2779,7 @@ func (client ServiceMeshClient) updateVirtualServiceRouteTable(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-mesh/20220615/VirtualServiceRouteTable/UpdateVirtualServiceRouteTable"
 		err = common.PostProcessServiceError(err, "ServiceMesh", "UpdateVirtualServiceRouteTable", apiReferenceLink)
 		return response, err
 	}

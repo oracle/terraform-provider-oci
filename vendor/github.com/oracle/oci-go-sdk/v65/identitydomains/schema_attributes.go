@@ -95,6 +95,16 @@ type SchemaAttributes struct {
 	//  - type: boolean
 	Required *bool `mandatory:"false" json:"required"`
 
+	// Specifies if the attribute is required
+	// **Added In:** 2305190132
+	// **SCIM++ Properties:**
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: boolean
+	IdcsReturnEmptyWhenNull *bool `mandatory:"false" json:"idcsReturnEmptyWhenNull"`
+
 	// A collection of canonical values. Applicable Service Providers MUST specify the canonical types specified in the core schema specification--for example, \"work\", \"home\".
 	// **SCIM++ Properties:**
 	//  - caseExact: true

@@ -26,10 +26,6 @@ type CreateClusterNamespaceDetails struct {
 	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// List of IAM Group OCIDs to allow admin access within the
-	// cluster namespace.
-	AdminGroupIds []string `mandatory:"true" json:"adminGroupIds"`
-
 	// OCID of Cluster Namespace Profile Version to use.
 	ClusterNamespaceProfileVersionId *string `mandatory:"true" json:"clusterNamespaceProfileVersionId"`
 

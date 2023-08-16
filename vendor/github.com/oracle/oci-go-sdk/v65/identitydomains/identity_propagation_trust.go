@@ -259,7 +259,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	//  - caseExact: true
 	//  - idcsSearchable: false
-	ClientClaimValue []string `mandatory:"false" json:"clientClaimValue"`
+	ClientClaimValues []string `mandatory:"false" json:"clientClaimValues"`
 
 	// If true, this Identity Propagation Trust considered to be enabled state. Default value is false
 	// **SCIM++ Properties:**
@@ -338,7 +338,9 @@ type IdentityPropagationTrust struct {
 	//  - returned: request
 	//  - type: complex
 	//  - uniqueness: none
-	ImpersonationServiceUser []IdentityPropagationTrustImpersonationServiceUser `mandatory:"false" json:"impersonationServiceUser"`
+	ImpersonationServiceUsers []IdentityPropagationTrustImpersonationServiceUsers `mandatory:"false" json:"impersonationServiceUsers"`
+
+	Keytab *IdentityPropagationTrustKeytab `mandatory:"false" json:"keytab"`
 
 	// To restrict token exchange to certain roles only if provider is AWS
 	// **SCIM++ Properties:**
@@ -386,21 +388,24 @@ type IdentityPropagationTrustTypeEnum string
 
 // Set of constants representing the allowable values for IdentityPropagationTrustTypeEnum
 const (
-	IdentityPropagationTrustTypeJwt  IdentityPropagationTrustTypeEnum = "JWT"
-	IdentityPropagationTrustTypeSaml IdentityPropagationTrustTypeEnum = "SAML"
-	IdentityPropagationTrustTypeAws  IdentityPropagationTrustTypeEnum = "AWS"
+	IdentityPropagationTrustTypeJwt    IdentityPropagationTrustTypeEnum = "JWT"
+	IdentityPropagationTrustTypeSaml   IdentityPropagationTrustTypeEnum = "SAML"
+	IdentityPropagationTrustTypeSpnego IdentityPropagationTrustTypeEnum = "SPNEGO"
+	IdentityPropagationTrustTypeAws    IdentityPropagationTrustTypeEnum = "AWS"
 )
 
 var mappingIdentityPropagationTrustTypeEnum = map[string]IdentityPropagationTrustTypeEnum{
-	"JWT":  IdentityPropagationTrustTypeJwt,
-	"SAML": IdentityPropagationTrustTypeSaml,
-	"AWS":  IdentityPropagationTrustTypeAws,
+	"JWT":    IdentityPropagationTrustTypeJwt,
+	"SAML":   IdentityPropagationTrustTypeSaml,
+	"SPNEGO": IdentityPropagationTrustTypeSpnego,
+	"AWS":    IdentityPropagationTrustTypeAws,
 }
 
 var mappingIdentityPropagationTrustTypeEnumLowerCase = map[string]IdentityPropagationTrustTypeEnum{
-	"jwt":  IdentityPropagationTrustTypeJwt,
-	"saml": IdentityPropagationTrustTypeSaml,
-	"aws":  IdentityPropagationTrustTypeAws,
+	"jwt":    IdentityPropagationTrustTypeJwt,
+	"saml":   IdentityPropagationTrustTypeSaml,
+	"spnego": IdentityPropagationTrustTypeSpnego,
+	"aws":    IdentityPropagationTrustTypeAws,
 }
 
 // GetIdentityPropagationTrustTypeEnumValues Enumerates the set of values for IdentityPropagationTrustTypeEnum
@@ -417,6 +422,7 @@ func GetIdentityPropagationTrustTypeEnumStringValues() []string {
 	return []string{
 		"JWT",
 		"SAML",
+		"SPNEGO",
 		"AWS",
 	}
 }

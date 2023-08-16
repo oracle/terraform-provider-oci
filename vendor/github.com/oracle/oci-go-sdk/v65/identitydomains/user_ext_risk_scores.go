@@ -53,6 +53,8 @@ type UserExtRiskScores struct {
 	//  - returned: always
 	//  - type: integer
 	//  - uniqueness: none
+	//  - idcsMaxValue: 100
+	//  - idcsMinValue: 0
 	Score *int `mandatory:"true" json:"score"`
 
 	// Risk Level

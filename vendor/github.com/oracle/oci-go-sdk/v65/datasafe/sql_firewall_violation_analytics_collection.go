@@ -19,7 +19,7 @@ import (
 type SqlFirewallViolationAnalyticsCollection struct {
 
 	// The aggregated data point items.
-	Items []SqlFirewallViolationAggregationItems `mandatory:"true" json:"items"`
+	Items []SqlFirewallViolationAggregation `mandatory:"true" json:"items"`
 }
 
 func (m SqlFirewallViolationAnalyticsCollection) String() string {

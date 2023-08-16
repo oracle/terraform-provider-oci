@@ -29,7 +29,7 @@ type ListHostConfigurationsRequest struct {
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX, HP-UX].
 	PlatformType []ListHostConfigurationsPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to
@@ -188,6 +188,7 @@ const (
 	ListHostConfigurationsPlatformTypeZlinux  ListHostConfigurationsPlatformTypeEnum = "ZLINUX"
 	ListHostConfigurationsPlatformTypeWindows ListHostConfigurationsPlatformTypeEnum = "WINDOWS"
 	ListHostConfigurationsPlatformTypeAix     ListHostConfigurationsPlatformTypeEnum = "AIX"
+	ListHostConfigurationsPlatformTypeHpUx    ListHostConfigurationsPlatformTypeEnum = "HP_UX"
 )
 
 var mappingListHostConfigurationsPlatformTypeEnum = map[string]ListHostConfigurationsPlatformTypeEnum{
@@ -197,6 +198,7 @@ var mappingListHostConfigurationsPlatformTypeEnum = map[string]ListHostConfigura
 	"ZLINUX":  ListHostConfigurationsPlatformTypeZlinux,
 	"WINDOWS": ListHostConfigurationsPlatformTypeWindows,
 	"AIX":     ListHostConfigurationsPlatformTypeAix,
+	"HP_UX":   ListHostConfigurationsPlatformTypeHpUx,
 }
 
 var mappingListHostConfigurationsPlatformTypeEnumLowerCase = map[string]ListHostConfigurationsPlatformTypeEnum{
@@ -206,6 +208,7 @@ var mappingListHostConfigurationsPlatformTypeEnumLowerCase = map[string]ListHost
 	"zlinux":  ListHostConfigurationsPlatformTypeZlinux,
 	"windows": ListHostConfigurationsPlatformTypeWindows,
 	"aix":     ListHostConfigurationsPlatformTypeAix,
+	"hp_ux":   ListHostConfigurationsPlatformTypeHpUx,
 }
 
 // GetListHostConfigurationsPlatformTypeEnumValues Enumerates the set of values for ListHostConfigurationsPlatformTypeEnum
@@ -226,6 +229,7 @@ func GetListHostConfigurationsPlatformTypeEnumStringValues() []string {
 		"ZLINUX",
 		"WINDOWS",
 		"AIX",
+		"HP_UX",
 	}
 }
 

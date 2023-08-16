@@ -75,7 +75,7 @@ type MacsManagedCloudHostInsight struct {
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX, HP-UX].
 	PlatformType MacsManagedCloudHostInsightPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -205,6 +205,7 @@ const (
 	MacsManagedCloudHostInsightPlatformTypeZlinux  MacsManagedCloudHostInsightPlatformTypeEnum = "ZLINUX"
 	MacsManagedCloudHostInsightPlatformTypeWindows MacsManagedCloudHostInsightPlatformTypeEnum = "WINDOWS"
 	MacsManagedCloudHostInsightPlatformTypeAix     MacsManagedCloudHostInsightPlatformTypeEnum = "AIX"
+	MacsManagedCloudHostInsightPlatformTypeHpUx    MacsManagedCloudHostInsightPlatformTypeEnum = "HP_UX"
 )
 
 var mappingMacsManagedCloudHostInsightPlatformTypeEnum = map[string]MacsManagedCloudHostInsightPlatformTypeEnum{
@@ -214,6 +215,7 @@ var mappingMacsManagedCloudHostInsightPlatformTypeEnum = map[string]MacsManagedC
 	"ZLINUX":  MacsManagedCloudHostInsightPlatformTypeZlinux,
 	"WINDOWS": MacsManagedCloudHostInsightPlatformTypeWindows,
 	"AIX":     MacsManagedCloudHostInsightPlatformTypeAix,
+	"HP_UX":   MacsManagedCloudHostInsightPlatformTypeHpUx,
 }
 
 var mappingMacsManagedCloudHostInsightPlatformTypeEnumLowerCase = map[string]MacsManagedCloudHostInsightPlatformTypeEnum{
@@ -223,6 +225,7 @@ var mappingMacsManagedCloudHostInsightPlatformTypeEnumLowerCase = map[string]Mac
 	"zlinux":  MacsManagedCloudHostInsightPlatformTypeZlinux,
 	"windows": MacsManagedCloudHostInsightPlatformTypeWindows,
 	"aix":     MacsManagedCloudHostInsightPlatformTypeAix,
+	"hp_ux":   MacsManagedCloudHostInsightPlatformTypeHpUx,
 }
 
 // GetMacsManagedCloudHostInsightPlatformTypeEnumValues Enumerates the set of values for MacsManagedCloudHostInsightPlatformTypeEnum
@@ -243,6 +246,7 @@ func GetMacsManagedCloudHostInsightPlatformTypeEnumStringValues() []string {
 		"ZLINUX",
 		"WINDOWS",
 		"AIX",
+		"HP_UX",
 	}
 }
 

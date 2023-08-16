@@ -23,10 +23,6 @@ type UpdateClusterNamespaceDetails struct {
 	// Description of the resource. It can be changed after creation.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of IAM Group OCIDs to allow admin access within the
-	// cluster namespace.
-	AdminGroupIds []string `mandatory:"false" json:"adminGroupIds"`
-
 	// OCID of Cluster Namespace Profile Version to use.
 	ClusterNamespaceProfileVersionId *string `mandatory:"false" json:"clusterNamespaceProfileVersionId"`
 

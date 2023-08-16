@@ -915,10 +915,9 @@ func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIReque
 // Note that attempting to delete a resolver endpoint in the DELETED lifecycle state will result in
 // a `404` response to be consistent with other operations of the API. Resolver endpoints may not
 // be deleted if they are referenced by a resolver rule.
-// A default retry strategy applies to this operation DeleteResolverEndpoint()
 func (client DnsClient) DeleteResolverEndpoint(ctx context.Context, request DeleteResolverEndpointRequest) (response DeleteResolverEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -972,10 +971,9 @@ func (client DnsClient) deleteResolverEndpoint(ctx context.Context, request comm
 // A `204` response indicates that the delete has been successful.
 // Deletion will fail if the policy is attached to any zones. To detach a
 // policy from a zone, see `DeleteSteeringPolicyAttachment`.
-// A default retry strategy applies to this operation DeleteSteeringPolicy()
 func (client DnsClient) DeleteSteeringPolicy(ctx context.Context, request DeleteSteeringPolicyRequest) (response DeleteSteeringPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1027,10 +1025,9 @@ func (client DnsClient) deleteSteeringPolicy(ctx context.Context, request common
 
 // DeleteSteeringPolicyAttachment Deletes the specified steering policy attachment.
 // A `204` response indicates that the delete has been successful.
-// A default retry strategy applies to this operation DeleteSteeringPolicyAttachment()
 func (client DnsClient) DeleteSteeringPolicyAttachment(ctx context.Context, request DeleteSteeringPolicyAttachmentRequest) (response DeleteSteeringPolicyAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1081,10 +1078,9 @@ func (client DnsClient) deleteSteeringPolicyAttachment(ctx context.Context, requ
 }
 
 // DeleteTsigKey Deletes the specified TSIG key.
-// A default retry strategy applies to this operation DeleteTsigKey()
 func (client DnsClient) DeleteTsigKey(ctx context.Context, request DeleteTsigKeyRequest) (response DeleteTsigKeyResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1139,10 +1135,9 @@ func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIReq
 // response to be consistent with other operations of the API. Views cannot be
 // deleted if they are referenced by non-deleted zones or resolvers.
 // Protected views cannot be deleted.
-// A default retry strategy applies to this operation DeleteView()
 func (client DnsClient) DeleteView(ctx context.Context, request DeleteViewRequest) (response DeleteViewResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2496,14 +2491,10 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 
 // PromoteZoneDnssecKeyVersion Promotes a specified DnssecKeyVersion on the zone. Promoting a key version activates it for generating
 // signatures and schedules removal of its predecessor key version.
-// If the DnssecKeyVersion identified in the request body is replacing another DnssecKeyVersion then that
-// DnssecKeyVersion will be scheduled for removal from the zone. When this removal occurs can be determined by
-// optional timing input.
+// If the DnssecKeyVersion identified in the request body is replacing another DnssecKeyVersion, then that
+// DnssecKeyVersion will be scheduled for removal from the zone.
 // For KSK, this should be called after the parent zone's DS records have been updated.
-// For ZSK, additional optional timing input may be provided to control when to start signing with the new
-// DnssecKeyVersion and to stop signing with the DnssecKeyVersion that is being replaced.
-// TODO: Add link to docs covering impacts of timing. For example creating a replacement key too soon after the
-// current key took over.
+// TODO: Add link to docs covering impacts of timing.
 // A default retry strategy applies to this operation PromoteZoneDnssecKeyVersion()
 func (client DnsClient) PromoteZoneDnssecKeyVersion(ctx context.Context, request PromoteZoneDnssecKeyVersionRequest) (response PromoteZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// IdentityPropagationTrustImpersonationServiceUser Impersonating Principal
-type IdentityPropagationTrustImpersonationServiceUser struct {
+// IdentityPropagationTrustImpersonationServiceUsers Impersonating Principal
+type IdentityPropagationTrustImpersonationServiceUsers struct {
 
 	// The ID of the service user
 	// **SCIM++ Properties:**
@@ -67,14 +67,14 @@ type IdentityPropagationTrustImpersonationServiceUser struct {
 	Ref *string `mandatory:"false" json:"$ref"`
 }
 
-func (m IdentityPropagationTrustImpersonationServiceUser) String() string {
+func (m IdentityPropagationTrustImpersonationServiceUsers) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m IdentityPropagationTrustImpersonationServiceUser) ValidateEnumValue() (bool, error) {
+func (m IdentityPropagationTrustImpersonationServiceUsers) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

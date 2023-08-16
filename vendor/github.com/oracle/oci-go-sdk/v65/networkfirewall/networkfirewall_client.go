@@ -141,7 +141,7 @@ func (client NetworkFirewallClient) applyNetworkFirewallPolicy(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewallPolicy/ApplyNetworkFirewallPolicy"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ApplyNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -200,7 +200,7 @@ func (client NetworkFirewallClient) bulkUploadAddressLists(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/AddressList/BulkUploadAddressLists"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadAddressLists", apiReferenceLink)
 		return response, err
 	}
@@ -259,7 +259,7 @@ func (client NetworkFirewallClient) bulkUploadApplicationGroups(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ApplicationGroup/BulkUploadApplicationGroups"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadApplicationGroups", apiReferenceLink)
 		return response, err
 	}
@@ -318,7 +318,7 @@ func (client NetworkFirewallClient) bulkUploadApplications(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Application/BulkUploadApplications"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadApplications", apiReferenceLink)
 		return response, err
 	}
@@ -377,7 +377,7 @@ func (client NetworkFirewallClient) bulkUploadDecryptionProfiles(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionProfile/BulkUploadDecryptionProfiles"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadDecryptionProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -436,7 +436,7 @@ func (client NetworkFirewallClient) bulkUploadDecryptionRules(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionRule/BulkUploadDecryptionRules"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadDecryptionRules", apiReferenceLink)
 		return response, err
 	}
@@ -495,7 +495,7 @@ func (client NetworkFirewallClient) bulkUploadMappedSecrets(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/MappedSecret/BulkUploadMappedSecrets"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadMappedSecrets", apiReferenceLink)
 		return response, err
 	}
@@ -554,7 +554,7 @@ func (client NetworkFirewallClient) bulkUploadSecurityRules(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/SecurityRule/BulkUploadSecurityRules"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadSecurityRules", apiReferenceLink)
 		return response, err
 	}
@@ -613,7 +613,7 @@ func (client NetworkFirewallClient) bulkUploadServiceLists(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ServiceList/BulkUploadServiceLists"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadServiceLists", apiReferenceLink)
 		return response, err
 	}
@@ -672,7 +672,7 @@ func (client NetworkFirewallClient) bulkUploadServices(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Service/BulkUploadServices"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadServices", apiReferenceLink)
 		return response, err
 	}
@@ -731,7 +731,7 @@ func (client NetworkFirewallClient) bulkUploadUrlLists(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/UrlList/BulkUploadUrlLists"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadUrlLists", apiReferenceLink)
 		return response, err
 	}
@@ -785,7 +785,7 @@ func (client NetworkFirewallClient) cancelWorkRequest(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -844,7 +844,7 @@ func (client NetworkFirewallClient) changeNetworkFirewallCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewall/ChangeNetworkFirewallCompartment"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ChangeNetworkFirewallCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -903,7 +903,7 @@ func (client NetworkFirewallClient) changeNetworkFirewallPolicyCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewallPolicy/ChangeNetworkFirewallPolicyCompartment"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ChangeNetworkFirewallPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -962,7 +962,7 @@ func (client NetworkFirewallClient) cloneNetworkFirewallPolicy(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewallPolicy/CloneNetworkFirewallPolicy"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CloneNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1021,7 +1021,7 @@ func (client NetworkFirewallClient) createAddressList(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/AddressList/CreateAddressList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateAddressList", apiReferenceLink)
 		return response, err
 	}
@@ -1080,7 +1080,7 @@ func (client NetworkFirewallClient) createApplication(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Application/CreateApplication"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateApplication", apiReferenceLink)
 		return response, err
 	}
@@ -1139,7 +1139,7 @@ func (client NetworkFirewallClient) createApplicationGroup(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ApplicationGroup/CreateApplicationGroup"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateApplicationGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1198,7 +1198,7 @@ func (client NetworkFirewallClient) createDecryptionProfile(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionProfile/CreateDecryptionProfile"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateDecryptionProfile", apiReferenceLink)
 		return response, err
 	}
@@ -1257,7 +1257,7 @@ func (client NetworkFirewallClient) createDecryptionRule(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionRule/CreateDecryptionRule"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateDecryptionRule", apiReferenceLink)
 		return response, err
 	}
@@ -1316,7 +1316,7 @@ func (client NetworkFirewallClient) createMappedSecret(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/MappedSecret/CreateMappedSecret"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateMappedSecret", apiReferenceLink)
 		return response, err
 	}
@@ -1375,7 +1375,7 @@ func (client NetworkFirewallClient) createNetworkFirewall(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewall/CreateNetworkFirewall"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateNetworkFirewall", apiReferenceLink)
 		return response, err
 	}
@@ -1434,7 +1434,7 @@ func (client NetworkFirewallClient) createNetworkFirewallPolicy(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewallPolicy/CreateNetworkFirewallPolicy"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -1493,7 +1493,7 @@ func (client NetworkFirewallClient) createSecurityRule(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/SecurityRule/CreateSecurityRule"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateSecurityRule", apiReferenceLink)
 		return response, err
 	}
@@ -1552,7 +1552,7 @@ func (client NetworkFirewallClient) createService(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Service/CreateService"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateService", apiReferenceLink)
 		return response, err
 	}
@@ -1611,7 +1611,7 @@ func (client NetworkFirewallClient) createServiceList(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ServiceList/CreateServiceList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateServiceList", apiReferenceLink)
 		return response, err
 	}
@@ -1670,7 +1670,7 @@ func (client NetworkFirewallClient) createUrlList(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/UrlList/CreateUrlList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateUrlList", apiReferenceLink)
 		return response, err
 	}
@@ -1724,7 +1724,7 @@ func (client NetworkFirewallClient) deleteAddressList(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/AddressList/DeleteAddressList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteAddressList", apiReferenceLink)
 		return response, err
 	}
@@ -1778,7 +1778,7 @@ func (client NetworkFirewallClient) deleteApplication(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Application/DeleteApplication"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteApplication", apiReferenceLink)
 		return response, err
 	}
@@ -1832,7 +1832,7 @@ func (client NetworkFirewallClient) deleteApplicationGroup(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ApplicationGroup/DeleteApplicationGroup"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteApplicationGroup", apiReferenceLink)
 		return response, err
 	}
@@ -1886,7 +1886,7 @@ func (client NetworkFirewallClient) deleteDecryptionProfile(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionProfile/DeleteDecryptionProfile"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteDecryptionProfile", apiReferenceLink)
 		return response, err
 	}
@@ -1940,7 +1940,7 @@ func (client NetworkFirewallClient) deleteDecryptionRule(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionRule/DeleteDecryptionRule"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteDecryptionRule", apiReferenceLink)
 		return response, err
 	}
@@ -1994,7 +1994,7 @@ func (client NetworkFirewallClient) deleteMappedSecret(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/MappedSecret/DeleteMappedSecret"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteMappedSecret", apiReferenceLink)
 		return response, err
 	}
@@ -2048,7 +2048,7 @@ func (client NetworkFirewallClient) deleteNetworkFirewall(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewall/DeleteNetworkFirewall"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteNetworkFirewall", apiReferenceLink)
 		return response, err
 	}
@@ -2102,7 +2102,7 @@ func (client NetworkFirewallClient) deleteNetworkFirewallPolicy(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewallPolicy/DeleteNetworkFirewallPolicy"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -2156,7 +2156,7 @@ func (client NetworkFirewallClient) deleteSecurityRule(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/SecurityRule/DeleteSecurityRule"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteSecurityRule", apiReferenceLink)
 		return response, err
 	}
@@ -2210,7 +2210,7 @@ func (client NetworkFirewallClient) deleteService(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Service/DeleteService"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteService", apiReferenceLink)
 		return response, err
 	}
@@ -2264,7 +2264,7 @@ func (client NetworkFirewallClient) deleteServiceList(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ServiceList/DeleteServiceList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteServiceList", apiReferenceLink)
 		return response, err
 	}
@@ -2318,7 +2318,7 @@ func (client NetworkFirewallClient) deleteUrlList(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/UrlList/DeleteUrlList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteUrlList", apiReferenceLink)
 		return response, err
 	}
@@ -2372,7 +2372,7 @@ func (client NetworkFirewallClient) getAddressList(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/AddressList/GetAddressList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetAddressList", apiReferenceLink)
 		return response, err
 	}
@@ -2426,7 +2426,7 @@ func (client NetworkFirewallClient) getApplication(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Application/GetApplication"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetApplication", apiReferenceLink)
 		return response, err
 	}
@@ -2480,7 +2480,7 @@ func (client NetworkFirewallClient) getApplicationGroup(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ApplicationGroup/GetApplicationGroup"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetApplicationGroup", apiReferenceLink)
 		return response, err
 	}
@@ -2534,7 +2534,7 @@ func (client NetworkFirewallClient) getDecryptionProfile(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionProfile/GetDecryptionProfile"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetDecryptionProfile", apiReferenceLink)
 		return response, err
 	}
@@ -2588,7 +2588,7 @@ func (client NetworkFirewallClient) getDecryptionRule(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionRule/GetDecryptionRule"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetDecryptionRule", apiReferenceLink)
 		return response, err
 	}
@@ -2642,7 +2642,7 @@ func (client NetworkFirewallClient) getMappedSecret(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/MappedSecret/GetMappedSecret"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetMappedSecret", apiReferenceLink)
 		return response, err
 	}
@@ -2696,7 +2696,7 @@ func (client NetworkFirewallClient) getNetworkFirewall(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewall/GetNetworkFirewall"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetNetworkFirewall", apiReferenceLink)
 		return response, err
 	}
@@ -2750,7 +2750,7 @@ func (client NetworkFirewallClient) getNetworkFirewallPolicy(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewallPolicy/GetNetworkFirewallPolicy"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -2804,7 +2804,7 @@ func (client NetworkFirewallClient) getSecurityRule(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/SecurityRule/GetSecurityRule"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetSecurityRule", apiReferenceLink)
 		return response, err
 	}
@@ -2858,7 +2858,7 @@ func (client NetworkFirewallClient) getService(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Service/GetService"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetService", apiReferenceLink)
 		return response, err
 	}
@@ -2912,7 +2912,7 @@ func (client NetworkFirewallClient) getServiceList(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ServiceList/GetServiceList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetServiceList", apiReferenceLink)
 		return response, err
 	}
@@ -2966,7 +2966,7 @@ func (client NetworkFirewallClient) getUrlList(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/UrlList/GetUrlList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetUrlList", apiReferenceLink)
 		return response, err
 	}
@@ -3020,7 +3020,7 @@ func (client NetworkFirewallClient) getWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -3074,7 +3074,7 @@ func (client NetworkFirewallClient) listAddressLists(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/AddressList/ListAddressLists"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListAddressLists", apiReferenceLink)
 		return response, err
 	}
@@ -3128,7 +3128,7 @@ func (client NetworkFirewallClient) listApplicationGroups(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ApplicationGroup/ListApplicationGroups"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListApplicationGroups", apiReferenceLink)
 		return response, err
 	}
@@ -3182,7 +3182,7 @@ func (client NetworkFirewallClient) listApplications(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Application/ListApplications"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListApplications", apiReferenceLink)
 		return response, err
 	}
@@ -3236,7 +3236,7 @@ func (client NetworkFirewallClient) listDecryptionProfiles(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionProfile/ListDecryptionProfiles"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListDecryptionProfiles", apiReferenceLink)
 		return response, err
 	}
@@ -3290,7 +3290,7 @@ func (client NetworkFirewallClient) listDecryptionRules(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionRule/ListDecryptionRules"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListDecryptionRules", apiReferenceLink)
 		return response, err
 	}
@@ -3344,7 +3344,7 @@ func (client NetworkFirewallClient) listMappedSecrets(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/MappedSecret/ListMappedSecrets"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListMappedSecrets", apiReferenceLink)
 		return response, err
 	}
@@ -3398,7 +3398,7 @@ func (client NetworkFirewallClient) listNetworkFirewallPolicies(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewallPolicy/ListNetworkFirewallPolicies"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListNetworkFirewallPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -3452,7 +3452,7 @@ func (client NetworkFirewallClient) listNetworkFirewalls(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewall/ListNetworkFirewalls"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListNetworkFirewalls", apiReferenceLink)
 		return response, err
 	}
@@ -3506,7 +3506,7 @@ func (client NetworkFirewallClient) listSecurityRules(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/SecurityRule/ListSecurityRules"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListSecurityRules", apiReferenceLink)
 		return response, err
 	}
@@ -3560,7 +3560,7 @@ func (client NetworkFirewallClient) listServiceLists(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ServiceList/ListServiceLists"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListServiceLists", apiReferenceLink)
 		return response, err
 	}
@@ -3614,7 +3614,7 @@ func (client NetworkFirewallClient) listServices(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Service/ListServices"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListServices", apiReferenceLink)
 		return response, err
 	}
@@ -3668,7 +3668,7 @@ func (client NetworkFirewallClient) listUrlLists(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/UrlList/ListUrlLists"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListUrlLists", apiReferenceLink)
 		return response, err
 	}
@@ -3722,7 +3722,7 @@ func (client NetworkFirewallClient) listWorkRequestErrors(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -3776,7 +3776,7 @@ func (client NetworkFirewallClient) listWorkRequestLogs(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -3830,7 +3830,7 @@ func (client NetworkFirewallClient) listWorkRequests(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -3889,7 +3889,7 @@ func (client NetworkFirewallClient) migrateNetworkFirewallPolicy(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewallPolicy/MigrateNetworkFirewallPolicy"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "MigrateNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -3943,7 +3943,7 @@ func (client NetworkFirewallClient) updateAddressList(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/AddressList/UpdateAddressList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateAddressList", apiReferenceLink)
 		return response, err
 	}
@@ -3997,7 +3997,7 @@ func (client NetworkFirewallClient) updateApplication(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Application/UpdateApplication"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateApplication", apiReferenceLink)
 		return response, err
 	}
@@ -4051,7 +4051,7 @@ func (client NetworkFirewallClient) updateApplicationGroup(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ApplicationGroup/UpdateApplicationGroup"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateApplicationGroup", apiReferenceLink)
 		return response, err
 	}
@@ -4105,7 +4105,7 @@ func (client NetworkFirewallClient) updateDecryptionProfile(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionProfile/UpdateDecryptionProfile"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateDecryptionProfile", apiReferenceLink)
 		return response, err
 	}
@@ -4159,7 +4159,7 @@ func (client NetworkFirewallClient) updateDecryptionRule(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/DecryptionRule/UpdateDecryptionRule"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateDecryptionRule", apiReferenceLink)
 		return response, err
 	}
@@ -4213,7 +4213,7 @@ func (client NetworkFirewallClient) updateMappedSecret(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/MappedSecret/UpdateMappedSecret"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateMappedSecret", apiReferenceLink)
 		return response, err
 	}
@@ -4267,7 +4267,7 @@ func (client NetworkFirewallClient) updateNetworkFirewall(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewall/UpdateNetworkFirewall"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateNetworkFirewall", apiReferenceLink)
 		return response, err
 	}
@@ -4321,7 +4321,7 @@ func (client NetworkFirewallClient) updateNetworkFirewallPolicy(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/NetworkFirewallPolicy/UpdateNetworkFirewallPolicy"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateNetworkFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -4375,7 +4375,7 @@ func (client NetworkFirewallClient) updateSecurityRule(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/SecurityRule/UpdateSecurityRule"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateSecurityRule", apiReferenceLink)
 		return response, err
 	}
@@ -4429,7 +4429,7 @@ func (client NetworkFirewallClient) updateService(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Service/UpdateService"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateService", apiReferenceLink)
 		return response, err
 	}
@@ -4483,7 +4483,7 @@ func (client NetworkFirewallClient) updateServiceList(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/ServiceList/UpdateServiceList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateServiceList", apiReferenceLink)
 		return response, err
 	}
@@ -4537,7 +4537,7 @@ func (client NetworkFirewallClient) updateUrlList(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/UrlList/UpdateUrlList"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateUrlList", apiReferenceLink)
 		return response, err
 	}

@@ -90,7 +90,7 @@ type EmManagedExternalHostInsight struct {
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX, HP-UX].
 	PlatformType EmManagedExternalHostInsightPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
 	// Indicates the status of a host insight in Operations Insights
@@ -220,6 +220,7 @@ const (
 	EmManagedExternalHostInsightPlatformTypeZlinux  EmManagedExternalHostInsightPlatformTypeEnum = "ZLINUX"
 	EmManagedExternalHostInsightPlatformTypeWindows EmManagedExternalHostInsightPlatformTypeEnum = "WINDOWS"
 	EmManagedExternalHostInsightPlatformTypeAix     EmManagedExternalHostInsightPlatformTypeEnum = "AIX"
+	EmManagedExternalHostInsightPlatformTypeHpUx    EmManagedExternalHostInsightPlatformTypeEnum = "HP_UX"
 )
 
 var mappingEmManagedExternalHostInsightPlatformTypeEnum = map[string]EmManagedExternalHostInsightPlatformTypeEnum{
@@ -229,6 +230,7 @@ var mappingEmManagedExternalHostInsightPlatformTypeEnum = map[string]EmManagedEx
 	"ZLINUX":  EmManagedExternalHostInsightPlatformTypeZlinux,
 	"WINDOWS": EmManagedExternalHostInsightPlatformTypeWindows,
 	"AIX":     EmManagedExternalHostInsightPlatformTypeAix,
+	"HP_UX":   EmManagedExternalHostInsightPlatformTypeHpUx,
 }
 
 var mappingEmManagedExternalHostInsightPlatformTypeEnumLowerCase = map[string]EmManagedExternalHostInsightPlatformTypeEnum{
@@ -238,6 +240,7 @@ var mappingEmManagedExternalHostInsightPlatformTypeEnumLowerCase = map[string]Em
 	"zlinux":  EmManagedExternalHostInsightPlatformTypeZlinux,
 	"windows": EmManagedExternalHostInsightPlatformTypeWindows,
 	"aix":     EmManagedExternalHostInsightPlatformTypeAix,
+	"hp_ux":   EmManagedExternalHostInsightPlatformTypeHpUx,
 }
 
 // GetEmManagedExternalHostInsightPlatformTypeEnumValues Enumerates the set of values for EmManagedExternalHostInsightPlatformTypeEnum
@@ -258,6 +261,7 @@ func GetEmManagedExternalHostInsightPlatformTypeEnumStringValues() []string {
 		"ZLINUX",
 		"WINDOWS",
 		"AIX",
+		"HP_UX",
 	}
 }
 

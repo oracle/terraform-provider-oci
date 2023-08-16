@@ -22,6 +22,9 @@ import (
 type CreateZoneDetails struct {
 
 	// The name of the zone.
+	// Global zone names must be unique across all other zones within the realm. Private zone names must be unique
+	// within their view.
+	// Unicode characters will be converted into punycode, see RFC 3492 (https://tools.ietf.org/html/rfc3492).
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID of the compartment containing the zone.
@@ -71,10 +74,8 @@ type CreateZoneDetails struct {
 	// namespace daily for each KskDnssecKeyVersion indicating how many days are left until expiration. Alarms and
 	// notifications should be set up in order to be notified of the KskDnssecKeyVersion expiration so that the
 	// necessary parent zone updates can be made and the PromoteZoneDnssecKeyVersion operation can be called.
-	// Zones with DNSSEC enabled are subject to a maximum allowed TTL on records of 1 day (86400 seconds). Enabling
-	// DNSSEC will result in additional records in DNS responses which will increase their size and can cause higher
-	// response latency. Re-enabling DNSSEC on a zone shortly after it being disabled will restore the previous
-	// DnssecKeyVersions.
+	// Enabling DNSSEC will result in additional records in DNS responses which will increase their size and can
+	// cause higher response latency.
 	// TODO: Add link to DNSSEC docs covering: how to set up alarms/notifications, warnings about enabling/disabling,
 	// warnings about timing and impacts, how to handle automatic rollover, how to handle manual rollover, and how
 	// to handle emergency rollover.

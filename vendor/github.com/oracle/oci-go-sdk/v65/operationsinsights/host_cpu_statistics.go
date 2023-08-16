@@ -33,6 +33,9 @@ type HostCpuStatistics struct {
 	// Change in resource utilization in percentage
 	UsageChangePercent *float64 `mandatory:"true" json:"usageChangePercent"`
 
+	// The baseline utilization is a fraction of each CPU core expressed in percentages, either 12.5% or 50%. The baseline provides the minimum CPUs that can be used constantly.
+	CpuBaseline *float64 `mandatory:"false" json:"cpuBaseline"`
+
 	Load *SummaryStatistics `mandatory:"false" json:"load"`
 }
 

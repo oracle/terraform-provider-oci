@@ -63,9 +63,6 @@ type ClusterNamespaceProfile struct {
 	// Suffix to append to the end of the namespaces generated from this Profile
 	NamespaceSuffix *string `mandatory:"false" json:"namespaceSuffix"`
 
-	// A name for the Cluster Namespace Profile. Names (when not null) are unique across Cluster Namespace Profile versions.
-	VersionName *string `mandatory:"false" json:"versionName"`
-
 	// A message describing the current state in more detail.
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`

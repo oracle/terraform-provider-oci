@@ -136,7 +136,7 @@ func (client AIServiceDocumentClient) analyzeDocument(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/AnalyzeDocumentResult/AnalyzeDocument"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "AnalyzeDocument", apiReferenceLink)
 		return response, err
 	}
@@ -189,7 +189,7 @@ func (client AIServiceDocumentClient) cancelProcessorJob(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/ProcessorJob/CancelProcessorJob"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "CancelProcessorJob", apiReferenceLink)
 		return response, err
 	}
@@ -242,7 +242,7 @@ func (client AIServiceDocumentClient) cancelWorkRequest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -295,7 +295,7 @@ func (client AIServiceDocumentClient) changeModelCompartment(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/ChangeModelCompartment"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "ChangeModelCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -348,7 +348,7 @@ func (client AIServiceDocumentClient) changeProjectCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Project/ChangeProjectCompartment"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "ChangeProjectCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -466,7 +466,7 @@ func (client AIServiceDocumentClient) createProcessorJob(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/ProcessorJob/CreateProcessorJob"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "CreateProcessorJob", apiReferenceLink)
 		return response, err
 	}
@@ -578,7 +578,7 @@ func (client AIServiceDocumentClient) deleteModel(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/DeleteModel"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "DeleteModel", apiReferenceLink)
 		return response, err
 	}
@@ -631,7 +631,7 @@ func (client AIServiceDocumentClient) deleteProject(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Project/DeleteProject"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "DeleteProject", apiReferenceLink)
 		return response, err
 	}
@@ -685,7 +685,7 @@ func (client AIServiceDocumentClient) getModel(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/GetModel"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "GetModel", apiReferenceLink)
 		return response, err
 	}
@@ -738,7 +738,7 @@ func (client AIServiceDocumentClient) getModelResourcePrincipalToken(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/GetModelResourcePrincipalToken"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "GetModelResourcePrincipalToken", apiReferenceLink)
 		return response, err
 	}
@@ -792,7 +792,7 @@ func (client AIServiceDocumentClient) getProcessorJob(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/ProcessorJob/GetProcessorJob"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "GetProcessorJob", apiReferenceLink)
 		return response, err
 	}
@@ -846,7 +846,7 @@ func (client AIServiceDocumentClient) getProject(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Project/GetProject"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "GetProject", apiReferenceLink)
 		return response, err
 	}
@@ -900,7 +900,7 @@ func (client AIServiceDocumentClient) getWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -954,7 +954,7 @@ func (client AIServiceDocumentClient) listModels(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/ListModels"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "ListModels", apiReferenceLink)
 		return response, err
 	}
@@ -1008,7 +1008,7 @@ func (client AIServiceDocumentClient) listProjects(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Project/ListProjects"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "ListProjects", apiReferenceLink)
 		return response, err
 	}
@@ -1062,7 +1062,7 @@ func (client AIServiceDocumentClient) listWorkRequestErrors(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1116,7 +1116,7 @@ func (client AIServiceDocumentClient) listWorkRequestLogs(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1170,7 +1170,7 @@ func (client AIServiceDocumentClient) listWorkRequests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1223,7 +1223,7 @@ func (client AIServiceDocumentClient) patchModel(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/PatchModel"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "PatchModel", apiReferenceLink)
 		return response, err
 	}
@@ -1276,7 +1276,7 @@ func (client AIServiceDocumentClient) updateModel(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/UpdateModel"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "UpdateModel", apiReferenceLink)
 		return response, err
 	}
@@ -1329,7 +1329,7 @@ func (client AIServiceDocumentClient) updateProject(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Project/UpdateProject"
 		err = common.PostProcessServiceError(err, "AIServiceDocument", "UpdateProject", apiReferenceLink)
 		return response, err
 	}

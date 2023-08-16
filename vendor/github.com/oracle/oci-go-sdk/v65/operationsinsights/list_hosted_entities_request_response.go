@@ -42,7 +42,7 @@ type ListHostedEntitiesRequest struct {
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX, HP-UX].
 	PlatformType []ListHostedEntitiesPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource.
@@ -170,6 +170,7 @@ const (
 	ListHostedEntitiesPlatformTypeZlinux  ListHostedEntitiesPlatformTypeEnum = "ZLINUX"
 	ListHostedEntitiesPlatformTypeWindows ListHostedEntitiesPlatformTypeEnum = "WINDOWS"
 	ListHostedEntitiesPlatformTypeAix     ListHostedEntitiesPlatformTypeEnum = "AIX"
+	ListHostedEntitiesPlatformTypeHpUx    ListHostedEntitiesPlatformTypeEnum = "HP_UX"
 )
 
 var mappingListHostedEntitiesPlatformTypeEnum = map[string]ListHostedEntitiesPlatformTypeEnum{
@@ -179,6 +180,7 @@ var mappingListHostedEntitiesPlatformTypeEnum = map[string]ListHostedEntitiesPla
 	"ZLINUX":  ListHostedEntitiesPlatformTypeZlinux,
 	"WINDOWS": ListHostedEntitiesPlatformTypeWindows,
 	"AIX":     ListHostedEntitiesPlatformTypeAix,
+	"HP_UX":   ListHostedEntitiesPlatformTypeHpUx,
 }
 
 var mappingListHostedEntitiesPlatformTypeEnumLowerCase = map[string]ListHostedEntitiesPlatformTypeEnum{
@@ -188,6 +190,7 @@ var mappingListHostedEntitiesPlatformTypeEnumLowerCase = map[string]ListHostedEn
 	"zlinux":  ListHostedEntitiesPlatformTypeZlinux,
 	"windows": ListHostedEntitiesPlatformTypeWindows,
 	"aix":     ListHostedEntitiesPlatformTypeAix,
+	"hp_ux":   ListHostedEntitiesPlatformTypeHpUx,
 }
 
 // GetListHostedEntitiesPlatformTypeEnumValues Enumerates the set of values for ListHostedEntitiesPlatformTypeEnum
@@ -208,6 +211,7 @@ func GetListHostedEntitiesPlatformTypeEnumStringValues() []string {
 		"ZLINUX",
 		"WINDOWS",
 		"AIX",
+		"HP_UX",
 	}
 }
 

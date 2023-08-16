@@ -15,8 +15,8 @@ import (
 	"strings"
 )
 
-// SqlFirewallViolationAggregationItems The details of SQL violations aggregation items.
-type SqlFirewallViolationAggregationItems struct {
+// SqlFirewallViolationAggregation The details of SQL violations aggregation items.
+type SqlFirewallViolationAggregation struct {
 
 	// The name of the aggregation.
 	MetricName *string `mandatory:"true" json:"metricName"`
@@ -36,14 +36,14 @@ type SqlFirewallViolationAggregationItems struct {
 	Dimensions *SqlFirewallViolationAggregationDimensions `mandatory:"false" json:"dimensions"`
 }
 
-func (m SqlFirewallViolationAggregationItems) String() string {
+func (m SqlFirewallViolationAggregation) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m SqlFirewallViolationAggregationItems) ValidateEnumValue() (bool, error) {
+func (m SqlFirewallViolationAggregation) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
