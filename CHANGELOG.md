@@ -1,4 +1,4 @@
-## 5.9.0 (Unreleased)
+## 5.9.0 (August 15, 2023)
 
 ### Added
 - Support for Topology aware placement for cluster networks
