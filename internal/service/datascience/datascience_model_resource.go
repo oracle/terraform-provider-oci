@@ -624,7 +624,7 @@ func (s *DatascienceModelResourceCrud) mapToMetadata(fieldKeyFormat string) (oci
 }
 
 /*
-  The New Mapping method is created for DefinedMetadataList to pass null values explicitly for 'category' and 'description'.
+The New Mapping method is created for DefinedMetadataList to pass null values explicitly for 'category' and 'description'.
 */
 func (s *DatascienceModelResourceCrud) mapToMetadataDefined(fieldKeyFormat string) (oci_datascience.Metadata, error) {
 	result := oci_datascience.Metadata{}

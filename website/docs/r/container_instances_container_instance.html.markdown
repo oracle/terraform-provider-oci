@@ -60,6 +60,15 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
 			memory_limit_in_gbs = var.container_instance_containers_resource_config_memory_limit_in_gbs
 			vcpus_limit = var.container_instance_containers_resource_config_vcpus_limit
 		}
+		security_context {
+
+			#Optional
+			is_non_root_user_check_enabled = var.container_instance_containers_security_context_is_non_root_user_check_enabled
+			is_root_file_system_readonly = var.container_instance_containers_security_context_is_root_file_system_readonly
+			run_as_group = var.container_instance_containers_security_context_run_as_group
+			run_as_user = var.container_instance_containers_security_context_run_as_user
+			security_context_type = var.container_instance_containers_security_context_security_context_type
+		}
 		volume_mounts {
 			#Required
 			mount_path = var.container_instance_containers_volume_mounts_mount_path
@@ -152,9 +161,7 @@ The following arguments are supported:
 		The total size of all arguments combined must be 64 KB or smaller. 
 	* `command` - (Optional) An optional command that overrides the ENTRYPOINT process. If you do not provide a value, the existing ENTRYPOINT process defined in the image is used. 
 	* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`. 
-	* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-
-		If you don't provide a name, a name is generated automatically. 
+	* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. If you don't provide a name, a name is generated automatically. 
 	* `environment_variables` - (Optional) A map of additional environment variables to set in the environment of the container's ENTRYPOINT process. These variables are in addition to any variables already defined in the container's image.
 
 		The total size of all environment variables combined, name and values, must be 64 KB or smaller. 
@@ -193,6 +200,12 @@ The following arguments are supported:
 			CPU usage is defined in terms of logical CPUs. This means that the maximum possible value on an E3 ContainerInstance with 1 OCPU is 2.0.
 
 			A container with a 2.0 vcpusLimit could consume up to 100% of the CPU resources available on the container instance. Values can be fractional. A value of "1.5" means that the container can consume at most the equivalent of 1 and a half logical CPUs worth of CPU capacity. 
+	* `security_context` - (Optional) Security context for container.
+		* `is_non_root_user_check_enabled` - (Optional) Indicates if the container must run as a non-root user. If true, the service validates the container image at runtime to ensure that it is not going to run with UID 0 (root) and fails the container instance creation if the validation fails. 
+		* `is_root_file_system_readonly` - (Optional) Determines if the container will have a read-only root file system. Default value is false.
+		* `run_as_group` - (Optional) The group ID (GID) to run the entrypoint process of the container. Uses runtime default if not provided.
+		* `run_as_user` - (Optional) The user ID (UID) to run the entrypoint process of the container. Defaults to user specified UID in container image metadata if not provided. This must be provided if runAsGroup is provided. 
+		* `security_context_type` - (Optional) The type of security context
 	* `volume_mounts` - (Optional) List of the volume mounts. 
 		* `is_read_only` - (Optional) Whether the volume was mounted in read-only mode. By default, the volume is not read-only.
 		* `mount_path` - (Required) The volume access path.

@@ -19,6 +19,12 @@ variable "region" {
 variable "compartment_ocid" {
 }
 
+variable "hpc_island_id" {
+}
+
+variable "bm_image_id" {
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -46,7 +52,8 @@ resource "oci_core_route_table" "test_route_table" {
 
 resource "oci_core_subnet" "test_subnet" {
   availability_domain = lower(
-    data.oci_identity_availability_domains.test_availability_domains.availability_domains[1].name,
+    // Since sufficient capacity available only in AD3
+    data.oci_identity_availability_domains.test_availability_domains.availability_domains[2].name,
   )
   cidr_block        = "10.0.2.0/24"
   compartment_id    = var.compartment_ocid
@@ -84,7 +91,8 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
     instance_type = "compute"
 
     launch_details {
-      availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[1].name
+      // Since sufficient capacity available only in AD3
+      availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[2].name
       compartment_id      = var.compartment_ocid
 
       create_vnic_details {
@@ -109,11 +117,12 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
         "metadata" = "metadata"
       }
 
-      shape = "BM.HPC2.36"
+      // Only shape that has sufficient capacity.
+      shape = "BM.Optimized3.36"
 
       source_details {
         boot_volume_size_in_gbs = "55"
-        image_id                = var.InstanceImageOCID[var.region]
+        image_id                = var.bm_image_id
         source_type             = "image"
       }
     }
@@ -132,9 +141,17 @@ resource "oci_core_cluster_network" "test_cluster_network" {
     size                      = "1"
   }
 
+  cluster_configuration{
+    hpc_island_id             = var.hpc_island_id
+  }
+
   placement_configuration {
-    availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[1].name
-    primary_subnet_id   = oci_core_subnet.test_subnet.id
+    // Since sufficient capacity available only in AD3
+    availability_domain       = data.oci_identity_availability_domains.test_availability_domains.availability_domains[2].name
+    primary_subnet_id         = oci_core_subnet.test_subnet.id
+    placement_constraint      = "PACKED_DISTRIBUTION_MULTI_BLOCK"
+
   }
 }
+
 

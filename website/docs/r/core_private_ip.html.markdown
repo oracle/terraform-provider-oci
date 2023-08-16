@@ -27,7 +27,7 @@ resource "oci_core_private_ip" "test_private_ip" {
 	hostname_label = var.private_ip_hostname_label
 	ip_address = var.private_ip_ip_address
 	vlan_id = oci_core_vlan.test_vlan.id
-	vnic_id = oci_core_vnic_attachment.test_vnic_attachment.id
+	vnic_id = oci_core_vnic_attachment.test_vnic_attachment.vnic_id
 }
 ```
 

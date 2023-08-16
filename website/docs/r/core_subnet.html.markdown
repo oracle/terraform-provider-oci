@@ -101,10 +101,10 @@ The following arguments are supported:
 	For important details about IPv6 addressing in a VCN, see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 
 	Example: `2001:0db8:0123:1111::/64` 
-* `ipv6cidr_blocks` - (Optional) (Updatable) The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet that meets the following criteria:
-	* The CIDR blocks must be valid.
-	* Multiple CIDR blocks must not overlap each other or the on-premises network CIDR block.
-	* The number of CIDR blocks must not exceed the limit of IPv6 CIDR blocks allowed to a subnet. 
+* `ipv6cidr_blocks` - (Optional) (Updatable) The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet that meets the following criteria:
+	* The prefixes must be valid.
+	* Multiple prefixes must not overlap each other or the on-premises network prefix.
+	* The number of prefixes must not exceed the limit of IPv6 prefixes allowed to a subnet. 
 * `prohibit_internet_ingress` - (Optional) Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
 
 	For IPv6, if `prohibitInternetIngress` is set to `true`, internet access is not allowed for any IPv6s assigned to VNICs in the subnet. Otherwise, ingress internet traffic is allowed by default.
@@ -114,7 +114,7 @@ The following arguments are supported:
 	Example: `true` 
 * `prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the `assignPublicIp` flag in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/)). If `prohibitPublicIpOnVnic` is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet).
 
-	If you intend to use an IPv6 CIDR block, you should use the flag `prohibitInternetIngress` to specify ingress internet traffic behavior of the subnet.
+	If you intend to use an IPv6 prefix, you should use the flag `prohibitInternetIngress` to specify ingress internet traffic behavior of the subnet.
 
 	Example: `true` 
 * `route_table_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the subnet will use. If you don't provide a value, the subnet uses the VCN's default route table. 
@@ -144,8 +144,8 @@ The following attributes are exported:
 	Example: `subnet123` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The subnet's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
-* `ipv6cidr_block` - For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's IP address space. The subnet size is always /64. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).  Example: `2001:0db8:0123:1111::/64` 
-* `ipv6cidr_blocks` - The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet. 
+* `ipv6cidr_block` - For an IPv6-enabled subnet, this is the IPv6 prefix for the subnet's IP address space. The subnet size is always /64. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).  Example: `2001:0db8:0123:1111::/64` 
+* `ipv6cidr_blocks` - The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet. 
 * `ipv6virtual_router_ip` - For an IPv6-enabled subnet, this is the IPv6 address of the virtual router.  Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678` 
 * `prohibit_internet_ingress` - Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
 

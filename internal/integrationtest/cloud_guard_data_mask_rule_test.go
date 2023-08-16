@@ -72,7 +72,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, IdentityGroupRepresentation)
 )
 
-//issue-routing-tag: cloud_guard/default
+// issue-routing-tag: cloud_guard/default
 func TestCloudGuardDataMaskRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCloudGuardDataMaskRuleResource_basic")
 	defer httpreplay.SaveScenario()

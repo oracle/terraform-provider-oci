@@ -1285,8 +1285,8 @@ func deleteInvalidReferences(referenceMap map[string]string, discoveredResources
 }
 
 /*
-	Initialize Terraform struct from executable provided
-	Terraform struct will later be copied to each resource discovery step for parallel runs
+Initialize Terraform struct from executable provided
+Terraform struct will later be copied to each resource discovery step for parallel runs
 */
 func createTerraformStruct(args *tf_export.ExportCommandArgs) (*tfexec.Terraform, string, error) {
 

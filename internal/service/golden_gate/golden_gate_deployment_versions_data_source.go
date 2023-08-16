@@ -70,6 +70,10 @@ func GoldenGateDeploymentVersionsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"time_supported_until": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -183,6 +187,10 @@ func DeploymentVersionSummaryToMap(obj oci_golden_gate.DeploymentVersionSummary)
 
 	if obj.TimeReleased != nil {
 		result["time_released"] = obj.TimeReleased.String()
+	}
+
+	if obj.TimeSupportedUntil != nil {
+		result["time_supported_until"] = obj.TimeSupportedUntil.String()
 	}
 
 	return result

@@ -209,8 +209,8 @@ func checkAndConvertNestedStructure(element interface{}) (map[string]interface{}
 	return nil, false
 }
 
-//Converts the filter name which is delimited by '.' into a list of XPath elements
-//Read the filter name from left most token and look into schema map to interpret rest of the filter name string
+// Converts the filter name which is delimited by '.' into a list of XPath elements
+// Read the filter name from left most token and look into schema map to interpret rest of the filter name string
 // e.g. for core_instance: freeform_tags.com.oracle.department -> ["freeform_tags", "com.oracle.department"], nil
 // e.g. for core_instance: source_details.source_type -> ["source_details", "source_type"], nil
 // e.g. for core_instance: source_details.source_type.xyz -> nil, error

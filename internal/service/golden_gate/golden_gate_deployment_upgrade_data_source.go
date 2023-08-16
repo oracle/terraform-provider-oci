@@ -52,6 +52,14 @@ func GoldenGateDeploymentUpgradeDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_cancel_allowed": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_reschedule_allowed": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"is_rollback_allowed": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -101,11 +109,19 @@ func GoldenGateDeploymentUpgradeDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_ogg_version_supported_until": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_released": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"time_schedule": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_schedule_max": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -193,6 +209,14 @@ func (s *GoldenGateDeploymentUpgradeDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsCancelAllowed != nil {
+		s.D.Set("is_cancel_allowed", *s.Res.IsCancelAllowed)
+	}
+
+	if s.Res.IsRescheduleAllowed != nil {
+		s.D.Set("is_reschedule_allowed", *s.Res.IsRescheduleAllowed)
+	}
+
 	if s.Res.IsRollbackAllowed != nil {
 		s.D.Set("is_rollback_allowed", *s.Res.IsRollbackAllowed)
 	}
@@ -235,12 +259,20 @@ func (s *GoldenGateDeploymentUpgradeDataSourceCrud) SetData() error {
 		s.D.Set("time_finished", s.Res.TimeFinished.String())
 	}
 
+	if s.Res.TimeOggVersionSupportedUntil != nil {
+		s.D.Set("time_ogg_version_supported_until", s.Res.TimeOggVersionSupportedUntil.String())
+	}
+
 	if s.Res.TimeReleased != nil {
 		s.D.Set("time_released", s.Res.TimeReleased.String())
 	}
 
 	if s.Res.TimeSchedule != nil {
 		s.D.Set("time_schedule", s.Res.TimeSchedule.String())
+	}
+
+	if s.Res.TimeScheduleMax != nil {
+		s.D.Set("time_schedule_max", s.Res.TimeScheduleMax.String())
 	}
 
 	if s.Res.TimeSnoozedUntil != nil {

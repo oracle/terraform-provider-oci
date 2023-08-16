@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ContainerEmptyDirVolume The empty directory of container.
+// ContainerEmptyDirVolume The empty directory volume of a container instance. You can create up to 64 EmptyDir per container instance.
 type ContainerEmptyDirVolume struct {
 
 	// The name of the volume. This must be unique within a single container instance.

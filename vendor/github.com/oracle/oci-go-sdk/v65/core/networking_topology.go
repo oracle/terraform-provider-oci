@@ -23,6 +23,8 @@ import (
 )
 
 // NetworkingTopology Defines the representation of a virtual network topology for a region.
+// See Network Visualizer Documentation (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/network_visualizer.htm) for more information, including
+// conventions and pictures of symbols.
 type NetworkingTopology struct {
 
 	// Lists entities comprising the virtual network topology.
