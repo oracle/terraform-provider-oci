@@ -169,6 +169,10 @@ func (s *BdsBdsInstancesDataSourceCrud) SetData() error {
 			bdsInstance["number_of_nodes"] = *r.NumberOfNodes
 		}
 
+		if r.NumberOfNodesRequiringMaintenanceReboot != nil {
+			bdsInstance["number_of_nodes_requiring_maintenance_reboot"] = *r.NumberOfNodesRequiringMaintenanceReboot
+		}
+
 		bdsInstance["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {

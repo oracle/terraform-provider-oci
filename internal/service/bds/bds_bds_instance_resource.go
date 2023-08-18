@@ -102,7 +102,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"number_of_nodes": {
 							Type:         schema.TypeInt,
 							Required:     true,
-							ValidateFunc: validation.IntBetween(1, 2),
+							ValidateFunc: validation.IntAtLeast(1),
 						},
 
 						"shape_config": {
@@ -165,7 +165,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"number_of_nodes": {
 							Type:         schema.TypeInt,
 							Required:     true,
-							ValidateFunc: validation.IntBetween(1, 2),
+							ValidateFunc: validation.IntAtLeast(1),
 						},
 
 						"shape_config": {
@@ -593,7 +593,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
-
+			"os_patch_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			// Computed
 			"cluster_details": {
 				Type:     schema.TypeList,
@@ -764,6 +767,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"time_maintenance_reboot_due": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -772,6 +779,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Optional: true,
 			},
 			"number_of_nodes": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"number_of_nodes_requiring_maintenance_reboot": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -843,6 +854,13 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 		return tfresource.ReadResource(sync)
 	}
 
+	if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
+		err := sync.InstallOsPatch()
+		if err != nil {
+			return err
+		}
+	}
+
 	if powerOff {
 		if err := sync.StopBdsInstance(); err != nil {
 			return err
@@ -881,6 +899,13 @@ func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 			return err
 		}
 		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateActive)
+	}
+
+	if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
+		err := sync.InstallOsPatch()
+		if err != nil {
+			return err
+		}
 	}
 
 	if err := tfresource.UpdateResource(d, sync); err != nil {
@@ -1630,6 +1655,41 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.BdsInstanceId = &tmp
 
+	//	 ADD MASTER AND UTILITY NODES
+	_, numOfMastersPresent := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes"))
+	if numOfMastersPresent && s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes"))
+		tmpOld := oldRaw.(int)
+		tmpNew := newRaw.(int)
+		if tmpNew > tmpOld {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+				err := s.updateMasterNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, nil, nil, nil)
+				if err != nil {
+					return err
+				}
+			}
+		} else {
+			return fmt.Errorf("the new value should be larger than previous one")
+		}
+	}
+
+	_, numOfUtilityPresent := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "number_of_nodes"))
+	if numOfUtilityPresent && s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "number_of_nodes")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(utilNodeFieldKeyFormat, "number_of_nodes"))
+		tmpOld := oldRaw.(int)
+		tmpNew := newRaw.(int)
+		if tmpNew > tmpOld {
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+				err := s.updateUtilityNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, nil, nil, nil)
+				if err != nil {
+					return err
+				}
+			}
+		} else {
+			return fmt.Errorf("the new value should be larger than previous one")
+		}
+	}
+
 	if bootstrapScriptUrl, ok := s.D.GetOkExists("bootstrap_script_url"); ok {
 		tmp := bootstrapScriptUrl.(string)
 		request.BootstrapScriptUrl = &tmp
@@ -1905,6 +1965,10 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 		s.D.Set("number_of_nodes", *s.Res.NumberOfNodes)
 	}
 
+	if s.Res.NumberOfNodesRequiringMaintenanceReboot != nil {
+		s.D.Set("number_of_nodes_requiring_maintenance_reboot", *s.Res.NumberOfNodesRequiringMaintenanceReboot)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -2094,6 +2158,36 @@ func (s *BdsBdsInstanceResourceCrud) RemoveKafka() error {
 
 	workId := response.OpcWorkRequestId
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *BdsBdsInstanceResourceCrud) InstallOsPatch() error {
+	request := oci_bds.InstallOsPatchRequest{}
+
+	idTmp := s.D.Id()
+	request.BdsInstanceId = &idTmp
+
+	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+		tmp := clusterAdminPassword.(string)
+		request.ClusterAdminPassword = &tmp
+	}
+
+	if osPatchVersion, ok := s.D.GetOkExists("os_patch_version"); ok {
+		tmp := osPatchVersion.(string)
+		request.OsPatchVersion = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
+
+	_, err := s.Client.InstallOsPatch(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
 }
 
 func CloudSqlDetailsToMap(obj *oci_bds.CloudSqlDetails) map[string]interface{} {
@@ -2302,6 +2396,10 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 		result["time_created"] = obj.TimeCreated.String()
 	}
 
+	if obj.TimeMaintenanceRebootDue != nil {
+		result["time_maintenance_reboot_due"] = obj.TimeMaintenanceRebootDue.String()
+	}
+
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
@@ -2455,6 +2553,68 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPas
 	addWorkerNodesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.AddWorkerNodes(context.Background(), addWorkerNodesRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *BdsBdsInstanceResourceCrud) updateMasterNode(id string, clusterAdminPassword interface{}, numberOfMaster int, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
+	addMasterNodesRequest := oci_bds.AddMasterNodesRequest{}
+	addMasterNodesRequest.BdsInstanceId = &id
+
+	if shape != nil {
+		addMasterNodesRequest.Shape = shape
+	}
+
+	if shapeConfig != nil {
+		addMasterNodesRequest.ShapeConfig = shapeConfig
+	}
+
+	if blockVolumeSizeInGBs != nil {
+		addMasterNodesRequest.BlockVolumeSizeInGBs = blockVolumeSizeInGBs
+	}
+
+	clusterAdminPasswordTmp := clusterAdminPassword.(string)
+	addMasterNodesRequest.ClusterAdminPassword = &clusterAdminPasswordTmp
+
+	addMasterNodesRequest.NumberOfMasterNodes = &numberOfMaster
+
+	addMasterNodesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
+
+	response, err := s.Client.AddMasterNodes(context.Background(), addMasterNodesRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *BdsBdsInstanceResourceCrud) updateUtilityNode(id string, clusterAdminPassword interface{}, numberOfUtility int, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
+	addUtilityNodesRequest := oci_bds.AddUtilityNodesRequest{}
+	addUtilityNodesRequest.BdsInstanceId = &id
+
+	if shape != nil {
+		addUtilityNodesRequest.Shape = shape
+	}
+
+	if shapeConfig != nil {
+		addUtilityNodesRequest.ShapeConfig = shapeConfig
+	}
+
+	if blockVolumeSizeInGBs != nil {
+		addUtilityNodesRequest.BlockVolumeSizeInGBs = blockVolumeSizeInGBs
+	}
+
+	clusterAdminPasswordTmp := clusterAdminPassword.(string)
+	addUtilityNodesRequest.ClusterAdminPassword = &clusterAdminPasswordTmp
+
+	addUtilityNodesRequest.NumberOfUtilityNodes = &numberOfUtility
+
+	addUtilityNodesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
+
+	response, err := s.Client.AddUtilityNodes(context.Background(), addUtilityNodesRequest)
 	if err != nil {
 		return err
 	}
