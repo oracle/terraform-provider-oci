@@ -180,6 +180,14 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InMemoryAreaInGBs != nil {
+		s.D.Set("in_memory_area_in_gbs", *s.Res.InMemoryAreaInGBs)
+	}
+
+	if s.Res.InMemoryPercentage != nil {
+		s.D.Set("in_memory_percentage", *s.Res.InMemoryPercentage)
+	}
+
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
 	if s.Res.IsAccessControlEnabled != nil {

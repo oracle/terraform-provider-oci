@@ -78,16 +78,16 @@ var (
 		"hostname":                   acctest.Representation{RepType: acctest.Required, Create: `myprefix1-ivmmj-scan`, Update: `myprefix2-ivmmj-scan`},
 		"ips":                        acctest.Representation{RepType: acctest.Required, Create: []string{`192.168.19.7`, `192.168.19.6`, `192.168.19.8`}, Update: []string{`192.168.19.7`, `192.168.19.8`, `192.168.19.9`}},
 		"port":                       acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
-		"scan_listener_port_tcp":     acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
-		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Optional, Create: `2484`, Update: `2484`},
+		"scan_listener_port_tcp":     acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
+		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Required, Create: `2484`, Update: `2484`},
 	}
 
 	DatabaseVmClusterNetwork2ScansRepresentation = map[string]interface{}{
 		"hostname":                   acctest.Representation{RepType: acctest.Required, Create: `myprefix4-ivmmj-scan`, Update: `myprefix3-ivmmj-scan`},
 		"ips":                        acctest.Representation{RepType: acctest.Required, Create: []string{`192.168.19.26`, `192.168.19.27`, `192.168.19.28`}, Update: []string{`192.168.19.27`, `192.168.19.28`, `192.168.19.29`}},
 		"port":                       acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
-		"scan_listener_port_tcp":     acctest.Representation{RepType: acctest.Optional, Create: `1521`, Update: `1522`},
-		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Optional, Create: `2484`, Update: `2484`},
+		"scan_listener_port_tcp":     acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
+		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Required, Create: `2484`, Update: `2484`},
 	}
 
 	DatabaseVmClusterNetworkBackupVmNetworkRepresentation = map[string]interface{}{

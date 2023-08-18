@@ -77,7 +77,7 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
 #  total_container_databases             = 12
   compute_model                   = "ECPU"
 
-  //To ignore changes to autonomous_data_storage_size_in_tbs
+  //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
   lifecycle {
     ignore_changes = [
       autonomous_data_storage_size_in_tbs,

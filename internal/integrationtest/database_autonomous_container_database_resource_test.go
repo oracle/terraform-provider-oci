@@ -46,7 +46,7 @@ var (
 		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
-		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.18.0.1.0`},
+		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.20.0.1.0`},
 	}
 
 	ACDatabaseBackupConfigRepresentation = map[string]interface{}{
