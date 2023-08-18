@@ -139,27 +139,27 @@ func (m *updatechanneldetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m updatechanneldetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updatechanneldetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m updatechanneldetails) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updatechanneldetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updatechanneldetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

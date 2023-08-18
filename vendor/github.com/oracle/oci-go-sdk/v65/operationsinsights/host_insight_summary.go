@@ -152,77 +152,77 @@ func (m *hostinsightsummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetHostDisplayName returns HostDisplayName
+// GetHostDisplayName returns HostDisplayName
 func (m hostinsightsummary) GetHostDisplayName() *string {
 	return m.HostDisplayName
 }
 
-//GetHostType returns HostType
+// GetHostType returns HostType
 func (m hostinsightsummary) GetHostType() *string {
 	return m.HostType
 }
 
-//GetProcessorCount returns ProcessorCount
+// GetProcessorCount returns ProcessorCount
 func (m hostinsightsummary) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m hostinsightsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m hostinsightsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m hostinsightsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetOpsiPrivateEndpointId returns OpsiPrivateEndpointId
+// GetOpsiPrivateEndpointId returns OpsiPrivateEndpointId
 func (m hostinsightsummary) GetOpsiPrivateEndpointId() *string {
 	return m.OpsiPrivateEndpointId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m hostinsightsummary) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m hostinsightsummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m hostinsightsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m hostinsightsummary) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m hostinsightsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m hostinsightsummary) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m hostinsightsummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetHostName returns HostName
+// GetHostName returns HostName
 func (m hostinsightsummary) GetHostName() *string {
 	return m.HostName
 }

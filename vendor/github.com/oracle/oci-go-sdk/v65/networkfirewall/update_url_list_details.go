@@ -62,6 +62,5 @@ func (m *UpdateUrlListDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Urls[i] = nil
 		}
 	}
-
 	return
 }

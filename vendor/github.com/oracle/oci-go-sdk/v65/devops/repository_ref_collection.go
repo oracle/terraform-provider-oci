@@ -62,6 +62,5 @@ func (m *RepositoryRefCollection) UnmarshalJSON(data []byte) (e error) {
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

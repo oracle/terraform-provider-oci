@@ -96,7 +96,6 @@ func (m *CreateCertificateAuthorityDetails) UnmarshalJSON(data []byte) (e error)
 			m.CertificateAuthorityRules[i] = nil
 		}
 	}
-
 	m.CertificateRevocationListDetails = model.CertificateRevocationListDetails
 
 	m.FreeformTags = model.FreeformTags

@@ -149,15 +149,9 @@ func (m *CreateMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 	m.AdvisorSettings = model.AdvisorSettings
 
 	m.ExcludeObjects = make([]DatabaseObject, len(model.ExcludeObjects))
-	for i, n := range model.ExcludeObjects {
-		m.ExcludeObjects[i] = n
-	}
-
+	copy(model.ExcludeObjects, m.ExcludeObjects)
 	m.IncludeObjects = make([]DatabaseObject, len(model.IncludeObjects))
-	for i, n := range model.IncludeObjects {
-		m.IncludeObjects[i] = n
-	}
-
+	copy(model.IncludeObjects, m.IncludeObjects)
 	m.CsvText = model.CsvText
 
 	m.GoldenGateDetails = model.GoldenGateDetails

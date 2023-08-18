@@ -181,10 +181,7 @@ func (m *DiscoveredExternalListener) UnmarshalJSON(data []byte) (e error) {
 	m.Status = model.Status
 
 	m.AssociatedComponents = make([]AssociatedComponent, len(model.AssociatedComponents))
-	for i, n := range model.AssociatedComponents {
-		m.AssociatedComponents[i] = n
-	}
-
+	copy(model.AssociatedComponents, m.AssociatedComponents)
 	m.DbNodeName = model.DbNodeName
 
 	m.OracleHome = model.OracleHome
@@ -215,7 +212,6 @@ func (m *DiscoveredExternalListener) UnmarshalJSON(data []byte) (e error) {
 			m.Endpoints[i] = nil
 		}
 	}
-
 	nn, e = model.Connector.UnmarshalPolymorphicJSON(model.Connector.JsonData)
 	if e != nil {
 		return

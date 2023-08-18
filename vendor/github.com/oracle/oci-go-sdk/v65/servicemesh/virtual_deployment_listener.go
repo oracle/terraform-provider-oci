@@ -107,7 +107,6 @@ func (m *VirtualDeploymentListener) UnmarshalJSON(data []byte) (e error) {
 			m.HealthCheck[i] = nil
 		}
 	}
-
 	nn, e = model.LoadBalancer.UnmarshalPolymorphicJSON(model.LoadBalancer.JsonData)
 	if e != nil {
 		return

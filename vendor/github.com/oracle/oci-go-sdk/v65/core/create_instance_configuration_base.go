@@ -96,22 +96,22 @@ func (m *createinstanceconfigurationbase) UnmarshalPolymorphicJSON(data []byte) 
 	}
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createinstanceconfigurationbase) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createinstanceconfigurationbase) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createinstanceconfigurationbase) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createinstanceconfigurationbase) GetCompartmentId() *string {
 	return m.CompartmentId
 }

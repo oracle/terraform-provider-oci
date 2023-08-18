@@ -72,12 +72,12 @@ func (m *createexternaldbsystemconnectordetails) UnmarshalPolymorphicJSON(data [
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createexternaldbsystemconnectordetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetExternalDbSystemId returns ExternalDbSystemId
+// GetExternalDbSystemId returns ExternalDbSystemId
 func (m createexternaldbsystemconnectordetails) GetExternalDbSystemId() *string {
 	return m.ExternalDbSystemId
 }

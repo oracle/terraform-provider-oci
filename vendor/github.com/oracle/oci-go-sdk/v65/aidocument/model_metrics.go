@@ -67,7 +67,7 @@ func (m *modelmetrics) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 	}
 }
 
-//GetDatasetSummary returns DatasetSummary
+// GetDatasetSummary returns DatasetSummary
 func (m modelmetrics) GetDatasetSummary() *DatasetSummary {
 	return m.DatasetSummary
 }

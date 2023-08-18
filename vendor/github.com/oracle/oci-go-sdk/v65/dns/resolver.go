@@ -141,7 +141,6 @@ func (m *Resolver) UnmarshalJSON(data []byte) (e error) {
 			m.Rules[i] = nil
 		}
 	}
-
 	m.CompartmentId = model.CompartmentId
 
 	m.DisplayName = model.DisplayName
@@ -174,12 +173,8 @@ func (m *Resolver) UnmarshalJSON(data []byte) (e error) {
 			m.Endpoints[i] = nil
 		}
 	}
-
 	m.AttachedViews = make([]AttachedView, len(model.AttachedViews))
-	for i, n := range model.AttachedViews {
-		m.AttachedViews[i] = n
-	}
-
+	copy(model.AttachedViews, m.AttachedViews)
 	return
 }
 

@@ -139,19 +139,12 @@ func (m *MlApplicationImplementation) UnmarshalJSON(data []byte) (e error) {
 			m.ApplicationComponents[i] = nil
 		}
 	}
-
 	m.ConfigurationSchema = make([]ConfigurationPropertySchema, len(model.ConfigurationSchema))
-	for i, n := range model.ConfigurationSchema {
-		m.ConfigurationSchema[i] = n
-	}
-
+	copy(model.ConfigurationSchema, m.ConfigurationSchema)
 	m.MlApplicationPackageArguments = model.MlApplicationPackageArguments
 
 	m.AllowedMigrationTo = make([]string, len(model.AllowedMigrationTo))
-	for i, n := range model.AllowedMigrationTo {
-		m.AllowedMigrationTo[i] = n
-	}
-
+	copy(model.AllowedMigrationTo, m.AllowedMigrationTo)
 	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id

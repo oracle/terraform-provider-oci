@@ -94,22 +94,22 @@ func (m *healthcheck) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetUnhealthyThreshold returns UnhealthyThreshold
+// GetUnhealthyThreshold returns UnhealthyThreshold
 func (m healthcheck) GetUnhealthyThreshold() *int {
 	return m.UnhealthyThreshold
 }
 
-//GetHealthyThreshold returns HealthyThreshold
+// GetHealthyThreshold returns HealthyThreshold
 func (m healthcheck) GetHealthyThreshold() *int {
 	return m.HealthyThreshold
 }
 
-//GetTimeoutInMs returns TimeoutInMs
+// GetTimeoutInMs returns TimeoutInMs
 func (m healthcheck) GetTimeoutInMs() *int64 {
 	return m.TimeoutInMs
 }
 
-//GetIntervalInMs returns IntervalInMs
+// GetIntervalInMs returns IntervalInMs
 func (m healthcheck) GetIntervalInMs() *int64 {
 	return m.IntervalInMs
 }

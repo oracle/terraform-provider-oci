@@ -74,12 +74,12 @@ func (m *decryptionprofile) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m decryptionprofile) GetName() *string {
 	return m.Name
 }
 
-//GetParentResourceId returns ParentResourceId
+// GetParentResourceId returns ParentResourceId
 func (m decryptionprofile) GetParentResourceId() *string {
 	return m.ParentResourceId
 }

@@ -69,7 +69,7 @@ func (m *storagemountconfigurationdetails) UnmarshalPolymorphicJSON(data []byte)
 	}
 }
 
-//GetDestinationDirectoryName returns DestinationDirectoryName
+// GetDestinationDirectoryName returns DestinationDirectoryName
 func (m storagemountconfigurationdetails) GetDestinationDirectoryName() *string {
 	return m.DestinationDirectoryName
 }

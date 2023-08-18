@@ -120,42 +120,42 @@ func (m *createassetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createassetdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetAssetSourceIds returns AssetSourceIds
+// GetAssetSourceIds returns AssetSourceIds
 func (m createassetdetails) GetAssetSourceIds() []string {
 	return m.AssetSourceIds
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createassetdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createassetdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetInventoryId returns InventoryId
+// GetInventoryId returns InventoryId
 func (m createassetdetails) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createassetdetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetSourceKey returns SourceKey
+// GetSourceKey returns SourceKey
 func (m createassetdetails) GetSourceKey() *string {
 	return m.SourceKey
 }
 
-//GetExternalAssetKey returns ExternalAssetKey
+// GetExternalAssetKey returns ExternalAssetKey
 func (m createassetdetails) GetExternalAssetKey() *string {
 	return m.ExternalAssetKey
 }

@@ -133,19 +133,13 @@ func (m *TargetDatabase) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.AssociatedResourceIds = make([]string, len(model.AssociatedResourceIds))
-	for i, n := range model.AssociatedResourceIds {
-		m.AssociatedResourceIds[i] = n
-	}
-
+	copy(model.AssociatedResourceIds, m.AssociatedResourceIds)
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.TimeUpdated = model.TimeUpdated
 
 	m.PeerTargetDatabases = make([]PeerTargetDatabase, len(model.PeerTargetDatabases))
-	for i, n := range model.PeerTargetDatabases {
-		m.PeerTargetDatabases[i] = n
-	}
-
+	copy(model.PeerTargetDatabases, m.PeerTargetDatabases)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

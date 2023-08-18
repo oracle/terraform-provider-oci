@@ -95,27 +95,27 @@ func (m *opsidataobjectsummary) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m opsidataobjectsummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m opsidataobjectsummary) GetName() *string {
 	return m.Name
 }
 
-//GetGroupNames returns GroupNames
+// GetGroupNames returns GroupNames
 func (m opsidataobjectsummary) GetGroupNames() []string {
 	return m.GroupNames
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m opsidataobjectsummary) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m opsidataobjectsummary) GetDisplayName() *string {
 	return m.DisplayName
 }

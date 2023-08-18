@@ -90,6 +90,5 @@ func (m *AutoScalingPolicy) UnmarshalJSON(data []byte) (e error) {
 			m.AutoScalingPolicies[i] = nil
 		}
 	}
-
 	return
 }

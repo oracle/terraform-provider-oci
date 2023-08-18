@@ -71,7 +71,7 @@ func (m *entityshape) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m entityshape) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

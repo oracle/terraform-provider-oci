@@ -297,10 +297,7 @@ func (m *OkeHelmChartDeployStageSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ValuesArtifactIds = make([]string, len(model.ValuesArtifactIds))
-	for i, n := range model.ValuesArtifactIds {
-		m.ValuesArtifactIds[i] = n
-	}
-
+	copy(model.ValuesArtifactIds, m.ValuesArtifactIds)
 	m.Namespace = model.Namespace
 
 	m.TimeoutInSeconds = model.TimeoutInSeconds

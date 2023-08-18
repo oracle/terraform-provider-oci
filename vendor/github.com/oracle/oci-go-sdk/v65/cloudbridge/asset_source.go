@@ -145,72 +145,72 @@ func (m *assetsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetDiscoveryScheduleId returns DiscoveryScheduleId
+// GetDiscoveryScheduleId returns DiscoveryScheduleId
 func (m assetsource) GetDiscoveryScheduleId() *string {
 	return m.DiscoveryScheduleId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m assetsource) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m assetsource) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m assetsource) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m assetsource) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m assetsource) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m assetsource) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetEnvironmentId returns EnvironmentId
+// GetEnvironmentId returns EnvironmentId
 func (m assetsource) GetEnvironmentId() *string {
 	return m.EnvironmentId
 }
 
-//GetInventoryId returns InventoryId
+// GetInventoryId returns InventoryId
 func (m assetsource) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-//GetAssetsCompartmentId returns AssetsCompartmentId
+// GetAssetsCompartmentId returns AssetsCompartmentId
 func (m assetsource) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m assetsource) GetLifecycleState() AssetSourceLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m assetsource) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m assetsource) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m assetsource) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }

@@ -96,7 +96,6 @@ func (m *AddHttpRequestHeaderRule) UnmarshalJSON(data []byte) (e error) {
 			m.Conditions[i] = nil
 		}
 	}
-
 	m.Header = model.Header
 
 	m.Value = model.Value

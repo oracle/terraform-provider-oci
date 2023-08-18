@@ -79,12 +79,12 @@ func (m *instanceagentcommandexecutionoutputcontent) UnmarshalPolymorphicJSON(da
 	}
 }
 
-//GetMessage returns Message
+// GetMessage returns Message
 func (m instanceagentcommandexecutionoutputcontent) GetMessage() *string {
 	return m.Message
 }
 
-//GetExitCode returns ExitCode
+// GetExitCode returns ExitCode
 func (m instanceagentcommandexecutionoutputcontent) GetExitCode() *int {
 	return m.ExitCode
 }

@@ -62,6 +62,5 @@ func (m *PullRequestActivityCollection) UnmarshalJSON(data []byte) (e error) {
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

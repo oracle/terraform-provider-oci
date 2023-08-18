@@ -81,12 +81,12 @@ func (m *ingressgatewaytrafficrouterule) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetIngressGatewayHost returns IngressGatewayHost
+// GetIngressGatewayHost returns IngressGatewayHost
 func (m ingressgatewaytrafficrouterule) GetIngressGatewayHost() *IngressGatewayHostRef {
 	return m.IngressGatewayHost
 }
 
-//GetDestinations returns Destinations
+// GetDestinations returns Destinations
 func (m ingressgatewaytrafficrouterule) GetDestinations() []VirtualServiceTrafficRuleTarget {
 	return m.Destinations
 }

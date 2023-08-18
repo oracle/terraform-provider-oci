@@ -77,7 +77,7 @@ func (m *metricbase) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 	}
 }
 
-//GetPendingDuration returns PendingDuration
+// GetPendingDuration returns PendingDuration
 func (m metricbase) GetPendingDuration() *string {
 	return m.PendingDuration
 }

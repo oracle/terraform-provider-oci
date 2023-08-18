@@ -66,7 +66,6 @@ func (m *PatchTargetAlertPolicyAssociationDetails) UnmarshalJSON(data []byte) (e
 			m.Items[i] = nil
 		}
 	}
-
 	m.CompartmentId = model.CompartmentId
 
 	return

@@ -80,12 +80,12 @@ func (m *scalingconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetPendingDuration returns PendingDuration
+// GetPendingDuration returns PendingDuration
 func (m scalingconfiguration) GetPendingDuration() *string {
 	return m.PendingDuration
 }
 
-//GetInstanceCountAdjustment returns InstanceCountAdjustment
+// GetInstanceCountAdjustment returns InstanceCountAdjustment
 func (m scalingconfiguration) GetInstanceCountAdjustment() *int {
 	return m.InstanceCountAdjustment
 }

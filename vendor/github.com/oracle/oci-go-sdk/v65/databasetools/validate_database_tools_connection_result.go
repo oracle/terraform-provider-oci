@@ -84,22 +84,22 @@ func (m *validatedatabasetoolsconnectionresult) UnmarshalPolymorphicJSON(data []
 	}
 }
 
-//GetCause returns Cause
+// GetCause returns Cause
 func (m validatedatabasetoolsconnectionresult) GetCause() *string {
 	return m.Cause
 }
 
-//GetAction returns Action
+// GetAction returns Action
 func (m validatedatabasetoolsconnectionresult) GetAction() *string {
 	return m.Action
 }
 
-//GetCode returns Code
+// GetCode returns Code
 func (m validatedatabasetoolsconnectionresult) GetCode() *string {
 	return m.Code
 }
 
-//GetMessage returns Message
+// GetMessage returns Message
 func (m validatedatabasetoolsconnectionresult) GetMessage() *string {
 	return m.Message
 }

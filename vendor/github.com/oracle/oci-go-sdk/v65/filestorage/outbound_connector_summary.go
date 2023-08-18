@@ -117,47 +117,47 @@ func (m *outboundconnectorsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetAvailabilityDomain returns AvailabilityDomain
+// GetAvailabilityDomain returns AvailabilityDomain
 func (m outboundconnectorsummary) GetAvailabilityDomain() *string {
 	return m.AvailabilityDomain
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m outboundconnectorsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m outboundconnectorsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m outboundconnectorsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m outboundconnectorsummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m outboundconnectorsummary) GetId() *string {
 	return m.Id
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m outboundconnectorsummary) GetLifecycleState() OutboundConnectorSummaryLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m outboundconnectorsummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m outboundconnectorsummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }

@@ -85,22 +85,22 @@ func (m *createexternaldatabaseconnectordetails) UnmarshalPolymorphicJSON(data [
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createexternaldatabaseconnectordetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createexternaldatabaseconnectordetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createexternaldatabaseconnectordetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetExternalDatabaseId returns ExternalDatabaseId
+// GetExternalDatabaseId returns ExternalDatabaseId
 func (m createexternaldatabaseconnectordetails) GetExternalDatabaseId() *string {
 	return m.ExternalDatabaseId
 }

@@ -128,7 +128,6 @@ func (m *NotebookSession) UnmarshalJSON(data []byte) (e error) {
 			m.NotebookSessionStorageMountConfigurationDetailsList[i] = nil
 		}
 	}
-
 	m.NotebookSessionUrl = model.NotebookSessionUrl
 
 	m.LifecycleDetails = model.LifecycleDetails

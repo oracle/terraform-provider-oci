@@ -491,10 +491,7 @@ func logResponse(response *http.Response, fn func(format string, v ...interface{
 }
 
 func checkBodyLengthExceedLimit(contentLength int64) bool {
-	if contentLength > maxBodyLenForDebug {
-		return true
-	}
-	return false
+	return contentLength > maxBodyLenForDebug
 }
 
 // OCIRequest is any request made to an OCI service.

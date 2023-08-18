@@ -227,10 +227,7 @@ func (m *DataAssetFromAdwcDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ServiceName = model.ServiceName
 
 	m.ServiceNames = make([]string, len(model.ServiceNames))
-	for i, n := range model.ServiceNames {
-		m.ServiceNames[i] = n
-	}
-
+	copy(model.ServiceNames, m.ServiceNames)
 	m.DriverClass = model.DriverClass
 
 	m.DefaultConnection = model.DefaultConnection

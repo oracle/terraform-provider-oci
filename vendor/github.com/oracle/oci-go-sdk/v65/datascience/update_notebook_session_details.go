@@ -94,6 +94,5 @@ func (m *UpdateNotebookSessionDetails) UnmarshalJSON(data []byte) (e error) {
 			m.NotebookSessionStorageMountConfigurationDetailsList[i] = nil
 		}
 	}
-
 	return
 }

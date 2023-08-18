@@ -78,7 +78,6 @@ func (m *UrlList) UnmarshalJSON(data []byte) (e error) {
 			m.Urls[i] = nil
 		}
 	}
-
 	m.TotalUrls = model.TotalUrls
 
 	m.ParentResourceId = model.ParentResourceId

@@ -346,7 +346,7 @@ func parseConfigFile(data []byte, profile string) (info *configFileInfo, err err
 
 	//Look for profile
 	for i, line := range splitContent {
-		if match := profileRegex.FindStringSubmatch(line); match != nil && len(match) > 1 && match[1] == profile {
+		if match := profileRegex.FindStringSubmatch(line); len(match) > 1 && match[1] == profile {
 			start := i + 1
 			return parseConfigAtLine(start, splitContent)
 		}
@@ -590,7 +590,7 @@ func (p fileConfigurationProvider) AuthType() (AuthConfig, error) {
 		err = fmt.Errorf("can not read tenancy configuration due to: %s", err.Error())
 		return AuthConfig{UnknownAuthenticationType, true, nil}, err
 	}
-	val, err := presentOrError(info.AuthenticationType, hasAuthenticationType, info.PresentConfiguration, "authentication_type")
+	val, _ := presentOrError(info.AuthenticationType, hasAuthenticationType, info.PresentConfiguration, "authentication_type")
 
 	if val == "instance_principal" {
 		if filePath, err := presentOrError(info.DelegationTokenFilePath, hasDelegationTokenFile, info.PresentConfiguration, "delegationTokenFilePath"); err == nil {
@@ -615,7 +615,7 @@ func getTokenContent(filePath string) (string, error) {
 		err = fileConfigurationProviderError{err: fmt.Errorf("can not read token content from configuration file due to: %s", err.Error())}
 		return "", err
 	}
-	return fmt.Sprintf("%s", tokenFileContent), nil
+	return string(tokenFileContent), nil
 }
 
 // A configuration provider that look for information in  multiple configuration providers

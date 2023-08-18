@@ -151,67 +151,67 @@ func (m *asset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m asset) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetAssetSourceIds returns AssetSourceIds
+// GetAssetSourceIds returns AssetSourceIds
 func (m asset) GetAssetSourceIds() []string {
 	return m.AssetSourceIds
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m asset) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m asset) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m asset) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetInventoryId returns InventoryId
+// GetInventoryId returns InventoryId
 func (m asset) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m asset) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m asset) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetSourceKey returns SourceKey
+// GetSourceKey returns SourceKey
 func (m asset) GetSourceKey() *string {
 	return m.SourceKey
 }
 
-//GetExternalAssetKey returns ExternalAssetKey
+// GetExternalAssetKey returns ExternalAssetKey
 func (m asset) GetExternalAssetKey() *string {
 	return m.ExternalAssetKey
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m asset) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m asset) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m asset) GetLifecycleState() AssetLifecycleStateEnum {
 	return m.LifecycleState
 }

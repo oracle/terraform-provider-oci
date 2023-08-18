@@ -205,10 +205,7 @@ func (m *UpdateOkeHelmChartDeployStageDetails) UnmarshalJSON(data []byte) (e err
 	m.HelmChartDeployArtifactId = model.HelmChartDeployArtifactId
 
 	m.ValuesArtifactIds = make([]string, len(model.ValuesArtifactIds))
-	for i, n := range model.ValuesArtifactIds {
-		m.ValuesArtifactIds[i] = n
-	}
-
+	copy(model.ValuesArtifactIds, m.ValuesArtifactIds)
 	m.ReleaseName = model.ReleaseName
 
 	m.Namespace = model.Namespace

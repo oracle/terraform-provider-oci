@@ -244,15 +244,9 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.PortX = model.PortX
 
 	m.Endpoints = make([]DbSystemEndpoint, len(model.Endpoints))
-	for i, n := range model.Endpoints {
-		m.Endpoints[i] = n
-	}
-
+	copy(model.Endpoints, m.Endpoints)
 	m.Channels = make([]ChannelSummary, len(model.Channels))
-	for i, n := range model.Channels {
-		m.Channels[i] = n
-	}
-
+	copy(model.Channels, m.Channels)
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags

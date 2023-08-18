@@ -101,32 +101,32 @@ func (m *createmediaworkflowjobdetails) UnmarshalPolymorphicJSON(data []byte) (i
 	}
 }
 
-//GetMediaWorkflowConfigurationIds returns MediaWorkflowConfigurationIds
+// GetMediaWorkflowConfigurationIds returns MediaWorkflowConfigurationIds
 func (m createmediaworkflowjobdetails) GetMediaWorkflowConfigurationIds() []string {
 	return m.MediaWorkflowConfigurationIds
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createmediaworkflowjobdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m createmediaworkflowjobdetails) GetParameters() map[string]interface{} {
 	return m.Parameters
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createmediaworkflowjobdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createmediaworkflowjobdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createmediaworkflowjobdetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }

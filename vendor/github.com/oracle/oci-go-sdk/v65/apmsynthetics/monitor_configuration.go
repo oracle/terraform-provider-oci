@@ -85,12 +85,12 @@ func (m *monitorconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetIsFailureRetried returns IsFailureRetried
+// GetIsFailureRetried returns IsFailureRetried
 func (m monitorconfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
 }
 
-//GetDnsConfiguration returns DnsConfiguration
+// GetDnsConfiguration returns DnsConfiguration
 func (m monitorconfiguration) GetDnsConfiguration() *DnsConfiguration {
 	return m.DnsConfiguration
 }

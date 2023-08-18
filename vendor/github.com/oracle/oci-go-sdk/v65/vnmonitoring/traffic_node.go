@@ -80,22 +80,22 @@ func (m *trafficnode) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetEgressTraffic returns EgressTraffic
+// GetEgressTraffic returns EgressTraffic
 func (m trafficnode) GetEgressTraffic() *EgressTrafficSpec {
 	return m.EgressTraffic
 }
 
-//GetNextHopRoutingAction returns NextHopRoutingAction
+// GetNextHopRoutingAction returns NextHopRoutingAction
 func (m trafficnode) GetNextHopRoutingAction() routingaction {
 	return m.NextHopRoutingAction
 }
 
-//GetEgressSecurityAction returns EgressSecurityAction
+// GetEgressSecurityAction returns EgressSecurityAction
 func (m trafficnode) GetEgressSecurityAction() securityaction {
 	return m.EgressSecurityAction
 }
 
-//GetIngressSecurityAction returns IngressSecurityAction
+// GetIngressSecurityAction returns IngressSecurityAction
 func (m trafficnode) GetIngressSecurityAction() securityaction {
 	return m.IngressSecurityAction
 }

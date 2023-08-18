@@ -152,10 +152,7 @@ func (m *CreateTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsBigfile = model.IsBigfile
 
 	m.DataFiles = make([]string, len(model.DataFiles))
-	for i, n := range model.DataFiles {
-		m.DataFiles[i] = n
-	}
-
+	copy(model.DataFiles, m.DataFiles)
 	m.FileCount = model.FileCount
 
 	m.FileSize = model.FileSize

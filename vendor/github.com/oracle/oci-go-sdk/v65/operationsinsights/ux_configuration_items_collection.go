@@ -83,6 +83,5 @@ func (m *UxConfigurationItemsCollection) UnmarshalJSON(data []byte) (e error) {
 			m.ConfigItems[i] = nil
 		}
 	}
-
 	return
 }

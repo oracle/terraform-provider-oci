@@ -71,7 +71,7 @@ func (m *credentialdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetCredentialSourceName returns CredentialSourceName
+// GetCredentialSourceName returns CredentialSourceName
 func (m credentialdetails) GetCredentialSourceName() *string {
 	return m.CredentialSourceName
 }

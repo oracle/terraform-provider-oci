@@ -96,27 +96,27 @@ func (m *action) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetIsEnabled returns IsEnabled
+// GetIsEnabled returns IsEnabled
 func (m action) GetIsEnabled() *bool {
 	return m.IsEnabled
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m action) GetDescription() *string {
 	return m.Description
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m action) GetId() *string {
 	return m.Id
 }
 
-//GetLifecycleMessage returns LifecycleMessage
+// GetLifecycleMessage returns LifecycleMessage
 func (m action) GetLifecycleMessage() *string {
 	return m.LifecycleMessage
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m action) GetLifecycleState() ActionLifecycleStateEnum {
 	return m.LifecycleState
 }

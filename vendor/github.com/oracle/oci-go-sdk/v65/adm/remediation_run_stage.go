@@ -113,42 +113,42 @@ func (m *remediationrunstage) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetTimeStarted returns TimeStarted
+// GetTimeStarted returns TimeStarted
 func (m remediationrunstage) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-//GetTimeFinished returns TimeFinished
+// GetTimeFinished returns TimeFinished
 func (m remediationrunstage) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-//GetSummary returns Summary
+// GetSummary returns Summary
 func (m remediationrunstage) GetSummary() *string {
 	return m.Summary
 }
 
-//GetPreviousStageType returns PreviousStageType
+// GetPreviousStageType returns PreviousStageType
 func (m remediationrunstage) GetPreviousStageType() RemediationRunStageTypeEnum {
 	return m.PreviousStageType
 }
 
-//GetNextStageType returns NextStageType
+// GetNextStageType returns NextStageType
 func (m remediationrunstage) GetNextStageType() RemediationRunStageTypeEnum {
 	return m.NextStageType
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m remediationrunstage) GetStatus() RemediationRunStageStatusEnum {
 	return m.Status
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m remediationrunstage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetRemediationRunId returns RemediationRunId
+// GetRemediationRunId returns RemediationRunId
 func (m remediationrunstage) GetRemediationRunId() *string {
 	return m.RemediationRunId
 }

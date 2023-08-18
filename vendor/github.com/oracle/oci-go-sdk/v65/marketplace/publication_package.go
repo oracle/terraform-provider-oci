@@ -95,32 +95,32 @@ func (m *publicationpackage) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m publicationpackage) GetDescription() *string {
 	return m.Description
 }
 
-//GetResourceId returns ResourceId
+// GetResourceId returns ResourceId
 func (m publicationpackage) GetResourceId() *string {
 	return m.ResourceId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m publicationpackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetOperatingSystem returns OperatingSystem
+// GetOperatingSystem returns OperatingSystem
 func (m publicationpackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
 }
 
-//GetListingId returns ListingId
+// GetListingId returns ListingId
 func (m publicationpackage) GetListingId() *string {
 	return m.ListingId
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m publicationpackage) GetVersion() *string {
 	return m.Version
 }

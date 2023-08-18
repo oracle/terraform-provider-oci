@@ -78,10 +78,7 @@ func (m *AclRule) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.BucketTags = make([]string, len(model.BucketTags))
-	for i, n := range model.BucketTags {
-		m.BucketTags[i] = n
-	}
-
+	copy(model.BucketTags, m.BucketTags)
 	m.BucketNameFilter = model.BucketNameFilter
 
 	m.ObjectNameFilter = model.ObjectNameFilter

@@ -79,17 +79,17 @@ func (m *importinventorydetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m importinventorydetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m importinventorydetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m importinventorydetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }

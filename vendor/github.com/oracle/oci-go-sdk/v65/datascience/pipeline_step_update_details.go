@@ -78,17 +78,17 @@ func (m *pipelinestepupdatedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m pipelinestepupdatedetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetStepConfigurationDetails returns StepConfigurationDetails
+// GetStepConfigurationDetails returns StepConfigurationDetails
 func (m pipelinestepupdatedetails) GetStepConfigurationDetails() *PipelineStepConfigurationDetails {
 	return m.StepConfigurationDetails
 }
 
-//GetStepName returns StepName
+// GetStepName returns StepName
 func (m pipelinestepupdatedetails) GetStepName() *string {
 	return m.StepName
 }

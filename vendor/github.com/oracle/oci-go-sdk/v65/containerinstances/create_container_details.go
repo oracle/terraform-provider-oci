@@ -131,29 +131,17 @@ func (m *CreateContainerDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Command = make([]string, len(model.Command))
-	for i, n := range model.Command {
-		m.Command[i] = n
-	}
-
+	copy(model.Command, m.Command)
 	m.Arguments = make([]string, len(model.Arguments))
-	for i, n := range model.Arguments {
-		m.Arguments[i] = n
-	}
-
+	copy(model.Arguments, m.Arguments)
 	m.AdditionalCapabilities = make([]ContainerCapabilityEnum, len(model.AdditionalCapabilities))
-	for i, n := range model.AdditionalCapabilities {
-		m.AdditionalCapabilities[i] = n
-	}
-
+	copy(model.AdditionalCapabilities, m.AdditionalCapabilities)
 	m.WorkingDirectory = model.WorkingDirectory
 
 	m.EnvironmentVariables = model.EnvironmentVariables
 
 	m.VolumeMounts = make([]CreateVolumeMountDetails, len(model.VolumeMounts))
-	for i, n := range model.VolumeMounts {
-		m.VolumeMounts[i] = n
-	}
-
+	copy(model.VolumeMounts, m.VolumeMounts)
 	m.IsResourcePrincipalDisabled = model.IsResourcePrincipalDisabled
 
 	m.ResourceConfig = model.ResourceConfig
@@ -170,7 +158,6 @@ func (m *CreateContainerDetails) UnmarshalJSON(data []byte) (e error) {
 			m.HealthChecks[i] = nil
 		}
 	}
-
 	nn, e = model.SecurityContext.UnmarshalPolymorphicJSON(model.SecurityContext.JsonData)
 	if e != nil {
 		return

@@ -185,10 +185,7 @@ func (m *ModelSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ComponentModels = make([]ComponentModel, len(model.ComponentModels))
-	for i, n := range model.ComponentModels {
-		m.ComponentModels[i] = n
-	}
-
+	copy(model.ComponentModels, m.ComponentModels)
 	m.IsComposedModel = model.IsComposedModel
 
 	m.FreeformTags = model.FreeformTags

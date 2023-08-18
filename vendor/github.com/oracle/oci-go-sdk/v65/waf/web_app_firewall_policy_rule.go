@@ -90,22 +90,22 @@ func (m *webappfirewallpolicyrule) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetConditionLanguage returns ConditionLanguage
+// GetConditionLanguage returns ConditionLanguage
 func (m webappfirewallpolicyrule) GetConditionLanguage() WebAppFirewallPolicyRuleConditionLanguageEnum {
 	return m.ConditionLanguage
 }
 
-//GetCondition returns Condition
+// GetCondition returns Condition
 func (m webappfirewallpolicyrule) GetCondition() *string {
 	return m.Condition
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m webappfirewallpolicyrule) GetName() *string {
 	return m.Name
 }
 
-//GetActionName returns ActionName
+// GetActionName returns ActionName
 func (m webappfirewallpolicyrule) GetActionName() *string {
 	return m.ActionName
 }

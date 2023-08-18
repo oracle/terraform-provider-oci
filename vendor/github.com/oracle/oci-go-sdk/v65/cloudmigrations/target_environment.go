@@ -65,7 +65,7 @@ func (m *targetenvironment) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetTargetCompartmentId returns TargetCompartmentId
+// GetTargetCompartmentId returns TargetCompartmentId
 func (m targetenvironment) GetTargetCompartmentId() *string {
 	return m.TargetCompartmentId
 }

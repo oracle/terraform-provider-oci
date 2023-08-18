@@ -111,47 +111,47 @@ func (m *repositorysummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m repositorysummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m repositorysummary) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m repositorysummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m repositorysummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetIsImmutable returns IsImmutable
+// GetIsImmutable returns IsImmutable
 func (m repositorysummary) GetIsImmutable() *bool {
 	return m.IsImmutable
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m repositorysummary) GetLifecycleState() RepositoryLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m repositorysummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m repositorysummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m repositorysummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }

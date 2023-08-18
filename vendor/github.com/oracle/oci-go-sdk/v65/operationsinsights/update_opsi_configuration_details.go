@@ -96,32 +96,32 @@ func (m *updateopsiconfigurationdetails) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updateopsiconfigurationdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updateopsiconfigurationdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updateopsiconfigurationdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updateopsiconfigurationdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m updateopsiconfigurationdetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetConfigItems returns ConfigItems
+// GetConfigItems returns ConfigItems
 func (m updateopsiconfigurationdetails) GetConfigItems() json.RawMessage {
 	return m.ConfigItems
 }

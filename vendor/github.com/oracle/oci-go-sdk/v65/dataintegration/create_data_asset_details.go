@@ -160,47 +160,47 @@ func (m *createdataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m createdataassetdetails) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m createdataassetdetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createdataassetdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m createdataassetdetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m createdataassetdetails) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m createdataassetdetails) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m createdataassetdetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createdataassetdetails) GetName() *string {
 	return m.Name
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m createdataassetdetails) GetIdentifier() *string {
 	return m.Identifier
 }

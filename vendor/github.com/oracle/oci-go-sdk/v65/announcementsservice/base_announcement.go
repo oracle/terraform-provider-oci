@@ -168,97 +168,97 @@ func (m *baseannouncement) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetTimeOneTitle returns TimeOneTitle
+// GetTimeOneTitle returns TimeOneTitle
 func (m baseannouncement) GetTimeOneTitle() *string {
 	return m.TimeOneTitle
 }
 
-//GetTimeOneType returns TimeOneType
+// GetTimeOneType returns TimeOneType
 func (m baseannouncement) GetTimeOneType() BaseAnnouncementTimeOneTypeEnum {
 	return m.TimeOneType
 }
 
-//GetTimeOneValue returns TimeOneValue
+// GetTimeOneValue returns TimeOneValue
 func (m baseannouncement) GetTimeOneValue() *common.SDKTime {
 	return m.TimeOneValue
 }
 
-//GetTimeTwoTitle returns TimeTwoTitle
+// GetTimeTwoTitle returns TimeTwoTitle
 func (m baseannouncement) GetTimeTwoTitle() *string {
 	return m.TimeTwoTitle
 }
 
-//GetTimeTwoType returns TimeTwoType
+// GetTimeTwoType returns TimeTwoType
 func (m baseannouncement) GetTimeTwoType() BaseAnnouncementTimeTwoTypeEnum {
 	return m.TimeTwoType
 }
 
-//GetTimeTwoValue returns TimeTwoValue
+// GetTimeTwoValue returns TimeTwoValue
 func (m baseannouncement) GetTimeTwoValue() *common.SDKTime {
 	return m.TimeTwoValue
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m baseannouncement) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m baseannouncement) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetEnvironmentName returns EnvironmentName
+// GetEnvironmentName returns EnvironmentName
 func (m baseannouncement) GetEnvironmentName() *string {
 	return m.EnvironmentName
 }
 
-//GetPlatformType returns PlatformType
+// GetPlatformType returns PlatformType
 func (m baseannouncement) GetPlatformType() BaseAnnouncementPlatformTypeEnum {
 	return m.PlatformType
 }
 
-//GetChainId returns ChainId
+// GetChainId returns ChainId
 func (m baseannouncement) GetChainId() *string {
 	return m.ChainId
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m baseannouncement) GetId() *string {
 	return m.Id
 }
 
-//GetReferenceTicketNumber returns ReferenceTicketNumber
+// GetReferenceTicketNumber returns ReferenceTicketNumber
 func (m baseannouncement) GetReferenceTicketNumber() *string {
 	return m.ReferenceTicketNumber
 }
 
-//GetSummary returns Summary
+// GetSummary returns Summary
 func (m baseannouncement) GetSummary() *string {
 	return m.Summary
 }
 
-//GetServices returns Services
+// GetServices returns Services
 func (m baseannouncement) GetServices() []string {
 	return m.Services
 }
 
-//GetAffectedRegions returns AffectedRegions
+// GetAffectedRegions returns AffectedRegions
 func (m baseannouncement) GetAffectedRegions() []string {
 	return m.AffectedRegions
 }
 
-//GetAnnouncementType returns AnnouncementType
+// GetAnnouncementType returns AnnouncementType
 func (m baseannouncement) GetAnnouncementType() BaseAnnouncementAnnouncementTypeEnum {
 	return m.AnnouncementType
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m baseannouncement) GetLifecycleState() BaseAnnouncementLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetIsBanner returns IsBanner
+// GetIsBanner returns IsBanner
 func (m baseannouncement) GetIsBanner() *bool {
 	return m.IsBanner
 }

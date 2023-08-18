@@ -114,32 +114,32 @@ func (m *createtriggerdetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createtriggerdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createtriggerdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createtriggerdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createtriggerdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetProjectId returns ProjectId
+// GetProjectId returns ProjectId
 func (m createtriggerdetails) GetProjectId() *string {
 	return m.ProjectId
 }
 
-//GetActions returns Actions
+// GetActions returns Actions
 func (m createtriggerdetails) GetActions() json.RawMessage {
 	return m.Actions
 }

@@ -92,22 +92,22 @@ func (m *updatedeployenvironmentdetails) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updatedeployenvironmentdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updatedeployenvironmentdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updatedeployenvironmentdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updatedeployenvironmentdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

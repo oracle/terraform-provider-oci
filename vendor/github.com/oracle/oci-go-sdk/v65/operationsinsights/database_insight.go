@@ -147,72 +147,72 @@ func (m *databaseinsight) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 	}
 }
 
-//GetDatabaseType returns DatabaseType
+// GetDatabaseType returns DatabaseType
 func (m databaseinsight) GetDatabaseType() *string {
 	return m.DatabaseType
 }
 
-//GetDatabaseVersion returns DatabaseVersion
+// GetDatabaseVersion returns DatabaseVersion
 func (m databaseinsight) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
 }
 
-//GetProcessorCount returns ProcessorCount
+// GetProcessorCount returns ProcessorCount
 func (m databaseinsight) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m databaseinsight) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m databaseinsight) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m databaseinsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+// GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
 func (m databaseinsight) GetDatabaseConnectionStatusDetails() *string {
 	return m.DatabaseConnectionStatusDetails
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m databaseinsight) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m databaseinsight) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m databaseinsight) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m databaseinsight) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m databaseinsight) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m databaseinsight) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m databaseinsight) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }

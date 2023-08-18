@@ -144,7 +144,6 @@ func (m *BucketCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.ReferencedFields[i] = nil
 		}
 	}
-
 	m.DeclaredFields = make([]AbstractField, len(model.DeclaredFields))
 	for i, n := range model.DeclaredFields {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -157,7 +156,6 @@ func (m *BucketCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
-
 	m.IsHidden = model.IsHidden
 
 	m.MaxBuckets = model.MaxBuckets
@@ -165,10 +163,7 @@ func (m *BucketCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 	m.Span = model.Span
 
 	m.Ranges = make([]BucketRange, len(model.Ranges))
-	for i, n := range model.Ranges {
-		m.Ranges[i] = n
-	}
-
+	copy(model.Ranges, m.Ranges)
 	m.DefaultValue = model.DefaultValue
 
 	m.DisplayQueryString = model.DisplayQueryString

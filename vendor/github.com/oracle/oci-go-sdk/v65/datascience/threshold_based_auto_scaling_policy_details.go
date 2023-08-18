@@ -95,7 +95,6 @@ func (m *ThresholdBasedAutoScalingPolicyDetails) UnmarshalJSON(data []byte) (e e
 			m.Rules[i] = nil
 		}
 	}
-
 	m.MaximumInstanceCount = model.MaximumInstanceCount
 
 	m.MinimumInstanceCount = model.MinimumInstanceCount

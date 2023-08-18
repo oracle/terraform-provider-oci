@@ -125,7 +125,6 @@ func (m *UpdateDevopsCodeRepositoryTriggerDetails) UnmarshalJSON(data []byte) (e
 			m.Actions[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

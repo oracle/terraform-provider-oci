@@ -112,42 +112,42 @@ func (m *listingpackage) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m listingpackage) GetDescription() *string {
 	return m.Description
 }
 
-//GetPricing returns Pricing
+// GetPricing returns Pricing
 func (m listingpackage) GetPricing() *PricingModel {
 	return m.Pricing
 }
 
-//GetResourceId returns ResourceId
+// GetResourceId returns ResourceId
 func (m listingpackage) GetResourceId() *string {
 	return m.ResourceId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m listingpackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetOperatingSystem returns OperatingSystem
+// GetOperatingSystem returns OperatingSystem
 func (m listingpackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
 }
 
-//GetRegions returns Regions
+// GetRegions returns Regions
 func (m listingpackage) GetRegions() []Region {
 	return m.Regions
 }
 
-//GetListingId returns ListingId
+// GetListingId returns ListingId
 func (m listingpackage) GetListingId() *string {
 	return m.ListingId
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m listingpackage) GetVersion() *string {
 	return m.Version
 }

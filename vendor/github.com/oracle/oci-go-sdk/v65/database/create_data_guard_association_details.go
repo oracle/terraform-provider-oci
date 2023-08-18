@@ -120,37 +120,37 @@ func (m *createdataguardassociationdetails) UnmarshalPolymorphicJSON(data []byte
 	}
 }
 
-//GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
+// GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m createdataguardassociationdetails) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
 }
 
-//GetIsActiveDataGuardEnabled returns IsActiveDataGuardEnabled
+// GetIsActiveDataGuardEnabled returns IsActiveDataGuardEnabled
 func (m createdataguardassociationdetails) GetIsActiveDataGuardEnabled() *bool {
 	return m.IsActiveDataGuardEnabled
 }
 
-//GetPeerDbUniqueName returns PeerDbUniqueName
+// GetPeerDbUniqueName returns PeerDbUniqueName
 func (m createdataguardassociationdetails) GetPeerDbUniqueName() *string {
 	return m.PeerDbUniqueName
 }
 
-//GetPeerSidPrefix returns PeerSidPrefix
+// GetPeerSidPrefix returns PeerSidPrefix
 func (m createdataguardassociationdetails) GetPeerSidPrefix() *string {
 	return m.PeerSidPrefix
 }
 
-//GetDatabaseAdminPassword returns DatabaseAdminPassword
+// GetDatabaseAdminPassword returns DatabaseAdminPassword
 func (m createdataguardassociationdetails) GetDatabaseAdminPassword() *string {
 	return m.DatabaseAdminPassword
 }
 
-//GetProtectionMode returns ProtectionMode
+// GetProtectionMode returns ProtectionMode
 func (m createdataguardassociationdetails) GetProtectionMode() CreateDataGuardAssociationDetailsProtectionModeEnum {
 	return m.ProtectionMode
 }
 
-//GetTransportType returns TransportType
+// GetTransportType returns TransportType
 func (m createdataguardassociationdetails) GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum {
 	return m.TransportType
 }

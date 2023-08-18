@@ -125,7 +125,6 @@ func (m *UpdateSecretDetails) UnmarshalJSON(data []byte) (e error) {
 			m.SecretRules[i] = nil
 		}
 	}
-
 	nn, e = model.SecretGenerationContext.UnmarshalPolymorphicJSON(model.SecretGenerationContext.JsonData)
 	if e != nil {
 		return

@@ -68,6 +68,5 @@ func (m *TriggerInfo) UnmarshalJSON(data []byte) (e error) {
 			m.Actions[i] = nil
 		}
 	}
-
 	return
 }

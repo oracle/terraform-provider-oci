@@ -165,52 +165,52 @@ func (m *updatedataassetdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m updatedataassetdetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m updatedataassetdetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updatedataassetdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m updatedataassetdetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m updatedataassetdetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m updatedataassetdetails) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m updatedataassetdetails) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m updatedataassetdetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m updatedataassetdetails) GetKey() *string {
 	return m.Key
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m updatedataassetdetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }

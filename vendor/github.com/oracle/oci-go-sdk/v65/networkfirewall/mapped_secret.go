@@ -77,17 +77,17 @@ func (m *mappedsecret) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m mappedsecret) GetName() *string {
 	return m.Name
 }
 
-//GetType returns Type
+// GetType returns Type
 func (m mappedsecret) GetType() InspectionTypeEnum {
 	return m.Type
 }
 
-//GetParentResourceId returns ParentResourceId
+// GetParentResourceId returns ParentResourceId
 func (m mappedsecret) GetParentResourceId() *string {
 	return m.ParentResourceId
 }

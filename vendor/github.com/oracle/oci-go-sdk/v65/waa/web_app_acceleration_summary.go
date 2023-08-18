@@ -121,57 +121,57 @@ func (m *webappaccelerationsummary) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m webappaccelerationsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m webappaccelerationsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m webappaccelerationsummary) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m webappaccelerationsummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m webappaccelerationsummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
+// GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
 func (m webappaccelerationsummary) GetWebAppAccelerationPolicyId() *string {
 	return m.WebAppAccelerationPolicyId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m webappaccelerationsummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m webappaccelerationsummary) GetLifecycleState() WebAppAccelerationLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m webappaccelerationsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m webappaccelerationsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m webappaccelerationsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

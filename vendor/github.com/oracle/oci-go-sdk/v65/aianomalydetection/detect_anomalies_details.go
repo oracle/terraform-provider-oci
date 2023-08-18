@@ -77,12 +77,12 @@ func (m *detectanomaliesdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetSensitivity returns Sensitivity
+// GetSensitivity returns Sensitivity
 func (m detectanomaliesdetails) GetSensitivity() *float32 {
 	return m.Sensitivity
 }
 
-//GetModelId returns ModelId
+// GetModelId returns ModelId
 func (m detectanomaliesdetails) GetModelId() *string {
 	return m.ModelId
 }

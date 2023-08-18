@@ -167,10 +167,7 @@ func (m *FunctionField) UnmarshalJSON(data []byte) (e error) {
 	m.IsDeclared = model.IsDeclared
 
 	m.OriginalDisplayNames = make([]string, len(model.OriginalDisplayNames))
-	for i, n := range model.OriginalDisplayNames {
-		m.OriginalDisplayNames[i] = n
-	}
-
+	copy(model.OriginalDisplayNames, m.OriginalDisplayNames)
 	m.InternalName = model.InternalName
 
 	m.ValueType = model.ValueType
@@ -199,6 +196,5 @@ func (m *FunctionField) UnmarshalJSON(data []byte) (e error) {
 			m.Arguments[i] = nil
 		}
 	}
-
 	return
 }

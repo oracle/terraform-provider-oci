@@ -116,7 +116,6 @@ func (m *CreateJobDetails) UnmarshalJSON(data []byte) (e error) {
 			m.JobStorageMountConfigurationDetailsList[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

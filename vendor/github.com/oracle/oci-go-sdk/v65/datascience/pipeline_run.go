@@ -161,10 +161,7 @@ func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 	m.LogConfigurationOverrideDetails = model.LogConfigurationOverrideDetails
 
 	m.StepOverrideDetails = make([]PipelineStepOverrideDetails, len(model.StepOverrideDetails))
-	for i, n := range model.StepOverrideDetails {
-		m.StepOverrideDetails[i] = n
-	}
-
+	copy(model.StepOverrideDetails, m.StepOverrideDetails)
 	m.LogDetails = model.LogDetails
 
 	m.LifecycleDetails = model.LifecycleDetails
@@ -201,7 +198,6 @@ func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 			m.StepRuns[i] = nil
 		}
 	}
-
 	m.LifecycleState = model.LifecycleState
 
 	return

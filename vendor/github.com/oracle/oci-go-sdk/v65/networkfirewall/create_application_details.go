@@ -69,7 +69,7 @@ func (m *createapplicationdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createapplicationdetails) GetName() *string {
 	return m.Name
 }

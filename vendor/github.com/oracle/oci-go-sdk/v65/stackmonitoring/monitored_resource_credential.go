@@ -89,22 +89,22 @@ func (m *monitoredresourcecredential) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetSource returns Source
+// GetSource returns Source
 func (m monitoredresourcecredential) GetSource() *string {
 	return m.Source
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m monitoredresourcecredential) GetName() *string {
 	return m.Name
 }
 
-//GetType returns Type
+// GetType returns Type
 func (m monitoredresourcecredential) GetType() *string {
 	return m.Type
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m monitoredresourcecredential) GetDescription() *string {
 	return m.Description
 }

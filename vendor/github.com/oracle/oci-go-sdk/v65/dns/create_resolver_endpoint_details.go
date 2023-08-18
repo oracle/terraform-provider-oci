@@ -89,27 +89,27 @@ func (m *createresolverendpointdetails) UnmarshalPolymorphicJSON(data []byte) (i
 	}
 }
 
-//GetForwardingAddress returns ForwardingAddress
+// GetForwardingAddress returns ForwardingAddress
 func (m createresolverendpointdetails) GetForwardingAddress() *string {
 	return m.ForwardingAddress
 }
 
-//GetListeningAddress returns ListeningAddress
+// GetListeningAddress returns ListeningAddress
 func (m createresolverendpointdetails) GetListeningAddress() *string {
 	return m.ListeningAddress
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createresolverendpointdetails) GetName() *string {
 	return m.Name
 }
 
-//GetIsForwarding returns IsForwarding
+// GetIsForwarding returns IsForwarding
 func (m createresolverendpointdetails) GetIsForwarding() *bool {
 	return m.IsForwarding
 }
 
-//GetIsListening returns IsListening
+// GetIsListening returns IsListening
 func (m createresolverendpointdetails) GetIsListening() *bool {
 	return m.IsListening
 }

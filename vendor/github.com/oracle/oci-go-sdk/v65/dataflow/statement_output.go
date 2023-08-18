@@ -84,10 +84,7 @@ func (m *StatementOutput) UnmarshalJSON(data []byte) (e error) {
 	m.ErrorValue = model.ErrorValue
 
 	m.Traceback = make([]string, len(model.Traceback))
-	for i, n := range model.Traceback {
-		m.Traceback[i] = n
-	}
-
+	copy(model.Traceback, m.Traceback)
 	return
 }
 

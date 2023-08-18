@@ -167,47 +167,47 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m createconnectiondetails) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m createconnectiondetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m createconnectiondetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createconnectiondetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m createconnectiondetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetConnectionProperties returns ConnectionProperties
+// GetConnectionProperties returns ConnectionProperties
 func (m createconnectiondetails) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m createconnectiondetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createconnectiondetails) GetName() *string {
 	return m.Name
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m createconnectiondetails) GetIdentifier() *string {
 	return m.Identifier
 }

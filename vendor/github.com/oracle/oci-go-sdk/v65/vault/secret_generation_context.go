@@ -75,7 +75,7 @@ func (m *secretgenerationcontext) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetSecretTemplate returns SecretTemplate
+// GetSecretTemplate returns SecretTemplate
 func (m secretgenerationcontext) GetSecretTemplate() *string {
 	return m.SecretTemplate
 }

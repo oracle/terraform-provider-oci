@@ -123,57 +123,57 @@ func (m *externaldatabaseconnectorsummary) UnmarshalPolymorphicJSON(data []byte)
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m externaldatabaseconnectorsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m externaldatabaseconnectorsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m externaldatabaseconnectorsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m externaldatabaseconnectorsummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m externaldatabaseconnectorsummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m externaldatabaseconnectorsummary) GetId() *string {
 	return m.Id
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m externaldatabaseconnectorsummary) GetLifecycleState() ExternalDatabaseConnectorLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m externaldatabaseconnectorsummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetExternalDatabaseId returns ExternalDatabaseId
+// GetExternalDatabaseId returns ExternalDatabaseId
 func (m externaldatabaseconnectorsummary) GetExternalDatabaseId() *string {
 	return m.ExternalDatabaseId
 }
 
-//GetConnectionStatus returns ConnectionStatus
+// GetConnectionStatus returns ConnectionStatus
 func (m externaldatabaseconnectorsummary) GetConnectionStatus() *string {
 	return m.ConnectionStatus
 }
 
-//GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
+// GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
 func (m externaldatabaseconnectorsummary) GetTimeConnectionStatusLastUpdated() *common.SDKTime {
 	return m.TimeConnectionStatusLastUpdated
 }

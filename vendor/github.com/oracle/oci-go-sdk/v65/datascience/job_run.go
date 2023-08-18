@@ -152,7 +152,6 @@ func (m *JobRun) UnmarshalJSON(data []byte) (e error) {
 			m.JobStorageMountConfigurationDetailsList[i] = nil
 		}
 	}
-
 	m.LogDetails = model.LogDetails
 
 	m.LifecycleDetails = model.LifecycleDetails

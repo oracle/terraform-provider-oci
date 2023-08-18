@@ -106,7 +106,6 @@ func (m *CreateNotebookSessionDetails) UnmarshalJSON(data []byte) (e error) {
 			m.NotebookSessionStorageMountConfigurationDetailsList[i] = nil
 		}
 	}
-
 	m.ProjectId = model.ProjectId
 
 	m.CompartmentId = model.CompartmentId

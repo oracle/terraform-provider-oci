@@ -210,6 +210,5 @@ func (m *OpsiUxConfiguration) UnmarshalJSON(data []byte) (e error) {
 			m.ConfigItems[i] = nil
 		}
 	}
-
 	return
 }

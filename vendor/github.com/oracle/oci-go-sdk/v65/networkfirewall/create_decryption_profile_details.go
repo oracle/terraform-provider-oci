@@ -69,7 +69,7 @@ func (m *createdecryptionprofiledetails) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createdecryptionprofiledetails) GetName() *string {
 	return m.Name
 }

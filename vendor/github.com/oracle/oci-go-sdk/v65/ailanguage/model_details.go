@@ -107,7 +107,7 @@ func (m *modeldetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 	}
 }
 
-//GetLanguageCode returns LanguageCode
+// GetLanguageCode returns LanguageCode
 func (m modeldetails) GetLanguageCode() *string {
 	return m.LanguageCode
 }

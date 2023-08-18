@@ -77,7 +77,7 @@ func (m *createcertificateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetVersionName returns VersionName
+// GetVersionName returns VersionName
 func (m createcertificateconfigdetails) GetVersionName() *string {
 	return m.VersionName
 }

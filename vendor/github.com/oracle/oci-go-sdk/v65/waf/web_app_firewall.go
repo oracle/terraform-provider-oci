@@ -120,57 +120,57 @@ func (m *webappfirewall) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m webappfirewall) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m webappfirewall) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m webappfirewall) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m webappfirewall) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m webappfirewall) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
+// GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
 func (m webappfirewall) GetWebAppFirewallPolicyId() *string {
 	return m.WebAppFirewallPolicyId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m webappfirewall) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m webappfirewall) GetLifecycleState() WebAppFirewallLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m webappfirewall) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m webappfirewall) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m webappfirewall) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

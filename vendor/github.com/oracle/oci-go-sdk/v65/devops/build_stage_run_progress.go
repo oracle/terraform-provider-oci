@@ -177,10 +177,7 @@ func (m *BuildStageRunProgress) UnmarshalJSON(data []byte) (e error) {
 	m.PrimaryBuildSource = model.PrimaryBuildSource
 
 	m.Steps = make([]BuildStageRunStep, len(model.Steps))
-	for i, n := range model.Steps {
-		m.Steps[i] = n
-	}
-
+	copy(model.Steps, m.Steps)
 	m.ExportedVariables = model.ExportedVariables
 
 	nn, e = model.PrivateAccessConfig.UnmarshalPolymorphicJSON(model.PrivateAccessConfig.JsonData)

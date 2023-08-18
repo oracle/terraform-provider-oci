@@ -145,82 +145,82 @@ func (m *scheduledtask) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetTaskStatus returns TaskStatus
+// GetTaskStatus returns TaskStatus
 func (m scheduledtask) GetTaskStatus() ScheduledTaskTaskStatusEnum {
 	return m.TaskStatus
 }
 
-//GetPauseReason returns PauseReason
+// GetPauseReason returns PauseReason
 func (m scheduledtask) GetPauseReason() ScheduledTaskPauseReasonEnum {
 	return m.PauseReason
 }
 
-//GetWorkRequestId returns WorkRequestId
+// GetWorkRequestId returns WorkRequestId
 func (m scheduledtask) GetWorkRequestId() *string {
 	return m.WorkRequestId
 }
 
-//GetNumOccurrences returns NumOccurrences
+// GetNumOccurrences returns NumOccurrences
 func (m scheduledtask) GetNumOccurrences() *int64 {
 	return m.NumOccurrences
 }
 
-//GetTimeOfNextExecution returns TimeOfNextExecution
+// GetTimeOfNextExecution returns TimeOfNextExecution
 func (m scheduledtask) GetTimeOfNextExecution() *common.SDKTime {
 	return m.TimeOfNextExecution
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m scheduledtask) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m scheduledtask) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m scheduledtask) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m scheduledtask) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetTaskType returns TaskType
+// GetTaskType returns TaskType
 func (m scheduledtask) GetTaskType() TaskTypeEnum {
 	return m.TaskType
 }
 
-//GetSchedules returns Schedules
+// GetSchedules returns Schedules
 func (m scheduledtask) GetSchedules() json.RawMessage {
 	return m.Schedules
 }
 
-//GetAction returns Action
+// GetAction returns Action
 func (m scheduledtask) GetAction() action {
 	return m.Action
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m scheduledtask) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m scheduledtask) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m scheduledtask) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m scheduledtask) GetLifecycleState() ScheduledTaskLifecycleStateEnum {
 	return m.LifecycleState
 }

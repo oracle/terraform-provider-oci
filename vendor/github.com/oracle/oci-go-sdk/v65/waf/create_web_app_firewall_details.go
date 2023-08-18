@@ -94,32 +94,32 @@ func (m *createwebappfirewalldetails) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createwebappfirewalldetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createwebappfirewalldetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createwebappfirewalldetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m createwebappfirewalldetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createwebappfirewalldetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
+// GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
 func (m createwebappfirewalldetails) GetWebAppFirewallPolicyId() *string {
 	return m.WebAppFirewallPolicyId
 }

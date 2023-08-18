@@ -89,27 +89,27 @@ func (m *repositoryrefsummary) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m repositoryrefsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m repositoryrefsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetRefName returns RefName
+// GetRefName returns RefName
 func (m repositoryrefsummary) GetRefName() *string {
 	return m.RefName
 }
 
-//GetFullRefName returns FullRefName
+// GetFullRefName returns FullRefName
 func (m repositoryrefsummary) GetFullRefName() *string {
 	return m.FullRefName
 }
 
-//GetRepositoryId returns RepositoryId
+// GetRepositoryId returns RepositoryId
 func (m repositoryrefsummary) GetRepositoryId() *string {
 	return m.RepositoryId
 }

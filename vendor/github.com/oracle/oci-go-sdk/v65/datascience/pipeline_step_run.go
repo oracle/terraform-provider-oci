@@ -89,27 +89,27 @@ func (m *pipelinesteprun) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 	}
 }
 
-//GetTimeFinished returns TimeFinished
+// GetTimeFinished returns TimeFinished
 func (m pipelinesteprun) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m pipelinesteprun) GetLifecycleState() PipelineStepRunLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m pipelinesteprun) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeStarted returns TimeStarted
+// GetTimeStarted returns TimeStarted
 func (m pipelinesteprun) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-//GetStepName returns StepName
+// GetStepName returns StepName
 func (m pipelinesteprun) GetStepName() *string {
 	return m.StepName
 }

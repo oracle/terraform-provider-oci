@@ -101,37 +101,37 @@ func (m *createsensitivetypedetails) UnmarshalPolymorphicJSON(data []byte) (inte
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createsensitivetypedetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetShortName returns ShortName
+// GetShortName returns ShortName
 func (m createsensitivetypedetails) GetShortName() *string {
 	return m.ShortName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createsensitivetypedetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetParentCategoryId returns ParentCategoryId
+// GetParentCategoryId returns ParentCategoryId
 func (m createsensitivetypedetails) GetParentCategoryId() *string {
 	return m.ParentCategoryId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createsensitivetypedetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createsensitivetypedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createsensitivetypedetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }

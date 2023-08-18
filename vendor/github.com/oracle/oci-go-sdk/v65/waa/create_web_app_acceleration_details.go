@@ -95,32 +95,32 @@ func (m *createwebappaccelerationdetails) UnmarshalPolymorphicJSON(data []byte) 
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createwebappaccelerationdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createwebappaccelerationdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createwebappaccelerationdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m createwebappaccelerationdetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createwebappaccelerationdetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
+// GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
 func (m createwebappaccelerationdetails) GetWebAppAccelerationPolicyId() *string {
 	return m.WebAppAccelerationPolicyId
 }

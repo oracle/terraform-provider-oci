@@ -91,7 +91,7 @@ func (m *patchinstruction) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetSelection returns Selection
+// GetSelection returns Selection
 func (m patchinstruction) GetSelection() *string {
 	return m.Selection
 }

@@ -168,52 +168,52 @@ func (m *createchannelresult) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createchannelresult) GetDescription() *string {
 	return m.Description
 }
 
-//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m createchannelresult) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createchannelresult) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createchannelresult) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m createchannelresult) GetId() *string {
 	return m.Id
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createchannelresult) GetName() *string {
 	return m.Name
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m createchannelresult) GetCategory() ChannelCategoryEnum {
 	return m.Category
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m createchannelresult) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m createchannelresult) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m createchannelresult) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }

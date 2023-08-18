@@ -100,32 +100,32 @@ func (m *createidentityproviderdetails) UnmarshalPolymorphicJSON(data []byte) (i
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createidentityproviderdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createidentityproviderdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createidentityproviderdetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createidentityproviderdetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createidentityproviderdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetProductType returns ProductType
+// GetProductType returns ProductType
 func (m createidentityproviderdetails) GetProductType() CreateIdentityProviderDetailsProductTypeEnum {
 	return m.ProductType
 }

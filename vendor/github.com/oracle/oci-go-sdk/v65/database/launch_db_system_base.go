@@ -254,137 +254,137 @@ func (m *launchdbsystembase) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetFaultDomains returns FaultDomains
+// GetFaultDomains returns FaultDomains
 func (m launchdbsystembase) GetFaultDomains() []string {
 	return m.FaultDomains
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m launchdbsystembase) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetBackupSubnetId returns BackupSubnetId
+// GetBackupSubnetId returns BackupSubnetId
 func (m launchdbsystembase) GetBackupSubnetId() *string {
 	return m.BackupSubnetId
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m launchdbsystembase) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetBackupNetworkNsgIds returns BackupNetworkNsgIds
+// GetBackupNetworkNsgIds returns BackupNetworkNsgIds
 func (m launchdbsystembase) GetBackupNetworkNsgIds() []string {
 	return m.BackupNetworkNsgIds
 }
 
-//GetTimeZone returns TimeZone
+// GetTimeZone returns TimeZone
 func (m launchdbsystembase) GetTimeZone() *string {
 	return m.TimeZone
 }
 
-//GetDbSystemOptions returns DbSystemOptions
+// GetDbSystemOptions returns DbSystemOptions
 func (m launchdbsystembase) GetDbSystemOptions() *DbSystemOptions {
 	return m.DbSystemOptions
 }
 
-//GetStorageVolumePerformanceMode returns StorageVolumePerformanceMode
+// GetStorageVolumePerformanceMode returns StorageVolumePerformanceMode
 func (m launchdbsystembase) GetStorageVolumePerformanceMode() LaunchDbSystemBaseStorageVolumePerformanceModeEnum {
 	return m.StorageVolumePerformanceMode
 }
 
-//GetSparseDiskgroup returns SparseDiskgroup
+// GetSparseDiskgroup returns SparseDiskgroup
 func (m launchdbsystembase) GetSparseDiskgroup() *bool {
 	return m.SparseDiskgroup
 }
 
-//GetDomain returns Domain
+// GetDomain returns Domain
 func (m launchdbsystembase) GetDomain() *string {
 	return m.Domain
 }
 
-//GetClusterName returns ClusterName
+// GetClusterName returns ClusterName
 func (m launchdbsystembase) GetClusterName() *string {
 	return m.ClusterName
 }
 
-//GetDataStoragePercentage returns DataStoragePercentage
+// GetDataStoragePercentage returns DataStoragePercentage
 func (m launchdbsystembase) GetDataStoragePercentage() *int {
 	return m.DataStoragePercentage
 }
 
-//GetInitialDataStorageSizeInGB returns InitialDataStorageSizeInGB
+// GetInitialDataStorageSizeInGB returns InitialDataStorageSizeInGB
 func (m launchdbsystembase) GetInitialDataStorageSizeInGB() *int {
 	return m.InitialDataStorageSizeInGB
 }
 
-//GetKmsKeyId returns KmsKeyId
+// GetKmsKeyId returns KmsKeyId
 func (m launchdbsystembase) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
-//GetKmsKeyVersionId returns KmsKeyVersionId
+// GetKmsKeyVersionId returns KmsKeyVersionId
 func (m launchdbsystembase) GetKmsKeyVersionId() *string {
 	return m.KmsKeyVersionId
 }
 
-//GetNodeCount returns NodeCount
+// GetNodeCount returns NodeCount
 func (m launchdbsystembase) GetNodeCount() *int {
 	return m.NodeCount
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m launchdbsystembase) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m launchdbsystembase) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetPrivateIp returns PrivateIp
+// GetPrivateIp returns PrivateIp
 func (m launchdbsystembase) GetPrivateIp() *string {
 	return m.PrivateIp
 }
 
-//GetDataCollectionOptions returns DataCollectionOptions
+// GetDataCollectionOptions returns DataCollectionOptions
 func (m launchdbsystembase) GetDataCollectionOptions() *DataCollectionOptions {
 	return m.DataCollectionOptions
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m launchdbsystembase) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetAvailabilityDomain returns AvailabilityDomain
+// GetAvailabilityDomain returns AvailabilityDomain
 func (m launchdbsystembase) GetAvailabilityDomain() *string {
 	return m.AvailabilityDomain
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m launchdbsystembase) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetShape returns Shape
+// GetShape returns Shape
 func (m launchdbsystembase) GetShape() *string {
 	return m.Shape
 }
 
-//GetSshPublicKeys returns SshPublicKeys
+// GetSshPublicKeys returns SshPublicKeys
 func (m launchdbsystembase) GetSshPublicKeys() []string {
 	return m.SshPublicKeys
 }
 
-//GetHostname returns Hostname
+// GetHostname returns Hostname
 func (m launchdbsystembase) GetHostname() *string {
 	return m.Hostname
 }
 
-//GetCpuCoreCount returns CpuCoreCount
+// GetCpuCoreCount returns CpuCoreCount
 func (m launchdbsystembase) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }

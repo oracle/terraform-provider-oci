@@ -118,57 +118,57 @@ func (m *externaldbsystemconnector) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetConnectionStatus returns ConnectionStatus
+// GetConnectionStatus returns ConnectionStatus
 func (m externaldbsystemconnector) GetConnectionStatus() *string {
 	return m.ConnectionStatus
 }
 
-//GetConnectionFailureMessage returns ConnectionFailureMessage
+// GetConnectionFailureMessage returns ConnectionFailureMessage
 func (m externaldbsystemconnector) GetConnectionFailureMessage() *string {
 	return m.ConnectionFailureMessage
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m externaldbsystemconnector) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
+// GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
 func (m externaldbsystemconnector) GetTimeConnectionStatusLastUpdated() *common.SDKTime {
 	return m.TimeConnectionStatusLastUpdated
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m externaldbsystemconnector) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m externaldbsystemconnector) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m externaldbsystemconnector) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetExternalDbSystemId returns ExternalDbSystemId
+// GetExternalDbSystemId returns ExternalDbSystemId
 func (m externaldbsystemconnector) GetExternalDbSystemId() *string {
 	return m.ExternalDbSystemId
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m externaldbsystemconnector) GetLifecycleState() ExternalDbSystemConnectorLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m externaldbsystemconnector) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m externaldbsystemconnector) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }

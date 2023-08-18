@@ -131,7 +131,6 @@ func (m *CreateContainerInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Volumes[i] = nil
 		}
 	}
-
 	m.DnsConfig = model.DnsConfig
 
 	m.GracefulShutdownTimeoutInSeconds = model.GracefulShutdownTimeoutInSeconds
@@ -148,7 +147,6 @@ func (m *CreateContainerInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 			m.ImagePullSecrets[i] = nil
 		}
 	}
-
 	m.ContainerRestartPolicy = model.ContainerRestartPolicy
 
 	m.StreamId = model.StreamId
@@ -166,14 +164,8 @@ func (m *CreateContainerInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ShapeConfig = model.ShapeConfig
 
 	m.Containers = make([]CreateContainerDetails, len(model.Containers))
-	for i, n := range model.Containers {
-		m.Containers[i] = n
-	}
-
+	copy(model.Containers, m.Containers)
 	m.Vnics = make([]CreateContainerVnicDetails, len(model.Vnics))
-	for i, n := range model.Vnics {
-		m.Vnics[i] = n
-	}
-
+	copy(model.Vnics, m.Vnics)
 	return
 }

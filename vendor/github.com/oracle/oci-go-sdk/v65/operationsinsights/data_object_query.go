@@ -76,12 +76,12 @@ func (m *dataobjectquery) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 	}
 }
 
-//GetBindParams returns BindParams
+// GetBindParams returns BindParams
 func (m dataobjectquery) GetBindParams() []DataObjectBindParameter {
 	return m.BindParams
 }
 
-//GetQueryExecutionTimeoutInSeconds returns QueryExecutionTimeoutInSeconds
+// GetQueryExecutionTimeoutInSeconds returns QueryExecutionTimeoutInSeconds
 func (m dataobjectquery) GetQueryExecutionTimeoutInSeconds() *float64 {
 	return m.QueryExecutionTimeoutInSeconds
 }

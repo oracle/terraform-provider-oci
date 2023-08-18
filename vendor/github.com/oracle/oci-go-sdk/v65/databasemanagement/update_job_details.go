@@ -80,22 +80,22 @@ func (m *updatejobdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updatejobdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetTimeout returns Timeout
+// GetTimeout returns Timeout
 func (m updatejobdetails) GetTimeout() *string {
 	return m.Timeout
 }
 
-//GetResultLocation returns ResultLocation
+// GetResultLocation returns ResultLocation
 func (m updatejobdetails) GetResultLocation() jobexecutionresultlocation {
 	return m.ResultLocation
 }
 
-//GetScheduleDetails returns ScheduleDetails
+// GetScheduleDetails returns ScheduleDetails
 func (m updatejobdetails) GetScheduleDetails() *JobScheduleDetails {
 	return m.ScheduleDetails
 }

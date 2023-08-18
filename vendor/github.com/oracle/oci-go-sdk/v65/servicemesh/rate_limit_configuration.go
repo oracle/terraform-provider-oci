@@ -69,7 +69,7 @@ func (m *ratelimitconfiguration) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetIntervalInMs returns IntervalInMs
+// GetIntervalInMs returns IntervalInMs
 func (m ratelimitconfiguration) GetIntervalInMs() *int64 {
 	return m.IntervalInMs
 }

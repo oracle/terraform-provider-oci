@@ -63,6 +63,5 @@ func (m *WebAppFirewallCollection) UnmarshalJSON(data []byte) (e error) {
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

@@ -79,7 +79,7 @@ func (m *unifiedagentloggingfilter) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m unifiedagentloggingfilter) GetName() *string {
 	return m.Name
 }

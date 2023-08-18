@@ -81,12 +81,12 @@ func (m *actiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m actiondetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetIsEnabled returns IsEnabled
+// GetIsEnabled returns IsEnabled
 func (m actiondetails) GetIsEnabled() *bool {
 	return m.IsEnabled
 }

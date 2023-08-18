@@ -97,7 +97,7 @@ func (m *configsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 	}
 }
 
-//GetWorkingDirectory returns WorkingDirectory
+// GetWorkingDirectory returns WorkingDirectory
 func (m configsource) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

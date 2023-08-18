@@ -179,10 +179,7 @@ func (m *Stack) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.Locks = make([]ResourceLock, len(model.Locks))
-	for i, n := range model.Locks {
-		m.Locks[i] = n
-	}
-
+	copy(model.Locks, m.Locks)
 	return
 }
 

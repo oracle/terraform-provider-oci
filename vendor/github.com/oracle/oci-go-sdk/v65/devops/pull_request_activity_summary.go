@@ -95,22 +95,22 @@ func (m *pullrequestactivitysummary) UnmarshalPolymorphicJSON(data []byte) (inte
 	}
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m pullrequestactivitysummary) GetId() *string {
 	return m.Id
 }
 
-//GetPrincipal returns Principal
+// GetPrincipal returns Principal
 func (m pullrequestactivitysummary) GetPrincipal() *PrincipalDetails {
 	return m.Principal
 }
 
-//GetPullRequestId returns PullRequestId
+// GetPullRequestId returns PullRequestId
 func (m pullrequestactivitysummary) GetPullRequestId() *string {
 	return m.PullRequestId
 }
 
-//GetTimeOccurred returns TimeOccurred
+// GetTimeOccurred returns TimeOccurred
 func (m pullrequestactivitysummary) GetTimeOccurred() *common.SDKTime {
 	return m.TimeOccurred
 }

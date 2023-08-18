@@ -76,12 +76,12 @@ func (m *sqltuningtaskcredentialdetails) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetUsername returns Username
+// GetUsername returns Username
 func (m sqltuningtaskcredentialdetails) GetUsername() *string {
 	return m.Username
 }
 
-//GetRole returns Role
+// GetRole returns Role
 func (m sqltuningtaskcredentialdetails) GetRole() SqlTuningTaskCredentialDetailsRoleEnum {
 	return m.Role
 }

@@ -167,10 +167,7 @@ func (m *RuntimeOperator) UnmarshalJSON(data []byte) (e error) {
 	m.ExecutionState = model.ExecutionState
 
 	m.Parameters = make([]Parameter, len(model.Parameters))
-	for i, n := range model.Parameters {
-		m.Parameters[i] = n
-	}
-
+	copy(model.Parameters, m.Parameters)
 	m.ObjectStatus = model.ObjectStatus
 
 	m.Metadata = model.Metadata

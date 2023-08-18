@@ -96,22 +96,22 @@ func (m *createzonebasedetails) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createzonebasedetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createzonebasedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createzonebasedetails) GetName() *string {
 	return m.Name
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createzonebasedetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }

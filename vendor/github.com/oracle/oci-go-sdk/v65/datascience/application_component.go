@@ -73,7 +73,7 @@ func (m *applicationcomponent) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m applicationcomponent) GetName() *string {
 	return m.Name
 }

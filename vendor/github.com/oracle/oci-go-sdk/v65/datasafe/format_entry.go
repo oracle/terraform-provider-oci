@@ -156,7 +156,7 @@ func (m *formatentry) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m formatentry) GetDescription() *string {
 	return m.Description
 }

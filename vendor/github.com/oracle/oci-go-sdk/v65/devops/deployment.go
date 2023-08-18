@@ -156,92 +156,92 @@ func (m *deployment) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 	}
 }
 
-//GetDeployPipelineArtifacts returns DeployPipelineArtifacts
+// GetDeployPipelineArtifacts returns DeployPipelineArtifacts
 func (m deployment) GetDeployPipelineArtifacts() *DeployPipelineArtifactCollection {
 	return m.DeployPipelineArtifacts
 }
 
-//GetDeployPipelineEnvironments returns DeployPipelineEnvironments
+// GetDeployPipelineEnvironments returns DeployPipelineEnvironments
 func (m deployment) GetDeployPipelineEnvironments() *DeployPipelineEnvironmentCollection {
 	return m.DeployPipelineEnvironments
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m deployment) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m deployment) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m deployment) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m deployment) GetLifecycleState() DeploymentLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m deployment) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetDeploymentArguments returns DeploymentArguments
+// GetDeploymentArguments returns DeploymentArguments
 func (m deployment) GetDeploymentArguments() *DeploymentArgumentCollection {
 	return m.DeploymentArguments
 }
 
-//GetDeployStageOverrideArguments returns DeployStageOverrideArguments
+// GetDeployStageOverrideArguments returns DeployStageOverrideArguments
 func (m deployment) GetDeployStageOverrideArguments() *DeployStageOverrideArgumentCollection {
 	return m.DeployStageOverrideArguments
 }
 
-//GetDeployArtifactOverrideArguments returns DeployArtifactOverrideArguments
+// GetDeployArtifactOverrideArguments returns DeployArtifactOverrideArguments
 func (m deployment) GetDeployArtifactOverrideArguments() *DeployArtifactOverrideArgumentCollection {
 	return m.DeployArtifactOverrideArguments
 }
 
-//GetDeploymentExecutionProgress returns DeploymentExecutionProgress
+// GetDeploymentExecutionProgress returns DeploymentExecutionProgress
 func (m deployment) GetDeploymentExecutionProgress() *DeploymentExecutionProgress {
 	return m.DeploymentExecutionProgress
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m deployment) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m deployment) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m deployment) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m deployment) GetId() *string {
 	return m.Id
 }
 
-//GetProjectId returns ProjectId
+// GetProjectId returns ProjectId
 func (m deployment) GetProjectId() *string {
 	return m.ProjectId
 }
 
-//GetDeployPipelineId returns DeployPipelineId
+// GetDeployPipelineId returns DeployPipelineId
 func (m deployment) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m deployment) GetCompartmentId() *string {
 	return m.CompartmentId
 }

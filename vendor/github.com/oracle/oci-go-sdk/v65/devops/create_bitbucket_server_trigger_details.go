@@ -136,6 +136,5 @@ func (m *CreateBitbucketServerTriggerDetails) UnmarshalJSON(data []byte) (e erro
 			m.Actions[i] = nil
 		}
 	}
-
 	return
 }

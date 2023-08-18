@@ -96,32 +96,32 @@ func (m *updatesensitivetypedetails) UnmarshalPolymorphicJSON(data []byte) (inte
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updatesensitivetypedetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetShortName returns ShortName
+// GetShortName returns ShortName
 func (m updatesensitivetypedetails) GetShortName() *string {
 	return m.ShortName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updatesensitivetypedetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetParentCategoryId returns ParentCategoryId
+// GetParentCategoryId returns ParentCategoryId
 func (m updatesensitivetypedetails) GetParentCategoryId() *string {
 	return m.ParentCategoryId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updatesensitivetypedetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updatesensitivetypedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

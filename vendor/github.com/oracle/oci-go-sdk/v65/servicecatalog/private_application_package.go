@@ -87,27 +87,27 @@ func (m *privateapplicationpackage) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m privateapplicationpackage) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m privateapplicationpackage) GetId() *string {
 	return m.Id
 }
 
-//GetPrivateApplicationId returns PrivateApplicationId
+// GetPrivateApplicationId returns PrivateApplicationId
 func (m privateapplicationpackage) GetPrivateApplicationId() *string {
 	return m.PrivateApplicationId
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m privateapplicationpackage) GetVersion() *string {
 	return m.Version
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m privateapplicationpackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }

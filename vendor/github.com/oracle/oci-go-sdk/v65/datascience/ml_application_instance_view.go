@@ -149,10 +149,7 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Configuration = make([]ConfigurationProperty, len(model.Configuration))
-	for i, n := range model.Configuration {
-		m.Configuration[i] = n
-	}
-
+	copy(model.Configuration, m.Configuration)
 	m.InstanceComponents = make([]InstanceComponent, len(model.InstanceComponents))
 	for i, n := range model.InstanceComponents {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -165,12 +162,8 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 			m.InstanceComponents[i] = nil
 		}
 	}
-
 	m.PredictionUris = make([]PredictionUri, len(model.PredictionUris))
-	for i, n := range model.PredictionUris {
-		m.PredictionUris[i] = n
-	}
-
+	copy(model.PredictionUris, m.PredictionUris)
 	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id

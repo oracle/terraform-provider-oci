@@ -98,10 +98,7 @@ func (m *AddmDbRecommendationAggregation) UnmarshalJSON(data []byte) (e error) {
 	m.RequiresDbRestart = model.RequiresDbRestart
 
 	m.ImplementActions = make([]string, len(model.ImplementActions))
-	for i, n := range model.ImplementActions {
-		m.ImplementActions[i] = n
-	}
-
+	copy(model.ImplementActions, m.ImplementActions)
 	m.Rationale = model.Rationale
 
 	m.MaxBenefitPercent = model.MaxBenefitPercent

@@ -81,17 +81,17 @@ func (m *updateautoscalingpolicydetails) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updateautoscalingpolicydetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCapacity returns Capacity
+// GetCapacity returns Capacity
 func (m updateautoscalingpolicydetails) GetCapacity() *Capacity {
 	return m.Capacity
 }
 
-//GetIsEnabled returns IsEnabled
+// GetIsEnabled returns IsEnabled
 func (m updateautoscalingpolicydetails) GetIsEnabled() *bool {
 	return m.IsEnabled
 }

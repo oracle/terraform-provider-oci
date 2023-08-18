@@ -201,10 +201,7 @@ func (m *DrPlanExecution) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.GroupExecutions = make([]DrPlanGroupExecution, len(model.GroupExecutions))
-	for i, n := range model.GroupExecutions {
-		m.GroupExecutions[i] = n
-	}
-
+	copy(model.GroupExecutions, m.GroupExecutions)
 	m.LifecycleState = model.LifecycleState
 
 	return

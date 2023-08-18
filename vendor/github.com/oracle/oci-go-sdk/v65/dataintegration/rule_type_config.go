@@ -117,7 +117,6 @@ func (m *RuleTypeConfig) UnmarshalJSON(data []byte) (e error) {
 			m.ProjectionRules[i] = nil
 		}
 	}
-
 	m.ConfigValues = model.ConfigValues
 
 	m.ObjectStatus = model.ObjectStatus

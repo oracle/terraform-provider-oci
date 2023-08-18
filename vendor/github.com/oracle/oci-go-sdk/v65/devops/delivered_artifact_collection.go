@@ -62,6 +62,5 @@ func (m *DeliveredArtifactCollection) UnmarshalJSON(data []byte) (e error) {
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

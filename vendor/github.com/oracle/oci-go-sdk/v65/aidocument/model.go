@@ -164,10 +164,7 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	m.AliasName = model.AliasName
 
 	m.Labels = make([]string, len(model.Labels))
-	for i, n := range model.Labels {
-		m.Labels[i] = n
-	}
-
+	copy(model.Labels, m.Labels)
 	m.IsQuickMode = model.IsQuickMode
 
 	m.MaxTrainingTimeInHours = model.MaxTrainingTimeInHours
@@ -205,10 +202,7 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ComponentModels = make([]ComponentModel, len(model.ComponentModels))
-	for i, n := range model.ComponentModels {
-		m.ComponentModels[i] = n
-	}
-
+	copy(model.ComponentModels, m.ComponentModels)
 	m.IsComposedModel = model.IsComposedModel
 
 	m.TimeUpdated = model.TimeUpdated

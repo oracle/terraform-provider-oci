@@ -78,7 +78,7 @@ func (m *volumebackupsourcedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetVolumeBackupId returns VolumeBackupId
+// GetVolumeBackupId returns VolumeBackupId
 func (m volumebackupsourcedetails) GetVolumeBackupId() *string {
 	return m.VolumeBackupId
 }

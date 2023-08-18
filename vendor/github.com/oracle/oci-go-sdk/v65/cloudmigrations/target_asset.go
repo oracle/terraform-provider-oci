@@ -128,72 +128,72 @@ func (m *targetasset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m targetasset) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m targetasset) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m targetasset) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetCreatedResourceId returns CreatedResourceId
+// GetCreatedResourceId returns CreatedResourceId
 func (m targetasset) GetCreatedResourceId() *string {
 	return m.CreatedResourceId
 }
 
-//GetCompatibilityMessages returns CompatibilityMessages
+// GetCompatibilityMessages returns CompatibilityMessages
 func (m targetasset) GetCompatibilityMessages() []CompatibilityMessage {
 	return m.CompatibilityMessages
 }
 
-//GetMigrationAsset returns MigrationAsset
+// GetMigrationAsset returns MigrationAsset
 func (m targetasset) GetMigrationAsset() *MigrationAsset {
 	return m.MigrationAsset
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m targetasset) GetId() *string {
 	return m.Id
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m targetasset) GetLifecycleState() TargetAssetLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetMigrationPlanId returns MigrationPlanId
+// GetMigrationPlanId returns MigrationPlanId
 func (m targetasset) GetMigrationPlanId() *string {
 	return m.MigrationPlanId
 }
 
-//GetIsExcludedFromExecution returns IsExcludedFromExecution
+// GetIsExcludedFromExecution returns IsExcludedFromExecution
 func (m targetasset) GetIsExcludedFromExecution() *bool {
 	return m.IsExcludedFromExecution
 }
 
-//GetEstimatedCost returns EstimatedCost
+// GetEstimatedCost returns EstimatedCost
 func (m targetasset) GetEstimatedCost() *CostEstimation {
 	return m.EstimatedCost
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m targetasset) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m targetasset) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetTimeAssessed returns TimeAssessed
+// GetTimeAssessed returns TimeAssessed
 func (m targetasset) GetTimeAssessed() *common.SDKTime {
 	return m.TimeAssessed
 }

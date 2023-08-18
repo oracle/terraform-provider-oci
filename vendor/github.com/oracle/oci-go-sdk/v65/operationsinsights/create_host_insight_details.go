@@ -87,17 +87,17 @@ func (m *createhostinsightdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createhostinsightdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createhostinsightdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createhostinsightdetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }

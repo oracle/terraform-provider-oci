@@ -126,42 +126,42 @@ func (m *attachvolumedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetDevice returns Device
+// GetDevice returns Device
 func (m attachvolumedetails) GetDevice() *string {
 	return m.Device
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m attachvolumedetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetInstanceId returns InstanceId
+// GetInstanceId returns InstanceId
 func (m attachvolumedetails) GetInstanceId() *string {
 	return m.InstanceId
 }
 
-//GetIsReadOnly returns IsReadOnly
+// GetIsReadOnly returns IsReadOnly
 func (m attachvolumedetails) GetIsReadOnly() *bool {
 	return m.IsReadOnly
 }
 
-//GetIsShareable returns IsShareable
+// GetIsShareable returns IsShareable
 func (m attachvolumedetails) GetIsShareable() *bool {
 	return m.IsShareable
 }
 
-//GetImageVolumeIndex returns ImageVolumeIndex
+// GetImageVolumeIndex returns ImageVolumeIndex
 func (m attachvolumedetails) GetImageVolumeIndex() *int {
 	return m.ImageVolumeIndex
 }
 
-//GetVolumeId returns VolumeId
+// GetVolumeId returns VolumeId
 func (m attachvolumedetails) GetVolumeId() *string {
 	return m.VolumeId
 }
 
-//GetCreateVolumeDetails returns CreateVolumeDetails
+// GetCreateVolumeDetails returns CreateVolumeDetails
 func (m attachvolumedetails) GetCreateVolumeDetails() *CreateVolumeDetails {
 	return m.CreateVolumeDetails
 }

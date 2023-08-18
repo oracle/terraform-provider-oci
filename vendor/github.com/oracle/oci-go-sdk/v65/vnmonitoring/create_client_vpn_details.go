@@ -152,10 +152,7 @@ func (m *CreateClientVpnDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SubnetId = model.SubnetId
 
 	m.AccessibleSubnetCidrs = make([]string, len(model.AccessibleSubnetCidrs))
-	for i, n := range model.AccessibleSubnetCidrs {
-		m.AccessibleSubnetCidrs[i] = n
-	}
-
+	copy(model.AccessibleSubnetCidrs, m.AccessibleSubnetCidrs)
 	m.DnsConfig = model.DnsConfig
 
 	m.IsRerouteEnabled = model.IsRerouteEnabled

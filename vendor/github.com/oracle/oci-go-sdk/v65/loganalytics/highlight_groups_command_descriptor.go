@@ -152,7 +152,6 @@ func (m *HighlightGroupsCommandDescriptor) UnmarshalJSON(data []byte) (e error) 
 			m.ReferencedFields[i] = nil
 		}
 	}
-
 	m.DeclaredFields = make([]AbstractField, len(model.DeclaredFields))
 	for i, n := range model.DeclaredFields {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -165,7 +164,6 @@ func (m *HighlightGroupsCommandDescriptor) UnmarshalJSON(data []byte) (e error) 
 			m.DeclaredFields[i] = nil
 		}
 	}
-
 	m.IsHidden = model.IsHidden
 
 	m.Color = model.Color
@@ -173,25 +171,13 @@ func (m *HighlightGroupsCommandDescriptor) UnmarshalJSON(data []byte) (e error) 
 	m.Priority = model.Priority
 
 	m.MatchOnly = make([]string, len(model.MatchOnly))
-	for i, n := range model.MatchOnly {
-		m.MatchOnly[i] = n
-	}
-
+	copy(model.MatchOnly, m.MatchOnly)
 	m.Fields = make([]string, len(model.Fields))
-	for i, n := range model.Fields {
-		m.Fields[i] = n
-	}
-
+	copy(model.Fields, m.Fields)
 	m.Keywords = make([]string, len(model.Keywords))
-	for i, n := range model.Keywords {
-		m.Keywords[i] = n
-	}
-
+	copy(model.Keywords, m.Keywords)
 	m.SubQueries = make([]ParseQueryOutput, len(model.SubQueries))
-	for i, n := range model.SubQueries {
-		m.SubQueries[i] = n
-	}
-
+	copy(model.SubQueries, m.SubQueries)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

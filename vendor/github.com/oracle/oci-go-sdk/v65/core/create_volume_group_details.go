@@ -108,10 +108,7 @@ func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.VolumeGroupReplicas = make([]VolumeGroupReplicaDetails, len(model.VolumeGroupReplicas))
-	for i, n := range model.VolumeGroupReplicas {
-		m.VolumeGroupReplicas[i] = n
-	}
-
+	copy(model.VolumeGroupReplicas, m.VolumeGroupReplicas)
 	m.VolumeGroupScope = model.VolumeGroupScope
 
 	m.AvailabilityDomain = model.AvailabilityDomain

@@ -69,7 +69,7 @@ func (m *createorupdategitrefdetails) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetRefName returns RefName
+// GetRefName returns RefName
 func (m createorupdategitrefdetails) GetRefName() *string {
 	return m.RefName
 }

@@ -115,7 +115,6 @@ func (m *CreateAutoScalingConfigurationDetails) UnmarshalJSON(data []byte) (e er
 			m.Policies[i] = nil
 		}
 	}
-
 	nn, e = model.Resource.UnmarshalPolymorphicJSON(model.Resource.JsonData)
 	if e != nil {
 		return

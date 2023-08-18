@@ -108,15 +108,9 @@ func (m *CreateTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.TargetDetectorRecipes = make([]CreateTargetDetectorRecipeDetails, len(model.TargetDetectorRecipes))
-	for i, n := range model.TargetDetectorRecipes {
-		m.TargetDetectorRecipes[i] = n
-	}
-
+	copy(model.TargetDetectorRecipes, m.TargetDetectorRecipes)
 	m.TargetResponderRecipes = make([]CreateTargetResponderRecipeDetails, len(model.TargetResponderRecipes))
-	for i, n := range model.TargetResponderRecipes {
-		m.TargetResponderRecipes[i] = n
-	}
-
+	copy(model.TargetResponderRecipes, m.TargetResponderRecipes)
 	m.LifecycleState = model.LifecycleState
 
 	m.DoesEmitProblemsToEvents = model.DoesEmitProblemsToEvents

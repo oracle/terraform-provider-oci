@@ -183,7 +183,6 @@ func (m *Secret) UnmarshalJSON(data []byte) (e error) {
 			m.SecretRules[i] = nil
 		}
 	}
-
 	m.TimeOfCurrentVersionExpiry = model.TimeOfCurrentVersionExpiry
 
 	m.TimeOfDeletion = model.TimeOfDeletion

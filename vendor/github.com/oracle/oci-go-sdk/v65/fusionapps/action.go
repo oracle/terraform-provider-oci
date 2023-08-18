@@ -83,17 +83,17 @@ func (m *action) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetReferenceKey returns ReferenceKey
+// GetReferenceKey returns ReferenceKey
 func (m action) GetReferenceKey() *string {
 	return m.ReferenceKey
 }
 
-//GetState returns State
+// GetState returns State
 func (m action) GetState() ActionStateEnum {
 	return m.State
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m action) GetDescription() *string {
 	return m.Description
 }

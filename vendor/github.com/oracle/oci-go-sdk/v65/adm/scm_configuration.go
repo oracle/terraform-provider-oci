@@ -87,22 +87,22 @@ func (m *scmconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetBuildFileLocation returns BuildFileLocation
+// GetBuildFileLocation returns BuildFileLocation
 func (m scmconfiguration) GetBuildFileLocation() *string {
 	return m.BuildFileLocation
 }
 
-//GetBuildFileSettingsSecretId returns BuildFileSettingsSecretId
+// GetBuildFileSettingsSecretId returns BuildFileSettingsSecretId
 func (m scmconfiguration) GetBuildFileSettingsSecretId() *string {
 	return m.BuildFileSettingsSecretId
 }
 
-//GetBranch returns Branch
+// GetBranch returns Branch
 func (m scmconfiguration) GetBranch() *string {
 	return m.Branch
 }
 
-//GetIsAutomergeEnabled returns IsAutomergeEnabled
+// GetIsAutomergeEnabled returns IsAutomergeEnabled
 func (m scmconfiguration) GetIsAutomergeEnabled() *bool {
 	return m.IsAutomergeEnabled
 }

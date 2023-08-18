@@ -11,12 +11,13 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/oracle/oci-go-sdk/v65/common"
-	"github.com/oracle/oci-go-sdk/v65/common/utils"
 	"io"
 	"net/http"
 	"sync"
 	"time"
+
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"github.com/oracle/oci-go-sdk/v65/common/utils"
 )
 
 const (
@@ -146,7 +147,7 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 	}
 
 	token := parsedBody.Token
-	if &token == nil || len(token) == 0 {
+	if len(token) == 0 {
 		return nil, fmt.Errorf("invalid (empty) token received from Proxymux")
 	}
 	if len(token) < 3 {

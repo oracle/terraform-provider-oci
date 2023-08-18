@@ -87,7 +87,6 @@ func (m *MergeCheckCollection) UnmarshalJSON(data []byte) (e error) {
 			m.Items[i] = nil
 		}
 	}
-
 	m.TimeValidated = model.TimeValidated
 
 	return

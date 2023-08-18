@@ -77,7 +77,7 @@ func (m *virtualservicetrafficrouteruledetails) UnmarshalPolymorphicJSON(data []
 	}
 }
 
-//GetDestinations returns Destinations
+// GetDestinations returns Destinations
 func (m virtualservicetrafficrouteruledetails) GetDestinations() []VirtualDeploymentTrafficRuleTargetDetails {
 	return m.Destinations
 }

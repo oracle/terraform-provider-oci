@@ -87,6 +87,5 @@ func (m *TokenAuthenticationStaticKeysValidationPolicy) UnmarshalJSON(data []byt
 			m.Keys[i] = nil
 		}
 	}
-
 	return
 }

@@ -127,62 +127,62 @@ func (m *streampackagingconfig) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
-//GetEncryption returns Encryption
+// GetEncryption returns Encryption
 func (m streampackagingconfig) GetEncryption() streampackagingconfigencryption {
 	return m.Encryption
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m streampackagingconfig) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m streampackagingconfig) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m streampackagingconfig) GetLifecycleState() StreamPackagingConfigLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m streampackagingconfig) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m streampackagingconfig) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m streampackagingconfig) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m streampackagingconfig) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m streampackagingconfig) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDistributionChannelId returns DistributionChannelId
+// GetDistributionChannelId returns DistributionChannelId
 func (m streampackagingconfig) GetDistributionChannelId() *string {
 	return m.DistributionChannelId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m streampackagingconfig) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetSegmentTimeInSeconds returns SegmentTimeInSeconds
+// GetSegmentTimeInSeconds returns SegmentTimeInSeconds
 func (m streampackagingconfig) GetSegmentTimeInSeconds() *int {
 	return m.SegmentTimeInSeconds
 }

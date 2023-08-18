@@ -86,22 +86,22 @@ func (m *basecreateannouncementspreferencesdetails) UnmarshalPolymorphicJSON(dat
 	}
 }
 
-//GetIsUnsubscribed returns IsUnsubscribed
+// GetIsUnsubscribed returns IsUnsubscribed
 func (m basecreateannouncementspreferencesdetails) GetIsUnsubscribed() *bool {
 	return m.IsUnsubscribed
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m basecreateannouncementspreferencesdetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetPreferredTimeZone returns PreferredTimeZone
+// GetPreferredTimeZone returns PreferredTimeZone
 func (m basecreateannouncementspreferencesdetails) GetPreferredTimeZone() *string {
 	return m.PreferredTimeZone
 }
 
-//GetPreferenceType returns PreferenceType
+// GetPreferenceType returns PreferenceType
 func (m basecreateannouncementspreferencesdetails) GetPreferenceType() BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum {
 	return m.PreferenceType
 }

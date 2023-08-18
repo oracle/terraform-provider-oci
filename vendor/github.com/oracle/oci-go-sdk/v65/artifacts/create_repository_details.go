@@ -95,32 +95,32 @@ func (m *createrepositorydetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createrepositorydetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createrepositorydetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createrepositorydetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createrepositorydetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createrepositorydetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetIsImmutable returns IsImmutable
+// GetIsImmutable returns IsImmutable
 func (m createrepositorydetails) GetIsImmutable() *bool {
 	return m.IsImmutable
 }

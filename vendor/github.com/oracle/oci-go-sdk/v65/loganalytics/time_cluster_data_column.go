@@ -178,10 +178,7 @@ func (m *TimeClusterDataColumn) UnmarshalJSON(data []byte) (e error) {
 	m.SubSystem = model.SubSystem
 
 	m.Values = make([]FieldValue, len(model.Values))
-	for i, n := range model.Values {
-		m.Values[i] = n
-	}
-
+	copy(model.Values, m.Values)
 	m.IsListOfValues = model.IsListOfValues
 
 	m.IsMultiValued = model.IsMultiValued
@@ -210,11 +207,7 @@ func (m *TimeClusterDataColumn) UnmarshalJSON(data []byte) (e error) {
 			m.Columns[i] = nil
 		}
 	}
-
 	m.Result = make([]map[string]interface{}, len(model.Result))
-	for i, n := range model.Result {
-		m.Result[i] = n
-	}
-
+	copy(model.Result, m.Result)
 	return
 }

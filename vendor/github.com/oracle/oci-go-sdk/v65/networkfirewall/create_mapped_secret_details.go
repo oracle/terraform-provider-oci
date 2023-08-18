@@ -72,12 +72,12 @@ func (m *createmappedsecretdetails) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createmappedsecretdetails) GetName() *string {
 	return m.Name
 }
 
-//GetType returns Type
+// GetType returns Type
 func (m createmappedsecretdetails) GetType() InspectionTypeEnum {
 	return m.Type
 }

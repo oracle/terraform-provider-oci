@@ -163,7 +163,6 @@ func (m *ConditionalOutputPort) UnmarshalJSON(data []byte) (e error) {
 			m.Fields[i] = nil
 		}
 	}
-
 	m.SplitCondition = model.SplitCondition
 
 	return

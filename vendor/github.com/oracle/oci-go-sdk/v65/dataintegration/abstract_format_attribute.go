@@ -77,7 +77,7 @@ func (m *abstractformatattribute) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetIsFilePattern returns IsFilePattern
+// GetIsFilePattern returns IsFilePattern
 func (m abstractformatattribute) GetIsFilePattern() *bool {
 	return m.IsFilePattern
 }

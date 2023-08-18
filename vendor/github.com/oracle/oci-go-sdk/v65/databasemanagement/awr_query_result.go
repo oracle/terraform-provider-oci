@@ -130,22 +130,22 @@ func (m *awrqueryresult) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m awrqueryresult) GetVersion() *string {
 	return m.Version
 }
 
-//GetQueryKey returns QueryKey
+// GetQueryKey returns QueryKey
 func (m awrqueryresult) GetQueryKey() *string {
 	return m.QueryKey
 }
 
-//GetDbQueryTimeInSecs returns DbQueryTimeInSecs
+// GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m awrqueryresult) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m awrqueryresult) GetName() *string {
 	return m.Name
 }

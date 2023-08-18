@@ -129,37 +129,37 @@ func (m *discoveredexternaldbsystemcomponent) UnmarshalPolymorphicJSON(data []by
 	}
 }
 
-//GetResourceId returns ResourceId
+// GetResourceId returns ResourceId
 func (m discoveredexternaldbsystemcomponent) GetResourceId() *string {
 	return m.ResourceId
 }
 
-//GetIsSelectedForMonitoring returns IsSelectedForMonitoring
+// GetIsSelectedForMonitoring returns IsSelectedForMonitoring
 func (m discoveredexternaldbsystemcomponent) GetIsSelectedForMonitoring() *bool {
 	return m.IsSelectedForMonitoring
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m discoveredexternaldbsystemcomponent) GetStatus() DiscoveredExternalDbSystemComponentStatusEnum {
 	return m.Status
 }
 
-//GetAssociatedComponents returns AssociatedComponents
+// GetAssociatedComponents returns AssociatedComponents
 func (m discoveredexternaldbsystemcomponent) GetAssociatedComponents() []AssociatedComponent {
 	return m.AssociatedComponents
 }
 
-//GetComponentId returns ComponentId
+// GetComponentId returns ComponentId
 func (m discoveredexternaldbsystemcomponent) GetComponentId() *string {
 	return m.ComponentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m discoveredexternaldbsystemcomponent) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetComponentName returns ComponentName
+// GetComponentName returns ComponentName
 func (m discoveredexternaldbsystemcomponent) GetComponentName() *string {
 	return m.ComponentName
 }

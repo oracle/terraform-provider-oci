@@ -63,7 +63,7 @@ func (m *triggeraction) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetFilter returns Filter
+// GetFilter returns Filter
 func (m triggeraction) GetFilter() filter {
 	return m.Filter
 }

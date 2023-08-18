@@ -85,7 +85,6 @@ func (m *UnifiedAgentLoggingConfiguration) UnmarshalJSON(data []byte) (e error) 
 			m.Filter[i] = nil
 		}
 	}
-
 	m.Sources = make([]UnifiedAgentLoggingSource, len(model.Sources))
 	for i, n := range model.Sources {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -98,7 +97,6 @@ func (m *UnifiedAgentLoggingConfiguration) UnmarshalJSON(data []byte) (e error) 
 			m.Sources[i] = nil
 		}
 	}
-
 	m.Destination = model.Destination
 
 	return

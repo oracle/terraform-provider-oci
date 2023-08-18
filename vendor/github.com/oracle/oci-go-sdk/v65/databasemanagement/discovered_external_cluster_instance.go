@@ -161,10 +161,7 @@ func (m *DiscoveredExternalClusterInstance) UnmarshalJSON(data []byte) (e error)
 	m.Status = model.Status
 
 	m.AssociatedComponents = make([]AssociatedComponent, len(model.AssociatedComponents))
-	for i, n := range model.AssociatedComponents {
-		m.AssociatedComponents[i] = n
-	}
-
+	copy(model.AssociatedComponents, m.AssociatedComponents)
 	m.ClusterId = model.ClusterId
 
 	m.NodeRole = model.NodeRole

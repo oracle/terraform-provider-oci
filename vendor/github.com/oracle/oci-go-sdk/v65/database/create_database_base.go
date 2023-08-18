@@ -86,22 +86,22 @@ func (m *createdatabasebase) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetDbVersion returns DbVersion
+// GetDbVersion returns DbVersion
 func (m createdatabasebase) GetDbVersion() *string {
 	return m.DbVersion
 }
 
-//GetKmsKeyId returns KmsKeyId
+// GetKmsKeyId returns KmsKeyId
 func (m createdatabasebase) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
-//GetKmsKeyVersionId returns KmsKeyVersionId
+// GetKmsKeyVersionId returns KmsKeyVersionId
 func (m createdatabasebase) GetKmsKeyVersionId() *string {
 	return m.KmsKeyVersionId
 }
 
-//GetDbHomeId returns DbHomeId
+// GetDbHomeId returns DbHomeId
 func (m createdatabasebase) GetDbHomeId() *string {
 	return m.DbHomeId
 }

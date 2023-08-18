@@ -112,42 +112,42 @@ func (m *opsidataobject) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m opsidataobject) GetDescription() *string {
 	return m.Description
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m opsidataobject) GetName() *string {
 	return m.Name
 }
 
-//GetGroupNames returns GroupNames
+// GetGroupNames returns GroupNames
 func (m opsidataobject) GetGroupNames() []string {
 	return m.GroupNames
 }
 
-//GetSupportedQueryTimePeriod returns SupportedQueryTimePeriod
+// GetSupportedQueryTimePeriod returns SupportedQueryTimePeriod
 func (m opsidataobject) GetSupportedQueryTimePeriod() *string {
 	return m.SupportedQueryTimePeriod
 }
 
-//GetSupportedQueryParams returns SupportedQueryParams
+// GetSupportedQueryParams returns SupportedQueryParams
 func (m opsidataobject) GetSupportedQueryParams() []OpsiDataObjectSupportedQueryParam {
 	return m.SupportedQueryParams
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m opsidataobject) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m opsidataobject) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetColumnsMetadata returns ColumnsMetadata
+// GetColumnsMetadata returns ColumnsMetadata
 func (m opsidataobject) GetColumnsMetadata() []DataObjectColumnMetadata {
 	return m.ColumnsMetadata
 }

@@ -86,22 +86,22 @@ func (m *createdatabasetoolsconnectiondetails) UnmarshalPolymorphicJSON(data []b
 	}
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createdatabasetoolsconnectiondetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createdatabasetoolsconnectiondetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createdatabasetoolsconnectiondetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createdatabasetoolsconnectiondetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }

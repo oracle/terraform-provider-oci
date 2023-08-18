@@ -298,32 +298,32 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m abstractcommanddescriptor) GetCategory() *string {
 	return m.Category
 }
 
-//GetReferencedFields returns ReferencedFields
+// GetReferencedFields returns ReferencedFields
 func (m abstractcommanddescriptor) GetReferencedFields() json.RawMessage {
 	return m.ReferencedFields
 }
 
-//GetDeclaredFields returns DeclaredFields
+// GetDeclaredFields returns DeclaredFields
 func (m abstractcommanddescriptor) GetDeclaredFields() json.RawMessage {
 	return m.DeclaredFields
 }
 
-//GetIsHidden returns IsHidden
+// GetIsHidden returns IsHidden
 func (m abstractcommanddescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }
 
-//GetDisplayQueryString returns DisplayQueryString
+// GetDisplayQueryString returns DisplayQueryString
 func (m abstractcommanddescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-//GetInternalQueryString returns InternalQueryString
+// GetInternalQueryString returns InternalQueryString
 func (m abstractcommanddescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }

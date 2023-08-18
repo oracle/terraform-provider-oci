@@ -128,52 +128,52 @@ func (m *entitydiscovered) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m entitydiscovered) GetId() *string {
 	return m.Id
 }
 
-//GetAgentId returns AgentId
+// GetAgentId returns AgentId
 func (m entitydiscovered) GetAgentId() *string {
 	return m.AgentId
 }
 
-//GetConnectorId returns ConnectorId
+// GetConnectorId returns ConnectorId
 func (m entitydiscovered) GetConnectorId() *string {
 	return m.ConnectorId
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m entitydiscovered) GetVersion() *string {
 	return m.Version
 }
 
-//GetInternalId returns InternalId
+// GetInternalId returns InternalId
 func (m entitydiscovered) GetInternalId() *string {
 	return m.InternalId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m entitydiscovered) GetStatus() *string {
 	return m.Status
 }
 
-//GetDiscoverStatus returns DiscoverStatus
+// GetDiscoverStatus returns DiscoverStatus
 func (m entitydiscovered) GetDiscoverStatus() EntityDiscoveredDiscoverStatusEnum {
 	return m.DiscoverStatus
 }
 
-//GetDiscoverErrorCode returns DiscoverErrorCode
+// GetDiscoverErrorCode returns DiscoverErrorCode
 func (m entitydiscovered) GetDiscoverErrorCode() *string {
 	return m.DiscoverErrorCode
 }
 
-//GetDiscoverErrorMsg returns DiscoverErrorMsg
+// GetDiscoverErrorMsg returns DiscoverErrorMsg
 func (m entitydiscovered) GetDiscoverErrorMsg() *string {
 	return m.DiscoverErrorMsg
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m entitydiscovered) GetDisplayName() *string {
 	return m.DisplayName
 }

@@ -76,12 +76,12 @@ func (m *dynamicselectionkey) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetIsDefault returns IsDefault
+// GetIsDefault returns IsDefault
 func (m dynamicselectionkey) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m dynamicselectionkey) GetName() *string {
 	return m.Name
 }

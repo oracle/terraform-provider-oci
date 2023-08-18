@@ -78,17 +78,17 @@ func (m *abstractdataoperationconfig) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetMetadataConfigProperties returns MetadataConfigProperties
+// GetMetadataConfigProperties returns MetadataConfigProperties
 func (m abstractdataoperationconfig) GetMetadataConfigProperties() map[string]string {
 	return m.MetadataConfigProperties
 }
 
-//GetDerivedAttributes returns DerivedAttributes
+// GetDerivedAttributes returns DerivedAttributes
 func (m abstractdataoperationconfig) GetDerivedAttributes() map[string]string {
 	return m.DerivedAttributes
 }
 
-//GetCallAttribute returns CallAttribute
+// GetCallAttribute returns CallAttribute
 func (m abstractdataoperationconfig) GetCallAttribute() *BipCallAttribute {
 	return m.CallAttribute
 }

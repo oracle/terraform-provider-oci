@@ -124,57 +124,57 @@ func (m *event) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetInstanceId returns InstanceId
+// GetInstanceId returns InstanceId
 func (m event) GetInstanceId() *string {
 	return m.InstanceId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m event) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetTenancyId returns TenancyId
+// GetTenancyId returns TenancyId
 func (m event) GetTenancyId() *string {
 	return m.TenancyId
 }
 
-//GetSummary returns Summary
+// GetSummary returns Summary
 func (m event) GetSummary() *string {
 	return m.Summary
 }
 
-//GetTimestamp returns Timestamp
+// GetTimestamp returns Timestamp
 func (m event) GetTimestamp() *common.SDKTime {
 	return m.Timestamp
 }
 
-//GetEventFingerprint returns EventFingerprint
+// GetEventFingerprint returns EventFingerprint
 func (m event) GetEventFingerprint() *string {
 	return m.EventFingerprint
 }
 
-//GetCount returns Count
+// GetCount returns Count
 func (m event) GetCount() *int {
 	return m.Count
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m event) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m event) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m event) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m event) GetId() *string {
 	return m.Id
 }

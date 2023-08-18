@@ -327,12 +327,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 			m.VolumeAttachments[i] = nil
 		}
 	}
-
 	m.SecondaryVnicAttachments = make([]AttachVnicDetails, len(model.SecondaryVnicAttachments))
-	for i, n := range model.SecondaryVnicAttachments {
-		m.SecondaryVnicAttachments[i] = n
-	}
-
+	copy(model.SecondaryVnicAttachments, m.SecondaryVnicAttachments)
 	m.IsPvEncryptionInTransitEnabled = model.IsPvEncryptionInTransitEnabled
 
 	m.PreferredMaintenanceAction = model.PreferredMaintenanceAction

@@ -80,12 +80,12 @@ func (m *updateinstancesourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetIsPreserveBootVolumeEnabled returns IsPreserveBootVolumeEnabled
+// GetIsPreserveBootVolumeEnabled returns IsPreserveBootVolumeEnabled
 func (m updateinstancesourcedetails) GetIsPreserveBootVolumeEnabled() *bool {
 	return m.IsPreserveBootVolumeEnabled
 }
 
-//GetIsForceStopEnabled returns IsForceStopEnabled
+// GetIsForceStopEnabled returns IsForceStopEnabled
 func (m updateinstancesourcedetails) GetIsForceStopEnabled() *bool {
 	return m.IsForceStopEnabled
 }

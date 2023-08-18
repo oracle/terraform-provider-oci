@@ -74,12 +74,12 @@ func (m *service) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m service) GetName() *string {
 	return m.Name
 }
 
-//GetParentResourceId returns ParentResourceId
+// GetParentResourceId returns ParentResourceId
 func (m service) GetParentResourceId() *string {
 	return m.ParentResourceId
 }

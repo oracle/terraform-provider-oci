@@ -113,47 +113,47 @@ func (m *exadataconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetVmclusterDetails returns VmclusterDetails
+// GetVmclusterDetails returns VmclusterDetails
 func (m exadataconfigurationsummary) GetVmclusterDetails() []VmClusterSummary {
 	return m.VmclusterDetails
 }
 
-//GetExadataInsightId returns ExadataInsightId
+// GetExadataInsightId returns ExadataInsightId
 func (m exadataconfigurationsummary) GetExadataInsightId() *string {
 	return m.ExadataInsightId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m exadataconfigurationsummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetExadataName returns ExadataName
+// GetExadataName returns ExadataName
 func (m exadataconfigurationsummary) GetExadataName() *string {
 	return m.ExadataName
 }
 
-//GetExadataDisplayName returns ExadataDisplayName
+// GetExadataDisplayName returns ExadataDisplayName
 func (m exadataconfigurationsummary) GetExadataDisplayName() *string {
 	return m.ExadataDisplayName
 }
 
-//GetExadataType returns ExadataType
+// GetExadataType returns ExadataType
 func (m exadataconfigurationsummary) GetExadataType() ExadataTypeEnum {
 	return m.ExadataType
 }
 
-//GetExadataRackType returns ExadataRackType
+// GetExadataRackType returns ExadataRackType
 func (m exadataconfigurationsummary) GetExadataRackType() ExadataRackTypeEnum {
 	return m.ExadataRackType
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m exadataconfigurationsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m exadataconfigurationsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }

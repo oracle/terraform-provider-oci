@@ -190,10 +190,7 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsAutoTuneEnabled = model.IsAutoTuneEnabled
 
 	m.BlockVolumeReplicas = make([]BlockVolumeReplicaDetails, len(model.BlockVolumeReplicas))
-	for i, n := range model.BlockVolumeReplicas {
-		m.BlockVolumeReplicas[i] = n
-	}
-
+	copy(model.BlockVolumeReplicas, m.BlockVolumeReplicas)
 	m.VolumeScope = model.VolumeScope
 
 	m.AutotunePolicies = make([]AutotunePolicy, len(model.AutotunePolicies))
@@ -208,7 +205,6 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 			m.AutotunePolicies[i] = nil
 		}
 	}
-
 	m.CompartmentId = model.CompartmentId
 
 	return

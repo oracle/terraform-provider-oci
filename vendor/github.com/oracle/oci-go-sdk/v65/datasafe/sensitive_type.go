@@ -134,67 +134,67 @@ func (m *sensitivetype) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetShortName returns ShortName
+// GetShortName returns ShortName
 func (m sensitivetype) GetShortName() *string {
 	return m.ShortName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m sensitivetype) GetDescription() *string {
 	return m.Description
 }
 
-//GetParentCategoryId returns ParentCategoryId
+// GetParentCategoryId returns ParentCategoryId
 func (m sensitivetype) GetParentCategoryId() *string {
 	return m.ParentCategoryId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m sensitivetype) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m sensitivetype) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m sensitivetype) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m sensitivetype) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m sensitivetype) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m sensitivetype) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m sensitivetype) GetLifecycleState() DiscoveryLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetSource returns Source
+// GetSource returns Source
 func (m sensitivetype) GetSource() SensitiveTypeSourceEnum {
 	return m.Source
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m sensitivetype) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m sensitivetype) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }

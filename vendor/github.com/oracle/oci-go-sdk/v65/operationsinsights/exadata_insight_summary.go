@@ -139,72 +139,72 @@ func (m *exadatainsightsummary) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
-//GetExadataDisplayName returns ExadataDisplayName
+// GetExadataDisplayName returns ExadataDisplayName
 func (m exadatainsightsummary) GetExadataDisplayName() *string {
 	return m.ExadataDisplayName
 }
 
-//GetExadataType returns ExadataType
+// GetExadataType returns ExadataType
 func (m exadatainsightsummary) GetExadataType() ExadataTypeEnum {
 	return m.ExadataType
 }
 
-//GetExadataRackType returns ExadataRackType
+// GetExadataRackType returns ExadataRackType
 func (m exadatainsightsummary) GetExadataRackType() ExadataRackTypeEnum {
 	return m.ExadataRackType
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m exadatainsightsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m exadatainsightsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m exadatainsightsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m exadatainsightsummary) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m exadatainsightsummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetExadataName returns ExadataName
+// GetExadataName returns ExadataName
 func (m exadatainsightsummary) GetExadataName() *string {
 	return m.ExadataName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m exadatainsightsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m exadatainsightsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m exadatainsightsummary) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m exadatainsightsummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m exadatainsightsummary) GetLifecycleState() ExadataInsightLifecycleStateEnum {
 	return m.LifecycleState
 }

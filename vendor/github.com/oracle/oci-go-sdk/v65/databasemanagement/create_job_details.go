@@ -112,52 +112,52 @@ func (m *createjobdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createjobdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetManagedDatabaseGroupId returns ManagedDatabaseGroupId
+// GetManagedDatabaseGroupId returns ManagedDatabaseGroupId
 func (m createjobdetails) GetManagedDatabaseGroupId() *string {
 	return m.ManagedDatabaseGroupId
 }
 
-//GetManagedDatabaseId returns ManagedDatabaseId
+// GetManagedDatabaseId returns ManagedDatabaseId
 func (m createjobdetails) GetManagedDatabaseId() *string {
 	return m.ManagedDatabaseId
 }
 
-//GetDatabaseSubType returns DatabaseSubType
+// GetDatabaseSubType returns DatabaseSubType
 func (m createjobdetails) GetDatabaseSubType() DatabaseSubTypeEnum {
 	return m.DatabaseSubType
 }
 
-//GetTimeout returns Timeout
+// GetTimeout returns Timeout
 func (m createjobdetails) GetTimeout() *string {
 	return m.Timeout
 }
 
-//GetResultLocation returns ResultLocation
+// GetResultLocation returns ResultLocation
 func (m createjobdetails) GetResultLocation() jobexecutionresultlocation {
 	return m.ResultLocation
 }
 
-//GetScheduleDetails returns ScheduleDetails
+// GetScheduleDetails returns ScheduleDetails
 func (m createjobdetails) GetScheduleDetails() *JobScheduleDetails {
 	return m.ScheduleDetails
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createjobdetails) GetName() *string {
 	return m.Name
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m createjobdetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetScheduleType returns ScheduleType
+// GetScheduleType returns ScheduleType
 func (m createjobdetails) GetScheduleType() JobScheduleTypeEnum {
 	return m.ScheduleType
 }

@@ -174,97 +174,97 @@ func (m *hostconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetHostInsightId returns HostInsightId
+// GetHostInsightId returns HostInsightId
 func (m hostconfigurationsummary) GetHostInsightId() *string {
 	return m.HostInsightId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m hostconfigurationsummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetHostName returns HostName
+// GetHostName returns HostName
 func (m hostconfigurationsummary) GetHostName() *string {
 	return m.HostName
 }
 
-//GetPlatformType returns PlatformType
+// GetPlatformType returns PlatformType
 func (m hostconfigurationsummary) GetPlatformType() HostConfigurationSummaryPlatformTypeEnum {
 	return m.PlatformType
 }
 
-//GetPlatformVersion returns PlatformVersion
+// GetPlatformVersion returns PlatformVersion
 func (m hostconfigurationsummary) GetPlatformVersion() *string {
 	return m.PlatformVersion
 }
 
-//GetPlatformVendor returns PlatformVendor
+// GetPlatformVendor returns PlatformVendor
 func (m hostconfigurationsummary) GetPlatformVendor() *string {
 	return m.PlatformVendor
 }
 
-//GetTotalCpus returns TotalCpus
+// GetTotalCpus returns TotalCpus
 func (m hostconfigurationsummary) GetTotalCpus() *int {
 	return m.TotalCpus
 }
 
-//GetTotalMemoryInGBs returns TotalMemoryInGBs
+// GetTotalMemoryInGBs returns TotalMemoryInGBs
 func (m hostconfigurationsummary) GetTotalMemoryInGBs() *float64 {
 	return m.TotalMemoryInGBs
 }
 
-//GetCpuArchitecture returns CpuArchitecture
+// GetCpuArchitecture returns CpuArchitecture
 func (m hostconfigurationsummary) GetCpuArchitecture() *string {
 	return m.CpuArchitecture
 }
 
-//GetCpuCacheInMBs returns CpuCacheInMBs
+// GetCpuCacheInMBs returns CpuCacheInMBs
 func (m hostconfigurationsummary) GetCpuCacheInMBs() *float64 {
 	return m.CpuCacheInMBs
 }
 
-//GetCpuVendor returns CpuVendor
+// GetCpuVendor returns CpuVendor
 func (m hostconfigurationsummary) GetCpuVendor() *string {
 	return m.CpuVendor
 }
 
-//GetCpuFrequencyInMhz returns CpuFrequencyInMhz
+// GetCpuFrequencyInMhz returns CpuFrequencyInMhz
 func (m hostconfigurationsummary) GetCpuFrequencyInMhz() *float64 {
 	return m.CpuFrequencyInMhz
 }
 
-//GetCpuImplementation returns CpuImplementation
+// GetCpuImplementation returns CpuImplementation
 func (m hostconfigurationsummary) GetCpuImplementation() *string {
 	return m.CpuImplementation
 }
 
-//GetCoresPerSocket returns CoresPerSocket
+// GetCoresPerSocket returns CoresPerSocket
 func (m hostconfigurationsummary) GetCoresPerSocket() *int {
 	return m.CoresPerSocket
 }
 
-//GetTotalSockets returns TotalSockets
+// GetTotalSockets returns TotalSockets
 func (m hostconfigurationsummary) GetTotalSockets() *int {
 	return m.TotalSockets
 }
 
-//GetThreadsPerSocket returns ThreadsPerSocket
+// GetThreadsPerSocket returns ThreadsPerSocket
 func (m hostconfigurationsummary) GetThreadsPerSocket() *int {
 	return m.ThreadsPerSocket
 }
 
-//GetIsHyperThreadingEnabled returns IsHyperThreadingEnabled
+// GetIsHyperThreadingEnabled returns IsHyperThreadingEnabled
 func (m hostconfigurationsummary) GetIsHyperThreadingEnabled() *bool {
 	return m.IsHyperThreadingEnabled
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m hostconfigurationsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m hostconfigurationsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }

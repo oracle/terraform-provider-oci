@@ -80,17 +80,17 @@ func (m *univariateinferenceworkflowrequestdetails) UnmarshalPolymorphicJSON(dat
 	}
 }
 
-//GetAreAllDataPointsRequired returns AreAllDataPointsRequired
+// GetAreAllDataPointsRequired returns AreAllDataPointsRequired
 func (m univariateinferenceworkflowrequestdetails) GetAreAllDataPointsRequired() *bool {
 	return m.AreAllDataPointsRequired
 }
 
-//GetTrainingRequestDetails returns TrainingRequestDetails
+// GetTrainingRequestDetails returns TrainingRequestDetails
 func (m univariateinferenceworkflowrequestdetails) GetTrainingRequestDetails() *UnivariateModelTrainingRequestDetails {
 	return m.TrainingRequestDetails
 }
 
-//GetSensitivity returns Sensitivity
+// GetSensitivity returns Sensitivity
 func (m univariateinferenceworkflowrequestdetails) GetSensitivity() *float32 {
 	return m.Sensitivity
 }

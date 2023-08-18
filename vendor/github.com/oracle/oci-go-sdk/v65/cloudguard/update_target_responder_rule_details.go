@@ -71,10 +71,7 @@ func (m *UpdateTargetResponderRuleDetails) UnmarshalJSON(data []byte) (e error) 
 	}
 
 	m.Configurations = make([]ResponderConfiguration, len(model.Configurations))
-	for i, n := range model.Configurations {
-		m.Configurations[i] = n
-	}
-
+	copy(model.Configurations, m.Configurations)
 	m.Mode = model.Mode
 
 	return

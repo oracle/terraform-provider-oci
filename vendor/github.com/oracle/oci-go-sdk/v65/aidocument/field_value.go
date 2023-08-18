@@ -103,22 +103,22 @@ func (m *fieldvalue) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 	}
 }
 
-//GetText returns Text
+// GetText returns Text
 func (m fieldvalue) GetText() *string {
 	return m.Text
 }
 
-//GetConfidence returns Confidence
+// GetConfidence returns Confidence
 func (m fieldvalue) GetConfidence() *float32 {
 	return m.Confidence
 }
 
-//GetBoundingPolygon returns BoundingPolygon
+// GetBoundingPolygon returns BoundingPolygon
 func (m fieldvalue) GetBoundingPolygon() *BoundingPolygon {
 	return m.BoundingPolygon
 }
 
-//GetWordIndexes returns WordIndexes
+// GetWordIndexes returns WordIndexes
 func (m fieldvalue) GetWordIndexes() []int {
 	return m.WordIndexes
 }

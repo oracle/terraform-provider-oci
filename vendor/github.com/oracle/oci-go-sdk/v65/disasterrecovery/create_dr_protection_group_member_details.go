@@ -88,7 +88,7 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 	}
 }
 
-//GetMemberId returns MemberId
+// GetMemberId returns MemberId
 func (m createdrprotectiongroupmemberdetails) GetMemberId() *string {
 	return m.MemberId
 }

@@ -86,12 +86,12 @@ func (m *createconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createconfigdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createconfigdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

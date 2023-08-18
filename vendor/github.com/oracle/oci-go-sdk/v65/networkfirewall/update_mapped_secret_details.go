@@ -67,7 +67,7 @@ func (m *updatemappedsecretdetails) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetType returns Type
+// GetType returns Type
 func (m updatemappedsecretdetails) GetType() InspectionTypeEnum {
 	return m.Type
 }
