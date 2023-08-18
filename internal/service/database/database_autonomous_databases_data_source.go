@@ -284,6 +284,14 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["id"] = *r.Id
 		}
 
+		if r.InMemoryAreaInGBs != nil {
+			autonomousDatabase["in_memory_area_in_gbs"] = *r.InMemoryAreaInGBs
+		}
+
+		if r.InMemoryPercentage != nil {
+			autonomousDatabase["in_memory_percentage"] = *r.InMemoryPercentage
+		}
+
 		autonomousDatabase["infrastructure_type"] = r.InfrastructureType
 
 		if r.IsAccessControlEnabled != nil {
