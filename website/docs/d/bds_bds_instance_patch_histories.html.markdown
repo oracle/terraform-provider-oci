@@ -21,6 +21,7 @@ data "oci_bds_bds_instance_patch_histories" "test_bds_instance_patch_histories" 
 	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
 
 	#Optional
+	patch_type = var.bds_instance_patch_history_patch_type
 	patch_version = var.bds_instance_patch_history_patch_version
 	state = var.bds_instance_patch_history_state
 }
@@ -31,6 +32,7 @@ data "oci_bds_bds_instance_patch_histories" "test_bds_instance_patch_histories" 
 The following arguments are supported:
 
 * `bds_instance_id` - (Required) The OCID of the cluster.
+* `patch_type` - (Optional) The type of a BDS patch history entity.
 * `patch_version` - (Optional) The version of the patch
 * `state` - (Optional) The status of the patch.
 
@@ -45,6 +47,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `patch_type` - The type of current patch history. DP - Data Plane patch(This history type is internal available only) ODH - Oracle Distribution of Hadoop patch OS - Operating System patch 
 * `state` - The status of this patch.
 * `time_updated` - The time when the patch history was last updated.
 * `version` - The version of the patch.

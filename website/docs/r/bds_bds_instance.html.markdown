@@ -157,8 +157,23 @@ The following arguments are supported:
 	* `cidr_block` - (Optional) The CIDR IP address block of the VCN.
 	* `is_nat_gateway_required` - (Optional) A boolean flag whether to configure a NAT gateway.
 * `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE`. 
+* `nodes` - (Required) The list of nodes in the Big Data Service cluster.
+	* `block_volume_size_in_gbs` - (Required) The size of block volume in GB to be attached to a given node. All the details needed for attaching the block volume are managed by service itself. 
+	* `node_type` - (Required) The Big Data Service cluster node type.
+	* `shape` - (Required) (Updatable) Shape of the node.
+	* `shape_config` - (Optional) The shape configuration requested for the node.
+		* `memory_in_gbs` - (Optional) The total amount of memory available to the node, in gigabytes.
+		* `nvmes` - (Optional) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
+		* `ocpus` - (Optional) The total number of OCPUs available to the node.
+	* `subnet_id` - (Required) The OCID of the subnet in which the node will be created.
+* `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE`. 
+* `execute_bootstrap_script_trigger` - (Optional) (Updatable) An optional property when incremented triggers Execute Bootstrap Script. Could be set to any integer value.
+* `install_os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Install Os Patch. Could be set to any integer value.
 * `is_force_stop_jobs` - (Optional) (Updatable) When setting state as `INACTIVE` for stopping a cluster, setting this flag to true forcefully stops the bds instance.
 * `is_kafka_configured` - (Optional) Boolean flag specifying whether or not Kafka should be configured.
+* `os_patch_version`  - (Optional) (Updatable) The version of the patch to be upated.
+* `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE` to start/stop the bds instance.
+* `is_force_stop_jobs` - (Optional) (Updatable) When setting state as `INACTIVE` for stopping a cluster, setting this flag to true forcefully stops the bds instance.
 * `master_node` - (Required) The master node in the BDS instance
 	* `block_volume_size_in_gbs` - (Optional) The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself.
 	* `number_of_nodes` - (Required) The amount of master nodes should be created.
@@ -199,7 +214,13 @@ The following arguments are supported:
 	* `shape_config` - (Optional) The shape configuration requested for the node.
 		* `memory_in_gbs` - (Optional) The total amount of memory available to the node, in gigabytes
 		* `ocpus` - (Optional) The total number of OCPUs available to the node.
-
+    * `block_volume_size_in_gbs` - (Optional) The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself.
+    * `number_of_nodes` - (Required) The amount of worker nodes should be created
+    * `shape` - (Required) Shape of the node
+    * `subnet_id` - (Required) The OCID of the subnet in which the node should be created
+    * `shape_config` - (Optional) The shape configuration requested for the node.
+        * `memory_in_gbs` - (Optional) The total amount of memory available to the node, in gigabytes
+        * `ocpus` - (Optional) The total number of OCPUs available to the node.
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
@@ -270,8 +291,10 @@ The following attributes are exported:
 	* `state` - The state of the node.
 	* `subnet_id` - The OCID of the subnet in which the node is to be created.
 	* `time_created` - The time the node was created, shown as an RFC 3339 formatted datetime string.
+	* `time_maintenance_reboot_due` - The date and time the instance is expected to be stopped / started, in the format defined by RFC3339.
 	* `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 * `number_of_nodes` - The number of nodes that form the cluster.
+* `number_of_nodes_requiring_maintenance_reboot` - Number of nodes that require a maintenance reboot
 * `state` - The state of the cluster.
 * `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
