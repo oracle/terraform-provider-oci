@@ -32,15 +32,33 @@ type OpsiDataObject interface {
 
 	// Description of OPSI data object.
 	GetDescription() *string
+
+	// Name of the data object, which can be used in data object queries just like how view names are used in a query.
+	GetName() *string
+
+	// Names of all the groups to which the data object belongs to.
+	GetGroupNames() []string
+
+	// Time period supported by the data object for quering data.
+	// Time period is in ISO 8601 format with respect to current time. Default is last 30 days represented by P30D.
+	// Examples: P90D (last 90 days), P4W (last 4 weeks), P2M (last 2 months), P1Y (last 12 months).
+	GetSupportedQueryTimePeriod() *string
+
+	// Supported query parameters by this OPSI data object that can be configured while a data object query involving this data object is executed.
+	GetSupportedQueryParams() []OpsiDataObjectSupportedQueryParam
 }
 
 type opsidataobject struct {
-	JsonData        []byte
-	Identifier      *string                    `mandatory:"true" json:"identifier"`
-	DisplayName     *string                    `mandatory:"true" json:"displayName"`
-	ColumnsMetadata []DataObjectColumnMetadata `mandatory:"true" json:"columnsMetadata"`
-	Description     *string                    `mandatory:"false" json:"description"`
-	DataObjectType  string                     `json:"dataObjectType"`
+	JsonData                 []byte
+	Identifier               *string                             `mandatory:"true" json:"identifier"`
+	DisplayName              *string                             `mandatory:"true" json:"displayName"`
+	ColumnsMetadata          []DataObjectColumnMetadata          `mandatory:"true" json:"columnsMetadata"`
+	Description              *string                             `mandatory:"false" json:"description"`
+	Name                     *string                             `mandatory:"false" json:"name"`
+	GroupNames               []string                            `mandatory:"false" json:"groupNames"`
+	SupportedQueryTimePeriod *string                             `mandatory:"false" json:"supportedQueryTimePeriod"`
+	SupportedQueryParams     []OpsiDataObjectSupportedQueryParam `mandatory:"false" json:"supportedQueryParams"`
+	DataObjectType           string                              `json:"dataObjectType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -58,6 +76,10 @@ func (m *opsidataobject) UnmarshalJSON(data []byte) error {
 	m.DisplayName = s.Model.DisplayName
 	m.ColumnsMetadata = s.Model.ColumnsMetadata
 	m.Description = s.Model.Description
+	m.Name = s.Model.Name
+	m.GroupNames = s.Model.GroupNames
+	m.SupportedQueryTimePeriod = s.Model.SupportedQueryTimePeriod
+	m.SupportedQueryParams = s.Model.SupportedQueryParams
 	m.DataObjectType = s.Model.DataObjectType
 
 	return err
@@ -108,6 +130,26 @@ func (m opsidataobject) GetColumnsMetadata() []DataObjectColumnMetadata {
 //GetDescription returns Description
 func (m opsidataobject) GetDescription() *string {
 	return m.Description
+}
+
+//GetName returns Name
+func (m opsidataobject) GetName() *string {
+	return m.Name
+}
+
+//GetGroupNames returns GroupNames
+func (m opsidataobject) GetGroupNames() []string {
+	return m.GroupNames
+}
+
+//GetSupportedQueryTimePeriod returns SupportedQueryTimePeriod
+func (m opsidataobject) GetSupportedQueryTimePeriod() *string {
+	return m.SupportedQueryTimePeriod
+}
+
+//GetSupportedQueryParams returns SupportedQueryParams
+func (m opsidataobject) GetSupportedQueryParams() []OpsiDataObjectSupportedQueryParam {
+	return m.SupportedQueryParams
 }
 
 func (m opsidataobject) String() string {

@@ -18,27 +18,19 @@ import (
 	"strings"
 )
 
-// QueryOpsiDataObjectDataDetails Information required to form and execute query on an OPSI data object.
-type QueryOpsiDataObjectDataDetails struct {
+// QueryWarehouseDataObjectDataDetails Information required to form and execute Operations Insights Warehouse data objects query.
+type QueryWarehouseDataObjectDataDetails struct {
 	Query DataObjectQuery `mandatory:"true" json:"query"`
-
-	// Unique OPSI data object identifier.
-	DataObjectIdentifier *string `mandatory:"false" json:"dataObjectIdentifier"`
-
-	// Details of OPSI data objects used in the query.
-	DataObjects []OpsiDataObjectDetailsInQuery `mandatory:"false" json:"dataObjects"`
-
-	ResourceFilters *ResourceFilters `mandatory:"false" json:"resourceFilters"`
 }
 
-func (m QueryOpsiDataObjectDataDetails) String() string {
+func (m QueryWarehouseDataObjectDataDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m QueryOpsiDataObjectDataDetails) ValidateEnumValue() (bool, error) {
+func (m QueryWarehouseDataObjectDataDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -48,12 +40,9 @@ func (m QueryOpsiDataObjectDataDetails) ValidateEnumValue() (bool, error) {
 }
 
 // UnmarshalJSON unmarshals from json
-func (m *QueryOpsiDataObjectDataDetails) UnmarshalJSON(data []byte) (e error) {
+func (m *QueryWarehouseDataObjectDataDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DataObjectIdentifier *string                        `json:"dataObjectIdentifier"`
-		DataObjects          []opsidataobjectdetailsinquery `json:"dataObjects"`
-		ResourceFilters      *ResourceFilters               `json:"resourceFilters"`
-		Query                dataobjectquery                `json:"query"`
+		Query dataobjectquery `json:"query"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -61,23 +50,6 @@ func (m *QueryOpsiDataObjectDataDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.DataObjectIdentifier = model.DataObjectIdentifier
-
-	m.DataObjects = make([]OpsiDataObjectDetailsInQuery, len(model.DataObjects))
-	for i, n := range model.DataObjects {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.DataObjects[i] = nn.(OpsiDataObjectDetailsInQuery)
-		} else {
-			m.DataObjects[i] = nil
-		}
-	}
-
-	m.ResourceFilters = model.ResourceFilters
-
 	nn, e = model.Query.UnmarshalPolymorphicJSON(model.Query.JsonData)
 	if e != nil {
 		return

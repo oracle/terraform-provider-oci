@@ -61,6 +61,9 @@ type AwrHub struct {
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Dst Time Zone Version of the AWR Hub
+	HubDstTimezoneVersion *string `mandatory:"false" json:"hubDstTimezoneVersion"`
 }
 
 func (m AwrHub) String() string {

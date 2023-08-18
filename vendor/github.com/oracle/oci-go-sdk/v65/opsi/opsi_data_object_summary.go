@@ -29,14 +29,22 @@ type OpsiDataObjectSummary interface {
 
 	// Description of OPSI data object.
 	GetDescription() *string
+
+	// Name of the data object, which can be used in data object queries just like how view names are used in a query.
+	GetName() *string
+
+	// Names of all the groups to which the data object belongs to.
+	GetGroupNames() []string
 }
 
 type opsidataobjectsummary struct {
 	JsonData       []byte
-	Identifier     *string `mandatory:"true" json:"identifier"`
-	DisplayName    *string `mandatory:"true" json:"displayName"`
-	Description    *string `mandatory:"false" json:"description"`
-	DataObjectType string  `json:"dataObjectType"`
+	Identifier     *string  `mandatory:"true" json:"identifier"`
+	DisplayName    *string  `mandatory:"true" json:"displayName"`
+	Description    *string  `mandatory:"false" json:"description"`
+	Name           *string  `mandatory:"false" json:"name"`
+	GroupNames     []string `mandatory:"false" json:"groupNames"`
+	DataObjectType string   `json:"dataObjectType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -53,6 +61,8 @@ func (m *opsidataobjectsummary) UnmarshalJSON(data []byte) error {
 	m.Identifier = s.Model.Identifier
 	m.DisplayName = s.Model.DisplayName
 	m.Description = s.Model.Description
+	m.Name = s.Model.Name
+	m.GroupNames = s.Model.GroupNames
 	m.DataObjectType = s.Model.DataObjectType
 
 	return err
@@ -98,6 +108,16 @@ func (m opsidataobjectsummary) GetDisplayName() *string {
 //GetDescription returns Description
 func (m opsidataobjectsummary) GetDescription() *string {
 	return m.Description
+}
+
+//GetName returns Name
+func (m opsidataobjectsummary) GetName() *string {
+	return m.Name
+}
+
+//GetGroupNames returns GroupNames
+func (m opsidataobjectsummary) GetGroupNames() []string {
+	return m.GroupNames
 }
 
 func (m opsidataobjectsummary) String() string {

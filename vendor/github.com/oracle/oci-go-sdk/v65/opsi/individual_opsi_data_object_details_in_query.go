@@ -18,28 +18,30 @@ import (
 	"strings"
 )
 
-// QueryDataObjectJsonResultSetRowsCollection Collection of result set rows from the data object query.
-type QueryDataObjectJsonResultSetRowsCollection struct {
+// IndividualOpsiDataObjectDetailsInQuery Details applicable for an individual OPSI data object used in a data object query.
+type IndividualOpsiDataObjectDetailsInQuery struct {
 
-	// Array of result set rows.
-	Items []interface{} `mandatory:"true" json:"items"`
+	// Unique OPSI data object identifier.
+	DataObjectIdentifier *string `mandatory:"true" json:"dataObjectIdentifier"`
 
-	// Array of QueryDataObjectResultSetColumnMetadata objects that describe the result set columns.
-	ItemsMetadata []QueryDataObjectResultSetColumnMetadata `mandatory:"true" json:"itemsMetadata"`
-
-	// Time taken for executing the data object query (in seconds).
-	// Consider optimizing the query or reducing the target data range, if query execution time is longer.
-	QueryExecutionTimeInSeconds *float64 `mandatory:"false" json:"queryExecutionTimeInSeconds"`
+	// An array of query parameters to be applied, for the OPSI data objects targetted by dataObjectDetailsTarget, before executing the query.
+	// Refer to supportedQueryParams of OpsiDataObject for the supported query parameters.
+	QueryParams []OpsiDataObjectQueryParam `mandatory:"false" json:"queryParams"`
 }
 
-func (m QueryDataObjectJsonResultSetRowsCollection) String() string {
+//GetQueryParams returns QueryParams
+func (m IndividualOpsiDataObjectDetailsInQuery) GetQueryParams() []OpsiDataObjectQueryParam {
+	return m.QueryParams
+}
+
+func (m IndividualOpsiDataObjectDetailsInQuery) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m QueryDataObjectJsonResultSetRowsCollection) ValidateEnumValue() (bool, error) {
+func (m IndividualOpsiDataObjectDetailsInQuery) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -49,14 +51,14 @@ func (m QueryDataObjectJsonResultSetRowsCollection) ValidateEnumValue() (bool, e
 }
 
 // MarshalJSON marshals to json representation
-func (m QueryDataObjectJsonResultSetRowsCollection) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeQueryDataObjectJsonResultSetRowsCollection QueryDataObjectJsonResultSetRowsCollection
+func (m IndividualOpsiDataObjectDetailsInQuery) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeIndividualOpsiDataObjectDetailsInQuery IndividualOpsiDataObjectDetailsInQuery
 	s := struct {
-		DiscriminatorParam string `json:"format"`
-		MarshalTypeQueryDataObjectJsonResultSetRowsCollection
+		DiscriminatorParam string `json:"dataObjectDetailsTarget"`
+		MarshalTypeIndividualOpsiDataObjectDetailsInQuery
 	}{
-		"JSON",
-		(MarshalTypeQueryDataObjectJsonResultSetRowsCollection)(m),
+		"INDIVIDUAL_OPSIDATAOBJECT",
+		(MarshalTypeIndividualOpsiDataObjectDetailsInQuery)(m),
 	}
 
 	return json.Marshal(&s)

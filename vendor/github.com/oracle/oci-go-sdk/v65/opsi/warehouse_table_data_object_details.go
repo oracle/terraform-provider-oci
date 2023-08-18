@@ -18,28 +18,21 @@ import (
 	"strings"
 )
 
-// QueryDataObjectJsonResultSetRowsCollection Collection of result set rows from the data object query.
-type QueryDataObjectJsonResultSetRowsCollection struct {
+// WarehouseTableDataObjectDetails Details of a TABLE type data object in a Warehouse.
+type WarehouseTableDataObjectDetails struct {
 
-	// Array of result set rows.
-	Items []interface{} `mandatory:"true" json:"items"`
-
-	// Array of QueryDataObjectResultSetColumnMetadata objects that describe the result set columns.
-	ItemsMetadata []QueryDataObjectResultSetColumnMetadata `mandatory:"true" json:"itemsMetadata"`
-
-	// Time taken for executing the data object query (in seconds).
-	// Consider optimizing the query or reducing the target data range, if query execution time is longer.
-	QueryExecutionTimeInSeconds *float64 `mandatory:"false" json:"queryExecutionTimeInSeconds"`
+	// Metadata of columns in the data object.
+	ColumnsMetadata []DataObjectColumnMetadata `mandatory:"false" json:"columnsMetadata"`
 }
 
-func (m QueryDataObjectJsonResultSetRowsCollection) String() string {
+func (m WarehouseTableDataObjectDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m QueryDataObjectJsonResultSetRowsCollection) ValidateEnumValue() (bool, error) {
+func (m WarehouseTableDataObjectDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -49,14 +42,14 @@ func (m QueryDataObjectJsonResultSetRowsCollection) ValidateEnumValue() (bool, e
 }
 
 // MarshalJSON marshals to json representation
-func (m QueryDataObjectJsonResultSetRowsCollection) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeQueryDataObjectJsonResultSetRowsCollection QueryDataObjectJsonResultSetRowsCollection
+func (m WarehouseTableDataObjectDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeWarehouseTableDataObjectDetails WarehouseTableDataObjectDetails
 	s := struct {
-		DiscriminatorParam string `json:"format"`
-		MarshalTypeQueryDataObjectJsonResultSetRowsCollection
+		DiscriminatorParam string `json:"dataObjectType"`
+		MarshalTypeWarehouseTableDataObjectDetails
 	}{
-		"JSON",
-		(MarshalTypeQueryDataObjectJsonResultSetRowsCollection)(m),
+		"TABLE",
+		(MarshalTypeWarehouseTableDataObjectDetails)(m),
 	}
 
 	return json.Marshal(&s)

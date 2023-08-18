@@ -27,6 +27,9 @@ type DataObjectColumnMetadata struct {
 	// Category of the column.
 	Category DataObjectColumnMetadataCategoryEnum `mandatory:"false" json:"category,omitempty"`
 
+	// Type of a data object column.
+	DataType *string `mandatory:"false" json:"dataType"`
+
 	// Type name of a data object column.
 	DataTypeName DataObjectColumnMetadataDataTypeNameEnum `mandatory:"false" json:"dataTypeName,omitempty"`
 
@@ -68,6 +71,7 @@ func (m DataObjectColumnMetadata) ValidateEnumValue() (bool, error) {
 func (m *DataObjectColumnMetadata) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Category     DataObjectColumnMetadataCategoryEnum     `json:"category"`
+		DataType     *string                                  `json:"dataType"`
 		DataTypeName DataObjectColumnMetadataDataTypeNameEnum `json:"dataTypeName"`
 		DisplayName  *string                                  `json:"displayName"`
 		Description  *string                                  `json:"description"`
@@ -82,6 +86,8 @@ func (m *DataObjectColumnMetadata) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Category = model.Category
+
+	m.DataType = model.DataType
 
 	m.DataTypeName = model.DataTypeName
 
@@ -114,18 +120,21 @@ const (
 	DataObjectColumnMetadataCategoryDimension     DataObjectColumnMetadataCategoryEnum = "DIMENSION"
 	DataObjectColumnMetadataCategoryMetric        DataObjectColumnMetadataCategoryEnum = "METRIC"
 	DataObjectColumnMetadataCategoryTimeDimension DataObjectColumnMetadataCategoryEnum = "TIME_DIMENSION"
+	DataObjectColumnMetadataCategoryUnknown       DataObjectColumnMetadataCategoryEnum = "UNKNOWN"
 )
 
 var mappingDataObjectColumnMetadataCategoryEnum = map[string]DataObjectColumnMetadataCategoryEnum{
 	"DIMENSION":      DataObjectColumnMetadataCategoryDimension,
 	"METRIC":         DataObjectColumnMetadataCategoryMetric,
 	"TIME_DIMENSION": DataObjectColumnMetadataCategoryTimeDimension,
+	"UNKNOWN":        DataObjectColumnMetadataCategoryUnknown,
 }
 
 var mappingDataObjectColumnMetadataCategoryEnumLowerCase = map[string]DataObjectColumnMetadataCategoryEnum{
 	"dimension":      DataObjectColumnMetadataCategoryDimension,
 	"metric":         DataObjectColumnMetadataCategoryMetric,
 	"time_dimension": DataObjectColumnMetadataCategoryTimeDimension,
+	"unknown":        DataObjectColumnMetadataCategoryUnknown,
 }
 
 // GetDataObjectColumnMetadataCategoryEnumValues Enumerates the set of values for DataObjectColumnMetadataCategoryEnum
@@ -143,6 +152,7 @@ func GetDataObjectColumnMetadataCategoryEnumStringValues() []string {
 		"DIMENSION",
 		"METRIC",
 		"TIME_DIMENSION",
+		"UNKNOWN",
 	}
 }
 
@@ -160,18 +170,21 @@ const (
 	DataObjectColumnMetadataDataTypeNameNumber    DataObjectColumnMetadataDataTypeNameEnum = "NUMBER"
 	DataObjectColumnMetadataDataTypeNameTimestamp DataObjectColumnMetadataDataTypeNameEnum = "TIMESTAMP"
 	DataObjectColumnMetadataDataTypeNameVarchar2  DataObjectColumnMetadataDataTypeNameEnum = "VARCHAR2"
+	DataObjectColumnMetadataDataTypeNameOther     DataObjectColumnMetadataDataTypeNameEnum = "OTHER"
 )
 
 var mappingDataObjectColumnMetadataDataTypeNameEnum = map[string]DataObjectColumnMetadataDataTypeNameEnum{
 	"NUMBER":    DataObjectColumnMetadataDataTypeNameNumber,
 	"TIMESTAMP": DataObjectColumnMetadataDataTypeNameTimestamp,
 	"VARCHAR2":  DataObjectColumnMetadataDataTypeNameVarchar2,
+	"OTHER":     DataObjectColumnMetadataDataTypeNameOther,
 }
 
 var mappingDataObjectColumnMetadataDataTypeNameEnumLowerCase = map[string]DataObjectColumnMetadataDataTypeNameEnum{
 	"number":    DataObjectColumnMetadataDataTypeNameNumber,
 	"timestamp": DataObjectColumnMetadataDataTypeNameTimestamp,
 	"varchar2":  DataObjectColumnMetadataDataTypeNameVarchar2,
+	"other":     DataObjectColumnMetadataDataTypeNameOther,
 }
 
 // GetDataObjectColumnMetadataDataTypeNameEnumValues Enumerates the set of values for DataObjectColumnMetadataDataTypeNameEnum
@@ -189,6 +202,7 @@ func GetDataObjectColumnMetadataDataTypeNameEnumStringValues() []string {
 		"NUMBER",
 		"TIMESTAMP",
 		"VARCHAR2",
+		"OTHER",
 	}
 }
 

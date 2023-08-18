@@ -115,6 +115,9 @@ type CreateAutonomousDatabaseBase interface {
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	GetAutonomousContainerDatabaseId() *string
 
+	// The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database.
+	GetInMemoryPercentage() *int
+
 	// Indicates if the database-level access control is enabled.
 	// If disabled, database access is defined by the network security rules.
 	// If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional,
@@ -256,6 +259,7 @@ type createautonomousdatabasebase struct {
 	IsAutoScalingEnabled                     *bool                                                             `mandatory:"false" json:"isAutoScalingEnabled"`
 	IsDedicated                              *bool                                                             `mandatory:"false" json:"isDedicated"`
 	AutonomousContainerDatabaseId            *string                                                           `mandatory:"false" json:"autonomousContainerDatabaseId"`
+	InMemoryPercentage                       *int                                                              `mandatory:"false" json:"inMemoryPercentage"`
 	IsAccessControlEnabled                   *bool                                                             `mandatory:"false" json:"isAccessControlEnabled"`
 	WhitelistedIps                           []string                                                          `mandatory:"false" json:"whitelistedIps"`
 	ArePrimaryWhitelistedIpsUsed             *bool                                                             `mandatory:"false" json:"arePrimaryWhitelistedIpsUsed"`
@@ -315,6 +319,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsAutoScalingEnabled = s.Model.IsAutoScalingEnabled
 	m.IsDedicated = s.Model.IsDedicated
 	m.AutonomousContainerDatabaseId = s.Model.AutonomousContainerDatabaseId
+	m.InMemoryPercentage = s.Model.InMemoryPercentage
 	m.IsAccessControlEnabled = s.Model.IsAccessControlEnabled
 	m.WhitelistedIps = s.Model.WhitelistedIps
 	m.ArePrimaryWhitelistedIpsUsed = s.Model.ArePrimaryWhitelistedIpsUsed
@@ -494,6 +499,11 @@ func (m createautonomousdatabasebase) GetIsDedicated() *bool {
 //GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
 func (m createautonomousdatabasebase) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
+}
+
+//GetInMemoryPercentage returns InMemoryPercentage
+func (m createautonomousdatabasebase) GetInMemoryPercentage() *int {
+	return m.InMemoryPercentage
 }
 
 //GetIsAccessControlEnabled returns IsAccessControlEnabled
