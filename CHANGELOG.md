@@ -1,3 +1,11 @@
+## 5.10.0 (Unreleased)
+
+### Added
+Support for Database In-Memory support for Autonomous Database | ADB-D and ADB on ExaC@C
+Support for BDS - Cluster Profiles for Kafka
+### Bug Fix
+Fix reference hashicorp/oci to oracle/oci in some documents
+
 ## 5.9.0 (Unreleased)
 
 ### Added
