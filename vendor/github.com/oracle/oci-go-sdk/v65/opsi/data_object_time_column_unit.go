@@ -81,6 +81,7 @@ const (
 	DataObjectTimeColumnUnitUnitWeek        DataObjectTimeColumnUnitUnitEnum = "WEEK"
 	DataObjectTimeColumnUnitUnitMonth       DataObjectTimeColumnUnitUnitEnum = "MONTH"
 	DataObjectTimeColumnUnitUnitYear        DataObjectTimeColumnUnitUnitEnum = "YEAR"
+	DataObjectTimeColumnUnitUnitMinute      DataObjectTimeColumnUnitUnitEnum = "MINUTE"
 )
 
 var mappingDataObjectTimeColumnUnitUnitEnum = map[string]DataObjectTimeColumnUnitUnitEnum{
@@ -94,6 +95,7 @@ var mappingDataObjectTimeColumnUnitUnitEnum = map[string]DataObjectTimeColumnUni
 	"WEEK":         DataObjectTimeColumnUnitUnitWeek,
 	"MONTH":        DataObjectTimeColumnUnitUnitMonth,
 	"YEAR":         DataObjectTimeColumnUnitUnitYear,
+	"MINUTE":       DataObjectTimeColumnUnitUnitMinute,
 }
 
 var mappingDataObjectTimeColumnUnitUnitEnumLowerCase = map[string]DataObjectTimeColumnUnitUnitEnum{
@@ -107,6 +109,7 @@ var mappingDataObjectTimeColumnUnitUnitEnumLowerCase = map[string]DataObjectTime
 	"week":         DataObjectTimeColumnUnitUnitWeek,
 	"month":        DataObjectTimeColumnUnitUnitMonth,
 	"year":         DataObjectTimeColumnUnitUnitYear,
+	"minute":       DataObjectTimeColumnUnitUnitMinute,
 }
 
 // GetDataObjectTimeColumnUnitUnitEnumValues Enumerates the set of values for DataObjectTimeColumnUnitUnitEnum
@@ -131,6 +134,7 @@ func GetDataObjectTimeColumnUnitUnitEnumStringValues() []string {
 		"WEEK",
 		"MONTH",
 		"YEAR",
+		"MINUTE",
 	}
 }
 

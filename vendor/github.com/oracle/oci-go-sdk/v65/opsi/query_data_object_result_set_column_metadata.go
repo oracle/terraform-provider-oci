@@ -23,6 +23,9 @@ type QueryDataObjectResultSetColumnMetadata struct {
 	// Name of the column in a data object query result set.
 	Name *string `mandatory:"true" json:"name"`
 
+	// Type of the column in a data object query result.
+	DataType *string `mandatory:"false" json:"dataType"`
+
 	// Type name of the column in a data object query result set.
 	DataTypeName QueryDataObjectResultSetColumnMetadataDataTypeNameEnum `mandatory:"false" json:"dataTypeName,omitempty"`
 }
@@ -54,18 +57,21 @@ const (
 	QueryDataObjectResultSetColumnMetadataDataTypeNameNumber    QueryDataObjectResultSetColumnMetadataDataTypeNameEnum = "NUMBER"
 	QueryDataObjectResultSetColumnMetadataDataTypeNameTimestamp QueryDataObjectResultSetColumnMetadataDataTypeNameEnum = "TIMESTAMP"
 	QueryDataObjectResultSetColumnMetadataDataTypeNameVarchar2  QueryDataObjectResultSetColumnMetadataDataTypeNameEnum = "VARCHAR2"
+	QueryDataObjectResultSetColumnMetadataDataTypeNameOther     QueryDataObjectResultSetColumnMetadataDataTypeNameEnum = "OTHER"
 )
 
 var mappingQueryDataObjectResultSetColumnMetadataDataTypeNameEnum = map[string]QueryDataObjectResultSetColumnMetadataDataTypeNameEnum{
 	"NUMBER":    QueryDataObjectResultSetColumnMetadataDataTypeNameNumber,
 	"TIMESTAMP": QueryDataObjectResultSetColumnMetadataDataTypeNameTimestamp,
 	"VARCHAR2":  QueryDataObjectResultSetColumnMetadataDataTypeNameVarchar2,
+	"OTHER":     QueryDataObjectResultSetColumnMetadataDataTypeNameOther,
 }
 
 var mappingQueryDataObjectResultSetColumnMetadataDataTypeNameEnumLowerCase = map[string]QueryDataObjectResultSetColumnMetadataDataTypeNameEnum{
 	"number":    QueryDataObjectResultSetColumnMetadataDataTypeNameNumber,
 	"timestamp": QueryDataObjectResultSetColumnMetadataDataTypeNameTimestamp,
 	"varchar2":  QueryDataObjectResultSetColumnMetadataDataTypeNameVarchar2,
+	"other":     QueryDataObjectResultSetColumnMetadataDataTypeNameOther,
 }
 
 // GetQueryDataObjectResultSetColumnMetadataDataTypeNameEnumValues Enumerates the set of values for QueryDataObjectResultSetColumnMetadataDataTypeNameEnum
@@ -83,6 +89,7 @@ func GetQueryDataObjectResultSetColumnMetadataDataTypeNameEnumStringValues() []s
 		"NUMBER",
 		"TIMESTAMP",
 		"VARCHAR2",
+		"OTHER",
 	}
 }
 

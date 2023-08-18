@@ -57,6 +57,12 @@ type AutonomousDatabaseSummary struct {
 	// AL16UTF16 or UTF8.
 	NcharacterSet *string `mandatory:"false" json:"ncharacterSet"`
 
+	// The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database.
+	InMemoryPercentage *int `mandatory:"false" json:"inMemoryPercentage"`
+
+	// The area assigned to In-Memory tables in Autonomous Database.
+	InMemoryAreaInGBs *int `mandatory:"false" json:"inMemoryAreaInGBs"`
+
 	// The date and time when the next long-term backup would be created.
 	NextLongTermBackupTimeStamp *common.SDKTime `mandatory:"false" json:"nextLongTermBackupTimeStamp"`
 

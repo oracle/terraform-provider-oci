@@ -29,6 +29,12 @@ type ExadataInsightsDataObjectSummary struct {
 
 	// Description of OPSI data object.
 	Description *string `mandatory:"false" json:"description"`
+
+	// Name of the data object, which can be used in data object queries just like how view names are used in a query.
+	Name *string `mandatory:"false" json:"name"`
+
+	// Names of all the groups to which the data object belongs to.
+	GroupNames []string `mandatory:"false" json:"groupNames"`
 }
 
 //GetIdentifier returns Identifier
@@ -44,6 +50,16 @@ func (m ExadataInsightsDataObjectSummary) GetDisplayName() *string {
 //GetDescription returns Description
 func (m ExadataInsightsDataObjectSummary) GetDescription() *string {
 	return m.Description
+}
+
+//GetName returns Name
+func (m ExadataInsightsDataObjectSummary) GetName() *string {
+	return m.Name
+}
+
+//GetGroupNames returns GroupNames
+func (m ExadataInsightsDataObjectSummary) GetGroupNames() []string {
+	return m.GroupNames
 }
 
 func (m ExadataInsightsDataObjectSummary) String() string {
