@@ -63,9 +63,8 @@ var (
 		"bootstrap_script_url":     acctest.Representation{RepType: acctest.Optional, Create: `${var.bootstrap_script_url}`, Update: `${var.bootstrap_script_urlU}`},
 		"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
-
-		"is_cloud_sql_configured": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"kms_key_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`, Update: `${var.kms_key_id_for_update}`},
+		"is_cloud_sql_configured":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"kms_key_id":               acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`, Update: `${var.kms_key_id_for_update}`},
 		//"cloud_sql_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceNodesOdhCloudSqlRepresentation}, // capacity issue
 
 		//Uncomment this when running in home region (PHX)
@@ -77,16 +76,16 @@ var (
 	bdsInstanceOdhWithFlexComputeAndRegularMasterUtilRepresentation = acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation,
 		map[string]interface{}{
 			// Master & Util shape should be same
-			"master_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhMasterRepresentation},
-			"util_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhUtilRepresentation},
+			"master_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlex3ShapeRepresentation},
+			"util_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlex3ShapeRepresentation},
 			"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 			"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		})
 
 	bdsInstanceOdhWithRegularComputeAndFlexMasterUtilRepresentation = acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation,
 		map[string]interface{}{
-			"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhUtilRepresentation}, // Regular util shape representation usable for compute worker
-			"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhUtilRepresentation},
+			"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlex3ShapeRepresentation},
+			"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlex3ShapeRepresentation}, // Regular util shape representation usable for compute worker
 		})
 
 	bdsInstanceNodesOdhCloudSqlRepresentation = map[string]interface{}{
@@ -120,6 +119,13 @@ var (
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `2`},
 		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesShapeConfigRepresentation},
 	}
+	bdsInstanceNodeFlex3ShapeRepresentation = map[string]interface{}{
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard3.Flex`},
+		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
+		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesShapeConfigRepresentation},
+	}
 	bdsInstanceNodesShapeConfigRepresentation = map[string]interface{}{
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `32`},
 		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `3`},
@@ -127,6 +133,13 @@ var (
 	bdsInstanceOdhNetworkConfigRepresentation = map[string]interface{}{
 		"cidr_block":              acctest.Representation{RepType: acctest.Optional, Create: `111.112.0.0/16`},
 		"is_nat_gateway_required": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+	bdsInstanceKafkaBrokerNodeFlexShapeRepresentation = map[string]interface{}{
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
+		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
+		"number_of_kafka_nodes":    acctest.Representation{RepType: acctest.Required, Create: `3`},
+		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesShapeConfigRepresentation},
 	}
 
 	BdsInstanceOdhResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create,
@@ -175,12 +188,12 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 	singularDatasourceName := "data.oci_bds_bds_instance.test_bds_instance"
 
 	var resId, resId2 string
+
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+kmsKeyIdVariableStr+BdsInstanceOdhResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, bdsInstanceOdhRepresentation), "bds", "bdsInstanceOdh", t)
 
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceOdhDestroy, []resource.TestStep{
-
 		// verify Create with required fields
 		{
 			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
@@ -239,7 +252,6 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				},
 			),
 		},
-
 		// start the cluster
 		{
 			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
@@ -262,7 +274,119 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 			),
 		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr,
+		},
+		// Create cluster with HADOOP_EXTENDED
+		{
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation, map[string]interface{}{
+						"cluster_profile": acctest.Representation{RepType: acctest.Optional, Create: `HADOOP_EXTENDED`},
+						"display_name":    acctest.Representation{RepType: acctest.Required, Create: `hadext1`, Update: `hadext1`},
+					})),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// Add Kafka to cluster
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr + kmsKeyIdUVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation, map[string]interface{}{
+						"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+						"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `HADOOP_EXTENDED`, Update: `HADOOP_EXTENDED`},
+						"display_name":        acctest.Representation{RepType: acctest.Required, Create: `hadext1`, Update: `hadext1`},
+						"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceKafkaBrokerNodeFlexShapeRepresentation},
+					})),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+			),
+		},
+		// Remove Kafka to cluster
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr + kmsKeyIdUVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation, map[string]interface{}{
+						"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `false`},
+						"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `HADOOP_EXTENDED`, Update: `HADOOP_EXTENDED`},
+						"display_name":        acctest.Representation{RepType: acctest.Required, Create: `hadext1`, Update: `hadext1`},
+						"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceKafkaBrokerNodeFlexShapeRepresentation},
+					})),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr,
+		},
+		// verify Create with required fields Kafka cluster
+		{
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation, map[string]interface{}{
+						"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `false`},
+						"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `KAFKA`, Update: `HADOOP_EXTENDED`},
+						"display_name":        acctest.Representation{RepType: acctest.Required, Create: `kafkacluster`, Update: `kafkacluster`},
+						"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceKafkaBrokerNodeFlexShapeRepresentation},
+					})),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + BdsInstanceOdhResourceDependencies + bootstrapScriptUrlVariableStr,
@@ -316,7 +440,6 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				},
 			),
 		},
-
 		// verify Update to the compartment (the compartment will be switched back in the next step) and change shapes
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr + bootstrapScriptUrlVariableStr + BdsInstanceOdhResourceDependencies +
@@ -353,8 +476,8 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
 				resource.TestCheckResourceAttr(resourceName, "number_of_nodes", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard2.4"),
-				resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard2.4"),
+				resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard3.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "compute_only_worker_node.0.shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "edge_node.0.shape", "VM.Standard.E4.Flex"),
 
@@ -367,7 +490,6 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				},
 			),
 		},
-
 		// verify updates to updatable parameters, add a worker, update compute worker flex->regular, update util regular -> flex
 		{
 			Config: config + compartmentIdVariableStr + kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr + subnetIdVariableStr + BdsInstanceOdhResourceDependencies +
@@ -403,8 +525,8 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "util_node.0.shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard.E4.Flex"),
-				resource.TestCheckResourceAttr(resourceName, "compute_only_worker_node.0.shape", "VM.Standard2.4"),
-				resource.TestCheckResourceAttr(resourceName, "edge_node.0.shape", "VM.Standard2.4"),
+				resource.TestCheckResourceAttr(resourceName, "compute_only_worker_node.0.shape", "VM.Standard3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "edge_node.0.shape", "VM.Standard3.Flex"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -425,6 +547,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_profile", "HADOOP"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_version", "ODH1"),
@@ -458,12 +581,12 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.db_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.os_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"), //empty
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "kms_key_id", kmsKeyIdU),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_cloud_sql_configured"),
+				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_high_availability", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_secure", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_config.#", "1"),
@@ -502,6 +625,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				"worker_node.0.shape_config",
 				"compute_only_worker_node.0.shape_config",
 				"edge_node.0.shape_config",
+				"kafka_broker_node.0.shape_config",
 			},
 			ResourceName: resourceName,
 		},

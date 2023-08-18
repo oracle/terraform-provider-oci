@@ -37,7 +37,7 @@ The following attributes are exported:
 
 * `display_name` - A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
 * `id` - The unique identifier for the autoscale configuration.
-* `node_type` - A node type that is managed by an autoscale configuration. The only supported types are WORKER and COMPUTE_ONLY_WORKER.
+* `node_type` - A node type that is managed by an autoscale configuration. The only supported types are WORKER, COMPUTE_ONLY_WORKER, KAFKA_BROKER.
 * `policy` - This model for autoscaling policy is deprecated and not supported for ODH clusters. Use the `AutoScalePolicyDetails` model to manage autoscale policy details for ODH clusters. 
 	* `policy_type` - Types of autoscale policies. Options are SCHEDULE-BASED or THRESHOLD-BASED. (Only THRESHOLD-BASED is supported in this release.)
 	* `rules` - The list of rules for autoscaling. If an action has multiple rules, the last rule in the array will be applied.
@@ -97,12 +97,12 @@ The following attributes are exported:
 				* `operator` - The comparison operator to use. Options are greater than (GT) or less than (LT).
 				* `value` - Integer non-negative value. 0 < value < 100
 		* `ocpu_step_size` - For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the number of OCPUs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
-	* `schedule_details` - 
+	* `schedule_details` - Details of a horizontal scaling schedule.
 		* `schedule_type` - The type of schedule.
-		* `time_and_horizontal_scaling_config` - 
+		* `time_and_horizontal_scaling_config` - Time of day and horizontal scaling configuration.
 			* `target_node_count` - This value is the desired number of nodes in the cluster.
 			* `time_recurrence` - Day/time recurrence (specified following RFC 5545) at which to trigger autoscaling action. Currently only WEEKLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR and BYMINUTE fields. Other fields are not supported. 
-		* `time_and_vertical_scaling_config` - 
+		* `time_and_vertical_scaling_config` - Time of day and vertical scaling configuration
 			* `target_memory_per_node` - For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the desired memory in GBs on each node. This value is not used for nodes with fixed compute shapes. 
 			* `target_ocpus_per_node` - For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the desired OCPUs count on each node. This value is not used for nodes with fixed compute shapes. 
 			* `target_shape` - For nodes with [fixed compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the desired shape of each node. This value is not used for nodes with flexible compute shapes. 

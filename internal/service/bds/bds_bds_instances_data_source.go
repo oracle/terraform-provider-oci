@@ -157,6 +157,10 @@ func (s *BdsBdsInstancesDataSourceCrud) SetData() error {
 			bdsInstance["is_high_availability"] = *r.IsHighAvailability
 		}
 
+		if r.IsKafkaConfigured != nil {
+			bdsInstance["is_kafka_configured"] = *r.IsKafkaConfigured
+		}
+
 		if r.IsSecure != nil {
 			bdsInstance["is_secure"] = *r.IsSecure
 		}

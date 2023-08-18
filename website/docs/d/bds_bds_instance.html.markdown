@@ -67,6 +67,7 @@ The following attributes are exported:
 * `id` - The OCID of the Big Data Service resource.
 * `is_cloud_sql_configured` - Boolean flag specifying whether or not Cloud SQL should be configured.
 * `is_high_availability` - Boolean flag specifying whether or not the cluster is highly available (HA)
+* `is_kafka_configured` - Boolean flag specifying whether or not Kafka should be configured.
 * `is_secure` - Boolean flag specifying whether or not the cluster should be set up as secure.
 * `kms_key_id` - The OCID of the Key Management master encryption key.
 * `network_config` - Additional configuration of the user's network.
