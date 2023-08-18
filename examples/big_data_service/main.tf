@@ -204,7 +204,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   is_secure              = var.bds_instance_is_secure
   kms_key_id             = var.kms_key_id
   cluster_profile        = var.cluster_profile
-  bootstrap_script_url = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/5M6CdCgyfNKcMGvdSIdK20tC9TAf0mVFkMsSlMdmmCaKusIX3DVixBS-_oDhJoxi/n/oraclebigdatadb/b/bootstrap-script-sdk-test/o/bootstrapScriptTemplate1bootstrapScript1.sh"
+  bootstrap_script_url = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/1hWiiE-2GVzGiKhaBX1zyXVa_jTIu_cU5kDdKTyYS74Wk5xmEA2WKht9NTA2y935/n/oraclebigdatadb/b/bootstrap-script-sdk-test/o/bootstrapScriptTemplate1bootstrapScript1.sh"
 
   master_node {
     #Required
@@ -268,6 +268,24 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   #   }
 
   is_cloud_sql_configured = false
+
+
+  #Change value to true for use of Kafka cluster
+  is_kafka_configured = false
+
+  #Uncomment kafka_broker_node block for use of Kafka cluster
+  #kafka_broker_node {
+    #Required
+  #  shape = var.bds_instance_compute_only_worker_node_shape
+
+  #  subnet_id                = var.subnet_id
+  #  block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
+  #  number_of_nodes          = 1
+  #  shape_config {
+  #    memory_in_gbs = var.bds_instance_compute_only_worker_memory_per_node
+  #    ocpus         = var.bds_instance_compute_only_worker_ocpu_per_node
+  #  }
+  #}
 
   #Optional
 #Uncomment this when running in home region (PHX)
