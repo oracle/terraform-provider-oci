@@ -169,7 +169,7 @@ func (m *DataEntityFromObject) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.ForeignKeys = make([]ForeignKey, len(model.ForeignKeys))
-	copy(model.ForeignKeys, m.ForeignKeys)
+	copy(m.ForeignKeys, model.ForeignKeys)
 	m.ResourceName = model.ResourceName
 
 	m.ObjectStatus = model.ObjectStatus

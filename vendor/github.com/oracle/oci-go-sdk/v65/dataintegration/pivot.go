@@ -188,7 +188,7 @@ func (m *Pivot) UnmarshalJSON(data []byte) (e error) {
 	m.ObjectVersion = model.ObjectVersion
 
 	m.InputPorts = make([]InputPort, len(model.InputPorts))
-	copy(model.InputPorts, m.InputPorts)
+	copy(m.InputPorts, model.InputPorts)
 	m.OutputPorts = make([]TypedObject, len(model.OutputPorts))
 	for i, n := range model.OutputPorts {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -206,7 +206,7 @@ func (m *Pivot) UnmarshalJSON(data []byte) (e error) {
 	m.Identifier = model.Identifier
 
 	m.Parameters = make([]Parameter, len(model.Parameters))
-	copy(model.Parameters, m.Parameters)
+	copy(m.Parameters, model.Parameters)
 	m.OpConfigValues = model.OpConfigValues
 
 	m.GroupByColumns = model.GroupByColumns

@@ -131,17 +131,17 @@ func (m *CreateContainerDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Command = make([]string, len(model.Command))
-	copy(model.Command, m.Command)
+	copy(m.Command, model.Command)
 	m.Arguments = make([]string, len(model.Arguments))
-	copy(model.Arguments, m.Arguments)
+	copy(m.Arguments, model.Arguments)
 	m.AdditionalCapabilities = make([]ContainerCapabilityEnum, len(model.AdditionalCapabilities))
-	copy(model.AdditionalCapabilities, m.AdditionalCapabilities)
+	copy(m.AdditionalCapabilities, model.AdditionalCapabilities)
 	m.WorkingDirectory = model.WorkingDirectory
 
 	m.EnvironmentVariables = model.EnvironmentVariables
 
 	m.VolumeMounts = make([]CreateVolumeMountDetails, len(model.VolumeMounts))
-	copy(model.VolumeMounts, m.VolumeMounts)
+	copy(m.VolumeMounts, model.VolumeMounts)
 	m.IsResourcePrincipalDisabled = model.IsResourcePrincipalDisabled
 
 	m.ResourceConfig = model.ResourceConfig

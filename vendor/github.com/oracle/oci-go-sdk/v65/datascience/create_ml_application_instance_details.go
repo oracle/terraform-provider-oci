@@ -98,7 +98,7 @@ func (m *CreateMlApplicationInstanceDetails) UnmarshalJSON(data []byte) (e error
 	}
 
 	m.Configuration = make([]ConfigurationProperty, len(model.Configuration))
-	copy(model.Configuration, m.Configuration)
+	copy(m.Configuration, model.Configuration)
 	m.IsEnabled = model.IsEnabled
 
 	m.FreeformTags = model.FreeformTags

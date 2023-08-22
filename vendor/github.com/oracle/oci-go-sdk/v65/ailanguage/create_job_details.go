@@ -108,7 +108,7 @@ func (m *CreateJobDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ModelMetadataDetails = make([]ModelMetadataDetails, len(model.ModelMetadataDetails))
-	copy(model.ModelMetadataDetails, m.ModelMetadataDetails)
+	copy(m.ModelMetadataDetails, model.ModelMetadataDetails)
 	m.OutputLocation = model.OutputLocation
 
 	return

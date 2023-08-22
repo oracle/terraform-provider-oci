@@ -210,7 +210,7 @@ func (m *DatabaseToolsConnectionMySql) UnmarshalJSON(data []byte) (e error) {
 	m.AdvancedProperties = model.AdvancedProperties
 
 	m.KeyStores = make([]DatabaseToolsKeyStoreMySql, len(model.KeyStores))
-	copy(model.KeyStores, m.KeyStores)
+	copy(m.KeyStores, model.KeyStores)
 	m.PrivateEndpointId = model.PrivateEndpointId
 
 	m.Id = model.Id

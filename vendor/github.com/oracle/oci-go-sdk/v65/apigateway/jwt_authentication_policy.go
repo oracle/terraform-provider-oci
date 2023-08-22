@@ -117,11 +117,11 @@ func (m *JwtAuthenticationPolicy) UnmarshalJSON(data []byte) (e error) {
 	m.MaxClockSkewInSeconds = model.MaxClockSkewInSeconds
 
 	m.VerifyClaims = make([]JsonWebTokenClaim, len(model.VerifyClaims))
-	copy(model.VerifyClaims, m.VerifyClaims)
+	copy(m.VerifyClaims, model.VerifyClaims)
 	m.Issuers = make([]string, len(model.Issuers))
-	copy(model.Issuers, m.Issuers)
+	copy(m.Issuers, model.Issuers)
 	m.Audiences = make([]string, len(model.Audiences))
-	copy(model.Audiences, m.Audiences)
+	copy(m.Audiences, model.Audiences)
 	nn, e = model.PublicKeys.UnmarshalPolymorphicJSON(model.PublicKeys.JsonData)
 	if e != nil {
 		return

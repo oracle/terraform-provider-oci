@@ -149,7 +149,7 @@ func (m *AccessRule) UnmarshalJSON(data []byte) (e error) {
 	m.BlockErrorPageDescription = model.BlockErrorPageDescription
 
 	m.BypassChallenges = make([]AccessRuleBypassChallengesEnum, len(model.BypassChallenges))
-	copy(model.BypassChallenges, m.BypassChallenges)
+	copy(m.BypassChallenges, model.BypassChallenges)
 	m.RedirectUrl = model.RedirectUrl
 
 	m.RedirectResponseCode = model.RedirectResponseCode
@@ -177,7 +177,7 @@ func (m *AccessRule) UnmarshalJSON(data []byte) (e error) {
 	m.Name = model.Name
 
 	m.Criteria = make([]AccessRuleCriteria, len(model.Criteria))
-	copy(model.Criteria, m.Criteria)
+	copy(m.Criteria, model.Criteria)
 	m.Action = model.Action
 
 	return

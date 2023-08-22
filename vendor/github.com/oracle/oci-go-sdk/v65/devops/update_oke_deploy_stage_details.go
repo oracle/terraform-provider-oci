@@ -145,7 +145,7 @@ func (m *UpdateOkeDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.KubernetesManifestDeployArtifactIds = make([]string, len(model.KubernetesManifestDeployArtifactIds))
-	copy(model.KubernetesManifestDeployArtifactIds, m.KubernetesManifestDeployArtifactIds)
+	copy(m.KubernetesManifestDeployArtifactIds, model.KubernetesManifestDeployArtifactIds)
 	m.Namespace = model.Namespace
 
 	nn, e = model.RollbackPolicy.UnmarshalPolymorphicJSON(model.RollbackPolicy.JsonData)

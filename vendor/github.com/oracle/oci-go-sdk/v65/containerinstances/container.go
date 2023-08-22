@@ -197,17 +197,17 @@ func (m *Container) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.Command = make([]string, len(model.Command))
-	copy(model.Command, m.Command)
+	copy(m.Command, model.Command)
 	m.Arguments = make([]string, len(model.Arguments))
-	copy(model.Arguments, m.Arguments)
+	copy(m.Arguments, model.Arguments)
 	m.AdditionalCapabilities = make([]ContainerCapabilityEnum, len(model.AdditionalCapabilities))
-	copy(model.AdditionalCapabilities, m.AdditionalCapabilities)
+	copy(m.AdditionalCapabilities, model.AdditionalCapabilities)
 	m.WorkingDirectory = model.WorkingDirectory
 
 	m.EnvironmentVariables = model.EnvironmentVariables
 
 	m.VolumeMounts = make([]VolumeMount, len(model.VolumeMounts))
-	copy(model.VolumeMounts, m.VolumeMounts)
+	copy(m.VolumeMounts, model.VolumeMounts)
 	m.HealthChecks = make([]ContainerHealthCheck, len(model.HealthChecks))
 	for i, n := range model.HealthChecks {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)

@@ -109,7 +109,7 @@ func (m *UpdateClientVpnDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ClientSubnetCidr = model.ClientSubnetCidr
 
 	m.AccessibleSubnetCidrs = make([]string, len(model.AccessibleSubnetCidrs))
-	copy(model.AccessibleSubnetCidrs, m.AccessibleSubnetCidrs)
+	copy(m.AccessibleSubnetCidrs, model.AccessibleSubnetCidrs)
 	m.IsRerouteEnabled = model.IsRerouteEnabled
 
 	m.AddressingMode = model.AddressingMode

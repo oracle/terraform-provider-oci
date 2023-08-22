@@ -147,7 +147,7 @@ func (m *MultiSearchCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 	m.IsHidden = model.IsHidden
 
 	m.SubQueries = make([]ParseQueryOutput, len(model.SubQueries))
-	copy(model.SubQueries, m.SubQueries)
+	copy(m.SubQueries, model.SubQueries)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

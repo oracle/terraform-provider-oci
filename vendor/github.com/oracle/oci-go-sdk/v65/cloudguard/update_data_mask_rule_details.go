@@ -108,7 +108,7 @@ func (m *UpdateDataMaskRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.DataMaskCategories = make([]DataMaskCategoryEnum, len(model.DataMaskCategories))
-	copy(model.DataMaskCategories, m.DataMaskCategories)
+	copy(m.DataMaskCategories, model.DataMaskCategories)
 	m.DataMaskRuleStatus = model.DataMaskRuleStatus
 
 	m.FreeformTags = model.FreeformTags

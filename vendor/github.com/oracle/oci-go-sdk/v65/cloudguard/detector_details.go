@@ -104,7 +104,7 @@ func (m *DetectorDetails) UnmarshalJSON(data []byte) (e error) {
 	m.RiskLevel = model.RiskLevel
 
 	m.Configurations = make([]DetectorConfiguration, len(model.Configurations))
-	copy(model.Configurations, m.Configurations)
+	copy(m.Configurations, model.Configurations)
 	nn, e = model.Condition.UnmarshalPolymorphicJSON(model.Condition.JsonData)
 	if e != nil {
 		return
@@ -116,15 +116,15 @@ func (m *DetectorDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Labels = make([]string, len(model.Labels))
-	copy(model.Labels, m.Labels)
+	copy(m.Labels, model.Labels)
 	m.IsConfigurationAllowed = model.IsConfigurationAllowed
 
 	m.ProblemThreshold = model.ProblemThreshold
 
 	m.TargetTypes = make([]string, len(model.TargetTypes))
-	copy(model.TargetTypes, m.TargetTypes)
+	copy(m.TargetTypes, model.TargetTypes)
 	m.SightingTypes = make([]SightingType, len(model.SightingTypes))
-	copy(model.SightingTypes, m.SightingTypes)
+	copy(m.SightingTypes, model.SightingTypes)
 	m.Description = model.Description
 
 	m.Recommendation = model.Recommendation
@@ -132,7 +132,7 @@ func (m *DetectorDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DataSourceId = model.DataSourceId
 
 	m.EntitiesMappings = make([]EntitiesMapping, len(model.EntitiesMappings))
-	copy(model.EntitiesMappings, m.EntitiesMappings)
+	copy(m.EntitiesMappings, model.EntitiesMappings)
 	m.IsEnabled = model.IsEnabled
 
 	return

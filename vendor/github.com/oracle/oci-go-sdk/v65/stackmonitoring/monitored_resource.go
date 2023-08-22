@@ -153,7 +153,7 @@ func (m *MonitoredResource) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleState = model.LifecycleState
 
 	m.Properties = make([]MonitoredResourceProperty, len(model.Properties))
-	copy(model.Properties, m.Properties)
+	copy(m.Properties, model.Properties)
 	m.DatabaseConnectionDetails = model.DatabaseConnectionDetails
 
 	nn, e = model.Credentials.UnmarshalPolymorphicJSON(model.Credentials.JsonData)

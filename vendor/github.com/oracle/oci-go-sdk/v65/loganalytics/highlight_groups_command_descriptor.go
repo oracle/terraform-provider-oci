@@ -171,13 +171,13 @@ func (m *HighlightGroupsCommandDescriptor) UnmarshalJSON(data []byte) (e error) 
 	m.Priority = model.Priority
 
 	m.MatchOnly = make([]string, len(model.MatchOnly))
-	copy(model.MatchOnly, m.MatchOnly)
+	copy(m.MatchOnly, model.MatchOnly)
 	m.Fields = make([]string, len(model.Fields))
-	copy(model.Fields, m.Fields)
+	copy(m.Fields, model.Fields)
 	m.Keywords = make([]string, len(model.Keywords))
-	copy(model.Keywords, m.Keywords)
+	copy(m.Keywords, model.Keywords)
 	m.SubQueries = make([]ParseQueryOutput, len(model.SubQueries))
-	copy(model.SubQueries, m.SubQueries)
+	copy(m.SubQueries, model.SubQueries)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

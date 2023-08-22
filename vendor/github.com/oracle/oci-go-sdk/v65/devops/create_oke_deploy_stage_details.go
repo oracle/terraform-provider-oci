@@ -168,6 +168,6 @@ func (m *CreateOkeDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DeployStagePredecessorCollection = model.DeployStagePredecessorCollection
 
 	m.KubernetesManifestDeployArtifactIds = make([]string, len(model.KubernetesManifestDeployArtifactIds))
-	copy(model.KubernetesManifestDeployArtifactIds, m.KubernetesManifestDeployArtifactIds)
+	copy(m.KubernetesManifestDeployArtifactIds, model.KubernetesManifestDeployArtifactIds)
 	return
 }

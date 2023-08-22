@@ -129,7 +129,7 @@ func (m *DataMaskRuleSummary) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.DataMaskCategories = make([]DataMaskCategoryEnum, len(model.DataMaskCategories))
-	copy(model.DataMaskCategories, m.DataMaskCategories)
+	copy(m.DataMaskCategories, model.DataMaskCategories)
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated

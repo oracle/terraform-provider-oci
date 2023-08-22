@@ -96,7 +96,7 @@ func (m *KeyStoreSummary) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.AssociatedDatabases = make([]KeyStoreAssociatedDatabaseDetails, len(model.AssociatedDatabases))
-	copy(model.AssociatedDatabases, m.AssociatedDatabases)
+	copy(m.AssociatedDatabases, model.AssociatedDatabases)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

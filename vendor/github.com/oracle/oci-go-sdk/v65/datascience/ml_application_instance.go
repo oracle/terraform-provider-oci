@@ -141,9 +141,9 @@ func (m *MlApplicationInstance) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Configuration = make([]ConfigurationProperty, len(model.Configuration))
-	copy(model.Configuration, m.Configuration)
+	copy(m.Configuration, model.Configuration)
 	m.PredictionUris = make([]PredictionUri, len(model.PredictionUris))
-	copy(model.PredictionUris, m.PredictionUris)
+	copy(m.PredictionUris, model.PredictionUris)
 	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id

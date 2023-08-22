@@ -174,7 +174,7 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 	m.FusionEnvironmentFamilyId = model.FusionEnvironmentFamilyId
 
 	m.SubscriptionIds = make([]string, len(model.SubscriptionIds))
-	copy(model.SubscriptionIds, m.SubscriptionIds)
+	copy(m.SubscriptionIds, model.SubscriptionIds)
 	m.KmsKeyId = model.KmsKeyId
 
 	m.KmsKeyInfo = model.KmsKeyInfo
@@ -184,7 +184,7 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 	m.IdcsDomainUrl = model.IdcsDomainUrl
 
 	m.AppliedPatchBundles = make([]string, len(model.AppliedPatchBundles))
-	copy(model.AppliedPatchBundles, m.AppliedPatchBundles)
+	copy(m.AppliedPatchBundles, model.AppliedPatchBundles)
 	m.Version = model.Version
 
 	m.PublicUrl = model.PublicUrl
@@ -192,7 +192,7 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 	m.DnsPrefix = model.DnsPrefix
 
 	m.AdditionalLanguagePacks = make([]string, len(model.AdditionalLanguagePacks))
-	copy(model.AdditionalLanguagePacks, m.AdditionalLanguagePacks)
+	copy(m.AdditionalLanguagePacks, model.AdditionalLanguagePacks)
 	m.LockboxId = model.LockboxId
 
 	m.IsBreakGlassEnabled = model.IsBreakGlassEnabled

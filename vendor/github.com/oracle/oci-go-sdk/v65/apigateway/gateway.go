@@ -141,7 +141,7 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 	m.SubnetId = model.SubnetId
 
 	m.NetworkSecurityGroupIds = make([]string, len(model.NetworkSecurityGroupIds))
-	copy(model.NetworkSecurityGroupIds, m.NetworkSecurityGroupIds)
+	copy(m.NetworkSecurityGroupIds, model.NetworkSecurityGroupIds)
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated
@@ -155,7 +155,7 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 	m.CertificateId = model.CertificateId
 
 	m.IpAddresses = make([]IpAddress, len(model.IpAddresses))
-	copy(model.IpAddresses, m.IpAddresses)
+	copy(m.IpAddresses, model.IpAddresses)
 	nn, e = model.ResponseCacheDetails.UnmarshalPolymorphicJSON(model.ResponseCacheDetails.JsonData)
 	if e != nil {
 		return

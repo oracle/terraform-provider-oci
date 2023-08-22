@@ -143,7 +143,7 @@ func (m *UpdateComputeInstanceGroupDeployStageDetails) UnmarshalJSON(data []byte
 	m.DeploymentSpecDeployArtifactId = model.DeploymentSpecDeployArtifactId
 
 	m.DeployArtifactIds = make([]string, len(model.DeployArtifactIds))
-	copy(model.DeployArtifactIds, m.DeployArtifactIds)
+	copy(m.DeployArtifactIds, model.DeployArtifactIds)
 	nn, e = model.RolloutPolicy.UnmarshalPolymorphicJSON(model.RolloutPolicy.JsonData)
 	if e != nil {
 		return

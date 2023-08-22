@@ -111,7 +111,7 @@ func (m *LibraryMaskingFormat) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.SensitiveTypeIds = make([]string, len(model.SensitiveTypeIds))
-	copy(model.SensitiveTypeIds, m.SensitiveTypeIds)
+	copy(m.SensitiveTypeIds, model.SensitiveTypeIds)
 	m.FormatEntries = make([]FormatEntry, len(model.FormatEntries))
 	for i, n := range model.FormatEntries {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)

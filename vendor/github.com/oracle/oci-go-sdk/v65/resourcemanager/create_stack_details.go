@@ -109,7 +109,7 @@ func (m *CreateStackDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.Locks = make([]ResourceLock, len(model.Locks))
-	copy(model.Locks, m.Locks)
+	copy(m.Locks, model.Locks)
 	m.CompartmentId = model.CompartmentId
 
 	nn, e = model.ConfigSource.UnmarshalPolymorphicJSON(model.ConfigSource.JsonData)

@@ -65,6 +65,6 @@ func (m *DynamicAuthenticationPolicy) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.AuthenticationServers = make([]AuthenticationServerPolicy, len(model.AuthenticationServers))
-	copy(model.AuthenticationServers, m.AuthenticationServers)
+	copy(m.AuthenticationServers, model.AuthenticationServers)
 	return
 }

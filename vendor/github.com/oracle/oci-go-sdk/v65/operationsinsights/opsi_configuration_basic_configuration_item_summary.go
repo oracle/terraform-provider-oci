@@ -88,7 +88,7 @@ func (m *OpsiConfigurationBasicConfigurationItemSummary) UnmarshalJSON(data []by
 	m.DefaultValue = model.DefaultValue
 
 	m.ApplicableContexts = make([]string, len(model.ApplicableContexts))
-	copy(model.ApplicableContexts, m.ApplicableContexts)
+	copy(m.ApplicableContexts, model.ApplicableContexts)
 	nn, e = model.Metadata.UnmarshalPolymorphicJSON(model.Metadata.JsonData)
 	if e != nil {
 		return

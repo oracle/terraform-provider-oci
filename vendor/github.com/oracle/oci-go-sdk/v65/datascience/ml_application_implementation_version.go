@@ -136,11 +136,11 @@ func (m *MlApplicationImplementationVersion) UnmarshalJSON(data []byte) (e error
 		}
 	}
 	m.ConfigurationSchema = make([]ConfigurationPropertySchema, len(model.ConfigurationSchema))
-	copy(model.ConfigurationSchema, m.ConfigurationSchema)
+	copy(m.ConfigurationSchema, model.ConfigurationSchema)
 	m.MlApplicationPackageArguments = model.MlApplicationPackageArguments
 
 	m.AllowedMigrationTo = make([]string, len(model.AllowedMigrationTo))
-	copy(model.AllowedMigrationTo, m.AllowedMigrationTo)
+	copy(m.AllowedMigrationTo, model.AllowedMigrationTo)
 	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id

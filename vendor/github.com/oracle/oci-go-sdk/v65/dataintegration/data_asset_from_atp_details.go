@@ -227,7 +227,7 @@ func (m *DataAssetFromAtpDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ServiceName = model.ServiceName
 
 	m.ServiceNames = make([]string, len(model.ServiceNames))
-	copy(model.ServiceNames, m.ServiceNames)
+	copy(m.ServiceNames, model.ServiceNames)
 	m.DriverClass = model.DriverClass
 
 	m.DefaultConnection = model.DefaultConnection

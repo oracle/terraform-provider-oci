@@ -211,7 +211,7 @@ func (m *InvoiceSummary) UnmarshalJSON(data []byte) (e error) {
 	m.PartyName = model.PartyName
 
 	m.SubscriptionIds = make([]string, len(model.SubscriptionIds))
-	copy(model.SubscriptionIds, m.SubscriptionIds)
+	copy(m.SubscriptionIds, model.SubscriptionIds)
 	m.InvoiceId = model.InvoiceId
 
 	return

@@ -199,15 +199,15 @@ func (m *NodePool) UnmarshalJSON(data []byte) (e error) {
 	m.NodeShape = model.NodeShape
 
 	m.InitialNodeLabels = make([]KeyValue, len(model.InitialNodeLabels))
-	copy(model.InitialNodeLabels, m.InitialNodeLabels)
+	copy(m.InitialNodeLabels, model.InitialNodeLabels)
 	m.SshPublicKey = model.SshPublicKey
 
 	m.QuantityPerSubnet = model.QuantityPerSubnet
 
 	m.SubnetIds = make([]string, len(model.SubnetIds))
-	copy(model.SubnetIds, m.SubnetIds)
+	copy(m.SubnetIds, model.SubnetIds)
 	m.Nodes = make([]Node, len(model.Nodes))
-	copy(model.Nodes, m.Nodes)
+	copy(m.Nodes, model.Nodes)
 	m.NodeConfigDetails = model.NodeConfigDetails
 
 	m.FreeformTags = model.FreeformTags

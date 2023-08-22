@@ -150,7 +150,7 @@ func (m *DiscoveredExternalPluggableDatabase) UnmarshalJSON(data []byte) (e erro
 	m.Status = model.Status
 
 	m.AssociatedComponents = make([]AssociatedComponent, len(model.AssociatedComponents))
-	copy(model.AssociatedComponents, m.AssociatedComponents)
+	copy(m.AssociatedComponents, model.AssociatedComponents)
 	m.Guid = model.Guid
 
 	nn, e = model.Connector.UnmarshalPolymorphicJSON(model.Connector.JsonData)

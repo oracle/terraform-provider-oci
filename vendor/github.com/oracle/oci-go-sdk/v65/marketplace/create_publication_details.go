@@ -105,7 +105,7 @@ func (m *CreatePublicationDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ShortDescription = model.ShortDescription
 
 	m.SupportContacts = make([]SupportContact, len(model.SupportContacts))
-	copy(model.SupportContacts, m.SupportContacts)
+	copy(m.SupportContacts, model.SupportContacts)
 	m.CompartmentId = model.CompartmentId
 
 	nn, e = model.PackageDetails.UnmarshalPolymorphicJSON(model.PackageDetails.JsonData)

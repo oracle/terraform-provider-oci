@@ -150,7 +150,7 @@ func (m *CreateComputeInstanceGroupBlueGreenDeployStageDetails) UnmarshalJSON(da
 	m.DefinedTags = model.DefinedTags
 
 	m.DeployArtifactIds = make([]string, len(model.DeployArtifactIds))
-	copy(model.DeployArtifactIds, m.DeployArtifactIds)
+	copy(m.DeployArtifactIds, model.DeployArtifactIds)
 	nn, e = model.FailurePolicy.UnmarshalPolymorphicJSON(model.FailurePolicy.JsonData)
 	if e != nil {
 		return

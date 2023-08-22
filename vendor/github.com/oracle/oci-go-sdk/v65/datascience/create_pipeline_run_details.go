@@ -104,7 +104,7 @@ func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 	m.LogConfigurationOverrideDetails = model.LogConfigurationOverrideDetails
 
 	m.StepOverrideDetails = make([]PipelineStepOverrideDetails, len(model.StepOverrideDetails))
-	copy(model.StepOverrideDetails, m.StepOverrideDetails)
+	copy(m.StepOverrideDetails, model.StepOverrideDetails)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

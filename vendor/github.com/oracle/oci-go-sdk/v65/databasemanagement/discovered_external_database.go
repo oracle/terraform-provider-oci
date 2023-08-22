@@ -185,7 +185,7 @@ func (m *DiscoveredExternalDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.Status = model.Status
 
 	m.AssociatedComponents = make([]AssociatedComponent, len(model.AssociatedComponents))
-	copy(model.AssociatedComponents, m.AssociatedComponents)
+	copy(m.AssociatedComponents, model.AssociatedComponents)
 	m.DbType = model.DbType
 
 	m.IsCluster = model.IsCluster
@@ -201,7 +201,7 @@ func (m *DiscoveredExternalDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.DbVersion = model.DbVersion
 
 	m.PluggableDatabases = make([]DiscoveredExternalPluggableDatabase, len(model.PluggableDatabases))
-	copy(model.PluggableDatabases, m.PluggableDatabases)
+	copy(m.PluggableDatabases, model.PluggableDatabases)
 	nn, e = model.Connector.UnmarshalPolymorphicJSON(model.Connector.JsonData)
 	if e != nil {
 		return

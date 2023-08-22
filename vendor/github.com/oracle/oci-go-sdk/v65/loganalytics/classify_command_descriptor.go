@@ -159,7 +159,7 @@ func (m *ClassifyCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 	m.BottomCount = model.BottomCount
 
 	m.Correlate = make([]FieldsAddRemoveField, len(model.Correlate))
-	copy(model.Correlate, m.Correlate)
+	copy(m.Correlate, model.Correlate)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

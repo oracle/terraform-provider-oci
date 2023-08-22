@@ -76,7 +76,7 @@ func (m *ResponderRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Configurations = make([]ResponderConfiguration, len(model.Configurations))
-	copy(model.Configurations, m.Configurations)
+	copy(m.Configurations, model.Configurations)
 	m.Mode = model.Mode
 
 	m.IsEnabled = model.IsEnabled

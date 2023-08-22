@@ -103,7 +103,7 @@ func (m *ForeignKey) UnmarshalJSON(data []byte) (e error) {
 	m.Name = model.Name
 
 	m.AttributeRefs = make([]KeyAttribute, len(model.AttributeRefs))
-	copy(model.AttributeRefs, m.AttributeRefs)
+	copy(m.AttributeRefs, model.AttributeRefs)
 	m.UpdateRule = model.UpdateRule
 
 	m.DeleteRule = model.DeleteRule

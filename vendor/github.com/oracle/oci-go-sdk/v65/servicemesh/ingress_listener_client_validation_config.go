@@ -63,6 +63,6 @@ func (m *IngressListenerClientValidationConfig) UnmarshalJSON(data []byte) (e er
 	}
 
 	m.SubjectAlternateNames = make([]string, len(model.SubjectAlternateNames))
-	copy(model.SubjectAlternateNames, m.SubjectAlternateNames)
+	copy(m.SubjectAlternateNames, model.SubjectAlternateNames)
 	return
 }

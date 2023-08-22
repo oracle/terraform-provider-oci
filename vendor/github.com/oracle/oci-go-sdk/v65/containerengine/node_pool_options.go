@@ -67,11 +67,11 @@ func (m *NodePoolOptions) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.KubernetesVersions = make([]string, len(model.KubernetesVersions))
-	copy(model.KubernetesVersions, m.KubernetesVersions)
+	copy(m.KubernetesVersions, model.KubernetesVersions)
 	m.Shapes = make([]string, len(model.Shapes))
-	copy(model.Shapes, m.Shapes)
+	copy(m.Shapes, model.Shapes)
 	m.Images = make([]string, len(model.Images))
-	copy(model.Images, m.Images)
+	copy(m.Images, model.Images)
 	m.Sources = make([]NodeSourceOption, len(model.Sources))
 	for i, n := range model.Sources {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)

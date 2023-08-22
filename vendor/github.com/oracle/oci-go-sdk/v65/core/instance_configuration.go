@@ -111,7 +111,7 @@ func (m *InstanceConfiguration) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.DeferredFields = make([]string, len(model.DeferredFields))
-	copy(model.DeferredFields, m.DeferredFields)
+	copy(m.DeferredFields, model.DeferredFields)
 	m.CompartmentId = model.CompartmentId
 
 	m.Id = model.Id

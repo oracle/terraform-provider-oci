@@ -208,7 +208,7 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleState = model.LifecycleState
 
 	m.Containers = make([]ContainerInstanceContainer, len(model.Containers))
-	copy(model.Containers, m.Containers)
+	copy(m.Containers, model.Containers)
 	m.ContainerCount = model.ContainerCount
 
 	m.TimeCreated = model.TimeCreated
@@ -218,7 +218,7 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 	m.ShapeConfig = model.ShapeConfig
 
 	m.Vnics = make([]ContainerVnic, len(model.Vnics))
-	copy(model.Vnics, m.Vnics)
+	copy(m.Vnics, model.Vnics)
 	m.ContainerRestartPolicy = model.ContainerRestartPolicy
 
 	return

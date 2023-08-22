@@ -164,8 +164,8 @@ func (m *CreateContainerInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ShapeConfig = model.ShapeConfig
 
 	m.Containers = make([]CreateContainerDetails, len(model.Containers))
-	copy(model.Containers, m.Containers)
+	copy(m.Containers, model.Containers)
 	m.Vnics = make([]CreateContainerVnicDetails, len(model.Vnics))
-	copy(model.Vnics, m.Vnics)
+	copy(m.Vnics, model.Vnics)
 	return
 }

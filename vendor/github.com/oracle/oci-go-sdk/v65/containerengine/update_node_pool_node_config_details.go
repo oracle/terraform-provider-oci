@@ -91,7 +91,7 @@ func (m *UpdateNodePoolNodeConfigDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Size = model.Size
 
 	m.NsgIds = make([]string, len(model.NsgIds))
-	copy(model.NsgIds, m.NsgIds)
+	copy(m.NsgIds, model.NsgIds)
 	m.KmsKeyId = model.KmsKeyId
 
 	m.IsPvEncryptionInTransitEnabled = model.IsPvEncryptionInTransitEnabled
@@ -101,7 +101,7 @@ func (m *UpdateNodePoolNodeConfigDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.PlacementConfigs = make([]NodePoolPlacementConfigDetails, len(model.PlacementConfigs))
-	copy(model.PlacementConfigs, m.PlacementConfigs)
+	copy(m.PlacementConfigs, model.PlacementConfigs)
 	nn, e = model.NodePoolPodNetworkOptionDetails.UnmarshalPolymorphicJSON(model.NodePoolPodNetworkOptionDetails.JsonData)
 	if e != nil {
 		return

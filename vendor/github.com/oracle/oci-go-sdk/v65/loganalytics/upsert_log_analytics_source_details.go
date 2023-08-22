@@ -173,27 +173,27 @@ func (m *UpsertLogAnalyticsSourceDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.LabelConditions = make([]LogAnalyticsSourceLabelCondition, len(model.LabelConditions))
-	copy(model.LabelConditions, m.LabelConditions)
+	copy(m.LabelConditions, model.LabelConditions)
 	m.DataFilterDefinitions = make([]LogAnalyticsSourceDataFilter, len(model.DataFilterDefinitions))
-	copy(model.DataFilterDefinitions, m.DataFilterDefinitions)
+	copy(m.DataFilterDefinitions, model.DataFilterDefinitions)
 	m.DatabaseCredential = model.DatabaseCredential
 
 	m.ExtendedFieldDefinitions = make([]LogAnalyticsSourceExtendedFieldDefinition, len(model.ExtendedFieldDefinitions))
-	copy(model.ExtendedFieldDefinitions, m.ExtendedFieldDefinitions)
+	copy(m.ExtendedFieldDefinitions, model.ExtendedFieldDefinitions)
 	m.IsForCloud = model.IsForCloud
 
 	m.Labels = make([]LogAnalyticsLabelView, len(model.Labels))
-	copy(model.Labels, m.Labels)
+	copy(m.Labels, model.Labels)
 	m.MetricDefinitions = make([]LogAnalyticsMetric, len(model.MetricDefinitions))
-	copy(model.MetricDefinitions, m.MetricDefinitions)
+	copy(m.MetricDefinitions, model.MetricDefinitions)
 	m.Metrics = make([]LogAnalyticsSourceMetric, len(model.Metrics))
-	copy(model.Metrics, m.Metrics)
+	copy(m.Metrics, model.Metrics)
 	m.OobParsers = make([]LogAnalyticsParser, len(model.OobParsers))
-	copy(model.OobParsers, m.OobParsers)
+	copy(m.OobParsers, model.OobParsers)
 	m.Parameters = make([]LogAnalyticsParameter, len(model.Parameters))
-	copy(model.Parameters, m.Parameters)
+	copy(m.Parameters, model.Parameters)
 	m.Patterns = make([]LogAnalyticsSourcePattern, len(model.Patterns))
-	copy(model.Patterns, m.Patterns)
+	copy(m.Patterns, model.Patterns)
 	m.Description = model.Description
 
 	m.DisplayName = model.DisplayName
@@ -201,7 +201,7 @@ func (m *UpsertLogAnalyticsSourceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.EditVersion = model.EditVersion
 
 	m.Functions = make([]LogAnalyticsSourceFunction, len(model.Functions))
-	copy(model.Functions, m.Functions)
+	copy(m.Functions, model.Functions)
 	m.SourceId = model.SourceId
 
 	m.Name = model.Name
@@ -211,7 +211,7 @@ func (m *UpsertLogAnalyticsSourceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsSystem = model.IsSystem
 
 	m.Parsers = make([]LogAnalyticsParser, len(model.Parsers))
-	copy(model.Parsers, m.Parsers)
+	copy(m.Parsers, model.Parsers)
 	m.RuleId = model.RuleId
 
 	m.TypeName = model.TypeName
@@ -219,17 +219,17 @@ func (m *UpsertLogAnalyticsSourceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.WarningConfig = model.WarningConfig
 
 	m.MetadataFields = make([]LogAnalyticsSourceMetadataField, len(model.MetadataFields))
-	copy(model.MetadataFields, m.MetadataFields)
+	copy(m.MetadataFields, model.MetadataFields)
 	m.LabelDefinitions = make([]LogAnalyticsLabelDefinition, len(model.LabelDefinitions))
-	copy(model.LabelDefinitions, m.LabelDefinitions)
+	copy(m.LabelDefinitions, model.LabelDefinitions)
 	m.EntityTypes = make([]LogAnalyticsSourceEntityType, len(model.EntityTypes))
-	copy(model.EntityTypes, m.EntityTypes)
+	copy(m.EntityTypes, model.EntityTypes)
 	m.IsTimezoneOverride = model.IsTimezoneOverride
 
 	m.UserParsers = make([]LogAnalyticsParser, len(model.UserParsers))
-	copy(model.UserParsers, m.UserParsers)
+	copy(m.UserParsers, model.UserParsers)
 	m.Categories = make([]LogAnalyticsCategory, len(model.Categories))
-	copy(model.Categories, m.Categories)
+	copy(m.Categories, model.Categories)
 	m.Endpoints = make([]LogAnalyticsEndpoint, len(model.Endpoints))
 	for i, n := range model.Endpoints {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -243,6 +243,6 @@ func (m *UpsertLogAnalyticsSourceDetails) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.SourceProperties = make([]LogAnalyticsProperty, len(model.SourceProperties))
-	copy(model.SourceProperties, m.SourceProperties)
+	copy(m.SourceProperties, model.SourceProperties)
 	return
 }

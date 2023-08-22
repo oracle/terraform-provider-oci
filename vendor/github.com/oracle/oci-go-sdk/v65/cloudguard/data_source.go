@@ -134,9 +134,9 @@ func (m *DataSource) UnmarshalJSON(data []byte) (e error) {
 	m.Status = model.Status
 
 	m.DataSourceDetectorMappingInfo = make([]DataSourceMappingInfo, len(model.DataSourceDetectorMappingInfo))
-	copy(model.DataSourceDetectorMappingInfo, m.DataSourceDetectorMappingInfo)
+	copy(m.DataSourceDetectorMappingInfo, model.DataSourceDetectorMappingInfo)
 	m.RegionStatusDetail = make([]RegionStatusDetail, len(model.RegionStatusDetail))
-	copy(model.RegionStatusDetail, m.RegionStatusDetail)
+	copy(m.RegionStatusDetail, model.RegionStatusDetail)
 	m.LifecycleState = model.LifecycleState
 
 	m.FreeformTags = model.FreeformTags

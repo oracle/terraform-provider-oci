@@ -90,7 +90,7 @@ func (m *AddDataFilesDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.DataFiles = make([]string, len(model.DataFiles))
-	copy(model.DataFiles, m.DataFiles)
+	copy(m.DataFiles, model.DataFiles)
 	m.FileCount = model.FileCount
 
 	m.FileSize = model.FileSize

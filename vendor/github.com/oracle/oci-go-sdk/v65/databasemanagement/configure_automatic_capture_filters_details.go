@@ -56,7 +56,7 @@ func (m *ConfigureAutomaticCaptureFiltersDetails) UnmarshalJSON(data []byte) (e 
 	}
 	var nn interface{}
 	m.AutoCaptureFilters = make([]AutomaticCaptureFilterDetails, len(model.AutoCaptureFilters))
-	copy(model.AutoCaptureFilters, m.AutoCaptureFilters)
+	copy(m.AutoCaptureFilters, model.AutoCaptureFilters)
 	nn, e = model.Credentials.UnmarshalPolymorphicJSON(model.Credentials.JsonData)
 	if e != nil {
 		return

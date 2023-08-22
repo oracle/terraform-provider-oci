@@ -164,6 +164,6 @@ func (m *ProxyField) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Labels = make([]string, len(model.Labels))
-	copy(model.Labels, m.Labels)
+	copy(m.Labels, model.Labels)
 	return
 }

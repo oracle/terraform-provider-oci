@@ -76,7 +76,7 @@ func (m *CreateDataPumpSettings) UnmarshalJSON(data []byte) (e error) {
 	m.DataPumpParameters = model.DataPumpParameters
 
 	m.MetadataRemaps = make([]MetadataRemap, len(model.MetadataRemaps))
-	copy(model.MetadataRemaps, m.MetadataRemaps)
+	copy(m.MetadataRemaps, model.MetadataRemaps)
 	nn, e = model.TablespaceDetails.UnmarshalPolymorphicJSON(model.TablespaceDetails.JsonData)
 	if e != nil {
 		return

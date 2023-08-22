@@ -76,6 +76,6 @@ func (m *BatchDetectLanguagePiiEntitiesDetails) UnmarshalJSON(data []byte) (e er
 	}
 
 	m.Documents = make([]TextDocument, len(model.Documents))
-	copy(model.Documents, m.Documents)
+	copy(m.Documents, model.Documents)
 	return
 }

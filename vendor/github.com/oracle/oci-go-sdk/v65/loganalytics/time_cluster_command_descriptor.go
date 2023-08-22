@@ -183,7 +183,7 @@ func (m *TimeClusterCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.Functions = make([]FunctionField, len(model.Functions))
-	copy(model.Functions, m.Functions)
+	copy(m.Functions, model.Functions)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

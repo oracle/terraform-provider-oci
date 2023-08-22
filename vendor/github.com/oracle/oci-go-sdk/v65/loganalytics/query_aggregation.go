@@ -121,7 +121,7 @@ func (m *QueryAggregation) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.Items = make([]map[string]interface{}, len(model.Items))
-	copy(model.Items, m.Items)
+	copy(m.Items, model.Items)
 	m.QueryExecutionTimeInMs = model.QueryExecutionTimeInMs
 
 	m.PercentComplete = model.PercentComplete

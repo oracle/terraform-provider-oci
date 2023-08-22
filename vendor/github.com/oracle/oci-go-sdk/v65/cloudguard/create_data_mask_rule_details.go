@@ -129,6 +129,6 @@ func (m *CreateDataMaskRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.DataMaskCategories = make([]DataMaskCategoryEnum, len(model.DataMaskCategories))
-	copy(model.DataMaskCategories, m.DataMaskCategories)
+	copy(m.DataMaskCategories, model.DataMaskCategories)
 	return
 }

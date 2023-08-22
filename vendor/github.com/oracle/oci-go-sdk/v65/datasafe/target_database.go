@@ -133,13 +133,13 @@ func (m *TargetDatabase) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.AssociatedResourceIds = make([]string, len(model.AssociatedResourceIds))
-	copy(model.AssociatedResourceIds, m.AssociatedResourceIds)
+	copy(m.AssociatedResourceIds, model.AssociatedResourceIds)
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.TimeUpdated = model.TimeUpdated
 
 	m.PeerTargetDatabases = make([]PeerTargetDatabase, len(model.PeerTargetDatabases))
-	copy(model.PeerTargetDatabases, m.PeerTargetDatabases)
+	copy(m.PeerTargetDatabases, model.PeerTargetDatabases)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

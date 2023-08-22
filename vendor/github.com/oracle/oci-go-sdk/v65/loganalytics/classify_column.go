@@ -198,7 +198,7 @@ func (m *ClassifyColumn) UnmarshalJSON(data []byte) (e error) {
 	m.SubSystem = model.SubSystem
 
 	m.Values = make([]FieldValue, len(model.Values))
-	copy(model.Values, m.Values)
+	copy(m.Values, model.Values)
 	m.IsListOfValues = model.IsListOfValues
 
 	m.IsMultiValued = model.IsMultiValued
@@ -216,11 +216,11 @@ func (m *ClassifyColumn) UnmarshalJSON(data []byte) (e error) {
 	m.InternalName = model.InternalName
 
 	m.ClassifyFieldNames = make([]string, len(model.ClassifyFieldNames))
-	copy(model.ClassifyFieldNames, m.ClassifyFieldNames)
+	copy(m.ClassifyFieldNames, model.ClassifyFieldNames)
 	m.ClassifyFieldNullCount = make([]int64, len(model.ClassifyFieldNullCount))
-	copy(model.ClassifyFieldNullCount, m.ClassifyFieldNullCount)
+	copy(m.ClassifyFieldNullCount, model.ClassifyFieldNullCount)
 	m.ClassifyAnomalyIntervalCounts = make([]int64, len(model.ClassifyAnomalyIntervalCounts))
-	copy(model.ClassifyAnomalyIntervalCounts, m.ClassifyAnomalyIntervalCounts)
+	copy(m.ClassifyAnomalyIntervalCounts, model.ClassifyAnomalyIntervalCounts)
 	m.ClassifyColumns = make([]AbstractColumn, len(model.ClassifyColumns))
 	for i, n := range model.ClassifyColumns {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -234,7 +234,7 @@ func (m *ClassifyColumn) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.ClassifyResult = make([]map[string]interface{}, len(model.ClassifyResult))
-	copy(model.ClassifyResult, m.ClassifyResult)
+	copy(m.ClassifyResult, model.ClassifyResult)
 	m.ClassifyCorrelateColumns = make([]AbstractColumn, len(model.ClassifyCorrelateColumns))
 	for i, n := range model.ClassifyCorrelateColumns {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -248,6 +248,6 @@ func (m *ClassifyColumn) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.ClassifyCorrelateResult = make([]map[string]interface{}, len(model.ClassifyCorrelateResult))
-	copy(model.ClassifyCorrelateResult, m.ClassifyCorrelateResult)
+	copy(m.ClassifyCorrelateResult, model.ClassifyCorrelateResult)
 	return
 }

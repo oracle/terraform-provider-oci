@@ -163,7 +163,7 @@ func (m *BucketCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 	m.Span = model.Span
 
 	m.Ranges = make([]BucketRange, len(model.Ranges))
-	copy(model.Ranges, m.Ranges)
+	copy(m.Ranges, model.Ranges)
 	m.DefaultValue = model.DefaultValue
 
 	m.DisplayQueryString = model.DisplayQueryString

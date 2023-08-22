@@ -108,7 +108,7 @@ func (m *UpdateMonitoredResourceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ResourceTimeZone = model.ResourceTimeZone
 
 	m.Properties = make([]MonitoredResourceProperty, len(model.Properties))
-	copy(model.Properties, m.Properties)
+	copy(m.Properties, model.Properties)
 	m.DatabaseConnectionDetails = model.DatabaseConnectionDetails
 
 	nn, e = model.Credentials.UnmarshalPolymorphicJSON(model.Credentials.JsonData)
@@ -136,7 +136,7 @@ func (m *UpdateMonitoredResourceDetails) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.AdditionalAliases = make([]MonitoredResourceAliasCredential, len(model.AdditionalAliases))
-	copy(model.AdditionalAliases, m.AdditionalAliases)
+	copy(m.AdditionalAliases, model.AdditionalAliases)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

@@ -171,7 +171,7 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 	m.CustomEndpoint = model.CustomEndpoint
 
 	m.AlternateCustomEndpoints = make([]CustomEndpointDetails, len(model.AlternateCustomEndpoints))
-	copy(model.AlternateCustomEndpoints, m.AlternateCustomEndpoints)
+	copy(m.AlternateCustomEndpoints, model.AlternateCustomEndpoints)
 	m.ConsumptionModel = model.ConsumptionModel
 
 	nn, e = model.NetworkEndpointDetails.UnmarshalPolymorphicJSON(model.NetworkEndpointDetails.JsonData)
@@ -187,7 +187,7 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 	m.IdcsInfo = model.IdcsInfo
 
 	m.Attachments = make([]AttachmentDetails, len(model.Attachments))
-	copy(model.Attachments, m.Attachments)
+	copy(m.Attachments, model.Attachments)
 	m.Shape = model.Shape
 
 	nn, e = model.PrivateEndpointOutboundConnection.UnmarshalPolymorphicJSON(model.PrivateEndpointOutboundConnection.JsonData)

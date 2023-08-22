@@ -230,7 +230,7 @@ func (m *OkeBlueGreenDeployStageSummary) UnmarshalJSON(data []byte) (e error) {
 	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
 
 	m.KubernetesManifestDeployArtifactIds = make([]string, len(model.KubernetesManifestDeployArtifactIds))
-	copy(model.KubernetesManifestDeployArtifactIds, m.KubernetesManifestDeployArtifactIds)
+	copy(m.KubernetesManifestDeployArtifactIds, model.KubernetesManifestDeployArtifactIds)
 	nn, e = model.BlueGreenStrategy.UnmarshalPolymorphicJSON(model.BlueGreenStrategy.JsonData)
 	if e != nil {
 		return

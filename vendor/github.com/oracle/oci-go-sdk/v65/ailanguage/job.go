@@ -200,7 +200,7 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ModelMetadataDetails = make([]ModelMetadataDetails, len(model.ModelMetadataDetails))
-	copy(model.ModelMetadataDetails, m.ModelMetadataDetails)
+	copy(m.ModelMetadataDetails, model.ModelMetadataDetails)
 	m.CompartmentId = model.CompartmentId
 
 	m.OutputLocation = model.OutputLocation

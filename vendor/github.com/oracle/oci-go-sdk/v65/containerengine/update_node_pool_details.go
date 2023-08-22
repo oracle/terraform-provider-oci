@@ -124,11 +124,11 @@ func (m *UpdateNodePoolDetails) UnmarshalJSON(data []byte) (e error) {
 	m.KubernetesVersion = model.KubernetesVersion
 
 	m.InitialNodeLabels = make([]KeyValue, len(model.InitialNodeLabels))
-	copy(model.InitialNodeLabels, m.InitialNodeLabels)
+	copy(m.InitialNodeLabels, model.InitialNodeLabels)
 	m.QuantityPerSubnet = model.QuantityPerSubnet
 
 	m.SubnetIds = make([]string, len(model.SubnetIds))
-	copy(model.SubnetIds, m.SubnetIds)
+	copy(m.SubnetIds, model.SubnetIds)
 	m.NodeConfigDetails = model.NodeConfigDetails
 
 	m.NodeMetadata = model.NodeMetadata

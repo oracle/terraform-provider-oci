@@ -103,9 +103,9 @@ func (m *FlowNode) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.InputLinks = make([]InputLink, len(model.InputLinks))
-	copy(model.InputLinks, m.InputLinks)
+	copy(m.InputLinks, model.InputLinks)
 	m.OutputLinks = make([]OutputLink, len(model.OutputLinks))
-	copy(model.OutputLinks, m.OutputLinks)
+	copy(m.OutputLinks, model.OutputLinks)
 	nn, e = model.Operator.UnmarshalPolymorphicJSON(model.Operator.JsonData)
 	if e != nil {
 		return

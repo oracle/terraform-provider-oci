@@ -166,7 +166,7 @@ func (m *Cluster) UnmarshalJSON(data []byte) (e error) {
 	m.Endpoints = model.Endpoints
 
 	m.AvailableKubernetesUpgrades = make([]string, len(model.AvailableKubernetesUpgrades))
-	copy(model.AvailableKubernetesUpgrades, m.AvailableKubernetesUpgrades)
+	copy(m.AvailableKubernetesUpgrades, model.AvailableKubernetesUpgrades)
 	m.ImagePolicyConfig = model.ImagePolicyConfig
 
 	m.ClusterPodNetworkOptions = make([]ClusterPodNetworkOptionDetails, len(model.ClusterPodNetworkOptions))

@@ -172,7 +172,7 @@ func (m *SteeringPolicy) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.Answers = make([]SteeringPolicyAnswer, len(model.Answers))
-	copy(model.Answers, m.Answers)
+	copy(m.Answers, model.Answers)
 	m.Rules = make([]SteeringPolicyRule, len(model.Rules))
 	for i, n := range model.Rules {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)

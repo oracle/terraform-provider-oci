@@ -211,7 +211,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	m.AutoTunedVpusPerGB = model.AutoTunedVpusPerGB
 
 	m.BlockVolumeReplicas = make([]BlockVolumeReplicaInfo, len(model.BlockVolumeReplicas))
-	copy(model.BlockVolumeReplicas, m.BlockVolumeReplicas)
+	copy(m.BlockVolumeReplicas, model.BlockVolumeReplicas)
 	m.VolumeScope = model.VolumeScope
 
 	m.MeteringMode = model.MeteringMode

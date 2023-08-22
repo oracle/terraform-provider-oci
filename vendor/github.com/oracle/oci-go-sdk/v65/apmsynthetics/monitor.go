@@ -162,7 +162,7 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	m.Target = model.Target
 
 	m.ScriptParameters = make([]MonitorScriptParameterInfo, len(model.ScriptParameters))
-	copy(model.ScriptParameters, m.ScriptParameters)
+	copy(m.ScriptParameters, model.ScriptParameters)
 	nn, e = model.Configuration.UnmarshalPolymorphicJSON(model.Configuration.JsonData)
 	if e != nil {
 		return
@@ -192,7 +192,7 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	m.MonitorType = model.MonitorType
 
 	m.VantagePoints = make([]VantagePointInfo, len(model.VantagePoints))
-	copy(model.VantagePoints, m.VantagePoints)
+	copy(m.VantagePoints, model.VantagePoints)
 	m.VantagePointCount = model.VantagePointCount
 
 	m.ScriptId = model.ScriptId

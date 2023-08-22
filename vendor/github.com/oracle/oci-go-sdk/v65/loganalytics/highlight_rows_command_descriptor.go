@@ -153,7 +153,7 @@ func (m *HighlightRowsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 	m.Color = model.Color
 
 	m.Keywords = make([]string, len(model.Keywords))
-	copy(model.Keywords, m.Keywords)
+	copy(m.Keywords, model.Keywords)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

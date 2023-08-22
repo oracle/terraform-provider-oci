@@ -259,6 +259,6 @@ func (m *OkeDeployStageSummary) UnmarshalJSON(data []byte) (e error) {
 	m.CompartmentId = model.CompartmentId
 
 	m.KubernetesManifestDeployArtifactIds = make([]string, len(model.KubernetesManifestDeployArtifactIds))
-	copy(model.KubernetesManifestDeployArtifactIds, m.KubernetesManifestDeployArtifactIds)
+	copy(m.KubernetesManifestDeployArtifactIds, model.KubernetesManifestDeployArtifactIds)
 	return
 }

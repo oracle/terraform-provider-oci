@@ -157,9 +157,9 @@ func (m *HighlightCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 	m.Color = model.Color
 
 	m.Fields = make([]string, len(model.Fields))
-	copy(model.Fields, m.Fields)
+	copy(m.Fields, model.Fields)
 	m.Keywords = make([]string, len(model.Keywords))
-	copy(model.Keywords, m.Keywords)
+	copy(m.Keywords, model.Keywords)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

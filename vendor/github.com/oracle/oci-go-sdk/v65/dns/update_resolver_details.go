@@ -81,7 +81,7 @@ func (m *UpdateResolverDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.AttachedViews = make([]AttachedViewDetails, len(model.AttachedViews))
-	copy(model.AttachedViews, m.AttachedViews)
+	copy(m.AttachedViews, model.AttachedViews)
 	m.Rules = make([]ResolverRuleDetails, len(model.Rules))
 	for i, n := range model.Rules {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)

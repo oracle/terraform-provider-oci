@@ -174,7 +174,7 @@ func (m *Resolver) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.AttachedViews = make([]AttachedView, len(model.AttachedViews))
-	copy(model.AttachedViews, m.AttachedViews)
+	copy(m.AttachedViews, model.AttachedViews)
 	return
 }
 

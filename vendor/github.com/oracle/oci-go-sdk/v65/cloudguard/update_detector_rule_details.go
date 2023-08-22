@@ -99,7 +99,7 @@ func (m *UpdateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	m.RiskLevel = model.RiskLevel
 
 	m.Configurations = make([]DetectorConfiguration, len(model.Configurations))
-	copy(model.Configurations, m.Configurations)
+	copy(m.Configurations, model.Configurations)
 	nn, e = model.Condition.UnmarshalPolymorphicJSON(model.Condition.JsonData)
 	if e != nil {
 		return
@@ -111,7 +111,7 @@ func (m *UpdateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Labels = make([]string, len(model.Labels))
-	copy(model.Labels, m.Labels)
+	copy(m.Labels, model.Labels)
 	m.Description = model.Description
 
 	m.Recommendation = model.Recommendation
@@ -119,7 +119,7 @@ func (m *UpdateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DataSourceId = model.DataSourceId
 
 	m.EntitiesMappings = make([]EntitiesMapping, len(model.EntitiesMappings))
-	copy(model.EntitiesMappings, m.EntitiesMappings)
+	copy(m.EntitiesMappings, model.EntitiesMappings)
 	m.DetectorRuleResourceType = model.DetectorRuleResourceType
 
 	m.DetectorRuleResourceTypeName = model.DetectorRuleResourceTypeName

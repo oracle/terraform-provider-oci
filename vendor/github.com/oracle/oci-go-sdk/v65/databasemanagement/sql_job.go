@@ -256,7 +256,7 @@ func (m *SqlJob) UnmarshalJSON(data []byte) (e error) {
 	m.ManagedDatabaseId = model.ManagedDatabaseId
 
 	m.ManagedDatabasesDetails = make([]JobDatabase, len(model.ManagedDatabasesDetails))
-	copy(model.ManagedDatabasesDetails, m.ManagedDatabasesDetails)
+	copy(m.ManagedDatabasesDetails, model.ManagedDatabasesDetails)
 	m.DatabaseSubType = model.DatabaseSubType
 
 	m.Timeout = model.Timeout

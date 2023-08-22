@@ -145,7 +145,7 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	m.IsHydrated = model.IsHydrated
 
 	m.VolumeGroupReplicas = make([]VolumeGroupReplicaInfo, len(model.VolumeGroupReplicas))
-	copy(model.VolumeGroupReplicas, m.VolumeGroupReplicas)
+	copy(m.VolumeGroupReplicas, model.VolumeGroupReplicas)
 	m.VolumeGroupScope = model.VolumeGroupScope
 
 	m.AvailabilityDomain = model.AvailabilityDomain
@@ -163,7 +163,7 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	m.TimeCreated = model.TimeCreated
 
 	m.VolumeIds = make([]string, len(model.VolumeIds))
-	copy(model.VolumeIds, m.VolumeIds)
+	copy(m.VolumeIds, model.VolumeIds)
 	return
 }
 

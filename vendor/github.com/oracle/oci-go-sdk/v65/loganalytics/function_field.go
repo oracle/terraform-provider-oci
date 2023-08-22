@@ -167,7 +167,7 @@ func (m *FunctionField) UnmarshalJSON(data []byte) (e error) {
 	m.IsDeclared = model.IsDeclared
 
 	m.OriginalDisplayNames = make([]string, len(model.OriginalDisplayNames))
-	copy(model.OriginalDisplayNames, m.OriginalDisplayNames)
+	copy(m.OriginalDisplayNames, model.OriginalDisplayNames)
 	m.InternalName = model.InternalName
 
 	m.ValueType = model.ValueType

@@ -96,6 +96,6 @@ func (m *UnifiedAgentTailLogSource) UnmarshalJSON(data []byte) (e error) {
 	m.Name = model.Name
 
 	m.Paths = make([]string, len(model.Paths))
-	copy(model.Paths, m.Paths)
+	copy(m.Paths, model.Paths)
 	return
 }

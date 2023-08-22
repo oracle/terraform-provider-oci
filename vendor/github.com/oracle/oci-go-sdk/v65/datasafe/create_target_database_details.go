@@ -103,7 +103,7 @@ func (m *CreateTargetDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.PeerTargetDatabaseDetails = make([]CreatePeerTargetDatabaseDetails, len(model.PeerTargetDatabaseDetails))
-	copy(model.PeerTargetDatabaseDetails, m.PeerTargetDatabaseDetails)
+	copy(m.PeerTargetDatabaseDetails, model.PeerTargetDatabaseDetails)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

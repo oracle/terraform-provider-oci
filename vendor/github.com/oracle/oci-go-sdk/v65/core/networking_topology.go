@@ -107,7 +107,7 @@ func (m *NetworkingTopology) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Entities = make([]interface{}, len(model.Entities))
-	copy(model.Entities, m.Entities)
+	copy(m.Entities, model.Entities)
 	m.Relationships = make([]TopologyEntityRelationship, len(model.Relationships))
 	for i, n := range model.Relationships {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -121,7 +121,7 @@ func (m *NetworkingTopology) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.LimitedEntities = make([]string, len(model.LimitedEntities))
-	copy(model.LimitedEntities, m.LimitedEntities)
+	copy(m.LimitedEntities, model.LimitedEntities)
 	m.TimeCreated = model.TimeCreated
 
 	return

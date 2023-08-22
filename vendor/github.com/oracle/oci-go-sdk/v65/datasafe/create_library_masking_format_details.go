@@ -86,7 +86,7 @@ func (m *CreateLibraryMaskingFormatDetails) UnmarshalJSON(data []byte) (e error)
 	m.Description = model.Description
 
 	m.SensitiveTypeIds = make([]string, len(model.SensitiveTypeIds))
-	copy(model.SensitiveTypeIds, m.SensitiveTypeIds)
+	copy(m.SensitiveTypeIds, model.SensitiveTypeIds)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

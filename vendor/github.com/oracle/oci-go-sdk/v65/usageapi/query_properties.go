@@ -90,9 +90,9 @@ func (m *QueryProperties) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.GroupBy = make([]string, len(model.GroupBy))
-	copy(model.GroupBy, m.GroupBy)
+	copy(m.GroupBy, model.GroupBy)
 	m.GroupByTag = make([]Tag, len(model.GroupByTag))
-	copy(model.GroupByTag, m.GroupByTag)
+	copy(m.GroupByTag, model.GroupByTag)
 	m.Filter = model.Filter
 
 	m.CompartmentDepth = model.CompartmentDepth

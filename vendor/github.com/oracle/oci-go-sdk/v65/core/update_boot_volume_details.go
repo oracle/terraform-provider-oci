@@ -111,7 +111,7 @@ func (m *UpdateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsAutoTuneEnabled = model.IsAutoTuneEnabled
 
 	m.BootVolumeReplicas = make([]BootVolumeReplicaDetails, len(model.BootVolumeReplicas))
-	copy(model.BootVolumeReplicas, m.BootVolumeReplicas)
+	copy(m.BootVolumeReplicas, model.BootVolumeReplicas)
 	m.AutotunePolicies = make([]AutotunePolicy, len(model.AutotunePolicies))
 	for i, n := range model.AutotunePolicies {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
