@@ -18,6 +18,7 @@ import (
 var (
 	BdsBdsInstancePatchHistoryDataSourceRepresentation = map[string]interface{}{
 		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
+		"patch_type":      acctest.Representation{RepType: acctest.Optional, Create: `ODH`},
 		"patch_version":   acctest.Representation{RepType: acctest.Optional, Create: `patchVersion`},
 		"state":           acctest.Representation{RepType: acctest.Optional, Create: `INSTALLED`},
 	}
@@ -38,6 +39,9 @@ func TestBdsBdsInstancePatchHistoryResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_ocid")
+	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
+
 	datasourceName := "data.oci_bds_bds_instance_patch_histories.test_bds_instance_patch_histories"
 
 	acctest.SaveConfigContent("", "", "", t)
@@ -47,11 +51,14 @@ func TestBdsBdsInstancePatchHistoryResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_patch_histories", "test_bds_instance_patch_histories", acctest.Required, acctest.Create, BdsBdsInstancePatchHistoryDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsBdsInstancePatchHistoryResourceConfig,
+				compartmentIdVariableStr + subnetIdVariableStr + BdsBdsInstancePatchHistoryResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "bds_instance_id"),
-
+				resource.TestCheckResourceAttr(datasourceName, "patch_type", "ODH"),
+				resource.TestCheckResourceAttr(datasourceName, "patch_version", "patchVersion"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "patch_histories.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "patch_histories.0.patch_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "patch_histories.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "patch_histories.0.time_updated"),
 				resource.TestCheckResourceAttrSet(datasourceName, "patch_histories.0.version"),

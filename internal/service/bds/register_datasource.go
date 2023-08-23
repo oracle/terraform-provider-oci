@@ -11,6 +11,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_bds_bds_instance", BdsBdsInstanceDataSource())
 	tfresource.RegisterDatasource("oci_bds_bds_instance_api_key", BdsBdsInstanceApiKeyDataSource())
 	tfresource.RegisterDatasource("oci_bds_bds_instance_api_keys", BdsBdsInstanceApiKeysDataSource())
+	tfresource.RegisterDatasource("oci_bds_bds_instance_get_os_patch", BdsBdsInstanceGetOsPatchDataSource())
+	tfresource.RegisterDatasource("oci_bds_bds_instance_list_os_patches", BdsBdsInstanceListOsPatchesDataSource())
 	tfresource.RegisterDatasource("oci_bds_bds_instance_metastore_config", BdsBdsInstanceMetastoreConfigDataSource())
 	tfresource.RegisterDatasource("oci_bds_bds_instance_metastore_configs", BdsBdsInstanceMetastoreConfigsDataSource())
 	tfresource.RegisterDatasource("oci_bds_bds_instance_patch_histories", BdsBdsInstancePatchHistoriesDataSource())

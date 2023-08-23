@@ -25,6 +25,9 @@ type QueryOpsiDataObjectDataDetails struct {
 	// Unique OPSI data object identifier.
 	DataObjectIdentifier *string `mandatory:"false" json:"dataObjectIdentifier"`
 
+	// Details of OPSI data objects used in the query.
+	DataObjects []OpsiDataObjectDetailsInQuery `mandatory:"false" json:"dataObjects"`
+
 	ResourceFilters *ResourceFilters `mandatory:"false" json:"resourceFilters"`
 }
 
@@ -47,9 +50,10 @@ func (m QueryOpsiDataObjectDataDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *QueryOpsiDataObjectDataDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DataObjectIdentifier *string          `json:"dataObjectIdentifier"`
-		ResourceFilters      *ResourceFilters `json:"resourceFilters"`
-		Query                dataobjectquery  `json:"query"`
+		DataObjectIdentifier *string                        `json:"dataObjectIdentifier"`
+		DataObjects          []opsidataobjectdetailsinquery `json:"dataObjects"`
+		ResourceFilters      *ResourceFilters               `json:"resourceFilters"`
+		Query                dataobjectquery                `json:"query"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -58,6 +62,19 @@ func (m *QueryOpsiDataObjectDataDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.DataObjectIdentifier = model.DataObjectIdentifier
+
+	m.DataObjects = make([]OpsiDataObjectDetailsInQuery, len(model.DataObjects))
+	for i, n := range model.DataObjects {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.DataObjects[i] = nn.(OpsiDataObjectDetailsInQuery)
+		} else {
+			m.DataObjects[i] = nil
+		}
+	}
 
 	m.ResourceFilters = model.ResourceFilters
 

@@ -328,6 +328,14 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"in_memory_area_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"in_memory_percentage": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"infrastructure_type": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -977,6 +985,14 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			autonomousDatabasesClone["id"] = *r.Id
+		}
+
+		if r.InMemoryAreaInGBs != nil {
+			autonomousDatabasesClone["in_memory_area_in_gbs"] = *r.InMemoryAreaInGBs
+		}
+
+		if r.InMemoryPercentage != nil {
+			autonomousDatabasesClone["in_memory_percentage"] = *r.InMemoryPercentage
 		}
 
 		autonomousDatabasesClone["infrastructure_type"] = r.InfrastructureType

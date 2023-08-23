@@ -22,6 +22,10 @@ func BdsBdsInstancePatchHistoriesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"patch_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"patch_version": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -36,6 +40,10 @@ func BdsBdsInstancePatchHistoriesDataSource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Computed
+						"patch_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -81,6 +89,10 @@ func (s *BdsBdsInstancePatchHistoriesDataSourceCrud) Get() error {
 		request.BdsInstanceId = &tmp
 	}
 
+	if patchType, ok := s.D.GetOkExists("patch_type"); ok {
+		request.PatchType = oci_bds.PatchHistorySummaryPatchTypeEnum(patchType.(string))
+	}
+
 	if patchVersion, ok := s.D.GetOkExists("patch_version"); ok {
 		tmp := patchVersion.(string)
 		request.PatchVersion = &tmp
@@ -123,6 +135,8 @@ func (s *BdsBdsInstancePatchHistoriesDataSourceCrud) SetData() error {
 
 	for _, r := range s.Res.Items {
 		bdsInstancePatchHistory := map[string]interface{}{}
+
+		bdsInstancePatchHistory["patch_type"] = r.PatchType
 
 		bdsInstancePatchHistory["state"] = r.LifecycleState
 

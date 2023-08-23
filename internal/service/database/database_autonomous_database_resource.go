@@ -188,6 +188,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"in_memory_percentage": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"is_access_control_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -621,6 +626,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"failed_data_recovery_in_seconds": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"in_memory_area_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
@@ -1430,7 +1439,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
+	if inMemoryPercentage, ok := s.D.GetOkExists("in_memory_percentage"); ok {
+		tmp := inMemoryPercentage.(int)
+		request.InMemoryPercentage = &tmp
+	}
+
+	if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok && s.D.HasChange("is_access_control_enabled") {
 		tmp := isAccessControlEnabled.(bool)
 		request.IsAccessControlEnabled = &tmp
 	}
@@ -1751,6 +1765,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.InMemoryAreaInGBs != nil {
+		s.D.Set("in_memory_area_in_gbs", *s.Res.InMemoryAreaInGBs)
+	}
+
+	if s.Res.InMemoryPercentage != nil {
+		s.D.Set("in_memory_percentage", *s.Res.InMemoryPercentage)
+	}
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
 
@@ -2413,6 +2435,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if inMemoryPercentage, ok := s.D.GetOkExists("in_memory_percentage"); ok {
+			tmp := inMemoryPercentage.(int)
+			details.InMemoryPercentage = &tmp
+		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
@@ -2652,6 +2678,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if inMemoryPercentage, ok := s.D.GetOkExists("in_memory_percentage"); ok {
+			tmp := inMemoryPercentage.(int)
+			details.InMemoryPercentage = &tmp
+		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
@@ -2880,6 +2910,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if inMemoryPercentage, ok := s.D.GetOkExists("in_memory_percentage"); ok {
+			tmp := inMemoryPercentage.(int)
+			details.InMemoryPercentage = &tmp
+		}
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
@@ -3101,6 +3135,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if inMemoryPercentage, ok := s.D.GetOkExists("in_memory_percentage"); ok {
+			tmp := inMemoryPercentage.(int)
+			details.InMemoryPercentage = &tmp
+		}
 		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
 			tmp := isAccessControlEnabled.(bool)
 			details.IsAccessControlEnabled = &tmp
@@ -3308,6 +3346,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if inMemoryPercentage, ok := s.D.GetOkExists("in_memory_percentage"); ok {
+			tmp := inMemoryPercentage.(int)
+			details.InMemoryPercentage = &tmp
 		}
 		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
 			tmp := isAccessControlEnabled.(bool)
@@ -3527,6 +3569,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if inMemoryPercentage, ok := s.D.GetOkExists("in_memory_percentage"); ok {
+			tmp := inMemoryPercentage.(int)
+			details.InMemoryPercentage = &tmp
 		}
 		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
 			tmp := isAccessControlEnabled.(bool)
@@ -3750,6 +3796,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if inMemoryPercentage, ok := s.D.GetOkExists("in_memory_percentage"); ok {
+			tmp := inMemoryPercentage.(int)
+			details.InMemoryPercentage = &tmp
 		}
 		if isAccessControlEnabled, ok := s.D.GetOkExists("is_access_control_enabled"); ok {
 			tmp := isAccessControlEnabled.(bool)

@@ -112,6 +112,10 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("is_high_availability", *s.Res.IsHighAvailability)
 	}
 
+	if s.Res.IsKafkaConfigured != nil {
+		s.D.Set("is_kafka_configured", *s.Res.IsKafkaConfigured)
+	}
+
 	if s.Res.IsSecure != nil {
 		s.D.Set("is_secure", *s.Res.IsSecure)
 	}
@@ -142,6 +146,10 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 
 	if s.Res.NumberOfNodes != nil {
 		s.D.Set("number_of_nodes", *s.Res.NumberOfNodes)
+	}
+
+	if s.Res.NumberOfNodesRequiringMaintenanceReboot != nil {
+		s.D.Set("number_of_nodes_requiring_maintenance_reboot", *s.Res.NumberOfNodesRequiringMaintenanceReboot)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
