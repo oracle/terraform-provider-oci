@@ -145,9 +145,6 @@ type Deployment struct {
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeOggVersionSupportedUntil *common.SDKTime `mandatory:"false" json:"timeOggVersionSupportedUntil"`
 
-	// A list of IP ranges in a CIDR format allowed to connect to the deployment's public endpoint
-	PublicAllowList []string `mandatory:"false" json:"publicAllowList"`
-
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
 	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`

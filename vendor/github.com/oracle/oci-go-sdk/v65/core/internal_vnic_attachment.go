@@ -209,11 +209,11 @@ const (
 	InternalVnicAttachmentVnicShapeVnicaasFwaas6g250m              InternalVnicAttachmentVnicShapeEnum = "VNICAAS_FWAAS_6G_250M"
 	InternalVnicAttachmentVnicShapeVnicaasNlbApproved10g           InternalVnicAttachmentVnicShapeEnum = "VNICAAS_NLB_APPROVED_10G"
 	InternalVnicAttachmentVnicShapeVnicaasNlbApproved25g           InternalVnicAttachmentVnicShapeEnum = "VNICAAS_NLB_APPROVED_25G"
-	InternalVnicAttachmentVnicShapeVnicaasNlbApproved2m10g         InternalVnicAttachmentVnicShapeEnum = "VNICaaS_NLB_APPROVED_2M_10G"
-	InternalVnicAttachmentVnicShapeVnicaasNlbApproved5m15g         InternalVnicAttachmentVnicShapeEnum = "VNICaaS_NLB_APPROVED_5M_15G"
-	InternalVnicAttachmentVnicShapeVnicaasNlbApproved10m15g        InternalVnicAttachmentVnicShapeEnum = "VNICaaS_NLB_APPROVED_10M_15G"
-	InternalVnicAttachmentVnicShapeVnicaasNlbApproved20m15g        InternalVnicAttachmentVnicShapeEnum = "VNICaaS_NLB_APPROVED_20M_15G"
-	InternalVnicAttachmentVnicShapeVnicaasNlbApproved30m15g        InternalVnicAttachmentVnicShapeEnum = "VNICaaS_NLB_APPROVED_30M_15G"
+	InternalVnicAttachmentVnicShapeVnicaasNlbApproved2m10g         InternalVnicAttachmentVnicShapeEnum = "VNICAAS_NLB_APPROVED_2M_10G"
+	InternalVnicAttachmentVnicShapeVnicaasNlbApproved5m15g         InternalVnicAttachmentVnicShapeEnum = "VNICAAS_NLB_APPROVED_5M_15G"
+	InternalVnicAttachmentVnicShapeVnicaasNlbApproved10m15g        InternalVnicAttachmentVnicShapeEnum = "VNICAAS_NLB_APPROVED_10M_15G"
+	InternalVnicAttachmentVnicShapeVnicaasNlbApproved20m15g        InternalVnicAttachmentVnicShapeEnum = "VNICAAS_NLB_APPROVED_20M_15G"
+	InternalVnicAttachmentVnicShapeVnicaasNlbApproved30m15g        InternalVnicAttachmentVnicShapeEnum = "VNICAAS_NLB_APPROVED_30M_15G"
 	InternalVnicAttachmentVnicShapeVnicaasTelesis25g               InternalVnicAttachmentVnicShapeEnum = "VNICAAS_TELESIS_25G"
 	InternalVnicAttachmentVnicShapeVnicaasTelesis10g               InternalVnicAttachmentVnicShapeEnum = "VNICAAS_TELESIS_10G"
 	InternalVnicAttachmentVnicShapeVnicaasAmbassadorFixed0100      InternalVnicAttachmentVnicShapeEnum = "VNICAAS_AMBASSADOR_FIXED0100"
@@ -1791,11 +1791,11 @@ var mappingInternalVnicAttachmentVnicShapeEnum = map[string]InternalVnicAttachme
 	"VNICAAS_FWAAS_6G_250M":                InternalVnicAttachmentVnicShapeVnicaasFwaas6g250m,
 	"VNICAAS_NLB_APPROVED_10G":             InternalVnicAttachmentVnicShapeVnicaasNlbApproved10g,
 	"VNICAAS_NLB_APPROVED_25G":             InternalVnicAttachmentVnicShapeVnicaasNlbApproved25g,
-	"VNICaaS_NLB_APPROVED_2M_10G":          InternalVnicAttachmentVnicShapeVnicaasNlbApproved2m10g,
-	"VNICaaS_NLB_APPROVED_5M_15G":          InternalVnicAttachmentVnicShapeVnicaasNlbApproved5m15g,
-	"VNICaaS_NLB_APPROVED_10M_15G":         InternalVnicAttachmentVnicShapeVnicaasNlbApproved10m15g,
-	"VNICaaS_NLB_APPROVED_20M_15G":         InternalVnicAttachmentVnicShapeVnicaasNlbApproved20m15g,
-	"VNICaaS_NLB_APPROVED_30M_15G":         InternalVnicAttachmentVnicShapeVnicaasNlbApproved30m15g,
+	"VNICAAS_NLB_APPROVED_2M_10G":          InternalVnicAttachmentVnicShapeVnicaasNlbApproved2m10g,
+	"VNICAAS_NLB_APPROVED_5M_15G":          InternalVnicAttachmentVnicShapeVnicaasNlbApproved5m15g,
+	"VNICAAS_NLB_APPROVED_10M_15G":         InternalVnicAttachmentVnicShapeVnicaasNlbApproved10m15g,
+	"VNICAAS_NLB_APPROVED_20M_15G":         InternalVnicAttachmentVnicShapeVnicaasNlbApproved20m15g,
+	"VNICAAS_NLB_APPROVED_30M_15G":         InternalVnicAttachmentVnicShapeVnicaasNlbApproved30m15g,
 	"VNICAAS_TELESIS_25G":                  InternalVnicAttachmentVnicShapeVnicaasTelesis25g,
 	"VNICAAS_TELESIS_10G":                  InternalVnicAttachmentVnicShapeVnicaasTelesis10g,
 	"VNICAAS_AMBASSADOR_FIXED0100":         InternalVnicAttachmentVnicShapeVnicaasAmbassadorFixed0100,
@@ -4966,11 +4966,11 @@ func GetInternalVnicAttachmentVnicShapeEnumStringValues() []string {
 		"VNICAAS_FWAAS_6G_250M",
 		"VNICAAS_NLB_APPROVED_10G",
 		"VNICAAS_NLB_APPROVED_25G",
-		"VNICaaS_NLB_APPROVED_2M_10G",
-		"VNICaaS_NLB_APPROVED_5M_15G",
-		"VNICaaS_NLB_APPROVED_10M_15G",
-		"VNICaaS_NLB_APPROVED_20M_15G",
-		"VNICaaS_NLB_APPROVED_30M_15G",
+		"VNICAAS_NLB_APPROVED_2M_10G",
+		"VNICAAS_NLB_APPROVED_5M_15G",
+		"VNICAAS_NLB_APPROVED_10M_15G",
+		"VNICAAS_NLB_APPROVED_20M_15G",
+		"VNICAAS_NLB_APPROVED_30M_15G",
 		"VNICAAS_TELESIS_25G",
 		"VNICAAS_TELESIS_10G",
 		"VNICAAS_AMBASSADOR_FIXED0100",

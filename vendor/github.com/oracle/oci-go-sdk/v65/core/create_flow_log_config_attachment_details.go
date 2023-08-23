@@ -38,7 +38,7 @@ type CreateFlowLogConfigAttachmentDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The capture filter's Oracle ID (OCID).
+	// The capture filter's Oracle ID OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	CaptureFilterId *string `mandatory:"false" json:"captureFilterId"`
 }
 

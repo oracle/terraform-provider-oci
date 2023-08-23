@@ -55,7 +55,7 @@ type FlowLogConfigAttachment struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of captureFilter.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated *CaptureFilter*.
 	CaptureFilterId *string `mandatory:"false" json:"captureFilterId"`
 }
 

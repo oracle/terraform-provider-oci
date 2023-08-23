@@ -5245,6 +5245,60 @@ func (client DevopsClient) listPaths(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
+// ListProjectCommitAnalyticsAuthors Retrieve a list of all the Commit Analytics authors.
+// A default retry strategy applies to this operation ListProjectCommitAnalyticsAuthors()
+func (client DevopsClient) ListProjectCommitAnalyticsAuthors(ctx context.Context, request ListProjectCommitAnalyticsAuthorsRequest) (response ListProjectCommitAnalyticsAuthorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listProjectCommitAnalyticsAuthors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListProjectCommitAnalyticsAuthorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListProjectCommitAnalyticsAuthorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListProjectCommitAnalyticsAuthorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListProjectCommitAnalyticsAuthorsResponse")
+	}
+	return
+}
+
+// listProjectCommitAnalyticsAuthors implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listProjectCommitAnalyticsAuthors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/projects/{projectId}/commitAnalyticsAuthors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListProjectCommitAnalyticsAuthorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListProjectCommitAnalyticsAuthors"
+		err = common.PostProcessServiceError(err, "Devops", "ListProjectCommitAnalyticsAuthors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListProjects Returns a list of projects.
 // A default retry strategy applies to this operation ListProjects()
 func (client DevopsClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
@@ -5832,6 +5886,60 @@ func (client DevopsClient) listRepositories(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListRepositories"
 		err = common.PostProcessServiceError(err, "Devops", "ListRepositories", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRepositoryCommitAnalyticsAuthors Retrieve a list of all the Commit Analytics authors.
+// A default retry strategy applies to this operation ListRepositoryCommitAnalyticsAuthors()
+func (client DevopsClient) ListRepositoryCommitAnalyticsAuthors(ctx context.Context, request ListRepositoryCommitAnalyticsAuthorsRequest) (response ListRepositoryCommitAnalyticsAuthorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRepositoryCommitAnalyticsAuthors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRepositoryCommitAnalyticsAuthorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRepositoryCommitAnalyticsAuthorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRepositoryCommitAnalyticsAuthorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryCommitAnalyticsAuthorsResponse")
+	}
+	return
+}
+
+// listRepositoryCommitAnalyticsAuthors implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listRepositoryCommitAnalyticsAuthors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/commitAnalyticsAuthors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRepositoryCommitAnalyticsAuthorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListRepositoryCommitAnalyticsAuthors"
+		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryCommitAnalyticsAuthors", apiReferenceLink)
 		return response, err
 	}
 
@@ -6446,6 +6554,114 @@ func (client DevopsClient) scheduleCascadingProjectDeletion(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Project/ScheduleCascadingProjectDeletion"
 		err = common.PostProcessServiceError(err, "Devops", "ScheduleCascadingProjectDeletion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeProjectRepositoryAnalytics Retrieves repository analytics for a given project.
+// A default retry strategy applies to this operation SummarizeProjectRepositoryAnalytics()
+func (client DevopsClient) SummarizeProjectRepositoryAnalytics(ctx context.Context, request SummarizeProjectRepositoryAnalyticsRequest) (response SummarizeProjectRepositoryAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeProjectRepositoryAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeProjectRepositoryAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeProjectRepositoryAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeProjectRepositoryAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeProjectRepositoryAnalyticsResponse")
+	}
+	return
+}
+
+// summarizeProjectRepositoryAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) summarizeProjectRepositoryAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/projects/{projectId}/repositoryAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeProjectRepositoryAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryMetricAggregation/SummarizeProjectRepositoryAnalytics"
+		err = common.PostProcessServiceError(err, "Devops", "SummarizeProjectRepositoryAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeRepositoryAnalytics Retrieves repository analytics for a given repository.
+// A default retry strategy applies to this operation SummarizeRepositoryAnalytics()
+func (client DevopsClient) SummarizeRepositoryAnalytics(ctx context.Context, request SummarizeRepositoryAnalyticsRequest) (response SummarizeRepositoryAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeRepositoryAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeRepositoryAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeRepositoryAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeRepositoryAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeRepositoryAnalyticsResponse")
+	}
+	return
+}
+
+// summarizeRepositoryAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) summarizeRepositoryAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repository/{repositoryId}/repositoryAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeRepositoryAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryMetricAggregation/SummarizeRepositoryAnalytics"
+		err = common.PostProcessServiceError(err, "Devops", "SummarizeRepositoryAnalytics", apiReferenceLink)
 		return response, err
 	}
 

@@ -31,8 +31,8 @@ import (
 // an administrator must create an IAM policy in your tenancy that lets the Networking service
 // put objects in that bucket. Otherwise, no flow logs can be written to the bucket.
 // Here's the required policy (which consists of three separate statements):
-// `define tenancy VcnFlowLogs as ocid1.tenancy.oc1..<var>&lt;unique_ID&gt;</var>`
-// `define dynamic-group FlowLogsDynamicGroup as ocid1.dynamicgroup.oc1..<var>&lt;unique_ID&gt;</var>`
+// `define tenancy VcnFlowLogs as ocid1.tenancy.oc1..<var>unique_ID</var>`
+// `define dynamic-group FlowLogsDynamicGroup as ocid1.dynamicgroup.oc1..<var>unique_ID</var>`
 // `admit dynamic-group FlowLogsDynamicGroup of tenancy VcnFlowLogs to manage objects in tenancy where target.bucket.name='yourbucketname'`
 // To enable flow logs for a subnet: after creating a flow
 // log configuration, attach the flow log configuration to that subnet. See

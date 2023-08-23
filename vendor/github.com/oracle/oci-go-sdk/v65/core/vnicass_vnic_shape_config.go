@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// VnicassVnicShapeConfig Shape config of VNIC that will be used to allocate resource in the data plane once the VNIC is attached
+// VnicassVnicShapeConfig Shape config of service VNIC that will be used to allocate resource in the data plane once the VNIC is attached
 type VnicassVnicShapeConfig struct {
 
 	// It defines the percentage number of concurrent connections that can be tracked to the VNIC.

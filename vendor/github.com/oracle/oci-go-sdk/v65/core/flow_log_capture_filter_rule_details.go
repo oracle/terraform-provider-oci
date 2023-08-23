@@ -21,22 +21,22 @@ import (
 	"strings"
 )
 
-// FlowLogCaptureFilterRuleDetails The set of rules governing what traffic the flow log collects when creating a flow log capture filter.
+// FlowLogCaptureFilterRuleDetails The set of rules governing what traffic the VCN flow log collects.
 type FlowLogCaptureFilterRuleDetails struct {
 
-	// Indicates whether a flow log capture filter rule is enabled.
+	// Indicates whether a VCN flow log capture filter rule is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// A lower number indicates a higher priority, range 0-9. Each rule must have a distinct priority.
 	Priority *int `mandatory:"false" json:"priority"`
 
-	// Sampling interval as 1 of X, where X is an integer not greater than 100000.
+	// Sampling interval as `1` of `X`, where `X` is an integer not greater than `100000`.
 	SamplingRate *int `mandatory:"false" json:"samplingRate"`
 
-	// Traffic from this CIDR will be captured in the flow log.
+	// Traffic from this CIDR will be captured in the VCN flow log.
 	SourceCidr *string `mandatory:"false" json:"sourceCidr"`
 
-	// Traffic to this CIDR will be captured in the flow log.
+	// Traffic to this CIDR will be captured in the VCN flow log.
 	DestinationCidr *string `mandatory:"false" json:"destinationCidr"`
 
 	// The transport protocol the filter uses.
@@ -48,11 +48,11 @@ type FlowLogCaptureFilterRuleDetails struct {
 
 	UdpOptions *UdpOptions `mandatory:"false" json:"udpOptions"`
 
-	// Type or types of flow logs to store. `ALL` includes records for both accepted traffic and
+	// Type or types of VCN flow logs to store. `ALL` includes records for both accepted traffic and
 	// rejected traffic.
 	FlowLogType FlowLogCaptureFilterRuleDetailsFlowLogTypeEnum `mandatory:"false" json:"flowLogType,omitempty"`
 
-	// Include or exclude a ruleAction object.
+	// Include or exclude a `ruleAction` object.
 	RuleAction FlowLogCaptureFilterRuleDetailsRuleActionEnum `mandatory:"false" json:"ruleAction,omitempty"`
 }
 
