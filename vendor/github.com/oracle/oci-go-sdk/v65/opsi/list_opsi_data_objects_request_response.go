@@ -45,6 +45,12 @@ type ListOpsiDataObjectsRequest struct {
 	// OPSI data object list sort options.
 	SortBy ListOpsiDataObjectsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// A filter to return only data objects that belongs to the group of the given group name. By default, no filtering will be applied on group name.
+	GroupName *string `mandatory:"false" contributesTo:"query" name:"groupName"`
+
+	// A filter to return only data objects that match the entire data object name. By default, no filtering will be applied on data object name.
+	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -180,16 +186,19 @@ type ListOpsiDataObjectsSortByEnum string
 const (
 	ListOpsiDataObjectsSortByDisplayname    ListOpsiDataObjectsSortByEnum = "displayName"
 	ListOpsiDataObjectsSortByDataobjecttype ListOpsiDataObjectsSortByEnum = "dataObjectType"
+	ListOpsiDataObjectsSortByName           ListOpsiDataObjectsSortByEnum = "name"
 )
 
 var mappingListOpsiDataObjectsSortByEnum = map[string]ListOpsiDataObjectsSortByEnum{
 	"displayName":    ListOpsiDataObjectsSortByDisplayname,
 	"dataObjectType": ListOpsiDataObjectsSortByDataobjecttype,
+	"name":           ListOpsiDataObjectsSortByName,
 }
 
 var mappingListOpsiDataObjectsSortByEnumLowerCase = map[string]ListOpsiDataObjectsSortByEnum{
 	"displayname":    ListOpsiDataObjectsSortByDisplayname,
 	"dataobjecttype": ListOpsiDataObjectsSortByDataobjecttype,
+	"name":           ListOpsiDataObjectsSortByName,
 }
 
 // GetListOpsiDataObjectsSortByEnumValues Enumerates the set of values for ListOpsiDataObjectsSortByEnum
@@ -206,6 +215,7 @@ func GetListOpsiDataObjectsSortByEnumStringValues() []string {
 	return []string{
 		"displayName",
 		"dataObjectType",
+		"name",
 	}
 }
 

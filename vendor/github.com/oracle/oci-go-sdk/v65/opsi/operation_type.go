@@ -69,6 +69,12 @@ const (
 	OperationTypeEnableAdbAdvancedFeatures               OperationTypeEnum = "ENABLE_ADB_ADVANCED_FEATURES"
 	OperationTypeDisableAdbAdvancedFeatures              OperationTypeEnum = "DISABLE_ADB_ADVANCED_FEATURES"
 	OperationTypeUpdateAdbAdvancedFeatures               OperationTypeEnum = "UPDATE_ADB_ADVANCED_FEATURES"
+	OperationTypeCreateNewsReport                        OperationTypeEnum = "CREATE_NEWS_REPORT"
+	OperationTypeEnableNewsReport                        OperationTypeEnum = "ENABLE_NEWS_REPORT"
+	OperationTypeDisableNewsReport                       OperationTypeEnum = "DISABLE_NEWS_REPORT"
+	OperationTypeUpdateNewsReport                        OperationTypeEnum = "UPDATE_NEWS_REPORT"
+	OperationTypeMoveNewsReport                          OperationTypeEnum = "MOVE_NEWS_REPORT"
+	OperationTypeDeleteNewsReport                        OperationTypeEnum = "DELETE_NEWS_REPORT"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -121,6 +127,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"ENABLE_ADB_ADVANCED_FEATURES":                 OperationTypeEnableAdbAdvancedFeatures,
 	"DISABLE_ADB_ADVANCED_FEATURES":                OperationTypeDisableAdbAdvancedFeatures,
 	"UPDATE_ADB_ADVANCED_FEATURES":                 OperationTypeUpdateAdbAdvancedFeatures,
+	"CREATE_NEWS_REPORT":                           OperationTypeCreateNewsReport,
+	"ENABLE_NEWS_REPORT":                           OperationTypeEnableNewsReport,
+	"DISABLE_NEWS_REPORT":                          OperationTypeDisableNewsReport,
+	"UPDATE_NEWS_REPORT":                           OperationTypeUpdateNewsReport,
+	"MOVE_NEWS_REPORT":                             OperationTypeMoveNewsReport,
+	"DELETE_NEWS_REPORT":                           OperationTypeDeleteNewsReport,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -173,6 +185,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"enable_adb_advanced_features":                 OperationTypeEnableAdbAdvancedFeatures,
 	"disable_adb_advanced_features":                OperationTypeDisableAdbAdvancedFeatures,
 	"update_adb_advanced_features":                 OperationTypeUpdateAdbAdvancedFeatures,
+	"create_news_report":                           OperationTypeCreateNewsReport,
+	"enable_news_report":                           OperationTypeEnableNewsReport,
+	"disable_news_report":                          OperationTypeDisableNewsReport,
+	"update_news_report":                           OperationTypeUpdateNewsReport,
+	"move_news_report":                             OperationTypeMoveNewsReport,
+	"delete_news_report":                           OperationTypeDeleteNewsReport,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -236,6 +254,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"ENABLE_ADB_ADVANCED_FEATURES",
 		"DISABLE_ADB_ADVANCED_FEATURES",
 		"UPDATE_ADB_ADVANCED_FEATURES",
+		"CREATE_NEWS_REPORT",
+		"ENABLE_NEWS_REPORT",
+		"DISABLE_NEWS_REPORT",
+		"UPDATE_NEWS_REPORT",
+		"MOVE_NEWS_REPORT",
+		"DELETE_NEWS_REPORT",
 	}
 }
 

@@ -157,12 +157,20 @@ func (s *BdsBdsInstancesDataSourceCrud) SetData() error {
 			bdsInstance["is_high_availability"] = *r.IsHighAvailability
 		}
 
+		if r.IsKafkaConfigured != nil {
+			bdsInstance["is_kafka_configured"] = *r.IsKafkaConfigured
+		}
+
 		if r.IsSecure != nil {
 			bdsInstance["is_secure"] = *r.IsSecure
 		}
 
 		if r.NumberOfNodes != nil {
 			bdsInstance["number_of_nodes"] = *r.NumberOfNodes
+		}
+
+		if r.NumberOfNodesRequiringMaintenanceReboot != nil {
+			bdsInstance["number_of_nodes_requiring_maintenance_reboot"] = *r.NumberOfNodesRequiringMaintenanceReboot
 		}
 
 		bdsInstance["state"] = r.LifecycleState

@@ -1,3 +1,12 @@
+## 5.10.0 (August 23, 2023)
+
+### Added
+Support for BDS - Automated Patching for OS/Kernel, Node Maintenance, Add Master/Utility
+Support for Database In-Memory support for Autonomous Database | ADB-D and ADB on ExaC@C
+Support for BDS - Cluster Profiles for Kafka
+### Bug Fix
+Fix reference hashicorp/oci to oracle/oci in some documents
+
 ## 5.9.0 (August 15, 2023)
 
 ### Added

@@ -14,7 +14,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
   display_name                         = "example-container-database"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.18.0.1.0"
+  db_version                           = "19.20.0.1.0"
   db_name                              = "ACDNAME"
 
   #Optional
@@ -74,7 +74,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   #Required
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid
-  compute_count            = "1"
+  compute_count            = 8
   data_storage_size_in_tbs = "1"
   db_name                  = "atpdb1"
 
@@ -85,6 +85,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   freeform_tags                    = var.autonomous_database_freeform_tags
   is_dedicated                     = "true"
   rotate_key_trigger               = "true"
+  in_memory_percentage             = 50
   compute_model                    = "ECPU"
 }
 

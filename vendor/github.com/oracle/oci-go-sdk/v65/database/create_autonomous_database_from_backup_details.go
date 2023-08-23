@@ -95,6 +95,9 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
 
+	// The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database.
+	InMemoryPercentage *int `mandatory:"false" json:"inMemoryPercentage"`
+
 	// Indicates if the database-level access control is enabled.
 	// If disabled, database access is defined by the network security rules.
 	// If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional,
@@ -341,6 +344,11 @@ func (m CreateAutonomousDatabaseFromBackupDetails) GetIsDedicated() *bool {
 //GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
 func (m CreateAutonomousDatabaseFromBackupDetails) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
+}
+
+//GetInMemoryPercentage returns InMemoryPercentage
+func (m CreateAutonomousDatabaseFromBackupDetails) GetInMemoryPercentage() *int {
+	return m.InMemoryPercentage
 }
 
 //GetIsAccessControlEnabled returns IsAccessControlEnabled

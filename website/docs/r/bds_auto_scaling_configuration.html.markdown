@@ -82,7 +82,7 @@ The following arguments are supported:
 * `cluster_admin_password` - (Required) (Updatable) Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
 * `display_name` - (Optional) (Updatable) A user-friendly name. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
 * `is_enabled` - (Required) (Updatable) Whether the autoscale configuration is enabled.
-* `node_type` - (Required) A node type that is managed by an autoscale configuration. The only supported types are WORKER and COMPUTE_ONLY_WORKER.
+* `node_type` - (Required) A node type that is managed by an autoscale configuration. The only supported types are WORKER, COMPUTE_ONLY_WORKER and KAFKA_BROKER.
 * `policy` - (Optional) (Updatable) This model for autoscaling policy is deprecated and not supported for ODH clusters. Use the `AutoScalePolicyDetails` model to manage autoscale policy details for ODH clusters. 
 	* `policy_type` - (Required) (Updatable) Types of autoscale policies. Options are SCHEDULE-BASED or THRESHOLD-BASED. (Only THRESHOLD-BASED is supported in this release.)
 	* `rules` - (Required) (Updatable) The list of rules for autoscaling. If an action has multiple rules, the last rule in the array will be applied.
@@ -145,12 +145,12 @@ The following arguments are supported:
 				* `operator` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).
 				* `value` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Integer non-negative value. 0 < value < 100
 		* `ocpu_step_size` - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the number of OCPUs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
-	* `schedule_details` - (Applicable when policy_type=SCHEDULE_BASED_HORIZONTAL_SCALING_POLICY | SCHEDULE_BASED_VERTICAL_SCALING_POLICY) (Updatable) 
+	* `schedule_details` - (Applicable when policy_type=SCHEDULE_BASED_HORIZONTAL_SCALING_POLICY | SCHEDULE_BASED_VERTICAL_SCALING_POLICY) (Updatable) Details of a horizontal scaling schedule.
 		* `schedule_type` - (Optional) (Updatable) The type of schedule.
-		* `time_and_horizontal_scaling_config` - (Optional) (Updatable) 
+		* `time_and_horizontal_scaling_config` - (Optional) (Updatable) Time of day and horizontal scaling configuration.
 			* `target_node_count` - (Optional) (Updatable) This value is the desired number of nodes in the cluster.
 			* `time_recurrence` - (Optional) (Updatable) Day/time recurrence (specified following RFC 5545) at which to trigger autoscaling action. Currently only WEEKLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR and BYMINUTE fields. Other fields are not supported. 
-		* `time_and_vertical_scaling_config` - (Optional) (Updatable) 
+		* `time_and_vertical_scaling_config` - (Optional) (Updatable) Time of day and vertical scaling configuration
 			* `target_memory_per_node` - (Optional) (Updatable) For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the desired memory in GBs on each node. This value is not used for nodes with fixed compute shapes. 
 			* `target_ocpus_per_node` - (Optional) (Updatable) For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the desired OCPUs count on each node. This value is not used for nodes with fixed compute shapes. 
 			* `target_shape` - (Optional) (Updatable) For nodes with [fixed compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the desired shape of each node. This value is not used for nodes with flexible compute shapes. 
@@ -227,12 +227,12 @@ The following attributes are exported:
 				* `operator` - The comparison operator to use. Options are greater than (GT) or less than (LT).
 				* `value` - Integer non-negative value. 0 < value < 100
 		* `ocpu_step_size` - For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the number of OCPUs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
-	* `schedule_details` - 
+	* `schedule_details` - Details of a horizontal scaling schedule.
 		* `schedule_type` - The type of schedule.
-		* `time_and_horizontal_scaling_config` - 
+		* `time_and_horizontal_scaling_config` - Time of day and horizontal scaling configuration.
 			* `target_node_count` - This value is the desired number of nodes in the cluster.
 			* `time_recurrence` - Day/time recurrence (specified following RFC 5545) at which to trigger autoscaling action. Currently only WEEKLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR and BYMINUTE fields. Other fields are not supported. 
-		* `time_and_vertical_scaling_config` - 
+		* `time_and_vertical_scaling_config` - Time of day and vertical scaling configuration
 			* `target_memory_per_node` - For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the desired memory in GBs on each node. This value is not used for nodes with fixed compute shapes. 
 			* `target_ocpus_per_node` - For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the desired OCPUs count on each node. This value is not used for nodes with fixed compute shapes. 
 			* `target_shape` - For nodes with [fixed compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the desired shape of each node. This value is not used for nodes with flexible compute shapes. 

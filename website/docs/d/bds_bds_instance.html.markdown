@@ -67,6 +67,7 @@ The following attributes are exported:
 * `id` - The OCID of the Big Data Service resource.
 * `is_cloud_sql_configured` - Boolean flag specifying whether or not Cloud SQL should be configured.
 * `is_high_availability` - Boolean flag specifying whether or not the cluster is highly available (HA)
+* `is_kafka_configured` - Boolean flag specifying whether or not Kafka should be configured.
 * `is_secure` - Boolean flag specifying whether or not the cluster should be set up as secure.
 * `kms_key_id` - The OCID of the Key Management master encryption key.
 * `network_config` - Additional configuration of the user's network.
@@ -93,8 +94,10 @@ The following attributes are exported:
 	* `state` - The state of the node.
 	* `subnet_id` - The OCID of the subnet in which the node is to be created.
 	* `time_created` - The time the node was created, shown as an RFC 3339 formatted datetime string.
+	* `time_maintenance_reboot_due` - The date and time the instance is expected to be stopped / started, in the format defined by RFC3339.
 	* `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 * `number_of_nodes` - The number of nodes that form the cluster.
+* `number_of_nodes_requiring_maintenance_reboot` - Number of nodes that require a maintenance reboot
 * `state` - The state of the cluster.
 * `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
