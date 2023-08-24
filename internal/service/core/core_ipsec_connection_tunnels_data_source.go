@@ -33,6 +33,13 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"associated_virtual_circuits": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"bgp_session_info": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -349,6 +356,9 @@ func (s *CoreIpSecConnectionTunnelsDataSourceCrud) SetData() error {
 
 	for _, r := range s.Res.Items {
 		ipSecConnectionTunnel := map[string]interface{}{}
+
+		ipSecConnectionTunnel["associated_virtual_circuits"] = r.AssociatedVirtualCircuits
+		ipSecConnectionTunnel["associated_virtual_circuits"] = r.AssociatedVirtualCircuits
 
 		if r.BgpSessionInfo != nil {
 			ipSecConnectionTunnel["bgp_session_info"] = []interface{}{BgpSessionInfoToMap(r.BgpSessionInfo)}

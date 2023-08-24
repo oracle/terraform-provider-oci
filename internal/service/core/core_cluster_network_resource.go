@@ -785,6 +785,7 @@ func (s *CoreClusterNetworkResourceCrud) mapToClusterNetworkPlacementConfigurati
 		tmp := availabilityDomain.(string)
 		result.AvailabilityDomain = &tmp
 	}
+
 	if primarySubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_subnet_id")); ok {
 		tmp := primarySubnetId.(string)
 		result.PrimarySubnetId = &tmp
@@ -831,6 +832,7 @@ func ClusterNetworkPlacementConfigurationDetailsToMap(obj *oci_core.ClusterNetwo
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
 	}
+
 	if obj.PrimarySubnetId != nil {
 		result["primary_subnet_id"] = string(*obj.PrimarySubnetId)
 	}
