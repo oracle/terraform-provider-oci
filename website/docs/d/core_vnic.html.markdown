@@ -47,6 +47,7 @@ The following attributes are exported:
 
 	Example: `bminstance1` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
+* `ipv6addresses` - List of IPv6 addresses assigned to the VNIC.  Example: `2001:DB8::` 
 * `is_primary` - Whether the VNIC is the primary VNIC (the VNIC that is automatically created and attached during instance launch). 
 * `mac_address` - The MAC address of the VNIC.
 

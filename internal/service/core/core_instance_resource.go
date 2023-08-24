@@ -160,6 +160,12 @@ func CoreInstanceResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"assign_ipv6ip": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"assign_private_dns_record": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -208,6 +214,29 @@ func CoreInstanceResource() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+						},
+						"ipv6address_ipv6subnet_cidr_pair_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Optional
+									"ipv6address": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"ipv6subnet_cidr": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+								},
+							},
 						},
 						"nsg_ids": {
 							Type:     schema.TypeSet,
@@ -1572,6 +1601,11 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat string) (oci_core.CreateVnicDetails, error) {
 	result := oci_core.CreateVnicDetails{}
 
+	if assignIpv6Ip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_ipv6ip")); ok {
+		tmp := assignIpv6Ip.(bool)
+		result.AssignIpv6Ip = &tmp
+	}
+
 	if assignPrivateDnsRecord, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_private_dns_record")); ok {
 		tmp := assignPrivateDnsRecord.(bool)
 		result.AssignPrivateDnsRecord = &tmp
@@ -1609,6 +1643,23 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
 		tmp := hostnameLabel.(string)
 		result.HostnameLabel = &tmp
+	}
+
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")); ok {
+		interfaces := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{})
+		tmp := make([]oci_core.Ipv6AddressIpv6SubnetCidrPairDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details"), stateDataIndex)
+			converted, err := s.mapToInstanceIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")) {
+			result.Ipv6AddressIpv6SubnetCidrPairDetails = tmp
+		}
 	}
 
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
@@ -1652,6 +1703,10 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 	result := map[string]interface{}{}
 
 	if createVnicDetails != nil {
+		result["assign_ipv6ip"] = createVnicDetails["assign_ipv6ip"]
+	}
+
+	if createVnicDetails != nil {
 		result["assign_private_dns_record"] = createVnicDetails["assign_private_dns_record"]
 	}
 	// "assign_public_ip" isn't part of the VNIC's state & is only useful at creation time (and
@@ -1677,6 +1732,14 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 
 	if obj.HostnameLabel != nil {
 		result["hostname_label"] = string(*obj.HostnameLabel)
+	}
+
+	if createVnicDetails != nil {
+		ipv6AddressIpv6SubnetCidrPairDetails := []interface{}{}
+		for _, item := range createVnicDetails["ipv6address_ipv6subnet_cidr_pair_details"].([]interface{}) {
+			ipv6AddressIpv6SubnetCidrPairDetails = append(ipv6AddressIpv6SubnetCidrPairDetails, item)
+		}
+		result["ipv6address_ipv6subnet_cidr_pair_details"] = ipv6AddressIpv6SubnetCidrPairDetails
 	}
 
 	nsgIds := []interface{}{}
@@ -2024,6 +2087,36 @@ func InstanceSourceImageFilterDetailsToMap(obj *oci_core.InstanceSourceImageFilt
 
 	if obj.OperatingSystemVersion != nil {
 		result["operating_system_version"] = string(*obj.OperatingSystemVersion)
+	}
+
+	return result
+}
+
+func (s *CoreInstanceResourceCrud) mapToInstanceIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormat string) (oci_core.Ipv6AddressIpv6SubnetCidrPairDetails, error) {
+	result := oci_core.Ipv6AddressIpv6SubnetCidrPairDetails{}
+
+	if ipv6SubnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6subnet_cidr")); ok {
+		tmp := ipv6SubnetCidr.(string)
+		result.Ipv6SubnetCidr = &tmp
+	}
+
+	if ipv6Address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address")); ok {
+		tmp := ipv6Address.(string)
+		result.Ipv6Address = &tmp
+	}
+
+	return result, nil
+}
+
+func InstanceIpv6AddressIpv6SubnetCidrPairDetailsToMap(obj oci_core.Ipv6AddressIpv6SubnetCidrPairDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Ipv6SubnetCidr != nil {
+		result["ipv6_subnet_cidr"] = string(*obj.Ipv6SubnetCidr)
+	}
+
+	if obj.Ipv6SubnetCidr != nil {
+		result["ipv6_address"] = string(*obj.Ipv6Address)
 	}
 
 	return result

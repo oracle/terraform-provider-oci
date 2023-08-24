@@ -150,8 +150,46 @@ func CoreClusterNetworkResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"secondary_vnic_subnets": {
+									"primary_vnic_subnets": {
 										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"ipv6address_ipv6subnet_cidr_pair_details": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"ipv6subnet_cidr": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"is_assign_ipv6ip": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"subnet_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"secondary_vnic_subnets": {
+										Type:     schema.TypeSet,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
@@ -162,6 +200,27 @@ func CoreClusterNetworkResource() *schema.Resource {
 												// Computed
 												"display_name": {
 													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"ipv6address_ipv6subnet_cidr_pair_details": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"ipv6subnet_cidr": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"is_assign_ipv6ip": {
+													Type:     schema.TypeBool,
 													Computed: true,
 												},
 												"subnet_id": {
@@ -200,9 +259,11 @@ func CoreClusterNetworkResource() *schema.Resource {
 							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 						},
+						// Optional
 						"primary_subnet_id": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
+							Computed: true,
 							ForceNew: true,
 						},
 						// Optional
@@ -211,6 +272,55 @@ func CoreClusterNetworkResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"primary_vnic_subnets": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"subnet_id": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"ipv6address_ipv6subnet_cidr_pair_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"ipv6subnet_cidr": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"is_assign_ipv6ip": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 						"secondary_vnic_subnets": {
 							Type:     schema.TypeSet,
@@ -230,6 +340,33 @@ func CoreClusterNetworkResource() *schema.Resource {
 									// Optional
 									"display_name": {
 										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"ipv6address_ipv6subnet_cidr_pair_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"ipv6subnet_cidr": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"is_assign_ipv6ip": {
+										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
@@ -656,6 +793,17 @@ func (s *CoreClusterNetworkResourceCrud) mapToClusterNetworkPlacementConfigurati
 		result.PlacementConstraint = oci_core.ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum(placementConstraint.(string))
 	}
 
+	if primaryVnicSubnets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_vnic_subnets")); ok {
+		if tmpList := primaryVnicSubnets.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "primary_vnic_subnets"), 0)
+			tmp, err := s.mapToInstancePoolPlacementPrimarySubnet(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert primary_vnic_subnets, encountered error: %v", err)
+			}
+			result.PrimaryVnicSubnets = &tmp
+		}
+	}
+
 	if secondaryVnicSubnets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secondary_vnic_subnets")); ok {
 		set := secondaryVnicSubnets.(*schema.Set)
 		interfaces := set.List()
@@ -687,6 +835,10 @@ func ClusterNetworkPlacementConfigurationDetailsToMap(obj *oci_core.ClusterNetwo
 		result["primary_subnet_id"] = string(*obj.PrimarySubnetId)
 	}
 	result["placement_constraint"] = string(obj.PlacementConstraint)
+
+	if obj.PrimaryVnicSubnets != nil {
+		result["primary_vnic_subnets"] = []interface{}{InstancePoolPlacementPrimarySubnetToMap(obj.PrimaryVnicSubnets)}
+	}
 
 	secondaryVnicSubnets := []interface{}{}
 	for _, item := range obj.SecondaryVnicSubnets {
@@ -831,12 +983,78 @@ func InstancePoolToMap(obj oci_core.InstancePool) map[string]interface{} {
 	return result
 }
 
+func (s *CoreClusterNetworkResourceCrud) mapToInstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails(fieldKeyFormat string) (oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails, error) {
+	result := oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails{}
+
+	if ipv6SubnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6subnet_cidr")); ok {
+		tmp := ipv6SubnetCidr.(string)
+		result.Ipv6SubnetCidr = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *CoreClusterNetworkResourceCrud) mapToInstancePoolPlacementPrimarySubnet(fieldKeyFormat string) (oci_core.InstancePoolPlacementPrimarySubnet, error) {
+	result := oci_core.InstancePoolPlacementPrimarySubnet{}
+
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")); ok {
+		interfaces := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{})
+		tmp := make([]oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details"), stateDataIndex)
+			converted, err := s.mapToInstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")) {
+			result.Ipv6AddressIpv6SubnetCidrPairDetails = tmp
+		}
+	}
+
+	if isAssignIpv6Ip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_assign_ipv6ip")); ok {
+		tmp := isAssignIpv6Ip.(bool)
+		result.IsAssignIpv6Ip = &tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *CoreClusterNetworkResourceCrud) mapToInstancePoolPlacementSecondaryVnicSubnet(fieldKeyFormat string) (oci_core.InstancePoolPlacementSecondaryVnicSubnet, error) {
 	result := oci_core.InstancePoolPlacementSecondaryVnicSubnet{}
 
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
 		result.DisplayName = &tmp
+	}
+
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")); ok {
+		interfaces := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{})
+		tmp := make([]oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details"), stateDataIndex)
+			converted, err := s.mapToInstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")) {
+			result.Ipv6AddressIpv6SubnetCidrPairDetails = tmp
+		}
+	}
+
+	if isAssignIpv6Ip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_assign_ipv6ip")); ok {
+		tmp := isAssignIpv6Ip.(bool)
+		result.IsAssignIpv6Ip = &tmp
 	}
 
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
@@ -852,6 +1070,18 @@ func secondaryVnicSubnetsHashCodeForSets(v interface{}) int {
 	m := v.(map[string]interface{})
 	if displayName, ok := m["display_name"]; ok && displayName != "" {
 		buf.WriteString(fmt.Sprintf("%v-", displayName))
+	}
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := m["ipv6address_ipv6subnet_cidr_pair_details"]; ok {
+		if tmpList := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{}); len(tmpList) > 0 {
+			buf.WriteString("ipv6address_ipv6subnet_cidr_pair_details-")
+			actionRaw := tmpList[0].(map[string]interface{})
+			if ipv6Details, ok := actionRaw["ipv6subnet_cidr"]; ok && ipv6Details != "" {
+				buf.WriteString(fmt.Sprintf("%v-", ipv6Details))
+			}
+		}
+	}
+	if isAssignIpv6Ip, ok := m["is_assign_ipv6ip"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", isAssignIpv6Ip))
 	}
 	if subnetId, ok := m["subnet_id"]; ok && subnetId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", subnetId))

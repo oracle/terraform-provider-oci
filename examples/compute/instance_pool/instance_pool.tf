@@ -153,16 +153,6 @@ resource "oci_core_instance" "test_instance" {
   fault_domain = "FAULT-DOMAIN-1"
 }
 
-resource "oci_core_image" "custom_image" {
-  compartment_id = var.compartment_ocid
-  instance_id    = oci_core_instance.test_instance.id
-  launch_mode    = "NATIVE"
-
-  timeouts {
-    create = "30m"
-  }
-}
-
 resource "oci_core_instance_configuration" "test_instance_configuration" {
   compartment_id = var.compartment_ocid
   display_name   = "TestInstanceConfiguration"
@@ -245,7 +235,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
       }
 
       create_vnic_details {
-        assign_private_dns_record = false
+        assign_private_dns_record = true
         assign_public_ip       = true
         display_name           = "TestInstanceConfigurationVNIC"
         skip_source_dest_check = false
@@ -258,7 +248,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
       source_details {
         source_type = "image"
-        image_id    = oci_core_image.custom_image.id
+        image_id    = var.flex_instance_image_ocid[var.region]
       }
     }
   }

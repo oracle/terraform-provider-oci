@@ -474,6 +474,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"assign_ipv6ip": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"assign_private_dns_record": {
 													Type:     schema.TypeBool,
 													Optional: true,
@@ -512,6 +518,33 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"ipv6address_ipv6subnet_cidr_pair_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"ipv6address": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"ipv6subnet_cidr": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
 												},
 												"nsg_ids": {
 													Type:     schema.TypeSet,
@@ -1401,6 +1434,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 															// Required
 
 															// Optional
+															"assign_ipv6ip": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"assign_private_dns_record": {
 																Type:     schema.TypeBool,
 																Optional: true,
@@ -1439,6 +1478,33 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
+															},
+															"ipv6address_ipv6subnet_cidr_pair_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+																		"ipv6address": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+																		"ipv6subnet_cidr": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
 															},
 															"nsg_ids": {
 																Type:     schema.TypeSet,
@@ -1945,6 +2011,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 															// Required
 
 															// Optional
+															"assign_ipv6ip": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"assign_private_dns_record": {
 																Type:     schema.TypeBool,
 																Optional: true,
@@ -1983,6 +2055,33 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
+															},
+															"ipv6address_ipv6subnet_cidr_pair_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+																		"ipv6address": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+																		"ipv6subnet_cidr": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
 															},
 															"nsg_ids": {
 																Type:     schema.TypeSet,
@@ -2061,6 +2160,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"assign_ipv6ip": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"assign_private_dns_record": {
 													Type:     schema.TypeBool,
 													Optional: true,
@@ -2099,6 +2204,33 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"ipv6address_ipv6subnet_cidr_pair_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"ipv6address": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"ipv6subnet_cidr": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
 												},
 												"nsg_ids": {
 													Type:     schema.TypeSet,
@@ -2784,6 +2916,11 @@ func InstanceConfigurationBlockVolumeReplicaDetailsToMap(obj oci_core.InstanceCo
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreateVnicDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationCreateVnicDetails, error) {
 	result := oci_core.InstanceConfigurationCreateVnicDetails{}
 
+	if assignIpv6Ip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_ipv6ip")); ok {
+		tmp := assignIpv6Ip.(bool)
+		result.AssignIpv6Ip = &tmp
+	}
+
 	if assignPrivateDnsRecord, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_private_dns_record")); ok {
 		tmp := assignPrivateDnsRecord.(bool)
 		result.AssignPrivateDnsRecord = &tmp
@@ -2814,6 +2951,23 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
 		tmp := hostnameLabel.(string)
 		result.HostnameLabel = &tmp
+	}
+
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")); ok {
+		interfaces := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{})
+		tmp := make([]oci_core.InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details"), stateDataIndex)
+			converted, err := s.mapToInstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")) {
+			result.Ipv6AddressIpv6SubnetCidrPairDetails = tmp
+		}
 	}
 
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
@@ -2851,6 +3005,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigurationCreateVnicDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AssignIpv6Ip != nil {
+		result["assign_ipv6ip"] = bool(*obj.AssignIpv6Ip)
+	}
+
 	if obj.AssignPrivateDnsRecord != nil {
 		result["assign_private_dns_record"] = bool(*obj.AssignPrivateDnsRecord)
 	} else {
@@ -2874,6 +3032,12 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 	if obj.HostnameLabel != nil {
 		result["hostname_label"] = string(*obj.HostnameLabel)
 	}
+
+	ipv6AddressIpv6SubnetCidrPairDetails := []interface{}{}
+	for _, item := range obj.Ipv6AddressIpv6SubnetCidrPairDetails {
+		ipv6AddressIpv6SubnetCidrPairDetails = append(ipv6AddressIpv6SubnetCidrPairDetails, InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetailsToMap(item))
+	}
+	result["ipv6address_ipv6subnet_cidr_pair_details"] = ipv6AddressIpv6SubnetCidrPairDetails
 
 	nsgIds := []interface{}{}
 	for _, item := range obj.NsgIds {
@@ -3348,6 +3512,22 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 	return result, nil
 }
 
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails, error) {
+	result := oci_core.InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails{}
+
+	if ipv6Address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address")); ok {
+		tmp := ipv6Address.(string)
+		result.Ipv6Address = &tmp
+	}
+
+	if ipv6SubnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6subnet_cidr")); ok {
+		tmp := ipv6SubnetCidr.(string)
+		result.Ipv6SubnetCidr = &tmp
+	}
+
+	return result, nil
+}
+
 func InstanceConfigurationInstanceSourceImageFilterDetailsToMap(obj *oci_core.InstanceConfigurationInstanceSourceImageFilterDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -3365,6 +3545,20 @@ func InstanceConfigurationInstanceSourceImageFilterDetailsToMap(obj *oci_core.In
 
 	if obj.OperatingSystemVersion != nil {
 		result["operating_system_version"] = string(*obj.OperatingSystemVersion)
+	}
+
+	return result
+}
+
+func InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetailsToMap(obj oci_core.InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Ipv6Address != nil {
+		result["ipv6address"] = string(*obj.Ipv6Address)
+	}
+
+	if obj.Ipv6SubnetCidr != nil {
+		result["ipv6subnet_cidr"] = string(*obj.Ipv6SubnetCidr)
 	}
 
 	return result

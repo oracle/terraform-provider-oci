@@ -59,6 +59,30 @@ var (
 		"instance_hostname_formatter":     acctest.Representation{RepType: acctest.Optional, Create: `host-$${launchCount}`, Update: `host2-$${launchCount}`},
 	}
 
+	CoreInstancePoolRepresentationIPv6 = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
+		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentationIpv6},
+		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
+	}
+
+	CoreInstancePoolRepresentationIPv6WithPrimaryVnicSubnets = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
+		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentationIpv6WithPrimaryVnicSubnets},
+		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
+	}
+
 	CoreInstancePoolRepresentationWithLifecycleSizeIgnoreChanges = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
@@ -75,28 +99,71 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`size`}},
 	}
 
+	CoreSubnetRepresentationIpv6 = map[string]interface{}{
+		"cidr_block":                 acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/24`, Update: "10.0.0.0/16"},
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"availability_domain":        acctest.Representation{RepType: acctest.Optional, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"dhcp_options_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, Update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `IpvSubnet1`, Update: `IpvSubnet2`},
+		"dns_label":                  acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"prohibit_public_ip_on_vnic": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"prohibit_internet_ingress":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"ipv6cidr_blocks":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`}},
+		"route_table_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`, Update: `${oci_core_route_table.test_route_table.id}`},
+		"security_list_ids":          acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, Update: []string{`${oci_core_security_list.test_security_list.id}`}},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+	}
+
 	CoreInstancePoolPlacementConfigurationsRepresentation = map[string]interface{}{
 		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"primary_subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"fault_domains":          acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-1`}, Update: []string{`FAULT-DOMAIN-2`}},
+		"primary_subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation},
 	}
+	CoreInstancePoolPlacementConfigurationsRepresentationIpv6 = map[string]interface{}{
+		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"fault_domains":          acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-1`}, Update: []string{`FAULT-DOMAIN-2`}},
+		"primary_subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentationIpv6},
+	}
+
+	CoreInstancePoolPlacementConfigurationsRepresentationIpv6WithPrimaryVnicSubnets = map[string]interface{}{
+		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"fault_domains":          acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-1`}, Update: []string{`FAULT-DOMAIN-2`}},
+		"primary_vnic_subnets":   acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsPrimaryVnicSubnetsRepresentation},
+		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentationIpv6},
+	}
+
+	CoreInstancePoolPlacementConfigurationsPrimaryVnicSubnetsRepresentation = map[string]interface{}{
+		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreIpv6AddressIpv6SubnetCidrPairRepresentation},
+		"is_assign_ipv6ip":                         acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+
 	CoreInstancePoolLoadBalancersRepresentation = map[string]interface{}{
 		"backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"port":             acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"vnic_selection":   acctest.Representation{RepType: acctest.Required, Create: `PrimaryVnic`},
 	}
+	CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation = map[string]interface{}{
+		"subnet_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: `backend-servers-pool`},
+	}
+	CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentationIpv6 = map[string]interface{}{
+		"subnet_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
+		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreIpv6AddressIpv6SubnetCidrPairRepresentation},
+		"is_assign_ipv6ip":                         acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
 	CoreInstancePoolLoadBalancers2Representation = map[string]interface{}{
 		"backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_backend_set.test_backend_set2.name}`},
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer2.id}`},
 		"port":             acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"vnic_selection":   acctest.Representation{RepType: acctest.Required, Create: `PrimaryVnic`},
-	}
-	CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation = map[string]interface{}{
-		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		//the display_name should be the same as in the instance configuration
-		"display_name": acctest.Representation{RepType: acctest.Required, Create: `backend-servers-pool`},
 	}
 
 	CoreInstancePoolConfigurationPoolRepresentation = map[string]interface{}{
@@ -138,6 +205,18 @@ var (
 		"assign_public_ip":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"skip_source_dest_check": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+	}
+
+	CoreVcnRepresentationIpv6 = map[string]interface{}{
+		"cidr_block":     acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `NewVcn`, Update: `LatestVcn`},
+		"dns_label":      acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+		"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 
 	CoreInstancePoolResourceDependenciesWithoutSecondaryVnic = CoreSubnetResourceConfig + utils.OciImageIdsVariable + `
@@ -152,6 +231,20 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Required, acctest.Create, backendSetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set2", acctest.Required, acctest.Create, backendSet2Representation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", acctest.Required, acctest.Create, certificateRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, loadBalancerRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer2", acctest.Required, acctest.Create, loadBalancer2Representation) +
+		LoadBalancerSubnetDependencies
+
+	CoreInstancePoolResourceDependenciesIpv6 = utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, CoreInstancePoolConfigurationPoolRepresentation)) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentationIpv6) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentationIpv6) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Required, acctest.Create, backendSetRepresentation) +
@@ -278,6 +371,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.display_name", "backend-servers-pool"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "size", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -316,6 +412,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.display_name", "backend-servers-pool"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "size", "3"),
 				resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -506,6 +605,8 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.secondary_vnic_subnets.0.display_name", "backend-servers-pool"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "size", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -623,6 +724,115 @@ func getInstancePoolIds(compartment string) ([]string, error) {
 		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "InstancePoolId", id)
 	}
 	return resourceIds, nil
+}
+
+// issue-routing-tag: core/computeManagement
+func TestCoreInstancePoolResourceIpv6_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreInstancePoolResourceIpv6_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance_pool.test_instance_pool"
+
+	singularDatasourceName := "data.oci_core_instance_pool.test_instance_pool"
+
+	var resId string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreInstancePoolResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Create, CoreInstancePoolRepresentationIPv6), "core", "instancePool", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreInstancePoolDestroy, []resource.TestStep{
+		// verify Create with ipv6 supported primarySubnets and secondarySubnets
+		{
+			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependenciesIpv6 +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Create, CoreInstancePoolRepresentationIPv6WithPrimaryVnicSubnets),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers-pool"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.primary_vnic_subnets.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_vnic_subnets.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.primary_vnic_subnets.0.ipv6address_ipv6subnet_cidr_pair_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_vnic_subnets.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.primary_vnic_subnets.0.is_assign_ipv6ip", "true"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.display_name", "backend-servers-pool"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.ipv6address_ipv6subnet_cidr_pair_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.is_assign_ipv6ip", "true"),
+				resource.TestCheckResourceAttr(resourceName, "size", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, CoreCoreInstancePoolSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreInstancePoolResourceDependenciesIpv6 +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Required, acctest.Create, CoreInstancePoolRepresentationIPv6WithPrimaryVnicSubnets),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pool_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "backend-servers-pool"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.instance_pool_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.0.port", "10"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.primary_vnic_subnets.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.primary_vnic_subnets.0.subnet_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.primary_vnic_subnets.0.ipv6address_ipv6subnet_cidr_pair_details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.primary_vnic_subnets.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.primary_vnic_subnets.0.is_assign_ipv6ip", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.secondary_vnic_subnets.0.display_name", "backend-servers-pool"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.secondary_vnic_subnets.0.subnet_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.secondary_vnic_subnets.0.ipv6address_ipv6subnet_cidr_pair_details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.secondary_vnic_subnets.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.secondary_vnic_subnets.0.is_assign_ipv6ip", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "size", "2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+	})
 }
 
 func instancePoolSweepWaitCondition(response common.OCIOperationResponse) bool {
