@@ -442,6 +442,7 @@ func CoreInstanceResource() *schema.Resource {
 								"AMD_ROME_BM",
 								"AMD_ROME_BM_GPU",
 								"AMD_VM",
+								"GENERIC_BM",
 								"INTEL_ICELAKE_BM",
 								"INTEL_SKYLAKE_BM",
 								"INTEL_VM",
@@ -454,6 +455,13 @@ func CoreInstanceResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"config_map": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem:     schema.TypeString,
 						},
 						"is_access_control_service_enabled": {
 							Type:     schema.TypeBool,
@@ -2266,6 +2274,9 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFor
 			tmp := areVirtualInstructionsEnabled.(bool)
 			details.AreVirtualInstructionsEnabled = &tmp
 		}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
+		}
 		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
 			tmp := isAccessControlServiceEnabled.(bool)
 			details.IsAccessControlServiceEnabled = &tmp
@@ -2308,6 +2319,9 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFor
 			tmp := areVirtualInstructionsEnabled.(bool)
 			details.AreVirtualInstructionsEnabled = &tmp
 		}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
+		}
 		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
 			tmp := isAccessControlServiceEnabled.(bool)
 			details.IsAccessControlServiceEnabled = &tmp
@@ -2345,6 +2359,9 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFor
 		if areVirtualInstructionsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_virtual_instructions_enabled")); ok {
 			tmp := areVirtualInstructionsEnabled.(bool)
 			details.AreVirtualInstructionsEnabled = &tmp
+		}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
 		}
 		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
 			tmp := isAccessControlServiceEnabled.(bool)
@@ -2387,6 +2404,9 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFor
 		if areVirtualInstructionsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_virtual_instructions_enabled")); ok {
 			tmp := areVirtualInstructionsEnabled.(bool)
 			details.AreVirtualInstructionsEnabled = &tmp
+		}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
 		}
 		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
 			tmp := isAccessControlServiceEnabled.(bool)
@@ -2439,8 +2459,56 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFor
 			details.IsTrustedPlatformModuleEnabled = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("GENERIC_BM"):
+		details := oci_core.GenericBmLaunchInstancePlatformConfig{}
+		if areVirtualInstructionsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_virtual_instructions_enabled")); ok {
+			tmp := areVirtualInstructionsEnabled.(bool)
+			details.AreVirtualInstructionsEnabled = &tmp
+		}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
+		}
+		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
+			tmp := isAccessControlServiceEnabled.(bool)
+			details.IsAccessControlServiceEnabled = &tmp
+		}
+		if isInputOutputMemoryManagementUnitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_input_output_memory_management_unit_enabled")); ok {
+			tmp := isInputOutputMemoryManagementUnitEnabled.(bool)
+			details.IsInputOutputMemoryManagementUnitEnabled = &tmp
+		}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
+		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
+			details.NumaNodesPerSocket = oci_core.GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
+		}
+		if percentageOfCoresEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "percentage_of_cores_enabled")); ok {
+			tmp := percentageOfCoresEnabled.(int)
+			details.PercentageOfCoresEnabled = &tmp
+		}
+		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
+			tmp := isMeasuredBootEnabled.(bool)
+			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isMemoryEncryptionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_memory_encryption_enabled")); ok {
+			tmp := isMemoryEncryptionEnabled.(bool)
+			details.IsMemoryEncryptionEnabled = &tmp
+		}
+		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
+			tmp := isSecureBootEnabled.(bool)
+			details.IsSecureBootEnabled = &tmp
+		}
+		if isTrustedPlatformModuleEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_trusted_platform_module_enabled")); ok {
+			tmp := isTrustedPlatformModuleEnabled.(bool)
+			details.IsTrustedPlatformModuleEnabled = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("INTEL_ICELAKE_BM"):
 		details := oci_core.IntelIcelakeBmLaunchInstancePlatformConfig{}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
+		}
 		if isInputOutputMemoryManagementUnitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_input_output_memory_management_unit_enabled")); ok {
 			tmp := isInputOutputMemoryManagementUnitEnabled.(bool)
 			details.IsInputOutputMemoryManagementUnitEnabled = &tmp
@@ -2475,6 +2543,24 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFor
 		baseObject = details
 	case strings.ToLower("INTEL_SKYLAKE_BM"):
 		details := oci_core.IntelSkylakeBmLaunchInstancePlatformConfig{}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
+		}
+		if isInputOutputMemoryManagementUnitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_input_output_memory_management_unit_enabled")); ok {
+			tmp := isInputOutputMemoryManagementUnitEnabled.(bool)
+			details.IsInputOutputMemoryManagementUnitEnabled = &tmp
+		}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
+		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
+			details.NumaNodesPerSocket = oci_core.IntelSkylakeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
+		}
+		if percentageOfCoresEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "percentage_of_cores_enabled")); ok {
+			tmp := percentageOfCoresEnabled.(int)
+			details.PercentageOfCoresEnabled = &tmp
+		}
 		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
@@ -2527,6 +2613,9 @@ func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
 			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
 		}
 
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
+
 		if v.IsAccessControlServiceEnabled != nil {
 			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
 		}
@@ -2567,6 +2656,9 @@ func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
 			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
 		}
 
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
+
 		if v.IsAccessControlServiceEnabled != nil {
 			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
 		}
@@ -2602,6 +2694,9 @@ func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
 		if v.AreVirtualInstructionsEnabled != nil {
 			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
 		}
+
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
 
 		if v.IsAccessControlServiceEnabled != nil {
 			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
@@ -2642,6 +2737,9 @@ func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
 		if v.AreVirtualInstructionsEnabled != nil {
 			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
 		}
+
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
 
 		if v.IsAccessControlServiceEnabled != nil {
 			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
@@ -2690,8 +2788,54 @@ func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
 		if v.IsTrustedPlatformModuleEnabled != nil {
 			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
 		}
+	case oci_core.GenericBmPlatformConfig:
+		result["type"] = "GENERIC_BM"
+
+		if v.AreVirtualInstructionsEnabled != nil {
+			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
+		}
+
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
+
+		if v.IsAccessControlServiceEnabled != nil {
+			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
+		}
+
+		if v.IsInputOutputMemoryManagementUnitEnabled != nil {
+			result["is_input_output_memory_management_unit_enabled"] = bool(*v.IsInputOutputMemoryManagementUnitEnabled)
+		}
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
+
+		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+
+		if v.PercentageOfCoresEnabled != nil {
+			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
+		}
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsMemoryEncryptionEnabled != nil {
+			result["is_memory_encryption_enabled"] = bool(*v.IsMemoryEncryptionEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
 	case oci_core.IntelIcelakeBmPlatformConfig:
 		result["type"] = "INTEL_ICELAKE_BM"
+
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
 
 		if v.IsInputOutputMemoryManagementUnitEnabled != nil {
 			result["is_input_output_memory_management_unit_enabled"] = bool(*v.IsInputOutputMemoryManagementUnitEnabled)
@@ -2724,6 +2868,23 @@ func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
 		}
 	case oci_core.IntelSkylakeBmPlatformConfig:
 		result["type"] = "INTEL_SKYLAKE_BM"
+
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
+
+		if v.IsInputOutputMemoryManagementUnitEnabled != nil {
+			result["is_input_output_memory_management_unit_enabled"] = bool(*v.IsInputOutputMemoryManagementUnitEnabled)
+		}
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
+
+		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+
+		if v.PercentageOfCoresEnabled != nil {
+			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
+		}
 
 		if v.IsMeasuredBootEnabled != nil {
 			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
