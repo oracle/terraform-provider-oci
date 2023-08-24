@@ -326,7 +326,6 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					},
 				),
 			},
-
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + DatabaseCloudAutonomousVmClusterResourceDependencies +
@@ -403,6 +402,12 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.cpu_core_count_per_node"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.memory_per_oracle_compute_unit_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.total_container_databases"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.non_provisionable_autonomous_container_databases"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.provisionable_autonomous_container_databases"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.provisioned_autonomous_container_databases"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.provisioned_cpus"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.reclaimable_cpus"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.reserved_cpus"),
 				),
 			},
 			// verify singular datasource
@@ -435,6 +440,12 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					// 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count_per_node", "50"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "total_container_databases", "12"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "non_provisionable_autonomous_container_databases"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "provisionable_autonomous_container_databases"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "provisioned_autonomous_container_databases"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "provisioned_cpus"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "reclaimable_cpus"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "reserved_cpus"),
 				),
 			},
 			// verify resource import
