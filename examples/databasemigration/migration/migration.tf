@@ -222,7 +222,15 @@ resource "oci_database_migration_migration" "test_migration" {
 
   #csvText - Optional
   csv_text = "MY_BIZZ,SRC_CITY,TABLE,EXCLUDE"
-
+  golden_gate_service_details {
+    settings {
+      acceptable_lag = "10"
+      extract {
+        long_trans_duration = "10"
+        performance_profile = "LOW"
+      }
+    }
+  }
   data_transfer_medium_details {
     object_storage_details {
       bucket = "bucket"

@@ -499,62 +499,6 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 											},
 										},
 									},
-									"source_db_admin_credentials": {
-										Type:     schema.TypeList,
-										Required: true,
-										MaxItems: 1,
-										MinItems: 1,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-												// Required
-												"password": {
-													Type:      schema.TypeString,
-													Required:  true,
-													Sensitive: true,
-												},
-												"username": {
-													Type:     schema.TypeString,
-													Required: true,
-												},
-
-												// Optional
-
-												// Computed
-											},
-										},
-									},
-									"source_microservices_deployment_name": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
-									"target_db_admin_credentials": {
-										Type:     schema.TypeList,
-										Required: true,
-										MaxItems: 1,
-										MinItems: 1,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-												// Required
-												"password": {
-													Type:      schema.TypeString,
-													Required:  true,
-													Sensitive: true,
-												},
-												"username": {
-													Type:     schema.TypeString,
-													Required: true,
-												},
-
-												// Optional
-
-												// Computed
-											},
-										},
-									},
-									"target_microservices_deployment_name": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
 									"url": {
 										Type:     schema.TypeString,
 										Required: true,
@@ -590,6 +534,66 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 												// Computed
 											},
 										},
+									},
+									"source_db_admin_credentials": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"password": {
+													Type:      schema.TypeString,
+													Required:  true,
+													Sensitive: true,
+												},
+												"username": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"source_microservices_deployment_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"target_db_admin_credentials": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"password": {
+													Type:      schema.TypeString,
+													Required:  true,
+													Sensitive: true,
+												},
+												"username": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"target_microservices_deployment_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
 									},
 
 									// Computed
@@ -683,6 +687,196 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 						},
 
 						// Computed
+					},
+				},
+			},
+			"golden_gate_service_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"settings": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"acceptable_lag": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"extract": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"long_trans_duration": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"performance_profile": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"replicat": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"map_parallelism": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"max_apply_parallelism": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"min_apply_parallelism": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"source_container_db_credentials": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"password": {
+										Type:      schema.TypeString,
+										Required:  true,
+										Sensitive: true,
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"source_db_credentials": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"password": {
+										Type:      schema.TypeString,
+										Required:  true,
+										Sensitive: true,
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"target_db_credentials": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"password": {
+										Type:      schema.TypeString,
+										Required:  true,
+										Sensitive: true,
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+						"ggs_deployment": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"deployment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ggs_admin_credentials_secret_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -987,6 +1181,17 @@ func (s *DatabaseMigrationMigrationResourceCrud) Create() error {
 		}
 	}
 
+	if goldenGateServiceDetails, ok := s.D.GetOkExists("golden_gate_service_details"); ok {
+		if tmpList := goldenGateServiceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "golden_gate_service_details", 0)
+			tmp, err := s.mapToCreateGoldenGateServiceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.GoldenGateServiceDetails = &tmp
+		}
+	}
+
 	if includeObjects, ok := s.D.GetOkExists("include_objects"); ok {
 		interfaces := includeObjects.([]interface{})
 		tmp := make([]oci_database_migration.DatabaseObject, len(interfaces))
@@ -1286,6 +1491,17 @@ func (s *DatabaseMigrationMigrationResourceCrud) Update() error {
 		}
 	}
 
+	if goldenGateServiceDetails, ok := s.D.GetOkExists("golden_gate_service_details"); ok {
+		if tmpList := goldenGateServiceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "golden_gate_service_details", 0)
+			tmp, err := s.mapToUpdateGoldenGateServiceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.GoldenGateServiceDetails = &tmp
+		}
+	}
+
 	if includeObjects, ok := s.D.GetOkExists("include_objects"); ok {
 		interfaces := includeObjects.([]interface{})
 		tmp := make([]oci_database_migration.DatabaseObject, len(interfaces))
@@ -1428,6 +1644,12 @@ func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
 
 	} else {
 		s.D.Set("golden_gate_details", nil)
+	}
+
+	if s.Res.GoldenGateServiceDetails != nil {
+		s.D.Set("golden_gate_service_details", []interface{}{GoldenGateServiceDetailsToMap(s.Res.GoldenGateServiceDetails)})
+	} else {
+		s.D.Set("golden_gate_service_details", nil)
 	}
 
 	includeObjects := []interface{}{}
@@ -2384,6 +2606,121 @@ func GoldenGateHubToMap(obj *oci_database_migration.GoldenGateHub) map[string]in
 	return result
 }
 
+func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateGoldenGateServiceDetails(fieldKeyFormat string) (oci_database_migration.CreateGoldenGateServiceDetails, error) {
+	result := oci_database_migration.CreateGoldenGateServiceDetails{}
+
+	if settings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "settings")); ok {
+		if tmpList := settings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "settings"), 0)
+			tmp, err := s.mapToCreateGoldenGateSettings(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert settings, encountered error: %v", err)
+			}
+			result.Settings = &tmp
+		}
+	}
+
+	if sourceContainerDbCredentials, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_container_db_credentials")); ok {
+		if tmpList := sourceContainerDbCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_container_db_credentials"), 0)
+			tmp, err := s.mapToDatabaseCredentials(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_container_db_credentials, encountered error: %v", err)
+			}
+			result.SourceContainerDbCredentials = &tmp
+		}
+	}
+
+	if sourceDbCredentials, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_db_credentials")); ok {
+		if tmpList := sourceDbCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_db_credentials"), 0)
+			tmp, err := s.mapToDatabaseCredentials(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_db_credentials, encountered error: %v", err)
+			}
+			result.SourceDbCredentials = &tmp
+		}
+	}
+
+	if targetDbCredentials, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_db_credentials")); ok {
+		if tmpList := targetDbCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "target_db_credentials"), 0)
+			tmp, err := s.mapToDatabaseCredentials(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert target_db_credentials, encountered error: %v", err)
+			}
+			result.TargetDbCredentials = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateGoldenGateServiceDetails(fieldKeyFormat string) (oci_database_migration.UpdateGoldenGateServiceDetails, error) {
+	result := oci_database_migration.UpdateGoldenGateServiceDetails{}
+
+	if settings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "settings")); ok {
+		if tmpList := settings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "settings"), 0)
+			tmp, err := s.mapToUpdateGoldenGateSettings(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert settings, encountered error: %v", err)
+			}
+			result.Settings = &tmp
+		}
+	}
+
+	if sourceContainerDbCredentials, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_container_db_credentials")); ok {
+		if tmpList := sourceContainerDbCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_container_db_credentials"), 0)
+			tmp, err := s.mapToDatabaseCredentials(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_container_db_credentials, encountered error: %v", err)
+			}
+			result.SourceContainerDbCredentials = &tmp
+		}
+	}
+
+	if sourceDbCredentials, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_db_credentials")); ok {
+		if tmpList := sourceDbCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_db_credentials"), 0)
+			tmp, err := s.mapToDatabaseCredentials(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_db_credentials, encountered error: %v", err)
+			}
+			result.SourceDbCredentials = &tmp
+		}
+	}
+
+	if targetDbCredentials, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_db_credentials")); ok {
+		if tmpList := targetDbCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "target_db_credentials"), 0)
+			tmp, err := s.mapToDatabaseCredentials(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert target_db_credentials, encountered error: %v", err)
+			}
+			result.TargetDbCredentials = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+// func GoldenGateServiceDetailsToMap(obj *oci_database_migration.CreateGoldenGateServiceDetails) map[string]interface{} {
+func GoldenGateServiceDetailsToMap(obj *oci_database_migration.GoldenGateServiceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.GgsDeployment != nil {
+		result["ggs_deployment"] = []interface{}{GgsDeploymentToMap(obj.GgsDeployment)}
+	}
+
+	if obj.Settings != nil {
+		result["settings"] = []interface{}{GoldenGateSettingsToMap(obj.Settings)}
+	}
+
+	return result
+}
+
 func GoldenGateHubToMapPass(obj *oci_database_migration.GoldenGateHub, resourceData *schema.ResourceData) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -2711,6 +3048,26 @@ func ReplicatToMap(obj *oci_database_migration.Replicat) map[string]interface{} 
 	result := map[string]interface{}{}
 
 	if obj.MapParallelism != nil {
+		result["map_parallelism"] = *obj.MapParallelism
+	}
+
+	if obj.MaxApplyParallelism != nil {
+		result["max_apply_parallelism"] = *obj.MaxApplyParallelism
+	}
+
+	if obj.MinApplyParallelism != nil {
+		result["min_apply_parallelism"] = *obj.MinApplyParallelism
+	}
+
+	//result["performance_profile"] = string(obj.PerformanceProfile)
+
+	return result
+}
+
+func CreateReplicatToMap(obj *oci_database_migration.CreateReplicat) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MapParallelism != nil {
 		result["map_parallelism"] = int(*obj.MapParallelism)
 	}
 
@@ -2799,6 +3156,36 @@ func DataPumpExcludeParametersToMap(obj oci_database_migration.DataPumpExcludePa
 	return result
 }
 
+func (s *DatabaseMigrationMigrationResourceCrud) mapToDatabaseCredentials(fieldKeyFormat string) (oci_database_migration.DatabaseCredentials, error) {
+	result := oci_database_migration.DatabaseCredentials{}
+
+	if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+		tmp := password.(string)
+		result.Password = &tmp
+	}
+
+	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+		tmp := username.(string)
+		result.Username = &tmp
+	}
+
+	return result, nil
+}
+
+func DatabaseCredentialsToMap(obj *oci_database_migration.DatabaseCredentials) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Password != nil {
+		result["password"] = string(*obj.Password)
+	}
+
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
+	}
+
+	return result
+}
+
 func (s *DatabaseMigrationMigrationResourceCrud) mapToDatabaseObject(fieldKeyFormat string) (oci_database_migration.DatabaseObject, error) {
 	result := oci_database_migration.DatabaseObject{}
 
@@ -2842,6 +3229,20 @@ func DatabaseObjectToMap(obj oci_database_migration.DatabaseObject) map[string]i
 
 	if obj.Type != nil {
 		result["type"] = string(*obj.Type)
+	}
+
+	return result
+}
+
+func GgsDeploymentToMap(obj *oci_database_migration.GgsDeployment) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DeploymentId != nil {
+		result["deployment_id"] = string(*obj.DeploymentId)
+	}
+
+	if obj.GgsAdminCredentialsSecretId != nil {
+		result["ggs_admin_credentials_secret_id"] = string(*obj.GgsAdminCredentialsSecretId)
 	}
 
 	return result
