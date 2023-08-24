@@ -33,11 +33,15 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		COMPARTMENT_ID          = "compartment_id"
 		COMPARTMENT_ID_FOR_MOVE = "compartment_id_for_move"
 		TEST_SUBNET_ID          = "test_subnet_id"
-		DEPLOYMENT_OGG_KEY      = "golden_gate_deployment_ogg_key"
+		CERTIFICATE             = "certificate"
+		KEY                     = "key"
 		BASE_OGG_VERSION        = "base_ogg_version"
 		UPGRADED_OGG_VERSION    = "upgraded_ogg_version"
 		PASSWORD                = "password"
 		NEW_PASSWORD            = "new_password"
+		IDENTITY_DOMAIN_ID      = "identity_domain_id"
+		PASSWORD_SECRET_ID      = "password_secret_id"
+		PASSWORD_SECRET_ID_2    = "password_secret_id_2"
 	)
 
 	var (
@@ -54,7 +58,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"assignable_connection_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_golden_gate_connection.test_connection.id}`},
 			"assigned_connection_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_golden_gate_connection.test_connection.id}`},
 			"display_name":              acctest.Representation{RepType: acctest.Required, Create: `Terraform_integration_test`, Update: `Terraform_integration_test2`},
-			"fqdn":                      acctest.Representation{RepType: acctest.Required, Create: `fqdn1.ggs.com`, Update: `fqdn2.ggs.com`},
+			"fqdn":                      acctest.Representation{RepType: acctest.Required, Update: `fqdn1.oggdevops.us`},
 			"lifecycle_sub_state":       acctest.Representation{RepType: acctest.Required, Create: `RECOVERING`},
 			"state":                     acctest.Representation{RepType: acctest.Required, Create: `ACTIVE`},
 			"supported_connection_type": acctest.Representation{RepType: acctest.Required, Create: `GOLDENGATE`},
@@ -62,12 +66,17 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 		compartmentId        = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID)
 		compartmentIdForMove = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID_FOR_MOVE)
+		subnetId             = utils.GetEnvSettingWithBlankDefault(TEST_SUBNET_ID)
+		identityDomainId     = utils.GetEnvSettingWithBlankDefault(IDENTITY_DOMAIN_ID)
+		passwordSecretId     = utils.GetEnvSettingWithBlankDefault(PASSWORD_SECRET_ID)
+		passwordSecretId2    = utils.GetEnvSettingWithBlankDefault(PASSWORD_SECRET_ID_2)
 		baseOggVersion       = utils.GetEnvSettingWithBlankDefault(BASE_OGG_VERSION)
 		upgradedOggVersion   = utils.GetEnvSettingWithBlankDefault(UPGRADED_OGG_VERSION)
 
 		resId  string
 		resId2 string
 	)
+
 	var (
 		GoldenGateDeploymentResourceDependencies = ""
 
@@ -79,8 +88,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"admin_password":  acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 			"admin_username":  acctest.Representation{RepType: acctest.Required, Create: `adminUsername`, Update: `adminUsername2`},
 			"deployment_name": acctest.Representation{RepType: acctest.Required, Create: `depl_test_ggs_deployment_name`},
-			"certificate":     acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCEpaMjTCJ8WzANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yMTAxMTkyMTI2MjRaFw0yNDAxMTkyMTI2MjRaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo83kaUQXpCcSoEuRVFX3\njztWDNKtWpjNG240f0RpERI1NnZtHH0qnZqfaWAQQa8kx3+W1LOeFbkkRnkJz19g\neIXR6TeavT+W5iRh4goK+N7gubYkSMa2shVf+XsoHKERSbhdhrtX+GqvKzAvplCt\nCgd4MDlsvLv/YHCLvJL4JgRxKyevjlnE1rqrICJMCLbbZMrIKTzwb/K13hGrm6Bc\n+Je9EC3MWWxd5jBwXu3vgIYRuGR4DPg/yfMKPZr2xFDLpBsv5jaqULS9t6GwoEBJ\nKN0NXp5obaQToYqMsvAZyHoEyfCBDka16Bm5hGF60FwqgUT3p/+qlBn61cAJe9t5\n8QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAX1rxV2hai02Pb4Cf8U44zj+1aY6wV\nLvOMWiL3zl53up4/X7PDcmWcPM9UMVCGTISZD6A6IPvNlkvbtvYCzgjhtGxDmrj7\nwTRV5gO9j3bAhxBO7XgTmwmD/9hpykM58nbhLFnkGf+Taja8qsy0U8H74Tr9w1M8\n8E5kghgGzBElNquM8AUuDakC1JL4aLO/VDMxe/1BLtmBHLZy3XTzVycjP9ZFPh6h\nT+cWJcVOjQSYY2U75sDnKD2Sg1cmK54HauA6SPh4kAkpmxyLyDZZjPBQe2sLFmmS\naZSE+g16yMR9TVHo3pTpRkxJwDEH0LePwYXA4vUIK3HHS6zgLe0ody8g\n-----END CERTIFICATE-----`},
-			"key":             acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `${var.golden_gate_deployment_ogg_key}`},
+			"certificate":     acctest.Representation{RepType: acctest.Optional, Update: `${var.certificate}`},
+			"key":             acctest.Representation{RepType: acctest.Optional, Update: `${var.key}`},
 		}
 
 		deploymentMaintenanceConfigurationRepresentation = map[string]interface{}{
@@ -94,6 +103,22 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		oggDataForUpgradeRepresentation = acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentOggDataRepresentation, map[string]interface{}{
 			"ogg_version": acctest.Representation{RepType: acctest.Optional, Create: `${var.base_ogg_version}`, Update: `${var.upgraded_ogg_version}`},
 		})
+
+		oggDataRepresentationForIam = map[string]interface{}{
+			"deployment_name":    acctest.Representation{RepType: acctest.Required, Create: `IamDeployment`},
+			"credential_store":   acctest.Representation{RepType: acctest.Required, Create: `IAM`},
+			"identity_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${var.identity_domain_id}`},
+			"ogg_version":        acctest.Representation{RepType: acctest.Required, Create: `${var.base_ogg_version}`},
+		}
+
+		oggDataRepresentationForGoldenGate = map[string]interface{}{
+			"deployment_name":    acctest.Representation{RepType: acctest.Required, Create: `GoldengateDeployment`},
+			"credential_store":   acctest.Representation{RepType: acctest.Required, Create: `GOLDENGATE`},
+			"admin_username":     acctest.Representation{RepType: acctest.Required, Create: `adminUsername`, Update: `adminUsername2`},
+			"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${var.password_secret_id}`, Update: `${var.password_secret_id_2}`},
+			"certificate":        acctest.Representation{RepType: acctest.Optional, Update: `${var.certificate}`},
+			"key":                acctest.Representation{RepType: acctest.Optional, Update: `${var.key}`},
+		}
 
 		deploymentMaintenanceWindowRepresentation = map[string]interface{}{
 			"day":        acctest.Representation{RepType: acctest.Required, Create: `MONDAY`, Update: `TUESDAY`},
@@ -109,7 +134,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.test_subnet_id}`},
 			"license_model":             acctest.Representation{RepType: acctest.Required, Create: `LICENSE_INCLUDED`},
 			"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-			"fqdn":                      acctest.Representation{RepType: acctest.Required, Create: `fqdn1.ggs.com`},
+			"fqdn":                      acctest.Representation{RepType: acctest.Optional, Update: `fqdn1.oggdevops.us`},
 			"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 			"is_public":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
 			"ogg_data":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: goldenGateDeploymentOggDataRepresentation},
@@ -132,12 +157,19 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		makeVariableStr(COMPARTMENT_ID, t) +
 		makeVariableStr(COMPARTMENT_ID_FOR_MOVE, t) +
 		makeVariableStr(TEST_SUBNET_ID, t) +
-		makeVariableStr(DEPLOYMENT_OGG_KEY, t) +
+		makeVariableStr(CERTIFICATE, t) +
+		makeVariableStr(KEY, t) +
 		makeVariableStr(BASE_OGG_VERSION, t) +
 		makeVariableStr(UPGRADED_OGG_VERSION, t) +
 		makeVariableStr(PASSWORD, t) +
 		makeVariableStr(NEW_PASSWORD, t) +
+		makeVariableStr(PASSWORD_SECRET_ID, t) +
+		makeVariableStr(PASSWORD_SECRET_ID_2, t) +
 		GoldenGateDeploymentResourceDependencies
+
+	if identityDomainId != "" {
+		config = config + makeVariableStr(IDENTITY_DOMAIN_ID, t)
+	}
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+testDeploymentIdVariableStr+
@@ -157,12 +189,112 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config,
+		},
+
+		// optional step: verify Create with IAM credential store and identity domain id
+		{
+			PreConfig: func() {
+				fmt.Println("This step will run only if TF_VAR_identity_domain_id env variable is set.")
+			},
+			SkipFunc: func() (bool, error) {
+				if identityDomainId == "" {
+					return true, nil
+				}
+				return false, nil
+			},
+			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create,
+				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+					"ogg_data": acctest.RepresentationGroup{RepType: acctest.Required, Group: oggDataRepresentationForIam},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_id", subnetId),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "IAM"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.identity_domain_id", identityDomainId),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.deployment_name", "IamDeployment"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify Create with GOLDENGATE credential store and password secret id
+		{
+			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create,
+				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+					"ogg_data": acctest.RepresentationGroup{RepType: acctest.Required, Group: oggDataRepresentationForGoldenGate},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_id", subnetId),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.password_secret_id", passwordSecretId),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.deployment_name", "GoldengateDeployment"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify parameter updates for the deployment including password secret id
+		{
+			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Update,
+				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+					"ogg_data": acctest.RepresentationGroup{RepType: acctest.Required, Group: oggDataRepresentationForGoldenGate},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", "DATABASE_ORACLE"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test2"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "subnet_id", subnetId),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername2"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.password_secret_id", passwordSecretId2),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.deployment_name", "GoldengateDeployment"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
 					return err
 				},
 			),
@@ -199,12 +331,14 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.day", "MONDAY"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.start_hour", "10"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
+					time.Sleep(1 * time.Minute)
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
@@ -245,6 +379,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.day", "MONDAY"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.start_hour", "10"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
@@ -285,6 +420,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.day", "TUESDAY"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.start_hour", "11"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername2"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.certificate"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
@@ -305,8 +441,12 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			Config: config + DeploymentResourceConfig + testDeploymentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", acctest.Required, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
-						"fqdn":         acctest.Representation{RepType: acctest.Required, Create: `fqdn100.ggs.com`},
+						"fqdn":         acctest.Representation{RepType: acctest.Required, Create: `fqdn100.oggdevops.us`},
 						"display_name": acctest.Representation{RepType: acctest.Required, Create: `Terraform_integration_test - DataSource test`},
+						"ogg_data": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentOggDataRepresentation, map[string]interface{}{
+							"certificate": acctest.Representation{RepType: acctest.Required, Create: `${var.certificate}`},
+							"key":         acctest.Representation{RepType: acctest.Required, Create: `${var.key}`},
+						})},
 					})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", "test_connection", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(GoldenGateConnectionRepresentation, map[string]interface{}{
 					"host": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.127`, Update: `10.0.0.128`},
@@ -318,7 +458,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "assigned_connection_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "Terraform_integration_test2"),
-				resource.TestCheckResourceAttr(datasourceName, "fqdn", "fqdn2.ggs.com"),
+				resource.TestCheckResourceAttrSet(datasourceName, "fqdn"),
 				resource.TestCheckResourceAttr(datasourceName, "lifecycle_sub_state", "RECOVERING"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "supported_connection_type", "GOLDENGATE"),
@@ -359,6 +499,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.day", "TUESDAY"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.start_hour", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ogg_data.0.admin_username", "adminUsername2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ogg_data.0.certificate"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ogg_data.0.ogg_version"),
