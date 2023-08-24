@@ -129,6 +129,15 @@ resource "oci_database_migration_migration" "test_migration" {
 				password = var.migration_golden_gate_details_hub_rest_admin_credentials_password
 				username = var.migration_golden_gate_details_hub_rest_admin_credentials_username
 			}
+			url = var.migration_golden_gate_details_hub_url
+
+			#Optional
+			compute_id = oci_database_migration_compute.test_compute.id
+			source_container_db_admin_credentials {
+				#Required
+				password = var.migration_golden_gate_details_hub_source_container_db_admin_credentials_password
+				username = var.migration_golden_gate_details_hub_source_container_db_admin_credentials_username
+			}
 			source_db_admin_credentials {
 				#Required
 				password = var.migration_golden_gate_details_hub_source_db_admin_credentials_password
@@ -141,15 +150,6 @@ resource "oci_database_migration_migration" "test_migration" {
 				username = var.migration_golden_gate_details_hub_target_db_admin_credentials_username
 			}
 			target_microservices_deployment_name = oci_apigateway_deployment.test_deployment.name
-			url = var.migration_golden_gate_details_hub_url
-
-			#Optional
-			compute_id = oci_database_migration_compute.test_compute.id
-			source_container_db_admin_credentials {
-				#Required
-				password = var.migration_golden_gate_details_hub_source_container_db_admin_credentials_password
-				username = var.migration_golden_gate_details_hub_source_container_db_admin_credentials_username
-			}
 		}
 
 		#Optional
@@ -170,6 +170,43 @@ resource "oci_database_migration_migration" "test_migration" {
 				max_apply_parallelism = var.migration_golden_gate_details_settings_replicat_max_apply_parallelism
 				min_apply_parallelism = var.migration_golden_gate_details_settings_replicat_min_apply_parallelism
 			}
+		}
+	}
+	golden_gate_service_details {
+
+		#Optional
+		settings {
+
+			#Optional
+			acceptable_lag = var.migration_golden_gate_service_details_settings_acceptable_lag
+			extract {
+
+				#Optional
+				long_trans_duration = var.migration_golden_gate_service_details_settings_extract_long_trans_duration
+				performance_profile = var.migration_golden_gate_service_details_settings_extract_performance_profile
+			}
+			replicat {
+
+				#Optional
+				map_parallelism = var.migration_golden_gate_service_details_settings_replicat_map_parallelism
+				max_apply_parallelism = var.migration_golden_gate_service_details_settings_replicat_max_apply_parallelism
+				min_apply_parallelism = var.migration_golden_gate_service_details_settings_replicat_min_apply_parallelism
+			}
+		}
+		source_container_db_credentials {
+			#Required
+			password = var.migration_golden_gate_service_details_source_container_db_credentials_password
+			username = var.migration_golden_gate_service_details_source_container_db_credentials_username
+		}
+		source_db_credentials {
+			#Required
+			password = var.migration_golden_gate_service_details_source_db_credentials_password
+			username = var.migration_golden_gate_service_details_source_db_credentials_username
+		}
+		target_db_credentials {
+			#Required
+			password = var.migration_golden_gate_service_details_target_db_credentials_password
+			username = var.migration_golden_gate_service_details_target_db_credentials_username
 		}
 	}
 	include_objects {
@@ -255,14 +292,14 @@ The following arguments are supported:
 		* `source_container_db_admin_credentials` - (Optional) (Updatable) Database Administrator Credentials details. 
 			* `password` - (Required) (Updatable) Administrator password 
 			* `username` - (Required) (Updatable) Administrator username 
-		* `source_db_admin_credentials` - (Required) (Updatable) Database Administrator Credentials details. 
+		* `source_db_admin_credentials` - (Optional) (Updatable) Database Administrator Credentials details. 
 			* `password` - (Required) (Updatable) Administrator password 
 			* `username` - (Required) (Updatable) Administrator username 
-		* `source_microservices_deployment_name` - (Required) (Updatable) Name of GoldenGate Microservices deployment to operate on source database 
-		* `target_db_admin_credentials` - (Required) (Updatable) Database Administrator Credentials details. 
+		* `source_microservices_deployment_name` - (Optional) (Updatable) Name of GoldenGate Microservices deployment to operate on source database 
+		* `target_db_admin_credentials` - (Optional) (Updatable) Database Administrator Credentials details. 
 			* `password` - (Required) (Updatable) Administrator password 
 			* `username` - (Required) (Updatable) Administrator username 
-		* `target_microservices_deployment_name` - (Required) (Updatable) Name of GoldenGate Microservices deployment to operate on target database 
+		* `target_microservices_deployment_name` - (Optional) (Updatable) Name of GoldenGate Microservices deployment to operate on target database 
 		* `url` - (Required) (Updatable) Oracle GoldenGate Microservices hub's REST endpoint. Refer to https://docs.oracle.com/en/middleware/goldengate/core/19.1/securing/network.html#GUID-A709DA55-111D-455E-8942-C9BDD1E38CAA 
 	* `settings` - (Optional) (Updatable) Optional settings for GoldenGate Microservices processes 
 		* `acceptable_lag` - (Optional) (Updatable) ODMS will monitor GoldenGate end-to-end latency until the lag time is lower than the specified value in seconds. 
@@ -273,6 +310,25 @@ The following arguments are supported:
 			* `map_parallelism` - (Optional) (Updatable) Number of threads used to read trail files (valid for Parallel Replicat) 
 			* `max_apply_parallelism` - (Optional) (Updatable) Defines the range in which the Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
 			* `min_apply_parallelism` - (Optional) (Updatable) Defines the range in which the Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
+* `golden_gate_service_details` - (Optional) (Updatable) Details about Oracle GoldenGate GGS Deployment. 
+	* `settings` - (Optional) (Updatable) Optional settings for GoldenGate Microservices processes 
+		* `acceptable_lag` - (Optional) (Updatable) ODMS will monitor GoldenGate end-to-end latency until the lag time is lower than the specified value in seconds. 
+		* `extract` - (Optional) (Updatable) Parameters for GoldenGate Extract processes. 
+			* `long_trans_duration` - (Optional) (Updatable) Length of time (in seconds) that a transaction can be open before Extract generates a warning message that the transaction is long-running. If not specified, Extract will not generate a warning on long-running transactions. 
+			* `performance_profile` - (Optional) (Updatable) Extract performance. 
+		* `replicat` - (Optional) (Updatable) Parameters for GoldenGate Replicat processes. 
+			* `map_parallelism` - (Optional) (Updatable) Number of threads used to read trail files (valid for Parallel Replicat) 
+			* `max_apply_parallelism` - (Optional) (Updatable) Defines the range in which the Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
+			* `min_apply_parallelism` - (Optional) (Updatable) Defines the range in which the Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
+	* `source_container_db_credentials` - (Optional) (Updatable) Database Credentials details. 
+		* `password` - (Required) (Updatable) Database  password 
+		* `username` - (Required) (Updatable) Database username 
+	* `source_db_credentials` - (Optional) (Updatable) Database Credentials details. 
+		* `password` - (Required) (Updatable) Database  password 
+		* `username` - (Required) (Updatable) Database username 
+	* `target_db_credentials` - (Optional) (Updatable) Database Credentials details. 
+		* `password` - (Required) (Updatable) Database  password 
+		* `username` - (Required) (Updatable) Database username 
 * `include_objects` - (Optional) (Updatable) Database objects to include from migration, cannot be specified alongside 'excludeObjects' 
 	* `is_omit_excluded_table_from_replication` - (Optional) (Updatable) Whether an excluded table should be omitted from replication. Only valid for database objects that have are of type TABLE and that are included in the exludeObjects. 
 	* `object` - (Required) (Updatable) Name of the object (regular expression is allowed) 
@@ -361,6 +417,19 @@ The following attributes are exported:
 			* `username` - Administrator username 
 		* `target_microservices_deployment_name` - Name of GoldenGate deployment to operate on target database 
 		* `url` - Oracle GoldenGate hub's REST endpoint. Refer to https://docs.oracle.com/en/middleware/goldengate/core/19.1/securing/network.html#GUID-A709DA55-111D-455E-8942-C9BDD1E38CAA 
+	* `settings` - Optional settings for Oracle GoldenGate processes 
+		* `acceptable_lag` - ODMS will monitor GoldenGate end-to-end latency until the lag time is lower than the specified value in seconds. 
+		* `extract` - Parameters for Extract processes. 
+			* `long_trans_duration` - Length of time (in seconds) that a transaction can be open before Extract generates a warning message that the transaction is long-running. If not specified, Extract will not generate a warning on long-running transactions. 
+			* `performance_profile` - Extract performance. 
+		* `replicat` - Parameters for Replicat processes. 
+			* `map_parallelism` - Number of threads used to read trail files (valid for Parallel Replicat) 
+			* `max_apply_parallelism` - Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
+			* `min_apply_parallelism` - Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
+* `golden_gate_service_details` - Details about Oracle GoldenGate GGS Deployment. 
+	* `ggs_deployment` - Details about Oracle GoldenGate GGS Deployment. 
+		* `deployment_id` - OCID of a GoldenGate Deployment 
+		* `ggs_admin_credentials_secret_id` - OCID of a VaultSecret containing the Admin Credentials for the GGS Deployment 
 	* `settings` - Optional settings for Oracle GoldenGate processes 
 		* `acceptable_lag` - ODMS will monitor GoldenGate end-to-end latency until the lag time is lower than the specified value in seconds. 
 		* `extract` - Parameters for Extract processes. 

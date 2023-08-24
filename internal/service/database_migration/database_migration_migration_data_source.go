@@ -129,6 +129,12 @@ func (s *DatabaseMigrationMigrationDataSourceCrud) SetData() error {
 		s.D.Set("golden_gate_details", nil)
 	}
 
+	if s.Res.GoldenGateServiceDetails != nil {
+		s.D.Set("golden_gate_service_details", []interface{}{GoldenGateServiceDetailsToMap(s.Res.GoldenGateServiceDetails)})
+	} else {
+		s.D.Set("golden_gate_service_details", nil)
+	}
+
 	includeObjects := []interface{}{}
 	for _, item := range s.Res.IncludeObjects {
 		includeObjects = append(includeObjects, DatabaseObjectToMap(item))
