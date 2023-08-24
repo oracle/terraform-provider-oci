@@ -151,6 +151,11 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_transport_mode": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"provider_service_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -399,6 +404,13 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		request.IsBfdEnabled = &tmp
 	}
 
+	if vcType, ok := s.D.GetOkExists("type"); ok && !strings.EqualFold(vcType.(string), string(oci_core.VirtualCircuitTypePublic)) {
+		if isTransportMode, ok := s.D.GetOkExists("is_transport_mode"); ok {
+			tmp := isTransportMode.(bool)
+			request.IsTransportMode = &tmp
+		}
+	}
+
 	if providerServiceId, ok := s.D.GetOkExists("provider_service_id"); ok {
 		tmp := providerServiceId.(string)
 		request.ProviderServiceId = &tmp
@@ -595,6 +607,13 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		request.IsBfdEnabled = &tmp
 	}
 
+	if vcType, ok := s.D.GetOkExists("type"); ok && !strings.EqualFold(vcType.(string), string(oci_core.VirtualCircuitTypePublic)) {
+		if isTransportMode, ok := s.D.GetOkExists("is_transport_mode"); ok {
+			tmp := isTransportMode.(bool)
+			request.IsTransportMode = &tmp
+		}
+	}
+
 	if providerServiceKeyName, ok := s.D.GetOkExists("provider_service_key_name"); ok && s.D.HasChange("provider_service_key_name") {
 		tmp := providerServiceKeyName.(string)
 		request.ProviderServiceKeyName = &tmp
@@ -759,6 +778,10 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 
 	if s.Res.IsBfdEnabled != nil {
 		s.D.Set("is_bfd_enabled", *s.Res.IsBfdEnabled)
+	}
+
+	if s.Res.IsTransportMode != nil {
+		s.D.Set("is_transport_mode", *s.Res.IsTransportMode)
 	}
 
 	if s.Res.OracleBgpAsn != nil {

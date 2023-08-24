@@ -87,6 +87,10 @@ func CoreIpSecConnectionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"transport_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -367,6 +371,8 @@ func (s *CoreIpSecConnectionResourceCrud) SetData() error {
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
+
+	s.D.Set("transport_type", s.Res.TransportType)
 
 	return nil
 }
