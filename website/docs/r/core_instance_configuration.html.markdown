@@ -110,12 +110,19 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 			create_vnic_details {
 
 				#Optional
+				assign_ipv6ip = var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_ipv6ip
 				assign_private_dns_record = var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_private_dns_record
 				assign_public_ip = var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_public_ip
 				defined_tags = {"Operations.CostCenter"= "42"}
 				display_name = var.instance_configuration_instance_details_launch_details_create_vnic_details_display_name
 				freeform_tags = {"Department"= "Finance"}
 				hostname_label = var.instance_configuration_instance_details_launch_details_create_vnic_details_hostname_label
+				ipv6address_ipv6subnet_cidr_pair_details {
+
+					#Optional
+					ipv6address = var.instance_configuration_instance_details_launch_details_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6address
+					ipv6subnet_cidr = var.instance_configuration_instance_details_launch_details_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr
+				}				
 				nsg_ids = var.instance_configuration_instance_details_launch_details_create_vnic_details_nsg_ids
 				private_ip = var.instance_configuration_instance_details_launch_details_create_vnic_details_private_ip
 				skip_source_dest_check = var.instance_configuration_instance_details_launch_details_create_vnic_details_skip_source_dest_check
@@ -278,12 +285,19 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				create_vnic_details {
 
 					#Optional
+					assign_ipv6ip = var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_ipv6ip
 					assign_private_dns_record = var.instance_configuration_instance_details_options_launch_details_create_vnic_details_assign_private_dns_record
 					assign_public_ip = var.instance_configuration_instance_details_options_launch_details_create_vnic_details_assign_public_ip
 					defined_tags = {"Operations.CostCenter"= "42"}
 					display_name = var.instance_configuration_instance_details_options_launch_details_create_vnic_details_display_name
 					freeform_tags = {"Department"= "Finance"}
 					hostname_label = var.instance_configuration_instance_details_options_launch_details_create_vnic_details_hostname_label
+					ipv6address_ipv6subnet_cidr_pair_details {
+
+						#Optional
+						ipv6address = var.instance_configuration_instance_details_launch_details_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6address
+						ipv6subnet_cidr = var.instance_configuration_instance_details_launch_details_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr
+					}
 					nsg_ids = var.instance_configuration_instance_details_options_launch_details_create_vnic_details_nsg_ids
 					private_ip = var.instance_configuration_instance_details_options_launch_details_create_vnic_details_private_ip
 					skip_source_dest_check = var.instance_configuration_instance_details_options_launch_details_create_vnic_details_skip_source_dest_check
@@ -377,12 +391,19 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				create_vnic_details {
 
 					#Optional
+					assign_ipv6ip = var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_assign_ipv6ip
 					assign_private_dns_record = var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_assign_private_dns_record
 					assign_public_ip = var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_assign_public_ip
 					defined_tags = {"Operations.CostCenter"= "42"}
 					display_name = var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_display_name
 					freeform_tags = {"Department"= "Finance"}
 					hostname_label = var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_hostname_label
+					ipv6address_ipv6subnet_cidr_pair_details {
+
+						#Optional
+						ipv6address = var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6address
+						ipv6subnet_cidr = var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr
+					}
 					nsg_ids = var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_nsg_ids
 					private_ip = var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_private_ip
 					skip_source_dest_check = var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_skip_source_dest_check
@@ -501,12 +522,16 @@ The following arguments are supported:
         * `compartment_id` - (Applicable when instance_type=compute) The OCID of the compartment containing the instance. Instances created from instance configurations are placed in the same compartment as the instance that was used to create the instance configuration.
         * `create_vnic_details` - (Applicable when instance_type=compute) Contains the properties of the VNIC for an instance configuration. See [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) and [Instance Configurations](https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information.
             * `assign_private_dns_record` - (Applicable when instance_type=compute) Whether the VNIC should be assigned a private DNS record. See the `assignPrivateDnsRecord` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
+            * `assign_ipv6ip` - (Optional) Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr` is not provided then an IPv6 prefix is chosen for you.
             * `assign_public_ip` - (Applicable when instance_type=compute) Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
             * `defined_tags` - (Applicable when instance_type=compute) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
             * `display_name` - (Applicable when instance_type=compute) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
             * `freeform_tags` - (Applicable when instance_type=compute) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
             * `hostname_label` - (Applicable when instance_type=compute) The hostname for the VNIC's primary private IP. See the `hostnameLabel` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
-            * `nsg_ids` - (Applicable when instance_type=compute) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/).
+		    * `ipv6address_ipv6subnet_cidr_pair_details` - (Optional) A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure selects an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
+			   * `ipv6address` - (Optional) Optional. An available IPv6 address of your subnet from a valid IPv6 prefix on the subnet (otherwise the IP address is automatically assigned).
+			   * `ipv6subnet_cidr` - (Optional) Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
+		    * `nsg_ids` - (Applicable when instance_type=compute) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/).
             * `private_ip` - (Applicable when instance_type=compute) A private IP address of your choice to assign to the VNIC. See the `privateIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
             * `skip_source_dest_check` - (Applicable when instance_type=compute) Whether the source/destination check is disabled on the VNIC. See the `skipSourceDestCheck` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
             * `subnet_id` - (Applicable when instance_type=compute) The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
@@ -725,16 +750,20 @@ The following arguments are supported:
 			* `capacity_reservation_id` - (Applicable when instance_type=instance_options) The OCID of the compute capacity reservation this instance is launched under.
 			* `compartment_id` - (Applicable when instance_type=instance_options) (Updatable) The OCID of the compartment containing the instance. Instances created from instance configurations are placed in the same compartment as the instance that was used to create the instance configuration.
 			* `create_vnic_details` - (Applicable when instance_type=instance_options) Contains the properties of the VNIC for an instance configuration. See [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) and [Instance Configurations](https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information.
-				* `assign_private_dns_record` - (Applicable when instance_type=instance_options) Whether the VNIC should be assigned a private DNS record. See the `assignPrivateDnsRecord` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
-				* `assign_public_ip` - (Applicable when instance_type=instance_options) Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
-				* `defined_tags` - (Applicable when instance_type=instance_options) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
-				* `display_name` - (Applicable when instance_type=instance_options) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-				* `freeform_tags` - (Applicable when instance_type=instance_options) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
-				* `hostname_label` - (Applicable when instance_type=instance_options) The hostname for the VNIC's primary private IP. See the `hostnameLabel` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
-				* `nsg_ids` - (Applicable when instance_type=instance_options) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/).
-				* `private_ip` - (Applicable when instance_type=instance_options) A private IP address of your choice to assign to the VNIC. See the `privateIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
-				* `skip_source_dest_check` - (Applicable when instance_type=instance_options) Whether the source/destination check is disabled on the VNIC. See the `skipSourceDestCheck` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
-				* `subnet_id` - (Applicable when instance_type=instance_options) The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
+                * `assign_ipv6ip` - (Optional) Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr` is not provided then an IPv6 prefix is chosen for you.
+                * `ipv6address_ipv6subnet_cidr_pair_details` - (Optional) A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure selects an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
+                   * `ipv6address` - (Optional) Optional. An available IPv6 address of your subnet from a valid IPv6 prefix on the subnet (otherwise the IP address is automatically assigned).
+                   * `ipv6subnet_cidr` - (Optional) Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
+			    * `assign_private_dns_record` - (Applicable when instance_type=instance_options) Whether the VNIC should be assigned a private DNS record. See the `assignPrivateDnsRecord` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
+                * `assign_public_ip` - (Applicable when instance_type=instance_options) Whether the VNIC should be assigned a public IP address. See the `assignPublicIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
+                * `defined_tags` - (Applicable when instance_type=instance_options) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
+                * `display_name` - (Applicable when instance_type=instance_options) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+                * `freeform_tags` - (Applicable when instance_type=instance_options) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+                * `hostname_label` - (Applicable when instance_type=instance_options) The hostname for the VNIC's primary private IP. See the `hostnameLabel` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
+                * `nsg_ids` - (Applicable when instance_type=instance_options) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/).
+                * `private_ip` - (Applicable when instance_type=instance_options) A private IP address of your choice to assign to the VNIC. See the `privateIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
+                * `skip_source_dest_check` - (Applicable when instance_type=instance_options) Whether the source/destination check is disabled on the VNIC. See the `skipSourceDestCheck` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
+                * `subnet_id` - (Applicable when instance_type=instance_options) The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
 			* `dedicated_vm_host_id` - (Applicable when instance_type=instance_options) The OCID of the dedicated virtual machine host to place the instance on.
 
 			  Dedicated VM hosts can be used when launching individual instances from an instance configuration. They cannot be used to launch instance pools.

@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strconv"
 	"testing"
 	"time"
@@ -48,6 +49,7 @@ var (
 		"nic_index":           acctest.Representation{RepType: acctest.Optional, Create: `0`},
 	}
 	CoreVnicAttachmentCreateVnicDetailsRepresentation = map[string]interface{}{
+		"assign_ipv6ip":             acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"assign_public_ip":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -60,6 +62,34 @@ var (
 		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
+	CoreVnicAttachmentIpv6Representation = map[string]interface{}{
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVnicAttachmentCreateVnicDetailsIpv6Representation},
+		"instance_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"nic_index":           acctest.Representation{RepType: acctest.Optional, Create: `0`},
+	}
+	CoreVnicAttachmentCreateVnicDetailsIpv6Representation = map[string]interface{}{
+		"assign_ipv6ip":             acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"assign_private_dns_record": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"assign_public_ip":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Accounting"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"hostname_label":            acctest.Representation{RepType: acctest.Optional, Create: `attachvnictestinstance`},
+		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreVnicAttachmentIpv6AddressIpv6SubnetCidrPairRepresentation},
+		"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"private_ip":             acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"skip_source_dest_check": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+	CoreVnicAttachmentIpv6AddressIpv6SubnetCidrPairRepresentation = map[string]interface{}{
+		"ipv6_subnet_cidr": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.ipv6cidr_blocks[0]}`},
+		"ipv6_address":     acctest.Representation{RepType: acctest.Optional, Create: `${substr(oci_core_subnet.test_subnet.ipv6cidr_blocks[0], 0, length(oci_core_subnet.test_subnet.ipv6cidr_blocks[0]) - 7)}${1000}`},
+	}
+	CoreSecondaryVnicRepresentation = map[string]interface{}{
+		"vnic_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vnic_attachment.test_vnic_attachment.vnic_id}`},
+	}
+
 	CoreVnicAttachmentResourceDependencies = utils.OciImageIdsVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
@@ -68,6 +98,20 @@ var (
 		})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+		})) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
+
+	CoreVnicAttachmentResourceDependenciesIPV6 = utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+			"dns_label":       acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Required, Create: []string{`${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`}},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+			"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			"is_ipv6enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		})) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
@@ -115,6 +159,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_ipv6ip", "false"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "false"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
@@ -176,6 +221,70 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 				"create_vnic_details.0.assign_private_dns_record",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestCoreVnicAttachmentResource_AssignIpv6(t *testing.T) {
+	httpreplay.SetScenario("TestCoreVnicAttachmentResource_AssignIpv6")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_vnic_attachment.test_vnic_attachment"
+	vnicDatasourceName := "data.oci_core_vnic.test_vnic"
+
+	var resId string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreVnicAttachmentResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Create, CoreVnicAttachmentIpv6Representation), "core", "vnicAttachment", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreVnicAttachmentDestroy, []resource.TestStep{
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + CoreVnicAttachmentResourceDependenciesIPV6 +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Create, CoreVnicAttachmentIpv6Representation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vnic", "test_vnic", acctest.Required, acctest.Create, CoreSecondaryVnicRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_ipv6ip", "true"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "attachvnictestinstance"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6_subnet_cidr"),
+				resource.TestMatchResourceAttr(resourceName, "create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6_address", regexp.MustCompile(".*1000$")),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(vnicDatasourceName, "ipv6addresses.#", "1"),
+				resource.TestMatchResourceAttr(vnicDatasourceName, "ipv6addresses.0", regexp.MustCompile(".*1000$")),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "nic_index", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
 		},
 	})
 }
