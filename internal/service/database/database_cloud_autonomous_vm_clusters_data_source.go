@@ -128,6 +128,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.AutonomousDataStoragePercentage != nil {
+			cloudAutonomousVmCluster["autonomous_data_storage_percentage"] = *r.AutonomousDataStoragePercentage
+		}
+
 		if r.AutonomousDataStorageSizeInTBs != nil {
 			cloudAutonomousVmCluster["autonomous_data_storage_size_in_tbs"] = *r.AutonomousDataStorageSizeInTBs
 		}
@@ -164,6 +168,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.CpuCoreCountPerNode != nil {
 			cloudAutonomousVmCluster["cpu_core_count_per_node"] = *r.CpuCoreCountPerNode
+		}
+
+		if r.CpuPercentage != nil {
+			cloudAutonomousVmCluster["cpu_percentage"] = *r.CpuPercentage
 		}
 
 		if r.DataStorageSizeInGBs != nil {
@@ -246,14 +254,34 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["node_count"] = *r.NodeCount
 		}
 
+		if r.NonProvisionableAutonomousContainerDatabases != nil {
+			cloudAutonomousVmCluster["non_provisionable_autonomous_container_databases"] = *r.NonProvisionableAutonomousContainerDatabases
+		}
+
 		cloudAutonomousVmCluster["nsg_ids"] = r.NsgIds
 
 		if r.OcpuCount != nil {
 			cloudAutonomousVmCluster["ocpu_count"] = *r.OcpuCount
 		}
 
+		if r.ProvisionableAutonomousContainerDatabases != nil {
+			cloudAutonomousVmCluster["provisionable_autonomous_container_databases"] = *r.ProvisionableAutonomousContainerDatabases
+		}
+
+		if r.ProvisionedAutonomousContainerDatabases != nil {
+			cloudAutonomousVmCluster["provisioned_autonomous_container_databases"] = *r.ProvisionedAutonomousContainerDatabases
+		}
+
+		if r.ProvisionedCpus != nil {
+			cloudAutonomousVmCluster["provisioned_cpus"] = *r.ProvisionedCpus
+		}
+
 		if r.ReclaimableCpus != nil {
 			cloudAutonomousVmCluster["reclaimable_cpus"] = *r.ReclaimableCpus
+		}
+
+		if r.ReservedCpus != nil {
+			cloudAutonomousVmCluster["reserved_cpus"] = *r.ReservedCpus
 		}
 
 		if r.ScanListenerPortNonTls != nil {
@@ -282,8 +310,16 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["time_updated"] = r.TimeUpdated.String()
 		}
 
+		if r.TotalAutonomousDataStorageInTBs != nil {
+			cloudAutonomousVmCluster["total_autonomous_data_storage_in_tbs"] = *r.TotalAutonomousDataStorageInTBs
+		}
+
 		if r.TotalContainerDatabases != nil {
 			cloudAutonomousVmCluster["total_container_databases"] = *r.TotalContainerDatabases
+		}
+
+		if r.TotalCpus != nil {
+			cloudAutonomousVmCluster["total_cpus"] = *r.TotalCpus
 		}
 
 		resources = append(resources, cloudAutonomousVmCluster)

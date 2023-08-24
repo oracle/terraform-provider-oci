@@ -241,6 +241,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["kms_key_version_id"] = *r.KmsKeyVersionId
 		}
 
+		if r.LargestProvisionableAutonomousDatabaseInCpus != nil {
+			autonomousContainerDatabase["largest_provisionable_autonomous_database_in_cpus"] = *r.LargestProvisionableAutonomousDatabaseInCpus
+		}
+
 		if r.LastMaintenanceRunId != nil {
 			autonomousContainerDatabase["last_maintenance_run_id"] = *r.LastMaintenanceRunId
 		}
@@ -271,8 +275,16 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["provisionable_cpus"] = r.ProvisionableCpus
 
+		if r.ProvisionedCpus != nil {
+			autonomousContainerDatabase["provisioned_cpus"] = *r.ProvisionedCpus
+		}
+
 		if r.ReclaimableCpus != nil {
 			autonomousContainerDatabase["reclaimable_cpus"] = *r.ReclaimableCpus
+		}
+
+		if r.ReservedCpus != nil {
+			autonomousContainerDatabase["reserved_cpus"] = *r.ReservedCpus
 		}
 
 		autonomousContainerDatabase["role"] = r.Role
