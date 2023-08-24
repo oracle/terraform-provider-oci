@@ -100,6 +100,11 @@ func CoreCrossConnectResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_unprotected_traffic_allowed": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"primary_key": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -585,6 +590,11 @@ func (s *CoreCrossConnectResourceCrud) mapToCreateMacsecProperties(fieldKeyForma
 		result.EncryptionCipher = oci_core.MacsecEncryptionCipherEnum(encryptionCipher.(string))
 	}
 
+	if isUnprotectedTrafficAllowed, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_unprotected_traffic_allowed")); ok {
+		tmp := isUnprotectedTrafficAllowed.(bool)
+		result.IsUnprotectedTrafficAllowed = &tmp
+	}
+
 	if primaryKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_key")); ok {
 		if tmpList := primaryKey.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "primary_key"), 0)
@@ -610,6 +620,11 @@ func (s *CoreCrossConnectResourceCrud) mapToUpdateMacsecProperties(fieldKeyForma
 		result.EncryptionCipher = oci_core.MacsecEncryptionCipherEnum(encryptionCipher.(string))
 	}
 
+	if isUnprotectedTrafficAllowed, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_unprotected_traffic_allowed")); ok {
+		tmp := isUnprotectedTrafficAllowed.(bool)
+		result.IsUnprotectedTrafficAllowed = &tmp
+	}
+
 	if primaryKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_key")); ok {
 		if tmpList := primaryKey.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "primary_key"), 0)
@@ -632,6 +647,10 @@ func MacsecPropertiesToMap(obj *oci_core.MacsecProperties) map[string]interface{
 	result := map[string]interface{}{}
 
 	result["encryption_cipher"] = string(obj.EncryptionCipher)
+
+	if obj.IsUnprotectedTrafficAllowed != nil {
+		result["is_unprotected_traffic_allowed"] = bool(*obj.IsUnprotectedTrafficAllowed)
+	}
 
 	if obj.PrimaryKey != nil {
 		result["primary_key"] = []interface{}{MacsecKeyToMap(obj.PrimaryKey)}

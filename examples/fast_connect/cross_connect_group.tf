@@ -69,6 +69,7 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
             connectivity_association_key_secret_version = var.secret_version_cak
             connectivity_association_name_secret_version = var.secret_version_ckn
         }
+        is_unprotected_traffic_allowed = false
 
     }
 }
@@ -94,6 +95,7 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group_2" {
       connectivity_association_name_secret_id = var.secret_ocid_ckn
       #secret versions default to current version
     }
+    is_unprotected_traffic_allowed = true
 
   }
 }
