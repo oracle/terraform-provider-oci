@@ -291,6 +291,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.network_details.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.network_details.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.network_details.0.route_table_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.network_details.0.transport_only_mode"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.network_details.0.type", "VCN"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.network_details.0.vcn_route_type", "SUBNET_CIDRS"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.route_table_id"),
@@ -455,7 +456,7 @@ func TestCoreDrgAttachmentUpdateRequest_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", acctest.Optional, acctest.Create, CoreDrgAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
@@ -481,7 +482,7 @@ func TestCoreDrgAttachmentUpdateRequest_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", acctest.Optional, acctest.Update, CoreDrgAttachmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),

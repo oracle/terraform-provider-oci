@@ -145,6 +145,7 @@ func TestCoreIpSecConnectionTunnelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "ipsec_id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.#"),
+				resource.TestCheckResourceAttr(datasourceName, "ip_sec_connection_tunnels.0.associated_virtual_circuits.#", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.compartment_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.cpe_ip"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ip_sec_connection_tunnels.0.display_name"),

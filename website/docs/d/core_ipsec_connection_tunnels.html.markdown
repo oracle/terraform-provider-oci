@@ -39,6 +39,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `associated_virtual_circuits` - The list of virtual circuit [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s over which your network can reach this tunnel. 
 * `bgp_session_info` - Information for establishing a BGP session for the IPSec tunnel.
 	* `bgp_ipv6state` - The state of the BGP IPv6 session. 
 	* `bgp_state` - The state of the BGP session. 

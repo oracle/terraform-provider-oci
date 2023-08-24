@@ -115,6 +115,10 @@ func (s *CoreCpesDataSourceCrud) SetData() error {
 			cpe["ip_address"] = *r.IpAddress
 		}
 
+		if r.IsPrivate != nil {
+			cpe["is_private"] = *r.IsPrivate
+		}
+
 		if r.TimeCreated != nil {
 			cpe["time_created"] = r.TimeCreated.String()
 		}

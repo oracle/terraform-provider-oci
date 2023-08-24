@@ -69,20 +69,25 @@ func CoreDrgAttachmentResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"id": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 						"type": {
 							Type:             schema.TypeString,
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"IPSEC_TUNNEL",
+								"LOOPBACK",
+								"REMOTE_PEERING_CONNECTION",
 								"VCN",
 							}, true),
 						},
 
 						// Optional
+						"id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"route_table_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -95,8 +100,23 @@ func CoreDrgAttachmentResource() *schema.Resource {
 						},
 
 						// Computed
+						"ids": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"ipsec_connection_id": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"transport_attachment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"transport_only_mode": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 					},

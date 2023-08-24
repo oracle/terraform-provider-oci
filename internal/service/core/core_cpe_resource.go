@@ -60,6 +60,12 @@ func CoreCpeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_private": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"time_created": {
@@ -147,6 +153,11 @@ func (s *CoreCpeResourceCrud) Create() error {
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
 		tmp := ipAddress.(string)
 		request.IpAddress = &tmp
+	}
+
+	if isPrivate, ok := s.D.GetOkExists("is_private"); ok {
+		tmp := isPrivate.(bool)
+		request.IsPrivate = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -258,6 +269,10 @@ func (s *CoreCpeResourceCrud) SetData() error {
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
+	}
+
+	if s.Res.IsPrivate != nil {
+		s.D.Set("is_private", *s.Res.IsPrivate)
 	}
 
 	if s.Res.TimeCreated != nil {

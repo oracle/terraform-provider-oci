@@ -161,6 +161,10 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			virtualCircuit["is_bfd_enabled"] = *r.IsBfdEnabled
 		}
 
+		if r.IsTransportMode != nil {
+			virtualCircuit["is_transport_mode"] = *r.IsTransportMode
+		}
+
 		if r.OracleBgpAsn != nil {
 			virtualCircuit["oracle_bgp_asn"] = *r.OracleBgpAsn
 		}

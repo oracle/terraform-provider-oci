@@ -97,7 +97,7 @@ The following arguments are supported:
 
 	For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 
-	Example: `vcn1` 
+	Example: `vcn1`
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `ipv6private_cidr_blocks` - (Optional) The list of one or more ULA or Private IPv6 CIDR blocks for the vcn that meets the following criteria:
 	* The CIDR blocks must be valid.
