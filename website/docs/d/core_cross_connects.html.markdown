@@ -58,6 +58,7 @@ The following attributes are exported:
 * `location_name` - The name of the FastConnect location where this cross-connect is installed. 
 * `macsec_properties` - Properties used for MACsec (if capable).
 	* `encryption_cipher` - Type of encryption cipher suite to use for the MACsec connection.
+	* `is_unprotected_traffic_allowed` - Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
 	* `primary_key` - An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
 		* `connectivity_association_key_secret_id` - Secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity Association Key (CAK) of this MACsec key.
 		* `connectivity_association_key_secret_version` - The secret version of the `connectivityAssociationKey` secret in Vault.
