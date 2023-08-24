@@ -77,6 +77,11 @@ func CoreCrossConnectGroupResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_unprotected_traffic_allowed": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"primary_key": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -457,6 +462,11 @@ func (s *CoreCrossConnectGroupResourceCrud) mapToCreateMacsecProperties(fieldKey
 		result.EncryptionCipher = oci_core.MacsecEncryptionCipherEnum(encryptionCipher.(string))
 	}
 
+	if isUnprotectedTrafficAllowed, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_unprotected_traffic_allowed")); ok {
+		tmp := isUnprotectedTrafficAllowed.(bool)
+		result.IsUnprotectedTrafficAllowed = &tmp
+	}
+
 	if primaryKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_key")); ok {
 		if tmpList := primaryKey.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "primary_key"), 0)
@@ -480,6 +490,11 @@ func (s *CoreCrossConnectGroupResourceCrud) mapToUpdateMacsecProperties(fieldKey
 
 	if encryptionCipher, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_cipher")); ok {
 		result.EncryptionCipher = oci_core.MacsecEncryptionCipherEnum(encryptionCipher.(string))
+	}
+
+	if isUnprotectedTrafficAllowed, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_unprotected_traffic_allowed")); ok {
+		tmp := isUnprotectedTrafficAllowed.(bool)
+		result.IsUnprotectedTrafficAllowed = &tmp
 	}
 
 	if primaryKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_key")); ok {
