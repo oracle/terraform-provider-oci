@@ -121,6 +121,19 @@ The following attributes are exported:
 			* `map_parallelism` - Number of threads used to read trail files (valid for Parallel Replicat) 
 			* `max_apply_parallelism` - Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
 			* `min_apply_parallelism` - Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
+* `golden_gate_service_details` - Details about Oracle GoldenGate GGS Deployment. 
+	* `ggs_deployment` - Details about Oracle GoldenGate GGS Deployment. 
+		* `deployment_id` - OCID of a GoldenGate Deployment 
+		* `ggs_admin_credentials_secret_id` - OCID of a VaultSecret containing the Admin Credentials for the GGS Deployment 
+	* `settings` - Optional settings for Oracle GoldenGate processes 
+		* `acceptable_lag` - ODMS will monitor GoldenGate end-to-end latency until the lag time is lower than the specified value in seconds. 
+		* `extract` - Parameters for Extract processes. 
+			* `long_trans_duration` - Length of time (in seconds) that a transaction can be open before Extract generates a warning message that the transaction is long-running. If not specified, Extract will not generate a warning on long-running transactions. 
+			* `performance_profile` - Extract performance. 
+		* `replicat` - Parameters for Replicat processes. 
+			* `map_parallelism` - Number of threads used to read trail files (valid for Parallel Replicat) 
+			* `max_apply_parallelism` - Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
+			* `min_apply_parallelism` - Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
 * `id` - The OCID of the resource 
 * `include_objects` - Database objects to include from migration. 
 	* `is_omit_excluded_table_from_replication` - Whether an excluded table should be omitted from replication. Only valid for database objects that have are of type TABLE and that are included in the exludeObjects. 

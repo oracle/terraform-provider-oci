@@ -55,6 +55,8 @@ The following attributes are exported:
 	* `id` - [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a previously created Private Endpoint. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside. 
 	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. 
+* `replication_credentials` - Database Administrator Credentials details. 
+	* `username` - Administrator username 
 * `ssh_details` - Details of the SSH key that will be used. 
 	* `host` - Name of the host the SSH key is valid for. 
 	* `sudo_location` - Sudo location 
