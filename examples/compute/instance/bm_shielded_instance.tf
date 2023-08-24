@@ -3,11 +3,11 @@
 
 
 variable "bm_shielded_instance_shape" {
-  default = "BM.Standard.E3.128"
+  default = "BM.Standard.E4.128"
 }
 
 variable "bm_shielded_instance_platform_config_type" {
-  default = "AMD_ROME_BM"
+  default = "AMD_MILAN_BM"
 }
 
 resource "oci_core_instance" "test_bm_shielded_instance_with_platform_config" {

@@ -38,8 +38,8 @@ var (
 		"is_secure_boot_enabled":                         acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"is_symmetric_multi_threading_enabled":           acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"is_trusted_platform_module_enabled":             acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"numa_nodes_per_socket":                          acctest.Representation{RepType: acctest.Required, Create: `NPS4`},
 		"percentage_of_cores_enabled":                    acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"config_map":                                     acctest.Representation{RepType: acctest.Required, Create: map[string]string{"numaNodesPerSocket": "NPS4"}},
 	}
 	instanceBMRomeShieldedPlatformConfigRepresentation = map[string]interface{}{
 		"type":                                           acctest.Representation{RepType: acctest.Required, Create: `AMD_ROME_BM`},
@@ -1689,8 +1689,9 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
-					resource.TestCheckResourceAttr(resourceName, "platform_config.0.numa_nodes_per_socket", "NPS4"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.percentage_of_cores_enabled", "50"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.config_map.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.config_map.numaNodesPerSocket", "NPS4"),
 
 					func(ts *terraform.State) (err error) {
 						return err
@@ -1715,8 +1716,9 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_secure_boot_enabled", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_symmetric_multi_threading_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.is_trusted_platform_module_enabled", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.numa_nodes_per_socket", "NPS4"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.percentage_of_cores_enabled", "50"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.config_map.%", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.platform_config.0.config_map.numaNodesPerSocket", "NPS4"),
 				),
 			},
 			// verify singular datasource
@@ -1766,6 +1768,8 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.numa_nodes_per_socket", "NPS4"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.percentage_of_cores_enabled", "50"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.type", "AMD_MILAN_BM"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.config_map.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.config_map.numaNodesPerSocket", "NPS4"),
 				),
 			},
 		},
