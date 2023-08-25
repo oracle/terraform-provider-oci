@@ -192,10 +192,7 @@ func (m *ExpressionOperator) UnmarshalJSON(data []byte) (e error) {
 	m.ObjectVersion = model.ObjectVersion
 
 	m.InputPorts = make([]InputPort, len(model.InputPorts))
-	for i, n := range model.InputPorts {
-		m.InputPorts[i] = n
-	}
-
+	copy(m.InputPorts, model.InputPorts)
 	m.OutputPorts = make([]TypedObject, len(model.OutputPorts))
 	for i, n := range model.OutputPorts {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -208,16 +205,12 @@ func (m *ExpressionOperator) UnmarshalJSON(data []byte) (e error) {
 			m.OutputPorts[i] = nil
 		}
 	}
-
 	m.ObjectStatus = model.ObjectStatus
 
 	m.Identifier = model.Identifier
 
 	m.Parameters = make([]Parameter, len(model.Parameters))
-	for i, n := range model.Parameters {
-		m.Parameters[i] = n
-	}
-
+	copy(m.Parameters, model.Parameters)
 	m.OpConfigValues = model.OpConfigValues
 
 	m.TriggerRule = model.TriggerRule

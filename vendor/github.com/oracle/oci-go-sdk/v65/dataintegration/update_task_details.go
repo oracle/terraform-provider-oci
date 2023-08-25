@@ -60,8 +60,6 @@ type UpdateTaskDetails interface {
 
 type updatetaskdetails struct {
 	JsonData               []byte
-	Key                    *string           `mandatory:"true" json:"key"`
-	ObjectVersion          *int              `mandatory:"true" json:"objectVersion"`
 	ModelVersion           *string           `mandatory:"false" json:"modelVersion"`
 	ParentRef              *ParentReference  `mandatory:"false" json:"parentRef"`
 	Name                   *string           `mandatory:"false" json:"name"`
@@ -74,6 +72,8 @@ type updatetaskdetails struct {
 	OpConfigValues         *ConfigValues     `mandatory:"false" json:"opConfigValues"`
 	ConfigProviderDelegate *ConfigProvider   `mandatory:"false" json:"configProviderDelegate"`
 	RegistryMetadata       *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
+	Key                    *string           `mandatory:"true" json:"key"`
+	ObjectVersion          *int              `mandatory:"true" json:"objectVersion"`
 	ModelType              string            `json:"modelType"`
 }
 
@@ -146,74 +146,74 @@ func (m *updatetaskdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetKey returns Key
-func (m updatetaskdetails) GetKey() *string {
-	return m.Key
-}
-
-//GetObjectVersion returns ObjectVersion
-func (m updatetaskdetails) GetObjectVersion() *int {
-	return m.ObjectVersion
-}
-
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m updatetaskdetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m updatetaskdetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m updatetaskdetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updatetaskdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m updatetaskdetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m updatetaskdetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m updatetaskdetails) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m updatetaskdetails) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m updatetaskdetails) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m updatetaskdetails) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-//GetConfigProviderDelegate returns ConfigProviderDelegate
+// GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m updatetaskdetails) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m updatetaskdetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
+}
+
+// GetKey returns Key
+func (m updatetaskdetails) GetKey() *string {
+	return m.Key
+}
+
+// GetObjectVersion returns ObjectVersion
+func (m updatetaskdetails) GetObjectVersion() *int {
+	return m.ObjectVersion
 }
 
 func (m updatetaskdetails) String() string {

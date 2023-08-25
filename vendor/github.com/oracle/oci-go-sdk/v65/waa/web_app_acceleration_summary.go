@@ -61,6 +61,8 @@ type WebAppAccelerationSummary interface {
 
 type webappaccelerationsummary struct {
 	JsonData                   []byte
+	TimeUpdated                *common.SDKTime                      `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails           *string                              `mandatory:"false" json:"lifecycleDetails"`
 	Id                         *string                              `mandatory:"true" json:"id"`
 	DisplayName                *string                              `mandatory:"true" json:"displayName"`
 	CompartmentId              *string                              `mandatory:"true" json:"compartmentId"`
@@ -70,8 +72,6 @@ type webappaccelerationsummary struct {
 	FreeformTags               map[string]string                    `mandatory:"true" json:"freeformTags"`
 	DefinedTags                map[string]map[string]interface{}    `mandatory:"true" json:"definedTags"`
 	SystemTags                 map[string]map[string]interface{}    `mandatory:"true" json:"systemTags"`
-	TimeUpdated                *common.SDKTime                      `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails           *string                              `mandatory:"false" json:"lifecycleDetails"`
 	BackendType                string                               `json:"backendType"`
 }
 
@@ -121,59 +121,59 @@ func (m *webappaccelerationsummary) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetId returns Id
-func (m webappaccelerationsummary) GetId() *string {
-	return m.Id
-}
-
-//GetDisplayName returns DisplayName
-func (m webappaccelerationsummary) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m webappaccelerationsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
-func (m webappaccelerationsummary) GetWebAppAccelerationPolicyId() *string {
-	return m.WebAppAccelerationPolicyId
-}
-
-//GetTimeCreated returns TimeCreated
-func (m webappaccelerationsummary) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetLifecycleState returns LifecycleState
-func (m webappaccelerationsummary) GetLifecycleState() WebAppAccelerationLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetFreeformTags returns FreeformTags
-func (m webappaccelerationsummary) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m webappaccelerationsummary) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-//GetSystemTags returns SystemTags
-func (m webappaccelerationsummary) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
-}
-
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m webappaccelerationsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m webappaccelerationsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetId returns Id
+func (m webappaccelerationsummary) GetId() *string {
+	return m.Id
+}
+
+// GetDisplayName returns DisplayName
+func (m webappaccelerationsummary) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m webappaccelerationsummary) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
+func (m webappaccelerationsummary) GetWebAppAccelerationPolicyId() *string {
+	return m.WebAppAccelerationPolicyId
+}
+
+// GetTimeCreated returns TimeCreated
+func (m webappaccelerationsummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetLifecycleState returns LifecycleState
+func (m webappaccelerationsummary) GetLifecycleState() WebAppAccelerationLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+// GetFreeformTags returns FreeformTags
+func (m webappaccelerationsummary) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m webappaccelerationsummary) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m webappaccelerationsummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m webappaccelerationsummary) String() string {

@@ -72,7 +72,7 @@ func (m *opsidataobjectdetailsinquery) UnmarshalPolymorphicJSON(data []byte) (in
 	}
 }
 
-//GetQueryParams returns QueryParams
+// GetQueryParams returns QueryParams
 func (m opsidataobjectdetailsinquery) GetQueryParams() []OpsiDataObjectQueryParam {
 	return m.QueryParams
 }

@@ -123,52 +123,52 @@ func (m *abstractfield) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m abstractfield) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetIsDeclared returns IsDeclared
+// GetIsDeclared returns IsDeclared
 func (m abstractfield) GetIsDeclared() *bool {
 	return m.IsDeclared
 }
 
-//GetOriginalDisplayNames returns OriginalDisplayNames
+// GetOriginalDisplayNames returns OriginalDisplayNames
 func (m abstractfield) GetOriginalDisplayNames() []string {
 	return m.OriginalDisplayNames
 }
 
-//GetInternalName returns InternalName
+// GetInternalName returns InternalName
 func (m abstractfield) GetInternalName() *string {
 	return m.InternalName
 }
 
-//GetValueType returns ValueType
+// GetValueType returns ValueType
 func (m abstractfield) GetValueType() ValueTypeEnum {
 	return m.ValueType
 }
 
-//GetIsGroupable returns IsGroupable
+// GetIsGroupable returns IsGroupable
 func (m abstractfield) GetIsGroupable() *bool {
 	return m.IsGroupable
 }
 
-//GetIsDuration returns IsDuration
+// GetIsDuration returns IsDuration
 func (m abstractfield) GetIsDuration() *bool {
 	return m.IsDuration
 }
 
-//GetAlias returns Alias
+// GetAlias returns Alias
 func (m abstractfield) GetAlias() *string {
 	return m.Alias
 }
 
-//GetFilterQueryString returns FilterQueryString
+// GetFilterQueryString returns FilterQueryString
 func (m abstractfield) GetFilterQueryString() *string {
 	return m.FilterQueryString
 }
 
-//GetUnitType returns UnitType
+// GetUnitType returns UnitType
 func (m abstractfield) GetUnitType() *string {
 	return m.UnitType
 }

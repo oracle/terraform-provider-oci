@@ -79,9 +79,6 @@ func (m *DynamicRoutingBackend) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.RoutingBackends = make([]DynamicRoutingTypeRoutingBackend, len(model.RoutingBackends))
-	for i, n := range model.RoutingBackends {
-		m.RoutingBackends[i] = n
-	}
-
+	copy(m.RoutingBackends, model.RoutingBackends)
 	return
 }

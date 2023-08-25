@@ -148,7 +148,6 @@ func (m *WriteOperationConfig) UnmarshalJSON(data []byte) (e error) {
 			m.Operations[i] = nil
 		}
 	}
-
 	m.DataFormat = model.DataFormat
 
 	nn, e = model.PartitionConfig.UnmarshalPolymorphicJSON(model.PartitionConfig.JsonData)

@@ -106,10 +106,7 @@ func (m *CustomAuthenticationPolicy) UnmarshalJSON(data []byte) (e error) {
 	m.Parameters = model.Parameters
 
 	m.CacheKey = make([]string, len(model.CacheKey))
-	for i, n := range model.CacheKey {
-		m.CacheKey[i] = n
-	}
-
+	copy(m.CacheKey, model.CacheKey)
 	nn, e = model.ValidationFailurePolicy.UnmarshalPolymorphicJSON(model.ValidationFailurePolicy.JsonData)
 	if e != nil {
 		return

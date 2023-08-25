@@ -58,9 +58,6 @@ type TriggerSummary interface {
 
 type triggersummary struct {
 	JsonData         []byte
-	Id               *string                           `mandatory:"true" json:"id"`
-	ProjectId        *string                           `mandatory:"true" json:"projectId"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
 	DisplayName      *string                           `mandatory:"false" json:"displayName"`
 	Description      *string                           `mandatory:"false" json:"description"`
 	TimeCreated      *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
@@ -70,6 +67,9 @@ type triggersummary struct {
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id               *string                           `mandatory:"true" json:"id"`
+	ProjectId        *string                           `mandatory:"true" json:"projectId"`
+	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
 	TriggerSource    string                            `json:"triggerSource"`
 }
 
@@ -144,64 +144,64 @@ func (m *triggersummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetId returns Id
-func (m triggersummary) GetId() *string {
-	return m.Id
-}
-
-//GetProjectId returns ProjectId
-func (m triggersummary) GetProjectId() *string {
-	return m.ProjectId
-}
-
-//GetCompartmentId returns CompartmentId
-func (m triggersummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m triggersummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m triggersummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m triggersummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m triggersummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m triggersummary) GetLifecycleState() TriggerLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m triggersummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m triggersummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m triggersummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m triggersummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetId returns Id
+func (m triggersummary) GetId() *string {
+	return m.Id
+}
+
+// GetProjectId returns ProjectId
+func (m triggersummary) GetProjectId() *string {
+	return m.ProjectId
+}
+
+// GetCompartmentId returns CompartmentId
+func (m triggersummary) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m triggersummary) String() string {

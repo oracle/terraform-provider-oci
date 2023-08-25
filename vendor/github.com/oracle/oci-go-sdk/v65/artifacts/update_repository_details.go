@@ -85,22 +85,22 @@ func (m *updaterepositorydetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updaterepositorydetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updaterepositorydetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updaterepositorydetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updaterepositorydetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

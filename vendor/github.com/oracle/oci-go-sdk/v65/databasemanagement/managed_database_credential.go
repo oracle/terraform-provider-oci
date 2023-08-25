@@ -76,12 +76,12 @@ func (m *manageddatabasecredential) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetUsername returns Username
+// GetUsername returns Username
 func (m manageddatabasecredential) GetUsername() *string {
 	return m.Username
 }
 
-//GetRole returns Role
+// GetRole returns Role
 func (m manageddatabasecredential) GetRole() ManagedDatabaseCredentialRoleEnum {
 	return m.Role
 }

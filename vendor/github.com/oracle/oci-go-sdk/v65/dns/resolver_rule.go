@@ -73,12 +73,12 @@ func (m *resolverrule) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 	}
 }
 
-//GetClientAddressConditions returns ClientAddressConditions
+// GetClientAddressConditions returns ClientAddressConditions
 func (m resolverrule) GetClientAddressConditions() []string {
 	return m.ClientAddressConditions
 }
 
-//GetQnameCoverConditions returns QnameCoverConditions
+// GetQnameCoverConditions returns QnameCoverConditions
 func (m resolverrule) GetQnameCoverConditions() []string {
 	return m.QnameCoverConditions
 }

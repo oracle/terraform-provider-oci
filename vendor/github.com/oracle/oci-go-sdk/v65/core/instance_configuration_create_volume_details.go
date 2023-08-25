@@ -130,10 +130,7 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 	m.IsAutoTuneEnabled = model.IsAutoTuneEnabled
 
 	m.BlockVolumeReplicas = make([]InstanceConfigurationBlockVolumeReplicaDetails, len(model.BlockVolumeReplicas))
-	for i, n := range model.BlockVolumeReplicas {
-		m.BlockVolumeReplicas[i] = n
-	}
-
+	copy(m.BlockVolumeReplicas, model.BlockVolumeReplicas)
 	m.DefinedTags = model.DefinedTags
 
 	m.DisplayName = model.DisplayName
@@ -168,6 +165,5 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 			m.AutotunePolicies[i] = nil
 		}
 	}
-
 	return
 }

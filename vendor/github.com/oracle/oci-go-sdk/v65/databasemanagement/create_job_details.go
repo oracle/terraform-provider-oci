@@ -54,16 +54,16 @@ type CreateJobDetails interface {
 
 type createjobdetails struct {
 	JsonData               []byte
-	Name                   *string                    `mandatory:"true" json:"name"`
-	CompartmentId          *string                    `mandatory:"true" json:"compartmentId"`
-	ScheduleType           JobScheduleTypeEnum        `mandatory:"true" json:"scheduleType"`
 	Description            *string                    `mandatory:"false" json:"description"`
 	ManagedDatabaseGroupId *string                    `mandatory:"false" json:"managedDatabaseGroupId"`
 	ManagedDatabaseId      *string                    `mandatory:"false" json:"managedDatabaseId"`
 	DatabaseSubType        DatabaseSubTypeEnum        `mandatory:"false" json:"databaseSubType,omitempty"`
 	Timeout                *string                    `mandatory:"false" json:"timeout"`
-	ResultLocation         JobExecutionResultLocation `mandatory:"false" json:"resultLocation"`
+	ResultLocation         jobexecutionresultlocation `mandatory:"false" json:"resultLocation"`
 	ScheduleDetails        *JobScheduleDetails        `mandatory:"false" json:"scheduleDetails"`
+	Name                   *string                    `mandatory:"true" json:"name"`
+	CompartmentId          *string                    `mandatory:"true" json:"compartmentId"`
+	ScheduleType           JobScheduleTypeEnum        `mandatory:"true" json:"scheduleType"`
 	JobType                string                     `json:"jobType"`
 }
 
@@ -112,54 +112,54 @@ func (m *createjobdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetName returns Name
-func (m createjobdetails) GetName() *string {
-	return m.Name
-}
-
-//GetCompartmentId returns CompartmentId
-func (m createjobdetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetScheduleType returns ScheduleType
-func (m createjobdetails) GetScheduleType() JobScheduleTypeEnum {
-	return m.ScheduleType
-}
-
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createjobdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetManagedDatabaseGroupId returns ManagedDatabaseGroupId
+// GetManagedDatabaseGroupId returns ManagedDatabaseGroupId
 func (m createjobdetails) GetManagedDatabaseGroupId() *string {
 	return m.ManagedDatabaseGroupId
 }
 
-//GetManagedDatabaseId returns ManagedDatabaseId
+// GetManagedDatabaseId returns ManagedDatabaseId
 func (m createjobdetails) GetManagedDatabaseId() *string {
 	return m.ManagedDatabaseId
 }
 
-//GetDatabaseSubType returns DatabaseSubType
+// GetDatabaseSubType returns DatabaseSubType
 func (m createjobdetails) GetDatabaseSubType() DatabaseSubTypeEnum {
 	return m.DatabaseSubType
 }
 
-//GetTimeout returns Timeout
+// GetTimeout returns Timeout
 func (m createjobdetails) GetTimeout() *string {
 	return m.Timeout
 }
 
-//GetResultLocation returns ResultLocation
-func (m createjobdetails) GetResultLocation() JobExecutionResultLocation {
+// GetResultLocation returns ResultLocation
+func (m createjobdetails) GetResultLocation() jobexecutionresultlocation {
 	return m.ResultLocation
 }
 
-//GetScheduleDetails returns ScheduleDetails
+// GetScheduleDetails returns ScheduleDetails
 func (m createjobdetails) GetScheduleDetails() *JobScheduleDetails {
 	return m.ScheduleDetails
+}
+
+// GetName returns Name
+func (m createjobdetails) GetName() *string {
+	return m.Name
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createjobdetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetScheduleType returns ScheduleType
+func (m createjobdetails) GetScheduleType() JobScheduleTypeEnum {
+	return m.ScheduleType
 }
 
 func (m createjobdetails) String() string {

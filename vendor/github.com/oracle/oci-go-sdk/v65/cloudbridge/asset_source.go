@@ -71,6 +71,10 @@ type AssetSource interface {
 
 type assetsource struct {
 	JsonData            []byte
+	DiscoveryScheduleId *string                           `mandatory:"false" json:"discoveryScheduleId"`
+	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Id                  *string                           `mandatory:"true" json:"id"`
 	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
 	DisplayName         *string                           `mandatory:"true" json:"displayName"`
@@ -81,10 +85,6 @@ type assetsource struct {
 	LifecycleDetails    *string                           `mandatory:"true" json:"lifecycleDetails"`
 	TimeCreated         *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated         *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
-	DiscoveryScheduleId *string                           `mandatory:"false" json:"discoveryScheduleId"`
-	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Type                string                            `json:"type"`
 }
 
@@ -137,74 +137,74 @@ func (m *assetsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetId returns Id
-func (m assetsource) GetId() *string {
-	return m.Id
-}
-
-//GetCompartmentId returns CompartmentId
-func (m assetsource) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetDisplayName returns DisplayName
-func (m assetsource) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetEnvironmentId returns EnvironmentId
-func (m assetsource) GetEnvironmentId() *string {
-	return m.EnvironmentId
-}
-
-//GetInventoryId returns InventoryId
-func (m assetsource) GetInventoryId() *string {
-	return m.InventoryId
-}
-
-//GetAssetsCompartmentId returns AssetsCompartmentId
-func (m assetsource) GetAssetsCompartmentId() *string {
-	return m.AssetsCompartmentId
-}
-
-//GetLifecycleState returns LifecycleState
-func (m assetsource) GetLifecycleState() AssetSourceLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetLifecycleDetails returns LifecycleDetails
-func (m assetsource) GetLifecycleDetails() *string {
-	return m.LifecycleDetails
-}
-
-//GetTimeCreated returns TimeCreated
-func (m assetsource) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m assetsource) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetDiscoveryScheduleId returns DiscoveryScheduleId
+// GetDiscoveryScheduleId returns DiscoveryScheduleId
 func (m assetsource) GetDiscoveryScheduleId() *string {
 	return m.DiscoveryScheduleId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m assetsource) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m assetsource) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m assetsource) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetId returns Id
+func (m assetsource) GetId() *string {
+	return m.Id
+}
+
+// GetCompartmentId returns CompartmentId
+func (m assetsource) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetDisplayName returns DisplayName
+func (m assetsource) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetEnvironmentId returns EnvironmentId
+func (m assetsource) GetEnvironmentId() *string {
+	return m.EnvironmentId
+}
+
+// GetInventoryId returns InventoryId
+func (m assetsource) GetInventoryId() *string {
+	return m.InventoryId
+}
+
+// GetAssetsCompartmentId returns AssetsCompartmentId
+func (m assetsource) GetAssetsCompartmentId() *string {
+	return m.AssetsCompartmentId
+}
+
+// GetLifecycleState returns LifecycleState
+func (m assetsource) GetLifecycleState() AssetSourceLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+// GetLifecycleDetails returns LifecycleDetails
+func (m assetsource) GetLifecycleDetails() *string {
+	return m.LifecycleDetails
+}
+
+// GetTimeCreated returns TimeCreated
+func (m assetsource) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m assetsource) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
 }
 
 func (m assetsource) String() string {

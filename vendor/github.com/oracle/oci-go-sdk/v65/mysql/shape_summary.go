@@ -61,21 +61,18 @@ type ShapeSummaryIsSupportedForEnum string
 
 // Set of constants representing the allowable values for ShapeSummaryIsSupportedForEnum
 const (
-	ShapeSummaryIsSupportedForDbsystem         ShapeSummaryIsSupportedForEnum = "DBSYSTEM"
-	ShapeSummaryIsSupportedForAnalyticscluster ShapeSummaryIsSupportedForEnum = "ANALYTICSCLUSTER"
-	ShapeSummaryIsSupportedForHeatwavecluster  ShapeSummaryIsSupportedForEnum = "HEATWAVECLUSTER"
+	ShapeSummaryIsSupportedForDbsystem        ShapeSummaryIsSupportedForEnum = "DBSYSTEM"
+	ShapeSummaryIsSupportedForHeatwavecluster ShapeSummaryIsSupportedForEnum = "HEATWAVECLUSTER"
 )
 
 var mappingShapeSummaryIsSupportedForEnum = map[string]ShapeSummaryIsSupportedForEnum{
-	"DBSYSTEM":         ShapeSummaryIsSupportedForDbsystem,
-	"ANALYTICSCLUSTER": ShapeSummaryIsSupportedForAnalyticscluster,
-	"HEATWAVECLUSTER":  ShapeSummaryIsSupportedForHeatwavecluster,
+	"DBSYSTEM":        ShapeSummaryIsSupportedForDbsystem,
+	"HEATWAVECLUSTER": ShapeSummaryIsSupportedForHeatwavecluster,
 }
 
 var mappingShapeSummaryIsSupportedForEnumLowerCase = map[string]ShapeSummaryIsSupportedForEnum{
-	"dbsystem":         ShapeSummaryIsSupportedForDbsystem,
-	"analyticscluster": ShapeSummaryIsSupportedForAnalyticscluster,
-	"heatwavecluster":  ShapeSummaryIsSupportedForHeatwavecluster,
+	"dbsystem":        ShapeSummaryIsSupportedForDbsystem,
+	"heatwavecluster": ShapeSummaryIsSupportedForHeatwavecluster,
 }
 
 // GetShapeSummaryIsSupportedForEnumValues Enumerates the set of values for ShapeSummaryIsSupportedForEnum
@@ -91,7 +88,6 @@ func GetShapeSummaryIsSupportedForEnumValues() []ShapeSummaryIsSupportedForEnum 
 func GetShapeSummaryIsSupportedForEnumStringValues() []string {
 	return []string{
 		"DBSYSTEM",
-		"ANALYTICSCLUSTER",
 		"HEATWAVECLUSTER",
 	}
 }

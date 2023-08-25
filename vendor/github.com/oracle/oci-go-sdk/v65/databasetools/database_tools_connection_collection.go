@@ -62,6 +62,5 @@ func (m *DatabaseToolsConnectionCollection) UnmarshalJSON(data []byte) (e error)
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

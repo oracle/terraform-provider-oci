@@ -90,7 +90,7 @@ func (m *steeringpolicyrule) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m steeringpolicyrule) GetDescription() *string {
 	return m.Description
 }

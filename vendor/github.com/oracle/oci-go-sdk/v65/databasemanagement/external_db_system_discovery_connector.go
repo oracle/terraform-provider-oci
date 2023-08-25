@@ -37,10 +37,10 @@ type ExternalDbSystemDiscoveryConnector interface {
 
 type externaldbsystemdiscoveryconnector struct {
 	JsonData                        []byte
-	DisplayName                     *string         `mandatory:"true" json:"displayName"`
 	ConnectionStatus                *string         `mandatory:"false" json:"connectionStatus"`
 	ConnectionFailureMessage        *string         `mandatory:"false" json:"connectionFailureMessage"`
 	TimeConnectionStatusLastUpdated *common.SDKTime `mandatory:"false" json:"timeConnectionStatusLastUpdated"`
+	DisplayName                     *string         `mandatory:"true" json:"displayName"`
 	ConnectorType                   string          `json:"connectorType"`
 }
 
@@ -83,24 +83,24 @@ func (m *externaldbsystemdiscoveryconnector) UnmarshalPolymorphicJSON(data []byt
 	}
 }
 
-//GetDisplayName returns DisplayName
-func (m externaldbsystemdiscoveryconnector) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetConnectionStatus returns ConnectionStatus
+// GetConnectionStatus returns ConnectionStatus
 func (m externaldbsystemdiscoveryconnector) GetConnectionStatus() *string {
 	return m.ConnectionStatus
 }
 
-//GetConnectionFailureMessage returns ConnectionFailureMessage
+// GetConnectionFailureMessage returns ConnectionFailureMessage
 func (m externaldbsystemdiscoveryconnector) GetConnectionFailureMessage() *string {
 	return m.ConnectionFailureMessage
 }
 
-//GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
+// GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
 func (m externaldbsystemdiscoveryconnector) GetTimeConnectionStatusLastUpdated() *common.SDKTime {
 	return m.TimeConnectionStatusLastUpdated
+}
+
+// GetDisplayName returns DisplayName
+func (m externaldbsystemdiscoveryconnector) GetDisplayName() *string {
+	return m.DisplayName
 }
 
 func (m externaldbsystemdiscoveryconnector) String() string {

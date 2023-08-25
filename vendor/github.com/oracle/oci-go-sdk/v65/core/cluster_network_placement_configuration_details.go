@@ -28,12 +28,14 @@ type ClusterNetworkPlacementConfigurationDetails struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place
-	// instances.
-	PrimarySubnetId *string `mandatory:"true" json:"primarySubnetId"`
-
 	// The placement constraint when reserving hosts.
 	PlacementConstraint ClusterNetworkPlacementConfigurationDetailsPlacementConstraintEnum `mandatory:"false" json:"placementConstraint,omitempty"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. This field is deprecated.
+	// Use `primaryVnicSubnets` instead to set VNIC data for instances in the pool.
+	PrimarySubnetId *string `mandatory:"false" json:"primarySubnetId"`
+
+	PrimaryVnicSubnets *InstancePoolPlacementPrimarySubnet `mandatory:"false" json:"primaryVnicSubnets"`
 
 	// The set of secondary VNIC data for instances in the pool.
 	SecondaryVnicSubnets []InstancePoolPlacementSecondaryVnicSubnet `mandatory:"false" json:"secondaryVnicSubnets"`

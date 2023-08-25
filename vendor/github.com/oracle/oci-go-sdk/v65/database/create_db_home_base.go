@@ -115,37 +115,37 @@ func (m *createdbhomebase) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createdbhomebase) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetKmsKeyId returns KmsKeyId
+// GetKmsKeyId returns KmsKeyId
 func (m createdbhomebase) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
-//GetKmsKeyVersionId returns KmsKeyVersionId
+// GetKmsKeyVersionId returns KmsKeyVersionId
 func (m createdbhomebase) GetKmsKeyVersionId() *string {
 	return m.KmsKeyVersionId
 }
 
-//GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
+// GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m createdbhomebase) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createdbhomebase) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createdbhomebase) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetIsDesupportedVersion returns IsDesupportedVersion
+// GetIsDesupportedVersion returns IsDesupportedVersion
 func (m createdbhomebase) GetIsDesupportedVersion() *bool {
 	return m.IsDesupportedVersion
 }

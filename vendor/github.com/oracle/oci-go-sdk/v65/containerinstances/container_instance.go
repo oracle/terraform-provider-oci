@@ -171,7 +171,6 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 			m.Volumes[i] = nil
 		}
 	}
-
 	m.VolumeCount = model.VolumeCount
 
 	m.TimeUpdated = model.TimeUpdated
@@ -192,7 +191,6 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 			m.ImagePullSecrets[i] = nil
 		}
 	}
-
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName
@@ -204,10 +202,7 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleState = model.LifecycleState
 
 	m.Containers = make([]ContainerInstanceContainer, len(model.Containers))
-	for i, n := range model.Containers {
-		m.Containers[i] = n
-	}
-
+	copy(m.Containers, model.Containers)
 	m.ContainerCount = model.ContainerCount
 
 	m.TimeCreated = model.TimeCreated
@@ -217,10 +212,7 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 	m.ShapeConfig = model.ShapeConfig
 
 	m.Vnics = make([]ContainerVnic, len(model.Vnics))
-	for i, n := range model.Vnics {
-		m.Vnics[i] = n
-	}
-
+	copy(m.Vnics, model.Vnics)
 	m.ContainerRestartPolicy = model.ContainerRestartPolicy
 
 	return

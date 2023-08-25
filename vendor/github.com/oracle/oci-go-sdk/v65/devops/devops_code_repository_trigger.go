@@ -220,7 +220,6 @@ func (m *DevopsCodeRepositoryTrigger) UnmarshalJSON(data []byte) (e error) {
 			m.Actions[i] = nil
 		}
 	}
-
 	m.RepositoryId = model.RepositoryId
 
 	return

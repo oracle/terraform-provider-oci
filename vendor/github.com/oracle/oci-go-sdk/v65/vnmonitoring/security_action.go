@@ -70,7 +70,7 @@ func (m *securityaction) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetActionType returns ActionType
+// GetActionType returns ActionType
 func (m securityaction) GetActionType() SecurityActionActionTypeEnum {
 	return m.ActionType
 }

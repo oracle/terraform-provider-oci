@@ -82,12 +82,12 @@ func (m *updatehostinsightdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updatehostinsightdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updatehostinsightdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

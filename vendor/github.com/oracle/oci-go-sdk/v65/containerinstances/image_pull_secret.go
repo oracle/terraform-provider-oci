@@ -69,7 +69,7 @@ func (m *imagepullsecret) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 	}
 }
 
-//GetRegistryEndpoint returns RegistryEndpoint
+// GetRegistryEndpoint returns RegistryEndpoint
 func (m imagepullsecret) GetRegistryEndpoint() *string {
 	return m.RegistryEndpoint
 }

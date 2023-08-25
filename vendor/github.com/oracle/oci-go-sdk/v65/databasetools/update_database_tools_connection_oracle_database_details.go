@@ -141,10 +141,7 @@ func (m *UpdateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 	m.AdvancedProperties = model.AdvancedProperties
 
 	m.KeyStores = make([]DatabaseToolsKeyStoreDetails, len(model.KeyStores))
-	for i, n := range model.KeyStores {
-		m.KeyStores[i] = n
-	}
-
+	copy(m.KeyStores, model.KeyStores)
 	m.PrivateEndpointId = model.PrivateEndpointId
 
 	return

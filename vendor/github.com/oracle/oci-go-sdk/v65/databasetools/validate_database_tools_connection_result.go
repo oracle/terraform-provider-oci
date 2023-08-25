@@ -34,10 +34,10 @@ type ValidateDatabaseToolsConnectionResult interface {
 
 type validatedatabasetoolsconnectionresult struct {
 	JsonData []byte
-	Code     *string `mandatory:"true" json:"code"`
-	Message  *string `mandatory:"true" json:"message"`
 	Cause    *string `mandatory:"false" json:"cause"`
 	Action   *string `mandatory:"false" json:"action"`
+	Code     *string `mandatory:"true" json:"code"`
+	Message  *string `mandatory:"true" json:"message"`
 	Type     string  `json:"type"`
 }
 
@@ -84,24 +84,24 @@ func (m *validatedatabasetoolsconnectionresult) UnmarshalPolymorphicJSON(data []
 	}
 }
 
-//GetCode returns Code
-func (m validatedatabasetoolsconnectionresult) GetCode() *string {
-	return m.Code
-}
-
-//GetMessage returns Message
-func (m validatedatabasetoolsconnectionresult) GetMessage() *string {
-	return m.Message
-}
-
-//GetCause returns Cause
+// GetCause returns Cause
 func (m validatedatabasetoolsconnectionresult) GetCause() *string {
 	return m.Cause
 }
 
-//GetAction returns Action
+// GetAction returns Action
 func (m validatedatabasetoolsconnectionresult) GetAction() *string {
 	return m.Action
+}
+
+// GetCode returns Code
+func (m validatedatabasetoolsconnectionresult) GetCode() *string {
+	return m.Code
+}
+
+// GetMessage returns Message
+func (m validatedatabasetoolsconnectionresult) GetMessage() *string {
+	return m.Message
 }
 
 func (m validatedatabasetoolsconnectionresult) String() string {

@@ -108,10 +108,7 @@ func (m *SecretBundle) UnmarshalJSON(data []byte) (e error) {
 	m.TimeOfExpiry = model.TimeOfExpiry
 
 	m.Stages = make([]SecretBundleStagesEnum, len(model.Stages))
-	for i, n := range model.Stages {
-		m.Stages[i] = n
-	}
-
+	copy(m.Stages, model.Stages)
 	m.Metadata = model.Metadata
 
 	m.SecretId = model.SecretId

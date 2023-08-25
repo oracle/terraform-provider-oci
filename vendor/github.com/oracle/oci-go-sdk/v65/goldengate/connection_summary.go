@@ -84,12 +84,6 @@ type ConnectionSummary interface {
 
 type connectionsummary struct {
 	JsonData         []byte
-	Id               *string                           `mandatory:"true" json:"id"`
-	DisplayName      *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	LifecycleState   ConnectionLifecycleStateEnum      `mandatory:"true" json:"lifecycleState"`
-	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
 	Description      *string                           `mandatory:"false" json:"description"`
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -100,6 +94,12 @@ type connectionsummary struct {
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
 	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
+	Id               *string                           `mandatory:"true" json:"id"`
+	DisplayName      *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
+	LifecycleState   ConnectionLifecycleStateEnum      `mandatory:"true" json:"lifecycleState"`
+	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
 	ConnectionType   string                            `json:"connectionType"`
 }
 
@@ -214,84 +214,84 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetId returns Id
-func (m connectionsummary) GetId() *string {
-	return m.Id
-}
-
-//GetDisplayName returns DisplayName
-func (m connectionsummary) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m connectionsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetLifecycleState returns LifecycleState
-func (m connectionsummary) GetLifecycleState() ConnectionLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetTimeCreated returns TimeCreated
-func (m connectionsummary) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m connectionsummary) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetDescription returns Description
+// GetDescription returns Description
 func (m connectionsummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m connectionsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m connectionsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m connectionsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m connectionsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m connectionsummary) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m connectionsummary) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m connectionsummary) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetIngressIps returns IngressIps
+// GetIngressIps returns IngressIps
 func (m connectionsummary) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m connectionsummary) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetId returns Id
+func (m connectionsummary) GetId() *string {
+	return m.Id
+}
+
+// GetDisplayName returns DisplayName
+func (m connectionsummary) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m connectionsummary) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetLifecycleState returns LifecycleState
+func (m connectionsummary) GetLifecycleState() ConnectionLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+// GetTimeCreated returns TimeCreated
+func (m connectionsummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m connectionsummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
 }
 
 func (m connectionsummary) String() string {

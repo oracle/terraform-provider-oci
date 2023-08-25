@@ -36,7 +36,7 @@ type updatejobdetails struct {
 	JsonData        []byte
 	Description     *string                    `mandatory:"false" json:"description"`
 	Timeout         *string                    `mandatory:"false" json:"timeout"`
-	ResultLocation  JobExecutionResultLocation `mandatory:"false" json:"resultLocation"`
+	ResultLocation  jobexecutionresultlocation `mandatory:"false" json:"resultLocation"`
 	ScheduleDetails *JobScheduleDetails        `mandatory:"false" json:"scheduleDetails"`
 	JobType         string                     `json:"jobType"`
 }
@@ -80,22 +80,22 @@ func (m *updatejobdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updatejobdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetTimeout returns Timeout
+// GetTimeout returns Timeout
 func (m updatejobdetails) GetTimeout() *string {
 	return m.Timeout
 }
 
-//GetResultLocation returns ResultLocation
-func (m updatejobdetails) GetResultLocation() JobExecutionResultLocation {
+// GetResultLocation returns ResultLocation
+func (m updatejobdetails) GetResultLocation() jobexecutionresultlocation {
 	return m.ResultLocation
 }
 
-//GetScheduleDetails returns ScheduleDetails
+// GetScheduleDetails returns ScheduleDetails
 func (m updatejobdetails) GetScheduleDetails() *JobScheduleDetails {
 	return m.ScheduleDetails
 }

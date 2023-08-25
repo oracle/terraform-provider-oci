@@ -104,37 +104,37 @@ func (m *createcontainerhealthcheckdetails) UnmarshalPolymorphicJSON(data []byte
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createcontainerhealthcheckdetails) GetName() *string {
 	return m.Name
 }
 
-//GetInitialDelayInSeconds returns InitialDelayInSeconds
+// GetInitialDelayInSeconds returns InitialDelayInSeconds
 func (m createcontainerhealthcheckdetails) GetInitialDelayInSeconds() *int {
 	return m.InitialDelayInSeconds
 }
 
-//GetIntervalInSeconds returns IntervalInSeconds
+// GetIntervalInSeconds returns IntervalInSeconds
 func (m createcontainerhealthcheckdetails) GetIntervalInSeconds() *int {
 	return m.IntervalInSeconds
 }
 
-//GetFailureThreshold returns FailureThreshold
+// GetFailureThreshold returns FailureThreshold
 func (m createcontainerhealthcheckdetails) GetFailureThreshold() *int {
 	return m.FailureThreshold
 }
 
-//GetSuccessThreshold returns SuccessThreshold
+// GetSuccessThreshold returns SuccessThreshold
 func (m createcontainerhealthcheckdetails) GetSuccessThreshold() *int {
 	return m.SuccessThreshold
 }
 
-//GetTimeoutInSeconds returns TimeoutInSeconds
+// GetTimeoutInSeconds returns TimeoutInSeconds
 func (m createcontainerhealthcheckdetails) GetTimeoutInSeconds() *int {
 	return m.TimeoutInSeconds
 }
 
-//GetFailureAction returns FailureAction
+// GetFailureAction returns FailureAction
 func (m createcontainerhealthcheckdetails) GetFailureAction() ContainerHealthCheckFailureActionEnum {
 	return m.FailureAction
 }

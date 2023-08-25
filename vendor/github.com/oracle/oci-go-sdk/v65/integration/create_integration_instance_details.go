@@ -134,10 +134,7 @@ func (m *CreateIntegrationInstanceDetails) UnmarshalJSON(data []byte) (e error) 
 	m.CustomEndpoint = model.CustomEndpoint
 
 	m.AlternateCustomEndpoints = make([]CreateCustomEndpointDetails, len(model.AlternateCustomEndpoints))
-	for i, n := range model.AlternateCustomEndpoints {
-		m.AlternateCustomEndpoints[i] = n
-	}
-
+	copy(m.AlternateCustomEndpoints, model.AlternateCustomEndpoints)
 	m.ConsumptionModel = model.ConsumptionModel
 
 	m.IsFileServerEnabled = model.IsFileServerEnabled

@@ -99,17 +99,17 @@ func (m *buildsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m buildsource) GetName() *string {
 	return m.Name
 }
 
-//GetRepositoryUrl returns RepositoryUrl
+// GetRepositoryUrl returns RepositoryUrl
 func (m buildsource) GetRepositoryUrl() *string {
 	return m.RepositoryUrl
 }
 
-//GetBranch returns Branch
+// GetBranch returns Branch
 func (m buildsource) GetBranch() *string {
 	return m.Branch
 }

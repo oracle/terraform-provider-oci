@@ -132,7 +132,6 @@ func (m *SearchCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.ReferencedFields[i] = nil
 		}
 	}
-
 	m.DeclaredFields = make([]AbstractField, len(model.DeclaredFields))
 	for i, n := range model.DeclaredFields {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -145,14 +144,10 @@ func (m *SearchCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
-
 	m.IsHidden = model.IsHidden
 
 	m.SubQueries = make([]ParseQueryOutput, len(model.SubQueries))
-	for i, n := range model.SubQueries {
-		m.SubQueries[i] = n
-	}
-
+	copy(m.SubQueries, model.SubQueries)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

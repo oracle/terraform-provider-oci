@@ -57,6 +57,8 @@ type NetworkAddressListSummary interface {
 
 type networkaddresslistsummary struct {
 	JsonData         []byte
+	TimeUpdated      *common.SDKTime                      `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails *string                              `mandatory:"false" json:"lifecycleDetails"`
 	Id               *string                              `mandatory:"true" json:"id"`
 	DisplayName      *string                              `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                              `mandatory:"true" json:"compartmentId"`
@@ -65,8 +67,6 @@ type networkaddresslistsummary struct {
 	FreeformTags     map[string]string                    `mandatory:"true" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{}    `mandatory:"true" json:"definedTags"`
 	SystemTags       map[string]map[string]interface{}    `mandatory:"true" json:"systemTags"`
-	TimeUpdated      *common.SDKTime                      `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails *string                              `mandatory:"false" json:"lifecycleDetails"`
 	Type             string                               `json:"type"`
 }
 
@@ -119,54 +119,54 @@ func (m *networkaddresslistsummary) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetId returns Id
-func (m networkaddresslistsummary) GetId() *string {
-	return m.Id
-}
-
-//GetDisplayName returns DisplayName
-func (m networkaddresslistsummary) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m networkaddresslistsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetTimeCreated returns TimeCreated
-func (m networkaddresslistsummary) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetLifecycleState returns LifecycleState
-func (m networkaddresslistsummary) GetLifecycleState() NetworkAddressListLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetFreeformTags returns FreeformTags
-func (m networkaddresslistsummary) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m networkaddresslistsummary) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-//GetSystemTags returns SystemTags
-func (m networkaddresslistsummary) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
-}
-
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m networkaddresslistsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m networkaddresslistsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetId returns Id
+func (m networkaddresslistsummary) GetId() *string {
+	return m.Id
+}
+
+// GetDisplayName returns DisplayName
+func (m networkaddresslistsummary) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m networkaddresslistsummary) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetTimeCreated returns TimeCreated
+func (m networkaddresslistsummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetLifecycleState returns LifecycleState
+func (m networkaddresslistsummary) GetLifecycleState() NetworkAddressListLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+// GetFreeformTags returns FreeformTags
+func (m networkaddresslistsummary) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m networkaddresslistsummary) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m networkaddresslistsummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m networkaddresslistsummary) String() string {

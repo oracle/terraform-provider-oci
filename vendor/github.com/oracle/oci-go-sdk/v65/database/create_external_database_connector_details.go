@@ -39,10 +39,10 @@ type CreateExternalDatabaseConnectorDetails interface {
 
 type createexternaldatabaseconnectordetails struct {
 	JsonData           []byte
-	DisplayName        *string                           `mandatory:"true" json:"displayName"`
-	ExternalDatabaseId *string                           `mandatory:"true" json:"externalDatabaseId"`
 	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	DisplayName        *string                           `mandatory:"true" json:"displayName"`
+	ExternalDatabaseId *string                           `mandatory:"true" json:"externalDatabaseId"`
 	ConnectorType      string                            `json:"connectorType"`
 }
 
@@ -85,24 +85,24 @@ func (m *createexternaldatabaseconnectordetails) UnmarshalPolymorphicJSON(data [
 	}
 }
 
-//GetDisplayName returns DisplayName
-func (m createexternaldatabaseconnectordetails) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetExternalDatabaseId returns ExternalDatabaseId
-func (m createexternaldatabaseconnectordetails) GetExternalDatabaseId() *string {
-	return m.ExternalDatabaseId
-}
-
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createexternaldatabaseconnectordetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createexternaldatabaseconnectordetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetDisplayName returns DisplayName
+func (m createexternaldatabaseconnectordetails) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetExternalDatabaseId returns ExternalDatabaseId
+func (m createexternaldatabaseconnectordetails) GetExternalDatabaseId() *string {
+	return m.ExternalDatabaseId
 }
 
 func (m createexternaldatabaseconnectordetails) String() string {

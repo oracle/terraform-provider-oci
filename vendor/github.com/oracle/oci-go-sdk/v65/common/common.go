@@ -137,7 +137,7 @@ func (region Region) EndpointForTemplateDottedRegion(service string, serviceEndp
 				return endpoint, fmt.Errorf("Endpoint service name not present in endpoint template")
 			}
 		} else {
-			return endpoint, fmt.Errorf("Invalid serviceEndpointTemplates. ServiceEndpointTemplate should start with https://")
+			return endpoint, fmt.Errorf("invalid serviceEndpointTemplates. ServiceEndpointTemplate should start with https://")
 		}
 		return endpoint, nil
 	}
@@ -207,7 +207,7 @@ func StringToRegion(stringRegion string) (r Region) {
 
 // canStringBeRegion test if the string can be a region, if it can, returns the string as is, otherwise it
 // returns an error
-var blankRegex = regexp.MustCompile("\\s")
+var blankRegex = regexp.MustCompile(`\s`)
 
 func canStringBeRegion(stringRegion string) (region string, err error) {
 	if blankRegex.MatchString(stringRegion) || stringRegion == "" {
@@ -240,7 +240,7 @@ func EnableInstanceMetadataServiceLookup() {
 // Once successfully find the expected region(region name or short code), return true, region name will be stored in
 // the input pointer.
 func setRegionMetadataFromEnvVar(region *string) bool {
-	if readEnvVar == false {
+	if !readEnvVar {
 		Debugf("metadata region env variable had already been checked, no need to check again.")
 		return false //no need to check it again.
 	}
@@ -285,7 +285,7 @@ func setRegionMetadataFromCfgFile(region *string) bool {
 // Once successfully find the expected region(region name or short code), return true, region name will be stored in
 // the input pointer.
 func setRegionMetadataFromRegionCfgFile(region *string) bool {
-	if readCfgFile == false {
+	if !readCfgFile {
 		Debugf("metadata region config file had already been checked, no need to check again.")
 		return false //no need to check it again.
 	}
@@ -473,7 +473,7 @@ func setRegionFromInstanceMetadataService(region *string) bool {
 	// 	"regionIdentifier" : "ca-montreal-1"
 	// }
 	// Mark visitIMDS Flag as false since it has already been visited.
-	if visitIMDS == false {
+	if !visitIMDS {
 		Debugf("check from IMDS is disabled or IMDS had already been successfully visited, no need to check again.")
 		return false
 	}
@@ -509,7 +509,7 @@ func setRegionFromInstanceMetadataService(region *string) bool {
 
 // getRegionInfoFromInstanceMetadataServiceProd calls instance metadata service and get the region information
 func getRegionInfoFromInstanceMetadataServiceProd() ([]byte, error) {
-	request, err := http.NewRequest(http.MethodGet, instanceMetadataRegionInfoURLV2, nil)
+	request, _ := http.NewRequest(http.MethodGet, instanceMetadataRegionInfoURLV2, nil)
 	request.Header.Add("Authorization", "Bearer Oracle")
 
 	client := &http.Client{
@@ -517,7 +517,7 @@ func getRegionInfoFromInstanceMetadataServiceProd() ([]byte, error) {
 	}
 	resp, err := client.Do(request)
 	if err != nil {
-		return nil, fmt.Errorf("Failed to call instance metadata service. Error: %v", err)
+		return nil, fmt.Errorf("failed to call instance metadata service. Error: %v", err)
 	}
 
 	statusCode := resp.StatusCode
@@ -526,7 +526,7 @@ func getRegionInfoFromInstanceMetadataServiceProd() ([]byte, error) {
 
 	content, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("Failed to get region information from response body. Error: %v", err)
+		return nil, fmt.Errorf("failed to get region information from response body. Error: %v", err)
 	}
 
 	if statusCode != http.StatusOK {

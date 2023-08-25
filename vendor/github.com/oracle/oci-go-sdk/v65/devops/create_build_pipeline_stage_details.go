@@ -39,12 +39,12 @@ type CreateBuildPipelineStageDetails interface {
 
 type createbuildpipelinestagedetails struct {
 	JsonData                                []byte
-	BuildPipelineId                         *string                                  `mandatory:"true" json:"buildPipelineId"`
-	BuildPipelineStagePredecessorCollection *BuildPipelineStagePredecessorCollection `mandatory:"true" json:"buildPipelineStagePredecessorCollection"`
 	DisplayName                             *string                                  `mandatory:"false" json:"displayName"`
 	Description                             *string                                  `mandatory:"false" json:"description"`
 	FreeformTags                            map[string]string                        `mandatory:"false" json:"freeformTags"`
 	DefinedTags                             map[string]map[string]interface{}        `mandatory:"false" json:"definedTags"`
+	BuildPipelineId                         *string                                  `mandatory:"true" json:"buildPipelineId"`
+	BuildPipelineStagePredecessorCollection *BuildPipelineStagePredecessorCollection `mandatory:"true" json:"buildPipelineStagePredecessorCollection"`
 	BuildPipelineStageType                  string                                   `json:"buildPipelineStageType"`
 }
 
@@ -101,34 +101,34 @@ func (m *createbuildpipelinestagedetails) UnmarshalPolymorphicJSON(data []byte) 
 	}
 }
 
-//GetBuildPipelineId returns BuildPipelineId
-func (m createbuildpipelinestagedetails) GetBuildPipelineId() *string {
-	return m.BuildPipelineId
-}
-
-//GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
-func (m createbuildpipelinestagedetails) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
-	return m.BuildPipelineStagePredecessorCollection
-}
-
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createbuildpipelinestagedetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createbuildpipelinestagedetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createbuildpipelinestagedetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createbuildpipelinestagedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetBuildPipelineId returns BuildPipelineId
+func (m createbuildpipelinestagedetails) GetBuildPipelineId() *string {
+	return m.BuildPipelineId
+}
+
+// GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
+func (m createbuildpipelinestagedetails) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
+	return m.BuildPipelineStagePredecessorCollection
 }
 
 func (m createbuildpipelinestagedetails) String() string {

@@ -37,11 +37,11 @@ type PipelineStepRun interface {
 
 type pipelinesteprun struct {
 	JsonData         []byte
-	TimeStarted      *common.SDKTime                   `mandatory:"true" json:"timeStarted"`
-	StepName         *string                           `mandatory:"true" json:"stepName"`
 	TimeFinished     *common.SDKTime                   `mandatory:"false" json:"timeFinished"`
 	LifecycleState   PipelineStepRunLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
+	TimeStarted      *common.SDKTime                   `mandatory:"true" json:"timeStarted"`
+	StepName         *string                           `mandatory:"true" json:"stepName"`
 	StepType         string                            `json:"stepType"`
 }
 
@@ -89,29 +89,29 @@ func (m *pipelinesteprun) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 	}
 }
 
-//GetTimeStarted returns TimeStarted
-func (m pipelinesteprun) GetTimeStarted() *common.SDKTime {
-	return m.TimeStarted
-}
-
-//GetStepName returns StepName
-func (m pipelinesteprun) GetStepName() *string {
-	return m.StepName
-}
-
-//GetTimeFinished returns TimeFinished
+// GetTimeFinished returns TimeFinished
 func (m pipelinesteprun) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m pipelinesteprun) GetLifecycleState() PipelineStepRunLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m pipelinesteprun) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetTimeStarted returns TimeStarted
+func (m pipelinesteprun) GetTimeStarted() *common.SDKTime {
+	return m.TimeStarted
+}
+
+// GetStepName returns StepName
+func (m pipelinesteprun) GetStepName() *string {
+	return m.StepName
 }
 
 func (m pipelinesteprun) String() string {

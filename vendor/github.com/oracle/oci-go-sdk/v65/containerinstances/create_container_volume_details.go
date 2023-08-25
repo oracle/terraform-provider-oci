@@ -70,7 +70,7 @@ func (m *createcontainervolumedetails) UnmarshalPolymorphicJSON(data []byte) (in
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createcontainervolumedetails) GetName() *string {
 	return m.Name
 }

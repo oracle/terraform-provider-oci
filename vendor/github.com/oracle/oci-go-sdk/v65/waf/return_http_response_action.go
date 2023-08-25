@@ -131,10 +131,7 @@ func (m *ReturnHttpResponseAction) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Headers = make([]ResponseHeader, len(model.Headers))
-	for i, n := range model.Headers {
-		m.Headers[i] = n
-	}
-
+	copy(m.Headers, model.Headers)
 	nn, e = model.Body.UnmarshalPolymorphicJSON(model.Body.JsonData)
 	if e != nil {
 		return

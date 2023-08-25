@@ -160,10 +160,7 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 	m.CustomEndpoint = model.CustomEndpoint
 
 	m.AlternateCustomEndpoints = make([]CustomEndpointDetails, len(model.AlternateCustomEndpoints))
-	for i, n := range model.AlternateCustomEndpoints {
-		m.AlternateCustomEndpoints[i] = n
-	}
-
+	copy(m.AlternateCustomEndpoints, model.AlternateCustomEndpoints)
 	m.ConsumptionModel = model.ConsumptionModel
 
 	nn, e = model.NetworkEndpointDetails.UnmarshalPolymorphicJSON(model.NetworkEndpointDetails.JsonData)

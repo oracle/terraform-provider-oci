@@ -66,6 +66,12 @@ type SensitiveType interface {
 
 type sensitivetype struct {
 	JsonData         []byte
+	ShortName        *string                           `mandatory:"false" json:"shortName"`
+	Description      *string                           `mandatory:"false" json:"description"`
+	ParentCategoryId *string                           `mandatory:"false" json:"parentCategoryId"`
+	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -73,12 +79,6 @@ type sensitivetype struct {
 	Source           SensitiveTypeSourceEnum           `mandatory:"true" json:"source"`
 	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
-	ShortName        *string                           `mandatory:"false" json:"shortName"`
-	Description      *string                           `mandatory:"false" json:"description"`
-	ParentCategoryId *string                           `mandatory:"false" json:"parentCategoryId"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	EntityType       string                            `json:"entityType"`
 }
 
@@ -134,69 +134,69 @@ func (m *sensitivetype) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetId returns Id
-func (m sensitivetype) GetId() *string {
-	return m.Id
-}
-
-//GetDisplayName returns DisplayName
-func (m sensitivetype) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m sensitivetype) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetLifecycleState returns LifecycleState
-func (m sensitivetype) GetLifecycleState() DiscoveryLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetSource returns Source
-func (m sensitivetype) GetSource() SensitiveTypeSourceEnum {
-	return m.Source
-}
-
-//GetTimeCreated returns TimeCreated
-func (m sensitivetype) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m sensitivetype) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetShortName returns ShortName
+// GetShortName returns ShortName
 func (m sensitivetype) GetShortName() *string {
 	return m.ShortName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m sensitivetype) GetDescription() *string {
 	return m.Description
 }
 
-//GetParentCategoryId returns ParentCategoryId
+// GetParentCategoryId returns ParentCategoryId
 func (m sensitivetype) GetParentCategoryId() *string {
 	return m.ParentCategoryId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m sensitivetype) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m sensitivetype) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m sensitivetype) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetId returns Id
+func (m sensitivetype) GetId() *string {
+	return m.Id
+}
+
+// GetDisplayName returns DisplayName
+func (m sensitivetype) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m sensitivetype) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetLifecycleState returns LifecycleState
+func (m sensitivetype) GetLifecycleState() DiscoveryLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+// GetSource returns Source
+func (m sensitivetype) GetSource() SensitiveTypeSourceEnum {
+	return m.Source
+}
+
+// GetTimeCreated returns TimeCreated
+func (m sensitivetype) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m sensitivetype) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
 }
 
 func (m sensitivetype) String() string {

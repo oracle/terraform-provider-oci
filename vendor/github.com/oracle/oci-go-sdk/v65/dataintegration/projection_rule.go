@@ -113,37 +113,37 @@ func (m *projectionrule) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m projectionrule) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m projectionrule) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m projectionrule) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetIsJavaRegexSyntax returns IsJavaRegexSyntax
+// GetIsJavaRegexSyntax returns IsJavaRegexSyntax
 func (m projectionrule) GetIsJavaRegexSyntax() *bool {
 	return m.IsJavaRegexSyntax
 }
 
-//GetConfigValues returns ConfigValues
+// GetConfigValues returns ConfigValues
 func (m projectionrule) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m projectionrule) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m projectionrule) GetDescription() *string {
 	return m.Description
 }

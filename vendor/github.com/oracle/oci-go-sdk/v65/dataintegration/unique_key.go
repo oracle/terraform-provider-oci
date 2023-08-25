@@ -93,32 +93,32 @@ func (m *uniquekey) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m uniquekey) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m uniquekey) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m uniquekey) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m uniquekey) GetName() *string {
 	return m.Name
 }
 
-//GetAttributeRefs returns AttributeRefs
+// GetAttributeRefs returns AttributeRefs
 func (m uniquekey) GetAttributeRefs() []KeyAttribute {
 	return m.AttributeRefs
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m uniquekey) GetObjectStatus() *int {
 	return m.ObjectStatus
 }

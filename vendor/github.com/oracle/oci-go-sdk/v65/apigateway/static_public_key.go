@@ -72,7 +72,7 @@ func (m *staticpublickey) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 	}
 }
 
-//GetKid returns Kid
+// GetKid returns Kid
 func (m staticpublickey) GetKid() *string {
 	return m.Kid
 }

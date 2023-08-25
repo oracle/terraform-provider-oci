@@ -62,6 +62,12 @@ type TargetAssetSummary interface {
 
 type targetassetsummary struct {
 	JsonData                []byte
+	DisplayName             *string                       `mandatory:"false" json:"displayName"`
+	CompartmentId           *string                       `mandatory:"false" json:"compartmentId"`
+	CreatedResourceId       *string                       `mandatory:"false" json:"createdResourceId"`
+	CompatibilityMessages   []CompatibilityMessage        `mandatory:"false" json:"compatibilityMessages"`
+	LifecycleDetails        *string                       `mandatory:"false" json:"lifecycleDetails"`
+	MigrationAsset          *MigrationAssetSummary        `mandatory:"false" json:"migrationAsset"`
 	Id                      *string                       `mandatory:"true" json:"id"`
 	LifecycleState          TargetAssetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 	MigrationPlanId         *string                       `mandatory:"true" json:"migrationPlanId"`
@@ -70,12 +76,6 @@ type targetassetsummary struct {
 	TimeCreated             *common.SDKTime               `mandatory:"true" json:"timeCreated"`
 	TimeUpdated             *common.SDKTime               `mandatory:"true" json:"timeUpdated"`
 	TimeAssessed            *common.SDKTime               `mandatory:"true" json:"timeAssessed"`
-	DisplayName             *string                       `mandatory:"false" json:"displayName"`
-	CompartmentId           *string                       `mandatory:"false" json:"compartmentId"`
-	CreatedResourceId       *string                       `mandatory:"false" json:"createdResourceId"`
-	CompatibilityMessages   []CompatibilityMessage        `mandatory:"false" json:"compatibilityMessages"`
-	LifecycleDetails        *string                       `mandatory:"false" json:"lifecycleDetails"`
-	MigrationAsset          *MigrationAssetSummary        `mandatory:"false" json:"migrationAsset"`
 	Type                    string                        `json:"type"`
 }
 
@@ -128,74 +128,74 @@ func (m *targetassetsummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetId returns Id
-func (m targetassetsummary) GetId() *string {
-	return m.Id
-}
-
-//GetLifecycleState returns LifecycleState
-func (m targetassetsummary) GetLifecycleState() TargetAssetLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetMigrationPlanId returns MigrationPlanId
-func (m targetassetsummary) GetMigrationPlanId() *string {
-	return m.MigrationPlanId
-}
-
-//GetIsExcludedFromExecution returns IsExcludedFromExecution
-func (m targetassetsummary) GetIsExcludedFromExecution() *bool {
-	return m.IsExcludedFromExecution
-}
-
-//GetEstimatedCost returns EstimatedCost
-func (m targetassetsummary) GetEstimatedCost() *CostEstimation {
-	return m.EstimatedCost
-}
-
-//GetTimeCreated returns TimeCreated
-func (m targetassetsummary) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m targetassetsummary) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetTimeAssessed returns TimeAssessed
-func (m targetassetsummary) GetTimeAssessed() *common.SDKTime {
-	return m.TimeAssessed
-}
-
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m targetassetsummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m targetassetsummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetCreatedResourceId returns CreatedResourceId
+// GetCreatedResourceId returns CreatedResourceId
 func (m targetassetsummary) GetCreatedResourceId() *string {
 	return m.CreatedResourceId
 }
 
-//GetCompatibilityMessages returns CompatibilityMessages
+// GetCompatibilityMessages returns CompatibilityMessages
 func (m targetassetsummary) GetCompatibilityMessages() []CompatibilityMessage {
 	return m.CompatibilityMessages
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m targetassetsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetMigrationAsset returns MigrationAsset
+// GetMigrationAsset returns MigrationAsset
 func (m targetassetsummary) GetMigrationAsset() *MigrationAssetSummary {
 	return m.MigrationAsset
+}
+
+// GetId returns Id
+func (m targetassetsummary) GetId() *string {
+	return m.Id
+}
+
+// GetLifecycleState returns LifecycleState
+func (m targetassetsummary) GetLifecycleState() TargetAssetLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+// GetMigrationPlanId returns MigrationPlanId
+func (m targetassetsummary) GetMigrationPlanId() *string {
+	return m.MigrationPlanId
+}
+
+// GetIsExcludedFromExecution returns IsExcludedFromExecution
+func (m targetassetsummary) GetIsExcludedFromExecution() *bool {
+	return m.IsExcludedFromExecution
+}
+
+// GetEstimatedCost returns EstimatedCost
+func (m targetassetsummary) GetEstimatedCost() *CostEstimation {
+	return m.EstimatedCost
+}
+
+// GetTimeCreated returns TimeCreated
+func (m targetassetsummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m targetassetsummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
+}
+
+// GetTimeAssessed returns TimeAssessed
+func (m targetassetsummary) GetTimeAssessed() *common.SDKTime {
+	return m.TimeAssessed
 }
 
 func (m targetassetsummary) String() string {

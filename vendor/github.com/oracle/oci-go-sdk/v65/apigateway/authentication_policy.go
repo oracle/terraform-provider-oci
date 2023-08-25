@@ -76,7 +76,7 @@ func (m *authenticationpolicy) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetIsAnonymousAccessAllowed returns IsAnonymousAccessAllowed
+// GetIsAnonymousAccessAllowed returns IsAnonymousAccessAllowed
 func (m authenticationpolicy) GetIsAnonymousAccessAllowed() *bool {
 	return m.IsAnonymousAccessAllowed
 }

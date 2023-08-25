@@ -82,7 +82,6 @@ func (m *UpdateMigrationPlanDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Strategies[i] = nil
 		}
 	}
-
 	m.TargetEnvironments = make([]TargetEnvironment, len(model.TargetEnvironments))
 	for i, n := range model.TargetEnvironments {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -95,7 +94,6 @@ func (m *UpdateMigrationPlanDetails) UnmarshalJSON(data []byte) (e error) {
 			m.TargetEnvironments[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

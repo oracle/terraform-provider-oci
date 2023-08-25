@@ -140,7 +140,6 @@ func (m *LinkCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.ReferencedFields[i] = nil
 		}
 	}
-
 	m.DeclaredFields = make([]AbstractField, len(model.DeclaredFields))
 	for i, n := range model.DeclaredFields {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -153,7 +152,6 @@ func (m *LinkCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
-
 	m.IsHidden = model.IsHidden
 
 	m.ShouldIncludeNulls = model.ShouldIncludeNulls

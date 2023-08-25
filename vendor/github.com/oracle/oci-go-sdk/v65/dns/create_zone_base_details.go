@@ -43,10 +43,10 @@ type CreateZoneBaseDetails interface {
 
 type createzonebasedetails struct {
 	JsonData        []byte
-	Name            *string                           `mandatory:"true" json:"name"`
-	CompartmentId   *string                           `mandatory:"true" json:"compartmentId"`
 	FreeformTags    map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags     map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Name            *string                           `mandatory:"true" json:"name"`
+	CompartmentId   *string                           `mandatory:"true" json:"compartmentId"`
 	MigrationSource string                            `json:"migrationSource"`
 }
 
@@ -93,24 +93,24 @@ func (m *createzonebasedetails) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
-//GetName returns Name
-func (m createzonebasedetails) GetName() *string {
-	return m.Name
-}
-
-//GetCompartmentId returns CompartmentId
-func (m createzonebasedetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createzonebasedetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createzonebasedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetName returns Name
+func (m createzonebasedetails) GetName() *string {
+	return m.Name
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createzonebasedetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createzonebasedetails) String() string {

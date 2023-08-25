@@ -30,9 +30,9 @@ type PipelineStepUpdateDetails interface {
 
 type pipelinestepupdatedetails struct {
 	JsonData                 []byte
-	StepName                 *string                           `mandatory:"true" json:"stepName"`
 	Description              *string                           `mandatory:"false" json:"description"`
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
+	StepName                 *string                           `mandatory:"true" json:"stepName"`
 	StepType                 string                            `json:"stepType"`
 }
 
@@ -78,19 +78,19 @@ func (m *pipelinestepupdatedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetStepName returns StepName
-func (m pipelinestepupdatedetails) GetStepName() *string {
-	return m.StepName
-}
-
-//GetDescription returns Description
+// GetDescription returns Description
 func (m pipelinestepupdatedetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetStepConfigurationDetails returns StepConfigurationDetails
+// GetStepConfigurationDetails returns StepConfigurationDetails
 func (m pipelinestepupdatedetails) GetStepConfigurationDetails() *PipelineStepConfigurationDetails {
 	return m.StepConfigurationDetails
+}
+
+// GetStepName returns StepName
+func (m pipelinestepupdatedetails) GetStepName() *string {
+	return m.StepName
 }
 
 func (m pipelinestepupdatedetails) String() string {

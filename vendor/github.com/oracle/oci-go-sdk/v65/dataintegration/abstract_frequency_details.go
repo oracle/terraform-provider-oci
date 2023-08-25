@@ -85,7 +85,7 @@ func (m *abstractfrequencydetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetFrequency returns Frequency
+// GetFrequency returns Frequency
 func (m abstractfrequencydetails) GetFrequency() AbstractFrequencyDetailsFrequencyEnum {
 	return m.Frequency
 }

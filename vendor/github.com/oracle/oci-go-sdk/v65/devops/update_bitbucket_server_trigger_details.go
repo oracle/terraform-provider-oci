@@ -121,7 +121,6 @@ func (m *UpdateBitbucketServerTriggerDetails) UnmarshalJSON(data []byte) (e erro
 			m.Actions[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

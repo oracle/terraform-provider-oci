@@ -142,6 +142,5 @@ func (m *CreateVbsTriggerDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Actions[i] = nil
 		}
 	}
-
 	return
 }

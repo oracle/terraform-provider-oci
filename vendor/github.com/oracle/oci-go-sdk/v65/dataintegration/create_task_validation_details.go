@@ -134,72 +134,72 @@ func (m *createtaskvalidationdetails) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m createtaskvalidationdetails) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m createtaskvalidationdetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m createtaskvalidationdetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m createtaskvalidationdetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createtaskvalidationdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m createtaskvalidationdetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m createtaskvalidationdetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m createtaskvalidationdetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m createtaskvalidationdetails) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m createtaskvalidationdetails) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m createtaskvalidationdetails) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m createtaskvalidationdetails) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-//GetConfigProviderDelegate returns ConfigProviderDelegate
+// GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m createtaskvalidationdetails) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m createtaskvalidationdetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
