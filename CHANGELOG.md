@@ -1,3 +1,18 @@
+## 5.11.0 (Unreleased)
+
+### Added
+Support for alloy support (PLC)
+- Support for APM - Synthetics - Monitoring of TCP ping test - API Only
+- remove support MySql API - analyticsCluster
+- Support for Encrypted FastConnect - IPsec-over-FastConnect
+- Support for Resource Usage Tracking Enhancement | ADB-D
+- Support for FastConnect MACSec - Fail-Open option
+- Support for Compute: Instance Platform Configuration Acceleration
+- GoldenGate service integration for replication
+- Support for Terraform support Assign IPv6 at Compute Instance Launch
+- Support for Enabling Single Sign-on support for GGS Deployments
+Support for BDS - Automated Patching for OS/Kernel, Node Maintenance, Add Master/Utility
+
 ## 5.10.0 (Unreleased)
 
 ### Added
