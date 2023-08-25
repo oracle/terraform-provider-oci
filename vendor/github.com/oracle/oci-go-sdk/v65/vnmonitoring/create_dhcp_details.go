@@ -103,7 +103,6 @@ func (m *CreateDhcpDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Options[i] = nil
 		}
 	}
-
 	m.VcnId = model.VcnId
 
 	return

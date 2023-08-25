@@ -51,6 +51,8 @@ type CreateConnectionDetails struct {
 
 	SshDetails *CreateSshDetails `mandatory:"false" json:"sshDetails"`
 
+	ReplicationCredentials *CreateAdminCredentials `mandatory:"false" json:"replicationCredentials"`
+
 	PrivateEndpoint *CreatePrivateEndpoint `mandatory:"false" json:"privateEndpoint"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

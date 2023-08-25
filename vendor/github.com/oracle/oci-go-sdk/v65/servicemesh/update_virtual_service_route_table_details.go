@@ -86,7 +86,6 @@ func (m *UpdateVirtualServiceRouteTableDetails) UnmarshalJSON(data []byte) (e er
 			m.RouteRules[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

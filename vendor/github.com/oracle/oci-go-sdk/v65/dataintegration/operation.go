@@ -67,7 +67,7 @@ func (m *operation) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m operation) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

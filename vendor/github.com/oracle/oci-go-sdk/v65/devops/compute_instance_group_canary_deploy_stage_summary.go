@@ -230,10 +230,7 @@ func (m *ComputeInstanceGroupCanaryDeployStageSummary) UnmarshalJSON(data []byte
 	m.SystemTags = model.SystemTags
 
 	m.DeployArtifactIds = make([]string, len(model.DeployArtifactIds))
-	for i, n := range model.DeployArtifactIds {
-		m.DeployArtifactIds[i] = n
-	}
-
+	copy(m.DeployArtifactIds, model.DeployArtifactIds)
 	m.TestLoadBalancerConfig = model.TestLoadBalancerConfig
 
 	m.Id = model.Id

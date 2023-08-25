@@ -87,12 +87,12 @@ func (m *autoscalepolicydetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetTriggerType returns TriggerType
+// GetTriggerType returns TriggerType
 func (m autoscalepolicydetails) GetTriggerType() AutoScalePolicyDetailsTriggerTypeEnum {
 	return m.TriggerType
 }
 
-//GetActionType returns ActionType
+// GetActionType returns ActionType
 func (m autoscalepolicydetails) GetActionType() AutoScalePolicyDetailsActionTypeEnum {
 	return m.ActionType
 }

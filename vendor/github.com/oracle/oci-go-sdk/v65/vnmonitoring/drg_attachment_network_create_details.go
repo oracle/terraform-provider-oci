@@ -26,7 +26,7 @@ type DrgAttachmentNetworkCreateDetails interface {
 
 type drgattachmentnetworkcreatedetails struct {
 	JsonData []byte
-	Id       *string `mandatory:"true" json:"id"`
+	Id       *string `mandatory:"false" json:"id"`
 	Type     string  `json:"type"`
 }
 
@@ -66,7 +66,7 @@ func (m *drgattachmentnetworkcreatedetails) UnmarshalPolymorphicJSON(data []byte
 	}
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m drgattachmentnetworkcreatedetails) GetId() *string {
 	return m.Id
 }

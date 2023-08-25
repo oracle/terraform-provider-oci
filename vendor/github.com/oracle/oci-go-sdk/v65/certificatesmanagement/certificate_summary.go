@@ -151,7 +151,6 @@ func (m *CertificateSummary) UnmarshalJSON(data []byte) (e error) {
 			m.CertificateRules[i] = nil
 		}
 	}
-
 	m.CurrentVersionSummary = model.CurrentVersionSummary
 
 	m.Subject = model.Subject

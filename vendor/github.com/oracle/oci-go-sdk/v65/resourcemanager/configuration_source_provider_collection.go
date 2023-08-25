@@ -65,6 +65,5 @@ func (m *ConfigurationSourceProviderCollection) UnmarshalJSON(data []byte) (e er
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

@@ -198,10 +198,7 @@ func (m *ClassifyColumn) UnmarshalJSON(data []byte) (e error) {
 	m.SubSystem = model.SubSystem
 
 	m.Values = make([]FieldValue, len(model.Values))
-	for i, n := range model.Values {
-		m.Values[i] = n
-	}
-
+	copy(m.Values, model.Values)
 	m.IsListOfValues = model.IsListOfValues
 
 	m.IsMultiValued = model.IsMultiValued
@@ -219,20 +216,11 @@ func (m *ClassifyColumn) UnmarshalJSON(data []byte) (e error) {
 	m.InternalName = model.InternalName
 
 	m.ClassifyFieldNames = make([]string, len(model.ClassifyFieldNames))
-	for i, n := range model.ClassifyFieldNames {
-		m.ClassifyFieldNames[i] = n
-	}
-
+	copy(m.ClassifyFieldNames, model.ClassifyFieldNames)
 	m.ClassifyFieldNullCount = make([]int64, len(model.ClassifyFieldNullCount))
-	for i, n := range model.ClassifyFieldNullCount {
-		m.ClassifyFieldNullCount[i] = n
-	}
-
+	copy(m.ClassifyFieldNullCount, model.ClassifyFieldNullCount)
 	m.ClassifyAnomalyIntervalCounts = make([]int64, len(model.ClassifyAnomalyIntervalCounts))
-	for i, n := range model.ClassifyAnomalyIntervalCounts {
-		m.ClassifyAnomalyIntervalCounts[i] = n
-	}
-
+	copy(m.ClassifyAnomalyIntervalCounts, model.ClassifyAnomalyIntervalCounts)
 	m.ClassifyColumns = make([]AbstractColumn, len(model.ClassifyColumns))
 	for i, n := range model.ClassifyColumns {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -245,12 +233,8 @@ func (m *ClassifyColumn) UnmarshalJSON(data []byte) (e error) {
 			m.ClassifyColumns[i] = nil
 		}
 	}
-
 	m.ClassifyResult = make([]map[string]interface{}, len(model.ClassifyResult))
-	for i, n := range model.ClassifyResult {
-		m.ClassifyResult[i] = n
-	}
-
+	copy(m.ClassifyResult, model.ClassifyResult)
 	m.ClassifyCorrelateColumns = make([]AbstractColumn, len(model.ClassifyCorrelateColumns))
 	for i, n := range model.ClassifyCorrelateColumns {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -263,11 +247,7 @@ func (m *ClassifyColumn) UnmarshalJSON(data []byte) (e error) {
 			m.ClassifyCorrelateColumns[i] = nil
 		}
 	}
-
 	m.ClassifyCorrelateResult = make([]map[string]interface{}, len(model.ClassifyCorrelateResult))
-	for i, n := range model.ClassifyCorrelateResult {
-		m.ClassifyCorrelateResult[i] = n
-	}
-
+	copy(m.ClassifyCorrelateResult, model.ClassifyCorrelateResult)
 	return
 }

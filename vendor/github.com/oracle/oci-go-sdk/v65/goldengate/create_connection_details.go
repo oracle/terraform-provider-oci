@@ -55,8 +55,6 @@ type CreateConnectionDetails interface {
 
 type createconnectiondetails struct {
 	JsonData       []byte
-	DisplayName    *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
 	Description    *string                           `mandatory:"false" json:"description"`
 	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -64,6 +62,8 @@ type createconnectiondetails struct {
 	KeyId          *string                           `mandatory:"false" json:"keyId"`
 	SubnetId       *string                           `mandatory:"false" json:"subnetId"`
 	NsgIds         []string                          `mandatory:"false" json:"nsgIds"`
+	DisplayName    *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
 	ConnectionType string                            `json:"connectionType"`
 }
 
@@ -171,49 +171,49 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetDisplayName returns DisplayName
-func (m createconnectiondetails) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m createconnectiondetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createconnectiondetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createconnectiondetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createconnectiondetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m createconnectiondetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m createconnectiondetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m createconnectiondetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m createconnectiondetails) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetDisplayName returns DisplayName
+func (m createconnectiondetails) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createconnectiondetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createconnectiondetails) String() string {

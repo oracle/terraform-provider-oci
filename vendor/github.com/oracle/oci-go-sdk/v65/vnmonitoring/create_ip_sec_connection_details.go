@@ -72,6 +72,10 @@ type CreateIpSecConnectionDetails struct {
 	// maximum of 2 `tunnelConfiguration` objects in the array (one for each of the
 	// two tunnels).
 	TunnelConfiguration []CreateIpSecConnectionTunnelDetails `mandatory:"false" json:"tunnelConfiguration"`
+
+	// The count of tunnels in the IPsec connection. This value should be equal to the number of
+	// `tunnelConfiguration` objects specified in the `CreateIPSecConnection` request.
+	TunnelCount *int `mandatory:"false" json:"tunnelCount"`
 }
 
 func (m CreateIpSecConnectionDetails) String() string {

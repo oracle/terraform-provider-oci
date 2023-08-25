@@ -135,10 +135,7 @@ func (m *PolicyConfig) UnmarshalJSON(data []byte) (e error) {
 	m.IsHttpsForced = model.IsHttpsForced
 
 	m.TlsProtocols = make([]PolicyConfigTlsProtocolsEnum, len(model.TlsProtocols))
-	for i, n := range model.TlsProtocols {
-		m.TlsProtocols[i] = n
-	}
-
+	copy(m.TlsProtocols, model.TlsProtocols)
 	m.IsOriginCompressionEnabled = model.IsOriginCompressionEnabled
 
 	m.IsBehindCdn = model.IsBehindCdn
@@ -162,10 +159,7 @@ func (m *PolicyConfig) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.WebsocketPathPrefixes = make([]string, len(model.WebsocketPathPrefixes))
-	for i, n := range model.WebsocketPathPrefixes {
-		m.WebsocketPathPrefixes[i] = n
-	}
-
+	copy(m.WebsocketPathPrefixes, model.WebsocketPathPrefixes)
 	m.IsSniEnabled = model.IsSniEnabled
 
 	m.HealthChecks = model.HealthChecks

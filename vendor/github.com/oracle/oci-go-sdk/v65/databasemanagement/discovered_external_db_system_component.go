@@ -45,13 +45,13 @@ type DiscoveredExternalDbSystemComponent interface {
 
 type discoveredexternaldbsystemcomponent struct {
 	JsonData                []byte
-	ComponentId             *string                                       `mandatory:"true" json:"componentId"`
-	DisplayName             *string                                       `mandatory:"true" json:"displayName"`
-	ComponentName           *string                                       `mandatory:"true" json:"componentName"`
 	ResourceId              *string                                       `mandatory:"false" json:"resourceId"`
 	IsSelectedForMonitoring *bool                                         `mandatory:"false" json:"isSelectedForMonitoring"`
 	Status                  DiscoveredExternalDbSystemComponentStatusEnum `mandatory:"false" json:"status,omitempty"`
 	AssociatedComponents    []AssociatedComponent                         `mandatory:"false" json:"associatedComponents"`
+	ComponentId             *string                                       `mandatory:"true" json:"componentId"`
+	DisplayName             *string                                       `mandatory:"true" json:"displayName"`
+	ComponentName           *string                                       `mandatory:"true" json:"componentName"`
 	ComponentType           string                                        `json:"componentType"`
 }
 
@@ -129,39 +129,39 @@ func (m *discoveredexternaldbsystemcomponent) UnmarshalPolymorphicJSON(data []by
 	}
 }
 
-//GetComponentId returns ComponentId
-func (m discoveredexternaldbsystemcomponent) GetComponentId() *string {
-	return m.ComponentId
-}
-
-//GetDisplayName returns DisplayName
-func (m discoveredexternaldbsystemcomponent) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetComponentName returns ComponentName
-func (m discoveredexternaldbsystemcomponent) GetComponentName() *string {
-	return m.ComponentName
-}
-
-//GetResourceId returns ResourceId
+// GetResourceId returns ResourceId
 func (m discoveredexternaldbsystemcomponent) GetResourceId() *string {
 	return m.ResourceId
 }
 
-//GetIsSelectedForMonitoring returns IsSelectedForMonitoring
+// GetIsSelectedForMonitoring returns IsSelectedForMonitoring
 func (m discoveredexternaldbsystemcomponent) GetIsSelectedForMonitoring() *bool {
 	return m.IsSelectedForMonitoring
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m discoveredexternaldbsystemcomponent) GetStatus() DiscoveredExternalDbSystemComponentStatusEnum {
 	return m.Status
 }
 
-//GetAssociatedComponents returns AssociatedComponents
+// GetAssociatedComponents returns AssociatedComponents
 func (m discoveredexternaldbsystemcomponent) GetAssociatedComponents() []AssociatedComponent {
 	return m.AssociatedComponents
+}
+
+// GetComponentId returns ComponentId
+func (m discoveredexternaldbsystemcomponent) GetComponentId() *string {
+	return m.ComponentId
+}
+
+// GetDisplayName returns DisplayName
+func (m discoveredexternaldbsystemcomponent) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetComponentName returns ComponentName
+func (m discoveredexternaldbsystemcomponent) GetComponentName() *string {
+	return m.ComponentName
 }
 
 func (m discoveredexternaldbsystemcomponent) String() string {

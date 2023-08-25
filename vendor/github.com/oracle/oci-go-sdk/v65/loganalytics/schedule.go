@@ -75,12 +75,12 @@ func (m *schedule) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetMisfirePolicy returns MisfirePolicy
+// GetMisfirePolicy returns MisfirePolicy
 func (m schedule) GetMisfirePolicy() ScheduleMisfirePolicyEnum {
 	return m.MisfirePolicy
 }
 
-//GetTimeOfFirstExecution returns TimeOfFirstExecution
+// GetTimeOfFirstExecution returns TimeOfFirstExecution
 func (m schedule) GetTimeOfFirstExecution() *common.SDKTime {
 	return m.TimeOfFirstExecution
 }

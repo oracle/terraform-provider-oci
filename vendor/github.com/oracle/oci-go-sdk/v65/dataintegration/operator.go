@@ -202,62 +202,62 @@ func (m *operator) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m operator) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m operator) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m operator) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m operator) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m operator) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m operator) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m operator) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m operator) GetOutputPorts() json.RawMessage {
 	return m.OutputPorts
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m operator) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m operator) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m operator) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m operator) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }

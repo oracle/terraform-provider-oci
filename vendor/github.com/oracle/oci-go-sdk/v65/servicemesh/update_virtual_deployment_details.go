@@ -85,10 +85,7 @@ func (m *UpdateVirtualDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Listeners = make([]VirtualDeploymentListener, len(model.Listeners))
-	for i, n := range model.Listeners {
-		m.Listeners[i] = n
-	}
-
+	copy(m.Listeners, model.Listeners)
 	m.AccessLogging = model.AccessLogging
 
 	m.FreeformTags = model.FreeformTags

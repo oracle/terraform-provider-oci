@@ -76,7 +76,7 @@ func (m *action) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m action) GetName() *string {
 	return m.Name
 }

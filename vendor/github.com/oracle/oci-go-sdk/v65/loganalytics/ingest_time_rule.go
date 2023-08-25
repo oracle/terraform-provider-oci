@@ -135,7 +135,6 @@ func (m *IngestTimeRule) UnmarshalJSON(data []byte) (e error) {
 			m.Actions[i] = nil
 		}
 	}
-
 	m.Id = model.Id
 
 	m.CompartmentId = model.CompartmentId

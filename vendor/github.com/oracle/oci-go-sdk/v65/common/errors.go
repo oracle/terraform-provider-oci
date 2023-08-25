@@ -255,7 +255,7 @@ type NonSeekableRequestRetryFailure struct {
 
 func (ne NonSeekableRequestRetryFailure) Error() string {
 	if ne.err == nil {
-		return fmt.Sprintf("Unable to perform Retry on this request body type, which did not implement seek() interface")
+		return "Unable to perform Retry on this request body type, which did not implement seek() interface"
 	}
 	return fmt.Sprintf("%s. Unable to perform Retry on this request body type, which did not implement seek() interface", ne.err.Error())
 }
@@ -287,7 +287,7 @@ func IsCircuitBreakerError(err error) bool {
 func getCircuitBreakerError(request *http.Request, err error, cbr *OciCircuitBreaker) error {
 	cbErr := fmt.Errorf("%s, so this request was not sent to the %s service.\n\n The circuit breaker was opened because the %s service failed too many times recently. "+
 		"Because the circuit breaker has been opened, requests within a %.2f second window of when the circuit breaker opened will not be sent to the %s service.\n\n"+
-		"URL which circuit breaker prevented request to - %s \n Circuit Breaker Info \n Name - %s \n State - %s \n\n Errors from %s service which opened the circuit breaker:\n\n%s \n",
+		"URL which circuit breaker prevented request to - %s \n Circuit Breaker Info \n Name - %s \n State - %s \n\n Errors from %s service which opened the circuit breaker:\n\n%s",
 		err, cbr.Cbst.serviceName, cbr.Cbst.serviceName, cbr.Cbst.openStateWindow.Seconds(), cbr.Cbst.serviceName, request.URL.Host+request.URL.Path, cbr.Cbst.name, cbr.Cb.State().String(), cbr.Cbst.serviceName, cbr.GetHistory())
 	return cbErr
 }

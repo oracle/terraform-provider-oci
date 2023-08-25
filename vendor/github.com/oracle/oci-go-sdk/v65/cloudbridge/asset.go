@@ -67,6 +67,11 @@ type Asset interface {
 
 type asset struct {
 	JsonData         []byte
+	DisplayName      *string                           `mandatory:"false" json:"displayName"`
+	AssetSourceIds   []string                          `mandatory:"false" json:"assetSourceIds"`
+	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	InventoryId      *string                           `mandatory:"true" json:"inventoryId"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -75,11 +80,6 @@ type asset struct {
 	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
 	LifecycleState   AssetLifecycleStateEnum           `mandatory:"true" json:"lifecycleState"`
-	DisplayName      *string                           `mandatory:"false" json:"displayName"`
-	AssetSourceIds   []string                          `mandatory:"false" json:"assetSourceIds"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	AssetType        string                            `json:"assetType"`
 }
 
@@ -135,69 +135,69 @@ func (m *asset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetInventoryId returns InventoryId
-func (m asset) GetInventoryId() *string {
-	return m.InventoryId
-}
-
-//GetId returns Id
-func (m asset) GetId() *string {
-	return m.Id
-}
-
-//GetCompartmentId returns CompartmentId
-func (m asset) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetSourceKey returns SourceKey
-func (m asset) GetSourceKey() *string {
-	return m.SourceKey
-}
-
-//GetExternalAssetKey returns ExternalAssetKey
-func (m asset) GetExternalAssetKey() *string {
-	return m.ExternalAssetKey
-}
-
-//GetTimeCreated returns TimeCreated
-func (m asset) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m asset) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetLifecycleState returns LifecycleState
-func (m asset) GetLifecycleState() AssetLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m asset) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetAssetSourceIds returns AssetSourceIds
+// GetAssetSourceIds returns AssetSourceIds
 func (m asset) GetAssetSourceIds() []string {
 	return m.AssetSourceIds
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m asset) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m asset) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m asset) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetInventoryId returns InventoryId
+func (m asset) GetInventoryId() *string {
+	return m.InventoryId
+}
+
+// GetId returns Id
+func (m asset) GetId() *string {
+	return m.Id
+}
+
+// GetCompartmentId returns CompartmentId
+func (m asset) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetSourceKey returns SourceKey
+func (m asset) GetSourceKey() *string {
+	return m.SourceKey
+}
+
+// GetExternalAssetKey returns ExternalAssetKey
+func (m asset) GetExternalAssetKey() *string {
+	return m.ExternalAssetKey
+}
+
+// GetTimeCreated returns TimeCreated
+func (m asset) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m asset) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
+}
+
+// GetLifecycleState returns LifecycleState
+func (m asset) GetLifecycleState() AssetLifecycleStateEnum {
+	return m.LifecycleState
 }
 
 func (m asset) String() string {

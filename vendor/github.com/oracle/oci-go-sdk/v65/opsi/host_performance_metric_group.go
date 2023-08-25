@@ -84,7 +84,7 @@ func (m *hostperformancemetricgroup) UnmarshalPolymorphicJSON(data []byte) (inte
 	}
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m hostperformancemetricgroup) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

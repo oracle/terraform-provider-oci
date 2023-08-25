@@ -63,10 +63,6 @@ type DeployStageSummary interface {
 
 type deploystagesummary struct {
 	JsonData                         []byte
-	Id                               *string                           `mandatory:"true" json:"id"`
-	ProjectId                        *string                           `mandatory:"true" json:"projectId"`
-	DeployPipelineId                 *string                           `mandatory:"true" json:"deployPipelineId"`
-	CompartmentId                    *string                           `mandatory:"true" json:"compartmentId"`
 	Description                      *string                           `mandatory:"false" json:"description"`
 	DisplayName                      *string                           `mandatory:"false" json:"displayName"`
 	TimeCreated                      *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
@@ -77,6 +73,10 @@ type deploystagesummary struct {
 	FreeformTags                     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags                       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id                               *string                           `mandatory:"true" json:"id"`
+	ProjectId                        *string                           `mandatory:"true" json:"projectId"`
+	DeployPipelineId                 *string                           `mandatory:"true" json:"deployPipelineId"`
+	CompartmentId                    *string                           `mandatory:"true" json:"compartmentId"`
 	DeployStageType                  string                            `json:"deployStageType"`
 }
 
@@ -201,74 +201,74 @@ func (m *deploystagesummary) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetId returns Id
-func (m deploystagesummary) GetId() *string {
-	return m.Id
-}
-
-//GetProjectId returns ProjectId
-func (m deploystagesummary) GetProjectId() *string {
-	return m.ProjectId
-}
-
-//GetDeployPipelineId returns DeployPipelineId
-func (m deploystagesummary) GetDeployPipelineId() *string {
-	return m.DeployPipelineId
-}
-
-//GetCompartmentId returns CompartmentId
-func (m deploystagesummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetDescription returns Description
+// GetDescription returns Description
 func (m deploystagesummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m deploystagesummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m deploystagesummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m deploystagesummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m deploystagesummary) GetLifecycleState() DeployStageLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m deploystagesummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m deploystagesummary) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m deploystagesummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m deploystagesummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m deploystagesummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetId returns Id
+func (m deploystagesummary) GetId() *string {
+	return m.Id
+}
+
+// GetProjectId returns ProjectId
+func (m deploystagesummary) GetProjectId() *string {
+	return m.ProjectId
+}
+
+// GetDeployPipelineId returns DeployPipelineId
+func (m deploystagesummary) GetDeployPipelineId() *string {
+	return m.DeployPipelineId
+}
+
+// GetCompartmentId returns CompartmentId
+func (m deploystagesummary) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m deploystagesummary) String() string {

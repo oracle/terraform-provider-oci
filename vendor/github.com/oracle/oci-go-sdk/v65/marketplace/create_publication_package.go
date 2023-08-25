@@ -74,17 +74,17 @@ func (m *createpublicationpackage) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetPackageVersion returns PackageVersion
+// GetPackageVersion returns PackageVersion
 func (m createpublicationpackage) GetPackageVersion() *string {
 	return m.PackageVersion
 }
 
-//GetOperatingSystem returns OperatingSystem
+// GetOperatingSystem returns OperatingSystem
 func (m createpublicationpackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
 }
 
-//GetEula returns Eula
+// GetEula returns Eula
 func (m createpublicationpackage) GetEula() json.RawMessage {
 	return m.Eula
 }

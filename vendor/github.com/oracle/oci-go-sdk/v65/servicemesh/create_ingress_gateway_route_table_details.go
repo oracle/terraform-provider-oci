@@ -108,7 +108,6 @@ func (m *CreateIngressGatewayRouteTableDetails) UnmarshalJSON(data []byte) (e er
 			m.RouteRules[i] = nil
 		}
 	}
-
 	m.CompartmentId = model.CompartmentId
 
 	return

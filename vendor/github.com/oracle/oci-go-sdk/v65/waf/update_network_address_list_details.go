@@ -88,22 +88,22 @@ func (m *updatenetworkaddresslistdetails) UnmarshalPolymorphicJSON(data []byte) 
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updatenetworkaddresslistdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updatenetworkaddresslistdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updatenetworkaddresslistdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m updatenetworkaddresslistdetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

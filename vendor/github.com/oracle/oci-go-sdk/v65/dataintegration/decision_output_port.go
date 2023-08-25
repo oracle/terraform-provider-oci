@@ -165,7 +165,6 @@ func (m *DecisionOutputPort) UnmarshalJSON(data []byte) (e error) {
 			m.Fields[i] = nil
 		}
 	}
-
 	m.PortType = model.PortType
 
 	m.DecisionOutputPortType = model.DecisionOutputPortType

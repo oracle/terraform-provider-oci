@@ -69,6 +69,12 @@ type HostInsight interface {
 
 type hostinsight struct {
 	JsonData         []byte
+	HostDisplayName  *string                           `mandatory:"false" json:"hostDisplayName"`
+	HostType         *string                           `mandatory:"false" json:"hostType"`
+	ProcessorCount   *int                              `mandatory:"false" json:"processorCount"`
+	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	TimeUpdated      *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
 	HostName         *string                           `mandatory:"true" json:"hostName"`
@@ -77,12 +83,6 @@ type hostinsight struct {
 	Status           ResourceStatusEnum                `mandatory:"true" json:"status"`
 	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	LifecycleState   LifecycleStateEnum                `mandatory:"true" json:"lifecycleState"`
-	HostDisplayName  *string                           `mandatory:"false" json:"hostDisplayName"`
-	HostType         *string                           `mandatory:"false" json:"hostType"`
-	ProcessorCount   *int                              `mandatory:"false" json:"processorCount"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	TimeUpdated      *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
 	EntitySource     string                            `json:"entitySource"`
 }
 
@@ -147,74 +147,74 @@ func (m *hostinsight) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetId returns Id
-func (m hostinsight) GetId() *string {
-	return m.Id
-}
-
-//GetCompartmentId returns CompartmentId
-func (m hostinsight) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetHostName returns HostName
-func (m hostinsight) GetHostName() *string {
-	return m.HostName
-}
-
-//GetFreeformTags returns FreeformTags
-func (m hostinsight) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m hostinsight) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-//GetStatus returns Status
-func (m hostinsight) GetStatus() ResourceStatusEnum {
-	return m.Status
-}
-
-//GetTimeCreated returns TimeCreated
-func (m hostinsight) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetLifecycleState returns LifecycleState
-func (m hostinsight) GetLifecycleState() LifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetHostDisplayName returns HostDisplayName
+// GetHostDisplayName returns HostDisplayName
 func (m hostinsight) GetHostDisplayName() *string {
 	return m.HostDisplayName
 }
 
-//GetHostType returns HostType
+// GetHostType returns HostType
 func (m hostinsight) GetHostType() *string {
 	return m.HostType
 }
 
-//GetProcessorCount returns ProcessorCount
+// GetProcessorCount returns ProcessorCount
 func (m hostinsight) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m hostinsight) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m hostinsight) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m hostinsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetId returns Id
+func (m hostinsight) GetId() *string {
+	return m.Id
+}
+
+// GetCompartmentId returns CompartmentId
+func (m hostinsight) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetHostName returns HostName
+func (m hostinsight) GetHostName() *string {
+	return m.HostName
+}
+
+// GetFreeformTags returns FreeformTags
+func (m hostinsight) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m hostinsight) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+// GetStatus returns Status
+func (m hostinsight) GetStatus() ResourceStatusEnum {
+	return m.Status
+}
+
+// GetTimeCreated returns TimeCreated
+func (m hostinsight) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetLifecycleState returns LifecycleState
+func (m hostinsight) GetLifecycleState() LifecycleStateEnum {
+	return m.LifecycleState
 }
 
 func (m hostinsight) String() string {

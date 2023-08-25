@@ -77,17 +77,17 @@ func (m *preferredcredential) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetCredentialName returns CredentialName
+// GetCredentialName returns CredentialName
 func (m preferredcredential) GetCredentialName() *string {
 	return m.CredentialName
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m preferredcredential) GetStatus() PreferredCredentialStatusEnum {
 	return m.Status
 }
 
-//GetIsAccessible returns IsAccessible
+// GetIsAccessible returns IsAccessible
 func (m preferredcredential) GetIsAccessible() *bool {
 	return m.IsAccessible
 }

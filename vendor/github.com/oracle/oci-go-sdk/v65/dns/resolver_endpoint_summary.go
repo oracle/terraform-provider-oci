@@ -61,6 +61,8 @@ type ResolverEndpointSummary interface {
 
 type resolverendpointsummary struct {
 	JsonData          []byte
+	ForwardingAddress *string                                   `mandatory:"false" json:"forwardingAddress"`
+	ListeningAddress  *string                                   `mandatory:"false" json:"listeningAddress"`
 	Name              *string                                   `mandatory:"true" json:"name"`
 	IsForwarding      *bool                                     `mandatory:"true" json:"isForwarding"`
 	IsListening       *bool                                     `mandatory:"true" json:"isListening"`
@@ -69,8 +71,6 @@ type resolverendpointsummary struct {
 	TimeUpdated       *common.SDKTime                           `mandatory:"true" json:"timeUpdated"`
 	LifecycleState    ResolverEndpointSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 	Self              *string                                   `mandatory:"true" json:"self"`
-	ForwardingAddress *string                                   `mandatory:"false" json:"forwardingAddress"`
-	ListeningAddress  *string                                   `mandatory:"false" json:"listeningAddress"`
 	EndpointType      string                                    `json:"endpointType"`
 }
 
@@ -119,54 +119,54 @@ func (m *resolverendpointsummary) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetName returns Name
-func (m resolverendpointsummary) GetName() *string {
-	return m.Name
-}
-
-//GetIsForwarding returns IsForwarding
-func (m resolverendpointsummary) GetIsForwarding() *bool {
-	return m.IsForwarding
-}
-
-//GetIsListening returns IsListening
-func (m resolverendpointsummary) GetIsListening() *bool {
-	return m.IsListening
-}
-
-//GetCompartmentId returns CompartmentId
-func (m resolverendpointsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetTimeCreated returns TimeCreated
-func (m resolverendpointsummary) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m resolverendpointsummary) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetLifecycleState returns LifecycleState
-func (m resolverendpointsummary) GetLifecycleState() ResolverEndpointSummaryLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetSelf returns Self
-func (m resolverendpointsummary) GetSelf() *string {
-	return m.Self
-}
-
-//GetForwardingAddress returns ForwardingAddress
+// GetForwardingAddress returns ForwardingAddress
 func (m resolverendpointsummary) GetForwardingAddress() *string {
 	return m.ForwardingAddress
 }
 
-//GetListeningAddress returns ListeningAddress
+// GetListeningAddress returns ListeningAddress
 func (m resolverendpointsummary) GetListeningAddress() *string {
 	return m.ListeningAddress
+}
+
+// GetName returns Name
+func (m resolverendpointsummary) GetName() *string {
+	return m.Name
+}
+
+// GetIsForwarding returns IsForwarding
+func (m resolverendpointsummary) GetIsForwarding() *bool {
+	return m.IsForwarding
+}
+
+// GetIsListening returns IsListening
+func (m resolverendpointsummary) GetIsListening() *bool {
+	return m.IsListening
+}
+
+// GetCompartmentId returns CompartmentId
+func (m resolverendpointsummary) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetTimeCreated returns TimeCreated
+func (m resolverendpointsummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m resolverendpointsummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
+}
+
+// GetLifecycleState returns LifecycleState
+func (m resolverendpointsummary) GetLifecycleState() ResolverEndpointSummaryLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+// GetSelf returns Self
+func (m resolverendpointsummary) GetSelf() *string {
+	return m.Self
 }
 
 func (m resolverendpointsummary) String() string {

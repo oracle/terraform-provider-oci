@@ -98,37 +98,37 @@ func (m *referenceddataobject) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m referenceddataobject) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m referenceddataobject) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m referenceddataobject) GetName() *string {
 	return m.Name
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m referenceddataobject) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetResourceName returns ResourceName
+// GetResourceName returns ResourceName
 func (m referenceddataobject) GetResourceName() *string {
 	return m.ResourceName
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m referenceddataobject) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m referenceddataobject) GetExternalKey() *string {
 	return m.ExternalKey
 }

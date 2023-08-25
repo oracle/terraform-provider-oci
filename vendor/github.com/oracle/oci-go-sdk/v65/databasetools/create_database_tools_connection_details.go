@@ -36,10 +36,10 @@ type CreateDatabaseToolsConnectionDetails interface {
 
 type createdatabasetoolsconnectiondetails struct {
 	JsonData      []byte
-	DisplayName   *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DisplayName   *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	Type          string                            `json:"type"`
 }
 
@@ -86,24 +86,24 @@ func (m *createdatabasetoolsconnectiondetails) UnmarshalPolymorphicJSON(data []b
 	}
 }
 
-//GetDisplayName returns DisplayName
-func (m createdatabasetoolsconnectiondetails) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m createdatabasetoolsconnectiondetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createdatabasetoolsconnectiondetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createdatabasetoolsconnectiondetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
+}
+
+// GetDisplayName returns DisplayName
+func (m createdatabasetoolsconnectiondetails) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createdatabasetoolsconnectiondetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createdatabasetoolsconnectiondetails) String() string {

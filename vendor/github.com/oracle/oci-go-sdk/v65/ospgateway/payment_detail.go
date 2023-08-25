@@ -87,17 +87,17 @@ func (m *paymentdetail) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetTimePaidOn returns TimePaidOn
+// GetTimePaidOn returns TimePaidOn
 func (m paymentdetail) GetTimePaidOn() *common.SDKTime {
 	return m.TimePaidOn
 }
 
-//GetPaidBy returns PaidBy
+// GetPaidBy returns PaidBy
 func (m paymentdetail) GetPaidBy() *string {
 	return m.PaidBy
 }
 
-//GetAmountPaid returns AmountPaid
+// GetAmountPaid returns AmountPaid
 func (m paymentdetail) GetAmountPaid() *float32 {
 	return m.AmountPaid
 }

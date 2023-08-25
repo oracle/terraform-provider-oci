@@ -39,7 +39,7 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// The number of CPU cores to be enabled per VM cluster node.
 	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
 
-	// The amount of memory (in GBs) to be enabled per OCPU or ECPU. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The amount of memory (in GBs) to be enabled per OCPU or ECPU.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The data disk group size to be allocated for Autonomous Databases, in TBs.
@@ -48,7 +48,7 @@ type CreateCloudAutonomousVmClusterDetails struct {
 	// The time zone to use for the Cloud Autonomous VM cluster. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	ClusterTimeZone *string `mandatory:"false" json:"clusterTimeZone"`
 
-	// The compute model of the Cloud Autonomous VM Cluster. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The compute model of the Cloud Autonomous VM Cluster.
 	ComputeModel CreateCloudAutonomousVmClusterDetailsComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS

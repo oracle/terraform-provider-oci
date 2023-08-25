@@ -139,57 +139,57 @@ func (m *configurationsourceprovider) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m configurationsourceprovider) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m configurationsourceprovider) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m configurationsourceprovider) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m configurationsourceprovider) GetDescription() *string {
 	return m.Description
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m configurationsourceprovider) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m configurationsourceprovider) GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m configurationsourceprovider) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-//GetUsername returns Username
+// GetUsername returns Username
 func (m configurationsourceprovider) GetUsername() *string {
 	return m.Username
 }
 
-//GetSecretId returns SecretId
+// GetSecretId returns SecretId
 func (m configurationsourceprovider) GetSecretId() *string {
 	return m.SecretId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m configurationsourceprovider) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m configurationsourceprovider) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

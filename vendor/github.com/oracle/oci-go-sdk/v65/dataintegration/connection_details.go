@@ -181,62 +181,62 @@ func (m *connectiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m connectiondetails) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m connectiondetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m connectiondetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m connectiondetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m connectiondetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m connectiondetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m connectiondetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m connectiondetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetPrimarySchema returns PrimarySchema
+// GetPrimarySchema returns PrimarySchema
 func (m connectiondetails) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
-//GetConnectionProperties returns ConnectionProperties
+// GetConnectionProperties returns ConnectionProperties
 func (m connectiondetails) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetIsDefault returns IsDefault
+// GetIsDefault returns IsDefault
 func (m connectiondetails) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m connectiondetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

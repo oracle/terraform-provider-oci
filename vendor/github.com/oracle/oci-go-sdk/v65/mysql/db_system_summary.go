@@ -47,12 +47,6 @@ type DbSystemSummary struct {
 
 	CurrentPlacement *DbSystemPlacement `mandatory:"false" json:"currentPlacement"`
 
-	// DEPRECATED -- please use `isHeatWaveClusterAttached` instead.
-	// If the DB System has an Analytics Cluster attached.
-	IsAnalyticsClusterAttached *bool `mandatory:"false" json:"isAnalyticsClusterAttached"`
-
-	AnalyticsCluster *AnalyticsClusterSummary `mandatory:"false" json:"analyticsCluster"`
-
 	// If the DB System has a HeatWave Cluster attached.
 	IsHeatWaveClusterAttached *bool `mandatory:"false" json:"isHeatWaveClusterAttached"`
 

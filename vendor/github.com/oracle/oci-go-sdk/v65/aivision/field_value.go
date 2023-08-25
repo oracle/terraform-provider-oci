@@ -33,10 +33,10 @@ type FieldValue interface {
 
 type fieldvalue struct {
 	JsonData        []byte
+	Text            *string          `mandatory:"false" json:"text"`
 	Confidence      *float32         `mandatory:"true" json:"confidence"`
 	BoundingPolygon *BoundingPolygon `mandatory:"true" json:"boundingPolygon"`
 	WordIndexes     []int            `mandatory:"true" json:"wordIndexes"`
-	Text            *string          `mandatory:"false" json:"text"`
 	ValueType       string           `json:"valueType"`
 }
 
@@ -103,24 +103,24 @@ func (m *fieldvalue) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 	}
 }
 
-//GetConfidence returns Confidence
+// GetText returns Text
+func (m fieldvalue) GetText() *string {
+	return m.Text
+}
+
+// GetConfidence returns Confidence
 func (m fieldvalue) GetConfidence() *float32 {
 	return m.Confidence
 }
 
-//GetBoundingPolygon returns BoundingPolygon
+// GetBoundingPolygon returns BoundingPolygon
 func (m fieldvalue) GetBoundingPolygon() *BoundingPolygon {
 	return m.BoundingPolygon
 }
 
-//GetWordIndexes returns WordIndexes
+// GetWordIndexes returns WordIndexes
 func (m fieldvalue) GetWordIndexes() []int {
 	return m.WordIndexes
-}
-
-//GetText returns Text
-func (m fieldvalue) GetText() *string {
-	return m.Text
 }
 
 func (m fieldvalue) String() string {

@@ -129,47 +129,47 @@ func (m *configurationsourceprovidersummary) UnmarshalPolymorphicJSON(data []byt
 	}
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m configurationsourceprovidersummary) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m configurationsourceprovidersummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m configurationsourceprovidersummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m configurationsourceprovidersummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m configurationsourceprovidersummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m configurationsourceprovidersummary) GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m configurationsourceprovidersummary) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m configurationsourceprovidersummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m configurationsourceprovidersummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

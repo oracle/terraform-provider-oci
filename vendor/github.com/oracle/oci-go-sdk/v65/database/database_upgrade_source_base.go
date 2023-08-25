@@ -74,7 +74,7 @@ func (m *databaseupgradesourcebase) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetOptions returns Options
+// GetOptions returns Options
 func (m databaseupgradesourcebase) GetOptions() *string {
 	return m.Options
 }

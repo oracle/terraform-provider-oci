@@ -69,7 +69,7 @@ func (m *workitemdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 	}
 }
 
-//GetWorkItemType returns WorkItemType
+// GetWorkItemType returns WorkItemType
 func (m workitemdetails) GetWorkItemType() WorkItemTypeEnum {
 	return m.WorkItemType
 }

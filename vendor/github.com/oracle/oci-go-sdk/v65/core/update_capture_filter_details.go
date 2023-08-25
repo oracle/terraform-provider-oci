@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// UpdateCaptureFilterDetails These details can be included in a request to update a capture filter. A capture filter contains a set of rules governing what traffic a VTAP mirrors.
+// UpdateCaptureFilterDetails These details can be included in a request to update a capture filter. A capture filter contains a set of rules governing what traffic a VTAP mirrors or a VCN flow log collects.
 type UpdateCaptureFilterDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

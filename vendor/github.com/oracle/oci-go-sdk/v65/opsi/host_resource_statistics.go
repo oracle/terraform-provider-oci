@@ -94,22 +94,22 @@ func (m *hostresourcestatistics) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetUsage returns Usage
+// GetUsage returns Usage
 func (m hostresourcestatistics) GetUsage() *float64 {
 	return m.Usage
 }
 
-//GetCapacity returns Capacity
+// GetCapacity returns Capacity
 func (m hostresourcestatistics) GetCapacity() *float64 {
 	return m.Capacity
 }
 
-//GetUtilizationPercent returns UtilizationPercent
+// GetUtilizationPercent returns UtilizationPercent
 func (m hostresourcestatistics) GetUtilizationPercent() *float64 {
 	return m.UtilizationPercent
 }
 
-//GetUsageChangePercent returns UsageChangePercent
+// GetUsageChangePercent returns UsageChangePercent
 func (m hostresourcestatistics) GetUsageChangePercent() *float64 {
 	return m.UsageChangePercent
 }

@@ -69,7 +69,7 @@ func (m *updatehostdumptransferdetails) UnmarshalPolymorphicJSON(data []byte) (i
 	}
 }
 
-//GetWalletLocation returns WalletLocation
+// GetWalletLocation returns WalletLocation
 func (m updatehostdumptransferdetails) GetWalletLocation() *string {
 	return m.WalletLocation
 }

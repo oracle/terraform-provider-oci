@@ -125,7 +125,6 @@ func (m *UpdateGitlabTriggerDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Actions[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

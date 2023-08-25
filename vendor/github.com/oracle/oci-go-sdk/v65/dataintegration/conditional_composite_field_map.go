@@ -109,7 +109,6 @@ func (m *ConditionalCompositeFieldMap) UnmarshalJSON(data []byte) (e error) {
 			m.FieldMapScope[i] = nil
 		}
 	}
-
 	m.Key = model.Key
 
 	m.ModelVersion = model.ModelVersion
@@ -132,6 +131,5 @@ func (m *ConditionalCompositeFieldMap) UnmarshalJSON(data []byte) (e error) {
 			m.FieldMaps[i] = nil
 		}
 	}
-
 	return
 }

@@ -108,7 +108,6 @@ func (m *CreateVirtualServiceRouteTableDetails) UnmarshalJSON(data []byte) (e er
 			m.RouteRules[i] = nil
 		}
 	}
-
 	m.CompartmentId = model.CompartmentId
 
 	return

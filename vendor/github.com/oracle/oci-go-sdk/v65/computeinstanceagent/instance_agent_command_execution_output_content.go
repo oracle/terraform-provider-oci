@@ -29,8 +29,8 @@ type InstanceAgentCommandExecutionOutputContent interface {
 
 type instanceagentcommandexecutionoutputcontent struct {
 	JsonData   []byte
-	ExitCode   *int    `mandatory:"true" json:"exitCode"`
 	Message    *string `mandatory:"false" json:"message"`
+	ExitCode   *int    `mandatory:"true" json:"exitCode"`
 	OutputType string  `json:"outputType"`
 }
 
@@ -79,14 +79,14 @@ func (m *instanceagentcommandexecutionoutputcontent) UnmarshalPolymorphicJSON(da
 	}
 }
 
-//GetExitCode returns ExitCode
-func (m instanceagentcommandexecutionoutputcontent) GetExitCode() *int {
-	return m.ExitCode
-}
-
-//GetMessage returns Message
+// GetMessage returns Message
 func (m instanceagentcommandexecutionoutputcontent) GetMessage() *string {
 	return m.Message
+}
+
+// GetExitCode returns ExitCode
+func (m instanceagentcommandexecutionoutputcontent) GetExitCode() *int {
+	return m.ExitCode
 }
 
 func (m instanceagentcommandexecutionoutputcontent) String() string {

@@ -22,6 +22,7 @@ const (
 	MonitorTypesBrowser         MonitorTypesEnum = "BROWSER"
 	MonitorTypesScriptedRest    MonitorTypesEnum = "SCRIPTED_REST"
 	MonitorTypesRest            MonitorTypesEnum = "REST"
+	MonitorTypesNetwork         MonitorTypesEnum = "NETWORK"
 )
 
 var mappingMonitorTypesEnum = map[string]MonitorTypesEnum{
@@ -29,6 +30,7 @@ var mappingMonitorTypesEnum = map[string]MonitorTypesEnum{
 	"BROWSER":          MonitorTypesBrowser,
 	"SCRIPTED_REST":    MonitorTypesScriptedRest,
 	"REST":             MonitorTypesRest,
+	"NETWORK":          MonitorTypesNetwork,
 }
 
 var mappingMonitorTypesEnumLowerCase = map[string]MonitorTypesEnum{
@@ -36,6 +38,7 @@ var mappingMonitorTypesEnumLowerCase = map[string]MonitorTypesEnum{
 	"browser":          MonitorTypesBrowser,
 	"scripted_rest":    MonitorTypesScriptedRest,
 	"rest":             MonitorTypesRest,
+	"network":          MonitorTypesNetwork,
 }
 
 // GetMonitorTypesEnumValues Enumerates the set of values for MonitorTypesEnum
@@ -54,6 +57,7 @@ func GetMonitorTypesEnumStringValues() []string {
 		"BROWSER",
 		"SCRIPTED_REST",
 		"REST",
+		"NETWORK",
 	}
 }
 

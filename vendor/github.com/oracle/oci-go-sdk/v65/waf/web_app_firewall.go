@@ -60,6 +60,8 @@ type WebAppFirewall interface {
 
 type webappfirewall struct {
 	JsonData               []byte
+	TimeUpdated            *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails       *string                           `mandatory:"false" json:"lifecycleDetails"`
 	Id                     *string                           `mandatory:"true" json:"id"`
 	DisplayName            *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId          *string                           `mandatory:"true" json:"compartmentId"`
@@ -69,8 +71,6 @@ type webappfirewall struct {
 	FreeformTags           map[string]string                 `mandatory:"true" json:"freeformTags"`
 	DefinedTags            map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 	SystemTags             map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
-	TimeUpdated            *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails       *string                           `mandatory:"false" json:"lifecycleDetails"`
 	BackendType            string                            `json:"backendType"`
 }
 
@@ -120,59 +120,59 @@ func (m *webappfirewall) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetId returns Id
-func (m webappfirewall) GetId() *string {
-	return m.Id
-}
-
-//GetDisplayName returns DisplayName
-func (m webappfirewall) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m webappfirewall) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
-func (m webappfirewall) GetWebAppFirewallPolicyId() *string {
-	return m.WebAppFirewallPolicyId
-}
-
-//GetTimeCreated returns TimeCreated
-func (m webappfirewall) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetLifecycleState returns LifecycleState
-func (m webappfirewall) GetLifecycleState() WebAppFirewallLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetFreeformTags returns FreeformTags
-func (m webappfirewall) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m webappfirewall) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-//GetSystemTags returns SystemTags
-func (m webappfirewall) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
-}
-
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m webappfirewall) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m webappfirewall) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetId returns Id
+func (m webappfirewall) GetId() *string {
+	return m.Id
+}
+
+// GetDisplayName returns DisplayName
+func (m webappfirewall) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m webappfirewall) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
+func (m webappfirewall) GetWebAppFirewallPolicyId() *string {
+	return m.WebAppFirewallPolicyId
+}
+
+// GetTimeCreated returns TimeCreated
+func (m webappfirewall) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetLifecycleState returns LifecycleState
+func (m webappfirewall) GetLifecycleState() WebAppFirewallLifecycleStateEnum {
+	return m.LifecycleState
+}
+
+// GetFreeformTags returns FreeformTags
+func (m webappfirewall) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m webappfirewall) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m webappfirewall) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m webappfirewall) String() string {

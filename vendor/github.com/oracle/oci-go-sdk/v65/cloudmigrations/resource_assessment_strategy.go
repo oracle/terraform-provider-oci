@@ -77,7 +77,7 @@ func (m *resourceassessmentstrategy) UnmarshalPolymorphicJSON(data []byte) (inte
 	}
 }
 
-//GetResourceType returns ResourceType
+// GetResourceType returns ResourceType
 func (m resourceassessmentstrategy) GetResourceType() ResourceAssessmentStrategyResourceTypeEnum {
 	return m.ResourceType
 }

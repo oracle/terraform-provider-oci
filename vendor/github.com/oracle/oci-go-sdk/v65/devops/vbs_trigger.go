@@ -226,7 +226,6 @@ func (m *VbsTrigger) UnmarshalJSON(data []byte) (e error) {
 			m.Actions[i] = nil
 		}
 	}
-
 	m.TriggerUrl = model.TriggerUrl
 
 	return

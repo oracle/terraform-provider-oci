@@ -140,7 +140,6 @@ func (m *ClassifyCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.ReferencedFields[i] = nil
 		}
 	}
-
 	m.DeclaredFields = make([]AbstractField, len(model.DeclaredFields))
 	for i, n := range model.DeclaredFields {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -153,7 +152,6 @@ func (m *ClassifyCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
-
 	m.IsHidden = model.IsHidden
 
 	m.TopCount = model.TopCount
@@ -161,10 +159,7 @@ func (m *ClassifyCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 	m.BottomCount = model.BottomCount
 
 	m.Correlate = make([]FieldsAddRemoveField, len(model.Correlate))
-	for i, n := range model.Correlate {
-		m.Correlate[i] = n
-	}
-
+	copy(m.Correlate, model.Correlate)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

@@ -158,7 +158,6 @@ func (m *DocumentJob) UnmarshalJSON(data []byte) (e error) {
 			m.Features[i] = nil
 		}
 	}
-
 	m.TimeAccepted = model.TimeAccepted
 
 	m.OutputLocation = model.OutputLocation

@@ -81,8 +81,6 @@ type DatabaseInsightSummary interface {
 
 type databaseinsightsummary struct {
 	JsonData                        []byte
-	Id                              *string                           `mandatory:"true" json:"id"`
-	DatabaseId                      *string                           `mandatory:"true" json:"databaseId"`
 	CompartmentId                   *string                           `mandatory:"false" json:"compartmentId"`
 	DatabaseName                    *string                           `mandatory:"false" json:"databaseName"`
 	DatabaseDisplayName             *string                           `mandatory:"false" json:"databaseDisplayName"`
@@ -99,6 +97,8 @@ type databaseinsightsummary struct {
 	LifecycleState                  LifecycleStateEnum                `mandatory:"false" json:"lifecycleState,omitempty"`
 	LifecycleDetails                *string                           `mandatory:"false" json:"lifecycleDetails"`
 	DatabaseConnectionStatusDetails *string                           `mandatory:"false" json:"databaseConnectionStatusDetails"`
+	Id                              *string                           `mandatory:"true" json:"id"`
+	DatabaseId                      *string                           `mandatory:"true" json:"databaseId"`
 	EntitySource                    string                            `json:"entitySource"`
 }
 
@@ -167,94 +167,94 @@ func (m *databaseinsightsummary) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetId returns Id
-func (m databaseinsightsummary) GetId() *string {
-	return m.Id
-}
-
-//GetDatabaseId returns DatabaseId
-func (m databaseinsightsummary) GetDatabaseId() *string {
-	return m.DatabaseId
-}
-
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m databaseinsightsummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDatabaseName returns DatabaseName
+// GetDatabaseName returns DatabaseName
 func (m databaseinsightsummary) GetDatabaseName() *string {
 	return m.DatabaseName
 }
 
-//GetDatabaseDisplayName returns DatabaseDisplayName
+// GetDatabaseDisplayName returns DatabaseDisplayName
 func (m databaseinsightsummary) GetDatabaseDisplayName() *string {
 	return m.DatabaseDisplayName
 }
 
-//GetDatabaseType returns DatabaseType
+// GetDatabaseType returns DatabaseType
 func (m databaseinsightsummary) GetDatabaseType() *string {
 	return m.DatabaseType
 }
 
-//GetDatabaseVersion returns DatabaseVersion
+// GetDatabaseVersion returns DatabaseVersion
 func (m databaseinsightsummary) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
 }
 
-//GetDatabaseHostNames returns DatabaseHostNames
+// GetDatabaseHostNames returns DatabaseHostNames
 func (m databaseinsightsummary) GetDatabaseHostNames() []string {
 	return m.DatabaseHostNames
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m databaseinsightsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m databaseinsightsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m databaseinsightsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetProcessorCount returns ProcessorCount
+// GetProcessorCount returns ProcessorCount
 func (m databaseinsightsummary) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m databaseinsightsummary) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m databaseinsightsummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m databaseinsightsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m databaseinsightsummary) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m databaseinsightsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+// GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
 func (m databaseinsightsummary) GetDatabaseConnectionStatusDetails() *string {
 	return m.DatabaseConnectionStatusDetails
+}
+
+// GetId returns Id
+func (m databaseinsightsummary) GetId() *string {
+	return m.Id
+}
+
+// GetDatabaseId returns DatabaseId
+func (m databaseinsightsummary) GetDatabaseId() *string {
+	return m.DatabaseId
 }
 
 func (m databaseinsightsummary) String() string {

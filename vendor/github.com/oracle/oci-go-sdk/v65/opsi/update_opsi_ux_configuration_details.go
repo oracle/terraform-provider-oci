@@ -142,6 +142,5 @@ func (m *UpdateOpsiUxConfigurationDetails) UnmarshalJSON(data []byte) (e error) 
 			m.ConfigItems[i] = nil
 		}
 	}
-
 	return
 }

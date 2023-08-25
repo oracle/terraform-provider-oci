@@ -97,6 +97,5 @@ func (m *GeneralProcessorConfig) UnmarshalJSON(data []byte) (e error) {
 			m.Features[i] = nil
 		}
 	}
-
 	return
 }

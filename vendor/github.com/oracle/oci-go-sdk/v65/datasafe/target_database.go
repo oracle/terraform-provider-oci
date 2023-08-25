@@ -129,10 +129,7 @@ func (m *TargetDatabase) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.AssociatedResourceIds = make([]string, len(model.AssociatedResourceIds))
-	for i, n := range model.AssociatedResourceIds {
-		m.AssociatedResourceIds[i] = n
-	}
-
+	copy(m.AssociatedResourceIds, model.AssociatedResourceIds)
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.TimeUpdated = model.TimeUpdated

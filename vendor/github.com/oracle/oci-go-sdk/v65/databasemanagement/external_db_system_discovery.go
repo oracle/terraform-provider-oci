@@ -110,7 +110,6 @@ func (m *ExternalDbSystemDiscovery) UnmarshalJSON(data []byte) (e error) {
 			m.DiscoveredComponents[i] = nil
 		}
 	}
-
 	m.ResourceId = model.ResourceId
 
 	m.LifecycleDetails = model.LifecycleDetails

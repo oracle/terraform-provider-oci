@@ -144,7 +144,6 @@ func (m *ServiceConnector) UnmarshalJSON(data []byte) (e error) {
 			m.Tasks[i] = nil
 		}
 	}
-
 	nn, e = model.Target.UnmarshalPolymorphicJSON(model.Target.JsonData)
 	if e != nil {
 		return

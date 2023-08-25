@@ -76,12 +76,12 @@ func (m *tablespaceadmincredentialdetails) UnmarshalPolymorphicJSON(data []byte)
 	}
 }
 
-//GetUsername returns Username
+// GetUsername returns Username
 func (m tablespaceadmincredentialdetails) GetUsername() *string {
 	return m.Username
 }
 
-//GetRole returns Role
+// GetRole returns Role
 func (m tablespaceadmincredentialdetails) GetRole() TablespaceAdminCredentialDetailsRoleEnum {
 	return m.Role
 }

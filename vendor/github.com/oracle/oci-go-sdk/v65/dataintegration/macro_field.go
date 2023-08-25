@@ -169,9 +169,6 @@ func (m *MacroField) UnmarshalJSON(data []byte) (e error) {
 	m.UseType = model.UseType
 
 	m.Labels = make([]string, len(model.Labels))
-	for i, n := range model.Labels {
-		m.Labels[i] = n
-	}
-
+	copy(m.Labels, model.Labels)
 	return
 }

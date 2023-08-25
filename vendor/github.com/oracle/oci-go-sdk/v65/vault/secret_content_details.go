@@ -74,12 +74,12 @@ func (m *secretcontentdetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m secretcontentdetails) GetName() *string {
 	return m.Name
 }
 
-//GetStage returns Stage
+// GetStage returns Stage
 func (m secretcontentdetails) GetStage() SecretContentDetailsStageEnum {
 	return m.Stage
 }

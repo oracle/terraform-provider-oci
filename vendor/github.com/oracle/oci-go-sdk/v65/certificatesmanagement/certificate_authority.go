@@ -150,7 +150,6 @@ func (m *CertificateAuthority) UnmarshalJSON(data []byte) (e error) {
 			m.CertificateAuthorityRules[i] = nil
 		}
 	}
-
 	m.CurrentVersion = model.CurrentVersion
 
 	m.CertificateRevocationListDetails = model.CertificateRevocationListDetails

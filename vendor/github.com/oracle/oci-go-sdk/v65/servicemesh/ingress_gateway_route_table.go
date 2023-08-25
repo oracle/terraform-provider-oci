@@ -128,7 +128,6 @@ func (m *IngressGatewayRouteTable) UnmarshalJSON(data []byte) (e error) {
 			m.RouteRules[i] = nil
 		}
 	}
-
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags

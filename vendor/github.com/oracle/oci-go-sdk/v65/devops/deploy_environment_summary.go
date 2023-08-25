@@ -58,9 +58,6 @@ type DeployEnvironmentSummary interface {
 
 type deployenvironmentsummary struct {
 	JsonData              []byte
-	Id                    *string                             `mandatory:"true" json:"id"`
-	ProjectId             *string                             `mandatory:"true" json:"projectId"`
-	CompartmentId         *string                             `mandatory:"true" json:"compartmentId"`
 	Description           *string                             `mandatory:"false" json:"description"`
 	DisplayName           *string                             `mandatory:"false" json:"displayName"`
 	TimeCreated           *common.SDKTime                     `mandatory:"false" json:"timeCreated"`
@@ -70,6 +67,9 @@ type deployenvironmentsummary struct {
 	FreeformTags          map[string]string                   `mandatory:"false" json:"freeformTags"`
 	DefinedTags           map[string]map[string]interface{}   `mandatory:"false" json:"definedTags"`
 	SystemTags            map[string]map[string]interface{}   `mandatory:"false" json:"systemTags"`
+	Id                    *string                             `mandatory:"true" json:"id"`
+	ProjectId             *string                             `mandatory:"true" json:"projectId"`
+	CompartmentId         *string                             `mandatory:"true" json:"compartmentId"`
 	DeployEnvironmentType string                              `json:"deployEnvironmentType"`
 }
 
@@ -128,64 +128,64 @@ func (m *deployenvironmentsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetId returns Id
-func (m deployenvironmentsummary) GetId() *string {
-	return m.Id
-}
-
-//GetProjectId returns ProjectId
-func (m deployenvironmentsummary) GetProjectId() *string {
-	return m.ProjectId
-}
-
-//GetCompartmentId returns CompartmentId
-func (m deployenvironmentsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetDescription returns Description
+// GetDescription returns Description
 func (m deployenvironmentsummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m deployenvironmentsummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m deployenvironmentsummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m deployenvironmentsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m deployenvironmentsummary) GetLifecycleState() DeployEnvironmentLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m deployenvironmentsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m deployenvironmentsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m deployenvironmentsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m deployenvironmentsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetId returns Id
+func (m deployenvironmentsummary) GetId() *string {
+	return m.Id
+}
+
+// GetProjectId returns ProjectId
+func (m deployenvironmentsummary) GetProjectId() *string {
+	return m.ProjectId
+}
+
+// GetCompartmentId returns CompartmentId
+func (m deployenvironmentsummary) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m deployenvironmentsummary) String() string {

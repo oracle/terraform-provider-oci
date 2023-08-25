@@ -80,17 +80,17 @@ func (m *updateidentityproviderdetails) UnmarshalPolymorphicJSON(data []byte) (i
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updateidentityproviderdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updateidentityproviderdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updateidentityproviderdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

@@ -39,11 +39,11 @@ type PrivateApplicationPackage interface {
 
 type privateapplicationpackage struct {
 	JsonData             []byte
+	DisplayName          *string         `mandatory:"false" json:"displayName"`
 	Id                   *string         `mandatory:"true" json:"id"`
 	PrivateApplicationId *string         `mandatory:"true" json:"privateApplicationId"`
 	Version              *string         `mandatory:"true" json:"version"`
 	TimeCreated          *common.SDKTime `mandatory:"true" json:"timeCreated"`
-	DisplayName          *string         `mandatory:"false" json:"displayName"`
 	PackageType          string          `json:"packageType"`
 }
 
@@ -87,29 +87,29 @@ func (m *privateapplicationpackage) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetId returns Id
+// GetDisplayName returns DisplayName
+func (m privateapplicationpackage) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetId returns Id
 func (m privateapplicationpackage) GetId() *string {
 	return m.Id
 }
 
-//GetPrivateApplicationId returns PrivateApplicationId
+// GetPrivateApplicationId returns PrivateApplicationId
 func (m privateapplicationpackage) GetPrivateApplicationId() *string {
 	return m.PrivateApplicationId
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m privateapplicationpackage) GetVersion() *string {
 	return m.Version
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m privateapplicationpackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
-}
-
-//GetDisplayName returns DisplayName
-func (m privateapplicationpackage) GetDisplayName() *string {
-	return m.DisplayName
 }
 
 func (m privateapplicationpackage) String() string {

@@ -181,7 +181,6 @@ func (m *SubscriptionSummary) UnmarshalJSON(data []byte) (e error) {
 			m.PaymentOptions[i] = nil
 		}
 	}
-
 	m.PaymentGateway = model.PaymentGateway
 
 	m.BillingAddress = model.BillingAddress

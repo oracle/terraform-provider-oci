@@ -96,27 +96,27 @@ func (m *updatebuildpipelinestagedetails) UnmarshalPolymorphicJSON(data []byte) 
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updatebuildpipelinestagedetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updatebuildpipelinestagedetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
+// GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
 func (m updatebuildpipelinestagedetails) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessorCollection
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updatebuildpipelinestagedetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updatebuildpipelinestagedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

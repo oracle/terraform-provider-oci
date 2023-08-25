@@ -94,7 +94,6 @@ func (m *AnalyzeDocumentDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Features[i] = nil
 		}
 	}
-
 	nn, e = model.Document.UnmarshalPolymorphicJSON(model.Document.JsonData)
 	if e != nil {
 		return

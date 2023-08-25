@@ -64,6 +64,5 @@ func (m *HostConfigurationCollection) UnmarshalJSON(data []byte) (e error) {
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

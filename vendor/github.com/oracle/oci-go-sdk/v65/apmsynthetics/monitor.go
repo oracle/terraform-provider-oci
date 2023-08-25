@@ -70,6 +70,7 @@ type Monitor struct {
 	// For BROWSER and REST monitor types, target is mandatory.
 	// If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint.
 	// If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is.
+	// For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80
 	Target *string `mandatory:"false" json:"target"`
 
 	// List of script parameters. Example: `[{"monitorScriptParameter": {"paramName": "userid", "paramValue":"testuser"}, "isSecret": false, "isOverwritten": false}]`
@@ -161,10 +162,7 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	m.Target = model.Target
 
 	m.ScriptParameters = make([]MonitorScriptParameterInfo, len(model.ScriptParameters))
-	for i, n := range model.ScriptParameters {
-		m.ScriptParameters[i] = n
-	}
-
+	copy(m.ScriptParameters, model.ScriptParameters)
 	nn, e = model.Configuration.UnmarshalPolymorphicJSON(model.Configuration.JsonData)
 	if e != nil {
 		return
@@ -194,10 +192,7 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	m.MonitorType = model.MonitorType
 
 	m.VantagePoints = make([]VantagePointInfo, len(model.VantagePoints))
-	for i, n := range model.VantagePoints {
-		m.VantagePoints[i] = n
-	}
-
+	copy(m.VantagePoints, model.VantagePoints)
 	m.VantagePointCount = model.VantagePointCount
 
 	m.ScriptId = model.ScriptId

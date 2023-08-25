@@ -106,10 +106,7 @@ func (m *SubnetTopology) UnmarshalJSON(data []byte) (e error) {
 	m.SubnetId = model.SubnetId
 
 	m.Entities = make([]interface{}, len(model.Entities))
-	for i, n := range model.Entities {
-		m.Entities[i] = n
-	}
-
+	copy(m.Entities, model.Entities)
 	m.Relationships = make([]TopologyEntityRelationship, len(model.Relationships))
 	for i, n := range model.Relationships {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -122,12 +119,8 @@ func (m *SubnetTopology) UnmarshalJSON(data []byte) (e error) {
 			m.Relationships[i] = nil
 		}
 	}
-
 	m.LimitedEntities = make([]string, len(model.LimitedEntities))
-	for i, n := range model.LimitedEntities {
-		m.LimitedEntities[i] = n
-	}
-
+	copy(m.LimitedEntities, model.LimitedEntities)
 	m.TimeCreated = model.TimeCreated
 
 	return

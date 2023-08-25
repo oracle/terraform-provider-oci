@@ -74,7 +74,7 @@ func (m *routingaction) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetActionType returns ActionType
+// GetActionType returns ActionType
 func (m routingaction) GetActionType() RoutingActionActionTypeEnum {
 	return m.ActionType
 }
