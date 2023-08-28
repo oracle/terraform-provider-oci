@@ -45,6 +45,7 @@ var ApiKeyConfigAttributes = [5]string{globalvar.UserOcidAttrName, globalvar.Fin
 var ociProvider *schema.Provider
 
 var TerraformCLIVersion = globalvar.UnknownTerraformCLIVersion
+var schemaMultiEnvDefaultFuncVar = schema.MultiEnvDefaultFunc
 var AvoidWaitingForDeleteTarget bool
 
 // creating an interface to aid in unit tests
@@ -569,12 +570,23 @@ func BuildHttpClient() (httpClient *http.Client) {
 	return
 }
 
+func UserAgentFromEnv() string {
+
+	userAgentFromEnv, err := schemaMultiEnvDefaultFuncVar([]string{globalvar.UserAgentProviderNameEnv, globalvar.UserAgentSDKNameEnv, globalvar.UserAgentTerraformNameEnv}, globalvar.DefaultUserAgentProviderName)()
+
+	if err != nil {
+		log.Printf("[ERROR] Error while fetching user agent from env var: %v", err)
+		return globalvar.DefaultUserAgentProviderName
+	}
+	return userAgentFromEnv.(string)
+}
+
 func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, httpClient *http.Client) (tf_client.ConfigureClient, error) {
 
 	if ociProvider != nil && len(ociProvider.TerraformVersion) > 0 {
 		TerraformCLIVersion = ociProvider.TerraformVersion
 	}
-	userAgentProviderName := utils.GetEnvSettingWithDefault(globalvar.UserAgentProviderNameEnv, globalvar.DefaultUserAgentProviderName)
+	userAgentProviderName := UserAgentFromEnv()
 	userAgent := fmt.Sprintf(globalvar.UserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), TerraformCLIVersion, userAgentProviderName, globalvar.Version)
 
 	useOboToken, err := strconv.ParseBool(utils.GetEnvSettingWithDefault("use_obo_token", "false"))

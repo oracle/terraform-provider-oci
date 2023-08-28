@@ -851,3 +851,28 @@ func TestUnit_OciVarName(t *testing.T) {
 		})
 	}
 }
+func TestUnitUserAgentFromEnv(t *testing.T) {
+	tests := []struct {
+		name string
+		want string
+		mock func() (interface{}, error)
+	}{{
+		"env value",
+		"agent/terraform",
+		func() (interface{}, error) { return "agent/terraform", nil },
+	},
+		{
+			"default value",
+			globalvar.DefaultUserAgentProviderName,
+			func() (interface{}, error) { return globalvar.DefaultUserAgentProviderName, nil },
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			schemaMultiEnvDefaultFuncVar = func(ks []string, dv interface{}) schema.SchemaDefaultFunc {
+				return tt.mock
+			}
+			assert.Equalf(t, tt.want, UserAgentFromEnv(), tt.name)
+		})
+	}
+}
