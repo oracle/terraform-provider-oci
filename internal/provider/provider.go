@@ -409,33 +409,20 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 
 		configProviders = append(configProviders, cfg)
 	case strings.ToLower(globalvar.AuthSecurityToken):
-		_, ok := utils.CheckIncompatibleAttrsForApiKeyAuth(d, ApiKeyConfigAttributes)
-		if !ok {
-			log.Printf("[DEBUG] Ignoring all user credentials for %v authentication", auth)
-		}
-
-		region, ok := d.GetOk(globalvar.RegionAttrName)
-		if !ok {
-			return nil, fmt.Errorf("can not get %s from Terraform configuration (SecurityToken)", globalvar.RegionAttrName)
-		}
-		// if region is part of the provider block make sure it is part of the final configuration too, and overwrites the region in the profile. +
-		regionProvider := oci_common.NewRawConfigurationProvider("", "", region.(string), "", "", nil)
-		configProviders = append(configProviders, regionProvider)
-
 		profile, ok := d.GetOk(globalvar.ConfigFileProfileAttrName)
 		if !ok {
 			return nil, fmt.Errorf("missing profile in provider block %v", globalvar.ConfigFileProfileAttrName)
 		}
+		privateKeyPassword := d.Get(globalvar.PrivateKeyPasswordAttrName)
+		privateKeyPasswordString := privateKeyPassword.(string)
 		profileString := profile.(string)
 		defaultPath := path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName, globalvar.DefaultConfigFileName)
 		if err := utils.CheckProfile(profileString, defaultPath); err != nil {
 			return nil, err
 		}
-		securityTokenBasedAuthConfigProvider := oci_common.CustomProfileConfigProvider(defaultPath, profileString)
-
-		keyId, err := securityTokenBasedAuthConfigProvider.KeyID()
-		if err != nil || !strings.HasPrefix(keyId, "ST$") {
-			return nil, fmt.Errorf("Security token is invalid ")
+		securityTokenBasedAuthConfigProvider, err := oci_common.ConfigurationProviderForSessionTokenWithProfile(defaultPath, profileString, privateKeyPasswordString)
+		if err != nil {
+			return nil, fmt.Errorf("could not create security token based auth config provider %v", err)
 		}
 		configProviders = append(configProviders, securityTokenBasedAuthConfigProvider)
 	case strings.ToLower(globalvar.ResourcePrincipal):
