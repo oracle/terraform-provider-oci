@@ -333,6 +333,18 @@ func DefaultConfigProvider() ConfigurationProvider {
 	return provider
 }
 
+// CustomProfileSessionTokenConfigProvider returns the session token config provider of the given profile.
+// This will look for the configuration in the given config file path.
+func CustomProfileSessionTokenConfigProvider(customConfigPath string, profile string) ConfigurationProvider {
+	if customConfigPath == "" {
+		customConfigPath = getDefaultConfigFilePath()
+	}
+
+	sessionTokenConfigurationProvider, _ := ConfigurationProviderForSessionTokenWithProfile(customConfigPath, profile, "")
+	Debugf("Configuration provided by: %s", sessionTokenConfigurationProvider)
+	return sessionTokenConfigurationProvider
+}
+
 func getDefaultConfigFilePath() string {
 	homeFolder := getHomeFolder()
 	defaultConfigFile := filepath.Join(homeFolder, defaultConfigDirName, defaultConfigFileName)
