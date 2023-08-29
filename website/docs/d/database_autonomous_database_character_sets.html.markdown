@@ -32,7 +32,7 @@ The following arguments are supported:
 * `is_dedicated` - (Optional) Specifies if the request is for an Autonomous Database Dedicated instance. The default request is for an Autonomous Database Dedicated instance.
 * `is_shared` - (Optional) Specifies whether this request is for Autonomous Database on Shared infrastructure. By default, this request will be for Autonomous Database on Dedicated Exadata Infrastructure.
 
-
+:
 ## Attributes Reference
 
 The following attributes are exported:
