@@ -235,8 +235,8 @@ func defaultHTTPDispatcher() http.Client {
 		Debug("Custom cert refresh has been disabled")
 	}
 	var tp = &OciHTTPTransportWrapper{
-		RefreshRate			: 	time.Duration(refreshInterval) * time.Minute,
-		TLSConfigProvider	: 	GetTLSConfigTemplateForTransport(),
+		RefreshRate:       time.Duration(refreshInterval) * time.Minute,
+		TLSConfigProvider: GetTLSConfigTemplateForTransport(),
 	}
 	httpClient = http.Client{
 		Timeout:   defaultTimeout,
@@ -741,9 +741,9 @@ func getCustomCertRefreshInterval() int {
 	}
 	if refreshIntervalValue, ok := os.LookupEnv(ociDefaultRefreshIntervalForCustomCerts); ok {
 		refreshInterval, err := strconv.Atoi(refreshIntervalValue)
-    	if err != nil || refreshInterval < 0 {
+		if err != nil || refreshInterval < 0 {
 			Debugf("The environment variable %s is not a valid int or is a negative value, skipping this configuration", ociDefaultRefreshIntervalForCustomCerts)
-    	}else {
+		} else {
 			Debugf("Setting refresh interval as %d for custom certs via the env variable %s", refreshInterval, ociDefaultRefreshIntervalForCustomCerts)
 			return refreshInterval
 		}

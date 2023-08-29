@@ -18,9 +18,9 @@ func GetTLSConfigTemplateForTransport() TLSConfigProvider {
 	caBundlePath := os.Getenv(ociDefaultCertsPath)
 	if certPath != "" && keyPath != "" {
 		return &DefaultMTLSConfigProvider{
-			caBundlePath:   caBundlePath,
-			clientCertPath: certPath,
-			clientKeyPath:  keyPath,
+			caBundlePath:         caBundlePath,
+			clientCertPath:       certPath,
+			clientKeyPath:        keyPath,
 			watchedFilesStatsMap: make(map[string]os.FileInfo),
 		}
 	}
@@ -37,8 +37,8 @@ type TLSConfigProvider interface {
 
 // DefaultTLSConfigProvider is a provider that provides a TLS tls.config for the HTTPTransport
 type DefaultTLSConfigProvider struct {
-	caBundlePath 	string
-	currentStat		os.FileInfo
+	caBundlePath string
+	currentStat  os.FileInfo
 }
 
 // NewOrDefault returns a default tls.Config which
@@ -67,7 +67,7 @@ func (t *DefaultTLSConfigProvider) NewOrDefault() (*tls.Config, error) {
 
 // WatchedFilesModified returns true if any files in the watchedFilesStatsMap has been modified else returns false
 func (t *DefaultTLSConfigProvider) WatchedFilesModified() bool {
-	modified :=  false
+	modified := false
 	if t.caBundlePath != "" {
 		newStat, err := os.Stat(t.caBundlePath)
 		if err == nil && (t.currentStat.Size() != newStat.Size() || t.currentStat.ModTime() != newStat.ModTime()) {
@@ -81,10 +81,10 @@ func (t *DefaultTLSConfigProvider) WatchedFilesModified() bool {
 
 // DefaultMTLSConfigProvider is a provider that provides a MTLS tls.config for the HTTPTransport
 type DefaultMTLSConfigProvider struct {
-	caBundlePath   			string
-	clientCertPath 			string
-	clientKeyPath  			string
-	watchedFilesStatsMap 	map[string]os.FileInfo
+	caBundlePath         string
+	clientCertPath       string
+	clientKeyPath        string
+	watchedFilesStatsMap map[string]os.FileInfo
 }
 
 // NewOrDefault returns a default tls.Config which sets its RootCAs
@@ -113,7 +113,7 @@ func (t *DefaultMTLSConfigProvider) NewOrDefault() (*tls.Config, error) {
 
 // WatchedFilesModified returns true if any files in the watchedFilesStatsMap has been modified else returns false
 func (t *DefaultMTLSConfigProvider) WatchedFilesModified() bool {
-	modified :=  false
+	modified := false
 
 	for k, v := range t.watchedFilesStatsMap {
 		if k != "" {

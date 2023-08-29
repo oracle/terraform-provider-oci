@@ -31,7 +31,7 @@ type OciHTTPTransportWrapper struct {
 	TransportTemplate TransportTemplateProvider
 
 	// mutable properties
-	mux              sync.RWMutex
+	mux             sync.RWMutex
 	lastRefreshedAt time.Time
 	delegate        http.RoundTripper
 }
