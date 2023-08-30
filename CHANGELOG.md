@@ -1,4 +1,4 @@
-## 5.11.0 (Unreleased)
+## 5.11.0 (August 30, 2023)
 
 ### Added
 - Support for [alloy](https://www.oracle.com/cloud/alloy/)
