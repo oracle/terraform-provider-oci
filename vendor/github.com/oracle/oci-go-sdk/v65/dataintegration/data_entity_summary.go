@@ -83,7 +83,7 @@ func (m *dataentitysummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m dataentitysummary) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

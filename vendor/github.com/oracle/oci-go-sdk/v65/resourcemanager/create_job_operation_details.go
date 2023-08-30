@@ -90,7 +90,7 @@ func (m *createjoboperationdetails) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+// GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
 func (m createjoboperationdetails) GetIsProviderUpgradeRequired() *bool {
 	return m.IsProviderUpgradeRequired
 }

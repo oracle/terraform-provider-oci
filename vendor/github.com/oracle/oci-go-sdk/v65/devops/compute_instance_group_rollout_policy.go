@@ -69,7 +69,7 @@ func (m *computeinstancegrouprolloutpolicy) UnmarshalPolymorphicJSON(data []byte
 	}
 }
 
-//GetBatchDelayInSeconds returns BatchDelayInSeconds
+// GetBatchDelayInSeconds returns BatchDelayInSeconds
 func (m computeinstancegrouprolloutpolicy) GetBatchDelayInSeconds() *int {
 	return m.BatchDelayInSeconds
 }

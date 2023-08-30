@@ -102,10 +102,7 @@ func (m *LoggingQueryDataSourceDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Regions = make([]string, len(model.Regions))
-	for i, n := range model.Regions {
-		m.Regions[i] = n
-	}
-
+	copy(m.Regions, model.Regions)
 	m.Query = model.Query
 
 	m.IntervalInMinutes = model.IntervalInMinutes

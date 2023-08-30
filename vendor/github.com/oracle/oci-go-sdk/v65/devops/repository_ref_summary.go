@@ -37,11 +37,11 @@ type RepositoryRefSummary interface {
 
 type repositoryrefsummary struct {
 	JsonData     []byte
+	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	RefName      *string                           `mandatory:"true" json:"refName"`
 	FullRefName  *string                           `mandatory:"true" json:"fullRefName"`
 	RepositoryId *string                           `mandatory:"true" json:"repositoryId"`
-	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	RefType      string                            `json:"refType"`
 }
 
@@ -89,29 +89,29 @@ func (m *repositoryrefsummary) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetRefName returns RefName
-func (m repositoryrefsummary) GetRefName() *string {
-	return m.RefName
-}
-
-//GetFullRefName returns FullRefName
-func (m repositoryrefsummary) GetFullRefName() *string {
-	return m.FullRefName
-}
-
-//GetRepositoryId returns RepositoryId
-func (m repositoryrefsummary) GetRepositoryId() *string {
-	return m.RepositoryId
-}
-
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m repositoryrefsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m repositoryrefsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetRefName returns RefName
+func (m repositoryrefsummary) GetRefName() *string {
+	return m.RefName
+}
+
+// GetFullRefName returns FullRefName
+func (m repositoryrefsummary) GetFullRefName() *string {
+	return m.FullRefName
+}
+
+// GetRepositoryId returns RepositoryId
+func (m repositoryrefsummary) GetRepositoryId() *string {
+	return m.RepositoryId
 }
 
 func (m repositoryrefsummary) String() string {

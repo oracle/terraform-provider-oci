@@ -144,6 +144,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("kms_key_version_id", *s.Res.KmsKeyVersionId)
 	}
 
+	if s.Res.LargestProvisionableAutonomousDatabaseInCpus != nil {
+		s.D.Set("largest_provisionable_autonomous_database_in_cpus", *s.Res.LargestProvisionableAutonomousDatabaseInCpus)
+	}
+
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
 	}
@@ -174,8 +178,16 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("provisionable_cpus", s.Res.ProvisionableCpus)
 
+	if s.Res.ProvisionedCpus != nil {
+		s.D.Set("provisioned_cpus", *s.Res.ProvisionedCpus)
+	}
+
 	if s.Res.ReclaimableCpus != nil {
 		s.D.Set("reclaimable_cpus", *s.Res.ReclaimableCpus)
+	}
+
+	if s.Res.ReservedCpus != nil {
+		s.D.Set("reserved_cpus", *s.Res.ReservedCpus)
 	}
 
 	s.D.Set("role", s.Res.Role)

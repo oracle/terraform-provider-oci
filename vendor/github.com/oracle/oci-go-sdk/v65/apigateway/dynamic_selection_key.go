@@ -30,8 +30,8 @@ type DynamicSelectionKey interface {
 
 type dynamicselectionkey struct {
 	JsonData  []byte
-	Name      *string `mandatory:"true" json:"name"`
 	IsDefault *bool   `mandatory:"false" json:"isDefault"`
+	Name      *string `mandatory:"true" json:"name"`
 	Type      string  `json:"type"`
 }
 
@@ -76,14 +76,14 @@ func (m *dynamicselectionkey) UnmarshalPolymorphicJSON(data []byte) (interface{}
 	}
 }
 
-//GetName returns Name
-func (m dynamicselectionkey) GetName() *string {
-	return m.Name
-}
-
-//GetIsDefault returns IsDefault
+// GetIsDefault returns IsDefault
 func (m dynamicselectionkey) GetIsDefault() *bool {
 	return m.IsDefault
+}
+
+// GetName returns Name
+func (m dynamicselectionkey) GetName() *string {
+	return m.Name
 }
 
 func (m dynamicselectionkey) String() string {

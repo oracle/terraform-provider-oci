@@ -70,7 +70,7 @@ func (m *resource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m resource) GetId() *string {
 	return m.Id
 }

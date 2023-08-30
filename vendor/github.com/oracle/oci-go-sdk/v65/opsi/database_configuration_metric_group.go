@@ -80,7 +80,7 @@ func (m *databaseconfigurationmetricgroup) UnmarshalPolymorphicJSON(data []byte)
 	}
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m databaseconfigurationmetricgroup) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

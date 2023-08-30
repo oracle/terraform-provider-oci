@@ -87,6 +87,5 @@ func (m *MaskingFormat) UnmarshalJSON(data []byte) (e error) {
 			m.FormatEntries[i] = nil
 		}
 	}
-
 	return
 }

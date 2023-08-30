@@ -74,17 +74,17 @@ func (m *authconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m authconfig) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m authconfig) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m authconfig) GetParentRef() *ParentReference {
 	return m.ParentRef
 }

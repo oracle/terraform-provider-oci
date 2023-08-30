@@ -7,6 +7,8 @@ variable "region" {}
 variable "test_subnet_id" {}
 variable "objectstorage_bucket_name" {}
 variable "objectstorage_namespace" {}
+variable password_secret_id {}
+variable identity_domain_id {}
 
 variable "deployment_cpu_core_count" {
   	default = 1
@@ -55,6 +57,10 @@ variable "deployment_ogg_data_deployment_name" {
   default = "deployment"
 }
 
+variable "deployment_ogg_data_credential_store" {
+	default = "GOLDENGATE"
+}
+
 variable "deployment_ogg_data_certificate" {
 }
 
@@ -82,9 +88,8 @@ resource "oci_golden_gate_deployment_backup" "test_deployment_backup" {
   	namespace      = var.objectstorage_namespace
   	object = "object"
   	lifecycle {
-  	ignore_changes = [defined_tags, system_tags, freeform_tags]
+  		ignore_changes = [defined_tags, system_tags, freeform_tags]
   	}
-
 }
 
 resource "oci_golden_gate_deployment" "test_deployment" {
@@ -101,6 +106,38 @@ resource "oci_golden_gate_deployment" "test_deployment" {
     	admin_username  = var.deployment_ogg_data_admin_username
     	deployment_name = var.deployment_ogg_data_deployment_name
   	}
+}
+
+resource "oci_golden_gate_deployment" "test_deployment_GOLDENGATE" {
+	compartment_id          = var.compartment_id
+	cpu_core_count          = var.deployment_cpu_core_count
+	deployment_type         = var.deployment_deployment_type
+	display_name            = var.deployment_display_name
+	is_auto_scaling_enabled = var.deployment_is_auto_scaling_enabled
+	license_model           = var.deployment_license_model
+	subnet_id               = var.test_subnet_id
+	ogg_data {
+		deployment_name 	= var.deployment_ogg_data_deployment_name
+		credential_store 	= var.deployment_ogg_data_credential_store
+		admin_username  	= var.deployment_ogg_data_admin_username
+		password_secret_id 	= var.password_secret_id
+	}
+}
+
+resource "oci_golden_gate_deployment" "test_deployment_IAM" {
+	count					= var.identity_domain_id != "" ? 1 : 0
+	compartment_id          = var.compartment_id
+	cpu_core_count          = var.deployment_cpu_core_count
+	deployment_type         = var.deployment_deployment_type
+	display_name            = var.deployment_display_name
+	is_auto_scaling_enabled = var.deployment_is_auto_scaling_enabled
+	license_model           = var.deployment_license_model
+	subnet_id               = var.test_subnet_id
+	ogg_data {
+		deployment_name 	= var.deployment_ogg_data_deployment_name
+		credential_store 	= "IAM"
+		identity_domain_id  = var.identity_domain_id
+	}
 }
 
 resource "oci_golden_gate_deployment" "test_deployment_from_backup" {

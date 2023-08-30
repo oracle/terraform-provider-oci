@@ -75,7 +75,6 @@ func (m *QueryOpsiDataObjectDataDetails) UnmarshalJSON(data []byte) (e error) {
 			m.DataObjects[i] = nil
 		}
 	}
-
 	m.ResourceFilters = model.ResourceFilters
 
 	nn, e = model.Query.UnmarshalPolymorphicJSON(model.Query.JsonData)

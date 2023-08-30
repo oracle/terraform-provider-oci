@@ -48,11 +48,11 @@ type AutoScalingPolicy interface {
 
 type autoscalingpolicy struct {
 	JsonData    []byte
-	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 	Capacity    *Capacity       `mandatory:"false" json:"capacity"`
 	Id          *string         `mandatory:"false" json:"id"`
 	DisplayName *string         `mandatory:"false" json:"displayName"`
 	IsEnabled   *bool           `mandatory:"false" json:"isEnabled"`
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 	PolicyType  string          `json:"policyType"`
 }
 
@@ -100,29 +100,29 @@ func (m *autoscalingpolicy) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetTimeCreated returns TimeCreated
-func (m autoscalingpolicy) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetCapacity returns Capacity
+// GetCapacity returns Capacity
 func (m autoscalingpolicy) GetCapacity() *Capacity {
 	return m.Capacity
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m autoscalingpolicy) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m autoscalingpolicy) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetIsEnabled returns IsEnabled
+// GetIsEnabled returns IsEnabled
 func (m autoscalingpolicy) GetIsEnabled() *bool {
 	return m.IsEnabled
+}
+
+// GetTimeCreated returns TimeCreated
+func (m autoscalingpolicy) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
 }
 
 func (m autoscalingpolicy) String() string {

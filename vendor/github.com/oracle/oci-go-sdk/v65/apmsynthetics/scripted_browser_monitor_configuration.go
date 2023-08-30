@@ -27,7 +27,7 @@ type ScriptedBrowserMonitorConfiguration struct {
 	// If certificate validation is enabled, then the call will fail in case of certification errors.
 	IsCertificateValidationEnabled *bool `mandatory:"false" json:"isCertificateValidationEnabled"`
 
-	// If disabled then auto snapshots are not collected.
+	// If disabled, auto snapshots are not collected.
 	IsDefaultSnapshotEnabled *bool `mandatory:"false" json:"isDefaultSnapshotEnabled"`
 
 	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`

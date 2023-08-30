@@ -147,6 +147,8 @@ func (s *CoreIpSecConnectionsDataSourceCrud) SetData() error {
 			ipSecConnection["time_created"] = r.TimeCreated.String()
 		}
 
+		ipSecConnection["transport_type"] = r.TransportType
+
 		resources = append(resources, ipSecConnection)
 	}
 

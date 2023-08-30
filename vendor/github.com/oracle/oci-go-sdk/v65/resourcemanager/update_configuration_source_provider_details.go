@@ -103,27 +103,27 @@ func (m *updateconfigurationsourceproviderdetails) UnmarshalPolymorphicJSON(data
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updateconfigurationsourceproviderdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updateconfigurationsourceproviderdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m updateconfigurationsourceproviderdetails) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updateconfigurationsourceproviderdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updateconfigurationsourceproviderdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

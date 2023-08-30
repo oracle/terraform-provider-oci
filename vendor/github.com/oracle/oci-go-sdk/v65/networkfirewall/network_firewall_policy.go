@@ -160,15 +160,9 @@ func (m *NetworkFirewallPolicy) UnmarshalJSON(data []byte) (e error) {
 	m.IpAddressLists = model.IpAddressLists
 
 	m.SecurityRules = make([]SecurityRule, len(model.SecurityRules))
-	for i, n := range model.SecurityRules {
-		m.SecurityRules[i] = n
-	}
-
+	copy(m.SecurityRules, model.SecurityRules)
 	m.DecryptionRules = make([]DecryptionRule, len(model.DecryptionRules))
-	for i, n := range model.DecryptionRules {
-		m.DecryptionRules[i] = n
-	}
-
+	copy(m.DecryptionRules, model.DecryptionRules)
 	m.DecryptionProfiles = make(map[string]DecryptionProfile)
 	for k, v := range model.DecryptionProfiles {
 		nn, e = v.UnmarshalPolymorphicJSON(v.JsonData)

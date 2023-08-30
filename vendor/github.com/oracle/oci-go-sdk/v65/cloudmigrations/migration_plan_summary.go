@@ -159,7 +159,6 @@ func (m *MigrationPlanSummary) UnmarshalJSON(data []byte) (e error) {
 			m.Strategies[i] = nil
 		}
 	}
-
 	m.CalculatedLimits = model.CalculatedLimits
 
 	m.TargetEnvironments = make([]TargetEnvironment, len(model.TargetEnvironments))
@@ -174,6 +173,5 @@ func (m *MigrationPlanSummary) UnmarshalJSON(data []byte) (e error) {
 			m.TargetEnvironments[i] = nil
 		}
 	}
-
 	return
 }

@@ -100,7 +100,6 @@ func (m *SummarizeExadataInsightResourceStatisticsAggregationCollection) Unmarsh
 			m.Items[i] = nil
 		}
 	}
-
 	m.UsageUnit = model.UsageUnit
 
 	m.ExadataResourceMetric = model.ExadataResourceMetric

@@ -42,7 +42,7 @@ type Link struct {
 	// Maximum delay in milliseconds.
 	MaxDelayInMilliseconds *float64 `mandatory:"false" json:"maxDelayInMilliseconds"`
 
-	// List of all path ids of which this link is part of.
+	// List of all path IDs of which this link is part of.
 	Paths []string `mandatory:"false" json:"paths"`
 }
 

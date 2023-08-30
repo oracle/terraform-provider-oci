@@ -119,28 +119,37 @@ type AutonomousContainerDatabaseSummary struct {
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
 
-	// The amount of memory (in GBs) enabled per OCPU or ECPU in the Autonomous VM Cluster.See Compute Models (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The amount of memory (in GBs) enabled per OCPU or ECPU in the Autonomous VM Cluster.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.<br>
-	// For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
 
 	// The number of CPUs allocated to the Autonomous VM cluster.<br>
-	// For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 	TotalCpus *int `mandatory:"false" json:"totalCpus"`
 
 	// For Autonomous Databases on Dedicated Exadata Infrastructure:
 	// - These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
-	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
 
 	// An array of CPU values that can be used to successfully provision a single Autonomous Database.\
-	// For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 
-	// The compute model of the Autonomous VM Cluster. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The compute model of the Autonomous VM Cluster.
 	ComputeModel AutonomousContainerDatabaseSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
+	// The number of CPUs provisioned in an Autonomous Container Database.
+	ProvisionedCpus *float32 `mandatory:"false" json:"provisionedCpus"`
+
+	// The number of CPUs reserved in an Autonomous Container Database.
+	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
+
+	// The largest Autonomous Database (CPU) that can be created in a new Autonomous Container Database.
+	LargestProvisionableAutonomousDatabaseInCpus *float32 `mandatory:"false" json:"largestProvisionableAutonomousDatabaseInCpus"`
 }
 
 func (m AutonomousContainerDatabaseSummary) String() string {

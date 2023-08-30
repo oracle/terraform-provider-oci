@@ -109,37 +109,37 @@ func (m *createskilldetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m createskilldetails) GetCategory() *string {
 	return m.Category
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createskilldetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetPlatformVersion returns PlatformVersion
+// GetPlatformVersion returns PlatformVersion
 func (m createskilldetails) GetPlatformVersion() *string {
 	return m.PlatformVersion
 }
 
-//GetMultilingualMode returns MultilingualMode
+// GetMultilingualMode returns MultilingualMode
 func (m createskilldetails) GetMultilingualMode() BotMultilingualModeEnum {
 	return m.MultilingualMode
 }
 
-//GetPrimaryLanguageTag returns PrimaryLanguageTag
+// GetPrimaryLanguageTag returns PrimaryLanguageTag
 func (m createskilldetails) GetPrimaryLanguageTag() *string {
 	return m.PrimaryLanguageTag
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createskilldetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createskilldetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

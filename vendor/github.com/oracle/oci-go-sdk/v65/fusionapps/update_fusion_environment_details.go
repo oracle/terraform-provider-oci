@@ -82,10 +82,7 @@ func (m *UpdateFusionEnvironmentDetails) UnmarshalJSON(data []byte) (e error) {
 	m.MaintenancePolicy = model.MaintenancePolicy
 
 	m.AdditionalLanguagePacks = make([]string, len(model.AdditionalLanguagePacks))
-	for i, n := range model.AdditionalLanguagePacks {
-		m.AdditionalLanguagePacks[i] = n
-	}
-
+	copy(m.AdditionalLanguagePacks, model.AdditionalLanguagePacks)
 	m.Rules = make([]Rule, len(model.Rules))
 	for i, n := range model.Rules {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -98,7 +95,6 @@ func (m *UpdateFusionEnvironmentDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Rules[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

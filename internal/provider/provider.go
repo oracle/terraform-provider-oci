@@ -212,12 +212,16 @@ func SchemaMap() map[string]*schema.Schema {
 // The OciDatasources map is populated by each datasource's init function being invoked before it gets here
 func DataSourcesMap() map[string]*schema.Resource {
 	// Register some aliases of registered datasources. These are registered for convenience and legacy reasons.
-	tf_resource.RegisterDatasource("oci_core_listing_resource_version", tf_core.CoreAppCatalogListingResourceVersionDataSource())
-	tf_resource.RegisterDatasource("oci_core_listing_resource_versions", tf_core.CoreAppCatalogListingResourceVersionsDataSource())
-	tf_resource.RegisterDatasource("oci_core_shape", tf_core.CoreShapesDataSource())
-	tf_resource.RegisterDatasource("oci_core_virtual_networks", tf_core.CoreVcnsDataSource())
-	tf_resource.RegisterDatasource("oci_load_balancers", tf_load_balancer.LoadBalancerLoadBalancersDataSource())
-	tf_resource.RegisterDatasource("oci_load_balancer_backendsets", tf_load_balancer.LoadBalancerBackendSetsDataSource())
+	if oci_common.CheckForEnabledServices(globalvar.CoreService) {
+		tf_resource.RegisterDatasource("oci_core_listing_resource_version", tf_core.CoreAppCatalogListingResourceVersionDataSource())
+		tf_resource.RegisterDatasource("oci_core_listing_resource_versions", tf_core.CoreAppCatalogListingResourceVersionsDataSource())
+		tf_resource.RegisterDatasource("oci_core_shape", tf_core.CoreShapesDataSource())
+		tf_resource.RegisterDatasource("oci_core_virtual_networks", tf_core.CoreVcnsDataSource())
+	}
+	if oci_common.CheckForEnabledServices(globalvar.LoadBalancerService) {
+		tf_resource.RegisterDatasource("oci_load_balancers", tf_load_balancer.LoadBalancerLoadBalancersDataSource())
+		tf_resource.RegisterDatasource("oci_load_balancer_backendsets", tf_load_balancer.LoadBalancerBackendSetsDataSource())
+	}
 	return globalvar.OciDatasources
 }
 
@@ -225,9 +229,13 @@ func DataSourcesMap() map[string]*schema.Resource {
 // The OciResource map is populated by each resource's init function being invoked before it gets here
 func ResourcesMap() map[string]*schema.Resource {
 	// Register some aliases of registered resources. These are registered for convenience and legacy reasons.
-	tf_resource.RegisterResource("oci_core_virtual_network", tf_core.CoreVcnResource())
-	tf_resource.RegisterResource("oci_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
-	tf_resource.RegisterResource("oci_load_balancer_backendset", tf_load_balancer.LoadBalancerBackendSetResource())
+	if oci_common.CheckForEnabledServices(globalvar.CoreService) {
+		tf_resource.RegisterResource("oci_core_virtual_network", tf_core.CoreVcnResource())
+	}
+	if oci_common.CheckForEnabledServices(globalvar.LoadBalancerService) {
+		tf_resource.RegisterResource("oci_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
+		tf_resource.RegisterResource("oci_load_balancer_backendset", tf_load_balancer.LoadBalancerBackendSetResource())
+	}
 	return globalvar.OciResources
 }
 

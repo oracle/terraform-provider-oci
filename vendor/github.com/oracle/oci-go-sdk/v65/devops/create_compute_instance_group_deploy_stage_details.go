@@ -146,10 +146,7 @@ func (m *CreateComputeInstanceGroupDeployStageDetails) UnmarshalJSON(data []byte
 	m.DefinedTags = model.DefinedTags
 
 	m.DeployArtifactIds = make([]string, len(model.DeployArtifactIds))
-	for i, n := range model.DeployArtifactIds {
-		m.DeployArtifactIds[i] = n
-	}
-
+	copy(m.DeployArtifactIds, model.DeployArtifactIds)
 	nn, e = model.RollbackPolicy.UnmarshalPolymorphicJSON(model.RollbackPolicy.JsonData)
 	if e != nil {
 		return

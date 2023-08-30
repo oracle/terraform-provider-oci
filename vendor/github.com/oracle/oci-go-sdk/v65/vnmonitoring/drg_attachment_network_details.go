@@ -26,7 +26,7 @@ type DrgAttachmentNetworkDetails interface {
 
 type drgattachmentnetworkdetails struct {
 	JsonData []byte
-	Id       *string `mandatory:"true" json:"id"`
+	Id       *string `mandatory:"false" json:"id"`
 	Type     string  `json:"type"`
 }
 
@@ -60,6 +60,10 @@ func (m *drgattachmentnetworkdetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := VcnDrgAttachmentNetworkDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "LOOPBACK":
+		mm := LoopBackDrgAttachmentNetworkDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "IPSEC_TUNNEL":
 		mm := IpsecTunnelDrgAttachmentNetworkDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -78,7 +82,7 @@ func (m *drgattachmentnetworkdetails) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m drgattachmentnetworkdetails) GetId() *string {
 	return m.Id
 }

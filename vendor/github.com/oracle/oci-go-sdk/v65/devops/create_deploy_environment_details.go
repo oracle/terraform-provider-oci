@@ -37,11 +37,11 @@ type CreateDeployEnvironmentDetails interface {
 
 type createdeployenvironmentdetails struct {
 	JsonData              []byte
-	ProjectId             *string                           `mandatory:"true" json:"projectId"`
 	Description           *string                           `mandatory:"false" json:"description"`
 	DisplayName           *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags          map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags           map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	ProjectId             *string                           `mandatory:"true" json:"projectId"`
 	DeployEnvironmentType string                            `json:"deployEnvironmentType"`
 }
 
@@ -93,29 +93,29 @@ func (m *createdeployenvironmentdetails) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetProjectId returns ProjectId
-func (m createdeployenvironmentdetails) GetProjectId() *string {
-	return m.ProjectId
-}
-
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createdeployenvironmentdetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createdeployenvironmentdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createdeployenvironmentdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createdeployenvironmentdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetProjectId returns ProjectId
+func (m createdeployenvironmentdetails) GetProjectId() *string {
+	return m.ProjectId
 }
 
 func (m createdeployenvironmentdetails) String() string {

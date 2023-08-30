@@ -22,11 +22,13 @@ const (
 	OdmsJobPhasesOdmsValidateSrc                 OdmsJobPhasesEnum = "ODMS_VALIDATE_SRC"
 	OdmsJobPhasesOdmsValidatePremigrationAdvisor OdmsJobPhasesEnum = "ODMS_VALIDATE_PREMIGRATION_ADVISOR"
 	OdmsJobPhasesOdmsValidateGgHub               OdmsJobPhasesEnum = "ODMS_VALIDATE_GG_HUB"
+	OdmsJobPhasesOdmsValidateGgService           OdmsJobPhasesEnum = "ODMS_VALIDATE_GG_SERVICE"
 	OdmsJobPhasesOdmsValidateDatapumpSettings    OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SETTINGS"
 	OdmsJobPhasesOdmsValidateDatapumpSettingsSrc OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SETTINGS_SRC"
 	OdmsJobPhasesOdmsValidateDatapumpSettingsTgt OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SETTINGS_TGT"
 	OdmsJobPhasesOdmsValidateDatapumpSrc         OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_SRC"
 	OdmsJobPhasesOdmsValidateDatapumpEstimateSrc OdmsJobPhasesEnum = "ODMS_VALIDATE_DATAPUMP_ESTIMATE_SRC"
+	OdmsJobPhasesOdmsInitializeGgs               OdmsJobPhasesEnum = "ODMS_INITIALIZE_GGS"
 	OdmsJobPhasesOdmsValidate                    OdmsJobPhasesEnum = "ODMS_VALIDATE"
 	OdmsJobPhasesOdmsPrepare                     OdmsJobPhasesEnum = "ODMS_PREPARE"
 	OdmsJobPhasesOdmsInitialLoadExport           OdmsJobPhasesEnum = "ODMS_INITIAL_LOAD_EXPORT"
@@ -44,11 +46,13 @@ var mappingOdmsJobPhasesEnum = map[string]OdmsJobPhasesEnum{
 	"ODMS_VALIDATE_SRC":                   OdmsJobPhasesOdmsValidateSrc,
 	"ODMS_VALIDATE_PREMIGRATION_ADVISOR":  OdmsJobPhasesOdmsValidatePremigrationAdvisor,
 	"ODMS_VALIDATE_GG_HUB":                OdmsJobPhasesOdmsValidateGgHub,
+	"ODMS_VALIDATE_GG_SERVICE":            OdmsJobPhasesOdmsValidateGgService,
 	"ODMS_VALIDATE_DATAPUMP_SETTINGS":     OdmsJobPhasesOdmsValidateDatapumpSettings,
 	"ODMS_VALIDATE_DATAPUMP_SETTINGS_SRC": OdmsJobPhasesOdmsValidateDatapumpSettingsSrc,
 	"ODMS_VALIDATE_DATAPUMP_SETTINGS_TGT": OdmsJobPhasesOdmsValidateDatapumpSettingsTgt,
 	"ODMS_VALIDATE_DATAPUMP_SRC":          OdmsJobPhasesOdmsValidateDatapumpSrc,
 	"ODMS_VALIDATE_DATAPUMP_ESTIMATE_SRC": OdmsJobPhasesOdmsValidateDatapumpEstimateSrc,
+	"ODMS_INITIALIZE_GGS":                 OdmsJobPhasesOdmsInitializeGgs,
 	"ODMS_VALIDATE":                       OdmsJobPhasesOdmsValidate,
 	"ODMS_PREPARE":                        OdmsJobPhasesOdmsPrepare,
 	"ODMS_INITIAL_LOAD_EXPORT":            OdmsJobPhasesOdmsInitialLoadExport,
@@ -66,11 +70,13 @@ var mappingOdmsJobPhasesEnumLowerCase = map[string]OdmsJobPhasesEnum{
 	"odms_validate_src":                   OdmsJobPhasesOdmsValidateSrc,
 	"odms_validate_premigration_advisor":  OdmsJobPhasesOdmsValidatePremigrationAdvisor,
 	"odms_validate_gg_hub":                OdmsJobPhasesOdmsValidateGgHub,
+	"odms_validate_gg_service":            OdmsJobPhasesOdmsValidateGgService,
 	"odms_validate_datapump_settings":     OdmsJobPhasesOdmsValidateDatapumpSettings,
 	"odms_validate_datapump_settings_src": OdmsJobPhasesOdmsValidateDatapumpSettingsSrc,
 	"odms_validate_datapump_settings_tgt": OdmsJobPhasesOdmsValidateDatapumpSettingsTgt,
 	"odms_validate_datapump_src":          OdmsJobPhasesOdmsValidateDatapumpSrc,
 	"odms_validate_datapump_estimate_src": OdmsJobPhasesOdmsValidateDatapumpEstimateSrc,
+	"odms_initialize_ggs":                 OdmsJobPhasesOdmsInitializeGgs,
 	"odms_validate":                       OdmsJobPhasesOdmsValidate,
 	"odms_prepare":                        OdmsJobPhasesOdmsPrepare,
 	"odms_initial_load_export":            OdmsJobPhasesOdmsInitialLoadExport,
@@ -99,11 +105,13 @@ func GetOdmsJobPhasesEnumStringValues() []string {
 		"ODMS_VALIDATE_SRC",
 		"ODMS_VALIDATE_PREMIGRATION_ADVISOR",
 		"ODMS_VALIDATE_GG_HUB",
+		"ODMS_VALIDATE_GG_SERVICE",
 		"ODMS_VALIDATE_DATAPUMP_SETTINGS",
 		"ODMS_VALIDATE_DATAPUMP_SETTINGS_SRC",
 		"ODMS_VALIDATE_DATAPUMP_SETTINGS_TGT",
 		"ODMS_VALIDATE_DATAPUMP_SRC",
 		"ODMS_VALIDATE_DATAPUMP_ESTIMATE_SRC",
+		"ODMS_INITIALIZE_GGS",
 		"ODMS_VALIDATE",
 		"ODMS_PREPARE",
 		"ODMS_INITIAL_LOAD_EXPORT",

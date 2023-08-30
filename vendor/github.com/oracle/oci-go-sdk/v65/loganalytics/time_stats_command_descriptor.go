@@ -144,7 +144,6 @@ func (m *TimeStatsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.ReferencedFields[i] = nil
 		}
 	}
-
 	m.DeclaredFields = make([]AbstractField, len(model.DeclaredFields))
 	for i, n := range model.DeclaredFields {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -157,7 +156,6 @@ func (m *TimeStatsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
-
 	m.IsHidden = model.IsHidden
 
 	nn, e = model.Time.UnmarshalPolymorphicJSON(model.Time.JsonData)
@@ -184,12 +182,8 @@ func (m *TimeStatsCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.GroupByFields[i] = nil
 		}
 	}
-
 	m.Functions = make([]FunctionField, len(model.Functions))
-	for i, n := range model.Functions {
-		m.Functions[i] = n
-	}
-
+	copy(m.Functions, model.Functions)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

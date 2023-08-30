@@ -74,12 +74,12 @@ func (m *deliveredartifact) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetDeployArtifactId returns DeployArtifactId
+// GetDeployArtifactId returns DeployArtifactId
 func (m deliveredartifact) GetDeployArtifactId() *string {
 	return m.DeployArtifactId
 }
 
-//GetOutputArtifactName returns OutputArtifactName
+// GetOutputArtifactName returns OutputArtifactName
 func (m deliveredartifact) GetOutputArtifactName() *string {
 	return m.OutputArtifactName
 }

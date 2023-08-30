@@ -45,12 +45,12 @@ type CreateWebAppAccelerationDetails interface {
 
 type createwebappaccelerationdetails struct {
 	JsonData                   []byte
-	CompartmentId              *string                           `mandatory:"true" json:"compartmentId"`
-	WebAppAccelerationPolicyId *string                           `mandatory:"true" json:"webAppAccelerationPolicyId"`
 	DisplayName                *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags               map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags                 map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	CompartmentId              *string                           `mandatory:"true" json:"compartmentId"`
+	WebAppAccelerationPolicyId *string                           `mandatory:"true" json:"webAppAccelerationPolicyId"`
 	BackendType                string                            `json:"backendType"`
 }
 
@@ -95,34 +95,34 @@ func (m *createwebappaccelerationdetails) UnmarshalPolymorphicJSON(data []byte) 
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createwebappaccelerationdetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
-func (m createwebappaccelerationdetails) GetWebAppAccelerationPolicyId() *string {
-	return m.WebAppAccelerationPolicyId
-}
-
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createwebappaccelerationdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createwebappaccelerationdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createwebappaccelerationdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m createwebappaccelerationdetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createwebappaccelerationdetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
+func (m createwebappaccelerationdetails) GetWebAppAccelerationPolicyId() *string {
+	return m.WebAppAccelerationPolicyId
 }
 
 func (m createwebappaccelerationdetails) String() string {

@@ -40,6 +40,7 @@ resource "oci_core_cpe" "test_cpe" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.cpe_display_name
 	freeform_tags = {"Department"= "Finance"}
+	is_private = var.cpe_is_private
 }
 ```
 
@@ -59,6 +60,7 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `ip_address` - (Required) The public IP address of the on-premises router.  Example: `203.0.113.2` 
+* `is_private` - (Optional) Indicates whether this CPE is of type `private` or not. 
 
 
 ** IMPORTANT **
@@ -81,6 +83,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The CPE's Oracle ID (OCID).
 * `ip_address` - The public IP address of the on-premises router.
+* `is_private` - Indicates whether this CPE is of type `private` or not. 
 * `time_created` - The date and time the CPE was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Timeouts

@@ -156,7 +156,6 @@ func (m *Certificate) UnmarshalJSON(data []byte) (e error) {
 			m.CertificateRules[i] = nil
 		}
 	}
-
 	m.TimeOfDeletion = model.TimeOfDeletion
 
 	m.LifecycleDetails = model.LifecycleDetails

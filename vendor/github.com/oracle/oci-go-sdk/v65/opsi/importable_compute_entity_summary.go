@@ -77,17 +77,17 @@ func (m *importablecomputeentitysummary) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetComputeId returns ComputeId
+// GetComputeId returns ComputeId
 func (m importablecomputeentitysummary) GetComputeId() *string {
 	return m.ComputeId
 }
 
-//GetComputeDisplayName returns ComputeDisplayName
+// GetComputeDisplayName returns ComputeDisplayName
 func (m importablecomputeentitysummary) GetComputeDisplayName() *string {
 	return m.ComputeDisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m importablecomputeentitysummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }

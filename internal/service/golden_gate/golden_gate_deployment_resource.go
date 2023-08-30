@@ -187,15 +187,6 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"admin_password": {
-							Type:      schema.TypeString,
-							Required:  true,
-							Sensitive: true,
-						},
-						"admin_username": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 						"deployment_name": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -203,7 +194,28 @@ func GoldenGateDeploymentResource() *schema.Resource {
 						},
 
 						// Optional
+						"admin_password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							Sensitive: true,
+						},
+						"admin_username": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"certificate": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"credential_store": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"identity_domain_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -217,6 +229,12 @@ func GoldenGateDeploymentResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"password_secret_id": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							Sensitive: true,
 						},
 
 						// Computed
@@ -1209,9 +1227,18 @@ func (s *GoldenGateDeploymentResourceCrud) mapToCreateOggDeploymentDetails(field
 		result.Certificate = &tmp
 	}
 
+	if credentialStore, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_store")); ok {
+		result.CredentialStore = oci_golden_gate.CredentialStoreEnum(credentialStore.(string))
+	}
+
 	if deploymentName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "deployment_name")); ok {
 		tmp := deploymentName.(string)
 		result.DeploymentName = &tmp
+	}
+
+	if identityDomainId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "identity_domain_id")); ok {
+		tmp := identityDomainId.(string)
+		result.IdentityDomainId = &tmp
 	}
 
 	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
@@ -1222,6 +1249,11 @@ func (s *GoldenGateDeploymentResourceCrud) mapToCreateOggDeploymentDetails(field
 	if oggVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ogg_version")); ok {
 		tmp := oggVersion.(string)
 		result.OggVersion = &tmp
+	}
+
+	if passwordSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
+		tmp := passwordSecretId.(string)
+		result.PasswordSecretId = &tmp
 	}
 
 	return result, nil
@@ -1241,15 +1273,29 @@ func (s *GoldenGateDeploymentResourceCrud) mapToUpdateOggDeploymentDetails(field
 		result.AdminUsername = &tmp
 	}
 
-	if certificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate")); ok {
+	if certificate, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "certificate")); ok {
 		tmp := certificate.(string)
 		result.Certificate = &tmp
+	}
+
+	if credentialStore, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "credential_store")); ok {
+		result.CredentialStore = oci_golden_gate.CredentialStoreEnum(credentialStore.(string))
+	}
+
+	if identityDomainId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "identity_domain_id")); ok {
+		tmp := identityDomainId.(string)
+		result.IdentityDomainId = &tmp
 	}
 
 	keyKeyFormat := fmt.Sprintf(fieldKeyFormat, "key")
 	if key, ok := s.D.GetOk(keyKeyFormat); ok && s.D.HasChange(keyKeyFormat) {
 		tmp := key.(string)
 		result.Key = &tmp
+	}
+
+	if passwordSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
+		tmp := passwordSecretId.(string)
+		result.PasswordSecretId = &tmp
 	}
 
 	return result, nil
@@ -1281,12 +1327,22 @@ func OggDeploymentToMap(obj *oci_golden_gate.OggDeployment, resourceData *schema
 		result["certificate"] = string(*obj.Certificate)
 	}
 
+	result["credential_store"] = string(obj.CredentialStore)
+
 	if obj.DeploymentName != nil {
 		result["deployment_name"] = string(*obj.DeploymentName)
 	}
 
+	if obj.IdentityDomainId != nil {
+		result["identity_domain_id"] = string(*obj.IdentityDomainId)
+	}
+
 	if obj.OggVersion != nil {
 		result["ogg_version"] = string(*obj.OggVersion)
+	}
+
+	if obj.PasswordSecretId != nil {
+		result["password_secret_id"] = string(*obj.PasswordSecretId)
 	}
 
 	return result

@@ -65,7 +65,7 @@ func (m *dvpstackdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 	}
 }
 
-//GetDvpVersion returns DvpVersion
+// GetDvpVersion returns DvpVersion
 func (m dvpstackdetails) GetDvpVersion() *string {
 	return m.DvpVersion
 }

@@ -39,6 +39,19 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.cross_connect_group_display_name
 	freeform_tags = {"Department"= "Finance"}
+	macsec_properties {
+		#Required
+		state = var.cross_connect_group_macsec_properties_state
+
+		#Optional
+		encryption_cipher = var.cross_connect_group_macsec_properties_encryption_cipher
+		is_unprotected_traffic_allowed = var.cross_connect_group_macsec_properties_is_unprotected_traffic_allowed
+		primary_key {
+			#Required
+			connectivity_association_key_secret_id = oci_vault_secret.test_secret.id
+			connectivity_association_name_secret_id = oci_vault_secret.test_secret.id
+		}
+	}
 }
 ```
 
@@ -50,7 +63,18 @@ The following arguments are supported:
 * `customer_reference_name` - (Optional) (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect group uses. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+* `macsec_properties` - (Optional) (Updatable) Properties used to configure MACsec (if capable).
+	* `encryption_cipher` - (Optional) (Updatable) Type of encryption cipher suite to use for the MACsec connection.
+	* `is_unprotected_traffic_allowed` - (Optional) (Updatable) Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
+	* `primary_key` - (Optional) (Updatable) Defines the secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s held in Vault that represent the MACsec key.
+		* `connectivity_association_key_secret_id` - (Required) (Updatable) Secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity Association Key (CAK) of this MACsec key.
+
+			NOTE: Only the latest secret version will be used. 
+		* `connectivity_association_name_secret_id` - (Required) (Updatable) Secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity association Key Name (CKN) of this MACsec key.
+
+			NOTE: Only the latest secret version will be used. 
+	* `state` - (Required) (Updatable) Indicates whether or not MACsec is enabled.
 
 
 ** IMPORTANT **
@@ -68,6 +92,7 @@ The following attributes are exported:
 * `id` - The cross-connect group's Oracle ID (OCID).
 * `macsec_properties` - Properties used for MACsec (if capable).
 	* `encryption_cipher` - Type of encryption cipher suite to use for the MACsec connection.
+	* `is_unprotected_traffic_allowed` - Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
 	* `primary_key` - An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
 		* `connectivity_association_key_secret_id` - Secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity Association Key (CAK) of this MACsec key.
 		* `connectivity_association_key_secret_version` - The secret version of the `connectivityAssociationKey` secret in Vault.

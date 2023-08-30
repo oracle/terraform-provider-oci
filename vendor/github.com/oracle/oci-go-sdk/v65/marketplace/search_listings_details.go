@@ -69,7 +69,7 @@ func (m *searchlistingsdetails) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
-//GetMatchingContextType returns MatchingContextType
+// GetMatchingContextType returns MatchingContextType
 func (m searchlistingsdetails) GetMatchingContextType() MatchingContextTypeEnumEnum {
 	return m.MatchingContextType
 }

@@ -121,32 +121,32 @@ func (m *basetype) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m basetype) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m basetype) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m basetype) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m basetype) GetName() *string {
 	return m.Name
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m basetype) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m basetype) GetDescription() *string {
 	return m.Description
 }

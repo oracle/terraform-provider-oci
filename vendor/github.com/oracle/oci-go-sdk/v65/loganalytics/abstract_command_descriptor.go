@@ -40,12 +40,12 @@ type AbstractCommandDescriptor interface {
 
 type abstractcommanddescriptor struct {
 	JsonData            []byte
-	DisplayQueryString  *string         `mandatory:"true" json:"displayQueryString"`
-	InternalQueryString *string         `mandatory:"true" json:"internalQueryString"`
 	Category            *string         `mandatory:"false" json:"category"`
 	ReferencedFields    json.RawMessage `mandatory:"false" json:"referencedFields"`
 	DeclaredFields      json.RawMessage `mandatory:"false" json:"declaredFields"`
 	IsHidden            *bool           `mandatory:"false" json:"isHidden"`
+	DisplayQueryString  *string         `mandatory:"true" json:"displayQueryString"`
+	InternalQueryString *string         `mandatory:"true" json:"internalQueryString"`
 	Name                string          `json:"name"`
 }
 
@@ -298,34 +298,34 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetDisplayQueryString returns DisplayQueryString
-func (m abstractcommanddescriptor) GetDisplayQueryString() *string {
-	return m.DisplayQueryString
-}
-
-//GetInternalQueryString returns InternalQueryString
-func (m abstractcommanddescriptor) GetInternalQueryString() *string {
-	return m.InternalQueryString
-}
-
-//GetCategory returns Category
+// GetCategory returns Category
 func (m abstractcommanddescriptor) GetCategory() *string {
 	return m.Category
 }
 
-//GetReferencedFields returns ReferencedFields
+// GetReferencedFields returns ReferencedFields
 func (m abstractcommanddescriptor) GetReferencedFields() json.RawMessage {
 	return m.ReferencedFields
 }
 
-//GetDeclaredFields returns DeclaredFields
+// GetDeclaredFields returns DeclaredFields
 func (m abstractcommanddescriptor) GetDeclaredFields() json.RawMessage {
 	return m.DeclaredFields
 }
 
-//GetIsHidden returns IsHidden
+// GetIsHidden returns IsHidden
 func (m abstractcommanddescriptor) GetIsHidden() *bool {
 	return m.IsHidden
+}
+
+// GetDisplayQueryString returns DisplayQueryString
+func (m abstractcommanddescriptor) GetDisplayQueryString() *string {
+	return m.DisplayQueryString
+}
+
+// GetInternalQueryString returns InternalQueryString
+func (m abstractcommanddescriptor) GetInternalQueryString() *string {
+	return m.InternalQueryString
 }
 
 func (m abstractcommanddescriptor) String() string {

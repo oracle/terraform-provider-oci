@@ -73,7 +73,7 @@ func (m *tokenauthenticationvalidationpolicy) UnmarshalPolymorphicJSON(data []by
 	}
 }
 
-//GetAdditionalValidationPolicy returns AdditionalValidationPolicy
+// GetAdditionalValidationPolicy returns AdditionalValidationPolicy
 func (m tokenauthenticationvalidationpolicy) GetAdditionalValidationPolicy() *AdditionalValidationPolicy {
 	return m.AdditionalValidationPolicy
 }

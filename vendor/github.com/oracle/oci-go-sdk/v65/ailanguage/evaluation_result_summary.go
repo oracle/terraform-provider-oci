@@ -78,12 +78,12 @@ func (m *evaluationresultsummary) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m evaluationresultsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m evaluationresultsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

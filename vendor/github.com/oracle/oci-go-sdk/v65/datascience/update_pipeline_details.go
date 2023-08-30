@@ -102,7 +102,6 @@ func (m *UpdatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 			m.StepDetails[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

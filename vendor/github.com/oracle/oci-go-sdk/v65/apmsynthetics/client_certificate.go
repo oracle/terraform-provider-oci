@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ClientCertificate Client certificate in pem format.
+// ClientCertificate Client certificate in PEM format.
 type ClientCertificate struct {
 
 	// Name of the certificate file. The name should not contain any confidential information.

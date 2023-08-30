@@ -167,37 +167,37 @@ func (m *unifiedagentparser) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetFieldTimeKey returns FieldTimeKey
+// GetFieldTimeKey returns FieldTimeKey
 func (m unifiedagentparser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
-//GetTypes returns Types
+// GetTypes returns Types
 func (m unifiedagentparser) GetTypes() map[string]string {
 	return m.Types
 }
 
-//GetNullValuePattern returns NullValuePattern
+// GetNullValuePattern returns NullValuePattern
 func (m unifiedagentparser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
-//GetIsNullEmptyString returns IsNullEmptyString
+// GetIsNullEmptyString returns IsNullEmptyString
 func (m unifiedagentparser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
-//GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
+// GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
 func (m unifiedagentparser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
-//GetIsKeepTimeKey returns IsKeepTimeKey
+// GetIsKeepTimeKey returns IsKeepTimeKey
 func (m unifiedagentparser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
-//GetTimeoutInMilliseconds returns TimeoutInMilliseconds
+// GetTimeoutInMilliseconds returns TimeoutInMilliseconds
 func (m unifiedagentparser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }

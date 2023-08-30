@@ -91,7 +91,7 @@ type CloudAutonomousVmClusterSummary struct {
 	// The number of CPU cores on the cloud Autonomous VM cluster. Only 1 decimal place is allowed for the fractional part.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
-	// The compute model of the Cloud Autonomous VM Cluster. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The compute model of the Cloud Autonomous VM Cluster.
 	ComputeModel CloudAutonomousVmClusterSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
@@ -144,7 +144,7 @@ type CloudAutonomousVmClusterSummary struct {
 
 	// For Autonomous Databases on Dedicated Exadata Infrastructure:
 	// - These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
-	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
 
 	// The number of Autonomous Container Databases that can be created with the currently available local storage.
@@ -162,11 +162,38 @@ type CloudAutonomousVmClusterSummary struct {
 	// The local node storage allocated in GBs.
 	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
 
-	// The amount of memory (in GBs) enabled per OCPU or ECPU. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The amount of memory (in GBs) enabled per OCPU or ECPU.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db servers.
 	DbServers []string `mandatory:"false" json:"dbServers"`
+
+	// The percentage of total number of CPUs used in an Autonomous VM Cluster.
+	CpuPercentage *float32 `mandatory:"false" json:"cpuPercentage"`
+
+	// The percentage of the data storage used for the Autonomous Databases in an Autonomous VM Cluster.
+	AutonomousDataStoragePercentage *float32 `mandatory:"false" json:"autonomousDataStoragePercentage"`
+
+	// The number of CPUs provisioned in an Autonomous VM Cluster.
+	ProvisionedCpus *float32 `mandatory:"false" json:"provisionedCpus"`
+
+	// The total number of CPUs in an Autonomous VM Cluster.
+	TotalCpus *float32 `mandatory:"false" json:"totalCpus"`
+
+	// The total data disk group size for Autonomous Databases, in TBs.
+	TotalAutonomousDataStorageInTBs *float32 `mandatory:"false" json:"totalAutonomousDataStorageInTBs"`
+
+	// The number of CPUs reserved in an Autonomous VM Cluster.
+	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
+
+	// The number of provisionable Autonomous Container Databases in an Autonomous VM Cluster.
+	ProvisionableAutonomousContainerDatabases *int `mandatory:"false" json:"provisionableAutonomousContainerDatabases"`
+
+	// The number of provisioned Autonomous Container Databases in an Autonomous VM Cluster.
+	ProvisionedAutonomousContainerDatabases *int `mandatory:"false" json:"provisionedAutonomousContainerDatabases"`
+
+	// The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
+	NonProvisionableAutonomousContainerDatabases *int `mandatory:"false" json:"nonProvisionableAutonomousContainerDatabases"`
 }
 
 func (m CloudAutonomousVmClusterSummary) String() string {

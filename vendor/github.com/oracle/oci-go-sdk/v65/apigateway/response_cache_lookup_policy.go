@@ -75,12 +75,12 @@ func (m *responsecachelookuppolicy) UnmarshalPolymorphicJSON(data []byte) (inter
 	}
 }
 
-//GetIsEnabled returns IsEnabled
+// GetIsEnabled returns IsEnabled
 func (m responsecachelookuppolicy) GetIsEnabled() *bool {
 	return m.IsEnabled
 }
 
-//GetIsPrivateCachingEnabled returns IsPrivateCachingEnabled
+// GetIsPrivateCachingEnabled returns IsPrivateCachingEnabled
 func (m responsecachelookuppolicy) GetIsPrivateCachingEnabled() *bool {
 	return m.IsPrivateCachingEnabled
 }

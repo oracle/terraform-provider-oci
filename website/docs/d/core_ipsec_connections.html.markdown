@@ -70,4 +70,5 @@ The following attributes are exported:
 
 	 Example: `10.0.1.0/24` 
 * `time_created` - The date and time the IPSec connection was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `transport_type` - The transport type used for the IPSec connection. 
 

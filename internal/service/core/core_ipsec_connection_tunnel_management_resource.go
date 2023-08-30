@@ -139,6 +139,15 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+
+			// Computed
+			"associated_virtual_circuits": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"dpd_timeout_in_sec": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -636,6 +645,8 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	s.D.Set("associated_virtual_circuits", s.Res.AssociatedVirtualCircuits)
 
 	if s.Res.BgpSessionInfo != nil {
 		s.D.Set("bgp_session_info", []interface{}{BgpSessionInfoToMap(s.Res.BgpSessionInfo)})

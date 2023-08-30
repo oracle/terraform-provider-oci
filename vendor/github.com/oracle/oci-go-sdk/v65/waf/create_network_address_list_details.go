@@ -41,11 +41,11 @@ type CreateNetworkAddressListDetails interface {
 
 type createnetworkaddresslistdetails struct {
 	JsonData      []byte
-	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	DisplayName   *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags    map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	Type          string                            `json:"type"`
 }
 
@@ -93,29 +93,29 @@ func (m *createnetworkaddresslistdetails) UnmarshalPolymorphicJSON(data []byte) 
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createnetworkaddresslistdetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createnetworkaddresslistdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createnetworkaddresslistdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createnetworkaddresslistdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m createnetworkaddresslistdetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createnetworkaddresslistdetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createnetworkaddresslistdetails) String() string {

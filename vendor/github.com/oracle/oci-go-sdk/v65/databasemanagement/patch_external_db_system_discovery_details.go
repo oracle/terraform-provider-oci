@@ -64,6 +64,5 @@ func (m *PatchExternalDbSystemDiscoveryDetails) UnmarshalJSON(data []byte) (e er
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

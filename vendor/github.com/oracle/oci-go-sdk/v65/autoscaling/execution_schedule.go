@@ -69,7 +69,7 @@ func (m *executionschedule) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-//GetTimezone returns Timezone
+// GetTimezone returns Timezone
 func (m executionschedule) GetTimezone() ExecutionScheduleTimezoneEnum {
 	return m.Timezone
 }

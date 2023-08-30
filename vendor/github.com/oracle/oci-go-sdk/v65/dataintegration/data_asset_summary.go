@@ -173,62 +173,62 @@ func (m *dataassetsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m dataassetsummary) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m dataassetsummary) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m dataassetsummary) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m dataassetsummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m dataassetsummary) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m dataassetsummary) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m dataassetsummary) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m dataassetsummary) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetNativeTypeSystem returns NativeTypeSystem
+// GetNativeTypeSystem returns NativeTypeSystem
 func (m dataassetsummary) GetNativeTypeSystem() *TypeSystem {
 	return m.NativeTypeSystem
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m dataassetsummary) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m dataassetsummary) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m dataassetsummary) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

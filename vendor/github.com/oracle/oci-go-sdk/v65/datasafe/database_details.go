@@ -73,7 +73,7 @@ func (m *databasedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 	}
 }
 
-//GetInfrastructureType returns InfrastructureType
+// GetInfrastructureType returns InfrastructureType
 func (m databasedetails) GetInfrastructureType() InfrastructureTypeEnum {
 	return m.InfrastructureType
 }

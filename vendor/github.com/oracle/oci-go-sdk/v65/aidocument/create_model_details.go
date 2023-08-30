@@ -149,10 +149,7 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.ComponentModels = make([]ComponentModel, len(model.ComponentModels))
-	for i, n := range model.ComponentModels {
-		m.ComponentModels[i] = n
-	}
-
+	copy(m.ComponentModels, model.ComponentModels)
 	m.AliasName = model.AliasName
 
 	m.FreeformTags = model.FreeformTags

@@ -79,7 +79,6 @@ func (m *TrafficRoute) UnmarshalJSON(data []byte) (e error) {
 			m.Nodes[i] = nil
 		}
 	}
-
 	return
 }
 

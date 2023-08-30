@@ -101,32 +101,32 @@ func (m *buildpipelinestagerunprogress) UnmarshalPolymorphicJSON(data []byte) (i
 	}
 }
 
-//GetStageDisplayName returns StageDisplayName
+// GetStageDisplayName returns StageDisplayName
 func (m buildpipelinestagerunprogress) GetStageDisplayName() *string {
 	return m.StageDisplayName
 }
 
-//GetBuildPipelineStageId returns BuildPipelineStageId
+// GetBuildPipelineStageId returns BuildPipelineStageId
 func (m buildpipelinestagerunprogress) GetBuildPipelineStageId() *string {
 	return m.BuildPipelineStageId
 }
 
-//GetTimeStarted returns TimeStarted
+// GetTimeStarted returns TimeStarted
 func (m buildpipelinestagerunprogress) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-//GetTimeFinished returns TimeFinished
+// GetTimeFinished returns TimeFinished
 func (m buildpipelinestagerunprogress) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m buildpipelinestagerunprogress) GetStatus() BuildPipelineStageRunProgressStatusEnum {
 	return m.Status
 }
 
-//GetBuildPipelineStagePredecessors returns BuildPipelineStagePredecessors
+// GetBuildPipelineStagePredecessors returns BuildPipelineStagePredecessors
 func (m buildpipelinestagerunprogress) GetBuildPipelineStagePredecessors() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessors
 }

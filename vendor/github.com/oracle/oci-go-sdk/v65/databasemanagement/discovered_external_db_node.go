@@ -150,10 +150,7 @@ func (m *DiscoveredExternalDbNode) UnmarshalJSON(data []byte) (e error) {
 	m.Status = model.Status
 
 	m.AssociatedComponents = make([]AssociatedComponent, len(model.AssociatedComponents))
-	for i, n := range model.AssociatedComponents {
-		m.AssociatedComponents[i] = n
-	}
-
+	copy(m.AssociatedComponents, model.AssociatedComponents)
 	m.CpuCoreCount = model.CpuCoreCount
 
 	m.MemorySizeInGBs = model.MemorySizeInGBs

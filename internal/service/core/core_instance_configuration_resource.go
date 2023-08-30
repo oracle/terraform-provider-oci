@@ -474,6 +474,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"assign_ipv6ip": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"assign_private_dns_record": {
 													Type:     schema.TypeBool,
 													Optional: true,
@@ -512,6 +518,33 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"ipv6address_ipv6subnet_cidr_pair_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"ipv6address": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"ipv6subnet_cidr": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
 												},
 												"nsg_ids": {
 													Type:     schema.TypeSet,
@@ -708,6 +741,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 														"AMD_ROME_BM",
 														"AMD_ROME_BM_GPU",
 														"AMD_VM",
+														"GENERIC_BM",
 														"INTEL_ICELAKE_BM",
 														"INTEL_SKYLAKE_BM",
 														"INTEL_VM",
@@ -720,6 +754,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"config_map": {
+													Type:     schema.TypeMap,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem:     schema.TypeString,
 												},
 												"is_access_control_service_enabled": {
 													Type:     schema.TypeBool,
@@ -1401,6 +1442,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 															// Required
 
 															// Optional
+															"assign_ipv6ip": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"assign_private_dns_record": {
 																Type:     schema.TypeBool,
 																Optional: true,
@@ -1439,6 +1486,33 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
+															},
+															"ipv6address_ipv6subnet_cidr_pair_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+																		"ipv6address": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+																		"ipv6subnet_cidr": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
 															},
 															"nsg_ids": {
 																Type:     schema.TypeSet,
@@ -1945,6 +2019,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 															// Required
 
 															// Optional
+															"assign_ipv6ip": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"assign_private_dns_record": {
 																Type:     schema.TypeBool,
 																Optional: true,
@@ -1983,6 +2063,33 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
+															},
+															"ipv6address_ipv6subnet_cidr_pair_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+																		"ipv6address": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+																		"ipv6subnet_cidr": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
 															},
 															"nsg_ids": {
 																Type:     schema.TypeSet,
@@ -2061,6 +2168,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"assign_ipv6ip": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"assign_private_dns_record": {
 													Type:     schema.TypeBool,
 													Optional: true,
@@ -2099,6 +2212,33 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"ipv6address_ipv6subnet_cidr_pair_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"ipv6address": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"ipv6subnet_cidr": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
 												},
 												"nsg_ids": {
 													Type:     schema.TypeSet,
@@ -2784,6 +2924,11 @@ func InstanceConfigurationBlockVolumeReplicaDetailsToMap(obj oci_core.InstanceCo
 func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreateVnicDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationCreateVnicDetails, error) {
 	result := oci_core.InstanceConfigurationCreateVnicDetails{}
 
+	if assignIpv6Ip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_ipv6ip")); ok {
+		tmp := assignIpv6Ip.(bool)
+		result.AssignIpv6Ip = &tmp
+	}
+
 	if assignPrivateDnsRecord, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_private_dns_record")); ok {
 		tmp := assignPrivateDnsRecord.(bool)
 		result.AssignPrivateDnsRecord = &tmp
@@ -2814,6 +2959,23 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
 		tmp := hostnameLabel.(string)
 		result.HostnameLabel = &tmp
+	}
+
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")); ok {
+		interfaces := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{})
+		tmp := make([]oci_core.InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details"), stateDataIndex)
+			converted, err := s.mapToInstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")) {
+			result.Ipv6AddressIpv6SubnetCidrPairDetails = tmp
+		}
 	}
 
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
@@ -2851,6 +3013,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigurationCreateVnicDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AssignIpv6Ip != nil {
+		result["assign_ipv6ip"] = bool(*obj.AssignIpv6Ip)
+	}
+
 	if obj.AssignPrivateDnsRecord != nil {
 		result["assign_private_dns_record"] = bool(*obj.AssignPrivateDnsRecord)
 	} else {
@@ -2874,6 +3040,12 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 	if obj.HostnameLabel != nil {
 		result["hostname_label"] = string(*obj.HostnameLabel)
 	}
+
+	ipv6AddressIpv6SubnetCidrPairDetails := []interface{}{}
+	for _, item := range obj.Ipv6AddressIpv6SubnetCidrPairDetails {
+		ipv6AddressIpv6SubnetCidrPairDetails = append(ipv6AddressIpv6SubnetCidrPairDetails, InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetailsToMap(item))
+	}
+	result["ipv6address_ipv6subnet_cidr_pair_details"] = ipv6AddressIpv6SubnetCidrPairDetails
 
 	nsgIds := []interface{}{}
 	for _, item := range obj.NsgIds {
@@ -3348,6 +3520,22 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 	return result, nil
 }
 
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails, error) {
+	result := oci_core.InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails{}
+
+	if ipv6Address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address")); ok {
+		tmp := ipv6Address.(string)
+		result.Ipv6Address = &tmp
+	}
+
+	if ipv6SubnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6subnet_cidr")); ok {
+		tmp := ipv6SubnetCidr.(string)
+		result.Ipv6SubnetCidr = &tmp
+	}
+
+	return result, nil
+}
+
 func InstanceConfigurationInstanceSourceImageFilterDetailsToMap(obj *oci_core.InstanceConfigurationInstanceSourceImageFilterDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -3365,6 +3553,20 @@ func InstanceConfigurationInstanceSourceImageFilterDetailsToMap(obj *oci_core.In
 
 	if obj.OperatingSystemVersion != nil {
 		result["operating_system_version"] = string(*obj.OperatingSystemVersion)
+	}
+
+	return result
+}
+
+func InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetailsToMap(obj oci_core.InstanceConfigurationIpv6AddressIpv6SubnetCidrPairDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Ipv6Address != nil {
+		result["ipv6address"] = string(*obj.Ipv6Address)
+	}
+
+	if obj.Ipv6SubnetCidr != nil {
+		result["ipv6subnet_cidr"] = string(*obj.Ipv6SubnetCidr)
 	}
 
 	return result
@@ -3731,6 +3933,9 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 			tmp := areVirtualInstructionsEnabled.(bool)
 			details.AreVirtualInstructionsEnabled = &tmp
 		}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
+		}
 		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
 			tmp := isAccessControlServiceEnabled.(bool)
 			details.IsAccessControlServiceEnabled = &tmp
@@ -3773,6 +3978,9 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 			tmp := areVirtualInstructionsEnabled.(bool)
 			details.AreVirtualInstructionsEnabled = &tmp
 		}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
+		}
 		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
 			tmp := isAccessControlServiceEnabled.(bool)
 			details.IsAccessControlServiceEnabled = &tmp
@@ -3810,6 +4018,9 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		if areVirtualInstructionsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_virtual_instructions_enabled")); ok {
 			tmp := areVirtualInstructionsEnabled.(bool)
 			details.AreVirtualInstructionsEnabled = &tmp
+		}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
 		}
 		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
 			tmp := isAccessControlServiceEnabled.(bool)
@@ -3852,6 +4063,9 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		if areVirtualInstructionsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_virtual_instructions_enabled")); ok {
 			tmp := areVirtualInstructionsEnabled.(bool)
 			details.AreVirtualInstructionsEnabled = &tmp
+		}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
 		}
 		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
 			tmp := isAccessControlServiceEnabled.(bool)
@@ -3904,8 +4118,56 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 			details.IsTrustedPlatformModuleEnabled = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("GENERIC_BM"):
+		details := oci_core.InstanceConfigurationGenericBmLaunchInstancePlatformConfig{}
+		if areVirtualInstructionsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_virtual_instructions_enabled")); ok {
+			tmp := areVirtualInstructionsEnabled.(bool)
+			details.AreVirtualInstructionsEnabled = &tmp
+		}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
+		}
+		if isAccessControlServiceEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_access_control_service_enabled")); ok {
+			tmp := isAccessControlServiceEnabled.(bool)
+			details.IsAccessControlServiceEnabled = &tmp
+		}
+		if isInputOutputMemoryManagementUnitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_input_output_memory_management_unit_enabled")); ok {
+			tmp := isInputOutputMemoryManagementUnitEnabled.(bool)
+			details.IsInputOutputMemoryManagementUnitEnabled = &tmp
+		}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
+		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
+			details.NumaNodesPerSocket = oci_core.InstanceConfigurationGenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
+		}
+		if percentageOfCoresEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "percentage_of_cores_enabled")); ok {
+			tmp := percentageOfCoresEnabled.(int)
+			details.PercentageOfCoresEnabled = &tmp
+		}
+		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
+			tmp := isMeasuredBootEnabled.(bool)
+			details.IsMeasuredBootEnabled = &tmp
+		}
+		if isMemoryEncryptionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_memory_encryption_enabled")); ok {
+			tmp := isMemoryEncryptionEnabled.(bool)
+			details.IsMemoryEncryptionEnabled = &tmp
+		}
+		if isSecureBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure_boot_enabled")); ok {
+			tmp := isSecureBootEnabled.(bool)
+			details.IsSecureBootEnabled = &tmp
+		}
+		if isTrustedPlatformModuleEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_trusted_platform_module_enabled")); ok {
+			tmp := isTrustedPlatformModuleEnabled.(bool)
+			details.IsTrustedPlatformModuleEnabled = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("INTEL_ICELAKE_BM"):
 		details := oci_core.InstanceConfigurationIntelIcelakeBmLaunchInstancePlatformConfig{}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
+		}
 		if isInputOutputMemoryManagementUnitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_input_output_memory_management_unit_enabled")); ok {
 			tmp := isInputOutputMemoryManagementUnitEnabled.(bool)
 			details.IsInputOutputMemoryManagementUnitEnabled = &tmp
@@ -3940,6 +4202,24 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		baseObject = details
 	case strings.ToLower("INTEL_SKYLAKE_BM"):
 		details := oci_core.InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig{}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			details.ConfigMap = tfresource.ObjectMapToStringMap(configMap.(map[string]interface{}))
+		}
+		if isInputOutputMemoryManagementUnitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_input_output_memory_management_unit_enabled")); ok {
+			tmp := isInputOutputMemoryManagementUnitEnabled.(bool)
+			details.IsInputOutputMemoryManagementUnitEnabled = &tmp
+		}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
+		if numaNodesPerSocket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "numa_nodes_per_socket")); ok {
+			details.NumaNodesPerSocket = oci_core.InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum(numaNodesPerSocket.(string))
+		}
+		if percentageOfCoresEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "percentage_of_cores_enabled")); ok {
+			tmp := percentageOfCoresEnabled.(int)
+			details.PercentageOfCoresEnabled = &tmp
+		}
 		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
@@ -3992,6 +4272,9 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
 		}
 
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
+
 		if v.IsAccessControlServiceEnabled != nil {
 			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
 		}
@@ -4016,6 +4299,9 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
 		}
 
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
+
 		if v.IsAccessControlServiceEnabled != nil {
 			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
 		}
@@ -4035,6 +4321,9 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		if v.AreVirtualInstructionsEnabled != nil {
 			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
 		}
+
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
 
 		if v.IsAccessControlServiceEnabled != nil {
 			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
@@ -4060,6 +4349,9 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
 		}
 
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
+
 		if v.IsAccessControlServiceEnabled != nil {
 			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
 		}
@@ -4075,8 +4367,38 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
 	case oci_core.InstanceConfigurationAmdVmLaunchInstancePlatformConfig:
 		result["type"] = "AMD_VM"
+	case oci_core.InstanceConfigurationGenericBmLaunchInstancePlatformConfig:
+		result["type"] = "GENERIC_BM"
+
+		if v.AreVirtualInstructionsEnabled != nil {
+			result["are_virtual_instructions_enabled"] = bool(*v.AreVirtualInstructionsEnabled)
+		}
+
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
+
+		if v.IsAccessControlServiceEnabled != nil {
+			result["is_access_control_service_enabled"] = bool(*v.IsAccessControlServiceEnabled)
+		}
+
+		if v.IsInputOutputMemoryManagementUnitEnabled != nil {
+			result["is_input_output_memory_management_unit_enabled"] = bool(*v.IsInputOutputMemoryManagementUnitEnabled)
+		}
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
+
+		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+
+		if v.PercentageOfCoresEnabled != nil {
+			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
+		}
 	case oci_core.InstanceConfigurationIntelIcelakeBmLaunchInstancePlatformConfig:
 		result["type"] = "INTEL_ICELAKE_BM"
+
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
 
 		if v.IsInputOutputMemoryManagementUnitEnabled != nil {
 			result["is_input_output_memory_management_unit_enabled"] = bool(*v.IsInputOutputMemoryManagementUnitEnabled)
@@ -4093,6 +4415,23 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		}
 	case oci_core.InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig:
 		result["type"] = "INTEL_SKYLAKE_BM"
+
+		result["config_map"] = v.ConfigMap
+		result["config_map"] = v.ConfigMap
+
+		if v.IsInputOutputMemoryManagementUnitEnabled != nil {
+			result["is_input_output_memory_management_unit_enabled"] = bool(*v.IsInputOutputMemoryManagementUnitEnabled)
+		}
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
+
+		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+
+		if v.PercentageOfCoresEnabled != nil {
+			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
+		}
 	case oci_core.InstanceConfigurationIntelVmLaunchInstancePlatformConfig:
 		result["type"] = "INTEL_VM"
 	default:

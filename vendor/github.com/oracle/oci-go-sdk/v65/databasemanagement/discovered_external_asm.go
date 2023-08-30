@@ -153,10 +153,7 @@ func (m *DiscoveredExternalAsm) UnmarshalJSON(data []byte) (e error) {
 	m.Status = model.Status
 
 	m.AssociatedComponents = make([]AssociatedComponent, len(model.AssociatedComponents))
-	for i, n := range model.AssociatedComponents {
-		m.AssociatedComponents[i] = n
-	}
-
+	copy(m.AssociatedComponents, model.AssociatedComponents)
 	m.GridHome = model.GridHome
 
 	m.IsFlexEnabled = model.IsFlexEnabled
@@ -164,10 +161,7 @@ func (m *DiscoveredExternalAsm) UnmarshalJSON(data []byte) (e error) {
 	m.Version = model.Version
 
 	m.AsmInstances = make([]DiscoveredExternalAsmInstance, len(model.AsmInstances))
-	for i, n := range model.AsmInstances {
-		m.AsmInstances[i] = n
-	}
-
+	copy(m.AsmInstances, model.AsmInstances)
 	nn, e = model.Connector.UnmarshalPolymorphicJSON(model.Connector.JsonData)
 	if e != nil {
 		return

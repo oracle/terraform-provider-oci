@@ -111,47 +111,47 @@ func (m *publishedobjectsummary) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m publishedobjectsummary) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m publishedobjectsummary) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m publishedobjectsummary) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m publishedobjectsummary) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m publishedobjectsummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m publishedobjectsummary) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m publishedobjectsummary) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m publishedobjectsummary) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m publishedobjectsummary) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

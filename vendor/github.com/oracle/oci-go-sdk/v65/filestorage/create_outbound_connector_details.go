@@ -47,11 +47,11 @@ type CreateOutboundConnectorDetails interface {
 
 type createoutboundconnectordetails struct {
 	JsonData           []byte
-	AvailabilityDomain *string                           `mandatory:"true" json:"availabilityDomain"`
-	CompartmentId      *string                           `mandatory:"true" json:"compartmentId"`
 	DisplayName        *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	AvailabilityDomain *string                           `mandatory:"true" json:"availabilityDomain"`
+	CompartmentId      *string                           `mandatory:"true" json:"compartmentId"`
 	ConnectorType      string                            `json:"connectorType"`
 }
 
@@ -95,29 +95,29 @@ func (m *createoutboundconnectordetails) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetAvailabilityDomain returns AvailabilityDomain
-func (m createoutboundconnectordetails) GetAvailabilityDomain() *string {
-	return m.AvailabilityDomain
-}
-
-//GetCompartmentId returns CompartmentId
-func (m createoutboundconnectordetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createoutboundconnectordetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createoutboundconnectordetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createoutboundconnectordetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetAvailabilityDomain returns AvailabilityDomain
+func (m createoutboundconnectordetails) GetAvailabilityDomain() *string {
+	return m.AvailabilityDomain
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createoutboundconnectordetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createoutboundconnectordetails) String() string {

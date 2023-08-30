@@ -108,6 +108,5 @@ func (m *CreateImagePublicationPackage) UnmarshalJSON(data []byte) (e error) {
 			m.Eula[i] = nil
 		}
 	}
-
 	return
 }

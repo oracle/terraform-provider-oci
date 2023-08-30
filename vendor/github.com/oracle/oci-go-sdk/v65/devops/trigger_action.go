@@ -23,7 +23,7 @@ type TriggerAction interface {
 
 type triggeraction struct {
 	JsonData []byte
-	Filter   Filter `mandatory:"false" json:"filter"`
+	Filter   filter `mandatory:"false" json:"filter"`
 	Type     string `json:"type"`
 }
 
@@ -63,8 +63,8 @@ func (m *triggeraction) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetFilter returns Filter
-func (m triggeraction) GetFilter() Filter {
+// GetFilter returns Filter
+func (m triggeraction) GetFilter() filter {
 	return m.Filter
 }
 

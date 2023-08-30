@@ -155,57 +155,57 @@ func (m *abstractcolumn) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m abstractcolumn) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetSubSystem returns SubSystem
+// GetSubSystem returns SubSystem
 func (m abstractcolumn) GetSubSystem() SubSystemNameEnum {
 	return m.SubSystem
 }
 
-//GetValues returns Values
+// GetValues returns Values
 func (m abstractcolumn) GetValues() []FieldValue {
 	return m.Values
 }
 
-//GetIsListOfValues returns IsListOfValues
+// GetIsListOfValues returns IsListOfValues
 func (m abstractcolumn) GetIsListOfValues() *bool {
 	return m.IsListOfValues
 }
 
-//GetIsMultiValued returns IsMultiValued
+// GetIsMultiValued returns IsMultiValued
 func (m abstractcolumn) GetIsMultiValued() *bool {
 	return m.IsMultiValued
 }
 
-//GetIsCaseSensitive returns IsCaseSensitive
+// GetIsCaseSensitive returns IsCaseSensitive
 func (m abstractcolumn) GetIsCaseSensitive() *bool {
 	return m.IsCaseSensitive
 }
 
-//GetIsGroupable returns IsGroupable
+// GetIsGroupable returns IsGroupable
 func (m abstractcolumn) GetIsGroupable() *bool {
 	return m.IsGroupable
 }
 
-//GetIsEvaluable returns IsEvaluable
+// GetIsEvaluable returns IsEvaluable
 func (m abstractcolumn) GetIsEvaluable() *bool {
 	return m.IsEvaluable
 }
 
-//GetValueType returns ValueType
+// GetValueType returns ValueType
 func (m abstractcolumn) GetValueType() ValueTypeEnum {
 	return m.ValueType
 }
 
-//GetOriginalDisplayName returns OriginalDisplayName
+// GetOriginalDisplayName returns OriginalDisplayName
 func (m abstractcolumn) GetOriginalDisplayName() *string {
 	return m.OriginalDisplayName
 }
 
-//GetInternalName returns InternalName
+// GetInternalName returns InternalName
 func (m abstractcolumn) GetInternalName() *string {
 	return m.InternalName
 }

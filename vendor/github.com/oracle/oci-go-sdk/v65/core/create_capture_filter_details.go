@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// CreateCaptureFilterDetails A capture filter contains a set of rules governing what traffic a VTAP mirrors.
+// CreateCaptureFilterDetails A capture filter contains a set of rules governing what traffic a VTAP mirrors or a VCN flow log collects.
 type CreateCaptureFilterDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the capture filter.

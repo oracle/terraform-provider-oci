@@ -39,12 +39,12 @@ type CreateDeployStageDetails interface {
 
 type createdeploystagedetails struct {
 	JsonData                         []byte
-	DeployPipelineId                 *string                           `mandatory:"true" json:"deployPipelineId"`
-	DeployStagePredecessorCollection *DeployStagePredecessorCollection `mandatory:"true" json:"deployStagePredecessorCollection"`
 	Description                      *string                           `mandatory:"false" json:"description"`
 	DisplayName                      *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags                     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	DeployPipelineId                 *string                           `mandatory:"true" json:"deployPipelineId"`
+	DeployStagePredecessorCollection *DeployStagePredecessorCollection `mandatory:"true" json:"deployStagePredecessorCollection"`
 	DeployStageType                  string                            `json:"deployStageType"`
 }
 
@@ -161,34 +161,34 @@ func (m *createdeploystagedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetDeployPipelineId returns DeployPipelineId
-func (m createdeploystagedetails) GetDeployPipelineId() *string {
-	return m.DeployPipelineId
-}
-
-//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
-func (m createdeploystagedetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
-	return m.DeployStagePredecessorCollection
-}
-
-//GetDescription returns Description
+// GetDescription returns Description
 func (m createdeploystagedetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createdeploystagedetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createdeploystagedetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createdeploystagedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetDeployPipelineId returns DeployPipelineId
+func (m createdeploystagedetails) GetDeployPipelineId() *string {
+	return m.DeployPipelineId
+}
+
+// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+func (m createdeploystagedetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
+	return m.DeployStagePredecessorCollection
 }
 
 func (m createdeploystagedetails) String() string {

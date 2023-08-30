@@ -75,7 +75,7 @@ func (m *externallistenerendpoint) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetServices returns Services
+// GetServices returns Services
 func (m externallistenerendpoint) GetServices() []string {
 	return m.Services
 }

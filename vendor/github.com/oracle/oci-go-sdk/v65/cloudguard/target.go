@@ -135,15 +135,9 @@ func (m *Target) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.TargetDetectorRecipes = make([]TargetDetectorRecipe, len(model.TargetDetectorRecipes))
-	for i, n := range model.TargetDetectorRecipes {
-		m.TargetDetectorRecipes[i] = n
-	}
-
+	copy(m.TargetDetectorRecipes, model.TargetDetectorRecipes)
 	m.TargetResponderRecipes = make([]TargetResponderRecipe, len(model.TargetResponderRecipes))
-	for i, n := range model.TargetResponderRecipes {
-		m.TargetResponderRecipes[i] = n
-	}
-
+	copy(m.TargetResponderRecipes, model.TargetResponderRecipes)
 	nn, e = model.TargetDetails.UnmarshalPolymorphicJSON(model.TargetDetails.JsonData)
 	if e != nil {
 		return
@@ -155,10 +149,7 @@ func (m *Target) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.InheritedByCompartments = make([]string, len(model.InheritedByCompartments))
-	for i, n := range model.InheritedByCompartments {
-		m.InheritedByCompartments[i] = n
-	}
-
+	copy(m.InheritedByCompartments, model.InheritedByCompartments)
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated

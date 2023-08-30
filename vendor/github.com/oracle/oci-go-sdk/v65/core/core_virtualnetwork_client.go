@@ -86,7 +86,7 @@ func (client *VirtualNetworkClient) setConfigurationProvider(configProvider comm
 	region, _ := configProvider.Region()
 	client.SetRegion(region)
 	if client.Host == "" {
-		return fmt.Errorf("Invalid region or Host. Endpoint cannot be constructed without endpointServiceName or serviceEndpointTemplate for a dotted region")
+		return fmt.Errorf("invalid region or Host. Endpoint cannot be constructed without endpointServiceName or serviceEndpointTemplate for a dotted region")
 	}
 	client.config = &configProvider
 	return nil
@@ -11706,6 +11706,64 @@ func (client VirtualNetworkClient) listVcns(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/ListVcns"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVcns", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListVirtualCircuitAssociatedTunnels Gets the specified virtual circuit's associatedTunnelsInfo.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVirtualCircuitAssociatedTunnels.go.html to see an example of how to use ListVirtualCircuitAssociatedTunnels API.
+// A default retry strategy applies to this operation ListVirtualCircuitAssociatedTunnels()
+func (client VirtualNetworkClient) ListVirtualCircuitAssociatedTunnels(ctx context.Context, request ListVirtualCircuitAssociatedTunnelsRequest) (response ListVirtualCircuitAssociatedTunnelsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listVirtualCircuitAssociatedTunnels, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVirtualCircuitAssociatedTunnelsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVirtualCircuitAssociatedTunnelsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVirtualCircuitAssociatedTunnelsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVirtualCircuitAssociatedTunnelsResponse")
+	}
+	return
+}
+
+// listVirtualCircuitAssociatedTunnels implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listVirtualCircuitAssociatedTunnels(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/virtualCircuits/{virtualCircuitId}/associatedTunnels", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVirtualCircuitAssociatedTunnelsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuitAssociatedTunnelDetails/ListVirtualCircuitAssociatedTunnels"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVirtualCircuitAssociatedTunnels", apiReferenceLink)
 		return response, err
 	}
 

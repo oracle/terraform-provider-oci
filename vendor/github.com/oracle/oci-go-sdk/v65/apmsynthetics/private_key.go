@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// PrivateKey The private key associated with the client certificate in pem format.
+// PrivateKey The private key associated with the client certificate in PEM format.
 type PrivateKey struct {
 
 	// Name of the private key file.

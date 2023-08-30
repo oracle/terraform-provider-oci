@@ -268,7 +268,6 @@ func (m *StandardTask) UnmarshalJSON(data []byte) (e error) {
 			m.Schedules[i] = nil
 		}
 	}
-
 	nn, e = model.Action.UnmarshalPolymorphicJSON(model.Action.JsonData)
 	if e != nil {
 		return

@@ -88,7 +88,7 @@ func (m *exportimagedetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetExportFormat returns ExportFormat
+// GetExportFormat returns ExportFormat
 func (m exportimagedetails) GetExportFormat() ExportImageDetailsExportFormatEnum {
 	return m.ExportFormat
 }

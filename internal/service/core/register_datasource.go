@@ -125,6 +125,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_core_vcn_dns_resolver_association", CoreVcnDnsResolverAssociationDataSource())
 	tfresource.RegisterDatasource("oci_core_vcns", CoreVcnsDataSource())
 	tfresource.RegisterDatasource("oci_core_virtual_circuit", CoreVirtualCircuitDataSource())
+	tfresource.RegisterDatasource("oci_core_virtual_circuit_associated_tunnels", CoreVirtualCircuitAssociatedTunnelsDataSource())
 	tfresource.RegisterDatasource("oci_core_virtual_circuit_bandwidth_shapes", CoreVirtualCircuitBandwidthShapesDataSource())
 	tfresource.RegisterDatasource("oci_core_virtual_circuit_public_prefixes", CoreVirtualCircuitPublicPrefixesDataSource())
 	tfresource.RegisterDatasource("oci_core_virtual_circuits", CoreVirtualCircuitsDataSource())
