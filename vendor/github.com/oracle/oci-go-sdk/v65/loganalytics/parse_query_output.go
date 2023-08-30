@@ -78,7 +78,6 @@ func (m *ParseQueryOutput) UnmarshalJSON(data []byte) (e error) {
 			m.Columns[i] = nil
 		}
 	}
-
 	m.ResponseTimeInMs = model.ResponseTimeInMs
 
 	m.Commands = make([]AbstractCommandDescriptor, len(model.Commands))
@@ -93,7 +92,6 @@ func (m *ParseQueryOutput) UnmarshalJSON(data []byte) (e error) {
 			m.Commands[i] = nil
 		}
 	}
-
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

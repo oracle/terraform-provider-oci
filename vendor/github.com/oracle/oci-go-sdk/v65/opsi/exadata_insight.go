@@ -72,6 +72,13 @@ type ExadataInsight interface {
 
 type exadatainsight struct {
 	JsonData             []byte
+	ExadataDisplayName   *string                           `mandatory:"false" json:"exadataDisplayName"`
+	ExadataType          ExadataTypeEnum                   `mandatory:"false" json:"exadataType,omitempty"`
+	ExadataRackType      ExadataRackTypeEnum               `mandatory:"false" json:"exadataRackType,omitempty"`
+	IsVirtualizedExadata *bool                             `mandatory:"false" json:"isVirtualizedExadata"`
+	SystemTags           map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	TimeUpdated          *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails     *string                           `mandatory:"false" json:"lifecycleDetails"`
 	Id                   *string                           `mandatory:"true" json:"id"`
 	CompartmentId        *string                           `mandatory:"true" json:"compartmentId"`
 	ExadataName          *string                           `mandatory:"true" json:"exadataName"`
@@ -80,13 +87,6 @@ type exadatainsight struct {
 	DefinedTags          map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 	TimeCreated          *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	LifecycleState       ExadataInsightLifecycleStateEnum  `mandatory:"true" json:"lifecycleState"`
-	ExadataDisplayName   *string                           `mandatory:"false" json:"exadataDisplayName"`
-	ExadataType          ExadataTypeEnum                   `mandatory:"false" json:"exadataType,omitempty"`
-	ExadataRackType      ExadataRackTypeEnum               `mandatory:"false" json:"exadataRackType,omitempty"`
-	IsVirtualizedExadata *bool                             `mandatory:"false" json:"isVirtualizedExadata"`
-	SystemTags           map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	TimeUpdated          *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails     *string                           `mandatory:"false" json:"lifecycleDetails"`
 	EntitySource         string                            `json:"entitySource"`
 }
 
@@ -144,79 +144,79 @@ func (m *exadatainsight) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 	}
 }
 
-//GetId returns Id
-func (m exadatainsight) GetId() *string {
-	return m.Id
-}
-
-//GetCompartmentId returns CompartmentId
-func (m exadatainsight) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetExadataName returns ExadataName
-func (m exadatainsight) GetExadataName() *string {
-	return m.ExadataName
-}
-
-//GetStatus returns Status
-func (m exadatainsight) GetStatus() ResourceStatusEnum {
-	return m.Status
-}
-
-//GetFreeformTags returns FreeformTags
-func (m exadatainsight) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-//GetDefinedTags returns DefinedTags
-func (m exadatainsight) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-//GetTimeCreated returns TimeCreated
-func (m exadatainsight) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetLifecycleState returns LifecycleState
-func (m exadatainsight) GetLifecycleState() ExadataInsightLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetExadataDisplayName returns ExadataDisplayName
+// GetExadataDisplayName returns ExadataDisplayName
 func (m exadatainsight) GetExadataDisplayName() *string {
 	return m.ExadataDisplayName
 }
 
-//GetExadataType returns ExadataType
+// GetExadataType returns ExadataType
 func (m exadatainsight) GetExadataType() ExadataTypeEnum {
 	return m.ExadataType
 }
 
-//GetExadataRackType returns ExadataRackType
+// GetExadataRackType returns ExadataRackType
 func (m exadatainsight) GetExadataRackType() ExadataRackTypeEnum {
 	return m.ExadataRackType
 }
 
-//GetIsVirtualizedExadata returns IsVirtualizedExadata
+// GetIsVirtualizedExadata returns IsVirtualizedExadata
 func (m exadatainsight) GetIsVirtualizedExadata() *bool {
 	return m.IsVirtualizedExadata
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m exadatainsight) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m exadatainsight) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m exadatainsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetId returns Id
+func (m exadatainsight) GetId() *string {
+	return m.Id
+}
+
+// GetCompartmentId returns CompartmentId
+func (m exadatainsight) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetExadataName returns ExadataName
+func (m exadatainsight) GetExadataName() *string {
+	return m.ExadataName
+}
+
+// GetStatus returns Status
+func (m exadatainsight) GetStatus() ResourceStatusEnum {
+	return m.Status
+}
+
+// GetFreeformTags returns FreeformTags
+func (m exadatainsight) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m exadatainsight) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+// GetTimeCreated returns TimeCreated
+func (m exadatainsight) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetLifecycleState returns LifecycleState
+func (m exadatainsight) GetLifecycleState() ExadataInsightLifecycleStateEnum {
+	return m.LifecycleState
 }
 
 func (m exadatainsight) String() string {

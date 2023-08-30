@@ -88,10 +88,7 @@ func (m *DetectorDetails) UnmarshalJSON(data []byte) (e error) {
 	m.RiskLevel = model.RiskLevel
 
 	m.Configurations = make([]DetectorConfiguration, len(model.Configurations))
-	for i, n := range model.Configurations {
-		m.Configurations[i] = n
-	}
-
+	copy(m.Configurations, model.Configurations)
 	nn, e = model.Condition.UnmarshalPolymorphicJSON(model.Condition.JsonData)
 	if e != nil {
 		return
@@ -103,24 +100,15 @@ func (m *DetectorDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Labels = make([]string, len(model.Labels))
-	for i, n := range model.Labels {
-		m.Labels[i] = n
-	}
-
+	copy(m.Labels, model.Labels)
 	m.IsConfigurationAllowed = model.IsConfigurationAllowed
 
 	m.ProblemThreshold = model.ProblemThreshold
 
 	m.TargetTypes = make([]string, len(model.TargetTypes))
-	for i, n := range model.TargetTypes {
-		m.TargetTypes[i] = n
-	}
-
+	copy(m.TargetTypes, model.TargetTypes)
 	m.SightingTypes = make([]SightingType, len(model.SightingTypes))
-	for i, n := range model.SightingTypes {
-		m.SightingTypes[i] = n
-	}
-
+	copy(m.SightingTypes, model.SightingTypes)
 	m.IsEnabled = model.IsEnabled
 
 	return

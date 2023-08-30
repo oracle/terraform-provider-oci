@@ -81,17 +81,17 @@ func (m *updatedatabasetoolsconnectiondetails) UnmarshalPolymorphicJSON(data []b
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updatedatabasetoolsconnectiondetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updatedatabasetoolsconnectiondetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updatedatabasetoolsconnectiondetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }

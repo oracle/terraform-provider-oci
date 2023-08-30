@@ -137,7 +137,6 @@ func (m *ScheduledActivity) UnmarshalJSON(data []byte) (e error) {
 			m.Actions[i] = nil
 		}
 	}
-
 	m.TimeFinished = model.TimeFinished
 
 	m.DelayInHours = model.DelayInHours

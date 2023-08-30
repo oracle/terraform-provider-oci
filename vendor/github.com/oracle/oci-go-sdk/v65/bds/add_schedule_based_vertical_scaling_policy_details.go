@@ -83,6 +83,5 @@ func (m *AddScheduleBasedVerticalScalingPolicyDetails) UnmarshalJSON(data []byte
 			m.ScheduleDetails[i] = nil
 		}
 	}
-
 	return
 }

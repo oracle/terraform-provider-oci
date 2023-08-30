@@ -54,6 +54,8 @@ type UpdateMigrationDetails struct {
 	// If specified, the list will be replaced entirely. Empty list will remove stored includeObjects details.
 	IncludeObjects []DatabaseObject `mandatory:"false" json:"includeObjects"`
 
+	GoldenGateServiceDetails *UpdateGoldenGateServiceDetails `mandatory:"false" json:"goldenGateServiceDetails"`
+
 	GoldenGateDetails *UpdateGoldenGateDetails `mandatory:"false" json:"goldenGateDetails"`
 
 	VaultDetails *UpdateVaultDetails `mandatory:"false" json:"vaultDetails"`

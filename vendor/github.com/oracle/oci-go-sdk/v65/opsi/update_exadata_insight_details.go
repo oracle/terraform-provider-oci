@@ -78,12 +78,12 @@ func (m *updateexadatainsightdetails) UnmarshalPolymorphicJSON(data []byte) (int
 	}
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updateexadatainsightdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updateexadatainsightdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

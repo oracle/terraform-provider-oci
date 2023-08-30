@@ -37,10 +37,10 @@ type CreateBackupDestinationDetails interface {
 
 type createbackupdestinationdetails struct {
 	JsonData      []byte
-	DisplayName   *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	DisplayName   *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	Type          string                            `json:"type"`
 }
 
@@ -87,24 +87,24 @@ func (m *createbackupdestinationdetails) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetDisplayName returns DisplayName
-func (m createbackupdestinationdetails) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m createbackupdestinationdetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createbackupdestinationdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createbackupdestinationdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetDisplayName returns DisplayName
+func (m createbackupdestinationdetails) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createbackupdestinationdetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createbackupdestinationdetails) String() string {

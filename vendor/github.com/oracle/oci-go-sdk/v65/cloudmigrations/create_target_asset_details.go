@@ -70,12 +70,12 @@ func (m *createtargetassetdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetMigrationPlanId returns MigrationPlanId
+// GetMigrationPlanId returns MigrationPlanId
 func (m createtargetassetdetails) GetMigrationPlanId() *string {
 	return m.MigrationPlanId
 }
 
-//GetIsExcludedFromExecution returns IsExcludedFromExecution
+// GetIsExcludedFromExecution returns IsExcludedFromExecution
 func (m createtargetassetdetails) GetIsExcludedFromExecution() *bool {
 	return m.IsExcludedFromExecution
 }

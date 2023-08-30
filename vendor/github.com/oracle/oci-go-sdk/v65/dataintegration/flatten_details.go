@@ -108,6 +108,5 @@ func (m *FlattenDetails) UnmarshalJSON(data []byte) (e error) {
 			m.FlattenColumns[i] = nil
 		}
 	}
-
 	return
 }

@@ -86,10 +86,7 @@ func (m *UpdateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.NetworkSecurityGroupIds = make([]string, len(model.NetworkSecurityGroupIds))
-	for i, n := range model.NetworkSecurityGroupIds {
-		m.NetworkSecurityGroupIds[i] = n
-	}
-
+	copy(m.NetworkSecurityGroupIds, model.NetworkSecurityGroupIds)
 	m.CertificateId = model.CertificateId
 
 	nn, e = model.ResponseCacheDetails.UnmarshalPolymorphicJSON(model.ResponseCacheDetails.JsonData)
@@ -118,6 +115,5 @@ func (m *UpdateGatewayDetails) UnmarshalJSON(data []byte) (e error) {
 			m.CaBundles[i] = nil
 		}
 	}
-
 	return
 }

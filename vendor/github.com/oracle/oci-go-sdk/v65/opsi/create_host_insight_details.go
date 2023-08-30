@@ -35,9 +35,9 @@ type CreateHostInsightDetails interface {
 
 type createhostinsightdetails struct {
 	JsonData      []byte
-	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	EntitySource  string                            `json:"entitySource"`
 }
 
@@ -87,19 +87,19 @@ func (m *createhostinsightdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m createhostinsightdetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createhostinsightdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createhostinsightdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createhostinsightdetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m createhostinsightdetails) String() string {

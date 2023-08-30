@@ -86,7 +86,6 @@ func (m *UpdateDrProtectionGroupDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Members[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

@@ -92,27 +92,27 @@ func (m *updateassetsourcedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updateassetsourcedetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetAssetsCompartmentId returns AssetsCompartmentId
+// GetAssetsCompartmentId returns AssetsCompartmentId
 func (m updateassetsourcedetails) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updateassetsourcedetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updateassetsourcedetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m updateassetsourcedetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

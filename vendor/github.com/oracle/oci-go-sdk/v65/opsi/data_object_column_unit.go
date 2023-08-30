@@ -99,7 +99,7 @@ func (m *dataobjectcolumnunit) UnmarshalPolymorphicJSON(data []byte) (interface{
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m dataobjectcolumnunit) GetDisplayName() *string {
 	return m.DisplayName
 }

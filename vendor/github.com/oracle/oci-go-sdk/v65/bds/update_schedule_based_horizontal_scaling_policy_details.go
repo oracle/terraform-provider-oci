@@ -83,6 +83,5 @@ func (m *UpdateScheduleBasedHorizontalScalingPolicyDetails) UnmarshalJSON(data [
 			m.ScheduleDetails[i] = nil
 		}
 	}
-
 	return
 }

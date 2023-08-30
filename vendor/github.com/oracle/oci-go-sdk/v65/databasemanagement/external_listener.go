@@ -195,17 +195,10 @@ func (m *ExternalListener) UnmarshalJSON(data []byte) (e error) {
 			m.Endpoints[i] = nil
 		}
 	}
-
 	m.ServicedDatabases = make([]ExternalListenerServicedDatabase, len(model.ServicedDatabases))
-	for i, n := range model.ServicedDatabases {
-		m.ServicedDatabases[i] = n
-	}
-
+	copy(m.ServicedDatabases, model.ServicedDatabases)
 	m.ServicedAsms = make([]ExternalServicedAsm, len(model.ServicedAsms))
-	for i, n := range model.ServicedAsms {
-		m.ServicedAsms[i] = n
-	}
-
+	copy(m.ServicedAsms, model.ServicedAsms)
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName

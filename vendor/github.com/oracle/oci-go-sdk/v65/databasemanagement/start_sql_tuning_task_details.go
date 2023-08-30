@@ -101,10 +101,7 @@ func (m *StartSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SqlTuningSet = model.SqlTuningSet
 
 	m.SqlDetails = make([]SqlTuningTaskSqlDetail, len(model.SqlDetails))
-	for i, n := range model.SqlDetails {
-		m.SqlDetails[i] = n
-	}
-
+	copy(m.SqlDetails, model.SqlDetails)
 	m.TimeStarted = model.TimeStarted
 
 	m.TimeEnded = model.TimeEnded

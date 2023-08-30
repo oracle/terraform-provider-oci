@@ -117,7 +117,7 @@ type AutonomousDatabase struct {
 	// An array of CPU values that an Autonomous Database can be scaled to.
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 
-	// The amount of memory (in GBs) enabled per OCPU or ECPU. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The amount of memory (in GBs) enabled per OCPU or ECPU.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The quantity of data in the database, in gigabytes.

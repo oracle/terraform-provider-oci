@@ -107,7 +107,6 @@ func (m *FunctionSignature) UnmarshalJSON(data []byte) (e error) {
 			m.Arguments[i] = nil
 		}
 	}
-
 	m.Description = model.Description
 
 	m.ObjectStatus = model.ObjectStatus

@@ -71,7 +71,6 @@ func (m *AnalyzeImageDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Features[i] = nil
 		}
 	}
-
 	nn, e = model.Image.UnmarshalPolymorphicJSON(model.Image.JsonData)
 	if e != nil {
 		return

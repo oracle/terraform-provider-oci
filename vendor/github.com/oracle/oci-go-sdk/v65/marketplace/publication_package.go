@@ -41,12 +41,12 @@ type PublicationPackage interface {
 
 type publicationpackage struct {
 	JsonData        []byte
-	ListingId       *string          `mandatory:"true" json:"listingId"`
-	Version         *string          `mandatory:"true" json:"version"`
 	Description     *string          `mandatory:"false" json:"description"`
 	ResourceId      *string          `mandatory:"false" json:"resourceId"`
 	TimeCreated     *common.SDKTime  `mandatory:"false" json:"timeCreated"`
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
+	ListingId       *string          `mandatory:"true" json:"listingId"`
+	Version         *string          `mandatory:"true" json:"version"`
 	PackageType     string           `json:"packageType"`
 }
 
@@ -95,34 +95,34 @@ func (m *publicationpackage) UnmarshalPolymorphicJSON(data []byte) (interface{},
 	}
 }
 
-//GetListingId returns ListingId
-func (m publicationpackage) GetListingId() *string {
-	return m.ListingId
-}
-
-//GetVersion returns Version
-func (m publicationpackage) GetVersion() *string {
-	return m.Version
-}
-
-//GetDescription returns Description
+// GetDescription returns Description
 func (m publicationpackage) GetDescription() *string {
 	return m.Description
 }
 
-//GetResourceId returns ResourceId
+// GetResourceId returns ResourceId
 func (m publicationpackage) GetResourceId() *string {
 	return m.ResourceId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m publicationpackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetOperatingSystem returns OperatingSystem
+// GetOperatingSystem returns OperatingSystem
 func (m publicationpackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
+}
+
+// GetListingId returns ListingId
+func (m publicationpackage) GetListingId() *string {
+	return m.ListingId
+}
+
+// GetVersion returns Version
+func (m publicationpackage) GetVersion() *string {
+	return m.Version
 }
 
 func (m publicationpackage) String() string {

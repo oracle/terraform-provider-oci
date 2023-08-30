@@ -108,7 +108,6 @@ func (m *QueryAggregation) UnmarshalJSON(data []byte) (e error) {
 			m.Columns[i] = nil
 		}
 	}
-
 	m.Fields = make([]AbstractColumn, len(model.Fields))
 	for i, n := range model.Fields {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -121,12 +120,8 @@ func (m *QueryAggregation) UnmarshalJSON(data []byte) (e error) {
 			m.Fields[i] = nil
 		}
 	}
-
 	m.Items = make([]map[string]interface{}, len(model.Items))
-	for i, n := range model.Items {
-		m.Items[i] = n
-	}
-
+	copy(m.Items, model.Items)
 	m.QueryExecutionTimeInMs = model.QueryExecutionTimeInMs
 
 	m.PercentComplete = model.PercentComplete

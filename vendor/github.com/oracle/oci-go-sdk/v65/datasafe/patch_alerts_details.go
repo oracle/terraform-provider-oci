@@ -66,7 +66,6 @@ func (m *PatchAlertsDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Items[i] = nil
 		}
 	}
-
 	m.CompartmentId = model.CompartmentId
 
 	return

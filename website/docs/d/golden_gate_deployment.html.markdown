@@ -74,8 +74,11 @@ The following attributes are exported:
 * `ogg_data` - Deployment Data for an OggDeployment 
 	* `admin_username` - The GoldenGate deployment console username. 
 	* `certificate` - A PEM-encoded SSL certificate. 
+	* `credential_store` - The type of credential store for OGG. 
 	* `deployment_name` - The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
+	* `identity_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
 	* `ogg_version` - Version of OGG 
+	* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored. 
 * `private_ip_address` - The private IP address in the customer's VCN representing the access point for the associated endpoint service in the GoldenGate service VCN. 
 * `public_ip_address` - The public IP address representing the access point for the Deployment. 
 * `state` - Possible lifecycle states. 

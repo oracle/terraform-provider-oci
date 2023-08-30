@@ -57,6 +57,8 @@ type Connection struct {
 
 	AdminCredentials *AdminCredentials `mandatory:"false" json:"adminCredentials"`
 
+	ReplicationCredentials *AdminCredentials `mandatory:"false" json:"replicationCredentials"`
+
 	PrivateEndpoint *PrivateEndpointDetails `mandatory:"false" json:"privateEndpoint"`
 
 	VaultDetails *VaultDetails `mandatory:"false" json:"vaultDetails"`

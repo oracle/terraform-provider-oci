@@ -62,6 +62,5 @@ func (m *ComputeInstanceGroupSelectorCollection) UnmarshalJSON(data []byte) (e e
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

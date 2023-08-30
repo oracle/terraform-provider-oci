@@ -140,7 +140,6 @@ func (m *HighlightCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.ReferencedFields[i] = nil
 		}
 	}
-
 	m.DeclaredFields = make([]AbstractField, len(model.DeclaredFields))
 	for i, n := range model.DeclaredFields {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -153,21 +152,14 @@ func (m *HighlightCommandDescriptor) UnmarshalJSON(data []byte) (e error) {
 			m.DeclaredFields[i] = nil
 		}
 	}
-
 	m.IsHidden = model.IsHidden
 
 	m.Color = model.Color
 
 	m.Fields = make([]string, len(model.Fields))
-	for i, n := range model.Fields {
-		m.Fields[i] = n
-	}
-
+	copy(m.Fields, model.Fields)
 	m.Keywords = make([]string, len(model.Keywords))
-	for i, n := range model.Keywords {
-		m.Keywords[i] = n
-	}
-
+	copy(m.Keywords, model.Keywords)
 	m.DisplayQueryString = model.DisplayQueryString
 
 	m.InternalQueryString = model.InternalQueryString

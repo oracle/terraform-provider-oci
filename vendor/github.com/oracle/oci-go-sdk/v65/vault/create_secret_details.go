@@ -113,7 +113,6 @@ func (m *CreateSecretDetails) UnmarshalJSON(data []byte) (e error) {
 			m.SecretRules[i] = nil
 		}
 	}
-
 	m.CompartmentId = model.CompartmentId
 
 	nn, e = model.SecretContent.UnmarshalPolymorphicJSON(model.SecretContent.JsonData)

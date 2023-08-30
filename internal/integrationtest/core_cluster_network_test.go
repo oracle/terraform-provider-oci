@@ -53,6 +53,14 @@ var (
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `hpc-cluster-network`, Update: `displayName2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
+	CoreClusterNetworkRepresentationIpv6 = map[string]interface{}{
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"instance_pools":          acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreClusterNetworkInstancePoolsRepresentation},
+		"placement_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreClusterNetworkPlacementConfigurationRepresentationIpv6},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `hpc-cluster-network`, Update: `displayName2`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
 	CoreClusterNetworkInstancePoolsRepresentation = map[string]interface{}{
 		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`, Update: `${oci_core_instance_configuration.test_instance_configuration.id}`},
 		"size":                      acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
@@ -72,13 +80,38 @@ var (
 		// Skipping the test. Anyways the current infra does not support this field as it requires multi block placement constraint.
 		//"network_block_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`networkblockId`}},
 	}
+	CoreClusterNetworkPlacementConfigurationRepresentationIpv6 = map[string]interface{}{
+		"availability_domain":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"primary_vnic_subnets":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkPlacementConfigurationPrimaryVnicSubnetsRepresentation},
+		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentationIpv6},
+	}
+	CoreClusterNetworkPlacementConfigurationPrimaryVnicSubnetsRepresentation = map[string]interface{}{
+		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreIpv6AddressIpv6SubnetCidrPairRepresentation},
+		"is_assign_ipv6ip":                         acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
 	CoreClusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentation = map[string]interface{}{
 		"subnet_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 	}
+	CoreClusterNetworkPlacementConfigurationSecondaryVnicSubnetsRepresentationIpv6 = map[string]interface{}{
+		"subnet_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreIpv6AddressIpv6SubnetCidrPairRepresentation},
+		"is_assign_ipv6ip":                         acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+	CoreIpv6AddressIpv6SubnetCidrPairRepresentation = map[string]interface{}{
+		"ipv6subnet_cidr": acctest.Representation{RepType: acctest.Required, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
+	}
 	CoreClusterNetworkInstanceConfigurationInstanceDetailsClusterNetworkRepresentation = map[string]interface{}{
 		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
 		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentation},
+		"launch_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkInstanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation},
+	}
+
+	CoreClusterNetworkInstanceConfigurationInstanceDetailsClusterNetworkRepresentationIPv6 = map[string]interface{}{
+		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
+		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentationIpv6WithIpv6SubnetCidr},
 		"launch_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkInstanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation},
 	}
 
@@ -95,7 +128,7 @@ var (
 	CoreClusterNetworkInstanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.GetMultipleUpdatedRepresenationCopy(
 		[]string{"shape", "source_details"}, []interface{}{
 			acctest.Representation{RepType: acctest.Optional, Create: `BM.Optimized3.36`}, // modified shape because of capacity issues
-			acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetUpdatedRepresentationCopy("image_id", acctest.Representation{RepType: acctest.Optional, Create: `${var.image_id}`}, CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)},
+			acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("image_id", acctest.Representation{RepType: acctest.Optional, Create: `${var.image_id}`}, CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)},
 		}, CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
 		[]string{"shape_config", "dedicated_vm_host_id", "is_pv_encryption_in_transit_enabled", "preferred_maintenance_action"})
 
@@ -105,8 +138,19 @@ var (
 		utils.OciImageIdsVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation)
 
+	CoreVcnResourceConfigIpv6 = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentationIpv6)
+
+	ClusterNetworkResourceRequiredOnlyDependenciesIpv6 = CoreClusterNetworkAvailabilityDomainClusterNetworkConfig + DefinedTagsDependencies + CoreVcnResourceConfigIpv6 + CoreDhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Update, acctest.GetUpdatedRepresentationCopy("cidr_block", acctest.Representation{RepType: acctest.Required, Create: `10.0.2.0/24`}, CoreSubnetRepresentationIpv6)) +
+		utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation)
+
 	CoreClusterNetworkResourceDependencies = ClusterNetworkResourceRequiredOnlyDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkInstanceConfigurationInstanceDetailsClusterNetworkRepresentation}, CoreInstanceConfigurationRepresentation))
+
+	CoreClusterNetworkResourceDependenciesIpv6 = ClusterNetworkResourceRequiredOnlyDependenciesIpv6 +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreClusterNetworkInstanceConfigurationInstanceDetailsClusterNetworkRepresentationIPv6}, CoreInstanceConfigurationRepresentation))
 
 	ClusterNetworkResourceDependenciesWithoutSecondaryVnic = ClusterNetworkResourceRequiredOnlyDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
@@ -392,6 +436,134 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 				"cluster_configuration",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: core/computeManagement
+func TestCoreClusterNetworkResourceIpv6_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreClusterNetworkResourceIpv6_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	logicalAd := utils.GetEnvSettingWithBlankDefault("logical_ad")
+	logicalAdVariableStr := fmt.Sprintf("variable \"logical_ad\" { default = \"%s\" }\n", logicalAd)
+
+	imageId := utils.GetEnvSettingWithBlankDefault("image_id")
+	imageIdVariableStr := fmt.Sprintf("variable \"image_id\" { default = \"%s\" }\n", imageId)
+
+	resourceName := "oci_core_cluster_network.test_cluster_network"
+
+	singularDatasourceName := "data.oci_core_cluster_network.test_cluster_network"
+
+	var resId string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create" step in the test.
+	acctest.SaveConfigContent(config+logicalAdVariableStr+compartmentIdVariableStr+imageIdVariableStr+CoreClusterNetworkResourceDependenciesIpv6+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Create, CoreClusterNetworkRepresentationIpv6), "core", "clusterNetwork", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreClusterNetworkDestroy, []resource.TestStep{
+		// verify Create with ipv6
+		{
+			Config: config + logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + CoreClusterNetworkResourceDependenciesIpv6 +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Create, CoreClusterNetworkRepresentationIpv6),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "hpc-cluster-network"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.placement_configurations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_pools.0.size", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.state"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_pools.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.primary_vnic_subnets.#", "1"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.primary_vnic_subnets", map[string]string{
+					"ipv6address_ipv6subnet_cidr_pair_details.#": "1",
+					"is_assign_ipv6ip":                           "true",
+				},
+					[]string{
+						"subnet_id",
+					}),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
+					"display_name": "backend-servers",
+					"ipv6address_ipv6subnet_cidr_pair_details.#": "1",
+					"is_assign_ipv6ip":                           "true",
+				},
+					[]string{
+						"subnet_id",
+					}),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Required, acctest.Create, CoreCoreClusterNetworkSingularDataSourceRepresentation) +
+				logicalAdVariableStr + compartmentIdVariableStr + imageIdVariableStr + CoreClusterNetworkResourceDependenciesIpv6 +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_cluster_network", "test_cluster_network", acctest.Optional, acctest.Create, CoreClusterNetworkRepresentationIpv6),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_network_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "hpc-cluster-network"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.display_name", "hpc-cluster-network-pool"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.load_balancers.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.placement_configurations.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_pools.0.size", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_pools.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configuration.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.primary_vnic_subnets.#", "1"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.primary_vnic_subnets", map[string]string{
+					"ipv6address_ipv6subnet_cidr_pair_details.#": "1",
+					"is_assign_ipv6ip":                           "true",
+				},
+					[]string{
+						"subnet_id",
+					}),
+				resource.TestCheckResourceAttr(resourceName, "placement_configuration.0.secondary_vnic_subnets.#", "1"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "placement_configuration.0.secondary_vnic_subnets", map[string]string{
+					"display_name": "backend-servers",
+					"ipv6address_ipv6subnet_cidr_pair_details.#": "1",
+					"is_assign_ipv6ip":                           "true",
+				},
+					[]string{
+						"subnet_id",
+					}),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
 		},
 	})
 }

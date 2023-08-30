@@ -78,6 +78,5 @@ func (m *StaticPublicKeySet) UnmarshalJSON(data []byte) (e error) {
 			m.Keys[i] = nil
 		}
 	}
-
 	return
 }

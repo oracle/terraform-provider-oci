@@ -65,7 +65,7 @@ func (m *updatetargetassetdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	}
 }
 
-//GetIsExcludedFromExecution returns IsExcludedFromExecution
+// GetIsExcludedFromExecution returns IsExcludedFromExecution
 func (m updatetargetassetdetails) GetIsExcludedFromExecution() *bool {
 	return m.IsExcludedFromExecution
 }

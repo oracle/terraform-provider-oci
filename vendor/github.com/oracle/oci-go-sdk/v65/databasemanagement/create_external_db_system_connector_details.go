@@ -30,8 +30,8 @@ type CreateExternalDbSystemConnectorDetails interface {
 
 type createexternaldbsystemconnectordetails struct {
 	JsonData           []byte
-	ExternalDbSystemId *string `mandatory:"true" json:"externalDbSystemId"`
 	DisplayName        *string `mandatory:"false" json:"displayName"`
+	ExternalDbSystemId *string `mandatory:"true" json:"externalDbSystemId"`
 	ConnectorType      string  `json:"connectorType"`
 }
 
@@ -72,14 +72,14 @@ func (m *createexternaldbsystemconnectordetails) UnmarshalPolymorphicJSON(data [
 	}
 }
 
-//GetExternalDbSystemId returns ExternalDbSystemId
-func (m createexternaldbsystemconnectordetails) GetExternalDbSystemId() *string {
-	return m.ExternalDbSystemId
-}
-
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createexternaldbsystemconnectordetails) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+// GetExternalDbSystemId returns ExternalDbSystemId
+func (m createexternaldbsystemconnectordetails) GetExternalDbSystemId() *string {
+	return m.ExternalDbSystemId
 }
 
 func (m createexternaldbsystemconnectordetails) String() string {

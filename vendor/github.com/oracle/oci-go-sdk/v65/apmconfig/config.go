@@ -121,42 +121,42 @@ func (m *config) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m config) GetId() *string {
 	return m.Id
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m config) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m config) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetCreatedBy returns CreatedBy
+// GetCreatedBy returns CreatedBy
 func (m config) GetCreatedBy() *string {
 	return m.CreatedBy
 }
 
-//GetUpdatedBy returns UpdatedBy
+// GetUpdatedBy returns UpdatedBy
 func (m config) GetUpdatedBy() *string {
 	return m.UpdatedBy
 }
 
-//GetEtag returns Etag
+// GetEtag returns Etag
 func (m config) GetEtag() *string {
 	return m.Etag
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m config) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m config) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

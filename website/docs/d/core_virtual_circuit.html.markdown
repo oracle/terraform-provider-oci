@@ -53,7 +53,7 @@ The following attributes are exported:
 		IPv6 addressing is supported for all commercial and government regions. See [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 
 		Example: `2001:db8::1/64` 
-	* `oracle_bgp_peering_ip` - The IPv4 address for Oracle's end of the BGP session. Must use a subnet mask from /28 to /31. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
+	* `oracle_bgp_peering_ip` - The IPv4 address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
 
 		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
@@ -75,6 +75,7 @@ The following attributes are exported:
 * `id` - The virtual circuit's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 * `ip_mtu` - The layer 3 IP MTU to use on this virtual circuit.
 * `is_bfd_enabled` - Set to `true` to enable BFD for IPv4 BGP peering, or set to `false` to disable BFD. If this is not set, the default is `false`. 
+* `is_transport_mode` - Set to `true` for the virtual circuit to carry only encrypted traffic, or set to `false` for the virtual circuit to carry unencrypted traffic. If this is not set, the default is `false`. 
 * `oracle_bgp_asn` - The Oracle BGP ASN.
 * `provider_service_id` - The OCID of the service offered by the provider (if the customer is connecting via a provider). 
 * `provider_service_key_name` - The service key name offered by the provider (if the customer is connecting via a provider). 

@@ -50,8 +50,6 @@ type UpdateConnectionDetails interface {
 
 type updateconnectiondetails struct {
 	JsonData             []byte
-	Key                  *string              `mandatory:"true" json:"key"`
-	ObjectVersion        *int                 `mandatory:"true" json:"objectVersion"`
 	ModelVersion         *string              `mandatory:"false" json:"modelVersion"`
 	ParentRef            *ParentReference     `mandatory:"false" json:"parentRef"`
 	Name                 *string              `mandatory:"false" json:"name"`
@@ -60,6 +58,8 @@ type updateconnectiondetails struct {
 	Identifier           *string              `mandatory:"false" json:"identifier"`
 	ConnectionProperties []ConnectionProperty `mandatory:"false" json:"connectionProperties"`
 	RegistryMetadata     *RegistryMetadata    `mandatory:"false" json:"registryMetadata"`
+	Key                  *string              `mandatory:"true" json:"key"`
+	ObjectVersion        *int                 `mandatory:"true" json:"objectVersion"`
 	ModelType            string               `json:"modelType"`
 }
 
@@ -172,54 +172,54 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetKey returns Key
-func (m updateconnectiondetails) GetKey() *string {
-	return m.Key
-}
-
-//GetObjectVersion returns ObjectVersion
-func (m updateconnectiondetails) GetObjectVersion() *int {
-	return m.ObjectVersion
-}
-
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m updateconnectiondetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m updateconnectiondetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m updateconnectiondetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m updateconnectiondetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m updateconnectiondetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m updateconnectiondetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetConnectionProperties returns ConnectionProperties
+// GetConnectionProperties returns ConnectionProperties
 func (m updateconnectiondetails) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m updateconnectiondetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
+}
+
+// GetKey returns Key
+func (m updateconnectiondetails) GetKey() *string {
+	return m.Key
+}
+
+// GetObjectVersion returns ObjectVersion
+func (m updateconnectiondetails) GetObjectVersion() *int {
+	return m.ObjectVersion
 }
 
 func (m updateconnectiondetails) String() string {

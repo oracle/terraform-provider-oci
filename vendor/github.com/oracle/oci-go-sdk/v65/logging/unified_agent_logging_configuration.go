@@ -82,7 +82,6 @@ func (m *UnifiedAgentLoggingConfiguration) UnmarshalJSON(data []byte) (e error) 
 			m.Sources[i] = nil
 		}
 	}
-
 	m.Destination = model.Destination
 
 	return

@@ -35,9 +35,9 @@ type ImportInventoryDetails interface {
 
 type importinventorydetails struct {
 	JsonData      []byte
-	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	FreeformTags  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	CompartmentId *string                           `mandatory:"true" json:"compartmentId"`
 	ResourceType  string                            `json:"resourceType"`
 }
 
@@ -79,19 +79,19 @@ func (m *importinventorydetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 	}
 }
 
-//GetCompartmentId returns CompartmentId
-func (m importinventorydetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m importinventorydetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m importinventorydetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetCompartmentId returns CompartmentId
+func (m importinventorydetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 func (m importinventorydetails) String() string {

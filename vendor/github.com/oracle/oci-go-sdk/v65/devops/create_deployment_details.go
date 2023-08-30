@@ -34,10 +34,10 @@ type CreateDeploymentDetails interface {
 
 type createdeploymentdetails struct {
 	JsonData         []byte
-	DeployPipelineId *string                           `mandatory:"true" json:"deployPipelineId"`
 	DisplayName      *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	DeployPipelineId *string                           `mandatory:"true" json:"deployPipelineId"`
 	DeploymentType   string                            `json:"deploymentType"`
 }
 
@@ -92,24 +92,24 @@ func (m *createdeploymentdetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetDeployPipelineId returns DeployPipelineId
-func (m createdeploymentdetails) GetDeployPipelineId() *string {
-	return m.DeployPipelineId
-}
-
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m createdeploymentdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m createdeploymentdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m createdeploymentdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetDeployPipelineId returns DeployPipelineId
+func (m createdeploymentdetails) GetDeployPipelineId() *string {
+	return m.DeployPipelineId
 }
 
 func (m createdeploymentdetails) String() string {

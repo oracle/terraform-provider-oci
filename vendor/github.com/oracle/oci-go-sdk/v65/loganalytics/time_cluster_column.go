@@ -190,10 +190,7 @@ func (m *TimeClusterColumn) UnmarshalJSON(data []byte) (e error) {
 	m.SubSystem = model.SubSystem
 
 	m.Values = make([]FieldValue, len(model.Values))
-	for i, n := range model.Values {
-		m.Values[i] = n
-	}
-
+	copy(m.Values, model.Values)
 	m.IsListOfValues = model.IsListOfValues
 
 	m.IsMultiValued = model.IsMultiValued
@@ -213,10 +210,7 @@ func (m *TimeClusterColumn) UnmarshalJSON(data []byte) (e error) {
 	m.IntervalGap = model.IntervalGap
 
 	m.Intervals = make([]int64, len(model.Intervals))
-	for i, n := range model.Intervals {
-		m.Intervals[i] = n
-	}
-
+	copy(m.Intervals, model.Intervals)
 	m.GroupByColumns = make([]AbstractColumn, len(model.GroupByColumns))
 	for i, n := range model.GroupByColumns {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -229,13 +223,9 @@ func (m *TimeClusterColumn) UnmarshalJSON(data []byte) (e error) {
 			m.GroupByColumns[i] = nil
 		}
 	}
-
 	m.Clusters = model.Clusters
 
 	m.Series = make([]TimeClusterDataColumn, len(model.Series))
-	for i, n := range model.Series {
-		m.Series[i] = n
-	}
-
+	copy(m.Series, model.Series)
 	return
 }

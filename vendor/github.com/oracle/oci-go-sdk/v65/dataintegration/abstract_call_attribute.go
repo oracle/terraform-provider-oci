@@ -69,7 +69,7 @@ func (m *abstractcallattribute) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
-//GetFetchSize returns FetchSize
+// GetFetchSize returns FetchSize
 func (m abstractcallattribute) GetFetchSize() *int {
 	return m.FetchSize
 }

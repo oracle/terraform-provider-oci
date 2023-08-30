@@ -50,14 +50,17 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 	nsg_ids = var.deployment_nsg_ids
 	ogg_data {
 		#Required
-		admin_password = var.deployment_ogg_data_admin_password
-		admin_username = var.deployment_ogg_data_admin_username
 		deployment_name = oci_golden_gate_deployment.test_deployment.name
 
 		#Optional
+		admin_password = var.deployment_ogg_data_admin_password
+		admin_username = var.deployment_ogg_data_admin_username
 		certificate = var.deployment_ogg_data_certificate
+		credential_store = var.deployment_ogg_data_credential_store
+		identity_domain_id = oci_identity_domain.test_domain.id
 		key = var.deployment_ogg_data_key
 		ogg_version = var.deployment_ogg_data_ogg_version
+		password_secret_id = oci_vault_secret.test_secret.id
 	}
 	state = var.deployment_state
 }
@@ -90,12 +93,15 @@ The following arguments are supported:
 	* `start_hour` - (Required) (Updatable) Start hour for maintenance period. Hour is in UTC. 
 * `nsg_ids` - (Optional) (Updatable) An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
 * `ogg_data` - (Optional) (Updatable) Deployment Data for creating an OggDeployment 
-	* `admin_password` - (Required) (Updatable) The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as '$', '^', or '?' are not allowed. 
-	* `admin_username` - (Required) (Updatable) The GoldenGate deployment console username. 
+	* `admin_password` - (Optional) (Updatable) The password associated with the GoldenGate deployment console username. The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric, and 1 special character. Special characters such as ‘$’, ‘^’, or ‘?’ are not allowed. This field will be deprecated and replaced by "passwordSecretId". 
+	* `admin_username` - (Optional) (Updatable) The GoldenGate deployment console username. 
 	* `certificate` - (Optional) (Updatable) A PEM-encoded SSL certificate. 
+	* `credential_store` - (Optional) (Updatable) The type of credential store for OGG. 
 	* `deployment_name` - (Required) The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
+	* `identity_domain_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
 	* `key` - (Optional) (Updatable) A PEM-encoded private key. 
 	* `ogg_version` - (Optional) (Updatable) Version of ogg to use by deployment. By updating version you can upgrade your deployment to a newer version. Downgrade to older version is not supported.
+    * `password_secret_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored.
 * `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
 * `state` - (Optional) (Updatable) The target state for the deployment. Could be set to ACTIVE or INACTIVE. By setting this value to ACTIVE terraform will perform start operation, if your deployment is not ACTIVE already. Setting value to INACTIVE will stop your deployment.
 
@@ -148,8 +154,11 @@ The following attributes are exported:
 * `ogg_data` - Deployment Data for an OggDeployment 
 	* `admin_username` - The GoldenGate deployment console username. 
 	* `certificate` - A PEM-encoded SSL certificate. 
+	* `credential_store` - The type of credential store for OGG. 
 	* `deployment_name` - The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
+	* `identity_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
 	* `ogg_version` - Version of OGG 
+	* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored. 
 * `private_ip_address` - The private IP address in the customer's VCN representing the access point for the associated endpoint service in the GoldenGate service VCN. 
 * `public_ip_address` - The public IP address representing the access point for the Deployment. 
 * `state` - Possible lifecycle states. 

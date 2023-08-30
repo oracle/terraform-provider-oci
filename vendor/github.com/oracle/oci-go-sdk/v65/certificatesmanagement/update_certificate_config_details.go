@@ -80,12 +80,12 @@ func (m *updatecertificateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetVersionName returns VersionName
+// GetVersionName returns VersionName
 func (m updatecertificateconfigdetails) GetVersionName() *string {
 	return m.VersionName
 }
 
-//GetStage returns Stage
+// GetStage returns Stage
 func (m updatecertificateconfigdetails) GetStage() UpdateCertificateConfigDetailsStageEnum {
 	return m.Stage
 }

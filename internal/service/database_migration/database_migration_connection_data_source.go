@@ -118,6 +118,12 @@ func (s *DatabaseMigrationConnectionDataSourceCrud) SetData() error {
 		s.D.Set("private_endpoint", nil)
 	}
 
+	if s.Res.ReplicationCredentials != nil {
+		s.D.Set("replication_credentials", []interface{}{AdminCredentialsToMapPassword(s.Res.ReplicationCredentials, s.D)})
+	} else {
+		s.D.Set("replication_credentials", nil)
+	}
+
 	if s.Res.SshDetails != nil {
 		s.D.Set("ssh_details", []interface{}{SshDetailsToMap(s.Res.SshDetails)})
 	} else {

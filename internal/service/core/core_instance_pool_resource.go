@@ -60,10 +60,6 @@ func CoreInstancePoolResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 						},
-						"primary_subnet_id": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 
 						// Optional
 						"fault_domains": {
@@ -73,6 +69,55 @@ func CoreInstancePoolResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type:             schema.TypeString,
 								DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							},
+						},
+						"primary_subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"primary_vnic_subnets": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"subnet_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"ipv6address_ipv6subnet_cidr_pair_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"ipv6subnet_cidr": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"is_assign_ipv6ip": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
 							},
 						},
 						"secondary_vnic_subnets": {
@@ -90,6 +135,30 @@ func CoreInstancePoolResource() *schema.Resource {
 									// Optional
 									"display_name": {
 										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"ipv6address_ipv6subnet_cidr_pair_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"ipv6subnet_cidr": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"is_assign_ipv6ip": {
+										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
 									},
@@ -705,6 +774,17 @@ func (s *CoreInstancePoolResourceCrud) mapToCreateInstancePoolPlacementConfigura
 		result.PrimarySubnetId = &tmp
 	}
 
+	if primaryVnicSubnets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_vnic_subnets")); ok {
+		if tmpList := primaryVnicSubnets.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "primary_vnic_subnets"), 0)
+			tmp, err := s.mapToInstancePoolPlacementPrimarySubnet(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert primary_vnic_subnets, encountered error: %v", err)
+			}
+			result.PrimaryVnicSubnets = &tmp
+		}
+	}
+
 	if secondaryVnicSubnets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secondary_vnic_subnets")); ok {
 		interfaces := secondaryVnicSubnets.([]interface{})
 		tmp := make([]oci_core.InstancePoolPlacementSecondaryVnicSubnet, len(interfaces))
@@ -782,11 +862,89 @@ func InstancePoolPlacementConfigurationToMap(obj oci_core.InstancePoolPlacementC
 		result["primary_subnet_id"] = string(*obj.PrimarySubnetId)
 	}
 
+	if obj.PrimaryVnicSubnets != nil {
+		result["primary_vnic_subnets"] = []interface{}{InstancePoolPlacementPrimarySubnetToMap(obj.PrimaryVnicSubnets)}
+	}
+
 	secondaryVnicSubnets := []interface{}{}
 	for _, item := range obj.SecondaryVnicSubnets {
 		secondaryVnicSubnets = append(secondaryVnicSubnets, InstancePoolPlacementSecondaryVnicSubnetToMap(item))
 	}
 	result["secondary_vnic_subnets"] = secondaryVnicSubnets
+
+	return result
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails(fieldKeyFormat string) (oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails, error) {
+	result := oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails{}
+
+	if ipv6SubnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6subnet_cidr")); ok {
+		tmp := ipv6SubnetCidr.(string)
+		result.Ipv6SubnetCidr = &tmp
+	}
+
+	return result, nil
+}
+
+func InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetailsToMap(obj oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Ipv6SubnetCidr != nil {
+		result["ipv6subnet_cidr"] = string(*obj.Ipv6SubnetCidr)
+	}
+
+	return result
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolPlacementPrimarySubnet(fieldKeyFormat string) (oci_core.InstancePoolPlacementPrimarySubnet, error) {
+	result := oci_core.InstancePoolPlacementPrimarySubnet{}
+
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")); ok {
+		interfaces := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{})
+		tmp := make([]oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details"), stateDataIndex)
+			converted, err := s.mapToInstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")) {
+			result.Ipv6AddressIpv6SubnetCidrPairDetails = tmp
+		}
+	}
+
+	if isAssignIpv6Ip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_assign_ipv6ip")); ok {
+		tmp := isAssignIpv6Ip.(bool)
+		result.IsAssignIpv6Ip = &tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	return result, nil
+}
+
+func InstancePoolPlacementPrimarySubnetToMap(obj *oci_core.InstancePoolPlacementPrimarySubnet) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	ipv6AddressIpv6SubnetCidrPairDetails := []interface{}{}
+	for _, item := range obj.Ipv6AddressIpv6SubnetCidrPairDetails {
+		ipv6AddressIpv6SubnetCidrPairDetails = append(ipv6AddressIpv6SubnetCidrPairDetails, InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetailsToMap(item))
+	}
+	result["ipv6address_ipv6subnet_cidr_pair_details"] = ipv6AddressIpv6SubnetCidrPairDetails
+
+	if obj.IsAssignIpv6Ip != nil {
+		result["is_assign_ipv6ip"] = bool(*obj.IsAssignIpv6Ip)
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
+	}
 
 	return result
 }
@@ -797,6 +955,28 @@ func (s *CoreInstancePoolResourceCrud) mapToInstancePoolPlacementSecondaryVnicSu
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
 		result.DisplayName = &tmp
+	}
+
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")); ok {
+		interfaces := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{})
+		tmp := make([]oci_core.InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details"), stateDataIndex)
+			converted, err := s.mapToInstancePoolPlacementIpv6AddressIpv6SubnetCidrDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")) {
+			result.Ipv6AddressIpv6SubnetCidrPairDetails = tmp
+		}
+	}
+
+	if isAssignIpv6Ip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_assign_ipv6ip")); ok {
+		tmp := isAssignIpv6Ip.(bool)
+		result.IsAssignIpv6Ip = &tmp
 	}
 
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
@@ -812,6 +992,18 @@ func InstancePoolPlacementSecondaryVnicSubnetToMap(obj oci_core.InstancePoolPlac
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	ipv6AddressIpv6SubnetCidrPairDetails := []interface{}{}
+	for _, item := range obj.Ipv6AddressIpv6SubnetCidrPairDetails {
+		ipv6AddressIpv6SubnetCidrPairDetails = append(ipv6AddressIpv6SubnetCidrPairDetails, InstancePoolPlacementIpv6AddressIpv6SubnetCidrDetailsToMap(item))
+	}
+	result["ipv6address_ipv6subnet_cidr_pair_details"] = ipv6AddressIpv6SubnetCidrPairDetails
+
+	if obj.IsAssignIpv6Ip != nil {
+		result["is_assign_ipv6ip"] = bool(*obj.IsAssignIpv6Ip)
+	} else {
+		result["is_assign_ipv6ip"] = false
 	}
 
 	if obj.SubnetId != nil {

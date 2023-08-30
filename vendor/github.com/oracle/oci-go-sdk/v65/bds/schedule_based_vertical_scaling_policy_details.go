@@ -107,7 +107,6 @@ func (m *ScheduleBasedVerticalScalingPolicyDetails) UnmarshalJSON(data []byte) (
 			m.ScheduleDetails[i] = nil
 		}
 	}
-
 	m.TriggerType = model.TriggerType
 
 	m.ActionType = model.ActionType

@@ -58,12 +58,6 @@ type DbSystem struct {
 
 	CurrentPlacement *DbSystemPlacement `mandatory:"false" json:"currentPlacement"`
 
-	// DEPRECATED -- please use `isHeatWaveClusterAttached` instead.
-	// If the DB System has an Analytics Cluster attached.
-	IsAnalyticsClusterAttached *bool `mandatory:"false" json:"isAnalyticsClusterAttached"`
-
-	AnalyticsCluster *AnalyticsClusterSummary `mandatory:"false" json:"analyticsCluster"`
-
 	// If the DB System has a HeatWave Cluster attached.
 	IsHeatWaveClusterAttached *bool `mandatory:"false" json:"isHeatWaveClusterAttached"`
 
@@ -167,8 +161,6 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		Description                *string                           `json:"description"`
 		IsHighlyAvailable          *bool                             `json:"isHighlyAvailable"`
 		CurrentPlacement           *DbSystemPlacement                `json:"currentPlacement"`
-		IsAnalyticsClusterAttached *bool                             `json:"isAnalyticsClusterAttached"`
-		AnalyticsCluster           *AnalyticsClusterSummary          `json:"analyticsCluster"`
 		IsHeatWaveClusterAttached  *bool                             `json:"isHeatWaveClusterAttached"`
 		HeatWaveCluster            *HeatWaveClusterSummary           `json:"heatWaveCluster"`
 		AvailabilityDomain         *string                           `json:"availabilityDomain"`
@@ -212,10 +204,6 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 
 	m.CurrentPlacement = model.CurrentPlacement
 
-	m.IsAnalyticsClusterAttached = model.IsAnalyticsClusterAttached
-
-	m.AnalyticsCluster = model.AnalyticsCluster
-
 	m.IsHeatWaveClusterAttached = model.IsHeatWaveClusterAttached
 
 	m.HeatWaveCluster = model.HeatWaveCluster
@@ -249,15 +237,9 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.PortX = model.PortX
 
 	m.Endpoints = make([]DbSystemEndpoint, len(model.Endpoints))
-	for i, n := range model.Endpoints {
-		m.Endpoints[i] = n
-	}
-
+	copy(m.Endpoints, model.Endpoints)
 	m.Channels = make([]ChannelSummary, len(model.Channels))
-	for i, n := range model.Channels {
-		m.Channels[i] = n
-	}
-
+	copy(m.Channels, model.Channels)
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags

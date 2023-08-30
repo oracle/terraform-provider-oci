@@ -67,7 +67,7 @@ func (m *configurationitemscollection) UnmarshalPolymorphicJSON(data []byte) (in
 	}
 }
 
-//GetConfigItems returns ConfigItems
+// GetConfigItems returns ConfigItems
 func (m configurationitemscollection) GetConfigItems() json.RawMessage {
 	return m.ConfigItems
 }

@@ -87,12 +87,14 @@ resource "oci_core_instance" "test_instance" {
 	create_vnic_details {
 
 		#Optional
+		assign_ipv6ip = var.instance_create_vnic_details_assign_ipv6ip
 		assign_private_dns_record = var.instance_create_vnic_details_assign_private_dns_record
 		assign_public_ip = var.instance_create_vnic_details_assign_public_ip
 		defined_tags = {"Operations.CostCenter"= "42"}
 		display_name = var.instance_create_vnic_details_display_name
 		freeform_tags = {"Department"= "Finance"}
 		hostname_label = var.instance_create_vnic_details_hostname_label
+		ipv6address_ipv6subnet_cidr_pair_details = var.instance_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details
 		nsg_ids = var.instance_create_vnic_details_nsg_ids
 		private_ip = var.instance_create_vnic_details_private_ip
 		skip_source_dest_check = var.instance_create_vnic_details_skip_source_dest_check
@@ -134,6 +136,7 @@ resource "oci_core_instance" "test_instance" {
 
 		#Optional
 		are_virtual_instructions_enabled = var.instance_platform_config_are_virtual_instructions_enabled
+		config_map = var.instance_platform_config_config_map
 		is_access_control_service_enabled = var.instance_platform_config_is_access_control_service_enabled
 		is_input_output_memory_management_unit_enabled = var.instance_platform_config_is_input_output_memory_management_unit_enabled
 		is_measured_boot_enabled = var.instance_platform_config_is_measured_boot_enabled
@@ -230,8 +233,8 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment.
 * `compute_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in. 
 * `create_vnic_details` - (Optional) (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
-	* `assign_private_dns_record` - (Optional) Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. The default value is true.  Example: `true`
-
+	* `assign_ipv6ip` - (Optional) Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr` is not provided then an IPv6 prefix is chosen for you. 
+	* `assign_private_dns_record` - (Optional) Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. The default value is true.
 		If you specify a `hostnameLabel`, the `assignPrivateDnsRecord` is require to be set to true. 
 	* `assign_public_ip` - (Optional) (Updatable) Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is public or private. If not set and the VNIC is being created in a private subnet (that is, where `prohibitPublicIpOnVnic` = true in the [Subnet](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Subnet/)), then no public IP address is assigned. If not set and the subnet is public (`prohibitPublicIpOnVnic` = false), then a public IP address is assigned. If set to true and `prohibitPublicIpOnVnic` = true, an error is returned.
 
@@ -254,6 +257,7 @@ The following arguments are supported:
 		Example: `bminstance1`
 
 		If you specify a `vlanId`, the `hostnameLabel` cannot be specified. VNICs on a VLAN can not be assigned a hostname. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
+	* `ipv6address_ipv6subnet_cidr_pair_details` - (Optional) A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range. 
 	* `nsg_ids` - (Optional) (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/).
 
 		If a `vlanId` is specified, the `nsgIds` cannot be specified. The `vlanId` indicates that the VNIC will belong to a VLAN instead of a subnet. With VLANs, all VNICs in the VLAN belong to the NSGs that are associated with the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
@@ -376,18 +380,19 @@ The following arguments are supported:
 	For more information about shielded instances, see [Shielded Instances](https://docs.cloud.oracle. com/iaas/Content/Compute/References/shielded-instances.htm).
 
 	For more information about BIOS settings for bare metal instances, see [BIOS Settings for Bare Metal Instances](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bios-settings.htm). 
-	* `are_virtual_instructions_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes. 
-	* `is_access_control_service_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through. 
-	* `is_input_output_memory_management_unit_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether the input-output memory management unit is enabled. 
+	* `are_virtual_instructions_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes. 
+	* `config_map` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Instance Platform Configuration Configuration Map for flexible setting input. 
+	* `is_access_control_service_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through. 
+	* `is_input_output_memory_management_unit_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Whether the input-output memory management unit is enabled. 
 	* `is_measured_boot_enabled` - (Optional) Whether the Measured Boot feature is enabled on the instance. 
 	* `is_memory_encryption_enabled` - (Optional) Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`. 
 	* `is_secure_boot_enabled` - (Optional) Whether Secure Boot is enabled on the instance. 
-	* `is_symmetric_multi_threading_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+	* `is_symmetric_multi_threading_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
 
 		Intel and AMD processors have two hardware execution threads per core (OCPU). SMT permits multiple independent threads of execution, to better use the resources and increase the efficiency of the CPU. When multithreading is disabled, only one thread is permitted to run on each core, which can provide higher or more predictable performance for some workloads. 
 	* `is_trusted_platform_module_enabled` - (Optional) Whether the Trusted Platform Module (TPM) is enabled on the instance. 
-	* `numa_nodes_per_socket` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) The number of NUMA nodes per socket (NPS). 
-	* `percentage_of_cores_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | INTEL_ICELAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
+	* `numa_nodes_per_socket` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The number of NUMA nodes per socket (NPS). 
+	* `percentage_of_cores_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
 
 		If the applications that you run on the instance use a core-based licensing model and need fewer cores than the full size of the shape, you can disable cores to reduce your licensing costs. The instance itself is billed for the full shape, regardless of whether all cores are enabled. 
 	* `type` - (Required) The type of platform being configured. 
@@ -538,6 +543,7 @@ The following attributes are exported:
 
 * `platform_config` - The platform configuration for the instance. 
 	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes. 
+	* `config_map` - Instance Platform Configuration Configuration Map for flexible setting input. 
 	* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through. 
 	* `is_input_output_memory_management_unit_enabled` - Whether the input-output memory management unit is enabled. 
 	* `is_measured_boot_enabled` - Whether the Measured Boot feature is enabled on the instance. 

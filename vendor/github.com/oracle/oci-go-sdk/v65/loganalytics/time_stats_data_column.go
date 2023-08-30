@@ -190,10 +190,7 @@ func (m *TimeStatsDataColumn) UnmarshalJSON(data []byte) (e error) {
 	m.SubSystem = model.SubSystem
 
 	m.Values = make([]FieldValue, len(model.Values))
-	for i, n := range model.Values {
-		m.Values[i] = n
-	}
-
+	copy(m.Values, model.Values)
 	m.IsListOfValues = model.IsListOfValues
 
 	m.IsMultiValued = model.IsMultiValued
@@ -222,12 +219,8 @@ func (m *TimeStatsDataColumn) UnmarshalJSON(data []byte) (e error) {
 			m.Columns[i] = nil
 		}
 	}
-
 	m.Result = make([]map[string]interface{}, len(model.Result))
-	for i, n := range model.Result {
-		m.Result[i] = n
-	}
-
+	copy(m.Result, model.Result)
 	m.ResultCount = model.ResultCount
 
 	m.TotalCount = model.TotalCount

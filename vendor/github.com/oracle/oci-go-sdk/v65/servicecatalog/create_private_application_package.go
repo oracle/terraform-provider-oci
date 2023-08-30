@@ -65,7 +65,7 @@ func (m *createprivateapplicationpackage) UnmarshalPolymorphicJSON(data []byte) 
 	}
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m createprivateapplicationpackage) GetVersion() *string {
 	return m.Version
 }

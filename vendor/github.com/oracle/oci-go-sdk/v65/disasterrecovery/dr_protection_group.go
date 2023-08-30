@@ -141,7 +141,6 @@ func (m *DrProtectionGroup) UnmarshalJSON(data []byte) (e error) {
 			m.Members[i] = nil
 		}
 	}
-
 	m.LifeCycleDetails = model.LifeCycleDetails
 
 	m.FreeformTags = model.FreeformTags

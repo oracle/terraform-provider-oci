@@ -50,7 +50,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `byoipv6cidr_blocks` - The list of BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 ranges. 
-* `cidr_block` - Deprecated. The first CIDR IP address from cidr_blocks.  Example: `172.16.0.0/16` 
+* `cidr_block` - Deprecated. The first CIDR IP address from cidrBlocks.  Example: `172.16.0.0/16` 
 * `cidr_blocks` - The list of IPv4 CIDR blocks the VCN will use. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the VCN.
 * `default_dhcp_options_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the VCN's default set of DHCP options. 

@@ -203,6 +203,31 @@ func DatabaseMigrationConnectionResource() *schema.Resource {
 					},
 				},
 			},
+			"replication_credentials": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"password": {
+							Type:      schema.TypeString,
+							Required:  true,
+							Sensitive: true,
+						},
+						"username": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"ssh_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -428,6 +453,17 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 				return err
 			}
 			request.PrivateEndpoint = &tmp
+		}
+	}
+
+	if replicationCredentials, ok := s.D.GetOkExists("replication_credentials"); ok {
+		if tmpList := replicationCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_credentials", 0)
+			tmp, err := s.mapToCreateAdminCredentials(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicationCredentials = &tmp
 		}
 	}
 
@@ -696,6 +732,17 @@ func (s *DatabaseMigrationConnectionResourceCrud) Update() error {
 		}
 	}
 
+	if replicationCredentials, ok := s.D.GetOkExists("replication_credentials"); ok {
+		if tmpList := replicationCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_credentials", 0)
+			tmp, err := s.mapToUpdateAdminCredentials(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicationCredentials = &tmp
+		}
+	}
+
 	if sshDetails, ok := s.D.GetOkExists("ssh_details"); ok {
 		if tmpList := sshDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssh_details", 0)
@@ -816,6 +863,12 @@ func (s *DatabaseMigrationConnectionResourceCrud) SetData() error {
 		s.D.Set("private_endpoint", nil)
 	}
 
+	if s.Res.ReplicationCredentials != nil {
+		s.D.Set("replication_credentials", []interface{}{AdminCredentialsToMapPassword2(s.Res.ReplicationCredentials, s.D)})
+	} else {
+		s.D.Set("replication_credentials", nil)
+	}
+
 	if s.Res.SshDetails != nil {
 		s.D.Set("ssh_details", []interface{}{SshDetailsToMapPass(s.Res.SshDetails, s.D)})
 
@@ -933,11 +986,6 @@ func (s *DatabaseMigrationConnectionResourceCrud) mapToUpdateAdminCredentials(fi
 
 func AdminCredentialsToMap(obj *oci_database_migration.AdminCredentials) map[string]interface{} {
 	result := map[string]interface{}{}
-	/*
-		if obj.Password != nil {
-			result["password"] = string(*obj.Password)
-		}
-	*/
 	if obj.Username != nil {
 		result["username"] = string(*obj.Username)
 	}
@@ -955,6 +1003,18 @@ func AdminCredentialsToMapPassword(obj *oci_database_migration.AdminCredentials,
 				result["password"] = &tmp
 			}
 		}
+	}
+
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
+	}
+	return result
+}
+
+func AdminCredentialsToMapPassword2(obj *oci_database_migration.AdminCredentials, resourceData *schema.ResourceData) map[string]interface{} {
+	result := map[string]interface{}{}
+	if adminPass, ok := resourceData.GetOkExists("replication_credentials.0.password"); ok && adminPass != nil {
+		result["password"] = adminPass.(string)
 	}
 
 	if obj.Username != nil {
@@ -1023,17 +1083,17 @@ func (s *DatabaseMigrationConnectionResourceCrud) mapToCreateConnectDescriptor(f
 		result.ConnectString = &tmp
 	}
 
-	if databaseServiceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_service_name")); ok {
+	if databaseServiceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_service_name")); ok && s.D.HasChange("database_service_name") {
 		tmp := databaseServiceName.(string)
 		result.DatabaseServiceName = &tmp
 	}
 
-	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok {
+	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok && s.D.HasChange("host") {
 		tmp := host.(string)
 		result.Host = &tmp
 	}
 
-	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok && s.D.HasChange("port") {
 		tmp := port.(int)
 		result.Port = &tmp
 	}
@@ -1075,15 +1135,15 @@ func ConnectDescriptorToMap(obj *oci_database_migration.ConnectDescriptor) map[s
 	}
 
 	if obj.DatabaseServiceName != nil {
-		result["database_service_name"] = string(*obj.DatabaseServiceName)
+		result["database_service_name"] = *obj.DatabaseServiceName
 	}
 
 	if obj.Host != nil {
-		result["host"] = string(*obj.Host)
+		result["host"] = *obj.Host
 	}
 
 	if obj.Port != nil {
-		result["port"] = int(*obj.Port)
+		result["port"] = *obj.Port
 	}
 
 	return result

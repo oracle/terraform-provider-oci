@@ -74,12 +74,12 @@ func (m *paymentoption) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 	}
 }
 
-//GetWalletInstrumentId returns WalletInstrumentId
+// GetWalletInstrumentId returns WalletInstrumentId
 func (m paymentoption) GetWalletInstrumentId() *string {
 	return m.WalletInstrumentId
 }
 
-//GetWalletTransactionId returns WalletTransactionId
+// GetWalletTransactionId returns WalletTransactionId
 func (m paymentoption) GetWalletTransactionId() *string {
 	return m.WalletTransactionId
 }

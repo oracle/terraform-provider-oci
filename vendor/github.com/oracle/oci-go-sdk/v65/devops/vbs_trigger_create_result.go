@@ -230,7 +230,6 @@ func (m *VbsTriggerCreateResult) UnmarshalJSON(data []byte) (e error) {
 			m.Actions[i] = nil
 		}
 	}
-
 	m.Secret = model.Secret
 
 	m.TriggerUrl = model.TriggerUrl

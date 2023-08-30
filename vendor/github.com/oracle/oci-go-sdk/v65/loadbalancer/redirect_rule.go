@@ -104,6 +104,5 @@ func (m *RedirectRule) UnmarshalJSON(data []byte) (e error) {
 			m.Conditions[i] = nil
 		}
 	}
-
 	return
 }

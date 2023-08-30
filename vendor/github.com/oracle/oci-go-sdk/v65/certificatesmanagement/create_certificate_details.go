@@ -91,7 +91,6 @@ func (m *CreateCertificateDetails) UnmarshalJSON(data []byte) (e error) {
 			m.CertificateRules[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

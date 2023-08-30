@@ -105,7 +105,6 @@ func (m *CreateWebAppFirewallPolicyDetails) UnmarshalJSON(data []byte) (e error)
 			m.Actions[i] = nil
 		}
 	}
-
 	m.RequestAccessControl = model.RequestAccessControl
 
 	m.RequestRateLimiting = model.RequestRateLimiting

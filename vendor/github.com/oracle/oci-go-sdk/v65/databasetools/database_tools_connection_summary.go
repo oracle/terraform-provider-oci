@@ -55,16 +55,16 @@ type DatabaseToolsConnectionSummary interface {
 
 type databasetoolsconnectionsummary struct {
 	JsonData         []byte
+	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
+	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
+	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
 	LifecycleState   LifecycleStateEnum                `mandatory:"true" json:"lifecycleState"`
 	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
-	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	Type             string                            `json:"type"`
 }
 
@@ -117,54 +117,54 @@ func (m *databasetoolsconnectionsummary) UnmarshalPolymorphicJSON(data []byte) (
 	}
 }
 
-//GetId returns Id
-func (m databasetoolsconnectionsummary) GetId() *string {
-	return m.Id
-}
-
-//GetDisplayName returns DisplayName
-func (m databasetoolsconnectionsummary) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetCompartmentId returns CompartmentId
-func (m databasetoolsconnectionsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-//GetLifecycleState returns LifecycleState
-func (m databasetoolsconnectionsummary) GetLifecycleState() LifecycleStateEnum {
-	return m.LifecycleState
-}
-
-//GetTimeCreated returns TimeCreated
-func (m databasetoolsconnectionsummary) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-//GetTimeUpdated returns TimeUpdated
-func (m databasetoolsconnectionsummary) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m databasetoolsconnectionsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m databasetoolsconnectionsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m databasetoolsconnectionsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m databasetoolsconnectionsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetId returns Id
+func (m databasetoolsconnectionsummary) GetId() *string {
+	return m.Id
+}
+
+// GetDisplayName returns DisplayName
+func (m databasetoolsconnectionsummary) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m databasetoolsconnectionsummary) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetLifecycleState returns LifecycleState
+func (m databasetoolsconnectionsummary) GetLifecycleState() LifecycleStateEnum {
+	return m.LifecycleState
+}
+
+// GetTimeCreated returns TimeCreated
+func (m databasetoolsconnectionsummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m databasetoolsconnectionsummary) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
 }
 
 func (m databasetoolsconnectionsummary) String() string {

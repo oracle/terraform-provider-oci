@@ -113,7 +113,6 @@ func (m *CreateDocumentJobDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Features[i] = nil
 		}
 	}
-
 	m.OutputLocation = model.OutputLocation
 
 	return

@@ -154,3 +154,21 @@ data "oci_database_cloud_exadata_infrastructure_un_allocated_resource" "test_clo
   #Optional
   db_servers = var.cloud_exadata_infrastructure_un_allocated_resource_db_servers
 }
+
+data "oci_database_autonomous_container_database_resource_usage" "test_autonomous_container_database_resource_usages" {
+  #Required
+  autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+}
+
+data "oci_database_cloud_autonomous_vm_cluster_acd_resource_usages" "test_cloud_autonomous_vm_cluster_acd_resource_usages" {
+  #Required
+  cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
+
+  #Optional
+  compartment_id = var.compartment_ocid
+}
+
+data "oci_database_cloud_autonomous_vm_cluster_resource_usage" "test_cloud_autonomous_vm_cluster_resource_usages" {
+  #Required
+  cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
+}

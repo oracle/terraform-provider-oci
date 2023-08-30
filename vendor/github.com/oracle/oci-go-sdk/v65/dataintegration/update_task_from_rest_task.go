@@ -253,20 +253,11 @@ func (m *UpdateTaskFromRestTask) UnmarshalJSON(data []byte) (e error) {
 	m.Identifier = model.Identifier
 
 	m.InputPorts = make([]InputPort, len(model.InputPorts))
-	for i, n := range model.InputPorts {
-		m.InputPorts[i] = n
-	}
-
+	copy(m.InputPorts, model.InputPorts)
 	m.OutputPorts = make([]OutputPort, len(model.OutputPorts))
-	for i, n := range model.OutputPorts {
-		m.OutputPorts[i] = n
-	}
-
+	copy(m.OutputPorts, model.OutputPorts)
 	m.Parameters = make([]Parameter, len(model.Parameters))
-	for i, n := range model.Parameters {
-		m.Parameters[i] = n
-	}
-
+	copy(m.Parameters, model.Parameters)
 	m.OpConfigValues = model.OpConfigValues
 
 	m.ConfigProviderDelegate = model.ConfigProviderDelegate
@@ -308,10 +299,7 @@ func (m *UpdateTaskFromRestTask) UnmarshalJSON(data []byte) (e error) {
 	m.PollRestCallConfig = model.PollRestCallConfig
 
 	m.TypedExpressions = make([]TypedExpression, len(model.TypedExpressions))
-	for i, n := range model.TypedExpressions {
-		m.TypedExpressions[i] = n
-	}
-
+	copy(m.TypedExpressions, model.TypedExpressions)
 	m.Key = model.Key
 
 	m.ObjectVersion = model.ObjectVersion

@@ -72,12 +72,12 @@ func (m *importableagententitysummary) UnmarshalPolymorphicJSON(data []byte) (in
 	}
 }
 
-//GetManagementAgentId returns ManagementAgentId
+// GetManagementAgentId returns ManagementAgentId
 func (m importableagententitysummary) GetManagementAgentId() *string {
 	return m.ManagementAgentId
 }
 
-//GetManagementAgentDisplayName returns ManagementAgentDisplayName
+// GetManagementAgentDisplayName returns ManagementAgentDisplayName
 func (m importableagententitysummary) GetManagementAgentDisplayName() *string {
 	return m.ManagementAgentDisplayName
 }

@@ -63,9 +63,6 @@ func (m *IngressListenerClientValidationConfig) UnmarshalJSON(data []byte) (e er
 	}
 
 	m.SubjectAlternateNames = make([]string, len(model.SubjectAlternateNames))
-	for i, n := range model.SubjectAlternateNames {
-		m.SubjectAlternateNames[i] = n
-	}
-
+	copy(m.SubjectAlternateNames, model.SubjectAlternateNames)
 	return
 }

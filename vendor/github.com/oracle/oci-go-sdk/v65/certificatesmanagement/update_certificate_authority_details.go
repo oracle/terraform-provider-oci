@@ -106,6 +106,5 @@ func (m *UpdateCertificateAuthorityDetails) UnmarshalJSON(data []byte) (e error)
 			m.CertificateAuthorityRules[i] = nil
 		}
 	}
-
 	return
 }

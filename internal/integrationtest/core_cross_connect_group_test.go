@@ -59,9 +59,10 @@ var (
 	CoreCrossConnectGroupRepresentationCopyForVC = acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{"macsec_properties"}, CoreCrossConnectGroupRepresentation)
 
 	CoreCrossConnectGroupMacsecPropertiesRepresentation = map[string]interface{}{
-		"state":             acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `ENABLED`},
-		"encryption_cipher": acctest.Representation{RepType: acctest.Optional, Create: `AES256_GCM`, Update: `AES256_GCM_XPN`},
-		"primary_key":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCrossConnectGroupMacsecPropertiesPrimaryKeyRepresentation},
+		"state":                          acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `ENABLED`},
+		"encryption_cipher":              acctest.Representation{RepType: acctest.Optional, Create: `AES256_GCM`, Update: `AES256_GCM_XPN`},
+		"is_unprotected_traffic_allowed": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"primary_key":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCrossConnectGroupMacsecPropertiesPrimaryKeyRepresentation},
 	}
 	CoreCrossConnectGroupMacsecPropertiesPrimaryKeyRepresentation = map[string]interface{}{
 		"connectivity_association_key_secret_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.secret_ocid_cak}`},
@@ -141,6 +142,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.is_unprotected_traffic_allowed", "false"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
@@ -175,6 +177,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.is_unprotected_traffic_allowed", "false"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
@@ -204,6 +207,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
+				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.is_unprotected_traffic_allowed", "true"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
@@ -238,6 +242,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.is_unprotected_traffic_allowed", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAKU),
@@ -263,6 +268,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.is_unprotected_traffic_allowed", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),

@@ -56,6 +56,7 @@ type DatabaseConfigurationSummary interface {
 
 type databaseconfigurationsummary struct {
 	JsonData            []byte
+	ProcessorCount      *int                              `mandatory:"false" json:"processorCount"`
 	DatabaseInsightId   *string                           `mandatory:"true" json:"databaseInsightId"`
 	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
 	DatabaseName        *string                           `mandatory:"true" json:"databaseName"`
@@ -65,7 +66,6 @@ type databaseconfigurationsummary struct {
 	CdbName             *string                           `mandatory:"true" json:"cdbName"`
 	DefinedTags         map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 	FreeformTags        map[string]string                 `mandatory:"true" json:"freeformTags"`
-	ProcessorCount      *int                              `mandatory:"false" json:"processorCount"`
 	EntitySource        string                            `json:"entitySource"`
 }
 
@@ -126,54 +126,54 @@ func (m *databaseconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (in
 	}
 }
 
-//GetDatabaseInsightId returns DatabaseInsightId
+// GetProcessorCount returns ProcessorCount
+func (m databaseconfigurationsummary) GetProcessorCount() *int {
+	return m.ProcessorCount
+}
+
+// GetDatabaseInsightId returns DatabaseInsightId
 func (m databaseconfigurationsummary) GetDatabaseInsightId() *string {
 	return m.DatabaseInsightId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m databaseconfigurationsummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDatabaseName returns DatabaseName
+// GetDatabaseName returns DatabaseName
 func (m databaseconfigurationsummary) GetDatabaseName() *string {
 	return m.DatabaseName
 }
 
-//GetDatabaseDisplayName returns DatabaseDisplayName
+// GetDatabaseDisplayName returns DatabaseDisplayName
 func (m databaseconfigurationsummary) GetDatabaseDisplayName() *string {
 	return m.DatabaseDisplayName
 }
 
-//GetDatabaseType returns DatabaseType
+// GetDatabaseType returns DatabaseType
 func (m databaseconfigurationsummary) GetDatabaseType() *string {
 	return m.DatabaseType
 }
 
-//GetDatabaseVersion returns DatabaseVersion
+// GetDatabaseVersion returns DatabaseVersion
 func (m databaseconfigurationsummary) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
 }
 
-//GetCdbName returns CdbName
+// GetCdbName returns CdbName
 func (m databaseconfigurationsummary) GetCdbName() *string {
 	return m.CdbName
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m databaseconfigurationsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m databaseconfigurationsummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
-}
-
-//GetProcessorCount returns ProcessorCount
-func (m databaseconfigurationsummary) GetProcessorCount() *int {
-	return m.ProcessorCount
 }
 
 func (m databaseconfigurationsummary) String() string {

@@ -62,6 +62,7 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 	freeform_tags = {"Department"= "Finance"}
 	ip_mtu = var.virtual_circuit_ip_mtu
 	is_bfd_enabled = var.virtual_circuit_is_bfd_enabled
+	is_transport_mode = var.virtual_circuit_is_transport_mode
 	gateway_id = oci_core_gateway.test_gateway.id
 	provider_service_id = data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id
 	provider_service_key_name = var.virtual_circuit_provider_service_key_name
@@ -117,6 +118,7 @@ The following arguments are supported:
 * `gateway_id` - (Optional) (Updatable) For private virtual circuits only. The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [dynamic routing gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Drg) that this virtual circuit uses. 
 * `ip_mtu` - (Optional) (Updatable) The layer 3 IP MTU to use with this virtual circuit.
 * `is_bfd_enabled` - (Optional) (Updatable) Set to `true` to enable BFD for IPv4 BGP peering, or set to `false` to disable BFD. If this is not set, the default is `false`. 
+* `is_transport_mode` - (Optional) (Updatable) Set to `true` for the virtual circuit to carry only encrypted traffic, or set to `false` for the virtual circuit to carry unencrypted traffic. If this is not set, the default is `false`. 
 * `provider_service_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see [ListFastConnectProviderServices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderServices). 
 * `provider_service_key_name` - (Optional) (Updatable) The service key name offered by the provider (if the customer is connecting via a provider). 
 * `public_prefixes` - (Optional) (Updatable) For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. 
@@ -176,6 +178,7 @@ The following attributes are exported:
 * `id` - The virtual circuit's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 * `ip_mtu` - The layer 3 IP MTU to use on this virtual circuit.
 * `is_bfd_enabled` - Set to `true` to enable BFD for IPv4 BGP peering, or set to `false` to disable BFD. If this is not set, the default is `false`. 
+* `is_transport_mode` - Set to `true` for the virtual circuit to carry only encrypted traffic, or set to `false` for the virtual circuit to carry unencrypted traffic. If this is not set, the default is `false`. 
 * `oracle_bgp_asn` - The Oracle BGP ASN.
 * `provider_service_id` - The OCID of the service offered by the provider (if the customer is connecting via a provider). 
 * `provider_service_key_name` - The service key name offered by the provider (if the customer is connecting via a provider). 

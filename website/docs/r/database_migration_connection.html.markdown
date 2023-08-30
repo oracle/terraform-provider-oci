@@ -53,6 +53,11 @@ resource "oci_database_migration_connection" "test_connection" {
 		subnet_id = oci_core_subnet.test_subnet.id
 		vcn_id = oci_core_vcn.test_vcn.id
 	}
+	replication_credentials {
+		#Required
+		password = var.connection_replication_credentials_password
+		username = var.connection_replication_credentials_username
+	}
 	ssh_details {
 		#Required
 		host = var.connection_ssh_details_host
@@ -91,6 +96,9 @@ The following arguments are supported:
 	* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the private endpoint. 
 	* `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside. 
 	* `vcn_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. 
+* `replication_credentials` - (Optional) (Updatable) Database Administrator Credentials details. 
+	* `password` - (Required) (Updatable) Administrator password 
+	* `username` - (Required) (Updatable) Administrator username 
 * `ssh_details` - (Optional) (Updatable) Details of the SSH key that will be used. Required for source database Manual and UserManagerOci connection types. Not required for source container database connections. 
 	* `host` - (Required) (Updatable) Name of the host the SSH key is valid for. 
 	* `sshkey` - (Required) (Updatable) Private SSH key string. 
@@ -134,6 +142,8 @@ The following attributes are exported:
 	* `id` - [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a previously created Private Endpoint. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside. 
 	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. 
+* `replication_credentials` - Database Administrator Credentials details. 
+	* `username` - Administrator username 
 * `ssh_details` - Details of the SSH key that will be used. 
 	* `host` - Name of the host the SSH key is valid for. 
 	* `sudo_location` - Sudo location 

@@ -64,6 +64,5 @@ func (m *ImportableComputeEntitySummaryCollection) UnmarshalJSON(data []byte) (e
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

@@ -169,7 +169,6 @@ func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 			m.StepDetails[i] = nil
 		}
 	}
-
 	m.LifecycleState = model.LifecycleState
 
 	return

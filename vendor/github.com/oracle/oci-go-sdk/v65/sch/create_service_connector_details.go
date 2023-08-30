@@ -96,7 +96,6 @@ func (m *CreateServiceConnectorDetails) UnmarshalJSON(data []byte) (e error) {
 			m.Tasks[i] = nil
 		}
 	}
-
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

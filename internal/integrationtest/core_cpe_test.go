@@ -42,6 +42,7 @@ var (
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `MyCpe`, Update: `displayName2`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_private":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	CoreCpeResourceDependencies = DefinedTagsDependencies
@@ -101,6 +102,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "203.0.113.6"),
+				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -129,6 +131,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "203.0.113.6"),
+				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -152,6 +155,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "203.0.113.6"),
+				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -179,6 +183,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cpes.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cpes.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "cpes.0.ip_address", "203.0.113.6"),
+				resource.TestCheckResourceAttr(datasourceName, "cpes.0.is_private", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cpes.0.time_created"),
 			),
 		},

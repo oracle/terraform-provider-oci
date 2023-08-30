@@ -103,6 +103,5 @@ func (m *UpdateCertificateDetails) UnmarshalJSON(data []byte) (e error) {
 			m.CertificateRules[i] = nil
 		}
 	}
-
 	return
 }

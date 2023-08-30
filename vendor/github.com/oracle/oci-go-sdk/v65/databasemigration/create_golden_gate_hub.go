@@ -19,21 +19,21 @@ import (
 type CreateGoldenGateHub struct {
 	RestAdminCredentials *CreateAdminCredentials `mandatory:"true" json:"restAdminCredentials"`
 
-	SourceDbAdminCredentials *CreateAdminCredentials `mandatory:"true" json:"sourceDbAdminCredentials"`
-
-	TargetDbAdminCredentials *CreateAdminCredentials `mandatory:"true" json:"targetDbAdminCredentials"`
-
 	// Oracle GoldenGate Microservices hub's REST endpoint.
 	// Refer to https://docs.oracle.com/en/middleware/goldengate/core/19.1/securing/network.html#GUID-A709DA55-111D-455E-8942-C9BDD1E38CAA
 	Url *string `mandatory:"true" json:"url"`
 
-	// Name of GoldenGate Microservices deployment to operate on source database
-	SourceMicroservicesDeploymentName *string `mandatory:"true" json:"sourceMicroservicesDeploymentName"`
-
-	// Name of GoldenGate Microservices deployment to operate on target database
-	TargetMicroservicesDeploymentName *string `mandatory:"true" json:"targetMicroservicesDeploymentName"`
+	SourceDbAdminCredentials *CreateAdminCredentials `mandatory:"false" json:"sourceDbAdminCredentials"`
 
 	SourceContainerDbAdminCredentials *CreateAdminCredentials `mandatory:"false" json:"sourceContainerDbAdminCredentials"`
+
+	TargetDbAdminCredentials *CreateAdminCredentials `mandatory:"false" json:"targetDbAdminCredentials"`
+
+	// Name of GoldenGate Microservices deployment to operate on source database
+	SourceMicroservicesDeploymentName *string `mandatory:"false" json:"sourceMicroservicesDeploymentName"`
+
+	// Name of GoldenGate Microservices deployment to operate on target database
+	TargetMicroservicesDeploymentName *string `mandatory:"false" json:"targetMicroservicesDeploymentName"`
 
 	// OCID of GoldenGate Microservices compute instance.
 	ComputeId *string `mandatory:"false" json:"computeId"`

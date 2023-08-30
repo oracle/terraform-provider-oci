@@ -62,6 +62,5 @@ func (m *PatchSdmMaskingPolicyDifferenceColumnsDetails) UnmarshalJSON(data []byt
 			m.Items[i] = nil
 		}
 	}
-
 	return
 }

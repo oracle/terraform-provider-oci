@@ -48,6 +48,13 @@ func CoreVnicDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"ipv6addresses": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"is_primary": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -160,6 +167,8 @@ func (s *CoreVnicDataSourceCrud) SetData() error {
 	if s.Res.HostnameLabel != nil {
 		s.D.Set("hostname_label", *s.Res.HostnameLabel)
 	}
+
+	s.D.Set("ipv6addresses", s.Res.Ipv6Addresses)
 
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)

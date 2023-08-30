@@ -87,17 +87,17 @@ func (m *updatedeploymentdetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updatedeploymentdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updatedeploymentdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updatedeploymentdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

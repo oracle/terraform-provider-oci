@@ -184,12 +184,8 @@ func (m *DataEntityFromDataStoreEntityDetails) UnmarshalJSON(data []byte) (e err
 			m.UniqueKeys[i] = nil
 		}
 	}
-
 	m.ForeignKeys = make([]ForeignKey, len(model.ForeignKeys))
-	for i, n := range model.ForeignKeys {
-		m.ForeignKeys[i] = n
-	}
-
+	copy(m.ForeignKeys, model.ForeignKeys)
 	m.ResourceName = model.ResourceName
 
 	m.ObjectStatus = model.ObjectStatus

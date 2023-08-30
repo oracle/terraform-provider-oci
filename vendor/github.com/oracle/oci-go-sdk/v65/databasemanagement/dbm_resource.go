@@ -55,8 +55,6 @@ type DbmResource interface {
 
 type dbmresource struct {
 	JsonData          []byte
-	Id                *string                       `mandatory:"true" json:"id"`
-	DisplayName       *string                       `mandatory:"true" json:"displayName"`
 	Version           *string                       `mandatory:"false" json:"version"`
 	InternalId        *string                       `mandatory:"false" json:"internalId"`
 	Status            *string                       `mandatory:"false" json:"status"`
@@ -65,6 +63,8 @@ type dbmresource struct {
 	TimeUpdated       *common.SDKTime               `mandatory:"false" json:"timeUpdated"`
 	LifecycleDetails  *string                       `mandatory:"false" json:"lifecycleDetails"`
 	AdditionalDetails map[string]string             `mandatory:"false" json:"additionalDetails"`
+	Id                *string                       `mandatory:"true" json:"id"`
+	DisplayName       *string                       `mandatory:"true" json:"displayName"`
 	ResourceType      string                        `json:"resourceType"`
 }
 
@@ -145,54 +145,54 @@ func (m *dbmresource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 	}
 }
 
-//GetId returns Id
-func (m dbmresource) GetId() *string {
-	return m.Id
-}
-
-//GetDisplayName returns DisplayName
-func (m dbmresource) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-//GetVersion returns Version
+// GetVersion returns Version
 func (m dbmresource) GetVersion() *string {
 	return m.Version
 }
 
-//GetInternalId returns InternalId
+// GetInternalId returns InternalId
 func (m dbmresource) GetInternalId() *string {
 	return m.InternalId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m dbmresource) GetStatus() *string {
 	return m.Status
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m dbmresource) GetLifecycleState() DbmResourceLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m dbmresource) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m dbmresource) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m dbmresource) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetAdditionalDetails returns AdditionalDetails
+// GetAdditionalDetails returns AdditionalDetails
 func (m dbmresource) GetAdditionalDetails() map[string]string {
 	return m.AdditionalDetails
+}
+
+// GetId returns Id
+func (m dbmresource) GetId() *string {
+	return m.Id
+}
+
+// GetDisplayName returns DisplayName
+func (m dbmresource) GetDisplayName() *string {
+	return m.DisplayName
 }
 
 func (m dbmresource) String() string {

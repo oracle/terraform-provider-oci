@@ -89,7 +89,7 @@ func (m *fieldmap) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	}
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m fieldmap) GetDescription() *string {
 	return m.Description
 }

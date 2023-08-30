@@ -157,10 +157,10 @@ The following arguments are supported:
 	* `name` - Name of the vantage point.
 * `configuration` - (Optional) (Updatable) Details of monitor configuration.
 	* `client_certificate_details` - (Applicable when config_type=REST_CONFIG) (Updatable) Details for client certificate.
-		* `client_certificate` - (Applicable when config_type=REST_CONFIG) (Updatable) Client certificate in pem format. 
+		* `client_certificate` - (Applicable when config_type=REST_CONFIG) (Updatable) Client certificate in PEM format.
 			* `content` - (Required when config_type=REST_CONFIG) (Updatable) Content of the client certificate file.
 			* `file_name` - (Required when config_type=REST_CONFIG) (Updatable) Name of the certificate file. The name should not contain any confidential information.
-		* `private_key` - (Applicable when config_type=REST_CONFIG) (Updatable) The private key associated with the client certificate in pem format. 
+		* `private_key` - (Applicable when config_type=REST_CONFIG) (Updatable) The private key associated with the client certificate in PEM format.
 			* `content` - (Required when config_type=REST_CONFIG) (Updatable) Content of the private key file.
 			* `file_name` - (Required when config_type=REST_CONFIG) (Updatable) Name of the private key file.
 	* `config_type` - (Optional) (Updatable) Type of configuration.
@@ -168,15 +168,15 @@ The following arguments are supported:
 		* `is_override_dns` - (Optional) (Updatable) If isOverrideDns is true, then DNS settings will be overridden.
 		* `override_dns_ip` - (Optional) (Updatable) Attribute to override the DNS IP value. This value will be honored only if isOverrideDns is set to true.
 	* `is_certificate_validation_enabled` - (Applicable when config_type=BROWSER_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG) (Updatable) If certificate validation is enabled, then the call will fail in case of certification errors.
-	* `is_default_snapshot_enabled` - (Applicable when config_type=BROWSER_CONFIG | SCRIPTED_BROWSER_CONFIG) (Updatable) If disabled then auto snapshots are not collected.
+	* `is_default_snapshot_enabled` - (Applicable when config_type=BROWSER_CONFIG | SCRIPTED_BROWSER_CONFIG) (Updatable) If disabled, auto snapshots are not collected.
 	* `is_failure_retried` - (Optional) (Updatable) If isFailureRetried is enabled, then a failed call will be retried.
 	* `is_redirection_enabled` - (Applicable when config_type=REST_CONFIG) (Updatable) If redirection is enabled, then redirects will be allowed while accessing target URL.
 	* `network_configuration` - (Optional) (Updatable) Details of the network configuration.
-		* `number_of_hops` - (Applicable when config_type=BROWSER_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of hops.
-		* `probe_mode` - (Applicable when config_type=BROWSER_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Type of probe mode when TCP protocol is selected.
-		* `probe_per_hop` - (Applicable when config_type=BROWSER_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of probes per hop.
-		* `protocol` - (Applicable when config_type=BROWSER_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Type of protocol.
-		* `transmission_rate` - (Applicable when config_type=BROWSER_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of probe packets sent out simultaneously.
+		* `number_of_hops` - (Applicable when config_type=BROWSER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of hops.
+		* `probe_mode` - (Applicable when config_type=BROWSER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Type of probe mode when TCP protocol is selected.
+		* `probe_per_hop` - (Applicable when config_type=BROWSER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of probes per hop.
+		* `protocol` - (Applicable when config_type=BROWSER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Type of protocol.
+		* `transmission_rate` - (Applicable when config_type=BROWSER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of probe packets sent out simultaneously.
 	* `req_authentication_details` - (Applicable when config_type=REST_CONFIG) (Updatable) Details for request HTTP authentication.
 		* `auth_headers` - (Applicable when config_type=REST_CONFIG) (Updatable) List of authentication headers. Example: `[{"headerName": "content-type", "headerValue":"json"}]` 
 			* `header_name` - (Required when config_type=REST_CONFIG) (Updatable) Name of the header.
@@ -216,7 +216,7 @@ The following arguments are supported:
 	* `param_name` - (Required) (Updatable) Name of the parameter.
 	* `param_value` - (Required) (Updatable) Value of the parameter.
 * `status` - (Optional) (Updatable) Enables or disables the monitor.
-* `target` - (Optional) (Updatable) Specify the endpoint on which to run the monitor. For BROWSER and REST monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. 
+* `target` - (Optional) (Updatable) Specify the endpoint on which to run the monitor. For BROWSER and REST monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80 
 * `timeout_in_seconds` - (Optional) (Updatable) Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 
 * `vantage_points` - (Required) (Updatable) A list of public and dedicated vantage points from which to execute the monitor. Use /publicVantagePoints to fetch public vantage points, and /dedicatedVantagePoints to fetch dedicated vantage points. 
 
@@ -234,10 +234,10 @@ The following attributes are exported:
 * `batch_interval_in_seconds` - Time interval between two runs in round robin batch mode (SchedulingPolicy - BATCHED_ROUND_ROBIN).
 * `configuration` - Details of monitor configuration.
 	* `client_certificate_details` - Details for client certificate.
-		* `client_certificate` - Client certificate in pem format. 
+		* `client_certificate` - Client certificate in PEM format.
 			* `content` - Content of the client certificate file.
 			* `file_name` - Name of the certificate file. The name should not contain any confidential information.
-		* `private_key` - The private key associated with the client certificate in pem format. 
+		* `private_key` - The private key associated with the client certificate in PEM format.
 			* `content` - Content of the private key file.
 			* `file_name` - Name of the private key file.
 	* `config_type` - Type of configuration.
@@ -245,7 +245,7 @@ The following attributes are exported:
 		* `is_override_dns` - If isOverrideDns is true, then DNS settings will be overridden.
 		* `override_dns_ip` - Attribute to override the DNS IP value. This value will be honored only if isOverrideDns is set to true.
 	* `is_certificate_validation_enabled` - If certificate validation is enabled, then the call will fail in case of certification errors.
-	* `is_default_snapshot_enabled` - If disabled then auto snapshots are not collected.
+	* `is_default_snapshot_enabled` - If disabled, auto snapshots are not collected.
 	* `is_failure_retried` - If isFailureRetried is enabled, then a failed call will be retried.
 	* `is_redirection_enabled` - If redirection is enabled, then redirects will be allowed while accessing target URL.
 	* `network_configuration` - Details of the network configuration.
@@ -299,7 +299,7 @@ The following attributes are exported:
 		* `param_name` - Name of the parameter.
 		* `param_value` - Value of the parameter.
 * `status` - Enables or disables the monitor.
-* `target` - Specify the endpoint on which to run the monitor. For BROWSER and REST monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. 
+* `target` - Specify the endpoint on which to run the monitor. For BROWSER and REST monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80 
 * `time_created` - The time the resource was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `time_updated` - The time the resource was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-13T22:47:12.613Z` 
 * `timeout_in_seconds` - Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 

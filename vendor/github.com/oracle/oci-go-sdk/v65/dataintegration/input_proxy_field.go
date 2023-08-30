@@ -159,9 +159,6 @@ func (m *InputProxyField) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Labels = make([]string, len(model.Labels))
-	for i, n := range model.Labels {
-		m.Labels[i] = n
-	}
-
+	copy(m.Labels, model.Labels)
 	return
 }

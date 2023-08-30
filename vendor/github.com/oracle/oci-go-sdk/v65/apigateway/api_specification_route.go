@@ -76,10 +76,7 @@ func (m *ApiSpecificationRoute) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Methods = make([]ApiSpecificationRouteMethodsEnum, len(model.Methods))
-	for i, n := range model.Methods {
-		m.Methods[i] = n
-	}
-
+	copy(m.Methods, model.Methods)
 	m.RequestPolicies = model.RequestPolicies
 
 	m.ResponsePolicies = model.ResponsePolicies

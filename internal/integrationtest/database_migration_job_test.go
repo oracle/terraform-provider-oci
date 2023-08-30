@@ -31,6 +31,17 @@ var (
 	jobRepresentation = map[string]interface{}{
 		"job_id": acctest.Representation{RepType: acctest.Required, Create: `${var.oci_job_id}`},
 	}
+
+	DatabaseMigrationJobRepresentation = map[string]interface{}{
+		"job_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_job.test_job.id}`},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+	}
+
+	DatabaseMigrationJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, DatabaseMigrationConnectionRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, jobRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, DatabaseMigrationMigrationRepresentation)
 )
 
 // issue-routing-tag: database_migration/default

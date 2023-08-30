@@ -40,8 +40,7 @@ var (
 		"configuration_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
 		"db_system_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `DBSystem001`, Update: `displayName2`},
-		"is_analytics_cluster_attached": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"is_heat_wave_cluster_attached": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_heat_wave_cluster_attached": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_up_to_date":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"state":                         acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlDbSystemDataSourceFilterRepresentation}}
@@ -173,7 +172,6 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, MysqlMysqlDbSystemRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlAnalyticsClusterRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -230,7 +228,6 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, MysqlMysqlDbSystemRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlAnalyticsClusterRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -284,20 +281,17 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_db_systems", "test_mysql_db_systems", acctest.Optional, acctest.Update, MysqlMysqlMysqlDbSystemDataSourceRepresentation) +
 				compartmentIdVariableStr + MysqlMysqlDbSystemResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, MysqlMysqlDbSystemRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlAnalyticsClusterRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "configuration_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "is_analytics_cluster_attached", "true"),
-				resource.TestCheckResourceAttr(datasourceName, "is_heat_wave_cluster_attached", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "is_heat_wave_cluster_attached", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "is_up_to_date", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.analytics_cluster.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.backup_policy.0.freeform_tags.%", "1"),
@@ -316,10 +310,9 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.endpoints.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.fault_domain", "FAULT-DOMAIN-1"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.heat_wave_cluster.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.heat_wave_cluster.#", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.id"),
-				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_analytics_cluster_attached", "true"),
-				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_heat_wave_cluster_attached", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_heat_wave_cluster_attached", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.is_highly_available", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.shape_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.state"),
@@ -332,12 +325,10 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, MysqlMysqlMysqlDbSystemSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + MysqlMysqlDbSystemResourceConfig +
-				acctest.GenerateResourceFromRepresentationMap("oci_mysql_analytics_cluster", "test_analytics_cluster", acctest.Required, acctest.Create, MysqlAnalyticsClusterRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "analytics_cluster.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.0.freeform_tags.%", "1"),
@@ -360,12 +351,11 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "endpoints.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "fault_domain", "FAULT-DOMAIN-1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "heat_wave_cluster.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "heat_wave_cluster.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.3"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_analytics_cluster_attached", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_heat_wave_cluster_attached", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_heat_wave_cluster_attached", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_highly_available", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.0.window_start_time", "sun 01:00"),

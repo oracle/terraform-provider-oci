@@ -86,22 +86,22 @@ func (m *updatescheduledtaskdetails) UnmarshalPolymorphicJSON(data []byte) (inte
 	}
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m updatescheduledtaskdetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m updatescheduledtaskdetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m updatescheduledtaskdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSchedules returns Schedules
+// GetSchedules returns Schedules
 func (m updatescheduledtaskdetails) GetSchedules() json.RawMessage {
 	return m.Schedules
 }

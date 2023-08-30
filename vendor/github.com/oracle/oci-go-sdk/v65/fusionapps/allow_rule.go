@@ -90,6 +90,5 @@ func (m *AllowRule) UnmarshalJSON(data []byte) (e error) {
 			m.Conditions[i] = nil
 		}
 	}
-
 	return
 }

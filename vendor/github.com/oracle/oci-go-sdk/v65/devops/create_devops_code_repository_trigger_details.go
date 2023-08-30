@@ -142,6 +142,5 @@ func (m *CreateDevopsCodeRepositoryTriggerDetails) UnmarshalJSON(data []byte) (e
 			m.Actions[i] = nil
 		}
 	}
-
 	return
 }

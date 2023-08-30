@@ -136,10 +136,7 @@ func (m *OAuth2ResponseValidationFailurePolicy) UnmarshalJSON(data []byte) (e er
 	}
 
 	m.Scopes = make([]string, len(model.Scopes))
-	for i, n := range model.Scopes {
-		m.Scopes[i] = n
-	}
-
+	copy(m.Scopes, model.Scopes)
 	m.ResponseType = model.ResponseType
 
 	return
