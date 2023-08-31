@@ -274,6 +274,16 @@ var exportDatabaseDbHomeHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatabaseDbNodeHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_db_node",
+	DatasourceClass:      "oci_database_db_nodes",
+	DatasourceItemsAttr:  "db_nodes",
+	ResourceAbbreviation: "db_node",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.DbNodeLifecycleStateAvailable),
+	},
+}
+
 var exportDatabaseDbSystemHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_database_db_system",
 	DatasourceClass:      "oci_database_db_systems",
@@ -491,6 +501,12 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 				"db_system_id": "id",
 			},
 		},
+		{
+			TerraformResourceHints: exportDatabaseDbNodeHints,
+			DatasourceQueryParams: map[string]string{
+				"db_system_id": "id",
+			},
+		},
 	},
 	"oci_database_exadata_infrastructure": {
 		{
@@ -503,6 +519,12 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_database_vm_cluster": {
 		{
 			TerraformResourceHints: exportDatabaseDbHomeHints,
+			DatasourceQueryParams: map[string]string{
+				"vm_cluster_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportDatabaseDbNodeHints,
 			DatasourceQueryParams: map[string]string{
 				"vm_cluster_id": "id",
 			},

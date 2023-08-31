@@ -89,12 +89,28 @@ func (s *DatabaseDbNodeConsoleConnectionsDataSourceCrud) SetData() error {
 			dbNodeConsoleConnection["connection_string"] = *r.ConnectionString
 		}
 
+		if r.DefinedTags != nil {
+			dbNodeConsoleConnection["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Fingerprint != nil {
 			dbNodeConsoleConnection["fingerprint"] = *r.Fingerprint
 		}
 
+		if r.FreeformTags != nil {
+			dbNodeConsoleConnection["freeform_tags"] = r.FreeformTags
+		}
+
 		if r.Id != nil {
 			dbNodeConsoleConnection["id"] = *r.Id
+		}
+
+		if r.LifecycleDetails != nil {
+			dbNodeConsoleConnection["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.ServiceHostKeyFingerprint != nil {
+			dbNodeConsoleConnection["service_host_key_fingerprint"] = *r.ServiceHostKeyFingerprint
 		}
 
 		dbNodeConsoleConnection["state"] = r.LifecycleState

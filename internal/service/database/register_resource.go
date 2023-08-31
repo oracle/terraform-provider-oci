@@ -31,6 +31,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_database_database_software_image", DatabaseDatabaseSoftwareImageResource())
 	tfresource.RegisterResource("oci_database_database_upgrade", DatabaseDatabaseUpgradeResource())
 	tfresource.RegisterResource("oci_database_db_home", DatabaseDbHomeResource())
+	tfresource.RegisterResource("oci_database_db_node", DatabaseDbNodeResource())
 	tfresource.RegisterResource("oci_database_db_node_console_connection", DatabaseDbNodeConsoleConnectionResource())
 	tfresource.RegisterResource("oci_database_db_system", DatabaseDbSystemResource())
 	tfresource.RegisterResource("oci_database_exadata_infrastructure", DatabaseExadataInfrastructureResource())

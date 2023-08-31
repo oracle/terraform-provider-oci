@@ -14,96 +14,12 @@ import (
 )
 
 func DatabaseDbNodeDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseDbNode,
-		Schema: map[string]*schema.Schema{
-			"db_node_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"additional_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"backup_ip_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"backup_vnic2id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"backup_vnic_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"cpu_core_count": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"db_node_storage_size_in_gbs": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"db_server_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"db_system_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"fault_domain": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"host_ip_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"hostname": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"maintenance_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"memory_size_in_gbs": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"software_storage_size_in_gb": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_maintenance_window_end": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_maintenance_window_start": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vnic2id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vnic_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["db_node_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return tfresource.GetSingularDataSourceItemSchema(DatabaseDbNodeResource(), fieldMap, readSingularDatabaseDbNode)
 }
 
 func readSingularDatabaseDbNode(d *schema.ResourceData, m interface{}) error {
@@ -182,9 +98,16 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.FaultDomain != nil {
 		s.D.Set("fault_domain", *s.Res.FaultDomain)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HostIpId != nil {
 		s.D.Set("host_ip_id", *s.Res.HostIpId)
@@ -192,6 +115,10 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
+	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
 	s.D.Set("maintenance_type", s.Res.MaintenanceType)

@@ -41,103 +41,7 @@ func DatabaseDbNodesDataSource() *schema.Resource {
 			"db_nodes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"db_node_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"additional_details": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"backup_ip_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"backup_vnic2id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"backup_vnic_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"cpu_core_count": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"db_node_storage_size_in_gbs": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"db_server_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"db_system_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"fault_domain": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"host_ip_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"hostname": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"maintenance_type": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"memory_size_in_gbs": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"software_storage_size_in_gb": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_maintenance_window_end": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_maintenance_window_start": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"vnic2id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"vnic_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
+				Elem:     tfresource.GetDataSourceItemSchema(DatabaseDbNodeResource()),
 			},
 		},
 	}
@@ -257,8 +161,16 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 			dbNode["db_system_id"] = *r.DbSystemId
 		}
 
+		if r.DefinedTags != nil {
+			dbNode["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
 		if r.FaultDomain != nil {
 			dbNode["fault_domain"] = *r.FaultDomain
+		}
+
+		if r.FreeformTags != nil {
+			dbNode["freeform_tags"] = r.FreeformTags
 		}
 
 		if r.HostIpId != nil {
@@ -272,6 +184,10 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 		if r.Id != nil {
 			dbNode["id"] = *r.Id
 			dbNode["db_node_id"] = *r.Id // maintain legacy vanity id
+		}
+
+		if r.LifecycleDetails != nil {
+			dbNode["lifecycle_details"] = *r.LifecycleDetails
 		}
 
 		dbNode["maintenance_type"] = r.MaintenanceType
