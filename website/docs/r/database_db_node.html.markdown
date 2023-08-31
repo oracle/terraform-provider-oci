@@ -2,22 +2,26 @@
 subcategory: "Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_db_node"
-sidebar_current: "docs-oci-datasource-database-db_node"
+sidebar_current: "docs-oci-resource-database-db_node"
 description: |-
-  Provides details about a specific Db Node in Oracle Cloud Infrastructure Database service
+  Provides the Db Node resource in Oracle Cloud Infrastructure Database service
 ---
 
-# Data Source: oci_database_db_node
-This data source provides details about a specific Db Node resource in Oracle Cloud Infrastructure Database service.
+# oci_database_db_node
+This resource provides the Db Node resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified database node.
+Updates the specified database node.
 
 ## Example Usage
 
 ```hcl
-data "oci_database_db_node" "test_db_node" {
+resource "oci_database_db_node" "test_db_node" {
 	#Required
-	db_node_id = var.db_node_id
+	db_node_id = oci_database_db_node.test_db_node.id
+
+	#Optional
+	defined_tags = var.db_node_defined_tags
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
@@ -26,14 +30,19 @@ data "oci_database_db_node" "test_db_node" {
 The following arguments are supported:
 
 * `db_node_id` - (Required) The database node [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
 ## Attributes Reference
 
 The following attributes are exported:
 
 * `additional_details` - Additional information about the planned maintenance.
-* `backup_ip_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup IP address associated with the database node. Use this OCID with either the [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/GetPrivateIp) or the [GetPublicIpByPrivateIpId](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/GetPublicIpByPrivateIpId) API to get the IP address needed to make a database connection.
+* `backup_ip_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup IP address associated with the database node. Use this OCID with either the [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/GetPrivateIp) or the [GetPublicIpByPrivateIpId](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/GetPublicIpByPrivateIpId) API to get the IP address  needed to make a database connection.
 
 	**Note:** Applies only to Exadata Cloud Service. 
 * `backup_vnic2id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second backup VNIC.
@@ -64,4 +73,20 @@ The following attributes are exported:
 
 	**Note:** Applies only to Exadata Cloud Service. 
 * `vnic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Db Node
+	* `update` - (Defaults to 20 minutes), when updating the Db Node
+	* `delete` - (Defaults to 20 minutes), when destroying the Db Node
+
+
+## Import
+
+DbNodes can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_database_db_node.test_db_node "id"
+```
 
