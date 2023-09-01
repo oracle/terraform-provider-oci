@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -18,7 +18,7 @@ import (
 // DeleteMessagesDetailsEntry Object that represents a message to delete from a queue.
 type DeleteMessagesDetailsEntry struct {
 
-	// The receipt of the message to delete
+	// The receipt of the message to delete.
 	Receipt *string `mandatory:"true" json:"receipt"`
 }
 

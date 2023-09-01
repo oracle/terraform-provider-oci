@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -18,21 +18,24 @@ import (
 // UpdateQueueDetails The information to be updated.
 type UpdateQueueDetails struct {
 
-	// Queue Identifier
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the queue.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The default visibility of the messages consumed from the queue.
+	// The default visibility timeout of the messages consumed from the queue, in seconds.
 	VisibilityInSeconds *int `mandatory:"false" json:"visibilityInSeconds"`
 
 	// The default polling timeout of the messages in the queue, in seconds.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
+	// The percentage of allocated queue resources that can be consumed by a single channel. For example, if a queue has a storage limit of 2Gb, and a single channel consumption limit is 0.1 (10%), that means data size of a single channel  can't exceed 200Mb. Consumption limit of 100% (default) means that a single channel can consume up-to all allocated queue's resources.
+	ChannelConsumptionLimit *int `mandatory:"false" json:"channelConsumptionLimit"`
+
 	// The number of times a message can be delivered to a consumer before being moved to the dead letter queue.
 	// A value of 0 indicates that the DLQ is not used.
-	// Changing that value to a lower threshold does not retro-actively move in-flight messages in the dead letter queue.
+	// Changing that value to a lower threshold does not retroactively move in-flight messages in the dead letter queue.
 	DeadLetterQueueDeliveryCount *int `mandatory:"false" json:"deadLetterQueueDeliveryCount"`
 
-	// Id of the custom master encryption key which will be used to encrypt messages content. String of length 0 means the custom key should be removed from queue
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the custom encryption key to be used to encrypt messages content. A string with a length of 0 means the custom key should be removed from queue.
 	CustomEncryptionKeyId *string `mandatory:"false" json:"customEncryptionKeyId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

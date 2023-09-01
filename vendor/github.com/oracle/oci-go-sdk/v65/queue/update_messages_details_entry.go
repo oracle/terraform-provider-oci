@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -18,7 +18,7 @@ import (
 // UpdateMessagesDetailsEntry Object that represents a message to update in a queue.
 type UpdateMessagesDetailsEntry struct {
 
-	// The receipt of the message to update
+	// The receipt of the message to update.
 	Receipt *string `mandatory:"true" json:"receipt"`
 
 	// The new visibility of the message relative to the current time (as-per the clock of the server receiving the request).

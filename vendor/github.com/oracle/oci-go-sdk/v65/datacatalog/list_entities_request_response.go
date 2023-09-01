@@ -91,7 +91,8 @@ type ListEntitiesRequest struct {
 	// Specifies the fields to return in an entity summary response.
 	Fields []ListEntitiesFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for TIMECREATED is descending. Default order for DISPLAYNAME is ascending. If no value is specified TIMECREATED is default.
+	// The field to sort by. Only one sort order may be provided. DISPLAYORBUSINESSNAME considers businessName of a given object if set, else its displayName is used.
+	// Default sort order for TIMECREATED is descending and default sort order for DISPLAYNAME and DISPLAYORBUSINESSNAME is ascending. If no order is specified, TIMECREATED is the default.
 	SortBy ListEntitiesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc'.
@@ -399,18 +400,21 @@ type ListEntitiesSortByEnum string
 
 // Set of constants representing the allowable values for ListEntitiesSortByEnum
 const (
-	ListEntitiesSortByTimecreated ListEntitiesSortByEnum = "TIMECREATED"
-	ListEntitiesSortByDisplayname ListEntitiesSortByEnum = "DISPLAYNAME"
+	ListEntitiesSortByTimecreated           ListEntitiesSortByEnum = "TIMECREATED"
+	ListEntitiesSortByDisplayname           ListEntitiesSortByEnum = "DISPLAYNAME"
+	ListEntitiesSortByDisplayorbusinessname ListEntitiesSortByEnum = "DISPLAYORBUSINESSNAME"
 )
 
 var mappingListEntitiesSortByEnum = map[string]ListEntitiesSortByEnum{
-	"TIMECREATED": ListEntitiesSortByTimecreated,
-	"DISPLAYNAME": ListEntitiesSortByDisplayname,
+	"TIMECREATED":           ListEntitiesSortByTimecreated,
+	"DISPLAYNAME":           ListEntitiesSortByDisplayname,
+	"DISPLAYORBUSINESSNAME": ListEntitiesSortByDisplayorbusinessname,
 }
 
 var mappingListEntitiesSortByEnumLowerCase = map[string]ListEntitiesSortByEnum{
-	"timecreated": ListEntitiesSortByTimecreated,
-	"displayname": ListEntitiesSortByDisplayname,
+	"timecreated":           ListEntitiesSortByTimecreated,
+	"displayname":           ListEntitiesSortByDisplayname,
+	"displayorbusinessname": ListEntitiesSortByDisplayorbusinessname,
 }
 
 // GetListEntitiesSortByEnumValues Enumerates the set of values for ListEntitiesSortByEnum
@@ -427,6 +431,7 @@ func GetListEntitiesSortByEnumStringValues() []string {
 	return []string{
 		"TIMECREATED",
 		"DISPLAYNAME",
+		"DISPLAYORBUSINESSNAME",
 	}
 }
 

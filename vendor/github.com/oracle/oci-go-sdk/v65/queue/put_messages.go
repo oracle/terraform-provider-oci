@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// PutMessages A list of the messages published in a queue.
+// PutMessages A list of the messages published to a queue.
 type PutMessages struct {
 
-	// The messages that have been published in a queue.
+	// The messages that have been published to a queue.
 	Messages []PutMessage `mandatory:"true" json:"messages"`
 }
 
