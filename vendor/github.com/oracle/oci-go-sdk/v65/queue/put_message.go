@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -15,11 +15,15 @@ import (
 	"strings"
 )
 
-// PutMessage A message that has been published in a queue.
+// PutMessage A message that has been published to a queue.
 type PutMessage struct {
 
-	// The id of the message
+	// The ID of the message.
 	Id *int64 `mandatory:"true" json:"id"`
+
+	// The time after which the message will be automatically deleted, expressed in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2018-04-20T00:00:07.405Z`
+	ExpireAfter *common.SDKTime `mandatory:"false" json:"expireAfter"`
 }
 
 func (m PutMessage) String() string {

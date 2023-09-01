@@ -36,6 +36,8 @@ const (
 	JobTypeScheduledExecutionInstance JobTypeEnum = "SCHEDULED_EXECUTION_INSTANCE"
 	JobTypeAsyncDelete                JobTypeEnum = "ASYNC_DELETE"
 	JobTypeImportDataAsset            JobTypeEnum = "IMPORT_DATA_ASSET"
+	JobTypeCreateScanProxy            JobTypeEnum = "CREATE_SCAN_PROXY"
+	JobTypeAsyncExportGlossary        JobTypeEnum = "ASYNC_EXPORT_GLOSSARY"
 )
 
 var mappingJobTypeEnum = map[string]JobTypeEnum{
@@ -56,6 +58,8 @@ var mappingJobTypeEnum = map[string]JobTypeEnum{
 	"SCHEDULED_EXECUTION_INSTANCE": JobTypeScheduledExecutionInstance,
 	"ASYNC_DELETE":                 JobTypeAsyncDelete,
 	"IMPORT_DATA_ASSET":            JobTypeImportDataAsset,
+	"CREATE_SCAN_PROXY":            JobTypeCreateScanProxy,
+	"ASYNC_EXPORT_GLOSSARY":        JobTypeAsyncExportGlossary,
 }
 
 var mappingJobTypeEnumLowerCase = map[string]JobTypeEnum{
@@ -76,6 +80,8 @@ var mappingJobTypeEnumLowerCase = map[string]JobTypeEnum{
 	"scheduled_execution_instance": JobTypeScheduledExecutionInstance,
 	"async_delete":                 JobTypeAsyncDelete,
 	"import_data_asset":            JobTypeImportDataAsset,
+	"create_scan_proxy":            JobTypeCreateScanProxy,
+	"async_export_glossary":        JobTypeAsyncExportGlossary,
 }
 
 // GetJobTypeEnumValues Enumerates the set of values for JobTypeEnum
@@ -107,6 +113,8 @@ func GetJobTypeEnumStringValues() []string {
 		"SCHEDULED_EXECUTION_INSTANCE",
 		"ASYNC_DELETE",
 		"IMPORT_DATA_ASSET",
+		"CREATE_SCAN_PROXY",
+		"ASYNC_EXPORT_GLOSSARY",
 	}
 }
 

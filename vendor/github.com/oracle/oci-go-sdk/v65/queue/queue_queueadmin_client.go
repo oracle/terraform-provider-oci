@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -91,7 +91,7 @@ func (client *QueueAdminClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// ChangeQueueCompartment Moves a Queue resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeQueueCompartment Moves a queue from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 //
 // See also
 //
@@ -149,7 +149,7 @@ func (client QueueAdminClient) changeQueueCompartment(ctx context.Context, reque
 	return response, err
 }
 
-// CreateQueue Creates a new Queue.
+// CreateQueue Creates a new queue.
 //
 // See also
 //
@@ -212,7 +212,7 @@ func (client QueueAdminClient) createQueue(ctx context.Context, request common.O
 	return response, err
 }
 
-// DeleteQueue Deletes a Queue resource by identifier
+// DeleteQueue Deletes a queue resource by identifier.
 //
 // See also
 //
@@ -270,7 +270,7 @@ func (client QueueAdminClient) deleteQueue(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetQueue Gets a Queue by identifier
+// GetQueue Gets a queue by identifier.
 //
 // See also
 //
@@ -386,7 +386,7 @@ func (client QueueAdminClient) getWorkRequest(ctx context.Context, request commo
 	return response, err
 }
 
-// ListQueues Returns a list of Queues.
+// ListQueues Returns a list of queues.
 //
 // See also
 //
@@ -618,8 +618,9 @@ func (client QueueAdminClient) listWorkRequests(ctx context.Context, request com
 	return response, err
 }
 
-// PurgeQueue Deletes all messages present in the queue at the time of invocation. Only one concurrent purge operation is supported for any given queue.
+// PurgeQueue Deletes all messages present in the queue, or deletes all the messages in the specific channel at the time of invocation. Only one concurrent purge operation is supported for any given queue.
 // However multiple concurrent purge operations are supported for different queues.
+// Purge request without specification of target channels will clean up all messages in the queue and in the child channels.
 //
 // See also
 //
@@ -677,7 +678,7 @@ func (client QueueAdminClient) purgeQueue(ctx context.Context, request common.OC
 	return response, err
 }
 
-// UpdateQueue Updates the Queue
+// UpdateQueue Updates the specified queue.
 //
 // See also
 //

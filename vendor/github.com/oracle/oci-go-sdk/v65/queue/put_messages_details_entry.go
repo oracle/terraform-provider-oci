@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -20,6 +20,8 @@ type PutMessagesDetailsEntry struct {
 
 	// The content of the message
 	Content *string `mandatory:"true" json:"content"`
+
+	Metadata *MessageMetadata `mandatory:"false" json:"metadata"`
 }
 
 func (m PutMessagesDetailsEntry) String() string {

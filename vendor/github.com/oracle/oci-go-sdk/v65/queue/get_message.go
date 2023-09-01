@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -18,24 +18,28 @@ import (
 // GetMessage A message consumed from a queue.
 type GetMessage struct {
 
-	// The id of the message - this is only used for tracing and debugging purposes and isn't used as a parameter in any request.
+	// The ID of the message. This ID is only used for tracing and debugging purposes and isn't used as a parameter in any request.
 	Id *int64 `mandatory:"true" json:"id"`
 
-	// The content of the message
+	// The content of the message.
 	Content *string `mandatory:"true" json:"content"`
 
 	// A receipt is a base64urlencode opaque token, uniquely representing a message.
 	// The receipt can be used to delete a message or update its visibility.
 	Receipt *string `mandatory:"true" json:"receipt"`
 
-	// The number of time the message has been delivered to a consumer.
+	// The number of times that the message has been delivered to a consumer.
 	DeliveryCount *int `mandatory:"true" json:"deliveryCount"`
 
-	// The time after which the message will be visible to other consumers. An RFC3339 formatted datetime string
+	// The time after which the message will be visible to other consumers, expressed in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2018-04-20T00:00:07.405Z`
 	VisibleAfter *common.SDKTime `mandatory:"true" json:"visibleAfter"`
 
-	// The time after which the message will be automatically deleted. An RFC3339 formatted datetime string
+	// The time after which the message will be automatically deleted, expressed in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2018-04-20T00:00:07.405Z`
 	ExpireAfter *common.SDKTime `mandatory:"true" json:"expireAfter"`
+
+	Metadata *MessageMetadata `mandatory:"false" json:"metadata"`
 }
 
 func (m GetMessage) String() string {
