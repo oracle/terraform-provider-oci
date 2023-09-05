@@ -212,6 +212,15 @@ resource "oci_database_management_managed_database_group" "test_managed_database
   }
 }
 
+data "oci_database_management_managed_database_sql_tuning_sets" "test_managed_database_sql_tuning_sets" {
+	#Required
+	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+	#Optional
+	name_contains = var.managed_database_sql_tuning_set_name_contains
+	owner = var.managed_database_sql_tuning_set_owner
+}
+
 data "oci_database_management_managed_database_groups" "test_managed_database_groups_with_id" {
   #Required
   compartment_id = var.compartment_id

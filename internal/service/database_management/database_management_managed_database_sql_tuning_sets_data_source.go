@@ -35,11 +35,6 @@ func DatabaseManagementManagedDatabaseSqlTuningSetsDataSource() *schema.Resource
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -54,6 +49,14 @@ func DatabaseManagementManagedDatabaseSqlTuningSetsDataSource() *schema.Resource
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"error_message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"id": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
 									"name": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -62,8 +65,24 @@ func DatabaseManagementManagedDatabaseSqlTuningSetsDataSource() *schema.Resource
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"scheduled_job_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"statement_counts": {
 										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_last_modified": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 								},
@@ -170,6 +189,14 @@ func SqlTuningSetSummaryToMap(obj oci_database_management.SqlTuningSetSummary) m
 		result["description"] = string(*obj.Description)
 	}
 
+	if obj.ErrorMessage != nil {
+		result["error_message"] = string(*obj.ErrorMessage)
+	}
+
+	if obj.Id != nil {
+		result["id"] = int(*obj.Id)
+	}
+
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
@@ -178,8 +205,22 @@ func SqlTuningSetSummaryToMap(obj oci_database_management.SqlTuningSetSummary) m
 		result["owner"] = string(*obj.Owner)
 	}
 
+	if obj.ScheduledJobName != nil {
+		result["scheduled_job_name"] = string(*obj.ScheduledJobName)
+	}
+
 	if obj.StatementCounts != nil {
 		result["statement_counts"] = int(*obj.StatementCounts)
+	}
+
+	result["status"] = string(obj.Status)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeLastModified != nil {
+		result["time_last_modified"] = obj.TimeLastModified.String()
 	}
 
 	return result
