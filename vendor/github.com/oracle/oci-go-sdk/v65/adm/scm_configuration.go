@@ -29,19 +29,14 @@ type ScmConfiguration interface {
 	// The location of the build file relative to the root of the repository. Only Maven build files (POM) are currently supported.
 	// If this property is not specified, ADM will use the build file located at the root of the repository.
 	GetBuildFileLocation() *string
-
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Secret associated with a settings.xml file for the user's build tool (for example, `settings.xml` for Maven).
-	// The content is stored in a Secret because the file may contain sensitive information.
-	GetBuildFileSettingsSecretId() *string
 }
 
 type scmconfiguration struct {
-	JsonData                  []byte
-	BuildFileLocation         *string `mandatory:"false" json:"buildFileLocation"`
-	BuildFileSettingsSecretId *string `mandatory:"false" json:"buildFileSettingsSecretId"`
-	Branch                    *string `mandatory:"true" json:"branch"`
-	IsAutomergeEnabled        *bool   `mandatory:"true" json:"isAutomergeEnabled"`
-	ScmType                   string  `json:"scmType"`
+	JsonData           []byte
+	BuildFileLocation  *string `mandatory:"false" json:"buildFileLocation"`
+	Branch             *string `mandatory:"true" json:"branch"`
+	IsAutomergeEnabled *bool   `mandatory:"true" json:"isAutomergeEnabled"`
+	ScmType            string  `json:"scmType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -58,7 +53,6 @@ func (m *scmconfiguration) UnmarshalJSON(data []byte) error {
 	m.Branch = s.Model.Branch
 	m.IsAutomergeEnabled = s.Model.IsAutomergeEnabled
 	m.BuildFileLocation = s.Model.BuildFileLocation
-	m.BuildFileSettingsSecretId = s.Model.BuildFileSettingsSecretId
 	m.ScmType = s.Model.ScmType
 
 	return err
@@ -90,11 +84,6 @@ func (m *scmconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 // GetBuildFileLocation returns BuildFileLocation
 func (m scmconfiguration) GetBuildFileLocation() *string {
 	return m.BuildFileLocation
-}
-
-// GetBuildFileSettingsSecretId returns BuildFileSettingsSecretId
-func (m scmconfiguration) GetBuildFileSettingsSecretId() *string {
-	return m.BuildFileSettingsSecretId
 }
 
 // GetBranch returns Branch

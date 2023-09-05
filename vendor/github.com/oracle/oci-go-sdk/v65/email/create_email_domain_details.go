@@ -50,6 +50,10 @@ type CreateEmailDomainDetails struct {
 	// and you can change it. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	// A list of custom log headers.
+	// Example: `["X-Campaign-ID", "Group-ID"]`
+	CustomHeaders []string `mandatory:"false" json:"customHeaders"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

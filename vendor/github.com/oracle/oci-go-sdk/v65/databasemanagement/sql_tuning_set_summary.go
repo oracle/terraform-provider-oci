@@ -46,6 +46,9 @@ type SqlTuningSetSummary struct {
 
 	// Name of the Sql tuning set scheduler job.
 	ScheduledJobName *string `mandatory:"false" json:"scheduledJobName"`
+
+	// Latest execution error of the plsql that was submitted as a scheduler job.
+	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 }
 
 func (m SqlTuningSetSummary) String() string {

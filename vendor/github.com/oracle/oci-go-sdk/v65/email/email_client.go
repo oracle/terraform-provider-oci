@@ -503,6 +503,64 @@ func (client EmailClient) createEmailPrivateEndpoint(ctx context.Context, reques
 	return response, err
 }
 
+// CreateEmailReturnPath Creates a new email return path. Avoid entering confidential information.
+func (client EmailClient) CreateEmailReturnPath(ctx context.Context, request CreateEmailReturnPathRequest) (response CreateEmailReturnPathResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createEmailReturnPath, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateEmailReturnPathResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateEmailReturnPathResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateEmailReturnPathResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateEmailReturnPathResponse")
+	}
+	return
+}
+
+// createEmailReturnPath implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) createEmailReturnPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailReturnPaths", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateEmailReturnPathResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailReturnPath/CreateEmailReturnPath"
+		err = common.PostProcessServiceError(err, "Email", "CreateEmailReturnPath", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateEmailTrackConfig Create email tracking configuration resource used to configure email open tracking, click tracking, and addition of List-Unsubscribe header.
 func (client EmailClient) CreateEmailTrackConfig(ctx context.Context, request CreateEmailTrackConfigRequest) (response CreateEmailTrackConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -837,6 +895,59 @@ func (client EmailClient) deleteEmailPrivateEndpoint(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/DeleteEmailPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "Email", "DeleteEmailPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteEmailReturnPath Deletes an email return path.
+func (client EmailClient) DeleteEmailReturnPath(ctx context.Context, request DeleteEmailReturnPathRequest) (response DeleteEmailReturnPathResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteEmailReturnPath, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteEmailReturnPathResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteEmailReturnPathResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteEmailReturnPathResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteEmailReturnPathResponse")
+	}
+	return
+}
+
+// deleteEmailReturnPath implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) deleteEmailReturnPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emailReturnPaths/{emailReturnPathId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteEmailReturnPathResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailReturnPath/DeleteEmailReturnPath"
+		err = common.PostProcessServiceError(err, "Email", "DeleteEmailReturnPath", apiReferenceLink)
 		return response, err
 	}
 
@@ -1217,6 +1328,59 @@ func (client EmailClient) getEmailPrivateEndpoint(ctx context.Context, request c
 	return response, err
 }
 
+// GetEmailReturnPath Retrieves the specified email return path.
+func (client EmailClient) GetEmailReturnPath(ctx context.Context, request GetEmailReturnPathRequest) (response GetEmailReturnPathResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getEmailReturnPath, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEmailReturnPathResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEmailReturnPathResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetEmailReturnPathResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetEmailReturnPathResponse")
+	}
+	return
+}
+
+// getEmailReturnPath implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) getEmailReturnPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailReturnPaths/{emailReturnPathId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetEmailReturnPathResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailReturnPath/GetEmailReturnPath"
+		err = common.PostProcessServiceError(err, "Email", "GetEmailReturnPath", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetEmailTrackConfig Get email tracking configuration resource by identifier.
 func (client EmailClient) GetEmailTrackConfig(ctx context.Context, request GetEmailTrackConfigRequest) (response GetEmailTrackConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1582,6 +1746,59 @@ func (client EmailClient) listEmailPrivateEndpoints(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/ListEmailPrivateEndpoints"
 		err = common.PostProcessServiceError(err, "Email", "ListEmailPrivateEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListEmailReturnPaths Lists email return paths in the specified compartment or emaildomain.
+func (client EmailClient) ListEmailReturnPaths(ctx context.Context, request ListEmailReturnPathsRequest) (response ListEmailReturnPathsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listEmailReturnPaths, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListEmailReturnPathsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListEmailReturnPathsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListEmailReturnPathsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListEmailReturnPathsResponse")
+	}
+	return
+}
+
+// listEmailReturnPaths implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) listEmailReturnPaths(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailReturnPaths", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListEmailReturnPathsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailReturnPath/ListEmailReturnPaths"
+		err = common.PostProcessServiceError(err, "Email", "ListEmailReturnPaths", apiReferenceLink)
 		return response, err
 	}
 
@@ -2061,6 +2278,59 @@ func (client EmailClient) updateEmailPrivateEndpoint(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/UpdateEmailPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "Email", "UpdateEmailPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateEmailReturnPath Modifies an email return path.
+func (client EmailClient) UpdateEmailReturnPath(ctx context.Context, request UpdateEmailReturnPathRequest) (response UpdateEmailReturnPathResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateEmailReturnPath, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateEmailReturnPathResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateEmailReturnPathResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateEmailReturnPathResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateEmailReturnPathResponse")
+	}
+	return
+}
+
+// updateEmailReturnPath implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) updateEmailReturnPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emailReturnPaths/{emailReturnPathId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateEmailReturnPathResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailReturnPath/UpdateEmailReturnPath"
+		err = common.PostProcessServiceError(err, "Email", "UpdateEmailReturnPath", apiReferenceLink)
 		return response, err
 	}
 

@@ -37,6 +37,9 @@ const (
 	OperationTypeUpdateEmailTrackConfig OperationTypeEnum = "UPDATE_EMAIL_TRACK_CONFIG"
 	OperationTypeDeleteEmailTrackConfig OperationTypeEnum = "DELETE_EMAIL_TRACK_CONFIG"
 	OperationTypeMoveEmailTrackConfig   OperationTypeEnum = "MOVE_EMAIL_TRACK_CONFIG"
+	OperationTypeCreateReturnPath       OperationTypeEnum = "CREATE_RETURN_PATH"
+	OperationTypeDeleteReturnPath       OperationTypeEnum = "DELETE_RETURN_PATH"
+	OperationTypeUpdateReturnPath       OperationTypeEnum = "UPDATE_RETURN_PATH"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -56,6 +59,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_EMAIL_TRACK_CONFIG": OperationTypeUpdateEmailTrackConfig,
 	"DELETE_EMAIL_TRACK_CONFIG": OperationTypeDeleteEmailTrackConfig,
 	"MOVE_EMAIL_TRACK_CONFIG":   OperationTypeMoveEmailTrackConfig,
+	"CREATE_RETURN_PATH":        OperationTypeCreateReturnPath,
+	"DELETE_RETURN_PATH":        OperationTypeDeleteReturnPath,
+	"UPDATE_RETURN_PATH":        OperationTypeUpdateReturnPath,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -75,6 +81,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_email_track_config": OperationTypeUpdateEmailTrackConfig,
 	"delete_email_track_config": OperationTypeDeleteEmailTrackConfig,
 	"move_email_track_config":   OperationTypeMoveEmailTrackConfig,
+	"create_return_path":        OperationTypeCreateReturnPath,
+	"delete_return_path":        OperationTypeDeleteReturnPath,
+	"update_return_path":        OperationTypeUpdateReturnPath,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -105,6 +114,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_EMAIL_TRACK_CONFIG",
 		"DELETE_EMAIL_TRACK_CONFIG",
 		"MOVE_EMAIL_TRACK_CONFIG",
+		"CREATE_RETURN_PATH",
+		"DELETE_RETURN_PATH",
+		"UPDATE_RETURN_PATH",
 	}
 }
 

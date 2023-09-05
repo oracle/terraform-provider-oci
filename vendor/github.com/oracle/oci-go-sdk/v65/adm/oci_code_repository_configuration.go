@@ -32,10 +32,6 @@ type OciCodeRepositoryConfiguration struct {
 	// The location of the build file relative to the root of the repository. Only Maven build files (POM) are currently supported.
 	// If this property is not specified, ADM will use the build file located at the root of the repository.
 	BuildFileLocation *string `mandatory:"false" json:"buildFileLocation"`
-
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Secret associated with a settings.xml file for the user's build tool (for example, `settings.xml` for Maven).
-	// The content is stored in a Secret because the file may contain sensitive information.
-	BuildFileSettingsSecretId *string `mandatory:"false" json:"buildFileSettingsSecretId"`
 }
 
 //GetBranch returns Branch
@@ -46,11 +42,6 @@ func (m OciCodeRepositoryConfiguration) GetBranch() *string {
 //GetBuildFileLocation returns BuildFileLocation
 func (m OciCodeRepositoryConfiguration) GetBuildFileLocation() *string {
 	return m.BuildFileLocation
-}
-
-//GetBuildFileSettingsSecretId returns BuildFileSettingsSecretId
-func (m OciCodeRepositoryConfiguration) GetBuildFileSettingsSecretId() *string {
-	return m.BuildFileSettingsSecretId
 }
 
 //GetIsAutomergeEnabled returns IsAutomergeEnabled

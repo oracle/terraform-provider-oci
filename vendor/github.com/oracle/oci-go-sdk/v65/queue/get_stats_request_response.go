@@ -23,6 +23,9 @@ type GetStatsRequest struct {
 	// Id to specify channel.
 	ChannelId *string `mandatory:"false" contributesTo:"query" name:"channelId"`
 
+	// Optional parameter to specify a consumer group.
+	ConsumerGroupId *string `mandatory:"false" contributesTo:"query" name:"consumerGroupId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

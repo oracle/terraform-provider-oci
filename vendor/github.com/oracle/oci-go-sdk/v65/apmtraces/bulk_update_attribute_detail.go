@@ -55,27 +55,33 @@ type BulkUpdateAttributeDetailUnitEnum string
 
 // Set of constants representing the allowable values for BulkUpdateAttributeDetailUnitEnum
 const (
+	BulkUpdateAttributeDetailUnitNone        BulkUpdateAttributeDetailUnitEnum = "NONE"
 	BulkUpdateAttributeDetailUnitEpochTimeMs BulkUpdateAttributeDetailUnitEnum = "EPOCH_TIME_MS"
 	BulkUpdateAttributeDetailUnitBytes       BulkUpdateAttributeDetailUnitEnum = "BYTES"
 	BulkUpdateAttributeDetailUnitCount       BulkUpdateAttributeDetailUnitEnum = "COUNT"
 	BulkUpdateAttributeDetailUnitDurationMs  BulkUpdateAttributeDetailUnitEnum = "DURATION_MS"
 	BulkUpdateAttributeDetailUnitTraceStatus BulkUpdateAttributeDetailUnitEnum = "TRACE_STATUS"
+	BulkUpdateAttributeDetailUnitPercentage  BulkUpdateAttributeDetailUnitEnum = "PERCENTAGE"
 )
 
 var mappingBulkUpdateAttributeDetailUnitEnum = map[string]BulkUpdateAttributeDetailUnitEnum{
+	"NONE":          BulkUpdateAttributeDetailUnitNone,
 	"EPOCH_TIME_MS": BulkUpdateAttributeDetailUnitEpochTimeMs,
 	"BYTES":         BulkUpdateAttributeDetailUnitBytes,
 	"COUNT":         BulkUpdateAttributeDetailUnitCount,
 	"DURATION_MS":   BulkUpdateAttributeDetailUnitDurationMs,
 	"TRACE_STATUS":  BulkUpdateAttributeDetailUnitTraceStatus,
+	"PERCENTAGE":    BulkUpdateAttributeDetailUnitPercentage,
 }
 
 var mappingBulkUpdateAttributeDetailUnitEnumLowerCase = map[string]BulkUpdateAttributeDetailUnitEnum{
+	"none":          BulkUpdateAttributeDetailUnitNone,
 	"epoch_time_ms": BulkUpdateAttributeDetailUnitEpochTimeMs,
 	"bytes":         BulkUpdateAttributeDetailUnitBytes,
 	"count":         BulkUpdateAttributeDetailUnitCount,
 	"duration_ms":   BulkUpdateAttributeDetailUnitDurationMs,
 	"trace_status":  BulkUpdateAttributeDetailUnitTraceStatus,
+	"percentage":    BulkUpdateAttributeDetailUnitPercentage,
 }
 
 // GetBulkUpdateAttributeDetailUnitEnumValues Enumerates the set of values for BulkUpdateAttributeDetailUnitEnum
@@ -90,11 +96,13 @@ func GetBulkUpdateAttributeDetailUnitEnumValues() []BulkUpdateAttributeDetailUni
 // GetBulkUpdateAttributeDetailUnitEnumStringValues Enumerates the set of values in String for BulkUpdateAttributeDetailUnitEnum
 func GetBulkUpdateAttributeDetailUnitEnumStringValues() []string {
 	return []string{
+		"NONE",
 		"EPOCH_TIME_MS",
 		"BYTES",
 		"COUNT",
 		"DURATION_MS",
 		"TRACE_STATUS",
+		"PERCENTAGE",
 	}
 }
 

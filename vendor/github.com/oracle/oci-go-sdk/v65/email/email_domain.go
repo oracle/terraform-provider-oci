@@ -72,6 +72,9 @@ type EmailDomain struct {
 	// Example: `2021-02-12T22:47:12.613Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	// A list of custom log headers.
+	CustomHeaders []string `mandatory:"false" json:"customHeaders"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

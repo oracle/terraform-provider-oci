@@ -40,14 +40,6 @@ type CreateJobDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	InputConfiguration *InputConfiguration `mandatory:"false" json:"inputConfiguration"`
-
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m CreateJobDetails) String() string {
@@ -69,15 +61,13 @@ func (m CreateJobDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateJobDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName          *string                           `json:"displayName"`
-		Description          *string                           `json:"description"`
-		InputConfiguration   *InputConfiguration               `json:"inputConfiguration"`
-		FreeformTags         map[string]string                 `json:"freeformTags"`
-		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
-		CompartmentId        *string                           `json:"compartmentId"`
-		InputLocation        inputlocation                     `json:"inputLocation"`
-		ModelMetadataDetails []ModelMetadataDetails            `json:"modelMetadataDetails"`
-		OutputLocation       *ObjectPrefixOutputLocation       `json:"outputLocation"`
+		DisplayName          *string                     `json:"displayName"`
+		Description          *string                     `json:"description"`
+		InputConfiguration   *InputConfiguration         `json:"inputConfiguration"`
+		CompartmentId        *string                     `json:"compartmentId"`
+		InputLocation        inputlocation               `json:"inputLocation"`
+		ModelMetadataDetails []ModelMetadataDetails      `json:"modelMetadataDetails"`
+		OutputLocation       *ObjectPrefixOutputLocation `json:"outputLocation"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -90,10 +80,6 @@ func (m *CreateJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.InputConfiguration = model.InputConfiguration
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
 
 	m.CompartmentId = model.CompartmentId
 

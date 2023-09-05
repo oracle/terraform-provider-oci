@@ -29,6 +29,9 @@ type DiscoveryDetails struct {
 
 	Properties *PropertyDetails `mandatory:"true" json:"properties"`
 
+	// License edition of the monitored resource.
+	License LicenseTypeEnum `mandatory:"false" json:"license,omitempty"`
+
 	Credentials *CredentialCollection `mandatory:"false" json:"credentials"`
 
 	Tags *PropertyDetails `mandatory:"false" json:"tags"`
@@ -47,6 +50,9 @@ func (m DiscoveryDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetDiscoveryDetailsResourceTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingLicenseTypeEnum(string(m.License)); !ok && m.License != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for License: %s. Supported values are: %s.", m.License, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -70,6 +76,7 @@ const (
 	DiscoveryDetailsResourceTypeOraclePsft       DiscoveryDetailsResourceTypeEnum = "ORACLE_PSFT"
 	DiscoveryDetailsResourceTypeOracleMft        DiscoveryDetailsResourceTypeEnum = "ORACLE_MFT"
 	DiscoveryDetailsResourceTypeApacheHttpServer DiscoveryDetailsResourceTypeEnum = "APACHE_HTTP_SERVER"
+	DiscoveryDetailsResourceTypeOracleGoldengate DiscoveryDetailsResourceTypeEnum = "ORACLE_GOLDENGATE"
 )
 
 var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourceTypeEnum{
@@ -85,6 +92,7 @@ var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourc
 	"ORACLE_PSFT":        DiscoveryDetailsResourceTypeOraclePsft,
 	"ORACLE_MFT":         DiscoveryDetailsResourceTypeOracleMft,
 	"APACHE_HTTP_SERVER": DiscoveryDetailsResourceTypeApacheHttpServer,
+	"ORACLE_GOLDENGATE":  DiscoveryDetailsResourceTypeOracleGoldengate,
 }
 
 var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetailsResourceTypeEnum{
@@ -100,6 +108,7 @@ var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetai
 	"oracle_psft":        DiscoveryDetailsResourceTypeOraclePsft,
 	"oracle_mft":         DiscoveryDetailsResourceTypeOracleMft,
 	"apache_http_server": DiscoveryDetailsResourceTypeApacheHttpServer,
+	"oracle_goldengate":  DiscoveryDetailsResourceTypeOracleGoldengate,
 }
 
 // GetDiscoveryDetailsResourceTypeEnumValues Enumerates the set of values for DiscoveryDetailsResourceTypeEnum
@@ -126,6 +135,7 @@ func GetDiscoveryDetailsResourceTypeEnumStringValues() []string {
 		"ORACLE_PSFT",
 		"ORACLE_MFT",
 		"APACHE_HTTP_SERVER",
+		"ORACLE_GOLDENGATE",
 	}
 }
 

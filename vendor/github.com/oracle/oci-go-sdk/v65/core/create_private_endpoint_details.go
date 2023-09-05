@@ -83,6 +83,19 @@ type CreatePrivateEndpointDetails struct {
 	//   - PE_25G: 25G VNIC shape will be used to provision private endpoint.
 	//   - PE_50G: 50G VNIC shape will be used to provision private endpoint.
 	PrivateEndpointVnicShape CreatePrivateEndpointDetailsPrivateEndpointVnicShapeEnum `mandatory:"false" json:"privateEndpointVnicShape,omitempty"`
+
+	// Optional and valid only for Private Access to support ADB-S low latency support.
+	// Provision PE to the specified Primary AD for low latency path. The attribute will be null
+	// if this is a regional subnet instead of AD-specific subnet.
+	// example: 'phx-ad-1'
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	// Optional and valid only for Private Access to support ADB-S low latency support.
+	// Provision PE to the specified failover AD for low latency path. The attribute will be null
+	// if this is a regional subnet instead of AD-specific subnet. PE will fail over to this domain
+	// when primary provisioned availability domain fails.
+	// example: 'phx-ad-1'
+	FailoverDomain *string `mandatory:"false" json:"failoverDomain"`
 }
 
 func (m CreatePrivateEndpointDetails) String() string {

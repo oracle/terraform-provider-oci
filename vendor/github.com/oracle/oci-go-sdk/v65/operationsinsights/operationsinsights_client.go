@@ -1479,7 +1479,7 @@ func (client OperationsInsightsClient) DeleteAwrHubObject(ctx context.Context, r
 // deleteAwrHubObject implements the OCIOperation interface (enables retrying operations)
 func (client OperationsInsightsClient) deleteAwrHubObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/awrHubs/awrHubSources/{awrHubSourceId}/o/{objectName}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/awrHubObjects/awrHubSources/{awrHubSourceId}/o/{objectName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1490,7 +1490,7 @@ func (client OperationsInsightsClient) deleteAwrHubObject(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/DeleteAwrHubObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubObjects/DeleteAwrHubObject"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "DeleteAwrHubObject", apiReferenceLink)
 		return response, err
 	}
@@ -2886,7 +2886,7 @@ func (client OperationsInsightsClient) GetAwrHubObject(ctx context.Context, requ
 // getAwrHubObject implements the OCIOperation interface (enables retrying operations)
 func (client OperationsInsightsClient) getAwrHubObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/awrHubSources/{awrHubSourceId}/o/{objectName}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubObjects/awrHubSources/{awrHubSourceId}/o/{objectName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -2896,7 +2896,7 @@ func (client OperationsInsightsClient) getAwrHubObject(ctx context.Context, requ
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/GetAwrHubObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubObjects/GetAwrHubObject"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "GetAwrHubObject", apiReferenceLink)
 		return response, err
 	}
@@ -3645,7 +3645,7 @@ func (client OperationsInsightsClient) HeadAwrHubObject(ctx context.Context, req
 // headAwrHubObject implements the OCIOperation interface (enables retrying operations)
 func (client OperationsInsightsClient) headAwrHubObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodHead, "/awrHubs/awrHubSources/{awrHubSourceId}/o/{objectName}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodHead, "/awrHubObjects/awrHubSources/{awrHubSourceId}/o/{objectName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -3656,7 +3656,7 @@ func (client OperationsInsightsClient) headAwrHubObject(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/HeadAwrHubObject"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubObjects/HeadAwrHubObject"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "HeadAwrHubObject", apiReferenceLink)
 		return response, err
 	}
@@ -4609,7 +4609,7 @@ func (client OperationsInsightsClient) ListAwrHubObjects(ctx context.Context, re
 // listAwrHubObjects implements the OCIOperation interface (enables retrying operations)
 func (client OperationsInsightsClient) listAwrHubObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubs/awrHubSources/{awrHubSourceId}/o", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/awrHubObjects/awrHubSources/{awrHubSourceId}/o", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -4620,7 +4620,7 @@ func (client OperationsInsightsClient) listAwrHubObjects(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/ListAwrHubObjects"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubObjects/ListAwrHubObjects"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "ListAwrHubObjects", apiReferenceLink)
 		return response, err
 	}
@@ -6100,6 +6100,70 @@ func (client OperationsInsightsClient) listWorkRequests(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/WorkRequests/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PutAwrHubObject Creates a new object or overwrites an existing object with the same name to the Awr Hub.
+// A default retry strategy applies to this operation PutAwrHubObject()
+func (client OperationsInsightsClient) PutAwrHubObject(ctx context.Context, request PutAwrHubObjectRequest) (response PutAwrHubObjectResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.putAwrHubObject, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PutAwrHubObjectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PutAwrHubObjectResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PutAwrHubObjectResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PutAwrHubObjectResponse")
+	}
+	return
+}
+
+// putAwrHubObject implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) putAwrHubObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/awrHubObjects/awrHubSources/{awrHubSourceId}/o/{objectName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PutAwrHubObjectResponse
+	var httpResponse *http.Response
+	var customSigner common.HTTPRequestSigner
+	excludeBodySigningPredicate := func(r *http.Request) bool { return false }
+	customSigner, err = common.NewSignerFromOCIRequestSigner(client.Signer, excludeBodySigningPredicate)
+
+	//if there was an error overriding the signer, then use the signer from the client itself
+	if err != nil {
+		customSigner = client.Signer
+	}
+
+	//Execute the request with a custom signer
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubObjects/PutAwrHubObject"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "PutAwrHubObject", apiReferenceLink)
 		return response, err
 	}
 
@@ -9757,70 +9821,6 @@ func (client OperationsInsightsClient) updateOpsiConfiguration(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OpsiConfigurations/UpdateOpsiConfiguration"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "UpdateOpsiConfiguration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UploadAwrHubObject Creates a new object or overwrites an existing object with the same name to the Awr Hub.
-// A default retry strategy applies to this operation UploadAwrHubObject()
-func (client OperationsInsightsClient) UploadAwrHubObject(ctx context.Context, request UploadAwrHubObjectRequest) (response UploadAwrHubObjectResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.uploadAwrHubObject, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UploadAwrHubObjectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UploadAwrHubObjectResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UploadAwrHubObjectResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UploadAwrHubObjectResponse")
-	}
-	return
-}
-
-// uploadAwrHubObject implements the OCIOperation interface (enables retrying operations)
-func (client OperationsInsightsClient) uploadAwrHubObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/awrHubs/awrHubSources/{awrHubSourceId}/o/{objectName}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UploadAwrHubObjectResponse
-	var httpResponse *http.Response
-	var customSigner common.HTTPRequestSigner
-	excludeBodySigningPredicate := func(r *http.Request) bool { return false }
-	customSigner, err = common.NewSignerFromOCIRequestSigner(client.Signer, excludeBodySigningPredicate)
-
-	//if there was an error overriding the signer, then use the signer from the client itself
-	if err != nil {
-		customSigner = client.Signer
-	}
-
-	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/AwrHubs/UploadAwrHubObject"
-		err = common.PostProcessServiceError(err, "OperationsInsights", "UploadAwrHubObject", apiReferenceLink)
 		return response, err
 	}
 

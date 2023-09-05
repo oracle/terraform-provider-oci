@@ -9496,6 +9496,59 @@ func (client DbManagementClient) updateExternalAsm(ctx context.Context, request 
 	return response, err
 }
 
+// UpdateExternalAsmInstance Updates the external ASM Instance specified by `externalAsmInstanceId`.
+func (client DbManagementClient) UpdateExternalAsmInstance(ctx context.Context, request UpdateExternalAsmInstanceRequest) (response UpdateExternalAsmInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateExternalAsmInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateExternalAsmInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateExternalAsmInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateExternalAsmInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateExternalAsmInstanceResponse")
+	}
+	return
+}
+
+// updateExternalAsmInstance implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateExternalAsmInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externalAsmInstances/{externalAsmInstanceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateExternalAsmInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalAsmInstance/UpdateExternalAsmInstance"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateExternalAsmInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateExternalCluster Updates the external cluster specified by `externalClusterId`.
 func (client DbManagementClient) UpdateExternalCluster(ctx context.Context, request UpdateExternalClusterRequest) (response UpdateExternalClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9595,6 +9648,59 @@ func (client DbManagementClient) updateExternalClusterInstance(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalClusterInstance/UpdateExternalClusterInstance"
 		err = common.PostProcessServiceError(err, "DbManagement", "UpdateExternalClusterInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateExternalDbHome Updates the external DB Home specified by `externalDbHomeId`.
+func (client DbManagementClient) UpdateExternalDbHome(ctx context.Context, request UpdateExternalDbHomeRequest) (response UpdateExternalDbHomeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateExternalDbHome, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateExternalDbHomeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateExternalDbHomeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateExternalDbHomeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateExternalDbHomeResponse")
+	}
+	return
+}
+
+// updateExternalDbHome implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateExternalDbHome(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externalDbHomes/{externalDbHomeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateExternalDbHomeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalDbHome/UpdateExternalDbHome"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateExternalDbHome", apiReferenceLink)
 		return response, err
 	}
 
@@ -9919,6 +10025,112 @@ func (client DbManagementClient) updateExternalExadataStorageConnector(ctx conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalExadataStorageConnector/UpdateExternalExadataStorageConnector"
 		err = common.PostProcessServiceError(err, "DbManagement", "UpdateExternalExadataStorageConnector", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateExternalExadataStorageGrid Updates the Exadata storage server grid specified by exadataStorageGridId.
+func (client DbManagementClient) UpdateExternalExadataStorageGrid(ctx context.Context, request UpdateExternalExadataStorageGridRequest) (response UpdateExternalExadataStorageGridResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateExternalExadataStorageGrid, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateExternalExadataStorageGridResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateExternalExadataStorageGridResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateExternalExadataStorageGridResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateExternalExadataStorageGridResponse")
+	}
+	return
+}
+
+// updateExternalExadataStorageGrid implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateExternalExadataStorageGrid(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externalExadataStorageGrids/{externalExadataStorageGridId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateExternalExadataStorageGridResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalExadataStorageGrid/UpdateExternalExadataStorageGrid"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateExternalExadataStorageGrid", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateExternalExadataStorageServer Updates the Exadata storage server specified by exadataStorageServerId.
+func (client DbManagementClient) UpdateExternalExadataStorageServer(ctx context.Context, request UpdateExternalExadataStorageServerRequest) (response UpdateExternalExadataStorageServerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateExternalExadataStorageServer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateExternalExadataStorageServerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateExternalExadataStorageServerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateExternalExadataStorageServerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateExternalExadataStorageServerResponse")
+	}
+	return
+}
+
+// updateExternalExadataStorageServer implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateExternalExadataStorageServer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/externalExadataStorageServers/{externalExadataStorageServerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateExternalExadataStorageServerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ExternalExadataStorageServer/UpdateExternalExadataStorageServer"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateExternalExadataStorageServer", apiReferenceLink)
 		return response, err
 	}
 

@@ -27,6 +27,9 @@ type DiscoveryJobSummary struct {
 	// The name of resource type
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
+	// License edition of the monitored resource.
+	License LicenseTypeEnum `mandatory:"false" json:"license,omitempty"`
+
 	// The OCID of the Compartment
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
@@ -77,6 +80,9 @@ func (m DiscoveryJobSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingDiscoveryJobSummaryResourceTypeEnum(string(m.ResourceType)); !ok && m.ResourceType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetDiscoveryJobSummaryResourceTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingLicenseTypeEnum(string(m.License)); !ok && m.License != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for License: %s. Supported values are: %s.", m.License, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingDiscoveryJobSummaryDiscoveryTypeEnum(string(m.DiscoveryType)); !ok && m.DiscoveryType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiscoveryType: %s. Supported values are: %s.", m.DiscoveryType, strings.Join(GetDiscoveryJobSummaryDiscoveryTypeEnumStringValues(), ",")))
 	}
@@ -109,6 +115,7 @@ const (
 	DiscoveryJobSummaryResourceTypeOraclePsft       DiscoveryJobSummaryResourceTypeEnum = "ORACLE_PSFT"
 	DiscoveryJobSummaryResourceTypeOracleMft        DiscoveryJobSummaryResourceTypeEnum = "ORACLE_MFT"
 	DiscoveryJobSummaryResourceTypeApacheHttpServer DiscoveryJobSummaryResourceTypeEnum = "APACHE_HTTP_SERVER"
+	DiscoveryJobSummaryResourceTypeOracleGoldengate DiscoveryJobSummaryResourceTypeEnum = "ORACLE_GOLDENGATE"
 )
 
 var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryResourceTypeEnum{
@@ -124,6 +131,7 @@ var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryR
 	"ORACLE_PSFT":        DiscoveryJobSummaryResourceTypeOraclePsft,
 	"ORACLE_MFT":         DiscoveryJobSummaryResourceTypeOracleMft,
 	"APACHE_HTTP_SERVER": DiscoveryJobSummaryResourceTypeApacheHttpServer,
+	"ORACLE_GOLDENGATE":  DiscoveryJobSummaryResourceTypeOracleGoldengate,
 }
 
 var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJobSummaryResourceTypeEnum{
@@ -139,6 +147,7 @@ var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJo
 	"oracle_psft":        DiscoveryJobSummaryResourceTypeOraclePsft,
 	"oracle_mft":         DiscoveryJobSummaryResourceTypeOracleMft,
 	"apache_http_server": DiscoveryJobSummaryResourceTypeApacheHttpServer,
+	"oracle_goldengate":  DiscoveryJobSummaryResourceTypeOracleGoldengate,
 }
 
 // GetDiscoveryJobSummaryResourceTypeEnumValues Enumerates the set of values for DiscoveryJobSummaryResourceTypeEnum
@@ -165,6 +174,7 @@ func GetDiscoveryJobSummaryResourceTypeEnumStringValues() []string {
 		"ORACLE_PSFT",
 		"ORACLE_MFT",
 		"APACHE_HTTP_SERVER",
+		"ORACLE_GOLDENGATE",
 	}
 }
 

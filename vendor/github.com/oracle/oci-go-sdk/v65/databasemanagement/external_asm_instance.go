@@ -58,6 +58,16 @@ type ExternalAsmInstance struct {
 
 	// The date and time the external ASM instance was last updated.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m ExternalAsmInstance) String() string {
@@ -90,6 +100,7 @@ const (
 	ExternalAsmInstanceLifecycleStateUpdating ExternalAsmInstanceLifecycleStateEnum = "UPDATING"
 	ExternalAsmInstanceLifecycleStateDeleting ExternalAsmInstanceLifecycleStateEnum = "DELETING"
 	ExternalAsmInstanceLifecycleStateDeleted  ExternalAsmInstanceLifecycleStateEnum = "DELETED"
+	ExternalAsmInstanceLifecycleStateFailed   ExternalAsmInstanceLifecycleStateEnum = "FAILED"
 )
 
 var mappingExternalAsmInstanceLifecycleStateEnum = map[string]ExternalAsmInstanceLifecycleStateEnum{
@@ -99,6 +110,7 @@ var mappingExternalAsmInstanceLifecycleStateEnum = map[string]ExternalAsmInstanc
 	"UPDATING": ExternalAsmInstanceLifecycleStateUpdating,
 	"DELETING": ExternalAsmInstanceLifecycleStateDeleting,
 	"DELETED":  ExternalAsmInstanceLifecycleStateDeleted,
+	"FAILED":   ExternalAsmInstanceLifecycleStateFailed,
 }
 
 var mappingExternalAsmInstanceLifecycleStateEnumLowerCase = map[string]ExternalAsmInstanceLifecycleStateEnum{
@@ -108,6 +120,7 @@ var mappingExternalAsmInstanceLifecycleStateEnumLowerCase = map[string]ExternalA
 	"updating": ExternalAsmInstanceLifecycleStateUpdating,
 	"deleting": ExternalAsmInstanceLifecycleStateDeleting,
 	"deleted":  ExternalAsmInstanceLifecycleStateDeleted,
+	"failed":   ExternalAsmInstanceLifecycleStateFailed,
 }
 
 // GetExternalAsmInstanceLifecycleStateEnumValues Enumerates the set of values for ExternalAsmInstanceLifecycleStateEnum
@@ -128,6 +141,7 @@ func GetExternalAsmInstanceLifecycleStateEnumStringValues() []string {
 		"UPDATING",
 		"DELETING",
 		"DELETED",
+		"FAILED",
 	}
 }
 

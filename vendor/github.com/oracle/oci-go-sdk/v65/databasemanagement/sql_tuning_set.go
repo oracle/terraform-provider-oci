@@ -47,6 +47,9 @@ type SqlTuningSet struct {
 	// Name of the Sql tuning set scheduler job.
 	ScheduledJobName *string `mandatory:"false" json:"scheduledJobName"`
 
+	// Latest execution error of the plsql that was submitted as a scheduler job.
+	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
+
 	// In OCI database management, there is a limit to fetch only 2000 rows.
 	// This flag indicates whether all Sql statements of this Sql tuning set matching the filter criteria are fetched or not.
 	// Possible values are 'Yes' or 'No'

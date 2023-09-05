@@ -1279,6 +1279,123 @@ func (client StackMonitoringClient) listWorkRequests(ctx context.Context, reques
 	return response, err
 }
 
+// ManageLicense Each resource is assigned a license based on which features are enabled for it.
+// User is charged differently based on license.
+// Specify the license type to be updated for the parent resource in the topology.
+// The license type value is propagated to the member resources as well.
+// Member resource is a resource which has "contains" association with the resource.
+// A default retry strategy applies to this operation ManageLicense()
+func (client StackMonitoringClient) ManageLicense(ctx context.Context, request ManageLicenseRequest) (response ManageLicenseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.manageLicense, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ManageLicenseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ManageLicenseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ManageLicenseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ManageLicenseResponse")
+	}
+	return
+}
+
+// manageLicense implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) manageLicense(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/monitoredResources/{monitoredResourceId}/actions/manageLicense", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ManageLicenseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/ManageLicense"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ManageLicense", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RequestMonitoredResourcesSummarizedCount Gets resource count based on the aggregation criteria specified using "groupBy" parameter.
+// A default retry strategy applies to this operation RequestMonitoredResourcesSummarizedCount()
+func (client StackMonitoringClient) RequestMonitoredResourcesSummarizedCount(ctx context.Context, request RequestMonitoredResourcesSummarizedCountRequest) (response RequestMonitoredResourcesSummarizedCountResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.requestMonitoredResourcesSummarizedCount, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestMonitoredResourcesSummarizedCountResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestMonitoredResourcesSummarizedCountResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestMonitoredResourcesSummarizedCountResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestMonitoredResourcesSummarizedCountResponse")
+	}
+	return
+}
+
+// requestMonitoredResourcesSummarizedCount implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) requestMonitoredResourcesSummarizedCount(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/monitoredResources/actions/summarizeCount", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestMonitoredResourcesSummarizedCountResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/RequestMonitoredResourcesSummarizedCount"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "RequestMonitoredResourcesSummarizedCount", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SearchAssociatedResources List all associated resources recursively up-to a specified level,
 // for the monitored resources of type specified.
 // A default retry strategy applies to this operation SearchAssociatedResources()

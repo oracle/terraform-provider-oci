@@ -1936,8 +1936,8 @@ func (client IdentityDomainsClient) createOAuth2ClientCredential(ctx context.Con
 	return response, err
 }
 
-// CreateOAuthToken Generate Access Token and Other OAuth Runtime Tokens to Access the Resource
-func (client IdentityDomainsClient) CreateOAuthToken(ctx context.Context, request CreateOAuthTokenRequest) (response CreateOAuthTokenResponse, err error) {
+// CreateOAuthClientCertificate Create an OAuth Client Certificate
+func (client IdentityDomainsClient) CreateOAuthClientCertificate(ctx context.Context, request CreateOAuthClientCertificateRequest) (response CreateOAuthClientCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -1951,42 +1951,100 @@ func (client IdentityDomainsClient) CreateOAuthToken(ctx context.Context, reques
 		request.OpcRetryToken = common.String(common.RetryToken())
 	}
 
-	ociResponse, err = common.Retry(ctx, request, client.createOAuthToken, policy)
+	ociResponse, err = common.Retry(ctx, request, client.createOAuthClientCertificate, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateOAuthTokenResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = CreateOAuthClientCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = CreateOAuthTokenResponse{}
+				response = CreateOAuthClientCertificateResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(CreateOAuthTokenResponse); ok {
+	if convertedResponse, ok := ociResponse.(CreateOAuthClientCertificateResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateOAuthTokenResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOAuthClientCertificateResponse")
 	}
 	return
 }
 
-// createOAuthToken implements the OCIOperation interface (enables retrying operations)
-func (client IdentityDomainsClient) createOAuthToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// createOAuthClientCertificate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) createOAuthClientCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oauth2/v1/token", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/OAuthClientCertificates", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response CreateOAuthTokenResponse
+	var response CreateOAuthClientCertificateResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateOAuthToken", apiReferenceLink)
+		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateOAuthClientCertificate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateOAuthPartnerCertificate Create an OAuth Partner Certificate
+func (client IdentityDomainsClient) CreateOAuthPartnerCertificate(ctx context.Context, request CreateOAuthPartnerCertificateRequest) (response CreateOAuthPartnerCertificateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOAuthPartnerCertificate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOAuthPartnerCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOAuthPartnerCertificateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOAuthPartnerCertificateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOAuthPartnerCertificateResponse")
+	}
+	return
+}
+
+// createOAuthPartnerCertificate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) createOAuthPartnerCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/OAuthPartnerCertificates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOAuthPartnerCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateOAuthPartnerCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -4024,6 +4082,122 @@ func (client IdentityDomainsClient) deleteOAuth2ClientCredential(ctx context.Con
 	return response, err
 }
 
+// DeleteOAuthClientCertificate Delete an OAuth Client Certificate
+func (client IdentityDomainsClient) DeleteOAuthClientCertificate(ctx context.Context, request DeleteOAuthClientCertificateRequest) (response DeleteOAuthClientCertificateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteOAuthClientCertificate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOAuthClientCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOAuthClientCertificateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOAuthClientCertificateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOAuthClientCertificateResponse")
+	}
+	return
+}
+
+// deleteOAuthClientCertificate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) deleteOAuthClientCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/admin/v1/OAuthClientCertificates/{oAuthClientCertificateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOAuthClientCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteOAuthClientCertificate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteOAuthPartnerCertificate Delete an OAuth Partner Certificate
+func (client IdentityDomainsClient) DeleteOAuthPartnerCertificate(ctx context.Context, request DeleteOAuthPartnerCertificateRequest) (response DeleteOAuthPartnerCertificateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteOAuthPartnerCertificate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOAuthPartnerCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOAuthPartnerCertificateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOAuthPartnerCertificateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOAuthPartnerCertificateResponse")
+	}
+	return
+}
+
+// deleteOAuthPartnerCertificate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) deleteOAuthPartnerCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/admin/v1/OAuthPartnerCertificates/{oAuthPartnerCertificateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOAuthPartnerCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "DeleteOAuthPartnerCertificate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeletePasswordPolicy Delete a password policy.
 func (client IdentityDomainsClient) DeletePasswordPolicy(ctx context.Context, request DeletePasswordPolicyRequest) (response DeletePasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5003,6 +5177,64 @@ func (client IdentityDomainsClient) getAuthenticationFactorSetting(ctx context.C
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetAuthenticationFactorSetting", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetBrandingSetting Get Branding Settings
+func (client IdentityDomainsClient) GetBrandingSetting(ctx context.Context, request GetBrandingSettingRequest) (response GetBrandingSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getBrandingSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBrandingSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBrandingSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBrandingSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBrandingSettingResponse")
+	}
+	return
+}
+
+// getBrandingSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getBrandingSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/BrandingSettings/{brandingSettingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBrandingSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetBrandingSetting", apiReferenceLink)
 		return response, err
 	}
 
@@ -6518,6 +6750,64 @@ func (client IdentityDomainsClient) getNetworkPerimeter(ctx context.Context, req
 	return response, err
 }
 
+// GetNotificationSetting Get Notification Settings
+func (client IdentityDomainsClient) GetNotificationSetting(ctx context.Context, request GetNotificationSettingRequest) (response GetNotificationSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getNotificationSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetNotificationSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetNotificationSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetNotificationSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetNotificationSettingResponse")
+	}
+	return
+}
+
+// getNotificationSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getNotificationSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/NotificationSettings/{notificationSettingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetNotificationSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetNotificationSetting", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetOAuth2ClientCredential Get a user's OAuth2 client credentials.
 func (client IdentityDomainsClient) GetOAuth2ClientCredential(ctx context.Context, request GetOAuth2ClientCredentialRequest) (response GetOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6569,6 +6859,122 @@ func (client IdentityDomainsClient) getOAuth2ClientCredential(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetOAuth2ClientCredential", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetOAuthClientCertificate Get OAuth Client Certificates
+func (client IdentityDomainsClient) GetOAuthClientCertificate(ctx context.Context, request GetOAuthClientCertificateRequest) (response GetOAuthClientCertificateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getOAuthClientCertificate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOAuthClientCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOAuthClientCertificateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOAuthClientCertificateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOAuthClientCertificateResponse")
+	}
+	return
+}
+
+// getOAuthClientCertificate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getOAuthClientCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/OAuthClientCertificates/{oAuthClientCertificateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOAuthClientCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetOAuthClientCertificate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetOAuthPartnerCertificate Get an OAuth Partner Certificate
+func (client IdentityDomainsClient) GetOAuthPartnerCertificate(ctx context.Context, request GetOAuthPartnerCertificateRequest) (response GetOAuthPartnerCertificateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getOAuthPartnerCertificate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOAuthPartnerCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOAuthPartnerCertificateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOAuthPartnerCertificateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOAuthPartnerCertificateResponse")
+	}
+	return
+}
+
+// getOAuthPartnerCertificate implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getOAuthPartnerCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/OAuthPartnerCertificates/{oAuthPartnerCertificateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOAuthPartnerCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetOAuthPartnerCertificate", apiReferenceLink)
 		return response, err
 	}
 
@@ -6917,6 +7323,64 @@ func (client IdentityDomainsClient) getSelfRegistrationProfile(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSelfRegistrationProfile", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSetting Get Settings
+func (client IdentityDomainsClient) GetSetting(ctx context.Context, request GetSettingRequest) (response GetSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSettingResponse")
+	}
+	return
+}
+
+// getSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/Settings/{settingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetSetting", apiReferenceLink)
 		return response, err
 	}
 
@@ -7729,6 +8193,64 @@ func (client IdentityDomainsClient) listAuthenticationFactorSettings(ctx context
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListAuthenticationFactorSettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListBrandingSettings Search Branding Settings
+func (client IdentityDomainsClient) ListBrandingSettings(ctx context.Context, request ListBrandingSettingsRequest) (response ListBrandingSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listBrandingSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBrandingSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBrandingSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListBrandingSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBrandingSettingsResponse")
+	}
+	return
+}
+
+// listBrandingSettings implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listBrandingSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/BrandingSettings", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBrandingSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListBrandingSettings", apiReferenceLink)
 		return response, err
 	}
 
@@ -9360,6 +9882,64 @@ func (client IdentityDomainsClient) listNetworkPerimeters(ctx context.Context, r
 	return response, err
 }
 
+// ListNotificationSettings Search Notification Settings
+func (client IdentityDomainsClient) ListNotificationSettings(ctx context.Context, request ListNotificationSettingsRequest) (response ListNotificationSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listNotificationSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListNotificationSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListNotificationSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListNotificationSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListNotificationSettingsResponse")
+	}
+	return
+}
+
+// listNotificationSettings implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listNotificationSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/NotificationSettings", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListNotificationSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListNotificationSettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListOAuth2ClientCredentials Search for a user's OAuth2 client credentials.
 func (client IdentityDomainsClient) ListOAuth2ClientCredentials(ctx context.Context, request ListOAuth2ClientCredentialsRequest) (response ListOAuth2ClientCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9411,6 +9991,122 @@ func (client IdentityDomainsClient) listOAuth2ClientCredentials(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListOAuth2ClientCredentials", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOAuthClientCertificates Search OAuth Client Certificates
+func (client IdentityDomainsClient) ListOAuthClientCertificates(ctx context.Context, request ListOAuthClientCertificatesRequest) (response ListOAuthClientCertificatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listOAuthClientCertificates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOAuthClientCertificatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOAuthClientCertificatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOAuthClientCertificatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOAuthClientCertificatesResponse")
+	}
+	return
+}
+
+// listOAuthClientCertificates implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listOAuthClientCertificates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/OAuthClientCertificates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOAuthClientCertificatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListOAuthClientCertificates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOAuthPartnerCertificates Search OAuth Partner Certificates
+func (client IdentityDomainsClient) ListOAuthPartnerCertificates(ctx context.Context, request ListOAuthPartnerCertificatesRequest) (response ListOAuthPartnerCertificatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listOAuthPartnerCertificates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOAuthPartnerCertificatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOAuthPartnerCertificatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOAuthPartnerCertificatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOAuthPartnerCertificatesResponse")
+	}
+	return
+}
+
+// listOAuthPartnerCertificates implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listOAuthPartnerCertificates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/OAuthPartnerCertificates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOAuthPartnerCertificatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListOAuthPartnerCertificates", apiReferenceLink)
 		return response, err
 	}
 
@@ -9817,6 +10513,64 @@ func (client IdentityDomainsClient) listSelfRegistrationProfiles(ctx context.Con
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSelfRegistrationProfiles", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSettings Search Settings
+func (client IdentityDomainsClient) ListSettings(ctx context.Context, request ListSettingsRequest) (response ListSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSettingsResponse")
+	}
+	return
+}
+
+// listSettings implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/Settings", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListSettings", apiReferenceLink)
 		return response, err
 	}
 
@@ -12144,6 +12898,64 @@ func (client IdentityDomainsClient) patchSelfRegistrationProfile(ctx context.Con
 	return response, err
 }
 
+// PatchSetting Update a Setting
+func (client IdentityDomainsClient) PatchSetting(ctx context.Context, request PatchSettingRequest) (response PatchSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchSettingResponse")
+	}
+	return
+}
+
+// patchSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) patchSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/admin/v1/Settings/{settingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PatchSetting", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PatchSmtpCredential Update a user's SMTP credentials.
 func (client IdentityDomainsClient) PatchSmtpCredential(ctx context.Context, request PatchSmtpCredentialRequest) (response PatchSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13362,6 +14174,64 @@ func (client IdentityDomainsClient) putNetworkPerimeter(ctx context.Context, req
 	return response, err
 }
 
+// PutNotificationSetting Replace Notification Settings
+func (client IdentityDomainsClient) PutNotificationSetting(ctx context.Context, request PutNotificationSettingRequest) (response PutNotificationSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.putNotificationSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PutNotificationSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PutNotificationSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PutNotificationSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PutNotificationSettingResponse")
+	}
+	return
+}
+
+// putNotificationSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) putNotificationSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/admin/v1/NotificationSettings/{notificationSettingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PutNotificationSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PutNotificationSetting", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PutPasswordPolicy Replace a password policy.
 func (client IdentityDomainsClient) PutPasswordPolicy(ctx context.Context, request PutPasswordPolicyRequest) (response PutPasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13645,6 +14515,64 @@ func (client IdentityDomainsClient) putSelfRegistrationProfile(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "PutSelfRegistrationProfile", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PutSetting Replace Settings
+func (client IdentityDomainsClient) PutSetting(ctx context.Context, request PutSettingRequest) (response PutSettingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.putSetting, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PutSettingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PutSettingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PutSettingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PutSettingResponse")
+	}
+	return
+}
+
+// putSetting implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) putSetting(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/admin/v1/Settings/{settingId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PutSettingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "PutSetting", apiReferenceLink)
 		return response, err
 	}
 
@@ -15218,6 +16146,64 @@ func (client IdentityDomainsClient) searchNetworkPerimeters(ctx context.Context,
 	return response, err
 }
 
+// SearchNotificationSettings Search Notification Settings Using POST
+func (client IdentityDomainsClient) SearchNotificationSettings(ctx context.Context, request SearchNotificationSettingsRequest) (response SearchNotificationSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.searchNotificationSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchNotificationSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchNotificationSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchNotificationSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchNotificationSettingsResponse")
+	}
+	return
+}
+
+// searchNotificationSettings implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) searchNotificationSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/NotificationSettings/.search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchNotificationSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchNotificationSettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SearchOAuth2ClientCredentials Search for OAuth2 client credentials using POST.
 func (client IdentityDomainsClient) SearchOAuth2ClientCredentials(ctx context.Context, request SearchOAuth2ClientCredentialsRequest) (response SearchOAuth2ClientCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15269,6 +16255,122 @@ func (client IdentityDomainsClient) searchOAuth2ClientCredentials(ctx context.Co
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchOAuth2ClientCredentials", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SearchOAuthClientCertificates Search OAuth Client Certificates Using POST
+func (client IdentityDomainsClient) SearchOAuthClientCertificates(ctx context.Context, request SearchOAuthClientCertificatesRequest) (response SearchOAuthClientCertificatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.searchOAuthClientCertificates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchOAuthClientCertificatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchOAuthClientCertificatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchOAuthClientCertificatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchOAuthClientCertificatesResponse")
+	}
+	return
+}
+
+// searchOAuthClientCertificates implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) searchOAuthClientCertificates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/OAuthClientCertificates/.search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchOAuthClientCertificatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchOAuthClientCertificates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SearchOAuthPartnerCertificates Search OAuth Partner Certificates Using POST
+func (client IdentityDomainsClient) SearchOAuthPartnerCertificates(ctx context.Context, request SearchOAuthPartnerCertificatesRequest) (response SearchOAuthPartnerCertificatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.searchOAuthPartnerCertificates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchOAuthPartnerCertificatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchOAuthPartnerCertificatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchOAuthPartnerCertificatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchOAuthPartnerCertificatesResponse")
+	}
+	return
+}
+
+// searchOAuthPartnerCertificates implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) searchOAuthPartnerCertificates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/OAuthPartnerCertificates/.search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchOAuthPartnerCertificatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchOAuthPartnerCertificates", apiReferenceLink)
 		return response, err
 	}
 
@@ -15675,6 +16777,64 @@ func (client IdentityDomainsClient) searchSelfRegistrationProfiles(ctx context.C
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchSelfRegistrationProfiles", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SearchSettings Search Settings Using POST
+func (client IdentityDomainsClient) SearchSettings(ctx context.Context, request SearchSettingsRequest) (response SearchSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.searchSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchSettingsResponse")
+	}
+	return
+}
+
+// searchSettings implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) searchSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/Settings/.search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchSettings", apiReferenceLink)
 		return response, err
 	}
 

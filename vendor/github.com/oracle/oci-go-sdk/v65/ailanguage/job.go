@@ -82,18 +82,6 @@ type Job struct {
 
 	// Job finished time.
 	TimeCompleted *common.SDKTime `mandatory:"false" json:"timeCompleted"`
-
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// Usage of system tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
-	SystemTags map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m Job) String() string {
@@ -118,30 +106,27 @@ func (m Job) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName          *string                           `json:"displayName"`
-		Description          *string                           `json:"description"`
-		InputConfiguration   *InputConfiguration               `json:"inputConfiguration"`
-		LifecycleState       JobLifecycleStateEnum             `json:"lifecycleState"`
-		LifecycleDetails     *string                           `json:"lifecycleDetails"`
-		PercentComplete      *int                              `json:"percentComplete"`
-		TotalDocuments       *int                              `json:"totalDocuments"`
-		PendingDocuments     *int                              `json:"pendingDocuments"`
-		CompletedDocuments   *int                              `json:"completedDocuments"`
-		FailedDocuments      *int                              `json:"failedDocuments"`
-		WarningsCount        *int                              `json:"warningsCount"`
-		TtlInDays            *int                              `json:"ttlInDays"`
-		CreatedBy            *string                           `json:"createdBy"`
-		TimeAccepted         *common.SDKTime                   `json:"timeAccepted"`
-		TimeStarted          *common.SDKTime                   `json:"timeStarted"`
-		TimeCompleted        *common.SDKTime                   `json:"timeCompleted"`
-		FreeformTags         map[string]string                 `json:"freeformTags"`
-		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags           map[string]interface{}            `json:"systemTags"`
-		Id                   *string                           `json:"id"`
-		InputLocation        inputlocation                     `json:"inputLocation"`
-		ModelMetadataDetails []ModelMetadataDetails            `json:"modelMetadataDetails"`
-		CompartmentId        *string                           `json:"compartmentId"`
-		OutputLocation       *ObjectPrefixOutputLocation       `json:"outputLocation"`
+		DisplayName          *string                     `json:"displayName"`
+		Description          *string                     `json:"description"`
+		InputConfiguration   *InputConfiguration         `json:"inputConfiguration"`
+		LifecycleState       JobLifecycleStateEnum       `json:"lifecycleState"`
+		LifecycleDetails     *string                     `json:"lifecycleDetails"`
+		PercentComplete      *int                        `json:"percentComplete"`
+		TotalDocuments       *int                        `json:"totalDocuments"`
+		PendingDocuments     *int                        `json:"pendingDocuments"`
+		CompletedDocuments   *int                        `json:"completedDocuments"`
+		FailedDocuments      *int                        `json:"failedDocuments"`
+		WarningsCount        *int                        `json:"warningsCount"`
+		TtlInDays            *int                        `json:"ttlInDays"`
+		CreatedBy            *string                     `json:"createdBy"`
+		TimeAccepted         *common.SDKTime             `json:"timeAccepted"`
+		TimeStarted          *common.SDKTime             `json:"timeStarted"`
+		TimeCompleted        *common.SDKTime             `json:"timeCompleted"`
+		Id                   *string                     `json:"id"`
+		InputLocation        inputlocation               `json:"inputLocation"`
+		ModelMetadataDetails []ModelMetadataDetails      `json:"modelMetadataDetails"`
+		CompartmentId        *string                     `json:"compartmentId"`
+		OutputLocation       *ObjectPrefixOutputLocation `json:"outputLocation"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -180,12 +165,6 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	m.TimeStarted = model.TimeStarted
 
 	m.TimeCompleted = model.TimeCompleted
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id
 

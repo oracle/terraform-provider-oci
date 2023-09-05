@@ -48,6 +48,10 @@ type CreateMonitoredResourceDetails struct {
 	// For example - America/Los_Angeles
 	ResourceTimeZone *string `mandatory:"false" json:"resourceTimeZone"`
 
+	// License edition of the monitored resource. If not provided
+	// the default license type for the compartment will be used.
+	License LicenseTypeEnum `mandatory:"false" json:"license,omitempty"`
+
 	// List of monitored resource properties.
 	Properties []MonitoredResourceProperty `mandatory:"false" json:"properties"`
 
@@ -92,6 +96,9 @@ func (m CreateMonitoredResourceDetails) String() string {
 func (m CreateMonitoredResourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingLicenseTypeEnum(string(m.License)); !ok && m.License != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for License: %s. Supported values are: %s.", m.License, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -106,6 +113,7 @@ func (m *CreateMonitoredResourceDetails) UnmarshalJSON(data []byte) (e error) {
 		ExternalId                *string                            `json:"externalId"`
 		ManagementAgentId         *string                            `json:"managementAgentId"`
 		ResourceTimeZone          *string                            `json:"resourceTimeZone"`
+		License                   LicenseTypeEnum                    `json:"license"`
 		Properties                []MonitoredResourceProperty        `json:"properties"`
 		DatabaseConnectionDetails *ConnectionDetails                 `json:"databaseConnectionDetails"`
 		Credentials               monitoredresourcecredential        `json:"credentials"`
@@ -133,6 +141,8 @@ func (m *CreateMonitoredResourceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ManagementAgentId = model.ManagementAgentId
 
 	m.ResourceTimeZone = model.ResourceTimeZone
+
+	m.License = model.License
 
 	m.Properties = make([]MonitoredResourceProperty, len(model.Properties))
 	copy(m.Properties, model.Properties)

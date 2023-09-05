@@ -28,6 +28,12 @@ type SaveSqlTuningSetAsDetails struct {
 	// The name of the destination Sql tuning set.
 	DestinationSqlTuningSetName *string `mandatory:"true" json:"destinationSqlTuningSetName"`
 
+	// Specifies whether to create a new Sql tuning set or not.
+	// Possible values
+	// 1 - Create a new Sql tuning set
+	// 0 - Do not create a new Sql tuning set
+	CreateNew *int `mandatory:"true" json:"createNew"`
+
 	// Flag to indicate whether to save the Sql tuning set or just display the plsql used to save Sql tuning set.
 	ShowSqlOnly *int `mandatory:"false" json:"showSqlOnly"`
 
@@ -39,12 +45,6 @@ type SaveSqlTuningSetAsDetails struct {
 
 	// Owner of the destination Sql tuning set.
 	DestinationSqlTuningSetOwner *string `mandatory:"false" json:"destinationSqlTuningSetOwner"`
-
-	// Specifies whether to create a new Sql tuning set or not.
-	// Possible values
-	// 1 - Create a new Sql tuning set
-	// 0 - Do not create a new Sql tuning set
-	CreateNew *int `mandatory:"false" json:"createNew"`
 
 	// Specifies the Sql predicate to filter the Sql from the Sql tuning set defined on attributes of the SQLSET_ROW.
 	// User could use any combination of the following columns with appropriate values as Sql predicate
@@ -209,7 +209,6 @@ func (m *SaveSqlTuningSetAsDetails) UnmarshalJSON(data []byte) (e error) {
 		Owner                              *string                                      `json:"owner"`
 		DestinationSqlTuningSetDescription *string                                      `json:"destinationSqlTuningSetDescription"`
 		DestinationSqlTuningSetOwner       *string                                      `json:"destinationSqlTuningSetOwner"`
-		CreateNew                          *int                                         `json:"createNew"`
 		BasicFilter                        *string                                      `json:"basicFilter"`
 		PlanFilter                         SaveSqlTuningSetAsDetailsPlanFilterEnum      `json:"planFilter"`
 		RecursiveSql                       SaveSqlTuningSetAsDetailsRecursiveSqlEnum    `json:"recursiveSql"`
@@ -228,6 +227,7 @@ func (m *SaveSqlTuningSetAsDetails) UnmarshalJSON(data []byte) (e error) {
 		CredentialDetails                  sqltuningsetadmincredentialdetails           `json:"credentialDetails"`
 		Name                               *string                                      `json:"name"`
 		DestinationSqlTuningSetName        *string                                      `json:"destinationSqlTuningSetName"`
+		CreateNew                          *int                                         `json:"createNew"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -242,8 +242,6 @@ func (m *SaveSqlTuningSetAsDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DestinationSqlTuningSetDescription = model.DestinationSqlTuningSetDescription
 
 	m.DestinationSqlTuningSetOwner = model.DestinationSqlTuningSetOwner
-
-	m.CreateNew = model.CreateNew
 
 	m.BasicFilter = model.BasicFilter
 
@@ -288,6 +286,8 @@ func (m *SaveSqlTuningSetAsDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Name = model.Name
 
 	m.DestinationSqlTuningSetName = model.DestinationSqlTuningSetName
+
+	m.CreateNew = model.CreateNew
 
 	return
 }

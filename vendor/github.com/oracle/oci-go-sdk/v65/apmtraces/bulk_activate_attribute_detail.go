@@ -105,27 +105,33 @@ type BulkActivateAttributeDetailUnitEnum string
 
 // Set of constants representing the allowable values for BulkActivateAttributeDetailUnitEnum
 const (
+	BulkActivateAttributeDetailUnitNone        BulkActivateAttributeDetailUnitEnum = "NONE"
 	BulkActivateAttributeDetailUnitEpochTimeMs BulkActivateAttributeDetailUnitEnum = "EPOCH_TIME_MS"
 	BulkActivateAttributeDetailUnitBytes       BulkActivateAttributeDetailUnitEnum = "BYTES"
 	BulkActivateAttributeDetailUnitCount       BulkActivateAttributeDetailUnitEnum = "COUNT"
 	BulkActivateAttributeDetailUnitDurationMs  BulkActivateAttributeDetailUnitEnum = "DURATION_MS"
 	BulkActivateAttributeDetailUnitTraceStatus BulkActivateAttributeDetailUnitEnum = "TRACE_STATUS"
+	BulkActivateAttributeDetailUnitPercentage  BulkActivateAttributeDetailUnitEnum = "PERCENTAGE"
 )
 
 var mappingBulkActivateAttributeDetailUnitEnum = map[string]BulkActivateAttributeDetailUnitEnum{
+	"NONE":          BulkActivateAttributeDetailUnitNone,
 	"EPOCH_TIME_MS": BulkActivateAttributeDetailUnitEpochTimeMs,
 	"BYTES":         BulkActivateAttributeDetailUnitBytes,
 	"COUNT":         BulkActivateAttributeDetailUnitCount,
 	"DURATION_MS":   BulkActivateAttributeDetailUnitDurationMs,
 	"TRACE_STATUS":  BulkActivateAttributeDetailUnitTraceStatus,
+	"PERCENTAGE":    BulkActivateAttributeDetailUnitPercentage,
 }
 
 var mappingBulkActivateAttributeDetailUnitEnumLowerCase = map[string]BulkActivateAttributeDetailUnitEnum{
+	"none":          BulkActivateAttributeDetailUnitNone,
 	"epoch_time_ms": BulkActivateAttributeDetailUnitEpochTimeMs,
 	"bytes":         BulkActivateAttributeDetailUnitBytes,
 	"count":         BulkActivateAttributeDetailUnitCount,
 	"duration_ms":   BulkActivateAttributeDetailUnitDurationMs,
 	"trace_status":  BulkActivateAttributeDetailUnitTraceStatus,
+	"percentage":    BulkActivateAttributeDetailUnitPercentage,
 }
 
 // GetBulkActivateAttributeDetailUnitEnumValues Enumerates the set of values for BulkActivateAttributeDetailUnitEnum
@@ -140,11 +146,13 @@ func GetBulkActivateAttributeDetailUnitEnumValues() []BulkActivateAttributeDetai
 // GetBulkActivateAttributeDetailUnitEnumStringValues Enumerates the set of values in String for BulkActivateAttributeDetailUnitEnum
 func GetBulkActivateAttributeDetailUnitEnumStringValues() []string {
 	return []string{
+		"NONE",
 		"EPOCH_TIME_MS",
 		"BYTES",
 		"COUNT",
 		"DURATION_MS",
 		"TRACE_STATUS",
+		"PERCENTAGE",
 	}
 }
 

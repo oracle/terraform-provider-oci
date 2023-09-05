@@ -27,11 +27,11 @@ type GetSpanRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Include traces or spans that have a `minTraceStartTime` equal to or greater than this value.
-	TimeStartedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartedGreaterThanOrEqualTo"`
+	// Include spans that have a `spanStartTime` equal to or greater than this value.
+	TimeSpanStartedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeSpanStartedGreaterThanOrEqualTo"`
 
-	// Include traces or spans that have a `maxTraceEndTime` less than this value.
-	TimeEndedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEndedLessThan"`
+	// Include spans that have a `spanStartTime`less than this value.
+	TimeSpanStartedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeSpanStartedLessThan"`
 
 	// Name space from which the span details need to be retrieved.
 	SpanNamespace GetSpanSpanNamespaceEnum `mandatory:"false" contributesTo:"query" name:"spanNamespace" omitEmpty:"true"`

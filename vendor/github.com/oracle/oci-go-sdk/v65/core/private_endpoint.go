@@ -141,6 +141,30 @@ type PrivateEndpoint struct {
 	//   - PE_50G: 50G VNIC shape will be used to provision private endpoint.
 	PrivateEndpointVnicShape PrivateEndpointPrivateEndpointVnicShapeEnum `mandatory:"false" json:"privateEndpointVnicShape,omitempty"`
 
+	// Optional and valid only for Private Access to support ADB-S low latency support.
+	// Provision PE to the specified Primary AD for low latency path. The attribute will be null
+	// if this is a regional subnet instead of AD-specific subnet.
+	// example: 'phx-ad-1'
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	// Optional and valid only for Private Access to support ADB-S low latency support.
+	// Provision PE to the specified failover AD for low latency path. The attribute will be null
+	// if this is a regional subnet instead of AD-specific subnet. PE will fail over to this domain
+	// when primary provisioned availability domain fails.
+	// example: 'phx-ad-1'
+	FailoverDomain *string `mandatory:"false" json:"failoverDomain"`
+
+	// Failover State specifies the current state of private endpoint failover operation.
+	// Service needs to be whitelisted to use this feature.
+	// Allowed Updatable Values:
+	//   - PROVISION: This state uses failoverDomain field to provision the failover domain for a given private endpoint.
+	//   - START_FAILOVER: This state fails over from availabilityDomain to failoverDomain as provisioned in PROVISION state.
+	// State Changes during failover:
+	//   - INPROGRESS: This state marks the failover update in progress. No PROVISION and START_FAILOVER updates allowed when in this state.
+	//   - COMPLETE: This state specifies failover operation is complete. Service is ready to accept updates.
+	//   - FAILED: This state specifies that failover operation failed.
+	FailoverState PrivateEndpointFailoverStateEnum `mandatory:"false" json:"failoverState,omitempty"`
+
 	ReverseConnectionConfiguration *ReverseConnectionConfiguration `mandatory:"false" json:"reverseConnectionConfiguration"`
 }
 
@@ -159,6 +183,9 @@ func (m PrivateEndpoint) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingPrivateEndpointPrivateEndpointVnicShapeEnum(string(m.PrivateEndpointVnicShape)); !ok && m.PrivateEndpointVnicShape != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PrivateEndpointVnicShape: %s. Supported values are: %s.", m.PrivateEndpointVnicShape, strings.Join(GetPrivateEndpointPrivateEndpointVnicShapeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingPrivateEndpointFailoverStateEnum(string(m.FailoverState)); !ok && m.FailoverState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FailoverState: %s. Supported values are: %s.", m.FailoverState, strings.Join(GetPrivateEndpointFailoverStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -267,5 +294,59 @@ func GetPrivateEndpointPrivateEndpointVnicShapeEnumStringValues() []string {
 // GetMappingPrivateEndpointPrivateEndpointVnicShapeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingPrivateEndpointPrivateEndpointVnicShapeEnum(val string) (PrivateEndpointPrivateEndpointVnicShapeEnum, bool) {
 	enum, ok := mappingPrivateEndpointPrivateEndpointVnicShapeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// PrivateEndpointFailoverStateEnum Enum with underlying type: string
+type PrivateEndpointFailoverStateEnum string
+
+// Set of constants representing the allowable values for PrivateEndpointFailoverStateEnum
+const (
+	PrivateEndpointFailoverStateProvision     PrivateEndpointFailoverStateEnum = "PROVISION"
+	PrivateEndpointFailoverStateStartFailover PrivateEndpointFailoverStateEnum = "START_FAILOVER"
+	PrivateEndpointFailoverStateInprogress    PrivateEndpointFailoverStateEnum = "INPROGRESS"
+	PrivateEndpointFailoverStateComplete      PrivateEndpointFailoverStateEnum = "COMPLETE"
+	PrivateEndpointFailoverStateFailed        PrivateEndpointFailoverStateEnum = "FAILED"
+)
+
+var mappingPrivateEndpointFailoverStateEnum = map[string]PrivateEndpointFailoverStateEnum{
+	"PROVISION":      PrivateEndpointFailoverStateProvision,
+	"START_FAILOVER": PrivateEndpointFailoverStateStartFailover,
+	"INPROGRESS":     PrivateEndpointFailoverStateInprogress,
+	"COMPLETE":       PrivateEndpointFailoverStateComplete,
+	"FAILED":         PrivateEndpointFailoverStateFailed,
+}
+
+var mappingPrivateEndpointFailoverStateEnumLowerCase = map[string]PrivateEndpointFailoverStateEnum{
+	"provision":      PrivateEndpointFailoverStateProvision,
+	"start_failover": PrivateEndpointFailoverStateStartFailover,
+	"inprogress":     PrivateEndpointFailoverStateInprogress,
+	"complete":       PrivateEndpointFailoverStateComplete,
+	"failed":         PrivateEndpointFailoverStateFailed,
+}
+
+// GetPrivateEndpointFailoverStateEnumValues Enumerates the set of values for PrivateEndpointFailoverStateEnum
+func GetPrivateEndpointFailoverStateEnumValues() []PrivateEndpointFailoverStateEnum {
+	values := make([]PrivateEndpointFailoverStateEnum, 0)
+	for _, v := range mappingPrivateEndpointFailoverStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPrivateEndpointFailoverStateEnumStringValues Enumerates the set of values in String for PrivateEndpointFailoverStateEnum
+func GetPrivateEndpointFailoverStateEnumStringValues() []string {
+	return []string{
+		"PROVISION",
+		"START_FAILOVER",
+		"INPROGRESS",
+		"COMPLETE",
+		"FAILED",
+	}
+}
+
+// GetMappingPrivateEndpointFailoverStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPrivateEndpointFailoverStateEnum(val string) (PrivateEndpointFailoverStateEnum, bool) {
+	enum, ok := mappingPrivateEndpointFailoverStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

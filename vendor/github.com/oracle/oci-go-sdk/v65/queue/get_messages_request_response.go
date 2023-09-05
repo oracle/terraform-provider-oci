@@ -37,6 +37,9 @@ type GetMessagesRequest struct {
 	// Optional parameter to filter the channels.
 	ChannelFilter *string `mandatory:"false" contributesTo:"query" name:"channelFilter"`
 
+	// Optional parameter to specify a consumer group.
+	ConsumerGroupId *string `mandatory:"false" contributesTo:"query" name:"consumerGroupId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

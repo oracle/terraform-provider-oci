@@ -51,6 +51,7 @@ type AttributeUpdateResponse struct {
 	// INVALID_ATTRIBUTE - The attribute is invalid.
 	// ATTRIBUTE_NOT_PROCESSED - The attribute was not processed, as there was another attribute in this bulk request collection that resulted in a processing error.
 	// ATTRIBUTE_DOES_NOT_EXIST - Attribute was neither active nor pinned inactive.
+	// ATTRIBUTE_UPDATE_NOT_ALLOWED - Attribute update is not allowed as it is an in-built system attribute.
 	AttributeStatus AttributeUpdateResponseAttributeStatusEnum `mandatory:"false" json:"attributeStatus,omitempty"`
 }
 
@@ -132,27 +133,33 @@ type AttributeUpdateResponseUnitEnum string
 
 // Set of constants representing the allowable values for AttributeUpdateResponseUnitEnum
 const (
+	AttributeUpdateResponseUnitNone        AttributeUpdateResponseUnitEnum = "NONE"
 	AttributeUpdateResponseUnitEpochTimeMs AttributeUpdateResponseUnitEnum = "EPOCH_TIME_MS"
 	AttributeUpdateResponseUnitBytes       AttributeUpdateResponseUnitEnum = "BYTES"
 	AttributeUpdateResponseUnitCount       AttributeUpdateResponseUnitEnum = "COUNT"
 	AttributeUpdateResponseUnitDurationMs  AttributeUpdateResponseUnitEnum = "DURATION_MS"
 	AttributeUpdateResponseUnitTraceStatus AttributeUpdateResponseUnitEnum = "TRACE_STATUS"
+	AttributeUpdateResponseUnitPercentage  AttributeUpdateResponseUnitEnum = "PERCENTAGE"
 )
 
 var mappingAttributeUpdateResponseUnitEnum = map[string]AttributeUpdateResponseUnitEnum{
+	"NONE":          AttributeUpdateResponseUnitNone,
 	"EPOCH_TIME_MS": AttributeUpdateResponseUnitEpochTimeMs,
 	"BYTES":         AttributeUpdateResponseUnitBytes,
 	"COUNT":         AttributeUpdateResponseUnitCount,
 	"DURATION_MS":   AttributeUpdateResponseUnitDurationMs,
 	"TRACE_STATUS":  AttributeUpdateResponseUnitTraceStatus,
+	"PERCENTAGE":    AttributeUpdateResponseUnitPercentage,
 }
 
 var mappingAttributeUpdateResponseUnitEnumLowerCase = map[string]AttributeUpdateResponseUnitEnum{
+	"none":          AttributeUpdateResponseUnitNone,
 	"epoch_time_ms": AttributeUpdateResponseUnitEpochTimeMs,
 	"bytes":         AttributeUpdateResponseUnitBytes,
 	"count":         AttributeUpdateResponseUnitCount,
 	"duration_ms":   AttributeUpdateResponseUnitDurationMs,
 	"trace_status":  AttributeUpdateResponseUnitTraceStatus,
+	"percentage":    AttributeUpdateResponseUnitPercentage,
 }
 
 // GetAttributeUpdateResponseUnitEnumValues Enumerates the set of values for AttributeUpdateResponseUnitEnum
@@ -167,11 +174,13 @@ func GetAttributeUpdateResponseUnitEnumValues() []AttributeUpdateResponseUnitEnu
 // GetAttributeUpdateResponseUnitEnumStringValues Enumerates the set of values in String for AttributeUpdateResponseUnitEnum
 func GetAttributeUpdateResponseUnitEnumStringValues() []string {
 	return []string{
+		"NONE",
 		"EPOCH_TIME_MS",
 		"BYTES",
 		"COUNT",
 		"DURATION_MS",
 		"TRACE_STATUS",
+		"PERCENTAGE",
 	}
 }
 
@@ -224,27 +233,30 @@ type AttributeUpdateResponseAttributeStatusEnum string
 
 // Set of constants representing the allowable values for AttributeUpdateResponseAttributeStatusEnum
 const (
-	AttributeUpdateResponseAttributeStatusAttributeUpdated      AttributeUpdateResponseAttributeStatusEnum = "ATTRIBUTE_UPDATED"
-	AttributeUpdateResponseAttributeStatusDuplicateAttribute    AttributeUpdateResponseAttributeStatusEnum = "DUPLICATE_ATTRIBUTE"
-	AttributeUpdateResponseAttributeStatusInvalidAttribute      AttributeUpdateResponseAttributeStatusEnum = "INVALID_ATTRIBUTE"
-	AttributeUpdateResponseAttributeStatusAttributeNotProcessed AttributeUpdateResponseAttributeStatusEnum = "ATTRIBUTE_NOT_PROCESSED"
-	AttributeUpdateResponseAttributeStatusAttributeDoesNotExist AttributeUpdateResponseAttributeStatusEnum = "ATTRIBUTE_DOES_NOT_EXIST"
+	AttributeUpdateResponseAttributeStatusAttributeUpdated          AttributeUpdateResponseAttributeStatusEnum = "ATTRIBUTE_UPDATED"
+	AttributeUpdateResponseAttributeStatusDuplicateAttribute        AttributeUpdateResponseAttributeStatusEnum = "DUPLICATE_ATTRIBUTE"
+	AttributeUpdateResponseAttributeStatusInvalidAttribute          AttributeUpdateResponseAttributeStatusEnum = "INVALID_ATTRIBUTE"
+	AttributeUpdateResponseAttributeStatusAttributeNotProcessed     AttributeUpdateResponseAttributeStatusEnum = "ATTRIBUTE_NOT_PROCESSED"
+	AttributeUpdateResponseAttributeStatusAttributeDoesNotExist     AttributeUpdateResponseAttributeStatusEnum = "ATTRIBUTE_DOES_NOT_EXIST"
+	AttributeUpdateResponseAttributeStatusAttributeUpdateNotAllowed AttributeUpdateResponseAttributeStatusEnum = "ATTRIBUTE_UPDATE_NOT_ALLOWED"
 )
 
 var mappingAttributeUpdateResponseAttributeStatusEnum = map[string]AttributeUpdateResponseAttributeStatusEnum{
-	"ATTRIBUTE_UPDATED":        AttributeUpdateResponseAttributeStatusAttributeUpdated,
-	"DUPLICATE_ATTRIBUTE":      AttributeUpdateResponseAttributeStatusDuplicateAttribute,
-	"INVALID_ATTRIBUTE":        AttributeUpdateResponseAttributeStatusInvalidAttribute,
-	"ATTRIBUTE_NOT_PROCESSED":  AttributeUpdateResponseAttributeStatusAttributeNotProcessed,
-	"ATTRIBUTE_DOES_NOT_EXIST": AttributeUpdateResponseAttributeStatusAttributeDoesNotExist,
+	"ATTRIBUTE_UPDATED":            AttributeUpdateResponseAttributeStatusAttributeUpdated,
+	"DUPLICATE_ATTRIBUTE":          AttributeUpdateResponseAttributeStatusDuplicateAttribute,
+	"INVALID_ATTRIBUTE":            AttributeUpdateResponseAttributeStatusInvalidAttribute,
+	"ATTRIBUTE_NOT_PROCESSED":      AttributeUpdateResponseAttributeStatusAttributeNotProcessed,
+	"ATTRIBUTE_DOES_NOT_EXIST":     AttributeUpdateResponseAttributeStatusAttributeDoesNotExist,
+	"ATTRIBUTE_UPDATE_NOT_ALLOWED": AttributeUpdateResponseAttributeStatusAttributeUpdateNotAllowed,
 }
 
 var mappingAttributeUpdateResponseAttributeStatusEnumLowerCase = map[string]AttributeUpdateResponseAttributeStatusEnum{
-	"attribute_updated":        AttributeUpdateResponseAttributeStatusAttributeUpdated,
-	"duplicate_attribute":      AttributeUpdateResponseAttributeStatusDuplicateAttribute,
-	"invalid_attribute":        AttributeUpdateResponseAttributeStatusInvalidAttribute,
-	"attribute_not_processed":  AttributeUpdateResponseAttributeStatusAttributeNotProcessed,
-	"attribute_does_not_exist": AttributeUpdateResponseAttributeStatusAttributeDoesNotExist,
+	"attribute_updated":            AttributeUpdateResponseAttributeStatusAttributeUpdated,
+	"duplicate_attribute":          AttributeUpdateResponseAttributeStatusDuplicateAttribute,
+	"invalid_attribute":            AttributeUpdateResponseAttributeStatusInvalidAttribute,
+	"attribute_not_processed":      AttributeUpdateResponseAttributeStatusAttributeNotProcessed,
+	"attribute_does_not_exist":     AttributeUpdateResponseAttributeStatusAttributeDoesNotExist,
+	"attribute_update_not_allowed": AttributeUpdateResponseAttributeStatusAttributeUpdateNotAllowed,
 }
 
 // GetAttributeUpdateResponseAttributeStatusEnumValues Enumerates the set of values for AttributeUpdateResponseAttributeStatusEnum
@@ -264,6 +276,7 @@ func GetAttributeUpdateResponseAttributeStatusEnumStringValues() []string {
 		"INVALID_ATTRIBUTE",
 		"ATTRIBUTE_NOT_PROCESSED",
 		"ATTRIBUTE_DOES_NOT_EXIST",
+		"ATTRIBUTE_UPDATE_NOT_ALLOWED",
 	}
 }
 

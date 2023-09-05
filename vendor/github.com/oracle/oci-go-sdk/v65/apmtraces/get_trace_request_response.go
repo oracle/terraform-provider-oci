@@ -24,11 +24,11 @@ type GetTraceRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Include traces or spans that have a `minTraceStartTime` equal to or greater than this value.
-	TimeStartedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStartedGreaterThanOrEqualTo"`
+	// Include traces that have a `minTraceStartTime` equal to or greater than this value.
+	TimeTraceStartedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeTraceStartedGreaterThanOrEqualTo"`
 
-	// Include traces or spans that have a `maxTraceEndTime` less than this value.
-	TimeEndedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEndedLessThan"`
+	// Include traces that have a `minTraceStartTime` less than this value.
+	TimeTraceStartedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeTraceStartedLessThan"`
 
 	// Name space from which the trace details need to be retrieved.
 	TraceNamespace GetTraceTraceNamespaceEnum `mandatory:"false" contributesTo:"query" name:"traceNamespace" omitEmpty:"true"`

@@ -514,6 +514,67 @@ func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx cont
 	return response, err
 }
 
+// ChangeComputeCapacityTopologyCompartment Moves a compute capacity topology into a different compartment. For information about
+// moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeComputeCapacityTopologyCompartment()
+func (client ComputeClient) ChangeComputeCapacityTopologyCompartment(ctx context.Context, request ChangeComputeCapacityTopologyCompartmentRequest) (response ChangeComputeCapacityTopologyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeComputeCapacityTopologyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeComputeCapacityTopologyCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeComputeCapacityTopologyCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeComputeCapacityTopologyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeComputeCapacityTopologyCompartmentResponse")
+	}
+	return
+}
+
+// changeComputeCapacityTopologyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) changeComputeCapacityTopologyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeCapacityTopologies/{computeCapacityTopologyId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeComputeCapacityTopologyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityTopology/ChangeComputeCapacityTopologyCompartment"
+		err = common.PostProcessServiceError(err, "Compute", "ChangeComputeCapacityTopologyCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeComputeClusterCompartment Moves a compute cluster into a different compartment within the same tenancy.
 // A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group.
 // For information about moving resources between compartments, see
@@ -1053,6 +1114,68 @@ func (client ComputeClient) createComputeCapacityReservation(ctx context.Context
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Compute", "CreateComputeCapacityReservation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateComputeCapacityTopology Creates a new compute capacity topology in the specified compartment and availability domain.
+// Compute capacity topologies provide the RDMA network topology of your bare metal hosts so that you can launch
+// instances on your bare metal hosts with targeted network locations.
+// Compute capacity topologies also report the health status of your bare metal hosts.
+// A default retry strategy applies to this operation CreateComputeCapacityTopology()
+func (client ComputeClient) CreateComputeCapacityTopology(ctx context.Context, request CreateComputeCapacityTopologyRequest) (response CreateComputeCapacityTopologyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createComputeCapacityTopology, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateComputeCapacityTopologyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateComputeCapacityTopologyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateComputeCapacityTopologyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateComputeCapacityTopologyResponse")
+	}
+	return
+}
+
+// createComputeCapacityTopology implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) createComputeCapacityTopology(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeCapacityTopologies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateComputeCapacityTopologyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Compute", "CreateComputeCapacityTopology", apiReferenceLink)
 		return response, err
 	}
 
@@ -1608,6 +1731,60 @@ func (client ComputeClient) deleteComputeCapacityReservation(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityReservation/DeleteComputeCapacityReservation"
 		err = common.PostProcessServiceError(err, "Compute", "DeleteComputeCapacityReservation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteComputeCapacityTopology Deletes the specified compute capacity topology.
+// A default retry strategy applies to this operation DeleteComputeCapacityTopology()
+func (client ComputeClient) DeleteComputeCapacityTopology(ctx context.Context, request DeleteComputeCapacityTopologyRequest) (response DeleteComputeCapacityTopologyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteComputeCapacityTopology, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteComputeCapacityTopologyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteComputeCapacityTopologyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteComputeCapacityTopologyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteComputeCapacityTopologyResponse")
+	}
+	return
+}
+
+// deleteComputeCapacityTopology implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) deleteComputeCapacityTopology(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/computeCapacityTopologies/{computeCapacityTopologyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteComputeCapacityTopologyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityTopology/DeleteComputeCapacityTopology"
+		err = common.PostProcessServiceError(err, "Compute", "DeleteComputeCapacityTopology", apiReferenceLink)
 		return response, err
 	}
 
@@ -2543,6 +2720,60 @@ func (client ComputeClient) getComputeCapacityReservation(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityReservation/GetComputeCapacityReservation"
 		err = common.PostProcessServiceError(err, "Compute", "GetComputeCapacityReservation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetComputeCapacityTopology Gets information about the specified compute capacity topology.
+// A default retry strategy applies to this operation GetComputeCapacityTopology()
+func (client ComputeClient) GetComputeCapacityTopology(ctx context.Context, request GetComputeCapacityTopologyRequest) (response GetComputeCapacityTopologyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getComputeCapacityTopology, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetComputeCapacityTopologyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetComputeCapacityTopologyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetComputeCapacityTopologyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetComputeCapacityTopologyResponse")
+	}
+	return
+}
+
+// getComputeCapacityTopology implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getComputeCapacityTopology(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityTopologies/{computeCapacityTopologyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetComputeCapacityTopologyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityTopology/GetComputeCapacityTopology"
+		err = common.PostProcessServiceError(err, "Compute", "GetComputeCapacityTopology", apiReferenceLink)
 		return response, err
 	}
 
@@ -4238,6 +4469,223 @@ func (client ComputeClient) listComputeCapacityReservations(ctx context.Context,
 	return response, err
 }
 
+// ListComputeCapacityTopologies Lists the compute capacity topologies in the specified compartment. You can filter the list by specifying
+// a compute capacity topology display name.
+// A default retry strategy applies to this operation ListComputeCapacityTopologies()
+func (client ComputeClient) ListComputeCapacityTopologies(ctx context.Context, request ListComputeCapacityTopologiesRequest) (response ListComputeCapacityTopologiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeCapacityTopologies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeCapacityTopologiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeCapacityTopologiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeCapacityTopologiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeCapacityTopologiesResponse")
+	}
+	return
+}
+
+// listComputeCapacityTopologies implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listComputeCapacityTopologies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityTopologies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListComputeCapacityTopologiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityTopology/ListComputeCapacityTopologies"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeCapacityTopologies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListComputeCapacityTopologyComputeBareMetalHosts List compute bare metal hosts in the specified compute capacity topology.
+// A default retry strategy applies to this operation ListComputeCapacityTopologyComputeBareMetalHosts()
+func (client ComputeClient) ListComputeCapacityTopologyComputeBareMetalHosts(ctx context.Context, request ListComputeCapacityTopologyComputeBareMetalHostsRequest) (response ListComputeCapacityTopologyComputeBareMetalHostsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeCapacityTopologyComputeBareMetalHosts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeCapacityTopologyComputeBareMetalHostsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeCapacityTopologyComputeBareMetalHostsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeCapacityTopologyComputeBareMetalHostsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeCapacityTopologyComputeBareMetalHostsResponse")
+	}
+	return
+}
+
+// listComputeCapacityTopologyComputeBareMetalHosts implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listComputeCapacityTopologyComputeBareMetalHosts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityTopologies/{computeCapacityTopologyId}/computeBareMetalHosts", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListComputeCapacityTopologyComputeBareMetalHostsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeBareMetalHost/ListComputeCapacityTopologyComputeBareMetalHosts"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeCapacityTopologyComputeBareMetalHosts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListComputeCapacityTopologyComputeHpcIslands List compute HPC islands in the specified compute capacity topology.
+// A default retry strategy applies to this operation ListComputeCapacityTopologyComputeHpcIslands()
+func (client ComputeClient) ListComputeCapacityTopologyComputeHpcIslands(ctx context.Context, request ListComputeCapacityTopologyComputeHpcIslandsRequest) (response ListComputeCapacityTopologyComputeHpcIslandsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeCapacityTopologyComputeHpcIslands, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeCapacityTopologyComputeHpcIslandsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeCapacityTopologyComputeHpcIslandsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeCapacityTopologyComputeHpcIslandsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeCapacityTopologyComputeHpcIslandsResponse")
+	}
+	return
+}
+
+// listComputeCapacityTopologyComputeHpcIslands implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listComputeCapacityTopologyComputeHpcIslands(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityTopologies/{computeCapacityTopologyId}/computeHpcIslands", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListComputeCapacityTopologyComputeHpcIslandsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHpcIsland/ListComputeCapacityTopologyComputeHpcIslands"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeCapacityTopologyComputeHpcIslands", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListComputeCapacityTopologyComputeNetworkBlocks List compute network blocks in the specified compute capacity topology.
+// A default retry strategy applies to this operation ListComputeCapacityTopologyComputeNetworkBlocks()
+func (client ComputeClient) ListComputeCapacityTopologyComputeNetworkBlocks(ctx context.Context, request ListComputeCapacityTopologyComputeNetworkBlocksRequest) (response ListComputeCapacityTopologyComputeNetworkBlocksResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeCapacityTopologyComputeNetworkBlocks, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeCapacityTopologyComputeNetworkBlocksResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeCapacityTopologyComputeNetworkBlocksResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeCapacityTopologyComputeNetworkBlocksResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeCapacityTopologyComputeNetworkBlocksResponse")
+	}
+	return
+}
+
+// listComputeCapacityTopologyComputeNetworkBlocks implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listComputeCapacityTopologyComputeNetworkBlocks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeCapacityTopologies/{computeCapacityTopologyId}/computeNetworkBlocks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListComputeCapacityTopologyComputeNetworkBlocksResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeNetworkBlock/ListComputeCapacityTopologyComputeNetworkBlocks"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeCapacityTopologyComputeNetworkBlocks", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListComputeClusters Lists the compute clusters in the specified compartment.
 // A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group.
 func (client ComputeClient) ListComputeClusters(ctx context.Context, request ListComputeClustersRequest) (response ListComputeClustersResponse, err error) {
@@ -5731,6 +6179,60 @@ func (client ComputeClient) updateComputeCapacityReservation(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityReservation/UpdateComputeCapacityReservation"
 		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeCapacityReservation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateComputeCapacityTopology Updates the specified compute capacity topology. Fields that are not provided in the request will not be updated.
+// A default retry strategy applies to this operation UpdateComputeCapacityTopology()
+func (client ComputeClient) UpdateComputeCapacityTopology(ctx context.Context, request UpdateComputeCapacityTopologyRequest) (response UpdateComputeCapacityTopologyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateComputeCapacityTopology, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateComputeCapacityTopologyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateComputeCapacityTopologyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateComputeCapacityTopologyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateComputeCapacityTopologyResponse")
+	}
+	return
+}
+
+// updateComputeCapacityTopology implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) updateComputeCapacityTopology(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeCapacityTopologies/{computeCapacityTopologyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateComputeCapacityTopologyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityTopology/UpdateComputeCapacityTopology"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeCapacityTopology", apiReferenceLink)
 		return response, err
 	}
 

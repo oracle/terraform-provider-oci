@@ -50,6 +50,7 @@ type AttributeResponse struct {
 	// INVALID_ATTRIBUTE - The attribute is invalid.
 	// INVALID_ATTRIBUTE_TYPE_CONFLICT - The attribute is invalid.  There were two attributes with same name but different type in the bulk request.
 	// ATTRIBUTE_NOT_PROCESSED - The attribute was not processed, as there was another attribute in this bulk request collection that resulted in a processing error.
+	// ATTRIBUTE_UPDATE_NOT_ALLOWED - The unit of the attribute cannot be updated as it is an in-built system attribute.
 	AttributeStatus AttributeResponseAttributeStatusEnum `mandatory:"true" json:"attributeStatus"`
 
 	// Time when the attribute was activated or deactivated.  Note that ingest might not have picked up the changes even if this time has elapsed.
@@ -140,27 +141,33 @@ type AttributeResponseUnitEnum string
 
 // Set of constants representing the allowable values for AttributeResponseUnitEnum
 const (
+	AttributeResponseUnitNone        AttributeResponseUnitEnum = "NONE"
 	AttributeResponseUnitEpochTimeMs AttributeResponseUnitEnum = "EPOCH_TIME_MS"
 	AttributeResponseUnitBytes       AttributeResponseUnitEnum = "BYTES"
 	AttributeResponseUnitCount       AttributeResponseUnitEnum = "COUNT"
 	AttributeResponseUnitDurationMs  AttributeResponseUnitEnum = "DURATION_MS"
 	AttributeResponseUnitTraceStatus AttributeResponseUnitEnum = "TRACE_STATUS"
+	AttributeResponseUnitPercentage  AttributeResponseUnitEnum = "PERCENTAGE"
 )
 
 var mappingAttributeResponseUnitEnum = map[string]AttributeResponseUnitEnum{
+	"NONE":          AttributeResponseUnitNone,
 	"EPOCH_TIME_MS": AttributeResponseUnitEpochTimeMs,
 	"BYTES":         AttributeResponseUnitBytes,
 	"COUNT":         AttributeResponseUnitCount,
 	"DURATION_MS":   AttributeResponseUnitDurationMs,
 	"TRACE_STATUS":  AttributeResponseUnitTraceStatus,
+	"PERCENTAGE":    AttributeResponseUnitPercentage,
 }
 
 var mappingAttributeResponseUnitEnumLowerCase = map[string]AttributeResponseUnitEnum{
+	"none":          AttributeResponseUnitNone,
 	"epoch_time_ms": AttributeResponseUnitEpochTimeMs,
 	"bytes":         AttributeResponseUnitBytes,
 	"count":         AttributeResponseUnitCount,
 	"duration_ms":   AttributeResponseUnitDurationMs,
 	"trace_status":  AttributeResponseUnitTraceStatus,
+	"percentage":    AttributeResponseUnitPercentage,
 }
 
 // GetAttributeResponseUnitEnumValues Enumerates the set of values for AttributeResponseUnitEnum
@@ -175,11 +182,13 @@ func GetAttributeResponseUnitEnumValues() []AttributeResponseUnitEnum {
 // GetAttributeResponseUnitEnumStringValues Enumerates the set of values in String for AttributeResponseUnitEnum
 func GetAttributeResponseUnitEnumStringValues() []string {
 	return []string{
+		"NONE",
 		"EPOCH_TIME_MS",
 		"BYTES",
 		"COUNT",
 		"DURATION_MS",
 		"TRACE_STATUS",
+		"PERCENTAGE",
 	}
 }
 
@@ -288,6 +297,7 @@ const (
 	AttributeResponseAttributeStatusInvalidAttribute             AttributeResponseAttributeStatusEnum = "INVALID_ATTRIBUTE"
 	AttributeResponseAttributeStatusInvalidAttributeTypeConflict AttributeResponseAttributeStatusEnum = "INVALID_ATTRIBUTE_TYPE_CONFLICT"
 	AttributeResponseAttributeStatusAttributeNotProcessed        AttributeResponseAttributeStatusEnum = "ATTRIBUTE_NOT_PROCESSED"
+	AttributeResponseAttributeStatusAttributeUpdateNotAllowed    AttributeResponseAttributeStatusEnum = "ATTRIBUTE_UPDATE_NOT_ALLOWED"
 )
 
 var mappingAttributeResponseAttributeStatusEnum = map[string]AttributeResponseAttributeStatusEnum{
@@ -301,6 +311,7 @@ var mappingAttributeResponseAttributeStatusEnum = map[string]AttributeResponseAt
 	"INVALID_ATTRIBUTE":               AttributeResponseAttributeStatusInvalidAttribute,
 	"INVALID_ATTRIBUTE_TYPE_CONFLICT": AttributeResponseAttributeStatusInvalidAttributeTypeConflict,
 	"ATTRIBUTE_NOT_PROCESSED":         AttributeResponseAttributeStatusAttributeNotProcessed,
+	"ATTRIBUTE_UPDATE_NOT_ALLOWED":    AttributeResponseAttributeStatusAttributeUpdateNotAllowed,
 }
 
 var mappingAttributeResponseAttributeStatusEnumLowerCase = map[string]AttributeResponseAttributeStatusEnum{
@@ -314,6 +325,7 @@ var mappingAttributeResponseAttributeStatusEnumLowerCase = map[string]AttributeR
 	"invalid_attribute":               AttributeResponseAttributeStatusInvalidAttribute,
 	"invalid_attribute_type_conflict": AttributeResponseAttributeStatusInvalidAttributeTypeConflict,
 	"attribute_not_processed":         AttributeResponseAttributeStatusAttributeNotProcessed,
+	"attribute_update_not_allowed":    AttributeResponseAttributeStatusAttributeUpdateNotAllowed,
 }
 
 // GetAttributeResponseAttributeStatusEnumValues Enumerates the set of values for AttributeResponseAttributeStatusEnum
@@ -338,6 +350,7 @@ func GetAttributeResponseAttributeStatusEnumStringValues() []string {
 		"INVALID_ATTRIBUTE",
 		"INVALID_ATTRIBUTE_TYPE_CONFLICT",
 		"ATTRIBUTE_NOT_PROCESSED",
+		"ATTRIBUTE_UPDATE_NOT_ALLOWED",
 	}
 }
 

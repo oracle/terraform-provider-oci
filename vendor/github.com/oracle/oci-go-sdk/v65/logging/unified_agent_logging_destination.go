@@ -22,6 +22,8 @@ type UnifiedAgentLoggingDestination struct {
 
 	// The OCID of the resource.
 	LogObjectId *string `mandatory:"true" json:"logObjectId"`
+
+	OperationalMetricsConfiguration *OperationalMetricsConfiguration `mandatory:"false" json:"operationalMetricsConfiguration"`
 }
 
 func (m UnifiedAgentLoggingDestination) String() string {

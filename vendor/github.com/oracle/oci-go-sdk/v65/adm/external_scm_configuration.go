@@ -41,10 +41,6 @@ type ExternalScmConfiguration struct {
 	// If this property is not specified, ADM will use the build file located at the root of the repository.
 	BuildFileLocation *string `mandatory:"false" json:"buildFileLocation"`
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Secret associated with a settings.xml file for the user's build tool (for example, `settings.xml` for Maven).
-	// The content is stored in a Secret because the file may contain sensitive information.
-	BuildFileSettingsSecretId *string `mandatory:"false" json:"buildFileSettingsSecretId"`
-
 	// The username for the SCM (to perform operations such as cloning or pushing via HTTP).
 	Username *string `mandatory:"false" json:"username"`
 
@@ -60,11 +56,6 @@ func (m ExternalScmConfiguration) GetBranch() *string {
 //GetBuildFileLocation returns BuildFileLocation
 func (m ExternalScmConfiguration) GetBuildFileLocation() *string {
 	return m.BuildFileLocation
-}
-
-//GetBuildFileSettingsSecretId returns BuildFileSettingsSecretId
-func (m ExternalScmConfiguration) GetBuildFileSettingsSecretId() *string {
-	return m.BuildFileSettingsSecretId
 }
 
 //GetIsAutomergeEnabled returns IsAutomergeEnabled

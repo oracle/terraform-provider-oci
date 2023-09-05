@@ -23,9 +23,6 @@ type SddcSummary struct {
 	// contains the SDDC.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The availability domain that the SDDC's ESXi hosts are running in. For Multi-AD SDDC, it is `multi-AD`.
-	ComputeAvailabilityDomain *string `mandatory:"true" json:"computeAvailabilityDomain"`
-
 	// A descriptive name for the SDDC. It must be unique, start with a letter, and contain only letters, digits,
 	// whitespaces, dashes and underscores.
 	// Avoid entering confidential information.
@@ -50,11 +47,7 @@ type SddcSummary struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The number of ESXi hosts in the SDDC.
-	EsxiHostsCount *int `mandatory:"true" json:"esxiHostsCount"`
-
-	// The initial compute shape of the SDDC's ESXi hosts.
-	// ListSupportedHostShapes.
-	InitialHostShapeName *string `mandatory:"true" json:"initialHostShapeName"`
+	ClustersCount *int `mandatory:"true" json:"clustersCount"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -69,8 +62,8 @@ type SddcSummary struct {
 	// HCX Fully Qualified Domain Name
 	HcxFqdn *string `mandatory:"false" json:"hcxFqdn"`
 
-	// Indicates whether HCX is enabled.
-	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
+	// HCX configuration of the SDDC.
+	HcxMode HcxModesEnum `mandatory:"false" json:"hcxMode,omitempty"`
 
 	// FQDN for vCenter
 	// Example: `vcenter-my-sddc.sddc.us-phoenix-1.oraclecloud.com`
@@ -92,12 +85,6 @@ type SddcSummary struct {
 	// The current state of the SDDC.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// Indicates whether shielded instance is enabled at the SDDC level.
-	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`
-
-	// The initial OCPU count of the SDDC's ESXi hosts.
-	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
-
 	// Indicates whether this SDDC is designated for only single ESXi host.
 	IsSingleHostSddc *bool `mandatory:"false" json:"isSingleHostSddc"`
 }
@@ -112,6 +99,9 @@ func (m SddcSummary) String() string {
 func (m SddcSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingHcxModesEnum(string(m.HcxMode)); !ok && m.HcxMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HcxMode: %s. Supported values are: %s.", m.HcxMode, strings.Join(GetHcxModesEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingLifecycleStatesEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
 	}

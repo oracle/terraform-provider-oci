@@ -21,8 +21,11 @@ type QueueStats struct {
 
 	Dlq *Stats `mandatory:"true" json:"dlq"`
 
-	// If channelId is presented in GetStats call, the channel id will be returned in the GetStats response.
+	// If channelId is present in GetStats call, the channel id will be returned in the GetStats response.
 	ChannelId *string `mandatory:"false" json:"channelId"`
+
+	// If consumerGroupId is present in GetStats call, the consumer group id will be returned in the GetStats response.
+	ConsumerGroupId *string `mandatory:"false" json:"consumerGroupId"`
 }
 
 func (m QueueStats) String() string {

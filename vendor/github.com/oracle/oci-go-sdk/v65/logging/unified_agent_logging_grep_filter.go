@@ -25,8 +25,10 @@ type UnifiedAgentLoggingGrepFilter struct {
 	// Unique name for the filter.
 	Name *string `mandatory:"true" json:"name"`
 
+	// A list of filtering rules to include logs
 	AllowList []GrepFilterAllowRule `mandatory:"false" json:"allowList"`
 
+	// A list of filtering rules to reject logs
 	DenyList []GrepFilterDenyRule `mandatory:"false" json:"denyList"`
 }
 
