@@ -89,7 +89,7 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("compute_instance_id", *s.Res.ComputeInstanceId)
 	}
 
-	s.D.Set("current_sku", s.Res.CurrentSku)
+	//s.D.Set("current_sku", s.Res.CurrentSku)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -125,7 +125,7 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("is_billing_swapping_in_progress", *s.Res.IsBillingSwappingInProgress)
 	}
 
-	s.D.Set("next_sku", s.Res.NextSku)
+	//s.D.Set("next_sku", s.Res.NextSku)
 
 	if s.Res.NonUpgradedEsxiHostId != nil {
 		s.D.Set("non_upgraded_esxi_host_id", *s.Res.NonUpgradedEsxiHostId)

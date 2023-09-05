@@ -130,10 +130,10 @@ func (s *OcvpSupportedHostShapesDataSourceCrud) Get() error {
 		tmp := name.(string)
 		request.Name = &tmp
 	}
-
-	if sddcType, ok := s.D.GetOkExists("sddc_type"); ok {
-		request.SddcType = oci_ocvp.ListSupportedHostShapesSddcTypeEnum(sddcType.(string))
-	}
+	//
+	//if sddcType, ok := s.D.GetOkExists("sddc_type"); ok {
+	//	request.SddcType = oci_ocvp.ListSupportedHostShapesSddcTypeEnum(sddcType.(string))
+	//}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
@@ -192,9 +192,9 @@ func SupportedHostShapeSummaryToMap(obj oci_ocvp.SupportedHostShapeSummary) map[
 		result["description"] = string(*obj.Description)
 	}
 
-	if obj.IsSupportMonthlySku != nil {
-		result["is_support_monthly_sku"] = bool(*obj.IsSupportMonthlySku)
-	}
+	//if obj.IsSupportMonthlySku != nil {
+	//	result["is_support_monthly_sku"] = bool(*obj.IsSupportMonthlySku)
+	//}
 
 	if obj.IsSupportShieldedInstances != nil {
 		result["is_support_shielded_instances"] = bool(*obj.IsSupportShieldedInstances)
@@ -212,7 +212,7 @@ func SupportedHostShapeSummaryToMap(obj oci_ocvp.SupportedHostShapeSummary) map[
 
 	result["supported_operations"] = obj.SupportedOperations
 
-	result["supported_sddc_types"] = obj.SupportedSddcTypes
+	//result["supported_sddc_types"] = obj.SupportedSddcTypes
 
 	result["supported_vmware_software_versions"] = obj.SupportedVmwareSoftwareVersions
 

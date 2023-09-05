@@ -274,9 +274,9 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		request.ComputeAvailabilityDomain = &tmp
 	}
 
-	if currentSku, ok := s.D.GetOkExists("current_sku"); ok {
-		request.CurrentSku = oci_ocvp.SkuEnum(currentSku.(string))
-	}
+	//if currentSku, ok := s.D.GetOkExists("current_sku"); ok {
+	//	request.CurrentSku = oci_ocvp.SkuEnum(currentSku.(string))
+	//}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -291,10 +291,10 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	if failedEsxiHostId, ok := s.D.GetOkExists("failed_esxi_host_id"); ok {
-		tmp := failedEsxiHostId.(string)
-		request.FailedEsxiHostId = &tmp
-	}
+	//if failedEsxiHostId, ok := s.D.GetOkExists("failed_esxi_host_id"); ok {
+	//	tmp := failedEsxiHostId.(string)
+	//	request.FailedEsxiHostId = &tmp
+	//}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
@@ -310,19 +310,19 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		request.HostShapeName = &tmp
 	}
 
-	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
-		request.NextSku = oci_ocvp.SkuEnum(nextSku.(string))
-	}
-
-	if nonUpgradedEsxiHostId, ok := s.D.GetOkExists("non_upgraded_esxi_host_id"); ok {
-		tmp := nonUpgradedEsxiHostId.(string)
-		request.NonUpgradedEsxiHostId = &tmp
-	}
-
-	if sddcId, ok := s.D.GetOkExists("sddc_id"); ok {
-		tmp := sddcId.(string)
-		request.SddcId = &tmp
-	}
+	//if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
+	//	request.NextSku = oci_ocvp.SkuEnum(nextSku.(string))
+	//}
+	//
+	//if nonUpgradedEsxiHostId, ok := s.D.GetOkExists("non_upgraded_esxi_host_id"); ok {
+	//	tmp := nonUpgradedEsxiHostId.(string)
+	//	request.NonUpgradedEsxiHostId = &tmp
+	//}
+	//
+	//if sddcId, ok := s.D.GetOkExists("sddc_id"); ok {
+	//	tmp := sddcId.(string)
+	//	request.SddcId = &tmp
+	//}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
@@ -512,9 +512,9 @@ func (s *OcvpEsxiHostResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
-		request.NextSku = oci_ocvp.SkuEnum(nextSku.(string))
-	}
+	//if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
+	//	request.NextSku = oci_ocvp.SkuEnum(nextSku.(string))
+	//}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
@@ -571,7 +571,7 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 		s.D.Set("compute_instance_id", *s.Res.ComputeInstanceId)
 	}
 
-	s.D.Set("current_sku", s.Res.CurrentSku)
+	//s.D.Set("current_sku", s.Res.CurrentSku)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -607,7 +607,7 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 		s.D.Set("is_billing_swapping_in_progress", *s.Res.IsBillingSwappingInProgress)
 	}
 
-	s.D.Set("next_sku", s.Res.NextSku)
+	//s.D.Set("next_sku", s.Res.NextSku)
 
 	if s.Res.NonUpgradedEsxiHostId != nil {
 		s.D.Set("non_upgraded_esxi_host_id", *s.Res.NonUpgradedEsxiHostId)
@@ -669,7 +669,7 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 		result["compute_instance_id"] = string(*obj.ComputeInstanceId)
 	}
 
-	result["current_sku"] = string(obj.CurrentSku)
+	//result["current_sku"] = string(obj.CurrentSku)
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
@@ -709,7 +709,7 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 		result["is_billing_swapping_in_progress"] = bool(*obj.IsBillingSwappingInProgress)
 	}
 
-	result["next_sku"] = string(obj.NextSku)
+	//result["next_sku"] = string(obj.NextSku)
 
 	if obj.NonUpgradedEsxiHostId != nil {
 		result["non_upgraded_esxi_host_id"] = string(*obj.NonUpgradedEsxiHostId)

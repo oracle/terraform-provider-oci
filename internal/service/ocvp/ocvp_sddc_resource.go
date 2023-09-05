@@ -6,7 +6,6 @@ package ocvp
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 	"time"
 
@@ -481,37 +480,37 @@ func (s *OcvpSddcResourceCrud) DeletedTarget() []string {
 func (s *OcvpSddcResourceCrud) Create() error {
 	request := oci_ocvp.CreateSddcRequest{}
 
-	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
-		tmp := capacityReservationId.(string)
-		request.CapacityReservationId = &tmp
-	}
+	//if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+	//	tmp := capacityReservationId.(string)
+	//	request.CapacityReservationId = &tmp
+	//}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
 	}
 
-	if computeAvailabilityDomain, ok := s.D.GetOkExists("compute_availability_domain"); ok {
-		tmp := computeAvailabilityDomain.(string)
-		request.ComputeAvailabilityDomain = &tmp
-	}
-
-	if datastores, ok := s.D.GetOkExists("datastores"); ok {
-		interfaces := datastores.([]interface{})
-		tmp := make([]oci_ocvp.DatastoreInfo, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "datastores", stateDataIndex)
-			converted, err := s.mapToDatastoreInfo(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		if len(tmp) != 0 || s.D.HasChange("datastores") {
-			request.Datastores = tmp
-		}
-	}
+	//if computeAvailabilityDomain, ok := s.D.GetOkExists("compute_availability_domain"); ok {
+	//	tmp := computeAvailabilityDomain.(string)
+	//	request.ComputeAvailabilityDomain = &tmp
+	//}
+	//
+	//if datastores, ok := s.D.GetOkExists("datastores"); ok {
+	//	interfaces := datastores.([]interface{})
+	//	tmp := make([]oci_ocvp.DatastoreInfo, len(interfaces))
+	//	for i := range interfaces {
+	//		stateDataIndex := i
+	//		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "datastores", stateDataIndex)
+	//		converted, err := s.mapToDatastoreInfo(fieldKeyFormat)
+	//		if err != nil {
+	//			return err
+	//		}
+	//		tmp[i] = converted
+	//	}
+	//	if len(tmp) != 0 || s.D.HasChange("datastores") {
+	//		request.Datastores = tmp
+	//	}
+	//}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -526,132 +525,132 @@ func (s *OcvpSddcResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	if esxiHostsCount, ok := s.D.GetOkExists("esxi_hosts_count"); ok {
-		tmp := esxiHostsCount.(int)
-		request.EsxiHostsCount = &tmp
-	}
+	//if esxiHostsCount, ok := s.D.GetOkExists("esxi_hosts_count"); ok {
+	//	tmp := esxiHostsCount.(int)
+	//	request.EsxiHostsCount = &tmp
+	//}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if hcxVlanId, ok := s.D.GetOkExists("hcx_vlan_id"); ok {
-		tmp := hcxVlanId.(string)
-		request.HcxVlanId = &tmp
-	}
-
-	if initialHostOcpuCount, ok := s.D.GetOkExists("initial_host_ocpu_count"); ok {
-		tmp := float32(initialHostOcpuCount.(float64))
-		request.InitialHostOcpuCount = &tmp
-	}
-
-	if initialHostShapeName, ok := s.D.GetOkExists("initial_host_shape_name"); ok {
-		tmp := initialHostShapeName.(string)
-		request.InitialHostShapeName = &tmp
-	}
-
-	if initialSku, ok := s.D.GetOkExists("initial_sku"); ok {
-		request.InitialSku = oci_ocvp.SkuEnum(initialSku.(string))
-	}
-
-	if instanceDisplayNamePrefix, ok := s.D.GetOkExists("instance_display_name_prefix"); ok {
-		tmp := instanceDisplayNamePrefix.(string)
-		request.InstanceDisplayNamePrefix = &tmp
-	}
-
-	if isHcxEnabled, ok := s.D.GetOkExists("is_hcx_enabled"); ok {
-		tmp := isHcxEnabled.(bool)
-		request.IsHcxEnabled = &tmp
-	}
-
-	if isShieldedInstanceEnabled, ok := s.D.GetOkExists("is_shielded_instance_enabled"); ok {
-		tmp := isShieldedInstanceEnabled.(bool)
-		request.IsShieldedInstanceEnabled = &tmp
-	}
+	//if hcxVlanId, ok := s.D.GetOkExists("hcx_vlan_id"); ok {
+	//	tmp := hcxVlanId.(string)
+	//	request.HcxVlanId = &tmp
+	//}
+	//
+	//if initialHostOcpuCount, ok := s.D.GetOkExists("initial_host_ocpu_count"); ok {
+	//	tmp := float32(initialHostOcpuCount.(float64))
+	//	request.InitialHostOcpuCount = &tmp
+	//}
+	//
+	//if initialHostShapeName, ok := s.D.GetOkExists("initial_host_shape_name"); ok {
+	//	tmp := initialHostShapeName.(string)
+	//	request.InitialHostShapeName = &tmp
+	//}
+	//
+	//if initialSku, ok := s.D.GetOkExists("initial_sku"); ok {
+	//	request.InitialSku = oci_ocvp.SkuEnum(initialSku.(string))
+	//}
+	//
+	//if instanceDisplayNamePrefix, ok := s.D.GetOkExists("instance_display_name_prefix"); ok {
+	//	tmp := instanceDisplayNamePrefix.(string)
+	//	request.InstanceDisplayNamePrefix = &tmp
+	//}
+	//
+	//if isHcxEnabled, ok := s.D.GetOkExists("is_hcx_enabled"); ok {
+	//	tmp := isHcxEnabled.(bool)
+	//	request.IsHcxEnabled = &tmp
+	//}
+	//
+	//if isShieldedInstanceEnabled, ok := s.D.GetOkExists("is_shielded_instance_enabled"); ok {
+	//	tmp := isShieldedInstanceEnabled.(bool)
+	//	request.IsShieldedInstanceEnabled = &tmp
+	//}
 
 	if isSingleHostSddc, ok := s.D.GetOkExists("is_single_host_sddc"); ok {
 		tmp := isSingleHostSddc.(bool)
 		request.IsSingleHostSddc = &tmp
 	}
 
-	if nsxEdgeUplink1VlanId, ok := s.D.GetOkExists("nsx_edge_uplink1vlan_id"); ok {
-		tmp := nsxEdgeUplink1VlanId.(string)
-		request.NsxEdgeUplink1VlanId = &tmp
-	}
-
-	if nsxEdgeUplink2VlanId, ok := s.D.GetOkExists("nsx_edge_uplink2vlan_id"); ok {
-		tmp := nsxEdgeUplink2VlanId.(string)
-		request.NsxEdgeUplink2VlanId = &tmp
-	}
-
-	if nsxEdgeVTepVlanId, ok := s.D.GetOkExists("nsx_edge_vtep_vlan_id"); ok {
-		tmp := nsxEdgeVTepVlanId.(string)
-		request.NsxEdgeVTepVlanId = &tmp
-	}
-
-	if nsxVTepVlanId, ok := s.D.GetOkExists("nsx_vtep_vlan_id"); ok {
-		tmp := nsxVTepVlanId.(string)
-		request.NsxVTepVlanId = &tmp
-	}
-
-	if provisioningSubnetId, ok := s.D.GetOkExists("provisioning_subnet_id"); ok {
-		tmp := provisioningSubnetId.(string)
-		request.ProvisioningSubnetId = &tmp
-	}
-
-	if provisioningVlanId, ok := s.D.GetOkExists("provisioning_vlan_id"); ok {
-		tmp := provisioningVlanId.(string)
-		request.ProvisioningVlanId = &tmp
-	}
-
-	if replicationVlanId, ok := s.D.GetOkExists("replication_vlan_id"); ok {
-		tmp := replicationVlanId.(string)
-		request.ReplicationVlanId = &tmp
-	}
+	//if nsxEdgeUplink1VlanId, ok := s.D.GetOkExists("nsx_edge_uplink1vlan_id"); ok {
+	//	tmp := nsxEdgeUplink1VlanId.(string)
+	//	request.NsxEdgeUplink1VlanId = &tmp
+	//}
+	//
+	//if nsxEdgeUplink2VlanId, ok := s.D.GetOkExists("nsx_edge_uplink2vlan_id"); ok {
+	//	tmp := nsxEdgeUplink2VlanId.(string)
+	//	request.NsxEdgeUplink2VlanId = &tmp
+	//}
+	//
+	//if nsxEdgeVTepVlanId, ok := s.D.GetOkExists("nsx_edge_vtep_vlan_id"); ok {
+	//	tmp := nsxEdgeVTepVlanId.(string)
+	//	request.NsxEdgeVTepVlanId = &tmp
+	//}
+	//
+	//if nsxVTepVlanId, ok := s.D.GetOkExists("nsx_vtep_vlan_id"); ok {
+	//	tmp := nsxVTepVlanId.(string)
+	//	request.NsxVTepVlanId = &tmp
+	//}
+	//
+	//if provisioningSubnetId, ok := s.D.GetOkExists("provisioning_subnet_id"); ok {
+	//	tmp := provisioningSubnetId.(string)
+	//	request.ProvisioningSubnetId = &tmp
+	//}
+	//
+	//if provisioningVlanId, ok := s.D.GetOkExists("provisioning_vlan_id"); ok {
+	//	tmp := provisioningVlanId.(string)
+	//	request.ProvisioningVlanId = &tmp
+	//}
+	//
+	//if replicationVlanId, ok := s.D.GetOkExists("replication_vlan_id"); ok {
+	//	tmp := replicationVlanId.(string)
+	//	request.ReplicationVlanId = &tmp
+	//}
 
 	if sshAuthorizedKeys, ok := s.D.GetOkExists("ssh_authorized_keys"); ok {
 		tmp := sshAuthorizedKeys.(string)
 		request.SshAuthorizedKeys = &tmp
 	}
 
-	if vmotionVlanId, ok := s.D.GetOkExists("vmotion_vlan_id"); ok {
-		tmp := vmotionVlanId.(string)
-		request.VmotionVlanId = &tmp
-	}
+	//if vmotionVlanId, ok := s.D.GetOkExists("vmotion_vlan_id"); ok {
+	//	tmp := vmotionVlanId.(string)
+	//	request.VmotionVlanId = &tmp
+	//}
 
 	if vmwareSoftwareVersion, ok := s.D.GetOkExists("vmware_software_version"); ok {
 		tmp := vmwareSoftwareVersion.(string)
 		request.VmwareSoftwareVersion = &tmp
 	}
 
-	if vsanVlanId, ok := s.D.GetOkExists("vsan_vlan_id"); ok {
-		tmp := vsanVlanId.(string)
-		request.VsanVlanId = &tmp
-	}
-
-	if vsphereVlanId, ok := s.D.GetOkExists("vsphere_vlan_id"); ok {
-		tmp := vsphereVlanId.(string)
-		request.VsphereVlanId = &tmp
-	}
-
-	if workloadNetworkCidr, ok := s.D.GetOkExists("workload_network_cidr"); ok {
-		tmp := workloadNetworkCidr.(string)
-		request.WorkloadNetworkCidr = &tmp
-	}
+	//if vsanVlanId, ok := s.D.GetOkExists("vsan_vlan_id"); ok {
+	//	tmp := vsanVlanId.(string)
+	//	request.VsanVlanId = &tmp
+	//}
+	//
+	//if vsphereVlanId, ok := s.D.GetOkExists("vsphere_vlan_id"); ok {
+	//	tmp := vsphereVlanId.(string)
+	//	request.VsphereVlanId = &tmp
+	//}
+	//
+	//if workloadNetworkCidr, ok := s.D.GetOkExists("workload_network_cidr"); ok {
+	//	tmp := workloadNetworkCidr.(string)
+	//	request.WorkloadNetworkCidr = &tmp
+	//}
 
 	if _, ok := s.D.GetOk("reserving_hcx_on_premise_license_keys"); ok {
 		return fmt.Errorf("reserving_hcx_on_premise_license_keys should not be provided during SDDC creation.")
 	}
 
-	if hcxAction, ok := s.D.GetOk("hcx_action"); ok {
-		hcxAction = strings.ToUpper(hcxAction.(string))
-		if hcxAction == UpgradeHcxAction {
-			_tmp := true
-			request.IsHcxEnterpriseEnabled = &_tmp
-		} else {
-			return fmt.Errorf("hcx_action '%s' is not supported during SDDC creation. ", hcxAction)
-		}
-	}
+	//if hcxAction, ok := s.D.GetOk("hcx_action"); ok {
+	//	hcxAction = strings.ToUpper(hcxAction.(string))
+	//	if hcxAction == UpgradeHcxAction {
+	//		_tmp := true
+	//		request.IsHcxEnterpriseEnabled = &_tmp
+	//	} else {
+	//		return fmt.Errorf("hcx_action '%s' is not supported during SDDC creation. ", hcxAction)
+	//	}
+	//}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
@@ -855,40 +854,40 @@ func (s *OcvpSddcResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if hcxVlanId, ok := s.D.GetOkExists("hcx_vlan_id"); ok {
-		tmp := hcxVlanId.(string)
-		request.HcxVlanId = &tmp
-	}
-
-	if nsxEdgeUplink1VlanId, ok := s.D.GetOkExists("nsx_edge_uplink1vlan_id"); ok {
-		tmp := nsxEdgeUplink1VlanId.(string)
-		request.NsxEdgeUplink1VlanId = &tmp
-	}
-
-	if nsxEdgeUplink2VlanId, ok := s.D.GetOkExists("nsx_edge_uplink2vlan_id"); ok {
-		tmp := nsxEdgeUplink2VlanId.(string)
-		request.NsxEdgeUplink2VlanId = &tmp
-	}
-
-	if nsxEdgeVTepVlanId, ok := s.D.GetOkExists("nsx_edge_vtep_vlan_id"); ok {
-		tmp := nsxEdgeVTepVlanId.(string)
-		request.NsxEdgeVTepVlanId = &tmp
-	}
-
-	if nsxVTepVlanId, ok := s.D.GetOkExists("nsx_vtep_vlan_id"); ok {
-		tmp := nsxVTepVlanId.(string)
-		request.NsxVTepVlanId = &tmp
-	}
-
-	if provisioningVlanId, ok := s.D.GetOkExists("provisioning_vlan_id"); ok {
-		tmp := provisioningVlanId.(string)
-		request.ProvisioningVlanId = &tmp
-	}
-
-	if replicationVlanId, ok := s.D.GetOkExists("replication_vlan_id"); ok {
-		tmp := replicationVlanId.(string)
-		request.ReplicationVlanId = &tmp
-	}
+	//if hcxVlanId, ok := s.D.GetOkExists("hcx_vlan_id"); ok {
+	//	tmp := hcxVlanId.(string)
+	//	request.HcxVlanId = &tmp
+	//}
+	//
+	//if nsxEdgeUplink1VlanId, ok := s.D.GetOkExists("nsx_edge_uplink1vlan_id"); ok {
+	//	tmp := nsxEdgeUplink1VlanId.(string)
+	//	request.NsxEdgeUplink1VlanId = &tmp
+	//}
+	//
+	//if nsxEdgeUplink2VlanId, ok := s.D.GetOkExists("nsx_edge_uplink2vlan_id"); ok {
+	//	tmp := nsxEdgeUplink2VlanId.(string)
+	//	request.NsxEdgeUplink2VlanId = &tmp
+	//}
+	//
+	//if nsxEdgeVTepVlanId, ok := s.D.GetOkExists("nsx_edge_vtep_vlan_id"); ok {
+	//	tmp := nsxEdgeVTepVlanId.(string)
+	//	request.NsxEdgeVTepVlanId = &tmp
+	//}
+	//
+	//if nsxVTepVlanId, ok := s.D.GetOkExists("nsx_vtep_vlan_id"); ok {
+	//	tmp := nsxVTepVlanId.(string)
+	//	request.NsxVTepVlanId = &tmp
+	//}
+	//
+	//if provisioningVlanId, ok := s.D.GetOkExists("provisioning_vlan_id"); ok {
+	//	tmp := provisioningVlanId.(string)
+	//	request.ProvisioningVlanId = &tmp
+	//}
+	//
+	//if replicationVlanId, ok := s.D.GetOkExists("replication_vlan_id"); ok {
+	//	tmp := replicationVlanId.(string)
+	//	request.ReplicationVlanId = &tmp
+	//}
 
 	tmp := s.D.Id()
 	request.SddcId = &tmp
@@ -898,25 +897,25 @@ func (s *OcvpSddcResourceCrud) Update() error {
 		request.SshAuthorizedKeys = &tmp
 	}
 
-	if vmotionVlanId, ok := s.D.GetOkExists("vmotion_vlan_id"); ok {
-		tmp := vmotionVlanId.(string)
-		request.VmotionVlanId = &tmp
-	}
+	//if vmotionVlanId, ok := s.D.GetOkExists("vmotion_vlan_id"); ok {
+	//	tmp := vmotionVlanId.(string)
+	//	request.VmotionVlanId = &tmp
+	//}
 
 	if vmwareSoftwareVersion, ok := s.D.GetOkExists("vmware_software_version"); ok {
 		tmp := vmwareSoftwareVersion.(string)
 		request.VmwareSoftwareVersion = &tmp
 	}
 
-	if vsanVlanId, ok := s.D.GetOkExists("vsan_vlan_id"); ok {
-		tmp := vsanVlanId.(string)
-		request.VsanVlanId = &tmp
-	}
-
-	if vsphereVlanId, ok := s.D.GetOkExists("vsphere_vlan_id"); ok {
-		tmp := vsphereVlanId.(string)
-		request.VsphereVlanId = &tmp
-	}
+	//if vsanVlanId, ok := s.D.GetOkExists("vsan_vlan_id"); ok {
+	//	tmp := vsanVlanId.(string)
+	//	request.VsanVlanId = &tmp
+	//}
+	//
+	//if vsphereVlanId, ok := s.D.GetOkExists("vsphere_vlan_id"); ok {
+	//	tmp := vsphereVlanId.(string)
+	//	request.VsphereVlanId = &tmp
+	//}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
@@ -1042,23 +1041,23 @@ func (s *OcvpSddcResourceCrud) Delete() error {
 }
 
 func (s *OcvpSddcResourceCrud) SetData() error {
-	if s.Res.CapacityReservationId != nil {
-		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
-	}
+	//if s.Res.CapacityReservationId != nil {
+	//	s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	//}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
-	if s.Res.ComputeAvailabilityDomain != nil {
-		s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
-	}
-
-	datastores := []interface{}{}
-	for _, item := range s.Res.Datastores {
-		datastores = append(datastores, DatastoreSummaryToMap(item))
-	}
-	s.D.Set("datastores", datastores)
+	//if s.Res.ComputeAvailabilityDomain != nil {
+	//	s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
+	//}
+	//
+	//datastores := []interface{}{}
+	//for _, item := range s.Res.Datastores {
+	//	datastores = append(datastores, DatastoreSummaryToMap(item))
+	//}
+	//s.D.Set("datastores", datastores)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -1072,18 +1071,18 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 	// SDDC is modified in the TF config by the user.
 	// As there could a scenario where the SDDC esxi_hosts_count on the cloud could be different as esxi host can be attached to the SDDC
 	// Then we do not Update the size but instead Update the actual_esxi_hosts_count in the state file.
-	if s.Res.EsxiHostsCount != nil {
-		_, ok := s.D.GetOk("esxi_hosts_count") // This checks if size is in the state or not. If not and size in response is not nil it could be that user is importing and hence we need to updated the size
-		if !ok {
-			log.Printf("[DEBUG] esxi_hosts_count does not exists in state, hence assuming user is importing resource")
-		}
-		if s.D.HasChange("esxi_hosts_count") || !ok {
-			oldValue, newValue := s.D.GetChange("esxi_hosts_count")
-			log.Printf("[DEBUG] esxi_hosts_count has been updated in config from %v to %v", oldValue, newValue)
-			s.D.Set("esxi_hosts_count", *s.Res.EsxiHostsCount)
-		}
-		s.D.Set("actual_esxi_hosts_count", *s.Res.EsxiHostsCount)
-	}
+	//if s.Res.EsxiHostsCount != nil {
+	//	_, ok := s.D.GetOk("esxi_hosts_count") // This checks if size is in the state or not. If not and size in response is not nil it could be that user is importing and hence we need to updated the size
+	//	if !ok {
+	//		log.Printf("[DEBUG] esxi_hosts_count does not exists in state, hence assuming user is importing resource")
+	//	}
+	//	if s.D.HasChange("esxi_hosts_count") || !ok {
+	//		oldValue, newValue := s.D.GetChange("esxi_hosts_count")
+	//		log.Printf("[DEBUG] esxi_hosts_count has been updated in config from %v to %v", oldValue, newValue)
+	//		s.D.Set("esxi_hosts_count", *s.Res.EsxiHostsCount)
+	//	}
+	//	s.D.Set("actual_esxi_hosts_count", *s.Res.EsxiHostsCount)
+	//}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
@@ -1091,13 +1090,13 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("hcx_fqdn", *s.Res.HcxFqdn)
 	}
 
-	if s.Res.HcxInitialPassword != nil {
-		s.D.Set("hcx_initial_password", *s.Res.HcxInitialPassword)
-	}
-
-	if s.Res.HcxOnPremKey != nil {
-		s.D.Set("hcx_on_prem_key", *s.Res.HcxOnPremKey)
-	}
+	//if s.Res.HcxInitialPassword != nil {
+	//	s.D.Set("hcx_initial_password", *s.Res.HcxInitialPassword)
+	//}
+	//
+	//if s.Res.HcxOnPremKey != nil {
+	//	s.D.Set("hcx_on_prem_key", *s.Res.HcxOnPremKey)
+	//}
 
 	hcxOnPremLicenses := []interface{}{}
 	for _, item := range s.Res.HcxOnPremLicenses {
@@ -1109,67 +1108,67 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("hcx_private_ip_id", *s.Res.HcxPrivateIpId)
 	}
 
-	if s.Res.HcxVlanId != nil {
-		s.D.Set("hcx_vlan_id", *s.Res.HcxVlanId)
-	}
-
-	if s.Res.InitialHostOcpuCount != nil {
-		s.D.Set("initial_host_ocpu_count", *s.Res.InitialHostOcpuCount)
-	}
-
-	if s.Res.InitialHostShapeName != nil {
-		s.D.Set("initial_host_shape_name", *s.Res.InitialHostShapeName)
-	}
-
-	s.D.Set("initial_sku", s.Res.InitialSku)
-
-	if s.Res.InstanceDisplayNamePrefix != nil {
-		s.D.Set("instance_display_name_prefix", *s.Res.InstanceDisplayNamePrefix)
-	}
-
-	if s.Res.IsHcxEnabled != nil {
-		s.D.Set("is_hcx_enabled", *s.Res.IsHcxEnabled)
-	}
-
-	if s.Res.IsHcxEnterpriseEnabled != nil {
-		s.D.Set("is_hcx_enterprise_enabled", *s.Res.IsHcxEnterpriseEnabled)
-	}
+	//if s.Res.HcxVlanId != nil {
+	//	s.D.Set("hcx_vlan_id", *s.Res.HcxVlanId)
+	//}
+	//
+	//if s.Res.InitialHostOcpuCount != nil {
+	//	s.D.Set("initial_host_ocpu_count", *s.Res.InitialHostOcpuCount)
+	//}
+	//
+	//if s.Res.InitialHostShapeName != nil {
+	//	s.D.Set("initial_host_shape_name", *s.Res.InitialHostShapeName)
+	//}
+	//
+	//s.D.Set("initial_sku", s.Res.InitialSku)
+	//
+	//if s.Res.InstanceDisplayNamePrefix != nil {
+	//	s.D.Set("instance_display_name_prefix", *s.Res.InstanceDisplayNamePrefix)
+	//}
+	//
+	//if s.Res.IsHcxEnabled != nil {
+	//	s.D.Set("is_hcx_enabled", *s.Res.IsHcxEnabled)
+	//}
+	//
+	//if s.Res.IsHcxEnterpriseEnabled != nil {
+	//	s.D.Set("is_hcx_enterprise_enabled", *s.Res.IsHcxEnterpriseEnabled)
+	//}
 
 	if s.Res.IsHcxPendingDowngrade != nil {
 		s.D.Set("is_hcx_pending_downgrade", *s.Res.IsHcxPendingDowngrade)
 	}
 
-	if s.Res.IsShieldedInstanceEnabled != nil {
-		s.D.Set("is_shielded_instance_enabled", *s.Res.IsShieldedInstanceEnabled)
-	}
-
-	if s.Res.IsSingleHostSddc != nil {
-		s.D.Set("is_single_host_sddc", *s.Res.IsSingleHostSddc)
-	}
-
-	if s.Res.NsxEdgeUplink1VlanId != nil {
-		s.D.Set("nsx_edge_uplink1vlan_id", *s.Res.NsxEdgeUplink1VlanId)
-	}
-
-	if s.Res.NsxEdgeUplink2VlanId != nil {
-		s.D.Set("nsx_edge_uplink2vlan_id", *s.Res.NsxEdgeUplink2VlanId)
-	}
-
-	if s.Res.NsxEdgeUplinkIpId != nil {
-		s.D.Set("nsx_edge_uplink_ip_id", *s.Res.NsxEdgeUplinkIpId)
-	}
-
-	if s.Res.NsxEdgeVTepVlanId != nil {
-		s.D.Set("nsx_edge_vtep_vlan_id", *s.Res.NsxEdgeVTepVlanId)
-	}
+	//if s.Res.IsShieldedInstanceEnabled != nil {
+	//	s.D.Set("is_shielded_instance_enabled", *s.Res.IsShieldedInstanceEnabled)
+	//}
+	//
+	//if s.Res.IsSingleHostSddc != nil {
+	//	s.D.Set("is_single_host_sddc", *s.Res.IsSingleHostSddc)
+	//}
+	//
+	//if s.Res.NsxEdgeUplink1VlanId != nil {
+	//	s.D.Set("nsx_edge_uplink1vlan_id", *s.Res.NsxEdgeUplink1VlanId)
+	//}
+	//
+	//if s.Res.NsxEdgeUplink2VlanId != nil {
+	//	s.D.Set("nsx_edge_uplink2vlan_id", *s.Res.NsxEdgeUplink2VlanId)
+	//}
+	//
+	//if s.Res.NsxEdgeUplinkIpId != nil {
+	//	s.D.Set("nsx_edge_uplink_ip_id", *s.Res.NsxEdgeUplinkIpId)
+	//}
+	//
+	//if s.Res.NsxEdgeVTepVlanId != nil {
+	//	s.D.Set("nsx_edge_vtep_vlan_id", *s.Res.NsxEdgeVTepVlanId)
+	//}
 
 	if s.Res.NsxManagerFqdn != nil {
 		s.D.Set("nsx_manager_fqdn", *s.Res.NsxManagerFqdn)
 	}
 
-	if s.Res.NsxManagerInitialPassword != nil {
-		s.D.Set("nsx_manager_initial_password", *s.Res.NsxManagerInitialPassword)
-	}
+	//if s.Res.NsxManagerInitialPassword != nil {
+	//	s.D.Set("nsx_manager_initial_password", *s.Res.NsxManagerInitialPassword)
+	//}
 
 	if s.Res.NsxManagerPrivateIpId != nil {
 		s.D.Set("nsx_manager_private_ip_id", *s.Res.NsxManagerPrivateIpId)
@@ -1179,25 +1178,25 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("nsx_manager_username", *s.Res.NsxManagerUsername)
 	}
 
-	if s.Res.NsxOverlaySegmentName != nil {
-		s.D.Set("nsx_overlay_segment_name", *s.Res.NsxOverlaySegmentName)
-	}
-
-	if s.Res.NsxVTepVlanId != nil {
-		s.D.Set("nsx_vtep_vlan_id", *s.Res.NsxVTepVlanId)
-	}
-
-	if s.Res.ProvisioningSubnetId != nil {
-		s.D.Set("provisioning_subnet_id", *s.Res.ProvisioningSubnetId)
-	}
-
-	if s.Res.ProvisioningVlanId != nil {
-		s.D.Set("provisioning_vlan_id", *s.Res.ProvisioningVlanId)
-	}
-
-	if s.Res.ReplicationVlanId != nil {
-		s.D.Set("replication_vlan_id", *s.Res.ReplicationVlanId)
-	}
+	//if s.Res.NsxOverlaySegmentName != nil {
+	//	s.D.Set("nsx_overlay_segment_name", *s.Res.NsxOverlaySegmentName)
+	//}
+	//
+	//if s.Res.NsxVTepVlanId != nil {
+	//	s.D.Set("nsx_vtep_vlan_id", *s.Res.NsxVTepVlanId)
+	//}
+	//
+	//if s.Res.ProvisioningSubnetId != nil {
+	//	s.D.Set("provisioning_subnet_id", *s.Res.ProvisioningSubnetId)
+	//}
+	//
+	//if s.Res.ProvisioningVlanId != nil {
+	//	s.D.Set("provisioning_vlan_id", *s.Res.ProvisioningVlanId)
+	//}
+	//
+	//if s.Res.ReplicationVlanId != nil {
+	//	s.D.Set("replication_vlan_id", *s.Res.ReplicationVlanId)
+	//}
 
 	if s.Res.SshAuthorizedKeys != nil {
 		s.D.Set("ssh_authorized_keys", *s.Res.SshAuthorizedKeys)
@@ -1221,19 +1220,19 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
-	upgradeLicenses := []interface{}{}
-	for _, item := range s.Res.UpgradeLicenses {
-		upgradeLicenses = append(upgradeLicenses, VsphereLicenseToMap(item))
-	}
-	s.D.Set("upgrade_licenses", upgradeLicenses)
+	//upgradeLicenses := []interface{}{}
+	//for _, item := range s.Res.UpgradeLicenses {
+	//	upgradeLicenses = append(upgradeLicenses, VsphereLicenseToMap(item))
+	//}
+	//s.D.Set("upgrade_licenses", upgradeLicenses)
 
 	if s.Res.VcenterFqdn != nil {
 		s.D.Set("vcenter_fqdn", *s.Res.VcenterFqdn)
 	}
-
-	if s.Res.VcenterInitialPassword != nil {
-		s.D.Set("vcenter_initial_password", *s.Res.VcenterInitialPassword)
-	}
+	//
+	//if s.Res.VcenterInitialPassword != nil {
+	//	s.D.Set("vcenter_initial_password", *s.Res.VcenterInitialPassword)
+	//}
 
 	if s.Res.VcenterPrivateIpId != nil {
 		s.D.Set("vcenter_private_ip_id", *s.Res.VcenterPrivateIpId)
@@ -1243,35 +1242,35 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		s.D.Set("vcenter_username", *s.Res.VcenterUsername)
 	}
 
-	if s.Res.VmotionVlanId != nil {
-		s.D.Set("vmotion_vlan_id", *s.Res.VmotionVlanId)
-	}
+	//if s.Res.VmotionVlanId != nil {
+	//	s.D.Set("vmotion_vlan_id", *s.Res.VmotionVlanId)
+	//}
 
 	if s.Res.VmwareSoftwareVersion != nil {
 		s.D.Set("vmware_software_version", *s.Res.VmwareSoftwareVersion)
 	}
 
-	if s.Res.VsanVlanId != nil {
-		s.D.Set("vsan_vlan_id", *s.Res.VsanVlanId)
-	}
-
-	if s.Res.VsphereUpgradeGuide != nil {
-		s.D.Set("vsphere_upgrade_guide", *s.Res.VsphereUpgradeGuide)
-	}
-
-	vsphereUpgradeObjects := []interface{}{}
-	for _, item := range s.Res.VsphereUpgradeObjects {
-		vsphereUpgradeObjects = append(vsphereUpgradeObjects, VsphereUpgradeObjectToMap(item))
-	}
-	s.D.Set("vsphere_upgrade_objects", vsphereUpgradeObjects)
-
-	if s.Res.VsphereVlanId != nil {
-		s.D.Set("vsphere_vlan_id", *s.Res.VsphereVlanId)
-	}
-
-	if s.Res.WorkloadNetworkCidr != nil {
-		s.D.Set("workload_network_cidr", *s.Res.WorkloadNetworkCidr)
-	}
+	//if s.Res.VsanVlanId != nil {
+	//	s.D.Set("vsan_vlan_id", *s.Res.VsanVlanId)
+	//}
+	//
+	//if s.Res.VsphereUpgradeGuide != nil {
+	//	s.D.Set("vsphere_upgrade_guide", *s.Res.VsphereUpgradeGuide)
+	//}
+	//
+	//vsphereUpgradeObjects := []interface{}{}
+	//for _, item := range s.Res.VsphereUpgradeObjects {
+	//	vsphereUpgradeObjects = append(vsphereUpgradeObjects, VsphereUpgradeObjectToMap(item))
+	//}
+	//s.D.Set("vsphere_upgrade_objects", vsphereUpgradeObjects)
+	//
+	//if s.Res.VsphereVlanId != nil {
+	//	s.D.Set("vsphere_vlan_id", *s.Res.VsphereVlanId)
+	//}
+	//
+	//if s.Res.WorkloadNetworkCidr != nil {
+	//	s.D.Set("workload_network_cidr", *s.Res.WorkloadNetworkCidr)
+	//}
 
 	return nil
 }
@@ -1299,20 +1298,20 @@ func (s *OcvpSddcResourceCrud) mapToDatastoreInfo(fieldKeyFormat string) (oci_oc
 	return result, nil
 }
 
-func DatastoreSummaryToMap(obj oci_ocvp.DatastoreSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["block_volume_ids"] = obj.BlockVolumeIds
-	result["block_volume_ids"] = obj.BlockVolumeIds
-
-	if obj.Capacity != nil {
-		result["capacity"] = float32(*obj.Capacity)
-	}
-
-	result["datastore_type"] = string(obj.DatastoreType)
-
-	return result
-}
+//func DatastoreSummaryToMap(obj oci_ocvp.DatastoreSummary) map[string]interface{} {
+//	result := map[string]interface{}{}
+//
+//	result["block_volume_ids"] = obj.BlockVolumeIds
+//	result["block_volume_ids"] = obj.BlockVolumeIds
+//
+//	if obj.Capacity != nil {
+//		result["capacity"] = float32(*obj.Capacity)
+//	}
+//
+//	result["datastore_type"] = string(obj.DatastoreType)
+//
+//	return result
+//}
 
 func HcxLicenseSummaryToMap(obj oci_ocvp.HcxLicenseSummary) map[string]interface{} {
 	result := map[string]interface{}{}
@@ -1336,10 +1335,10 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
-
-	if obj.ComputeAvailabilityDomain != nil {
-		result["compute_availability_domain"] = string(*obj.ComputeAvailabilityDomain)
-	}
+	//
+	//if obj.ComputeAvailabilityDomain != nil {
+	//	result["compute_availability_domain"] = string(*obj.ComputeAvailabilityDomain)
+	//}
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
@@ -1349,10 +1348,10 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	if obj.EsxiHostsCount != nil {
-		result["esxi_hosts_count"] = int(*obj.EsxiHostsCount)
-		result["actual_esxi_hosts_count"] = int(*obj.EsxiHostsCount)
-	}
+	//if obj.EsxiHostsCount != nil {
+	//	result["esxi_hosts_count"] = int(*obj.EsxiHostsCount)
+	//	result["actual_esxi_hosts_count"] = int(*obj.EsxiHostsCount)
+	//}
 
 	result["freeform_tags"] = obj.FreeformTags
 
@@ -1364,21 +1363,21 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary) map[string]interface{} {
 		result["id"] = string(*obj.Id)
 	}
 
-	if obj.InitialHostOcpuCount != nil {
-		result["initial_host_ocpu_count"] = float32(*obj.InitialHostOcpuCount)
-	}
-
-	if obj.InitialHostShapeName != nil {
-		result["initial_host_shape_name"] = string(*obj.InitialHostShapeName)
-	}
-
-	if obj.IsHcxEnabled != nil {
-		result["is_hcx_enabled"] = bool(*obj.IsHcxEnabled)
-	}
-
-	if obj.IsShieldedInstanceEnabled != nil {
-		result["is_shielded_instance_enabled"] = bool(*obj.IsShieldedInstanceEnabled)
-	}
+	//if obj.InitialHostOcpuCount != nil {
+	//	result["initial_host_ocpu_count"] = float32(*obj.InitialHostOcpuCount)
+	//}
+	//
+	//if obj.InitialHostShapeName != nil {
+	//	result["initial_host_shape_name"] = string(*obj.InitialHostShapeName)
+	//}
+	//
+	//if obj.IsHcxEnabled != nil {
+	//	result["is_hcx_enabled"] = bool(*obj.IsHcxEnabled)
+	//}
+	//
+	//if obj.IsShieldedInstanceEnabled != nil {
+	//	result["is_shielded_instance_enabled"] = bool(*obj.IsShieldedInstanceEnabled)
+	//}
 
 	if obj.IsSingleHostSddc != nil {
 		result["is_single_host_sddc"] = bool(*obj.IsSingleHostSddc)

@@ -4,8 +4,6 @@
 package ocvp
 
 import (
-	"context"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -58,7 +56,7 @@ func readOcvpSupportedSkus(d *schema.ResourceData, m interface{}) error {
 type OcvpSupportedSkusDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_ocvp.SddcClient
-	Res    *oci_ocvp.ListSupportedSkusResponse
+	//Res    *oci_ocvp.ListSupportedSkusResponse
 }
 
 func (s *OcvpSupportedSkusDataSourceCrud) VoidState() {
@@ -66,64 +64,64 @@ func (s *OcvpSupportedSkusDataSourceCrud) VoidState() {
 }
 
 func (s *OcvpSupportedSkusDataSourceCrud) Get() error {
-	request := oci_ocvp.ListSupportedSkusRequest{}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
-
-	if hostShapeName, ok := s.D.GetOkExists("host_shape_name"); ok {
-		tmp := hostShapeName.(string)
-		request.HostShapeName = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
-
-	response, err := s.Client.ListSupportedSkus(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &response
-	request.Page = s.Res.OpcNextPage
-
-	for request.Page != nil {
-		listResponse, err := s.Client.ListSupportedSkus(context.Background(), request)
-		if err != nil {
-			return err
-		}
-
-		s.Res.Items = append(s.Res.Items, listResponse.Items...)
-		request.Page = listResponse.OpcNextPage
-	}
+	//request := oci_ocvp.ListSupportedSkusRequest{}
+	//
+	//if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+	//	tmp := compartmentId.(string)
+	//	request.CompartmentId = &tmp
+	//}
+	//
+	//if hostShapeName, ok := s.D.GetOkExists("host_shape_name"); ok {
+	//	tmp := hostShapeName.(string)
+	//	request.HostShapeName = &tmp
+	//}
+	//
+	//request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
+	//
+	//response, err := s.Client.ListSupportedSkus(context.Background(), request)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//s.Res = &response
+	//request.Page = s.Res.OpcNextPage
+	//
+	//for request.Page != nil {
+	//	listResponse, err := s.Client.ListSupportedSkus(context.Background(), request)
+	//	if err != nil {
+	//		return err
+	//	}
+	//
+	//	s.Res.Items = append(s.Res.Items, listResponse.Items...)
+	//	request.Page = listResponse.OpcNextPage
+	//}
 
 	return nil
 }
 
 func (s *OcvpSupportedSkusDataSourceCrud) SetData() error {
-	if s.Res == nil {
-		return nil
-	}
+	//if s.Res == nil {
+	//	return nil
+	//}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("OcvpSupportedSkusDataSource-", OcvpSupportedSkusDataSource(), s.D))
 
-	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, SupportedSkuSummaryToMap(item))
-	}
-
-	if err := s.D.Set("items", items); err != nil {
-		return err
-	}
+	//items := []interface{}{}
+	//for _, item := range s.Res.Items {
+	//	items = append(items, SupportedSkuSummaryToMap(item))
+	//}
+	//
+	//if err := s.D.Set("items", items); err != nil {
+	//	return err
+	//}
 
 	return nil
 }
 
-func SupportedSkuSummaryToMap(obj oci_ocvp.SupportedSkuSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["name"] = string(obj.Name)
-
-	return result
-}
+//func SupportedSkuSummaryToMap(obj oci_ocvp.SupportedSkuSummary) map[string]interface{} {
+//	result := map[string]interface{}{}
+//
+//	result["name"] = string(obj.Name)
+//
+//	return result
+//}
