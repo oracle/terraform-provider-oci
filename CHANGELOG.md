@@ -1,4 +1,4 @@
-## 5.12.0 (Unreleased)
+## 5.12.0 (September 06, 2023)
 
 ### Added
 - Support for Terraform for Serial Console Phase 1 ExaDB-C@C (EXACC) Serial Console Access to VM
