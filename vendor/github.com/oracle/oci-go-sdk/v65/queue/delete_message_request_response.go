@@ -18,13 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/DeleteMessage.go.html to see an example of how to use DeleteMessageRequest.
 type DeleteMessageRequest struct {
 
-	// unique Queue identifier
+	// The unique queue identifier.
 	QueueId *string `mandatory:"true" contributesTo:"path" name:"queueId"`
 
 	// The receipt of the message retrieved from a GetMessages call.
 	MessageReceipt *string `mandatory:"true" contributesTo:"path" name:"messageReceipt"`
 
-	// The client request ID for tracing.
+	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

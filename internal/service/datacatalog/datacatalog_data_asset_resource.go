@@ -74,6 +74,10 @@ func DatacatalogDataAssetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -214,10 +218,8 @@ func (s *DatacatalogDataAssetResourceCrud) Create() error {
 
 func (s *DatacatalogDataAssetResourceCrud) Get() error {
 	request := oci_datacatalog.GetDataAssetRequest{}
-
 	tmp := s.D.Id()
 	request.DataAssetKey = &tmp
-
 	if catalogId, ok := s.D.GetOkExists("catalog_id"); ok {
 		tmp := catalogId.(string)
 		request.CatalogId = &tmp
@@ -319,7 +321,6 @@ func (s *DatacatalogDataAssetResourceCrud) SetData() error {
 	catalogId, dataAssetKey, err := parseDataAssetCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("catalog_id", &catalogId)
-		s.D.Set("data_asset_key", &dataAssetKey)
 		s.D.SetId(dataAssetKey)
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
@@ -347,6 +348,10 @@ func (s *DatacatalogDataAssetResourceCrud) SetData() error {
 
 	if s.Res.Key != nil {
 		s.D.Set("key", *s.Res.Key)
+	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
 	if s.Res.Properties != nil {
@@ -427,6 +432,10 @@ func DataAssetSummaryToMap(obj oci_datacatalog.DataAssetSummary) map[string]inte
 
 	if obj.Key != nil {
 		result["key"] = string(*obj.Key)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	result["state"] = string(obj.LifecycleState)

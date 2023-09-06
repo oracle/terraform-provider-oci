@@ -33,6 +33,19 @@ type ListWorkRequestsRequest struct {
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
+	// The name of the availability domain.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
+
+	// A filter to return only resources their lifecycleState matches the given OperationStatus.
+	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
+
+	// The field to sort by. Only one sort order may be provided. Default order for timeAccepted is descending.
+	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// The sort order to use, either 'ASC' or 'DESC'.
+	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -69,6 +82,15 @@ func (request ListWorkRequestsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListWorkRequestsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListWorkRequestsStatusEnum(string(request.Status)); !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListWorkRequestsStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListWorkRequestsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListWorkRequestsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListWorkRequestsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWorkRequestsSortOrderEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -100,4 +122,142 @@ func (response ListWorkRequestsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListWorkRequestsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListWorkRequestsStatusEnum Enum with underlying type: string
+type ListWorkRequestsStatusEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsStatusEnum
+const (
+	ListWorkRequestsStatusAccepted   ListWorkRequestsStatusEnum = "ACCEPTED"
+	ListWorkRequestsStatusInProgress ListWorkRequestsStatusEnum = "IN_PROGRESS"
+	ListWorkRequestsStatusFailed     ListWorkRequestsStatusEnum = "FAILED"
+	ListWorkRequestsStatusSucceeded  ListWorkRequestsStatusEnum = "SUCCEEDED"
+	ListWorkRequestsStatusCanceling  ListWorkRequestsStatusEnum = "CANCELING"
+	ListWorkRequestsStatusCanceled   ListWorkRequestsStatusEnum = "CANCELED"
+)
+
+var mappingListWorkRequestsStatusEnum = map[string]ListWorkRequestsStatusEnum{
+	"ACCEPTED":    ListWorkRequestsStatusAccepted,
+	"IN_PROGRESS": ListWorkRequestsStatusInProgress,
+	"FAILED":      ListWorkRequestsStatusFailed,
+	"SUCCEEDED":   ListWorkRequestsStatusSucceeded,
+	"CANCELING":   ListWorkRequestsStatusCanceling,
+	"CANCELED":    ListWorkRequestsStatusCanceled,
+}
+
+var mappingListWorkRequestsStatusEnumLowerCase = map[string]ListWorkRequestsStatusEnum{
+	"accepted":    ListWorkRequestsStatusAccepted,
+	"in_progress": ListWorkRequestsStatusInProgress,
+	"failed":      ListWorkRequestsStatusFailed,
+	"succeeded":   ListWorkRequestsStatusSucceeded,
+	"canceling":   ListWorkRequestsStatusCanceling,
+	"canceled":    ListWorkRequestsStatusCanceled,
+}
+
+// GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatusEnum
+func GetListWorkRequestsStatusEnumValues() []ListWorkRequestsStatusEnum {
+	values := make([]ListWorkRequestsStatusEnum, 0)
+	for _, v := range mappingListWorkRequestsStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsStatusEnumStringValues Enumerates the set of values in String for ListWorkRequestsStatusEnum
+func GetListWorkRequestsStatusEnumStringValues() []string {
+	return []string{
+		"ACCEPTED",
+		"IN_PROGRESS",
+		"FAILED",
+		"SUCCEEDED",
+		"CANCELING",
+		"CANCELED",
+	}
+}
+
+// GetMappingListWorkRequestsStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestsStatusEnum(val string) (ListWorkRequestsStatusEnum, bool) {
+	enum, ok := mappingListWorkRequestsStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListWorkRequestsSortByEnum Enum with underlying type: string
+type ListWorkRequestsSortByEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsSortByEnum
+const (
+	ListWorkRequestsSortByTimeaccepted ListWorkRequestsSortByEnum = "timeAccepted"
+)
+
+var mappingListWorkRequestsSortByEnum = map[string]ListWorkRequestsSortByEnum{
+	"timeAccepted": ListWorkRequestsSortByTimeaccepted,
+}
+
+var mappingListWorkRequestsSortByEnumLowerCase = map[string]ListWorkRequestsSortByEnum{
+	"timeaccepted": ListWorkRequestsSortByTimeaccepted,
+}
+
+// GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum
+func GetListWorkRequestsSortByEnumValues() []ListWorkRequestsSortByEnum {
+	values := make([]ListWorkRequestsSortByEnum, 0)
+	for _, v := range mappingListWorkRequestsSortByEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsSortByEnumStringValues Enumerates the set of values in String for ListWorkRequestsSortByEnum
+func GetListWorkRequestsSortByEnumStringValues() []string {
+	return []string{
+		"timeAccepted",
+	}
+}
+
+// GetMappingListWorkRequestsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestsSortByEnum(val string) (ListWorkRequestsSortByEnum, bool) {
+	enum, ok := mappingListWorkRequestsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListWorkRequestsSortOrderEnum Enum with underlying type: string
+type ListWorkRequestsSortOrderEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsSortOrderEnum
+const (
+	ListWorkRequestsSortOrderAsc  ListWorkRequestsSortOrderEnum = "ASC"
+	ListWorkRequestsSortOrderDesc ListWorkRequestsSortOrderEnum = "DESC"
+)
+
+var mappingListWorkRequestsSortOrderEnum = map[string]ListWorkRequestsSortOrderEnum{
+	"ASC":  ListWorkRequestsSortOrderAsc,
+	"DESC": ListWorkRequestsSortOrderDesc,
+}
+
+var mappingListWorkRequestsSortOrderEnumLowerCase = map[string]ListWorkRequestsSortOrderEnum{
+	"asc":  ListWorkRequestsSortOrderAsc,
+	"desc": ListWorkRequestsSortOrderDesc,
+}
+
+// GetListWorkRequestsSortOrderEnumValues Enumerates the set of values for ListWorkRequestsSortOrderEnum
+func GetListWorkRequestsSortOrderEnumValues() []ListWorkRequestsSortOrderEnum {
+	values := make([]ListWorkRequestsSortOrderEnum, 0)
+	for _, v := range mappingListWorkRequestsSortOrderEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsSortOrderEnumStringValues Enumerates the set of values in String for ListWorkRequestsSortOrderEnum
+func GetListWorkRequestsSortOrderEnumStringValues() []string {
+	return []string{
+		"ASC",
+		"DESC",
+	}
+}
+
+// GetMappingListWorkRequestsSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestsSortOrderEnum(val string) (ListWorkRequestsSortOrderEnum, bool) {
+	enum, ok := mappingListWorkRequestsSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

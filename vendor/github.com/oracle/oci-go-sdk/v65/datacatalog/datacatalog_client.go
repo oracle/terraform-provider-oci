@@ -216,6 +216,68 @@ func (client DataCatalogClient) associateCustomProperty(ctx context.Context, req
 	return response, err
 }
 
+// AsynchronousExportGlossary Exports the contents of a glossary in Excel format. Returns details about the job which actually performs the export.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AsynchronousExportGlossary.go.html to see an example of how to use AsynchronousExportGlossary API.
+func (client DataCatalogClient) AsynchronousExportGlossary(ctx context.Context, request AsynchronousExportGlossaryRequest) (response AsynchronousExportGlossaryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.asynchronousExportGlossary, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AsynchronousExportGlossaryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AsynchronousExportGlossaryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AsynchronousExportGlossaryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AsynchronousExportGlossaryResponse")
+	}
+	return
+}
+
+// asynchronousExportGlossary implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) asynchronousExportGlossary(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/glossaries/{glossaryKey}/actions/asynchronousExport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AsynchronousExportGlossaryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Glossary/AsynchronousExportGlossary"
+		err = common.PostProcessServiceError(err, "DataCatalog", "AsynchronousExportGlossary", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AttachCatalogPrivateEndpoint Attaches a private reverse connection endpoint resource to a data catalog resource. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 //
 // See also
@@ -3129,6 +3191,64 @@ func (client DataCatalogClient) exportGlossary(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Glossary/ExportGlossary"
 		err = common.PostProcessServiceError(err, "DataCatalog", "ExportGlossary", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// FetchEntityLineage Returns lineage for a given entity object.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/FetchEntityLineage.go.html to see an example of how to use FetchEntityLineage API.
+// A default retry strategy applies to this operation FetchEntityLineage()
+func (client DataCatalogClient) FetchEntityLineage(ctx context.Context, request FetchEntityLineageRequest) (response FetchEntityLineageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.fetchEntityLineage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FetchEntityLineageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FetchEntityLineageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FetchEntityLineageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FetchEntityLineageResponse")
+	}
+	return
+}
+
+// fetchEntityLineage implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) fetchEntityLineage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/entities/{entityKey}/actions/fetchLineage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FetchEntityLineageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/Entity/FetchEntityLineage"
+		err = common.PostProcessServiceError(err, "DataCatalog", "FetchEntityLineage", apiReferenceLink)
 		return response, err
 	}
 

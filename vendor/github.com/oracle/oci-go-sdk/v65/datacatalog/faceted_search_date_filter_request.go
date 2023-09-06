@@ -19,7 +19,7 @@ import (
 // FacetedSearchDateFilterRequest Object with date filter criteria
 type FacetedSearchDateFilterRequest struct {
 
-	// Date field name that needs to be filtered by.
+	// Date field name that needs to be filtered by. Acceptable fields include TimeCreated and TimeUpdated.
 	FieldName *string `mandatory:"false" json:"fieldName"`
 
 	// The date and time the request was created, as described in

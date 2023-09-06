@@ -69,6 +69,10 @@ type FolderSummary struct {
 
 	// State of the folder.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// A message describing the current state in more detail. An object not in ACTIVE state may have functional limitations,
+	// see service documentation for details.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 }
 
 func (m FolderSummary) String() string {

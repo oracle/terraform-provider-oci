@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -25,7 +25,7 @@ type WorkRequestError struct {
 	// A human readable description of the issue encountered.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the error occured. An RFC3339 formatted datetime string.
+	// The time the error occured. An RFC 3339 (https://tools.ietf.org/rfc/rfc3339) formatted datetime string.
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -15,22 +15,24 @@ import (
 	"strings"
 )
 
-// Queue Description of Queue.
+// Queue A detailed representation of a queue and its configuration.
 type Queue struct {
 
-	// Unique identifier that is immutable on creation
+	// A unique identifier for the queue that is immutable on creation.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the queue.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The time the the Queue was created. An RFC3339 formatted datetime string
+	// The time that the queue was created, expressed in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2018-04-20T00:00:07.405Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time the Queue was updated. An RFC3339 formatted datetime string
+	// The time that the queue was updated, expressed in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2018-04-20T00:00:07.405Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The current state of the Queue.
+	// The current state of the queue.
 	LifecycleState QueueLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The endpoint to use to consume or publish messages in the queue.
@@ -39,7 +41,7 @@ type Queue struct {
 	// The retention period of the messages in the queue, in seconds.
 	RetentionInSeconds *int `mandatory:"true" json:"retentionInSeconds"`
 
-	// The default visibility of the messages consumed from the queue.
+	// The default visibility timeout of the messages consumed from the queue, in seconds.
 	VisibilityInSeconds *int `mandatory:"true" json:"visibilityInSeconds"`
 
 	// The default polling timeout of the messages in the queue, in seconds.
@@ -48,13 +50,13 @@ type Queue struct {
 	// The number of times a message can be delivered to a consumer before being moved to the dead letter queue. A value of 0 indicates that the DLQ is not used.
 	DeadLetterQueueDeliveryCount *int `mandatory:"true" json:"deadLetterQueueDeliveryCount"`
 
-	// Queue Identifier, can be renamed
+	// A user-friendly name for the queue. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// Any additional details about the current state of the queue.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Id of the custom master encryption key which will be used to encrypt messages content
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the custom encryption key to be used to encrypt messages content.
 	CustomEncryptionKeyId *string `mandatory:"false" json:"customEncryptionKeyId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -68,6 +70,9 @@ type Queue struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// The percentage of allocated queue resources that can be consumed by a single channel. For example, if a queue has a storage limit of 2Gb, and a single channel consumption limit is 0.1 (10%), that means data size of a single channel  can't exceed 200Mb. Consumption limit of 100% (default) means that a single channel can consume up-to all allocated queue's resources.
+	ChannelConsumptionLimit *int `mandatory:"false" json:"channelConsumptionLimit"`
 }
 
 func (m Queue) String() string {
