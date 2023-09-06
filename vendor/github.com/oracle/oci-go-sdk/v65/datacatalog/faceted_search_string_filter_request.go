@@ -19,10 +19,13 @@ import (
 // FacetedSearchStringFilterRequest Object with string filter criteria
 type FacetedSearchStringFilterRequest struct {
 
-	// String/boolean/numerical field name that needs to filtered with
+	// String/boolean/numerical field name that needs to be filtered by.
+	// Acceptable field names: CatalogType, AttributeType, FolderType, DataAssetType, CreatedBy, UpdatedBy, Term, Tag, DataAssetName, LifeCycleState.
 	Field *string `mandatory:"false" json:"field"`
 
 	// Array of values that the search results needs to be filtered by.
+	// Acceptable values for field 'CatalogType': DataAsset, Folder, DataEntity, Attribute, Term, Category, Glossary, Pattern, Job, Schedule, CustomProperty.
+	// For other fields, acceptable values can be derived by inspecting the data object.
 	Values []string `mandatory:"false" json:"values"`
 }
 

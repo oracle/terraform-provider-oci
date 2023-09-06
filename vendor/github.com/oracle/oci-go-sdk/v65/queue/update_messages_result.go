@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -21,7 +21,7 @@ type UpdateMessagesResult struct {
 	// The number of messages that failed to be updated in the queue because of a server failure.
 	ServerFailures *int `mandatory:"true" json:"serverFailures"`
 
-	// The number of messages that failed to be updated in the queue because of a client failure such as an invalid receipt or invalid visibilityInSeconds.
+	// The number of messages that failed to be updated in the queue because of a client failure such as an invalid receipt or invalid `visibilityInSeconds`.
 	ClientFailures *int `mandatory:"true" json:"clientFailures"`
 
 	// An array of items representing the result of each action.

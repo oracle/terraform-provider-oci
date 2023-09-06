@@ -68,6 +68,9 @@ type JobDefinitionSummary struct {
 
 	// Unique key of the data asset to which this job applies, if the job involves a data asset.
 	DataAssetKey *string `mandatory:"false" json:"dataAssetKey"`
+
+	// Unique key of the glossary to which this job applies, if the job involves a glossary.
+	GlossaryKey *string `mandatory:"false" json:"glossaryKey"`
 }
 
 func (m JobDefinitionSummary) String() string {

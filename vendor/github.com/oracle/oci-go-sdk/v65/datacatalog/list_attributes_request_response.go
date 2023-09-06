@@ -88,7 +88,8 @@ type ListAttributesRequest struct {
 	// Specifies the fields to return in an entity attribute summary response.
 	Fields []ListAttributesFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for TIMECREATED is descending. Default order for DISPLAYNAME is ascending. Default order for POSITION is ascending. If no value is specified POSITION is default.
+	// The field to sort by. Only one sort order may be provided. DISPLAYORBUSINESSNAME considers businessName of a given object if set, else its displayName is used.
+	// Default sort order for TIMECREATED is descending and default sort order for DISPLAYNAME, POSITION and DISPLAYORBUSINESSNAME is ascending. If no order is specified, POSITION is the default.
 	SortBy ListAttributesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc'.
@@ -379,21 +380,24 @@ type ListAttributesSortByEnum string
 
 // Set of constants representing the allowable values for ListAttributesSortByEnum
 const (
-	ListAttributesSortByTimecreated ListAttributesSortByEnum = "TIMECREATED"
-	ListAttributesSortByDisplayname ListAttributesSortByEnum = "DISPLAYNAME"
-	ListAttributesSortByPosition    ListAttributesSortByEnum = "POSITION"
+	ListAttributesSortByTimecreated           ListAttributesSortByEnum = "TIMECREATED"
+	ListAttributesSortByDisplayname           ListAttributesSortByEnum = "DISPLAYNAME"
+	ListAttributesSortByPosition              ListAttributesSortByEnum = "POSITION"
+	ListAttributesSortByDisplayorbusinessname ListAttributesSortByEnum = "DISPLAYORBUSINESSNAME"
 )
 
 var mappingListAttributesSortByEnum = map[string]ListAttributesSortByEnum{
-	"TIMECREATED": ListAttributesSortByTimecreated,
-	"DISPLAYNAME": ListAttributesSortByDisplayname,
-	"POSITION":    ListAttributesSortByPosition,
+	"TIMECREATED":           ListAttributesSortByTimecreated,
+	"DISPLAYNAME":           ListAttributesSortByDisplayname,
+	"POSITION":              ListAttributesSortByPosition,
+	"DISPLAYORBUSINESSNAME": ListAttributesSortByDisplayorbusinessname,
 }
 
 var mappingListAttributesSortByEnumLowerCase = map[string]ListAttributesSortByEnum{
-	"timecreated": ListAttributesSortByTimecreated,
-	"displayname": ListAttributesSortByDisplayname,
-	"position":    ListAttributesSortByPosition,
+	"timecreated":           ListAttributesSortByTimecreated,
+	"displayname":           ListAttributesSortByDisplayname,
+	"position":              ListAttributesSortByPosition,
+	"displayorbusinessname": ListAttributesSortByDisplayorbusinessname,
 }
 
 // GetListAttributesSortByEnumValues Enumerates the set of values for ListAttributesSortByEnum
@@ -411,6 +415,7 @@ func GetListAttributesSortByEnumStringValues() []string {
 		"TIMECREATED",
 		"DISPLAYNAME",
 		"POSITION",
+		"DISPLAYORBUSINESSNAME",
 	}
 }
 

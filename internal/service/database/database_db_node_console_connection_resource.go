@@ -17,6 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
 func DatabaseDbNodeConsoleConnectionResource() *schema.Resource {
@@ -27,6 +28,7 @@ func DatabaseDbNodeConsoleConnectionResource() *schema.Resource {
 		Timeouts: tfresource.DefaultTimeout,
 		Create:   createDatabaseDbNodeConsoleConnection,
 		Read:     readDatabaseDbNodeConsoleConnection,
+		Update:   updateDatabaseDbNodeConsoleConnection,
 		Delete:   deleteDatabaseDbNodeConsoleConnection,
 		Schema: map[string]*schema.Schema{
 			// Required
@@ -42,6 +44,19 @@ func DatabaseDbNodeConsoleConnectionResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -53,6 +68,14 @@ func DatabaseDbNodeConsoleConnectionResource() *schema.Resource {
 				Computed: true,
 			},
 			"fingerprint": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"service_host_key_fingerprint": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -68,6 +91,7 @@ func createDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}
 	sync := &DatabaseDbNodeConsoleConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -80,11 +104,21 @@ func readDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) 
 	return tfresource.ReadResource(sync)
 }
 
+func updateDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbNodeConsoleConnectionResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
+
+	return tfresource.UpdateResource(d, sync)
+}
+
 func deleteDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbNodeConsoleConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.DeleteResource(d, sync)
 }
@@ -94,6 +128,7 @@ type DatabaseDbNodeConsoleConnectionResourceCrud struct {
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.ConsoleConnection
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseDbNodeConsoleConnectionResourceCrud) ID() string {
@@ -130,6 +165,18 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Create() error {
 	if dbNodeId, ok := s.D.GetOkExists("db_node_id"); ok {
 		tmp := dbNodeId.(string)
 		request.DbNodeId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if publicKey, ok := s.D.GetOkExists("public_key"); ok {
@@ -183,6 +230,50 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Get() error {
 	return nil
 }
 
+func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Update() error {
+	request := oci_database.UpdateConsoleConnectionRequest{}
+
+	dbNodeId, id, err := ParseDbNodeConsoleConnectionCompositeId(s.D.Id())
+	request.ConsoleConnectionId = &id
+	request.DbNodeId = &dbNodeId
+
+	if dbNodeId, ok := s.D.GetOkExists("db_node_id"); ok {
+		tmp := dbNodeId.(string)
+		request.DbNodeId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateConsoleConnection(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.ConsoleConnection
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "node", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	return s.Get()
+}
+
 func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Delete() error {
 	request := oci_database.DeleteConsoleConnectionRequest{}
 
@@ -226,8 +317,24 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) SetData() error {
 		s.D.Set("db_node_id", *s.Res.DbNodeId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.Fingerprint != nil {
 		s.D.Set("fingerprint", *s.Res.Fingerprint)
+	}
+
+	if s.Res.FreeformTags != nil {
+		s.D.Set("freeform_tags", s.Res.FreeformTags)
+	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.ServiceHostKeyFingerprint != nil {
+		s.D.Set("service_host_key_fingerprint", *s.Res.ServiceHostKeyFingerprint)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

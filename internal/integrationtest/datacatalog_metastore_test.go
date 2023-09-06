@@ -89,7 +89,7 @@ var (
 	}
 	//Changes made for Create dependency resources
 	DatacatalogMetastoreResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentationMetastore) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "object1", acctest.Required, acctest.Create, objectRepresentationDefault) +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "object2", acctest.Required, acctest.Create, objectRepresentationExternal) +
 		DefinedTagsDependencies

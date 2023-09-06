@@ -1,3 +1,9 @@
+## 5.12.0 (September 06, 2023)
+
+### Added
+- Support for Terraform for Serial Console Phase 1 ExaDB-C@C (EXACC) Serial Console Access to VM
+- Support for refreshing security token auth
+
 ## 5.11.0 (August 30, 2023)
 
 ### Added

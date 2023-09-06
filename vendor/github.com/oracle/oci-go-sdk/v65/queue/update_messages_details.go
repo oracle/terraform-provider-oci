@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateMessagesDetails The details of a UpdateMessages request.
+// UpdateMessagesDetails The details of an UpdateMessages request.
 type UpdateMessagesDetails struct {
 
 	// The array of messages to update in a queue.

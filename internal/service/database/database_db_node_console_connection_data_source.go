@@ -92,8 +92,22 @@ func (s *DatabaseDbNodeConsoleConnectionDataSourceCrud) SetData() error {
 		s.D.Set("connection_string", *s.Res.ConnectionString)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.Fingerprint != nil {
 		s.D.Set("fingerprint", *s.Res.Fingerprint)
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.ServiceHostKeyFingerprint != nil {
+		s.D.Set("service_host_key_fingerprint", *s.Res.ServiceHostKeyFingerprint)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -24,7 +24,7 @@ type Stats struct {
 	// The approximate number of messages delivered to a consumer but not yet deleted and so unavailable for re-delivery.
 	InFlightMessages *int64 `mandatory:"true" json:"inFlightMessages"`
 
-	// The approximate size of the queue in bytes. Sum of the size of visible of in-flight messages.
+	// The approximate size of the queue in bytes. Sum of the size of visible and in-flight messages.
 	SizeInBytes *int64 `mandatory:"true" json:"sizeInBytes"`
 }
 

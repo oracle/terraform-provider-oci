@@ -4,7 +4,7 @@
 
 // Queue API
 //
-// A description of the Queue API
+// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
 //
 
 package queue
@@ -18,10 +18,11 @@ import (
 // UpdatedMessage An updated message with the new visibility.
 type UpdatedMessage struct {
 
-	// The id of the message that's been updated.
+	// The ID of the message that's been updated.
 	Id *int64 `mandatory:"true" json:"id"`
 
-	// The time after which the message will be visible to other consumers. An RFC3339 formatted datetime string
+	// The time after which the message will be visible to other consumers, expressed in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2018-04-20T00:00:07.405Z`
 	VisibleAfter *common.SDKTime `mandatory:"true" json:"visibleAfter"`
 }
 

@@ -29,6 +29,9 @@ type UpdateJobDefinitionDetails struct {
 	// The key of the data asset for which the job is defined.
 	DataAssetKey *string `mandatory:"false" json:"dataAssetKey"`
 
+	// Unique key of the glossary to which this job applies.
+	GlossaryKey *string `mandatory:"false" json:"glossaryKey"`
+
 	// Detailed description of the job definition.
 	Description *string `mandatory:"false" json:"description"`
 
