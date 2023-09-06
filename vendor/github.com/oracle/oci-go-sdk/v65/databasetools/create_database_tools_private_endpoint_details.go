@@ -38,6 +38,9 @@ type CreateDatabaseToolsPrivateEndpointDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// A description of the Database Tools private endpoint.
 	Description *string `mandatory:"false" json:"description"`
 

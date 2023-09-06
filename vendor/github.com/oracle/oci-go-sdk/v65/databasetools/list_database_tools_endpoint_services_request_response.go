@@ -215,6 +215,7 @@ const (
 	ListDatabaseToolsEndpointServicesLifecycleStateDeleting ListDatabaseToolsEndpointServicesLifecycleStateEnum = "DELETING"
 	ListDatabaseToolsEndpointServicesLifecycleStateDeleted  ListDatabaseToolsEndpointServicesLifecycleStateEnum = "DELETED"
 	ListDatabaseToolsEndpointServicesLifecycleStateFailed   ListDatabaseToolsEndpointServicesLifecycleStateEnum = "FAILED"
+	ListDatabaseToolsEndpointServicesLifecycleStateInactive ListDatabaseToolsEndpointServicesLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingListDatabaseToolsEndpointServicesLifecycleStateEnum = map[string]ListDatabaseToolsEndpointServicesLifecycleStateEnum{
@@ -224,6 +225,7 @@ var mappingListDatabaseToolsEndpointServicesLifecycleStateEnum = map[string]List
 	"DELETING": ListDatabaseToolsEndpointServicesLifecycleStateDeleting,
 	"DELETED":  ListDatabaseToolsEndpointServicesLifecycleStateDeleted,
 	"FAILED":   ListDatabaseToolsEndpointServicesLifecycleStateFailed,
+	"INACTIVE": ListDatabaseToolsEndpointServicesLifecycleStateInactive,
 }
 
 var mappingListDatabaseToolsEndpointServicesLifecycleStateEnumLowerCase = map[string]ListDatabaseToolsEndpointServicesLifecycleStateEnum{
@@ -233,6 +235,7 @@ var mappingListDatabaseToolsEndpointServicesLifecycleStateEnumLowerCase = map[st
 	"deleting": ListDatabaseToolsEndpointServicesLifecycleStateDeleting,
 	"deleted":  ListDatabaseToolsEndpointServicesLifecycleStateDeleted,
 	"failed":   ListDatabaseToolsEndpointServicesLifecycleStateFailed,
+	"inactive": ListDatabaseToolsEndpointServicesLifecycleStateInactive,
 }
 
 // GetListDatabaseToolsEndpointServicesLifecycleStateEnumValues Enumerates the set of values for ListDatabaseToolsEndpointServicesLifecycleStateEnum
@@ -253,6 +256,7 @@ func GetListDatabaseToolsEndpointServicesLifecycleStateEnumStringValues() []stri
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"INACTIVE",
 	}
 }
 

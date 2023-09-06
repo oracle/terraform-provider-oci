@@ -136,7 +136,9 @@ const (
 	ListDeploymentTypesDeploymentTypeDatabaseMicrosoftSqlserver ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MICROSOFT_SQLSERVER"
 	ListDeploymentTypesDeploymentTypeDatabaseMysql              ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MYSQL"
 	ListDeploymentTypesDeploymentTypeDatabasePostgresql         ListDeploymentTypesDeploymentTypeEnum = "DATABASE_POSTGRESQL"
+	ListDeploymentTypesDeploymentTypeDatabaseDb2zos             ListDeploymentTypesDeploymentTypeEnum = "DATABASE_DB2ZOS"
 	ListDeploymentTypesDeploymentTypeGgsa                       ListDeploymentTypesDeploymentTypeEnum = "GGSA"
+	ListDeploymentTypesDeploymentTypeDataTransforms             ListDeploymentTypesDeploymentTypeEnum = "DATA_TRANSFORMS"
 )
 
 var mappingListDeploymentTypesDeploymentTypeEnum = map[string]ListDeploymentTypesDeploymentTypeEnum{
@@ -146,7 +148,9 @@ var mappingListDeploymentTypesDeploymentTypeEnum = map[string]ListDeploymentType
 	"DATABASE_MICROSOFT_SQLSERVER": ListDeploymentTypesDeploymentTypeDatabaseMicrosoftSqlserver,
 	"DATABASE_MYSQL":               ListDeploymentTypesDeploymentTypeDatabaseMysql,
 	"DATABASE_POSTGRESQL":          ListDeploymentTypesDeploymentTypeDatabasePostgresql,
+	"DATABASE_DB2ZOS":              ListDeploymentTypesDeploymentTypeDatabaseDb2zos,
 	"GGSA":                         ListDeploymentTypesDeploymentTypeGgsa,
+	"DATA_TRANSFORMS":              ListDeploymentTypesDeploymentTypeDataTransforms,
 }
 
 var mappingListDeploymentTypesDeploymentTypeEnumLowerCase = map[string]ListDeploymentTypesDeploymentTypeEnum{
@@ -156,7 +160,9 @@ var mappingListDeploymentTypesDeploymentTypeEnumLowerCase = map[string]ListDeplo
 	"database_microsoft_sqlserver": ListDeploymentTypesDeploymentTypeDatabaseMicrosoftSqlserver,
 	"database_mysql":               ListDeploymentTypesDeploymentTypeDatabaseMysql,
 	"database_postgresql":          ListDeploymentTypesDeploymentTypeDatabasePostgresql,
+	"database_db2zos":              ListDeploymentTypesDeploymentTypeDatabaseDb2zos,
 	"ggsa":                         ListDeploymentTypesDeploymentTypeGgsa,
+	"data_transforms":              ListDeploymentTypesDeploymentTypeDataTransforms,
 }
 
 // GetListDeploymentTypesDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentTypesDeploymentTypeEnum
@@ -177,7 +183,9 @@ func GetListDeploymentTypesDeploymentTypeEnumStringValues() []string {
 		"DATABASE_MICROSOFT_SQLSERVER",
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
+		"DATABASE_DB2ZOS",
 		"GGSA",
+		"DATA_TRANSFORMS",
 	}
 }
 

@@ -262,6 +262,7 @@ const (
 	MicrosoftSqlserverConnectionTechnologyTypeAmazonRdsSqlserver               MicrosoftSqlserverConnectionTechnologyTypeEnum = "AMAZON_RDS_SQLSERVER"
 	MicrosoftSqlserverConnectionTechnologyTypeAzureSqlserverManagedInstance    MicrosoftSqlserverConnectionTechnologyTypeEnum = "AZURE_SQLSERVER_MANAGED_INSTANCE"
 	MicrosoftSqlserverConnectionTechnologyTypeAzureSqlserverNonManagedInstance MicrosoftSqlserverConnectionTechnologyTypeEnum = "AZURE_SQLSERVER_NON_MANAGED_INSTANCE"
+	MicrosoftSqlserverConnectionTechnologyTypeGoogleCloudSqlSqlserver          MicrosoftSqlserverConnectionTechnologyTypeEnum = "GOOGLE_CLOUD_SQL_SQLSERVER"
 	MicrosoftSqlserverConnectionTechnologyTypeMicrosoftSqlserver               MicrosoftSqlserverConnectionTechnologyTypeEnum = "MICROSOFT_SQLSERVER"
 )
 
@@ -269,6 +270,7 @@ var mappingMicrosoftSqlserverConnectionTechnologyTypeEnum = map[string]Microsoft
 	"AMAZON_RDS_SQLSERVER":                 MicrosoftSqlserverConnectionTechnologyTypeAmazonRdsSqlserver,
 	"AZURE_SQLSERVER_MANAGED_INSTANCE":     MicrosoftSqlserverConnectionTechnologyTypeAzureSqlserverManagedInstance,
 	"AZURE_SQLSERVER_NON_MANAGED_INSTANCE": MicrosoftSqlserverConnectionTechnologyTypeAzureSqlserverNonManagedInstance,
+	"GOOGLE_CLOUD_SQL_SQLSERVER":           MicrosoftSqlserverConnectionTechnologyTypeGoogleCloudSqlSqlserver,
 	"MICROSOFT_SQLSERVER":                  MicrosoftSqlserverConnectionTechnologyTypeMicrosoftSqlserver,
 }
 
@@ -276,6 +278,7 @@ var mappingMicrosoftSqlserverConnectionTechnologyTypeEnumLowerCase = map[string]
 	"amazon_rds_sqlserver":                 MicrosoftSqlserverConnectionTechnologyTypeAmazonRdsSqlserver,
 	"azure_sqlserver_managed_instance":     MicrosoftSqlserverConnectionTechnologyTypeAzureSqlserverManagedInstance,
 	"azure_sqlserver_non_managed_instance": MicrosoftSqlserverConnectionTechnologyTypeAzureSqlserverNonManagedInstance,
+	"google_cloud_sql_sqlserver":           MicrosoftSqlserverConnectionTechnologyTypeGoogleCloudSqlSqlserver,
 	"microsoft_sqlserver":                  MicrosoftSqlserverConnectionTechnologyTypeMicrosoftSqlserver,
 }
 
@@ -294,6 +297,7 @@ func GetMicrosoftSqlserverConnectionTechnologyTypeEnumStringValues() []string {
 		"AMAZON_RDS_SQLSERVER",
 		"AZURE_SQLSERVER_MANAGED_INSTANCE",
 		"AZURE_SQLSERVER_NON_MANAGED_INSTANCE",
+		"GOOGLE_CLOUD_SQL_SQLSERVER",
 		"MICROSOFT_SQLSERVER",
 	}
 }

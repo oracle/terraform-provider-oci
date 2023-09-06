@@ -152,16 +152,8 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 
 	var err error
 	switch m.ConnectionType {
-	case "GOLDENGATE":
-		mm := GoldenGateConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "KAFKA_SCHEMA_REGISTRY":
 		mm := KafkaSchemaRegistryConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "JAVA_MESSAGE_SERVICE":
-		mm := JavaMessageServiceConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MICROSOFT_SQLSERVER":
@@ -176,16 +168,8 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := OracleConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "SNOWFLAKE":
-		mm := SnowflakeConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "OCI_OBJECT_STORAGE":
 		mm := OciObjectStorageConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "AZURE_DATA_LAKE_STORAGE":
-		mm := AzureDataLakeStorageConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":
@@ -200,16 +184,68 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := AmazonS3ConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "POSTGRESQL":
-		mm := PostgresqlConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "MYSQL":
 		mm := MysqlConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ELASTICSEARCH":
+		mm := ElasticsearchConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_CLOUD_STORAGE":
+		mm := GoogleCloudStorageConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOLDENGATE":
+		mm := GoldenGateConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "JAVA_MESSAGE_SERVICE":
+		mm := JavaMessageServiceConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SNOWFLAKE":
+		mm := SnowflakeConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_KINESIS":
+		mm := AmazonKinesisConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CASSANDRA":
+		mm := CassandraConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REDIS":
+		mm := RedisConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_DATA_LAKE_STORAGE":
+		mm := AzureDataLakeStorageConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_BIGQUERY":
+		mm := GoogleBigQueryConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "POSTGRESQL":
+		mm := PostgresqlConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC":
+		mm := GenericConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "KAFKA":
 		mm := KafkaConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DB2":
+		mm := Db2ConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_REDSHIFT":
+		mm := AmazonRedshiftConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "HDFS":

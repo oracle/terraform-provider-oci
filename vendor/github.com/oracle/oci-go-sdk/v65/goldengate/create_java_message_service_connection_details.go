@@ -91,6 +91,22 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// The password Oracle GoldenGate uses to connect the associated Java Message Service.
 	Password *string `mandatory:"false" json:"password"`
 
+	// The base64 encoded content of the TrustStore file.
+	TrustStore *string `mandatory:"false" json:"trustStore"`
+
+	// The TrustStore password.
+	TrustStorePassword *string `mandatory:"false" json:"trustStorePassword"`
+
+	// The base64 encoded content of the KeyStore file.
+	KeyStore *string `mandatory:"false" json:"keyStore"`
+
+	// The KeyStore password.
+	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
+
+	// The password for the cert inside of the KeyStore.
+	// In case it differs from the KeyStore password, it should be provided.
+	SslKeyPassword *string `mandatory:"false" json:"sslKeyPassword"`
+
 	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
 	// field, or make sure the host name is resolvable in the target VCN.
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a
@@ -108,6 +124,14 @@ type CreateJavaMessageServiceConnectionDetails struct {
 
 	// The Java Message Service technology type.
 	TechnologyType JavaMessageServiceConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
+
+	// Security protocol for Java Message Service. If not provided, default is PLAIN.
+	// Optional until 2024-06-27, in the release after it will be made required.
+	SecurityProtocol JavaMessageServiceConnectionSecurityProtocolEnum `mandatory:"false" json:"securityProtocol,omitempty"`
+
+	// Authentication type for Java Message Service.  If not provided, default is NONE.
+	// Optional until 2024-06-27, in the release after it will be made required.
+	AuthenticationType JavaMessageServiceConnectionAuthenticationTypeEnum `mandatory:"false" json:"authenticationType,omitempty"`
 }
 
 //GetDisplayName returns DisplayName
@@ -175,6 +199,12 @@ func (m CreateJavaMessageServiceConnectionDetails) ValidateEnumValue() (bool, er
 	}
 	if _, ok := GetMappingJavaMessageServiceConnectionTechnologyTypeEnum(string(m.TechnologyType)); !ok && m.TechnologyType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TechnologyType: %s. Supported values are: %s.", m.TechnologyType, strings.Join(GetJavaMessageServiceConnectionTechnologyTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingJavaMessageServiceConnectionSecurityProtocolEnum(string(m.SecurityProtocol)); !ok && m.SecurityProtocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityProtocol: %s. Supported values are: %s.", m.SecurityProtocol, strings.Join(GetJavaMessageServiceConnectionSecurityProtocolEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingJavaMessageServiceConnectionAuthenticationTypeEnum(string(m.AuthenticationType)); !ok && m.AuthenticationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationType: %s. Supported values are: %s.", m.AuthenticationType, strings.Join(GetJavaMessageServiceConnectionAuthenticationTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

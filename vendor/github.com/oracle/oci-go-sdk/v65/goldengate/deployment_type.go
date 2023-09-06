@@ -24,7 +24,9 @@ const (
 	DeploymentTypeDatabaseMicrosoftSqlserver DeploymentTypeEnum = "DATABASE_MICROSOFT_SQLSERVER"
 	DeploymentTypeDatabaseMysql              DeploymentTypeEnum = "DATABASE_MYSQL"
 	DeploymentTypeDatabasePostgresql         DeploymentTypeEnum = "DATABASE_POSTGRESQL"
+	DeploymentTypeDatabaseDb2Zos             DeploymentTypeEnum = "DATABASE_DB2ZOS"
 	DeploymentTypeGgsa                       DeploymentTypeEnum = "GGSA"
+	DeploymentTypeDataTransforms             DeploymentTypeEnum = "DATA_TRANSFORMS"
 )
 
 var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
@@ -34,7 +36,9 @@ var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
 	"DATABASE_MICROSOFT_SQLSERVER": DeploymentTypeDatabaseMicrosoftSqlserver,
 	"DATABASE_MYSQL":               DeploymentTypeDatabaseMysql,
 	"DATABASE_POSTGRESQL":          DeploymentTypeDatabasePostgresql,
+	"DATABASE_DB2ZOS":              DeploymentTypeDatabaseDb2Zos,
 	"GGSA":                         DeploymentTypeGgsa,
+	"DATA_TRANSFORMS":              DeploymentTypeDataTransforms,
 }
 
 var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
@@ -44,7 +48,9 @@ var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
 	"database_microsoft_sqlserver": DeploymentTypeDatabaseMicrosoftSqlserver,
 	"database_mysql":               DeploymentTypeDatabaseMysql,
 	"database_postgresql":          DeploymentTypeDatabasePostgresql,
+	"database_db2zos":              DeploymentTypeDatabaseDb2Zos,
 	"ggsa":                         DeploymentTypeGgsa,
+	"data_transforms":              DeploymentTypeDataTransforms,
 }
 
 // GetDeploymentTypeEnumValues Enumerates the set of values for DeploymentTypeEnum
@@ -65,7 +71,9 @@ func GetDeploymentTypeEnumStringValues() []string {
 		"DATABASE_MICROSOFT_SQLSERVER",
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
+		"DATABASE_DB2ZOS",
 		"GGSA",
+		"DATA_TRANSFORMS",
 	}
 }
 
