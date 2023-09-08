@@ -1,3 +1,11 @@
+## 5.13.0 (Unreleased)
+
+### Added
+- Support for DBM Service: Database Management SQL Tuning Sets
+- Support for ADB-S: ADB Service Name Change to Serverless
+- Support for Stack Monitoring: Auto-Promotion of Hosts
+- Support for LifecycleDetails in Data catalog Data assets resources
+
 ## 5.12.0 (Unreleased)
 
 ### Added
