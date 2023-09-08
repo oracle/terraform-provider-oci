@@ -54,7 +54,9 @@ func FileStorageFileSystemResource() *schema.Resource {
 			"filesystem_snapshot_policy_id": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
+				// Commenting out `Computed: true` to allow unset policy in update FS operation.
+				// This should be ok since control-api doesn’t compute this field if it's not provided by user
+				//  Computed: true,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
