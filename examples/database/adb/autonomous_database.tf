@@ -229,6 +229,13 @@ resource "oci_database_autonomous_database" "autonomous_database_private_ip" {
   nsg_ids = ["test-bn-nsg-id-1"]
 }
 
+data "oci_database_autonomous_database_character_sets" "autonomous_databases_character_sets" {
+  #Optional
+  character_set_type = var.autonomous_database_character_set_character_set_type
+  is_shared = var.autonomous_database_character_set_is_shared
+  is_dedicated =  var.autonomous_database_character_set_is_dedicated
+}
+
 data "oci_database_autonomous_databases" "autonomous_databases" {
   #Required
   compartment_id = var.compartment_ocid
