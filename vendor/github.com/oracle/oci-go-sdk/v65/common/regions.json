@@ -412,5 +412,17 @@
         "realmKey": "oc1",
         "regionIdentifier": "us-saltlake-2",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "ozz",
+        "realmKey": "oc27",
+        "regionIdentifier": "us-dcc-swjordan-1",
+        "realmDomainComponent": "oraclecloud27.com"
+    },
+    {
+        "regionKey": "drs",
+        "realmKey": "oc28",
+        "regionIdentifier": "us-dcc-swjordan-2",
+        "realmDomainComponent": "oraclecloud28.com"
     }
 ]
