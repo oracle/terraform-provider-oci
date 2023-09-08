@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelImageJob.go.html to see an example of how to use CancelImageJobRequest.
 type CancelImageJobRequest struct {
 
-	// Image job id.
+	// The image job ID.
 	ImageJobId *string `mandatory:"true" contributesTo:"path" name:"imageJobId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

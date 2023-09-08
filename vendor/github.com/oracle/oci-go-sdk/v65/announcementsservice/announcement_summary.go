@@ -65,6 +65,9 @@ type AnnouncementSummary struct {
 	// The name of the environment that this announcement pertains to.
 	EnvironmentName *string `mandatory:"false" json:"environmentName"`
 
+	// The sequence of connected announcements, or announcement chain, that this announcement belongs to. Related announcements share the same chain ID.
+	ChainId *string `mandatory:"false" json:"chainId"`
+
 	// The type of a time associated with an initial time value. If the `timeOneTitle` attribute is present, then the `timeOneTitle` attribute contains a label of `timeOneType` in English.
 	// Example: `START_TIME`
 	TimeOneType BaseAnnouncementTimeOneTypeEnum `mandatory:"false" json:"timeOneType,omitempty"`
@@ -171,6 +174,11 @@ func (m AnnouncementSummary) GetEnvironmentName() *string {
 //GetPlatformType returns PlatformType
 func (m AnnouncementSummary) GetPlatformType() BaseAnnouncementPlatformTypeEnum {
 	return m.PlatformType
+}
+
+//GetChainId returns ChainId
+func (m AnnouncementSummary) GetChainId() *string {
+	return m.ChainId
 }
 
 func (m AnnouncementSummary) String() string {

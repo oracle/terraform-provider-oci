@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelDocumentJob.go.html to see an example of how to use CancelDocumentJobRequest.
 type CancelDocumentJobRequest struct {
 
-	// Document job id.
+	// The document job ID.
 	DocumentJobId *string `mandatory:"true" contributesTo:"path" name:"documentJobId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
