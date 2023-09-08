@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetDocumentJob.go.html to see an example of how to use GetDocumentJobRequest.
 type GetDocumentJobRequest struct {
 
-	// Document job id.
+	// The document job ID.
 	DocumentJobId *string `mandatory:"true" contributesTo:"path" name:"documentJobId"`
 
 	// The client request ID for tracing.

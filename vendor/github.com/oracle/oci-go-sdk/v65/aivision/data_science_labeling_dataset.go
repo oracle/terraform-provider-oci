@@ -20,7 +20,7 @@ import (
 type DataScienceLabelingDataset struct {
 
 	// OCID of the Data Labeling dataset.
-	DatasetId *string `mandatory:"false" json:"datasetId"`
+	DatasetId *string `mandatory:"true" json:"datasetId"`
 }
 
 func (m DataScienceLabelingDataset) String() string {

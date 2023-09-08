@@ -81,6 +81,9 @@ type BaseAnnouncement interface {
 
 	// The platform type that this announcement pertains to.
 	GetPlatformType() BaseAnnouncementPlatformTypeEnum
+
+	// The sequence of connected announcements, or announcement chain, that this announcement belongs to. Related announcements share the same chain ID.
+	GetChainId() *string
 }
 
 type baseannouncement struct {
@@ -95,6 +98,7 @@ type baseannouncement struct {
 	TimeUpdated           *common.SDKTime                      `mandatory:"false" json:"timeUpdated"`
 	EnvironmentName       *string                              `mandatory:"false" json:"environmentName"`
 	PlatformType          BaseAnnouncementPlatformTypeEnum     `mandatory:"false" json:"platformType,omitempty"`
+	ChainId               *string                              `mandatory:"false" json:"chainId"`
 	Id                    *string                              `mandatory:"true" json:"id"`
 	ReferenceTicketNumber *string                              `mandatory:"true" json:"referenceTicketNumber"`
 	Summary               *string                              `mandatory:"true" json:"summary"`
@@ -135,6 +139,7 @@ func (m *baseannouncement) UnmarshalJSON(data []byte) error {
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.EnvironmentName = s.Model.EnvironmentName
 	m.PlatformType = s.Model.PlatformType
+	m.ChainId = s.Model.ChainId
 	m.Type = s.Model.Type
 
 	return err
@@ -211,6 +216,11 @@ func (m baseannouncement) GetEnvironmentName() *string {
 // GetPlatformType returns PlatformType
 func (m baseannouncement) GetPlatformType() BaseAnnouncementPlatformTypeEnum {
 	return m.PlatformType
+}
+
+// GetChainId returns ChainId
+func (m baseannouncement) GetChainId() *string {
+	return m.ChainId
 }
 
 // GetId returns Id

@@ -22,7 +22,7 @@ type GenerateAutonomousDatabaseWalletDetails struct {
 	Password *string `mandatory:"true" json:"password"`
 
 	// The type of wallet to generate.
-	// **Shared Exadata infrastructure usage:**
+	// **Serverless instance usage:**
 	// * `SINGLE` - used to generate a wallet for a single database
 	// * `ALL` - used to generate wallet for all databases in the region
 	// **Dedicated Exadata infrastructure usage:** Value must be `NULL` if attribute is used.

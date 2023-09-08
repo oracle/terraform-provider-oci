@@ -60,6 +60,12 @@ type ListAnnouncementsRequest struct {
 	// Exclude The type of announcement.
 	ExcludeAnnouncementTypes []string `contributesTo:"query" name:"excludeAnnouncementTypes" collectionFormat:"multi"`
 
+	// A filter to display only the latest announcement in a chain.
+	ShouldShowOnlyLatestInChain *bool `mandatory:"false" contributesTo:"query" name:"shouldShowOnlyLatestInChain"`
+
+	// A filter to return only announcements belonging to the specified announcement chain ID.
+	ChainId *string `mandatory:"false" contributesTo:"query" name:"chainId"`
+
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the complete request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

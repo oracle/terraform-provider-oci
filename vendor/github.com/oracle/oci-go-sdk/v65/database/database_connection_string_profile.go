@@ -34,7 +34,7 @@ type DatabaseConnectionStringProfile struct {
 	SessionMode DatabaseConnectionStringProfileSessionModeEnum `mandatory:"true" json:"sessionMode"`
 
 	// Specifies whether the connection string is using the long (`LONG`), Easy Connect (`EZCONNECT`), or Easy Connect Plus (`EZCONNECTPLUS`) format.
-	// Autonomous Databases on shared Exadata infrastructure always use the long format.
+	// Autonomous Database Serverless instances always use the long format.
 	SyntaxFormat DatabaseConnectionStringProfileSyntaxFormatEnum `mandatory:"true" json:"syntaxFormat"`
 
 	// Consumer group used by the connection.
