@@ -46,6 +46,20 @@ resource "oci_dns_zone" "zone3" {
   zone_type      = "PRIMARY"
 }
 
+resource "oci_dns_zone" "zone4" {
+  compartment_id = var.compartment_ocid
+  name           = "${data.oci_identity_tenancy.tenancy.name}-${random_string.random_prefix.result}-tf-example-primary.oci-dns4"
+  zone_type      = "PRIMARY"
+  scope          = "GLOBAL"
+  dnssec_state   = "ENABLED"
+}
+
+resource "oci_dns_zone_stage_dnssec_key_version" "stage_dnssec_key_version" {
+  predecessor_dnssec_key_version_uuid = oci_dns_zone.zone4.dnssec_config[0].zsk_dnssec_key_versions[0].uuid
+  zone_id                             = oci_dns_zone.zone4.id
+  scope                               = "GLOBAL"
+}
+
 data "oci_dns_zones" "zs" {
   compartment_id = var.compartment_ocid
   name_contains  = "example"
