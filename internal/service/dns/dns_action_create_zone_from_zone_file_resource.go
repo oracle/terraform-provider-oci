@@ -59,6 +59,174 @@ func DnsActionCreateZoneFromZoneFileResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"dnssec_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"ksk_dnssec_key_versions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ds_data": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"digest_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"rdata": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"key_tag": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"length_in_bytes": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"predecessor_dnssec_key_version_uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"successor_dnssec_key_version_uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_activated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_expired": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_inactivated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_promoted": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_published": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_unpublished": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"zsk_dnssec_key_versions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"key_tag": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"length_in_bytes": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"predecessor_dnssec_key_version_uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"successor_dnssec_key_version_uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_activated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_expired": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_inactivated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_promoted": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_published": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_unpublished": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			"dnssec_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"external_downstreams": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -314,6 +482,14 @@ func (s *DnsActionCreateZoneFromZoneFileResourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
+
+	if s.Res.DnssecConfig != nil {
+		s.D.Set("dnssec_config", []interface{}{DnssecConfigToMap(s.Res.DnssecConfig)})
+	} else {
+		s.D.Set("dnssec_config", nil)
+	}
+
+	s.D.Set("dnssec_state", s.Res.DnssecState)
 
 	externalDownstreams := []interface{}{}
 	for _, item := range s.Res.ExternalDownstreams {

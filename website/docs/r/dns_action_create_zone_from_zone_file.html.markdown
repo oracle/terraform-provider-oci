@@ -10,7 +10,7 @@ description: |-
 # oci_dns_action_create_zone_from_zone_file
 This resource provides the Action Create Zone From Zone File resource in Oracle Cloud Infrastructure DNS service.
 
-Creates a new zone from a zone file in the specified compartment.
+Creates a new zone from a zone file in the specified compartment. Not supported for private zones.
 
 After the zone has been created, it should be further managed by importing it to an `oci_dns_zone` resource.
 

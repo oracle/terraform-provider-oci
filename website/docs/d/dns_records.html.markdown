@@ -13,11 +13,12 @@ description: |-
 
 This data source provides the list of Records in Oracle Cloud Infrastructure DNS service.
 
-Gets all records in the specified zone. The results are sorted by `domain` in alphabetical order by default.
-For more information about records, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
-For private zones, the scope query parameter is required with a value of `PRIVATE`. When the zone name is
-provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query
-parameter is required.
+Gets all records in the specified zone.
+
+The results are sorted by `domain` in alphabetical order by default. For more information about records,
+see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
+When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query parameter
+then the viewId query parameter is required.
 
 
 ## Example Usage
@@ -28,12 +29,9 @@ data "oci_dns_records" "test_records" {
 	zone_name_or_id = oci_dns_zone_name_or.test_zone_name_or.id
 
 	#Optional
-	compartment_id = var.compartment_id
 	domain = var.record_domain
 	domain_contains = var.record_domain_contains
 	rtype = var.record_rtype
-	scope = var.record_scope
-	view_id = oci_dns_view.test_view.id
 	zone_version = var.record_zone_version
 }
 ```
@@ -42,7 +40,9 @@ data "oci_dns_records" "test_records" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The OCID of the compartment the resource belongs to.
+* `compartment_id` - (Optional) The OCID of the compartment the zone belongs to.
+
+	This parameter is deprecated and should be omitted. 
 * `domain` - (Optional) Search by domain. Will match any record whose domain (case-insensitive) equals the provided value. 
 * `domain_contains` - (Optional) Search by domain. Will match any record whose domain (case-insensitive) contains the provided value. 
 * `rtype` - (Optional) Search by record type. Will match any record whose [type](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4) (case-insensitive) equals the provided value. 
@@ -67,7 +67,7 @@ The following attributes are exported:
 * `rdata` - The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm) 
 * `record_hash` - A unique identifier for the record within its zone. 
 * `rrset_version` - The latest version of the record's zone in which its RRSet differs from the preceding version. 
-* `rtype` - The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
-* `ttl` - The Time To Live for the record, in seconds.
+* `rtype` - The type of DNS record, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
+* `ttl` - The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended. 
 * `zone_name_or_id` - The name or OCID of the target zone.
 
