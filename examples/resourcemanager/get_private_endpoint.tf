@@ -10,15 +10,16 @@ variable "orm_private_endpoint_ocid" {
 }
 
 provider "oci" {
-  region = "${var.region}"
+  region = var.region
 }
 
 // Local variables defined to increase readability.
 // Only local variable that should remain consistent is tcp_protocol, as this specifies it will be used for SSH
 locals {
-  tcp_protocol = 6
-  default_shape_name = "VM.Standard.E3.Flex"
-  operating_system = "Oracle Linux"
+  tcp_protocol             = 6
+  default_shape_name       = "VM.Standard.E3.Flex"
+  operating_system         = "Oracle Linux"
+  operating_system_version = "8"
 }
 
 data "oci_identity_availability_domains" "get_availability_domains" {
@@ -27,9 +28,10 @@ data "oci_identity_availability_domains" "get_availability_domains" {
 
 
 data "oci_core_images" "available_instance_images" {
-  compartment_id = var.compartment_ocid
-  operating_system = local.operating_system
-  shape = local.default_shape_name
+  compartment_id           = var.compartment_ocid
+  operating_system         = local.operating_system
+  operating_system_version = local.operating_system_version
+  shape                    = local.default_shape_name
 }
 
 // Use a data source to get a pre-existing private endpoint. This private endpoint could already be created via CLI, SDK, console, etc
@@ -52,14 +54,14 @@ resource "tls_private_key" "public_private_key_pair" {
 // Compute instance the private endpoint will allow SSH communication to
 resource "oci_core_instance" "private_endpoint_instance" {
   compartment_id = var.compartment_ocid
-  display_name = "test script as one remote-exec instance"
+  display_name   = "test script as one remote-exec instance"
 
   availability_domain = lookup(data.oci_identity_availability_domains.get_availability_domains.availability_domains[0], "name")
-  shape = local.default_shape_name
+  shape               = local.default_shape_name
 
   // specify this is a private by not assigning public ip
   create_vnic_details {
-    subnet_id = var.subnet_ocid
+    subnet_id        = var.subnet_ocid
     assign_public_ip = false
   }
 
@@ -68,13 +70,13 @@ resource "oci_core_instance" "private_endpoint_instance" {
   }
 
   source_details {
-    source_id = data.oci_core_images.available_instance_images.images[0].id
+    source_id   = data.oci_core_images.available_instance_images.images[0].id
     source_type = "image"
   }
 
   shape_config {
     memory_in_gbs = 4
-    ocpus = 1
+    ocpus         = 1
   }
 }
 
@@ -84,10 +86,10 @@ resource "null_resource" "remote-exec" {
 
   provisioner "remote-exec" {
     connection {
-      agent = false
-      timeout = "30m"
-      host = data.oci_resourcemanager_private_endpoint_reachable_ip.test_private_endpoint_reachable_ips.ip_address
-      user = "opc"
+      agent       = false
+      timeout     = "30m"
+      host        = data.oci_resourcemanager_private_endpoint_reachable_ip.test_private_endpoint_reachable_ips.ip_address
+      user        = "opc"
       private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
     // write to a file on the compute instance via the private access SSH connection
