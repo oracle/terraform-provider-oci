@@ -10,8 +10,10 @@ description: |-
 # oci_dns_rrset
 This resource provides the Rrset resource in Oracle Cloud Infrastructure DNS service.
 
-Replaces records in the specified RRSet. When the zone name is provided as a path parameter
-and the zone has a scope of `PRIVATE` then the viewId query parameter is required.
+  Updates records in the specified RRSet.
+
+When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query
+parameter then the viewId query parameter is required.
 
 ## Example Usage
 
@@ -23,7 +25,6 @@ resource "oci_dns_rrset" "test_rrset" {
 	zone_name_or_id = oci_dns_zone.test_zone.id
 
 	#Optional
-	compartment_id = var.compartment_id
 	items {
 		#Required
 		domain = var.rrset_items_domain
@@ -40,18 +41,19 @@ resource "oci_dns_rrset" "test_rrset" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) (Updatable) The OCID of the compartment the resource belongs to.
+* `compartment_id` - (Optional) (Updatable) The OCID of the compartment the zone belongs to.
+
+	This parameter is deprecated and should be omitted. 
 * `domain` - (Required) The target fully-qualified domain name (FQDN) within the target zone.
 * `items` - (Optional) (Updatable) 
-    **NOTE** Omitting `items` at time of create, will delete any existing records in the RRSet
+    **NOTE** Omitting `items` at time of create will delete any existing records in the RRSet
 	* `domain` - (Required) The fully qualified domain name where the record can be located. 
 	* `rdata` - (Required) (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm)  
-	* `rtype` - (Required) The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
-	* `ttl` - (Required) (Updatable) The Time To Live for the record, in seconds.
+	* `rtype` - (Required) The type of DNS record, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
+	* `ttl` - (Required) (Updatable) The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended. 
 * `rtype` - (Required) The type of the target RRSet within the target zone.
 * `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope. 
-This value will be null for zones in the global DNS and `PRIVATE` when creating private Rrsets.
-* `view_id` - (Optional) The OCID of the view the resource is associated with.
+* `view_id` - (Optional) The OCID of the view the zone is associated with. Required when accessing a private zone by name.
 * `zone_name_or_id` - (Required) The name or OCID of the target zone.
 
 
@@ -69,7 +71,7 @@ The following attributes are exported:
 	* `record_hash` - A unique identifier for the record within its zone. 
 	* `rrset_version` - The latest version of the record's zone in which its RRSet differs from the preceding version. 
 	* `rtype` - The type of DNS record, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
-	* `ttl` - The Time To Live for the record, in seconds.
+	* `ttl` - The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended. 
 
 ## Timeouts
 

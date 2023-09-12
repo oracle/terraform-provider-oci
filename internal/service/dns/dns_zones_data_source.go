@@ -24,6 +24,10 @@ func DnsZonesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"dnssec_state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -101,6 +105,10 @@ func (s *DnsZonesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if dnssecState, ok := s.D.GetOkExists("dnssec_state"); ok {
+		request.DnssecState = oci_dns.ListZonesDnssecStateEnum(dnssecState.(string))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -228,6 +236,14 @@ func (s *DnsZonesDataSourceCrud) SetData() error {
 		if r.DefinedTags != nil {
 			zone["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
+
+		if r.DnssecConfig != nil {
+			zone["dnssec_config"] = []interface{}{DnssecConfigToMap(r.DnssecConfig)}
+		} else {
+			zone["dnssec_config"] = nil
+		}
+
+		zone["dnssec_state"] = r.DnssecState
 
 		zone["freeform_tags"] = r.FreeformTags
 

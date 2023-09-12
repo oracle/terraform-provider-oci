@@ -10,9 +10,10 @@ description: |-
 # Data Source: oci_dns_resolver
 This data source provides details about a specific Resolver resource in Oracle Cloud Infrastructure DNS service.
 
-Gets information about a specific resolver. Note that attempting to get a
-resolver in the DELETED lifecycleState will result in a `404` response to be
-consistent with other operations of the API. Requires a `PRIVATE` scope query parameter.
+Gets information about a specific resolver.
+
+Note that attempting to get a resolver in the DELETED lifecycleState will result in a `404`
+response to be consistent with other operations of the API.
 
 
 ## Example Usage
