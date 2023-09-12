@@ -10,10 +10,10 @@ description: |-
 # Data Source: oci_dns_rrset
 This data source provides details about a specific Rrset resource in Oracle Cloud Infrastructure DNS service.
 
-Gets a list of all records in the specified RRSet. The results are sorted by `recordHash` by default. For
-private zones, the scope query parameter is required with a value of `PRIVATE`. When the zone name is
-provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query
-parameter is required.
+Gets a list of all records in the specified RRSet.
+
+The results are sorted by `recordHash` by default. When the zone name is provided as a path parameter
+and `PRIVATE` is used for the scope query parameter then the viewId query parameter is required.
 
 
 ## Example Usage
@@ -26,7 +26,6 @@ data "oci_dns_rrset" "test_rrset" {
 	zone_name_or_id = oci_dns_zone.test_zone.id
 
 	#Optional
-	compartment_id = var.compartment_id
 	scope = var.rrset_scope
 	view_id = oci_dns_view.test_view.id
 }
@@ -36,12 +35,13 @@ data "oci_dns_rrset" "test_rrset" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The OCID of the compartment the resource belongs to.
+* `compartment_id` - (Optional) The OCID of the compartment the zone belongs to.
+
+	This parameter is deprecated and should be omitted. 
 * `domain` - (Required) The target fully-qualified domain name (FQDN) within the target zone.
 * `rtype` - (Required) The type of the target RRSet within the target zone.
-* `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope.
-This value will be null for zones in the global DNS and `PRIVATE` when listing private Rrsets.
-* `view_id` - (Optional) The OCID of the view the resource is associated with.
+* `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope. 
+* `view_id` - (Optional) The OCID of the view the zone is associated with. Required when accessing a private zone by name.
 * `zone_name_or_id` - (Required) The name or OCID of the target zone.
 * `zone_version` - (Optional) The version of the zone for which data is requested. 
 
@@ -57,5 +57,5 @@ The following attributes are exported:
 	* `record_hash` - A unique identifier for the record within its zone. 
 	* `rrset_version` - The latest version of the record's zone in which its RRSet differs from the preceding version. 
 	* `rtype` - The type of DNS record, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
-	* `ttl` - The Time To Live for the record, in seconds.
+	* `ttl` - The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended. 
 

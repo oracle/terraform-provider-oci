@@ -13,11 +13,12 @@ description: |-
 
 This resource provides the Record resource in Oracle Cloud Infrastructure DNS service.
 
-Replaces records in the specified zone with the records specified in the
-request body. If a specified record does not exist, it will be created.
-If the record exists, then it will be updated to represent the record in
-the body of the request. If a record in the zone does not exist in the
-request body, the record will be removed from the zone.
+  Updates a collection of records in the specified zone.
+
+You can update one record or all records for the specified zone depending on the changes provided in the
+request body. You can also add or remove records using this function. When the zone name is provided as
+a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query parameter is
+required.
 
 
 ## Example Usage
@@ -30,7 +31,6 @@ resource "oci_dns_record" "test_record" {
 	rtype = var.record_items_rtype
 
 	#Optional
-	compartment_id = var.compartment_id
 	rdata = var.record_items_rdata
 	ttl = var.record_items_ttl
 }
@@ -62,7 +62,7 @@ The following attributes are exported:
 * `record_hash` - A unique identifier for the record within its zone. 
 * `rrset_version` - The latest version of the record's zone in which its RRSet differs from the preceding version. 
 * `rtype` - The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
-* `ttl` - The Time To Live for the record, in seconds.
+* `ttl` - The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended.
 * `zone_name_or_id` - The name or OCID of the target zone.
 
 ## Timeouts
