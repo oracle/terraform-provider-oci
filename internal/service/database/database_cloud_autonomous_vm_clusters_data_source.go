@@ -204,6 +204,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["domain"] = *r.Domain
 		}
 
+		if r.ExadataStorageInTBsLowestScaledValue != nil {
+			cloudAutonomousVmCluster["exadata_storage_in_tbs_lowest_scaled_value"] = *r.ExadataStorageInTBsLowestScaledValue
+		}
+
 		cloudAutonomousVmCluster["freeform_tags"] = r.FreeformTags
 
 		if r.Hostname != nil {
@@ -238,6 +242,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["maintenance_window"] = nil
 		}
 
+		if r.MaxAcdsLowestScaledValue != nil {
+			cloudAutonomousVmCluster["max_acds_lowest_scaled_value"] = *r.MaxAcdsLowestScaledValue
+		}
+
 		if r.MemoryPerOracleComputeUnitInGBs != nil {
 			cloudAutonomousVmCluster["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}
@@ -262,6 +270,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.OcpuCount != nil {
 			cloudAutonomousVmCluster["ocpu_count"] = *r.OcpuCount
+		}
+
+		if r.OcpusLowestScaledValue != nil {
+			cloudAutonomousVmCluster["ocpus_lowest_scaled_value"] = *r.OcpusLowestScaledValue
 		}
 
 		if r.ProvisionableAutonomousContainerDatabases != nil {
