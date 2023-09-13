@@ -52,6 +52,19 @@ func newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken *s
 	return instancePrincipalDelegationTokenConfigurationProvider{*keyProvider, *delegationToken, nil}, err
 }
 
+func newInstancePrincipalDelegationTokenConfigurationProviderWithPurpose(delegationToken *string, region common.Region, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher,
+	error), tokenPurpose string) (common.ConfigurationProvider, error) {
+
+	keyProvider, err := newInstancePrincipalKeyProvider(modifier, tokenPurpose)
+	if err != nil {
+		return nil, instancePrincipalDelegationTokenError{err: fmt.Errorf("failed to create a new key provider for instance principal: %s", err.Error())}
+	}
+	if len(region) > 0 {
+		return instancePrincipalDelegationTokenConfigurationProvider{*keyProvider, *delegationToken, &region}, err
+	}
+	return instancePrincipalDelegationTokenConfigurationProvider{*keyProvider, *delegationToken, nil}, err
+}
+
 func (p instancePrincipalDelegationTokenConfigurationProvider) getInstancePrincipalDelegationTokenConfigurationProvider() (instancePrincipalDelegationTokenConfigurationProvider, error) {
 	return p, nil
 }
