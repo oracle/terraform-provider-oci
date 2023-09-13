@@ -55,9 +55,22 @@ var exportStackMonitoringMonitoredResourcesAssociateMonitoredResourceHints = &tf
 	ResourceAbbreviation: "monitored_resources_associate_monitored_resource",
 }
 
+var exportStackMonitoringConfigHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_stack_monitoring_config",
+	DatasourceClass:        "oci_stack_monitoring_configs",
+	DatasourceItemsAttr:    "config_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "config",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.ConfigLifecycleStateActive),
+	},
+}
+
 var stackMonitoringResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportStackMonitoringDiscoveryJobHints},
+		{TerraformResourceHints: exportStackMonitoringConfigHints},
 	},
 	"oci_stack_monitoring_monitored_resource": {
 		{

@@ -155,6 +155,132 @@ func (client SqlTuningClient) cloneSqlTuningTask(ctx context.Context, request co
 	return response, err
 }
 
+// CreateSqlTuningSet Creates an empty Sql tuning set within the Managed Database specified by managedDatabaseId.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateSqlTuningSet.go.html to see an example of how to use CreateSqlTuningSet API.
+// A default retry strategy applies to this operation CreateSqlTuningSet()
+func (client SqlTuningClient) CreateSqlTuningSet(ctx context.Context, request CreateSqlTuningSetRequest) (response CreateSqlTuningSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSqlTuningSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSqlTuningSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSqlTuningSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSqlTuningSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSqlTuningSetResponse")
+	}
+	return
+}
+
+// createSqlTuningSet implements the OCIOperation interface (enables retrying operations)
+func (client SqlTuningClient) createSqlTuningSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlTuningSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSqlTuningSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/SqlTuningSet/CreateSqlTuningSet"
+		err = common.PostProcessServiceError(err, "SqlTuning", "CreateSqlTuningSet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DropSqlTuningSet Drops the Sql tuning set specified by sqlTuningSet within the Managed Database specified by managedDatabaseId.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DropSqlTuningSet.go.html to see an example of how to use DropSqlTuningSet API.
+// A default retry strategy applies to this operation DropSqlTuningSet()
+func (client SqlTuningClient) DropSqlTuningSet(ctx context.Context, request DropSqlTuningSetRequest) (response DropSqlTuningSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.dropSqlTuningSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DropSqlTuningSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DropSqlTuningSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DropSqlTuningSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DropSqlTuningSetResponse")
+	}
+	return
+}
+
+// dropSqlTuningSet implements the OCIOperation interface (enables retrying operations)
+func (client SqlTuningClient) dropSqlTuningSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlTuningSets/{sqlTuningSetId}/actions/dropSqlTuningSet", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DropSqlTuningSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/SqlTuningSet/DropSqlTuningSet"
+		err = common.PostProcessServiceError(err, "SqlTuning", "DropSqlTuningSet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DropSqlTuningTask Drops a SQL tuning task and its related results from the database.
 //
 // See also
@@ -210,6 +336,133 @@ func (client SqlTuningClient) dropSqlTuningTask(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DropSqlTuningTask"
 		err = common.PostProcessServiceError(err, "SqlTuning", "DropSqlTuningTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DropSqlsInSqlTuningSet Deletes the Sqls in the specified Sql tuning set that matches the filter criteria provided in the basicFilter.
+// If basicFilter criteria is not provided, then entire Sqls in the Sql tuning set is deleted.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DropSqlsInSqlTuningSet.go.html to see an example of how to use DropSqlsInSqlTuningSet API.
+// A default retry strategy applies to this operation DropSqlsInSqlTuningSet()
+func (client SqlTuningClient) DropSqlsInSqlTuningSet(ctx context.Context, request DropSqlsInSqlTuningSetRequest) (response DropSqlsInSqlTuningSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.dropSqlsInSqlTuningSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DropSqlsInSqlTuningSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DropSqlsInSqlTuningSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DropSqlsInSqlTuningSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DropSqlsInSqlTuningSetResponse")
+	}
+	return
+}
+
+// dropSqlsInSqlTuningSet implements the OCIOperation interface (enables retrying operations)
+func (client SqlTuningClient) dropSqlsInSqlTuningSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlTuningSets/{sqlTuningSetId}/actions/dropSqlsInSqlTuningSet", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DropSqlsInSqlTuningSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/SqlTuningSet/DropSqlsInSqlTuningSet"
+		err = common.PostProcessServiceError(err, "SqlTuning", "DropSqlsInSqlTuningSet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// FetchSqlTuningSet Fetch the details of Sql statements in the Sql tuning set specified by name, owner and optional filter parameters.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/FetchSqlTuningSet.go.html to see an example of how to use FetchSqlTuningSet API.
+// A default retry strategy applies to this operation FetchSqlTuningSet()
+func (client SqlTuningClient) FetchSqlTuningSet(ctx context.Context, request FetchSqlTuningSetRequest) (response FetchSqlTuningSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.fetchSqlTuningSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FetchSqlTuningSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FetchSqlTuningSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FetchSqlTuningSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FetchSqlTuningSetResponse")
+	}
+	return
+}
+
+// fetchSqlTuningSet implements the OCIOperation interface (enables retrying operations)
+func (client SqlTuningClient) fetchSqlTuningSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlTuningSets/{sqlTuningSetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FetchSqlTuningSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/SqlTuningSet/FetchSqlTuningSet"
+		err = common.PostProcessServiceError(err, "SqlTuning", "FetchSqlTuningSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -619,6 +872,132 @@ func (client SqlTuningClient) listSqlTuningSets(ctx context.Context, request com
 	return response, err
 }
 
+// LoadSqlTuningSet Load Sql statements into the Sql tuning set specified by name and optional filter parameters within the Managed Database specified by managedDatabaseId.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/LoadSqlTuningSet.go.html to see an example of how to use LoadSqlTuningSet API.
+// A default retry strategy applies to this operation LoadSqlTuningSet()
+func (client SqlTuningClient) LoadSqlTuningSet(ctx context.Context, request LoadSqlTuningSetRequest) (response LoadSqlTuningSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.loadSqlTuningSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = LoadSqlTuningSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = LoadSqlTuningSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(LoadSqlTuningSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into LoadSqlTuningSetResponse")
+	}
+	return
+}
+
+// loadSqlTuningSet implements the OCIOperation interface (enables retrying operations)
+func (client SqlTuningClient) loadSqlTuningSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlTuningSets/{sqlTuningSetId}/actions/loadSqlTuningSet", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response LoadSqlTuningSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/SqlTuningSet/LoadSqlTuningSet"
+		err = common.PostProcessServiceError(err, "SqlTuning", "LoadSqlTuningSet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SaveSqlTuningSetAs Saves the specified list of Sqls statements into another new Sql tuning set or loads into an existing Sql tuning set'.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SaveSqlTuningSetAs.go.html to see an example of how to use SaveSqlTuningSetAs API.
+// A default retry strategy applies to this operation SaveSqlTuningSetAs()
+func (client SqlTuningClient) SaveSqlTuningSetAs(ctx context.Context, request SaveSqlTuningSetAsRequest) (response SaveSqlTuningSetAsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.saveSqlTuningSetAs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SaveSqlTuningSetAsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SaveSqlTuningSetAsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SaveSqlTuningSetAsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SaveSqlTuningSetAsResponse")
+	}
+	return
+}
+
+// saveSqlTuningSetAs implements the OCIOperation interface (enables retrying operations)
+func (client SqlTuningClient) saveSqlTuningSetAs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlTuningSets/{sqlTuningSetId}/actions/saveAs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SaveSqlTuningSetAsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/SqlTuningSet/SaveSqlTuningSetAs"
+		err = common.PostProcessServiceError(err, "SqlTuning", "SaveSqlTuningSetAs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StartSqlTuningTask Starts a SQL tuning task for a given set of SQL statements from the active session history top SQL statements.
 //
 // See also
@@ -674,6 +1053,69 @@ func (client SqlTuningClient) startSqlTuningTask(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/StartSqlTuningTask"
 		err = common.PostProcessServiceError(err, "SqlTuning", "StartSqlTuningTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ValidateBasicFilter Executes a SQL query to check whether user entered basic filter criteria is valid or not.
+//
+// See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ValidateBasicFilter.go.html to see an example of how to use ValidateBasicFilter API.
+// A default retry strategy applies to this operation ValidateBasicFilter()
+func (client SqlTuningClient) ValidateBasicFilter(ctx context.Context, request ValidateBasicFilterRequest) (response ValidateBasicFilterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.validateBasicFilter, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateBasicFilterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateBasicFilterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateBasicFilterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateBasicFilterResponse")
+	}
+	return
+}
+
+// validateBasicFilter implements the OCIOperation interface (enables retrying operations)
+func (client SqlTuningClient) validateBasicFilter(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedDatabases/{managedDatabaseId}/sqlTuningSets/{sqlTuningSetId}/actions/validateBasicFilter", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateBasicFilterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/SqlTuningSet/ValidateBasicFilter"
+		err = common.PostProcessServiceError(err, "SqlTuning", "ValidateBasicFilter", apiReferenceLink)
 		return response, err
 	}
 
