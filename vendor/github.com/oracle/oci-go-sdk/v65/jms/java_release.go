@@ -49,6 +49,13 @@ type JavaRelease struct {
 
 	LicenseDetails *JavaLicense `mandatory:"false" json:"licenseDetails"`
 
+	// List of My Oracle Support(MoS) patches available for this release.
+	// This information is only available for `BPR` release type.
+	MosPatches []PatchDetail `mandatory:"false" json:"mosPatches"`
+
+	// The number of days since this release has been under the security baseline.
+	DaysUnderSecurityBaseline *int `mandatory:"false" json:"daysUnderSecurityBaseline"`
+
 	// List of Java artifacts.
 	Artifacts []JavaArtifact `mandatory:"false" json:"artifacts"`
 }

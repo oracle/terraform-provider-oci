@@ -30,6 +30,9 @@ type MonitoredResourceSummary struct {
 	// Monitored resource display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
 	// Monitored Resource Host Name.
 	HostName *string `mandatory:"false" json:"hostName"`
 

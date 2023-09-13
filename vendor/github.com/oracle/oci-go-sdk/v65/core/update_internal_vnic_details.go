@@ -49,6 +49,9 @@ type UpdateInternalVnicDetails struct {
 	// Indicates if this VNIC can issue GARP requests. False by default.
 	IsGarpEnabled *bool `mandatory:"false" json:"isGarpEnabled"`
 
+	// Indicates if Elastic Datapath is enabled for the VNIC.
+	IsEdpEnabled *bool `mandatory:"false" json:"isEdpEnabled"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`

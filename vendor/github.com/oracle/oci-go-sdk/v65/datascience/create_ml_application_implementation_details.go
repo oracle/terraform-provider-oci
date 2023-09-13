@@ -27,6 +27,9 @@ type CreateMlApplicationImplementationDetails struct {
 	// The OCID of the compartment where ML Application Implementation is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// List of ML Application Implementation OCIDs for which migration from this implementation is allowed. Migration means that if consumers change implementation for their instances to implementation with OCID from this list, instance components will be updated in place otherwise new instance components are created based on the new implementation and old instance components are removed.
+	AllowedMigrationDestinations []string `mandatory:"false" json:"allowedMigrationDestinations"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

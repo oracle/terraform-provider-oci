@@ -19,7 +19,7 @@ import (
 // ObjectStorageMountConfigurationDetails The Object Storage Configuration Details.
 type ObjectStorageMountConfigurationDetails struct {
 
-	// The local path
+	// The local directory name to be mounted
 	DestinationDirectoryName *string `mandatory:"true" json:"destinationDirectoryName"`
 
 	// The object storage namespace
@@ -28,6 +28,9 @@ type ObjectStorageMountConfigurationDetails struct {
 	// The object storage bucket
 	Bucket *string `mandatory:"true" json:"bucket"`
 
+	// The local path of the mounted directory, excluding directory name.
+	DestinationPath *string `mandatory:"false" json:"destinationPath"`
+
 	// Prefix in the bucket to mount
 	Prefix *string `mandatory:"false" json:"prefix"`
 }
@@ -35,6 +38,11 @@ type ObjectStorageMountConfigurationDetails struct {
 //GetDestinationDirectoryName returns DestinationDirectoryName
 func (m ObjectStorageMountConfigurationDetails) GetDestinationDirectoryName() *string {
 	return m.DestinationDirectoryName
+}
+
+//GetDestinationPath returns DestinationPath
+func (m ObjectStorageMountConfigurationDetails) GetDestinationPath() *string {
+	return m.DestinationPath
 }
 
 func (m ObjectStorageMountConfigurationDetails) String() string {

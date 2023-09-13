@@ -25,6 +25,10 @@ type ModelDeploymentInstanceShapeConfigDetails struct {
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
 
 	// The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`.
+	// The following values are supported:
+	//   BASELINE_1_8 - baseline usage is 1/8 of an OCPU.
+	//   BASELINE_1_2 - baseline usage is 1/2 of an OCPU.
+	//   BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.
 	CpuBaseline ModelDeploymentInstanceShapeConfigDetailsCpuBaselineEnum `mandatory:"false" json:"cpuBaseline,omitempty"`
 }
 

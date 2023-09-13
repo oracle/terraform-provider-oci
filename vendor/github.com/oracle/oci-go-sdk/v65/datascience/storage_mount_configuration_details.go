@@ -19,12 +19,16 @@ import (
 // StorageMountConfigurationDetails The storage mount configuration details
 type StorageMountConfigurationDetails interface {
 
-	// The local path
+	// The local directory name to be mounted
 	GetDestinationDirectoryName() *string
+
+	// The local path of the mounted directory, excluding directory name.
+	GetDestinationPath() *string
 }
 
 type storagemountconfigurationdetails struct {
 	JsonData                 []byte
+	DestinationPath          *string `mandatory:"false" json:"destinationPath"`
 	DestinationDirectoryName *string `mandatory:"true" json:"destinationDirectoryName"`
 	StorageType              string  `json:"storageType"`
 }
@@ -41,6 +45,7 @@ func (m *storagemountconfigurationdetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.DestinationDirectoryName = s.Model.DestinationDirectoryName
+	m.DestinationPath = s.Model.DestinationPath
 	m.StorageType = s.Model.StorageType
 
 	return err
@@ -67,6 +72,11 @@ func (m *storagemountconfigurationdetails) UnmarshalPolymorphicJSON(data []byte)
 		common.Logf("Recieved unsupported enum value for StorageMountConfigurationDetails: %s.", m.StorageType)
 		return *m, nil
 	}
+}
+
+// GetDestinationPath returns DestinationPath
+func (m storagemountconfigurationdetails) GetDestinationPath() *string {
+	return m.DestinationPath
 }
 
 // GetDestinationDirectoryName returns DestinationDirectoryName

@@ -66,7 +66,7 @@ type MlApplicationImplementationVersion struct {
 	MlApplicationPackageArguments *MlApplicationPackageArguments `mandatory:"false" json:"mlApplicationPackageArguments"`
 
 	// List of ML Application Implementation OCIDs for which migration from this implementation is allowed. Migration means that if consumers change implementation for their instances to implementation with OCID from this list, instance components will be updated in place otherwise new instance components are created based on the new implementation and old instance components are removed.
-	AllowedMigrationTo []string `mandatory:"false" json:"allowedMigrationTo"`
+	AllowedMigrationDestinations []string `mandatory:"false" json:"allowedMigrationDestinations"`
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
@@ -100,7 +100,7 @@ func (m *MlApplicationImplementationVersion) UnmarshalJSON(data []byte) (e error
 		ApplicationComponents         []applicationcomponent                               `json:"applicationComponents"`
 		ConfigurationSchema           []ConfigurationPropertySchema                        `json:"configurationSchema"`
 		MlApplicationPackageArguments *MlApplicationPackageArguments                       `json:"mlApplicationPackageArguments"`
-		AllowedMigrationTo            []string                                             `json:"allowedMigrationTo"`
+		AllowedMigrationDestinations  []string                                             `json:"allowedMigrationDestinations"`
 		SystemTags                    map[string]map[string]interface{}                    `json:"systemTags"`
 		Id                            *string                                              `json:"id"`
 		MlApplicationImplementationId *string                                              `json:"mlApplicationImplementationId"`
@@ -139,8 +139,8 @@ func (m *MlApplicationImplementationVersion) UnmarshalJSON(data []byte) (e error
 	copy(m.ConfigurationSchema, model.ConfigurationSchema)
 	m.MlApplicationPackageArguments = model.MlApplicationPackageArguments
 
-	m.AllowedMigrationTo = make([]string, len(model.AllowedMigrationTo))
-	copy(m.AllowedMigrationTo, model.AllowedMigrationTo)
+	m.AllowedMigrationDestinations = make([]string, len(model.AllowedMigrationDestinations))
+	copy(m.AllowedMigrationDestinations, model.AllowedMigrationDestinations)
 	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id

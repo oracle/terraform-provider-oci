@@ -22,7 +22,7 @@ import (
 )
 
 // InternalVnic This is a vnic type only used in operations with overlay customers and RCE.
-// It defines additonal properties: isManaged, resourceType, resourceId, isBMVnic, isGarpEnabled and isServiceVnic
+// It defines additonal properties: isManaged, resourceType, resourceId, isBMVnic, isGarpEnabled, isEdpEnabled, and isServiceVnic
 type InternalVnic struct {
 
 	// The VNIC's availability domain.
@@ -67,6 +67,9 @@ type InternalVnic struct {
 
 	// Indicates if this VNIC can issue GARP requests. False by default.
 	IsGarpEnabled *bool `mandatory:"false" json:"isGarpEnabled"`
+
+	// Indicates if Elastic Datapath is enabled for the VNIC.
+	IsEdpEnabled *bool `mandatory:"false" json:"isEdpEnabled"`
 
 	// The VNIC's physical availability domain.
 	// Example: `PHX-AD-1`

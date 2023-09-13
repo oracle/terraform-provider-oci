@@ -20,8 +20,8 @@ type ListClusterNamespaceProfileVersionsRequest struct {
 	// A filter to return only resources their lifecycleState matches the given lifecycleState.
 	LifecycleState ClusterNamespaceProfileVersionLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return only resources that match the entire display name given.
-	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
+	// The name to filter on.
+	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// unique ClusterNamespaceProfileVersion identifier
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`

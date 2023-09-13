@@ -4,9 +4,10 @@
 
 // Service Connector Hub API
 //
-// Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
-// For more information about Service Connector Hub, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
+// Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
+// For more information about Connector Hub, see
+// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// Connector Hub is formerly known as Service Connector Hub.
 //
 
 package sch
@@ -24,6 +25,8 @@ type LogSource struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
+	// Note: For the Notifications target, only _Audit is allowed.
+	// Example OCID for _Audit log group: ocid1.tenancy.oc1..exampleuniqueid/_Audit
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.

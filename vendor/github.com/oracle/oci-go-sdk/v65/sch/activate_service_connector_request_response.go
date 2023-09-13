@@ -14,7 +14,7 @@ import (
 // ActivateServiceConnectorRequest wrapper for the ActivateServiceConnector operation
 type ActivateServiceConnectorRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service connector.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
 	ServiceConnectorId *string `mandatory:"true" contributesTo:"path" name:"serviceConnectorId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

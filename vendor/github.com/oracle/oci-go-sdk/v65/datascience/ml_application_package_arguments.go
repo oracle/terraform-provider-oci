@@ -17,6 +17,8 @@ import (
 
 // MlApplicationPackageArguments List of ML Application package arguments provided during ML Application package upload.
 type MlApplicationPackageArguments struct {
+
+	// Array of the ML Application package arguments
 	Arguments []MlApplicationPackageArgumentDetails `mandatory:"false" json:"arguments"`
 }
 

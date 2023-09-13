@@ -19,7 +19,7 @@ import (
 // FileStorageMountConfigurationDetails The File Storage Mount Configuration Details.
 type FileStorageMountConfigurationDetails struct {
 
-	// The local path
+	// The local directory name to be mounted
 	DestinationDirectoryName *string `mandatory:"true" json:"destinationDirectoryName"`
 
 	// OCID of the mount target
@@ -27,11 +27,19 @@ type FileStorageMountConfigurationDetails struct {
 
 	// OCID of the export
 	ExportId *string `mandatory:"true" json:"exportId"`
+
+	// The local path of the mounted directory, excluding directory name.
+	DestinationPath *string `mandatory:"false" json:"destinationPath"`
 }
 
 //GetDestinationDirectoryName returns DestinationDirectoryName
 func (m FileStorageMountConfigurationDetails) GetDestinationDirectoryName() *string {
 	return m.DestinationDirectoryName
+}
+
+//GetDestinationPath returns DestinationPath
+func (m FileStorageMountConfigurationDetails) GetDestinationPath() *string {
+	return m.DestinationPath
 }
 
 func (m FileStorageMountConfigurationDetails) String() string {

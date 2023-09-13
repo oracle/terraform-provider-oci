@@ -106,6 +106,9 @@ type CreateInternalVnicDetails struct {
 	// Indicates if this VNIC can issue GARP requests. False by default.
 	IsGarpEnabled *bool `mandatory:"false" json:"isGarpEnabled"`
 
+	// Indicates if Elastic Datapath is enabled for the VNIC.
+	IsEdpEnabled *bool `mandatory:"false" json:"isEdpEnabled"`
+
 	// Indicates if MAC learning is enabled for the VNIC. The default is `false`.
 	// When this flag is enabled, then VCN CP does not allocate MAC address,
 	// hence MAC address will be set as null as part of the VNIC that is returned.

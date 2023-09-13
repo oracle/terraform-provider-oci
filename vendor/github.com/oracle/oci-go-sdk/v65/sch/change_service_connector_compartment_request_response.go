@@ -14,10 +14,10 @@ import (
 // ChangeServiceConnectorCompartmentRequest wrapper for the ChangeServiceConnectorCompartment operation
 type ChangeServiceConnectorCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service connector.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
 	ServiceConnectorId *string `mandatory:"true" contributesTo:"path" name:"serviceConnectorId"`
 
-	// The configuration details for moving a service connector to a different compartment.
+	// The configuration details for moving a connector to a different compartment.
 	ChangeServiceConnectorCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

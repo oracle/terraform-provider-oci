@@ -4,9 +4,10 @@
 
 // Service Connector Hub API
 //
-// Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
-// For more information about Service Connector Hub, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
+// Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
+// For more information about Connector Hub, see
+// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// Connector Hub is formerly known as Service Connector Hub.
 //
 
 package sch
@@ -17,7 +18,7 @@ import (
 	"strings"
 )
 
-// ServiceConnectorCollection Collection of service connector property summaries.
+// ServiceConnectorCollection Collection of connector property summaries.
 type ServiceConnectorCollection struct {
 
 	// The list of items.

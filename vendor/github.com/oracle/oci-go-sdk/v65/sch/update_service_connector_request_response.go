@@ -14,7 +14,7 @@ import (
 // UpdateServiceConnectorRequest wrapper for the UpdateServiceConnector operation
 type UpdateServiceConnectorRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service connector.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
 	ServiceConnectorId *string `mandatory:"true" contributesTo:"path" name:"serviceConnectorId"`
 
 	// The information to be updated.

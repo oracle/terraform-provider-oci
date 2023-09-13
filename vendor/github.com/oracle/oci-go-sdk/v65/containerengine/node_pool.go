@@ -24,7 +24,7 @@ type NodePool struct {
 	// The OCID of the node pool.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The state of the nodepool.
+	// The state of the nodepool. For more information, see Monitoring Clusters (https://docs.cloud.oracle.com/Content/ContEng/Tasks/contengmonitoringclusters.htm)
 	LifecycleState NodePoolLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Details about the state of the nodepool.

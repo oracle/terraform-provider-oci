@@ -4,9 +4,10 @@
 
 // Service Connector Hub API
 //
-// Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
-// For more information about Service Connector Hub, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
+// Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
+// For more information about Connector Hub, see
+// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// Connector Hub is formerly known as Service Connector Hub.
 //
 
 package sch
@@ -19,12 +20,12 @@ import (
 
 // WorkRequest An object representing an asynchronous work flow.
 // Many of the API requests you use to create and configure
-// service connectors do not take effect immediately. In these
+// connectors do not take effect immediately. In these
 // cases, the request spawns an asynchronous work flow to fulfill
 // the request. WorkRequest objects provide visibility for
 // in-progress work flows. For more information about work
 // requests, see
-// Viewing the State of a Work Request (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/workrequests.htm).
+// Viewing the State of a Work Request (https://docs.cloud.oracle.com/iaas/Content/connector-hub/workrequests.htm).
 type WorkRequest struct {
 
 	// The type of action the work request represents.

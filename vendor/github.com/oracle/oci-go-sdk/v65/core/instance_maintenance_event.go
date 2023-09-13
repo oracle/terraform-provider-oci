@@ -107,6 +107,9 @@ type InstanceMaintenanceEvent struct {
 	// For Instances that have local storage, this field is set to true when local storage
 	// will be deleted as a result of the Maintenance.
 	CanDeleteLocalStorage *bool `mandatory:"false" json:"canDeleteLocalStorage"`
+
+	// Additional details of the maintenance in the form of json.
+	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 }
 
 func (m InstanceMaintenanceEvent) String() string {

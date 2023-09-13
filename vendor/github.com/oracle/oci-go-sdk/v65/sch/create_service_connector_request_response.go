@@ -14,7 +14,7 @@ import (
 // CreateServiceConnectorRequest wrapper for the CreateServiceConnector operation
 type CreateServiceConnectorRequest struct {
 
-	// Configuration details for the new service connector.
+	// Configuration details for the new connector.
 	CreateServiceConnectorDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

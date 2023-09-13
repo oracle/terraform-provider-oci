@@ -4,9 +4,10 @@
 
 // Service Connector Hub API
 //
-// Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
-// For more information about Service Connector Hub, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
+// Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
+// For more information about Connector Hub, see
+// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// Connector Hub is formerly known as Service Connector Hub.
 //
 
 package sch
@@ -21,7 +22,7 @@ import (
 // MonitoringSource A compartment-specific list of metric namespaces to retrieve data from.
 type MonitoringSource struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric namespaces you want to use for the Monitoring source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a compartment containing metric namespaces you want to use for the Monitoring source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	NamespaceDetails MonitoringSourceNamespaceDetails `mandatory:"true" json:"namespaceDetails"`

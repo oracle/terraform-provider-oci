@@ -57,7 +57,7 @@ type MlApplicationImplementationVersionSummary struct {
 	ConfigurationSchema []ConfigurationPropertySchema `mandatory:"false" json:"configurationSchema"`
 
 	// List of ML Application Implementation OCIDs for which migration from this implementation is allowed. Migration means that if consumers change implementation for their instances to implementation with OCID from this list, instance components will be updated in place otherwise new instance components are created based on the new implementation and old instance components are removed.
-	AllowedMigrationTo []string `mandatory:"false" json:"allowedMigrationTo"`
+	AllowedMigrationDestinations []string `mandatory:"false" json:"allowedMigrationDestinations"`
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
