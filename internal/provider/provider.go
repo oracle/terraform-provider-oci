@@ -45,6 +45,7 @@ var ApiKeyConfigAttributes = [5]string{globalvar.UserOcidAttrName, globalvar.Fin
 var ociProvider *schema.Provider
 
 var TerraformCLIVersion = globalvar.UnknownTerraformCLIVersion
+var schemaMultiEnvDefaultFuncVar = schema.MultiEnvDefaultFunc
 var AvoidWaitingForDeleteTarget bool
 
 // creating an interface to aid in unit tests
@@ -409,6 +410,14 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 
 		configProviders = append(configProviders, cfg)
 	case strings.ToLower(globalvar.AuthSecurityToken):
+		region, ok := d.GetOk(globalvar.RegionAttrName)
+		if !ok {
+			return nil, fmt.Errorf("can not get %s from Terraform configuration (SecurityToken)", globalvar.RegionAttrName)
+		}
+		// if region is part of the provider block make sure it is part of the final configuration too, and overwrites the region in the profile. +
+		regionProvider := oci_common.NewRawConfigurationProvider("", "", region.(string), "", "", nil)
+		configProviders = append(configProviders, regionProvider)
+
 		profile, ok := d.GetOk(globalvar.ConfigFileProfileAttrName)
 		if !ok {
 			return nil, fmt.Errorf("missing profile in provider block %v", globalvar.ConfigFileProfileAttrName)
@@ -569,12 +578,23 @@ func BuildHttpClient() (httpClient *http.Client) {
 	return
 }
 
+func UserAgentFromEnv() string {
+
+	userAgentFromEnv, err := schemaMultiEnvDefaultFuncVar([]string{globalvar.UserAgentProviderNameEnv, globalvar.UserAgentSDKNameEnv, globalvar.UserAgentTerraformNameEnv}, globalvar.DefaultUserAgentProviderName)()
+
+	if err != nil {
+		log.Printf("[ERROR] Error while fetching user agent from env var: %v", err)
+		return globalvar.DefaultUserAgentProviderName
+	}
+	return userAgentFromEnv.(string)
+}
+
 func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, httpClient *http.Client) (tf_client.ConfigureClient, error) {
 
 	if ociProvider != nil && len(ociProvider.TerraformVersion) > 0 {
 		TerraformCLIVersion = ociProvider.TerraformVersion
 	}
-	userAgentProviderName := utils.GetEnvSettingWithDefault(globalvar.UserAgentProviderNameEnv, globalvar.DefaultUserAgentProviderName)
+	userAgentProviderName := UserAgentFromEnv()
 	userAgent := fmt.Sprintf(globalvar.UserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, sdkMeta.SDKVersionString(), TerraformCLIVersion, userAgentProviderName, globalvar.Version)
 
 	useOboToken, err := strconv.ParseBool(utils.GetEnvSettingWithDefault("use_obo_token", "false"))

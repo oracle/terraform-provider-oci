@@ -16,19 +16,12 @@ import (
 )
 
 var (
-	managedDatabaseSqlTuningSetSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
-		"name_contains":       acctest.Representation{RepType: acctest.Optional, Create: `nameContains`},
-		"owner":               acctest.Representation{RepType: acctest.Optional, Create: `owner`},
+	DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningSetDataSourceRepresentation = map[string]interface{}{
+		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.managed_database_id}`},
+		"name_contains":       acctest.Representation{RepType: acctest.Optional, Create: `${var.name_contains}`},
+		"owner":               acctest.Representation{RepType: acctest.Optional, Create: `${var.owner}`},
 	}
-
-	managedDatabaseSqlTuningSetDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
-		"name_contains":       acctest.Representation{RepType: acctest.Optional, Create: `nameContains`},
-		"owner":               acctest.Representation{RepType: acctest.Optional, Create: `owner`},
-	}
-
-	ManagedDatabaseSqlTuningSetResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseDataSourceRepresentation)
+	DatabaseManagementManagedDatabaseSqlTuningSetResourceConfig = ""
 )
 
 // issue-routing-tag: database_management/default
@@ -41,11 +34,16 @@ func TestDatabaseManagementManagedDatabaseSqlTuningSetResource_basic(t *testing.
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	testManagedDatabaseId := utils.GetEnvSettingWithBlankDefault("test_managed_database_id")
-	testManagedDatabaseIdVariableStr := fmt.Sprintf("variable \"test_managed_database_id\" { default = \"%s\" }\n", testManagedDatabaseId)
+	managedDatabaseId := utils.GetEnvSettingWithBlankDefault("managed_database_id")
+	managedDatabaseIdStr := fmt.Sprintf("variable \"managed_database_id\" { default = \"%s\" }\n", managedDatabaseId)
+
+	nameContains := utils.GetEnvSettingWithBlankDefault("name_contains")
+	nameContainsStr := fmt.Sprintf("variable \"name_contains\" { default = \"%s\" }\n", nameContains)
+
+	owner := utils.GetEnvSettingWithBlankDefault("owner")
+	ownerStr := fmt.Sprintf("variable \"owner\" { default = \"%s\" }\n", owner)
 
 	datasourceName := "data.oci_database_management_managed_database_sql_tuning_sets.test_managed_database_sql_tuning_sets"
-	singularDatasourceName := "data.oci_database_management_managed_database_sql_tuning_set.test_managed_database_sql_tuning_set"
 
 	acctest.SaveConfigContent("", "", "", t)
 
@@ -53,23 +51,29 @@ func TestDatabaseManagementManagedDatabaseSqlTuningSetResource_basic(t *testing.
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_sets", "test_managed_database_sql_tuning_sets", acctest.Required, acctest.Create, managedDatabaseSqlTuningSetDataSourceRepresentation) +
-				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + ManagedDatabaseSqlTuningSetResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_sets", "test_managed_database_sql_tuning_sets", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningSetDataSourceRepresentation) +
+				compartmentIdVariableStr + managedDatabaseIdStr + DatabaseManagementManagedDatabaseSqlTuningSetResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "sql_tuning_set_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sql_tuning_set_collection.0.items.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sql_tuning_set_collection.0.items.0.name"),
 			),
 		},
-		// verify singular datasource
+		// verify datasource with optional parameters
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_set", "test_managed_database_sql_tuning_set", acctest.Required, acctest.Create, managedDatabaseSqlTuningSetSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + ManagedDatabaseSqlTuningSetResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_tuning_sets", "test_managed_database_sql_tuning_sets", acctest.Optional, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseSqlTuningSetDataSourceRepresentation) +
+				compartmentIdVariableStr + managedDatabaseIdStr + nameContainsStr + ownerStr + DatabaseManagementManagedDatabaseSqlTuningSetResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "items.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "name_contains"),
+				resource.TestCheckResourceAttrSet(datasourceName, "owner"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "sql_tuning_set_collection.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sql_tuning_set_collection.0.items.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sql_tuning_set_collection.0.items.0.name"),
 			),
 		},
 	})

@@ -58,7 +58,7 @@ The following attributes are exported:
 * `patching_start_time` - The time when the patching operation started.
 * `patching_status` - The status of the patching operation.
 * `peer_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance run for the Autonomous Data Guard association's peer container database.
-* `state` - The current state of the maintenance run. For Autonomous Database on shared Exadata infrastructure, valid states are IN_PROGRESS, SUCCEEDED and FAILED. 
+* `state` - The current state of the maintenance run. For Autonomous Database Serverless instances, valid states are IN_PROGRESS, SUCCEEDED, and FAILED. 
 * `target_db_server_version` - The target software version for the database server patching operation.
 * `target_resource_id` - The ID of the target resource on which the maintenance run occurs.
 * `target_resource_type` - The type of the target resource on which the maintenance run occurs.

@@ -20,11 +20,13 @@ var (
 
 	autonomousDatabaseCharacterSetDataSourceRepresentationDedicatedDatabase = map[string]interface{}{
 		"character_set_type": acctest.Representation{RepType: acctest.Optional, Create: `DATABASE`},
+		"is_dedicated":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"is_shared":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	autonomousDatabaseCharacterSetDataSourceRepresentationSharedDatabase = map[string]interface{}{
 		"character_set_type": acctest.Representation{RepType: acctest.Optional, Create: `DATABASE`},
+		"is_dedicated":       acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_shared":          acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 

@@ -36,7 +36,7 @@ resource "oci_database_management_managed_databases_reset_database_parameter" "t
 
 The following arguments are supported:
 
-* `credentials` - (Required) The database credentials used to perform management activity.
+* `credentials` - (Required) The database credentials used to perform management activity. 
 	* `password` - (Optional) The password for the database user name. 
 	* `role` - (Optional) The role of the database user. Indicates whether the database user is a normal user or sysdba.
 	* `secret_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.

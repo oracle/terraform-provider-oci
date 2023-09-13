@@ -1009,6 +1009,7 @@ stack_monitoring
 * oci\_stack\_monitoring\_monitored\_resources\_search\_association
 * oci\_stack\_monitoring\_monitored\_resources\_search
 * oci\_stack\_monitoring\_monitored\_resources\_associate\_monitored\_resource
+* oci\_stack\_monitoring\_config
 
 streaming
 
