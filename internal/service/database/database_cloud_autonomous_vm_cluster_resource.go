@@ -52,7 +52,6 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"cluster_time_zone": {
 				Type:     schema.TypeString,
@@ -64,7 +63,6 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"db_servers": {
 				Type:     schema.TypeList,
@@ -242,7 +240,6 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 
 			// Computed
@@ -288,6 +285,10 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 			},
 			"domain": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"exadata_storage_in_tbs_lowest_scaled_value": {
+				Type:     schema.TypeFloat,
 				Computed: true,
 			},
 			"hostname": {
@@ -391,6 +392,10 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 					},
 				},
 			},
+			"max_acds_lowest_scaled_value": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"memory_size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -409,6 +414,10 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 			},
 			"ocpu_count": {
 				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"ocpus_lowest_scaled_value": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"provisionable_autonomous_container_databases": {
@@ -759,8 +768,18 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 	}
 	request := oci_database.UpdateCloudAutonomousVmClusterRequest{}
 
+	if autonomousDataStorageSizeInTBs, ok := s.D.GetOkExists("autonomous_data_storage_size_in_tbs"); ok {
+		tmp := autonomousDataStorageSizeInTBs.(float64)
+		request.AutonomousDataStorageSizeInTBs = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.CloudAutonomousVmClusterId = &tmp
+
+	if cpuCoreCountPerNode, ok := s.D.GetOkExists("cpu_core_count_per_node"); ok {
+		tmp := cpuCoreCountPerNode.(int)
+		request.CpuCoreCountPerNode = &tmp
+	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -811,6 +830,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if totalContainerDatabases, ok := s.D.GetOkExists("total_container_databases"); ok {
+		tmp := totalContainerDatabases.(int)
+		request.TotalContainerDatabases = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -937,6 +961,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("domain", *s.Res.Domain)
 	}
 
+	if s.Res.ExadataStorageInTBsLowestScaledValue != nil {
+		s.D.Set("exadata_storage_in_tbs_lowest_scaled_value", *s.Res.ExadataStorageInTBsLowestScaledValue)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Hostname != nil {
@@ -967,6 +995,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("maintenance_window", nil)
 	}
 
+	if s.Res.MaxAcdsLowestScaledValue != nil {
+		s.D.Set("max_acds_lowest_scaled_value", *s.Res.MaxAcdsLowestScaledValue)
+	}
+
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
@@ -995,6 +1027,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.OcpuCount != nil {
 		s.D.Set("ocpu_count", *s.Res.OcpuCount)
+	}
+
+	if s.Res.OcpusLowestScaledValue != nil {
+		s.D.Set("ocpus_lowest_scaled_value", *s.Res.OcpusLowestScaledValue)
 	}
 
 	if s.Res.ProvisionableAutonomousContainerDatabases != nil {
