@@ -108,6 +108,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("cpus_enabled", *s.Res.CpusEnabled)
 	}
 
+	if s.Res.CpusLowestScaledValue != nil {
+		s.D.Set("cpus_lowest_scaled_value", *s.Res.CpusLowestScaledValue)
+	}
+
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
@@ -134,6 +138,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
 
+	if s.Res.ExadataStorageInTBsLowestScaledValue != nil {
+		s.D.Set("exadata_storage_in_tbs_lowest_scaled_value", *s.Res.ExadataStorageInTBsLowestScaledValue)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsLocalBackupEnabled != nil {
@@ -158,6 +166,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
 	} else {
 		s.D.Set("maintenance_window", nil)
+	}
+
+	if s.Res.MaxAcdsLowestScaledValue != nil {
+		s.D.Set("max_acds_lowest_scaled_value", *s.Res.MaxAcdsLowestScaledValue)
 	}
 
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {

@@ -157,6 +157,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			autonomousVmCluster["cpus_enabled"] = *r.CpusEnabled
 		}
 
+		if r.CpusLowestScaledValue != nil {
+			autonomousVmCluster["cpus_lowest_scaled_value"] = *r.CpusLowestScaledValue
+		}
+
 		if r.DataStorageSizeInGBs != nil {
 			autonomousVmCluster["data_storage_size_in_gb"] = *r.DataStorageSizeInGBs
 		}
@@ -181,6 +185,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.ExadataInfrastructureId != nil {
 			autonomousVmCluster["exadata_infrastructure_id"] = *r.ExadataInfrastructureId
+		}
+
+		if r.ExadataStorageInTBsLowestScaledValue != nil {
+			autonomousVmCluster["exadata_storage_in_tbs_lowest_scaled_value"] = *r.ExadataStorageInTBsLowestScaledValue
 		}
 
 		autonomousVmCluster["freeform_tags"] = r.FreeformTags
@@ -211,6 +219,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			autonomousVmCluster["maintenance_window"] = []interface{}{MaintenanceWindowToMap(r.MaintenanceWindow)}
 		} else {
 			autonomousVmCluster["maintenance_window"] = nil
+		}
+
+		if r.MaxAcdsLowestScaledValue != nil {
+			autonomousVmCluster["max_acds_lowest_scaled_value"] = *r.MaxAcdsLowestScaledValue
 		}
 
 		if r.MemoryPerOracleComputeUnitInGBs != nil {

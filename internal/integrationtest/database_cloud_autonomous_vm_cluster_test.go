@@ -62,10 +62,10 @@ var (
 		"scan_listener_port_non_tls":            acctest.Representation{RepType: acctest.Optional, Create: `2302`},
 		"scan_listener_port_tls":                acctest.Representation{RepType: acctest.Optional, Create: `2709`},
 		"nsg_ids":                               acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
-		"total_container_databases":             acctest.Representation{RepType: acctest.Optional, Create: `12`},
+		"total_container_databases":             acctest.Representation{RepType: acctest.Optional, Create: `12`, Update: `4`},
 		"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `27`},
-		"cpu_core_count_per_node":               acctest.Representation{RepType: acctest.Optional, Create: `50`},
-		"autonomous_data_storage_size_in_tbs":   acctest.Representation{RepType: acctest.Optional, Create: `5`},
+		"cpu_core_count_per_node":               acctest.Representation{RepType: acctest.Optional, Create: `50`, Update: `20`},
+		"autonomous_data_storage_size_in_tbs":   acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `4`},
 		"lifecycle":                             acctest.RepresentationGroup{RepType: acctest.Optional, Group: AdbStorageInTbsIgnoreChangesRepresentation},
 	}
 	AdbStorageInTbsIgnoreChangesRepresentation = map[string]interface{}{
@@ -349,7 +349,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
 					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
-					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "12"),
+					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "4"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -397,6 +397,9 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.exadata_storage_in_tbs_lowest_scaled_value"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.max_acds_lowest_scaled_value"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.ocpus_lowest_scaled_value"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.maintenance_window.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.autonomous_data_storage_size_in_tbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.cpu_core_count_per_node"),
@@ -439,7 +442,10 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
 					// 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count_per_node", "50"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs", "27"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "total_container_databases", "12"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "total_container_databases", "4"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_storage_in_tbs_lowest_scaled_value"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "max_acds_lowest_scaled_value"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "ocpus_lowest_scaled_value"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "non_provisionable_autonomous_container_databases"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "provisionable_autonomous_container_databases"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "provisioned_autonomous_container_databases"),
