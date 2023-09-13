@@ -29,6 +29,9 @@ type AnalyzeImageResult struct {
 
 	ImageText *ImageText `mandatory:"false" json:"imageText"`
 
+	// The detected faces.
+	DetectedFaces []Face `mandatory:"false" json:"detectedFaces"`
+
 	// The image classification model version.
 	ImageClassificationModelVersion *string `mandatory:"false" json:"imageClassificationModelVersion"`
 
@@ -37,6 +40,9 @@ type AnalyzeImageResult struct {
 
 	// The text detection model version.
 	TextDetectionModelVersion *string `mandatory:"false" json:"textDetectionModelVersion"`
+
+	// The face detection model version.
+	FaceDetectionModelVersion *string `mandatory:"false" json:"faceDetectionModelVersion"`
 
 	// The errors encountered during image analysis.
 	Errors []ProcessingError `mandatory:"false" json:"errors"`

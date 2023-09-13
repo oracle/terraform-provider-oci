@@ -47,8 +47,14 @@ The following attributes are exported:
 
 * `items` - The details in the SQL tuning set summary.
 	* `description` - The description of the SQL tuning set.
+	* `error_message` - Latest execution error of the plsql that was submitted as a scheduler job.
+	* `id` - The unique Sql tuning set identifier. This is not OCID.
 	* `name` - The name of the SQL tuning set.
 	* `owner` - The owner of the SQL tuning set.
+	* `scheduled_job_name` - Name of the Sql tuning set scheduler job.
 	* `statement_counts` - The number of SQL statements in the SQL tuning set.
+	* `status` - Current status of the Sql tuning set.
+	* `time_created` - The created time of the Sql tuning set.
+	* `time_last_modified` - Last modified time of the Sql tuning set.
 * `managed_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 

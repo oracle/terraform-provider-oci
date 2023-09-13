@@ -20,13 +20,13 @@ import (
 type ObjectStorageDataset struct {
 
 	// The namespace name of the Object Storage bucket that contains the input data file.
-	NamespaceName *string `mandatory:"false" json:"namespaceName"`
+	NamespaceName *string `mandatory:"true" json:"namespaceName"`
 
 	// The name of the Object Storage bucket that contains the input data file.
-	BucketName *string `mandatory:"false" json:"bucketName"`
+	BucketName *string `mandatory:"true" json:"bucketName"`
 
 	// The object name of the input data file.
-	ObjectName *string `mandatory:"false" json:"objectName"`
+	ObjectName *string `mandatory:"true" json:"objectName"`
 }
 
 func (m ObjectStorageDataset) String() string {

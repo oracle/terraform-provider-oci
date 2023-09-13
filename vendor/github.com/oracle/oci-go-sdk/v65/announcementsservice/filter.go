@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// Filter Criteria that the Announcements service uses to match announcements in order to provide only desired, matching announcements.
+// Filter Criteria that the Announcements service uses to match announcements so it can provide only desired announcements to subscribers.
 type Filter struct {
 
-	// The type of filter.
+	// The type of filter. You cannot combine the RESOURCE_ID filter with any other type of filter within a given filter group. For filter types that support multiple values, specify the values individually.
 	Type FilterTypeEnum `mandatory:"true" json:"type"`
 
 	// The value of the filter.

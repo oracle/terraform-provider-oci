@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ChangeDisasterRecoveryConfigurationDetails Details to update the cross-region Disaster Recovery (DR) details of the Standby Autonomous Database on shared Exadata infrastructure.
+// ChangeDisasterRecoveryConfigurationDetails Details to update the cross-region disaster recovery (DR) details of the standby Autonomous Database Serverless instance.
 type ChangeDisasterRecoveryConfigurationDetails struct {
 
-	// Indicates the disaster recovery (DR) type of the Shared Autonomous Database.
+	// Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance.
 	// Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover.
 	// Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.
 	DisasterRecoveryType ChangeDisasterRecoveryConfigurationDetailsDisasterRecoveryTypeEnum `mandatory:"false" json:"disasterRecoveryType,omitempty"`

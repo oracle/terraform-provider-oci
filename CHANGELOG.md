@@ -1,3 +1,15 @@
+## 5.13.0 (Unreleased)
+
+### Added
+- Support for DBM Service: Database Management SQL Tuning Sets
+- Support for ADB-S: ADB Service Name Change to Serverless
+- Support for Stack Monitoring: Auto-Promotion of Hosts
+- Support for LifecycleDetails in Data catalog Data assets resources
+- Support for Terraform for Serial Console Phase 1 ExaDB-C@C (EXACC) Serial Console Access to VM
+- Support for refreshing security token auth
+### Bug Fix 
+- Fixed documentation errors for VCNCP
+
 ## 5.12.0 (September 06, 2023)
 
 ### Added

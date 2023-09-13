@@ -31,6 +31,24 @@ type SqlTuningSetSummary struct {
 
 	// The number of SQL statements in the SQL tuning set.
 	StatementCounts *int `mandatory:"false" json:"statementCounts"`
+
+	// The unique Sql tuning set identifier. This is not OCID.
+	Id *int `mandatory:"false" json:"id"`
+
+	// The created time of the Sql tuning set.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Last modified time of the Sql tuning set.
+	TimeLastModified *common.SDKTime `mandatory:"false" json:"timeLastModified"`
+
+	// Current status of the Sql tuning set.
+	Status SqlTuningSetStatusTypesEnum `mandatory:"false" json:"status,omitempty"`
+
+	// Name of the Sql tuning set scheduler job.
+	ScheduledJobName *string `mandatory:"false" json:"scheduledJobName"`
+
+	// Latest execution error of the plsql that was submitted as a scheduler job.
+	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 }
 
 func (m SqlTuningSetSummary) String() string {
@@ -43,6 +61,9 @@ func (m SqlTuningSetSummary) String() string {
 func (m SqlTuningSetSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSqlTuningSetStatusTypesEnum(string(m.Status)); !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetSqlTuningSetStatusTypesEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

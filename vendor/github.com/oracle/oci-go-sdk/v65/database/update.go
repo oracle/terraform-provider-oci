@@ -33,7 +33,7 @@ type Update struct {
 	// The version of the maintenance update package.
 	Version *string `mandatory:"true" json:"version"`
 
-	// The update action.
+	// The previous update action performed.
 	LastAction UpdateLastActionEnum `mandatory:"false" json:"lastAction,omitempty"`
 
 	// The possible actions performed by the update operation on the infrastructure components.

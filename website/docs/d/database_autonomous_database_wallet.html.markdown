@@ -37,7 +37,7 @@ The following arguments are supported:
 * `base64_encode_content` - (Optional) Encodes the downloaded zipped wallet in base64. It is recommended to set this to `true` to avoid corrupting the zip file in Terraform state. The default value is `false` to preserve backwards compatibility with Terraform v0.11 configurations.
 * `generate_type` - (Optional) The type of wallet to generate.
 
-	**Shared Exadata infrastructure usage:**
+	**Serverless instance usage:**
 	* `SINGLE` - used to generate a wallet for a single database
 	* `ALL` - used to generate wallet for all databases in the region
 

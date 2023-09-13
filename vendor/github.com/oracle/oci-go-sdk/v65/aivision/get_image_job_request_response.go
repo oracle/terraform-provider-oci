@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetImageJob.go.html to see an example of how to use GetImageJobRequest.
 type GetImageJobRequest struct {
 
-	// Image job id.
+	// The image job ID.
 	ImageJobId *string `mandatory:"true" contributesTo:"path" name:"imageJobId"`
 
 	// The client request ID for tracing.

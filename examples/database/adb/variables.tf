@@ -60,3 +60,17 @@ variable "autonomous_database_character_set" {
 variable "autonomous_database_ncharacter_set" {
   default = "AL16UTF16"
 }
+
+variable "autonomous_database_character_set_character_set_type" {
+  default = "DATABASE"
+}
+
+variable "autonomous_database_character_set_is_shared" {
+  default = true
+
+}
+
+variable "autonomous_database_character_set_is_dedicated" {
+  default = false
+}
+

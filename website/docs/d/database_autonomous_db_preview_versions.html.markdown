@@ -11,7 +11,7 @@ description: |-
 This data source provides the list of Autonomous Db Preview Versions in Oracle Cloud Infrastructure Database service.
 
 Gets a list of supported Autonomous Database versions. Note that preview version software is only available for
-databases with [shared Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
+Autonomous Database Serverless (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) databases.
 
 
 ## Example Usage

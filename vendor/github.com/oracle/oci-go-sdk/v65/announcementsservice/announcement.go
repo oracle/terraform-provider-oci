@@ -65,6 +65,9 @@ type Announcement struct {
 	// The name of the environment that this announcement pertains to.
 	EnvironmentName *string `mandatory:"false" json:"environmentName"`
 
+	// The sequence of connected announcements, or announcement chain, that this announcement belongs to. Related announcements share the same chain ID.
+	ChainId *string `mandatory:"false" json:"chainId"`
+
 	// A detailed explanation of the event, expressed by using Markdown language. Avoid entering
 	// confidential information.
 	Description *string `mandatory:"false" json:"description"`
@@ -183,6 +186,11 @@ func (m Announcement) GetEnvironmentName() *string {
 //GetPlatformType returns PlatformType
 func (m Announcement) GetPlatformType() BaseAnnouncementPlatformTypeEnum {
 	return m.PlatformType
+}
+
+//GetChainId returns ChainId
+func (m Announcement) GetChainId() *string {
+	return m.ChainId
 }
 
 func (m Announcement) String() string {
