@@ -22,6 +22,10 @@ func DatabaseAutonomousDatabaseCharacterSetsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_dedicated": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"is_shared": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -70,6 +74,11 @@ func (s *DatabaseAutonomousDatabaseCharacterSetsDataSourceCrud) Get() error {
 
 	if characterSetType, ok := s.D.GetOkExists("character_set_type"); ok {
 		request.CharacterSetType = oci_database.ListAutonomousDatabaseCharacterSetsCharacterSetTypeEnum(characterSetType.(string))
+	}
+
+	if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
+		tmp := isDedicated.(bool)
+		request.IsDedicated = &tmp
 	}
 
 	if isShared, ok := s.D.GetOkExists("is_shared"); ok {

@@ -27,7 +27,7 @@ type UpdateAnnouncementsPreferencesDetails struct {
 	// root compartment OCID.)
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The time zone that the user prefers for announcement time stamps. Specify the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example America/Los_Angeles.
+	// The time zone in which the user prefers to receive announcements. Specify the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example - America/Los_Angeles
 	PreferredTimeZone *string `mandatory:"false" json:"preferredTimeZone"`
 
 	// The string representing the user's preference, whether to opt in to only required announcements, to opt in to all announcements, including informational announcements, or to opt out of all announcements.

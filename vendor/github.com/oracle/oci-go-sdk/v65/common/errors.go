@@ -5,11 +5,13 @@ package common
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"strings"
+	"syscall"
 
 	"github.com/sony/gobreaker"
 )
@@ -266,9 +268,14 @@ func IsNetworkError(err error) bool {
 		return false
 	}
 
-	if r, ok := err.(net.Error); ok && (r.Temporary() || r.Timeout()) || strings.Contains(err.Error(), "net/http: HTTP/1.x transport connection broken") {
+	if errors.Is(err, syscall.ECONNRESET) {
 		return true
 	}
+
+	if r, ok := err.(net.Error); ok && (r.Timeout() || strings.Contains(err.Error(), "net/http: HTTP/1.x transport connection broken")) {
+		return true
+	}
+
 	return false
 }
 

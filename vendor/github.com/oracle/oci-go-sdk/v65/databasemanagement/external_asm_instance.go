@@ -90,6 +90,7 @@ const (
 	ExternalAsmInstanceLifecycleStateUpdating ExternalAsmInstanceLifecycleStateEnum = "UPDATING"
 	ExternalAsmInstanceLifecycleStateDeleting ExternalAsmInstanceLifecycleStateEnum = "DELETING"
 	ExternalAsmInstanceLifecycleStateDeleted  ExternalAsmInstanceLifecycleStateEnum = "DELETED"
+	ExternalAsmInstanceLifecycleStateFailed   ExternalAsmInstanceLifecycleStateEnum = "FAILED"
 )
 
 var mappingExternalAsmInstanceLifecycleStateEnum = map[string]ExternalAsmInstanceLifecycleStateEnum{
@@ -99,6 +100,7 @@ var mappingExternalAsmInstanceLifecycleStateEnum = map[string]ExternalAsmInstanc
 	"UPDATING": ExternalAsmInstanceLifecycleStateUpdating,
 	"DELETING": ExternalAsmInstanceLifecycleStateDeleting,
 	"DELETED":  ExternalAsmInstanceLifecycleStateDeleted,
+	"FAILED":   ExternalAsmInstanceLifecycleStateFailed,
 }
 
 var mappingExternalAsmInstanceLifecycleStateEnumLowerCase = map[string]ExternalAsmInstanceLifecycleStateEnum{
@@ -108,6 +110,7 @@ var mappingExternalAsmInstanceLifecycleStateEnumLowerCase = map[string]ExternalA
 	"updating": ExternalAsmInstanceLifecycleStateUpdating,
 	"deleting": ExternalAsmInstanceLifecycleStateDeleting,
 	"deleted":  ExternalAsmInstanceLifecycleStateDeleted,
+	"failed":   ExternalAsmInstanceLifecycleStateFailed,
 }
 
 // GetExternalAsmInstanceLifecycleStateEnumValues Enumerates the set of values for ExternalAsmInstanceLifecycleStateEnum
@@ -128,6 +131,7 @@ func GetExternalAsmInstanceLifecycleStateEnumStringValues() []string {
 		"UPDATING",
 		"DELETING",
 		"DELETED",
+		"FAILED",
 	}
 }
 

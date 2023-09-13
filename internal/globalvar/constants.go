@@ -20,6 +20,8 @@ const (
 	TestTerraformCLIVersion               = "test"
 	UserAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s; terraform-cli/%s) %s/%s"
 	UserAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
+	UserAgentTerraformNameEnv             = "TF_APPEND_USER_AGENT"
+	UserAgentSDKNameEnv                   = "OCI_SDK_APPEND_USER_AGENT"
 	DomainNameOverrideEnv                 = "domain_name_override"
 	HasCorrectDomainNameEnv               = "has_correct_domain_name"
 	ClientHostOverridesEnv                = "CLIENT_HOST_OVERRIDES"
