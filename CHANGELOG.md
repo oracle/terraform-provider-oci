@@ -1,4 +1,4 @@
-## 5.13.0 (Unreleased)
+## 5.13.0 (September 13, 2023)
 
 ### Added
 - Support for DBM Service: Database Management SQL Tuning Sets
