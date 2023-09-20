@@ -60,9 +60,7 @@ type Zone struct {
 	// necessary parent zone updates can be made and the PromoteZoneDnssecKeyVersion operation can be called.
 	// Enabling DNSSEC will result in additional records in DNS responses which will increase their size and can
 	// cause higher response latency.
-	// TODO: Add link to DNSSEC docs covering: how to set up alarms/notifications, warnings about enabling/disabling,
-	// warnings about timing and impacts, how to handle automatic rollover, how to handle manual rollover, and how
-	// to handle emergency rollover.
+	// For more information, see the DNS docs (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
 	DnssecState ZoneDnssecStateEnum `mandatory:"true" json:"dnssecState"`
 
 	// External master servers for the zone. `externalMasters` becomes a

@@ -168,10 +168,6 @@ type Sddc struct {
 
 	// The current state of the SDDC.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
-
-	// If not empty, then the billing of this SDDC will be to VMware.
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VMware billing link.
-	VmwareBillingLinkId *string `mandatory:"false" json:"vmwareBillingLinkId"`
 }
 
 func (m Sddc) String() string {

@@ -51,10 +51,6 @@ type CreateSddcDetails struct {
 	// Indicates whether this SDDC is designated for only single ESXi host.
 	IsSingleHostSddc *bool `mandatory:"false" json:"isSingleHostSddc"`
 
-	// This is an optional paramter.  If this parameter is not empty, then the billing of this SDDC will be
-	// to VMware.  The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VMware billing link.
-	VmwareBillingLinkId *string `mandatory:"false" json:"vmwareBillingLinkId"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

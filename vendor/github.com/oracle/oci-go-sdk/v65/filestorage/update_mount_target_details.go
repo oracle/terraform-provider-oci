@@ -37,7 +37,10 @@ type UpdateMountTargetDetails struct {
 
 	Kerberos *UpdateKerberosDetails `mandatory:"false" json:"kerberos"`
 
-	// Immediately available IOPS performance for associated Mount Target.
+	// Immediately available IOPS performance for the associated mount target. Three values are accepted: 20000,
+	// 200000, and 400000. The default IOPS value of 20000 translates to a standard shape with 4 Gbps throughput.
+	// The values of 200000 and 400000 translate to high performance shapes with 40 Gbps or 80 Gbps throughput,
+	// respectively.
 	BaselineIops *int64 `mandatory:"false" json:"baselineIops"`
 
 	// Maximum IOPS performance that associated Mount Target can scale to in response to load.

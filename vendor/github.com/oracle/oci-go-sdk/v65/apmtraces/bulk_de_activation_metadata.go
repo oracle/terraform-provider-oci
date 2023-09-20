@@ -36,14 +36,23 @@ type BulkDeActivationMetadata struct {
 	// Type of operation.
 	OperationType BulkDeActivationMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number attributes (both string and numeric) in all attribute namespaces (TRACES and SYNTHETIC) that were deactivated.
+	// Total number attributes (both string and numeric) in TRACES namespace that were deactivated.
 	AttributesDeActivated *int `mandatory:"false" json:"attributesDeActivated"`
 
-	// Total number of free slots available for activation of additional string attributes.
+	// Total number attributes (both string and numeric) in SYNTHETIC namespace that were deactivated.
+	SyntheticAttributesDeActivated *int `mandatory:"false" json:"syntheticAttributesDeActivated"`
+
+	// Total number of free slots available for activation of additional string attributes in TRACES namespace in the APM Domain.
 	AvailableStringAttributes *int `mandatory:"false" json:"availableStringAttributes"`
 
-	// Total number of free slots available for activation of additional numeric attributes.
+	// Total number of free slots available for activation of additional numeric attributes in TRACES namespace in the APM Domain.
 	AvailableNumericAttributes *int `mandatory:"false" json:"availableNumericAttributes"`
+
+	// Total number of free slots available for activation of additional string attributes in SYNTHETIC namespace in the APM Domain.
+	AvailableSyntheticStringAttributes *int `mandatory:"false" json:"availableSyntheticStringAttributes"`
+
+	// Total number of free slots available for activation of additional numeric attributes in SYNTHETIC namespace in the APM Domain.
+	AvailableSyntheticNumericAttributes *int `mandatory:"false" json:"availableSyntheticNumericAttributes"`
 }
 
 func (m BulkDeActivationMetadata) String() string {

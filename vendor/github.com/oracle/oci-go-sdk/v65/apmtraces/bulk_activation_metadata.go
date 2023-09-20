@@ -37,19 +37,33 @@ type BulkActivationMetadata struct {
 	// Type of operation.
 	OperationType BulkActivationMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number of string attributes in all attribute namespaces (TRACES and SYNTHETIC) that were activated.
+	// Total number of string attributes in TRACES namespace that were activated.
 	StringAttributesActivated *int `mandatory:"false" json:"stringAttributesActivated"`
 
-	// Total number of numeric attributes in all attribute namespaces (TRACES and SYNTHETIC) that were activated.
+	// Total number of numeric attributes in TRACES namespace that were activated.
 	NumericAttributesActivated *int `mandatory:"false" json:"numericAttributesActivated"`
 
-	// Total number of free slots available to activate string attributes in the APM Domain.  Note that if a bulk request has succeeded, this
-	// number reflects the total number of free slots available for activation of additional string attributes in the APM Domain.
+	// Total number of string attributes in SYNTHETIC namespace that were activated.
+	SyntheticStringAttributesActivated *int `mandatory:"false" json:"syntheticStringAttributesActivated"`
+
+	// Total number of numeric attributes in SYNTHETIC namespace that were activated.
+	SyntheticNumericAttributesActivated *int `mandatory:"false" json:"syntheticNumericAttributesActivated"`
+
+	// Total number of free slots available to activate string attributes in the TRACES namespace in the APM Domain.  Note that if a bulk request has succeeded, this
+	// number reflects the total number of free slots available for activation of additional string attributes in the TRACES namespace in the APM Domain.
 	AvailableStringAttributes *int `mandatory:"false" json:"availableStringAttributes"`
 
-	// Total number of free slots available to activate numeric attributes in the APM Domain.  Note that if a bulk request has succeeded, this
-	// number reflects the total number of free slots available for activation of additional numeric attributes in the APM Domain.
+	// Total number of free slots available to activate numeric attributes in the TRACES namespace in the APM Domain.  Note that if a bulk request has succeeded, this
+	// number reflects the total number of free slots available for activation of additional numeric attributes in the TRACES namespace in the APM Domain.
 	AvailableNumericAttributes *int `mandatory:"false" json:"availableNumericAttributes"`
+
+	// Total number of free slots available to activate string attributes in the SYNTHETIC namespace in the APM Domain.  Note that if a bulk request has succeeded, this
+	// number reflects the total number of free synthetic slots available for activation of additional string attributes in the SYNTHETIC namespace in the APM Domain.
+	AvailableSyntheticStringAttributes *int `mandatory:"false" json:"availableSyntheticStringAttributes"`
+
+	// Total number of free slots available to activate numeric attributes in the SYNTHETIC namespace in the APM Domain.  Note that if a bulk request has succeeded, this
+	// number reflects the total number of free synthetic slots available for activation of additional numeric attributes in the SYNTHETIC namespace in the APM Domain.
+	AvailableSyntheticNumericAttributes *int `mandatory:"false" json:"availableSyntheticNumericAttributes"`
 }
 
 func (m BulkActivationMetadata) String() string {

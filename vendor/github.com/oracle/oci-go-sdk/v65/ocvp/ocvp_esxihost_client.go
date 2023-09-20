@@ -273,65 +273,6 @@ func (client EsxiHostClient) getEsxiHost(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// IncreaseHostOcpuCount Increase the OCPU count of the specified ESXi host.
-// A default retry strategy applies to this operation IncreaseHostOcpuCount()
-func (client EsxiHostClient) IncreaseHostOcpuCount(ctx context.Context, request IncreaseHostOcpuCountRequest) (response IncreaseHostOcpuCountResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.increaseHostOcpuCount, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = IncreaseHostOcpuCountResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = IncreaseHostOcpuCountResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(IncreaseHostOcpuCountResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into IncreaseHostOcpuCountResponse")
-	}
-	return
-}
-
-// increaseHostOcpuCount implements the OCIOperation interface (enables retrying operations)
-func (client EsxiHostClient) increaseHostOcpuCount(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/esxiHosts/{esxiHostId}/actions/increaseHostOcpuCount", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response IncreaseHostOcpuCountResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/IncreaseHostOcpuCount"
-		err = common.PostProcessServiceError(err, "EsxiHost", "IncreaseHostOcpuCount", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // InplaceUpgrade In-place upgrade a ESXi host.
 // A default retry strategy applies to this operation InplaceUpgrade()
 func (client EsxiHostClient) InplaceUpgrade(ctx context.Context, request InplaceUpgradeRequest) (response InplaceUpgradeResponse, err error) {

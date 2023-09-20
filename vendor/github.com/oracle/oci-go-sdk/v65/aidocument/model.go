@@ -28,6 +28,8 @@ type Model struct {
 	// The type of the Document model.
 	ModelType ModelModelTypeEnum `mandatory:"true" json:"modelType"`
 
+	TrainingDataset Dataset `mandatory:"true" json:"trainingDataset"`
+
 	// The version of the model.
 	ModelVersion *string `mandatory:"true" json:"modelVersion"`
 
@@ -64,8 +66,6 @@ type Model struct {
 	// The total hours actually used for model training.
 	TrainedTimeInHours *float64 `mandatory:"false" json:"trainedTimeInHours"`
 
-	TrainingDataset Dataset `mandatory:"false" json:"trainingDataset"`
-
 	TestingDataset Dataset `mandatory:"false" json:"testingDataset"`
 
 	ValidationDataset Dataset `mandatory:"false" json:"validationDataset"`
@@ -95,6 +95,9 @@ type Model struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// For example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m Model) String() string {
@@ -130,7 +133,6 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 		IsQuickMode            *bool                             `json:"isQuickMode"`
 		MaxTrainingTimeInHours *float64                          `json:"maxTrainingTimeInHours"`
 		TrainedTimeInHours     *float64                          `json:"trainedTimeInHours"`
-		TrainingDataset        dataset                           `json:"trainingDataset"`
 		TestingDataset         dataset                           `json:"testingDataset"`
 		ValidationDataset      dataset                           `json:"validationDataset"`
 		ComponentModels        []ComponentModel                  `json:"componentModels"`
@@ -141,9 +143,11 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags             map[string]map[string]interface{} `json:"systemTags"`
+		Locks                  []ResourceLock                    `json:"locks"`
 		Id                     *string                           `json:"id"`
 		CompartmentId          *string                           `json:"compartmentId"`
 		ModelType              ModelModelTypeEnum                `json:"modelType"`
+		TrainingDataset        dataset                           `json:"trainingDataset"`
 		ModelVersion           *string                           `json:"modelVersion"`
 		ProjectId              *string                           `json:"projectId"`
 		TimeCreated            *common.SDKTime                   `json:"timeCreated"`
@@ -170,16 +174,6 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	m.MaxTrainingTimeInHours = model.MaxTrainingTimeInHours
 
 	m.TrainedTimeInHours = model.TrainedTimeInHours
-
-	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.TrainingDataset = nn.(Dataset)
-	} else {
-		m.TrainingDataset = nil
-	}
 
 	nn, e = model.TestingDataset.UnmarshalPolymorphicJSON(model.TestingDataset.JsonData)
 	if e != nil {
@@ -225,11 +219,23 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemTags = model.SystemTags
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.Id = model.Id
 
 	m.CompartmentId = model.CompartmentId
 
 	m.ModelType = model.ModelType
+
+	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TrainingDataset = nn.(Dataset)
+	} else {
+		m.TrainingDataset = nil
+	}
 
 	m.ModelVersion = model.ModelVersion
 

@@ -2494,7 +2494,7 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 // If the DnssecKeyVersion identified in the request body is replacing another DnssecKeyVersion, then that
 // DnssecKeyVersion will be scheduled for removal from the zone.
 // For KSK, this should be called after the parent zone's DS records have been updated.
-// TODO: Add link to docs covering impacts of timing.
+// For more information, see the DNS docs (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
 // A default retry strategy applies to this operation PromoteZoneDnssecKeyVersion()
 func (client DnsClient) PromoteZoneDnssecKeyVersion(ctx context.Context, request PromoteZoneDnssecKeyVersionRequest) (response PromoteZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2556,11 +2556,8 @@ func (client DnsClient) promoteZoneDnssecKeyVersion(ctx context.Context, request
 // StageZoneDnssecKeyVersion Stages a new DnssecKeyVersion on the zone. Staging is a process that generates a new "successor" key version
 // that will replace an existing "predecessor".
 // This allows generating and activating a successor DnssecKeyVersion before normal automated rollover would do so.
-// Note that a new key-signing key version is inert until parent-zone DS records have been updated (refer to
-// [TODO: link]).
-// TODO: Add link to docs covering impacts of timing. For example promoting a key too soon after the
-// replacment was staged can lead to ZSK swap happening to fast. Also, scheduling the removal of the key too
-// quickly can lead to issues. Need to link to handling emergency rollover and modifying TTLs.
+// Note that a new key-signing key version is inert until parent-zone DS records have been updated.
+// For more information, see the DNS docs (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
 // A default retry strategy applies to this operation StageZoneDnssecKeyVersion()
 func (client DnsClient) StageZoneDnssecKeyVersion(ctx context.Context, request StageZoneDnssecKeyVersionRequest) (response StageZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse

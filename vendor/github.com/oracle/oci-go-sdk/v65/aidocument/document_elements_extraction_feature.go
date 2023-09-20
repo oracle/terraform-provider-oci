@@ -10,33 +10,42 @@
 package aidocument
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// ModelResourcePrincipalToken This is a JsonWebToken (JWT) containing the mapping information between the instance principal and model resource.
-type ModelResourcePrincipalToken struct {
-
-	// The base64 encoded intermediate Resource Principal Token.
-	ResourcePrincipalToken *string `mandatory:"true" json:"resourcePrincipalToken"`
-
-	// The base64 encoded Session Token of the Service Principal that provided the intermediate Resource Principal Token.
-	ServicePrincipalSessionToken *string `mandatory:"true" json:"servicePrincipalSessionToken"`
+// DocumentElementsExtractionFeature Extract information from bar code
+type DocumentElementsExtractionFeature struct {
 }
 
-func (m ModelResourcePrincipalToken) String() string {
+func (m DocumentElementsExtractionFeature) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ModelResourcePrincipalToken) ValidateEnumValue() (bool, error) {
+func (m DocumentElementsExtractionFeature) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m DocumentElementsExtractionFeature) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeDocumentElementsExtractionFeature DocumentElementsExtractionFeature
+	s := struct {
+		DiscriminatorParam string `json:"featureType"`
+		MarshalTypeDocumentElementsExtractionFeature
+	}{
+		"DOCUMENT_ELEMENTS_EXTRACTION",
+		(MarshalTypeDocumentElementsExtractionFeature)(m),
+	}
+
+	return json.Marshal(&s)
 }

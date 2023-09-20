@@ -30,8 +30,11 @@ type BulkUpdateNotesMetadata struct {
 	// Type of operation.
 	OperationType BulkUpdateNotesMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number attributes (both string and numeric) in all attribute namespaces (TRACES, SYNTHETIC) for which notes were updated.
+	// Total number attributes (both string and numeric) in TRACES namespace for which notes were updated.
 	AttributesNotesUpdated *int `mandatory:"true" json:"attributesNotesUpdated"`
+
+	// Total number attributes (both string and numeric) in SYNTHETIC namespace that were pinned.
+	SyntheticAttributesPinned *int `mandatory:"false" json:"syntheticAttributesPinned"`
 }
 
 func (m BulkUpdateNotesMetadata) String() string {

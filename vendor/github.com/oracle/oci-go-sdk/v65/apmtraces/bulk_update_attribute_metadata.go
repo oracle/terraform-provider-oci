@@ -30,8 +30,11 @@ type BulkUpdateAttributeMetadata struct {
 	// Type of operation.
 	OperationType BulkUpdateAttributeMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number attributes (both string and numeric) in all namespaces (TRACES and SYNTHETIC) for which properties were updated.
+	// Total number attributes (both string and numeric) in TRACES namespace for which properties were updated.
 	AttributesUpdated *int `mandatory:"true" json:"attributesUpdated"`
+
+	// Total number attributes (both string and numeric) in SYNTHETIC namespace for which properties were updated.
+	SyntheticAttributesUpdated *int `mandatory:"false" json:"syntheticAttributesUpdated"`
 }
 
 func (m BulkUpdateAttributeMetadata) String() string {

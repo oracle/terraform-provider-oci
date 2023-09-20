@@ -30,8 +30,11 @@ type BulkPinMetadata struct {
 	// Type of operation.
 	OperationType BulkPinMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number attributes (both string and numeric) in all attribute namespaces (TRACES and SYNTHETIC) that were pinned.
+	// Total number attributes (both string and numeric) in TRACES namespace that were pinned.
 	AttributesPinned *int `mandatory:"true" json:"attributesPinned"`
+
+	// Total number attributes (both string and numeric) in SYNTHETIC namespace that were pinned.
+	SyntheticAttributesPinned *int `mandatory:"false" json:"syntheticAttributesPinned"`
 }
 
 func (m BulkPinMetadata) String() string {

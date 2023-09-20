@@ -134,18 +134,6 @@ type EsxiHost struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
-
-	// The OCPU count that customers can scale to using increaseHostOcpuCount API.
-	SupportedOcpuCountForScaling *float32 `mandatory:"false" json:"supportedOcpuCountForScaling"`
-
-	// The time before which customers can increase the OCPU count. If this field is empty, it means customer can increase OCPU count at any time.
-	TimeOcpuScalableUntil *common.SDKTime `mandatory:"false" json:"timeOcpuScalableUntil"`
-
-	// The host OCPU count before OCPU scaling.
-	PreviousHostOcpuCount *float32 `mandatory:"false" json:"previousHostOcpuCount"`
-
-	// The time when the last OCPU scaling happened.
-	TimeOcpuScaled *common.SDKTime `mandatory:"false" json:"timeOcpuScaled"`
 }
 
 func (m EsxiHost) String() string {

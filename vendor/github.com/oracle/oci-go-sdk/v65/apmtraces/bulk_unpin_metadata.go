@@ -30,8 +30,11 @@ type BulkUnpinMetadata struct {
 	// Type of operation.
 	OperationType BulkUnpinMetadataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Total number attributes (both string and numeric) in all attribute namespaces (TRACES and SYNTHETIC) that were unpinned.
+	// Total number attributes (both string and numeric) in TRACES namespace that were unpinned.
 	AttributesUnpinned *int `mandatory:"true" json:"attributesUnpinned"`
+
+	// Total number attributes (both string and numeric) in SYNTHETIC namespace that were unpinned.
+	SyntheticAttributesUnpinned *int `mandatory:"false" json:"syntheticAttributesUnpinned"`
 }
 
 func (m BulkUnpinMetadata) String() string {

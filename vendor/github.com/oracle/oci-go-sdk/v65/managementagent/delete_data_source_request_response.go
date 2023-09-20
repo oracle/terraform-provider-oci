@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package ocvp
+package managementagent
 
 import (
 	"fmt"
@@ -11,14 +11,14 @@ import (
 	"strings"
 )
 
-// AddVmwareSubscriptionsRequest wrapper for the AddVmwareSubscriptions operation
-type AddVmwareSubscriptionsRequest struct {
+// DeleteDataSourceRequest wrapper for the DeleteDataSource operation
+type DeleteDataSourceRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VMware billing link.
-	VmwareBillingLinkId *string `mandatory:"true" contributesTo:"path" name:"vmwareBillingLinkId"`
+	// Unique Management Agent identifier
+	ManagementAgentId *string `mandatory:"true" contributesTo:"path" name:"managementAgentId"`
 
-	// The details of the subscription.
-	AddVmwareSubscriptionsDetails `contributesTo:"body"`
+	// Data source type and name identifier.
+	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
@@ -27,28 +27,20 @@ type AddVmwareSubscriptionsRequest struct {
 	// provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// Unique identifier for the request. If you need to contact Oracle about a particular
-	// request, please provide the request ID.
+	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations (for example, if a resource
-	// has been deleted and purged from the system, then a retry of the original creation request
-	// may be rejected).
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request AddVmwareSubscriptionsRequest) String() string {
+func (request DeleteDataSourceRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request AddVmwareSubscriptionsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request DeleteDataSourceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -58,21 +50,21 @@ func (request AddVmwareSubscriptionsRequest) HTTPRequest(method, path string, bi
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request AddVmwareSubscriptionsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request DeleteDataSourceRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddVmwareSubscriptionsRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteDataSourceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request AddVmwareSubscriptionsRequest) ValidateEnumValue() (bool, error) {
+func (request DeleteDataSourceRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -80,8 +72,8 @@ func (request AddVmwareSubscriptionsRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// AddVmwareSubscriptionsResponse wrapper for the AddVmwareSubscriptions operation
-type AddVmwareSubscriptionsResponse struct {
+// DeleteDataSourceResponse wrapper for the DeleteDataSource operation
+type DeleteDataSourceResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -89,13 +81,16 @@ type AddVmwareSubscriptionsResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
-func (response AddVmwareSubscriptionsResponse) String() string {
+func (response DeleteDataSourceResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response AddVmwareSubscriptionsResponse) HTTPResponse() *http.Response {
+func (response DeleteDataSourceResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
