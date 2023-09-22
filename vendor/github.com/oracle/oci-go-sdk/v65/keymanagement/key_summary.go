@@ -2,10 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Key Management API
+// Vault Key Management API
 //
-// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
-// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// KeySummary The representation of KeySummary
+// KeySummary The details of the Key.
 type KeySummary struct {
 
 	// The OCID of the compartment that contains the key.
@@ -55,10 +54,15 @@ type KeySummary struct {
 	// the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists
 	// on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,
 	// a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported.
+	// A protection mode of `EXTERNAL` mean that the key persists on the customer's external key manager which is hosted externally outside of oracle.
+	// Oracle only hold a reference to that key.
+	// All cryptographic operations that use a key with a protection mode of `EXTERNAL` are performed by external key manager.
 	ProtectionMode KeySummaryProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`
 
 	// The algorithm used by a key's key versions to encrypt or decrypt data.
 	Algorithm KeySummaryAlgorithmEnum `mandatory:"false" json:"algorithm,omitempty"`
+
+	ExternalKeyReferenceDetails *ExternalKeyReferenceDetails `mandatory:"false" json:"externalKeyReferenceDetails"`
 }
 
 func (m KeySummary) String() string {
@@ -179,16 +183,19 @@ type KeySummaryProtectionModeEnum string
 const (
 	KeySummaryProtectionModeHsm      KeySummaryProtectionModeEnum = "HSM"
 	KeySummaryProtectionModeSoftware KeySummaryProtectionModeEnum = "SOFTWARE"
+	KeySummaryProtectionModeExternal KeySummaryProtectionModeEnum = "EXTERNAL"
 )
 
 var mappingKeySummaryProtectionModeEnum = map[string]KeySummaryProtectionModeEnum{
 	"HSM":      KeySummaryProtectionModeHsm,
 	"SOFTWARE": KeySummaryProtectionModeSoftware,
+	"EXTERNAL": KeySummaryProtectionModeExternal,
 }
 
 var mappingKeySummaryProtectionModeEnumLowerCase = map[string]KeySummaryProtectionModeEnum{
 	"hsm":      KeySummaryProtectionModeHsm,
 	"software": KeySummaryProtectionModeSoftware,
+	"external": KeySummaryProtectionModeExternal,
 }
 
 // GetKeySummaryProtectionModeEnumValues Enumerates the set of values for KeySummaryProtectionModeEnum
@@ -205,6 +212,7 @@ func GetKeySummaryProtectionModeEnumStringValues() []string {
 	return []string{
 		"HSM",
 		"SOFTWARE",
+		"EXTERNAL",
 	}
 }
 

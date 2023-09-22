@@ -2,10 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Key Management API
+// Vault Key Management API
 //
-// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
-// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// CreateVaultDetails The representation of CreateVaultDetails
+// CreateVaultDetails The details of the vault that you want to create.
 type CreateVaultDetails struct {
 
 	// The OCID of the compartment where you want to create this vault.
@@ -38,6 +37,8 @@ type CreateVaultDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	ExternalKeyManagerMetadata *ExternalKeyManagerMetadata `mandatory:"false" json:"externalKeyManagerMetadata"`
 }
 
 func (m CreateVaultDetails) String() string {
@@ -66,16 +67,19 @@ type CreateVaultDetailsVaultTypeEnum string
 const (
 	CreateVaultDetailsVaultTypeVirtualPrivate CreateVaultDetailsVaultTypeEnum = "VIRTUAL_PRIVATE"
 	CreateVaultDetailsVaultTypeDefault        CreateVaultDetailsVaultTypeEnum = "DEFAULT"
+	CreateVaultDetailsVaultTypeExternal       CreateVaultDetailsVaultTypeEnum = "EXTERNAL"
 )
 
 var mappingCreateVaultDetailsVaultTypeEnum = map[string]CreateVaultDetailsVaultTypeEnum{
 	"VIRTUAL_PRIVATE": CreateVaultDetailsVaultTypeVirtualPrivate,
 	"DEFAULT":         CreateVaultDetailsVaultTypeDefault,
+	"EXTERNAL":        CreateVaultDetailsVaultTypeExternal,
 }
 
 var mappingCreateVaultDetailsVaultTypeEnumLowerCase = map[string]CreateVaultDetailsVaultTypeEnum{
 	"virtual_private": CreateVaultDetailsVaultTypeVirtualPrivate,
 	"default":         CreateVaultDetailsVaultTypeDefault,
+	"external":        CreateVaultDetailsVaultTypeExternal,
 }
 
 // GetCreateVaultDetailsVaultTypeEnumValues Enumerates the set of values for CreateVaultDetailsVaultTypeEnum
@@ -92,6 +96,7 @@ func GetCreateVaultDetailsVaultTypeEnumStringValues() []string {
 	return []string{
 		"VIRTUAL_PRIVATE",
 		"DEFAULT",
+		"EXTERNAL",
 	}
 }
 

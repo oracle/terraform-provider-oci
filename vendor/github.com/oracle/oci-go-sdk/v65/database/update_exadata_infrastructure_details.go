@@ -112,24 +112,27 @@ type UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum string
 
 // Set of constants representing the allowable values for UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum
 const (
-	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX7  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X7"
-	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X8"
-	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X8M"
-	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X9M"
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX7   UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X7"
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8   UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X8"
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X8M"
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X9M"
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX10m UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X10M"
 )
 
 var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = map[string]UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum{
-	"X7":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX7,
-	"X8":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8,
-	"X8M": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m,
-	"X9M": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m,
+	"X7":   UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX7,
+	"X8":   UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8,
+	"X8M":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m,
+	"X9M":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m,
+	"X10M": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX10m,
 }
 
 var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumLowerCase = map[string]UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum{
-	"x7":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX7,
-	"x8":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8,
-	"x8m": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m,
-	"x9m": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m,
+	"x7":   UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX7,
+	"x8":   UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8,
+	"x8m":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m,
+	"x9m":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m,
+	"x10m": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX10m,
 }
 
 // GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumValues Enumerates the set of values for UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum
@@ -148,6 +151,7 @@ func GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumString
 		"X8",
 		"X8M",
 		"X9M",
+		"X10M",
 	}
 }
 

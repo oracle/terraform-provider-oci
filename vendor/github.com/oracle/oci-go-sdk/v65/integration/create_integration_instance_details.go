@@ -71,6 +71,12 @@ type CreateIntegrationInstanceDetails struct {
 
 	// Shape
 	Shape CreateIntegrationInstanceDetailsShapeEnum `mandatory:"false" json:"shape,omitempty"`
+
+	// The OCID of the identity domain, that will be used to determine the
+	// corresponding Idcs Stripe and create an Idcs application within the stripe.
+	// This parameter is mutually exclusive with parameter: idcsAt, i.e only one of
+	// two parameters should be specified.
+	DomainId *string `mandatory:"false" json:"domainId"`
 }
 
 func (m CreateIntegrationInstanceDetails) String() string {
@@ -111,6 +117,7 @@ func (m *CreateIntegrationInstanceDetails) UnmarshalJSON(data []byte) (e error) 
 		IsFileServerEnabled      *bool                                                       `json:"isFileServerEnabled"`
 		NetworkEndpointDetails   networkendpointdetails                                      `json:"networkEndpointDetails"`
 		Shape                    CreateIntegrationInstanceDetailsShapeEnum                   `json:"shape"`
+		DomainId                 *string                                                     `json:"domainId"`
 		DisplayName              *string                                                     `json:"displayName"`
 		CompartmentId            *string                                                     `json:"compartmentId"`
 		IntegrationInstanceType  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum `json:"integrationInstanceType"`
@@ -150,6 +157,8 @@ func (m *CreateIntegrationInstanceDetails) UnmarshalJSON(data []byte) (e error) 
 	}
 
 	m.Shape = model.Shape
+
+	m.DomainId = model.DomainId
 
 	m.DisplayName = model.DisplayName
 
