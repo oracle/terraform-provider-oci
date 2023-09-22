@@ -2,10 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Key Management API
+// Vault Key Management API
 //
-// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
-// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -147,7 +146,7 @@ func (client KmsVaultClient) backupVault(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/BackupVault"
 		err = common.PostProcessServiceError(err, "KmsVault", "BackupVault", apiReferenceLink)
 		return response, err
 	}
@@ -216,7 +215,7 @@ func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/CancelVaultDeletion"
 		err = common.PostProcessServiceError(err, "KmsVault", "CancelVaultDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -284,7 +283,7 @@ func (client KmsVaultClient) changeVaultCompartment(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/ChangeVaultCompartment"
 		err = common.PostProcessServiceError(err, "KmsVault", "ChangeVaultCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -353,7 +352,7 @@ func (client KmsVaultClient) createVault(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/CreateVault"
 		err = common.PostProcessServiceError(err, "KmsVault", "CreateVault", apiReferenceLink)
 		return response, err
 	}
@@ -422,7 +421,7 @@ func (client KmsVaultClient) createVaultReplica(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/CreateVaultReplica"
 		err = common.PostProcessServiceError(err, "KmsVault", "CreateVaultReplica", apiReferenceLink)
 		return response, err
 	}
@@ -488,7 +487,7 @@ func (client KmsVaultClient) deleteVaultReplica(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/DeleteVaultReplica"
 		err = common.PostProcessServiceError(err, "KmsVault", "DeleteVaultReplica", apiReferenceLink)
 		return response, err
 	}
@@ -549,7 +548,7 @@ func (client KmsVaultClient) getVault(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/GetVault"
 		err = common.PostProcessServiceError(err, "KmsVault", "GetVault", apiReferenceLink)
 		return response, err
 	}
@@ -606,7 +605,7 @@ func (client KmsVaultClient) getVaultUsage(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/VaultUsage/GetVaultUsage"
 		err = common.PostProcessServiceError(err, "KmsVault", "GetVaultUsage", apiReferenceLink)
 		return response, err
 	}
@@ -672,7 +671,7 @@ func (client KmsVaultClient) listVaultReplicas(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/ListVaultReplicas"
 		err = common.PostProcessServiceError(err, "KmsVault", "ListVaultReplicas", apiReferenceLink)
 		return response, err
 	}
@@ -733,7 +732,7 @@ func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/VaultSummary/ListVaults"
 		err = common.PostProcessServiceError(err, "KmsVault", "ListVaults", apiReferenceLink)
 		return response, err
 	}
@@ -797,7 +796,7 @@ func (client KmsVaultClient) restoreVaultFromFile(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/RestoreVaultFromFile"
 		err = common.PostProcessServiceError(err, "KmsVault", "RestoreVaultFromFile", apiReferenceLink)
 		return response, err
 	}
@@ -861,7 +860,7 @@ func (client KmsVaultClient) restoreVaultFromObjectStore(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/RestoreVaultFromObjectStore"
 		err = common.PostProcessServiceError(err, "KmsVault", "RestoreVaultFromObjectStore", apiReferenceLink)
 		return response, err
 	}
@@ -931,7 +930,7 @@ func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/ScheduleVaultDeletion"
 		err = common.PostProcessServiceError(err, "KmsVault", "ScheduleVaultDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -994,7 +993,7 @@ func (client KmsVaultClient) updateVault(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/UpdateVault"
 		err = common.PostProcessServiceError(err, "KmsVault", "UpdateVault", apiReferenceLink)
 		return response, err
 	}

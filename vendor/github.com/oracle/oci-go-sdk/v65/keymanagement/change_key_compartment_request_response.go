@@ -21,6 +21,7 @@ type ChangeKeyCompartmentRequest struct {
 	// The OCID of the key.
 	KeyId *string `mandatory:"true" contributesTo:"path" name:"keyId"`
 
+	// Details of change key compartment.
 	ChangeKeyCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a
