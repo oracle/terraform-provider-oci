@@ -41,6 +41,7 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 		certificate_secret_id = oci_vault_secret.test_secret.id
 	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
+	domain_id = oci_identity_domain.test_domain.id
 	freeform_tags = {"bar-key"= "value"}
 	idcs_at = var.integration_instance_idcs_at
 	is_file_server_enabled = var.integration_instance_is_file_server_enabled
@@ -79,6 +80,7 @@ The following arguments are supported:
 	* `hostname` - (Required) (Updatable) A custom hostname to be used for the integration instance URL, in FQDN format.
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}`
 * `display_name` - (Required) (Updatable) Integration Instance Identifier.
+* `domain_id` - (Optional) The OCID of the identity domain, that will be used to determine the  corresponding Idcs Stripe and create an Idcs application within the stripe.  This parameter is mutually exclusive with parameter: idcsAt, i.e only one of  two parameters should be specified.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 * `idcs_at` - (Optional) (Updatable) IDCS Authentication token. This is required for all realms with IDCS. Its optional as its not required for non IDCS realms.
 * `integration_instance_type` - (Required) (Updatable) Standard or Enterprise type,  Oracle Integration Generation 2 uses ENTERPRISE and STANDARD,  Oracle Integration 3 uses ENTERPRISEX and STANDARDX
