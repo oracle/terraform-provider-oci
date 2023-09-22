@@ -54,7 +54,7 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 			"vantage_points": {
 				Type:     schema.TypeList,
 				Required: true,
-				MaxItems: 50,
+				MaxItems: 100,
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
