@@ -1,3 +1,13 @@
+## 5.14.0 (Unreleased)
+
+### Added
+- Support for OIC: FAaas Self Service with Henosis
+- Upgrade golang version to 1.20.7
+support to fetch UserAgent from env var
+### Bug Fix
+- Fix APM Synthetic service update the number of vantagepoints supported in monitor as per spec to 100
+- Fix Resource Manager Create/Get Private Endpoint examples
+
 ## 5.13.0 (Unreleased)
 
 ### Added
