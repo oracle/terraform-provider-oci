@@ -55,37 +55,37 @@ type CreateNewDigitalAssistantDetails struct {
 	MultilingualMode BotMultilingualModeEnum `mandatory:"false" json:"multilingualMode,omitempty"`
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m CreateNewDigitalAssistantDetails) GetCategory() *string {
 	return m.Category
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateNewDigitalAssistantDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetPlatformVersion returns PlatformVersion
+// GetPlatformVersion returns PlatformVersion
 func (m CreateNewDigitalAssistantDetails) GetPlatformVersion() *string {
 	return m.PlatformVersion
 }
 
-//GetMultilingualMode returns MultilingualMode
+// GetMultilingualMode returns MultilingualMode
 func (m CreateNewDigitalAssistantDetails) GetMultilingualMode() BotMultilingualModeEnum {
 	return m.MultilingualMode
 }
 
-//GetPrimaryLanguageTag returns PrimaryLanguageTag
+// GetPrimaryLanguageTag returns PrimaryLanguageTag
 func (m CreateNewDigitalAssistantDetails) GetPrimaryLanguageTag() *string {
 	return m.PrimaryLanguageTag
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateNewDigitalAssistantDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateNewDigitalAssistantDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

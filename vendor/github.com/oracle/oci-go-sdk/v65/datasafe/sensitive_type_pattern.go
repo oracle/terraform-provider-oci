@@ -78,67 +78,67 @@ type SensitiveTypePattern struct {
 	Source SensitiveTypeSourceEnum `mandatory:"true" json:"source"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m SensitiveTypePattern) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m SensitiveTypePattern) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m SensitiveTypePattern) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m SensitiveTypePattern) GetLifecycleState() DiscoveryLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetShortName returns ShortName
+// GetShortName returns ShortName
 func (m SensitiveTypePattern) GetShortName() *string {
 	return m.ShortName
 }
 
-//GetSource returns Source
+// GetSource returns Source
 func (m SensitiveTypePattern) GetSource() SensitiveTypeSourceEnum {
 	return m.Source
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m SensitiveTypePattern) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m SensitiveTypePattern) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m SensitiveTypePattern) GetDescription() *string {
 	return m.Description
 }
 
-//GetParentCategoryId returns ParentCategoryId
+// GetParentCategoryId returns ParentCategoryId
 func (m SensitiveTypePattern) GetParentCategoryId() *string {
 	return m.ParentCategoryId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m SensitiveTypePattern) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m SensitiveTypePattern) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m SensitiveTypePattern) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

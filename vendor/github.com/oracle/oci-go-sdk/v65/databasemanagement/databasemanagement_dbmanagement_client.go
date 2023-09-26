@@ -95,7 +95,7 @@ func (client *DbManagementClient) ConfigurationProvider() *common.ConfigurationP
 
 // AddDataFiles Adds data files or temp files to the tablespace.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/AddDataFiles.go.html to see an example of how to use AddDataFiles API.
 func (client DbManagementClient) AddDataFiles(ctx context.Context, request AddDataFilesRequest) (response AddDataFilesResponse, err error) {
@@ -159,7 +159,7 @@ func (client DbManagementClient) addDataFiles(ctx context.Context, request commo
 // After the database is added, it will be included in the
 // management activities performed on the Managed Database Group.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/AddManagedDatabaseToManagedDatabaseGroup.go.html to see an example of how to use AddManagedDatabaseToManagedDatabaseGroup API.
 func (client DbManagementClient) AddManagedDatabaseToManagedDatabaseGroup(ctx context.Context, request AddManagedDatabaseToManagedDatabaseGroupRequest) (response AddManagedDatabaseToManagedDatabaseGroupResponse, err error) {
@@ -222,7 +222,7 @@ func (client DbManagementClient) addManagedDatabaseToManagedDatabaseGroup(ctx co
 // AddmTasks Lists the metadata for each ADDM task who's end snapshot time falls within the provided start and end time. Details include
 // the name of the ADDM task, description, user, status and creation date time.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/AddmTasks.go.html to see an example of how to use AddmTasks API.
 func (client DbManagementClient) AddmTasks(ctx context.Context, request AddmTasksRequest) (response AddmTasksResponse, err error) {
@@ -289,7 +289,7 @@ func (client DbManagementClient) addmTasks(ctx context.Context, request common.O
 // current instance. You must update them manually to be passed to
 // a future instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeDatabaseParameters.go.html to see an example of how to use ChangeDatabaseParameters API.
 func (client DbManagementClient) ChangeDatabaseParameters(ctx context.Context, request ChangeDatabaseParametersRequest) (response ChangeDatabaseParametersResponse, err error) {
@@ -351,7 +351,7 @@ func (client DbManagementClient) changeDatabaseParameters(ctx context.Context, r
 
 // ChangeDbManagementPrivateEndpointCompartment Moves the Database Management private endpoint and its dependent resources to the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeDbManagementPrivateEndpointCompartment.go.html to see an example of how to use ChangeDbManagementPrivateEndpointCompartment API.
 func (client DbManagementClient) ChangeDbManagementPrivateEndpointCompartment(ctx context.Context, request ChangeDbManagementPrivateEndpointCompartmentRequest) (response ChangeDbManagementPrivateEndpointCompartmentResponse, err error) {
@@ -413,7 +413,7 @@ func (client DbManagementClient) changeDbManagementPrivateEndpointCompartment(ct
 
 // ChangeExternalDbSystemCompartment Moves the external DB system and its related resources (excluding databases) to the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeExternalDbSystemCompartment.go.html to see an example of how to use ChangeExternalDbSystemCompartment API.
 // A default retry strategy applies to this operation ChangeExternalDbSystemCompartment()
@@ -476,7 +476,7 @@ func (client DbManagementClient) changeExternalDbSystemCompartment(ctx context.C
 
 // ChangeExternalExadataInfrastructureCompartment Moves the Exadata infrastructure and its related resources (Exadata storage server, Exadata storage server connectors and Exadata storage server grid) to the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeExternalExadataInfrastructureCompartment.go.html to see an example of how to use ChangeExternalExadataInfrastructureCompartment API.
 // A default retry strategy applies to this operation ChangeExternalExadataInfrastructureCompartment()
@@ -539,7 +539,7 @@ func (client DbManagementClient) changeExternalExadataInfrastructureCompartment(
 
 // ChangeJobCompartment Moves a job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeJobCompartment.go.html to see an example of how to use ChangeJobCompartment API.
 func (client DbManagementClient) ChangeJobCompartment(ctx context.Context, request ChangeJobCompartmentRequest) (response ChangeJobCompartmentResponse, err error) {
@@ -603,7 +603,7 @@ func (client DbManagementClient) changeJobCompartment(ctx context.Context, reque
 // The destination compartment must not have a Managed Database Group
 // with the same name.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeManagedDatabaseGroupCompartment.go.html to see an example of how to use ChangeManagedDatabaseGroupCompartment API.
 func (client DbManagementClient) ChangeManagedDatabaseGroupCompartment(ctx context.Context, request ChangeManagedDatabaseGroupCompartmentRequest) (response ChangeManagedDatabaseGroupCompartmentResponse, err error) {
@@ -668,7 +668,7 @@ func (client DbManagementClient) changeManagedDatabaseGroupCompartment(ctx conte
 // The database purges plans that have not been used for longer than
 // the plan retention period.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangePlanRetention.go.html to see an example of how to use ChangePlanRetention API.
 func (client DbManagementClient) ChangePlanRetention(ctx context.Context, request ChangePlanRetentionRequest) (response ChangePlanRetentionResponse, err error) {
@@ -726,7 +726,7 @@ func (client DbManagementClient) changePlanRetention(ctx context.Context, reques
 // ChangeSpaceBudget Changes the disk space limit for the SQL Management Base. The allowable
 // range for this limit is between 1% and 50%.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeSpaceBudget.go.html to see an example of how to use ChangeSpaceBudget API.
 func (client DbManagementClient) ChangeSpaceBudget(ctx context.Context, request ChangeSpaceBudgetRequest) (response ChangeSpaceBudgetResponse, err error) {
@@ -783,7 +783,7 @@ func (client DbManagementClient) changeSpaceBudget(ctx context.Context, request 
 
 // ChangeSqlPlanBaselinesAttributes Changes one or more attributes of a single plan or all plans associated with a SQL statement.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeSqlPlanBaselinesAttributes.go.html to see an example of how to use ChangeSqlPlanBaselinesAttributes API.
 func (client DbManagementClient) ChangeSqlPlanBaselinesAttributes(ctx context.Context, request ChangeSqlPlanBaselinesAttributesRequest) (response ChangeSqlPlanBaselinesAttributesResponse, err error) {
@@ -841,7 +841,7 @@ func (client DbManagementClient) changeSqlPlanBaselinesAttributes(ctx context.Co
 // CheckExternalDbSystemConnectorConnectionStatus Checks the status of the external DB system component connection specified in this connector.
 // This operation will refresh the connectionStatus and timeConnectionStatusLastUpdated fields.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CheckExternalDbSystemConnectorConnectionStatus.go.html to see an example of how to use CheckExternalDbSystemConnectorConnectionStatus API.
 // A default retry strategy applies to this operation CheckExternalDbSystemConnectorConnectionStatus()
@@ -904,7 +904,7 @@ func (client DbManagementClient) checkExternalDbSystemConnectorConnectionStatus(
 
 // CheckExternalExadataStorageConnector Checks the status of the Exadata storage server connection specified by exadataStorageConnectorId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CheckExternalExadataStorageConnector.go.html to see an example of how to use CheckExternalExadataStorageConnector API.
 // A default retry strategy applies to this operation CheckExternalExadataStorageConnector()
@@ -968,7 +968,7 @@ func (client DbManagementClient) checkExternalExadataStorageConnector(ctx contex
 // ConfigureAutomaticCaptureFilters Configures automatic capture filters to capture only those statements
 // that match the filter criteria.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ConfigureAutomaticCaptureFilters.go.html to see an example of how to use ConfigureAutomaticCaptureFilters API.
 func (client DbManagementClient) ConfigureAutomaticCaptureFilters(ctx context.Context, request ConfigureAutomaticCaptureFiltersRequest) (response ConfigureAutomaticCaptureFiltersResponse, err error) {
@@ -1027,7 +1027,7 @@ func (client DbManagementClient) configureAutomaticCaptureFilters(ctx context.Co
 // by specifying task parameters. As the task is owned by `SYS`, only `SYS` can
 // set task parameters.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ConfigureAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use ConfigureAutomaticSpmEvolveAdvisorTask API.
 func (client DbManagementClient) ConfigureAutomaticSpmEvolveAdvisorTask(ctx context.Context, request ConfigureAutomaticSpmEvolveAdvisorTaskRequest) (response ConfigureAutomaticSpmEvolveAdvisorTaskResponse, err error) {
@@ -1084,7 +1084,7 @@ func (client DbManagementClient) configureAutomaticSpmEvolveAdvisorTask(ctx cont
 
 // CreateDbManagementPrivateEndpoint Creates a new Database Management private endpoint.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateDbManagementPrivateEndpoint.go.html to see an example of how to use CreateDbManagementPrivateEndpoint API.
 func (client DbManagementClient) CreateDbManagementPrivateEndpoint(ctx context.Context, request CreateDbManagementPrivateEndpointRequest) (response CreateDbManagementPrivateEndpointResponse, err error) {
@@ -1146,7 +1146,7 @@ func (client DbManagementClient) createDbManagementPrivateEndpoint(ctx context.C
 
 // CreateExternalDbSystem Creates an external DB system and its related resources.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateExternalDbSystem.go.html to see an example of how to use CreateExternalDbSystem API.
 // A default retry strategy applies to this operation CreateExternalDbSystem()
@@ -1209,7 +1209,7 @@ func (client DbManagementClient) createExternalDbSystem(ctx context.Context, req
 
 // CreateExternalDbSystemConnector Creates a new external connector.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateExternalDbSystemConnector.go.html to see an example of how to use CreateExternalDbSystemConnector API.
 // A default retry strategy applies to this operation CreateExternalDbSystemConnector()
@@ -1272,7 +1272,7 @@ func (client DbManagementClient) createExternalDbSystemConnector(ctx context.Con
 
 // CreateExternalDbSystemDiscovery Creates an external DB system discovery resource and initiates the discovery process.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateExternalDbSystemDiscovery.go.html to see an example of how to use CreateExternalDbSystemDiscovery API.
 // A default retry strategy applies to this operation CreateExternalDbSystemDiscovery()
@@ -1335,12 +1335,13 @@ func (client DbManagementClient) createExternalDbSystemDiscovery(ctx context.Con
 
 // CreateExternalExadataInfrastructure Creates an OCI resource for the Exadata infrastructure and enables the Monitoring service for the Exadata infrastructure.
 // The following resource/subresources are created:
-//   Infrastructure
-//   Storage server connectors
-//   Storage servers
-//   Storage grids
 //
-// See also
+//	Infrastructure
+//	Storage server connectors
+//	Storage servers
+//	Storage grids
+//
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateExternalExadataInfrastructure.go.html to see an example of how to use CreateExternalExadataInfrastructure API.
 // A default retry strategy applies to this operation CreateExternalExadataInfrastructure()
@@ -1403,7 +1404,7 @@ func (client DbManagementClient) createExternalExadataInfrastructure(ctx context
 
 // CreateExternalExadataStorageConnector Creates the Exadata storage server connector after validating the connection information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateExternalExadataStorageConnector.go.html to see an example of how to use CreateExternalExadataStorageConnector API.
 // A default retry strategy applies to this operation CreateExternalExadataStorageConnector()
@@ -1468,7 +1469,7 @@ func (client DbManagementClient) createExternalExadataStorageConnector(ctx conte
 // of the parameters, managedDatabaseId or managedDatabaseGroupId should be provided as
 // input in CreateJobDetails resource in request body.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateJob.go.html to see an example of how to use CreateJob API.
 func (client DbManagementClient) CreateJob(ctx context.Context, request CreateJobRequest) (response CreateJobResponse, err error) {
@@ -1531,7 +1532,7 @@ func (client DbManagementClient) createJob(ctx context.Context, request common.O
 // CreateManagedDatabaseGroup Creates a Managed Database Group. The group does not contain any
 // Managed Databases when it is created, and they must be added later.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateManagedDatabaseGroup.go.html to see an example of how to use CreateManagedDatabaseGroup API.
 func (client DbManagementClient) CreateManagedDatabaseGroup(ctx context.Context, request CreateManagedDatabaseGroupRequest) (response CreateManagedDatabaseGroupResponse, err error) {
@@ -1593,7 +1594,7 @@ func (client DbManagementClient) createManagedDatabaseGroup(ctx context.Context,
 
 // CreateTablespace Creates a tablespace within the Managed Database specified by managedDatabaseId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateTablespace.go.html to see an example of how to use CreateTablespace API.
 func (client DbManagementClient) CreateTablespace(ctx context.Context, request CreateTablespaceRequest) (response CreateTablespaceResponse, err error) {
@@ -1655,7 +1656,7 @@ func (client DbManagementClient) createTablespace(ctx context.Context, request c
 
 // DeleteDbManagementPrivateEndpoint Deletes a specific Database Management private endpoint.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteDbManagementPrivateEndpoint.go.html to see an example of how to use DeleteDbManagementPrivateEndpoint API.
 func (client DbManagementClient) DeleteDbManagementPrivateEndpoint(ctx context.Context, request DeleteDbManagementPrivateEndpointRequest) (response DeleteDbManagementPrivateEndpointResponse, err error) {
@@ -1712,7 +1713,7 @@ func (client DbManagementClient) deleteDbManagementPrivateEndpoint(ctx context.C
 
 // DeleteExternalDbSystem Deletes the external DB system specified by `externalDbSystemId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalDbSystem.go.html to see an example of how to use DeleteExternalDbSystem API.
 func (client DbManagementClient) DeleteExternalDbSystem(ctx context.Context, request DeleteExternalDbSystemRequest) (response DeleteExternalDbSystemResponse, err error) {
@@ -1769,7 +1770,7 @@ func (client DbManagementClient) deleteExternalDbSystem(ctx context.Context, req
 
 // DeleteExternalDbSystemConnector Deletes the external connector specified by `externalDbSystemConnectorId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalDbSystemConnector.go.html to see an example of how to use DeleteExternalDbSystemConnector API.
 func (client DbManagementClient) DeleteExternalDbSystemConnector(ctx context.Context, request DeleteExternalDbSystemConnectorRequest) (response DeleteExternalDbSystemConnectorResponse, err error) {
@@ -1826,7 +1827,7 @@ func (client DbManagementClient) deleteExternalDbSystemConnector(ctx context.Con
 
 // DeleteExternalDbSystemDiscovery Deletes the external DB system discovery resource specified by `externalDbSystemDiscoveryId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalDbSystemDiscovery.go.html to see an example of how to use DeleteExternalDbSystemDiscovery API.
 func (client DbManagementClient) DeleteExternalDbSystemDiscovery(ctx context.Context, request DeleteExternalDbSystemDiscoveryRequest) (response DeleteExternalDbSystemDiscoveryResponse, err error) {
@@ -1883,7 +1884,7 @@ func (client DbManagementClient) deleteExternalDbSystemDiscovery(ctx context.Con
 
 // DeleteExternalExadataInfrastructure Deletes the Exadata infrastructure specified by externalExadataInfrastructureId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalExadataInfrastructure.go.html to see an example of how to use DeleteExternalExadataInfrastructure API.
 func (client DbManagementClient) DeleteExternalExadataInfrastructure(ctx context.Context, request DeleteExternalExadataInfrastructureRequest) (response DeleteExternalExadataInfrastructureResponse, err error) {
@@ -1940,7 +1941,7 @@ func (client DbManagementClient) deleteExternalExadataInfrastructure(ctx context
 
 // DeleteExternalExadataStorageConnector Deletes the Exadata storage server connector specified by exadataStorageConnectorId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalExadataStorageConnector.go.html to see an example of how to use DeleteExternalExadataStorageConnector API.
 func (client DbManagementClient) DeleteExternalExadataStorageConnector(ctx context.Context, request DeleteExternalExadataStorageConnectorRequest) (response DeleteExternalExadataStorageConnectorResponse, err error) {
@@ -1997,7 +1998,7 @@ func (client DbManagementClient) deleteExternalExadataStorageConnector(ctx conte
 
 // DeleteJob Deletes the job specified by jobId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteJob.go.html to see an example of how to use DeleteJob API.
 func (client DbManagementClient) DeleteJob(ctx context.Context, request DeleteJobRequest) (response DeleteJobResponse, err error) {
@@ -2055,7 +2056,7 @@ func (client DbManagementClient) deleteJob(ctx context.Context, request common.O
 // DeleteManagedDatabaseGroup Deletes the Managed Database Group specified by managedDatabaseGroupId.
 // If the group contains Managed Databases, then it cannot be deleted.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteManagedDatabaseGroup.go.html to see an example of how to use DeleteManagedDatabaseGroup API.
 func (client DbManagementClient) DeleteManagedDatabaseGroup(ctx context.Context, request DeleteManagedDatabaseGroupRequest) (response DeleteManagedDatabaseGroupResponse, err error) {
@@ -2112,7 +2113,7 @@ func (client DbManagementClient) deleteManagedDatabaseGroup(ctx context.Context,
 
 // DeletePreferredCredential Deletes the preferred credential based on the credentialName.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeletePreferredCredential.go.html to see an example of how to use DeletePreferredCredential API.
 func (client DbManagementClient) DeletePreferredCredential(ctx context.Context, request DeletePreferredCredentialRequest) (response DeletePreferredCredentialResponse, err error) {
@@ -2169,7 +2170,7 @@ func (client DbManagementClient) deletePreferredCredential(ctx context.Context, 
 
 // DisableAutomaticInitialPlanCapture Disables automatic initial plan capture.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableAutomaticInitialPlanCapture.go.html to see an example of how to use DisableAutomaticInitialPlanCapture API.
 func (client DbManagementClient) DisableAutomaticInitialPlanCapture(ctx context.Context, request DisableAutomaticInitialPlanCaptureRequest) (response DisableAutomaticInitialPlanCaptureResponse, err error) {
@@ -2228,7 +2229,7 @@ func (client DbManagementClient) disableAutomaticInitialPlanCapture(ctx context.
 // One client controls both Automatic SQL Tuning Advisor and Automatic SPM Evolve Advisor.
 // Thus, the same task enables or disables both.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use DisableAutomaticSpmEvolveAdvisorTask API.
 func (client DbManagementClient) DisableAutomaticSpmEvolveAdvisorTask(ctx context.Context, request DisableAutomaticSpmEvolveAdvisorTaskRequest) (response DisableAutomaticSpmEvolveAdvisorTaskResponse, err error) {
@@ -2286,7 +2287,7 @@ func (client DbManagementClient) disableAutomaticSpmEvolveAdvisorTask(ctx contex
 // DisableExternalDbSystemDatabaseManagement Disables Database Management service for all the components of the specified
 // external DB system (except databases).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalDbSystemDatabaseManagement.go.html to see an example of how to use DisableExternalDbSystemDatabaseManagement API.
 // A default retry strategy applies to this operation DisableExternalDbSystemDatabaseManagement()
@@ -2350,7 +2351,7 @@ func (client DbManagementClient) disableExternalDbSystemDatabaseManagement(ctx c
 // DisableExternalDbSystemStackMonitoring Disables Stack Monitoring for all the components of the specified
 // external DB system (except databases).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalDbSystemStackMonitoring.go.html to see an example of how to use DisableExternalDbSystemStackMonitoring API.
 // A default retry strategy applies to this operation DisableExternalDbSystemStackMonitoring()
@@ -2418,7 +2419,7 @@ func (client DbManagementClient) disableExternalDbSystemStackMonitoring(ctx cont
 // - Exadata storage server
 // Note that Database Management will not be disabled for the DB systems within the Exadata infrastructure and should be disabled explicitly, if required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalExadataInfrastructureManagement.go.html to see an example of how to use DisableExternalExadataInfrastructureManagement API.
 // A default retry strategy applies to this operation DisableExternalExadataInfrastructureManagement()
@@ -2483,7 +2484,7 @@ func (client DbManagementClient) disableExternalExadataInfrastructureManagement(
 // It is available only on Oracle Exadata Database Machine, Oracle Database Exadata
 // Cloud Service (ExaCS) and Oracle Database Exadata Cloud@Customer (ExaCC).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableHighFrequencyAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use DisableHighFrequencyAutomaticSpmEvolveAdvisorTask API.
 func (client DbManagementClient) DisableHighFrequencyAutomaticSpmEvolveAdvisorTask(ctx context.Context, request DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskRequest) (response DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse, err error) {
@@ -2541,7 +2542,7 @@ func (client DbManagementClient) disableHighFrequencyAutomaticSpmEvolveAdvisorTa
 // DisableSqlPlanBaselinesUsage Disables the use of SQL plan baselines stored in SQL Management Base.
 // When disabled, the optimizer does not use any SQL plan baselines.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableSqlPlanBaselinesUsage.go.html to see an example of how to use DisableSqlPlanBaselinesUsage API.
 func (client DbManagementClient) DisableSqlPlanBaselinesUsage(ctx context.Context, request DisableSqlPlanBaselinesUsageRequest) (response DisableSqlPlanBaselinesUsageResponse, err error) {
@@ -2607,12 +2608,15 @@ func (client DbManagementClient) disableSqlPlanBaselinesUsage(ctx context.Contex
 // - Exadata storage grid for all Exadata storage servers
 // - Exadata infrastructure
 // The same API covers both new discovery and rediscovery cases.
-//   For the new discovery case, new managed resources/sub-resources are created or the existing ones are overridden.
-//   For rediscovery case, the existing managed resources/sub-resources are checked to find out which ones should be added or which ones
-// should be
-//     removed based on the unique key defined for each resource/sub-resource.
 //
-// See also
+//	For the new discovery case, new managed resources/sub-resources are created or the existing ones are overridden.
+//	For rediscovery case, the existing managed resources/sub-resources are checked to find out which ones should be added or which ones
+//
+// should be
+//
+//	removed based on the unique key defined for each resource/sub-resource.
+//
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DiscoverExternalExadataInfrastructure.go.html to see an example of how to use DiscoverExternalExadataInfrastructure API.
 // A default retry strategy applies to this operation DiscoverExternalExadataInfrastructure()
@@ -2675,7 +2679,7 @@ func (client DbManagementClient) discoverExternalExadataInfrastructure(ctx conte
 
 // DropSqlPlanBaselines Drops a single plan or all plans associated with a SQL statement.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DropSqlPlanBaselines.go.html to see an example of how to use DropSqlPlanBaselines API.
 func (client DbManagementClient) DropSqlPlanBaselines(ctx context.Context, request DropSqlPlanBaselinesRequest) (response DropSqlPlanBaselinesResponse, err error) {
@@ -2732,7 +2736,7 @@ func (client DbManagementClient) dropSqlPlanBaselines(ctx context.Context, reque
 
 // DropTablespace Drops the tablespace specified by tablespaceName within the Managed Database specified by managedDatabaseId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DropTablespace.go.html to see an example of how to use DropTablespace API.
 func (client DbManagementClient) DropTablespace(ctx context.Context, request DropTablespaceRequest) (response DropTablespaceResponse, err error) {
@@ -2800,7 +2804,7 @@ func (client DbManagementClient) dropTablespace(ctx context.Context, request com
 // may result in the creation of an extremely large number of plan baselines. To limit
 // the statements that are eligible for plan baselines, configure filters.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableAutomaticInitialPlanCapture.go.html to see an example of how to use EnableAutomaticInitialPlanCapture API.
 func (client DbManagementClient) EnableAutomaticInitialPlanCapture(ctx context.Context, request EnableAutomaticInitialPlanCaptureRequest) (response EnableAutomaticInitialPlanCaptureResponse, err error) {
@@ -2866,7 +2870,7 @@ func (client DbManagementClient) enableAutomaticInitialPlanCapture(ctx context.C
 // One client controls both Automatic SQL Tuning Advisor and Automatic SPM Evolve Advisor.
 // Thus, the same task enables or disables both.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use EnableAutomaticSpmEvolveAdvisorTask API.
 func (client DbManagementClient) EnableAutomaticSpmEvolveAdvisorTask(ctx context.Context, request EnableAutomaticSpmEvolveAdvisorTaskRequest) (response EnableAutomaticSpmEvolveAdvisorTaskResponse, err error) {
@@ -2924,7 +2928,7 @@ func (client DbManagementClient) enableAutomaticSpmEvolveAdvisorTask(ctx context
 // EnableExternalDbSystemDatabaseManagement Enables Database Management service for all the components of the specified
 // external DB system (except databases).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalDbSystemDatabaseManagement.go.html to see an example of how to use EnableExternalDbSystemDatabaseManagement API.
 // A default retry strategy applies to this operation EnableExternalDbSystemDatabaseManagement()
@@ -2988,7 +2992,7 @@ func (client DbManagementClient) enableExternalDbSystemDatabaseManagement(ctx co
 // EnableExternalDbSystemStackMonitoring Enables Stack Monitoring for all the components of the specified
 // external DB system (except databases).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalDbSystemStackMonitoring.go.html to see an example of how to use EnableExternalDbSystemStackMonitoring API.
 // A default retry strategy applies to this operation EnableExternalDbSystemStackMonitoring()
@@ -3055,7 +3059,7 @@ func (client DbManagementClient) enableExternalDbSystemStackMonitoring(ctx conte
 // - Exadata storage grid
 // - Exadata storage server
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalExadataInfrastructureManagement.go.html to see an example of how to use EnableExternalExadataInfrastructureManagement API.
 // A default retry strategy applies to this operation EnableExternalExadataInfrastructureManagement()
@@ -3124,7 +3128,7 @@ func (client DbManagementClient) enableExternalExadataInfrastructureManagement(c
 // It is available only on Oracle Exadata Database Machine, Oracle Database Exadata
 // Cloud Service (ExaCS) and Oracle Database Exadata Cloud@Customer (ExaCC).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableHighFrequencyAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use EnableHighFrequencyAutomaticSpmEvolveAdvisorTask API.
 func (client DbManagementClient) EnableHighFrequencyAutomaticSpmEvolveAdvisorTask(ctx context.Context, request EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskRequest) (response EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskResponse, err error) {
@@ -3183,7 +3187,7 @@ func (client DbManagementClient) enableHighFrequencyAutomaticSpmEvolveAdvisorTas
 // When enabled, the optimizer uses SQL plan baselines to select plans
 // to avoid potential performance regressions.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableSqlPlanBaselinesUsage.go.html to see an example of how to use EnableSqlPlanBaselinesUsage API.
 func (client DbManagementClient) EnableSqlPlanBaselinesUsage(ctx context.Context, request EnableSqlPlanBaselinesUsageRequest) (response EnableSqlPlanBaselinesUsageResponse, err error) {
@@ -3240,7 +3244,7 @@ func (client DbManagementClient) enableSqlPlanBaselinesUsage(ctx context.Context
 
 // GenerateAwrSnapshot Creates an AWR snapshot for the target database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GenerateAwrSnapshot.go.html to see an example of how to use GenerateAwrSnapshot API.
 func (client DbManagementClient) GenerateAwrSnapshot(ctx context.Context, request GenerateAwrSnapshotRequest) (response GenerateAwrSnapshotResponse, err error) {
@@ -3302,7 +3306,7 @@ func (client DbManagementClient) generateAwrSnapshot(ctx context.Context, reques
 
 // GetAwrDbReport Gets the AWR report for the specific database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetAwrDbReport.go.html to see an example of how to use GetAwrDbReport API.
 func (client DbManagementClient) GetAwrDbReport(ctx context.Context, request GetAwrDbReportRequest) (response GetAwrDbReportResponse, err error) {
@@ -3364,7 +3368,7 @@ func (client DbManagementClient) getAwrDbReport(ctx context.Context, request com
 
 // GetAwrDbSqlReport Gets the SQL health check report for one SQL of the specific database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetAwrDbSqlReport.go.html to see an example of how to use GetAwrDbSqlReport API.
 func (client DbManagementClient) GetAwrDbSqlReport(ctx context.Context, request GetAwrDbSqlReportRequest) (response GetAwrDbSqlReportResponse, err error) {
@@ -3428,7 +3432,7 @@ func (client DbManagementClient) getAwrDbSqlReport(ctx context.Context, request 
 // Real Application Clusters (Oracle RAC) database specified
 // by managedDatabaseId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetClusterCacheMetric.go.html to see an example of how to use GetClusterCacheMetric API.
 func (client DbManagementClient) GetClusterCacheMetric(ctx context.Context, request GetClusterCacheMetricRequest) (response GetClusterCacheMetricResponse, err error) {
@@ -3486,7 +3490,7 @@ func (client DbManagementClient) getClusterCacheMetric(ctx context.Context, requ
 // GetDatabaseFleetHealthMetrics Gets the health metrics for a fleet of databases in a compartment or in a Managed Database Group.
 // Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the health metrics.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetDatabaseFleetHealthMetrics.go.html to see an example of how to use GetDatabaseFleetHealthMetrics API.
 func (client DbManagementClient) GetDatabaseFleetHealthMetrics(ctx context.Context, request GetDatabaseFleetHealthMetricsRequest) (response GetDatabaseFleetHealthMetricsResponse, err error) {
@@ -3543,7 +3547,7 @@ func (client DbManagementClient) getDatabaseFleetHealthMetrics(ctx context.Conte
 
 // GetDatabaseHomeMetrics Gets a summary of the activity and resource usage metrics like DB Time, CPU, User I/O, Wait, Storage, and Memory for a Managed Database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetDatabaseHomeMetrics.go.html to see an example of how to use GetDatabaseHomeMetrics API.
 func (client DbManagementClient) GetDatabaseHomeMetrics(ctx context.Context, request GetDatabaseHomeMetricsRequest) (response GetDatabaseHomeMetricsResponse, err error) {
@@ -3600,7 +3604,7 @@ func (client DbManagementClient) getDatabaseHomeMetrics(ctx context.Context, req
 
 // GetDbManagementPrivateEndpoint Gets the details of a specific Database Management private endpoint.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetDbManagementPrivateEndpoint.go.html to see an example of how to use GetDbManagementPrivateEndpoint API.
 func (client DbManagementClient) GetDbManagementPrivateEndpoint(ctx context.Context, request GetDbManagementPrivateEndpointRequest) (response GetDbManagementPrivateEndpointResponse, err error) {
@@ -3657,7 +3661,7 @@ func (client DbManagementClient) getDbManagementPrivateEndpoint(ctx context.Cont
 
 // GetExternalAsm Gets the details for the external ASM specified by `externalAsmId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalAsm.go.html to see an example of how to use GetExternalAsm API.
 // A default retry strategy applies to this operation GetExternalAsm()
@@ -3715,7 +3719,7 @@ func (client DbManagementClient) getExternalAsm(ctx context.Context, request com
 
 // GetExternalAsmConfiguration Gets configuration details including disk groups for the external ASM specified by `externalAsmId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalAsmConfiguration.go.html to see an example of how to use GetExternalAsmConfiguration API.
 // A default retry strategy applies to this operation GetExternalAsmConfiguration()
@@ -3773,7 +3777,7 @@ func (client DbManagementClient) getExternalAsmConfiguration(ctx context.Context
 
 // GetExternalAsmInstance Gets the details for the external ASM instance specified by `externalAsmInstanceId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalAsmInstance.go.html to see an example of how to use GetExternalAsmInstance API.
 // A default retry strategy applies to this operation GetExternalAsmInstance()
@@ -3831,7 +3835,7 @@ func (client DbManagementClient) getExternalAsmInstance(ctx context.Context, req
 
 // GetExternalCluster Gets the details for the external cluster specified by `externalClusterId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalCluster.go.html to see an example of how to use GetExternalCluster API.
 // A default retry strategy applies to this operation GetExternalCluster()
@@ -3889,7 +3893,7 @@ func (client DbManagementClient) getExternalCluster(ctx context.Context, request
 
 // GetExternalClusterInstance Gets the details for the external cluster instance specified by `externalClusterInstanceId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalClusterInstance.go.html to see an example of how to use GetExternalClusterInstance API.
 // A default retry strategy applies to this operation GetExternalClusterInstance()
@@ -3947,7 +3951,7 @@ func (client DbManagementClient) getExternalClusterInstance(ctx context.Context,
 
 // GetExternalDbHome Gets the details for the external DB home specified by `externalDbHomeId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalDbHome.go.html to see an example of how to use GetExternalDbHome API.
 // A default retry strategy applies to this operation GetExternalDbHome()
@@ -4005,7 +4009,7 @@ func (client DbManagementClient) getExternalDbHome(ctx context.Context, request 
 
 // GetExternalDbNode Gets the details for the external DB node specified by `externalDbNodeId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalDbNode.go.html to see an example of how to use GetExternalDbNode API.
 // A default retry strategy applies to this operation GetExternalDbNode()
@@ -4063,7 +4067,7 @@ func (client DbManagementClient) getExternalDbNode(ctx context.Context, request 
 
 // GetExternalDbSystem Gets the details for the external DB system specified by `externalDbSystemId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalDbSystem.go.html to see an example of how to use GetExternalDbSystem API.
 // A default retry strategy applies to this operation GetExternalDbSystem()
@@ -4121,7 +4125,7 @@ func (client DbManagementClient) getExternalDbSystem(ctx context.Context, reques
 
 // GetExternalDbSystemConnector Gets the details for the external connector specified by `externalDbSystemConnectorId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalDbSystemConnector.go.html to see an example of how to use GetExternalDbSystemConnector API.
 // A default retry strategy applies to this operation GetExternalDbSystemConnector()
@@ -4179,7 +4183,7 @@ func (client DbManagementClient) getExternalDbSystemConnector(ctx context.Contex
 
 // GetExternalDbSystemDiscovery Gets the details for the external DB system discovery resource specified by `externalDbSystemDiscoveryId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalDbSystemDiscovery.go.html to see an example of how to use GetExternalDbSystemDiscovery API.
 // A default retry strategy applies to this operation GetExternalDbSystemDiscovery()
@@ -4238,7 +4242,7 @@ func (client DbManagementClient) getExternalDbSystemDiscovery(ctx context.Contex
 // GetExternalExadataInfrastructure Gets the details for the Exadata infrastructure specified by externalExadataInfrastructureId. It includes the DB systems and storage grid within the
 // Exadata infrastructure.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalExadataInfrastructure.go.html to see an example of how to use GetExternalExadataInfrastructure API.
 // A default retry strategy applies to this operation GetExternalExadataInfrastructure()
@@ -4296,7 +4300,7 @@ func (client DbManagementClient) getExternalExadataInfrastructure(ctx context.Co
 
 // GetExternalExadataStorageConnector Gets the details for the Exadata storage server connector specified by exadataStorageConnectorId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalExadataStorageConnector.go.html to see an example of how to use GetExternalExadataStorageConnector API.
 // A default retry strategy applies to this operation GetExternalExadataStorageConnector()
@@ -4354,7 +4358,7 @@ func (client DbManagementClient) getExternalExadataStorageConnector(ctx context.
 
 // GetExternalExadataStorageGrid Gets the details for the Exadata storage server grid specified by exadataStorageGridId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalExadataStorageGrid.go.html to see an example of how to use GetExternalExadataStorageGrid API.
 // A default retry strategy applies to this operation GetExternalExadataStorageGrid()
@@ -4412,7 +4416,7 @@ func (client DbManagementClient) getExternalExadataStorageGrid(ctx context.Conte
 
 // GetExternalExadataStorageServer Gets the summary for the Exadata storage server specified by exadataStorageServerId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalExadataStorageServer.go.html to see an example of how to use GetExternalExadataStorageServer API.
 // A default retry strategy applies to this operation GetExternalExadataStorageServer()
@@ -4470,7 +4474,7 @@ func (client DbManagementClient) getExternalExadataStorageServer(ctx context.Con
 
 // GetExternalListener Gets the details for the external listener specified by `externalListenerId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalListener.go.html to see an example of how to use GetExternalListener API.
 // A default retry strategy applies to this operation GetExternalListener()
@@ -4528,7 +4532,7 @@ func (client DbManagementClient) getExternalListener(ctx context.Context, reques
 
 // GetIormPlan Get the IORM plan from the specific Exadata storage server.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetIormPlan.go.html to see an example of how to use GetIormPlan API.
 // A default retry strategy applies to this operation GetIormPlan()
@@ -4586,7 +4590,7 @@ func (client DbManagementClient) getIormPlan(ctx context.Context, request common
 
 // GetJob Gets the details for the job specified by jobId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetJob.go.html to see an example of how to use GetJob API.
 func (client DbManagementClient) GetJob(ctx context.Context, request GetJobRequest) (response GetJobResponse, err error) {
@@ -4643,7 +4647,7 @@ func (client DbManagementClient) getJob(ctx context.Context, request common.OCIR
 
 // GetJobExecution Gets the details for the job execution specified by jobExecutionId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetJobExecution.go.html to see an example of how to use GetJobExecution API.
 func (client DbManagementClient) GetJobExecution(ctx context.Context, request GetJobExecutionRequest) (response GetJobExecutionResponse, err error) {
@@ -4700,7 +4704,7 @@ func (client DbManagementClient) getJobExecution(ctx context.Context, request co
 
 // GetJobRun Gets the details for the job run specified by jobRunId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetJobRun.go.html to see an example of how to use GetJobRun API.
 func (client DbManagementClient) GetJobRun(ctx context.Context, request GetJobRunRequest) (response GetJobRunResponse, err error) {
@@ -4757,7 +4761,7 @@ func (client DbManagementClient) getJobRun(ctx context.Context, request common.O
 
 // GetManagedDatabase Gets the details for the Managed Database specified by managedDatabaseId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetManagedDatabase.go.html to see an example of how to use GetManagedDatabase API.
 func (client DbManagementClient) GetManagedDatabase(ctx context.Context, request GetManagedDatabaseRequest) (response GetManagedDatabaseResponse, err error) {
@@ -4814,7 +4818,7 @@ func (client DbManagementClient) getManagedDatabase(ctx context.Context, request
 
 // GetManagedDatabaseGroup Gets the details for the Managed Database Group specified by managedDatabaseGroupId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetManagedDatabaseGroup.go.html to see an example of how to use GetManagedDatabaseGroup API.
 func (client DbManagementClient) GetManagedDatabaseGroup(ctx context.Context, request GetManagedDatabaseGroupRequest) (response GetManagedDatabaseGroupResponse, err error) {
@@ -4871,7 +4875,7 @@ func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, re
 
 // GetOpenAlertHistory Gets the open alerts from the specified Exadata storage server.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetOpenAlertHistory.go.html to see an example of how to use GetOpenAlertHistory API.
 // A default retry strategy applies to this operation GetOpenAlertHistory()
@@ -4930,7 +4934,7 @@ func (client DbManagementClient) getOpenAlertHistory(ctx context.Context, reques
 // GetOptimizerStatisticsAdvisorExecution Gets a comprehensive report of the Optimizer Statistics Advisor execution, which includes details of the
 // Managed Database, findings, recommendations, rationale, and examples.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetOptimizerStatisticsAdvisorExecution.go.html to see an example of how to use GetOptimizerStatisticsAdvisorExecution API.
 func (client DbManagementClient) GetOptimizerStatisticsAdvisorExecution(ctx context.Context, request GetOptimizerStatisticsAdvisorExecutionRequest) (response GetOptimizerStatisticsAdvisorExecutionResponse, err error) {
@@ -4987,7 +4991,7 @@ func (client DbManagementClient) getOptimizerStatisticsAdvisorExecution(ctx cont
 
 // GetOptimizerStatisticsAdvisorExecutionScript Gets the Oracle system-generated script for the specified Optimizer Statistics Advisor execution.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetOptimizerStatisticsAdvisorExecutionScript.go.html to see an example of how to use GetOptimizerStatisticsAdvisorExecutionScript API.
 func (client DbManagementClient) GetOptimizerStatisticsAdvisorExecutionScript(ctx context.Context, request GetOptimizerStatisticsAdvisorExecutionScriptRequest) (response GetOptimizerStatisticsAdvisorExecutionScriptResponse, err error) {
@@ -5044,7 +5048,7 @@ func (client DbManagementClient) getOptimizerStatisticsAdvisorExecutionScript(ct
 
 // GetOptimizerStatisticsCollectionOperation Gets a detailed report of the Optimizer Statistics Collection operation for the specified Managed Database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetOptimizerStatisticsCollectionOperation.go.html to see an example of how to use GetOptimizerStatisticsCollectionOperation API.
 func (client DbManagementClient) GetOptimizerStatisticsCollectionOperation(ctx context.Context, request GetOptimizerStatisticsCollectionOperationRequest) (response GetOptimizerStatisticsCollectionOperationResponse, err error) {
@@ -5104,7 +5108,7 @@ func (client DbManagementClient) getOptimizerStatisticsCollectionOperation(ctx c
 // each PDB (within the CDB) in the specified compartment are retrieved.
 // If compartmentId is not specified, then the metrics for all the PDBs within the CDB are retrieved.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetPdbMetrics.go.html to see an example of how to use GetPdbMetrics API.
 func (client DbManagementClient) GetPdbMetrics(ctx context.Context, request GetPdbMetricsRequest) (response GetPdbMetricsResponse, err error) {
@@ -5161,7 +5165,7 @@ func (client DbManagementClient) getPdbMetrics(ctx context.Context, request comm
 
 // GetPreferredCredential Gets the preferred credential details for a Managed Database based on credentialName.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetPreferredCredential.go.html to see an example of how to use GetPreferredCredential API.
 func (client DbManagementClient) GetPreferredCredential(ctx context.Context, request GetPreferredCredentialRequest) (response GetPreferredCredentialResponse, err error) {
@@ -5218,7 +5222,7 @@ func (client DbManagementClient) getPreferredCredential(ctx context.Context, req
 
 // GetSqlPlanBaseline Gets the SQL plan baseline details for the specified planName.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetSqlPlanBaseline.go.html to see an example of how to use GetSqlPlanBaseline API.
 // A default retry strategy applies to this operation GetSqlPlanBaseline()
@@ -5278,7 +5282,7 @@ func (client DbManagementClient) getSqlPlanBaseline(ctx context.Context, request
 // Managed Database. The details include the settings for the capture and use of
 // SQL plan baselines, SPM Evolve Advisor task, and SQL Management Base.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetSqlPlanBaselineConfiguration.go.html to see an example of how to use GetSqlPlanBaselineConfiguration API.
 // A default retry strategy applies to this operation GetSqlPlanBaselineConfiguration()
@@ -5336,7 +5340,7 @@ func (client DbManagementClient) getSqlPlanBaselineConfiguration(ctx context.Con
 
 // GetTablespace Gets the details of the tablespace specified by tablespaceName within the Managed Database specified by managedDatabaseId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetTablespace.go.html to see an example of how to use GetTablespace API.
 func (client DbManagementClient) GetTablespace(ctx context.Context, request GetTablespaceRequest) (response GetTablespaceResponse, err error) {
@@ -5393,7 +5397,7 @@ func (client DbManagementClient) getTablespace(ctx context.Context, request comm
 
 // GetTopSqlCpuActivity Gets the SQL IDs with the top CPU activity from the Exadata storage server.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetTopSqlCpuActivity.go.html to see an example of how to use GetTopSqlCpuActivity API.
 // A default retry strategy applies to this operation GetTopSqlCpuActivity()
@@ -5451,7 +5455,7 @@ func (client DbManagementClient) getTopSqlCpuActivity(ctx context.Context, reque
 
 // GetUser Gets the details of the user specified by managedDatabaseId and userName.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetUser.go.html to see an example of how to use GetUser API.
 func (client DbManagementClient) GetUser(ctx context.Context, request GetUserRequest) (response GetUserResponse, err error) {
@@ -5508,7 +5512,7 @@ func (client DbManagementClient) getUser(ctx context.Context, request common.OCI
 
 // GetWorkRequest Gets the status of the work request with the given Work Request ID
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client DbManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
@@ -5565,7 +5569,7 @@ func (client DbManagementClient) getWorkRequest(ctx context.Context, request com
 
 // ImplementOptimizerStatisticsAdvisorRecommendations Asynchronously implements the findings and recommendations of the Optimizer Statistics Advisor execution.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ImplementOptimizerStatisticsAdvisorRecommendations.go.html to see an example of how to use ImplementOptimizerStatisticsAdvisorRecommendations API.
 func (client DbManagementClient) ImplementOptimizerStatisticsAdvisorRecommendations(ctx context.Context, request ImplementOptimizerStatisticsAdvisorRecommendationsRequest) (response ImplementOptimizerStatisticsAdvisorRecommendationsResponse, err error) {
@@ -5622,7 +5626,7 @@ func (client DbManagementClient) implementOptimizerStatisticsAdvisorRecommendati
 
 // ListAsmProperties Gets the list of ASM properties for the specified managedDatabaseId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListAsmProperties.go.html to see an example of how to use ListAsmProperties API.
 func (client DbManagementClient) ListAsmProperties(ctx context.Context, request ListAsmPropertiesRequest) (response ListAsmPropertiesResponse, err error) {
@@ -5679,7 +5683,7 @@ func (client DbManagementClient) listAsmProperties(ctx context.Context, request 
 
 // ListAssociatedDatabases Gets the list of databases using a specific Database Management private endpoint.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListAssociatedDatabases.go.html to see an example of how to use ListAssociatedDatabases API.
 func (client DbManagementClient) ListAssociatedDatabases(ctx context.Context, request ListAssociatedDatabasesRequest) (response ListAssociatedDatabasesResponse, err error) {
@@ -5736,7 +5740,7 @@ func (client DbManagementClient) listAssociatedDatabases(ctx context.Context, re
 
 // ListAwrDbSnapshots Lists AWR snapshots for the specified database in the AWR.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListAwrDbSnapshots.go.html to see an example of how to use ListAwrDbSnapshots API.
 func (client DbManagementClient) ListAwrDbSnapshots(ctx context.Context, request ListAwrDbSnapshotsRequest) (response ListAwrDbSnapshotsResponse, err error) {
@@ -5798,7 +5802,7 @@ func (client DbManagementClient) listAwrDbSnapshots(ctx context.Context, request
 
 // ListAwrDbs Gets the list of databases and their snapshot summary details available in the AWR of the specified Managed Database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListAwrDbs.go.html to see an example of how to use ListAwrDbs API.
 func (client DbManagementClient) ListAwrDbs(ctx context.Context, request ListAwrDbsRequest) (response ListAwrDbsResponse, err error) {
@@ -5860,7 +5864,7 @@ func (client DbManagementClient) listAwrDbs(ctx context.Context, request common.
 
 // ListConsumerGroupPrivileges Gets the list of consumer group privileges granted to a specific user.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListConsumerGroupPrivileges.go.html to see an example of how to use ListConsumerGroupPrivileges API.
 func (client DbManagementClient) ListConsumerGroupPrivileges(ctx context.Context, request ListConsumerGroupPrivilegesRequest) (response ListConsumerGroupPrivilegesResponse, err error) {
@@ -5917,7 +5921,7 @@ func (client DbManagementClient) listConsumerGroupPrivileges(ctx context.Context
 
 // ListCursorCacheStatements Lists the SQL statements from shared SQL area, also called the cursor cache.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListCursorCacheStatements.go.html to see an example of how to use ListCursorCacheStatements API.
 // A default retry strategy applies to this operation ListCursorCacheStatements()
@@ -5975,7 +5979,7 @@ func (client DbManagementClient) listCursorCacheStatements(ctx context.Context, 
 
 // ListDataAccessContainers Gets the list of containers for a specific user. This is only applicable if ALL_CONTAINERS !='Y'.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListDataAccessContainers.go.html to see an example of how to use ListDataAccessContainers API.
 func (client DbManagementClient) ListDataAccessContainers(ctx context.Context, request ListDataAccessContainersRequest) (response ListDataAccessContainersResponse, err error) {
@@ -6032,7 +6036,7 @@ func (client DbManagementClient) listDataAccessContainers(ctx context.Context, r
 
 // ListDatabaseParameters Gets the list of database parameters for the specified Managed Database. The parameters are listed in alphabetical order, along with their current values.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListDatabaseParameters.go.html to see an example of how to use ListDatabaseParameters API.
 func (client DbManagementClient) ListDatabaseParameters(ctx context.Context, request ListDatabaseParametersRequest) (response ListDatabaseParametersResponse, err error) {
@@ -6089,7 +6093,7 @@ func (client DbManagementClient) listDatabaseParameters(ctx context.Context, req
 
 // ListDbManagementPrivateEndpoints Gets a list of Database Management private endpoints.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListDbManagementPrivateEndpoints.go.html to see an example of how to use ListDbManagementPrivateEndpoints API.
 func (client DbManagementClient) ListDbManagementPrivateEndpoints(ctx context.Context, request ListDbManagementPrivateEndpointsRequest) (response ListDbManagementPrivateEndpointsResponse, err error) {
@@ -6146,7 +6150,7 @@ func (client DbManagementClient) listDbManagementPrivateEndpoints(ctx context.Co
 
 // ListExternalAsmDiskGroups Lists ASM disk groups for the external ASM specified by `externalAsmId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalAsmDiskGroups.go.html to see an example of how to use ListExternalAsmDiskGroups API.
 // A default retry strategy applies to this operation ListExternalAsmDiskGroups()
@@ -6204,7 +6208,7 @@ func (client DbManagementClient) listExternalAsmDiskGroups(ctx context.Context, 
 
 // ListExternalAsmInstances Lists the ASM instances in the specified external ASM.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalAsmInstances.go.html to see an example of how to use ListExternalAsmInstances API.
 // A default retry strategy applies to this operation ListExternalAsmInstances()
@@ -6262,7 +6266,7 @@ func (client DbManagementClient) listExternalAsmInstances(ctx context.Context, r
 
 // ListExternalAsmUsers Lists ASM users for the external ASM specified by `externalAsmId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalAsmUsers.go.html to see an example of how to use ListExternalAsmUsers API.
 // A default retry strategy applies to this operation ListExternalAsmUsers()
@@ -6320,7 +6324,7 @@ func (client DbManagementClient) listExternalAsmUsers(ctx context.Context, reque
 
 // ListExternalAsms Lists the ASMs in the specified external DB system.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalAsms.go.html to see an example of how to use ListExternalAsms API.
 // A default retry strategy applies to this operation ListExternalAsms()
@@ -6378,7 +6382,7 @@ func (client DbManagementClient) listExternalAsms(ctx context.Context, request c
 
 // ListExternalClusterInstances Lists the cluster instances in the specified external cluster.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalClusterInstances.go.html to see an example of how to use ListExternalClusterInstances API.
 // A default retry strategy applies to this operation ListExternalClusterInstances()
@@ -6436,7 +6440,7 @@ func (client DbManagementClient) listExternalClusterInstances(ctx context.Contex
 
 // ListExternalClusters Lists the clusters in the specified external DB system.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalClusters.go.html to see an example of how to use ListExternalClusters API.
 // A default retry strategy applies to this operation ListExternalClusters()
@@ -6494,7 +6498,7 @@ func (client DbManagementClient) listExternalClusters(ctx context.Context, reque
 
 // ListExternalDatabases Lists the external databases in the specified compartment or in the specified DB system.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalDatabases.go.html to see an example of how to use ListExternalDatabases API.
 // A default retry strategy applies to this operation ListExternalDatabases()
@@ -6552,7 +6556,7 @@ func (client DbManagementClient) listExternalDatabases(ctx context.Context, requ
 
 // ListExternalDbHomes Lists the DB homes in the specified external DB system.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalDbHomes.go.html to see an example of how to use ListExternalDbHomes API.
 // A default retry strategy applies to this operation ListExternalDbHomes()
@@ -6610,7 +6614,7 @@ func (client DbManagementClient) listExternalDbHomes(ctx context.Context, reques
 
 // ListExternalDbNodes Lists the external DB nodes in the specified external DB system.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalDbNodes.go.html to see an example of how to use ListExternalDbNodes API.
 // A default retry strategy applies to this operation ListExternalDbNodes()
@@ -6668,7 +6672,7 @@ func (client DbManagementClient) listExternalDbNodes(ctx context.Context, reques
 
 // ListExternalDbSystemConnectors Lists the external connectors in the specified external DB system.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalDbSystemConnectors.go.html to see an example of how to use ListExternalDbSystemConnectors API.
 // A default retry strategy applies to this operation ListExternalDbSystemConnectors()
@@ -6726,7 +6730,7 @@ func (client DbManagementClient) listExternalDbSystemConnectors(ctx context.Cont
 
 // ListExternalDbSystemDiscoveries Lists the external DB system discovery resources in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalDbSystemDiscoveries.go.html to see an example of how to use ListExternalDbSystemDiscoveries API.
 // A default retry strategy applies to this operation ListExternalDbSystemDiscoveries()
@@ -6784,7 +6788,7 @@ func (client DbManagementClient) listExternalDbSystemDiscoveries(ctx context.Con
 
 // ListExternalDbSystems Lists the external DB systems in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalDbSystems.go.html to see an example of how to use ListExternalDbSystems API.
 // A default retry strategy applies to this operation ListExternalDbSystems()
@@ -6842,7 +6846,7 @@ func (client DbManagementClient) listExternalDbSystems(ctx context.Context, requ
 
 // ListExternalExadataInfrastructures Lists the Exadata infrastructure resources in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalExadataInfrastructures.go.html to see an example of how to use ListExternalExadataInfrastructures API.
 // A default retry strategy applies to this operation ListExternalExadataInfrastructures()
@@ -6900,7 +6904,7 @@ func (client DbManagementClient) listExternalExadataInfrastructures(ctx context.
 
 // ListExternalExadataStorageConnectors Lists the Exadata storage server connectors for the specified Exadata infrastructure.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalExadataStorageConnectors.go.html to see an example of how to use ListExternalExadataStorageConnectors API.
 // A default retry strategy applies to this operation ListExternalExadataStorageConnectors()
@@ -6958,7 +6962,7 @@ func (client DbManagementClient) listExternalExadataStorageConnectors(ctx contex
 
 // ListExternalExadataStorageServers Lists the Exadata storage servers for the specified Exadata infrastructure.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalExadataStorageServers.go.html to see an example of how to use ListExternalExadataStorageServers API.
 // A default retry strategy applies to this operation ListExternalExadataStorageServers()
@@ -7017,7 +7021,7 @@ func (client DbManagementClient) listExternalExadataStorageServers(ctx context.C
 // ListExternalListenerServices Lists the database services registered with the specified external listener
 // for the specified Managed Database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalListenerServices.go.html to see an example of how to use ListExternalListenerServices API.
 // A default retry strategy applies to this operation ListExternalListenerServices()
@@ -7075,7 +7079,7 @@ func (client DbManagementClient) listExternalListenerServices(ctx context.Contex
 
 // ListExternalListeners Lists the listeners in the specified external DB system.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalListeners.go.html to see an example of how to use ListExternalListeners API.
 // A default retry strategy applies to this operation ListExternalListeners()
@@ -7136,7 +7140,7 @@ func (client DbManagementClient) listExternalListeners(ctx context.Context, requ
 // If none of these parameters is provided, all the job executions in the compartment are listed. Job executions can also be filtered
 // based on the name and status parameters.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListJobExecutions.go.html to see an example of how to use ListJobExecutions API.
 func (client DbManagementClient) ListJobExecutions(ctx context.Context, request ListJobExecutionsRequest) (response ListJobExecutionsResponse, err error) {
@@ -7196,7 +7200,7 @@ func (client DbManagementClient) listJobExecutions(ctx context.Context, request 
 // should be provided. If none of these parameters is provided, all the job runs in the compartment are listed.
 // Job runs can also be filtered based on name and runStatus parameters.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListJobRuns.go.html to see an example of how to use ListJobRuns API.
 func (client DbManagementClient) ListJobRuns(ctx context.Context, request ListJobRunsRequest) (response ListJobRunsResponse, err error) {
@@ -7256,7 +7260,7 @@ func (client DbManagementClient) listJobRuns(ctx context.Context, request common
 // should be provided. If none of these parameters is provided, all the jobs in the compartment are listed.
 // Jobs can also be filtered based on the name and lifecycleState parameters.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListJobs.go.html to see an example of how to use ListJobs API.
 func (client DbManagementClient) ListJobs(ctx context.Context, request ListJobsRequest) (response ListJobsResponse, err error) {
@@ -7316,7 +7320,7 @@ func (client DbManagementClient) listJobs(ctx context.Context, request common.OC
 // Only one of the parameters, ID or name should be provided. If none of these parameters is provided,
 // all the Managed Database Groups in the compartment are listed.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedDatabaseGroups.go.html to see an example of how to use ListManagedDatabaseGroups API.
 func (client DbManagementClient) ListManagedDatabaseGroups(ctx context.Context, request ListManagedDatabaseGroupsRequest) (response ListManagedDatabaseGroupsResponse, err error) {
@@ -7378,7 +7382,7 @@ func (client DbManagementClient) listManagedDatabaseGroups(ctx context.Context, 
 // If the deployment type is not specified or if it is `ONPREMISE`, then the management option is not
 // considered and Managed Databases with `ADVANCED` management option are listed.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedDatabases.go.html to see an example of how to use ListManagedDatabases API.
 func (client DbManagementClient) ListManagedDatabases(ctx context.Context, request ListManagedDatabasesRequest) (response ListManagedDatabasesResponse, err error) {
@@ -7435,7 +7439,7 @@ func (client DbManagementClient) listManagedDatabases(ctx context.Context, reque
 
 // ListObjectPrivileges Gets the list of object privileges granted to a specific user.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListObjectPrivileges.go.html to see an example of how to use ListObjectPrivileges API.
 func (client DbManagementClient) ListObjectPrivileges(ctx context.Context, request ListObjectPrivilegesRequest) (response ListObjectPrivilegesResponse, err error) {
@@ -7494,7 +7498,7 @@ func (client DbManagementClient) listObjectPrivileges(ctx context.Context, reque
 // Optionally, you can specify a date-time range (of seven days) to obtain the list of executions that fall within the specified time range.
 // If the date-time range is not specified, then the executions in the last seven days are listed.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListOptimizerStatisticsAdvisorExecutions.go.html to see an example of how to use ListOptimizerStatisticsAdvisorExecutions API.
 func (client DbManagementClient) ListOptimizerStatisticsAdvisorExecutions(ctx context.Context, request ListOptimizerStatisticsAdvisorExecutionsRequest) (response ListOptimizerStatisticsAdvisorExecutionsResponse, err error) {
@@ -7556,7 +7560,7 @@ func (client DbManagementClient) listOptimizerStatisticsAdvisorExecutions(ctx co
 // You can further filter the results by providing the optional type of TaskTypeQueryParam.
 // If the task type not provided, then both Auto and Manual tasks are considered for aggregation.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListOptimizerStatisticsCollectionAggregations.go.html to see an example of how to use ListOptimizerStatisticsCollectionAggregations API.
 func (client DbManagementClient) ListOptimizerStatisticsCollectionAggregations(ctx context.Context, request ListOptimizerStatisticsCollectionAggregationsRequest) (response ListOptimizerStatisticsCollectionAggregationsResponse, err error) {
@@ -7619,7 +7623,7 @@ func (client DbManagementClient) listOptimizerStatisticsCollectionAggregations(c
 // If you use the same header value in a consecutive request, the next page records are returned.
 // To obtain the required results, you can apply the different types of filters supported by this API.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListOptimizerStatisticsCollectionOperations.go.html to see an example of how to use ListOptimizerStatisticsCollectionOperations API.
 func (client DbManagementClient) ListOptimizerStatisticsCollectionOperations(ctx context.Context, request ListOptimizerStatisticsCollectionOperationsRequest) (response ListOptimizerStatisticsCollectionOperationsResponse, err error) {
@@ -7676,7 +7680,7 @@ func (client DbManagementClient) listOptimizerStatisticsCollectionOperations(ctx
 
 // ListPreferredCredentials Gets the list of preferred credentials for a given Managed Database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListPreferredCredentials.go.html to see an example of how to use ListPreferredCredentials API.
 func (client DbManagementClient) ListPreferredCredentials(ctx context.Context, request ListPreferredCredentialsRequest) (response ListPreferredCredentialsResponse, err error) {
@@ -7733,7 +7737,7 @@ func (client DbManagementClient) listPreferredCredentials(ctx context.Context, r
 
 // ListProxiedForUsers Gets the list of users on whose behalf the current user acts as proxy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListProxiedForUsers.go.html to see an example of how to use ListProxiedForUsers API.
 func (client DbManagementClient) ListProxiedForUsers(ctx context.Context, request ListProxiedForUsersRequest) (response ListProxiedForUsersResponse, err error) {
@@ -7790,7 +7794,7 @@ func (client DbManagementClient) listProxiedForUsers(ctx context.Context, reques
 
 // ListProxyUsers Gets the list of proxy users for the current user.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListProxyUsers.go.html to see an example of how to use ListProxyUsers API.
 func (client DbManagementClient) ListProxyUsers(ctx context.Context, request ListProxyUsersRequest) (response ListProxyUsersResponse, err error) {
@@ -7847,7 +7851,7 @@ func (client DbManagementClient) listProxyUsers(ctx context.Context, request com
 
 // ListRoles Gets the list of roles granted to a specific user.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListRoles.go.html to see an example of how to use ListRoles API.
 func (client DbManagementClient) ListRoles(ctx context.Context, request ListRolesRequest) (response ListRolesResponse, err error) {
@@ -7904,7 +7908,7 @@ func (client DbManagementClient) listRoles(ctx context.Context, request common.O
 
 // ListSqlPlanBaselineJobs Lists the database jobs used for loading SQL plan baselines in the specified Managed Database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSqlPlanBaselineJobs.go.html to see an example of how to use ListSqlPlanBaselineJobs API.
 // A default retry strategy applies to this operation ListSqlPlanBaselineJobs()
@@ -7962,7 +7966,7 @@ func (client DbManagementClient) listSqlPlanBaselineJobs(ctx context.Context, re
 
 // ListSqlPlanBaselines Lists the SQL plan baselines for the specified Managed Database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSqlPlanBaselines.go.html to see an example of how to use ListSqlPlanBaselines API.
 // A default retry strategy applies to this operation ListSqlPlanBaselines()
@@ -8020,7 +8024,7 @@ func (client DbManagementClient) listSqlPlanBaselines(ctx context.Context, reque
 
 // ListSystemPrivileges Gets the list of system privileges granted to a specific user.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSystemPrivileges.go.html to see an example of how to use ListSystemPrivileges API.
 func (client DbManagementClient) ListSystemPrivileges(ctx context.Context, request ListSystemPrivilegesRequest) (response ListSystemPrivilegesResponse, err error) {
@@ -8078,7 +8082,7 @@ func (client DbManagementClient) listSystemPrivileges(ctx context.Context, reque
 // ListTableStatistics Lists the database table statistics grouped by different statuses such as Not Stale Stats, Stale Stats, and No Stats.
 // This also includes the percentage of each status.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListTableStatistics.go.html to see an example of how to use ListTableStatistics API.
 func (client DbManagementClient) ListTableStatistics(ctx context.Context, request ListTableStatisticsRequest) (response ListTableStatisticsResponse, err error) {
@@ -8135,7 +8139,7 @@ func (client DbManagementClient) listTableStatistics(ctx context.Context, reques
 
 // ListTablespaces Gets the list of tablespaces for the specified managedDatabaseId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListTablespaces.go.html to see an example of how to use ListTablespaces API.
 func (client DbManagementClient) ListTablespaces(ctx context.Context, request ListTablespacesRequest) (response ListTablespacesResponse, err error) {
@@ -8192,7 +8196,7 @@ func (client DbManagementClient) listTablespaces(ctx context.Context, request co
 
 // ListUsers Gets the list of users for the specified managedDatabaseId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListUsers.go.html to see an example of how to use ListUsers API.
 func (client DbManagementClient) ListUsers(ctx context.Context, request ListUsersRequest) (response ListUsersResponse, err error) {
@@ -8249,7 +8253,7 @@ func (client DbManagementClient) listUsers(ctx context.Context, request common.O
 
 // ListWorkRequestErrors Returns a paginated list of errors for a given work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client DbManagementClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
@@ -8306,7 +8310,7 @@ func (client DbManagementClient) listWorkRequestErrors(ctx context.Context, requ
 
 // ListWorkRequestLogs Returns a paginated list of logs for a given work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client DbManagementClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
@@ -8363,7 +8367,7 @@ func (client DbManagementClient) listWorkRequestLogs(ctx context.Context, reques
 
 // ListWorkRequests The list of work requests in a specific compartment was retrieved successfully.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client DbManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
@@ -8424,7 +8428,7 @@ func (client DbManagementClient) listWorkRequests(ctx context.Context, request c
 // default, the optimizer uses the loaded plans the next time that the database
 // executes the SQL statements.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/LoadSqlPlanBaselinesFromAwr.go.html to see an example of how to use LoadSqlPlanBaselinesFromAwr API.
 func (client DbManagementClient) LoadSqlPlanBaselinesFromAwr(ctx context.Context, request LoadSqlPlanBaselinesFromAwrRequest) (response LoadSqlPlanBaselinesFromAwrResponse, err error) {
@@ -8483,7 +8487,7 @@ func (client DbManagementClient) loadSqlPlanBaselinesFromAwr(ctx context.Context
 // the cursor cache. By applying a filter on the module name, the schema, or
 // the SQL ID you identify the SQL statement or set of SQL statements to load.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/LoadSqlPlanBaselinesFromCursorCache.go.html to see an example of how to use LoadSqlPlanBaselinesFromCursorCache API.
 func (client DbManagementClient) LoadSqlPlanBaselinesFromCursorCache(ctx context.Context, request LoadSqlPlanBaselinesFromCursorCacheRequest) (response LoadSqlPlanBaselinesFromCursorCacheResponse, err error) {
@@ -8540,7 +8544,7 @@ func (client DbManagementClient) loadSqlPlanBaselinesFromCursorCache(ctx context
 
 // PatchExternalDbSystemDiscovery Patches the external DB system discovery specified by `externalDbSystemDiscoveryId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/PatchExternalDbSystemDiscovery.go.html to see an example of how to use PatchExternalDbSystemDiscovery API.
 func (client DbManagementClient) PatchExternalDbSystemDiscovery(ctx context.Context, request PatchExternalDbSystemDiscoveryRequest) (response PatchExternalDbSystemDiscoveryResponse, err error) {
@@ -8597,7 +8601,7 @@ func (client DbManagementClient) patchExternalDbSystemDiscovery(ctx context.Cont
 
 // RemoveDataFile Removes a data file or temp file from the tablespace.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/RemoveDataFile.go.html to see an example of how to use RemoveDataFile API.
 func (client DbManagementClient) RemoveDataFile(ctx context.Context, request RemoveDataFileRequest) (response RemoveDataFileResponse, err error) {
@@ -8662,7 +8666,7 @@ func (client DbManagementClient) removeDataFile(ctx context.Context, request com
 // run to completion. However, any activities scheduled to run in the future
 // will not be performed on this database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/RemoveManagedDatabaseFromManagedDatabaseGroup.go.html to see an example of how to use RemoveManagedDatabaseFromManagedDatabaseGroup API.
 func (client DbManagementClient) RemoveManagedDatabaseFromManagedDatabaseGroup(ctx context.Context, request RemoveManagedDatabaseFromManagedDatabaseGroupRequest) (response RemoveManagedDatabaseFromManagedDatabaseGroupResponse, err error) {
@@ -8724,7 +8728,7 @@ func (client DbManagementClient) removeManagedDatabaseFromManagedDatabaseGroup(c
 
 // ResetDatabaseParameters Resets database parameter values to their default or startup values.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ResetDatabaseParameters.go.html to see an example of how to use ResetDatabaseParameters API.
 func (client DbManagementClient) ResetDatabaseParameters(ctx context.Context, request ResetDatabaseParametersRequest) (response ResetDatabaseParametersResponse, err error) {
@@ -8786,7 +8790,7 @@ func (client DbManagementClient) resetDatabaseParameters(ctx context.Context, re
 
 // ResizeDataFile Resizes a data file or temp file within the tablespace.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ResizeDataFile.go.html to see an example of how to use ResizeDataFile API.
 func (client DbManagementClient) ResizeDataFile(ctx context.Context, request ResizeDataFileRequest) (response ResizeDataFileResponse, err error) {
@@ -8849,7 +8853,7 @@ func (client DbManagementClient) resizeDataFile(ctx context.Context, request com
 // RunHistoricAddm Creates and executes a historic ADDM task using the specified AWR snapshot IDs. If an existing ADDM task
 // uses the provided awr snapshot IDs, the existing task will be returned.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/RunHistoricAddm.go.html to see an example of how to use RunHistoricAddm API.
 func (client DbManagementClient) RunHistoricAddm(ctx context.Context, request RunHistoricAddmRequest) (response RunHistoricAddmResponse, err error) {
@@ -8911,7 +8915,7 @@ func (client DbManagementClient) runHistoricAddm(ctx context.Context, request co
 
 // SummarizeAwrDbCpuUsages Summarizes the AWR CPU resource limits and metrics for the specified database in AWR.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbCpuUsages.go.html to see an example of how to use SummarizeAwrDbCpuUsages API.
 func (client DbManagementClient) SummarizeAwrDbCpuUsages(ctx context.Context, request SummarizeAwrDbCpuUsagesRequest) (response SummarizeAwrDbCpuUsagesResponse, err error) {
@@ -8973,7 +8977,7 @@ func (client DbManagementClient) summarizeAwrDbCpuUsages(ctx context.Context, re
 
 // SummarizeAwrDbMetrics Summarizes the metric samples for the specified database in the AWR. The metric samples are summarized based on the Time dimension for each metric.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbMetrics.go.html to see an example of how to use SummarizeAwrDbMetrics API.
 func (client DbManagementClient) SummarizeAwrDbMetrics(ctx context.Context, request SummarizeAwrDbMetricsRequest) (response SummarizeAwrDbMetricsResponse, err error) {
@@ -9039,7 +9043,7 @@ func (client DbManagementClient) summarizeAwrDbMetrics(ctx context.Context, requ
 // To get a list of all the database parameters whose values were changed during a specified time range, use the following API endpoint:
 // /managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbParameters
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbParameterChanges.go.html to see an example of how to use SummarizeAwrDbParameterChanges API.
 func (client DbManagementClient) SummarizeAwrDbParameterChanges(ctx context.Context, request SummarizeAwrDbParameterChangesRequest) (response SummarizeAwrDbParameterChangesResponse, err error) {
@@ -9109,7 +9113,7 @@ func (client DbManagementClient) summarizeAwrDbParameterChanges(ctx context.Cont
 // Note that this API does not return information on the number of times each database parameter has been changed within the time range. To get the database parameter value change history for a specific parameter, use the following API endpoint:
 // /managedDatabases/{managedDatabaseId}/awrDbs/{awrDbId}/awrDbParameterChanges
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbParameters.go.html to see an example of how to use SummarizeAwrDbParameters API.
 func (client DbManagementClient) SummarizeAwrDbParameters(ctx context.Context, request SummarizeAwrDbParametersRequest) (response SummarizeAwrDbParametersResponse, err error) {
@@ -9171,7 +9175,7 @@ func (client DbManagementClient) summarizeAwrDbParameters(ctx context.Context, r
 
 // SummarizeAwrDbSnapshotRanges Summarizes the AWR snapshot ranges that contain continuous snapshots, for the specified Managed Database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbSnapshotRanges.go.html to see an example of how to use SummarizeAwrDbSnapshotRanges API.
 func (client DbManagementClient) SummarizeAwrDbSnapshotRanges(ctx context.Context, request SummarizeAwrDbSnapshotRangesRequest) (response SummarizeAwrDbSnapshotRangesResponse, err error) {
@@ -9233,7 +9237,7 @@ func (client DbManagementClient) summarizeAwrDbSnapshotRanges(ctx context.Contex
 
 // SummarizeAwrDbSysstats Summarizes the AWR SYSSTAT sample data for the specified database in AWR. The statistical data is summarized based on the Time dimension for each statistic.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbSysstats.go.html to see an example of how to use SummarizeAwrDbSysstats API.
 func (client DbManagementClient) SummarizeAwrDbSysstats(ctx context.Context, request SummarizeAwrDbSysstatsRequest) (response SummarizeAwrDbSysstatsResponse, err error) {
@@ -9295,7 +9299,7 @@ func (client DbManagementClient) summarizeAwrDbSysstats(ctx context.Context, req
 
 // SummarizeAwrDbTopWaitEvents Summarizes the AWR top wait events.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbTopWaitEvents.go.html to see an example of how to use SummarizeAwrDbTopWaitEvents API.
 func (client DbManagementClient) SummarizeAwrDbTopWaitEvents(ctx context.Context, request SummarizeAwrDbTopWaitEventsRequest) (response SummarizeAwrDbTopWaitEventsResponse, err error) {
@@ -9357,7 +9361,7 @@ func (client DbManagementClient) summarizeAwrDbTopWaitEvents(ctx context.Context
 
 // SummarizeAwrDbWaitEventBuckets Summarizes AWR wait event data into value buckets and frequency, for the specified database in the AWR.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbWaitEventBuckets.go.html to see an example of how to use SummarizeAwrDbWaitEventBuckets API.
 func (client DbManagementClient) SummarizeAwrDbWaitEventBuckets(ctx context.Context, request SummarizeAwrDbWaitEventBucketsRequest) (response SummarizeAwrDbWaitEventBucketsResponse, err error) {
@@ -9419,7 +9423,7 @@ func (client DbManagementClient) summarizeAwrDbWaitEventBuckets(ctx context.Cont
 
 // SummarizeAwrDbWaitEvents Summarizes the AWR wait event sample data for the specified database in the AWR. The event data is summarized based on the Time dimension for each event.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbWaitEvents.go.html to see an example of how to use SummarizeAwrDbWaitEvents API.
 func (client DbManagementClient) SummarizeAwrDbWaitEvents(ctx context.Context, request SummarizeAwrDbWaitEventsRequest) (response SummarizeAwrDbWaitEventsResponse, err error) {
@@ -9481,7 +9485,7 @@ func (client DbManagementClient) summarizeAwrDbWaitEvents(ctx context.Context, r
 
 // SummarizeExternalAsmMetrics Gets metrics for the external ASM specified by `externalAsmId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeExternalAsmMetrics.go.html to see an example of how to use SummarizeExternalAsmMetrics API.
 // A default retry strategy applies to this operation SummarizeExternalAsmMetrics()
@@ -9539,7 +9543,7 @@ func (client DbManagementClient) summarizeExternalAsmMetrics(ctx context.Context
 
 // SummarizeExternalClusterMetrics Gets metrics for the external cluster specified by `externalClusterId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeExternalClusterMetrics.go.html to see an example of how to use SummarizeExternalClusterMetrics API.
 // A default retry strategy applies to this operation SummarizeExternalClusterMetrics()
@@ -9597,7 +9601,7 @@ func (client DbManagementClient) summarizeExternalClusterMetrics(ctx context.Con
 
 // SummarizeExternalDbNodeMetrics Gets metrics for the external DB node specified by `externalDbNodeId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeExternalDbNodeMetrics.go.html to see an example of how to use SummarizeExternalDbNodeMetrics API.
 // A default retry strategy applies to this operation SummarizeExternalDbNodeMetrics()
@@ -9655,7 +9659,7 @@ func (client DbManagementClient) summarizeExternalDbNodeMetrics(ctx context.Cont
 
 // SummarizeExternalDbSystemAvailabilityMetrics Gets availability metrics for the components present in the external DB system specified by `externalDbSystemId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeExternalDbSystemAvailabilityMetrics.go.html to see an example of how to use SummarizeExternalDbSystemAvailabilityMetrics API.
 // A default retry strategy applies to this operation SummarizeExternalDbSystemAvailabilityMetrics()
@@ -9713,7 +9717,7 @@ func (client DbManagementClient) summarizeExternalDbSystemAvailabilityMetrics(ct
 
 // SummarizeExternalListenerMetrics Gets metrics for the external listener specified by `externalListenerId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeExternalListenerMetrics.go.html to see an example of how to use SummarizeExternalListenerMetrics API.
 // A default retry strategy applies to this operation SummarizeExternalListenerMetrics()
@@ -9771,7 +9775,7 @@ func (client DbManagementClient) summarizeExternalListenerMetrics(ctx context.Co
 
 // SummarizeJobExecutionsStatuses Gets the number of job executions grouped by status for a job, Managed Database, or Database Group in a specific compartment. Only one of the parameters, jobId, managedDatabaseId, or managedDatabaseGroupId should be provided.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeJobExecutionsStatuses.go.html to see an example of how to use SummarizeJobExecutionsStatuses API.
 func (client DbManagementClient) SummarizeJobExecutionsStatuses(ctx context.Context, request SummarizeJobExecutionsStatusesRequest) (response SummarizeJobExecutionsStatusesResponse, err error) {
@@ -9829,7 +9833,7 @@ func (client DbManagementClient) summarizeJobExecutionsStatuses(ctx context.Cont
 // SummarizeManagedDatabaseAvailabilityMetrics Gets the availability metrics related to managed database for the Oracle
 // database specified by managedDatabaseId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeManagedDatabaseAvailabilityMetrics.go.html to see an example of how to use SummarizeManagedDatabaseAvailabilityMetrics API.
 // A default retry strategy applies to this operation SummarizeManagedDatabaseAvailabilityMetrics()
@@ -9887,7 +9891,7 @@ func (client DbManagementClient) summarizeManagedDatabaseAvailabilityMetrics(ctx
 
 // SummarizeSqlPlanBaselines Gets the number of SQL plan baselines aggregated by their attributes.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeSqlPlanBaselines.go.html to see an example of how to use SummarizeSqlPlanBaselines API.
 // A default retry strategy applies to this operation SummarizeSqlPlanBaselines()
@@ -9945,7 +9949,7 @@ func (client DbManagementClient) summarizeSqlPlanBaselines(ctx context.Context, 
 
 // SummarizeSqlPlanBaselinesByLastExecution Gets the number of SQL plan baselines aggregated by the age of their last execution in weeks.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeSqlPlanBaselinesByLastExecution.go.html to see an example of how to use SummarizeSqlPlanBaselinesByLastExecution API.
 // A default retry strategy applies to this operation SummarizeSqlPlanBaselinesByLastExecution()
@@ -10003,7 +10007,7 @@ func (client DbManagementClient) summarizeSqlPlanBaselinesByLastExecution(ctx co
 
 // TestPreferredCredential Tests the preferred credential.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/TestPreferredCredential.go.html to see an example of how to use TestPreferredCredential API.
 func (client DbManagementClient) TestPreferredCredential(ctx context.Context, request TestPreferredCredentialRequest) (response TestPreferredCredentialResponse, err error) {
@@ -10060,7 +10064,7 @@ func (client DbManagementClient) testPreferredCredential(ctx context.Context, re
 
 // UpdateDbManagementPrivateEndpoint Updates one or more attributes of a specific Database Management private endpoint.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateDbManagementPrivateEndpoint.go.html to see an example of how to use UpdateDbManagementPrivateEndpoint API.
 func (client DbManagementClient) UpdateDbManagementPrivateEndpoint(ctx context.Context, request UpdateDbManagementPrivateEndpointRequest) (response UpdateDbManagementPrivateEndpointResponse, err error) {
@@ -10117,7 +10121,7 @@ func (client DbManagementClient) updateDbManagementPrivateEndpoint(ctx context.C
 
 // UpdateExternalAsm Updates the external ASM specified by `externalAsmId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalAsm.go.html to see an example of how to use UpdateExternalAsm API.
 func (client DbManagementClient) UpdateExternalAsm(ctx context.Context, request UpdateExternalAsmRequest) (response UpdateExternalAsmResponse, err error) {
@@ -10174,7 +10178,7 @@ func (client DbManagementClient) updateExternalAsm(ctx context.Context, request 
 
 // UpdateExternalCluster Updates the external cluster specified by `externalClusterId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalCluster.go.html to see an example of how to use UpdateExternalCluster API.
 func (client DbManagementClient) UpdateExternalCluster(ctx context.Context, request UpdateExternalClusterRequest) (response UpdateExternalClusterResponse, err error) {
@@ -10231,7 +10235,7 @@ func (client DbManagementClient) updateExternalCluster(ctx context.Context, requ
 
 // UpdateExternalClusterInstance Updates the external cluster instance specified by `externalClusterInstanceId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalClusterInstance.go.html to see an example of how to use UpdateExternalClusterInstance API.
 func (client DbManagementClient) UpdateExternalClusterInstance(ctx context.Context, request UpdateExternalClusterInstanceRequest) (response UpdateExternalClusterInstanceResponse, err error) {
@@ -10288,7 +10292,7 @@ func (client DbManagementClient) updateExternalClusterInstance(ctx context.Conte
 
 // UpdateExternalDbNode Updates the external DB node specified by `externalDbNodeId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalDbNode.go.html to see an example of how to use UpdateExternalDbNode API.
 func (client DbManagementClient) UpdateExternalDbNode(ctx context.Context, request UpdateExternalDbNodeRequest) (response UpdateExternalDbNodeResponse, err error) {
@@ -10345,7 +10349,7 @@ func (client DbManagementClient) updateExternalDbNode(ctx context.Context, reque
 
 // UpdateExternalDbSystem Updates the external DB system specified by `externalDbSystemId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalDbSystem.go.html to see an example of how to use UpdateExternalDbSystem API.
 func (client DbManagementClient) UpdateExternalDbSystem(ctx context.Context, request UpdateExternalDbSystemRequest) (response UpdateExternalDbSystemResponse, err error) {
@@ -10402,7 +10406,7 @@ func (client DbManagementClient) updateExternalDbSystem(ctx context.Context, req
 
 // UpdateExternalDbSystemConnector Updates the external connector specified by `externalDbSystemConnectorId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalDbSystemConnector.go.html to see an example of how to use UpdateExternalDbSystemConnector API.
 func (client DbManagementClient) UpdateExternalDbSystemConnector(ctx context.Context, request UpdateExternalDbSystemConnectorRequest) (response UpdateExternalDbSystemConnectorResponse, err error) {
@@ -10459,7 +10463,7 @@ func (client DbManagementClient) updateExternalDbSystemConnector(ctx context.Con
 
 // UpdateExternalDbSystemDiscovery Updates the external DB system discovery specified by `externalDbSystemDiscoveryId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalDbSystemDiscovery.go.html to see an example of how to use UpdateExternalDbSystemDiscovery API.
 func (client DbManagementClient) UpdateExternalDbSystemDiscovery(ctx context.Context, request UpdateExternalDbSystemDiscoveryRequest) (response UpdateExternalDbSystemDiscoveryResponse, err error) {
@@ -10516,7 +10520,7 @@ func (client DbManagementClient) updateExternalDbSystemDiscovery(ctx context.Con
 
 // UpdateExternalExadataInfrastructure Updates the details for the Exadata infrastructure specified by externalExadataInfrastructureId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalExadataInfrastructure.go.html to see an example of how to use UpdateExternalExadataInfrastructure API.
 // A default retry strategy applies to this operation UpdateExternalExadataInfrastructure()
@@ -10579,7 +10583,7 @@ func (client DbManagementClient) updateExternalExadataInfrastructure(ctx context
 
 // UpdateExternalExadataStorageConnector Updates the Exadata storage server connector specified by exadataStorageConnectorId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalExadataStorageConnector.go.html to see an example of how to use UpdateExternalExadataStorageConnector API.
 func (client DbManagementClient) UpdateExternalExadataStorageConnector(ctx context.Context, request UpdateExternalExadataStorageConnectorRequest) (response UpdateExternalExadataStorageConnectorResponse, err error) {
@@ -10636,7 +10640,7 @@ func (client DbManagementClient) updateExternalExadataStorageConnector(ctx conte
 
 // UpdateExternalListener Updates the external listener specified by `externalListenerId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalListener.go.html to see an example of how to use UpdateExternalListener API.
 func (client DbManagementClient) UpdateExternalListener(ctx context.Context, request UpdateExternalListenerRequest) (response UpdateExternalListenerResponse, err error) {
@@ -10693,7 +10697,7 @@ func (client DbManagementClient) updateExternalListener(ctx context.Context, req
 
 // UpdateJob Updates the details for the recurring scheduled job specified by jobId. Note that non-recurring (one time) jobs cannot be updated.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateJob.go.html to see an example of how to use UpdateJob API.
 func (client DbManagementClient) UpdateJob(ctx context.Context, request UpdateJobRequest) (response UpdateJobResponse, err error) {
@@ -10750,7 +10754,7 @@ func (client DbManagementClient) updateJob(ctx context.Context, request common.O
 
 // UpdateManagedDatabaseGroup Updates the Managed Database Group specified by managedDatabaseGroupId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateManagedDatabaseGroup.go.html to see an example of how to use UpdateManagedDatabaseGroup API.
 func (client DbManagementClient) UpdateManagedDatabaseGroup(ctx context.Context, request UpdateManagedDatabaseGroupRequest) (response UpdateManagedDatabaseGroupResponse, err error) {
@@ -10807,7 +10811,7 @@ func (client DbManagementClient) updateManagedDatabaseGroup(ctx context.Context,
 
 // UpdatePreferredCredential Updates the preferred credential based on the credentialName.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdatePreferredCredential.go.html to see an example of how to use UpdatePreferredCredential API.
 func (client DbManagementClient) UpdatePreferredCredential(ctx context.Context, request UpdatePreferredCredentialRequest) (response UpdatePreferredCredentialResponse, err error) {
@@ -10864,7 +10868,7 @@ func (client DbManagementClient) updatePreferredCredential(ctx context.Context, 
 
 // UpdateTablespace Updates the attributes of the tablespace specified by tablespaceName within the Managed Database specified by managedDatabaseId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateTablespace.go.html to see an example of how to use UpdateTablespace API.
 func (client DbManagementClient) UpdateTablespace(ctx context.Context, request UpdateTablespaceRequest) (response UpdateTablespaceResponse, err error) {

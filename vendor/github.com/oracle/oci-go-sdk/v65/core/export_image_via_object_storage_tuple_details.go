@@ -45,7 +45,7 @@ type ExportImageViaObjectStorageTupleDetails struct {
 	ExportFormat ExportImageDetailsExportFormatEnum `mandatory:"false" json:"exportFormat,omitempty"`
 }
 
-//GetExportFormat returns ExportFormat
+// GetExportFormat returns ExportFormat
 func (m ExportImageViaObjectStorageTupleDetails) GetExportFormat() ExportImageDetailsExportFormatEnum {
 	return m.ExportFormat
 }

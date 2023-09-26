@@ -25,7 +25,7 @@ type CheckAction struct {
 	Name *string `mandatory:"true" json:"name"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CheckAction) GetName() *string {
 	return m.Name
 }

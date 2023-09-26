@@ -18,13 +18,13 @@ import (
 
 // MyRequestRequesting Requestable resource reference.
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: immutable
-//  - required: true
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: immutable
+//   - required: true
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type MyRequestRequesting struct {
 
 	// Resource identifier

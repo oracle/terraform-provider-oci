@@ -67,52 +67,52 @@ type ResolverVnicEndpoint struct {
 	LifecycleState ResolverEndpointLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ResolverVnicEndpoint) GetName() *string {
 	return m.Name
 }
 
-//GetForwardingAddress returns ForwardingAddress
+// GetForwardingAddress returns ForwardingAddress
 func (m ResolverVnicEndpoint) GetForwardingAddress() *string {
 	return m.ForwardingAddress
 }
 
-//GetIsForwarding returns IsForwarding
+// GetIsForwarding returns IsForwarding
 func (m ResolverVnicEndpoint) GetIsForwarding() *bool {
 	return m.IsForwarding
 }
 
-//GetIsListening returns IsListening
+// GetIsListening returns IsListening
 func (m ResolverVnicEndpoint) GetIsListening() *bool {
 	return m.IsListening
 }
 
-//GetListeningAddress returns ListeningAddress
+// GetListeningAddress returns ListeningAddress
 func (m ResolverVnicEndpoint) GetListeningAddress() *string {
 	return m.ListeningAddress
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m ResolverVnicEndpoint) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m ResolverVnicEndpoint) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m ResolverVnicEndpoint) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m ResolverVnicEndpoint) GetLifecycleState() ResolverEndpointLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetSelf returns Self
+// GetSelf returns Self
 func (m ResolverVnicEndpoint) GetSelf() *string {
 	return m.Self
 }

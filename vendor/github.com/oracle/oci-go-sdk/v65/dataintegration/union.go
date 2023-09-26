@@ -60,62 +60,62 @@ type Union struct {
 	UnionType UnionUnionTypeEnum `mandatory:"false" json:"unionType,omitempty"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m Union) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m Union) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m Union) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m Union) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m Union) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m Union) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m Union) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m Union) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m Union) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m Union) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m Union) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m Union) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }

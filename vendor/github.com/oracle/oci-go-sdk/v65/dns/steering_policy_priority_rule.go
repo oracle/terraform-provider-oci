@@ -40,7 +40,7 @@ type SteeringPolicyPriorityRule struct {
 	DefaultAnswerData []SteeringPolicyPriorityAnswerData `mandatory:"false" json:"defaultAnswerData"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m SteeringPolicyPriorityRule) GetDescription() *string {
 	return m.Description
 }

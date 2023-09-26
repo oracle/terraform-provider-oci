@@ -95,7 +95,7 @@ func (client *GatewayClient) ConfigurationProvider() *common.ConfigurationProvid
 
 // ChangeGatewayCompartment Changes the gateway compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeGatewayCompartment.go.html to see an example of how to use ChangeGatewayCompartment API.
 func (client GatewayClient) ChangeGatewayCompartment(ctx context.Context, request ChangeGatewayCompartmentRequest) (response ChangeGatewayCompartmentResponse, err error) {
@@ -157,7 +157,7 @@ func (client GatewayClient) changeGatewayCompartment(ctx context.Context, reques
 
 // CreateGateway Creates a new gateway.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateGateway.go.html to see an example of how to use CreateGateway API.
 // A default retry strategy applies to this operation CreateGateway()
@@ -220,7 +220,7 @@ func (client GatewayClient) createGateway(ctx context.Context, request common.OC
 
 // DeleteGateway Deletes the gateway with the given identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteGateway.go.html to see an example of how to use DeleteGateway API.
 func (client GatewayClient) DeleteGateway(ctx context.Context, request DeleteGatewayRequest) (response DeleteGatewayResponse, err error) {
@@ -277,7 +277,7 @@ func (client GatewayClient) deleteGateway(ctx context.Context, request common.OC
 
 // GetGateway Gets a gateway by identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetGateway.go.html to see an example of how to use GetGateway API.
 // A default retry strategy applies to this operation GetGateway()
@@ -335,7 +335,7 @@ func (client GatewayClient) getGateway(ctx context.Context, request common.OCIRe
 
 // ListGateways Returns a list of gateways.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListGateways.go.html to see an example of how to use ListGateways API.
 // A default retry strategy applies to this operation ListGateways()
@@ -393,7 +393,7 @@ func (client GatewayClient) listGateways(ctx context.Context, request common.OCI
 
 // UpdateGateway Updates the gateway with the given identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateGateway.go.html to see an example of how to use UpdateGateway API.
 func (client GatewayClient) UpdateGateway(ctx context.Context, request UpdateGatewayRequest) (response UpdateGatewayResponse, err error) {

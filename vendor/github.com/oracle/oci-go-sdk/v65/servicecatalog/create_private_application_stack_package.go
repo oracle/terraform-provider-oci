@@ -26,7 +26,7 @@ type CreatePrivateApplicationStackPackage struct {
 	ZipFileBase64Encoded *string `mandatory:"false" json:"zipFileBase64Encoded"`
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m CreatePrivateApplicationStackPackage) GetVersion() *string {
 	return m.Version
 }

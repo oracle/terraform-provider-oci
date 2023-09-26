@@ -44,37 +44,37 @@ type DynamicInputField struct {
 	Labels []string `mandatory:"false" json:"labels"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m DynamicInputField) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m DynamicInputField) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m DynamicInputField) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetConfigValues returns ConfigValues
+// GetConfigValues returns ConfigValues
 func (m DynamicInputField) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m DynamicInputField) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m DynamicInputField) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DynamicInputField) GetDescription() *string {
 	return m.Description
 }

@@ -95,7 +95,7 @@ func (client *SubscribersClient) ConfigurationProvider() *common.ConfigurationPr
 
 // ChangeSubscriberCompartment Changes the subscriber compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeSubscriberCompartment.go.html to see an example of how to use ChangeSubscriberCompartment API.
 func (client SubscribersClient) ChangeSubscriberCompartment(ctx context.Context, request ChangeSubscriberCompartmentRequest) (response ChangeSubscriberCompartmentResponse, err error) {
@@ -157,7 +157,7 @@ func (client SubscribersClient) changeSubscriberCompartment(ctx context.Context,
 
 // CreateSubscriber Creates a new subscriber.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateSubscriber.go.html to see an example of how to use CreateSubscriber API.
 // A default retry strategy applies to this operation CreateSubscriber()
@@ -220,7 +220,7 @@ func (client SubscribersClient) createSubscriber(ctx context.Context, request co
 
 // DeleteSubscriber Deletes the subscriber with the given identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteSubscriber.go.html to see an example of how to use DeleteSubscriber API.
 func (client SubscribersClient) DeleteSubscriber(ctx context.Context, request DeleteSubscriberRequest) (response DeleteSubscriberResponse, err error) {
@@ -277,7 +277,7 @@ func (client SubscribersClient) deleteSubscriber(ctx context.Context, request co
 
 // GetSubscriber Gets a subscriber by identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetSubscriber.go.html to see an example of how to use GetSubscriber API.
 // A default retry strategy applies to this operation GetSubscriber()
@@ -335,7 +335,7 @@ func (client SubscribersClient) getSubscriber(ctx context.Context, request commo
 
 // ListSubscribers Returns a list of subscribers.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListSubscribers.go.html to see an example of how to use ListSubscribers API.
 // A default retry strategy applies to this operation ListSubscribers()
@@ -393,7 +393,7 @@ func (client SubscribersClient) listSubscribers(ctx context.Context, request com
 
 // UpdateSubscriber Updates the subscriber with the given identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateSubscriber.go.html to see an example of how to use UpdateSubscriber API.
 func (client SubscribersClient) UpdateSubscriber(ctx context.Context, request UpdateSubscriberRequest) (response UpdateSubscriberResponse, err error) {

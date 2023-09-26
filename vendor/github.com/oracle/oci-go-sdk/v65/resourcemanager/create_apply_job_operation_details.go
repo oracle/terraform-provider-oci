@@ -37,7 +37,7 @@ type CreateApplyJobOperationDetails struct {
 	ExecutionPlanStrategy ApplyJobOperationDetailsExecutionPlanStrategyEnum `mandatory:"false" json:"executionPlanStrategy,omitempty"`
 }
 
-//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+// GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
 func (m CreateApplyJobOperationDetails) GetIsProviderUpgradeRequired() *bool {
 	return m.IsProviderUpgradeRequired
 }

@@ -19,14 +19,14 @@ import (
 // UserExtSupportAccounts A list of Support Accounts corresponding to user.
 // **Added In:** 2103141444
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [value]
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readOnly
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [value]
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readOnly
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type UserExtSupportAccounts struct {
 
 	// The identifier of the User's support Account.

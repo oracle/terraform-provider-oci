@@ -39,22 +39,22 @@ type UpdateVbsAccessTokenConnectionDetails struct {
 	BaseUrl *string `mandatory:"false" json:"baseUrl"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateVbsAccessTokenConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateVbsAccessTokenConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateVbsAccessTokenConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateVbsAccessTokenConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

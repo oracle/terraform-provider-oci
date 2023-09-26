@@ -26,7 +26,7 @@ type TokenAuthenticationStaticKeysValidationPolicy struct {
 	Keys []StaticPublicKey `mandatory:"false" json:"keys"`
 }
 
-//GetAdditionalValidationPolicy returns AdditionalValidationPolicy
+// GetAdditionalValidationPolicy returns AdditionalValidationPolicy
 func (m TokenAuthenticationStaticKeysValidationPolicy) GetAdditionalValidationPolicy() *AdditionalValidationPolicy {
 	return m.AdditionalValidationPolicy
 }

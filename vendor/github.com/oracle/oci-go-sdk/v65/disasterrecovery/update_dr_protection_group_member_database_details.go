@@ -30,7 +30,7 @@ type UpdateDrProtectionGroupMemberDatabaseDetails struct {
 	PasswordVaultSecretId *string `mandatory:"false" json:"passwordVaultSecretId"`
 }
 
-//GetMemberId returns MemberId
+// GetMemberId returns MemberId
 func (m UpdateDrProtectionGroupMemberDatabaseDetails) GetMemberId() *string {
 	return m.MemberId
 }

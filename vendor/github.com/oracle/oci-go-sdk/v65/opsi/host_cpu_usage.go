@@ -53,7 +53,7 @@ type HostCpuUsage struct {
 	CpuLoad15min *float32 `mandatory:"false" json:"cpuLoad15min"`
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m HostCpuUsage) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

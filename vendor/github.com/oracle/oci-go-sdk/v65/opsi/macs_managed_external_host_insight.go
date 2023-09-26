@@ -82,72 +82,72 @@ type MacsManagedExternalHostInsight struct {
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m MacsManagedExternalHostInsight) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m MacsManagedExternalHostInsight) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetHostName returns HostName
+// GetHostName returns HostName
 func (m MacsManagedExternalHostInsight) GetHostName() *string {
 	return m.HostName
 }
 
-//GetHostDisplayName returns HostDisplayName
+// GetHostDisplayName returns HostDisplayName
 func (m MacsManagedExternalHostInsight) GetHostDisplayName() *string {
 	return m.HostDisplayName
 }
 
-//GetHostType returns HostType
+// GetHostType returns HostType
 func (m MacsManagedExternalHostInsight) GetHostType() *string {
 	return m.HostType
 }
 
-//GetProcessorCount returns ProcessorCount
+// GetProcessorCount returns ProcessorCount
 func (m MacsManagedExternalHostInsight) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m MacsManagedExternalHostInsight) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m MacsManagedExternalHostInsight) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m MacsManagedExternalHostInsight) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m MacsManagedExternalHostInsight) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m MacsManagedExternalHostInsight) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m MacsManagedExternalHostInsight) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m MacsManagedExternalHostInsight) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m MacsManagedExternalHostInsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }

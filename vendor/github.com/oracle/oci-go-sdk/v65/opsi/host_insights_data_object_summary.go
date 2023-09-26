@@ -37,27 +37,27 @@ type HostInsightsDataObjectSummary struct {
 	GroupNames []string `mandatory:"false" json:"groupNames"`
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m HostInsightsDataObjectSummary) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m HostInsightsDataObjectSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m HostInsightsDataObjectSummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m HostInsightsDataObjectSummary) GetName() *string {
 	return m.Name
 }
 
-//GetGroupNames returns GroupNames
+// GetGroupNames returns GroupNames
 func (m HostInsightsDataObjectSummary) GetGroupNames() []string {
 	return m.GroupNames
 }

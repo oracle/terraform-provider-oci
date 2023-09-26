@@ -19,10 +19,11 @@ import (
 
 // StaticTextHttpResponseBody Allows returning static text as HTTP response body.
 // Example:
-// {
-//   "type": "STATIC_TEXT",
-//   "text": "{\n  \"code\": 403,\n  \"message\":\"Unauthorised\"\n}"
-// }
+//
+//	{
+//	  "type": "STATIC_TEXT",
+//	  "text": "{\n  \"code\": 403,\n  \"message\":\"Unauthorised\"\n}"
+//	}
 type StaticTextHttpResponseBody struct {
 
 	// Static response body text.

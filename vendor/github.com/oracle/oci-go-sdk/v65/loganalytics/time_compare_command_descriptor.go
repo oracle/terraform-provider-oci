@@ -38,32 +38,32 @@ type TimeCompareCommandDescriptor struct {
 	IsHidden *bool `mandatory:"false" json:"isHidden"`
 }
 
-//GetDisplayQueryString returns DisplayQueryString
+// GetDisplayQueryString returns DisplayQueryString
 func (m TimeCompareCommandDescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-//GetInternalQueryString returns InternalQueryString
+// GetInternalQueryString returns InternalQueryString
 func (m TimeCompareCommandDescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m TimeCompareCommandDescriptor) GetCategory() *string {
 	return m.Category
 }
 
-//GetReferencedFields returns ReferencedFields
+// GetReferencedFields returns ReferencedFields
 func (m TimeCompareCommandDescriptor) GetReferencedFields() []AbstractField {
 	return m.ReferencedFields
 }
 
-//GetDeclaredFields returns DeclaredFields
+// GetDeclaredFields returns DeclaredFields
 func (m TimeCompareCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
-//GetIsHidden returns IsHidden
+// GetIsHidden returns IsHidden
 func (m TimeCompareCommandDescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }

@@ -19,12 +19,12 @@ import (
 // AppAllowAuthzPolicy Allow Authz Policy.
 // **Added In:** 19.2.1
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
 type AppAllowAuthzPolicy struct {
 
 	// Identifier of the Policy.

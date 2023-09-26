@@ -35,27 +35,27 @@ type PipelineCustomScriptStepRun struct {
 	LifecycleState PipelineStepRunLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetTimeStarted returns TimeStarted
+// GetTimeStarted returns TimeStarted
 func (m PipelineCustomScriptStepRun) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-//GetTimeFinished returns TimeFinished
+// GetTimeFinished returns TimeFinished
 func (m PipelineCustomScriptStepRun) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-//GetStepName returns StepName
+// GetStepName returns StepName
 func (m PipelineCustomScriptStepRun) GetStepName() *string {
 	return m.StepName
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m PipelineCustomScriptStepRun) GetLifecycleState() PipelineStepRunLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m PipelineCustomScriptStepRun) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }

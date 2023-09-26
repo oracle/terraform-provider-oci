@@ -66,37 +66,37 @@ type DiscoveredExternalCluster struct {
 	Status DiscoveredExternalDbSystemComponentStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 
-//GetComponentId returns ComponentId
+// GetComponentId returns ComponentId
 func (m DiscoveredExternalCluster) GetComponentId() *string {
 	return m.ComponentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m DiscoveredExternalCluster) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetComponentName returns ComponentName
+// GetComponentName returns ComponentName
 func (m DiscoveredExternalCluster) GetComponentName() *string {
 	return m.ComponentName
 }
 
-//GetResourceId returns ResourceId
+// GetResourceId returns ResourceId
 func (m DiscoveredExternalCluster) GetResourceId() *string {
 	return m.ResourceId
 }
 
-//GetIsSelectedForMonitoring returns IsSelectedForMonitoring
+// GetIsSelectedForMonitoring returns IsSelectedForMonitoring
 func (m DiscoveredExternalCluster) GetIsSelectedForMonitoring() *bool {
 	return m.IsSelectedForMonitoring
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m DiscoveredExternalCluster) GetStatus() DiscoveredExternalDbSystemComponentStatusEnum {
 	return m.Status
 }
 
-//GetAssociatedComponents returns AssociatedComponents
+// GetAssociatedComponents returns AssociatedComponents
 func (m DiscoveredExternalCluster) GetAssociatedComponents() []AssociatedComponent {
 	return m.AssociatedComponents
 }

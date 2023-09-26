@@ -41,7 +41,7 @@ type DeterministicSubstitutionFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DeterministicSubstitutionFormatEntry) GetDescription() *string {
 	return m.Description
 }

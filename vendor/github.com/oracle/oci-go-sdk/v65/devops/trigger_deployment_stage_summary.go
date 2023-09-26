@@ -67,72 +67,72 @@ type TriggerDeploymentStageSummary struct {
 	LifecycleState BuildPipelineStageLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m TriggerDeploymentStageSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m TriggerDeploymentStageSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetProjectId returns ProjectId
+// GetProjectId returns ProjectId
 func (m TriggerDeploymentStageSummary) GetProjectId() *string {
 	return m.ProjectId
 }
 
-//GetBuildPipelineId returns BuildPipelineId
+// GetBuildPipelineId returns BuildPipelineId
 func (m TriggerDeploymentStageSummary) GetBuildPipelineId() *string {
 	return m.BuildPipelineId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m TriggerDeploymentStageSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m TriggerDeploymentStageSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m TriggerDeploymentStageSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m TriggerDeploymentStageSummary) GetLifecycleState() BuildPipelineStageLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m TriggerDeploymentStageSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m TriggerDeploymentStageSummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
+// GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
 func (m TriggerDeploymentStageSummary) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessorCollection
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m TriggerDeploymentStageSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m TriggerDeploymentStageSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m TriggerDeploymentStageSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

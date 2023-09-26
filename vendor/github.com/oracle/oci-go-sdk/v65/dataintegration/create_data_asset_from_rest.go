@@ -54,47 +54,47 @@ type CreateDataAssetFromRest struct {
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m CreateDataAssetFromRest) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m CreateDataAssetFromRest) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateDataAssetFromRest) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateDataAssetFromRest) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m CreateDataAssetFromRest) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m CreateDataAssetFromRest) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m CreateDataAssetFromRest) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m CreateDataAssetFromRest) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m CreateDataAssetFromRest) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

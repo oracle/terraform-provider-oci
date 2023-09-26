@@ -92,72 +92,72 @@ type AutonomousDatabaseInsight struct {
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m AutonomousDatabaseInsight) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m AutonomousDatabaseInsight) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m AutonomousDatabaseInsight) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-//GetDatabaseType returns DatabaseType
+// GetDatabaseType returns DatabaseType
 func (m AutonomousDatabaseInsight) GetDatabaseType() *string {
 	return m.DatabaseType
 }
 
-//GetDatabaseVersion returns DatabaseVersion
+// GetDatabaseVersion returns DatabaseVersion
 func (m AutonomousDatabaseInsight) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
 }
 
-//GetProcessorCount returns ProcessorCount
+// GetProcessorCount returns ProcessorCount
 func (m AutonomousDatabaseInsight) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m AutonomousDatabaseInsight) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m AutonomousDatabaseInsight) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m AutonomousDatabaseInsight) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m AutonomousDatabaseInsight) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m AutonomousDatabaseInsight) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m AutonomousDatabaseInsight) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m AutonomousDatabaseInsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+// GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
 func (m AutonomousDatabaseInsight) GetDatabaseConnectionStatusDetails() *string {
 	return m.DatabaseConnectionStatusDetails
 }

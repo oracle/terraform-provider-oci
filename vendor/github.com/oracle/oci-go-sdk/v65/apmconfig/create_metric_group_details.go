@@ -46,12 +46,12 @@ type CreateMetricGroupDetails struct {
 	Dimensions []Dimension `mandatory:"false" json:"dimensions"`
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateMetricGroupDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateMetricGroupDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

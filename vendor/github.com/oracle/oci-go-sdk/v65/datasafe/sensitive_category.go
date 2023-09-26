@@ -62,67 +62,67 @@ type SensitiveCategory struct {
 	Source SensitiveTypeSourceEnum `mandatory:"true" json:"source"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m SensitiveCategory) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m SensitiveCategory) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m SensitiveCategory) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m SensitiveCategory) GetLifecycleState() DiscoveryLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetShortName returns ShortName
+// GetShortName returns ShortName
 func (m SensitiveCategory) GetShortName() *string {
 	return m.ShortName
 }
 
-//GetSource returns Source
+// GetSource returns Source
 func (m SensitiveCategory) GetSource() SensitiveTypeSourceEnum {
 	return m.Source
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m SensitiveCategory) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m SensitiveCategory) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m SensitiveCategory) GetDescription() *string {
 	return m.Description
 }
 
-//GetParentCategoryId returns ParentCategoryId
+// GetParentCategoryId returns ParentCategoryId
 func (m SensitiveCategory) GetParentCategoryId() *string {
 	return m.ParentCategoryId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m SensitiveCategory) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m SensitiveCategory) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m SensitiveCategory) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

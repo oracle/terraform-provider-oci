@@ -34,7 +34,7 @@ type UpdateVmTargetAssetDetails struct {
 	PreferredShapeType VmTargetAssetPreferredShapeTypeEnum `mandatory:"false" json:"preferredShapeType,omitempty"`
 }
 
-//GetIsExcludedFromExecution returns IsExcludedFromExecution
+// GetIsExcludedFromExecution returns IsExcludedFromExecution
 func (m UpdateVmTargetAssetDetails) GetIsExcludedFromExecution() *bool {
 	return m.IsExcludedFromExecution
 }
