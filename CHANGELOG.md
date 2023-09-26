@@ -1,4 +1,4 @@
-## 5.14.0 (Unreleased)
+## 5.14.0 (September 26, 2023)
 
 ### Added
 - Support for OIC: FAaas Self Service with Henosis
