@@ -277,6 +277,7 @@ github.com/oracle/oci-go-sdk/v65/cloudmigrations
 github.com/oracle/oci-go-sdk/v65/common
 github.com/oracle/oci-go-sdk/v65/common/auth
 github.com/oracle/oci-go-sdk/v65/common/utils
+github.com/oracle/oci-go-sdk/v65/computecloudatcustomer
 github.com/oracle/oci-go-sdk/v65/computeinstanceagent
 github.com/oracle/oci-go-sdk/v65/containerengine
 github.com/oracle/oci-go-sdk/v65/containerinstances
