@@ -38,17 +38,17 @@ type PatchAction struct {
 	State ActionStateEnum `mandatory:"false" json:"state,omitempty"`
 }
 
-//GetReferenceKey returns ReferenceKey
+// GetReferenceKey returns ReferenceKey
 func (m PatchAction) GetReferenceKey() *string {
 	return m.ReferenceKey
 }
 
-//GetState returns State
+// GetState returns State
 func (m PatchAction) GetState() ActionStateEnum {
 	return m.State
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m PatchAction) GetDescription() *string {
 	return m.Description
 }

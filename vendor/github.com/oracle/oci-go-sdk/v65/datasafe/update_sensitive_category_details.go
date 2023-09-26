@@ -40,32 +40,32 @@ type UpdateSensitiveCategoryDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateSensitiveCategoryDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetShortName returns ShortName
+// GetShortName returns ShortName
 func (m UpdateSensitiveCategoryDetails) GetShortName() *string {
 	return m.ShortName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateSensitiveCategoryDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetParentCategoryId returns ParentCategoryId
+// GetParentCategoryId returns ParentCategoryId
 func (m UpdateSensitiveCategoryDetails) GetParentCategoryId() *string {
 	return m.ParentCategoryId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateSensitiveCategoryDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateSensitiveCategoryDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

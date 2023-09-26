@@ -33,7 +33,7 @@ type CreateSubordinateCaIssuedByInternalCaConfigDetails struct {
 	SigningAlgorithm SignatureAlgorithmEnum `mandatory:"false" json:"signingAlgorithm,omitempty"`
 }
 
-//GetVersionName returns VersionName
+// GetVersionName returns VersionName
 func (m CreateSubordinateCaIssuedByInternalCaConfigDetails) GetVersionName() *string {
 	return m.VersionName
 }

@@ -56,52 +56,52 @@ type UpdateConnectionFromMySql struct {
 	PasswordSecret *SensitiveAttribute `mandatory:"false" json:"passwordSecret"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m UpdateConnectionFromMySql) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m UpdateConnectionFromMySql) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m UpdateConnectionFromMySql) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UpdateConnectionFromMySql) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateConnectionFromMySql) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m UpdateConnectionFromMySql) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m UpdateConnectionFromMySql) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m UpdateConnectionFromMySql) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetConnectionProperties returns ConnectionProperties
+// GetConnectionProperties returns ConnectionProperties
 func (m UpdateConnectionFromMySql) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m UpdateConnectionFromMySql) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

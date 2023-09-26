@@ -19,8 +19,8 @@ import (
 
 // RequestRateLimitingRule Rule that represents RequestRateLimitingConfigurations.
 // Only actions of the following types are allowed to be referenced in this rule:
-//  * CHECK
-//  * RETURN_HTTP_RESPONSE
+//   - CHECK
+//   - RETURN_HTTP_RESPONSE
 type RequestRateLimitingRule struct {
 
 	// Rule name. Must be unique within the module.
@@ -41,22 +41,22 @@ type RequestRateLimitingRule struct {
 	ConditionLanguage WebAppFirewallPolicyRuleConditionLanguageEnum `mandatory:"false" json:"conditionLanguage,omitempty"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m RequestRateLimitingRule) GetName() *string {
 	return m.Name
 }
 
-//GetConditionLanguage returns ConditionLanguage
+// GetConditionLanguage returns ConditionLanguage
 func (m RequestRateLimitingRule) GetConditionLanguage() WebAppFirewallPolicyRuleConditionLanguageEnum {
 	return m.ConditionLanguage
 }
 
-//GetCondition returns Condition
+// GetCondition returns Condition
 func (m RequestRateLimitingRule) GetCondition() *string {
 	return m.Condition
 }
 
-//GetActionName returns ActionName
+// GetActionName returns ActionName
 func (m RequestRateLimitingRule) GetActionName() *string {
 	return m.ActionName
 }

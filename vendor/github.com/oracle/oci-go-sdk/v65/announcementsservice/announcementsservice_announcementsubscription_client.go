@@ -94,7 +94,7 @@ func (client *AnnouncementSubscriptionClient) ConfigurationProvider() *common.Co
 // ChangeAnnouncementSubscriptionCompartment Moves the specified announcement subscription from one compartment to another compartment. When provided, If-Match is checked against ETag values of the resource.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ChangeAnnouncementSubscriptionCompartment.go.html to see an example of how to use ChangeAnnouncementSubscriptionCompartment API.
 func (client AnnouncementSubscriptionClient) ChangeAnnouncementSubscriptionCompartment(ctx context.Context, request ChangeAnnouncementSubscriptionCompartmentRequest) (response ChangeAnnouncementSubscriptionCompartmentResponse, err error) {
@@ -152,7 +152,7 @@ func (client AnnouncementSubscriptionClient) changeAnnouncementSubscriptionCompa
 // CreateAnnouncementSubscription Creates a new announcement subscription.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateAnnouncementSubscription.go.html to see an example of how to use CreateAnnouncementSubscription API.
 func (client AnnouncementSubscriptionClient) CreateAnnouncementSubscription(ctx context.Context, request CreateAnnouncementSubscriptionRequest) (response CreateAnnouncementSubscriptionResponse, err error) {
@@ -215,7 +215,7 @@ func (client AnnouncementSubscriptionClient) createAnnouncementSubscription(ctx 
 // CreateFilterGroup Creates a new filter group in the specified announcement subscription.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateFilterGroup.go.html to see an example of how to use CreateFilterGroup API.
 func (client AnnouncementSubscriptionClient) CreateFilterGroup(ctx context.Context, request CreateFilterGroupRequest) (response CreateFilterGroupResponse, err error) {
@@ -278,7 +278,7 @@ func (client AnnouncementSubscriptionClient) createFilterGroup(ctx context.Conte
 // DeleteAnnouncementSubscription Deletes the specified announcement subscription.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/DeleteAnnouncementSubscription.go.html to see an example of how to use DeleteAnnouncementSubscription API.
 func (client AnnouncementSubscriptionClient) DeleteAnnouncementSubscription(ctx context.Context, request DeleteAnnouncementSubscriptionRequest) (response DeleteAnnouncementSubscriptionResponse, err error) {
@@ -336,7 +336,7 @@ func (client AnnouncementSubscriptionClient) deleteAnnouncementSubscription(ctx 
 // DeleteFilterGroup Deletes a filter group in the specified announcement subscription.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/DeleteFilterGroup.go.html to see an example of how to use DeleteFilterGroup API.
 func (client AnnouncementSubscriptionClient) DeleteFilterGroup(ctx context.Context, request DeleteFilterGroupRequest) (response DeleteFilterGroupResponse, err error) {
@@ -394,7 +394,7 @@ func (client AnnouncementSubscriptionClient) deleteFilterGroup(ctx context.Conte
 // GetAnnouncementSubscription Gets the specified announcement subscription.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementSubscription.go.html to see an example of how to use GetAnnouncementSubscription API.
 func (client AnnouncementSubscriptionClient) GetAnnouncementSubscription(ctx context.Context, request GetAnnouncementSubscriptionRequest) (response GetAnnouncementSubscriptionResponse, err error) {
@@ -452,7 +452,7 @@ func (client AnnouncementSubscriptionClient) getAnnouncementSubscription(ctx con
 // ListAnnouncementSubscriptions Gets a list of all announcement subscriptions in the specified compartment.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ListAnnouncementSubscriptions.go.html to see an example of how to use ListAnnouncementSubscriptions API.
 func (client AnnouncementSubscriptionClient) ListAnnouncementSubscriptions(ctx context.Context, request ListAnnouncementSubscriptionsRequest) (response ListAnnouncementSubscriptionsResponse, err error) {
@@ -510,7 +510,7 @@ func (client AnnouncementSubscriptionClient) listAnnouncementSubscriptions(ctx c
 // UpdateAnnouncementSubscription Updates the specified announcement subscription.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateAnnouncementSubscription.go.html to see an example of how to use UpdateAnnouncementSubscription API.
 func (client AnnouncementSubscriptionClient) UpdateAnnouncementSubscription(ctx context.Context, request UpdateAnnouncementSubscriptionRequest) (response UpdateAnnouncementSubscriptionResponse, err error) {
@@ -568,7 +568,7 @@ func (client AnnouncementSubscriptionClient) updateAnnouncementSubscription(ctx 
 // UpdateFilterGroup Updates a filter group in the specified announcement subscription.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateFilterGroup.go.html to see an example of how to use UpdateFilterGroup API.
 func (client AnnouncementSubscriptionClient) UpdateFilterGroup(ctx context.Context, request UpdateFilterGroupRequest) (response UpdateFilterGroupResponse, err error) {

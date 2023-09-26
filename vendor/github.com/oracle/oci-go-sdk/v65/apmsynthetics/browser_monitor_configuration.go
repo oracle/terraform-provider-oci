@@ -40,12 +40,12 @@ type BrowserMonitorConfiguration struct {
 	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }
 
-//GetIsFailureRetried returns IsFailureRetried
+// GetIsFailureRetried returns IsFailureRetried
 func (m BrowserMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
 }
 
-//GetDnsConfiguration returns DnsConfiguration
+// GetDnsConfiguration returns DnsConfiguration
 func (m BrowserMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
 	return m.DnsConfiguration
 }

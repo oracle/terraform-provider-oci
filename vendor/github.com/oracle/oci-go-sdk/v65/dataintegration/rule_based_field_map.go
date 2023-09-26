@@ -52,7 +52,7 @@ type RuleBasedFieldMap struct {
 	MapType RuleBasedFieldMapMapTypeEnum `mandatory:"false" json:"mapType,omitempty"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m RuleBasedFieldMap) GetDescription() *string {
 	return m.Description
 }

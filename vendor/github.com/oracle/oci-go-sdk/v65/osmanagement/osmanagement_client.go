@@ -94,7 +94,7 @@ func (client *OsManagementClient) ConfigurationProvider() *common.ConfigurationP
 
 // AddPackagesToSoftwareSource Adds a given list of Software Packages to a specific Software Source.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/AddPackagesToSoftwareSource.go.html to see an example of how to use AddPackagesToSoftwareSource API.
 func (client OsManagementClient) AddPackagesToSoftwareSource(ctx context.Context, request AddPackagesToSoftwareSourceRequest) (response AddPackagesToSoftwareSourceResponse, err error) {
@@ -153,7 +153,7 @@ func (client OsManagementClient) addPackagesToSoftwareSource(ctx context.Context
 // source has been added, then packages from that software source can be
 // installed on the managed instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/AttachChildSoftwareSourceToManagedInstance.go.html to see an example of how to use AttachChildSoftwareSourceToManagedInstance API.
 func (client OsManagementClient) AttachChildSoftwareSourceToManagedInstance(ctx context.Context, request AttachChildSoftwareSourceToManagedInstanceRequest) (response AttachChildSoftwareSourceToManagedInstanceResponse, err error) {
@@ -218,7 +218,7 @@ func (client OsManagementClient) attachChildSoftwareSourceToManagedInstance(ctx 
 // Instance Group which will then apply to all Managed Instances in the
 // group.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/AttachManagedInstanceToManagedInstanceGroup.go.html to see an example of how to use AttachManagedInstanceToManagedInstanceGroup API.
 func (client OsManagementClient) AttachManagedInstanceToManagedInstanceGroup(ctx context.Context, request AttachManagedInstanceToManagedInstanceGroupRequest) (response AttachManagedInstanceToManagedInstanceGroupResponse, err error) {
@@ -283,7 +283,7 @@ func (client OsManagementClient) attachManagedInstanceToManagedInstanceGroup(ctx
 // installed on the managed instance. Software sources that have this
 // software source as a parent will be able to be added to this managed instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/AttachParentSoftwareSourceToManagedInstance.go.html to see an example of how to use AttachParentSoftwareSourceToManagedInstance API.
 func (client OsManagementClient) AttachParentSoftwareSourceToManagedInstance(ctx context.Context, request AttachParentSoftwareSourceToManagedInstanceRequest) (response AttachParentSoftwareSourceToManagedInstanceResponse, err error) {
@@ -346,7 +346,7 @@ func (client OsManagementClient) attachParentSoftwareSourceToManagedInstance(ctx
 // ChangeManagedInstanceGroupCompartment Moves a resource into a different compartment. When provided, If-Match
 // is checked against ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ChangeManagedInstanceGroupCompartment.go.html to see an example of how to use ChangeManagedInstanceGroupCompartment API.
 func (client OsManagementClient) ChangeManagedInstanceGroupCompartment(ctx context.Context, request ChangeManagedInstanceGroupCompartmentRequest) (response ChangeManagedInstanceGroupCompartmentResponse, err error) {
@@ -409,7 +409,7 @@ func (client OsManagementClient) changeManagedInstanceGroupCompartment(ctx conte
 // ChangeScheduledJobCompartment Moves a resource into a different compartment. When provided, If-Match
 // is checked against ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ChangeScheduledJobCompartment.go.html to see an example of how to use ChangeScheduledJobCompartment API.
 func (client OsManagementClient) ChangeScheduledJobCompartment(ctx context.Context, request ChangeScheduledJobCompartmentRequest) (response ChangeScheduledJobCompartmentResponse, err error) {
@@ -472,7 +472,7 @@ func (client OsManagementClient) changeScheduledJobCompartment(ctx context.Conte
 // ChangeSoftwareSourceCompartment Moves a resource into a different compartment. When provided, If-Match
 // is checked against ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ChangeSoftwareSourceCompartment.go.html to see an example of how to use ChangeSoftwareSourceCompartment API.
 func (client OsManagementClient) ChangeSoftwareSourceCompartment(ctx context.Context, request ChangeSoftwareSourceCompartmentRequest) (response ChangeSoftwareSourceCompartmentResponse, err error) {
@@ -536,7 +536,7 @@ func (client OsManagementClient) changeSoftwareSourceCompartment(ctx context.Con
 // This will not contain any managed instances after it is first created,
 // and they must be added later.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/CreateManagedInstanceGroup.go.html to see an example of how to use CreateManagedInstanceGroup API.
 func (client OsManagementClient) CreateManagedInstanceGroup(ctx context.Context, request CreateManagedInstanceGroupRequest) (response CreateManagedInstanceGroupResponse, err error) {
@@ -601,7 +601,7 @@ func (client OsManagementClient) createManagedInstanceGroup(ctx context.Context,
 // as a one-time execution in the future, or as a recurring execution
 // that repeats on a defined interval.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/CreateScheduledJob.go.html to see an example of how to use CreateScheduledJob API.
 func (client OsManagementClient) CreateScheduledJob(ctx context.Context, request CreateScheduledJobRequest) (response CreateScheduledJobResponse, err error) {
@@ -665,7 +665,7 @@ func (client OsManagementClient) createScheduledJob(ctx context.Context, request
 // This will not contain any packages after it is first created,
 // and they must be added later.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/CreateSoftwareSource.go.html to see an example of how to use CreateSoftwareSource API.
 func (client OsManagementClient) CreateSoftwareSource(ctx context.Context, request CreateSoftwareSourceRequest) (response CreateSoftwareSourceResponse, err error) {
@@ -727,7 +727,7 @@ func (client OsManagementClient) createSoftwareSource(ctx context.Context, reque
 
 // DeleteManagedInstanceGroup Deletes a Managed Instance Group from the management system
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DeleteManagedInstanceGroup.go.html to see an example of how to use DeleteManagedInstanceGroup API.
 func (client OsManagementClient) DeleteManagedInstanceGroup(ctx context.Context, request DeleteManagedInstanceGroupRequest) (response DeleteManagedInstanceGroupResponse, err error) {
@@ -784,7 +784,7 @@ func (client OsManagementClient) deleteManagedInstanceGroup(ctx context.Context,
 
 // DeleteScheduledJob Cancels an existing Scheduled Job on the management system
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DeleteScheduledJob.go.html to see an example of how to use DeleteScheduledJob API.
 func (client OsManagementClient) DeleteScheduledJob(ctx context.Context, request DeleteScheduledJobRequest) (response DeleteScheduledJobResponse, err error) {
@@ -841,7 +841,7 @@ func (client OsManagementClient) deleteScheduledJob(ctx context.Context, request
 
 // DeleteSoftwareSource Deletes a custom Software Source on the management system
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DeleteSoftwareSource.go.html to see an example of how to use DeleteSoftwareSource API.
 func (client OsManagementClient) DeleteSoftwareSource(ctx context.Context, request DeleteSoftwareSourceRequest) (response DeleteSoftwareSourceResponse, err error) {
@@ -899,7 +899,7 @@ func (client OsManagementClient) deleteSoftwareSource(ctx context.Context, reque
 // DetachChildSoftwareSourceFromManagedInstance Removes a child software source from a managed instance. Packages will no longer be able to be
 // installed from these software sources.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DetachChildSoftwareSourceFromManagedInstance.go.html to see an example of how to use DetachChildSoftwareSourceFromManagedInstance API.
 func (client OsManagementClient) DetachChildSoftwareSourceFromManagedInstance(ctx context.Context, request DetachChildSoftwareSourceFromManagedInstanceRequest) (response DetachChildSoftwareSourceFromManagedInstanceResponse, err error) {
@@ -961,7 +961,7 @@ func (client OsManagementClient) detachChildSoftwareSourceFromManagedInstance(ct
 
 // DetachManagedInstanceFromManagedInstanceGroup Removes a Managed Instance from a Managed Instance Group.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DetachManagedInstanceFromManagedInstanceGroup.go.html to see an example of how to use DetachManagedInstanceFromManagedInstanceGroup API.
 func (client OsManagementClient) DetachManagedInstanceFromManagedInstanceGroup(ctx context.Context, request DetachManagedInstanceFromManagedInstanceGroupRequest) (response DetachManagedInstanceFromManagedInstanceGroupResponse, err error) {
@@ -1024,7 +1024,7 @@ func (client OsManagementClient) detachManagedInstanceFromManagedInstanceGroup(c
 // DetachParentSoftwareSourceFromManagedInstance Removes a software source from a managed instance. All child software sources will also be removed
 // from the managed instance. Packages will no longer be able to be installed from these software sources.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DetachParentSoftwareSourceFromManagedInstance.go.html to see an example of how to use DetachParentSoftwareSourceFromManagedInstance API.
 func (client OsManagementClient) DetachParentSoftwareSourceFromManagedInstance(ctx context.Context, request DetachParentSoftwareSourceFromManagedInstanceRequest) (response DetachParentSoftwareSourceFromManagedInstanceResponse, err error) {
@@ -1089,7 +1089,7 @@ func (client OsManagementClient) detachParentSoftwareSourceFromManagedInstance(c
 // contained by the stream.  All installed profiles must be removed prior
 // to disabling a module stream.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DisableModuleStreamOnManagedInstance.go.html to see an example of how to use DisableModuleStreamOnManagedInstance API.
 func (client OsManagementClient) DisableModuleStreamOnManagedInstance(ctx context.Context, request DisableModuleStreamOnManagedInstanceRequest) (response DisableModuleStreamOnManagedInstanceResponse, err error) {
@@ -1155,7 +1155,7 @@ func (client OsManagementClient) disableModuleStreamOnManagedInstance(ctx contex
 // succeed.  Attempting to enable a different stream for a module that
 // already has a stream enabled results in an error.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/EnableModuleStreamOnManagedInstance.go.html to see an example of how to use EnableModuleStreamOnManagedInstance API.
 func (client OsManagementClient) EnableModuleStreamOnManagedInstance(ctx context.Context, request EnableModuleStreamOnManagedInstanceRequest) (response EnableModuleStreamOnManagedInstanceResponse, err error) {
@@ -1217,7 +1217,7 @@ func (client OsManagementClient) enableModuleStreamOnManagedInstance(ctx context
 
 // GetErratum Returns a specific erratum.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetErratum.go.html to see an example of how to use GetErratum API.
 func (client OsManagementClient) GetErratum(ctx context.Context, request GetErratumRequest) (response GetErratumResponse, err error) {
@@ -1274,7 +1274,7 @@ func (client OsManagementClient) getErratum(ctx context.Context, request common.
 
 // GetManagedInstance Returns a specific Managed Instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetManagedInstance.go.html to see an example of how to use GetManagedInstance API.
 func (client OsManagementClient) GetManagedInstance(ctx context.Context, request GetManagedInstanceRequest) (response GetManagedInstanceResponse, err error) {
@@ -1331,7 +1331,7 @@ func (client OsManagementClient) getManagedInstance(ctx context.Context, request
 
 // GetManagedInstanceGroup Returns a specific Managed Instance Group.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetManagedInstanceGroup.go.html to see an example of how to use GetManagedInstanceGroup API.
 func (client OsManagementClient) GetManagedInstanceGroup(ctx context.Context, request GetManagedInstanceGroupRequest) (response GetManagedInstanceGroupResponse, err error) {
@@ -1388,7 +1388,7 @@ func (client OsManagementClient) getManagedInstanceGroup(ctx context.Context, re
 
 // GetModuleStream Retrieve a detailed description of a module stream from a software source.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetModuleStream.go.html to see an example of how to use GetModuleStream API.
 func (client OsManagementClient) GetModuleStream(ctx context.Context, request GetModuleStreamRequest) (response GetModuleStreamResponse, err error) {
@@ -1445,7 +1445,7 @@ func (client OsManagementClient) getModuleStream(ctx context.Context, request co
 
 // GetModuleStreamProfile Retrieve a detailed description of a module stream profile from a software source.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetModuleStreamProfile.go.html to see an example of how to use GetModuleStreamProfile API.
 func (client OsManagementClient) GetModuleStreamProfile(ctx context.Context, request GetModuleStreamProfileRequest) (response GetModuleStreamProfileResponse, err error) {
@@ -1502,7 +1502,7 @@ func (client OsManagementClient) getModuleStreamProfile(ctx context.Context, req
 
 // GetScheduledJob Gets the detailed information for the Scheduled Job with the given ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetScheduledJob.go.html to see an example of how to use GetScheduledJob API.
 func (client OsManagementClient) GetScheduledJob(ctx context.Context, request GetScheduledJobRequest) (response GetScheduledJobResponse, err error) {
@@ -1559,7 +1559,7 @@ func (client OsManagementClient) getScheduledJob(ctx context.Context, request co
 
 // GetSoftwarePackage Returns a specific Software Package.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetSoftwarePackage.go.html to see an example of how to use GetSoftwarePackage API.
 func (client OsManagementClient) GetSoftwarePackage(ctx context.Context, request GetSoftwarePackageRequest) (response GetSoftwarePackageResponse, err error) {
@@ -1616,7 +1616,7 @@ func (client OsManagementClient) getSoftwarePackage(ctx context.Context, request
 
 // GetSoftwareSource Returns a specific Software Source.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetSoftwareSource.go.html to see an example of how to use GetSoftwareSource API.
 func (client OsManagementClient) GetSoftwareSource(ctx context.Context, request GetSoftwareSourceRequest) (response GetSoftwareSourceResponse, err error) {
@@ -1673,7 +1673,7 @@ func (client OsManagementClient) getSoftwareSource(ctx context.Context, request 
 
 // GetWindowsUpdate Returns a Windows Update object.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetWindowsUpdate.go.html to see an example of how to use GetWindowsUpdate API.
 func (client OsManagementClient) GetWindowsUpdate(ctx context.Context, request GetWindowsUpdateRequest) (response GetWindowsUpdateResponse, err error) {
@@ -1730,7 +1730,7 @@ func (client OsManagementClient) getWindowsUpdate(ctx context.Context, request c
 
 // GetWorkRequest Gets the detailed information for the work request with the given ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client OsManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
@@ -1787,7 +1787,7 @@ func (client OsManagementClient) getWorkRequest(ctx context.Context, request com
 
 // InstallAllPackageUpdatesOnManagedInstance Install all of the available package updates for the managed instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/InstallAllPackageUpdatesOnManagedInstance.go.html to see an example of how to use InstallAllPackageUpdatesOnManagedInstance API.
 func (client OsManagementClient) InstallAllPackageUpdatesOnManagedInstance(ctx context.Context, request InstallAllPackageUpdatesOnManagedInstanceRequest) (response InstallAllPackageUpdatesOnManagedInstanceResponse, err error) {
@@ -1849,7 +1849,7 @@ func (client OsManagementClient) installAllPackageUpdatesOnManagedInstance(ctx c
 
 // InstallAllUpdatesOnManagedInstanceGroup Install all of the available updates for the Managed Instance Group.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/InstallAllUpdatesOnManagedInstanceGroup.go.html to see an example of how to use InstallAllUpdatesOnManagedInstanceGroup API.
 func (client OsManagementClient) InstallAllUpdatesOnManagedInstanceGroup(ctx context.Context, request InstallAllUpdatesOnManagedInstanceGroupRequest) (response InstallAllUpdatesOnManagedInstanceGroupResponse, err error) {
@@ -1911,7 +1911,7 @@ func (client OsManagementClient) installAllUpdatesOnManagedInstanceGroup(ctx con
 
 // InstallAllWindowsUpdatesOnManagedInstance Install all of the available Windows updates for the managed instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/InstallAllWindowsUpdatesOnManagedInstance.go.html to see an example of how to use InstallAllWindowsUpdatesOnManagedInstance API.
 func (client OsManagementClient) InstallAllWindowsUpdatesOnManagedInstance(ctx context.Context, request InstallAllWindowsUpdatesOnManagedInstanceRequest) (response InstallAllWindowsUpdatesOnManagedInstanceResponse, err error) {
@@ -1975,7 +1975,7 @@ func (client OsManagementClient) installAllWindowsUpdatesOnManagedInstance(ctx c
 // enabled before a profile can be installed.  If a module stream
 // defines multiple profiles, each one can be installed independently.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/InstallModuleStreamProfileOnManagedInstance.go.html to see an example of how to use InstallModuleStreamProfileOnManagedInstance API.
 func (client OsManagementClient) InstallModuleStreamProfileOnManagedInstance(ctx context.Context, request InstallModuleStreamProfileOnManagedInstanceRequest) (response InstallModuleStreamProfileOnManagedInstanceResponse, err error) {
@@ -2037,7 +2037,7 @@ func (client OsManagementClient) installModuleStreamProfileOnManagedInstance(ctx
 
 // InstallPackageOnManagedInstance Installs a package on a managed instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/InstallPackageOnManagedInstance.go.html to see an example of how to use InstallPackageOnManagedInstance API.
 func (client OsManagementClient) InstallPackageOnManagedInstance(ctx context.Context, request InstallPackageOnManagedInstanceRequest) (response InstallPackageOnManagedInstanceResponse, err error) {
@@ -2099,7 +2099,7 @@ func (client OsManagementClient) installPackageOnManagedInstance(ctx context.Con
 
 // InstallPackageUpdateOnManagedInstance Updates a package on a managed instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/InstallPackageUpdateOnManagedInstance.go.html to see an example of how to use InstallPackageUpdateOnManagedInstance API.
 func (client OsManagementClient) InstallPackageUpdateOnManagedInstance(ctx context.Context, request InstallPackageUpdateOnManagedInstanceRequest) (response InstallPackageUpdateOnManagedInstanceResponse, err error) {
@@ -2161,7 +2161,7 @@ func (client OsManagementClient) installPackageUpdateOnManagedInstance(ctx conte
 
 // InstallWindowsUpdateOnManagedInstance Installs a Windows update on a managed instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/InstallWindowsUpdateOnManagedInstance.go.html to see an example of how to use InstallWindowsUpdateOnManagedInstance API.
 func (client OsManagementClient) InstallWindowsUpdateOnManagedInstance(ctx context.Context, request InstallWindowsUpdateOnManagedInstanceRequest) (response InstallWindowsUpdateOnManagedInstanceResponse, err error) {
@@ -2223,7 +2223,7 @@ func (client OsManagementClient) installWindowsUpdateOnManagedInstance(ctx conte
 
 // ListAvailablePackagesForManagedInstance Returns a list of packages available for install on the Managed Instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListAvailablePackagesForManagedInstance.go.html to see an example of how to use ListAvailablePackagesForManagedInstance API.
 func (client OsManagementClient) ListAvailablePackagesForManagedInstance(ctx context.Context, request ListAvailablePackagesForManagedInstanceRequest) (response ListAvailablePackagesForManagedInstanceResponse, err error) {
@@ -2280,7 +2280,7 @@ func (client OsManagementClient) listAvailablePackagesForManagedInstance(ctx con
 
 // ListAvailableSoftwareSourcesForManagedInstance Returns a list of available software sources for a Managed Instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListAvailableSoftwareSourcesForManagedInstance.go.html to see an example of how to use ListAvailableSoftwareSourcesForManagedInstance API.
 func (client OsManagementClient) ListAvailableSoftwareSourcesForManagedInstance(ctx context.Context, request ListAvailableSoftwareSourcesForManagedInstanceRequest) (response ListAvailableSoftwareSourcesForManagedInstanceResponse, err error) {
@@ -2337,7 +2337,7 @@ func (client OsManagementClient) listAvailableSoftwareSourcesForManagedInstance(
 
 // ListAvailableUpdatesForManagedInstance Returns a list of available updates for a Managed Instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListAvailableUpdatesForManagedInstance.go.html to see an example of how to use ListAvailableUpdatesForManagedInstance API.
 func (client OsManagementClient) ListAvailableUpdatesForManagedInstance(ctx context.Context, request ListAvailableUpdatesForManagedInstanceRequest) (response ListAvailableUpdatesForManagedInstanceResponse, err error) {
@@ -2394,7 +2394,7 @@ func (client OsManagementClient) listAvailableUpdatesForManagedInstance(ctx cont
 
 // ListAvailableWindowsUpdatesForManagedInstance Returns a list of available Windows updates for a Managed Instance. This is only applicable to Windows instances.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListAvailableWindowsUpdatesForManagedInstance.go.html to see an example of how to use ListAvailableWindowsUpdatesForManagedInstance API.
 func (client OsManagementClient) ListAvailableWindowsUpdatesForManagedInstance(ctx context.Context, request ListAvailableWindowsUpdatesForManagedInstanceRequest) (response ListAvailableWindowsUpdatesForManagedInstanceResponse, err error) {
@@ -2451,7 +2451,7 @@ func (client OsManagementClient) listAvailableWindowsUpdatesForManagedInstance(c
 
 // ListErrata Returns a list of all of the currently available Errata in the system
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListErrata.go.html to see an example of how to use ListErrata API.
 func (client OsManagementClient) ListErrata(ctx context.Context, request ListErrataRequest) (response ListErrataResponse, err error) {
@@ -2508,7 +2508,7 @@ func (client OsManagementClient) listErrata(ctx context.Context, request common.
 
 // ListManagedInstanceErrata Returns a list of errata relevant to the Managed Instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListManagedInstanceErrata.go.html to see an example of how to use ListManagedInstanceErrata API.
 func (client OsManagementClient) ListManagedInstanceErrata(ctx context.Context, request ListManagedInstanceErrataRequest) (response ListManagedInstanceErrataResponse, err error) {
@@ -2565,7 +2565,7 @@ func (client OsManagementClient) listManagedInstanceErrata(ctx context.Context, 
 
 // ListManagedInstanceGroups Returns a list of all Managed Instance Groups.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListManagedInstanceGroups.go.html to see an example of how to use ListManagedInstanceGroups API.
 func (client OsManagementClient) ListManagedInstanceGroups(ctx context.Context, request ListManagedInstanceGroupsRequest) (response ListManagedInstanceGroupsResponse, err error) {
@@ -2622,7 +2622,7 @@ func (client OsManagementClient) listManagedInstanceGroups(ctx context.Context, 
 
 // ListManagedInstances Returns a list of all Managed Instances.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListManagedInstances.go.html to see an example of how to use ListManagedInstances API.
 func (client OsManagementClient) ListManagedInstances(ctx context.Context, request ListManagedInstancesRequest) (response ListManagedInstancesResponse, err error) {
@@ -2690,7 +2690,7 @@ func (client OsManagementClient) listManagedInstances(ctx context.Context, reque
 // without a "moduleName".  It is also not valid to supply a "profileName"
 // without a "streamName".
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListModuleStreamProfiles.go.html to see an example of how to use ListModuleStreamProfiles API.
 func (client OsManagementClient) ListModuleStreamProfiles(ctx context.Context, request ListModuleStreamProfilesRequest) (response ListModuleStreamProfilesResponse, err error) {
@@ -2767,7 +2767,7 @@ func (client OsManagementClient) listModuleStreamProfiles(ctx context.Context, r
 // When sorting by display name, the result set is sorted first by
 // module name, then by stream name, and finally by profile name.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListModuleStreamProfilesOnManagedInstance.go.html to see an example of how to use ListModuleStreamProfilesOnManagedInstance API.
 func (client OsManagementClient) ListModuleStreamProfilesOnManagedInstance(ctx context.Context, request ListModuleStreamProfilesOnManagedInstanceRequest) (response ListModuleStreamProfilesOnManagedInstanceResponse, err error) {
@@ -2838,7 +2838,7 @@ func (client OsManagementClient) listModuleStreamProfilesOnManagedInstance(ctx c
 // When sorting by display name, the result set is sorted first by
 // module name, then by stream name.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListModuleStreams.go.html to see an example of how to use ListModuleStreams API.
 func (client OsManagementClient) ListModuleStreams(ctx context.Context, request ListModuleStreamsRequest) (response ListModuleStreamsResponse, err error) {
@@ -2912,7 +2912,7 @@ func (client OsManagementClient) listModuleStreams(ctx context.Context, request 
 // When sorting by the display name, the result set is sorted first
 // by the module name and then by the stream name.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListModuleStreamsOnManagedInstance.go.html to see an example of how to use ListModuleStreamsOnManagedInstance API.
 func (client OsManagementClient) ListModuleStreamsOnManagedInstance(ctx context.Context, request ListModuleStreamsOnManagedInstanceRequest) (response ListModuleStreamsOnManagedInstanceResponse, err error) {
@@ -2969,7 +2969,7 @@ func (client OsManagementClient) listModuleStreamsOnManagedInstance(ctx context.
 
 // ListPackagesInstalledOnManagedInstance Returns a list of installed packages on the Managed Instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListPackagesInstalledOnManagedInstance.go.html to see an example of how to use ListPackagesInstalledOnManagedInstance API.
 func (client OsManagementClient) ListPackagesInstalledOnManagedInstance(ctx context.Context, request ListPackagesInstalledOnManagedInstanceRequest) (response ListPackagesInstalledOnManagedInstanceResponse, err error) {
@@ -3026,7 +3026,7 @@ func (client OsManagementClient) listPackagesInstalledOnManagedInstance(ctx cont
 
 // ListScheduledJobs Returns a list of all of the currently active Scheduled Jobs in the system
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListScheduledJobs.go.html to see an example of how to use ListScheduledJobs API.
 func (client OsManagementClient) ListScheduledJobs(ctx context.Context, request ListScheduledJobsRequest) (response ListScheduledJobsResponse, err error) {
@@ -3083,7 +3083,7 @@ func (client OsManagementClient) listScheduledJobs(ctx context.Context, request 
 
 // ListSoftwareSourcePackages Lists Software Packages in a Software Source
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListSoftwareSourcePackages.go.html to see an example of how to use ListSoftwareSourcePackages API.
 func (client OsManagementClient) ListSoftwareSourcePackages(ctx context.Context, request ListSoftwareSourcePackagesRequest) (response ListSoftwareSourcePackagesResponse, err error) {
@@ -3140,7 +3140,7 @@ func (client OsManagementClient) listSoftwareSourcePackages(ctx context.Context,
 
 // ListSoftwareSources Returns a list of all Software Sources.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListSoftwareSources.go.html to see an example of how to use ListSoftwareSources API.
 func (client OsManagementClient) ListSoftwareSources(ctx context.Context, request ListSoftwareSourcesRequest) (response ListSoftwareSourcesResponse, err error) {
@@ -3197,7 +3197,7 @@ func (client OsManagementClient) listSoftwareSources(ctx context.Context, reques
 
 // ListUpcomingScheduledJobs Returns a list of all of the Scheduled Jobs whose next execution time is at or before the specified time.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListUpcomingScheduledJobs.go.html to see an example of how to use ListUpcomingScheduledJobs API.
 func (client OsManagementClient) ListUpcomingScheduledJobs(ctx context.Context, request ListUpcomingScheduledJobsRequest) (response ListUpcomingScheduledJobsResponse, err error) {
@@ -3254,7 +3254,7 @@ func (client OsManagementClient) listUpcomingScheduledJobs(ctx context.Context, 
 
 // ListWindowsUpdates Returns a list of Windows Updates.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListWindowsUpdates.go.html to see an example of how to use ListWindowsUpdates API.
 func (client OsManagementClient) ListWindowsUpdates(ctx context.Context, request ListWindowsUpdatesRequest) (response ListWindowsUpdatesResponse, err error) {
@@ -3311,7 +3311,7 @@ func (client OsManagementClient) listWindowsUpdates(ctx context.Context, request
 
 // ListWindowsUpdatesInstalledOnManagedInstance Returns a list of installed Windows updates for a Managed Instance. This is only applicable to Windows instances.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListWindowsUpdatesInstalledOnManagedInstance.go.html to see an example of how to use ListWindowsUpdatesInstalledOnManagedInstance API.
 func (client OsManagementClient) ListWindowsUpdatesInstalledOnManagedInstance(ctx context.Context, request ListWindowsUpdatesInstalledOnManagedInstanceRequest) (response ListWindowsUpdatesInstalledOnManagedInstanceResponse, err error) {
@@ -3368,7 +3368,7 @@ func (client OsManagementClient) listWindowsUpdatesInstalledOnManagedInstance(ct
 
 // ListWorkRequestErrors Gets the errors for the work request with the given ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client OsManagementClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
@@ -3425,7 +3425,7 @@ func (client OsManagementClient) listWorkRequestErrors(ctx context.Context, requ
 
 // ListWorkRequestLogs Lists the log entries for the work request with the given ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client OsManagementClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
@@ -3482,7 +3482,7 @@ func (client OsManagementClient) listWorkRequestLogs(ctx context.Context, reques
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client OsManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
@@ -3590,7 +3590,7 @@ func (client OsManagementClient) listWorkRequests(ctx context.Context, request c
 // contains a structured message containing the results of one
 // or more operations.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ManageModuleStreamsOnManagedInstance.go.html to see an example of how to use ManageModuleStreamsOnManagedInstance API.
 func (client OsManagementClient) ManageModuleStreamsOnManagedInstance(ctx context.Context, request ManageModuleStreamsOnManagedInstanceRequest) (response ManageModuleStreamsOnManagedInstanceResponse, err error) {
@@ -3654,7 +3654,7 @@ func (client OsManagementClient) manageModuleStreamsOnManagedInstance(ctx contex
 // If a module stream is provided, rather than a fully qualified profile, all
 // profiles that have been installed for the module stream will be removed.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/RemoveModuleStreamProfileFromManagedInstance.go.html to see an example of how to use RemoveModuleStreamProfileFromManagedInstance API.
 func (client OsManagementClient) RemoveModuleStreamProfileFromManagedInstance(ctx context.Context, request RemoveModuleStreamProfileFromManagedInstanceRequest) (response RemoveModuleStreamProfileFromManagedInstanceResponse, err error) {
@@ -3716,7 +3716,7 @@ func (client OsManagementClient) removeModuleStreamProfileFromManagedInstance(ct
 
 // RemovePackageFromManagedInstance Removes an installed package from a managed instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/RemovePackageFromManagedInstance.go.html to see an example of how to use RemovePackageFromManagedInstance API.
 func (client OsManagementClient) RemovePackageFromManagedInstance(ctx context.Context, request RemovePackageFromManagedInstanceRequest) (response RemovePackageFromManagedInstanceResponse, err error) {
@@ -3778,7 +3778,7 @@ func (client OsManagementClient) removePackageFromManagedInstance(ctx context.Co
 
 // RemovePackagesFromSoftwareSource Removes a given list of Software Packages from a specific Software Source.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/RemovePackagesFromSoftwareSource.go.html to see an example of how to use RemovePackagesFromSoftwareSource API.
 func (client OsManagementClient) RemovePackagesFromSoftwareSource(ctx context.Context, request RemovePackagesFromSoftwareSourceRequest) (response RemovePackagesFromSoftwareSourceResponse, err error) {
@@ -3836,7 +3836,7 @@ func (client OsManagementClient) removePackagesFromSoftwareSource(ctx context.Co
 // RunScheduledJobNow This will trigger an already created Scheduled Job to being executing
 // immediately instead of waiting for its next regularly scheduled time.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/RunScheduledJobNow.go.html to see an example of how to use RunScheduledJobNow API.
 func (client OsManagementClient) RunScheduledJobNow(ctx context.Context, request RunScheduledJobNowRequest) (response RunScheduledJobNowResponse, err error) {
@@ -3899,7 +3899,7 @@ func (client OsManagementClient) runScheduledJobNow(ctx context.Context, request
 // SearchSoftwarePackages Searches all of the available Software Sources and returns any/all Software Packages matching
 // the search criteria.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/SearchSoftwarePackages.go.html to see an example of how to use SearchSoftwarePackages API.
 func (client OsManagementClient) SearchSoftwarePackages(ctx context.Context, request SearchSoftwarePackagesRequest) (response SearchSoftwarePackagesResponse, err error) {
@@ -3957,7 +3957,7 @@ func (client OsManagementClient) searchSoftwarePackages(ctx context.Context, req
 // SkipNextScheduledJobExecution This will force an already created Scheduled Job to skip its
 // next regularly scheduled execution
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/SkipNextScheduledJobExecution.go.html to see an example of how to use SkipNextScheduledJobExecution API.
 func (client OsManagementClient) SkipNextScheduledJobExecution(ctx context.Context, request SkipNextScheduledJobExecutionRequest) (response SkipNextScheduledJobExecutionResponse, err error) {
@@ -4022,7 +4022,7 @@ func (client OsManagementClient) skipNextScheduledJobExecution(ctx context.Conte
 // switching to a new stream will remove the existing packages and
 // install their counterparts in the new stream.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/SwitchModuleStreamOnManagedInstance.go.html to see an example of how to use SwitchModuleStreamOnManagedInstance API.
 func (client OsManagementClient) SwitchModuleStreamOnManagedInstance(ctx context.Context, request SwitchModuleStreamOnManagedInstanceRequest) (response SwitchModuleStreamOnManagedInstanceResponse, err error) {
@@ -4084,7 +4084,7 @@ func (client OsManagementClient) switchModuleStreamOnManagedInstance(ctx context
 
 // UpdateManagedInstance Updates a specific Managed Instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UpdateManagedInstance.go.html to see an example of how to use UpdateManagedInstance API.
 func (client OsManagementClient) UpdateManagedInstance(ctx context.Context, request UpdateManagedInstanceRequest) (response UpdateManagedInstanceResponse, err error) {
@@ -4141,7 +4141,7 @@ func (client OsManagementClient) updateManagedInstance(ctx context.Context, requ
 
 // UpdateManagedInstanceGroup Updates a specific Managed Instance Group.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UpdateManagedInstanceGroup.go.html to see an example of how to use UpdateManagedInstanceGroup API.
 func (client OsManagementClient) UpdateManagedInstanceGroup(ctx context.Context, request UpdateManagedInstanceGroupRequest) (response UpdateManagedInstanceGroupResponse, err error) {
@@ -4198,7 +4198,7 @@ func (client OsManagementClient) updateManagedInstanceGroup(ctx context.Context,
 
 // UpdateScheduledJob Updates an existing Scheduled Job on the management system.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UpdateScheduledJob.go.html to see an example of how to use UpdateScheduledJob API.
 func (client OsManagementClient) UpdateScheduledJob(ctx context.Context, request UpdateScheduledJobRequest) (response UpdateScheduledJobResponse, err error) {
@@ -4255,7 +4255,7 @@ func (client OsManagementClient) updateScheduledJob(ctx context.Context, request
 
 // UpdateSoftwareSource Updates an existing custom Software Source on the management system.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UpdateSoftwareSource.go.html to see an example of how to use UpdateSoftwareSource API.
 func (client OsManagementClient) UpdateSoftwareSource(ctx context.Context, request UpdateSoftwareSourceRequest) (response UpdateSoftwareSourceResponse, err error) {

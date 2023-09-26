@@ -59,57 +59,57 @@ type TimeClusterDataColumn struct {
 	ValueType ValueTypeEnum `mandatory:"false" json:"valueType,omitempty"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m TimeClusterDataColumn) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetSubSystem returns SubSystem
+// GetSubSystem returns SubSystem
 func (m TimeClusterDataColumn) GetSubSystem() SubSystemNameEnum {
 	return m.SubSystem
 }
 
-//GetValues returns Values
+// GetValues returns Values
 func (m TimeClusterDataColumn) GetValues() []FieldValue {
 	return m.Values
 }
 
-//GetIsListOfValues returns IsListOfValues
+// GetIsListOfValues returns IsListOfValues
 func (m TimeClusterDataColumn) GetIsListOfValues() *bool {
 	return m.IsListOfValues
 }
 
-//GetIsMultiValued returns IsMultiValued
+// GetIsMultiValued returns IsMultiValued
 func (m TimeClusterDataColumn) GetIsMultiValued() *bool {
 	return m.IsMultiValued
 }
 
-//GetIsCaseSensitive returns IsCaseSensitive
+// GetIsCaseSensitive returns IsCaseSensitive
 func (m TimeClusterDataColumn) GetIsCaseSensitive() *bool {
 	return m.IsCaseSensitive
 }
 
-//GetIsGroupable returns IsGroupable
+// GetIsGroupable returns IsGroupable
 func (m TimeClusterDataColumn) GetIsGroupable() *bool {
 	return m.IsGroupable
 }
 
-//GetIsEvaluable returns IsEvaluable
+// GetIsEvaluable returns IsEvaluable
 func (m TimeClusterDataColumn) GetIsEvaluable() *bool {
 	return m.IsEvaluable
 }
 
-//GetValueType returns ValueType
+// GetValueType returns ValueType
 func (m TimeClusterDataColumn) GetValueType() ValueTypeEnum {
 	return m.ValueType
 }
 
-//GetOriginalDisplayName returns OriginalDisplayName
+// GetOriginalDisplayName returns OriginalDisplayName
 func (m TimeClusterDataColumn) GetOriginalDisplayName() *string {
 	return m.OriginalDisplayName
 }
 
-//GetInternalName returns InternalName
+// GetInternalName returns InternalName
 func (m TimeClusterDataColumn) GetInternalName() *string {
 	return m.InternalName
 }

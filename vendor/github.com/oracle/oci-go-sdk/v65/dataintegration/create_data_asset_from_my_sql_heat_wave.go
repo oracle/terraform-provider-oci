@@ -57,47 +57,47 @@ type CreateDataAssetFromMySqlHeatWave struct {
 	ServiceName *string `mandatory:"false" json:"serviceName"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m CreateDataAssetFromMySqlHeatWave) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m CreateDataAssetFromMySqlHeatWave) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateDataAssetFromMySqlHeatWave) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateDataAssetFromMySqlHeatWave) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m CreateDataAssetFromMySqlHeatWave) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m CreateDataAssetFromMySqlHeatWave) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m CreateDataAssetFromMySqlHeatWave) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m CreateDataAssetFromMySqlHeatWave) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m CreateDataAssetFromMySqlHeatWave) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

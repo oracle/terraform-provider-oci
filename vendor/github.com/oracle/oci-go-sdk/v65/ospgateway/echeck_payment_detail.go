@@ -41,17 +41,17 @@ type EcheckPaymentDetail struct {
 	CardType EcheckPaymentDetailCardTypeEnum `mandatory:"false" json:"cardType,omitempty"`
 }
 
-//GetTimePaidOn returns TimePaidOn
+// GetTimePaidOn returns TimePaidOn
 func (m EcheckPaymentDetail) GetTimePaidOn() *common.SDKTime {
 	return m.TimePaidOn
 }
 
-//GetPaidBy returns PaidBy
+// GetPaidBy returns PaidBy
 func (m EcheckPaymentDetail) GetPaidBy() *string {
 	return m.PaidBy
 }
 
-//GetAmountPaid returns AmountPaid
+// GetAmountPaid returns AmountPaid
 func (m EcheckPaymentDetail) GetAmountPaid() *float32 {
 	return m.AmountPaid
 }

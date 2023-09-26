@@ -20,11 +20,11 @@ import (
 // AddHttpRequestHeaderRule An object that represents the action of adding a header to a request.
 // This rule applies only to HTTP listeners.
 // **NOTES:**
-// *  If a matching header already exists in the request, the system removes all of its occurrences, and then adds the
-//    new header.
-// *  The system does not distinquish between underscore and dash characters in headers. That is, it treats
-//   `example_header_name` and `example-header-name` as identical. Oracle recommends that you do not rely on underscore
-//   or dash characters to uniquely distinguish header names.
+//   - If a matching header already exists in the request, the system removes all of its occurrences, and then adds the
+//     new header.
+//   - The system does not distinquish between underscore and dash characters in headers. That is, it treats
+//     `example_header_name` and `example-header-name` as identical. Oracle recommends that you do not rely on underscore
+//     or dash characters to uniquely distinguish header names.
 type AddHttpRequestHeaderRule struct {
 
 	// A header name that conforms to RFC 7230.

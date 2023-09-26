@@ -67,67 +67,67 @@ type BitbucketServerAccessTokenConnection struct {
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m BitbucketServerAccessTokenConnection) GetId() *string {
 	return m.Id
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m BitbucketServerAccessTokenConnection) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m BitbucketServerAccessTokenConnection) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m BitbucketServerAccessTokenConnection) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetProjectId returns ProjectId
+// GetProjectId returns ProjectId
 func (m BitbucketServerAccessTokenConnection) GetProjectId() *string {
 	return m.ProjectId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m BitbucketServerAccessTokenConnection) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m BitbucketServerAccessTokenConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLastConnectionValidationResult returns LastConnectionValidationResult
+// GetLastConnectionValidationResult returns LastConnectionValidationResult
 func (m BitbucketServerAccessTokenConnection) GetLastConnectionValidationResult() *ConnectionValidationResult {
 	return m.LastConnectionValidationResult
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m BitbucketServerAccessTokenConnection) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m BitbucketServerAccessTokenConnection) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m BitbucketServerAccessTokenConnection) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m BitbucketServerAccessTokenConnection) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m BitbucketServerAccessTokenConnection) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

@@ -92,72 +92,72 @@ type PeComanagedDatabaseInsight struct {
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m PeComanagedDatabaseInsight) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m PeComanagedDatabaseInsight) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m PeComanagedDatabaseInsight) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-//GetDatabaseType returns DatabaseType
+// GetDatabaseType returns DatabaseType
 func (m PeComanagedDatabaseInsight) GetDatabaseType() *string {
 	return m.DatabaseType
 }
 
-//GetDatabaseVersion returns DatabaseVersion
+// GetDatabaseVersion returns DatabaseVersion
 func (m PeComanagedDatabaseInsight) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
 }
 
-//GetProcessorCount returns ProcessorCount
+// GetProcessorCount returns ProcessorCount
 func (m PeComanagedDatabaseInsight) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m PeComanagedDatabaseInsight) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m PeComanagedDatabaseInsight) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m PeComanagedDatabaseInsight) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m PeComanagedDatabaseInsight) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m PeComanagedDatabaseInsight) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m PeComanagedDatabaseInsight) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m PeComanagedDatabaseInsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+// GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
 func (m PeComanagedDatabaseInsight) GetDatabaseConnectionStatusDetails() *string {
 	return m.DatabaseConnectionStatusDetails
 }

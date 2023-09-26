@@ -54,12 +54,12 @@ type DataObjectTemplatizedQuery struct {
 	TimeFilters *DataObjectQueryTimeFilters `mandatory:"false" json:"timeFilters"`
 }
 
-//GetBindParams returns BindParams
+// GetBindParams returns BindParams
 func (m DataObjectTemplatizedQuery) GetBindParams() []DataObjectBindParameter {
 	return m.BindParams
 }
 
-//GetQueryExecutionTimeoutInSeconds returns QueryExecutionTimeoutInSeconds
+// GetQueryExecutionTimeoutInSeconds returns QueryExecutionTimeoutInSeconds
 func (m DataObjectTemplatizedQuery) GetQueryExecutionTimeoutInSeconds() *float64 {
 	return m.QueryExecutionTimeoutInSeconds
 }

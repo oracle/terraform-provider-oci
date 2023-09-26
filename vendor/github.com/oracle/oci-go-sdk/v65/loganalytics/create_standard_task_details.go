@@ -48,22 +48,22 @@ type CreateStandardTaskDetails struct {
 	TaskType TaskTypeEnum `mandatory:"true" json:"taskType"`
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateStandardTaskDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateStandardTaskDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateStandardTaskDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateStandardTaskDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

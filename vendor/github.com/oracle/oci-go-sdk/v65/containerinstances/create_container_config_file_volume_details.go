@@ -26,7 +26,7 @@ type CreateContainerConfigFileVolumeDetails struct {
 	Configs []ContainerConfigFile `mandatory:"false" json:"configs"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateContainerConfigFileVolumeDetails) GetName() *string {
 	return m.Name
 }

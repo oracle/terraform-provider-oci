@@ -18,12 +18,12 @@ import (
 
 // AppBasedOnTemplate Application template on which the application is based.
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: immutable
-//  - required: true
-//  - returned: default
-//  - type: complex
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: immutable
+//   - required: true
+//   - returned: default
+//   - type: complex
 type AppBasedOnTemplate struct {
 
 	// Identifier of the application template.

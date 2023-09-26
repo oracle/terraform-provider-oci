@@ -37,22 +37,22 @@ type PlainTextCredentials struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-//GetSource returns Source
+// GetSource returns Source
 func (m PlainTextCredentials) GetSource() *string {
 	return m.Source
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m PlainTextCredentials) GetName() *string {
 	return m.Name
 }
 
-//GetType returns Type
+// GetType returns Type
 func (m PlainTextCredentials) GetType() *string {
 	return m.Type
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m PlainTextCredentials) GetDescription() *string {
 	return m.Description
 }

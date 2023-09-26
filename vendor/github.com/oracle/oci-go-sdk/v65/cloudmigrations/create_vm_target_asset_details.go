@@ -37,12 +37,12 @@ type CreateVmTargetAssetDetails struct {
 	PreferredShapeType VmTargetAssetPreferredShapeTypeEnum `mandatory:"true" json:"preferredShapeType"`
 }
 
-//GetMigrationPlanId returns MigrationPlanId
+// GetMigrationPlanId returns MigrationPlanId
 func (m CreateVmTargetAssetDetails) GetMigrationPlanId() *string {
 	return m.MigrationPlanId
 }
 
-//GetIsExcludedFromExecution returns IsExcludedFromExecution
+// GetIsExcludedFromExecution returns IsExcludedFromExecution
 func (m CreateVmTargetAssetDetails) GetIsExcludedFromExecution() *bool {
 	return m.IsExcludedFromExecution
 }

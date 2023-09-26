@@ -18,14 +18,14 @@ import (
 
 // AuthTokenUser The user linked to the Auth token.
 // **SCIM++ Properties:**
-//  - caseExact: false
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: immutable
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - caseExact: false
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: immutable
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AuthTokenUser struct {
 
 	// The user's ID.
