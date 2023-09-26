@@ -44,37 +44,37 @@ type InputField struct {
 	Labels []string `mandatory:"false" json:"labels"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m InputField) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m InputField) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m InputField) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetConfigValues returns ConfigValues
+// GetConfigValues returns ConfigValues
 func (m InputField) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m InputField) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m InputField) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m InputField) GetDescription() *string {
 	return m.Description
 }

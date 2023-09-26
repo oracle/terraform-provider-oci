@@ -2,10 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Key Management API
+// Vault Key Management API
 //
-// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
-// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// Vault The representation of Vault
+// Vault The logical entity where the Vault service creates and durably stores keys.
 type Vault struct {
 
 	// The OCID of the compartment that contains this vault.
@@ -73,7 +72,10 @@ type Vault struct {
 
 	ReplicaDetails *VaultReplicaDetails `mandatory:"false" json:"replicaDetails"`
 
+	// A Boolean value that indicates whether the Vault is primary Vault or replica Vault.
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
+
+	ExternalKeyManagerMetadataSummary *ExternalKeyManagerMetadataSummary `mandatory:"false" json:"externalKeyManagerMetadataSummary"`
 }
 
 func (m Vault) String() string {
@@ -179,16 +181,19 @@ type VaultVaultTypeEnum string
 const (
 	VaultVaultTypeVirtualPrivate VaultVaultTypeEnum = "VIRTUAL_PRIVATE"
 	VaultVaultTypeDefault        VaultVaultTypeEnum = "DEFAULT"
+	VaultVaultTypeExternal       VaultVaultTypeEnum = "EXTERNAL"
 )
 
 var mappingVaultVaultTypeEnum = map[string]VaultVaultTypeEnum{
 	"VIRTUAL_PRIVATE": VaultVaultTypeVirtualPrivate,
 	"DEFAULT":         VaultVaultTypeDefault,
+	"EXTERNAL":        VaultVaultTypeExternal,
 }
 
 var mappingVaultVaultTypeEnumLowerCase = map[string]VaultVaultTypeEnum{
 	"virtual_private": VaultVaultTypeVirtualPrivate,
 	"default":         VaultVaultTypeDefault,
+	"external":        VaultVaultTypeExternal,
 }
 
 // GetVaultVaultTypeEnumValues Enumerates the set of values for VaultVaultTypeEnum
@@ -205,6 +210,7 @@ func GetVaultVaultTypeEnumStringValues() []string {
 	return []string{
 		"VIRTUAL_PRIVATE",
 		"DEFAULT",
+		"EXTERNAL",
 	}
 }
 

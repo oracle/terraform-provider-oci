@@ -40,22 +40,22 @@ type CreateAutoPromoteConfigDetails struct {
 	ResourceType CreateAutoPromoteConfigDetailsResourceTypeEnum `mandatory:"true" json:"resourceType"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateAutoPromoteConfigDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateAutoPromoteConfigDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateAutoPromoteConfigDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateAutoPromoteConfigDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

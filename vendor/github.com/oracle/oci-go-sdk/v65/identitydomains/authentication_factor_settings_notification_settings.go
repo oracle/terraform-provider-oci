@@ -19,13 +19,13 @@ import (
 // AuthenticationFactorSettingsNotificationSettings Settings related to the Mobile App Notification channel, such as pull
 // **Added In:** 17.4.2
 // **SCIM++ Properties:**
-//  - idcsSearchable: false
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: true
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: false
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: true
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AuthenticationFactorSettingsNotificationSettings struct {
 
 	// If true, indicates that the Mobile App Pull Notification channel is enabled for authentication

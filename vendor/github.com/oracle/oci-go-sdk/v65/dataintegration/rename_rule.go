@@ -48,37 +48,37 @@ type RenameRule struct {
 	ToName *string `mandatory:"false" json:"toName"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m RenameRule) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m RenameRule) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m RenameRule) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetIsJavaRegexSyntax returns IsJavaRegexSyntax
+// GetIsJavaRegexSyntax returns IsJavaRegexSyntax
 func (m RenameRule) GetIsJavaRegexSyntax() *bool {
 	return m.IsJavaRegexSyntax
 }
 
-//GetConfigValues returns ConfigValues
+// GetConfigValues returns ConfigValues
 func (m RenameRule) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m RenameRule) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m RenameRule) GetDescription() *string {
 	return m.Description
 }

@@ -2,10 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Key Management API
+// Vault Key Management API
 //
-// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
-// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -96,7 +95,7 @@ func (client *KmsVaultClient) ConfigurationProvider() *common.ConfigurationProvi
 // You can backup a vault whether or not it contains keys. This operation only backs up the
 // metadata of the vault, and does not include key metadata.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/BackupVault.go.html to see an example of how to use BackupVault API.
 func (client KmsVaultClient) BackupVault(ctx context.Context, request BackupVaultRequest) (response BackupVaultResponse, err error) {
@@ -147,7 +146,7 @@ func (client KmsVaultClient) backupVault(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/BackupVault"
 		err = common.PostProcessServiceError(err, "KmsVault", "BackupVault", apiReferenceLink)
 		return response, err
 	}
@@ -165,7 +164,7 @@ func (client KmsVaultClient) backupVault(ctx context.Context, request common.OCI
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CancelVaultDeletion.go.html to see an example of how to use CancelVaultDeletion API.
 func (client KmsVaultClient) CancelVaultDeletion(ctx context.Context, request CancelVaultDeletionRequest) (response CancelVaultDeletionResponse, err error) {
@@ -216,7 +215,7 @@ func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/CancelVaultDeletion"
 		err = common.PostProcessServiceError(err, "KmsVault", "CancelVaultDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -233,7 +232,7 @@ func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request co
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ChangeVaultCompartment.go.html to see an example of how to use ChangeVaultCompartment API.
 func (client KmsVaultClient) ChangeVaultCompartment(ctx context.Context, request ChangeVaultCompartmentRequest) (response ChangeVaultCompartmentResponse, err error) {
@@ -284,7 +283,7 @@ func (client KmsVaultClient) changeVaultCompartment(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/ChangeVaultCompartment"
 		err = common.PostProcessServiceError(err, "KmsVault", "ChangeVaultCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -302,7 +301,7 @@ func (client KmsVaultClient) changeVaultCompartment(ctx context.Context, request
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateVault.go.html to see an example of how to use CreateVault API.
 func (client KmsVaultClient) CreateVault(ctx context.Context, request CreateVaultRequest) (response CreateVaultResponse, err error) {
@@ -353,7 +352,7 @@ func (client KmsVaultClient) createVault(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/CreateVault"
 		err = common.PostProcessServiceError(err, "KmsVault", "CreateVault", apiReferenceLink)
 		return response, err
 	}
@@ -371,7 +370,7 @@ func (client KmsVaultClient) createVault(ctx context.Context, request common.OCI
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateVaultReplica.go.html to see an example of how to use CreateVaultReplica API.
 func (client KmsVaultClient) CreateVaultReplica(ctx context.Context, request CreateVaultReplicaRequest) (response CreateVaultReplicaResponse, err error) {
@@ -422,7 +421,7 @@ func (client KmsVaultClient) createVaultReplica(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/CreateVaultReplica"
 		err = common.PostProcessServiceError(err, "KmsVault", "CreateVaultReplica", apiReferenceLink)
 		return response, err
 	}
@@ -437,7 +436,7 @@ func (client KmsVaultClient) createVaultReplica(ctx context.Context, request com
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DeleteVaultReplica.go.html to see an example of how to use DeleteVaultReplica API.
 func (client KmsVaultClient) DeleteVaultReplica(ctx context.Context, request DeleteVaultReplicaRequest) (response DeleteVaultReplicaResponse, err error) {
@@ -488,7 +487,7 @@ func (client KmsVaultClient) deleteVaultReplica(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/DeleteVaultReplica"
 		err = common.PostProcessServiceError(err, "KmsVault", "DeleteVaultReplica", apiReferenceLink)
 		return response, err
 	}
@@ -503,7 +502,7 @@ func (client KmsVaultClient) deleteVaultReplica(ctx context.Context, request com
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // read operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetVault.go.html to see an example of how to use GetVault API.
 func (client KmsVaultClient) GetVault(ctx context.Context, request GetVaultRequest) (response GetVaultResponse, err error) {
@@ -549,7 +548,7 @@ func (client KmsVaultClient) getVault(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/GetVault"
 		err = common.PostProcessServiceError(err, "KmsVault", "GetVault", apiReferenceLink)
 		return response, err
 	}
@@ -560,7 +559,7 @@ func (client KmsVaultClient) getVault(ctx context.Context, request common.OCIReq
 
 // GetVaultUsage Gets the count of keys and key versions in the specified vault to calculate usage against service limits.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetVaultUsage.go.html to see an example of how to use GetVaultUsage API.
 func (client KmsVaultClient) GetVaultUsage(ctx context.Context, request GetVaultUsageRequest) (response GetVaultUsageResponse, err error) {
@@ -606,7 +605,7 @@ func (client KmsVaultClient) getVaultUsage(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/VaultUsage/GetVaultUsage"
 		err = common.PostProcessServiceError(err, "KmsVault", "GetVaultUsage", apiReferenceLink)
 		return response, err
 	}
@@ -621,7 +620,7 @@ func (client KmsVaultClient) getVaultUsage(ctx context.Context, request common.O
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListVaultReplicas.go.html to see an example of how to use ListVaultReplicas API.
 func (client KmsVaultClient) ListVaultReplicas(ctx context.Context, request ListVaultReplicasRequest) (response ListVaultReplicasResponse, err error) {
@@ -672,7 +671,7 @@ func (client KmsVaultClient) listVaultReplicas(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/ListVaultReplicas"
 		err = common.PostProcessServiceError(err, "KmsVault", "ListVaultReplicas", apiReferenceLink)
 		return response, err
 	}
@@ -687,7 +686,7 @@ func (client KmsVaultClient) listVaultReplicas(ctx context.Context, request comm
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // read operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListVaults.go.html to see an example of how to use ListVaults API.
 func (client KmsVaultClient) ListVaults(ctx context.Context, request ListVaultsRequest) (response ListVaultsResponse, err error) {
@@ -733,7 +732,7 @@ func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/VaultSummary/ListVaults"
 		err = common.PostProcessServiceError(err, "KmsVault", "ListVaults", apiReferenceLink)
 		return response, err
 	}
@@ -746,7 +745,7 @@ func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIR
 // with the same OCID already exists, this operation returns a response with a
 // 409 HTTP status error code.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreVaultFromFile.go.html to see an example of how to use RestoreVaultFromFile API.
 func (client KmsVaultClient) RestoreVaultFromFile(ctx context.Context, request RestoreVaultFromFileRequest) (response RestoreVaultFromFileResponse, err error) {
@@ -797,7 +796,7 @@ func (client KmsVaultClient) restoreVaultFromFile(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/RestoreVaultFromFile"
 		err = common.PostProcessServiceError(err, "KmsVault", "RestoreVaultFromFile", apiReferenceLink)
 		return response, err
 	}
@@ -810,7 +809,7 @@ func (client KmsVaultClient) restoreVaultFromFile(ctx context.Context, request c
 // Storage. If a vault with the same OCID already exists, this operation returns
 // a response with a 409 HTTP status error code.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreVaultFromObjectStore.go.html to see an example of how to use RestoreVaultFromObjectStore API.
 func (client KmsVaultClient) RestoreVaultFromObjectStore(ctx context.Context, request RestoreVaultFromObjectStoreRequest) (response RestoreVaultFromObjectStoreResponse, err error) {
@@ -861,7 +860,7 @@ func (client KmsVaultClient) restoreVaultFromObjectStore(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/RestoreVaultFromObjectStore"
 		err = common.PostProcessServiceError(err, "KmsVault", "RestoreVaultFromObjectStore", apiReferenceLink)
 		return response, err
 	}
@@ -880,7 +879,7 @@ func (client KmsVaultClient) restoreVaultFromObjectStore(ctx context.Context, re
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ScheduleVaultDeletion.go.html to see an example of how to use ScheduleVaultDeletion API.
 func (client KmsVaultClient) ScheduleVaultDeletion(ctx context.Context, request ScheduleVaultDeletionRequest) (response ScheduleVaultDeletionResponse, err error) {
@@ -931,7 +930,7 @@ func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/ScheduleVaultDeletion"
 		err = common.PostProcessServiceError(err, "KmsVault", "ScheduleVaultDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -948,7 +947,7 @@ func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request 
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateVault.go.html to see an example of how to use UpdateVault API.
 func (client KmsVaultClient) UpdateVault(ctx context.Context, request UpdateVaultRequest) (response UpdateVaultResponse, err error) {
@@ -994,7 +993,7 @@ func (client KmsVaultClient) updateVault(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Vault/UpdateVault"
 		err = common.PostProcessServiceError(err, "KmsVault", "UpdateVault", apiReferenceLink)
 		return response, err
 	}

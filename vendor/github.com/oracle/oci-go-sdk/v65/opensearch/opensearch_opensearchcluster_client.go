@@ -93,7 +93,7 @@ func (client *OpensearchClusterClient) ConfigurationProvider() *common.Configura
 
 // BackupOpensearchCluster Backup the opensearch cluster details.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/BackupOpensearchCluster.go.html to see an example of how to use BackupOpensearchCluster API.
 func (client OpensearchClusterClient) BackupOpensearchCluster(ctx context.Context, request BackupOpensearchClusterRequest) (response BackupOpensearchClusterResponse, err error) {
@@ -155,7 +155,7 @@ func (client OpensearchClusterClient) backupOpensearchCluster(ctx context.Contex
 
 // CreateOpensearchCluster Creates a new OpensearchCluster.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/CreateOpensearchCluster.go.html to see an example of how to use CreateOpensearchCluster API.
 func (client OpensearchClusterClient) CreateOpensearchCluster(ctx context.Context, request CreateOpensearchClusterRequest) (response CreateOpensearchClusterResponse, err error) {
@@ -217,7 +217,7 @@ func (client OpensearchClusterClient) createOpensearchCluster(ctx context.Contex
 
 // DeleteOpensearchCluster Deletes a OpensearchCluster resource by identifier
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/DeleteOpensearchCluster.go.html to see an example of how to use DeleteOpensearchCluster API.
 func (client OpensearchClusterClient) DeleteOpensearchCluster(ctx context.Context, request DeleteOpensearchClusterRequest) (response DeleteOpensearchClusterResponse, err error) {
@@ -274,7 +274,7 @@ func (client OpensearchClusterClient) deleteOpensearchCluster(ctx context.Contex
 
 // GetOpensearchCluster Gets a OpensearchCluster by identifier
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/GetOpensearchCluster.go.html to see an example of how to use GetOpensearchCluster API.
 func (client OpensearchClusterClient) GetOpensearchCluster(ctx context.Context, request GetOpensearchClusterRequest) (response GetOpensearchClusterResponse, err error) {
@@ -331,7 +331,7 @@ func (client OpensearchClusterClient) getOpensearchCluster(ctx context.Context, 
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client OpensearchClusterClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
@@ -388,7 +388,7 @@ func (client OpensearchClusterClient) getWorkRequest(ctx context.Context, reques
 
 // ListOpensearchClusters Returns a list of OpensearchClusters.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ListOpensearchClusters.go.html to see an example of how to use ListOpensearchClusters API.
 func (client OpensearchClusterClient) ListOpensearchClusters(ctx context.Context, request ListOpensearchClustersRequest) (response ListOpensearchClustersResponse, err error) {
@@ -445,7 +445,7 @@ func (client OpensearchClusterClient) listOpensearchClusters(ctx context.Context
 
 // ListOpensearchVersions Lists the supported Opensearch versions
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ListOpensearchVersions.go.html to see an example of how to use ListOpensearchVersions API.
 func (client OpensearchClusterClient) ListOpensearchVersions(ctx context.Context, request ListOpensearchVersionsRequest) (response ListOpensearchVersionsResponse, err error) {
@@ -502,7 +502,7 @@ func (client OpensearchClusterClient) listOpensearchVersions(ctx context.Context
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client OpensearchClusterClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
@@ -559,7 +559,7 @@ func (client OpensearchClusterClient) listWorkRequestErrors(ctx context.Context,
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client OpensearchClusterClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
@@ -616,7 +616,7 @@ func (client OpensearchClusterClient) listWorkRequestLogs(ctx context.Context, r
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client OpensearchClusterClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
@@ -673,7 +673,7 @@ func (client OpensearchClusterClient) listWorkRequests(ctx context.Context, requ
 
 // OpensearchClusterRestore Restore the opensearch cluster details.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/OpensearchClusterRestore.go.html to see an example of how to use OpensearchClusterRestore API.
 func (client OpensearchClusterClient) OpensearchClusterRestore(ctx context.Context, request OpensearchClusterRestoreRequest) (response OpensearchClusterRestoreResponse, err error) {
@@ -735,7 +735,7 @@ func (client OpensearchClusterClient) opensearchClusterRestore(ctx context.Conte
 
 // ResizeOpensearchClusterHorizontal Resize the opensearch cluster horizontal details.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ResizeOpensearchClusterHorizontal.go.html to see an example of how to use ResizeOpensearchClusterHorizontal API.
 func (client OpensearchClusterClient) ResizeOpensearchClusterHorizontal(ctx context.Context, request ResizeOpensearchClusterHorizontalRequest) (response ResizeOpensearchClusterHorizontalResponse, err error) {
@@ -797,7 +797,7 @@ func (client OpensearchClusterClient) resizeOpensearchClusterHorizontal(ctx cont
 
 // ResizeOpensearchClusterVertical Resize the opensearch cluster vertical details.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ResizeOpensearchClusterVertical.go.html to see an example of how to use ResizeOpensearchClusterVertical API.
 func (client OpensearchClusterClient) ResizeOpensearchClusterVertical(ctx context.Context, request ResizeOpensearchClusterVerticalRequest) (response ResizeOpensearchClusterVerticalResponse, err error) {
@@ -859,7 +859,7 @@ func (client OpensearchClusterClient) resizeOpensearchClusterVertical(ctx contex
 
 // UpdateOpensearchCluster Updates the OpensearchCluster
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/UpdateOpensearchCluster.go.html to see an example of how to use UpdateOpensearchCluster API.
 func (client OpensearchClusterClient) UpdateOpensearchCluster(ctx context.Context, request UpdateOpensearchClusterRequest) (response UpdateOpensearchClusterResponse, err error) {

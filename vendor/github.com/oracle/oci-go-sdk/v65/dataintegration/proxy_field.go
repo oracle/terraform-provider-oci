@@ -49,37 +49,37 @@ type ProxyField struct {
 	Labels []string `mandatory:"false" json:"labels"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m ProxyField) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m ProxyField) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m ProxyField) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetConfigValues returns ConfigValues
+// GetConfigValues returns ConfigValues
 func (m ProxyField) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m ProxyField) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ProxyField) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ProxyField) GetDescription() *string {
 	return m.Description
 }

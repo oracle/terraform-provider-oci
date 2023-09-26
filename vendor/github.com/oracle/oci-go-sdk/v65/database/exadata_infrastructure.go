@@ -280,24 +280,27 @@ type ExadataInfrastructureAdditionalComputeSystemModelEnum string
 
 // Set of constants representing the allowable values for ExadataInfrastructureAdditionalComputeSystemModelEnum
 const (
-	ExadataInfrastructureAdditionalComputeSystemModelX7  ExadataInfrastructureAdditionalComputeSystemModelEnum = "X7"
-	ExadataInfrastructureAdditionalComputeSystemModelX8  ExadataInfrastructureAdditionalComputeSystemModelEnum = "X8"
-	ExadataInfrastructureAdditionalComputeSystemModelX8m ExadataInfrastructureAdditionalComputeSystemModelEnum = "X8M"
-	ExadataInfrastructureAdditionalComputeSystemModelX9m ExadataInfrastructureAdditionalComputeSystemModelEnum = "X9M"
+	ExadataInfrastructureAdditionalComputeSystemModelX7   ExadataInfrastructureAdditionalComputeSystemModelEnum = "X7"
+	ExadataInfrastructureAdditionalComputeSystemModelX8   ExadataInfrastructureAdditionalComputeSystemModelEnum = "X8"
+	ExadataInfrastructureAdditionalComputeSystemModelX8m  ExadataInfrastructureAdditionalComputeSystemModelEnum = "X8M"
+	ExadataInfrastructureAdditionalComputeSystemModelX9m  ExadataInfrastructureAdditionalComputeSystemModelEnum = "X9M"
+	ExadataInfrastructureAdditionalComputeSystemModelX10m ExadataInfrastructureAdditionalComputeSystemModelEnum = "X10M"
 )
 
 var mappingExadataInfrastructureAdditionalComputeSystemModelEnum = map[string]ExadataInfrastructureAdditionalComputeSystemModelEnum{
-	"X7":  ExadataInfrastructureAdditionalComputeSystemModelX7,
-	"X8":  ExadataInfrastructureAdditionalComputeSystemModelX8,
-	"X8M": ExadataInfrastructureAdditionalComputeSystemModelX8m,
-	"X9M": ExadataInfrastructureAdditionalComputeSystemModelX9m,
+	"X7":   ExadataInfrastructureAdditionalComputeSystemModelX7,
+	"X8":   ExadataInfrastructureAdditionalComputeSystemModelX8,
+	"X8M":  ExadataInfrastructureAdditionalComputeSystemModelX8m,
+	"X9M":  ExadataInfrastructureAdditionalComputeSystemModelX9m,
+	"X10M": ExadataInfrastructureAdditionalComputeSystemModelX10m,
 }
 
 var mappingExadataInfrastructureAdditionalComputeSystemModelEnumLowerCase = map[string]ExadataInfrastructureAdditionalComputeSystemModelEnum{
-	"x7":  ExadataInfrastructureAdditionalComputeSystemModelX7,
-	"x8":  ExadataInfrastructureAdditionalComputeSystemModelX8,
-	"x8m": ExadataInfrastructureAdditionalComputeSystemModelX8m,
-	"x9m": ExadataInfrastructureAdditionalComputeSystemModelX9m,
+	"x7":   ExadataInfrastructureAdditionalComputeSystemModelX7,
+	"x8":   ExadataInfrastructureAdditionalComputeSystemModelX8,
+	"x8m":  ExadataInfrastructureAdditionalComputeSystemModelX8m,
+	"x9m":  ExadataInfrastructureAdditionalComputeSystemModelX9m,
+	"x10m": ExadataInfrastructureAdditionalComputeSystemModelX10m,
 }
 
 // GetExadataInfrastructureAdditionalComputeSystemModelEnumValues Enumerates the set of values for ExadataInfrastructureAdditionalComputeSystemModelEnum
@@ -316,6 +319,7 @@ func GetExadataInfrastructureAdditionalComputeSystemModelEnumStringValues() []st
 		"X8",
 		"X8M",
 		"X9M",
+		"X10M",
 	}
 }
 

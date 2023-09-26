@@ -23,7 +23,7 @@ type TlsPassthroughVirtualServiceTrafficRouteRule struct {
 	Destinations []VirtualDeploymentTrafficRuleTarget `mandatory:"true" json:"destinations"`
 }
 
-//GetDestinations returns Destinations
+// GetDestinations returns Destinations
 func (m TlsPassthroughVirtualServiceTrafficRouteRule) GetDestinations() []VirtualDeploymentTrafficRuleTarget {
 	return m.Destinations
 }

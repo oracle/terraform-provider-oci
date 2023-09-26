@@ -40,12 +40,12 @@ type UpdateCertificateByImportingConfigDetails struct {
 	Stage UpdateCertificateConfigDetailsStageEnum `mandatory:"false" json:"stage,omitempty"`
 }
 
-//GetVersionName returns VersionName
+// GetVersionName returns VersionName
 func (m UpdateCertificateByImportingConfigDetails) GetVersionName() *string {
 	return m.VersionName
 }
 
-//GetStage returns Stage
+// GetStage returns Stage
 func (m UpdateCertificateByImportingConfigDetails) GetStage() UpdateCertificateConfigDetailsStageEnum {
 	return m.Stage
 }

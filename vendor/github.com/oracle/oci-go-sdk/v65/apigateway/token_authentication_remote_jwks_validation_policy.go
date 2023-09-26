@@ -37,7 +37,7 @@ type TokenAuthenticationRemoteJwksValidationPolicy struct {
 	MaxCacheDurationInHours *int `mandatory:"false" json:"maxCacheDurationInHours"`
 }
 
-//GetAdditionalValidationPolicy returns AdditionalValidationPolicy
+// GetAdditionalValidationPolicy returns AdditionalValidationPolicy
 func (m TokenAuthenticationRemoteJwksValidationPolicy) GetAdditionalValidationPolicy() *AdditionalValidationPolicy {
 	return m.AdditionalValidationPolicy
 }

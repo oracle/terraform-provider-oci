@@ -94,7 +94,7 @@ func (client *BillingScheduleClient) ConfigurationProvider() *common.Configurati
 // ListBillingSchedules This list API returns all billing schedules for given subscription id and
 // for a particular Subscribed Service if provided
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubbillingschedule/ListBillingSchedules.go.html to see an example of how to use ListBillingSchedules API.
 func (client BillingScheduleClient) ListBillingSchedules(ctx context.Context, request ListBillingSchedulesRequest) (response ListBillingSchedulesResponse, err error) {

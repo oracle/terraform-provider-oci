@@ -30,12 +30,12 @@ type InstanceAgentCommandExecutionOutputViaObjectStorageUriDetails struct {
 	Message *string `mandatory:"false" json:"message"`
 }
 
-//GetExitCode returns ExitCode
+// GetExitCode returns ExitCode
 func (m InstanceAgentCommandExecutionOutputViaObjectStorageUriDetails) GetExitCode() *int {
 	return m.ExitCode
 }
 
-//GetMessage returns Message
+// GetMessage returns Message
 func (m InstanceAgentCommandExecutionOutputViaObjectStorageUriDetails) GetMessage() *string {
 	return m.Message
 }

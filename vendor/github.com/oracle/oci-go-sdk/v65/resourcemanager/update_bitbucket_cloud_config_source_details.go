@@ -43,7 +43,7 @@ type UpdateBitbucketCloudConfigSourceDetails struct {
 	WorkspaceId *string `mandatory:"false" json:"workspaceId"`
 }
 
-//GetWorkingDirectory returns WorkingDirectory
+// GetWorkingDirectory returns WorkingDirectory
 func (m UpdateBitbucketCloudConfigSourceDetails) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

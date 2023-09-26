@@ -73,52 +73,52 @@ type DatabaseToolsConnectionOracleDatabase struct {
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m DatabaseToolsConnectionOracleDatabase) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m DatabaseToolsConnectionOracleDatabase) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m DatabaseToolsConnectionOracleDatabase) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m DatabaseToolsConnectionOracleDatabase) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m DatabaseToolsConnectionOracleDatabase) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m DatabaseToolsConnectionOracleDatabase) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m DatabaseToolsConnectionOracleDatabase) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m DatabaseToolsConnectionOracleDatabase) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m DatabaseToolsConnectionOracleDatabase) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m DatabaseToolsConnectionOracleDatabase) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

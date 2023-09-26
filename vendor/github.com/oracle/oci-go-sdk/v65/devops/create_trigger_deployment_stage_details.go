@@ -43,32 +43,32 @@ type CreateTriggerDeploymentStageDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateTriggerDeploymentStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateTriggerDeploymentStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetBuildPipelineId returns BuildPipelineId
+// GetBuildPipelineId returns BuildPipelineId
 func (m CreateTriggerDeploymentStageDetails) GetBuildPipelineId() *string {
 	return m.BuildPipelineId
 }
 
-//GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
+// GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
 func (m CreateTriggerDeploymentStageDetails) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessorCollection
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateTriggerDeploymentStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateTriggerDeploymentStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

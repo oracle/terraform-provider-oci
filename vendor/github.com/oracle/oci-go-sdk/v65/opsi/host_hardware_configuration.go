@@ -29,7 +29,7 @@ type HostHardwareConfiguration struct {
 	CpuArchitecture *string `mandatory:"true" json:"cpuArchitecture"`
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m HostHardwareConfiguration) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

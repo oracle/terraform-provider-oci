@@ -26,12 +26,12 @@ type NetworkMonitorConfiguration struct {
 	DnsConfiguration *DnsConfiguration `mandatory:"false" json:"dnsConfiguration"`
 }
 
-//GetIsFailureRetried returns IsFailureRetried
+// GetIsFailureRetried returns IsFailureRetried
 func (m NetworkMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
 }
 
-//GetDnsConfiguration returns DnsConfiguration
+// GetDnsConfiguration returns DnsConfiguration
 func (m NetworkMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
 	return m.DnsConfiguration
 }

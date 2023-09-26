@@ -2,10 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Key Management API
+// Vault Key Management API
 //
-// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
-// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// VaultSummary The representation of VaultSummary
+// VaultSummary The details of the Vault.
 type VaultSummary struct {
 
 	// The OCID of the compartment that contains a particular vault.
@@ -58,6 +57,8 @@ type VaultSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	ExternalKeyManagerMetadataSummary *ExternalKeyManagerMetadataSummary `mandatory:"false" json:"externalKeyManagerMetadataSummary"`
 }
 
 func (m VaultSummary) String() string {
@@ -162,16 +163,19 @@ type VaultSummaryVaultTypeEnum string
 // Set of constants representing the allowable values for VaultSummaryVaultTypeEnum
 const (
 	VaultSummaryVaultTypeVirtualPrivate VaultSummaryVaultTypeEnum = "VIRTUAL_PRIVATE"
+	VaultSummaryVaultTypeExternal       VaultSummaryVaultTypeEnum = "EXTERNAL"
 	VaultSummaryVaultTypeDefault        VaultSummaryVaultTypeEnum = "DEFAULT"
 )
 
 var mappingVaultSummaryVaultTypeEnum = map[string]VaultSummaryVaultTypeEnum{
 	"VIRTUAL_PRIVATE": VaultSummaryVaultTypeVirtualPrivate,
+	"EXTERNAL":        VaultSummaryVaultTypeExternal,
 	"DEFAULT":         VaultSummaryVaultTypeDefault,
 }
 
 var mappingVaultSummaryVaultTypeEnumLowerCase = map[string]VaultSummaryVaultTypeEnum{
 	"virtual_private": VaultSummaryVaultTypeVirtualPrivate,
+	"external":        VaultSummaryVaultTypeExternal,
 	"default":         VaultSummaryVaultTypeDefault,
 }
 
@@ -188,6 +192,7 @@ func GetVaultSummaryVaultTypeEnumValues() []VaultSummaryVaultTypeEnum {
 func GetVaultSummaryVaultTypeEnumStringValues() []string {
 	return []string{
 		"VIRTUAL_PRIVATE",
+		"EXTERNAL",
 		"DEFAULT",
 	}
 }

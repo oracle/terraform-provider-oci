@@ -46,6 +46,8 @@ type ListKeysRequest struct {
 	// performed inside the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's
 	// RSA wrapping key which persists on the HSM. All cryptographic operations that use a key with a protection mode of
 	// `SOFTWARE` are performed on the server.
+	// A protection mode of `EXTERNAL` mean that the key persists on the customer's external key manager which is hosted externally outside of oracle.
+	// Oracle only hold a reference to that key. All cryptographic operations that use a key with a protection mode of `EXTERNAL` are performed by external key manager.
 	ProtectionMode ListKeysProtectionModeEnum `mandatory:"false" contributesTo:"query" name:"protectionMode" omitEmpty:"true"`
 
 	// The algorithm used by a key's key versions to encrypt or decrypt data. Currently, support includes AES, RSA, and ECDSA algorithms.
@@ -126,7 +128,7 @@ type ListKeysResponse struct {
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then there are additional items still to get. Include this value as the `page` parameter for the
 	// subsequent GET request. For information about pagination, see
-	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#List_Pagination).
+	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
@@ -234,16 +236,19 @@ type ListKeysProtectionModeEnum string
 const (
 	ListKeysProtectionModeHsm      ListKeysProtectionModeEnum = "HSM"
 	ListKeysProtectionModeSoftware ListKeysProtectionModeEnum = "SOFTWARE"
+	ListKeysProtectionModeExternal ListKeysProtectionModeEnum = "EXTERNAL"
 )
 
 var mappingListKeysProtectionModeEnum = map[string]ListKeysProtectionModeEnum{
 	"HSM":      ListKeysProtectionModeHsm,
 	"SOFTWARE": ListKeysProtectionModeSoftware,
+	"EXTERNAL": ListKeysProtectionModeExternal,
 }
 
 var mappingListKeysProtectionModeEnumLowerCase = map[string]ListKeysProtectionModeEnum{
 	"hsm":      ListKeysProtectionModeHsm,
 	"software": ListKeysProtectionModeSoftware,
+	"external": ListKeysProtectionModeExternal,
 }
 
 // GetListKeysProtectionModeEnumValues Enumerates the set of values for ListKeysProtectionModeEnum
@@ -260,6 +265,7 @@ func GetListKeysProtectionModeEnumStringValues() []string {
 	return []string{
 		"HSM",
 		"SOFTWARE",
+		"EXTERNAL",
 	}
 }
 

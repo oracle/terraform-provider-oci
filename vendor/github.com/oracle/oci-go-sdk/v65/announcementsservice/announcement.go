@@ -98,97 +98,97 @@ type Announcement struct {
 	PlatformType BaseAnnouncementPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m Announcement) GetId() *string {
 	return m.Id
 }
 
-//GetReferenceTicketNumber returns ReferenceTicketNumber
+// GetReferenceTicketNumber returns ReferenceTicketNumber
 func (m Announcement) GetReferenceTicketNumber() *string {
 	return m.ReferenceTicketNumber
 }
 
-//GetSummary returns Summary
+// GetSummary returns Summary
 func (m Announcement) GetSummary() *string {
 	return m.Summary
 }
 
-//GetTimeOneTitle returns TimeOneTitle
+// GetTimeOneTitle returns TimeOneTitle
 func (m Announcement) GetTimeOneTitle() *string {
 	return m.TimeOneTitle
 }
 
-//GetTimeOneType returns TimeOneType
+// GetTimeOneType returns TimeOneType
 func (m Announcement) GetTimeOneType() BaseAnnouncementTimeOneTypeEnum {
 	return m.TimeOneType
 }
 
-//GetTimeOneValue returns TimeOneValue
+// GetTimeOneValue returns TimeOneValue
 func (m Announcement) GetTimeOneValue() *common.SDKTime {
 	return m.TimeOneValue
 }
 
-//GetTimeTwoTitle returns TimeTwoTitle
+// GetTimeTwoTitle returns TimeTwoTitle
 func (m Announcement) GetTimeTwoTitle() *string {
 	return m.TimeTwoTitle
 }
 
-//GetTimeTwoType returns TimeTwoType
+// GetTimeTwoType returns TimeTwoType
 func (m Announcement) GetTimeTwoType() BaseAnnouncementTimeTwoTypeEnum {
 	return m.TimeTwoType
 }
 
-//GetTimeTwoValue returns TimeTwoValue
+// GetTimeTwoValue returns TimeTwoValue
 func (m Announcement) GetTimeTwoValue() *common.SDKTime {
 	return m.TimeTwoValue
 }
 
-//GetServices returns Services
+// GetServices returns Services
 func (m Announcement) GetServices() []string {
 	return m.Services
 }
 
-//GetAffectedRegions returns AffectedRegions
+// GetAffectedRegions returns AffectedRegions
 func (m Announcement) GetAffectedRegions() []string {
 	return m.AffectedRegions
 }
 
-//GetAnnouncementType returns AnnouncementType
+// GetAnnouncementType returns AnnouncementType
 func (m Announcement) GetAnnouncementType() BaseAnnouncementAnnouncementTypeEnum {
 	return m.AnnouncementType
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m Announcement) GetLifecycleState() BaseAnnouncementLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetIsBanner returns IsBanner
+// GetIsBanner returns IsBanner
 func (m Announcement) GetIsBanner() *bool {
 	return m.IsBanner
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m Announcement) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m Announcement) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetEnvironmentName returns EnvironmentName
+// GetEnvironmentName returns EnvironmentName
 func (m Announcement) GetEnvironmentName() *string {
 	return m.EnvironmentName
 }
 
-//GetPlatformType returns PlatformType
+// GetPlatformType returns PlatformType
 func (m Announcement) GetPlatformType() BaseAnnouncementPlatformTypeEnum {
 	return m.PlatformType
 }
 
-//GetChainId returns ChainId
+// GetChainId returns ChainId
 func (m Announcement) GetChainId() *string {
 	return m.ChainId
 }

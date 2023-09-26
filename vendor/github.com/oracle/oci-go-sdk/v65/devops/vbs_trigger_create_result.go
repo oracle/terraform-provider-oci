@@ -68,67 +68,67 @@ type VbsTriggerCreateResult struct {
 	LifecycleState TriggerLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m VbsTriggerCreateResult) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m VbsTriggerCreateResult) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m VbsTriggerCreateResult) GetDescription() *string {
 	return m.Description
 }
 
-//GetProjectId returns ProjectId
+// GetProjectId returns ProjectId
 func (m VbsTriggerCreateResult) GetProjectId() *string {
 	return m.ProjectId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m VbsTriggerCreateResult) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m VbsTriggerCreateResult) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m VbsTriggerCreateResult) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m VbsTriggerCreateResult) GetLifecycleState() TriggerLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m VbsTriggerCreateResult) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetActions returns Actions
+// GetActions returns Actions
 func (m VbsTriggerCreateResult) GetActions() []TriggerAction {
 	return m.Actions
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m VbsTriggerCreateResult) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m VbsTriggerCreateResult) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m VbsTriggerCreateResult) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

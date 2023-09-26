@@ -38,27 +38,27 @@ type UpdateGithubTriggerDetails struct {
 	ConnectionId *string `mandatory:"false" json:"connectionId"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateGithubTriggerDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateGithubTriggerDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetActions returns Actions
+// GetActions returns Actions
 func (m UpdateGithubTriggerDetails) GetActions() []TriggerAction {
 	return m.Actions
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateGithubTriggerDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateGithubTriggerDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

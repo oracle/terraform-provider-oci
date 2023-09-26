@@ -35,6 +35,9 @@ variable certificate_secret_id {
   default = ""
 }
 
+variable domain_id {
+  default = ""
+}
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -52,8 +55,8 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
   # shape                     = "PRODUCTION"
   is_byol                   = "false"
   message_packs             = "10"
-
-  idcs_at                = var.integration_instance_idcs_access_token
+  domain_id                 = var.domain_id
+  # idcs_at                 = var.integration_instance_idcs_access_token
 
   #Optional
 # For stand / enterprise type only
@@ -95,4 +98,16 @@ data "oci_integration_integration_instances" "test_integration_instances" {
 data "oci_integration_integration_instance" "test_integration_instance" {
   #Required
   integration_instance_id = oci_integration_integration_instance.test_integration_instance.id
+}
+
+resource "oci_integration_integration_instance" "test_integration_instance_idcs" {
+  #Required
+  compartment_id            = var.compartment_id
+  display_name              = "instance4643_idcs"
+  integration_instance_type = "STANDARDX"
+  shape                     = "DEVELOPMENT"
+  # shape                     = "PRODUCTION"
+  is_byol                   = "false"
+  message_packs             = "10"
+  idcs_at                   = var.integration_instance_idcs_access_token
 }

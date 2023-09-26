@@ -97,7 +97,7 @@ func (client *NotificationDataPlaneClient) ConfigurationProvider() *common.Confi
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ChangeSubscriptionCompartment.go.html to see an example of how to use ChangeSubscriptionCompartment API.
 func (client NotificationDataPlaneClient) ChangeSubscriptionCompartment(ctx context.Context, request ChangeSubscriptionCompartmentRequest) (response ChangeSubscriptionCompartmentResponse, err error) {
@@ -162,7 +162,7 @@ func (client NotificationDataPlaneClient) changeSubscriptionCompartment(ctx cont
 // To confirm a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#confirmSub).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/CreateSubscription.go.html to see an example of how to use CreateSubscription API.
 func (client NotificationDataPlaneClient) CreateSubscription(ctx context.Context, request CreateSubscriptionRequest) (response CreateSubscriptionResponse, err error) {
@@ -225,7 +225,7 @@ func (client NotificationDataPlaneClient) createSubscription(ctx context.Context
 // DeleteSubscription Deletes the specified subscription.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/DeleteSubscription.go.html to see an example of how to use DeleteSubscription API.
 func (client NotificationDataPlaneClient) DeleteSubscription(ctx context.Context, request DeleteSubscriptionRequest) (response DeleteSubscriptionResponse, err error) {
@@ -283,7 +283,7 @@ func (client NotificationDataPlaneClient) deleteSubscription(ctx context.Context
 // GetConfirmSubscription Gets the confirmation details for the specified subscription.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetConfirmSubscription.go.html to see an example of how to use GetConfirmSubscription API.
 func (client NotificationDataPlaneClient) GetConfirmSubscription(ctx context.Context, request GetConfirmSubscriptionRequest) (response GetConfirmSubscriptionResponse, err error) {
@@ -341,7 +341,7 @@ func (client NotificationDataPlaneClient) getConfirmSubscription(ctx context.Con
 // GetSubscription Gets the specified subscription's configuration information.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetSubscription.go.html to see an example of how to use GetSubscription API.
 func (client NotificationDataPlaneClient) GetSubscription(ctx context.Context, request GetSubscriptionRequest) (response GetSubscriptionResponse, err error) {
@@ -399,7 +399,7 @@ func (client NotificationDataPlaneClient) getSubscription(ctx context.Context, r
 // GetUnsubscription Unsubscribes the subscription from the topic.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetUnsubscription.go.html to see an example of how to use GetUnsubscription API.
 func (client NotificationDataPlaneClient) GetUnsubscription(ctx context.Context, request GetUnsubscriptionRequest) (response GetUnsubscriptionResponse, err error) {
@@ -457,7 +457,7 @@ func (client NotificationDataPlaneClient) getUnsubscription(ctx context.Context,
 // ListSubscriptions Lists the subscriptions in the specified compartment or topic.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
 func (client NotificationDataPlaneClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
@@ -524,7 +524,7 @@ func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context,
 // For more information about publishing messages, see Publishing Messages (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/publishingmessages.htm).
 // For steps to request a limit increase, see Requesting a Service Limit Increase (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm#three).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/PublishMessage.go.html to see an example of how to use PublishMessage API.
 func (client NotificationDataPlaneClient) PublishMessage(ctx context.Context, request PublishMessageRequest) (response PublishMessageResponse, err error) {
@@ -582,7 +582,7 @@ func (client NotificationDataPlaneClient) publishMessage(ctx context.Context, re
 // ResendSubscriptionConfirmation Resends the confirmation details for the specified subscription.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ResendSubscriptionConfirmation.go.html to see an example of how to use ResendSubscriptionConfirmation API.
 func (client NotificationDataPlaneClient) ResendSubscriptionConfirmation(ctx context.Context, request ResendSubscriptionConfirmationRequest) (response ResendSubscriptionConfirmationResponse, err error) {
@@ -640,7 +640,7 @@ func (client NotificationDataPlaneClient) resendSubscriptionConfirmation(ctx con
 // UpdateSubscription Updates the specified subscription's configuration.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/UpdateSubscription.go.html to see an example of how to use UpdateSubscription API.
 func (client NotificationDataPlaneClient) UpdateSubscription(ctx context.Context, request UpdateSubscriptionRequest) (response UpdateSubscriptionResponse, err error) {

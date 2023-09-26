@@ -32,17 +32,17 @@ type GithubBuildSource struct {
 	ConnectionId *string `mandatory:"true" json:"connectionId"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m GithubBuildSource) GetName() *string {
 	return m.Name
 }
 
-//GetRepositoryUrl returns RepositoryUrl
+// GetRepositoryUrl returns RepositoryUrl
 func (m GithubBuildSource) GetRepositoryUrl() *string {
 	return m.RepositoryUrl
 }
 
-//GetBranch returns Branch
+// GetBranch returns Branch
 func (m GithubBuildSource) GetBranch() *string {
 	return m.Branch
 }

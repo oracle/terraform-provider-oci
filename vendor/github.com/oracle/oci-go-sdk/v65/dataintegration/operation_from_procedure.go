@@ -46,7 +46,7 @@ type OperationFromProcedure struct {
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m OperationFromProcedure) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

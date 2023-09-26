@@ -69,8 +69,9 @@ var (
 		// STANDARD or ENTERPRISE only
 		// "custom_endpoint":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceCustomEndpointRepresentation},
 		// "defined_tags":                      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"idcs_at":                   acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		// "idcs_at":                   acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
+		"domain_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.domain_id}`},
 		"is_file_server_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_visual_builder_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		// STANDARD or ENTERPRISE only
@@ -88,8 +89,30 @@ var (
 		"message_packs":             acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		// Not supported yet
 		// "alternate_custom_endpoints": acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceAlternateCustomEndpointsRepresentation},
-		"consumption_model": acctest.Representation{RepType: acctest.Optional, Create: `UCM`},
+		"consumption_model": acctest.Representation{RepType: acctest.Optional, Create: `UCM`}, // STANDARD or ENTERPRISE only
+		// "custom_endpoint":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceCustomEndpointRepresentation},
+		// "defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		// "idcs_at":                   acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
+		"domain_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.domain_id}`},
+		"is_file_server_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_visual_builder_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		// STANDARD or ENTERPRISE only
+		// "network_endpoint_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceNetworkEndpointDetailsRepresentation},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentationAgain},
+	}
+
+	integrationInstanceRepresentationIdcsAt = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"integration_instance_type": acctest.Representation{RepType: acctest.Required, Create: `${var.instance_type}`},
+		"shape":                     acctest.Representation{RepType: acctest.Required, Create: `DEVELOPMENT`},
+		"is_byol":                   acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"message_packs":             acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+		// Not supported yet
+		// "alternate_custom_endpoints": acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceAlternateCustomEndpointsRepresentation},
+		"consumption_model": acctest.Representation{RepType: acctest.Optional, Create: `UCM`}, // STANDARD or ENTERPRISE only
 		// "custom_endpoint":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceCustomEndpointRepresentation},
 		// "defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 
@@ -164,7 +187,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckIntegrationIntegrationInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + idcsAccessTokenVariableStr() +
+			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + domainIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Required, acctest.Create, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -188,7 +211,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		{
 			Config: config + instanceTypeVariableStr + compartmentIdVariableStr +
 				tagVariablesStr() +
-				idcsAccessTokenVariableStr() +
+				domainIdVariableStr +
 				vaultSecretIdStr +
 				IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap(
@@ -207,6 +230,12 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// 	}),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
+				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "0"),
+				// resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
+				// resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname.com"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
 				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "0"),
@@ -214,7 +243,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"), // 		resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
+				// resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
 				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
@@ -248,7 +277,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		{
 			Config: config + instanceTypeVariableStr + compartmentIdVariableStr +
 				tagVariablesStr() +
-				idcsAccessTokenVariableStr() +
+				domainIdVariableStr +
 				compartmentIdUVariableStr +
 				vaultSecretIdStr +
 				IntegrationIntegrationInstanceResourceDependencies +
@@ -274,9 +303,10 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
 				// resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2.com"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
+				// resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
 				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
@@ -305,7 +335,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
+			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + tagVariablesStr() + domainIdVariableStr + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// resource.TestCheckResourceAttr(resourceName, "alternate_custom_endpoints.#", "1"),
@@ -321,9 +351,10 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
 				// resource.TestCheckResourceAttr(resourceName, "custom_endpoint.0.hostname", "hostname2-updated.com"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
+				// resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
 				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "true"),
@@ -355,7 +386,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		{
 			Config: config + instanceTypeVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_integration_integration_instances", "test_integration_instances", acctest.Optional, acctest.Update, integrationInstanceDataSourceRepresentation) +
-				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
+				compartmentIdVariableStr + tagVariablesStr() + domainIdVariableStr + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -406,7 +437,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 		{
 			Config: config + instanceTypeVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, IntegrationintegrationInstanceSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + tagVariablesStr() + idcsAccessTokenVariableStr() + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
+				compartmentIdVariableStr + tagVariablesStr() + domainIdVariableStr + vaultSecretIdStr + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Update, integrationInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "integration_instance_id"),
@@ -456,9 +487,59 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
+				"domain_id",
 				"idcs_at",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+func TestIntegrationIntegrationInstanceResource_idcsAt(t *testing.T) {
+	httpreplay.SetScenario("TestIntegrationIntegrationInstanceResource_idcsAt")
+	defer httpreplay.SaveScenario()
+
+	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "TestIntegrationIntegrationInstanceResource_idcsAt") {
+		t.Skip("Skipping suppressed TestIntegrationIntegrationInstanceResource_idcsAt")
+	}
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	instanceType := utils.GetEnvSettingWithBlankDefault("instance_type")
+	instanceTypeVariableStr := fmt.Sprintf("variable \"instance_type\" { default = \"%s\" }\n", instanceType)
+
+	resourceName := "oci_integration_integration_instance.test_integration_instance"
+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+instanceTypeVariableStr+compartmentIdVariableStr+IntegrationIntegrationInstanceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Optional, acctest.Create, integrationInstanceRepresentationIdcsAt), "integration", "integrationInstance", t)
+
+	acctest.ResourceTest(t, testAccCheckIntegrationIntegrationInstanceDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + idcsAccessTokenVariableStr() +
+				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Required, acctest.Create, integrationInstanceRepresentationIdcsAt),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
+				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
+				resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr,
 		},
 	})
 }

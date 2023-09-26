@@ -57,47 +57,47 @@ type CreateDataAssetFromJdbc struct {
 	DefaultConnection *CreateConnectionFromJdbc `mandatory:"false" json:"defaultConnection"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m CreateDataAssetFromJdbc) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m CreateDataAssetFromJdbc) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateDataAssetFromJdbc) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateDataAssetFromJdbc) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m CreateDataAssetFromJdbc) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m CreateDataAssetFromJdbc) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m CreateDataAssetFromJdbc) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m CreateDataAssetFromJdbc) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m CreateDataAssetFromJdbc) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

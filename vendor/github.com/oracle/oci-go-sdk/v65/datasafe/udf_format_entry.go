@@ -31,7 +31,7 @@ type UdfFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UdfFormatEntry) GetDescription() *string {
 	return m.Description
 }

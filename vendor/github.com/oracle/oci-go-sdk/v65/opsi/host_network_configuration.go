@@ -35,7 +35,7 @@ type HostNetworkConfiguration struct {
 	MacAddress *string `mandatory:"false" json:"macAddress"`
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m HostNetworkConfiguration) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

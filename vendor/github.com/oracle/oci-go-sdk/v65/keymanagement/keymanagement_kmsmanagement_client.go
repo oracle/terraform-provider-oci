@@ -2,10 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Key Management API
+// Vault Key Management API
 //
-// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
-// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -83,7 +82,7 @@ func (client *KmsManagementClient) ConfigurationProvider() *common.Configuration
 // BackupKey Backs up an encrypted file that contains all key versions and metadata of the specified key so that you can restore
 // the key later. The file also contains the metadata of the vault that the key belonged to.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/BackupKey.go.html to see an example of how to use BackupKey API.
 func (client KmsManagementClient) BackupKey(ctx context.Context, request BackupKeyRequest) (response BackupKeyResponse, err error) {
@@ -134,7 +133,7 @@ func (client KmsManagementClient) backupKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/BackupKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "BackupKey", apiReferenceLink)
 		return response, err
 	}
@@ -151,7 +150,7 @@ func (client KmsManagementClient) backupKey(ctx context.Context, request common.
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CancelKeyDeletion.go.html to see an example of how to use CancelKeyDeletion API.
 func (client KmsManagementClient) CancelKeyDeletion(ctx context.Context, request CancelKeyDeletionRequest) (response CancelKeyDeletionResponse, err error) {
@@ -202,7 +201,7 @@ func (client KmsManagementClient) cancelKeyDeletion(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/CancelKeyDeletion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "CancelKeyDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -219,7 +218,7 @@ func (client KmsManagementClient) cancelKeyDeletion(ctx context.Context, request
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CancelKeyVersionDeletion.go.html to see an example of how to use CancelKeyVersionDeletion API.
 func (client KmsManagementClient) CancelKeyVersionDeletion(ctx context.Context, request CancelKeyVersionDeletionRequest) (response CancelKeyVersionDeletionResponse, err error) {
@@ -270,7 +269,7 @@ func (client KmsManagementClient) cancelKeyVersionDeletion(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersion/CancelKeyVersionDeletion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "CancelKeyVersionDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -287,7 +286,7 @@ func (client KmsManagementClient) cancelKeyVersionDeletion(ctx context.Context, 
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ChangeKeyCompartment.go.html to see an example of how to use ChangeKeyCompartment API.
 func (client KmsManagementClient) ChangeKeyCompartment(ctx context.Context, request ChangeKeyCompartmentRequest) (response ChangeKeyCompartmentResponse, err error) {
@@ -338,7 +337,7 @@ func (client KmsManagementClient) changeKeyCompartment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/ChangeKeyCompartment"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ChangeKeyCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -353,7 +352,7 @@ func (client KmsManagementClient) changeKeyCompartment(ctx context.Context, requ
 // to reject an otherwise valid request when the total rate of management write operations exceeds 10
 // requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateKey.go.html to see an example of how to use CreateKey API.
 func (client KmsManagementClient) CreateKey(ctx context.Context, request CreateKeyRequest) (response CreateKeyResponse, err error) {
@@ -404,7 +403,7 @@ func (client KmsManagementClient) createKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/CreateKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "CreateKey", apiReferenceLink)
 		return response, err
 	}
@@ -420,7 +419,7 @@ func (client KmsManagementClient) createKey(ctx context.Context, request common.
 // otherwise valid request when the total rate of management write operations exceeds 10 requests per second
 // for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateKeyVersion.go.html to see an example of how to use CreateKeyVersion API.
 func (client KmsManagementClient) CreateKeyVersion(ctx context.Context, request CreateKeyVersionRequest) (response CreateKeyVersionResponse, err error) {
@@ -471,7 +470,7 @@ func (client KmsManagementClient) createKeyVersion(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersion/CreateKeyVersion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "CreateKeyVersion", apiReferenceLink)
 		return response, err
 	}
@@ -487,7 +486,7 @@ func (client KmsManagementClient) createKeyVersion(ctx context.Context, request 
 // otherwise valid request when the total rate of management write operations exceeds 10 requests per second
 // for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DisableKey.go.html to see an example of how to use DisableKey API.
 func (client KmsManagementClient) DisableKey(ctx context.Context, request DisableKeyRequest) (response DisableKeyResponse, err error) {
@@ -538,7 +537,7 @@ func (client KmsManagementClient) disableKey(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/DisableKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "DisableKey", apiReferenceLink)
 		return response, err
 	}
@@ -554,7 +553,7 @@ func (client KmsManagementClient) disableKey(ctx context.Context, request common
 // otherwise valid request when the total rate of management write operations exceeds 10 requests per second
 // for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/EnableKey.go.html to see an example of how to use EnableKey API.
 func (client KmsManagementClient) EnableKey(ctx context.Context, request EnableKeyRequest) (response EnableKeyResponse, err error) {
@@ -605,7 +604,7 @@ func (client KmsManagementClient) enableKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/EnableKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "EnableKey", apiReferenceLink)
 		return response, err
 	}
@@ -620,7 +619,7 @@ func (client KmsManagementClient) enableKey(ctx context.Context, request common.
 // otherwise valid request when the total rate of management read operations exceeds 10 requests per second for
 // a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetKey.go.html to see an example of how to use GetKey API.
 func (client KmsManagementClient) GetKey(ctx context.Context, request GetKeyRequest) (response GetKeyResponse, err error) {
@@ -666,7 +665,7 @@ func (client KmsManagementClient) getKey(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/GetKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "GetKey", apiReferenceLink)
 		return response, err
 	}
@@ -681,7 +680,7 @@ func (client KmsManagementClient) getKey(ctx context.Context, request common.OCI
 // otherwise valid request when the total rate of management read operations exceeds 10 requests per second
 // for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetKeyVersion.go.html to see an example of how to use GetKeyVersion API.
 func (client KmsManagementClient) GetKeyVersion(ctx context.Context, request GetKeyVersionRequest) (response GetKeyVersionResponse, err error) {
@@ -727,7 +726,7 @@ func (client KmsManagementClient) getKeyVersion(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersion/GetKeyVersion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "GetKeyVersion", apiReferenceLink)
 		return response, err
 	}
@@ -741,7 +740,7 @@ func (client KmsManagementClient) getKeyVersion(ctx context.Context, request com
 // details about whether the operation associated with the given replicationId has been
 // successfully applied across replicas.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetReplicationStatus.go.html to see an example of how to use GetReplicationStatus API.
 func (client KmsManagementClient) GetReplicationStatus(ctx context.Context, request GetReplicationStatusRequest) (response GetReplicationStatusResponse, err error) {
@@ -787,7 +786,7 @@ func (client KmsManagementClient) getReplicationStatus(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/ReplicationStatusDetails/GetReplicationStatus"
 		err = common.PostProcessServiceError(err, "KmsManagement", "GetReplicationStatus", apiReferenceLink)
 		return response, err
 	}
@@ -799,7 +798,7 @@ func (client KmsManagementClient) getReplicationStatus(ctx context.Context, requ
 // GetWrappingKey Gets details about the public RSA wrapping key associated with the vault in the endpoint. Each vault has an RSA key-pair that wraps and
 // unwraps AES key material for import into Key Management.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetWrappingKey.go.html to see an example of how to use GetWrappingKey API.
 func (client KmsManagementClient) GetWrappingKey(ctx context.Context, request GetWrappingKeyRequest) (response GetWrappingKeyResponse, err error) {
@@ -845,7 +844,7 @@ func (client KmsManagementClient) getWrappingKey(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/WrappingKey/GetWrappingKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "GetWrappingKey", apiReferenceLink)
 		return response, err
 	}
@@ -854,11 +853,14 @@ func (client KmsManagementClient) getWrappingKey(ctx context.Context, request co
 	return response, err
 }
 
-// ImportKey Imports AES key material to create a new key with. The key material must be base64-encoded and
-// wrapped by the vault's public RSA wrapping key before you can import it. Key Management supports AES symmetric keys
-// that are exactly 16, 24, or 32 bytes. Furthermore, the key length must match what you specify at the time of import.
+// ImportKey Imports AES and RSA keys to create a new key. The key material must be base64-encoded
+// and wrapped by the vault's public RSA wrapping key before you can import it.
+// Key Management supports both RSA and AES keys. The AES keys are symmetric keys
+// of length 128 bits (16 bytes), 192 bits (24 bytes), or 256 bits (32 bytes), and the RSA keys are asymmetric keys of length 2048 bits (256 bytes), 3072 bits (384 bytes), and 4096 bits (512 bytes).
+// Furthermore, the key length must match what you specify at the time of import. When importing an asymmetric key,
+// only private key must be wrapped in PKCS8 format while the corresponding public key is generated internally by KMS.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ImportKey.go.html to see an example of how to use ImportKey API.
 func (client KmsManagementClient) ImportKey(ctx context.Context, request ImportKeyRequest) (response ImportKeyResponse, err error) {
@@ -909,7 +911,7 @@ func (client KmsManagementClient) importKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/ImportKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ImportKey", apiReferenceLink)
 		return response, err
 	}
@@ -918,13 +920,14 @@ func (client KmsManagementClient) importKey(ctx context.Context, request common.
 	return response, err
 }
 
-// ImportKeyVersion Imports AES key material to create a new key version with, and then rotates the key to begin using the new
+// ImportKeyVersion Imports AES key material to create a new key version and then rotate the key to begin using the new
 // key version. The key material must be base64-encoded and wrapped by the vault's public RSA wrapping key
 // before you can import it. Key Management supports AES symmetric keys that are exactly 16, 24, or 32 bytes.
 // Furthermore, the key length must match the length of the specified key and what you specify as the length
-// at the time of import.
+// at the time of import. When importing an asymmetric key, only the private key must be wrapped in PKCS8 format
+// while the corresponding public key is generated internally by KMS.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ImportKeyVersion.go.html to see an example of how to use ImportKeyVersion API.
 func (client KmsManagementClient) ImportKeyVersion(ctx context.Context, request ImportKeyVersionRequest) (response ImportKeyVersionResponse, err error) {
@@ -975,7 +978,7 @@ func (client KmsManagementClient) importKeyVersion(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersion/ImportKeyVersion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ImportKeyVersion", apiReferenceLink)
 		return response, err
 	}
@@ -991,7 +994,7 @@ func (client KmsManagementClient) importKeyVersion(ctx context.Context, request 
 // otherwise valid request when the total rate of management read operations exceeds 10 requests per second
 // for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListKeyVersions.go.html to see an example of how to use ListKeyVersions API.
 func (client KmsManagementClient) ListKeyVersions(ctx context.Context, request ListKeyVersionsRequest) (response ListKeyVersionsResponse, err error) {
@@ -1037,7 +1040,7 @@ func (client KmsManagementClient) listKeyVersions(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersionSummary/ListKeyVersions"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ListKeyVersions", apiReferenceLink)
 		return response, err
 	}
@@ -1052,7 +1055,7 @@ func (client KmsManagementClient) listKeyVersions(ctx context.Context, request c
 // otherwise valid request when the total rate of management read operations exceeds 10 requests per second
 // for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListKeys.go.html to see an example of how to use ListKeys API.
 func (client KmsManagementClient) ListKeys(ctx context.Context, request ListKeysRequest) (response ListKeysResponse, err error) {
@@ -1098,7 +1101,7 @@ func (client KmsManagementClient) listKeys(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeySummary/ListKeys"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ListKeys", apiReferenceLink)
 		return response, err
 	}
@@ -1111,7 +1114,7 @@ func (client KmsManagementClient) listKeys(ctx context.Context, request common.O
 // If the vault doesn't exist, the operation returns a response with a 404 HTTP status error code. You
 // need to first restore the vault associated with the key.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreKeyFromFile.go.html to see an example of how to use RestoreKeyFromFile API.
 func (client KmsManagementClient) RestoreKeyFromFile(ctx context.Context, request RestoreKeyFromFileRequest) (response RestoreKeyFromFileResponse, err error) {
@@ -1162,7 +1165,7 @@ func (client KmsManagementClient) restoreKeyFromFile(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/RestoreKeyFromFile"
 		err = common.PostProcessServiceError(err, "KmsManagement", "RestoreKeyFromFile", apiReferenceLink)
 		return response, err
 	}
@@ -1175,7 +1178,7 @@ func (client KmsManagementClient) restoreKeyFromFile(ctx context.Context, reques
 // Object Storage location. If the vault doesn't exist, the operation returns a response with a
 // 404 HTTP status error code. You need to first restore the vault associated with the key.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/RestoreKeyFromObjectStore.go.html to see an example of how to use RestoreKeyFromObjectStore API.
 func (client KmsManagementClient) RestoreKeyFromObjectStore(ctx context.Context, request RestoreKeyFromObjectStoreRequest) (response RestoreKeyFromObjectStoreResponse, err error) {
@@ -1226,7 +1229,7 @@ func (client KmsManagementClient) restoreKeyFromObjectStore(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/RestoreKeyFromObjectStore"
 		err = common.PostProcessServiceError(err, "KmsManagement", "RestoreKeyFromObjectStore", apiReferenceLink)
 		return response, err
 	}
@@ -1242,7 +1245,7 @@ func (client KmsManagementClient) restoreKeyFromObjectStore(ctx context.Context,
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ScheduleKeyDeletion.go.html to see an example of how to use ScheduleKeyDeletion API.
 func (client KmsManagementClient) ScheduleKeyDeletion(ctx context.Context, request ScheduleKeyDeletionRequest) (response ScheduleKeyDeletionResponse, err error) {
@@ -1293,7 +1296,7 @@ func (client KmsManagementClient) scheduleKeyDeletion(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/ScheduleKeyDeletion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ScheduleKeyDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -1309,7 +1312,7 @@ func (client KmsManagementClient) scheduleKeyDeletion(ctx context.Context, reque
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ScheduleKeyVersionDeletion.go.html to see an example of how to use ScheduleKeyVersionDeletion API.
 func (client KmsManagementClient) ScheduleKeyVersionDeletion(ctx context.Context, request ScheduleKeyVersionDeletionRequest) (response ScheduleKeyVersionDeletionResponse, err error) {
@@ -1360,7 +1363,7 @@ func (client KmsManagementClient) scheduleKeyVersionDeletion(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/KeyVersion/ScheduleKeyVersionDeletion"
 		err = common.PostProcessServiceError(err, "KmsManagement", "ScheduleKeyVersionDeletion", apiReferenceLink)
 		return response, err
 	}
@@ -1377,7 +1380,7 @@ func (client KmsManagementClient) scheduleKeyVersionDeletion(ctx context.Context
 // otherwise valid request when the total rate of management write operations exceeds 10 requests per second
 // for a given tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateKey.go.html to see an example of how to use UpdateKey API.
 func (client KmsManagementClient) UpdateKey(ctx context.Context, request UpdateKeyRequest) (response UpdateKeyResponse, err error) {
@@ -1423,7 +1426,7 @@ func (client KmsManagementClient) updateKey(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/Key/UpdateKey"
 		err = common.PostProcessServiceError(err, "KmsManagement", "UpdateKey", apiReferenceLink)
 		return response, err
 	}

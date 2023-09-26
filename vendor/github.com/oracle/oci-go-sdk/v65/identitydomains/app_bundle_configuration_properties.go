@@ -18,14 +18,14 @@ import (
 
 // AppBundleConfigurationProperties ConnectorBundle configuration properties
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [name]
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [name]
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AppBundleConfigurationProperties struct {
 
 	// Name of the bundle configuration property. This attribute maps to \"name\" attribute in \"ConfigurationProperty\" in ICF.

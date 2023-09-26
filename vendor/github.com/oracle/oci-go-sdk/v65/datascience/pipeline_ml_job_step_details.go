@@ -34,22 +34,22 @@ type PipelineMlJobStepDetails struct {
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
 }
 
-//GetStepName returns StepName
+// GetStepName returns StepName
 func (m PipelineMlJobStepDetails) GetStepName() *string {
 	return m.StepName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m PipelineMlJobStepDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDependsOn returns DependsOn
+// GetDependsOn returns DependsOn
 func (m PipelineMlJobStepDetails) GetDependsOn() []string {
 	return m.DependsOn
 }
 
-//GetStepConfigurationDetails returns StepConfigurationDetails
+// GetStepConfigurationDetails returns StepConfigurationDetails
 func (m PipelineMlJobStepDetails) GetStepConfigurationDetails() *PipelineStepConfigurationDetails {
 	return m.StepConfigurationDetails
 }

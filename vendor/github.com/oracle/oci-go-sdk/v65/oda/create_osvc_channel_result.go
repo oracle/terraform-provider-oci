@@ -80,52 +80,52 @@ type CreateOsvcChannelResult struct {
 	ChannelService OsvcServiceTypeEnum `mandatory:"true" json:"channelService"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m CreateOsvcChannelResult) GetId() *string {
 	return m.Id
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateOsvcChannelResult) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateOsvcChannelResult) GetDescription() *string {
 	return m.Description
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m CreateOsvcChannelResult) GetCategory() ChannelCategoryEnum {
 	return m.Category
 }
 
-//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m CreateOsvcChannelResult) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m CreateOsvcChannelResult) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m CreateOsvcChannelResult) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m CreateOsvcChannelResult) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateOsvcChannelResult) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateOsvcChannelResult) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

@@ -2,10 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Vault Service Key Management API
+// Vault Key Management API
 //
-// API for managing and performing operations with keys and vaults. (For the API for managing secrets, see the Vault Service
-// Secret Management API. For the API for retrieving secrets, see the Vault Service Secret Retrieval API.)
+// Use the Key Management API to manage vaults and keys. For more information, see Managing Vaults (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingvaults.htm) and Managing Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/managingkeys.htm).
 //
 
 package keymanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// Key The representation of Key
+// Key The logical entities that represent one or more key versions, each of which contains cryptographic material.
 type Key struct {
 
 	// The OCID of the compartment that contains this master encryption key.
@@ -62,6 +61,9 @@ type Key struct {
 	// the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists
 	// on the HSM. All cryptographic operations that use a key with a protection mode of `SOFTWARE` are performed on the server. By default,
 	// a key's protection mode is set to `HSM`. You can't change a key's protection mode after the key is created or imported.
+	// A protection mode of `EXTERNAL` mean that the key persists on the customer's external key manager which is hosted externally outside of oracle.
+	// Oracle only hold a reference to that key.
+	// All cryptographic operations that use a key with a protection mode of `EXTERNAL` are performed by external key manager.
 	ProtectionMode KeyProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`
 
 	// An optional property indicating when to delete the key, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
@@ -73,7 +75,10 @@ type Key struct {
 
 	ReplicaDetails *KeyReplicaDetails `mandatory:"false" json:"replicaDetails"`
 
+	// A Boolean value that indicates whether the Key belongs to primary Vault or replica vault.
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
+
+	ExternalKeyReferenceDetails *ExternalKeyReferenceDetails `mandatory:"false" json:"externalKeyReferenceDetails"`
 }
 
 func (m Key) String() string {
@@ -105,16 +110,19 @@ type KeyProtectionModeEnum string
 const (
 	KeyProtectionModeHsm      KeyProtectionModeEnum = "HSM"
 	KeyProtectionModeSoftware KeyProtectionModeEnum = "SOFTWARE"
+	KeyProtectionModeExternal KeyProtectionModeEnum = "EXTERNAL"
 )
 
 var mappingKeyProtectionModeEnum = map[string]KeyProtectionModeEnum{
 	"HSM":      KeyProtectionModeHsm,
 	"SOFTWARE": KeyProtectionModeSoftware,
+	"EXTERNAL": KeyProtectionModeExternal,
 }
 
 var mappingKeyProtectionModeEnumLowerCase = map[string]KeyProtectionModeEnum{
 	"hsm":      KeyProtectionModeHsm,
 	"software": KeyProtectionModeSoftware,
+	"external": KeyProtectionModeExternal,
 }
 
 // GetKeyProtectionModeEnumValues Enumerates the set of values for KeyProtectionModeEnum
@@ -131,6 +139,7 @@ func GetKeyProtectionModeEnumStringValues() []string {
 	return []string{
 		"HSM",
 		"SOFTWARE",
+		"EXTERNAL",
 	}
 }
 

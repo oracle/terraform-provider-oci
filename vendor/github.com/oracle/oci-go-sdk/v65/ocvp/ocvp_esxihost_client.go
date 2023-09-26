@@ -98,7 +98,7 @@ func (client *EsxiHostClient) ConfigurationProvider() *common.ConfigurationProvi
 // Use the WorkRequest operations to track the
 // creation of the ESXi host.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CreateEsxiHost.go.html to see an example of how to use CreateEsxiHost API.
 // A default retry strategy applies to this operation CreateEsxiHost()
@@ -171,7 +171,7 @@ func (client EsxiHostClient) createEsxiHost(ctx context.Context, request common.
 // Use the WorkRequest operations to track the
 // deletion of the ESXi host.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DeleteEsxiHost.go.html to see an example of how to use DeleteEsxiHost API.
 // A default retry strategy applies to this operation DeleteEsxiHost()
@@ -229,7 +229,7 @@ func (client EsxiHostClient) deleteEsxiHost(ctx context.Context, request common.
 
 // GetEsxiHost Gets the specified ESXi host's information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/GetEsxiHost.go.html to see an example of how to use GetEsxiHost API.
 // A default retry strategy applies to this operation GetEsxiHost()
@@ -294,7 +294,7 @@ func (client EsxiHostClient) getEsxiHost(ctx context.Context, request common.OCI
 // ESXi hosts, you can specify the OCID of the Compute instance, not the
 // ESXi host OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListEsxiHosts.go.html to see an example of how to use ListEsxiHosts API.
 // A default retry strategy applies to this operation ListEsxiHosts()
@@ -352,7 +352,7 @@ func (client EsxiHostClient) listEsxiHosts(ctx context.Context, request common.O
 
 // SwapBilling Swap billing between two Active ESXi hosts.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/SwapBilling.go.html to see an example of how to use SwapBilling API.
 // A default retry strategy applies to this operation SwapBilling()
@@ -415,7 +415,7 @@ func (client EsxiHostClient) swapBilling(ctx context.Context, request common.OCI
 
 // UpdateEsxiHost Updates the specified ESXi host.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpdateEsxiHost.go.html to see an example of how to use UpdateEsxiHost API.
 // A default retry strategy applies to this operation UpdateEsxiHost()
