@@ -56,52 +56,52 @@ type UpdateConnectionFromJdbc struct {
 	PasswordSecret *SensitiveAttribute `mandatory:"false" json:"passwordSecret"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m UpdateConnectionFromJdbc) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m UpdateConnectionFromJdbc) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m UpdateConnectionFromJdbc) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UpdateConnectionFromJdbc) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateConnectionFromJdbc) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m UpdateConnectionFromJdbc) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m UpdateConnectionFromJdbc) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m UpdateConnectionFromJdbc) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetConnectionProperties returns ConnectionProperties
+// GetConnectionProperties returns ConnectionProperties
 func (m UpdateConnectionFromJdbc) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m UpdateConnectionFromJdbc) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

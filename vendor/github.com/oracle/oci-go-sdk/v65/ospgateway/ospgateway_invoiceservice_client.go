@@ -93,7 +93,7 @@ func (client *InvoiceServiceClient) ConfigurationProvider() *common.Configuratio
 
 // DownloadPdfContent Returns an invoice in pdf format
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/DownloadPdfContent.go.html to see an example of how to use DownloadPdfContent API.
 // A default retry strategy applies to this operation DownloadPdfContent()
@@ -150,7 +150,7 @@ func (client InvoiceServiceClient) downloadPdfContent(ctx context.Context, reque
 
 // GetInvoice Returns an invoice by invoice id
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetInvoice.go.html to see an example of how to use GetInvoice API.
 // A default retry strategy applies to this operation GetInvoice()
@@ -208,7 +208,7 @@ func (client InvoiceServiceClient) getInvoice(ctx context.Context, request commo
 
 // ListInvoiceLines Returns the invoice product list by invoice id
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/ListInvoiceLines.go.html to see an example of how to use ListInvoiceLines API.
 // A default retry strategy applies to this operation ListInvoiceLines()
@@ -266,7 +266,7 @@ func (client InvoiceServiceClient) listInvoiceLines(ctx context.Context, request
 
 // ListInvoices Returns a list of invoices
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/ListInvoices.go.html to see an example of how to use ListInvoices API.
 // A default retry strategy applies to this operation ListInvoices()
@@ -324,7 +324,7 @@ func (client InvoiceServiceClient) listInvoices(ctx context.Context, request com
 
 // PayInvoice Pay an invoice
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/PayInvoice.go.html to see an example of how to use PayInvoice API.
 // A default retry strategy applies to this operation PayInvoice()

@@ -38,32 +38,32 @@ type RegexCommandDescriptor struct {
 	IsHidden *bool `mandatory:"false" json:"isHidden"`
 }
 
-//GetDisplayQueryString returns DisplayQueryString
+// GetDisplayQueryString returns DisplayQueryString
 func (m RegexCommandDescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-//GetInternalQueryString returns InternalQueryString
+// GetInternalQueryString returns InternalQueryString
 func (m RegexCommandDescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m RegexCommandDescriptor) GetCategory() *string {
 	return m.Category
 }
 
-//GetReferencedFields returns ReferencedFields
+// GetReferencedFields returns ReferencedFields
 func (m RegexCommandDescriptor) GetReferencedFields() []AbstractField {
 	return m.ReferencedFields
 }
 
-//GetDeclaredFields returns DeclaredFields
+// GetDeclaredFields returns DeclaredFields
 func (m RegexCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
-//GetIsHidden returns IsHidden
+// GetIsHidden returns IsHidden
 func (m RegexCommandDescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }

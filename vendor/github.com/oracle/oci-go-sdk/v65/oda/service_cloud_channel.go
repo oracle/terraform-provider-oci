@@ -78,52 +78,52 @@ type ServiceCloudChannel struct {
 	ClientType ServiceCloudClientTypeEnum `mandatory:"true" json:"clientType"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m ServiceCloudChannel) GetId() *string {
 	return m.Id
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ServiceCloudChannel) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ServiceCloudChannel) GetDescription() *string {
 	return m.Description
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m ServiceCloudChannel) GetCategory() ChannelCategoryEnum {
 	return m.Category
 }
 
-//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m ServiceCloudChannel) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m ServiceCloudChannel) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m ServiceCloudChannel) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m ServiceCloudChannel) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m ServiceCloudChannel) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m ServiceCloudChannel) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

@@ -38,12 +38,12 @@ type GenericDeliveredArtifact struct {
 	Version *string `mandatory:"false" json:"version"`
 }
 
-//GetDeployArtifactId returns DeployArtifactId
+// GetDeployArtifactId returns DeployArtifactId
 func (m GenericDeliveredArtifact) GetDeployArtifactId() *string {
 	return m.DeployArtifactId
 }
 
-//GetOutputArtifactName returns OutputArtifactName
+// GetOutputArtifactName returns OutputArtifactName
 func (m GenericDeliveredArtifact) GetOutputArtifactName() *string {
 	return m.OutputArtifactName
 }

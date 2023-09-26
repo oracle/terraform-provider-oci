@@ -25,7 +25,7 @@ type UxConfigurationItemsCollection struct {
 	ConfigItems []ConfigurationItemSummary `mandatory:"false" json:"configItems"`
 }
 
-//GetConfigItems returns ConfigItems
+// GetConfigItems returns ConfigItems
 func (m UxConfigurationItemsCollection) GetConfigItems() []ConfigurationItemSummary {
 	return m.ConfigItems
 }

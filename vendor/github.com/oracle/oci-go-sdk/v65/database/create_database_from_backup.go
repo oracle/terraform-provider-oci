@@ -36,22 +36,22 @@ type CreateDatabaseFromBackup struct {
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 }
 
-//GetDbHomeId returns DbHomeId
+// GetDbHomeId returns DbHomeId
 func (m CreateDatabaseFromBackup) GetDbHomeId() *string {
 	return m.DbHomeId
 }
 
-//GetDbVersion returns DbVersion
+// GetDbVersion returns DbVersion
 func (m CreateDatabaseFromBackup) GetDbVersion() *string {
 	return m.DbVersion
 }
 
-//GetKmsKeyId returns KmsKeyId
+// GetKmsKeyId returns KmsKeyId
 func (m CreateDatabaseFromBackup) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
-//GetKmsKeyVersionId returns KmsKeyVersionId
+// GetKmsKeyVersionId returns KmsKeyVersionId
 func (m CreateDatabaseFromBackup) GetKmsKeyVersionId() *string {
 	return m.KmsKeyVersionId
 }

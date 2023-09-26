@@ -41,32 +41,32 @@ type CreateDevopsCodeRepositoryTriggerDetails struct {
 	RepositoryId *string `mandatory:"false" json:"repositoryId"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateDevopsCodeRepositoryTriggerDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateDevopsCodeRepositoryTriggerDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetProjectId returns ProjectId
+// GetProjectId returns ProjectId
 func (m CreateDevopsCodeRepositoryTriggerDetails) GetProjectId() *string {
 	return m.ProjectId
 }
 
-//GetActions returns Actions
+// GetActions returns Actions
 func (m CreateDevopsCodeRepositoryTriggerDetails) GetActions() []TriggerAction {
 	return m.Actions
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateDevopsCodeRepositoryTriggerDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateDevopsCodeRepositoryTriggerDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

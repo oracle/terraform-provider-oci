@@ -95,82 +95,82 @@ type OracleNosqlConnection struct {
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m OracleNosqlConnection) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m OracleNosqlConnection) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m OracleNosqlConnection) GetDescription() *string {
 	return m.Description
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m OracleNosqlConnection) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m OracleNosqlConnection) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m OracleNosqlConnection) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m OracleNosqlConnection) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m OracleNosqlConnection) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m OracleNosqlConnection) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m OracleNosqlConnection) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m OracleNosqlConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m OracleNosqlConnection) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m OracleNosqlConnection) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m OracleNosqlConnection) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetIngressIps returns IngressIps
+// GetIngressIps returns IngressIps
 func (m OracleNosqlConnection) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m OracleNosqlConnection) GetNsgIds() []string {
 	return m.NsgIds
 }

@@ -47,12 +47,12 @@ type HttpIngressGatewayTrafficRouteRule struct {
 	PathType HttpIngressGatewayTrafficRouteRulePathTypeEnum `mandatory:"false" json:"pathType,omitempty"`
 }
 
-//GetIngressGatewayHost returns IngressGatewayHost
+// GetIngressGatewayHost returns IngressGatewayHost
 func (m HttpIngressGatewayTrafficRouteRule) GetIngressGatewayHost() *IngressGatewayHostRef {
 	return m.IngressGatewayHost
 }
 
-//GetDestinations returns Destinations
+// GetDestinations returns Destinations
 func (m HttpIngressGatewayTrafficRouteRule) GetDestinations() []VirtualServiceTrafficRuleTarget {
 	return m.Destinations
 }

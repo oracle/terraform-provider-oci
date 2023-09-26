@@ -95,7 +95,7 @@ func (client *OperatorControlClient) ConfigurationProvider() *common.Configurati
 
 // ChangeOperatorControlCompartment Moves the Operator Control resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlCompartment.go.html to see an example of how to use ChangeOperatorControlCompartment API.
 // A default retry strategy applies to this operation ChangeOperatorControlCompartment()
@@ -158,7 +158,7 @@ func (client OperatorControlClient) changeOperatorControlCompartment(ctx context
 
 // CreateOperatorControl Creates an Operator Control.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControl.go.html to see an example of how to use CreateOperatorControl API.
 // A default retry strategy applies to this operation CreateOperatorControl()
@@ -225,7 +225,7 @@ func (client OperatorControlClient) createOperatorControl(ctx context.Context, r
 // done under the Operator Control is preserved for future needs. The system purges the deleted Operator Control only when all of the audit data associated with the
 // Operator Control are also deleted. Therefore, you cannot reuse the name of the deleted Operator Control until the system purges the Operator Control.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/DeleteOperatorControl.go.html to see an example of how to use DeleteOperatorControl API.
 // A default retry strategy applies to this operation DeleteOperatorControl()
@@ -283,7 +283,7 @@ func (client OperatorControlClient) deleteOperatorControl(ctx context.Context, r
 
 // GetOperatorControl Gets the Operator Control associated with the specified Operator Control ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorControl.go.html to see an example of how to use GetOperatorControl API.
 // A default retry strategy applies to this operation GetOperatorControl()
@@ -341,7 +341,7 @@ func (client OperatorControlClient) getOperatorControl(ctx context.Context, requ
 
 // ListOperatorControls Lists the operator controls in the compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControls.go.html to see an example of how to use ListOperatorControls API.
 // A default retry strategy applies to this operation ListOperatorControls()
@@ -399,7 +399,7 @@ func (client OperatorControlClient) listOperatorControls(ctx context.Context, re
 
 // UpdateOperatorControl Modifies the existing OperatorControl for a given operator control id except the operator control id.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/UpdateOperatorControl.go.html to see an example of how to use UpdateOperatorControl API.
 // A default retry strategy applies to this operation UpdateOperatorControl()

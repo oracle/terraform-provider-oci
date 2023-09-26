@@ -58,62 +58,62 @@ type DataAssetSummaryFromAmazonS3 struct {
 	DefaultConnection *ConnectionSummaryFromAmazonS3 `mandatory:"false" json:"defaultConnection"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m DataAssetSummaryFromAmazonS3) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m DataAssetSummaryFromAmazonS3) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m DataAssetSummaryFromAmazonS3) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DataAssetSummaryFromAmazonS3) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m DataAssetSummaryFromAmazonS3) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m DataAssetSummaryFromAmazonS3) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m DataAssetSummaryFromAmazonS3) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m DataAssetSummaryFromAmazonS3) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetNativeTypeSystem returns NativeTypeSystem
+// GetNativeTypeSystem returns NativeTypeSystem
 func (m DataAssetSummaryFromAmazonS3) GetNativeTypeSystem() *TypeSystem {
 	return m.NativeTypeSystem
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m DataAssetSummaryFromAmazonS3) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m DataAssetSummaryFromAmazonS3) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m DataAssetSummaryFromAmazonS3) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

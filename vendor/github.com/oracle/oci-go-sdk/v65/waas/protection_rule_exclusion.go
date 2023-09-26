@@ -16,18 +16,20 @@ import (
 )
 
 // ProtectionRuleExclusion Allows specified types of requests to bypass the protection rule. If a request matches any of the criteria in the `exclusions` field, the protection rule will not be executed. Rules can have more than one exclusion and exclusions are applied to requests disjunctively, meaning the specified exclusion strings are independently matched against the specified targets of a request. The first target to match a specified string will trigger an exclusion. **Example:** If the following exclusions are defined for a protection rule:
-//     "action": "BLOCK",
-//     "exclusions": [
-//         {
-//             "target":"REQUEST_COOKIES",
-//             "exclusions":["example.com", "12345", "219ffwef9w0f"]
-//         },
-//         {
-//             "target":"REQUEST_COOKIE_NAMES",
-//             "exclusions":["OAMAuthnCookie", "JSESSIONID", "HCM-PSJSESSIONID"]
-//         }
-//     ],
-//     "key": "1000000",
+//
+//	"action": "BLOCK",
+//	"exclusions": [
+//	    {
+//	        "target":"REQUEST_COOKIES",
+//	        "exclusions":["example.com", "12345", "219ffwef9w0f"]
+//	    },
+//	    {
+//	        "target":"REQUEST_COOKIE_NAMES",
+//	        "exclusions":["OAMAuthnCookie", "JSESSIONID", "HCM-PSJSESSIONID"]
+//	    }
+//	],
+//	"key": "1000000",
+//
 // A request with the cookie name `sessionid` would trigger an exclusion. A request with the cookie name `yourcompany.com` would *not* trigger and exclusion.
 type ProtectionRuleExclusion struct {
 

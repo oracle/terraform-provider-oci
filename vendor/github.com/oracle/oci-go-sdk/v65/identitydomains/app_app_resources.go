@@ -19,14 +19,14 @@ import (
 // AppAppResources A list of AppResources of this App.
 // **Added In:** 19.2.1
 // **SCIM++ Properties:**
-//  - caseExact: true
-//  - idcsCompositeKey: [value]
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
+//   - caseExact: true
+//   - idcsCompositeKey: [value]
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
 type AppAppResources struct {
 
 	// The id of an AppResource of this App.

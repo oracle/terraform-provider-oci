@@ -96,7 +96,7 @@ func (client *ArtifactsClient) ConfigurationProvider() *common.ConfigurationProv
 // resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ChangeContainerRepositoryCompartment.go.html to see an example of how to use ChangeContainerRepositoryCompartment API.
 // A default retry strategy applies to this operation ChangeContainerRepositoryCompartment()
@@ -161,7 +161,7 @@ func (client ArtifactsClient) changeContainerRepositoryCompartment(ctx context.C
 // resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ChangeRepositoryCompartment.go.html to see an example of how to use ChangeRepositoryCompartment API.
 // A default retry strategy applies to this operation ChangeRepositoryCompartment()
@@ -224,7 +224,7 @@ func (client ArtifactsClient) changeRepositoryCompartment(ctx context.Context, r
 
 // CreateContainerImageSignature Upload a signature to an image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/CreateContainerImageSignature.go.html to see an example of how to use CreateContainerImageSignature API.
 // A default retry strategy applies to this operation CreateContainerImageSignature()
@@ -287,7 +287,7 @@ func (client ArtifactsClient) createContainerImageSignature(ctx context.Context,
 
 // CreateContainerRepository Create a new empty container repository. Avoid entering confidential information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/CreateContainerRepository.go.html to see an example of how to use CreateContainerRepository API.
 // A default retry strategy applies to this operation CreateContainerRepository()
@@ -350,7 +350,7 @@ func (client ArtifactsClient) createContainerRepository(ctx context.Context, req
 
 // CreateRepository Creates a new repository for storing artifacts.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/CreateRepository.go.html to see an example of how to use CreateRepository API.
 func (client ArtifactsClient) CreateRepository(ctx context.Context, request CreateRepositoryRequest) (response CreateRepositoryResponse, err error) {
@@ -412,7 +412,7 @@ func (client ArtifactsClient) createRepository(ctx context.Context, request comm
 
 // DeleteContainerImage Delete a container image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteContainerImage.go.html to see an example of how to use DeleteContainerImage API.
 // A default retry strategy applies to this operation DeleteContainerImage()
@@ -470,7 +470,7 @@ func (client ArtifactsClient) deleteContainerImage(ctx context.Context, request 
 
 // DeleteContainerImageSignature Delete a container image signature.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteContainerImageSignature.go.html to see an example of how to use DeleteContainerImageSignature API.
 // A default retry strategy applies to this operation DeleteContainerImageSignature()
@@ -528,7 +528,7 @@ func (client ArtifactsClient) deleteContainerImageSignature(ctx context.Context,
 
 // DeleteContainerRepository Delete container repository.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteContainerRepository.go.html to see an example of how to use DeleteContainerRepository API.
 // A default retry strategy applies to this operation DeleteContainerRepository()
@@ -586,7 +586,7 @@ func (client ArtifactsClient) deleteContainerRepository(ctx context.Context, req
 
 // DeleteGenericArtifact Deletes an artifact with a specified OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteGenericArtifact.go.html to see an example of how to use DeleteGenericArtifact API.
 // A default retry strategy applies to this operation DeleteGenericArtifact()
@@ -644,7 +644,7 @@ func (client ArtifactsClient) deleteGenericArtifact(ctx context.Context, request
 
 // DeleteGenericArtifactByPath Deletes an artifact with a specified `artifactPath` and `version`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteGenericArtifactByPath.go.html to see an example of how to use DeleteGenericArtifactByPath API.
 // A default retry strategy applies to this operation DeleteGenericArtifactByPath()
@@ -702,7 +702,7 @@ func (client ArtifactsClient) deleteGenericArtifactByPath(ctx context.Context, r
 
 // DeleteRepository Deletes the specified repository. This operation fails unless all associated artifacts are in a DELETED state. You must delete all associated artifacts before deleting a repository.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteRepository.go.html to see an example of how to use DeleteRepository API.
 // A default retry strategy applies to this operation DeleteRepository()
@@ -760,7 +760,7 @@ func (client ArtifactsClient) deleteRepository(ctx context.Context, request comm
 
 // GetContainerConfiguration Get container configuration.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/GetContainerConfiguration.go.html to see an example of how to use GetContainerConfiguration API.
 // A default retry strategy applies to this operation GetContainerConfiguration()
@@ -818,7 +818,7 @@ func (client ArtifactsClient) getContainerConfiguration(ctx context.Context, req
 
 // GetContainerImage Get container image metadata.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/GetContainerImage.go.html to see an example of how to use GetContainerImage API.
 // A default retry strategy applies to this operation GetContainerImage()
@@ -876,7 +876,7 @@ func (client ArtifactsClient) getContainerImage(ctx context.Context, request com
 
 // GetContainerImageSignature Get container image signature metadata.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/GetContainerImageSignature.go.html to see an example of how to use GetContainerImageSignature API.
 // A default retry strategy applies to this operation GetContainerImageSignature()
@@ -934,7 +934,7 @@ func (client ArtifactsClient) getContainerImageSignature(ctx context.Context, re
 
 // GetContainerRepository Get container repository.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/GetContainerRepository.go.html to see an example of how to use GetContainerRepository API.
 // A default retry strategy applies to this operation GetContainerRepository()
@@ -992,7 +992,7 @@ func (client ArtifactsClient) getContainerRepository(ctx context.Context, reques
 
 // GetGenericArtifact Gets information about an artifact with a specified OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/GetGenericArtifact.go.html to see an example of how to use GetGenericArtifact API.
 // A default retry strategy applies to this operation GetGenericArtifact()
@@ -1050,7 +1050,7 @@ func (client ArtifactsClient) getGenericArtifact(ctx context.Context, request co
 
 // GetGenericArtifactByPath Gets information about an artifact with a specified `artifactPath` and `version`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/GetGenericArtifactByPath.go.html to see an example of how to use GetGenericArtifactByPath API.
 // A default retry strategy applies to this operation GetGenericArtifactByPath()
@@ -1108,7 +1108,7 @@ func (client ArtifactsClient) getGenericArtifactByPath(ctx context.Context, requ
 
 // GetRepository Gets the specified repository's information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/GetRepository.go.html to see an example of how to use GetRepository API.
 // A default retry strategy applies to this operation GetRepository()
@@ -1166,7 +1166,7 @@ func (client ArtifactsClient) getRepository(ctx context.Context, request common.
 
 // ListContainerImageSignatures List container image signatures in an image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ListContainerImageSignatures.go.html to see an example of how to use ListContainerImageSignatures API.
 // A default retry strategy applies to this operation ListContainerImageSignatures()
@@ -1224,7 +1224,7 @@ func (client ArtifactsClient) listContainerImageSignatures(ctx context.Context, 
 
 // ListContainerImages List container images in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ListContainerImages.go.html to see an example of how to use ListContainerImages API.
 // A default retry strategy applies to this operation ListContainerImages()
@@ -1282,7 +1282,7 @@ func (client ArtifactsClient) listContainerImages(ctx context.Context, request c
 
 // ListContainerRepositories List container repositories in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ListContainerRepositories.go.html to see an example of how to use ListContainerRepositories API.
 // A default retry strategy applies to this operation ListContainerRepositories()
@@ -1340,7 +1340,7 @@ func (client ArtifactsClient) listContainerRepositories(ctx context.Context, req
 
 // ListGenericArtifacts Lists artifacts in the specified repository.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ListGenericArtifacts.go.html to see an example of how to use ListGenericArtifacts API.
 // A default retry strategy applies to this operation ListGenericArtifacts()
@@ -1398,7 +1398,7 @@ func (client ArtifactsClient) listGenericArtifacts(ctx context.Context, request 
 
 // ListRepositories Lists repositories in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ListRepositories.go.html to see an example of how to use ListRepositories API.
 // A default retry strategy applies to this operation ListRepositories()
@@ -1456,7 +1456,7 @@ func (client ArtifactsClient) listRepositories(ctx context.Context, request comm
 
 // RemoveContainerVersion Remove version from container image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/RemoveContainerVersion.go.html to see an example of how to use RemoveContainerVersion API.
 // A default retry strategy applies to this operation RemoveContainerVersion()
@@ -1519,7 +1519,7 @@ func (client ArtifactsClient) removeContainerVersion(ctx context.Context, reques
 
 // RestoreContainerImage Restore a container image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/RestoreContainerImage.go.html to see an example of how to use RestoreContainerImage API.
 // A default retry strategy applies to this operation RestoreContainerImage()
@@ -1582,7 +1582,7 @@ func (client ArtifactsClient) restoreContainerImage(ctx context.Context, request
 
 // UpdateContainerConfiguration Update container configuration.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateContainerConfiguration.go.html to see an example of how to use UpdateContainerConfiguration API.
 // A default retry strategy applies to this operation UpdateContainerConfiguration()
@@ -1640,7 +1640,7 @@ func (client ArtifactsClient) updateContainerConfiguration(ctx context.Context, 
 
 // UpdateContainerImage Modify the properties of a container image. Avoid entering confidential information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateContainerImage.go.html to see an example of how to use UpdateContainerImage API.
 // A default retry strategy applies to this operation UpdateContainerImage()
@@ -1698,7 +1698,7 @@ func (client ArtifactsClient) updateContainerImage(ctx context.Context, request 
 
 // UpdateContainerImageSignature Modify the properties of a container image signature. Avoid entering confidential information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateContainerImageSignature.go.html to see an example of how to use UpdateContainerImageSignature API.
 // A default retry strategy applies to this operation UpdateContainerImageSignature()
@@ -1756,7 +1756,7 @@ func (client ArtifactsClient) updateContainerImageSignature(ctx context.Context,
 
 // UpdateContainerRepository Modify the properties of a container repository. Avoid entering confidential information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateContainerRepository.go.html to see an example of how to use UpdateContainerRepository API.
 // A default retry strategy applies to this operation UpdateContainerRepository()
@@ -1814,7 +1814,7 @@ func (client ArtifactsClient) updateContainerRepository(ctx context.Context, req
 
 // UpdateGenericArtifact Updates the artifact with the specified OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). You can only update the tags of an artifact.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateGenericArtifact.go.html to see an example of how to use UpdateGenericArtifact API.
 // A default retry strategy applies to this operation UpdateGenericArtifact()
@@ -1872,7 +1872,7 @@ func (client ArtifactsClient) updateGenericArtifact(ctx context.Context, request
 
 // UpdateGenericArtifactByPath Updates an artifact with a specified `artifactPath` and `version`. You can only update the tags of an artifact.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateGenericArtifactByPath.go.html to see an example of how to use UpdateGenericArtifactByPath API.
 // A default retry strategy applies to this operation UpdateGenericArtifactByPath()
@@ -1930,7 +1930,7 @@ func (client ArtifactsClient) updateGenericArtifactByPath(ctx context.Context, r
 
 // UpdateRepository Updates the properties of a repository. You can update the `displayName` and  `description` properties.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateRepository.go.html to see an example of how to use UpdateRepository API.
 // A default retry strategy applies to this operation UpdateRepository()

@@ -36,27 +36,27 @@ type UpdateComputeInstanceGroupCanaryTrafficShiftDeployStageDetails struct {
 	RolloutPolicy *LoadBalancerTrafficShiftRolloutPolicy `mandatory:"false" json:"rolloutPolicy"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateComputeInstanceGroupCanaryTrafficShiftDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateComputeInstanceGroupCanaryTrafficShiftDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m UpdateComputeInstanceGroupCanaryTrafficShiftDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateComputeInstanceGroupCanaryTrafficShiftDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateComputeInstanceGroupCanaryTrafficShiftDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

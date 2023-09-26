@@ -42,32 +42,32 @@ type JavaType struct {
 	ConfigDefinition *ConfigDefinition `mandatory:"false" json:"configDefinition"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m JavaType) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m JavaType) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m JavaType) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m JavaType) GetName() *string {
 	return m.Name
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m JavaType) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m JavaType) GetDescription() *string {
 	return m.Description
 }

@@ -1,3 +1,10 @@
+## 5.14.0 (September 26, 2023)
+
+### Added
+- Support for OIC: FAaas Self Service with Henosis
+### Bug Fix
+- Fix APM Synthetic service update the number of vantagepoints supported in monitor as per spec to 100
+
 ## 5.13.0 (September 13, 2023)
 
 ### Added

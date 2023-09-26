@@ -44,32 +44,32 @@ type EventStatsCommandDescriptor struct {
 	Functions []FunctionField `mandatory:"false" json:"functions"`
 }
 
-//GetDisplayQueryString returns DisplayQueryString
+// GetDisplayQueryString returns DisplayQueryString
 func (m EventStatsCommandDescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-//GetInternalQueryString returns InternalQueryString
+// GetInternalQueryString returns InternalQueryString
 func (m EventStatsCommandDescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m EventStatsCommandDescriptor) GetCategory() *string {
 	return m.Category
 }
 
-//GetReferencedFields returns ReferencedFields
+// GetReferencedFields returns ReferencedFields
 func (m EventStatsCommandDescriptor) GetReferencedFields() []AbstractField {
 	return m.ReferencedFields
 }
 
-//GetDeclaredFields returns DeclaredFields
+// GetDeclaredFields returns DeclaredFields
 func (m EventStatsCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
-//GetIsHidden returns IsHidden
+// GetIsHidden returns IsHidden
 func (m EventStatsCommandDescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }

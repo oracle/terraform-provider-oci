@@ -18,8 +18,9 @@ import (
 
 // DataAssetExportScope Scope of asset export, which consists of a container object (bucket, folder, schema, etc) within the asset,
 // and types of child objects contained by that object to be included.
-//    objectKey - Key of the container object to be exported. For example, key of schema_1.
-//    exportTypeIds - Type key(s) of objects within the container object to be exported. For example, type key of table or view.
+//
+//	objectKey - Key of the container object to be exported. For example, key of schema_1.
+//	exportTypeIds - Type key(s) of objects within the container object to be exported. For example, type key of table or view.
 type DataAssetExportScope struct {
 
 	// Unique key of the object selected for export.

@@ -88,27 +88,27 @@ type UpdateOkeHelmChartDeployStageDetails struct {
 	IsDebugEnabled *bool `mandatory:"false" json:"isDebugEnabled"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateOkeHelmChartDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateOkeHelmChartDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m UpdateOkeHelmChartDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateOkeHelmChartDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateOkeHelmChartDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
