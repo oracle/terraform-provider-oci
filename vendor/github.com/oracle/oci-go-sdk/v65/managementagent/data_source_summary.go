@@ -24,14 +24,14 @@ type DataSourceSummary interface {
 	GetId() *string
 
 	// Unique name of the dataSource.
-	GetDataSourceName() *string
+	GetName() *string
 }
 
 type datasourcesummary struct {
-	JsonData       []byte
-	Id             *string `mandatory:"true" json:"id"`
-	DataSourceName *string `mandatory:"true" json:"dataSourceName"`
-	DataSourceType string  `json:"dataSourceType"`
+	JsonData []byte
+	Id       *string `mandatory:"true" json:"id"`
+	Name     *string `mandatory:"true" json:"name"`
+	Type     string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -46,8 +46,8 @@ func (m *datasourcesummary) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.Id = s.Model.Id
-	m.DataSourceName = s.Model.DataSourceName
-	m.DataSourceType = s.Model.DataSourceType
+	m.Name = s.Model.Name
+	m.Type = s.Model.Type
 
 	return err
 }
@@ -60,7 +60,7 @@ func (m *datasourcesummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 
 	var err error
-	switch m.DataSourceType {
+	switch m.Type {
 	case "PROMETHEUS_EMITTER":
 		mm := PrometheusEmitterDataSourceSummary{}
 		err = json.Unmarshal(data, &mm)
@@ -70,7 +70,7 @@ func (m *datasourcesummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DataSourceSummary: %s.", m.DataSourceType)
+		common.Logf("Recieved unsupported enum value for DataSourceSummary: %s.", m.Type)
 		return *m, nil
 	}
 }
@@ -80,9 +80,9 @@ func (m datasourcesummary) GetId() *string {
 	return m.Id
 }
 
-// GetDataSourceName returns DataSourceName
-func (m datasourcesummary) GetDataSourceName() *string {
-	return m.DataSourceName
+// GetName returns Name
+func (m datasourcesummary) GetName() *string {
+	return m.Name
 }
 
 func (m datasourcesummary) String() string {

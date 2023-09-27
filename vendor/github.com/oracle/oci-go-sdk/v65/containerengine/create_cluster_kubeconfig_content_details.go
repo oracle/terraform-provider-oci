@@ -28,6 +28,9 @@ type CreateClusterKubeconfigContentDetails struct {
 
 	// The endpoint to target. A cluster may have multiple endpoints exposed but the kubeconfig can only target one at a time.
 	Endpoint CreateClusterKubeconfigContentDetailsEndpointEnum `mandatory:"false" json:"endpoint,omitempty"`
+
+	// Provide the ClusterNamespaceId to generate kubeconfig for the specific kubernetes namespace
+	ClusterNamespaceId *string `mandatory:"false" json:"clusterNamespaceId"`
 }
 
 func (m CreateClusterKubeconfigContentDetails) String() string {

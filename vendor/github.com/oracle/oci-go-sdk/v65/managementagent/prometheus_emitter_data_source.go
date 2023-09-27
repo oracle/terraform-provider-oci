@@ -29,17 +29,17 @@ type PrometheusEmitterDataSource struct {
 	// Compartment owning this DataSource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The time the DataSource was created. An RFC3339 formatted datetime string
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The time the DataSource data was last received. An RFC3339 formatted datetime string
+	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
 	// The url through which the Prometheus Exporter publishes its metrics. (http only)
 	Url *string `mandatory:"true" json:"url"`
 
 	// The OCI monitoring namespace to which scraped metrics should be uploaded.
 	Namespace *string `mandatory:"true" json:"namespace"`
-
-	// The time the DataSource was created. An RFC3339 formatted datetime string
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
-
-	// The time the DataSource data was last received. An RFC3339 formatted datetime string
-	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Comma separated metric name list. The complete set of desired scraped metrics. Use this property to limit the set of metrics uploaded if required.
 	AllowMetrics *string `mandatory:"false" json:"allowMetrics"`
@@ -48,16 +48,16 @@ type PrometheusEmitterDataSource struct {
 	ProxyUrl *string `mandatory:"false" json:"proxyUrl"`
 
 	// Number in milliseconds. The timeout for connecting to the Prometheus Exporter's endpoint.
-	ConnectionTimeout *float32 `mandatory:"false" json:"connectionTimeout"`
+	ConnectionTimeout *float64 `mandatory:"false" json:"connectionTimeout"`
 
 	// Number in milliseconds. The timeout for reading the response from the Prometheus Exporter's endpoint.
-	ReadTimeout *float32 `mandatory:"false" json:"readTimeout"`
+	ReadTimeout *float64 `mandatory:"false" json:"readTimeout"`
 
 	// Number in kilobytes. The limit on the data being sent, not to exceed the agent's fixed limit of 400 (KB).
-	ReadDataLimit *float32 `mandatory:"false" json:"readDataLimit"`
+	ReadDataLimit *float64 `mandatory:"false" json:"readDataLimit"`
 
 	// Number in minutes. The scraping occurs at the specified interval.
-	ScheduleMins *float32 `mandatory:"false" json:"scheduleMins"`
+	ScheduleMins *float64 `mandatory:"false" json:"scheduleMins"`
 
 	// OCI monitoring resource group to assign the metric to.
 	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`

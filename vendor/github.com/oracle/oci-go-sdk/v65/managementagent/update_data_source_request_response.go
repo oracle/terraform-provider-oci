@@ -11,8 +11,8 @@ import (
 	"strings"
 )
 
-// ChangeDataSourceRequest wrapper for the ChangeDataSource operation
-type ChangeDataSourceRequest struct {
+// UpdateDataSourceRequest wrapper for the UpdateDataSource operation
+type UpdateDataSourceRequest struct {
 
 	// Unique Management Agent identifier
 	ManagementAgentId *string `mandatory:"true" contributesTo:"path" name:"managementAgentId"`
@@ -21,7 +21,7 @@ type ChangeDataSourceRequest struct {
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
 	// Details of DataSource to be update for the given Management Agent.
-	ChangeDataSourceDetails `contributesTo:"body"`
+	UpdateDataSourceDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -45,12 +45,12 @@ type ChangeDataSourceRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request ChangeDataSourceRequest) String() string {
+func (request UpdateDataSourceRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ChangeDataSourceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request UpdateDataSourceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -60,21 +60,21 @@ func (request ChangeDataSourceRequest) HTTPRequest(method, path string, binaryRe
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request ChangeDataSourceRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request UpdateDataSourceRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ChangeDataSourceRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateDataSourceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request ChangeDataSourceRequest) ValidateEnumValue() (bool, error) {
+func (request UpdateDataSourceRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -82,8 +82,8 @@ func (request ChangeDataSourceRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// ChangeDataSourceResponse wrapper for the ChangeDataSource operation
-type ChangeDataSourceResponse struct {
+// UpdateDataSourceResponse wrapper for the UpdateDataSource operation
+type UpdateDataSourceResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -96,11 +96,11 @@ type ChangeDataSourceResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response ChangeDataSourceResponse) String() string {
+func (response UpdateDataSourceResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response ChangeDataSourceResponse) HTTPResponse() *http.Response {
+func (response UpdateDataSourceResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

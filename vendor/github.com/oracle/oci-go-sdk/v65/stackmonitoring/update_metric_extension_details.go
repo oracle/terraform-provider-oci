@@ -31,7 +31,7 @@ type UpdateMetricExtensionDetails struct {
 	// List of metrics which are part of this metric extension
 	MetricList []Metric `mandatory:"false" json:"metricList"`
 
-	QueryProperties MetricExtensionQueryProperties `mandatory:"false" json:"queryProperties"`
+	QueryProperties MetricExtensionUpdateQueryProperties `mandatory:"false" json:"queryProperties"`
 }
 
 func (m UpdateMetricExtensionDetails) String() string {
@@ -53,11 +53,11 @@ func (m UpdateMetricExtensionDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateMetricExtensionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName           *string                        `json:"displayName"`
-		Description           *string                        `json:"description"`
-		CollectionRecurrences *string                        `json:"collectionRecurrences"`
-		MetricList            []Metric                       `json:"metricList"`
-		QueryProperties       metricextensionqueryproperties `json:"queryProperties"`
+		DisplayName           *string                              `json:"displayName"`
+		Description           *string                              `json:"description"`
+		CollectionRecurrences *string                              `json:"collectionRecurrences"`
+		MetricList            []Metric                             `json:"metricList"`
+		QueryProperties       metricextensionupdatequeryproperties `json:"queryProperties"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -78,7 +78,7 @@ func (m *UpdateMetricExtensionDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	if nn != nil {
-		m.QueryProperties = nn.(MetricExtensionQueryProperties)
+		m.QueryProperties = nn.(MetricExtensionUpdateQueryProperties)
 	} else {
 		m.QueryProperties = nil
 	}

@@ -92,8 +92,8 @@ func (client *ManagementAgentClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
-// AddDataSource Datasource creation request to given Management Agent.
-func (client ManagementAgentClient) AddDataSource(ctx context.Context, request AddDataSourceRequest) (response AddDataSourceResponse, err error) {
+// CreateDataSource Datasource creation request to given Management Agent.
+func (client ManagementAgentClient) CreateDataSource(ctx context.Context, request CreateDataSourceRequest) (response CreateDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -107,100 +107,42 @@ func (client ManagementAgentClient) AddDataSource(ctx context.Context, request A
 		request.OpcRetryToken = common.String(common.RetryToken())
 	}
 
-	ociResponse, err = common.Retry(ctx, request, client.addDataSource, policy)
+	ociResponse, err = common.Retry(ctx, request, client.createDataSource, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = AddDataSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = CreateDataSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = AddDataSourceResponse{}
+				response = CreateDataSourceResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(AddDataSourceResponse); ok {
+	if convertedResponse, ok := ociResponse.(CreateDataSourceResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into AddDataSourceResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDataSourceResponse")
 	}
 	return
 }
 
-// addDataSource implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) addDataSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// createDataSource implements the OCIOperation interface (enables retrying operations)
+func (client ManagementAgentClient) createDataSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managementAgents/{managementAgentId}/actions/dataSource", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managementAgents/{managementAgentId}/dataSources", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response AddDataSourceResponse
+	var response CreateDataSourceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/AddDataSource"
-		err = common.PostProcessServiceError(err, "ManagementAgent", "AddDataSource", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ChangeDataSource Datasource update request to given Management Agent.
-func (client ManagementAgentClient) ChangeDataSource(ctx context.Context, request ChangeDataSourceRequest) (response ChangeDataSourceResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeDataSource, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeDataSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeDataSourceResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeDataSourceResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeDataSourceResponse")
-	}
-	return
-}
-
-// changeDataSource implements the OCIOperation interface (enables retrying operations)
-func (client ManagementAgentClient) changeDataSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managementAgents/{managementAgentId}/actions/dataSource/{dataSourceId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeDataSourceResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/ChangeDataSource"
-		err = common.PostProcessServiceError(err, "ManagementAgent", "ChangeDataSource", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/CreateDataSource"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "CreateDataSource", apiReferenceLink)
 		return response, err
 	}
 
@@ -299,7 +241,7 @@ func (client ManagementAgentClient) DeleteDataSource(ctx context.Context, reques
 // deleteDataSource implements the OCIOperation interface (enables retrying operations)
 func (client ManagementAgentClient) deleteDataSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managementAgents/{managementAgentId}/actions/dataSource/{dataSourceId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managementAgents/{managementAgentId}/dataSources/{dataSourceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -628,7 +570,7 @@ func (client ManagementAgentClient) GetDataSource(ctx context.Context, request G
 // getDataSource implements the OCIOperation interface (enables retrying operations)
 func (client ManagementAgentClient) getDataSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents/{managementAgentId}/actions/dataSource/{dataSourceId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents/{managementAgentId}/dataSources/{dataSourceId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -909,6 +851,75 @@ func (client ManagementAgentClient) listAvailabilityHistories(ctx context.Contex
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// listdatasourcesummary allows to unmarshal list of polymorphic DataSourceSummary
+type listdatasourcesummary []datasourcesummary
+
+// UnmarshalPolymorphicJSON unmarshals polymorphic json list of items
+func (m *listdatasourcesummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+	res := make([]DataSourceSummary, len(*m))
+	for i, v := range *m {
+		nn, err := v.UnmarshalPolymorphicJSON(v.JsonData)
+		if err != nil {
+			return nil, err
+		}
+		res[i] = nn.(DataSourceSummary)
+	}
+	return res, nil
+}
+
+// ListDataSources A list of Management Agent Data Sources for the given Management Agent Id.
+func (client ManagementAgentClient) ListDataSources(ctx context.Context, request ListDataSourcesRequest) (response ListDataSourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDataSources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDataSourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDataSourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDataSourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDataSourcesResponse")
+	}
+	return
+}
+
+// listDataSources implements the OCIOperation interface (enables retrying operations)
+func (client ManagementAgentClient) listDataSources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents/{managementAgentId}/dataSources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDataSourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/ListDataSources"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "ListDataSources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &listdatasourcesummary{})
 	return response, err
 }
 
@@ -1450,6 +1461,64 @@ func (client ManagementAgentClient) summarizeManagementAgentPluginCounts(ctx con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/SummarizeManagementAgentPluginCounts"
 		err = common.PostProcessServiceError(err, "ManagementAgent", "SummarizeManagementAgentPluginCounts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDataSource Datasource update request to given Management Agent.
+func (client ManagementAgentClient) UpdateDataSource(ctx context.Context, request UpdateDataSourceRequest) (response UpdateDataSourceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateDataSource, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDataSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDataSourceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDataSourceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDataSourceResponse")
+	}
+	return
+}
+
+// updateDataSource implements the OCIOperation interface (enables retrying operations)
+func (client ManagementAgentClient) updateDataSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managementAgents/{managementAgentId}/dataSources/{dataSourceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDataSourceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/management-agent/20200202/ManagementAgent/UpdateDataSource"
+		err = common.PostProcessServiceError(err, "ManagementAgent", "UpdateDataSource", apiReferenceLink)
 		return response, err
 	}
 

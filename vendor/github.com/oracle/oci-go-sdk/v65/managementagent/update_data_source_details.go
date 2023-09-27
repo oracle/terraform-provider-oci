@@ -17,43 +17,33 @@ import (
 	"strings"
 )
 
-// AddDataSourceDetails ...
-type AddDataSourceDetails interface {
-
-	// Unique name of the DataSource.
-	GetName() *string
-
-	// Compartment owning this DataSource.
-	GetCompartmentId() *string
+// UpdateDataSourceDetails A request to change the data source.
+type UpdateDataSourceDetails interface {
 }
 
-type adddatasourcedetails struct {
-	JsonData      []byte
-	Name          *string `mandatory:"true" json:"name"`
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-	Type          string  `json:"type"`
+type updatedatasourcedetails struct {
+	JsonData []byte
+	Type     string `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
-func (m *adddatasourcedetails) UnmarshalJSON(data []byte) error {
+func (m *updatedatasourcedetails) UnmarshalJSON(data []byte) error {
 	m.JsonData = data
-	type Unmarshaleradddatasourcedetails adddatasourcedetails
+	type Unmarshalerupdatedatasourcedetails updatedatasourcedetails
 	s := struct {
-		Model Unmarshaleradddatasourcedetails
+		Model Unmarshalerupdatedatasourcedetails
 	}{}
 	err := json.Unmarshal(data, &s.Model)
 	if err != nil {
 		return err
 	}
-	m.Name = s.Model.Name
-	m.CompartmentId = s.Model.CompartmentId
 	m.Type = s.Model.Type
 
 	return err
 }
 
 // UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *adddatasourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+func (m *updatedatasourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	if data == nil || string(data) == "null" {
 		return nil, nil
@@ -62,33 +52,23 @@ func (m *adddatasourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 	var err error
 	switch m.Type {
 	case "PROMETHEUS_EMITTER":
-		mm := AddPrometheusEmitterDataSourceDetails{}
+		mm := UpdatePrometheusEmitterDataSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for AddDataSourceDetails: %s.", m.Type)
+		common.Logf("Recieved unsupported enum value for UpdateDataSourceDetails: %s.", m.Type)
 		return *m, nil
 	}
 }
 
-// GetName returns Name
-func (m adddatasourcedetails) GetName() *string {
-	return m.Name
-}
-
-// GetCompartmentId returns CompartmentId
-func (m adddatasourcedetails) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-func (m adddatasourcedetails) String() string {
+func (m updatedatasourcedetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m adddatasourcedetails) ValidateEnumValue() (bool, error) {
+func (m updatedatasourcedetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

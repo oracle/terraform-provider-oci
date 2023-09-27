@@ -17,33 +17,43 @@ import (
 	"strings"
 )
 
-// ChangeDataSourceDetails A request to change the data source.
-type ChangeDataSourceDetails interface {
+// CreateDataSourceDetails A new data source.
+type CreateDataSourceDetails interface {
+
+	// Unique name of the DataSource.
+	GetName() *string
+
+	// Compartment owning this DataSource.
+	GetCompartmentId() *string
 }
 
-type changedatasourcedetails struct {
-	JsonData []byte
-	Type     string `json:"type"`
+type createdatasourcedetails struct {
+	JsonData      []byte
+	Name          *string `mandatory:"true" json:"name"`
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	Type          string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
-func (m *changedatasourcedetails) UnmarshalJSON(data []byte) error {
+func (m *createdatasourcedetails) UnmarshalJSON(data []byte) error {
 	m.JsonData = data
-	type Unmarshalerchangedatasourcedetails changedatasourcedetails
+	type Unmarshalercreatedatasourcedetails createdatasourcedetails
 	s := struct {
-		Model Unmarshalerchangedatasourcedetails
+		Model Unmarshalercreatedatasourcedetails
 	}{}
 	err := json.Unmarshal(data, &s.Model)
 	if err != nil {
 		return err
 	}
+	m.Name = s.Model.Name
+	m.CompartmentId = s.Model.CompartmentId
 	m.Type = s.Model.Type
 
 	return err
 }
 
 // UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *changedatasourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+func (m *createdatasourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	if data == nil || string(data) == "null" {
 		return nil, nil
@@ -52,23 +62,33 @@ func (m *changedatasourcedetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 	var err error
 	switch m.Type {
 	case "PROMETHEUS_EMITTER":
-		mm := ChangePrometheusEmitterDataSourceDetails{}
+		mm := CreatePrometheusEmitterDataSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ChangeDataSourceDetails: %s.", m.Type)
+		common.Logf("Recieved unsupported enum value for CreateDataSourceDetails: %s.", m.Type)
 		return *m, nil
 	}
 }
 
-func (m changedatasourcedetails) String() string {
+// GetName returns Name
+func (m createdatasourcedetails) GetName() *string {
+	return m.Name
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createdatasourcedetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+func (m createdatasourcedetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m changedatasourcedetails) ValidateEnumValue() (bool, error) {
+func (m createdatasourcedetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

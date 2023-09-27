@@ -17,8 +17,8 @@ import (
 	"strings"
 )
 
-// AddPrometheusEmitterDataSourceDetails A Prometheus emitter data source.
-type AddPrometheusEmitterDataSourceDetails struct {
+// CreatePrometheusEmitterDataSourceDetails A Prometheus emitter data source.
+type CreatePrometheusEmitterDataSourceDetails struct {
 
 	// Unique name of the DataSource.
 	Name *string `mandatory:"true" json:"name"`
@@ -39,16 +39,16 @@ type AddPrometheusEmitterDataSourceDetails struct {
 	ProxyUrl *string `mandatory:"false" json:"proxyUrl"`
 
 	// Number in milliseconds. The timeout for connecting to the Prometheus Exporter's endpoint.
-	ConnectionTimeout *float32 `mandatory:"false" json:"connectionTimeout"`
+	ConnectionTimeout *float64 `mandatory:"false" json:"connectionTimeout"`
 
 	// Number in milliseconds. The timeout for reading the response from the Prometheus Exporter's endpoint.
-	ReadTimeout *float32 `mandatory:"false" json:"readTimeout"`
+	ReadTimeout *float64 `mandatory:"false" json:"readTimeout"`
 
 	// Number in kilobytes. The limit on the data being sent, not to exceed the agent's fixed limit of 400 (KB).
-	ReadDataLimit *float32 `mandatory:"false" json:"readDataLimit"`
+	ReadDataLimitInKilobytes *float64 `mandatory:"false" json:"readDataLimitInKilobytes"`
 
 	// Number in minutes. The scraping occurs at the specified interval.
-	ScheduleMins *float32 `mandatory:"false" json:"scheduleMins"`
+	ScheduleMins *float64 `mandatory:"false" json:"scheduleMins"`
 
 	// OCI monitoring resource group to assign the metric to.
 	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
@@ -58,23 +58,23 @@ type AddPrometheusEmitterDataSourceDetails struct {
 }
 
 //GetName returns Name
-func (m AddPrometheusEmitterDataSourceDetails) GetName() *string {
+func (m CreatePrometheusEmitterDataSourceDetails) GetName() *string {
 	return m.Name
 }
 
 //GetCompartmentId returns CompartmentId
-func (m AddPrometheusEmitterDataSourceDetails) GetCompartmentId() *string {
+func (m CreatePrometheusEmitterDataSourceDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-func (m AddPrometheusEmitterDataSourceDetails) String() string {
+func (m CreatePrometheusEmitterDataSourceDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m AddPrometheusEmitterDataSourceDetails) ValidateEnumValue() (bool, error) {
+func (m CreatePrometheusEmitterDataSourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -84,14 +84,14 @@ func (m AddPrometheusEmitterDataSourceDetails) ValidateEnumValue() (bool, error)
 }
 
 // MarshalJSON marshals to json representation
-func (m AddPrometheusEmitterDataSourceDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeAddPrometheusEmitterDataSourceDetails AddPrometheusEmitterDataSourceDetails
+func (m CreatePrometheusEmitterDataSourceDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreatePrometheusEmitterDataSourceDetails CreatePrometheusEmitterDataSourceDetails
 	s := struct {
 		DiscriminatorParam string `json:"type"`
-		MarshalTypeAddPrometheusEmitterDataSourceDetails
+		MarshalTypeCreatePrometheusEmitterDataSourceDetails
 	}{
 		"PROMETHEUS_EMITTER",
-		(MarshalTypeAddPrometheusEmitterDataSourceDetails)(m),
+		(MarshalTypeCreatePrometheusEmitterDataSourceDetails)(m),
 	}
 
 	return json.Marshal(&s)

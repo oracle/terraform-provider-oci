@@ -29,16 +29,16 @@ type KubernetesClusterDataSource struct {
 	// Compartment owning this DataSource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The time the DataSource was created. An RFC3339 formatted datetime string
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The time the DataSource data was last received. An RFC3339 formatted datetime string
+	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
 	// The Kubernetes namespace
 	Namespace *string `mandatory:"true" json:"namespace"`
 
-	// The time the DataSource was created. An RFC3339 formatted datetime string
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
-
-	// The time the DataSource data was last received. An RFC3339 formatted datetime string
-	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
-
-	// true if the Kubernetes cluster type is Daemon set
+	// If the Kubernetes cluster type is Daemon set then this will be set to true.
 	IsDaemonSet *bool `mandatory:"false" json:"isDaemonSet"`
 
 	// State of the DataSource.

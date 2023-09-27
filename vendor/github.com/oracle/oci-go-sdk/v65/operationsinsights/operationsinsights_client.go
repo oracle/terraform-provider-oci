@@ -619,6 +619,65 @@ func (client OperationsInsightsClient) changeOperationsInsightsPrivateEndpointCo
 	return response, err
 }
 
+// ChangeOperationsInsightsWarehouseCompartment Moves a Operations Insights Warehouse resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeOperationsInsightsWarehouseCompartment()
+func (client OperationsInsightsClient) ChangeOperationsInsightsWarehouseCompartment(ctx context.Context, request ChangeOperationsInsightsWarehouseCompartmentRequest) (response ChangeOperationsInsightsWarehouseCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeOperationsInsightsWarehouseCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeOperationsInsightsWarehouseCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeOperationsInsightsWarehouseCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeOperationsInsightsWarehouseCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeOperationsInsightsWarehouseCompartmentResponse")
+	}
+	return
+}
+
+// changeOperationsInsightsWarehouseCompartment implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeOperationsInsightsWarehouseCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/operationsInsightsWarehouses/{operationsInsightsWarehouseId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeOperationsInsightsWarehouseCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/OperationsInsightsWarehouses/ChangeOperationsInsightsWarehouseCompartment"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeOperationsInsightsWarehouseCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeOpsiConfigurationCompartment Moves an OpsiConfiguration resource from one compartment to another.
 // A default retry strategy applies to this operation ChangeOpsiConfigurationCompartment()
 func (client OperationsInsightsClient) ChangeOpsiConfigurationCompartment(ctx context.Context, request ChangeOpsiConfigurationCompartmentRequest) (response ChangeOpsiConfigurationCompartmentResponse, err error) {

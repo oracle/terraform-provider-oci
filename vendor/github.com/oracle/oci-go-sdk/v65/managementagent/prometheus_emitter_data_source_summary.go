@@ -24,7 +24,7 @@ type PrometheusEmitterDataSourceSummary struct {
 	Id *string `mandatory:"true" json:"id"`
 
 	// Unique name of the dataSource.
-	DataSourceName *string `mandatory:"true" json:"dataSourceName"`
+	Name *string `mandatory:"true" json:"name"`
 }
 
 //GetId returns Id
@@ -32,9 +32,9 @@ func (m PrometheusEmitterDataSourceSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDataSourceName returns DataSourceName
-func (m PrometheusEmitterDataSourceSummary) GetDataSourceName() *string {
-	return m.DataSourceName
+//GetName returns Name
+func (m PrometheusEmitterDataSourceSummary) GetName() *string {
+	return m.Name
 }
 
 func (m PrometheusEmitterDataSourceSummary) String() string {
@@ -57,7 +57,7 @@ func (m PrometheusEmitterDataSourceSummary) ValidateEnumValue() (bool, error) {
 func (m PrometheusEmitterDataSourceSummary) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypePrometheusEmitterDataSourceSummary PrometheusEmitterDataSourceSummary
 	s := struct {
-		DiscriminatorParam string `json:"dataSourceType"`
+		DiscriminatorParam string `json:"type"`
 		MarshalTypePrometheusEmitterDataSourceSummary
 	}{
 		"PROMETHEUS_EMITTER",

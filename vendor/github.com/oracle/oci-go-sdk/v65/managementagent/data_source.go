@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// DataSource ...
+// DataSource A representation of a source configuration setup in the Management Agent.
 type DataSource interface {
 
 	// ID for DataSource.
@@ -41,12 +41,12 @@ type DataSource interface {
 
 type datasource struct {
 	JsonData      []byte
-	TimeCreated   *common.SDKTime     `mandatory:"false" json:"timeCreated"`
-	TimeUpdated   *common.SDKTime     `mandatory:"false" json:"timeUpdated"`
 	Id            *string             `mandatory:"true" json:"id"`
 	Name          *string             `mandatory:"true" json:"name"`
 	CompartmentId *string             `mandatory:"true" json:"compartmentId"`
 	State         LifecycleStatesEnum `mandatory:"true" json:"state"`
+	TimeCreated   *common.SDKTime     `mandatory:"true" json:"timeCreated"`
+	TimeUpdated   *common.SDKTime     `mandatory:"true" json:"timeUpdated"`
 	Type          string              `json:"type"`
 }
 
@@ -95,16 +95,6 @@ func (m *datasource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 	}
 }
 
-// GetTimeCreated returns TimeCreated
-func (m datasource) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-// GetTimeUpdated returns TimeUpdated
-func (m datasource) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
 // GetId returns Id
 func (m datasource) GetId() *string {
 	return m.Id
@@ -123,6 +113,16 @@ func (m datasource) GetCompartmentId() *string {
 // GetState returns State
 func (m datasource) GetState() LifecycleStatesEnum {
 	return m.State
+}
+
+// GetTimeCreated returns TimeCreated
+func (m datasource) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m datasource) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
 }
 
 func (m datasource) String() string {

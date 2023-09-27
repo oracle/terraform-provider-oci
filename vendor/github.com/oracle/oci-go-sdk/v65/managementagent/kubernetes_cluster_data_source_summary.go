@@ -24,7 +24,7 @@ type KubernetesClusterDataSourceSummary struct {
 	Id *string `mandatory:"true" json:"id"`
 
 	// Unique name of the dataSource.
-	DataSourceName *string `mandatory:"true" json:"dataSourceName"`
+	Name *string `mandatory:"true" json:"name"`
 
 	// true if the Kubernetes cluster type is Daemon set
 	IsDaemonSet *bool `mandatory:"false" json:"isDaemonSet"`
@@ -35,9 +35,9 @@ func (m KubernetesClusterDataSourceSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDataSourceName returns DataSourceName
-func (m KubernetesClusterDataSourceSummary) GetDataSourceName() *string {
-	return m.DataSourceName
+//GetName returns Name
+func (m KubernetesClusterDataSourceSummary) GetName() *string {
+	return m.Name
 }
 
 func (m KubernetesClusterDataSourceSummary) String() string {
@@ -60,7 +60,7 @@ func (m KubernetesClusterDataSourceSummary) ValidateEnumValue() (bool, error) {
 func (m KubernetesClusterDataSourceSummary) MarshalJSON() (buff []byte, e error) {
 	type MarshalTypeKubernetesClusterDataSourceSummary KubernetesClusterDataSourceSummary
 	s := struct {
-		DiscriminatorParam string `json:"dataSourceType"`
+		DiscriminatorParam string `json:"type"`
 		MarshalTypeKubernetesClusterDataSourceSummary
 	}{
 		"KUBERNETES_CLUSTER",

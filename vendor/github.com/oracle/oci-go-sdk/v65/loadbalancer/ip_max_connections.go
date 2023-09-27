@@ -16,33 +16,25 @@ import (
 	"strings"
 )
 
-// UpdateLoadBalancerShapeDetails The representation of UpdateLoadBalancerShapeDetails
-type UpdateLoadBalancerShapeDetails struct {
+// IpMaxConnections An object that species the maximum number of connections the listed IPs can make to a listener.
+type IpMaxConnections struct {
 
-	// The new shape name for the load balancer.
-	// Allowed values are :
-	//   *  10Mbps
-	//   *  100Mbps
-	//   *  400Mbps
-	//   *  8000Mbps
-	//   *  Flexible
-	//   Example: `flexible`
-	//   * NOTE: Fixed shapes 10Mbps, 100Mbps, 400Mbps, 8000Mbps will be deprecated after May 2023. This api
-	//   * will only support `Flexible` shape after that date.
-	ShapeName *string `mandatory:"true" json:"shapeName"`
+	// Each element in the list should be valid IPv4 or IPv6 CIDR Block address.
+	// Example: '["129.213.176.0/24", "150.136.187.0/24", "2002::1234:abcd:ffff:c0a8:101/64"]'
+	IpAddresses []string `mandatory:"true" json:"ipAddresses"`
 
-	// The configuration details to update load balancer to a different profile.
-	ShapeDetails *ShapeDetails `mandatory:"false" json:"shapeDetails"`
+	// The max number of connections that the specified IPs can make to the Listener.
+	MaxConnections *int `mandatory:"true" json:"maxConnections"`
 }
 
-func (m UpdateLoadBalancerShapeDetails) String() string {
+func (m IpMaxConnections) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateLoadBalancerShapeDetails) ValidateEnumValue() (bool, error) {
+func (m IpMaxConnections) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -11,14 +11,14 @@ import (
 	"strings"
 )
 
-// AddDataSourceRequest wrapper for the AddDataSource operation
-type AddDataSourceRequest struct {
+// CreateDataSourceRequest wrapper for the CreateDataSource operation
+type CreateDataSourceRequest struct {
 
 	// Unique Management Agent identifier
 	ManagementAgentId *string `mandatory:"true" contributesTo:"path" name:"managementAgentId"`
 
 	// Details of DataSource to be created for the given Management Agent.
-	AddDataSourceDetails `contributesTo:"body"`
+	CreateDataSourceDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -42,12 +42,12 @@ type AddDataSourceRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request AddDataSourceRequest) String() string {
+func (request CreateDataSourceRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request AddDataSourceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request CreateDataSourceRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -57,21 +57,21 @@ func (request AddDataSourceRequest) HTTPRequest(method, path string, binaryReque
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request AddDataSourceRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request CreateDataSourceRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request AddDataSourceRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateDataSourceRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request AddDataSourceRequest) ValidateEnumValue() (bool, error) {
+func (request CreateDataSourceRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -79,8 +79,8 @@ func (request AddDataSourceRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// AddDataSourceResponse wrapper for the AddDataSource operation
-type AddDataSourceResponse struct {
+// CreateDataSourceResponse wrapper for the CreateDataSource operation
+type CreateDataSourceResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -93,11 +93,11 @@ type AddDataSourceResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response AddDataSourceResponse) String() string {
+func (response CreateDataSourceResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response AddDataSourceResponse) HTTPResponse() *http.Response {
+func (response CreateDataSourceResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
