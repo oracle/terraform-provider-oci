@@ -5,6 +5,7 @@ package mysql
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -19,11 +20,15 @@ func MysqlReplicaResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createMysqlReplica,
-		Read:     readMysqlReplica,
-		Update:   updateMysqlReplica,
-		Delete:   deleteMysqlReplica,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("1h"),
+			Update: tfresource.GetTimeoutDuration("1h"),
+			Delete: tfresource.GetTimeoutDuration("1h"),
+		},
+		Create: createMysqlReplica,
+		Read:   readMysqlReplica,
+		Update: updateMysqlReplica,
+		Delete: deleteMysqlReplica,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"db_system_id": {
@@ -61,6 +66,37 @@ func MysqlReplicaResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"replica_overrides": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"configuration_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"mysql_version": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"shape_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"availability_domain": {
@@ -68,6 +104,10 @@ func MysqlReplicaResource() *schema.Resource {
 				Computed: true,
 			},
 			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"configuration_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -93,6 +133,10 @@ func MysqlReplicaResource() *schema.Resource {
 			},
 			"port_x": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"shape_name": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
@@ -228,6 +272,17 @@ func (s *MysqlReplicaResourceCrud) Create() error {
 		request.IsDeleteProtected = &tmp
 	}
 
+	if replicaOverrides, ok := s.D.GetOkExists("replica_overrides"); ok {
+		if tmpList := replicaOverrides.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replica_overrides", 0)
+			tmp, err := s.mapToReplicaOverrides(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicaOverrides = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	response, err := s.Client.CreateReplica(context.Background(), request)
@@ -289,6 +344,17 @@ func (s *MysqlReplicaResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ReplicaId = &tmp
 
+	if replicaOverrides, ok := s.D.GetOkExists("replica_overrides"); ok {
+		if tmpList := replicaOverrides.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replica_overrides", 0)
+			tmp, err := s.mapToReplicaOverrides(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicaOverrides = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
 	_, err := s.Client.UpdateReplica(context.Background(), request)
@@ -318,6 +384,10 @@ func (s *MysqlReplicaResourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ConfigurationId != nil {
+		s.D.Set("configuration_id", *s.Res.ConfigurationId)
 	}
 
 	if s.Res.DbSystemId != nil {
@@ -367,6 +437,16 @@ func (s *MysqlReplicaResourceCrud) SetData() error {
 		s.D.Set("port_x", *s.Res.PortX)
 	}
 
+	if s.Res.ReplicaOverrides != nil {
+		s.D.Set("replica_overrides", []interface{}{ReplicaOverridesToMap(s.Res.ReplicaOverrides)})
+	} else {
+		s.D.Set("replica_overrides", nil)
+	}
+
+	if s.Res.ShapeName != nil {
+		s.D.Set("shape_name", *s.Res.ShapeName)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -378,4 +458,46 @@ func (s *MysqlReplicaResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *MysqlReplicaResourceCrud) mapToReplicaOverrides(fieldKeyFormat string) (oci_mysql.ReplicaOverrides, error) {
+	result := oci_mysql.ReplicaOverrides{}
+
+	configurationIdField := fmt.Sprintf(fieldKeyFormat, "configuration_id")
+	if configurationId, ok := s.D.GetOkExists(configurationIdField); ok && s.D.HasChange(configurationIdField) {
+		tmp := configurationId.(string)
+		result.ConfigurationId = &tmp
+	}
+
+	mysqlVersionField := fmt.Sprintf(fieldKeyFormat, "mysql_version")
+	if mysqlVersion, ok := s.D.GetOkExists(mysqlVersionField); ok && s.D.HasChange(mysqlVersionField) {
+		tmp := mysqlVersion.(string)
+		result.MysqlVersion = &tmp
+	}
+
+	shapeNameField := fmt.Sprintf(fieldKeyFormat, "shape_name")
+	if shapeName, ok := s.D.GetOkExists(shapeNameField); ok && s.D.HasChange(shapeNameField) {
+		tmp := shapeName.(string)
+		result.ShapeName = &tmp
+	}
+
+	return result, nil
+}
+
+func ReplicaOverridesToMap(obj *oci_mysql.ReplicaOverrides) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ConfigurationId != nil {
+		result["configuration_id"] = string(*obj.ConfigurationId)
+	}
+
+	if obj.MysqlVersion != nil {
+		result["mysql_version"] = string(*obj.MysqlVersion)
+	}
+
+	if obj.ShapeName != nil {
+		result["shape_name"] = string(*obj.ShapeName)
+	}
+
+	return result
 }
