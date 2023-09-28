@@ -110,6 +110,12 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 								},
 							},
 						},
+						"private_endpoint_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -170,6 +176,11 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"private_endpoint_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 
 						// Computed
@@ -628,6 +639,11 @@ func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionConfigDetai
 		}
 	}
 
+	if privateEndpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_endpoint_id")); ok {
+		tmp := privateEndpointId.(string)
+		result.PrivateEndpointId = &tmp
+	}
+
 	if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
 		tmp := shape.(string)
 		result.Shape = &tmp
@@ -650,6 +666,10 @@ func NotebookSessionConfigDetailsToMap(obj *oci_datascience.NotebookSessionConfi
 
 	if obj.NotebookSessionShapeConfigDetails != nil {
 		result["notebook_session_shape_config_details"] = []interface{}{NotebookSessionShapeConfigDetailsToMap(obj.NotebookSessionShapeConfigDetails)}
+	}
+
+	if obj.PrivateEndpointId != nil {
+		result["private_endpoint_id"] = string(*obj.PrivateEndpointId)
 	}
 
 	if obj.Shape != nil {
@@ -682,6 +702,11 @@ func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionConfigurati
 		}
 	}
 
+	if privateEndpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_endpoint_id")); ok {
+		tmp := privateEndpointId.(string)
+		result.PrivateEndpointId = &tmp
+	}
+
 	if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
 		tmp := shape.(string)
 		result.Shape = &tmp
@@ -704,6 +729,10 @@ func NotebookSessionConfigurationDetailsToMap(obj *oci_datascience.NotebookSessi
 
 	if obj.NotebookSessionShapeConfigDetails != nil {
 		result["notebook_session_shape_config_details"] = []interface{}{NotebookSessionShapeConfigDetailsToMap(obj.NotebookSessionShapeConfigDetails)}
+	}
+
+	if obj.PrivateEndpointId != nil {
+		result["private_endpoint_id"] = string(*obj.PrivateEndpointId)
 	}
 
 	if obj.Shape != nil {
