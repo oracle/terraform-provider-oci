@@ -53,6 +53,7 @@ var (
 	QueueQueueRepresentation = map[string]interface{}{
 		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"channel_consumption_limit":        acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"custom_encryption_key_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.custom_encryption_key_id}`},
 		"dead_letter_queue_delivery_count": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -116,6 +117,7 @@ func TestQueueQueueResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + customEncryptionKeyIdVariableStr + QueueQueueResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_queue_queue", "test_queue", acctest.Optional, acctest.Create, QueueQueueRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "channel_consumption_limit", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "dead_letter_queue_delivery_count", "10"),
@@ -150,6 +152,7 @@ func TestQueueQueueResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "channel_consumption_limit", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "dead_letter_queue_delivery_count", "10"),
@@ -214,6 +217,7 @@ func TestQueueQueueResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + customEncryptionKeyIdVariableStr + QueueQueueResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_queue_queue", "test_queue", acctest.Optional, acctest.Update, QueueQueueRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "channel_consumption_limit", "11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "dead_letter_queue_delivery_count", "11"),
@@ -262,6 +266,7 @@ func TestQueueQueueResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "queue_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "channel_consumption_limit", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dead_letter_queue_delivery_count", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
