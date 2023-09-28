@@ -92,10 +92,15 @@ resource "oci_mysql_replica" "test_replica" {
 
   #Optional
   #defined_tags        = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, "value")
-  description         = "description"
-  display_name        = "displayName"
+  description          = "description"
+  display_name         = "displayName"
   #freeform_tags       = { "bar-key" = "value" }
-  is_delete_protected = false
+  is_delete_protected  = false
+  replica_overrides {
+    configuration_id   = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
+    mysql_version      = "8.1.0"
+    shape_name         = "MySQL.VM.Standard.E3.4.64GB"
+  }
 }
 
 data "oci_mysql_replicas" "test_replicas" {

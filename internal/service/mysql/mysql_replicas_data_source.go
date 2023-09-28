@@ -22,12 +22,20 @@ func MysqlReplicasDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"configuration_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_system_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"is_up_to_date": {
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"replica_id": {
@@ -73,6 +81,11 @@ func (s *MysqlReplicasDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if configurationId, ok := s.D.GetOkExists("configuration_id"); ok {
+		tmp := configurationId.(string)
+		request.ConfigurationId = &tmp
+	}
+
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
 		tmp := dbSystemId.(string)
 		request.DbSystemId = &tmp
@@ -81,6 +94,11 @@ func (s *MysqlReplicasDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if isUpToDate, ok := s.D.GetOkExists("is_up_to_date"); ok {
+		tmp := isUpToDate.(bool)
+		request.IsUpToDate = &tmp
 	}
 
 	if replicaId, ok := s.D.GetOkExists("id"); ok {
@@ -132,6 +150,10 @@ func (s *MysqlReplicasDataSourceCrud) SetData() error {
 			replica["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.ConfigurationId != nil {
+			replica["configuration_id"] = *r.ConfigurationId
+		}
+
 		if r.DbSystemId != nil {
 			replica["db_system_id"] = *r.DbSystemId
 		}
@@ -181,6 +203,16 @@ func (s *MysqlReplicasDataSourceCrud) SetData() error {
 
 		if r.PortX != nil {
 			replica["port_x"] = *r.PortX
+		}
+
+		if r.ReplicaOverrides != nil {
+			replica["replica_overrides"] = []interface{}{ReplicaOverridesToMap(r.ReplicaOverrides)}
+		} else {
+			replica["replica_overrides"] = nil
+		}
+
+		if r.ShapeName != nil {
+			replica["shape_name"] = *r.ShapeName
 		}
 
 		replica["state"] = r.LifecycleState
