@@ -54,6 +54,14 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"is_resource_pool_leader": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"resource_pool_leader_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -129,6 +137,16 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 	if isRefreshableClone, ok := s.D.GetOkExists("is_refreshable_clone"); ok {
 		tmp := isRefreshableClone.(bool)
 		request.IsRefreshableClone = &tmp
+	}
+
+	if isResourcePoolLeader, ok := s.D.GetOkExists("is_resource_pool_leader"); ok {
+		tmp := isResourcePoolLeader.(bool)
+		request.IsResourcePoolLeader = &tmp
+	}
+
+	if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
+		tmp := resourcePoolLeaderId.(string)
+		request.ResourcePoolLeaderId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -450,6 +468,16 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["remote_disaster_recovery_configuration"] = nil
 		}
 
+		if r.ResourcePoolLeaderId != nil {
+			autonomousDatabase["resource_pool_leader_id"] = *r.ResourcePoolLeaderId
+		}
+
+		if r.ResourcePoolSummary != nil {
+			autonomousDatabase["resource_pool_summary"] = []interface{}{ResourcePoolSummaryToMap(r.ResourcePoolSummary)}
+		} else {
+			autonomousDatabase["resource_pool_summary"] = nil
+		}
+
 		autonomousDatabase["role"] = r.Role
 
 		scheduledOperations := []interface{}{}
@@ -512,6 +540,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeMaintenanceEnd != nil {
 			autonomousDatabase["time_maintenance_end"] = r.TimeMaintenanceEnd.String()
+		}
+
+		if r.TimeOfJoiningResourcePool != nil {
+			autonomousDatabase["time_of_joining_resource_pool"] = r.TimeOfJoiningResourcePool.String()
 		}
 
 		if r.TimeOfLastFailover != nil {
