@@ -25,13 +25,11 @@ resource "oci_queue_queue" "test_queue1" {
   #Optional
   custom_encryption_key_id         = var.queue_custom_encryption_key_id # We can have dependency on the oci_kms_key and get the key id from that
   dead_letter_queue_delivery_count = var.queue_dead_letter_queue_delivery_count
-  defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.queue_defined_tags_value
-  }
   freeform_tags                    = var.queue_freeform_tags
   retention_in_seconds             = var.queue_retention_in_seconds
   timeout_in_seconds               = var.queue_timeout_in_seconds
   visibility_in_seconds            = var.queue_visibility_in_seconds
+  channel_consumption_limit        = var.queue_channel_consumption_limit
 }
 
 # Purging the queue immediately after create if requried. We are using the purge queue optional parameter
