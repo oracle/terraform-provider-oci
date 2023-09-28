@@ -127,6 +127,12 @@ func (s *KmsKeyVersionsDataSourceCrud) SetData() error {
 			keyVersion["compartment_id"] = *r.CompartmentId
 		}
 
+		if r.ExternalKeyReferenceDetails != nil {
+			keyVersion["external_key_reference_details"] = []interface{}{ExternalKeyReferenceDetailsToMap(r.ExternalKeyReferenceDetails)}
+		} else {
+			keyVersion["external_key_reference_details"] = nil
+		}
+
 		if r.Id != nil {
 			keyVersion["key_version_id"] = *r.Id
 		}

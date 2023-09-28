@@ -48,6 +48,12 @@ func KmsKeyVersionResource() *schema.Resource {
 			},
 
 			// Optional
+			"external_key_version_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"time_of_deletion": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -58,6 +64,27 @@ func KmsKeyVersionResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"external_key_reference_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"external_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"external_key_version_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"is_primary": {
 				Type:     schema.TypeBool,
@@ -229,6 +256,11 @@ func (s *KmsKeyVersionResourceCrud) DeletedTarget() []string {
 func (s *KmsKeyVersionResourceCrud) Create() error {
 	request := oci_kms.CreateKeyVersionRequest{}
 
+	if externalKeyVersionId, ok := s.D.GetOkExists("external_key_version_id"); ok {
+		tmp := externalKeyVersionId.(string)
+		request.CreateKeyMetadataDetails.ExternalKeyVersionId = &tmp
+	}
+
 	if keyId, ok := s.D.GetOkExists("key_id"); ok {
 		tmp := keyId.(string)
 		request.KeyId = &tmp
@@ -307,6 +339,12 @@ func (s *KmsKeyVersionResourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ExternalKeyReferenceDetails != nil {
+		s.D.Set("external_key_reference_details", []interface{}{ExternalKeyReferenceDetailsToMap(s.Res.ExternalKeyReferenceDetails)})
+	} else {
+		s.D.Set("external_key_reference_details", nil)
 	}
 
 	if s.Res.IsPrimary != nil {

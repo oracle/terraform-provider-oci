@@ -32,6 +32,17 @@ resource "oci_kms_vault" "test_vault" {
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
+	external_key_manager_metadata {
+		#Required
+		external_vault_endpoint_url = var.vault_external_key_manager_metadata_external_vault_endpoint_url
+		oauth_metadata {
+			#Required
+			client_app_id = oci_kms_client_app.test_client_app.id
+			client_app_secret = var.vault_external_key_manager_metadata_oauth_metadata_client_app_secret
+			idcs_account_name_url = var.vault_external_key_manager_metadata_oauth_metadata_idcs_account_name_url
+		}
+		private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
+	}
 	freeform_tags = {"Department"= "Finance"}
 }
 ```
@@ -43,6 +54,13 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where you want to create this vault.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Required) (Updatable) A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
+* `external_key_manager_metadata` - (Optional) Metadata required for accessing External Key manager
+	* `external_vault_endpoint_url` - (Required) URI of the vault on external key manager.
+	* `oauth_metadata` - (Required) Authorization details required to get access token from IDP for accessing protected resources.
+		* `client_app_id` - (Required) ID of the client app created in IDP.
+		* `client_app_secret` - (Required) Secret of the client app created in IDP.
+		* `idcs_account_name_url` - (Required) Base URL of the IDCS account where confidential client app is created.
+	* `private_endpoint_id` - (Required) OCID of private endpoint created by customer.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `restore_from_file` - (Optional) (Updatable) Details where vault was backed up.
     * `content_length` - content length of vault's backup binary file
@@ -68,13 +86,20 @@ The following attributes are exported:
 * `crypto_endpoint` - The service endpoint to perform cryptographic operations against. Cryptographic operations include [Encrypt](https://docs.cloud.oracle.com/iaas/api/#/en/key/latest/EncryptedData/Encrypt), [Decrypt](https://docs.cloud.oracle.com/iaas/api/#/en/key/latest/DecryptedData/Decrypt), and [GenerateDataEncryptionKey](https://docs.cloud.oracle.com/iaas/api/#/en/key/latest/GeneratedKey/GenerateDataEncryptionKey) operations. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
+* `external_key_manager_metadata_summary` - Summary about metadata of external key manager to be returned to the customer as a response.
+	* `external_vault_endpoint_url` - URL of the vault on external key manager.
+	* `oauth_metadata_summary` - Summary about authorization to be returned to the customer as a response.
+		* `client_app_id` - ID of the client app created in IDP.
+		* `idcs_account_name_url` - Base URL of the IDCS account where confidential client app is created.
+	* `private_endpoint_id` - OCID of the private endpoint.
+	* `vendor` - Vendor of the external key manager.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the vault.
-* `is_primary` - A boolean that will be true when vault is primary, and will be false when vault is a replica from a primary vault.
+* `is_primary` - A Boolean value that indicates whether the Vault is primary Vault or replica Vault.
 * `management_endpoint` - The service endpoint to perform management operations against. Management operations include "Create," "Update," "List," "Get," and "Delete" operations. 
 * `replica_details` - Vault replica details 
 	* `replication_id` - ReplicationId associated with a vault operation 
-* `restored_from_vault_id` - The OCID of the vault from which this vault was restored, if it was restored from a backup file.  If you restore a vault to the same region, the vault retains the same OCID that it had when you  backed up the vault. 
+* `restored_from_vault_id` - The OCID of the vault from which this vault was restored, if it was restored from a backup file. If you restore a vault to the same region, the vault retains the same OCID that it had when you backed up the vault. 
 * `state` - The vault's current lifecycle state.  Example: `DELETED` 
 * `time_created` - The date and time this vault was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 
 * `time_of_deletion` - An optional property to indicate when to delete the vault, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 

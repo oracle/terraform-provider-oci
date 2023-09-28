@@ -107,4 +107,3 @@ variable "key_restore_trigger" {
 variable "vault_restore_trigger" {
   default = false
 }
-

@@ -6,6 +6,8 @@ package kms
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_kms_ekms_private_endpoint", KmsEkmsPrivateEndpointDataSource())
+	tfresource.RegisterDatasource("oci_kms_ekms_private_endpoints", KmsEkmsPrivateEndpointsDataSource())
 	tfresource.RegisterDatasource("oci_kms_key", KmsKeyDataSource())
 	tfresource.RegisterDatasource("oci_kms_key_version", KmsKeyVersionDataSource())
 	tfresource.RegisterDatasource("oci_kms_key_versions", KmsKeyVersionsDataSource())

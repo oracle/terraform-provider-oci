@@ -42,13 +42,20 @@ The following attributes are exported:
 * `crypto_endpoint` - The service endpoint to perform cryptographic operations against. Cryptographic operations include [Encrypt](https://docs.cloud.oracle.com/iaas/api/#/en/key/latest/EncryptedData/Encrypt), [Decrypt](https://docs.cloud.oracle.com/iaas/api/#/en/key/latest/DecryptedData/Decrypt), and [GenerateDataEncryptionKey](https://docs.cloud.oracle.com/iaas/api/#/en/key/latest/GeneratedKey/GenerateDataEncryptionKey) operations. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
+* `external_key_manager_metadata_summary` - Summary about metadata of external key manager to be returned to the customer as a response.
+	* `external_vault_endpoint_url` - URL of the vault on external key manager.
+	* `oauth_metadata_summary` - Summary about authorization to be returned to the customer as a response.
+		* `client_app_id` - ID of the client app created in IDP.
+		* `idcs_account_name_url` - Base URL of the IDCS account where confidential client app is created.
+	* `private_endpoint_id` - OCID of the private endpoint.
+	* `vendor` - Vendor of the external key manager.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the vault.
-* `is_primary` - A boolean that will be true when vault is primary, and will be false when vault is a replica from a primary vault.
+* `is_primary` - A Boolean value that indicates whether the Vault is primary Vault or replica Vault.
 * `management_endpoint` - The service endpoint to perform management operations against. Management operations include "Create," "Update," "List," "Get," and "Delete" operations. 
 * `replica_details` - Vault replica details 
 	* `replication_id` - ReplicationId associated with a vault operation 
-* `restored_from_vault_id` - The OCID of the vault from which this vault was restored, if it was restored from a backup file.  If you restore a vault to the same region, the vault retains the same OCID that it had when you  backed up the vault. 
+* `restored_from_vault_id` - The OCID of the vault from which this vault was restored, if it was restored from a backup file. If you restore a vault to the same region, the vault retains the same OCID that it had when you backed up the vault. 
 * `state` - The vault's current lifecycle state.  Example: `DELETED` 
 * `restore_from_file` - Details where vault was backed up.
     * `content_length` - content length of vault's backup binary file
