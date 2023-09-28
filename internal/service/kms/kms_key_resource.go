@@ -93,6 +93,28 @@ func KmsKeyResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"external_key_reference": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"external_key_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -199,6 +221,27 @@ func KmsKeyResource() *schema.Resource {
 			"current_key_version": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"external_key_reference_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"external_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"external_key_version_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"is_primary": {
 				Type:     schema.TypeBool,
@@ -424,6 +467,17 @@ func (s *KmsKeyResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if externalKeyReference, ok := s.D.GetOkExists("external_key_reference"); ok {
+		if tmpList := externalKeyReference.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "external_key_reference", 0)
+			tmp, err := s.mapToExternalKeyReference(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ExternalKeyReference = &tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -595,6 +649,12 @@ func (s *KmsKeyResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExternalKeyReferenceDetails != nil {
+		s.D.Set("external_key_reference_details", []interface{}{ExternalKeyReferenceDetailsToMap(s.Res.ExternalKeyReferenceDetails)})
+	} else {
+		s.D.Set("external_key_reference_details", nil)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsPrimary != nil {
@@ -636,6 +696,41 @@ func (s *KmsKeyResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *KmsKeyResourceCrud) mapToExternalKeyReference(fieldKeyFormat string) (oci_kms.ExternalKeyReference, error) {
+	result := oci_kms.ExternalKeyReference{}
+
+	if externalKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "external_key_id")); ok {
+		tmp := externalKeyId.(string)
+		result.ExternalKeyId = &tmp
+	}
+
+	return result, nil
+}
+
+func ExternalKeyReferenceToMap(obj *oci_kms.ExternalKeyReference) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ExternalKeyId != nil {
+		result["external_key_id"] = string(*obj.ExternalKeyId)
+	}
+
+	return result
+}
+
+func ExternalKeyReferenceDetailsToMap(obj *oci_kms.ExternalKeyReferenceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ExternalKeyId != nil {
+		result["external_key_id"] = string(*obj.ExternalKeyId)
+	}
+
+	if obj.ExternalKeyVersionId != nil {
+		result["external_key_version_id"] = string(*obj.ExternalKeyVersionId)
+	}
+
+	return result
 }
 
 func KeyReplicaDetailsToMap(obj *oci_kms.KeyReplicaDetails) map[string]interface{} {

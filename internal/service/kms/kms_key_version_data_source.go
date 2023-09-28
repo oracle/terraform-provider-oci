@@ -93,6 +93,12 @@ func (s *KmsKeyVersionDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.ExternalKeyReferenceDetails != nil {
+		s.D.Set("external_key_reference_details", []interface{}{ExternalKeyReferenceDetailsToMap(s.Res.ExternalKeyReferenceDetails)})
+	} else {
+		s.D.Set("external_key_reference_details", nil)
+	}
+
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
 	}

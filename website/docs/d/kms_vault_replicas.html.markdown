@@ -46,6 +46,6 @@ The following attributes are exported:
 
 * `crypto_endpoint` - The vault replica's crypto endpoint 
 * `management_endpoint` - The vault replica's management endpoint 
-* `region` - Region to which vault is replicated to 
-* `status` - The vault replica's status
+* `region` - Region to which vault is replicated to
+* `status` - Status of the Vault
 

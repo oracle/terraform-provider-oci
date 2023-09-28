@@ -82,6 +82,12 @@ func (s *KmsVaultDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExternalKeyManagerMetadataSummary != nil {
+		s.D.Set("external_key_manager_metadata_summary", []interface{}{ExternalKeyManagerMetadataSummaryToMap(s.Res.ExternalKeyManagerMetadataSummary)})
+	} else {
+		s.D.Set("external_key_manager_metadata_summary", nil)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsPrimary != nil {
