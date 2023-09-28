@@ -66,6 +66,12 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	ocpu_count = var.autonomous_database_ocpu_count
 	private_endpoint_label = var.autonomous_database_private_endpoint_label
 	refreshable_mode = var.autonomous_database_refreshable_mode
+	resource_pool_leader_id = oci_database_resource_pool_leader.test_resource_pool_leader.id
+	resource_pool_summary {
+		#Optional
+		is_disabled = var.autonomous_database_resource_pool_summary_is_disabled
+		pool_size = var.autonomous_database_resource_pool_summary_pool_size
+	}
 	scheduled_operations {
 		#Required
 		day_of_week {
@@ -184,7 +190,7 @@ The following arguments are supported:
 * `operations_insights_status` - (Optional) (Updatable) Status of Operations Insights for this Autonomous Database. Values supported are `ENABLED` and `NOT_ENABLED`
 * `private_endpoint_label` - (Optional) (Updatable) The private endpoint label for the resource.
 * `refreshable_mode` - (Applicable when source=CLONE_TO_REFRESHABLE) (Updatable) The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
-* `remote_disaster_recovery_type` - (Required when source=CROSS_REGION_DISASTER_RECOVERY) Indicates the cross-region disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. 
+* `remote_disaster_recovery_type` - (Required when source=CROSS_REGION_DISASTER_RECOVERY) Indicates the cross-region disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.
 * `scheduled_operations` - (Optional) (Updatable) The list of scheduled operations.
 
 	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
@@ -402,7 +408,7 @@ The following attributes are exported:
 * `refreshable_mode` - The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 * `refreshable_status` - The refresh status of the clone. REFRESHING indicates that the clone is currently being refreshed with data from the source Autonomous Database.
 * `remote_disaster_recovery_configuration` - Configurations of a Disaster Recovery.
-	* `disaster_recovery_type` - Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. 
+    * `disaster_recovery_type` - Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.
 	* `is_snapshot_standby` - Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database. 
 	* `time_snapshot_standby_enabled_till` - Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database.
 	* `is_snapshot_standby` - Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database. 

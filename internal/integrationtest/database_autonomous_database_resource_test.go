@@ -307,6 +307,43 @@ var (
 		"compute_count": acctest.Representation{RepType: acctest.Required, Create: `4.0`, Update: `6.0`},
 		"compute_model": acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
 	})
+
+	autonomousDatabaseRepresentationRP = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count"}), map[string]interface{}{
+		"compute_count":         acctest.Representation{RepType: acctest.Required, Create: `4.0`, Update: `6.0`},
+		"compute_model":         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+		"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPSummaryRepresentation},
+	})
+
+	DatabaseAutonomousDatabaseRPSummaryRepresentation = map[string]interface{}{
+		"is_disabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `false`},
+		"pool_size":   acctest.Representation{RepType: acctest.Required, Create: `128`, Update: `256`},
+	}
+
+	DatabaseAutonomousDatabaseRPSummaryUpdateRepresentation = map[string]interface{}{
+		"is_disabled": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `false`},
+		"pool_size":   acctest.Representation{RepType: acctest.Required, Create: `512`, Update: `1024`},
+	}
+
+	autonomousDatabaseRepresentationRPUpdate = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count"}), map[string]interface{}{
+		"compute_count":         acctest.Representation{RepType: acctest.Required, Create: `4.0`, Update: `6.0`},
+		"compute_model":         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+		"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPSummaryRepresentation},
+	})
+
+	DatabaseAutonomousDatabaseRPDisableSummaryRepresentation = map[string]interface{}{
+		"is_disabled": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+	}
+	DatabaseAutonomousDatabaseResourcePoolLeaderIdRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count"}), map[string]interface{}{
+		"compute_count":           acctest.Representation{RepType: acctest.Required, Create: `10.0`, Update: `10.0`},
+		"compute_model":           acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+		"resource_pool_leader_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database_leader.id}`, Update: ` `},
+		"db_name":                 acctest.Representation{RepType: acctest.Required, Create: adbMemberName},
+	})
+	DatabaseAutonomousDatabaseResourcePoolLeaderIdUpdateRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"cpu_core_count", "admin_password"}), map[string]interface{}{
+		"compute_count":           acctest.Representation{RepType: acctest.Required, Create: `10.0`, Update: `12.0`},
+		"resource_pool_leader_id": acctest.Representation{RepType: acctest.Required, Update: ` `},
+		"db_name":                 acctest.Representation{RepType: acctest.Required, Create: adbMemberName},
+	})
 )
 
 // issue-routing-tag: database/dbaas-adb
@@ -3605,6 +3642,206 @@ func TestDatabaseAutonomousDatabaseResource_ecpu(t *testing.T) {
 					if resId != resId2 {
 						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
+					return err
+				},
+			),
+		},
+	})
+
+}
+func TestDatabaseAutonomousDatabaseResource_ElasticResourcePool(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_ElasticResourcePool")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database_leader"
+	resourceMemberName := "oci_database_autonomous_database.test_autonomous_database_member"
+
+	var resId, resId2 string
+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAutonomousDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_leader", acctest.Optional, acctest.Create, autonomousDatabaseRepresentationRP), "database", "autonomousDatabase", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		//0. verify Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_leader", acctest.Required, acctest.Create, autonomousDatabaseRepresentationRP),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "0"),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_pool_summary.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_pool_summary.#"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.is_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.pool_size", "128"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//1. verify resource pool size update
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_leader", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationRP, map[string]interface{}{
+						"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPSummaryUpdateRepresentation},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "0"),
+				//resource.TestCheckResourceAttr(resourceName, "compute_count", "6"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_pool_summary.#"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.is_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.pool_size", "512"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//2. verify member creation
+		{
+
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_leader", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationRP, map[string]interface{}{
+						"compute_count":         acctest.Representation{RepType: acctest.Required, Create: `4.0`, Update: `6.0`},
+						"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPSummaryRepresentation},
+					})) + acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_member", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseResourcePoolLeaderIdRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceMemberName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceMemberName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceMemberName, "cpu_core_count", "0"),
+				resource.TestCheckResourceAttr(resourceMemberName, "compute_count", "10"),
+				resource.TestCheckResourceAttr(resourceMemberName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceMemberName, "db_name", adbMemberName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceMemberName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttrSet(resourceMemberName, "resource_pool_leader_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceMemberName, "id")
+					return err
+				},
+			),
+		},
+		//3. Member leaving a resource pool leader
+		{
+
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_leader", acctest.Required, acctest.Create,
+				acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationRP, map[string]interface{}{
+					"compute_count":         acctest.Representation{RepType: acctest.Required, Create: `4.0`, Update: `6.0`},
+					"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPSummaryRepresentation},
+				})) + acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_member", acctest.Required, acctest.Update, DatabaseAutonomousDatabaseResourcePoolLeaderIdUpdateRepresentation),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceMemberName, "resource_pool_leader_id"),
+				resource.TestCheckResourceAttr(resourceMemberName, "resource_pool_leader_id", " "),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceMemberName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		//4. verify disable resource pool leader
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_leader", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationRPUpdate, map[string]interface{}{
+						"compute_count":         acctest.Representation{RepType: acctest.Required, Create: `6.0`, Update: `6.1`},
+						"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPDisableSummaryRepresentation},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "6"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "total_backup_storage_size_in_gbs", "1000"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_pool_summary.#"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_pool_summary.#"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.is_disabled", "true"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//5. verify updating adb to leader
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_leader", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationRPUpdate, map[string]interface{}{
+						"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPSummaryUpdateRepresentation},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "resource_pool_summary.#"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.is_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.pool_size", "512"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//6. Modify just compute count
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_leader", acctest.Required, acctest.Create,
+					map[string]interface{}{
+						"db_name":        acctest.Representation{RepType: acctest.Required, Create: adbName},
+						"compute_count":  acctest.Representation{RepType: acctest.Required, Create: "10"},
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: compartmentId},
+					}),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compute_count"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				}),
+		},
+		//7. verify disable resource pool leader again
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_leader", acctest.Required, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationRPUpdate, map[string]interface{}{
+						"resource_pool_summary": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseRPDisableSummaryRepresentation},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "total_backup_storage_size_in_gbs", "1000"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_pool_summary.#"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resource_pool_summary.0.is_disabled", "true"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),

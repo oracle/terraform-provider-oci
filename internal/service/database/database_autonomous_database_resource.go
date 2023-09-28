@@ -6,7 +6,9 @@ package database
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
+	"os"
 	"strings"
 	"time"
 
@@ -307,6 +309,37 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"resource_pool_leader_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"resource_pool_summary": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"pool_size": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"scheduled_operations": {
 				Type:     schema.TypeList,
@@ -920,6 +953,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_maintenance_end": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_of_joining_resource_pool": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -1553,6 +1590,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.RefreshableMode = oci_database.UpdateAutonomousDatabaseDetailsRefreshableModeEnum(refreshableMode.(string))
 	}
 
+	if resourcePoolLeaderId, ok := s.D.GetOk("resource_pool_leader_id"); ok && s.D.HasChange("resource_pool_leader_id") {
+		tmp := resourcePoolLeaderId.(string)
+		request.ResourcePoolLeaderId = &tmp
+	}
+
+	if resourcePoolSummary, ok := s.D.GetOkExists("resource_pool_summary"); ok && s.D.HasChange("resource_pool_summary") {
+		if tmpList := resourcePoolSummary.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "resource_pool_summary", 0)
+			tmp, err := s.mapToResourcePoolSummary(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ResourcePoolSummary = &tmp
+		}
+	}
+
 	if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok && s.D.HasChange("scheduled_operations") {
 		interfaces := scheduledOperations.([]interface{})
 		tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
@@ -1940,6 +1993,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("remote_disaster_recovery_configuration", nil)
 	}
 
+	if s.Res.ResourcePoolLeaderId != nil {
+		s.D.Set("resource_pool_leader_id", *s.Res.ResourcePoolLeaderId)
+	}
+
+	if s.Res.ResourcePoolSummary != nil {
+		s.D.Set("resource_pool_summary", []interface{}{ResourcePoolSummaryToMap(s.Res.ResourcePoolSummary)})
+	} else {
+		s.D.Set("resource_pool_summary", nil)
+	}
+
 	s.D.Set("role", s.Res.Role)
 
 	scheduledOperations := []interface{}{}
@@ -2002,6 +2065,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceEnd != nil {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
+	}
+
+	if s.Res.TimeOfJoiningResourcePool != nil {
+		s.D.Set("time_of_joining_resource_pool", s.Res.TimeOfJoiningResourcePool.String())
 	}
 
 	if s.Res.TimeOfLastFailover != nil {
@@ -2281,6 +2348,36 @@ func DisasterRecoveryConfigurationToMap(obj *oci_database.DisasterRecoveryConfig
 	return result
 }
 
+func (s *DatabaseAutonomousDatabaseResourceCrud) mapToResourcePoolSummary(fieldKeyFormat string) (oci_database.ResourcePoolSummary, error) {
+	result := oci_database.ResourcePoolSummary{}
+
+	if isDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_disabled")); ok {
+		tmp := isDisabled.(bool)
+		result.IsDisabled = &tmp
+	}
+
+	if poolSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pool_size")); ok {
+		tmp := poolSize.(int)
+		result.PoolSize = &tmp
+	}
+
+	return result, nil
+}
+
+func ResourcePoolSummaryToMap(obj *oci_database.ResourcePoolSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsDisabled != nil {
+		result["is_disabled"] = bool(*obj.IsDisabled)
+	}
+
+	if obj.PoolSize != nil {
+		result["pool_size"] = int(*obj.PoolSize)
+	}
+
+	return result
+}
+
 func (s *DatabaseAutonomousDatabaseResourceCrud) mapToScheduledOperationDetails(fieldKeyFormat string) (oci_database.ScheduledOperationDetails, error) {
 	result := oci_database.ScheduledOperationDetails{}
 
@@ -2508,6 +2605,24 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
+		}
+
+		if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
+			tmp := resourcePoolLeaderId.(string)
+			details.ResourcePoolLeaderId = &tmp
+		}
+
+		if resourcePoolSummary, ok := s.D.GetOk("resource_pool_summary"); ok {
+			t := fmt.Sprintf("%s rp create", resourcePoolSummary)
+			_, _ = io.WriteString(os.Stdout, t)
+			if tmpList := resourcePoolSummary.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "resource_pool_summary", 0)
+				tmp, err := s.mapToResourcePoolSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ResourcePoolSummary = &tmp
+			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
 			interfaces := scheduledOperations.([]interface{})
@@ -2752,6 +2867,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
 		}
+		if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
+			tmp := resourcePoolLeaderId.(string)
+			details.ResourcePoolLeaderId = &tmp
+		}
+		if resourcePoolSummary, ok := s.D.GetOkExists("resource_pool_summary"); ok {
+			t := fmt.Sprintf("%s rp create backup", resourcePoolSummary)
+			_, _ = io.WriteString(os.Stdout, t)
+			if tmpList := resourcePoolSummary.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "resource_pool_summary", 0)
+				tmp, err := s.mapToResourcePoolSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ResourcePoolSummary = &tmp
+			}
+		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
 			interfaces := scheduledOperations.([]interface{})
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
@@ -2987,6 +3118,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if refreshableMode, ok := s.D.GetOkExists("refreshable_mode"); ok {
 			details.RefreshableMode = oci_database.CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum(refreshableMode.(string))
 		}
+		if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
+			tmp := resourcePoolLeaderId.(string)
+			details.ResourcePoolLeaderId = &tmp
+		}
+		if resourcePoolSummary, ok := s.D.GetOkExists("resource_pool_summary"); ok {
+			t := fmt.Sprintf("%s rp create clone to refreshable", resourcePoolSummary)
+			_, _ = io.WriteString(os.Stdout, t)
+			if tmpList := resourcePoolSummary.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "resource_pool_summary", 0)
+				tmp, err := s.mapToResourcePoolSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ResourcePoolSummary = &tmp
+			}
+		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
 			interfaces := scheduledOperations.([]interface{})
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
@@ -3200,6 +3347,23 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
+		}
+
+		if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
+			tmp := resourcePoolLeaderId.(string)
+			details.ResourcePoolLeaderId = &tmp
+		}
+		if resourcePoolSummary, ok := s.D.GetOkExists("resource_pool_summary"); ok {
+			t := fmt.Sprintf("%s rp create cross region DG", resourcePoolSummary)
+			_, _ = io.WriteString(os.Stdout, t)
+			if tmpList := resourcePoolSummary.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "resource_pool_summary", 0)
+				tmp, err := s.mapToResourcePoolSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ResourcePoolSummary = &tmp
+			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
 			interfaces := scheduledOperations.([]interface{})
@@ -3420,6 +3584,23 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
+		}
+
+		if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
+			tmp := resourcePoolLeaderId.(string)
+			details.ResourcePoolLeaderId = &tmp
+		}
+		if resourcePoolSummary, ok := s.D.GetOkExists("resource_pool_summary"); ok {
+			t := fmt.Sprintf("%s rp create cross region disaster recovery", resourcePoolSummary)
+			_, _ = io.WriteString(os.Stdout, t)
+			if tmpList := resourcePoolSummary.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "resource_pool_summary", 0)
+				tmp, err := s.mapToResourcePoolSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ResourcePoolSummary = &tmp
+			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
 			interfaces := scheduledOperations.([]interface{})
@@ -3648,6 +3829,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
 		}
+		if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
+			tmp := resourcePoolLeaderId.(string)
+			details.ResourcePoolLeaderId = &tmp
+		}
+		if resourcePoolSummary, ok := s.D.GetOkExists("resource_pool_summary"); ok {
+			t := fmt.Sprintf("%s rp create database", resourcePoolSummary)
+			_, _ = io.WriteString(os.Stdout, t)
+			if tmpList := resourcePoolSummary.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "resource_pool_summary", 0)
+				tmp, err := s.mapToResourcePoolSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ResourcePoolSummary = &tmp
+			}
+		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
 			interfaces := scheduledOperations.([]interface{})
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
@@ -3874,6 +4071,22 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
 			tmp := privateEndpointLabel.(string)
 			details.PrivateEndpointLabel = &tmp
+		}
+		if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
+			tmp := resourcePoolLeaderId.(string)
+			details.ResourcePoolLeaderId = &tmp
+		}
+		if resourcePoolSummary, ok := s.D.GetOkExists("resource_pool_summary"); ok {
+			t := fmt.Sprintf("%s rp create none", resourcePoolSummary)
+			_, _ = io.WriteString(os.Stdout, t)
+			if tmpList := resourcePoolSummary.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "resource_pool_summary", 0)
+				tmp, err := s.mapToResourcePoolSummary(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ResourcePoolSummary = &tmp
+			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
 			interfaces := scheduledOperations.([]interface{})

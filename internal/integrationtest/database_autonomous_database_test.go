@@ -52,6 +52,7 @@ var (
 	adbCloneName                     = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 	tfStaticCompartmentId            = utils.GetEnvSettingWithBlankDefault("compartment_id_for_static_resource")
 	tfStaticCompartmentIdVariableStr = fmt.Sprintf("variable \"compartment_id_for_static_resource\" { default = \"%s\" }\n", tfStaticCompartmentId)
+	adbMemberName                    = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
 	DatabaseAutonomousDatabaseRepresentation = map[string]interface{}{
 		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -110,6 +111,11 @@ var (
 	DatabaseAutonomousDatabaseCustomerContactsRepresentation = map[string]interface{}{
 		"email": acctest.Representation{RepType: acctest.Optional, Create: `test@oracle.com`, Update: `test2@oracle.com`},
 	}
+	DatabaseAutonomousDatabaseResourcePoolSummaryRepresentation = map[string]interface{}{
+		"is_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"pool_size":   acctest.Representation{RepType: acctest.Optional, Create: `128`, Update: `256`},
+	}
+
 	DatabaseAutonomousDatabaseScheduledOperationsRepresentation = map[string]interface{}{
 		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseScheduledOperationsDayOfWeekRepresentation},
 		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `09:00`, Update: `10:00`},

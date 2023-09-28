@@ -597,6 +597,31 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								},
 							},
 						},
+						"resource_pool_leader_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"resource_pool_summary": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"is_disabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"pool_size": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"role": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -732,6 +757,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"time_maintenance_end": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_of_joining_resource_pool": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1149,6 +1178,16 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["remote_disaster_recovery_configuration"] = nil
 		}
 
+		if r.ResourcePoolLeaderId != nil {
+			autonomousDatabasesClone["resource_pool_leader_id"] = *r.ResourcePoolLeaderId
+		}
+
+		if r.ResourcePoolSummary != nil {
+			autonomousDatabasesClone["resource_pool_summary"] = []interface{}{ResourcePoolSummaryToMap(r.ResourcePoolSummary)}
+		} else {
+			autonomousDatabasesClone["resource_pool_summary"] = nil
+		}
+
 		autonomousDatabasesClone["role"] = r.Role
 
 		scheduledOperations := []interface{}{}
@@ -1211,6 +1250,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.TimeMaintenanceEnd != nil {
 			autonomousDatabasesClone["time_maintenance_end"] = r.TimeMaintenanceEnd.String()
+		}
+
+		if r.TimeOfJoiningResourcePool != nil {
+			autonomousDatabasesClone["time_of_joining_resource_pool"] = r.TimeOfJoiningResourcePool.String()
 		}
 
 		if r.TimeOfLastFailover != nil {
