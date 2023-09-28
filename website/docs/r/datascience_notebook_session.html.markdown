@@ -36,6 +36,7 @@ resource "oci_datascience_notebook_session" "test_notebook_session" {
 			memory_in_gbs = var.notebook_session_notebook_session_config_details_notebook_session_shape_config_details_memory_in_gbs
 			ocpus = var.notebook_session_notebook_session_config_details_notebook_session_shape_config_details_ocpus
 		}
+		private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 		subnet_id = oci_core_subnet.test_subnet.id
 	}
 	notebook_session_configuration_details {
@@ -51,6 +52,7 @@ resource "oci_datascience_notebook_session" "test_notebook_session" {
 			memory_in_gbs = var.notebook_session_notebook_session_configuration_details_notebook_session_shape_config_details_memory_in_gbs
 			ocpus = var.notebook_session_notebook_session_configuration_details_notebook_session_shape_config_details_ocpus
 		}
+		private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 	}
 	notebook_session_runtime_config_details {
 
@@ -81,6 +83,7 @@ The following arguments are supported:
 	* `notebook_session_shape_config_details` - (Optional) Details for the notebook session shape configuration.
 		* `memory_in_gbs` - (Optional) The total amount of memory available to the notebook session instance, in gigabytes. 
 		* `ocpus` - (Optional) The total number of OCPUs available to the notebook session instance. 
+	* `private_endpoint_id` - (Optional) The OCID of a Data Science private endpoint. 
 	* `shape` - (Required) The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - (Optional) A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `notebook_session_configuration_details` - (Optional) (Updatable) Details for the notebook session configuration.
@@ -88,6 +91,7 @@ The following arguments are supported:
 	* `notebook_session_shape_config_details` - (Optional) (Updatable) Details for the notebook session shape configuration.
 		* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the notebook session instance, in gigabytes. 
 		* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the notebook session instance. 
+	* `private_endpoint_id` - (Optional) (Updatable) The OCID of a Data Science private endpoint. 
 	* `shape` - (Required) (Updatable) The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - (Required) (Updatable) A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `notebook_session_runtime_config_details` - (Optional) (Updatable) Notebook Session runtime configuration details.
@@ -117,6 +121,7 @@ The following attributes are exported:
 	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
 		* `memory_in_gbs` - The total amount of memory available to the notebook session instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the notebook session instance. 
+	* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
 	* `shape` - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `notebook_session_configuration_details` - Details for the notebook session configuration.
@@ -124,6 +129,7 @@ The following attributes are exported:
 	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
 		* `memory_in_gbs` - The total amount of memory available to the notebook session instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the notebook session instance. 
+	* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
 	* `shape` - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `notebook_session_runtime_config_details` - Notebook Session runtime configuration details.

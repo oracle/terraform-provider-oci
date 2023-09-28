@@ -642,6 +642,7 @@ datascience
 * oci\_datascience\_job\_run
 * oci\_datascience\_pipeline\_run
 * oci\_datascience\_pipeline
+* oci\_datascience\_data\_science\_private\_endpoint
 * oci\_datascience\_model\_version\_set
 
 devops
