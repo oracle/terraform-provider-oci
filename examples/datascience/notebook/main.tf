@@ -99,57 +99,6 @@ data "oci_datascience_notebook_sessions" "tf_notebook_sessions" {
   #state        = var.notebook_session_state
 }
 
-variable "content_disposition" {
-}
-variable "model_defined_tags" {
-}
-variable "model_description" {
-}
-variable "model_display_name" {
-}
-variable "model_freeform_tag" {
-}
-
-resource "oci_datascience_model" "tf_model" {
-  #Required
-  artifact_content_length = var.artifact_content_length
-  model_artifact          = "${path.root}/artifact.zip"
-  compartment_id          = var.compartment_ocid
-  project_id              = oci_datascience_project.tf_project.id
-  #Optional
-  #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.model_defined_tags_value}"}
-  artifact_content_disposition = var.content_disposition
-  description                  = var.model_description
-  display_name                 = var.model_display_name
-}
-
-data "oci_datascience_models" "tf_models" {
-  #Required
-  compartment_id = var.compartment_ocid
-  #Optional
-  #created_by   = var.model_created_by
-  #display_name = var.model_display_name
-  #id           = var.model_id
-  #project_id   = oci_datascience_project.tf_project.id
-  #state        = var.model_state
-}
-
-resource "oci_datascience_model_provenance" "tf_model_provenance" {
-  #Required
-  model_id = oci_datascience_model.tf_model.id
-  #Optional
-  #git_branch      = var.model_provenance_git_branch
-  #git_commit      = var.model_provenance_git_commit
-  #repository_url  = var.model_provenance_repository_url
-  #script_dir      = var.model_provenance_script_dir
-  #training_script = var.model_provenance_training_script
-}
-
-data "oci_datascience_model_provenance" "tf_model_provenance" {
-  #Required
-  model_id = oci_datascience_model.tf_model.id
-}
-
 resource "oci_core_subnet" "tf_subnet" {
   cidr_block     = "10.0.1.0/24"
   compartment_id = var.compartment_ocid

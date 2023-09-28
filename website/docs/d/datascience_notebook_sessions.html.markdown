@@ -62,6 +62,7 @@ The following attributes are exported:
 	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
 		* `memory_in_gbs` - The total amount of memory available to the notebook session instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the notebook session instance. 
+	* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
 	* `shape` - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `notebook_session_configuration_details` - Details for the notebook session configuration.
@@ -69,6 +70,7 @@ The following attributes are exported:
 	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
 		* `memory_in_gbs` - The total amount of memory available to the notebook session instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the notebook session instance. 
+	* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
 	* `shape` - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `notebook_session_runtime_config_details` - Notebook Session runtime configuration details.

@@ -128,6 +128,18 @@ var exportDatasciencePipelineHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatascienceDataSciencePrivateEndpointHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_datascience_private_endpoint",
+	DatasourceClass:        "oci_datascience_private_endpoints",
+	DatasourceItemsAttr:    "data_science_private_endpoints",
+	ResourceAbbreviation:   "data_science_private_endpoint",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_datascience.DataSciencePrivateEndpointLifecycleStateActive),
+		string(oci_datascience.DataSciencePrivateEndpointLifecycleStateNeedsAttention),
+	},
+}
+
 var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatascienceProjectHints},
@@ -140,6 +152,7 @@ var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatasciencePipelineRunHints},
 		{TerraformResourceHints: exportDatascienceModelVersionSetHints},
 		{TerraformResourceHints: exportDatasciencePipelineHints},
+		{TerraformResourceHints: exportDatascienceDataSciencePrivateEndpointHints},
 	},
 	"oci_datascience_model": {
 		{

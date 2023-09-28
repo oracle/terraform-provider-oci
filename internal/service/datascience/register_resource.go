@@ -6,6 +6,7 @@ package datascience
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_datascience_private_endpoint", DatasciencePrivateEndpointResource())
 	tfresource.RegisterResource("oci_datascience_job", DatascienceJobResource())
 	tfresource.RegisterResource("oci_datascience_job_run", DatascienceJobRunResource())
 	tfresource.RegisterResource("oci_datascience_model", DatascienceModelResource())
