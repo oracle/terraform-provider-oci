@@ -148,6 +148,12 @@ func (s *KmsKeysDataSourceCrud) SetData() error {
 			key["display_name"] = *r.DisplayName
 		}
 
+		if r.ExternalKeyReferenceDetails != nil {
+			key["external_key_reference_details"] = []interface{}{ExternalKeyReferenceDetailsToMap(r.ExternalKeyReferenceDetails)}
+		} else {
+			key["external_key_reference_details"] = nil
+		}
+
 		key["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {

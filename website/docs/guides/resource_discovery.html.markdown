@@ -805,6 +805,7 @@ kms
 * oci\_kms\_vault
 * oci\_kms\_sign
 * oci\_kms\_verify
+* oci\_kms\_ekms\_private\_endpoint
 
 license_manager
 

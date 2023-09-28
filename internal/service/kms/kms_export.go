@@ -122,6 +122,17 @@ var exportKmsVerifyHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation: "verify",
 }
 
+var exportKmsEkmsPrivateEndpointHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_kms_ekms_private_endpoint",
+	DatasourceClass:        "oci_kms_ekms_private_endpoints",
+	DatasourceItemsAttr:    "ekms_private_endpoints",
+	ResourceAbbreviation:   "ekms_private_endpoint",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_kms.EkmsPrivateEndpointLifecycleStateActive),
+	},
+}
+
 var exportKmsCreateReplicaHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_kms_vault_replication",
 	ResourceAbbreviation: "vault_replication",
@@ -135,6 +146,7 @@ var exportKmsDeleteReplicaHints = &tf_export.TerraformResourceHints{
 var kmsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportKmsVaultHints},
+		{TerraformResourceHints: exportKmsEkmsPrivateEndpointHints},
 	},
 	"oci_kms_key": {
 		{
