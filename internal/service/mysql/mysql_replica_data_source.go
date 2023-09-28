@@ -74,6 +74,10 @@ func (s *MysqlReplicaDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.ConfigurationId != nil {
+		s.D.Set("configuration_id", *s.Res.ConfigurationId)
+	}
+
 	if s.Res.DbSystemId != nil {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
 	}
@@ -119,6 +123,16 @@ func (s *MysqlReplicaDataSourceCrud) SetData() error {
 
 	if s.Res.PortX != nil {
 		s.D.Set("port_x", *s.Res.PortX)
+	}
+
+	if s.Res.ReplicaOverrides != nil {
+		s.D.Set("replica_overrides", []interface{}{ReplicaOverridesToMap(s.Res.ReplicaOverrides)})
+	} else {
+		s.D.Set("replica_overrides", nil)
+	}
+
+	if s.Res.ShapeName != nil {
+		s.D.Set("shape_name", *s.Res.ShapeName)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

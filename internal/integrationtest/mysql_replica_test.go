@@ -35,13 +35,17 @@ var (
 		"replica_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_replica.test_replica.id}`},
 	}
 
-	MysqlMysqlReplicaDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"db_system_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"replica_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_replica.test_replica.id}`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlReplicaDataSourceFilterRepresentation}}
+	MysqlReplicaDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"configuration_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.configuration_id}`},
+		"db_system_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"is_up_to_date":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"replica_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_replica.test_replica.id}`},
+		"state":            acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":           acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlReplicaDataSourceFilterRepresentation},
+	}
+
 	MysqlReplicaDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_mysql_replica.test_replica.id}`}},
@@ -53,8 +57,15 @@ var (
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_delete_protected": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_delete_protected": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlReplica},
+		"replica_overrides":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlReplicaReplicaOverridesRepresentation},
+	}
+
+	MysqlReplicaReplicaOverridesRepresentation = map[string]interface{}{
+		"configuration_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.configuration_id}`},
+		"mysql_version":    acctest.Representation{RepType: acctest.Optional, Create: `8.0.34`, Update: `8.1.0`},
+		"shape_name":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.shape_name}`},
 	}
 
 	ignoreDefinedTagsChangesForMysqlReplica = map[string]interface{}{
@@ -145,10 +156,14 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
-				resource.TestCheckResourceAttr(resourceName, "is_delete_protected", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_delete_protected", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "mysql_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "port"),
 				resource.TestCheckResourceAttrSet(resourceName, "port_x"),
+				resource.TestCheckResourceAttr(resourceName, "replica_overrides.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replica_overrides.0.configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.mysql_version", "8.0.34"),
+				resource.TestCheckResourceAttrSet(resourceName, "replica_overrides.0.shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -182,6 +197,10 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "mysql_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "port"),
 				resource.TestCheckResourceAttrSet(resourceName, "port_x"),
+				resource.TestCheckResourceAttr(resourceName, "replica_overrides.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "replica_overrides.0.configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "replica_overrides.0.mysql_version", "8.1.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "replica_overrides.0.shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -197,19 +216,22 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_replicas", "test_replicas", acctest.Optional, acctest.Update, MysqlMysqlReplicaDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_mysql_replicas", "test_replicas", acctest.Optional, acctest.Update, MysqlReplicaDataSourceRepresentation) +
 				compartmentIdVariableStr + MysqlReplicaResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_replica", "test_replica", acctest.Optional, acctest.Update, MysqlReplicaRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "configuration_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "is_up_to_date", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replica_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "replicas.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.availability_domain"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.configuration_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.db_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "replicas.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "replicas.0.display_name", "displayName2"),
@@ -221,6 +243,11 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.mysql_version"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.port"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.port_x"),
+				resource.TestCheckResourceAttr(datasourceName, "replicas.0.replica_overrides.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.replica_overrides.0.configuration_id"),
+				resource.TestCheckResourceAttr(datasourceName, "replicas.0.replica_overrides.0.mysql_version", "8.1.0"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.replica_overrides.0.shape_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.shape_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replicas.0.time_updated"),
@@ -246,6 +273,9 @@ func TestMysqlReplicaResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mysql_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "port"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "port_x"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replica_overrides.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replica_overrides.0.mysql_version", "8.1.0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
