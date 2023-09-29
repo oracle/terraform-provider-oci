@@ -64,72 +64,72 @@ type ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary struct {
 	LifecycleState DeployStageLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetDeployPipelineId returns DeployPipelineId
+//GetDeployPipelineId returns DeployPipelineId
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetLifecycleState() DeployStageLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m ComputeInstanceGroupBlueGreenTrafficShiftDeployStageSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

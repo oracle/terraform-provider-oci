@@ -38,27 +38,27 @@ type RepositoryTagSummary struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetRefName returns RefName
+//GetRefName returns RefName
 func (m RepositoryTagSummary) GetRefName() *string {
 	return m.RefName
 }
 
-// GetFullRefName returns FullRefName
+//GetFullRefName returns FullRefName
 func (m RepositoryTagSummary) GetFullRefName() *string {
 	return m.FullRefName
 }
 
-// GetRepositoryId returns RepositoryId
+//GetRepositoryId returns RepositoryId
 func (m RepositoryTagSummary) GetRepositoryId() *string {
 	return m.RepositoryId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m RepositoryTagSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m RepositoryTagSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

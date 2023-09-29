@@ -31,7 +31,7 @@ type CreateCertificateManagedExternallyIssuedByInternalCaConfigDetails struct {
 	Validity *Validity `mandatory:"false" json:"validity"`
 }
 
-// GetVersionName returns VersionName
+//GetVersionName returns VersionName
 func (m CreateCertificateManagedExternallyIssuedByInternalCaConfigDetails) GetVersionName() *string {
 	return m.VersionName
 }

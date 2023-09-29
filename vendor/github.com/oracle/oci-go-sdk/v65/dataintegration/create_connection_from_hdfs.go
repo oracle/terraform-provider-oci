@@ -62,47 +62,47 @@ type CreateConnectionFromHdfs struct {
 	KeyTabContent *SensitiveAttribute `mandatory:"false" json:"keyTabContent"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateConnectionFromHdfs) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateConnectionFromHdfs) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m CreateConnectionFromHdfs) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateConnectionFromHdfs) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateConnectionFromHdfs) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateConnectionFromHdfs) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateConnectionFromHdfs) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m CreateConnectionFromHdfs) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateConnectionFromHdfs) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

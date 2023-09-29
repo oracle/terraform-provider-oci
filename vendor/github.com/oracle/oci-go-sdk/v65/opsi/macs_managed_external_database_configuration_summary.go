@@ -66,52 +66,52 @@ type MacsManagedExternalDatabaseConfigurationSummary struct {
 	ProcessorCount *int `mandatory:"false" json:"processorCount"`
 }
 
-// GetDatabaseInsightId returns DatabaseInsightId
+//GetDatabaseInsightId returns DatabaseInsightId
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetDatabaseInsightId() *string {
 	return m.DatabaseInsightId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDatabaseName returns DatabaseName
+//GetDatabaseName returns DatabaseName
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetDatabaseName() *string {
 	return m.DatabaseName
 }
 
-// GetDatabaseDisplayName returns DatabaseDisplayName
+//GetDatabaseDisplayName returns DatabaseDisplayName
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetDatabaseDisplayName() *string {
 	return m.DatabaseDisplayName
 }
 
-// GetDatabaseType returns DatabaseType
+//GetDatabaseType returns DatabaseType
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetDatabaseType() *string {
 	return m.DatabaseType
 }
 
-// GetDatabaseVersion returns DatabaseVersion
+//GetDatabaseVersion returns DatabaseVersion
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
 }
 
-// GetCdbName returns CdbName
+//GetCdbName returns CdbName
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetCdbName() *string {
 	return m.CdbName
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetProcessorCount returns ProcessorCount
+//GetProcessorCount returns ProcessorCount
 func (m MacsManagedExternalDatabaseConfigurationSummary) GetProcessorCount() *int {
 	return m.ProcessorCount
 }

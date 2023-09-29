@@ -67,37 +67,37 @@ type UnifiedJsonParser struct {
 	TimeType UnifiedJsonParserTimeTypeEnum `mandatory:"false" json:"timeType,omitempty"`
 }
 
-// GetFieldTimeKey returns FieldTimeKey
+//GetFieldTimeKey returns FieldTimeKey
 func (m UnifiedJsonParser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
-// GetTypes returns Types
+//GetTypes returns Types
 func (m UnifiedJsonParser) GetTypes() map[string]string {
 	return m.Types
 }
 
-// GetNullValuePattern returns NullValuePattern
+//GetNullValuePattern returns NullValuePattern
 func (m UnifiedJsonParser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
-// GetIsNullEmptyString returns IsNullEmptyString
+//GetIsNullEmptyString returns IsNullEmptyString
 func (m UnifiedJsonParser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
-// GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
+//GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
 func (m UnifiedJsonParser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
-// GetIsKeepTimeKey returns IsKeepTimeKey
+//GetIsKeepTimeKey returns IsKeepTimeKey
 func (m UnifiedJsonParser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
-// GetTimeoutInMilliseconds returns TimeoutInMilliseconds
+//GetTimeoutInMilliseconds returns TimeoutInMilliseconds
 func (m UnifiedJsonParser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }

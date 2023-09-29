@@ -32,12 +32,12 @@ type TablespaceAdminSecretCredentialDetails struct {
 	Role TablespaceAdminCredentialDetailsRoleEnum `mandatory:"true" json:"role"`
 }
 
-// GetUsername returns Username
+//GetUsername returns Username
 func (m TablespaceAdminSecretCredentialDetails) GetUsername() *string {
 	return m.Username
 }
 
-// GetRole returns Role
+//GetRole returns Role
 func (m TablespaceAdminSecretCredentialDetails) GetRole() TablespaceAdminCredentialDetailsRoleEnum {
 	return m.Role
 }

@@ -45,37 +45,37 @@ type InputPort struct {
 	PortType InputPortPortTypeEnum `mandatory:"false" json:"portType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m InputPort) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m InputPort) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m InputPort) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetConfigValues returns ConfigValues
+//GetConfigValues returns ConfigValues
 func (m InputPort) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m InputPort) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m InputPort) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m InputPort) GetDescription() *string {
 	return m.Description
 }

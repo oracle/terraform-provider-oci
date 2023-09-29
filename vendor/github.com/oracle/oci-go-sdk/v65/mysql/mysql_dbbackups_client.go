@@ -94,7 +94,7 @@ func (client *DbBackupsClient) ConfigurationProvider() *common.ConfigurationProv
 // ChangeBackupCompartment Moves a DB System Backup into a different compartment.
 // When provided, If-Match is checked against ETag values of the Backup.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ChangeBackupCompartment.go.html to see an example of how to use ChangeBackupCompartment API.
 func (client DbBackupsClient) ChangeBackupCompartment(ctx context.Context, request ChangeBackupCompartmentRequest) (response ChangeBackupCompartmentResponse, err error) {
@@ -156,7 +156,7 @@ func (client DbBackupsClient) changeBackupCompartment(ctx context.Context, reque
 
 // CreateBackup Create a backup of a DB System.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateBackup.go.html to see an example of how to use CreateBackup API.
 // A default retry strategy applies to this operation CreateBackup()
@@ -219,7 +219,7 @@ func (client DbBackupsClient) createBackup(ctx context.Context, request common.O
 
 // DeleteBackup Delete a Backup.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteBackup.go.html to see an example of how to use DeleteBackup API.
 // A default retry strategy applies to this operation DeleteBackup()
@@ -277,7 +277,7 @@ func (client DbBackupsClient) deleteBackup(ctx context.Context, request common.O
 
 // GetBackup Get information about the specified Backup
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetBackup.go.html to see an example of how to use GetBackup API.
 // A default retry strategy applies to this operation GetBackup()
@@ -335,7 +335,7 @@ func (client DbBackupsClient) getBackup(ctx context.Context, request common.OCIR
 
 // ListBackups Get a list of DB System backups.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ListBackups.go.html to see an example of how to use ListBackups API.
 // A default retry strategy applies to this operation ListBackups()
@@ -393,7 +393,7 @@ func (client DbBackupsClient) listBackups(ctx context.Context, request common.OC
 
 // UpdateBackup Update the metadata of a Backup. Metadata such as the displayName or description
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateBackup.go.html to see an example of how to use UpdateBackup API.
 // A default retry strategy applies to this operation UpdateBackup()

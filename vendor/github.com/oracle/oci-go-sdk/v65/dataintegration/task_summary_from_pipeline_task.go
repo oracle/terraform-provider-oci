@@ -63,77 +63,77 @@ type TaskSummaryFromPipelineTask struct {
 	Pipeline *Pipeline `mandatory:"false" json:"pipeline"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m TaskSummaryFromPipelineTask) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m TaskSummaryFromPipelineTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m TaskSummaryFromPipelineTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m TaskSummaryFromPipelineTask) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m TaskSummaryFromPipelineTask) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m TaskSummaryFromPipelineTask) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m TaskSummaryFromPipelineTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m TaskSummaryFromPipelineTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m TaskSummaryFromPipelineTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m TaskSummaryFromPipelineTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m TaskSummaryFromPipelineTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m TaskSummaryFromPipelineTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m TaskSummaryFromPipelineTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m TaskSummaryFromPipelineTask) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-// GetKeyMap returns KeyMap
+//GetKeyMap returns KeyMap
 func (m TaskSummaryFromPipelineTask) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

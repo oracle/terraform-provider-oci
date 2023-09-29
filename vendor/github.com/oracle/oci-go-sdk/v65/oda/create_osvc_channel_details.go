@@ -68,27 +68,27 @@ type CreateOsvcChannelDetails struct {
 	ChannelService OsvcServiceTypeEnum `mandatory:"false" json:"channelService,omitempty"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateOsvcChannelDetails) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateOsvcChannelDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m CreateOsvcChannelDetails) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateOsvcChannelDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateOsvcChannelDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

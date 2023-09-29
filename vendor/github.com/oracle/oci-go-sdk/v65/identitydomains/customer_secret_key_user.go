@@ -18,14 +18,14 @@ import (
 
 // CustomerSecretKeyUser User linked to customer secret key
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type CustomerSecretKeyUser struct {
 
 	// The user's ID.

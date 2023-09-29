@@ -36,22 +36,22 @@ type PipelineCustomScriptStepDetails struct {
 	IsArtifactUploaded *bool `mandatory:"false" json:"isArtifactUploaded"`
 }
 
-// GetStepName returns StepName
+//GetStepName returns StepName
 func (m PipelineCustomScriptStepDetails) GetStepName() *string {
 	return m.StepName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m PipelineCustomScriptStepDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDependsOn returns DependsOn
+//GetDependsOn returns DependsOn
 func (m PipelineCustomScriptStepDetails) GetDependsOn() []string {
 	return m.DependsOn
 }
 
-// GetStepConfigurationDetails returns StepConfigurationDetails
+//GetStepConfigurationDetails returns StepConfigurationDetails
 func (m PipelineCustomScriptStepDetails) GetStepConfigurationDetails() *PipelineStepConfigurationDetails {
 	return m.StepConfigurationDetails
 }

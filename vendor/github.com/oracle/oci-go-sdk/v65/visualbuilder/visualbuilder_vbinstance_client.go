@@ -94,7 +94,7 @@ func (client *VbInstanceClient) ConfigurationProvider() *common.ConfigurationPro
 
 // ChangeVbInstanceCompartment Change the compartment for an vb instance
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ChangeVbInstanceCompartment.go.html to see an example of how to use ChangeVbInstanceCompartment API.
 func (client VbInstanceClient) ChangeVbInstanceCompartment(ctx context.Context, request ChangeVbInstanceCompartmentRequest) (response ChangeVbInstanceCompartmentResponse, err error) {
@@ -156,7 +156,7 @@ func (client VbInstanceClient) changeVbInstanceCompartment(ctx context.Context, 
 
 // CreateVbInstance Creates a new Vb Instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/CreateVbInstance.go.html to see an example of how to use CreateVbInstance API.
 func (client VbInstanceClient) CreateVbInstance(ctx context.Context, request CreateVbInstanceRequest) (response CreateVbInstanceResponse, err error) {
@@ -218,7 +218,7 @@ func (client VbInstanceClient) createVbInstance(ctx context.Context, request com
 
 // DeleteVbInstance Deletes an Vb Instance resource by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/DeleteVbInstance.go.html to see an example of how to use DeleteVbInstance API.
 func (client VbInstanceClient) DeleteVbInstance(ctx context.Context, request DeleteVbInstanceRequest) (response DeleteVbInstanceResponse, err error) {
@@ -275,7 +275,7 @@ func (client VbInstanceClient) deleteVbInstance(ctx context.Context, request com
 
 // GetVbInstance Gets a VbInstance by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/GetVbInstance.go.html to see an example of how to use GetVbInstance API.
 // A default retry strategy applies to this operation GetVbInstance()
@@ -333,7 +333,7 @@ func (client VbInstanceClient) getVbInstance(ctx context.Context, request common
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -391,7 +391,7 @@ func (client VbInstanceClient) getWorkRequest(ctx context.Context, request commo
 
 // ListVbInstances Returns a list of Vb Instances.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListVbInstances.go.html to see an example of how to use ListVbInstances API.
 // A default retry strategy applies to this operation ListVbInstances()
@@ -449,7 +449,7 @@ func (client VbInstanceClient) listVbInstances(ctx context.Context, request comm
 
 // ListWorkRequestErrors Get the errors of a work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -507,7 +507,7 @@ func (client VbInstanceClient) listWorkRequestErrors(ctx context.Context, reques
 
 // ListWorkRequestLogs Get the logs of a work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -565,7 +565,7 @@ func (client VbInstanceClient) listWorkRequestLogs(ctx context.Context, request 
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -623,7 +623,7 @@ func (client VbInstanceClient) listWorkRequests(ctx context.Context, request com
 
 // RequestSummarizedApplications Summarizes the applications for a vb instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/RequestSummarizedApplications.go.html to see an example of how to use RequestSummarizedApplications API.
 func (client VbInstanceClient) RequestSummarizedApplications(ctx context.Context, request RequestSummarizedApplicationsRequest) (response RequestSummarizedApplicationsResponse, err error) {
@@ -686,7 +686,7 @@ func (client VbInstanceClient) requestSummarizedApplications(ctx context.Context
 // StartVbInstance Start an vb instance that was previously in an INACTIVE state. If the previous state is not
 // INACTIVE, then the state of the vbInstance will not be changed and a 409 response returned.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/StartVbInstance.go.html to see an example of how to use StartVbInstance API.
 func (client VbInstanceClient) StartVbInstance(ctx context.Context, request StartVbInstanceRequest) (response StartVbInstanceResponse, err error) {
@@ -749,7 +749,7 @@ func (client VbInstanceClient) startVbInstance(ctx context.Context, request comm
 // StopVbInstance Stop an vb instance that was previously in an ACTIVE state. If the previous state is not
 // ACTIVE, then the state of the vbInstance will not be changed and a 409 response returned.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/StopVbInstance.go.html to see an example of how to use StopVbInstance API.
 func (client VbInstanceClient) StopVbInstance(ctx context.Context, request StopVbInstanceRequest) (response StopVbInstanceResponse, err error) {
@@ -811,7 +811,7 @@ func (client VbInstanceClient) stopVbInstance(ctx context.Context, request commo
 
 // UpdateVbInstance Updates the Vb Instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/UpdateVbInstance.go.html to see an example of how to use UpdateVbInstance API.
 func (client VbInstanceClient) UpdateVbInstance(ctx context.Context, request UpdateVbInstanceRequest) (response UpdateVbInstanceResponse, err error) {

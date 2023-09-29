@@ -53,32 +53,32 @@ type CreateGitlabAccessTokenConfigurationSourceProviderDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateGitlabAccessTokenConfigurationSourceProviderDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateGitlabAccessTokenConfigurationSourceProviderDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateGitlabAccessTokenConfigurationSourceProviderDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m CreateGitlabAccessTokenConfigurationSourceProviderDetails) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateGitlabAccessTokenConfigurationSourceProviderDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateGitlabAccessTokenConfigurationSourceProviderDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

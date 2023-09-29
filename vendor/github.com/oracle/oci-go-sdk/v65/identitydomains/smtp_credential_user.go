@@ -18,14 +18,14 @@ import (
 
 // SmtpCredentialUser User linked to smtp credential
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type SmtpCredentialUser struct {
 
 	// User's id

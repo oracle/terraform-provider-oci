@@ -17,12 +17,11 @@ import (
 
 // CompatibleFormatsForDataTypes A list of basic masking formats compatible with and grouped by the supported data types. The data types are grouped into
 // the following categories -
-//
-//	Character - Includes CHAR, NCHAR, VARCHAR2, and NVARCHAR2
-//	Numeric - Includes NUMBER, FLOAT, RAW, BINARY_FLOAT, and BINARY_DOUBLE
-//	Date - Includes DATE and TIMESTAMP
-//	LOB - Includes BLOB, CLOB, and NCLOB
-//	All - Includes all the supported data types
+//   Character - Includes CHAR, NCHAR, VARCHAR2, and NVARCHAR2
+//   Numeric - Includes NUMBER, FLOAT, RAW, BINARY_FLOAT, and BINARY_DOUBLE
+//   Date - Includes DATE and TIMESTAMP
+//   LOB - Includes BLOB, CLOB, and NCLOB
+//   All - Includes all the supported data types
 type CompatibleFormatsForDataTypes struct {
 
 	// An array of lists of basic masking formats compatible with the supported data types.

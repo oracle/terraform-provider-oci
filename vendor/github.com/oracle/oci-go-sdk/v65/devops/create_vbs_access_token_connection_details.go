@@ -42,27 +42,27 @@ type CreateVbsAccessTokenConnectionDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateVbsAccessTokenConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateVbsAccessTokenConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m CreateVbsAccessTokenConnectionDetails) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateVbsAccessTokenConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateVbsAccessTokenConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

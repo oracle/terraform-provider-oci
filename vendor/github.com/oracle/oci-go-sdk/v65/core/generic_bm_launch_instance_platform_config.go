@@ -71,22 +71,22 @@ type GenericBmLaunchInstancePlatformConfig struct {
 	NumaNodesPerSocket GenericBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum `mandatory:"false" json:"numaNodesPerSocket,omitempty"`
 }
 
-// GetIsSecureBootEnabled returns IsSecureBootEnabled
+//GetIsSecureBootEnabled returns IsSecureBootEnabled
 func (m GenericBmLaunchInstancePlatformConfig) GetIsSecureBootEnabled() *bool {
 	return m.IsSecureBootEnabled
 }
 
-// GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
+//GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
 func (m GenericBmLaunchInstancePlatformConfig) GetIsTrustedPlatformModuleEnabled() *bool {
 	return m.IsTrustedPlatformModuleEnabled
 }
 
-// GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
+//GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
 func (m GenericBmLaunchInstancePlatformConfig) GetIsMeasuredBootEnabled() *bool {
 	return m.IsMeasuredBootEnabled
 }
 
-// GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
 func (m GenericBmLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
 	return m.IsMemoryEncryptionEnabled
 }

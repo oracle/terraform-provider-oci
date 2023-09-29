@@ -61,37 +61,37 @@ type UnifiedAgentApacheErrorParser struct {
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 }
 
-// GetFieldTimeKey returns FieldTimeKey
+//GetFieldTimeKey returns FieldTimeKey
 func (m UnifiedAgentApacheErrorParser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
-// GetTypes returns Types
+//GetTypes returns Types
 func (m UnifiedAgentApacheErrorParser) GetTypes() map[string]string {
 	return m.Types
 }
 
-// GetNullValuePattern returns NullValuePattern
+//GetNullValuePattern returns NullValuePattern
 func (m UnifiedAgentApacheErrorParser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
-// GetIsNullEmptyString returns IsNullEmptyString
+//GetIsNullEmptyString returns IsNullEmptyString
 func (m UnifiedAgentApacheErrorParser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
-// GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
+//GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
 func (m UnifiedAgentApacheErrorParser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
-// GetIsKeepTimeKey returns IsKeepTimeKey
+//GetIsKeepTimeKey returns IsKeepTimeKey
 func (m UnifiedAgentApacheErrorParser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
-// GetTimeoutInMilliseconds returns TimeoutInMilliseconds
+//GetTimeoutInMilliseconds returns TimeoutInMilliseconds
 func (m UnifiedAgentApacheErrorParser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }

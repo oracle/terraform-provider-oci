@@ -40,32 +40,32 @@ type OutputLink struct {
 	ToLinks []string `mandatory:"false" json:"toLinks"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m OutputLink) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m OutputLink) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m OutputLink) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m OutputLink) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m OutputLink) GetDescription() *string {
 	return m.Description
 }
 
-// GetPort returns Port
+//GetPort returns Port
 func (m OutputLink) GetPort() *string {
 	return m.Port
 }

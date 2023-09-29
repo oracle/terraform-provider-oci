@@ -37,22 +37,22 @@ type UpdateOkeClusterDeployEnvironmentDetails struct {
 	NetworkChannel NetworkChannel `mandatory:"false" json:"networkChannel"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateOkeClusterDeployEnvironmentDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateOkeClusterDeployEnvironmentDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateOkeClusterDeployEnvironmentDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateOkeClusterDeployEnvironmentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

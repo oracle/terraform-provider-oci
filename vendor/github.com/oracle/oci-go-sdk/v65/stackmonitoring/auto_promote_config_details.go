@@ -59,47 +59,47 @@ type AutoPromoteConfigDetails struct {
 	LifecycleState ConfigLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m AutoPromoteConfigDetails) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m AutoPromoteConfigDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m AutoPromoteConfigDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m AutoPromoteConfigDetails) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m AutoPromoteConfigDetails) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m AutoPromoteConfigDetails) GetLifecycleState() ConfigLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m AutoPromoteConfigDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m AutoPromoteConfigDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m AutoPromoteConfigDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

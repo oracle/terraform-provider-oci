@@ -45,47 +45,47 @@ type CreateConnectionFromLake struct {
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateConnectionFromLake) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateConnectionFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m CreateConnectionFromLake) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateConnectionFromLake) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateConnectionFromLake) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateConnectionFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateConnectionFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m CreateConnectionFromLake) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateConnectionFromLake) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

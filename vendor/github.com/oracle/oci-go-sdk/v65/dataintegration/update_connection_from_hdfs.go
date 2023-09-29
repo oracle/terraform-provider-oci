@@ -65,52 +65,52 @@ type UpdateConnectionFromHdfs struct {
 	KeyTabContent *SensitiveAttribute `mandatory:"false" json:"keyTabContent"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m UpdateConnectionFromHdfs) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m UpdateConnectionFromHdfs) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m UpdateConnectionFromHdfs) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UpdateConnectionFromHdfs) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateConnectionFromHdfs) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m UpdateConnectionFromHdfs) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m UpdateConnectionFromHdfs) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m UpdateConnectionFromHdfs) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m UpdateConnectionFromHdfs) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m UpdateConnectionFromHdfs) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

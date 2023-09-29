@@ -63,72 +63,72 @@ type DeliverArtifactStage struct {
 	LifecycleState BuildPipelineStageLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m DeliverArtifactStage) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m DeliverArtifactStage) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DeliverArtifactStage) GetDescription() *string {
 	return m.Description
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m DeliverArtifactStage) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetBuildPipelineId returns BuildPipelineId
+//GetBuildPipelineId returns BuildPipelineId
 func (m DeliverArtifactStage) GetBuildPipelineId() *string {
 	return m.BuildPipelineId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m DeliverArtifactStage) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m DeliverArtifactStage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m DeliverArtifactStage) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m DeliverArtifactStage) GetLifecycleState() BuildPipelineStageLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m DeliverArtifactStage) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
+//GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
 func (m DeliverArtifactStage) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m DeliverArtifactStage) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m DeliverArtifactStage) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m DeliverArtifactStage) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

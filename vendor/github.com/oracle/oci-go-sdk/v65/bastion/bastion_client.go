@@ -93,7 +93,7 @@ func (client *BastionClient) ConfigurationProvider() *common.ConfigurationProvid
 
 // ChangeBastionCompartment Moves a bastion into a different compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ChangeBastionCompartment.go.html to see an example of how to use ChangeBastionCompartment API.
 func (client BastionClient) ChangeBastionCompartment(ctx context.Context, request ChangeBastionCompartmentRequest) (response ChangeBastionCompartmentResponse, err error) {
@@ -150,7 +150,7 @@ func (client BastionClient) changeBastionCompartment(ctx context.Context, reques
 
 // CreateBastion Creates a new bastion. A bastion provides secured, public access to target resources in the cloud that you cannot otherwise reach from the internet. A bastion resides in a public subnet and establishes the network infrastructure needed to connect a user to a target resource in a private subnet.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/CreateBastion.go.html to see an example of how to use CreateBastion API.
 func (client BastionClient) CreateBastion(ctx context.Context, request CreateBastionRequest) (response CreateBastionResponse, err error) {
@@ -212,7 +212,7 @@ func (client BastionClient) createBastion(ctx context.Context, request common.OC
 
 // CreateSession Creates a new session in a bastion. A bastion session lets authorized users connect to a target resource for a predetermined amount of time. The Bastion service recognizes two types of sessions, managed SSH sessions and SSH port forwarding sessions. Managed SSH sessions require that the target resource has an OpenSSH server and the Oracle Cloud Agent both running.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/CreateSession.go.html to see an example of how to use CreateSession API.
 func (client BastionClient) CreateSession(ctx context.Context, request CreateSessionRequest) (response CreateSessionResponse, err error) {
@@ -274,7 +274,7 @@ func (client BastionClient) createSession(ctx context.Context, request common.OC
 
 // DeleteBastion Deletes a bastion identified by the bastion ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/DeleteBastion.go.html to see an example of how to use DeleteBastion API.
 func (client BastionClient) DeleteBastion(ctx context.Context, request DeleteBastionRequest) (response DeleteBastionResponse, err error) {
@@ -331,7 +331,7 @@ func (client BastionClient) deleteBastion(ctx context.Context, request common.OC
 
 // DeleteSession Deletes a session identified by the session ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/DeleteSession.go.html to see an example of how to use DeleteSession API.
 func (client BastionClient) DeleteSession(ctx context.Context, request DeleteSessionRequest) (response DeleteSessionResponse, err error) {
@@ -388,7 +388,7 @@ func (client BastionClient) deleteSession(ctx context.Context, request common.OC
 
 // GetBastion Retrieves a bastion identified by the bastion ID. A bastion provides secured, public access to target resources in the cloud that you cannot otherwise reach from the internet.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetBastion.go.html to see an example of how to use GetBastion API.
 // A default retry strategy applies to this operation GetBastion()
@@ -446,7 +446,7 @@ func (client BastionClient) getBastion(ctx context.Context, request common.OCIRe
 
 // GetSession Retrieves a session identified by the session ID. A bastion session lets authorized users connect to a target resource for a predetermined amount of time.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetSession.go.html to see an example of how to use GetSession API.
 // A default retry strategy applies to this operation GetSession()
@@ -504,7 +504,7 @@ func (client BastionClient) getSession(ctx context.Context, request common.OCIRe
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client BastionClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
@@ -561,7 +561,7 @@ func (client BastionClient) getWorkRequest(ctx context.Context, request common.O
 
 // ListBastions Retrieves a list of BastionSummary objects in a compartment. Bastions provide secured, public access to target resources in the cloud that you cannot otherwise reach from the internet.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListBastions.go.html to see an example of how to use ListBastions API.
 func (client BastionClient) ListBastions(ctx context.Context, request ListBastionsRequest) (response ListBastionsResponse, err error) {
@@ -618,7 +618,7 @@ func (client BastionClient) listBastions(ctx context.Context, request common.OCI
 
 // ListSessions Retrieves a list of SessionSummary objects for an existing bastion. Bastion sessions let authorized users connect to a target resource for a predetermined amount of time.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListSessions.go.html to see an example of how to use ListSessions API.
 func (client BastionClient) ListSessions(ctx context.Context, request ListSessionsRequest) (response ListSessionsResponse, err error) {
@@ -675,7 +675,7 @@ func (client BastionClient) listSessions(ctx context.Context, request common.OCI
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client BastionClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
@@ -732,7 +732,7 @@ func (client BastionClient) listWorkRequestErrors(ctx context.Context, request c
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client BastionClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
@@ -789,7 +789,7 @@ func (client BastionClient) listWorkRequestLogs(ctx context.Context, request com
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client BastionClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
@@ -846,7 +846,7 @@ func (client BastionClient) listWorkRequests(ctx context.Context, request common
 
 // UpdateBastion Updates the bastion identified by the bastion ID. A bastion provides secured, public access to target resources in the cloud that you cannot otherwise reach from the internet.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/UpdateBastion.go.html to see an example of how to use UpdateBastion API.
 // A default retry strategy applies to this operation UpdateBastion()
@@ -904,7 +904,7 @@ func (client BastionClient) updateBastion(ctx context.Context, request common.OC
 
 // UpdateSession Updates the session identified by the session ID. A bastion session lets authorized users connect to a target resource for a predetermined amount of time.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/UpdateSession.go.html to see an example of how to use UpdateSession API.
 // A default retry strategy applies to this operation UpdateSession()

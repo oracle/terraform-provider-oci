@@ -93,7 +93,7 @@ func (client *CertificatesManagementClient) ConfigurationProvider() *common.Conf
 
 // CancelCertificateAuthorityDeletion Cancels the scheduled deletion of the specified certificate authority (CA).
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CancelCertificateAuthorityDeletion.go.html to see an example of how to use CancelCertificateAuthorityDeletion API.
 func (client CertificatesManagementClient) CancelCertificateAuthorityDeletion(ctx context.Context, request CancelCertificateAuthorityDeletionRequest) (response CancelCertificateAuthorityDeletionResponse, err error) {
@@ -152,7 +152,7 @@ func (client CertificatesManagementClient) cancelCertificateAuthorityDeletion(ct
 // a scheduled deletion restores the CA version's lifecycle state to what
 // it was before its scheduled deletion.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CancelCertificateAuthorityVersionDeletion.go.html to see an example of how to use CancelCertificateAuthorityVersionDeletion API.
 func (client CertificatesManagementClient) CancelCertificateAuthorityVersionDeletion(ctx context.Context, request CancelCertificateAuthorityVersionDeletionRequest) (response CancelCertificateAuthorityVersionDeletionResponse, err error) {
@@ -211,7 +211,7 @@ func (client CertificatesManagementClient) cancelCertificateAuthorityVersionDele
 // a scheduled deletion restores the certificate's lifecycle state to what
 // it was before you scheduled the certificate for deletion.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CancelCertificateDeletion.go.html to see an example of how to use CancelCertificateDeletion API.
 func (client CertificatesManagementClient) CancelCertificateDeletion(ctx context.Context, request CancelCertificateDeletionRequest) (response CancelCertificateDeletionResponse, err error) {
@@ -268,7 +268,7 @@ func (client CertificatesManagementClient) cancelCertificateDeletion(ctx context
 
 // CancelCertificateVersionDeletion Cancels the scheduled deletion of the specified certificate version.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CancelCertificateVersionDeletion.go.html to see an example of how to use CancelCertificateVersionDeletion API.
 func (client CertificatesManagementClient) CancelCertificateVersionDeletion(ctx context.Context, request CancelCertificateVersionDeletionRequest) (response CancelCertificateVersionDeletionResponse, err error) {
@@ -327,7 +327,7 @@ func (client CertificatesManagementClient) cancelCertificateVersionDeletion(ctx 
 // moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, if-match is checked against the ETag values of the secret.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ChangeCaBundleCompartment.go.html to see an example of how to use ChangeCaBundleCompartment API.
 func (client CertificatesManagementClient) ChangeCaBundleCompartment(ctx context.Context, request ChangeCaBundleCompartmentRequest) (response ChangeCaBundleCompartmentResponse, err error) {
@@ -391,7 +391,7 @@ func (client CertificatesManagementClient) changeCaBundleCompartment(ctx context
 // moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, If-Match is checked against the ETag values of the source.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ChangeCertificateAuthorityCompartment.go.html to see an example of how to use ChangeCertificateAuthorityCompartment API.
 func (client CertificatesManagementClient) ChangeCertificateAuthorityCompartment(ctx context.Context, request ChangeCertificateAuthorityCompartmentRequest) (response ChangeCertificateAuthorityCompartmentResponse, err error) {
@@ -455,7 +455,7 @@ func (client CertificatesManagementClient) changeCertificateAuthorityCompartment
 // moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, if-match is checked against the ETag values of the secret.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ChangeCertificateCompartment.go.html to see an example of how to use ChangeCertificateCompartment API.
 func (client CertificatesManagementClient) ChangeCertificateCompartment(ctx context.Context, request ChangeCertificateCompartmentRequest) (response ChangeCertificateCompartmentResponse, err error) {
@@ -517,7 +517,7 @@ func (client CertificatesManagementClient) changeCertificateCompartment(ctx cont
 
 // CreateCaBundle Creates a new CA bundle according to the details of the request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CreateCaBundle.go.html to see an example of how to use CreateCaBundle API.
 func (client CertificatesManagementClient) CreateCaBundle(ctx context.Context, request CreateCaBundleRequest) (response CreateCaBundleResponse, err error) {
@@ -579,7 +579,7 @@ func (client CertificatesManagementClient) createCaBundle(ctx context.Context, r
 
 // CreateCertificate Creates a new certificate according to the details of the request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CreateCertificate.go.html to see an example of how to use CreateCertificate API.
 func (client CertificatesManagementClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
@@ -641,7 +641,7 @@ func (client CertificatesManagementClient) createCertificate(ctx context.Context
 
 // CreateCertificateAuthority Creates a new certificate authority (CA) according to the details of the request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CreateCertificateAuthority.go.html to see an example of how to use CreateCertificateAuthority API.
 func (client CertificatesManagementClient) CreateCertificateAuthority(ctx context.Context, request CreateCertificateAuthorityRequest) (response CreateCertificateAuthorityResponse, err error) {
@@ -703,7 +703,7 @@ func (client CertificatesManagementClient) createCertificateAuthority(ctx contex
 
 // DeleteCaBundle Deletes the specified CA bundle.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/DeleteCaBundle.go.html to see an example of how to use DeleteCaBundle API.
 func (client CertificatesManagementClient) DeleteCaBundle(ctx context.Context, request DeleteCaBundleRequest) (response DeleteCaBundleResponse, err error) {
@@ -760,7 +760,7 @@ func (client CertificatesManagementClient) deleteCaBundle(ctx context.Context, r
 
 // GetAssociation Gets details about the specified association.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetAssociation.go.html to see an example of how to use GetAssociation API.
 func (client CertificatesManagementClient) GetAssociation(ctx context.Context, request GetAssociationRequest) (response GetAssociationResponse, err error) {
@@ -817,7 +817,7 @@ func (client CertificatesManagementClient) getAssociation(ctx context.Context, r
 
 // GetCaBundle Gets details about the specified CA bundle.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetCaBundle.go.html to see an example of how to use GetCaBundle API.
 func (client CertificatesManagementClient) GetCaBundle(ctx context.Context, request GetCaBundleRequest) (response GetCaBundleResponse, err error) {
@@ -874,7 +874,7 @@ func (client CertificatesManagementClient) getCaBundle(ctx context.Context, requ
 
 // GetCertificate Gets details about the specified certificate.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetCertificate.go.html to see an example of how to use GetCertificate API.
 func (client CertificatesManagementClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
@@ -931,7 +931,7 @@ func (client CertificatesManagementClient) getCertificate(ctx context.Context, r
 
 // GetCertificateAuthority Gets details about the specified certificate authority (CA).
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetCertificateAuthority.go.html to see an example of how to use GetCertificateAuthority API.
 func (client CertificatesManagementClient) GetCertificateAuthority(ctx context.Context, request GetCertificateAuthorityRequest) (response GetCertificateAuthorityResponse, err error) {
@@ -988,7 +988,7 @@ func (client CertificatesManagementClient) getCertificateAuthority(ctx context.C
 
 // GetCertificateAuthorityVersion Gets details about the specified certificate authority (CA) version.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetCertificateAuthorityVersion.go.html to see an example of how to use GetCertificateAuthorityVersion API.
 func (client CertificatesManagementClient) GetCertificateAuthorityVersion(ctx context.Context, request GetCertificateAuthorityVersionRequest) (response GetCertificateAuthorityVersionResponse, err error) {
@@ -1045,7 +1045,7 @@ func (client CertificatesManagementClient) getCertificateAuthorityVersion(ctx co
 
 // GetCertificateVersion Gets details about the specified version of a certificate.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/GetCertificateVersion.go.html to see an example of how to use GetCertificateVersion API.
 func (client CertificatesManagementClient) GetCertificateVersion(ctx context.Context, request GetCertificateVersionRequest) (response GetCertificateVersionResponse, err error) {
@@ -1103,7 +1103,7 @@ func (client CertificatesManagementClient) getCertificateVersion(ctx context.Con
 // ListAssociations Lists all associations that match the query parameters.
 // Optionally, you can use the parameter `FilterByAssociationIdQueryParam` to limit the result set to a single item that matches the specified association.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ListAssociations.go.html to see an example of how to use ListAssociations API.
 func (client CertificatesManagementClient) ListAssociations(ctx context.Context, request ListAssociationsRequest) (response ListAssociationsResponse, err error) {
@@ -1161,7 +1161,7 @@ func (client CertificatesManagementClient) listAssociations(ctx context.Context,
 // ListCaBundles Lists all CA bundles that match the query parameters.
 // Optionally, you can use the parameter `FilterByCaBundleIdQueryParam` to limit the result set to a single item that matches the specified CA bundle.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ListCaBundles.go.html to see an example of how to use ListCaBundles API.
 func (client CertificatesManagementClient) ListCaBundles(ctx context.Context, request ListCaBundlesRequest) (response ListCaBundlesResponse, err error) {
@@ -1219,7 +1219,7 @@ func (client CertificatesManagementClient) listCaBundles(ctx context.Context, re
 // ListCertificateAuthorities Lists all certificate authorities (CAs) in the specified compartment.
 // Optionally, you can use the parameter `FilterByCertificateAuthorityIdQueryParam` to limit the results to a single item that matches the specified CA.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ListCertificateAuthorities.go.html to see an example of how to use ListCertificateAuthorities API.
 func (client CertificatesManagementClient) ListCertificateAuthorities(ctx context.Context, request ListCertificateAuthoritiesRequest) (response ListCertificateAuthoritiesResponse, err error) {
@@ -1277,7 +1277,7 @@ func (client CertificatesManagementClient) listCertificateAuthorities(ctx contex
 // ListCertificateAuthorityVersions Lists all versions for the specified certificate authority (CA).
 // Optionally, you can use the parameter `FilterByVersionNumberQueryParam` to limit the results to a single item that matches the specified version number.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ListCertificateAuthorityVersions.go.html to see an example of how to use ListCertificateAuthorityVersions API.
 func (client CertificatesManagementClient) ListCertificateAuthorityVersions(ctx context.Context, request ListCertificateAuthorityVersionsRequest) (response ListCertificateAuthorityVersionsResponse, err error) {
@@ -1335,7 +1335,7 @@ func (client CertificatesManagementClient) listCertificateAuthorityVersions(ctx 
 // ListCertificateVersions Lists all certificate versions for the specified certificate.
 // Optionally, you can use the parameter `FilterByVersionNumberQueryParam` to limit the result set to a single item that matches the specified version number.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ListCertificateVersions.go.html to see an example of how to use ListCertificateVersions API.
 func (client CertificatesManagementClient) ListCertificateVersions(ctx context.Context, request ListCertificateVersionsRequest) (response ListCertificateVersionsResponse, err error) {
@@ -1393,7 +1393,7 @@ func (client CertificatesManagementClient) listCertificateVersions(ctx context.C
 // ListCertificates Lists all certificates that match the query parameters.
 // Optionally, you can use the parameter `FilterByCertificateIdQueryParam` to limit the result set to a single item that matches the specified certificate.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ListCertificates.go.html to see an example of how to use ListCertificates API.
 func (client CertificatesManagementClient) ListCertificates(ctx context.Context, request ListCertificatesRequest) (response ListCertificatesResponse, err error) {
@@ -1450,7 +1450,7 @@ func (client CertificatesManagementClient) listCertificates(ctx context.Context,
 
 // RevokeCertificateAuthorityVersion Revokes a certificate authority (CA) version.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/RevokeCertificateAuthorityVersion.go.html to see an example of how to use RevokeCertificateAuthorityVersion API.
 func (client CertificatesManagementClient) RevokeCertificateAuthorityVersion(ctx context.Context, request RevokeCertificateAuthorityVersionRequest) (response RevokeCertificateAuthorityVersionResponse, err error) {
@@ -1512,7 +1512,7 @@ func (client CertificatesManagementClient) revokeCertificateAuthorityVersion(ctx
 
 // RevokeCertificateVersion Revokes the specified certificate version.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/RevokeCertificateVersion.go.html to see an example of how to use RevokeCertificateVersion API.
 func (client CertificatesManagementClient) RevokeCertificateVersion(ctx context.Context, request RevokeCertificateVersionRequest) (response RevokeCertificateVersionResponse, err error) {
@@ -1574,7 +1574,7 @@ func (client CertificatesManagementClient) revokeCertificateVersion(ctx context.
 
 // ScheduleCertificateAuthorityDeletion Schedules the deletion of the specified certificate authority (CA). This sets the lifecycle state of the CA to `PENDING_DELETION` and then deletes it after the specified retention period ends. If needed, you can determine the status of the deletion by using `GetCertificateAuthority`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ScheduleCertificateAuthorityDeletion.go.html to see an example of how to use ScheduleCertificateAuthorityDeletion API.
 func (client CertificatesManagementClient) ScheduleCertificateAuthorityDeletion(ctx context.Context, request ScheduleCertificateAuthorityDeletionRequest) (response ScheduleCertificateAuthorityDeletionResponse, err error) {
@@ -1633,7 +1633,7 @@ func (client CertificatesManagementClient) scheduleCertificateAuthorityDeletion(
 // This sets the lifecycle state of the CA version to `PENDING_DELETION`
 // and then deletes it after the specified retention period ends. If needed, you can determine the status of the deletion by using `GetCertificateAuthorityVersion`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ScheduleCertificateAuthorityVersionDeletion.go.html to see an example of how to use ScheduleCertificateAuthorityVersionDeletion API.
 func (client CertificatesManagementClient) ScheduleCertificateAuthorityVersionDeletion(ctx context.Context, request ScheduleCertificateAuthorityVersionDeletionRequest) (response ScheduleCertificateAuthorityVersionDeletionResponse, err error) {
@@ -1692,7 +1692,7 @@ func (client CertificatesManagementClient) scheduleCertificateAuthorityVersionDe
 // to `PENDING_DELETION` and then deletes it after the specified retention period ends.
 // You can subsequently use `GetCertificate` to determine the current deletion status.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ScheduleCertificateDeletion.go.html to see an example of how to use ScheduleCertificateDeletion API.
 func (client CertificatesManagementClient) ScheduleCertificateDeletion(ctx context.Context, request ScheduleCertificateDeletionRequest) (response ScheduleCertificateDeletionResponse, err error) {
@@ -1751,7 +1751,7 @@ func (client CertificatesManagementClient) scheduleCertificateDeletion(ctx conte
 // delete a certificate version if the certificate version rotation state is marked as `DEPRECATED`.
 // You can subsequently use `GetCertificateVersion` to determine the current certificate version deletion status.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ScheduleCertificateVersionDeletion.go.html to see an example of how to use ScheduleCertificateVersionDeletion API.
 func (client CertificatesManagementClient) ScheduleCertificateVersionDeletion(ctx context.Context, request ScheduleCertificateVersionDeletionRequest) (response ScheduleCertificateVersionDeletionResponse, err error) {
@@ -1808,7 +1808,7 @@ func (client CertificatesManagementClient) scheduleCertificateVersionDeletion(ct
 
 // UpdateCaBundle Updates the properties of a CA bundle.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/UpdateCaBundle.go.html to see an example of how to use UpdateCaBundle API.
 func (client CertificatesManagementClient) UpdateCaBundle(ctx context.Context, request UpdateCaBundleRequest) (response UpdateCaBundleResponse, err error) {
@@ -1865,7 +1865,7 @@ func (client CertificatesManagementClient) updateCaBundle(ctx context.Context, r
 
 // UpdateCertificate Updates the properties of a certificate.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/UpdateCertificate.go.html to see an example of how to use UpdateCertificate API.
 func (client CertificatesManagementClient) UpdateCertificate(ctx context.Context, request UpdateCertificateRequest) (response UpdateCertificateResponse, err error) {
@@ -1922,7 +1922,7 @@ func (client CertificatesManagementClient) updateCertificate(ctx context.Context
 
 // UpdateCertificateAuthority Updates the properties of the specified certificate authority (CA).
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/UpdateCertificateAuthority.go.html to see an example of how to use UpdateCertificateAuthority API.
 func (client CertificatesManagementClient) UpdateCertificateAuthority(ctx context.Context, request UpdateCertificateAuthorityRequest) (response UpdateCertificateAuthorityResponse, err error) {

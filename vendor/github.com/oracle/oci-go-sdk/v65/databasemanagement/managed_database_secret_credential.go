@@ -32,12 +32,12 @@ type ManagedDatabaseSecretCredential struct {
 	Role ManagedDatabaseCredentialRoleEnum `mandatory:"true" json:"role"`
 }
 
-// GetUsername returns Username
+//GetUsername returns Username
 func (m ManagedDatabaseSecretCredential) GetUsername() *string {
 	return m.Username
 }
 
-// GetRole returns Role
+//GetRole returns Role
 func (m ManagedDatabaseSecretCredential) GetRole() ManagedDatabaseCredentialRoleEnum {
 	return m.Role
 }

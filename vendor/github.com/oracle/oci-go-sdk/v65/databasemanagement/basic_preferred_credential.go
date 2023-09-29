@@ -40,17 +40,17 @@ type BasicPreferredCredential struct {
 	Role RoleEnum `mandatory:"false" json:"role,omitempty"`
 }
 
-// GetCredentialName returns CredentialName
+//GetCredentialName returns CredentialName
 func (m BasicPreferredCredential) GetCredentialName() *string {
 	return m.CredentialName
 }
 
-// GetStatus returns Status
+//GetStatus returns Status
 func (m BasicPreferredCredential) GetStatus() PreferredCredentialStatusEnum {
 	return m.Status
 }
 
-// GetIsAccessible returns IsAccessible
+//GetIsAccessible returns IsAccessible
 func (m BasicPreferredCredential) GetIsAccessible() *bool {
 	return m.IsAccessible
 }

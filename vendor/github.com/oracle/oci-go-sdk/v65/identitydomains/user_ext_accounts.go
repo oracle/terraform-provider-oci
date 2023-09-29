@@ -18,14 +18,14 @@ import (
 
 // UserExtAccounts Accounts assigned to this User. Each value of this attribute refers to an app-specific identity that is owned by this User. Therefore, this attribute is a convenience that allows one to see on each User the Apps to which that User has access.
 // **SCIM++ Properties:**
-//   - idcsPii: true
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsPii: true
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type UserExtAccounts struct {
 
 	// The Id of the Account assigned to the User.

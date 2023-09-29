@@ -37,22 +37,22 @@ type AwrDbMetricCollection struct {
 	Items []AwrDbMetricSummary `mandatory:"false" json:"items"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m AwrDbMetricCollection) GetName() *string {
 	return m.Name
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m AwrDbMetricCollection) GetVersion() *string {
 	return m.Version
 }
 
-// GetQueryKey returns QueryKey
+//GetQueryKey returns QueryKey
 func (m AwrDbMetricCollection) GetQueryKey() *string {
 	return m.QueryKey
 }
 
-// GetDbQueryTimeInSecs returns DbQueryTimeInSecs
+//GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m AwrDbMetricCollection) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
 }

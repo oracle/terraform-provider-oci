@@ -18,15 +18,15 @@ import (
 
 // UserExtLocked A complex attribute that indicates an account is locked (blocking any new sessions).
 // **SCIM++ Properties:**
-//   - idcsCsvAttributeNameMappings: [[columnHeaderName:Locked, mapsTo:locked.on], [columnHeaderName:Locked Reason, mapsTo:locked.reason], [columnHeaderName:Locked Date, mapsTo:locked.lockDate]]
-//   - idcsSearchable: false
-//   - idcsAllowUpdatesInReadOnlyMode: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCsvAttributeNameMappings: [[columnHeaderName:Locked, mapsTo:locked.on], [columnHeaderName:Locked Reason, mapsTo:locked.reason], [columnHeaderName:Locked Date, mapsTo:locked.lockDate]]
+//  - idcsSearchable: false
+//  - idcsAllowUpdatesInReadOnlyMode: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type UserExtLocked struct {
 
 	// Indicates the reason for locking the account. Valid values are: 0 - failed password login attempts, 1 - admin lock, 2 - failed reset password attempts, 3 - failed MFA login attempts, 4 - failed MFA login attempts for federated user, 5 - failed Database login attempts

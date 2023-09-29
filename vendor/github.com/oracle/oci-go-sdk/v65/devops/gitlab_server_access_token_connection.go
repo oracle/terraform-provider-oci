@@ -68,67 +68,67 @@ type GitlabServerAccessTokenConnection struct {
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m GitlabServerAccessTokenConnection) GetId() *string {
 	return m.Id
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m GitlabServerAccessTokenConnection) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m GitlabServerAccessTokenConnection) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m GitlabServerAccessTokenConnection) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m GitlabServerAccessTokenConnection) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m GitlabServerAccessTokenConnection) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m GitlabServerAccessTokenConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLastConnectionValidationResult returns LastConnectionValidationResult
+//GetLastConnectionValidationResult returns LastConnectionValidationResult
 func (m GitlabServerAccessTokenConnection) GetLastConnectionValidationResult() *ConnectionValidationResult {
 	return m.LastConnectionValidationResult
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m GitlabServerAccessTokenConnection) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m GitlabServerAccessTokenConnection) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m GitlabServerAccessTokenConnection) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m GitlabServerAccessTokenConnection) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m GitlabServerAccessTokenConnection) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

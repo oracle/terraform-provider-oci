@@ -18,15 +18,15 @@ import (
 
 // UserExtSocialAccounts Description:
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - idcsPii: true
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - idcsPii: true
+//  - type: complex
+//  - uniqueness: none
 type UserExtSocialAccounts struct {
 	Value *string `mandatory:"true" json:"value"`
 

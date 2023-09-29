@@ -71,82 +71,82 @@ type TaskFromSqlTaskDetails struct {
 	SqlScriptType TaskFromSqlTaskDetailsSqlScriptTypeEnum `mandatory:"false" json:"sqlScriptType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m TaskFromSqlTaskDetails) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m TaskFromSqlTaskDetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m TaskFromSqlTaskDetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m TaskFromSqlTaskDetails) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m TaskFromSqlTaskDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m TaskFromSqlTaskDetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m TaskFromSqlTaskDetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m TaskFromSqlTaskDetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m TaskFromSqlTaskDetails) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m TaskFromSqlTaskDetails) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m TaskFromSqlTaskDetails) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m TaskFromSqlTaskDetails) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m TaskFromSqlTaskDetails) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m TaskFromSqlTaskDetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-// GetKeyMap returns KeyMap
+//GetKeyMap returns KeyMap
 func (m TaskFromSqlTaskDetails) GetKeyMap() map[string]string {
 	return m.KeyMap
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m TaskFromSqlTaskDetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

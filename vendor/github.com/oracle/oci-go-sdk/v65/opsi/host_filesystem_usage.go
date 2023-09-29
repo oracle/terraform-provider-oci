@@ -33,7 +33,7 @@ type HostFilesystemUsage struct {
 	FileSystemAvailInPercent *float64 `mandatory:"false" json:"fileSystemAvailInPercent"`
 }
 
-// GetTimeCollected returns TimeCollected
+//GetTimeCollected returns TimeCollected
 func (m HostFilesystemUsage) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

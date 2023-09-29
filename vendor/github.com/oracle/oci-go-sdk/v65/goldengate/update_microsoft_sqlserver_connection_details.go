@@ -84,37 +84,37 @@ type UpdateMicrosoftSqlserverConnectionDetails struct {
 	SecurityProtocol MicrosoftSqlserverConnectionSecurityProtocolEnum `mandatory:"false" json:"securityProtocol,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateMicrosoftSqlserverConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateMicrosoftSqlserverConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateMicrosoftSqlserverConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateMicrosoftSqlserverConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m UpdateMicrosoftSqlserverConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m UpdateMicrosoftSqlserverConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m UpdateMicrosoftSqlserverConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }

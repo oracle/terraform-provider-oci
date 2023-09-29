@@ -18,12 +18,12 @@ import (
 
 // AppAppSignonPolicy App Sign-on Policy.
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
 type AppAppSignonPolicy struct {
 
 	// Identifier of the Policy.

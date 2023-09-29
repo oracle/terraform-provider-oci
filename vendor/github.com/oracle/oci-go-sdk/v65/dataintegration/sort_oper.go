@@ -56,62 +56,62 @@ type SortOper struct {
 	SortKey *SortKey `mandatory:"false" json:"sortKey"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m SortOper) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m SortOper) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m SortOper) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m SortOper) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m SortOper) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m SortOper) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m SortOper) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m SortOper) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m SortOper) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m SortOper) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m SortOper) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m SortOper) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }

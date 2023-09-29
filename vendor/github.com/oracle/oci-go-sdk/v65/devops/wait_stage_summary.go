@@ -63,72 +63,72 @@ type WaitStageSummary struct {
 	LifecycleState BuildPipelineStageLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m WaitStageSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m WaitStageSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m WaitStageSummary) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetBuildPipelineId returns BuildPipelineId
+//GetBuildPipelineId returns BuildPipelineId
 func (m WaitStageSummary) GetBuildPipelineId() *string {
 	return m.BuildPipelineId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m WaitStageSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m WaitStageSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m WaitStageSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m WaitStageSummary) GetLifecycleState() BuildPipelineStageLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m WaitStageSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m WaitStageSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
+//GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
 func (m WaitStageSummary) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m WaitStageSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m WaitStageSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m WaitStageSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

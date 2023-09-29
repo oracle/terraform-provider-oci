@@ -93,7 +93,7 @@ func (client *ApplicationDependencyManagementClient) ConfigurationProvider() *co
 
 // CancelWorkRequest Cancel work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
@@ -151,7 +151,7 @@ func (client ApplicationDependencyManagementClient) cancelWorkRequest(ctx contex
 
 // ChangeKnowledgeBaseCompartment Moves a Knowledge Base from one compartment to another.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ChangeKnowledgeBaseCompartment.go.html to see an example of how to use ChangeKnowledgeBaseCompartment API.
 // A default retry strategy applies to this operation ChangeKnowledgeBaseCompartment()
@@ -214,7 +214,7 @@ func (client ApplicationDependencyManagementClient) changeKnowledgeBaseCompartme
 
 // ChangeVulnerabilityAuditCompartment Moves a Vulnerability Audit from one compartment to another.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ChangeVulnerabilityAuditCompartment.go.html to see an example of how to use ChangeVulnerabilityAuditCompartment API.
 // A default retry strategy applies to this operation ChangeVulnerabilityAuditCompartment()
@@ -277,7 +277,7 @@ func (client ApplicationDependencyManagementClient) changeVulnerabilityAuditComp
 
 // CreateKnowledgeBase Creates a new Knowledge Base.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CreateKnowledgeBase.go.html to see an example of how to use CreateKnowledgeBase API.
 // A default retry strategy applies to this operation CreateKnowledgeBase()
@@ -340,7 +340,7 @@ func (client ApplicationDependencyManagementClient) createKnowledgeBase(ctx cont
 
 // CreateVulnerabilityAudit Creates a new Vulnerability Audit by providing a tree of Application Dependencies.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CreateVulnerabilityAudit.go.html to see an example of how to use CreateVulnerabilityAudit API.
 // A default retry strategy applies to this operation CreateVulnerabilityAudit()
@@ -403,7 +403,7 @@ func (client ApplicationDependencyManagementClient) createVulnerabilityAudit(ctx
 
 // DeleteKnowledgeBase Deletes the specified Knowledge Base.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteKnowledgeBase.go.html to see an example of how to use DeleteKnowledgeBase API.
 // A default retry strategy applies to this operation DeleteKnowledgeBase()
@@ -461,7 +461,7 @@ func (client ApplicationDependencyManagementClient) deleteKnowledgeBase(ctx cont
 
 // DeleteVulnerabilityAudit Deletes the specified Vulnerability Audit.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteVulnerabilityAudit.go.html to see an example of how to use DeleteVulnerabilityAudit API.
 // A default retry strategy applies to this operation DeleteVulnerabilityAudit()
@@ -519,7 +519,7 @@ func (client ApplicationDependencyManagementClient) deleteVulnerabilityAudit(ctx
 
 // GetKnowledgeBase Returns the details of the specified Knowledge Base.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetKnowledgeBase.go.html to see an example of how to use GetKnowledgeBase API.
 // A default retry strategy applies to this operation GetKnowledgeBase()
@@ -577,7 +577,7 @@ func (client ApplicationDependencyManagementClient) getKnowledgeBase(ctx context
 
 // GetVulnerabilityAudit Returns the details of the specified Vulnerability Audit.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetVulnerabilityAudit.go.html to see an example of how to use GetVulnerabilityAudit API.
 // A default retry strategy applies to this operation GetVulnerabilityAudit()
@@ -635,7 +635,7 @@ func (client ApplicationDependencyManagementClient) getVulnerabilityAudit(ctx co
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -693,7 +693,7 @@ func (client ApplicationDependencyManagementClient) getWorkRequest(ctx context.C
 
 // ListApplicationDependencyVulnerabilities Returns a list of Application Dependencies with their associated vulnerabilities.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListApplicationDependencyVulnerabilities.go.html to see an example of how to use ListApplicationDependencyVulnerabilities API.
 // A default retry strategy applies to this operation ListApplicationDependencyVulnerabilities()
@@ -752,7 +752,7 @@ func (client ApplicationDependencyManagementClient) listApplicationDependencyVul
 // ListKnowledgeBases Returns a list of KnowledgeBases based on the specified query parameters.
 // At least id or compartmentId query parameter must be provided.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListKnowledgeBases.go.html to see an example of how to use ListKnowledgeBases API.
 // A default retry strategy applies to this operation ListKnowledgeBases()
@@ -811,7 +811,7 @@ func (client ApplicationDependencyManagementClient) listKnowledgeBases(ctx conte
 // ListVulnerabilityAudits Returns a list of Vulnerability Audits based on the specified query parameters.
 // At least one of id, compartmentId or knowledgeBaseId query parameter must be provided.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListVulnerabilityAudits.go.html to see an example of how to use ListVulnerabilityAudits API.
 // A default retry strategy applies to this operation ListVulnerabilityAudits()
@@ -869,7 +869,7 @@ func (client ApplicationDependencyManagementClient) listVulnerabilityAudits(ctx 
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -927,7 +927,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequestErrors(ctx co
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -985,7 +985,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequestLogs(ctx cont
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -1043,7 +1043,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequests(ctx context
 
 // UpdateKnowledgeBase Updates one or more attributes of the specified Knowledge Base.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateKnowledgeBase.go.html to see an example of how to use UpdateKnowledgeBase API.
 // A default retry strategy applies to this operation UpdateKnowledgeBase()
@@ -1101,7 +1101,7 @@ func (client ApplicationDependencyManagementClient) updateKnowledgeBase(ctx cont
 
 // UpdateVulnerabilityAudit Updates one or more attributes of the specified Vulnerability Audit.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateVulnerabilityAudit.go.html to see an example of how to use UpdateVulnerabilityAudit API.
 // A default retry strategy applies to this operation UpdateVulnerabilityAudit()

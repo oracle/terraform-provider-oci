@@ -19,13 +19,13 @@ import (
 // DefinedTags OCI Defined Tags
 // **Added In:** 2011192329
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [namespace, key, value]
-//   - type: complex
-//   - idcsSearchable: true
-//   - required: false
-//   - mutability: readWrite
-//   - multiValued: true
-//   - returned: default
+//  - idcsCompositeKey: [namespace, key, value]
+//  - type: complex
+//  - idcsSearchable: true
+//  - required: false
+//  - mutability: readWrite
+//  - multiValued: true
+//  - returned: default
 type DefinedTags struct {
 
 	// OCI Tag namespace

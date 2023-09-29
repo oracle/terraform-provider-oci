@@ -67,67 +67,67 @@ type DataAssetFromLakeDetails struct {
 	LakeProxyEndpoint *string `mandatory:"false" json:"lakeProxyEndpoint"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m DataAssetFromLakeDetails) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m DataAssetFromLakeDetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m DataAssetFromLakeDetails) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DataAssetFromLakeDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m DataAssetFromLakeDetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m DataAssetFromLakeDetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m DataAssetFromLakeDetails) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m DataAssetFromLakeDetails) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetNativeTypeSystem returns NativeTypeSystem
+//GetNativeTypeSystem returns NativeTypeSystem
 func (m DataAssetFromLakeDetails) GetNativeTypeSystem() *TypeSystem {
 	return m.NativeTypeSystem
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m DataAssetFromLakeDetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m DataAssetFromLakeDetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m DataAssetFromLakeDetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-// GetKeyMap returns KeyMap
+//GetKeyMap returns KeyMap
 func (m DataAssetFromLakeDetails) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

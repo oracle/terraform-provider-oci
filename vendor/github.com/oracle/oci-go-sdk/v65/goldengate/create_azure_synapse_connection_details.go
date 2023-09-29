@@ -69,47 +69,47 @@ type CreateAzureSynapseConnectionDetails struct {
 	TechnologyType AzureSynapseConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateAzureSynapseConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateAzureSynapseConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateAzureSynapseConnectionDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateAzureSynapseConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateAzureSynapseConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m CreateAzureSynapseConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m CreateAzureSynapseConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m CreateAzureSynapseConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m CreateAzureSynapseConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }

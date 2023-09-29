@@ -10,6 +10,7 @@
 package databasemigration
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -57,6 +58,8 @@ type Migration struct {
 
 	// OCID of the current ODMS Job in execution for the Migration, if any.
 	ExecutingJobId *string `mandatory:"false" json:"executingJobId"`
+
+	DataTransferMediumDetailsV2 DataTransferMediumDetailsV2 `mandatory:"false" json:"dataTransferMediumDetailsV2"`
 
 	DataTransferMediumDetails *DataTransferMediumDetails `mandatory:"false" json:"dataTransferMediumDetails"`
 
@@ -127,4 +130,112 @@ func (m Migration) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *Migration) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		WaitAfter                           OdmsJobPhasesEnum                 `json:"waitAfter"`
+		AgentId                             *string                           `json:"agentId"`
+		CredentialsSecretId                 *string                           `json:"credentialsSecretId"`
+		SourceContainerDatabaseConnectionId *string                           `json:"sourceContainerDatabaseConnectionId"`
+		ExecutingJobId                      *string                           `json:"executingJobId"`
+		DataTransferMediumDetailsV2         datatransfermediumdetailsv2       `json:"dataTransferMediumDetailsV2"`
+		DataTransferMediumDetails           *DataTransferMediumDetails        `json:"dataTransferMediumDetails"`
+		DumpTransferDetails                 *DumpTransferDetails              `json:"dumpTransferDetails"`
+		DatapumpSettings                    *DataPumpSettings                 `json:"datapumpSettings"`
+		AdvisorSettings                     *AdvisorSettings                  `json:"advisorSettings"`
+		ExcludeObjects                      []DatabaseObject                  `json:"excludeObjects"`
+		IncludeObjects                      []DatabaseObject                  `json:"includeObjects"`
+		GoldenGateServiceDetails            *GoldenGateServiceDetails         `json:"goldenGateServiceDetails"`
+		GoldenGateDetails                   *GoldenGateDetails                `json:"goldenGateDetails"`
+		VaultDetails                        *VaultDetails                     `json:"vaultDetails"`
+		TimeUpdated                         *common.SDKTime                   `json:"timeUpdated"`
+		TimeLastMigration                   *common.SDKTime                   `json:"timeLastMigration"`
+		LifecycleDetails                    MigrationStatusEnum               `json:"lifecycleDetails"`
+		FreeformTags                        map[string]string                 `json:"freeformTags"`
+		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                          map[string]map[string]interface{} `json:"systemTags"`
+		Id                                  *string                           `json:"id"`
+		DisplayName                         *string                           `json:"displayName"`
+		CompartmentId                       *string                           `json:"compartmentId"`
+		Type                                MigrationTypesEnum                `json:"type"`
+		SourceDatabaseConnectionId          *string                           `json:"sourceDatabaseConnectionId"`
+		TargetDatabaseConnectionId          *string                           `json:"targetDatabaseConnectionId"`
+		TimeCreated                         *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState                      MigrationLifecycleStatesEnum      `json:"lifecycleState"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.WaitAfter = model.WaitAfter
+
+	m.AgentId = model.AgentId
+
+	m.CredentialsSecretId = model.CredentialsSecretId
+
+	m.SourceContainerDatabaseConnectionId = model.SourceContainerDatabaseConnectionId
+
+	m.ExecutingJobId = model.ExecutingJobId
+
+	nn, e = model.DataTransferMediumDetailsV2.UnmarshalPolymorphicJSON(model.DataTransferMediumDetailsV2.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DataTransferMediumDetailsV2 = nn.(DataTransferMediumDetailsV2)
+	} else {
+		m.DataTransferMediumDetailsV2 = nil
+	}
+
+	m.DataTransferMediumDetails = model.DataTransferMediumDetails
+
+	m.DumpTransferDetails = model.DumpTransferDetails
+
+	m.DatapumpSettings = model.DatapumpSettings
+
+	m.AdvisorSettings = model.AdvisorSettings
+
+	m.ExcludeObjects = make([]DatabaseObject, len(model.ExcludeObjects))
+	copy(m.ExcludeObjects, model.ExcludeObjects)
+	m.IncludeObjects = make([]DatabaseObject, len(model.IncludeObjects))
+	copy(m.IncludeObjects, model.IncludeObjects)
+	m.GoldenGateServiceDetails = model.GoldenGateServiceDetails
+
+	m.GoldenGateDetails = model.GoldenGateDetails
+
+	m.VaultDetails = model.VaultDetails
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.TimeLastMigration = model.TimeLastMigration
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.Type = model.Type
+
+	m.SourceDatabaseConnectionId = model.SourceDatabaseConnectionId
+
+	m.TargetDatabaseConnectionId = model.TargetDatabaseConnectionId
+
+	m.TimeCreated = model.TimeCreated
+
+	m.LifecycleState = model.LifecycleState
+
+	return
 }

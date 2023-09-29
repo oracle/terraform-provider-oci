@@ -38,32 +38,32 @@ type ModuleCommandDescriptor struct {
 	IsHidden *bool `mandatory:"false" json:"isHidden"`
 }
 
-// GetDisplayQueryString returns DisplayQueryString
+//GetDisplayQueryString returns DisplayQueryString
 func (m ModuleCommandDescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-// GetInternalQueryString returns InternalQueryString
+//GetInternalQueryString returns InternalQueryString
 func (m ModuleCommandDescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }
 
-// GetCategory returns Category
+//GetCategory returns Category
 func (m ModuleCommandDescriptor) GetCategory() *string {
 	return m.Category
 }
 
-// GetReferencedFields returns ReferencedFields
+//GetReferencedFields returns ReferencedFields
 func (m ModuleCommandDescriptor) GetReferencedFields() []AbstractField {
 	return m.ReferencedFields
 }
 
-// GetDeclaredFields returns DeclaredFields
+//GetDeclaredFields returns DeclaredFields
 func (m ModuleCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
-// GetIsHidden returns IsHidden
+//GetIsHidden returns IsHidden
 func (m ModuleCommandDescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }

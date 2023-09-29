@@ -33,12 +33,12 @@ type ScriptedBrowserMonitorConfiguration struct {
 	NetworkConfiguration *NetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }
 
-// GetIsFailureRetried returns IsFailureRetried
+//GetIsFailureRetried returns IsFailureRetried
 func (m ScriptedBrowserMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
 }
 
-// GetDnsConfiguration returns DnsConfiguration
+//GetDnsConfiguration returns DnsConfiguration
 func (m ScriptedBrowserMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
 	return m.DnsConfiguration
 }

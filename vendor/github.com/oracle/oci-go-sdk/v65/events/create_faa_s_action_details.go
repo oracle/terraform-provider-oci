@@ -32,12 +32,12 @@ type CreateFaaSActionDetails struct {
 	FunctionId *string `mandatory:"false" json:"functionId"`
 }
 
-// GetIsEnabled returns IsEnabled
+//GetIsEnabled returns IsEnabled
 func (m CreateFaaSActionDetails) GetIsEnabled() *bool {
 	return m.IsEnabled
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateFaaSActionDetails) GetDescription() *string {
 	return m.Description
 }

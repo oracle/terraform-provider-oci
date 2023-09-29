@@ -38,27 +38,27 @@ type PipelineMlJobStepRun struct {
 	LifecycleState PipelineStepRunLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetTimeStarted returns TimeStarted
+//GetTimeStarted returns TimeStarted
 func (m PipelineMlJobStepRun) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-// GetTimeFinished returns TimeFinished
+//GetTimeFinished returns TimeFinished
 func (m PipelineMlJobStepRun) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-// GetStepName returns StepName
+//GetStepName returns StepName
 func (m PipelineMlJobStepRun) GetStepName() *string {
 	return m.StepName
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m PipelineMlJobStepRun) GetLifecycleState() PipelineStepRunLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m PipelineMlJobStepRun) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }

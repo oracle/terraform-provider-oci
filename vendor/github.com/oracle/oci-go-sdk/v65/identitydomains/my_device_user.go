@@ -19,14 +19,14 @@ import (
 // MyDeviceUser Device member
 // **Deprecated Since: 17.3.4**
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: true
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type MyDeviceUser struct {
 
 	// The identifier of the user

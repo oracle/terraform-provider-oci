@@ -30,7 +30,7 @@ type DeleteRowsFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DeleteRowsFormatEntry) GetDescription() *string {
 	return m.Description
 }

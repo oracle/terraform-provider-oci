@@ -23,7 +23,7 @@ type TcpVirtualServiceTrafficRouteRuleDetails struct {
 	Destinations []VirtualDeploymentTrafficRuleTargetDetails `mandatory:"true" json:"destinations"`
 }
 
-// GetDestinations returns Destinations
+//GetDestinations returns Destinations
 func (m TcpVirtualServiceTrafficRouteRuleDetails) GetDestinations() []VirtualDeploymentTrafficRuleTargetDetails {
 	return m.Destinations
 }

@@ -18,13 +18,13 @@ import (
 
 // AppConnectorBundle ConnectorBundle
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AppConnectorBundle struct {
 
 	// ConnectorBundle identifier

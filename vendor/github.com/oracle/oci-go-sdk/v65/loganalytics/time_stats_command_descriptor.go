@@ -50,32 +50,32 @@ type TimeStatsCommandDescriptor struct {
 	Functions []FunctionField `mandatory:"false" json:"functions"`
 }
 
-// GetDisplayQueryString returns DisplayQueryString
+//GetDisplayQueryString returns DisplayQueryString
 func (m TimeStatsCommandDescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-// GetInternalQueryString returns InternalQueryString
+//GetInternalQueryString returns InternalQueryString
 func (m TimeStatsCommandDescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }
 
-// GetCategory returns Category
+//GetCategory returns Category
 func (m TimeStatsCommandDescriptor) GetCategory() *string {
 	return m.Category
 }
 
-// GetReferencedFields returns ReferencedFields
+//GetReferencedFields returns ReferencedFields
 func (m TimeStatsCommandDescriptor) GetReferencedFields() []AbstractField {
 	return m.ReferencedFields
 }
 
-// GetDeclaredFields returns DeclaredFields
+//GetDeclaredFields returns DeclaredFields
 func (m TimeStatsCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
-// GetIsHidden returns IsHidden
+//GetIsHidden returns IsHidden
 func (m TimeStatsCommandDescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }

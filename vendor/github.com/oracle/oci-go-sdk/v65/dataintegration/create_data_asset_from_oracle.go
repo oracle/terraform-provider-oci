@@ -70,47 +70,47 @@ type CreateDataAssetFromOracle struct {
 	DefaultConnection *CreateConnectionFromOracle `mandatory:"false" json:"defaultConnection"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateDataAssetFromOracle) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateDataAssetFromOracle) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateDataAssetFromOracle) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateDataAssetFromOracle) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateDataAssetFromOracle) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateDataAssetFromOracle) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m CreateDataAssetFromOracle) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m CreateDataAssetFromOracle) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateDataAssetFromOracle) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

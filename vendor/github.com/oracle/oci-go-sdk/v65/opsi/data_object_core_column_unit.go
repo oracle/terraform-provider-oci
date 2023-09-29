@@ -28,7 +28,7 @@ type DataObjectCoreColumnUnit struct {
 	Unit DataObjectCoreColumnUnitUnitEnum `mandatory:"false" json:"unit,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m DataObjectCoreColumnUnit) GetDisplayName() *string {
 	return m.DisplayName
 }

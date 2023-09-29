@@ -32,17 +32,17 @@ type BitbucketServerBuildSource struct {
 	ConnectionId *string `mandatory:"true" json:"connectionId"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m BitbucketServerBuildSource) GetName() *string {
 	return m.Name
 }
 
-// GetRepositoryUrl returns RepositoryUrl
+//GetRepositoryUrl returns RepositoryUrl
 func (m BitbucketServerBuildSource) GetRepositoryUrl() *string {
 	return m.RepositoryUrl
 }
 
-// GetBranch returns Branch
+//GetBranch returns Branch
 func (m BitbucketServerBuildSource) GetBranch() *string {
 	return m.Branch
 }

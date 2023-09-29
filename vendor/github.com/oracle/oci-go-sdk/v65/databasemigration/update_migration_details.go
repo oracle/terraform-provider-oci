@@ -10,6 +10,7 @@
 package databasemigration
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -37,6 +38,8 @@ type UpdateMigrationDetails struct {
 
 	// The OCID of the Target Database Connection.
 	TargetDatabaseConnectionId *string `mandatory:"false" json:"targetDatabaseConnectionId"`
+
+	DataTransferMediumDetailsV2 DataTransferMediumDetailsV2 `mandatory:"false" json:"dataTransferMediumDetailsV2"`
 
 	DataTransferMediumDetails *UpdateDataTransferMediumDetails `mandatory:"false" json:"dataTransferMediumDetails"`
 
@@ -86,4 +89,79 @@ func (m UpdateMigrationDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateMigrationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Type                                MigrationTypesEnum                `json:"type"`
+		DisplayName                         *string                           `json:"displayName"`
+		AgentId                             *string                           `json:"agentId"`
+		SourceDatabaseConnectionId          *string                           `json:"sourceDatabaseConnectionId"`
+		SourceContainerDatabaseConnectionId *string                           `json:"sourceContainerDatabaseConnectionId"`
+		TargetDatabaseConnectionId          *string                           `json:"targetDatabaseConnectionId"`
+		DataTransferMediumDetailsV2         datatransfermediumdetailsv2       `json:"dataTransferMediumDetailsV2"`
+		DataTransferMediumDetails           *UpdateDataTransferMediumDetails  `json:"dataTransferMediumDetails"`
+		DumpTransferDetails                 *UpdateDumpTransferDetails        `json:"dumpTransferDetails"`
+		DatapumpSettings                    *UpdateDataPumpSettings           `json:"datapumpSettings"`
+		AdvisorSettings                     *UpdateAdvisorSettings            `json:"advisorSettings"`
+		ExcludeObjects                      []DatabaseObject                  `json:"excludeObjects"`
+		IncludeObjects                      []DatabaseObject                  `json:"includeObjects"`
+		GoldenGateServiceDetails            *UpdateGoldenGateServiceDetails   `json:"goldenGateServiceDetails"`
+		GoldenGateDetails                   *UpdateGoldenGateDetails          `json:"goldenGateDetails"`
+		VaultDetails                        *UpdateVaultDetails               `json:"vaultDetails"`
+		FreeformTags                        map[string]string                 `json:"freeformTags"`
+		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Type = model.Type
+
+	m.DisplayName = model.DisplayName
+
+	m.AgentId = model.AgentId
+
+	m.SourceDatabaseConnectionId = model.SourceDatabaseConnectionId
+
+	m.SourceContainerDatabaseConnectionId = model.SourceContainerDatabaseConnectionId
+
+	m.TargetDatabaseConnectionId = model.TargetDatabaseConnectionId
+
+	nn, e = model.DataTransferMediumDetailsV2.UnmarshalPolymorphicJSON(model.DataTransferMediumDetailsV2.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DataTransferMediumDetailsV2 = nn.(DataTransferMediumDetailsV2)
+	} else {
+		m.DataTransferMediumDetailsV2 = nil
+	}
+
+	m.DataTransferMediumDetails = model.DataTransferMediumDetails
+
+	m.DumpTransferDetails = model.DumpTransferDetails
+
+	m.DatapumpSettings = model.DatapumpSettings
+
+	m.AdvisorSettings = model.AdvisorSettings
+
+	m.ExcludeObjects = make([]DatabaseObject, len(model.ExcludeObjects))
+	copy(m.ExcludeObjects, model.ExcludeObjects)
+	m.IncludeObjects = make([]DatabaseObject, len(model.IncludeObjects))
+	copy(m.IncludeObjects, model.IncludeObjects)
+	m.GoldenGateServiceDetails = model.GoldenGateServiceDetails
+
+	m.GoldenGateDetails = model.GoldenGateDetails
+
+	m.VaultDetails = model.VaultDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	return
 }

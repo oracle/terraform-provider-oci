@@ -36,27 +36,27 @@ type UpdateWaitStageDetails struct {
 	WaitCriteria UpdateWaitCriteriaDetails `mandatory:"false" json:"waitCriteria"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateWaitStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateWaitStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
+//GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
 func (m UpdateWaitStageDetails) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateWaitStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateWaitStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

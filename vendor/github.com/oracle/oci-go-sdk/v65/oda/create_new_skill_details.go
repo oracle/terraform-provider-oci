@@ -55,37 +55,37 @@ type CreateNewSkillDetails struct {
 	MultilingualMode BotMultilingualModeEnum `mandatory:"false" json:"multilingualMode,omitempty"`
 }
 
-// GetCategory returns Category
+//GetCategory returns Category
 func (m CreateNewSkillDetails) GetCategory() *string {
 	return m.Category
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateNewSkillDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetPlatformVersion returns PlatformVersion
+//GetPlatformVersion returns PlatformVersion
 func (m CreateNewSkillDetails) GetPlatformVersion() *string {
 	return m.PlatformVersion
 }
 
-// GetMultilingualMode returns MultilingualMode
+//GetMultilingualMode returns MultilingualMode
 func (m CreateNewSkillDetails) GetMultilingualMode() BotMultilingualModeEnum {
 	return m.MultilingualMode
 }
 
-// GetPrimaryLanguageTag returns PrimaryLanguageTag
+//GetPrimaryLanguageTag returns PrimaryLanguageTag
 func (m CreateNewSkillDetails) GetPrimaryLanguageTag() *string {
 	return m.PrimaryLanguageTag
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateNewSkillDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateNewSkillDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

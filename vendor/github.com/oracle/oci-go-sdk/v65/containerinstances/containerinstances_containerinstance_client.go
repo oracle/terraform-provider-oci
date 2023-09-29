@@ -93,7 +93,7 @@ func (client *ContainerInstanceClient) ConfigurationProvider() *common.Configura
 
 // ChangeContainerInstanceCompartment Moves a container instance resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/ChangeContainerInstanceCompartment.go.html to see an example of how to use ChangeContainerInstanceCompartment API.
 // A default retry strategy applies to this operation ChangeContainerInstanceCompartment()
@@ -151,7 +151,7 @@ func (client ContainerInstanceClient) changeContainerInstanceCompartment(ctx con
 
 // CreateContainerInstance Creates a container instance and deploys the containers on it.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/CreateContainerInstance.go.html to see an example of how to use CreateContainerInstance API.
 // A default retry strategy applies to this operation CreateContainerInstance()
@@ -214,7 +214,7 @@ func (client ContainerInstanceClient) createContainerInstance(ctx context.Contex
 
 // DeleteContainerInstance Deletes a container instance and its containers.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/DeleteContainerInstance.go.html to see an example of how to use DeleteContainerInstance API.
 // A default retry strategy applies to this operation DeleteContainerInstance()
@@ -272,7 +272,7 @@ func (client ContainerInstanceClient) deleteContainerInstance(ctx context.Contex
 
 // GetContainer Get details about a single container by the container ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/GetContainer.go.html to see an example of how to use GetContainer API.
 // A default retry strategy applies to this operation GetContainer()
@@ -330,7 +330,7 @@ func (client ContainerInstanceClient) getContainer(ctx context.Context, request 
 
 // GetContainerInstance Gets information about the specified container instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/GetContainerInstance.go.html to see an example of how to use GetContainerInstance API.
 // A default retry strategy applies to this operation GetContainerInstance()
@@ -388,7 +388,7 @@ func (client ContainerInstanceClient) getContainerInstance(ctx context.Context, 
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -446,7 +446,7 @@ func (client ContainerInstanceClient) getWorkRequest(ctx context.Context, reques
 
 // ListContainerInstanceShapes Lists the shapes that can be used to create container instances.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/ListContainerInstanceShapes.go.html to see an example of how to use ListContainerInstanceShapes API.
 // A default retry strategy applies to this operation ListContainerInstanceShapes()
@@ -504,7 +504,7 @@ func (client ContainerInstanceClient) listContainerInstanceShapes(ctx context.Co
 
 // ListContainerInstances Returns a list of container instances.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/ListContainerInstances.go.html to see an example of how to use ListContainerInstances API.
 // A default retry strategy applies to this operation ListContainerInstances()
@@ -562,7 +562,7 @@ func (client ContainerInstanceClient) listContainerInstances(ctx context.Context
 
 // ListContainers Returns a list of containers in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/ListContainers.go.html to see an example of how to use ListContainers API.
 // A default retry strategy applies to this operation ListContainers()
@@ -620,7 +620,7 @@ func (client ContainerInstanceClient) listContainers(ctx context.Context, reques
 
 // ListWorkRequestErrors Return a paginated list of errors for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -678,7 +678,7 @@ func (client ContainerInstanceClient) listWorkRequestErrors(ctx context.Context,
 
 // ListWorkRequestLogs Return a paginated list of logs for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -736,7 +736,7 @@ func (client ContainerInstanceClient) listWorkRequestLogs(ctx context.Context, r
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -794,7 +794,7 @@ func (client ContainerInstanceClient) listWorkRequests(ctx context.Context, requ
 
 // RestartContainerInstance Restarts a container instance. When provided, If-Match is checked against ETag values of the container instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/RestartContainerInstance.go.html to see an example of how to use RestartContainerInstance API.
 // A default retry strategy applies to this operation RestartContainerInstance()
@@ -852,7 +852,7 @@ func (client ContainerInstanceClient) restartContainerInstance(ctx context.Conte
 
 // RetrieveLogs Retrieves recent logs from the specified container. The most recent 256 KB of logs are returned.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/RetrieveLogs.go.html to see an example of how to use RetrieveLogs API.
 // A default retry strategy applies to this operation RetrieveLogs()
@@ -909,7 +909,7 @@ func (client ContainerInstanceClient) retrieveLogs(ctx context.Context, request 
 
 // StartContainerInstance Starts a container instance if it is "inactive". No effect otherwise. When provided, If-Match is checked against ETag values of the container instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/StartContainerInstance.go.html to see an example of how to use StartContainerInstance API.
 // A default retry strategy applies to this operation StartContainerInstance()
@@ -967,7 +967,7 @@ func (client ContainerInstanceClient) startContainerInstance(ctx context.Context
 
 // StopContainerInstance Stops a container instance if it is "active". No effect otherwise. When provided, If-Match is checked against ETag values of the container instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/StopContainerInstance.go.html to see an example of how to use StopContainerInstance API.
 // A default retry strategy applies to this operation StopContainerInstance()
@@ -1025,7 +1025,7 @@ func (client ContainerInstanceClient) stopContainerInstance(ctx context.Context,
 
 // UpdateContainer Updates a container.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/UpdateContainer.go.html to see an example of how to use UpdateContainer API.
 // A default retry strategy applies to this operation UpdateContainer()
@@ -1083,7 +1083,7 @@ func (client ContainerInstanceClient) updateContainer(ctx context.Context, reque
 
 // UpdateContainerInstance Updates a container instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/UpdateContainerInstance.go.html to see an example of how to use UpdateContainerInstance API.
 // A default retry strategy applies to this operation UpdateContainerInstance()

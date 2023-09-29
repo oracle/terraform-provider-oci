@@ -35,7 +35,7 @@ type CreateDestroyJobOperationDetails struct {
 	ExecutionPlanStrategy DestroyJobOperationDetailsExecutionPlanStrategyEnum `mandatory:"true" json:"executionPlanStrategy"`
 }
 
-// GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
 func (m CreateDestroyJobOperationDetails) GetIsProviderUpgradeRequired() *bool {
 	return m.IsProviderUpgradeRequired
 }

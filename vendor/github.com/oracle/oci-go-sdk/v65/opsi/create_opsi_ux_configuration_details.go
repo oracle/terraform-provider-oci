@@ -46,37 +46,37 @@ type CreateOpsiUxConfigurationDetails struct {
 	ConfigItems []CreateConfigurationItemDetails `mandatory:"false" json:"configItems"`
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateOpsiUxConfigurationDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateOpsiUxConfigurationDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateOpsiUxConfigurationDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateOpsiUxConfigurationDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateOpsiUxConfigurationDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m CreateOpsiUxConfigurationDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetConfigItems returns ConfigItems
+//GetConfigItems returns ConfigItems
 func (m CreateOpsiUxConfigurationDetails) GetConfigItems() []CreateConfigurationItemDetails {
 	return m.ConfigItems
 }
