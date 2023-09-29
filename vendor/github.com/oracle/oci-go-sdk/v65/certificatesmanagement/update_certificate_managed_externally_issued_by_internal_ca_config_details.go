@@ -33,12 +33,12 @@ type UpdateCertificateManagedExternallyIssuedByInternalCaConfigDetails struct {
 	Stage UpdateCertificateConfigDetailsStageEnum `mandatory:"false" json:"stage,omitempty"`
 }
 
-// GetVersionName returns VersionName
+//GetVersionName returns VersionName
 func (m UpdateCertificateManagedExternallyIssuedByInternalCaConfigDetails) GetVersionName() *string {
 	return m.VersionName
 }
 
-// GetStage returns Stage
+//GetStage returns Stage
 func (m UpdateCertificateManagedExternallyIssuedByInternalCaConfigDetails) GetStage() UpdateCertificateConfigDetailsStageEnum {
 	return m.Stage
 }

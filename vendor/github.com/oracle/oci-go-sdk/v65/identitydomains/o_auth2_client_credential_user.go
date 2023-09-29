@@ -18,14 +18,14 @@ import (
 
 // OAuth2ClientCredentialUser The user linked to the OAuth2 client credential.
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type OAuth2ClientCredentialUser struct {
 
 	// The user's ID.

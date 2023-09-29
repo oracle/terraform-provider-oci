@@ -34,7 +34,7 @@ type CreatePlanRollbackJobOperationDetails struct {
 	TerraformAdvancedOptions *TerraformAdvancedOptions `mandatory:"false" json:"terraformAdvancedOptions"`
 }
 
-// GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
 func (m CreatePlanRollbackJobOperationDetails) GetIsProviderUpgradeRequired() *bool {
 	return m.IsProviderUpgradeRequired
 }

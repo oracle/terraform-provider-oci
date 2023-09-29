@@ -36,7 +36,7 @@ type PatchMergeInstruction struct {
 	Value *interface{} `mandatory:"false" json:"value"`
 }
 
-// GetSelection returns Selection
+//GetSelection returns Selection
 func (m PatchMergeInstruction) GetSelection() *string {
 	return m.Selection
 }

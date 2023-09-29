@@ -36,27 +36,27 @@ type UpdateOkeCanaryTrafficShiftDeployStageDetails struct {
 	RolloutPolicy *LoadBalancerTrafficShiftRolloutPolicy `mandatory:"false" json:"rolloutPolicy"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateOkeCanaryTrafficShiftDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateOkeCanaryTrafficShiftDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m UpdateOkeCanaryTrafficShiftDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateOkeCanaryTrafficShiftDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateOkeCanaryTrafficShiftDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

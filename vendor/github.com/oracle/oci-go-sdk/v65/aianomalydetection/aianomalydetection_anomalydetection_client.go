@@ -95,7 +95,7 @@ func (client *AnomalyDetectionClient) ConfigurationProvider() *common.Configurat
 
 // CancelWorkRequest Cancel work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
@@ -153,7 +153,7 @@ func (client AnomalyDetectionClient) cancelWorkRequest(ctx context.Context, requ
 
 // ChangeAiPrivateEndpointCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeAiPrivateEndpointCompartment.go.html to see an example of how to use ChangeAiPrivateEndpointCompartment API.
 // A default retry strategy applies to this operation ChangeAiPrivateEndpointCompartment()
@@ -216,7 +216,7 @@ func (client AnomalyDetectionClient) changeAiPrivateEndpointCompartment(ctx cont
 
 // ChangeDataAssetCompartment Changing the compartment of a data asset.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeDataAssetCompartment.go.html to see an example of how to use ChangeDataAssetCompartment API.
 // A default retry strategy applies to this operation ChangeDataAssetCompartment()
@@ -279,7 +279,7 @@ func (client AnomalyDetectionClient) changeDataAssetCompartment(ctx context.Cont
 
 // ChangeDetectAnomalyJobCompartment Moves a asynchronous anomaly detect job resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeDetectAnomalyJobCompartment.go.html to see an example of how to use ChangeDetectAnomalyJobCompartment API.
 // A default retry strategy applies to this operation ChangeDetectAnomalyJobCompartment()
@@ -337,7 +337,7 @@ func (client AnomalyDetectionClient) changeDetectAnomalyJobCompartment(ctx conte
 
 // ChangeModelCompartment Moves a Model resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
 // A default retry strategy applies to this operation ChangeModelCompartment()
@@ -400,7 +400,7 @@ func (client AnomalyDetectionClient) changeModelCompartment(ctx context.Context,
 
 // ChangeProjectCompartment Moves a Project resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
 // A default retry strategy applies to this operation ChangeProjectCompartment()
@@ -463,7 +463,7 @@ func (client AnomalyDetectionClient) changeProjectCompartment(ctx context.Contex
 
 // CreateAiPrivateEndpoint Create a new private reverse connection endpoint.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateAiPrivateEndpoint.go.html to see an example of how to use CreateAiPrivateEndpoint API.
 // A default retry strategy applies to this operation CreateAiPrivateEndpoint()
@@ -526,7 +526,7 @@ func (client AnomalyDetectionClient) createAiPrivateEndpoint(ctx context.Context
 
 // CreateDataAsset Creates a new DataAsset.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateDataAsset.go.html to see an example of how to use CreateDataAsset API.
 // A default retry strategy applies to this operation CreateDataAsset()
@@ -589,7 +589,7 @@ func (client AnomalyDetectionClient) createDataAsset(ctx context.Context, reques
 
 // CreateDetectAnomalyJob Creates a job to perform anomaly detection.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateDetectAnomalyJob.go.html to see an example of how to use CreateDetectAnomalyJob API.
 // A default retry strategy applies to this operation CreateDetectAnomalyJob()
@@ -652,7 +652,7 @@ func (client AnomalyDetectionClient) createDetectAnomalyJob(ctx context.Context,
 
 // CreateModel Creates a new Model.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateModel.go.html to see an example of how to use CreateModel API.
 // A default retry strategy applies to this operation CreateModel()
@@ -715,7 +715,7 @@ func (client AnomalyDetectionClient) createModel(ctx context.Context, request co
 
 // CreateProject Creates a new Project.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateProject.go.html to see an example of how to use CreateProject API.
 // A default retry strategy applies to this operation CreateProject()
@@ -778,7 +778,7 @@ func (client AnomalyDetectionClient) createProject(ctx context.Context, request 
 
 // DeleteAiPrivateEndpoint Deletes a private reverse connection endpoint by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteAiPrivateEndpoint.go.html to see an example of how to use DeleteAiPrivateEndpoint API.
 // A default retry strategy applies to this operation DeleteAiPrivateEndpoint()
@@ -836,7 +836,7 @@ func (client AnomalyDetectionClient) deleteAiPrivateEndpoint(ctx context.Context
 
 // DeleteDataAsset Deletes a DataAsset resource by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteDataAsset.go.html to see an example of how to use DeleteDataAsset API.
 // A default retry strategy applies to this operation DeleteDataAsset()
@@ -894,7 +894,7 @@ func (client AnomalyDetectionClient) deleteDataAsset(ctx context.Context, reques
 
 // DeleteDetectAnomalyJob Deletes an accepted, but not started detect anomaly asynchronous job.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteDetectAnomalyJob.go.html to see an example of how to use DeleteDetectAnomalyJob API.
 // A default retry strategy applies to this operation DeleteDetectAnomalyJob()
@@ -952,7 +952,7 @@ func (client AnomalyDetectionClient) deleteDetectAnomalyJob(ctx context.Context,
 
 // DeleteModel Deletes an ai model resource by identifier. This operation fails with a 409 error unless all associated resources are in a DELETED state. You must delete all associated resources before deleting a project.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteModel.go.html to see an example of how to use DeleteModel API.
 // A default retry strategy applies to this operation DeleteModel()
@@ -1010,7 +1010,7 @@ func (client AnomalyDetectionClient) deleteModel(ctx context.Context, request co
 
 // DeleteProject Deletes a Project resource by identifier. This operation fails with a 409 error unless all associated resources (models deployments or data assets) are in a DELETED state. You must delete all associated resources before deleting a project.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteProject.go.html to see an example of how to use DeleteProject API.
 // A default retry strategy applies to this operation DeleteProject()
@@ -1068,7 +1068,7 @@ func (client AnomalyDetectionClient) deleteProject(ctx context.Context, request 
 
 // DetectAnomalies Make a detect call with an anomaly model and detection data
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DetectAnomalies.go.html to see an example of how to use DetectAnomalies API.
 // A default retry strategy applies to this operation DetectAnomalies()
@@ -1131,7 +1131,7 @@ func (client AnomalyDetectionClient) detectAnomalies(ctx context.Context, reques
 
 // GetAiPrivateEndpoint Gets a specific private reverse connection by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetAiPrivateEndpoint.go.html to see an example of how to use GetAiPrivateEndpoint API.
 // A default retry strategy applies to this operation GetAiPrivateEndpoint()
@@ -1189,7 +1189,7 @@ func (client AnomalyDetectionClient) getAiPrivateEndpoint(ctx context.Context, r
 
 // GetDataAsset Gets a DataAsset by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetDataAsset.go.html to see an example of how to use GetDataAsset API.
 // A default retry strategy applies to this operation GetDataAsset()
@@ -1247,7 +1247,7 @@ func (client AnomalyDetectionClient) getDataAsset(ctx context.Context, request c
 
 // GetDetectAnomalyJob Gets a detect anomaly asynchronous job by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetDetectAnomalyJob.go.html to see an example of how to use GetDetectAnomalyJob API.
 // A default retry strategy applies to this operation GetDetectAnomalyJob()
@@ -1305,7 +1305,7 @@ func (client AnomalyDetectionClient) getDetectAnomalyJob(ctx context.Context, re
 
 // GetModel Gets a Model by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetModel.go.html to see an example of how to use GetModel API.
 // A default retry strategy applies to this operation GetModel()
@@ -1363,7 +1363,7 @@ func (client AnomalyDetectionClient) getModel(ctx context.Context, request commo
 
 // GetProject Gets a Project by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetProject.go.html to see an example of how to use GetProject API.
 // A default retry strategy applies to this operation GetProject()
@@ -1421,7 +1421,7 @@ func (client AnomalyDetectionClient) getProject(ctx context.Context, request com
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -1479,7 +1479,7 @@ func (client AnomalyDetectionClient) getWorkRequest(ctx context.Context, request
 
 // ListAiPrivateEndpoints Returns a list of all the AI private endpoints in the specified compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListAiPrivateEndpoints.go.html to see an example of how to use ListAiPrivateEndpoints API.
 // A default retry strategy applies to this operation ListAiPrivateEndpoints()
@@ -1537,7 +1537,7 @@ func (client AnomalyDetectionClient) listAiPrivateEndpoints(ctx context.Context,
 
 // ListDataAssets Returns a list of DataAssets.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListDataAssets.go.html to see an example of how to use ListDataAssets API.
 // A default retry strategy applies to this operation ListDataAssets()
@@ -1595,7 +1595,7 @@ func (client AnomalyDetectionClient) listDataAssets(ctx context.Context, request
 
 // ListDetectAnomalyJobs Returns a list of all the Anomaly Detection jobs in the specified compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListDetectAnomalyJobs.go.html to see an example of how to use ListDetectAnomalyJobs API.
 // A default retry strategy applies to this operation ListDetectAnomalyJobs()
@@ -1653,7 +1653,7 @@ func (client AnomalyDetectionClient) listDetectAnomalyJobs(ctx context.Context, 
 
 // ListModels Returns a list of Models.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListModels.go.html to see an example of how to use ListModels API.
 // A default retry strategy applies to this operation ListModels()
@@ -1711,7 +1711,7 @@ func (client AnomalyDetectionClient) listModels(ctx context.Context, request com
 
 // ListProjects Returns a list of  Projects.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListProjects.go.html to see an example of how to use ListProjects API.
 // A default retry strategy applies to this operation ListProjects()
@@ -1769,7 +1769,7 @@ func (client AnomalyDetectionClient) listProjects(ctx context.Context, request c
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -1827,7 +1827,7 @@ func (client AnomalyDetectionClient) listWorkRequestErrors(ctx context.Context, 
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -1885,7 +1885,7 @@ func (client AnomalyDetectionClient) listWorkRequestLogs(ctx context.Context, re
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -1943,7 +1943,7 @@ func (client AnomalyDetectionClient) listWorkRequests(ctx context.Context, reque
 
 // UpdateAiPrivateEndpoint Updates the private reverse connection endpoint.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateAiPrivateEndpoint.go.html to see an example of how to use UpdateAiPrivateEndpoint API.
 // A default retry strategy applies to this operation UpdateAiPrivateEndpoint()
@@ -2001,7 +2001,7 @@ func (client AnomalyDetectionClient) updateAiPrivateEndpoint(ctx context.Context
 
 // UpdateDataAsset Updates the DataAsset
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateDataAsset.go.html to see an example of how to use UpdateDataAsset API.
 // A default retry strategy applies to this operation UpdateDataAsset()
@@ -2059,7 +2059,7 @@ func (client AnomalyDetectionClient) updateDataAsset(ctx context.Context, reques
 
 // UpdateDetectAnomalyJob Updates the detect anomaly asynchronous job by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateDetectAnomalyJob.go.html to see an example of how to use UpdateDetectAnomalyJob API.
 // A default retry strategy applies to this operation UpdateDetectAnomalyJob()
@@ -2117,7 +2117,7 @@ func (client AnomalyDetectionClient) updateDetectAnomalyJob(ctx context.Context,
 
 // UpdateModel Updates the Model
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateModel.go.html to see an example of how to use UpdateModel API.
 // A default retry strategy applies to this operation UpdateModel()
@@ -2175,7 +2175,7 @@ func (client AnomalyDetectionClient) updateModel(ctx context.Context, request co
 
 // UpdateProject Updates the Project
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateProject.go.html to see an example of how to use UpdateProject API.
 // A default retry strategy applies to this operation UpdateProject()

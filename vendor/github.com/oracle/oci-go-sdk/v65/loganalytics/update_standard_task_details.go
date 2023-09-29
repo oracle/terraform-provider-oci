@@ -40,22 +40,22 @@ type UpdateStandardTaskDetails struct {
 	Action Action `mandatory:"false" json:"action"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateStandardTaskDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateStandardTaskDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateStandardTaskDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSchedules returns Schedules
+//GetSchedules returns Schedules
 func (m UpdateStandardTaskDetails) GetSchedules() []Schedule {
 	return m.Schedules
 }

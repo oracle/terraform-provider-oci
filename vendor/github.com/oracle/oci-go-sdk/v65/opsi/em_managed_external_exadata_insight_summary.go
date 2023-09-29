@@ -85,72 +85,72 @@ type EmManagedExternalExadataInsightSummary struct {
 	LifecycleState ExadataInsightLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m EmManagedExternalExadataInsightSummary) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m EmManagedExternalExadataInsightSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetExadataName returns ExadataName
+//GetExadataName returns ExadataName
 func (m EmManagedExternalExadataInsightSummary) GetExadataName() *string {
 	return m.ExadataName
 }
 
-// GetExadataDisplayName returns ExadataDisplayName
+//GetExadataDisplayName returns ExadataDisplayName
 func (m EmManagedExternalExadataInsightSummary) GetExadataDisplayName() *string {
 	return m.ExadataDisplayName
 }
 
-// GetExadataType returns ExadataType
+//GetExadataType returns ExadataType
 func (m EmManagedExternalExadataInsightSummary) GetExadataType() ExadataTypeEnum {
 	return m.ExadataType
 }
 
-// GetExadataRackType returns ExadataRackType
+//GetExadataRackType returns ExadataRackType
 func (m EmManagedExternalExadataInsightSummary) GetExadataRackType() ExadataRackTypeEnum {
 	return m.ExadataRackType
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m EmManagedExternalExadataInsightSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m EmManagedExternalExadataInsightSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m EmManagedExternalExadataInsightSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetStatus returns Status
+//GetStatus returns Status
 func (m EmManagedExternalExadataInsightSummary) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m EmManagedExternalExadataInsightSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m EmManagedExternalExadataInsightSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m EmManagedExternalExadataInsightSummary) GetLifecycleState() ExadataInsightLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m EmManagedExternalExadataInsightSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }

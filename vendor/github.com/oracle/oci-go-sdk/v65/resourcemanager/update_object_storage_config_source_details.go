@@ -41,7 +41,7 @@ type UpdateObjectStorageConfigSourceDetails struct {
 	BucketName *string `mandatory:"false" json:"bucketName"`
 }
 
-// GetWorkingDirectory returns WorkingDirectory
+//GetWorkingDirectory returns WorkingDirectory
 func (m UpdateObjectStorageConfigSourceDetails) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

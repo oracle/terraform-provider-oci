@@ -30,12 +30,12 @@ type MetricBasedHorizontalScalingPolicyDetails struct {
 	ActionType AutoScalePolicyDetailsActionTypeEnum `mandatory:"true" json:"actionType"`
 }
 
-// GetTriggerType returns TriggerType
+//GetTriggerType returns TriggerType
 func (m MetricBasedHorizontalScalingPolicyDetails) GetTriggerType() AutoScalePolicyDetailsTriggerTypeEnum {
 	return m.TriggerType
 }
 
-// GetActionType returns ActionType
+//GetActionType returns ActionType
 func (m MetricBasedHorizontalScalingPolicyDetails) GetActionType() AutoScalePolicyDetailsActionTypeEnum {
 	return m.ActionType
 }

@@ -33,12 +33,12 @@ type UpdateEmManagedExternalExadataInsightDetails struct {
 	IsAutoSyncEnabled *bool `mandatory:"false" json:"isAutoSyncEnabled"`
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateEmManagedExternalExadataInsightDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateEmManagedExternalExadataInsightDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

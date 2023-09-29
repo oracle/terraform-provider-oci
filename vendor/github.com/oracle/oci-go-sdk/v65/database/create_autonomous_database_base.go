@@ -208,6 +208,11 @@ type CreateAutonomousDatabaseBase interface {
 	// How do I make this change? Using either OCI SDKs or command line tools, update your custom scripts to explicitly set the isMTLSConnectionRequired attribute to true.
 	GetIsMtlsConnectionRequired() *bool
 
+	// The unique identifier for leader autonomous database OCID OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	GetResourcePoolLeaderId() *string
+
+	GetResourcePoolSummary() *ResourcePoolSummary
+
 	// The maintenance schedule type of the Autonomous Database Serverless. An EARLY maintenance schedule
 	// follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
 	GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum
@@ -276,6 +281,8 @@ type createautonomousdatabasebase struct {
 	DbVersion                                *string                                                           `mandatory:"false" json:"dbVersion"`
 	CustomerContacts                         []CustomerContact                                                 `mandatory:"false" json:"customerContacts"`
 	IsMtlsConnectionRequired                 *bool                                                             `mandatory:"false" json:"isMtlsConnectionRequired"`
+	ResourcePoolLeaderId                     *string                                                           `mandatory:"false" json:"resourcePoolLeaderId"`
+	ResourcePoolSummary                      *ResourcePoolSummary                                              `mandatory:"false" json:"resourcePoolSummary"`
 	AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 	ScheduledOperations                      []ScheduledOperationDetails                                       `mandatory:"false" json:"scheduledOperations"`
 	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
@@ -337,6 +344,8 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.DbVersion = s.Model.DbVersion
 	m.CustomerContacts = s.Model.CustomerContacts
 	m.IsMtlsConnectionRequired = s.Model.IsMtlsConnectionRequired
+	m.ResourcePoolLeaderId = s.Model.ResourcePoolLeaderId
+	m.ResourcePoolSummary = s.Model.ResourcePoolSummary
 	m.AutonomousMaintenanceScheduleType = s.Model.AutonomousMaintenanceScheduleType
 	m.ScheduledOperations = s.Model.ScheduledOperations
 	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
@@ -576,6 +585,16 @@ func (m createautonomousdatabasebase) GetCustomerContacts() []CustomerContact {
 // GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
 func (m createautonomousdatabasebase) GetIsMtlsConnectionRequired() *bool {
 	return m.IsMtlsConnectionRequired
+}
+
+// GetResourcePoolLeaderId returns ResourcePoolLeaderId
+func (m createautonomousdatabasebase) GetResourcePoolLeaderId() *string {
+	return m.ResourcePoolLeaderId
+}
+
+// GetResourcePoolSummary returns ResourcePoolSummary
+func (m createautonomousdatabasebase) GetResourcePoolSummary() *ResourcePoolSummary {
+	return m.ResourcePoolSummary
 }
 
 // GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType

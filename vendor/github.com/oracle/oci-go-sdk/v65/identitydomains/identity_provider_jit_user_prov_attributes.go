@@ -19,14 +19,14 @@ import (
 // IdentityProviderJitUserProvAttributes Assertion To User Mapping
 // **Added In:** 20.1.3
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: false
-//   - mutability: immutable
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: false
+//  - mutability: immutable
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type IdentityProviderJitUserProvAttributes struct {
 
 	// Mapped Attribute identifier

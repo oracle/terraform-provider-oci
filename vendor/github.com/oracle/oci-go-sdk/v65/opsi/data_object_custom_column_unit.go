@@ -28,7 +28,7 @@ type DataObjectCustomColumnUnit struct {
 	Unit *string `mandatory:"false" json:"unit"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m DataObjectCustomColumnUnit) GetDisplayName() *string {
 	return m.DisplayName
 }

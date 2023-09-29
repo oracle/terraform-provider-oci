@@ -142,37 +142,37 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	TransportType CreateDataGuardAssociationDetailsTransportTypeEnum `mandatory:"true" json:"transportType"`
 }
 
-// GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
+//GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
 }
 
-// GetDatabaseAdminPassword returns DatabaseAdminPassword
+//GetDatabaseAdminPassword returns DatabaseAdminPassword
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetDatabaseAdminPassword() *string {
 	return m.DatabaseAdminPassword
 }
 
-// GetProtectionMode returns ProtectionMode
+//GetProtectionMode returns ProtectionMode
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetProtectionMode() CreateDataGuardAssociationDetailsProtectionModeEnum {
 	return m.ProtectionMode
 }
 
-// GetTransportType returns TransportType
+//GetTransportType returns TransportType
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum {
 	return m.TransportType
 }
 
-// GetIsActiveDataGuardEnabled returns IsActiveDataGuardEnabled
+//GetIsActiveDataGuardEnabled returns IsActiveDataGuardEnabled
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetIsActiveDataGuardEnabled() *bool {
 	return m.IsActiveDataGuardEnabled
 }
 
-// GetPeerDbUniqueName returns PeerDbUniqueName
+//GetPeerDbUniqueName returns PeerDbUniqueName
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetPeerDbUniqueName() *string {
 	return m.PeerDbUniqueName
 }
 
-// GetPeerSidPrefix returns PeerSidPrefix
+//GetPeerSidPrefix returns PeerSidPrefix
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetPeerSidPrefix() *string {
 	return m.PeerSidPrefix
 }

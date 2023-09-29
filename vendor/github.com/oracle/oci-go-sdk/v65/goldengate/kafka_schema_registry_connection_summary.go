@@ -103,82 +103,82 @@ type KafkaSchemaRegistryConnectionSummary struct {
 	AuthenticationType KafkaSchemaRegistryConnectionAuthenticationTypeEnum `mandatory:"true" json:"authenticationType"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m KafkaSchemaRegistryConnectionSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m KafkaSchemaRegistryConnectionSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m KafkaSchemaRegistryConnectionSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m KafkaSchemaRegistryConnectionSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m KafkaSchemaRegistryConnectionSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m KafkaSchemaRegistryConnectionSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m KafkaSchemaRegistryConnectionSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m KafkaSchemaRegistryConnectionSummary) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m KafkaSchemaRegistryConnectionSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m KafkaSchemaRegistryConnectionSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m KafkaSchemaRegistryConnectionSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m KafkaSchemaRegistryConnectionSummary) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m KafkaSchemaRegistryConnectionSummary) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m KafkaSchemaRegistryConnectionSummary) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetIngressIps returns IngressIps
+//GetIngressIps returns IngressIps
 func (m KafkaSchemaRegistryConnectionSummary) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m KafkaSchemaRegistryConnectionSummary) GetNsgIds() []string {
 	return m.NsgIds
 }

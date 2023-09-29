@@ -64,62 +64,62 @@ type DataAssetSummaryFromFusionApp struct {
 	BucketSchema *Schema `mandatory:"false" json:"bucketSchema"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m DataAssetSummaryFromFusionApp) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m DataAssetSummaryFromFusionApp) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m DataAssetSummaryFromFusionApp) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DataAssetSummaryFromFusionApp) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m DataAssetSummaryFromFusionApp) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m DataAssetSummaryFromFusionApp) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m DataAssetSummaryFromFusionApp) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m DataAssetSummaryFromFusionApp) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetNativeTypeSystem returns NativeTypeSystem
+//GetNativeTypeSystem returns NativeTypeSystem
 func (m DataAssetSummaryFromFusionApp) GetNativeTypeSystem() *TypeSystem {
 	return m.NativeTypeSystem
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m DataAssetSummaryFromFusionApp) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m DataAssetSummaryFromFusionApp) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m DataAssetSummaryFromFusionApp) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

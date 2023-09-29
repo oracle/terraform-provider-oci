@@ -93,7 +93,7 @@ func (client *LicenseManagerClient) ConfigurationProvider() *common.Configuratio
 
 // BulkUploadLicenseRecords Bulk upload the product licenses and license records for a given compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/BulkUploadLicenseRecords.go.html to see an example of how to use BulkUploadLicenseRecords API.
 // A default retry strategy applies to this operation BulkUploadLicenseRecords()
@@ -151,7 +151,7 @@ func (client LicenseManagerClient) bulkUploadLicenseRecords(ctx context.Context,
 
 // CreateLicenseRecord Creates a new license record for the given product license ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/CreateLicenseRecord.go.html to see an example of how to use CreateLicenseRecord API.
 // A default retry strategy applies to this operation CreateLicenseRecord()
@@ -214,7 +214,7 @@ func (client LicenseManagerClient) createLicenseRecord(ctx context.Context, requ
 
 // CreateProductLicense Creates a new product license.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/CreateProductLicense.go.html to see an example of how to use CreateProductLicense API.
 // A default retry strategy applies to this operation CreateProductLicense()
@@ -277,7 +277,7 @@ func (client LicenseManagerClient) createProductLicense(ctx context.Context, req
 
 // DeleteLicenseRecord Removes a license record.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/DeleteLicenseRecord.go.html to see an example of how to use DeleteLicenseRecord API.
 // A default retry strategy applies to this operation DeleteLicenseRecord()
@@ -335,7 +335,7 @@ func (client LicenseManagerClient) deleteLicenseRecord(ctx context.Context, requ
 
 // DeleteProductLicense Removes a product license.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/DeleteProductLicense.go.html to see an example of how to use DeleteProductLicense API.
 // A default retry strategy applies to this operation DeleteProductLicense()
@@ -393,7 +393,7 @@ func (client LicenseManagerClient) deleteProductLicense(ctx context.Context, req
 
 // GetBulkUploadTemplate Provides the bulk upload file template.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetBulkUploadTemplate.go.html to see an example of how to use GetBulkUploadTemplate API.
 // A default retry strategy applies to this operation GetBulkUploadTemplate()
@@ -451,7 +451,7 @@ func (client LicenseManagerClient) getBulkUploadTemplate(ctx context.Context, re
 
 // GetConfiguration Retrieves configuration for a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
 // A default retry strategy applies to this operation GetConfiguration()
@@ -509,7 +509,7 @@ func (client LicenseManagerClient) getConfiguration(ctx context.Context, request
 
 // GetLicenseMetric Retrieves the license metrics for a given compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetLicenseMetric.go.html to see an example of how to use GetLicenseMetric API.
 // A default retry strategy applies to this operation GetLicenseMetric()
@@ -567,7 +567,7 @@ func (client LicenseManagerClient) getLicenseMetric(ctx context.Context, request
 
 // GetLicenseRecord Retrieves license record details by the license record ID in a given compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetLicenseRecord.go.html to see an example of how to use GetLicenseRecord API.
 // A default retry strategy applies to this operation GetLicenseRecord()
@@ -625,7 +625,7 @@ func (client LicenseManagerClient) getLicenseRecord(ctx context.Context, request
 
 // GetProductLicense Retrieves product license details by product license ID in a given compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetProductLicense.go.html to see an example of how to use GetProductLicense API.
 // A default retry strategy applies to this operation GetProductLicense()
@@ -683,7 +683,7 @@ func (client LicenseManagerClient) getProductLicense(ctx context.Context, reques
 
 // ListLicenseRecords Retrieves all license records for a given product license ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListLicenseRecords.go.html to see an example of how to use ListLicenseRecords API.
 // A default retry strategy applies to this operation ListLicenseRecords()
@@ -741,7 +741,7 @@ func (client LicenseManagerClient) listLicenseRecords(ctx context.Context, reque
 
 // ListProductLicenseConsumers Retrieves the product license consumers for a particular product license ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListProductLicenseConsumers.go.html to see an example of how to use ListProductLicenseConsumers API.
 // A default retry strategy applies to this operation ListProductLicenseConsumers()
@@ -799,7 +799,7 @@ func (client LicenseManagerClient) listProductLicenseConsumers(ctx context.Conte
 
 // ListProductLicenses Retrieves all the product licenses from a given compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListProductLicenses.go.html to see an example of how to use ListProductLicenses API.
 // A default retry strategy applies to this operation ListProductLicenses()
@@ -857,7 +857,7 @@ func (client LicenseManagerClient) listProductLicenses(ctx context.Context, requ
 
 // ListTopUtilizedProductLicenses Retrieves the top utilized product licenses for a given compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListTopUtilizedProductLicenses.go.html to see an example of how to use ListTopUtilizedProductLicenses API.
 // A default retry strategy applies to this operation ListTopUtilizedProductLicenses()
@@ -915,7 +915,7 @@ func (client LicenseManagerClient) listTopUtilizedProductLicenses(ctx context.Co
 
 // ListTopUtilizedResources Retrieves the top utilized resources for a given compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListTopUtilizedResources.go.html to see an example of how to use ListTopUtilizedResources API.
 // A default retry strategy applies to this operation ListTopUtilizedResources()
@@ -973,7 +973,7 @@ func (client LicenseManagerClient) listTopUtilizedResources(ctx context.Context,
 
 // UpdateConfiguration Updates the configuration for the compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/UpdateConfiguration.go.html to see an example of how to use UpdateConfiguration API.
 // A default retry strategy applies to this operation UpdateConfiguration()
@@ -1031,7 +1031,7 @@ func (client LicenseManagerClient) updateConfiguration(ctx context.Context, requ
 
 // UpdateLicenseRecord Updates license record entity details.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/UpdateLicenseRecord.go.html to see an example of how to use UpdateLicenseRecord API.
 // A default retry strategy applies to this operation UpdateLicenseRecord()
@@ -1089,7 +1089,7 @@ func (client LicenseManagerClient) updateLicenseRecord(ctx context.Context, requ
 
 // UpdateProductLicense Updates the list of images for a product license.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/UpdateProductLicense.go.html to see an example of how to use UpdateProductLicense API.
 // A default retry strategy applies to this operation UpdateProductLicense()

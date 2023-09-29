@@ -36,7 +36,7 @@ type RegularExpressionFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m RegularExpressionFormatEntry) GetDescription() *string {
 	return m.Description
 }

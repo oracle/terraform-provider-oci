@@ -68,57 +68,57 @@ type BitbucketServerAccessTokenConfigurationSourceProvider struct {
 	LifecycleState ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetDescription() *string {
 	return m.Description
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-// GetUsername returns Username
+//GetUsername returns Username
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetUsername() *string {
 	return m.Username
 }
 
-// GetSecretId returns SecretId
+//GetSecretId returns SecretId
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetSecretId() *string {
 	return m.SecretId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m BitbucketServerAccessTokenConfigurationSourceProvider) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

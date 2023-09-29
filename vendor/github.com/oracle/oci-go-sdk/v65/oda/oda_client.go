@@ -94,7 +94,7 @@ func (client *OdaClient) ConfigurationProvider() *common.ConfigurationProvider {
 // ChangeOdaInstanceCompartment Moves an Digital Assistant instance into a different compartment. When provided, If-Match is checked against
 // ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ChangeOdaInstanceCompartment.go.html to see an example of how to use ChangeOdaInstanceCompartment API.
 // A default retry strategy applies to this operation ChangeOdaInstanceCompartment()
@@ -159,7 +159,7 @@ func (client OdaClient) changeOdaInstanceCompartment(ctx context.Context, reques
 // To monitor the status of the job, take the `opc-work-request-id` response
 // header value and use it to call `GET /workRequests/{workRequestId}`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaInstance.go.html to see an example of how to use CreateOdaInstance API.
 // A default retry strategy applies to this operation CreateOdaInstance()
@@ -224,7 +224,7 @@ func (client OdaClient) createOdaInstance(ctx context.Context, request common.OC
 // To monitor the status of the job, take the `opc-work-request-id` response
 // header value and use it to call `GET /workRequests/{workRequestId}`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaInstanceAttachment.go.html to see an example of how to use CreateOdaInstanceAttachment API.
 // A default retry strategy applies to this operation CreateOdaInstanceAttachment()
@@ -288,7 +288,7 @@ func (client OdaClient) createOdaInstanceAttachment(ctx context.Context, request
 // DeleteOdaInstance Starts an asynchronous job to delete the specified Digital Assistant instance.
 // To monitor the status of the job, take the `opc-work-request-id` response header value and use it to call `GET /workRequests/{workRequestId}`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaInstance.go.html to see an example of how to use DeleteOdaInstance API.
 // A default retry strategy applies to this operation DeleteOdaInstance()
@@ -346,7 +346,7 @@ func (client OdaClient) deleteOdaInstance(ctx context.Context, request common.OC
 
 // DeleteOdaInstanceAttachment Starts an asynchronous job to delete the specified Digital Assistant instance attachment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteOdaInstanceAttachment.go.html to see an example of how to use DeleteOdaInstanceAttachment API.
 // A default retry strategy applies to this operation DeleteOdaInstanceAttachment()
@@ -404,7 +404,7 @@ func (client OdaClient) deleteOdaInstanceAttachment(ctx context.Context, request
 
 // GetOdaInstance Gets the specified Digital Assistant instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaInstance.go.html to see an example of how to use GetOdaInstance API.
 // A default retry strategy applies to this operation GetOdaInstance()
@@ -462,7 +462,7 @@ func (client OdaClient) getOdaInstance(ctx context.Context, request common.OCIRe
 
 // GetOdaInstanceAttachment Gets an ODA instance attachment by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaInstanceAttachment.go.html to see an example of how to use GetOdaInstanceAttachment API.
 // A default retry strategy applies to this operation GetOdaInstanceAttachment()
@@ -522,7 +522,7 @@ func (client OdaClient) getOdaInstanceAttachment(ctx context.Context, request co
 // You can use this operation to monitor the status of jobs that you
 // requested to create, delete, and update instances.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -580,7 +580,7 @@ func (client OdaClient) getWorkRequest(ctx context.Context, request common.OCIRe
 
 // ListOdaInstanceAttachments Returns a list of ODA instance attachments
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaInstanceAttachments.go.html to see an example of how to use ListOdaInstanceAttachments API.
 // A default retry strategy applies to this operation ListOdaInstanceAttachments()
@@ -642,7 +642,7 @@ func (client OdaClient) listOdaInstanceAttachments(ctx context.Context, request 
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaInstances.go.html to see an example of how to use ListOdaInstances API.
 // A default retry strategy applies to this operation ListOdaInstances()
@@ -703,7 +703,7 @@ func (client OdaClient) listOdaInstances(ctx context.Context, request common.OCI
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -764,7 +764,7 @@ func (client OdaClient) listWorkRequestErrors(ctx context.Context, request commo
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -825,7 +825,7 @@ func (client OdaClient) listWorkRequestLogs(ctx context.Context, request common.
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -884,7 +884,7 @@ func (client OdaClient) listWorkRequests(ctx context.Context, request common.OCI
 // StartOdaInstance Starts an inactive Digital Assistant instance. Once active, the instance will be accessible and metering
 // of requests will be started again.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StartOdaInstance.go.html to see an example of how to use StartOdaInstance API.
 // A default retry strategy applies to this operation StartOdaInstance()
@@ -949,7 +949,7 @@ func (client OdaClient) startOdaInstance(ctx context.Context, request common.OCI
 // of requests will be stopped until the instance is started again. Data associated with the instance
 // is not affected.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StopOdaInstance.go.html to see an example of how to use StopOdaInstance API.
 // A default retry strategy applies to this operation StopOdaInstance()
@@ -1012,7 +1012,7 @@ func (client OdaClient) stopOdaInstance(ctx context.Context, request common.OCIR
 
 // UpdateOdaInstance Updates the specified Digital Assistant instance with the information in the request body.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateOdaInstance.go.html to see an example of how to use UpdateOdaInstance API.
 // A default retry strategy applies to this operation UpdateOdaInstance()
@@ -1070,7 +1070,7 @@ func (client OdaClient) updateOdaInstance(ctx context.Context, request common.OC
 
 // UpdateOdaInstanceAttachment Updates the ODA instance attachment
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateOdaInstanceAttachment.go.html to see an example of how to use UpdateOdaInstanceAttachment API.
 // A default retry strategy applies to this operation UpdateOdaInstanceAttachment()

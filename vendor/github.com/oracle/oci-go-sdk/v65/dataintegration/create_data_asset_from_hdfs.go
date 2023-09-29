@@ -60,47 +60,47 @@ type CreateDataAssetFromHdfs struct {
 	ValidateCertificate *bool `mandatory:"false" json:"validateCertificate"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateDataAssetFromHdfs) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateDataAssetFromHdfs) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateDataAssetFromHdfs) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateDataAssetFromHdfs) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateDataAssetFromHdfs) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateDataAssetFromHdfs) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m CreateDataAssetFromHdfs) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m CreateDataAssetFromHdfs) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateDataAssetFromHdfs) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

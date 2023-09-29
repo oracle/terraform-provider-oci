@@ -31,7 +31,7 @@ type RandomListFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m RandomListFormatEntry) GetDescription() *string {
 	return m.Description
 }

@@ -44,27 +44,27 @@ type CreateBitbucketServerAccessTokenConnectionDetails struct {
 	TlsVerifyConfig TlsVerifyConfig `mandatory:"false" json:"tlsVerifyConfig"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateBitbucketServerAccessTokenConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateBitbucketServerAccessTokenConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m CreateBitbucketServerAccessTokenConnectionDetails) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateBitbucketServerAccessTokenConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateBitbucketServerAccessTokenConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

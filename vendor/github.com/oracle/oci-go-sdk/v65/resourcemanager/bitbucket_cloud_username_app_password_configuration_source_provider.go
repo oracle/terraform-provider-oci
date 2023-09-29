@@ -68,57 +68,57 @@ type BitbucketCloudUsernameAppPasswordConfigurationSourceProvider struct {
 	LifecycleState ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetDescription() *string {
 	return m.Description
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-// GetUsername returns Username
+//GetUsername returns Username
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetUsername() *string {
 	return m.Username
 }
 
-// GetSecretId returns SecretId
+//GetSecretId returns SecretId
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetSecretId() *string {
 	return m.SecretId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m BitbucketCloudUsernameAppPasswordConfigurationSourceProvider) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

@@ -50,42 +50,42 @@ type OrchestrationListingPackage struct {
 	Variables []OrchestrationVariable `mandatory:"false" json:"variables"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m OrchestrationListingPackage) GetDescription() *string {
 	return m.Description
 }
 
-// GetListingId returns ListingId
+//GetListingId returns ListingId
 func (m OrchestrationListingPackage) GetListingId() *string {
 	return m.ListingId
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m OrchestrationListingPackage) GetVersion() *string {
 	return m.Version
 }
 
-// GetPricing returns Pricing
+//GetPricing returns Pricing
 func (m OrchestrationListingPackage) GetPricing() *PricingModel {
 	return m.Pricing
 }
 
-// GetResourceId returns ResourceId
+//GetResourceId returns ResourceId
 func (m OrchestrationListingPackage) GetResourceId() *string {
 	return m.ResourceId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m OrchestrationListingPackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetOperatingSystem returns OperatingSystem
+//GetOperatingSystem returns OperatingSystem
 func (m OrchestrationListingPackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
 }
 
-// GetRegions returns Regions
+//GetRegions returns Regions
 func (m OrchestrationListingPackage) GetRegions() []Region {
 	return m.Regions
 }

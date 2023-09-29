@@ -79,82 +79,82 @@ type StandardTask struct {
 	LifecycleState ScheduledTaskLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m StandardTask) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m StandardTask) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetTaskType returns TaskType
+//GetTaskType returns TaskType
 func (m StandardTask) GetTaskType() TaskTypeEnum {
 	return m.TaskType
 }
 
-// GetSchedules returns Schedules
+//GetSchedules returns Schedules
 func (m StandardTask) GetSchedules() []Schedule {
 	return m.Schedules
 }
 
-// GetAction returns Action
+//GetAction returns Action
 func (m StandardTask) GetAction() Action {
 	return m.Action
 }
 
-// GetTaskStatus returns TaskStatus
+//GetTaskStatus returns TaskStatus
 func (m StandardTask) GetTaskStatus() ScheduledTaskTaskStatusEnum {
 	return m.TaskStatus
 }
 
-// GetPauseReason returns PauseReason
+//GetPauseReason returns PauseReason
 func (m StandardTask) GetPauseReason() ScheduledTaskPauseReasonEnum {
 	return m.PauseReason
 }
 
-// GetWorkRequestId returns WorkRequestId
+//GetWorkRequestId returns WorkRequestId
 func (m StandardTask) GetWorkRequestId() *string {
 	return m.WorkRequestId
 }
 
-// GetNumOccurrences returns NumOccurrences
+//GetNumOccurrences returns NumOccurrences
 func (m StandardTask) GetNumOccurrences() *int64 {
 	return m.NumOccurrences
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m StandardTask) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m StandardTask) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m StandardTask) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetTimeOfNextExecution returns TimeOfNextExecution
+//GetTimeOfNextExecution returns TimeOfNextExecution
 func (m StandardTask) GetTimeOfNextExecution() *common.SDKTime {
 	return m.TimeOfNextExecution
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m StandardTask) GetLifecycleState() ScheduledTaskLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m StandardTask) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m StandardTask) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

@@ -18,13 +18,13 @@ import (
 
 // GrantGrantor User conferring the grant to the beneficiary
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readOnly
-//   - idcsIgnoreReadOnlyAndImmutableRefAttrsDuringForceDelete: true
-//   - required: false
-//   - returned: default
-//   - type: complex
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readOnly
+//  - idcsIgnoreReadOnlyAndImmutableRefAttrsDuringForceDelete: true
+//  - required: false
+//  - returned: default
+//  - type: complex
 type GrantGrantor struct {
 
 	// Resource type of the grantor. Allowed values are User and App.

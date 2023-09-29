@@ -60,47 +60,47 @@ type PublishedObjectFromPipelineTaskSummary struct {
 	Pipeline *Pipeline `mandatory:"false" json:"pipeline"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m PublishedObjectFromPipelineTaskSummary) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m PublishedObjectFromPipelineTaskSummary) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m PublishedObjectFromPipelineTaskSummary) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m PublishedObjectFromPipelineTaskSummary) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m PublishedObjectFromPipelineTaskSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m PublishedObjectFromPipelineTaskSummary) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m PublishedObjectFromPipelineTaskSummary) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m PublishedObjectFromPipelineTaskSummary) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m PublishedObjectFromPipelineTaskSummary) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

@@ -36,7 +36,7 @@ type Replica struct {
 	// The date and time the read replica was created, as described by RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The MySQL version used by the read replica.
+	// The MySQL version currently in use by the read replica.
 	MysqlVersion *string `mandatory:"true" json:"mysqlVersion"`
 
 	// The IP address the read replica is configured to listen on.
@@ -76,6 +76,16 @@ type Replica struct {
 	// the DB System is delete protected, read replicas can still be deleted individually if they are not delete
 	// protected themselves.
 	IsDeleteProtected *bool `mandatory:"false" json:"isDeleteProtected"`
+
+	// The shape currently in use by the read replica. The shape determines the resources allocated:
+	// CPU cores and memory for VM shapes, CPU cores, memory and storage for non-VM (bare metal) shapes.
+	// To get a list of shapes, use the ListShapes operation.
+	ShapeName *string `mandatory:"false" json:"shapeName"`
+
+	// The OCID of the Configuration currently in use by the read replica.
+	ConfigurationId *string `mandatory:"false" json:"configurationId"`
+
+	ReplicaOverrides *ReplicaOverrides `mandatory:"false" json:"replicaOverrides"`
 }
 
 func (m Replica) String() string {

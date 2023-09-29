@@ -19,14 +19,14 @@ import (
 // UserExtRiskScores The risk score pertaining to the user.
 // **Added In:** 18.1.6
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsCompositeKey: [value]
-//   - multiValued: true
-//   - mutability: readWrite
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsCompositeKey: [value]
+//  - multiValued: true
+//  - mutability: readWrite
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type UserExtRiskScores struct {
 
 	// Risk Provider Profile: Identifier for the provider service from which the risk score was received.
