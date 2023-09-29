@@ -1,3 +1,16 @@
+## 5.15.0 (Unreleased)
+
+### Added
+- Support for [ADB-S] Elastic Resource Pools
+- Support for Private Cloud at Customer
+- Support for External KMS
+- Support for Support FSS as transfer medium for Datapump export/import
+- Support for Update Replica in MySQL Heatwave Service
+- Support for Private Endpoints in Data Science Notebook Sessions
+- queue API changes for queue channels
+### Bug Fix
+- Unset policy field from filesystem changes
+
 ## 5.14.0 (September 26, 2023)
 
 ### Added
