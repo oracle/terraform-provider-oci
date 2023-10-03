@@ -68,67 +68,67 @@ type ConnectionSummaryFromObjectStorage struct {
 	PassPhrase *string `mandatory:"false" json:"passPhrase"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m ConnectionSummaryFromObjectStorage) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m ConnectionSummaryFromObjectStorage) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m ConnectionSummaryFromObjectStorage) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ConnectionSummaryFromObjectStorage) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ConnectionSummaryFromObjectStorage) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m ConnectionSummaryFromObjectStorage) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m ConnectionSummaryFromObjectStorage) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m ConnectionSummaryFromObjectStorage) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetPrimarySchema returns PrimarySchema
+// GetPrimarySchema returns PrimarySchema
 func (m ConnectionSummaryFromObjectStorage) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
-//GetConnectionProperties returns ConnectionProperties
+// GetConnectionProperties returns ConnectionProperties
 func (m ConnectionSummaryFromObjectStorage) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetIsDefault returns IsDefault
+// GetIsDefault returns IsDefault
 func (m ConnectionSummaryFromObjectStorage) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m ConnectionSummaryFromObjectStorage) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-//GetKeyMap returns KeyMap
+// GetKeyMap returns KeyMap
 func (m ConnectionSummaryFromObjectStorage) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

@@ -41,12 +41,12 @@ type UpdateInstanceSourceViaImageDetails struct {
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
-//GetIsPreserveBootVolumeEnabled returns IsPreserveBootVolumeEnabled
+// GetIsPreserveBootVolumeEnabled returns IsPreserveBootVolumeEnabled
 func (m UpdateInstanceSourceViaImageDetails) GetIsPreserveBootVolumeEnabled() *bool {
 	return m.IsPreserveBootVolumeEnabled
 }
 
-//GetIsForceStopEnabled returns IsForceStopEnabled
+// GetIsForceStopEnabled returns IsForceStopEnabled
 func (m UpdateInstanceSourceViaImageDetails) GetIsForceStopEnabled() *bool {
 	return m.IsForceStopEnabled
 }

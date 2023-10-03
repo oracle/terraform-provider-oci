@@ -29,7 +29,7 @@ type SshKeyGenerationContext struct {
 	GenerationTemplate SshKeyGenerationContextGenerationTemplateEnum `mandatory:"true" json:"generationTemplate"`
 }
 
-//GetSecretTemplate returns SecretTemplate
+// GetSecretTemplate returns SecretTemplate
 func (m SshKeyGenerationContext) GetSecretTemplate() *string {
 	return m.SecretTemplate
 }

@@ -48,32 +48,32 @@ type ImagePublicationPackage struct {
 	ImageId *string `mandatory:"false" json:"imageId"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ImagePublicationPackage) GetDescription() *string {
 	return m.Description
 }
 
-//GetListingId returns ListingId
+// GetListingId returns ListingId
 func (m ImagePublicationPackage) GetListingId() *string {
 	return m.ListingId
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m ImagePublicationPackage) GetVersion() *string {
 	return m.Version
 }
 
-//GetResourceId returns ResourceId
+// GetResourceId returns ResourceId
 func (m ImagePublicationPackage) GetResourceId() *string {
 	return m.ResourceId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m ImagePublicationPackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetOperatingSystem returns OperatingSystem
+// GetOperatingSystem returns OperatingSystem
 func (m ImagePublicationPackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
 }

@@ -29,12 +29,14 @@ import (
 // complete path element sequence of the second export resource.
 //
 // For example, the following are acceptable:
-//   * /example and /path
-//   * /example1 and /example2
-//   * /example and /example1
+//   - /example and /path
+//   - /example1 and /example2
+//   - /example and /example1
+//
 // The following examples are not acceptable:
-//   * /example and /example/path
-//   * / and /example
+//   - /example and /example/path
+//   - / and /example
+//
 // Paths may not end in a slash (/). No path element can be a period (.)
 // or two periods in sequence (..). All path elements must be 255 bytes or less.
 // No two non-'DELETED' export resources in the same export set can

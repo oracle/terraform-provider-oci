@@ -64,62 +64,62 @@ type DataAssetSummaryFromLake struct {
 	LakeProxyEndpoint *string `mandatory:"false" json:"lakeProxyEndpoint"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m DataAssetSummaryFromLake) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m DataAssetSummaryFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m DataAssetSummaryFromLake) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DataAssetSummaryFromLake) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m DataAssetSummaryFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m DataAssetSummaryFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m DataAssetSummaryFromLake) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m DataAssetSummaryFromLake) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetNativeTypeSystem returns NativeTypeSystem
+// GetNativeTypeSystem returns NativeTypeSystem
 func (m DataAssetSummaryFromLake) GetNativeTypeSystem() *TypeSystem {
 	return m.NativeTypeSystem
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m DataAssetSummaryFromLake) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m DataAssetSummaryFromLake) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m DataAssetSummaryFromLake) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

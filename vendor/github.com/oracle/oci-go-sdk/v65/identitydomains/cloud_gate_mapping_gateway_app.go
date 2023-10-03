@@ -18,14 +18,14 @@ import (
 
 // CloudGateMappingGatewayApp Reference to gateway application protected by this Cloud Gate
 // **SCIM++ Properties:**
-//  - caseExact: false
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: true
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - caseExact: false
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: true
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type CloudGateMappingGatewayApp struct {
 
 	// The name (Client ID) of the gateway application protected by this Cloud Gate.

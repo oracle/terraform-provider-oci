@@ -19,13 +19,13 @@ import (
 // UserExtUserToken User token returned if userFlowControlledByExternalClient is true
 // **Added In:** 18.4.2
 // **SCIM++ Properties:**
-//  - caseExact: false
-//  - multiValued: false
-//  - mutability: readOnly
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - caseExact: false
+//   - multiValued: false
+//   - mutability: readOnly
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type UserExtUserToken struct {
 
 	// User Token identifier

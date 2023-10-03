@@ -19,13 +19,13 @@ import (
 // UserExtTrustedUserAgents A list of trusted User Agents owned by this user. Multi-Factored Authentication uses Trusted User Agents to authenticate users.  A User Agent is software application that a user uses to issue requests. For example, a User Agent could be a particular browser (possibly one of several executing on a desktop or laptop) or a particular mobile application (again, oneof several executing on a particular mobile device). A User Agent is trusted once the Multi-Factor Authentication has verified it in some way.
 // **Added In:** 18.3.6
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [value]
-//  - multiValued: true
-//  - mutability: readWrite
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [value]
+//   - multiValued: true
+//   - mutability: readWrite
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type UserExtTrustedUserAgents struct {
 
 	// The user's trusted user agent identifier.

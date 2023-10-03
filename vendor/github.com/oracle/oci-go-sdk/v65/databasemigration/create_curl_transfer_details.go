@@ -23,7 +23,7 @@ type CreateCurlTransferDetails struct {
 	WalletLocation *string `mandatory:"false" json:"walletLocation"`
 }
 
-//GetWalletLocation returns WalletLocation
+// GetWalletLocation returns WalletLocation
 func (m CreateCurlTransferDetails) GetWalletLocation() *string {
 	return m.WalletLocation
 }

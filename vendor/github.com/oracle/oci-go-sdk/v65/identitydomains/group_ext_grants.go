@@ -18,13 +18,13 @@ import (
 
 // GroupExtGrants Grants assigned to group
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readOnly
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readOnly
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type GroupExtGrants struct {
 
 	// Grant identifier

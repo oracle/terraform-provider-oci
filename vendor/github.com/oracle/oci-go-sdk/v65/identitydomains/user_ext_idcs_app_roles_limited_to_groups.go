@@ -19,13 +19,13 @@ import (
 // UserExtIdcsAppRolesLimitedToGroups Description:
 // **Added In:** 19.2.1
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [value, idcsAppRoleId]
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readOnly
-//  - required: false
-//  - returned: request
-//  - type: complex
+//   - idcsCompositeKey: [value, idcsAppRoleId]
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readOnly
+//   - required: false
+//   - returned: request
+//   - type: complex
 type UserExtIdcsAppRolesLimitedToGroups struct {
 
 	// The id of the Oracle Identity Cloud Service AppRole grant limited to one or more Groups.

@@ -335,6 +335,7 @@ func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request
 // CheckObject Retrieve an object's stored and calculated digests, specifically:
 //   - The content MD5;
 //   - The SHA-256 of each chunk on each storage server.
+//
 // If the MD5 digest calculated from the decrypted object data
 // does not match the MD5 digest stored in the object's metadata,
 // or any chunk's' SHA-256 does not match the one stored for it,

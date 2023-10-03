@@ -34,17 +34,17 @@ type OciCodeRepositoryConfiguration struct {
 	BuildFileLocation *string `mandatory:"false" json:"buildFileLocation"`
 }
 
-//GetBranch returns Branch
+// GetBranch returns Branch
 func (m OciCodeRepositoryConfiguration) GetBranch() *string {
 	return m.Branch
 }
 
-//GetBuildFileLocation returns BuildFileLocation
+// GetBuildFileLocation returns BuildFileLocation
 func (m OciCodeRepositoryConfiguration) GetBuildFileLocation() *string {
 	return m.BuildFileLocation
 }
 
-//GetIsAutomergeEnabled returns IsAutomergeEnabled
+// GetIsAutomergeEnabled returns IsAutomergeEnabled
 func (m OciCodeRepositoryConfiguration) GetIsAutomergeEnabled() *bool {
 	return m.IsAutomergeEnabled
 }

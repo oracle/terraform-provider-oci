@@ -26,7 +26,7 @@ type DrProtectionGroupMemberComputeInstanceNonMovable struct {
 	MemberId *string `mandatory:"true" json:"memberId"`
 }
 
-//GetMemberId returns MemberId
+// GetMemberId returns MemberId
 func (m DrProtectionGroupMemberComputeInstanceNonMovable) GetMemberId() *string {
 	return m.MemberId
 }

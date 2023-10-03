@@ -55,37 +55,37 @@ type CloneDigitalAssistantDetails struct {
 	MultilingualMode BotMultilingualModeEnum `mandatory:"false" json:"multilingualMode,omitempty"`
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m CloneDigitalAssistantDetails) GetCategory() *string {
 	return m.Category
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CloneDigitalAssistantDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetPlatformVersion returns PlatformVersion
+// GetPlatformVersion returns PlatformVersion
 func (m CloneDigitalAssistantDetails) GetPlatformVersion() *string {
 	return m.PlatformVersion
 }
 
-//GetMultilingualMode returns MultilingualMode
+// GetMultilingualMode returns MultilingualMode
 func (m CloneDigitalAssistantDetails) GetMultilingualMode() BotMultilingualModeEnum {
 	return m.MultilingualMode
 }
 
-//GetPrimaryLanguageTag returns PrimaryLanguageTag
+// GetPrimaryLanguageTag returns PrimaryLanguageTag
 func (m CloneDigitalAssistantDetails) GetPrimaryLanguageTag() *string {
 	return m.PrimaryLanguageTag
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CloneDigitalAssistantDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CloneDigitalAssistantDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

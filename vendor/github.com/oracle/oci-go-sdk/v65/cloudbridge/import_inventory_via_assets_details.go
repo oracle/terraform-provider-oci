@@ -39,17 +39,17 @@ type ImportInventoryViaAssetsDetails struct {
 	AssetType AssetTypeEnum `mandatory:"true" json:"assetType"`
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m ImportInventoryViaAssetsDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m ImportInventoryViaAssetsDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m ImportInventoryViaAssetsDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

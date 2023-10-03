@@ -39,22 +39,22 @@ type HostCpuStatistics struct {
 	Load *SummaryStatistics `mandatory:"false" json:"load"`
 }
 
-//GetUsage returns Usage
+// GetUsage returns Usage
 func (m HostCpuStatistics) GetUsage() *float64 {
 	return m.Usage
 }
 
-//GetCapacity returns Capacity
+// GetCapacity returns Capacity
 func (m HostCpuStatistics) GetCapacity() *float64 {
 	return m.Capacity
 }
 
-//GetUtilizationPercent returns UtilizationPercent
+// GetUtilizationPercent returns UtilizationPercent
 func (m HostCpuStatistics) GetUtilizationPercent() *float64 {
 	return m.UtilizationPercent
 }
 
-//GetUsageChangePercent returns UsageChangePercent
+// GetUsageChangePercent returns UsageChangePercent
 func (m HostCpuStatistics) GetUsageChangePercent() *float64 {
 	return m.UsageChangePercent
 }

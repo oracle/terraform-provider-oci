@@ -33,12 +33,12 @@ type InstanceAgentCommandExecutionOutputViaTextDetails struct {
 	TextSha256 *string `mandatory:"false" json:"textSha256"`
 }
 
-//GetExitCode returns ExitCode
+// GetExitCode returns ExitCode
 func (m InstanceAgentCommandExecutionOutputViaTextDetails) GetExitCode() *int {
 	return m.ExitCode
 }
 
-//GetMessage returns Message
+// GetMessage returns Message
 func (m InstanceAgentCommandExecutionOutputViaTextDetails) GetMessage() *string {
 	return m.Message
 }

@@ -25,7 +25,7 @@ type TcpVirtualServiceTrafficRouteRule struct {
 	RetryConfiguration *TcpRetryConfiguration `mandatory:"false" json:"retryConfiguration"`
 }
 
-//GetDestinations returns Destinations
+// GetDestinations returns Destinations
 func (m TcpVirtualServiceTrafficRouteRule) GetDestinations() []VirtualDeploymentTrafficRuleTarget {
 	return m.Destinations
 }

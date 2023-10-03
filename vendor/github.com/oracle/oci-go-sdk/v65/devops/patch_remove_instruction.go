@@ -26,7 +26,7 @@ type PatchRemoveInstruction struct {
 	Selection *string `mandatory:"true" json:"selection"`
 }
 
-//GetSelection returns Selection
+// GetSelection returns Selection
 func (m PatchRemoveInstruction) GetSelection() *string {
 	return m.Selection
 }

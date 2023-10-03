@@ -38,22 +38,22 @@ type CreateSingleDeployStageRedeploymentDetails struct {
 	PreviousDeploymentId *string `mandatory:"false" json:"previousDeploymentId"`
 }
 
-//GetDeployPipelineId returns DeployPipelineId
+// GetDeployPipelineId returns DeployPipelineId
 func (m CreateSingleDeployStageRedeploymentDetails) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateSingleDeployStageRedeploymentDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateSingleDeployStageRedeploymentDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateSingleDeployStageRedeploymentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

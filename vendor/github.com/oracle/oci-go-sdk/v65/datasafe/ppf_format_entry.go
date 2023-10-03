@@ -36,7 +36,7 @@ type PpfFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m PpfFormatEntry) GetDescription() *string {
 	return m.Description
 }

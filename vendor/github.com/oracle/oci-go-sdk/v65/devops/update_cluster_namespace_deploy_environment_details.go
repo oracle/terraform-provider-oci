@@ -37,22 +37,22 @@ type UpdateClusterNamespaceDeployEnvironmentDetails struct {
 	NetworkChannel NetworkChannel `mandatory:"false" json:"networkChannel"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateClusterNamespaceDeployEnvironmentDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateClusterNamespaceDeployEnvironmentDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateClusterNamespaceDeployEnvironmentDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateClusterNamespaceDeployEnvironmentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

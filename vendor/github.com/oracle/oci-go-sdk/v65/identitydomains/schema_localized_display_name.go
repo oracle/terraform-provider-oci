@@ -18,12 +18,12 @@ import (
 
 // SchemaLocalizedDisplayName Attribute's localized display name
 // **SCIM++ Properties:**
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type SchemaLocalizedDisplayName struct {
 
 	// Localized display value

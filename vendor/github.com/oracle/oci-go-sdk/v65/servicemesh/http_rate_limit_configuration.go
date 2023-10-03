@@ -32,7 +32,7 @@ type HttpRateLimitConfiguration struct {
 	HeadersToAdd []HttpHeader `mandatory:"false" json:"headersToAdd"`
 }
 
-//GetIntervalInMs returns IntervalInMs
+// GetIntervalInMs returns IntervalInMs
 func (m HttpRateLimitConfiguration) GetIntervalInMs() *int64 {
 	return m.IntervalInMs
 }

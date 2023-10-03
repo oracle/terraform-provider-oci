@@ -32,7 +32,7 @@ type CronExecutionSchedule struct {
 	Timezone ExecutionScheduleTimezoneEnum `mandatory:"true" json:"timezone"`
 }
 
-//GetTimezone returns Timezone
+// GetTimezone returns Timezone
 func (m CronExecutionSchedule) GetTimezone() ExecutionScheduleTimezoneEnum {
 	return m.Timezone
 }

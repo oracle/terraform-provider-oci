@@ -53,17 +53,17 @@ type WriteOperationConfig struct {
 	WriteMode WriteOperationConfigWriteModeEnum `mandatory:"false" json:"writeMode,omitempty"`
 }
 
-//GetMetadataConfigProperties returns MetadataConfigProperties
+// GetMetadataConfigProperties returns MetadataConfigProperties
 func (m WriteOperationConfig) GetMetadataConfigProperties() map[string]string {
 	return m.MetadataConfigProperties
 }
 
-//GetDerivedAttributes returns DerivedAttributes
+// GetDerivedAttributes returns DerivedAttributes
 func (m WriteOperationConfig) GetDerivedAttributes() map[string]string {
 	return m.DerivedAttributes
 }
 
-//GetCallAttribute returns CallAttribute
+// GetCallAttribute returns CallAttribute
 func (m WriteOperationConfig) GetCallAttribute() *BipCallAttribute {
 	return m.CallAttribute
 }

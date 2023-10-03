@@ -32,7 +32,7 @@ type HostResourceAllocation struct {
 	TotalMemoryInGB *float64 `mandatory:"false" json:"totalMemoryInGB"`
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m HostResourceAllocation) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

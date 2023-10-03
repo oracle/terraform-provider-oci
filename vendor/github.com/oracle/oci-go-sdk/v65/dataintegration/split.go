@@ -57,62 +57,62 @@ type Split struct {
 	DataRoutingStrategy SplitDataRoutingStrategyEnum `mandatory:"false" json:"dataRoutingStrategy,omitempty"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m Split) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m Split) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m Split) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m Split) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m Split) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m Split) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m Split) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m Split) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m Split) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m Split) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m Split) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m Split) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }

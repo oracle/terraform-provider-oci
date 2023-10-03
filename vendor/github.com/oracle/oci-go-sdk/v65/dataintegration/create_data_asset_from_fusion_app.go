@@ -57,47 +57,47 @@ type CreateDataAssetFromFusionApp struct {
 	BucketSchema *Schema `mandatory:"false" json:"bucketSchema"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m CreateDataAssetFromFusionApp) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m CreateDataAssetFromFusionApp) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateDataAssetFromFusionApp) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateDataAssetFromFusionApp) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m CreateDataAssetFromFusionApp) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m CreateDataAssetFromFusionApp) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m CreateDataAssetFromFusionApp) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m CreateDataAssetFromFusionApp) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m CreateDataAssetFromFusionApp) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

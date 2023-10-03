@@ -26,7 +26,7 @@ type CreateOrUpdateGitBranchDetails struct {
 	CommitId *string `mandatory:"true" json:"commitId"`
 }
 
-//GetRefName returns RefName
+// GetRefName returns RefName
 func (m CreateOrUpdateGitBranchDetails) GetRefName() *string {
 	return m.RefName
 }

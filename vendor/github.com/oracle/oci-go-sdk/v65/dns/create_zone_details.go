@@ -80,22 +80,22 @@ type CreateZoneDetails struct {
 	DnssecState ZoneDnssecStateEnum `mandatory:"false" json:"dnssecState,omitempty"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateZoneDetails) GetName() *string {
 	return m.Name
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateZoneDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateZoneDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateZoneDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

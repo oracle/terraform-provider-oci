@@ -18,14 +18,14 @@ import (
 
 // ApiKeyUser The user linked to the API key.
 // **SCIM++ Properties:**
-//  - caseExact: false
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: immutable
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - caseExact: false
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: immutable
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type ApiKeyUser struct {
 
 	// The user's ID.

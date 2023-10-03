@@ -32,7 +32,7 @@ type DataIntegrationPipelineApplicationComponent struct {
 	TaskKey *string `mandatory:"true" json:"taskKey"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m DataIntegrationPipelineApplicationComponent) GetName() *string {
 	return m.Name
 }

@@ -1369,9 +1369,10 @@ func (client BlockstorageClient) deleteVolumeBackup(ctx context.Context, request
 }
 
 // DeleteVolumeBackupPolicy Deletes a user defined backup policy.
-//  For more information about user defined backup policies,
-//  see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm#UserDefinedBackupPolicies).
-//  Avoid entering confidential information.
+//
+//	For more information about user defined backup policies,
+//	see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm#UserDefinedBackupPolicies).
+//	Avoid entering confidential information.
 func (client BlockstorageClient) DeleteVolumeBackupPolicy(ctx context.Context, request DeleteVolumeBackupPolicyRequest) (response DeleteVolumeBackupPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3176,9 +3177,10 @@ func (client BlockstorageClient) updateVolumeBackup(ctx context.Context, request
 }
 
 // UpdateVolumeBackupPolicy Updates a user defined backup policy.
-//  For more information about user defined backup policies,
-//  see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm#UserDefinedBackupPolicies).
-//  Avoid entering confidential information.
+//
+//	For more information about user defined backup policies,
+//	see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm#UserDefinedBackupPolicies).
+//	Avoid entering confidential information.
 func (client BlockstorageClient) UpdateVolumeBackupPolicy(ctx context.Context, request UpdateVolumeBackupPolicyRequest) (response UpdateVolumeBackupPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

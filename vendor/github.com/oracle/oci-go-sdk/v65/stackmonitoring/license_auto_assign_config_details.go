@@ -54,47 +54,47 @@ type LicenseAutoAssignConfigDetails struct {
 	License LicenseTypeEnum `mandatory:"true" json:"license"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m LicenseAutoAssignConfigDetails) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m LicenseAutoAssignConfigDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m LicenseAutoAssignConfigDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m LicenseAutoAssignConfigDetails) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m LicenseAutoAssignConfigDetails) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m LicenseAutoAssignConfigDetails) GetLifecycleState() ConfigLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m LicenseAutoAssignConfigDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m LicenseAutoAssignConfigDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m LicenseAutoAssignConfigDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

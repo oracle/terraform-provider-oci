@@ -34,22 +34,22 @@ type ApprovalActivitySummary struct {
 	Status ApprovalActivitySummaryStatusEnum `mandatory:"true" json:"status"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m ApprovalActivitySummary) GetId() *string {
 	return m.Id
 }
 
-//GetPrincipal returns Principal
+// GetPrincipal returns Principal
 func (m ApprovalActivitySummary) GetPrincipal() *PrincipalDetails {
 	return m.Principal
 }
 
-//GetPullRequestId returns PullRequestId
+// GetPullRequestId returns PullRequestId
 func (m ApprovalActivitySummary) GetPullRequestId() *string {
 	return m.PullRequestId
 }
 
-//GetTimeOccurred returns TimeOccurred
+// GetTimeOccurred returns TimeOccurred
 func (m ApprovalActivitySummary) GetTimeOccurred() *common.SDKTime {
 	return m.TimeOccurred
 }

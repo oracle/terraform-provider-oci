@@ -52,7 +52,7 @@ type CustomMetric struct {
 	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
 }
 
-//GetPendingDuration returns PendingDuration
+// GetPendingDuration returns PendingDuration
 func (m CustomMetric) GetPendingDuration() *string {
 	return m.PendingDuration
 }

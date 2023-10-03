@@ -32,7 +32,7 @@ type PassphraseGenerationContext struct {
 	GenerationTemplate PassphraseGenerationContextGenerationTemplateEnum `mandatory:"true" json:"generationTemplate"`
 }
 
-//GetSecretTemplate returns SecretTemplate
+// GetSecretTemplate returns SecretTemplate
 func (m PassphraseGenerationContext) GetSecretTemplate() *string {
 	return m.SecretTemplate
 }

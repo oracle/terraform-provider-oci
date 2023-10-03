@@ -36,7 +36,7 @@ type PatchInsertInstruction struct {
 	Position PatchInsertInstructionPositionEnum `mandatory:"false" json:"position,omitempty"`
 }
 
-//GetSelection returns Selection
+// GetSelection returns Selection
 func (m PatchInsertInstruction) GetSelection() *string {
 	return m.Selection
 }

@@ -18,12 +18,12 @@ import (
 
 // SelfRegistrationProfileEmailTemplate Email template
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: true
-//  - returned: request
-//  - type: complex
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: true
+//   - returned: request
+//   - type: complex
 type SelfRegistrationProfileEmailTemplate struct {
 
 	// Identifier of the Email Template.

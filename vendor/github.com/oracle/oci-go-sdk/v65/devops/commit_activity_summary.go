@@ -37,22 +37,22 @@ type CommitActivitySummary struct {
 	CommitsRemoved []RepositoryCommit `mandatory:"true" json:"commitsRemoved"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m CommitActivitySummary) GetId() *string {
 	return m.Id
 }
 
-//GetPrincipal returns Principal
+// GetPrincipal returns Principal
 func (m CommitActivitySummary) GetPrincipal() *PrincipalDetails {
 	return m.Principal
 }
 
-//GetPullRequestId returns PullRequestId
+// GetPullRequestId returns PullRequestId
 func (m CommitActivitySummary) GetPullRequestId() *string {
 	return m.PullRequestId
 }
 
-//GetTimeOccurred returns TimeOccurred
+// GetTimeOccurred returns TimeOccurred
 func (m CommitActivitySummary) GetTimeOccurred() *common.SDKTime {
 	return m.TimeOccurred
 }

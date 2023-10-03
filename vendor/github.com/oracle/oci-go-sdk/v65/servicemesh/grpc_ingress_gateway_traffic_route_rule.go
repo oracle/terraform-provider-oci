@@ -37,12 +37,12 @@ type GrpcIngressGatewayTrafficRouteRule struct {
 	IsHostRewriteEnabled *bool `mandatory:"false" json:"isHostRewriteEnabled"`
 }
 
-//GetIngressGatewayHost returns IngressGatewayHost
+// GetIngressGatewayHost returns IngressGatewayHost
 func (m GrpcIngressGatewayTrafficRouteRule) GetIngressGatewayHost() *IngressGatewayHostRef {
 	return m.IngressGatewayHost
 }
 
-//GetDestinations returns Destinations
+// GetDestinations returns Destinations
 func (m GrpcIngressGatewayTrafficRouteRule) GetDestinations() []VirtualServiceTrafficRuleTarget {
 	return m.Destinations
 }

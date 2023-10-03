@@ -39,32 +39,32 @@ type CreateWaitStageDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateWaitStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateWaitStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetBuildPipelineId returns BuildPipelineId
+// GetBuildPipelineId returns BuildPipelineId
 func (m CreateWaitStageDetails) GetBuildPipelineId() *string {
 	return m.BuildPipelineId
 }
 
-//GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
+// GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
 func (m CreateWaitStageDetails) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessorCollection
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateWaitStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateWaitStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

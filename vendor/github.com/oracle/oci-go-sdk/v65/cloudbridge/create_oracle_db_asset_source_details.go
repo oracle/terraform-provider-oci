@@ -75,47 +75,47 @@ type CreateOracleDbAssetSourceDetails struct {
 	Protocol DatabaseNetworkProtocolEnum `mandatory:"true" json:"protocol"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateOracleDbAssetSourceDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateOracleDbAssetSourceDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetEnvironmentId returns EnvironmentId
+// GetEnvironmentId returns EnvironmentId
 func (m CreateOracleDbAssetSourceDetails) GetEnvironmentId() *string {
 	return m.EnvironmentId
 }
 
-//GetInventoryId returns InventoryId
+// GetInventoryId returns InventoryId
 func (m CreateOracleDbAssetSourceDetails) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-//GetAssetsCompartmentId returns AssetsCompartmentId
+// GetAssetsCompartmentId returns AssetsCompartmentId
 func (m CreateOracleDbAssetSourceDetails) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
 }
 
-//GetDiscoveryScheduleId returns DiscoveryScheduleId
+// GetDiscoveryScheduleId returns DiscoveryScheduleId
 func (m CreateOracleDbAssetSourceDetails) GetDiscoveryScheduleId() *string {
 	return m.DiscoveryScheduleId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateOracleDbAssetSourceDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateOracleDbAssetSourceDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m CreateOracleDbAssetSourceDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

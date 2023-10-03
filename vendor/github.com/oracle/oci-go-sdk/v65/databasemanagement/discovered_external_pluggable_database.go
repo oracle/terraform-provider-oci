@@ -54,37 +54,37 @@ type DiscoveredExternalPluggableDatabase struct {
 	Status DiscoveredExternalDbSystemComponentStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 
-//GetComponentId returns ComponentId
+// GetComponentId returns ComponentId
 func (m DiscoveredExternalPluggableDatabase) GetComponentId() *string {
 	return m.ComponentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m DiscoveredExternalPluggableDatabase) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetComponentName returns ComponentName
+// GetComponentName returns ComponentName
 func (m DiscoveredExternalPluggableDatabase) GetComponentName() *string {
 	return m.ComponentName
 }
 
-//GetResourceId returns ResourceId
+// GetResourceId returns ResourceId
 func (m DiscoveredExternalPluggableDatabase) GetResourceId() *string {
 	return m.ResourceId
 }
 
-//GetIsSelectedForMonitoring returns IsSelectedForMonitoring
+// GetIsSelectedForMonitoring returns IsSelectedForMonitoring
 func (m DiscoveredExternalPluggableDatabase) GetIsSelectedForMonitoring() *bool {
 	return m.IsSelectedForMonitoring
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m DiscoveredExternalPluggableDatabase) GetStatus() DiscoveredExternalDbSystemComponentStatusEnum {
 	return m.Status
 }
 
-//GetAssociatedComponents returns AssociatedComponents
+// GetAssociatedComponents returns AssociatedComponents
 func (m DiscoveredExternalPluggableDatabase) GetAssociatedComponents() []AssociatedComponent {
 	return m.AssociatedComponents
 }

@@ -21,13 +21,14 @@ import (
 // incoming/outgoing HTTP message parameters and execution of actions, based on results of rules execution.
 // In policy, rules are grouped into modules by their functionality. Modules can be further divided by the type
 // of HTTP messages they handle:
-//   Modules that inspect incoming HTTP request. These modules are executed in the order they are enumerated here:
-//     * requestAccessControl
-//     * requestRateLimiting
-//     * requestProtection
-//  Modules that inspect outgoing HTTP responses. These modules are executed in the order they are enumerated here:
-//    * responseAccessControl
-//    * responseProtection
+//
+//	 Modules that inspect incoming HTTP request. These modules are executed in the order they are enumerated here:
+//	   * requestAccessControl
+//	   * requestRateLimiting
+//	   * requestProtection
+//	Modules that inspect outgoing HTTP responses. These modules are executed in the order they are enumerated here:
+//	  * responseAccessControl
+//	  * responseProtection
 type WebAppFirewallPolicy struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewallPolicy.

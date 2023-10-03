@@ -19,13 +19,13 @@ import (
 // UserExtApplicableAuthenticationTargetApp The app against which the user will authenticate. The value is not persisted but rather calculated. If the user's delegatedAuthenticationTargetApp is set, that value is returned. Otherwise, the app returned by evaluating the user's applicable Delegated Authentication Policy is returned.
 // **Added In:** 18.1.6
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [value]
-//  - multiValued: false
-//  - mutability: readOnly
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [value]
+//   - multiValued: false
+//   - mutability: readOnly
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type UserExtApplicableAuthenticationTargetApp struct {
 
 	// A label that indicates whether this is an App or IdentitySource.
