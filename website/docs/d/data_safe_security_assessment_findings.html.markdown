@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_data_safe_security_assessment_findings
 This data source provides the list of Security Assessment Findings in Oracle Cloud Infrastructure Data Safe service.
 
-List all the findings from all the targets in the specified assessment.
+List all the findings from all the targets in the specified compartment.
 
 
 ## Example Usage
@@ -36,8 +36,8 @@ The following arguments are supported:
 
 * `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
-* `finding_key` - (Optional) Each finding has a key. This key is same for the finding across targets
-* `references` - (Optional) An optional filter to return only findings containing the specified reference.
+* `finding_key` - (Optional) Each finding in security assessment has an associated key (think of key as a finding's name). For a given finding, the key will be the same across targets. The user can use these keys to filter the findings. 
+* `references` - (Optional) An optional filter to return only findings that match the specified reference.
 * `security_assessment_id` - (Required) The OCID of the security assessment.
 * `severity` - (Optional) A filter to return only findings of a particular risk level.
 

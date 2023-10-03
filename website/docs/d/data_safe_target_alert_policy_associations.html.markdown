@@ -67,7 +67,7 @@ The following attributes are exported:
 * `display_name` - The display name of the target-alert policy association.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the target-alert policy association.
-* `is_enabled` - Indicates if the target-alert policy association is enabled or disabled.
+* `is_enabled` - Indicates if the target-alert policy association is enabled or disabled by user.
 * `policy_id` - The OCID of the alert policy.
 * `state` - The current state of the target-alert policy association.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
