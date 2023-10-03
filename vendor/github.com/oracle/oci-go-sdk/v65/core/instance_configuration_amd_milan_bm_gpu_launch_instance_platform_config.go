@@ -64,22 +64,22 @@ type InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfig struct {
 	NumaNodesPerSocket InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfigNumaNodesPerSocketEnum `mandatory:"false" json:"numaNodesPerSocket,omitempty"`
 }
 
-//GetIsSecureBootEnabled returns IsSecureBootEnabled
+// GetIsSecureBootEnabled returns IsSecureBootEnabled
 func (m InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfig) GetIsSecureBootEnabled() *bool {
 	return m.IsSecureBootEnabled
 }
 
-//GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
+// GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
 func (m InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfig) GetIsTrustedPlatformModuleEnabled() *bool {
 	return m.IsTrustedPlatformModuleEnabled
 }
 
-//GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
+// GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
 func (m InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfig) GetIsMeasuredBootEnabled() *bool {
 	return m.IsMeasuredBootEnabled
 }
 
-//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+// GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
 func (m InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
 	return m.IsMemoryEncryptionEnabled
 }

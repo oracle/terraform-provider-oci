@@ -38,7 +38,7 @@ type HostNetworkActivitySummary struct {
 	AllNetworkIoInMbps *float64 `mandatory:"false" json:"allNetworkIoInMbps"`
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m HostNetworkActivitySummary) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

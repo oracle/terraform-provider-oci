@@ -34,22 +34,22 @@ type ValueDate struct {
 	Text *string `mandatory:"false" json:"text"`
 }
 
-//GetText returns Text
+// GetText returns Text
 func (m ValueDate) GetText() *string {
 	return m.Text
 }
 
-//GetConfidence returns Confidence
+// GetConfidence returns Confidence
 func (m ValueDate) GetConfidence() *float32 {
 	return m.Confidence
 }
 
-//GetBoundingPolygon returns BoundingPolygon
+// GetBoundingPolygon returns BoundingPolygon
 func (m ValueDate) GetBoundingPolygon() *BoundingPolygon {
 	return m.BoundingPolygon
 }
 
-//GetWordIndexes returns WordIndexes
+// GetWordIndexes returns WordIndexes
 func (m ValueDate) GetWordIndexes() []int {
 	return m.WordIndexes
 }

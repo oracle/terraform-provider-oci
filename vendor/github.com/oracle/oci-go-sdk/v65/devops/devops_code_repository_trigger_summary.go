@@ -59,62 +59,62 @@ type DevopsCodeRepositoryTriggerSummary struct {
 	LifecycleState TriggerLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m DevopsCodeRepositoryTriggerSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m DevopsCodeRepositoryTriggerSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DevopsCodeRepositoryTriggerSummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetProjectId returns ProjectId
+// GetProjectId returns ProjectId
 func (m DevopsCodeRepositoryTriggerSummary) GetProjectId() *string {
 	return m.ProjectId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m DevopsCodeRepositoryTriggerSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m DevopsCodeRepositoryTriggerSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m DevopsCodeRepositoryTriggerSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m DevopsCodeRepositoryTriggerSummary) GetLifecycleState() TriggerLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m DevopsCodeRepositoryTriggerSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m DevopsCodeRepositoryTriggerSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m DevopsCodeRepositoryTriggerSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m DevopsCodeRepositoryTriggerSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

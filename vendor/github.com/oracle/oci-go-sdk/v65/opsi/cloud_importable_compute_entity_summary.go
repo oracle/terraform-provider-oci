@@ -40,17 +40,17 @@ type CloudImportableComputeEntitySummary struct {
 	PlatformType CloudImportableComputeEntitySummaryPlatformTypeEnum `mandatory:"true" json:"platformType"`
 }
 
-//GetComputeId returns ComputeId
+// GetComputeId returns ComputeId
 func (m CloudImportableComputeEntitySummary) GetComputeId() *string {
 	return m.ComputeId
 }
 
-//GetComputeDisplayName returns ComputeDisplayName
+// GetComputeDisplayName returns ComputeDisplayName
 func (m CloudImportableComputeEntitySummary) GetComputeDisplayName() *string {
 	return m.ComputeDisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CloudImportableComputeEntitySummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }

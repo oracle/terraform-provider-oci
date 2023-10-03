@@ -18,13 +18,13 @@ import (
 
 // AuthenticationFactorSettingsEndpointRestrictions Settings that describe the set of restrictions that the system should apply to devices and trusted endpoints of a user
 // **SCIM++ Properties:**
-//  - idcsSearchable: false
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: true
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: false
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: true
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AuthenticationFactorSettingsEndpointRestrictions struct {
 
 	// Maximum number of enrolled devices per user

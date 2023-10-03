@@ -21,6 +21,7 @@ import (
 // Note the following for creating standby databases in cross-region Autonomous Data Guard associations:
 //   - To create your standby database in a region different from the region of the primary, use the API endpoint of the region in which the standby will be located. For example, if the primary database is in the IAD region, and you want to create the standby in the PHX region, make the API call using the PHX endpoint (https://database.us-phoenix-1.oraclecloud.com). See API Endpoints (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#REST_APIs) for the list of Database Service API endpoints.
 //   - In the request to create the standby database, the `sourceId` value should be the OCID of the primary database.
+//
 // The following parameters are optional for the cross-region standby database. If included in the request, these parameters contain the same values as the source Autonomous Database:
 //   - customerContacts
 //   - scheduledOperations
@@ -35,30 +36,34 @@ import (
 //   - cpuCoreCount
 //   - dataStorageSizeInTB
 //   - dbVersion
+//
 // Example I - Creating a cross-region standby with required parameters only, with OCPU:
-//     `{
-//       "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
-//       "cpuCoreCount": 1,
-//       "dbName": "adatabasedb1",
-//       "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
-//       "dataStorageSizeInTBs": 1,
-//       "source": "CROSS_REGION_DATAGUARD",
-//       "adminPassword" : "<var>&lt;password&gt;</var>",
-//     }`
+//
+//	`{
+//	  "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
+//	  "cpuCoreCount": 1,
+//	  "dbName": "adatabasedb1",
+//	  "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
+//	  "dataStorageSizeInTBs": 1,
+//	  "source": "CROSS_REGION_DATAGUARD",
+//	  "adminPassword" : "<var>&lt;password&gt;</var>",
+//	}`
+//
 // Example II - Creating a cross-region standby that specifies optional parameters in addition to the required parameters, with ECPU:
-//     `{
-//       "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
-//       "computeModel": "ECPU",
-//       "computeCount": 2,
-//       "dbName": "adatabasedb1",
-//       "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
-//       "dataStorageSizeInTBs": 1,
-//       "source": "CROSS_REGION_DATAGUARD",
-//       "adminPassword" : "<var>&lt;password&gt;</var>",
-//       "dbVersion": "19c",
-//       "licenseModel": "LICENSE_INCLUDED",
-//       "isAutoScalingForStorageEnabled": "true"
-//     }`
+//
+//	`{
+//	  "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
+//	  "computeModel": "ECPU",
+//	  "computeCount": 2,
+//	  "dbName": "adatabasedb1",
+//	  "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
+//	  "dataStorageSizeInTBs": 1,
+//	  "source": "CROSS_REGION_DATAGUARD",
+//	  "adminPassword" : "<var>&lt;password&gt;</var>",
+//	  "dbVersion": "19c",
+//	  "licenseModel": "LICENSE_INCLUDED",
+//	  "isAutoScalingForStorageEnabled": "true"
+//	}`
 type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
@@ -282,242 +287,242 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	AutonomousMaintenanceScheduleType CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetCharacterSet returns CharacterSet
+// GetCharacterSet returns CharacterSet
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetCharacterSet() *string {
 	return m.CharacterSet
 }
 
-//GetNcharacterSet returns NcharacterSet
+// GetNcharacterSet returns NcharacterSet
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetNcharacterSet() *string {
 	return m.NcharacterSet
 }
 
-//GetDbName returns DbName
+// GetDbName returns DbName
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDbName() *string {
 	return m.DbName
 }
 
-//GetCpuCoreCount returns CpuCoreCount
+// GetCpuCoreCount returns CpuCoreCount
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
-//GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
+// GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetBackupRetentionPeriodInDays() *int {
 	return m.BackupRetentionPeriodInDays
 }
 
-//GetComputeModel returns ComputeModel
+// GetComputeModel returns ComputeModel
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum {
 	return m.ComputeModel
 }
 
-//GetComputeCount returns ComputeCount
+// GetComputeCount returns ComputeCount
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetComputeCount() *float32 {
 	return m.ComputeCount
 }
 
-//GetOcpuCount returns OcpuCount
+// GetOcpuCount returns OcpuCount
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetOcpuCount() *float32 {
 	return m.OcpuCount
 }
 
-//GetDbWorkload returns DbWorkload
+// GetDbWorkload returns DbWorkload
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
 }
 
-//GetDataStorageSizeInTBs returns DataStorageSizeInTBs
+// GetDataStorageSizeInTBs returns DataStorageSizeInTBs
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
 }
 
-//GetDataStorageSizeInGBs returns DataStorageSizeInGBs
+// GetDataStorageSizeInGBs returns DataStorageSizeInGBs
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDataStorageSizeInGBs() *int {
 	return m.DataStorageSizeInGBs
 }
 
-//GetIsFreeTier returns IsFreeTier
+// GetIsFreeTier returns IsFreeTier
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsFreeTier() *bool {
 	return m.IsFreeTier
 }
 
-//GetKmsKeyId returns KmsKeyId
+// GetKmsKeyId returns KmsKeyId
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetAdminPassword returns AdminPassword
+// GetAdminPassword returns AdminPassword
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetAdminPassword() *string {
 	return m.AdminPassword
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetLicenseModel returns LicenseModel
+// GetLicenseModel returns LicenseModel
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
 }
 
-//GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
+// GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
 	return m.IsPreviewVersionWithServiceTermsAccepted
 }
 
-//GetIsAutoScalingEnabled returns IsAutoScalingEnabled
+// GetIsAutoScalingEnabled returns IsAutoScalingEnabled
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
 }
 
-//GetIsDedicated returns IsDedicated
+// GetIsDedicated returns IsDedicated
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsDedicated() *bool {
 	return m.IsDedicated
 }
 
-//GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
+// GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
 }
 
-//GetInMemoryPercentage returns InMemoryPercentage
+// GetInMemoryPercentage returns InMemoryPercentage
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetInMemoryPercentage() *int {
 	return m.InMemoryPercentage
 }
 
-//GetIsAccessControlEnabled returns IsAccessControlEnabled
+// GetIsAccessControlEnabled returns IsAccessControlEnabled
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsAccessControlEnabled() *bool {
 	return m.IsAccessControlEnabled
 }
 
-//GetWhitelistedIps returns WhitelistedIps
+// GetWhitelistedIps returns WhitelistedIps
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetWhitelistedIps() []string {
 	return m.WhitelistedIps
 }
 
-//GetArePrimaryWhitelistedIpsUsed returns ArePrimaryWhitelistedIpsUsed
+// GetArePrimaryWhitelistedIpsUsed returns ArePrimaryWhitelistedIpsUsed
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetArePrimaryWhitelistedIpsUsed() *bool {
 	return m.ArePrimaryWhitelistedIpsUsed
 }
 
-//GetStandbyWhitelistedIps returns StandbyWhitelistedIps
+// GetStandbyWhitelistedIps returns StandbyWhitelistedIps
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetStandbyWhitelistedIps() []string {
 	return m.StandbyWhitelistedIps
 }
 
-//GetIsDataGuardEnabled returns IsDataGuardEnabled
+// GetIsDataGuardEnabled returns IsDataGuardEnabled
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsDataGuardEnabled() *bool {
 	return m.IsDataGuardEnabled
 }
 
-//GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
+// GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsLocalDataGuardEnabled() *bool {
 	return m.IsLocalDataGuardEnabled
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetPrivateEndpointLabel returns PrivateEndpointLabel
+// GetPrivateEndpointLabel returns PrivateEndpointLabel
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetPrivateEndpointLabel() *string {
 	return m.PrivateEndpointLabel
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetPrivateEndpointIp returns PrivateEndpointIp
+// GetPrivateEndpointIp returns PrivateEndpointIp
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetPrivateEndpointIp() *string {
 	return m.PrivateEndpointIp
 }
 
-//GetDbVersion returns DbVersion
+// GetDbVersion returns DbVersion
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDbVersion() *string {
 	return m.DbVersion
 }
 
-//GetCustomerContacts returns CustomerContacts
+// GetCustomerContacts returns CustomerContacts
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
 }
 
-//GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
+// GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsMtlsConnectionRequired() *bool {
 	return m.IsMtlsConnectionRequired
 }
 
-//GetResourcePoolLeaderId returns ResourcePoolLeaderId
+// GetResourcePoolLeaderId returns ResourcePoolLeaderId
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetResourcePoolLeaderId() *string {
 	return m.ResourcePoolLeaderId
 }
 
-//GetResourcePoolSummary returns ResourcePoolSummary
+// GetResourcePoolSummary returns ResourcePoolSummary
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetResourcePoolSummary() *ResourcePoolSummary {
 	return m.ResourcePoolSummary
 }
 
-//GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
+// GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	return m.AutonomousMaintenanceScheduleType
 }
 
-//GetScheduledOperations returns ScheduledOperations
+// GetScheduledOperations returns ScheduledOperations
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
 }
 
-//GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
+// GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsAutoScalingForStorageEnabled() *bool {
 	return m.IsAutoScalingForStorageEnabled
 }
 
-//GetMaxCpuCoreCount returns MaxCpuCoreCount
+// GetMaxCpuCoreCount returns MaxCpuCoreCount
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetMaxCpuCoreCount() *int {
 	return m.MaxCpuCoreCount
 }
 
-//GetDatabaseEdition returns DatabaseEdition
+// GetDatabaseEdition returns DatabaseEdition
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
 }
 
-//GetDbToolsDetails returns DbToolsDetails
+// GetDbToolsDetails returns DbToolsDetails
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetDbToolsDetails() []DatabaseTool {
 	return m.DbToolsDetails
 }
 
-//GetSecretId returns SecretId
+// GetSecretId returns SecretId
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetSecretId() *string {
 	return m.SecretId
 }
 
-//GetSecretVersionNumber returns SecretVersionNumber
+// GetSecretVersionNumber returns SecretVersionNumber
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetSecretVersionNumber() *int {
 	return m.SecretVersionNumber
 }

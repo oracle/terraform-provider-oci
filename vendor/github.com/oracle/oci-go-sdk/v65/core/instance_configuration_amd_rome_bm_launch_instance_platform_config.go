@@ -72,22 +72,22 @@ type InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig struct {
 	NumaNodesPerSocket InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfigNumaNodesPerSocketEnum `mandatory:"false" json:"numaNodesPerSocket,omitempty"`
 }
 
-//GetIsSecureBootEnabled returns IsSecureBootEnabled
+// GetIsSecureBootEnabled returns IsSecureBootEnabled
 func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) GetIsSecureBootEnabled() *bool {
 	return m.IsSecureBootEnabled
 }
 
-//GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
+// GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
 func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) GetIsTrustedPlatformModuleEnabled() *bool {
 	return m.IsTrustedPlatformModuleEnabled
 }
 
-//GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
+// GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
 func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) GetIsMeasuredBootEnabled() *bool {
 	return m.IsMeasuredBootEnabled
 }
 
-//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+// GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
 func (m InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
 	return m.IsMemoryEncryptionEnabled
 }

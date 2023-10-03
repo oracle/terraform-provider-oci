@@ -18,13 +18,13 @@ import (
 
 // MyAppApp Application on which the account is based
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readOnly
-//  - required: true
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readOnly
+//   - required: true
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type MyAppApp struct {
 
 	// Application identifier

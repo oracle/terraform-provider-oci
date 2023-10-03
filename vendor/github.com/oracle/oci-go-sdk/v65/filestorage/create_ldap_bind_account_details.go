@@ -57,27 +57,27 @@ type CreateLdapBindAccountDetails struct {
 	PasswordSecretVersion *int `mandatory:"false" json:"passwordSecretVersion"`
 }
 
-//GetAvailabilityDomain returns AvailabilityDomain
+// GetAvailabilityDomain returns AvailabilityDomain
 func (m CreateLdapBindAccountDetails) GetAvailabilityDomain() *string {
 	return m.AvailabilityDomain
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateLdapBindAccountDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateLdapBindAccountDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateLdapBindAccountDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateLdapBindAccountDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

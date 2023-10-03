@@ -39,32 +39,32 @@ type CreateWaitDeployStageDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateWaitDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateWaitDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDeployPipelineId returns DeployPipelineId
+// GetDeployPipelineId returns DeployPipelineId
 func (m CreateWaitDeployStageDetails) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m CreateWaitDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateWaitDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateWaitDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

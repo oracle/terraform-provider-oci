@@ -70,57 +70,57 @@ type KernelOopsEvent struct {
 	System *CrashEventSystemInformation `mandatory:"false" json:"system"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m KernelOopsEvent) GetId() *string {
 	return m.Id
 }
 
-//GetInstanceId returns InstanceId
+// GetInstanceId returns InstanceId
 func (m KernelOopsEvent) GetInstanceId() *string {
 	return m.InstanceId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m KernelOopsEvent) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetTenancyId returns TenancyId
+// GetTenancyId returns TenancyId
 func (m KernelOopsEvent) GetTenancyId() *string {
 	return m.TenancyId
 }
 
-//GetSummary returns Summary
+// GetSummary returns Summary
 func (m KernelOopsEvent) GetSummary() *string {
 	return m.Summary
 }
 
-//GetTimestamp returns Timestamp
+// GetTimestamp returns Timestamp
 func (m KernelOopsEvent) GetTimestamp() *common.SDKTime {
 	return m.Timestamp
 }
 
-//GetEventFingerprint returns EventFingerprint
+// GetEventFingerprint returns EventFingerprint
 func (m KernelOopsEvent) GetEventFingerprint() *string {
 	return m.EventFingerprint
 }
 
-//GetCount returns Count
+// GetCount returns Count
 func (m KernelOopsEvent) GetCount() *int {
 	return m.Count
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m KernelOopsEvent) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m KernelOopsEvent) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m KernelOopsEvent) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

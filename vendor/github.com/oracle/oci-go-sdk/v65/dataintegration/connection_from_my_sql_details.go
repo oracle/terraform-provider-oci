@@ -56,62 +56,62 @@ type ConnectionFromMySqlDetails struct {
 	Username *string `mandatory:"false" json:"username"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m ConnectionFromMySqlDetails) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m ConnectionFromMySqlDetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m ConnectionFromMySqlDetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ConnectionFromMySqlDetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ConnectionFromMySqlDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m ConnectionFromMySqlDetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m ConnectionFromMySqlDetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m ConnectionFromMySqlDetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetPrimarySchema returns PrimarySchema
+// GetPrimarySchema returns PrimarySchema
 func (m ConnectionFromMySqlDetails) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
-//GetConnectionProperties returns ConnectionProperties
+// GetConnectionProperties returns ConnectionProperties
 func (m ConnectionFromMySqlDetails) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetIsDefault returns IsDefault
+// GetIsDefault returns IsDefault
 func (m ConnectionFromMySqlDetails) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m ConnectionFromMySqlDetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

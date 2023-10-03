@@ -18,13 +18,13 @@ import (
 
 // AccountMgmtInfoResourceType Resource Type of the Account
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readOnly
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readOnly
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AccountMgmtInfoResourceType struct {
 
 	// Resource Type Identifier

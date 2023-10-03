@@ -31,12 +31,12 @@ type WildcardSelectionKey struct {
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 }
 
-//GetIsDefault returns IsDefault
+// GetIsDefault returns IsDefault
 func (m WildcardSelectionKey) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m WildcardSelectionKey) GetName() *string {
 	return m.Name
 }

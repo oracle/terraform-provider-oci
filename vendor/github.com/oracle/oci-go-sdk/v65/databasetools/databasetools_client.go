@@ -95,7 +95,7 @@ func (client *DatabaseToolsClient) ConfigurationProvider() *common.Configuration
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ChangeDatabaseToolsConnectionCompartment.go.html to see an example of how to use ChangeDatabaseToolsConnectionCompartment API.
 func (client DatabaseToolsClient) ChangeDatabaseToolsConnectionCompartment(ctx context.Context, request ChangeDatabaseToolsConnectionCompartmentRequest) (response ChangeDatabaseToolsConnectionCompartmentResponse, err error) {
@@ -159,7 +159,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsConnectionCompartment(ctx c
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ChangeDatabaseToolsPrivateEndpointCompartment.go.html to see an example of how to use ChangeDatabaseToolsPrivateEndpointCompartment API.
 func (client DatabaseToolsClient) ChangeDatabaseToolsPrivateEndpointCompartment(ctx context.Context, request ChangeDatabaseToolsPrivateEndpointCompartmentRequest) (response ChangeDatabaseToolsPrivateEndpointCompartmentResponse, err error) {
@@ -221,7 +221,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsPrivateEndpointCompartment(
 
 // CreateDatabaseToolsConnection Creates a new Database Tools connection.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/CreateDatabaseToolsConnection.go.html to see an example of how to use CreateDatabaseToolsConnection API.
 func (client DatabaseToolsClient) CreateDatabaseToolsConnection(ctx context.Context, request CreateDatabaseToolsConnectionRequest) (response CreateDatabaseToolsConnectionResponse, err error) {
@@ -283,7 +283,7 @@ func (client DatabaseToolsClient) createDatabaseToolsConnection(ctx context.Cont
 
 // CreateDatabaseToolsPrivateEndpoint Creates a new Database Tools private endpoint.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/CreateDatabaseToolsPrivateEndpoint.go.html to see an example of how to use CreateDatabaseToolsPrivateEndpoint API.
 func (client DatabaseToolsClient) CreateDatabaseToolsPrivateEndpoint(ctx context.Context, request CreateDatabaseToolsPrivateEndpointRequest) (response CreateDatabaseToolsPrivateEndpointResponse, err error) {
@@ -345,7 +345,7 @@ func (client DatabaseToolsClient) createDatabaseToolsPrivateEndpoint(ctx context
 
 // DeleteDatabaseToolsConnection Deletes the specified Database Tools connection resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/DeleteDatabaseToolsConnection.go.html to see an example of how to use DeleteDatabaseToolsConnection API.
 func (client DatabaseToolsClient) DeleteDatabaseToolsConnection(ctx context.Context, request DeleteDatabaseToolsConnectionRequest) (response DeleteDatabaseToolsConnectionResponse, err error) {
@@ -402,7 +402,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsConnection(ctx context.Cont
 
 // DeleteDatabaseToolsPrivateEndpoint Deletes the specified Database Tools private endpoint.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/DeleteDatabaseToolsPrivateEndpoint.go.html to see an example of how to use DeleteDatabaseToolsPrivateEndpoint API.
 func (client DatabaseToolsClient) DeleteDatabaseToolsPrivateEndpoint(ctx context.Context, request DeleteDatabaseToolsPrivateEndpointRequest) (response DeleteDatabaseToolsPrivateEndpointResponse, err error) {
@@ -459,7 +459,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsPrivateEndpoint(ctx context
 
 // GetDatabaseToolsConnection Gets details of the specified Database Tools connection.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetDatabaseToolsConnection.go.html to see an example of how to use GetDatabaseToolsConnection API.
 // A default retry strategy applies to this operation GetDatabaseToolsConnection()
@@ -517,7 +517,7 @@ func (client DatabaseToolsClient) getDatabaseToolsConnection(ctx context.Context
 
 // GetDatabaseToolsEndpointService Gets details for the specified Database Tools endpoint service.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetDatabaseToolsEndpointService.go.html to see an example of how to use GetDatabaseToolsEndpointService API.
 // A default retry strategy applies to this operation GetDatabaseToolsEndpointService()
@@ -575,7 +575,7 @@ func (client DatabaseToolsClient) getDatabaseToolsEndpointService(ctx context.Co
 
 // GetDatabaseToolsPrivateEndpoint Gets details of a specified Database Tools private endpoint.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetDatabaseToolsPrivateEndpoint.go.html to see an example of how to use GetDatabaseToolsPrivateEndpoint API.
 // A default retry strategy applies to this operation GetDatabaseToolsPrivateEndpoint()
@@ -633,7 +633,7 @@ func (client DatabaseToolsClient) getDatabaseToolsPrivateEndpoint(ctx context.Co
 
 // GetWorkRequest Gets the status of the specified work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -691,7 +691,7 @@ func (client DatabaseToolsClient) getWorkRequest(ctx context.Context, request co
 
 // ListDatabaseToolsConnections Returns a list of Database Tools connections.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListDatabaseToolsConnections.go.html to see an example of how to use ListDatabaseToolsConnections API.
 // A default retry strategy applies to this operation ListDatabaseToolsConnections()
@@ -749,7 +749,7 @@ func (client DatabaseToolsClient) listDatabaseToolsConnections(ctx context.Conte
 
 // ListDatabaseToolsEndpointServices Returns a list of Database Tools endpoint services.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListDatabaseToolsEndpointServices.go.html to see an example of how to use ListDatabaseToolsEndpointServices API.
 // A default retry strategy applies to this operation ListDatabaseToolsEndpointServices()
@@ -807,7 +807,7 @@ func (client DatabaseToolsClient) listDatabaseToolsEndpointServices(ctx context.
 
 // ListDatabaseToolsPrivateEndpoints Returns a list of Database Tools private endpoints.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListDatabaseToolsPrivateEndpoints.go.html to see an example of how to use ListDatabaseToolsPrivateEndpoints API.
 // A default retry strategy applies to this operation ListDatabaseToolsPrivateEndpoints()
@@ -865,7 +865,7 @@ func (client DatabaseToolsClient) listDatabaseToolsPrivateEndpoints(ctx context.
 
 // ListWorkRequestErrors Returns a paginated list of errors for the specified work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -923,7 +923,7 @@ func (client DatabaseToolsClient) listWorkRequestErrors(ctx context.Context, req
 
 // ListWorkRequestLogs Returns a paginated list of logs for the specified work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -981,7 +981,7 @@ func (client DatabaseToolsClient) listWorkRequestLogs(ctx context.Context, reque
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -1039,7 +1039,7 @@ func (client DatabaseToolsClient) listWorkRequests(ctx context.Context, request 
 
 // UpdateDatabaseToolsConnection Updates the specified Database Tools connection.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/UpdateDatabaseToolsConnection.go.html to see an example of how to use UpdateDatabaseToolsConnection API.
 func (client DatabaseToolsClient) UpdateDatabaseToolsConnection(ctx context.Context, request UpdateDatabaseToolsConnectionRequest) (response UpdateDatabaseToolsConnectionResponse, err error) {
@@ -1096,7 +1096,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsConnection(ctx context.Cont
 
 // UpdateDatabaseToolsPrivateEndpoint Updates the specified Database Tools private endpoint.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/UpdateDatabaseToolsPrivateEndpoint.go.html to see an example of how to use UpdateDatabaseToolsPrivateEndpoint API.
 func (client DatabaseToolsClient) UpdateDatabaseToolsPrivateEndpoint(ctx context.Context, request UpdateDatabaseToolsPrivateEndpointRequest) (response UpdateDatabaseToolsPrivateEndpointResponse, err error) {
@@ -1153,7 +1153,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsPrivateEndpoint(ctx context
 
 // ValidateDatabaseToolsConnection Validates the Database Tools connection details by establishing a connection to the database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ValidateDatabaseToolsConnection.go.html to see an example of how to use ValidateDatabaseToolsConnection API.
 func (client DatabaseToolsClient) ValidateDatabaseToolsConnection(ctx context.Context, request ValidateDatabaseToolsConnectionRequest) (response ValidateDatabaseToolsConnectionResponse, err error) {

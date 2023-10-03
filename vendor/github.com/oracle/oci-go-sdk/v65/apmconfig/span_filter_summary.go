@@ -64,42 +64,42 @@ type SpanFilterSummary struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m SpanFilterSummary) GetId() *string {
 	return m.Id
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m SpanFilterSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m SpanFilterSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetCreatedBy returns CreatedBy
+// GetCreatedBy returns CreatedBy
 func (m SpanFilterSummary) GetCreatedBy() *string {
 	return m.CreatedBy
 }
 
-//GetUpdatedBy returns UpdatedBy
+// GetUpdatedBy returns UpdatedBy
 func (m SpanFilterSummary) GetUpdatedBy() *string {
 	return m.UpdatedBy
 }
 
-//GetEtag returns Etag
+// GetEtag returns Etag
 func (m SpanFilterSummary) GetEtag() *string {
 	return m.Etag
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m SpanFilterSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m SpanFilterSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

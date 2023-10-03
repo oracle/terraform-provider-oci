@@ -42,7 +42,7 @@ type CreateCertificateIssuedByInternalCaConfigDetails struct {
 	SignatureAlgorithm SignatureAlgorithmEnum `mandatory:"false" json:"signatureAlgorithm,omitempty"`
 }
 
-//GetVersionName returns VersionName
+// GetVersionName returns VersionName
 func (m CreateCertificateIssuedByInternalCaConfigDetails) GetVersionName() *string {
 	return m.VersionName
 }

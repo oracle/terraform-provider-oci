@@ -94,7 +94,7 @@ func (client *ConfigClient) ConfigurationProvider() *common.ConfigurationProvide
 
 // CreateConfig Creates a new configuration item.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/CreateConfig.go.html to see an example of how to use CreateConfig API.
 // A default retry strategy applies to this operation CreateConfig()
@@ -157,7 +157,7 @@ func (client ConfigClient) createConfig(ctx context.Context, request common.OCIR
 
 // DeleteConfig Deletes the configuration item identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/DeleteConfig.go.html to see an example of how to use DeleteConfig API.
 // A default retry strategy applies to this operation DeleteConfig()
@@ -215,7 +215,7 @@ func (client ConfigClient) deleteConfig(ctx context.Context, request common.OCIR
 
 // GetConfig Gets the configuration item identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/GetConfig.go.html to see an example of how to use GetConfig API.
 // A default retry strategy applies to this operation GetConfig()
@@ -273,7 +273,7 @@ func (client ConfigClient) getConfig(ctx context.Context, request common.OCIRequ
 
 // ListConfigs Returns all configuration items, which can optionally be filtered by configuration type.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/ListConfigs.go.html to see an example of how to use ListConfigs API.
 // A default retry strategy applies to this operation ListConfigs()
@@ -331,7 +331,7 @@ func (client ConfigClient) listConfigs(ctx context.Context, request common.OCIRe
 
 // RetrieveNamespaceMetrics Returns all metrics associated with the specified namespace.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/RetrieveNamespaceMetrics.go.html to see an example of how to use RetrieveNamespaceMetrics API.
 // A default retry strategy applies to this operation RetrieveNamespaceMetrics()
@@ -389,7 +389,7 @@ func (client ConfigClient) retrieveNamespaceMetrics(ctx context.Context, request
 
 // RetrieveNamespaces Returns all namespaces available in APM.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/RetrieveNamespaces.go.html to see an example of how to use RetrieveNamespaces API.
 // A default retry strategy applies to this operation RetrieveNamespaces()
@@ -447,7 +447,7 @@ func (client ConfigClient) retrieveNamespaces(ctx context.Context, request commo
 
 // UpdateConfig Updates the details of the configuration item identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/UpdateConfig.go.html to see an example of how to use UpdateConfig API.
 // A default retry strategy applies to this operation UpdateConfig()
@@ -506,7 +506,7 @@ func (client ConfigClient) updateConfig(ctx context.Context, request common.OCIR
 // ValidateSpanFilterPattern Validates the Span Filter pattern (filterText) for syntactic correctness.
 // Returns 204 on success, 422 when validation fails.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/ValidateSpanFilterPattern.go.html to see an example of how to use ValidateSpanFilterPattern API.
 // A default retry strategy applies to this operation ValidateSpanFilterPattern()

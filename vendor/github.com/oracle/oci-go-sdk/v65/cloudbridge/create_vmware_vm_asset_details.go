@@ -56,42 +56,42 @@ type CreateVmwareVmAssetDetails struct {
 	VmwareVCenter *VmwareVCenterProperties `mandatory:"false" json:"vmwareVCenter"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateVmwareVmAssetDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetInventoryId returns InventoryId
+// GetInventoryId returns InventoryId
 func (m CreateVmwareVmAssetDetails) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateVmwareVmAssetDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetSourceKey returns SourceKey
+// GetSourceKey returns SourceKey
 func (m CreateVmwareVmAssetDetails) GetSourceKey() *string {
 	return m.SourceKey
 }
 
-//GetExternalAssetKey returns ExternalAssetKey
+// GetExternalAssetKey returns ExternalAssetKey
 func (m CreateVmwareVmAssetDetails) GetExternalAssetKey() *string {
 	return m.ExternalAssetKey
 }
 
-//GetAssetSourceIds returns AssetSourceIds
+// GetAssetSourceIds returns AssetSourceIds
 func (m CreateVmwareVmAssetDetails) GetAssetSourceIds() []string {
 	return m.AssetSourceIds
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateVmwareVmAssetDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateVmwareVmAssetDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

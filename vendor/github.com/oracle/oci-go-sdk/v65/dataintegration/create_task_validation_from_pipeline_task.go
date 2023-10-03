@@ -60,72 +60,72 @@ type CreateTaskValidationFromPipelineTask struct {
 	Pipeline *Pipeline `mandatory:"false" json:"pipeline"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m CreateTaskValidationFromPipelineTask) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m CreateTaskValidationFromPipelineTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m CreateTaskValidationFromPipelineTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateTaskValidationFromPipelineTask) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateTaskValidationFromPipelineTask) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m CreateTaskValidationFromPipelineTask) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m CreateTaskValidationFromPipelineTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m CreateTaskValidationFromPipelineTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m CreateTaskValidationFromPipelineTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m CreateTaskValidationFromPipelineTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m CreateTaskValidationFromPipelineTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m CreateTaskValidationFromPipelineTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-//GetConfigProviderDelegate returns ConfigProviderDelegate
+// GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m CreateTaskValidationFromPipelineTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m CreateTaskValidationFromPipelineTask) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

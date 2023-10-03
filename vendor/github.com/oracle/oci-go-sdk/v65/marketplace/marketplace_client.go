@@ -93,7 +93,7 @@ func (client *MarketplaceClient) ConfigurationProvider() *common.ConfigurationPr
 
 // ChangePublicationCompartment Moves the specified publication from one compartment to another.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ChangePublicationCompartment.go.html to see an example of how to use ChangePublicationCompartment API.
 // A default retry strategy applies to this operation ChangePublicationCompartment()
@@ -157,7 +157,7 @@ func (client MarketplaceClient) changePublicationCompartment(ctx context.Context
 // CreateAcceptedAgreement Accepts a terms of use agreement for a specific package version of a listing. You must accept all
 // terms of use for a package before you can deploy the package.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/CreateAcceptedAgreement.go.html to see an example of how to use CreateAcceptedAgreement API.
 // A default retry strategy applies to this operation CreateAcceptedAgreement()
@@ -220,7 +220,7 @@ func (client MarketplaceClient) createAcceptedAgreement(ctx context.Context, req
 
 // CreatePublication Creates a publication of the specified listing type with an optional default package.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/CreatePublication.go.html to see an example of how to use CreatePublication API.
 // A default retry strategy applies to this operation CreatePublication()
@@ -285,7 +285,7 @@ func (client MarketplaceClient) createPublication(ctx context.Context, request c
 // before initiating a deployment. Listings in Marketplace that require acceptance of the specified terms
 // of use can no longer be deployed, but existing deployments aren't affected.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/DeleteAcceptedAgreement.go.html to see an example of how to use DeleteAcceptedAgreement API.
 // A default retry strategy applies to this operation DeleteAcceptedAgreement()
@@ -343,7 +343,7 @@ func (client MarketplaceClient) deleteAcceptedAgreement(ctx context.Context, req
 
 // DeletePublication Deletes a publication, which also removes the associated listing from anywhere it was published, such as Marketplace or Compute.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/DeletePublication.go.html to see an example of how to use DeletePublication API.
 // A default retry strategy applies to this operation DeletePublication()
@@ -401,7 +401,7 @@ func (client MarketplaceClient) deletePublication(ctx context.Context, request c
 
 // GetAcceptedAgreement Gets the details of a specific, previously accepted terms of use agreement.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetAcceptedAgreement.go.html to see an example of how to use GetAcceptedAgreement API.
 // A default retry strategy applies to this operation GetAcceptedAgreement()
@@ -460,7 +460,7 @@ func (client MarketplaceClient) getAcceptedAgreement(ctx context.Context, reques
 // GetAgreement Returns a terms of use agreement for a package with a time-based signature that can be used to
 // accept the agreement.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetAgreement.go.html to see an example of how to use GetAgreement API.
 // A default retry strategy applies to this operation GetAgreement()
@@ -529,7 +529,7 @@ func (client MarketplaceClient) getAgreement(ctx context.Context, request common
 // To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
 // Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetListing.go.html to see an example of how to use GetListing API.
 // A default retry strategy applies to this operation GetListing()
@@ -597,7 +597,7 @@ func (client MarketplaceClient) getListing(ctx context.Context, request common.O
 // To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
 // Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetPackage.go.html to see an example of how to use GetPackage API.
 // A default retry strategy applies to this operation GetPackage()
@@ -655,7 +655,7 @@ func (client MarketplaceClient) getPackage(ctx context.Context, request common.O
 
 // GetPublication Gets the details of the specified publication.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetPublication.go.html to see an example of how to use GetPublication API.
 // A default retry strategy applies to this operation GetPublication()
@@ -713,7 +713,7 @@ func (client MarketplaceClient) getPublication(ctx context.Context, request comm
 
 // GetPublicationPackage Gets the details of a specific package version within a given publication.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetPublicationPackage.go.html to see an example of how to use GetPublicationPackage API.
 // A default retry strategy applies to this operation GetPublicationPackage()
@@ -772,7 +772,7 @@ func (client MarketplaceClient) getPublicationPackage(ctx context.Context, reque
 // ListAcceptedAgreements Lists the terms of use agreements that have been accepted in the specified compartment.
 // You can filter results by specifying query parameters.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListAcceptedAgreements.go.html to see an example of how to use ListAcceptedAgreements API.
 // A default retry strategy applies to this operation ListAcceptedAgreements()
@@ -830,7 +830,7 @@ func (client MarketplaceClient) listAcceptedAgreements(ctx context.Context, requ
 
 // ListAgreements Returns the terms of use agreements that must be accepted before you can deploy the specified version of a package.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListAgreements.go.html to see an example of how to use ListAgreements API.
 // A default retry strategy applies to this operation ListAgreements()
@@ -889,7 +889,7 @@ func (client MarketplaceClient) listAgreements(ctx context.Context, request comm
 // ListCategories Gets the list of all the categories for listings published to Oracle Cloud Infrastructure Marketplace. Categories apply
 // to the software product provided by the listing.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListCategories.go.html to see an example of how to use ListCategories API.
 // A default retry strategy applies to this operation ListCategories()
@@ -958,7 +958,7 @@ func (client MarketplaceClient) listCategories(ctx context.Context, request comm
 // To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
 // Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListListings.go.html to see an example of how to use ListListings API.
 // A default retry strategy applies to this operation ListListings()
@@ -1026,7 +1026,7 @@ func (client MarketplaceClient) listListings(ctx context.Context, request common
 // To get the image ID to launch an instance, issue a GetAppCatalogListingResourceVersion (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion) API call.
 // Lastly, to launch the instance, use the image ID of the listing resource version to issue a LaunchInstance (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/latest/Instance/LaunchInstance) API call.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListPackages.go.html to see an example of how to use ListPackages API.
 // A default retry strategy applies to this operation ListPackages()
@@ -1084,7 +1084,7 @@ func (client MarketplaceClient) listPackages(ctx context.Context, request common
 
 // ListPublicationPackages Lists the packages in the specified publication.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListPublicationPackages.go.html to see an example of how to use ListPublicationPackages API.
 // A default retry strategy applies to this operation ListPublicationPackages()
@@ -1142,7 +1142,7 @@ func (client MarketplaceClient) listPublicationPackages(ctx context.Context, req
 
 // ListPublications Lists the publications in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListPublications.go.html to see an example of how to use ListPublications API.
 // A default retry strategy applies to this operation ListPublications()
@@ -1200,7 +1200,7 @@ func (client MarketplaceClient) listPublications(ctx context.Context, request co
 
 // ListPublishers Gets the list of all the publishers of listings available in Oracle Cloud Infrastructure Marketplace.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListPublishers.go.html to see an example of how to use ListPublishers API.
 // A default retry strategy applies to this operation ListPublishers()
@@ -1258,7 +1258,7 @@ func (client MarketplaceClient) listPublishers(ctx context.Context, request comm
 
 // ListReportTypes Lists available types of reports for the compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListReportTypes.go.html to see an example of how to use ListReportTypes API.
 // A default retry strategy applies to this operation ListReportTypes()
@@ -1316,7 +1316,7 @@ func (client MarketplaceClient) listReportTypes(ctx context.Context, request com
 
 // ListReports Lists reports in the compartment that match the specified report type and date.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListReports.go.html to see an example of how to use ListReports API.
 // A default retry strategy applies to this operation ListReports()
@@ -1374,7 +1374,7 @@ func (client MarketplaceClient) listReports(ctx context.Context, request common.
 
 // ListTaxes Returns list of all tax implications that current tenant may be liable to once they launch the listing.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListTaxes.go.html to see an example of how to use ListTaxes API.
 // A default retry strategy applies to this operation ListTaxes()
@@ -1433,7 +1433,7 @@ func (client MarketplaceClient) listTaxes(ctx context.Context, request common.OC
 // SearchListings Queries all Marketplace Applications to find listings that match the specified criteria. To search
 // for a listing, you can use a free text or structured search.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/SearchListings.go.html to see an example of how to use SearchListings API.
 // A default retry strategy applies to this operation SearchListings()
@@ -1491,7 +1491,7 @@ func (client MarketplaceClient) searchListings(ctx context.Context, request comm
 
 // UpdateAcceptedAgreement Updates the display name or tags associated with a listing's previously accepted terms of use agreement.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/UpdateAcceptedAgreement.go.html to see an example of how to use UpdateAcceptedAgreement API.
 // A default retry strategy applies to this operation UpdateAcceptedAgreement()
@@ -1554,7 +1554,7 @@ func (client MarketplaceClient) updateAcceptedAgreement(ctx context.Context, req
 
 // UpdatePublication Updates the details of an existing publication.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/UpdatePublication.go.html to see an example of how to use UpdatePublication API.
 // A default retry strategy applies to this operation UpdatePublication()

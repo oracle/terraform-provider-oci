@@ -95,7 +95,7 @@ func (client *PerfhubClient) ConfigurationProvider() *common.ConfigurationProvid
 
 // ModifySnapshotSettings Modifies the snapshot settings for the specified Database.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ModifySnapshotSettings.go.html to see an example of how to use ModifySnapshotSettings API.
 func (client PerfhubClient) ModifySnapshotSettings(ctx context.Context, request ModifySnapshotSettingsRequest) (response ModifySnapshotSettingsResponse, err error) {

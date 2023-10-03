@@ -93,7 +93,7 @@ func (client *ApmSyntheticClient) ConfigurationProvider() *common.ConfigurationP
 
 // AggregateNetworkData Gets aggregated network data for given executions.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/AggregateNetworkData.go.html to see an example of how to use AggregateNetworkData API.
 // A default retry strategy applies to this operation AggregateNetworkData()
@@ -156,7 +156,7 @@ func (client ApmSyntheticClient) aggregateNetworkData(ctx context.Context, reque
 
 // CreateDedicatedVantagePoint Registers a new dedicated vantage point.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateDedicatedVantagePoint.go.html to see an example of how to use CreateDedicatedVantagePoint API.
 // A default retry strategy applies to this operation CreateDedicatedVantagePoint()
@@ -219,7 +219,7 @@ func (client ApmSyntheticClient) createDedicatedVantagePoint(ctx context.Context
 
 // CreateMonitor Creates a new monitor.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateMonitor.go.html to see an example of how to use CreateMonitor API.
 // A default retry strategy applies to this operation CreateMonitor()
@@ -282,7 +282,7 @@ func (client ApmSyntheticClient) createMonitor(ctx context.Context, request comm
 
 // CreateScript Creates a new script.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateScript.go.html to see an example of how to use CreateScript API.
 // A default retry strategy applies to this operation CreateScript()
@@ -345,7 +345,7 @@ func (client ApmSyntheticClient) createScript(ctx context.Context, request commo
 
 // DeleteDedicatedVantagePoint Deregisters the specified dedicated vantage point.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteDedicatedVantagePoint.go.html to see an example of how to use DeleteDedicatedVantagePoint API.
 // A default retry strategy applies to this operation DeleteDedicatedVantagePoint()
@@ -403,7 +403,7 @@ func (client ApmSyntheticClient) deleteDedicatedVantagePoint(ctx context.Context
 
 // DeleteMonitor Deletes the specified monitor.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteMonitor.go.html to see an example of how to use DeleteMonitor API.
 // A default retry strategy applies to this operation DeleteMonitor()
@@ -461,7 +461,7 @@ func (client ApmSyntheticClient) deleteMonitor(ctx context.Context, request comm
 
 // DeleteScript Deletes the specified script.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteScript.go.html to see an example of how to use DeleteScript API.
 // A default retry strategy applies to this operation DeleteScript()
@@ -519,7 +519,7 @@ func (client ApmSyntheticClient) deleteScript(ctx context.Context, request commo
 
 // GetDedicatedVantagePoint Gets the details of the dedicated vantage point identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetDedicatedVantagePoint.go.html to see an example of how to use GetDedicatedVantagePoint API.
 // A default retry strategy applies to this operation GetDedicatedVantagePoint()
@@ -577,7 +577,7 @@ func (client ApmSyntheticClient) getDedicatedVantagePoint(ctx context.Context, r
 
 // GetMonitor Gets the configuration of the monitor identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetMonitor.go.html to see an example of how to use GetMonitor API.
 // A default retry strategy applies to this operation GetMonitor()
@@ -635,7 +635,7 @@ func (client ApmSyntheticClient) getMonitor(ctx context.Context, request common.
 
 // GetMonitorResult Gets the results for a specific execution of a monitor identified by OCID. The results are in a HAR file, Screenshot, Console Log or Network details.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetMonitorResult.go.html to see an example of how to use GetMonitorResult API.
 // A default retry strategy applies to this operation GetMonitorResult()
@@ -693,7 +693,7 @@ func (client ApmSyntheticClient) getMonitorResult(ctx context.Context, request c
 
 // GetScript Gets the configuration of the script identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetScript.go.html to see an example of how to use GetScript API.
 // A default retry strategy applies to this operation GetScript()
@@ -751,7 +751,7 @@ func (client ApmSyntheticClient) getScript(ctx context.Context, request common.O
 
 // ListDedicatedVantagePoints Returns a list of dedicated vantage points.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListDedicatedVantagePoints.go.html to see an example of how to use ListDedicatedVantagePoints API.
 // A default retry strategy applies to this operation ListDedicatedVantagePoints()
@@ -809,7 +809,7 @@ func (client ApmSyntheticClient) listDedicatedVantagePoints(ctx context.Context,
 
 // ListMonitors Returns a list of monitors.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListMonitors.go.html to see an example of how to use ListMonitors API.
 // A default retry strategy applies to this operation ListMonitors()
@@ -867,7 +867,7 @@ func (client ApmSyntheticClient) listMonitors(ctx context.Context, request commo
 
 // ListPublicVantagePoints Returns a list of public vantage points.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListPublicVantagePoints.go.html to see an example of how to use ListPublicVantagePoints API.
 // A default retry strategy applies to this operation ListPublicVantagePoints()
@@ -925,7 +925,7 @@ func (client ApmSyntheticClient) listPublicVantagePoints(ctx context.Context, re
 
 // ListScripts Returns a list of scripts.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListScripts.go.html to see an example of how to use ListScripts API.
 // A default retry strategy applies to this operation ListScripts()
@@ -983,7 +983,7 @@ func (client ApmSyntheticClient) listScripts(ctx context.Context, request common
 
 // UpdateDedicatedVantagePoint Updates the dedicated vantage point.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateDedicatedVantagePoint.go.html to see an example of how to use UpdateDedicatedVantagePoint API.
 // A default retry strategy applies to this operation UpdateDedicatedVantagePoint()
@@ -1041,7 +1041,7 @@ func (client ApmSyntheticClient) updateDedicatedVantagePoint(ctx context.Context
 
 // UpdateMonitor Updates the monitor.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateMonitor.go.html to see an example of how to use UpdateMonitor API.
 // A default retry strategy applies to this operation UpdateMonitor()
@@ -1099,7 +1099,7 @@ func (client ApmSyntheticClient) updateMonitor(ctx context.Context, request comm
 
 // UpdateScript Updates the script.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateScript.go.html to see an example of how to use UpdateScript API.
 // A default retry strategy applies to this operation UpdateScript()

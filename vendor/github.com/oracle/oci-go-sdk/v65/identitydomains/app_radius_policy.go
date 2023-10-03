@@ -19,12 +19,12 @@ import (
 // AppRadiusPolicy RADIUS Policy assigned to this application.
 // **Added In:** 2209070044
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
 type AppRadiusPolicy struct {
 
 	// Identifier of the Policy.

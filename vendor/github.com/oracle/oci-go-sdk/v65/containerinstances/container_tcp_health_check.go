@@ -51,47 +51,47 @@ type ContainerTcpHealthCheck struct {
 	FailureAction ContainerHealthCheckFailureActionEnum `mandatory:"false" json:"failureAction,omitempty"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ContainerTcpHealthCheck) GetName() *string {
 	return m.Name
 }
 
-//GetInitialDelayInSeconds returns InitialDelayInSeconds
+// GetInitialDelayInSeconds returns InitialDelayInSeconds
 func (m ContainerTcpHealthCheck) GetInitialDelayInSeconds() *int {
 	return m.InitialDelayInSeconds
 }
 
-//GetIntervalInSeconds returns IntervalInSeconds
+// GetIntervalInSeconds returns IntervalInSeconds
 func (m ContainerTcpHealthCheck) GetIntervalInSeconds() *int {
 	return m.IntervalInSeconds
 }
 
-//GetFailureThreshold returns FailureThreshold
+// GetFailureThreshold returns FailureThreshold
 func (m ContainerTcpHealthCheck) GetFailureThreshold() *int {
 	return m.FailureThreshold
 }
 
-//GetSuccessThreshold returns SuccessThreshold
+// GetSuccessThreshold returns SuccessThreshold
 func (m ContainerTcpHealthCheck) GetSuccessThreshold() *int {
 	return m.SuccessThreshold
 }
 
-//GetTimeoutInSeconds returns TimeoutInSeconds
+// GetTimeoutInSeconds returns TimeoutInSeconds
 func (m ContainerTcpHealthCheck) GetTimeoutInSeconds() *int {
 	return m.TimeoutInSeconds
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m ContainerTcpHealthCheck) GetStatus() ContainerHealthCheckStatusEnum {
 	return m.Status
 }
 
-//GetStatusDetails returns StatusDetails
+// GetStatusDetails returns StatusDetails
 func (m ContainerTcpHealthCheck) GetStatusDetails() *string {
 	return m.StatusDetails
 }
 
-//GetFailureAction returns FailureAction
+// GetFailureAction returns FailureAction
 func (m ContainerTcpHealthCheck) GetFailureAction() ContainerHealthCheckFailureActionEnum {
 	return m.FailureAction
 }

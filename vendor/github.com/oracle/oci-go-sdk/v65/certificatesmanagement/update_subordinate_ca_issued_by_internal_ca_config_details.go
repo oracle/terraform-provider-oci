@@ -31,12 +31,12 @@ type UpdateSubordinateCaIssuedByInternalCaConfigDetails struct {
 	Stage UpdateCertificateAuthorityConfigDetailsStageEnum `mandatory:"false" json:"stage,omitempty"`
 }
 
-//GetVersionName returns VersionName
+// GetVersionName returns VersionName
 func (m UpdateSubordinateCaIssuedByInternalCaConfigDetails) GetVersionName() *string {
 	return m.VersionName
 }
 
-//GetStage returns Stage
+// GetStage returns Stage
 func (m UpdateSubordinateCaIssuedByInternalCaConfigDetails) GetStage() UpdateCertificateAuthorityConfigDetailsStageEnum {
 	return m.Stage
 }
