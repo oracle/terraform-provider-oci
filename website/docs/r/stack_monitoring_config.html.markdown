@@ -26,10 +26,11 @@ resource "oci_stack_monitoring_config" "test_config" {
 	#Required
 	compartment_id = var.compartment_id
 	config_type = var.config_config_type
-	is_enabled = var.config_is_enabled
-	resource_type = var.config_resource_type
 
 	#Optional
+	is_enabled = var.config_is_enabled
+	resource_type = var.config_resource_type
+	license = var.config_license
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	display_name = var.config_display_name
 	freeform_tags = {"bar-key"= "value"}
@@ -45,8 +46,9 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Optional) (Updatable) The display name of the configuration.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `is_enabled` - (Required) (Updatable) True if automatic promotion is enabled, false if it is not enabled.
-* `resource_type` - (Required) The type of resource to configure for automatic promotion. The only valid value is `"HOST"`.
+* `is_enabled` - (Required when config_type=AUTO_PROMOTE | LICENSE_ENTERPRISE_EXTENSIBILITY) (Updatable) True if enterprise extensibility is enabled, false if it is not enabled.
+* `license` - (Required when config_type=LICENSE_AUTO_ASSIGN) (Updatable) License edition.
+* `resource_type` - (Required when config_type=AUTO_PROMOTE) The type of resource to configure for automatic promotion.
 
 
 ** IMPORTANT **
@@ -62,7 +64,8 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The Unique Oracle ID (OCID) that is immutable on creation.
-* `is_enabled` - True if automatic promotion is enabled, false if it is not enabled.
+* `is_enabled` - True if automatic promotion or enterprise extensibility is enabled, false if it is not enabled.
+* `license` - License edition.
 * `resource_type` - The type of resource to configure for automatic promotion.
 * `state` - The current state of the configuration.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

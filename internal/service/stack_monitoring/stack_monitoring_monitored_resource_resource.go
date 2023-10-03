@@ -339,6 +339,11 @@ func StackMonitoringMonitoredResourceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"license": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"management_agent_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -584,6 +589,10 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) Create() error {
 		request.HostName = &tmp
 	}
 
+	if license, ok := s.D.GetOkExists("license"); ok {
+		request.License = oci_stack_monitoring.LicenseTypeEnum(license.(string))
+	}
+
 	if managementAgentId, ok := s.D.GetOkExists("management_agent_id"); ok {
 		tmp := managementAgentId.(string)
 		request.ManagementAgentId = &tmp
@@ -770,6 +779,13 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) Get() error {
 }
 
 func (s *StackMonitoringMonitoredResourceResourceCrud) Update() error {
+
+	if _, ok := s.D.GetOkExists("license"); ok && s.D.HasChange("license") {
+		err := s.ManageLicense()
+		if err != nil {
+			return err
+		}
+	}
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -976,6 +992,8 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) SetData() error {
 		s.D.Set("host_name", *s.Res.HostName)
 	}
 
+	s.D.Set("license", s.Res.License)
+
 	if s.Res.ManagementAgentId != nil {
 		s.D.Set("management_agent_id", *s.Res.ManagementAgentId)
 	}
@@ -1014,6 +1032,30 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) SetData() error {
 
 	if s.Res.Type != nil {
 		s.D.Set("type", *s.Res.Type)
+	}
+
+	return nil
+}
+
+func (s *StackMonitoringMonitoredResourceResourceCrud) ManageLicense() error {
+	request := oci_stack_monitoring.ManageLicenseRequest{}
+
+	if license, ok := s.D.GetOkExists("license"); ok {
+		request.License = oci_stack_monitoring.LicenseTypeEnum(license.(string))
+	}
+
+	idTmp := s.D.Id()
+	request.MonitoredResourceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
+
+	_, err := s.Client.ManageLicense(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil

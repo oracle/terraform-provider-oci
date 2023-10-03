@@ -41,6 +41,7 @@ resource "oci_stack_monitoring_discovery_job" "test_discovery_job" {
 		}
 		resource_name = "terraformExample"
 		resource_type = "WEBLOGIC_DOMAIN"
+		license = "STANDARD_EDITION"
 
 		#Optional
 		credentials {

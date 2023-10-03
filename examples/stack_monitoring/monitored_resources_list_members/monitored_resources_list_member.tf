@@ -21,9 +21,9 @@ provider "oci" {
 
 
 resource "oci_stack_monitoring_monitored_resources_list_member" "test_monitored_resources_list_member" {
-	#Required
-	monitored_resource_id = var.stack_mon_source_resource_id
+  #Required
+  monitored_resource_id = var.stack_mon_source_resource_id
 
-	#Optional
-	destination_resource_id = var.stack_mon_destination_resource_id
+  #Optional
+  destination_resource_id = var.stack_mon_destination_resource_id
 }
