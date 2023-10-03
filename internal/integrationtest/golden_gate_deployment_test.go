@@ -210,6 +210,33 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			Config: config,
 		},
 
+		{
+			Config: config + testDeploymentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create,
+				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+					"deployment_type": acctest.Representation{RepType: acctest.Required, Create: `GGSA`},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", "GGSA"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "GOLDENGATE"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername"),
+				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
 		// optional step: verify Create with IAM credential store and identity domain id
 		{
 			PreConfig: func() {
