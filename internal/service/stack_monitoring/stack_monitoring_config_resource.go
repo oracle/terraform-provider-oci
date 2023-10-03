@@ -40,16 +40,25 @@ func StackMonitoringConfigResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"AUTO_PROMOTE",
+					"LICENSE_AUTO_ASSIGN",
+					"LICENSE_ENTERPRISE_EXTENSIBILITY",
 				}, true),
 			},
 			"is_enabled": {
 				Type:     schema.TypeBool,
-				Required: true,
+				Optional: true,
+				Computed: true,
 			},
 			"resource_type": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				ForceNew: true,
+			},
+			"license": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Optional
@@ -261,6 +270,79 @@ func (s *StackMonitoringConfigResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_stack_monitoring.LicenseAutoAssignConfigDetails:
+		s.D.Set("config_type", "LICENSE_AUTO_ASSIGN")
+
+		s.D.Set("license", v.License)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_stack_monitoring.LicenseEnterpriseExtensibilityConfigDetails:
+		s.D.Set("config_type", "LICENSE_ENTERPRISE_EXTENSIBILITY")
+
+		if v.IsEnabled != nil {
+			s.D.Set("is_enabled", *v.IsEnabled)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
@@ -331,6 +413,16 @@ func ConfigSummaryToMap(obj oci_stack_monitoring.ConfigSummary) map[string]inter
 		}
 
 		result["resource_type"] = string(v.ResourceType)
+	case oci_stack_monitoring.LicenseAutoAssignConfigSummary:
+		result["config_type"] = "LICENSE_AUTO_ASSIGN"
+
+		result["license"] = string(v.License)
+	case oci_stack_monitoring.LicenseEnterpriseExtensibilityConfigSummary:
+		result["config_type"] = "LICENSE_ENTERPRISE_EXTENSIBILITY"
+
+		if v.IsEnabled != nil {
+			result["is_enabled"] = bool(*v.IsEnabled)
+		}
 	default:
 		log.Printf("[WARN] Received 'config_type' of unknown type %v", obj)
 		return nil
@@ -377,6 +469,55 @@ func (s *StackMonitoringConfigResourceCrud) populateTopLevelPolymorphicCreateCon
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateConfigDetails = details
+	case strings.ToLower("LICENSE_AUTO_ASSIGN"):
+		details := oci_stack_monitoring.CreateLicenseAutoAssignConfigDetails{}
+		if license, ok := s.D.GetOkExists("license"); ok {
+			details.License = oci_stack_monitoring.LicenseTypeEnum(license.(string))
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateConfigDetails = details
+	case strings.ToLower("LICENSE_ENTERPRISE_EXTENSIBILITY"):
+		details := oci_stack_monitoring.CreateLicenseEnterpriseExtensibilityConfigDetails{}
+		if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
+			tmp := isEnabled.(bool)
+			details.IsEnabled = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateConfigDetails = details
 	default:
 		return fmt.Errorf("unknown config_type '%v' was specified", configType)
 	}
@@ -395,6 +536,51 @@ func (s *StackMonitoringConfigResourceCrud) populateTopLevelPolymorphicUpdateCon
 	switch strings.ToLower(configType) {
 	case strings.ToLower("AUTO_PROMOTE"):
 		details := oci_stack_monitoring.UpdateAutoPromoteConfigDetails{}
+		if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
+			tmp := isEnabled.(bool)
+			details.IsEnabled = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConfigId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateConfigDetails = details
+	case strings.ToLower("LICENSE_AUTO_ASSIGN"):
+		details := oci_stack_monitoring.UpdateLicenseAutoAssignConfigDetails{}
+		if license, ok := s.D.GetOkExists("license"); ok {
+			details.License = oci_stack_monitoring.LicenseTypeEnum(license.(string))
+		}
+		tmp := s.D.Id()
+		request.ConfigId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateConfigDetails = details
+	case strings.ToLower("LICENSE_ENTERPRISE_EXTENSIBILITY"):
+		details := oci_stack_monitoring.UpdateLicenseEnterpriseExtensibilityConfigDetails{}
 		if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
 			tmp := isEnabled.(bool)
 			details.IsEnabled = &tmp

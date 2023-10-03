@@ -110,6 +110,8 @@ func (s *StackMonitoringMonitoredResourceDataSourceCrud) SetData() error {
 		s.D.Set("host_name", *s.Res.HostName)
 	}
 
+	s.D.Set("license", s.Res.License)
+
 	if s.Res.ManagementAgentId != nil {
 		s.D.Set("management_agent_id", *s.Res.ManagementAgentId)
 	}
