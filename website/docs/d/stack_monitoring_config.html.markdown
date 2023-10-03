@@ -38,7 +38,8 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The Unique Oracle ID (OCID) that is immutable on creation.
-* `is_enabled` - True if automatic promotion is enabled, false if it is not enabled.
+* `is_enabled` - True if automatic promotion or enterprise extensibility is enabled, false if it is not enabled.
+* `license` - License edition.
 * `resource_type` - The type of resource to configure for automatic promotion.
 * `state` - The current state of the configuration.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

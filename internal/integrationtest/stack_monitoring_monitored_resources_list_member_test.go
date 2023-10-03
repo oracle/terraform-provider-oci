@@ -23,8 +23,6 @@ var (
 		"monitored_resource_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.source_resource_id}`},
 		"destination_resource_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.destination_resource_id}`},
 	}
-
-	StackMonitoringMonitoredResourcesListMemberResourceDependencies = ""
 )
 
 // issue-routing-tag: stack_monitoring/default
@@ -67,7 +65,7 @@ func TestStackMonitoringMonitoredResourcesListMemberResource_basic(t *testing.T)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		{
-			Config: config + compartmentIdVariableStr + sourceResourceIdVariableStr + destinationResourceIdVariableStr + destinationResourceNameVariableStr + destinationResourceTypeVariableStr + StackMonitoringMonitoredResourcesListMemberResourceDependencies +
+			Config: config + compartmentIdVariableStr + sourceResourceIdVariableStr + destinationResourceIdVariableStr + destinationResourceNameVariableStr + destinationResourceTypeVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_list_member", "test_monitored_resources_list_member", acctest.Optional, acctest.Create, StackMonitoringStackMonitoringMonitoredResourcesListMemberDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "destination_resource_id"),
