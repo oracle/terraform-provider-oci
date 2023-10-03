@@ -34,7 +34,7 @@ type SteeringPolicyHealthRule struct {
 	Cases []SteeringPolicyHealthRuleCase `mandatory:"false" json:"cases"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m SteeringPolicyHealthRule) GetDescription() *string {
 	return m.Description
 }

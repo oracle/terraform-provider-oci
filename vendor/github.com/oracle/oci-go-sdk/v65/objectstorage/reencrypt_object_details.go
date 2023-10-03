@@ -21,11 +21,11 @@ import (
 // You can only specify either a kmsKeyId or an sseCustomerKey in the request payload, not both.
 // If the request payload is empty, the object is encrypted using the encryption key assigned to the
 // bucket. The bucket encryption mechanism can either be a master encryption key managed by Oracle or the Vault service.
-// - The sseCustomerKey field specifies the customer-provided encryption key (SSE-C) that will be used to re-encrypt the data encryption keys of the
-//   object and its chunks.
-// - The sourceSSECustomerKey field specifies information about the customer-provided encryption key that is currently
-//   associated with the object source. Specify a value for the sourceSSECustomerKey only if the object
-//   is encrypted with a customer-provided encryption key.
+//   - The sseCustomerKey field specifies the customer-provided encryption key (SSE-C) that will be used to re-encrypt the data encryption keys of the
+//     object and its chunks.
+//   - The sourceSSECustomerKey field specifies information about the customer-provided encryption key that is currently
+//     associated with the object source. Specify a value for the sourceSSECustomerKey only if the object
+//     is encrypted with a customer-provided encryption key.
 type ReencryptObjectDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the master encryption key used to call the Vault

@@ -39,7 +39,7 @@ type RandomDigitsFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m RandomDigitsFormatEntry) GetDescription() *string {
 	return m.Description
 }

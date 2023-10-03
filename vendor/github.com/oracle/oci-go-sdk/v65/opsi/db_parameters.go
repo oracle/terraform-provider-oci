@@ -44,7 +44,7 @@ type DbParameters struct {
 	IsDefault *string `mandatory:"false" json:"isDefault"`
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m DbParameters) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

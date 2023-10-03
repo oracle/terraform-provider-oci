@@ -93,7 +93,7 @@ func (client *AddressRuleServiceClient) ConfigurationProvider() *common.Configur
 
 // GetAddressRule Get the address rule for the compartment based on the country code
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetAddressRule.go.html to see an example of how to use GetAddressRule API.
 // A default retry strategy applies to this operation GetAddressRule()

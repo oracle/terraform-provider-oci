@@ -36,27 +36,27 @@ type UpdateDeliverArtifactStageDetails struct {
 	DeliverArtifactCollection *DeliverArtifactCollection `mandatory:"false" json:"deliverArtifactCollection"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateDeliverArtifactStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateDeliverArtifactStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
+// GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
 func (m UpdateDeliverArtifactStageDetails) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessorCollection
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateDeliverArtifactStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateDeliverArtifactStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

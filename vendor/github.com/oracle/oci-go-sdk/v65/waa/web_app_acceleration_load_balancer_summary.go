@@ -62,57 +62,57 @@ type WebAppAccelerationLoadBalancerSummary struct {
 	LifecycleState WebAppAccelerationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m WebAppAccelerationLoadBalancerSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m WebAppAccelerationLoadBalancerSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m WebAppAccelerationLoadBalancerSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
+// GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
 func (m WebAppAccelerationLoadBalancerSummary) GetWebAppAccelerationPolicyId() *string {
 	return m.WebAppAccelerationPolicyId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m WebAppAccelerationLoadBalancerSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m WebAppAccelerationLoadBalancerSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m WebAppAccelerationLoadBalancerSummary) GetLifecycleState() WebAppAccelerationLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m WebAppAccelerationLoadBalancerSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m WebAppAccelerationLoadBalancerSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m WebAppAccelerationLoadBalancerSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m WebAppAccelerationLoadBalancerSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

@@ -27,7 +27,7 @@ type TruncateTableFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m TruncateTableFormatEntry) GetDescription() *string {
 	return m.Description
 }

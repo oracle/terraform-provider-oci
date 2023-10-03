@@ -32,17 +32,17 @@ type DevopsCodeRepositoryBuildSource struct {
 	RepositoryId *string `mandatory:"true" json:"repositoryId"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m DevopsCodeRepositoryBuildSource) GetName() *string {
 	return m.Name
 }
 
-//GetRepositoryUrl returns RepositoryUrl
+// GetRepositoryUrl returns RepositoryUrl
 func (m DevopsCodeRepositoryBuildSource) GetRepositoryUrl() *string {
 	return m.RepositoryUrl
 }
 
-//GetBranch returns Branch
+// GetBranch returns Branch
 func (m DevopsCodeRepositoryBuildSource) GetBranch() *string {
 	return m.Branch
 }

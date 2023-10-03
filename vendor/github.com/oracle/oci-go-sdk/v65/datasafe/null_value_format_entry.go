@@ -25,7 +25,7 @@ type NullValueFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m NullValueFormatEntry) GetDescription() *string {
 	return m.Description
 }

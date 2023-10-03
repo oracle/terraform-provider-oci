@@ -49,7 +49,7 @@ type BitbucketServerConfigSource struct {
 	CloneUrl *string `mandatory:"false" json:"cloneUrl"`
 }
 
-//GetWorkingDirectory returns WorkingDirectory
+// GetWorkingDirectory returns WorkingDirectory
 func (m BitbucketServerConfigSource) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

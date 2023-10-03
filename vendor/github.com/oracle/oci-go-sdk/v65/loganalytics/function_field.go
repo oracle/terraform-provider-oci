@@ -57,52 +57,52 @@ type FunctionField struct {
 	ValueType ValueTypeEnum `mandatory:"false" json:"valueType,omitempty"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m FunctionField) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetIsDeclared returns IsDeclared
+// GetIsDeclared returns IsDeclared
 func (m FunctionField) GetIsDeclared() *bool {
 	return m.IsDeclared
 }
 
-//GetOriginalDisplayNames returns OriginalDisplayNames
+// GetOriginalDisplayNames returns OriginalDisplayNames
 func (m FunctionField) GetOriginalDisplayNames() []string {
 	return m.OriginalDisplayNames
 }
 
-//GetInternalName returns InternalName
+// GetInternalName returns InternalName
 func (m FunctionField) GetInternalName() *string {
 	return m.InternalName
 }
 
-//GetValueType returns ValueType
+// GetValueType returns ValueType
 func (m FunctionField) GetValueType() ValueTypeEnum {
 	return m.ValueType
 }
 
-//GetIsGroupable returns IsGroupable
+// GetIsGroupable returns IsGroupable
 func (m FunctionField) GetIsGroupable() *bool {
 	return m.IsGroupable
 }
 
-//GetIsDuration returns IsDuration
+// GetIsDuration returns IsDuration
 func (m FunctionField) GetIsDuration() *bool {
 	return m.IsDuration
 }
 
-//GetAlias returns Alias
+// GetAlias returns Alias
 func (m FunctionField) GetAlias() *string {
 	return m.Alias
 }
 
-//GetFilterQueryString returns FilterQueryString
+// GetFilterQueryString returns FilterQueryString
 func (m FunctionField) GetFilterQueryString() *string {
 	return m.FilterQueryString
 }
 
-//GetUnitType returns UnitType
+// GetUnitType returns UnitType
 func (m FunctionField) GetUnitType() *string {
 	return m.UnitType
 }

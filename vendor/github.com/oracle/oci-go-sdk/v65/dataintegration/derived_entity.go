@@ -57,7 +57,7 @@ type DerivedEntity struct {
 	Mode DerivedEntityModeEnum `mandatory:"false" json:"mode,omitempty"`
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m DerivedEntity) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

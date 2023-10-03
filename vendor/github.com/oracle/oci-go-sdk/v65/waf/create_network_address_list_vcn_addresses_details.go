@@ -43,27 +43,27 @@ type CreateNetworkAddressListVcnAddressesDetails struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateNetworkAddressListVcnAddressesDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateNetworkAddressListVcnAddressesDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateNetworkAddressListVcnAddressesDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateNetworkAddressListVcnAddressesDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m CreateNetworkAddressListVcnAddressesDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

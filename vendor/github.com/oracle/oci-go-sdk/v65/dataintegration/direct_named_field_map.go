@@ -52,7 +52,7 @@ type DirectNamedFieldMap struct {
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DirectNamedFieldMap) GetDescription() *string {
 	return m.Description
 }

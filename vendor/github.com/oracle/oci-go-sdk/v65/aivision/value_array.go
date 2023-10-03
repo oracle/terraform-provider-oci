@@ -33,22 +33,22 @@ type ValueArray struct {
 	Text *string `mandatory:"false" json:"text"`
 }
 
-//GetText returns Text
+// GetText returns Text
 func (m ValueArray) GetText() *string {
 	return m.Text
 }
 
-//GetConfidence returns Confidence
+// GetConfidence returns Confidence
 func (m ValueArray) GetConfidence() *float32 {
 	return m.Confidence
 }
 
-//GetBoundingPolygon returns BoundingPolygon
+// GetBoundingPolygon returns BoundingPolygon
 func (m ValueArray) GetBoundingPolygon() *BoundingPolygon {
 	return m.BoundingPolygon
 }
 
-//GetWordIndexes returns WordIndexes
+// GetWordIndexes returns WordIndexes
 func (m ValueArray) GetWordIndexes() []int {
 	return m.WordIndexes
 }

@@ -39,17 +39,17 @@ type UpdateExternalMacsConnectorDetails struct {
 	ConnectionCredentials DatabaseConnectionCredentials `mandatory:"false" json:"connectionCredentials"`
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateExternalMacsConnectorDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateExternalMacsConnectorDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateExternalMacsConnectorDetails) GetDisplayName() *string {
 	return m.DisplayName
 }

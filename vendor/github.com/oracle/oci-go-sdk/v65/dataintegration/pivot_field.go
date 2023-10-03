@@ -48,37 +48,37 @@ type PivotField struct {
 	ColumnNamePattern *string `mandatory:"false" json:"columnNamePattern"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m PivotField) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m PivotField) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m PivotField) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetConfigValues returns ConfigValues
+// GetConfigValues returns ConfigValues
 func (m PivotField) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m PivotField) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m PivotField) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m PivotField) GetDescription() *string {
 	return m.Description
 }

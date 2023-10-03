@@ -37,32 +37,32 @@ type PrimaryKey struct {
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m PrimaryKey) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m PrimaryKey) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m PrimaryKey) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m PrimaryKey) GetName() *string {
 	return m.Name
 }
 
-//GetAttributeRefs returns AttributeRefs
+// GetAttributeRefs returns AttributeRefs
 func (m PrimaryKey) GetAttributeRefs() []KeyAttribute {
 	return m.AttributeRefs
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m PrimaryKey) GetObjectStatus() *int {
 	return m.ObjectStatus
 }

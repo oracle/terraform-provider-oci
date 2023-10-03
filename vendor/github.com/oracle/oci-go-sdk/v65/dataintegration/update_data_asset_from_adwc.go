@@ -76,52 +76,52 @@ type UpdateDataAssetFromAdwc struct {
 	DefaultConnection *UpdateConnectionFromAdwc `mandatory:"false" json:"defaultConnection"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m UpdateDataAssetFromAdwc) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m UpdateDataAssetFromAdwc) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UpdateDataAssetFromAdwc) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateDataAssetFromAdwc) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m UpdateDataAssetFromAdwc) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m UpdateDataAssetFromAdwc) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m UpdateDataAssetFromAdwc) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m UpdateDataAssetFromAdwc) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m UpdateDataAssetFromAdwc) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m UpdateDataAssetFromAdwc) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

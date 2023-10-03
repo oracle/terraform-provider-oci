@@ -18,13 +18,13 @@ import (
 
 // AppFlatFileConnectorBundle Flat file connector bundle to sync from a flat file.
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AppFlatFileConnectorBundle struct {
 
 	// ConnectorBundle identifier

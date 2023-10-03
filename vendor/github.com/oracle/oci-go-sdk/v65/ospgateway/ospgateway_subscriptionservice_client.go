@@ -93,7 +93,7 @@ func (client *SubscriptionServiceClient) ConfigurationProvider() *common.Configu
 
 // AuthorizeSubscriptionPayment PSD2 authorization for subscription payment
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/AuthorizeSubscriptionPayment.go.html to see an example of how to use AuthorizeSubscriptionPayment API.
 // A default retry strategy applies to this operation AuthorizeSubscriptionPayment()
@@ -156,7 +156,7 @@ func (client SubscriptionServiceClient) authorizeSubscriptionPayment(ctx context
 
 // GetSubscription Get the subscription plan.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetSubscription.go.html to see an example of how to use GetSubscription API.
 // A default retry strategy applies to this operation GetSubscription()
@@ -214,7 +214,7 @@ func (client SubscriptionServiceClient) getSubscription(ctx context.Context, req
 
 // ListSubscriptions Get the subscription data for the compartment
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
 // A default retry strategy applies to this operation ListSubscriptions()
@@ -272,7 +272,7 @@ func (client SubscriptionServiceClient) listSubscriptions(ctx context.Context, r
 
 // PaySubscription Pay a subscription
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/PaySubscription.go.html to see an example of how to use PaySubscription API.
 // A default retry strategy applies to this operation PaySubscription()
@@ -335,7 +335,7 @@ func (client SubscriptionServiceClient) paySubscription(ctx context.Context, req
 
 // UpdateSubscription Update plan of the subscription.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/UpdateSubscription.go.html to see an example of how to use UpdateSubscription API.
 // A default retry strategy applies to this operation UpdateSubscription()

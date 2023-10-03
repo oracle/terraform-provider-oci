@@ -29,7 +29,7 @@ type IndividualOpsiDataObjectDetailsInQuery struct {
 	QueryParams []OpsiDataObjectQueryParam `mandatory:"false" json:"queryParams"`
 }
 
-//GetQueryParams returns QueryParams
+// GetQueryParams returns QueryParams
 func (m IndividualOpsiDataObjectDetailsInQuery) GetQueryParams() []OpsiDataObjectQueryParam {
 	return m.QueryParams
 }

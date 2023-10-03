@@ -41,32 +41,32 @@ type DynamicType struct {
 	ConfigDefinition *ConfigDefinition `mandatory:"false" json:"configDefinition"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m DynamicType) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m DynamicType) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m DynamicType) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m DynamicType) GetName() *string {
 	return m.Name
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m DynamicType) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DynamicType) GetDescription() *string {
 	return m.Description
 }

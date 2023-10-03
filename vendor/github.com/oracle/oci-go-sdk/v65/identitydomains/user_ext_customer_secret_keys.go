@@ -19,14 +19,14 @@ import (
 // UserExtCustomerSecretKeys A list of customer secret keys corresponding to user.
 // **Added In:** 2102181953
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [value]
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readOnly
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [value]
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readOnly
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type UserExtCustomerSecretKeys struct {
 
 	// The user's customer secret key identifier.

@@ -42,7 +42,7 @@ type ExportImageViaObjectStorageUriDetails struct {
 	ExportFormat ExportImageDetailsExportFormatEnum `mandatory:"false" json:"exportFormat,omitempty"`
 }
 
-//GetExportFormat returns ExportFormat
+// GetExportFormat returns ExportFormat
 func (m ExportImageViaObjectStorageUriDetails) GetExportFormat() ExportImageDetailsExportFormatEnum {
 	return m.ExportFormat
 }
