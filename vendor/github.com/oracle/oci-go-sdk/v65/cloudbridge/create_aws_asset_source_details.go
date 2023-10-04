@@ -74,47 +74,47 @@ type CreateAwsAssetSourceDetails struct {
 	IsCostInformationCollected *bool `mandatory:"false" json:"isCostInformationCollected"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateAwsAssetSourceDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateAwsAssetSourceDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetEnvironmentId returns EnvironmentId
+//GetEnvironmentId returns EnvironmentId
 func (m CreateAwsAssetSourceDetails) GetEnvironmentId() *string {
 	return m.EnvironmentId
 }
 
-// GetInventoryId returns InventoryId
+//GetInventoryId returns InventoryId
 func (m CreateAwsAssetSourceDetails) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-// GetAssetsCompartmentId returns AssetsCompartmentId
+//GetAssetsCompartmentId returns AssetsCompartmentId
 func (m CreateAwsAssetSourceDetails) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
 }
 
-// GetDiscoveryScheduleId returns DiscoveryScheduleId
+//GetDiscoveryScheduleId returns DiscoveryScheduleId
 func (m CreateAwsAssetSourceDetails) GetDiscoveryScheduleId() *string {
 	return m.DiscoveryScheduleId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateAwsAssetSourceDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateAwsAssetSourceDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m CreateAwsAssetSourceDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

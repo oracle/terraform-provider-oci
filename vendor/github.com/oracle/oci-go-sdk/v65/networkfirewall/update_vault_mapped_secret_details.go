@@ -31,7 +31,7 @@ type UpdateVaultMappedSecretDetails struct {
 	Type InspectionTypeEnum `mandatory:"true" json:"type"`
 }
 
-// GetType returns Type
+//GetType returns Type
 func (m UpdateVaultMappedSecretDetails) GetType() InspectionTypeEnum {
 	return m.Type
 }

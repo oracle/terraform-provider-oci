@@ -43,22 +43,22 @@ type HttpHealthCheck struct {
 	RequestHeadersToAdd []HttpHeader `mandatory:"false" json:"requestHeadersToAdd"`
 }
 
-// GetTimeoutInMs returns TimeoutInMs
+//GetTimeoutInMs returns TimeoutInMs
 func (m HttpHealthCheck) GetTimeoutInMs() *int64 {
 	return m.TimeoutInMs
 }
 
-// GetIntervalInMs returns IntervalInMs
+//GetIntervalInMs returns IntervalInMs
 func (m HttpHealthCheck) GetIntervalInMs() *int64 {
 	return m.IntervalInMs
 }
 
-// GetUnhealthyThreshold returns UnhealthyThreshold
+//GetUnhealthyThreshold returns UnhealthyThreshold
 func (m HttpHealthCheck) GetUnhealthyThreshold() *int {
 	return m.UnhealthyThreshold
 }
 
-// GetHealthyThreshold returns HealthyThreshold
+//GetHealthyThreshold returns HealthyThreshold
 func (m HttpHealthCheck) GetHealthyThreshold() *int {
 	return m.HealthyThreshold
 }

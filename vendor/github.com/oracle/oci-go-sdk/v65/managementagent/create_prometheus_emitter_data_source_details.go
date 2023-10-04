@@ -57,12 +57,12 @@ type CreatePrometheusEmitterDataSourceDetails struct {
 	MetricDimensions []MetricDimension `mandatory:"false" json:"metricDimensions"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreatePrometheusEmitterDataSourceDetails) GetName() *string {
 	return m.Name
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreatePrometheusEmitterDataSourceDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }

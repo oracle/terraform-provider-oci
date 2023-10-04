@@ -54,6 +54,9 @@ type CreateTaskFromSqlTask struct {
 
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	Script *Script `mandatory:"false" json:"script"`
 
 	// Describes the shape of the execution result
@@ -63,67 +66,72 @@ type CreateTaskFromSqlTask struct {
 	SqlScriptType CreateTaskFromSqlTaskSqlScriptTypeEnum `mandatory:"false" json:"sqlScriptType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateTaskFromSqlTask) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateTaskFromSqlTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m CreateTaskFromSqlTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateTaskFromSqlTask) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateTaskFromSqlTask) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateTaskFromSqlTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateTaskFromSqlTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m CreateTaskFromSqlTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m CreateTaskFromSqlTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m CreateTaskFromSqlTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m CreateTaskFromSqlTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m CreateTaskFromSqlTask) GetConfigProviderDelegate() *CreateConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m CreateTaskFromSqlTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
+}
+
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateTaskFromSqlTask) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

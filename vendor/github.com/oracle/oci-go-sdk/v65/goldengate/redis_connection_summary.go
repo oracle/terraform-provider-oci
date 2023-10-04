@@ -37,7 +37,8 @@ type RedisConnectionSummary struct {
 	// RFC3339 (https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// Comma separated list of Redis server addresses, specified as host:port entries.
+	// Comma separated list of Redis server addresses, specified as host:port entries, where :port is optional.
+	// If port is not specified, it defaults to 6379.
 	// Used for establishing the initial connection to the Redis cluster.
 	// Example: `"server1.example.com:6379,server2.example.com:6379"`
 	Servers *string `mandatory:"true" json:"servers"`
@@ -107,87 +108,87 @@ type RedisConnectionSummary struct {
 	AuthenticationType RedisConnectionAuthenticationTypeEnum `mandatory:"true" json:"authenticationType"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m RedisConnectionSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m RedisConnectionSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m RedisConnectionSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m RedisConnectionSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m RedisConnectionSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m RedisConnectionSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m RedisConnectionSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m RedisConnectionSummary) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m RedisConnectionSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m RedisConnectionSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m RedisConnectionSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m RedisConnectionSummary) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m RedisConnectionSummary) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetIngressIps returns IngressIps
+//GetIngressIps returns IngressIps
 func (m RedisConnectionSummary) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m RedisConnectionSummary) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m RedisConnectionSummary) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetRoutingMethod returns RoutingMethod
+//GetRoutingMethod returns RoutingMethod
 func (m RedisConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

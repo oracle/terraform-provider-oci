@@ -54,70 +54,78 @@ type CreateTaskFromOciDataflowTask struct {
 
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	DataflowApplication *DataflowApplication `mandatory:"false" json:"dataflowApplication"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateTaskFromOciDataflowTask) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateTaskFromOciDataflowTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m CreateTaskFromOciDataflowTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateTaskFromOciDataflowTask) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateTaskFromOciDataflowTask) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateTaskFromOciDataflowTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateTaskFromOciDataflowTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m CreateTaskFromOciDataflowTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m CreateTaskFromOciDataflowTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m CreateTaskFromOciDataflowTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m CreateTaskFromOciDataflowTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m CreateTaskFromOciDataflowTask) GetConfigProviderDelegate() *CreateConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m CreateTaskFromOciDataflowTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
+}
+
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateTaskFromOciDataflowTask) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

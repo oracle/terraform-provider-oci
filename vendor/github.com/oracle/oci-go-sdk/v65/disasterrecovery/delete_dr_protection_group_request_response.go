@@ -14,8 +14,8 @@ import (
 // DeleteDrProtectionGroupRequest wrapper for the DeleteDrProtectionGroup operation
 type DeleteDrProtectionGroupRequest struct {
 
-	// The OCID of the DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid`
+	// The OCID of the DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" contributesTo:"path" name:"drProtectionGroupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -53,6 +53,9 @@ type CreateTaskDetails interface {
 	GetOpConfigValues() *ConfigValues
 
 	GetConfigProviderDelegate() *CreateConfigProvider
+
+	// Whether the same task can be executed concurrently.
+	GetIsConcurrentAllowed() *bool
 }
 
 type createtaskdetails struct {
@@ -67,6 +70,7 @@ type createtaskdetails struct {
 	Parameters             []Parameter           `mandatory:"false" json:"parameters"`
 	OpConfigValues         *ConfigValues         `mandatory:"false" json:"opConfigValues"`
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
+	IsConcurrentAllowed    *bool                 `mandatory:"false" json:"isConcurrentAllowed"`
 	Name                   *string               `mandatory:"true" json:"name"`
 	Identifier             *string               `mandatory:"true" json:"identifier"`
 	RegistryMetadata       *RegistryMetadata     `mandatory:"true" json:"registryMetadata"`
@@ -97,6 +101,7 @@ func (m *createtaskdetails) UnmarshalJSON(data []byte) error {
 	m.Parameters = s.Model.Parameters
 	m.OpConfigValues = s.Model.OpConfigValues
 	m.ConfigProviderDelegate = s.Model.ConfigProviderDelegate
+	m.IsConcurrentAllowed = s.Model.IsConcurrentAllowed
 	m.ModelType = s.Model.ModelType
 
 	return err
@@ -189,6 +194,11 @@ func (m createtaskdetails) GetOpConfigValues() *ConfigValues {
 // GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m createtaskdetails) GetConfigProviderDelegate() *CreateConfigProvider {
 	return m.ConfigProviderDelegate
+}
+
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m createtaskdetails) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
 }
 
 // GetName returns Name

@@ -121,52 +121,24 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateMicrosoftSqlserverConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "AMAZON_KINESIS":
-		mm := CreateAmazonKinesisConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "AZURE_DATA_LAKE_STORAGE":
-		mm := CreateAzureDataLakeStorageConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "HDFS":
-		mm := CreateHdfsConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "OCI_OBJECT_STORAGE":
-		mm := CreateOciObjectStorageConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "REDIS":
-		mm := CreateRedisConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "GOOGLE_CLOUD_STORAGE":
-		mm := CreateGoogleCloudStorageConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "KAFKA":
-		mm := CreateKafkaConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "ORACLE_NOSQL":
-		mm := CreateOracleNosqlConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "JAVA_MESSAGE_SERVICE":
 		mm := CreateJavaMessageServiceConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "CASSANDRA":
-		mm := CreateCassandraConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GOOGLE_BIGQUERY":
 		mm := CreateGoogleBigQueryConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_KINESIS":
+		mm := CreateAmazonKinesisConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SNOWFLAKE":
 		mm := CreateSnowflakeConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_DATA_LAKE_STORAGE":
+		mm := CreateAzureDataLakeStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MONGODB":
@@ -177,8 +149,12 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateAmazonS3ConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DB2":
-		mm := CreateDb2ConnectionDetails{}
+	case "HDFS":
+		mm := CreateHdfsConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_OBJECT_STORAGE":
+		mm := CreateOciObjectStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ELASTICSEARCH":
@@ -189,12 +165,24 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateAzureSynapseConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REDIS":
+		mm := CreateRedisConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MYSQL":
 		mm := CreateMysqlConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GENERIC":
 		mm := CreateGenericConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_CLOUD_STORAGE":
+		mm := CreateGoogleCloudStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KAFKA":
+		mm := CreateKafkaConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE":
@@ -207,6 +195,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "AMAZON_REDSHIFT":
 		mm := CreateAmazonRedshiftConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_NOSQL":
+		mm := CreateOracleNosqlConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

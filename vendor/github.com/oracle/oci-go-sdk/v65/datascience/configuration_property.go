@@ -15,14 +15,14 @@ import (
 	"strings"
 )
 
-// ConfigurationProperty Property that is used for provisioning of the given MlApplicationInstance. It is validated against configurationSchema defined in referenced MlApplication.
+// ConfigurationProperty Property that is used for provisioning of the given MlApplicationInstance. It is validated against configurationSchema defined in referenced MlApplicationImplementation. The value is mandatory with exception for ConfigurationProperty of SECRET type where read operation does not return value field as it contains plain text secret and update operation does not have to contain value field when the secret value should not be updated.
 type ConfigurationProperty struct {
 
 	// Key of configuration property
 	Key *string `mandatory:"true" json:"key"`
 
 	// Value of configuration property
-	Value *string `mandatory:"true" json:"value"`
+	Value *string `mandatory:"false" json:"value"`
 }
 
 func (m ConfigurationProperty) String() string {

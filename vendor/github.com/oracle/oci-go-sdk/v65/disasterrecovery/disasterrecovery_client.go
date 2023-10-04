@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -93,8 +94,8 @@ func (client *DisasterRecoveryClient) ConfigurationProvider() *common.Configurat
 	return client.config
 }
 
-// AssociateDrProtectionGroup Create an association between the DR Protection Group identified by *drProtectionGroupId* and
-// another DR Protection Group in a different region.
+// AssociateDrProtectionGroup Create an association between the DR protection group identified by *drProtectionGroupId* and
+// another DR protection group.
 // A default retry strategy applies to this operation AssociateDrProtectionGroup()
 func (client DisasterRecoveryClient) AssociateDrProtectionGroup(ctx context.Context, request AssociateDrProtectionGroupRequest) (response AssociateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,7 +154,7 @@ func (client DisasterRecoveryClient) associateDrProtectionGroup(ctx context.Cont
 	return response, err
 }
 
-// CancelDrPlanExecution Cancel the DR Plan Execution indentified by *drPlanExecutionId*.
+// CancelDrPlanExecution Cancel the DR plan execution identified by *drPlanExecutionId*.
 // A default retry strategy applies to this operation CancelDrPlanExecution()
 func (client DisasterRecoveryClient) CancelDrPlanExecution(ctx context.Context, request CancelDrPlanExecutionRequest) (response CancelDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -266,7 +267,7 @@ func (client DisasterRecoveryClient) cancelWorkRequest(ctx context.Context, requ
 	return response, err
 }
 
-// ChangeDrProtectionGroupCompartment Move the DR Protection Group identified by *drProtectionGroupId* to a different compartment.
+// ChangeDrProtectionGroupCompartment Move the DR protection group identified by *drProtectionGroupId* to a different compartment.
 // A default retry strategy applies to this operation ChangeDrProtectionGroupCompartment()
 func (client DisasterRecoveryClient) ChangeDrProtectionGroupCompartment(ctx context.Context, request ChangeDrProtectionGroupCompartmentRequest) (response ChangeDrProtectionGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -325,7 +326,7 @@ func (client DisasterRecoveryClient) changeDrProtectionGroupCompartment(ctx cont
 	return response, err
 }
 
-// CreateDrPlan Creates a new DR Plan of the specified DR Plan type.
+// CreateDrPlan Create a DR plan of the specified DR plan type.
 // A default retry strategy applies to this operation CreateDrPlan()
 func (client DisasterRecoveryClient) CreateDrPlan(ctx context.Context, request CreateDrPlanRequest) (response CreateDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -384,7 +385,7 @@ func (client DisasterRecoveryClient) createDrPlan(ctx context.Context, request c
 	return response, err
 }
 
-// CreateDrPlanExecution Execute a DR Plan for a DR Protection Group.
+// CreateDrPlanExecution Execute a DR plan for a DR protection group.
 // A default retry strategy applies to this operation CreateDrPlanExecution()
 func (client DisasterRecoveryClient) CreateDrPlanExecution(ctx context.Context, request CreateDrPlanExecutionRequest) (response CreateDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -443,7 +444,7 @@ func (client DisasterRecoveryClient) createDrPlanExecution(ctx context.Context, 
 	return response, err
 }
 
-// CreateDrProtectionGroup Create a new DR Protection Group.
+// CreateDrProtectionGroup Create a DR protection group.
 // A default retry strategy applies to this operation CreateDrProtectionGroup()
 func (client DisasterRecoveryClient) CreateDrProtectionGroup(ctx context.Context, request CreateDrProtectionGroupRequest) (response CreateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -502,7 +503,7 @@ func (client DisasterRecoveryClient) createDrProtectionGroup(ctx context.Context
 	return response, err
 }
 
-// DeleteDrPlan Delete the DR Plan identified by *drPlanId*.
+// DeleteDrPlan Delete the DR plan identified by *drPlanId*.
 // A default retry strategy applies to this operation DeleteDrPlan()
 func (client DisasterRecoveryClient) DeleteDrPlan(ctx context.Context, request DeleteDrPlanRequest) (response DeleteDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -556,7 +557,7 @@ func (client DisasterRecoveryClient) deleteDrPlan(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteDrPlanExecution Delete the DR Plan Execution identified by *drPlanExecutionId*.
+// DeleteDrPlanExecution Delete the DR plan execution identified by *drPlanExecutionId*.
 // A default retry strategy applies to this operation DeleteDrPlanExecution()
 func (client DisasterRecoveryClient) DeleteDrPlanExecution(ctx context.Context, request DeleteDrPlanExecutionRequest) (response DeleteDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -610,7 +611,7 @@ func (client DisasterRecoveryClient) deleteDrPlanExecution(ctx context.Context, 
 	return response, err
 }
 
-// DeleteDrProtectionGroup Delete the DR Protection Group identified by *drProtectionGroupId*.
+// DeleteDrProtectionGroup Delete the DR protection group identified by *drProtectionGroupId*.
 // A default retry strategy applies to this operation DeleteDrProtectionGroup()
 func (client DisasterRecoveryClient) DeleteDrProtectionGroup(ctx context.Context, request DeleteDrProtectionGroupRequest) (response DeleteDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -664,8 +665,8 @@ func (client DisasterRecoveryClient) deleteDrProtectionGroup(ctx context.Context
 	return response, err
 }
 
-// DisassociateDrProtectionGroup Delete the association between the DR Protection Group identified by *drProtectionGroupId*.
-// and its peer DR Protection Group.
+// DisassociateDrProtectionGroup Delete the association between the DR protection group identified by *drProtectionGroupId*.
+// and its peer DR protection group.
 // A default retry strategy applies to this operation DisassociateDrProtectionGroup()
 func (client DisasterRecoveryClient) DisassociateDrProtectionGroup(ctx context.Context, request DisassociateDrProtectionGroupRequest) (response DisassociateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -724,7 +725,7 @@ func (client DisasterRecoveryClient) disassociateDrProtectionGroup(ctx context.C
 	return response, err
 }
 
-// GetDrPlan Get details for the DR Plan identified by *drPlanId*.
+// GetDrPlan Get details for the DR plan identified by *drPlanId*.
 // A default retry strategy applies to this operation GetDrPlan()
 func (client DisasterRecoveryClient) GetDrPlan(ctx context.Context, request GetDrPlanRequest) (response GetDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -778,7 +779,7 @@ func (client DisasterRecoveryClient) getDrPlan(ctx context.Context, request comm
 	return response, err
 }
 
-// GetDrPlanExecution Get details for the DR Plan Execution identified by *drPlanExecutionId*.
+// GetDrPlanExecution Get details for the DR plan execution identified by *drPlanExecutionId*.
 // A default retry strategy applies to this operation GetDrPlanExecution()
 func (client DisasterRecoveryClient) GetDrPlanExecution(ctx context.Context, request GetDrPlanExecutionRequest) (response GetDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -832,7 +833,7 @@ func (client DisasterRecoveryClient) getDrPlanExecution(ctx context.Context, req
 	return response, err
 }
 
-// GetDrProtectionGroup Get the DR Protection Group identified by *drProtectionGroupId*.
+// GetDrProtectionGroup Get the DR protection group identified by *drProtectionGroupId*.
 // A default retry strategy applies to this operation GetDrProtectionGroup()
 func (client DisasterRecoveryClient) GetDrProtectionGroup(ctx context.Context, request GetDrProtectionGroupRequest) (response GetDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -940,7 +941,7 @@ func (client DisasterRecoveryClient) getWorkRequest(ctx context.Context, request
 	return response, err
 }
 
-// IgnoreDrPlanExecution Ignore failed group or step in DR Plan Execution identified by *drPlanExecutionId* and resume execution.
+// IgnoreDrPlanExecution Ignore the failed group or step in DR plan execution identified by *drPlanExecutionId* and resume execution.
 // A default retry strategy applies to this operation IgnoreDrPlanExecution()
 func (client DisasterRecoveryClient) IgnoreDrPlanExecution(ctx context.Context, request IgnoreDrPlanExecutionRequest) (response IgnoreDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -999,7 +1000,7 @@ func (client DisasterRecoveryClient) ignoreDrPlanExecution(ctx context.Context, 
 	return response, err
 }
 
-// ListDrPlanExecutions Get a summary list of all DR Plan Executions for a DR Protection Group.
+// ListDrPlanExecutions Get a summary list of all DR plan executions for a DR protection group.
 // A default retry strategy applies to this operation ListDrPlanExecutions()
 func (client DisasterRecoveryClient) ListDrPlanExecutions(ctx context.Context, request ListDrPlanExecutionsRequest) (response ListDrPlanExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1053,7 +1054,7 @@ func (client DisasterRecoveryClient) listDrPlanExecutions(ctx context.Context, r
 	return response, err
 }
 
-// ListDrPlans Gets a summary list of all DR Plans for a DR Protection Group.
+// ListDrPlans Get a summary list of all DR plans for a DR protection group.
 // A default retry strategy applies to this operation ListDrPlans()
 func (client DisasterRecoveryClient) ListDrPlans(ctx context.Context, request ListDrPlansRequest) (response ListDrPlansResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1107,7 +1108,7 @@ func (client DisasterRecoveryClient) listDrPlans(ctx context.Context, request co
 	return response, err
 }
 
-// ListDrProtectionGroups Gets a summary list of all DR Protection Groups in a compartment.
+// ListDrProtectionGroups Get a summary list of all DR protection groups in a compartment.
 // A default retry strategy applies to this operation ListDrProtectionGroups()
 func (client DisasterRecoveryClient) ListDrProtectionGroups(ctx context.Context, request ListDrProtectionGroupsRequest) (response ListDrProtectionGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1161,7 +1162,7 @@ func (client DisasterRecoveryClient) listDrProtectionGroups(ctx context.Context,
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWorkRequestErrors Get a list of work request errors for the work request identified by *workRequestId*.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DisasterRecoveryClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1215,7 +1216,7 @@ func (client DisasterRecoveryClient) listWorkRequestErrors(ctx context.Context, 
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for the work request identified by *workRequestId*.
+// ListWorkRequestLogs Get a list of logs for the work request identified by *workRequestId*.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DisasterRecoveryClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1323,7 +1324,7 @@ func (client DisasterRecoveryClient) listWorkRequests(ctx context.Context, reque
 	return response, err
 }
 
-// PauseDrPlanExecution Pause the DR Plan Execution identified by *drPlanExecutionId*.
+// PauseDrPlanExecution Pause the DR plan execution identified by *drPlanExecutionId*.
 // A default retry strategy applies to this operation PauseDrPlanExecution()
 func (client DisasterRecoveryClient) PauseDrPlanExecution(ctx context.Context, request PauseDrPlanExecutionRequest) (response PauseDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1382,7 +1383,7 @@ func (client DisasterRecoveryClient) pauseDrPlanExecution(ctx context.Context, r
 	return response, err
 }
 
-// ResumeDrPlanExecution Resume the DR Plan Execution identified by *drPlanExecutionId*.
+// ResumeDrPlanExecution Resume the DR plan execution identified by *drPlanExecutionId*.
 // A default retry strategy applies to this operation ResumeDrPlanExecution()
 func (client DisasterRecoveryClient) ResumeDrPlanExecution(ctx context.Context, request ResumeDrPlanExecutionRequest) (response ResumeDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1441,7 +1442,7 @@ func (client DisasterRecoveryClient) resumeDrPlanExecution(ctx context.Context, 
 	return response, err
 }
 
-// RetryDrPlanExecution Retry failed group or step in DR Plan Execution identified by *drPlanExecutionId* and resume execution.
+// RetryDrPlanExecution Retry the failed group or step in DR plan execution identified by *drPlanExecutionId* and resume execution.
 // A default retry strategy applies to this operation RetryDrPlanExecution()
 func (client DisasterRecoveryClient) RetryDrPlanExecution(ctx context.Context, request RetryDrPlanExecutionRequest) (response RetryDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1500,7 +1501,7 @@ func (client DisasterRecoveryClient) retryDrPlanExecution(ctx context.Context, r
 	return response, err
 }
 
-// UpdateDrPlan Update the DR Plan identified by *drPlanId*.
+// UpdateDrPlan Update the DR plan identified by *drPlanId*.
 // A default retry strategy applies to this operation UpdateDrPlan()
 func (client DisasterRecoveryClient) UpdateDrPlan(ctx context.Context, request UpdateDrPlanRequest) (response UpdateDrPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1554,7 +1555,7 @@ func (client DisasterRecoveryClient) updateDrPlan(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateDrPlanExecution Update the DR Plan Execution identified by *drPlanExecutionId*.
+// UpdateDrPlanExecution Update the DR plan execution identified by *drPlanExecutionId*.
 // A default retry strategy applies to this operation UpdateDrPlanExecution()
 func (client DisasterRecoveryClient) UpdateDrPlanExecution(ctx context.Context, request UpdateDrPlanExecutionRequest) (response UpdateDrPlanExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1608,7 +1609,7 @@ func (client DisasterRecoveryClient) updateDrPlanExecution(ctx context.Context, 
 	return response, err
 }
 
-// UpdateDrProtectionGroup Update the DR Protection Group identified by *drProtectionGroupId*.
+// UpdateDrProtectionGroup Update the DR protection group identified by *drProtectionGroupId*.
 // A default retry strategy applies to this operation UpdateDrProtectionGroup()
 func (client DisasterRecoveryClient) UpdateDrProtectionGroup(ctx context.Context, request UpdateDrProtectionGroupRequest) (response UpdateDrProtectionGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1662,7 +1663,7 @@ func (client DisasterRecoveryClient) updateDrProtectionGroup(ctx context.Context
 	return response, err
 }
 
-// UpdateDrProtectionGroupRole Update the role of the DR Protection Group identified by *drProtectionGroupId*.
+// UpdateDrProtectionGroupRole Update the role of the DR protection group identified by *drProtectionGroupId*.
 // A default retry strategy applies to this operation UpdateDrProtectionGroupRole()
 func (client DisasterRecoveryClient) UpdateDrProtectionGroupRole(ctx context.Context, request UpdateDrProtectionGroupRoleRequest) (response UpdateDrProtectionGroupRoleResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// NetworkConfiguration Details of the network configuration.
+// NetworkConfiguration Details of the network configuration. For NETWORK monitor type, NetworkConfiguration is mandatory.
 type NetworkConfiguration struct {
 
 	// Number of hops.

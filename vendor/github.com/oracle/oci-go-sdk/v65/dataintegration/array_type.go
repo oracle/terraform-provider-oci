@@ -40,32 +40,32 @@ type ArrayType struct {
 	ElementType *string `mandatory:"false" json:"elementType"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m ArrayType) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m ArrayType) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m ArrayType) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m ArrayType) GetName() *string {
 	return m.Name
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m ArrayType) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ArrayType) GetDescription() *string {
 	return m.Description
 }

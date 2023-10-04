@@ -3694,8 +3694,7 @@ func (client DataIntegrationClient) getCopyObjectRequest(ctx context.Context, re
 }
 
 // GetCountStatistic Retrieves statistics on a workspace. It returns an object with an array of property values, such as the number of projects, |
-//
-//	applications, data assets, and so on.
+//        applications, data assets, and so on.
 func (client DataIntegrationClient) GetCountStatistic(ctx context.Context, request GetCountStatisticRequest) (response GetCountStatisticResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

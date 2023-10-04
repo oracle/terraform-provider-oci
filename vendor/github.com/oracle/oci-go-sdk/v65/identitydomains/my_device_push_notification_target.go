@@ -18,13 +18,13 @@ import (
 
 // MyDevicePushNotificationTarget Push Notification target. Reference to Device notification related resource
 // **SCIM++ Properties:**
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type MyDevicePushNotificationTarget struct {
 
 	// The identifier of the push notification target

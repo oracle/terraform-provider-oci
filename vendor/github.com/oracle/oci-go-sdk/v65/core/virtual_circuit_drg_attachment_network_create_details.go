@@ -44,9 +44,13 @@ type VirtualCircuitDrgAttachmentNetworkCreateDetails struct {
 	// Boolean flag that determines wether all traffic over the VCs is encrypted.
 	// Example: `true`
 	TransportOnlyMode *bool `mandatory:"false" json:"transportOnlyMode"`
+
+	// Determines Throughput capacity of Virtual Circuit.
+	// Example: `400G`
+	Throughput VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum `mandatory:"false" json:"throughput,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m VirtualCircuitDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
 }
@@ -60,6 +64,9 @@ func (m VirtualCircuitDrgAttachmentNetworkCreateDetails) String() string {
 // Not recommended for calling this function directly
 func (m VirtualCircuitDrgAttachmentNetworkCreateDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum(string(m.Throughput)); !ok && m.Throughput != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Throughput: %s. Supported values are: %s.", m.Throughput, strings.Join(GetVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -79,4 +86,42 @@ func (m VirtualCircuitDrgAttachmentNetworkCreateDetails) MarshalJSON() (buff []b
 	}
 
 	return json.Marshal(&s)
+}
+
+// VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum Enum with underlying type: string
+type VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum string
+
+// Set of constants representing the allowable values for VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum
+const (
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput400g VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "400G"
+)
+
+var mappingVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = map[string]VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum{
+	"400G": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput400g,
+}
+
+var mappingVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumLowerCase = map[string]VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum{
+	"400g": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput400g,
+}
+
+// GetVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumValues Enumerates the set of values for VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum
+func GetVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumValues() []VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum {
+	values := make([]VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum, 0)
+	for _, v := range mappingVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumStringValues Enumerates the set of values in String for VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum
+func GetVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumStringValues() []string {
+	return []string{
+		"400G",
+	}
+}
+
+// GetMappingVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum(val string) (VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum, bool) {
+	enum, ok := mappingVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

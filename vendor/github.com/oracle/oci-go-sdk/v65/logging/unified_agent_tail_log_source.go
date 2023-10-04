@@ -32,7 +32,7 @@ type UnifiedAgentTailLogSource struct {
 	AdvancedOptions *UnifiedAgentTailSourceAdvancedOptions `mandatory:"false" json:"advancedOptions"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UnifiedAgentTailLogSource) GetName() *string {
 	return m.Name
 }

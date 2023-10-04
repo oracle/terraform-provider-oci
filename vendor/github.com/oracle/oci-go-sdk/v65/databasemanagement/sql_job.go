@@ -98,82 +98,82 @@ type SqlJob struct {
 	LifecycleState JobLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m SqlJob) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m SqlJob) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m SqlJob) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m SqlJob) GetDescription() *string {
 	return m.Description
 }
 
-// GetManagedDatabaseGroupId returns ManagedDatabaseGroupId
+//GetManagedDatabaseGroupId returns ManagedDatabaseGroupId
 func (m SqlJob) GetManagedDatabaseGroupId() *string {
 	return m.ManagedDatabaseGroupId
 }
 
-// GetManagedDatabaseId returns ManagedDatabaseId
+//GetManagedDatabaseId returns ManagedDatabaseId
 func (m SqlJob) GetManagedDatabaseId() *string {
 	return m.ManagedDatabaseId
 }
 
-// GetManagedDatabasesDetails returns ManagedDatabasesDetails
+//GetManagedDatabasesDetails returns ManagedDatabasesDetails
 func (m SqlJob) GetManagedDatabasesDetails() []JobDatabase {
 	return m.ManagedDatabasesDetails
 }
 
-// GetDatabaseSubType returns DatabaseSubType
+//GetDatabaseSubType returns DatabaseSubType
 func (m SqlJob) GetDatabaseSubType() DatabaseSubTypeEnum {
 	return m.DatabaseSubType
 }
 
-// GetScheduleType returns ScheduleType
+//GetScheduleType returns ScheduleType
 func (m SqlJob) GetScheduleType() JobScheduleTypeEnum {
 	return m.ScheduleType
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m SqlJob) GetLifecycleState() JobLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetTimeout returns Timeout
+//GetTimeout returns Timeout
 func (m SqlJob) GetTimeout() *string {
 	return m.Timeout
 }
 
-// GetResultLocation returns ResultLocation
+//GetResultLocation returns ResultLocation
 func (m SqlJob) GetResultLocation() JobExecutionResultLocation {
 	return m.ResultLocation
 }
 
-// GetScheduleDetails returns ScheduleDetails
+//GetScheduleDetails returns ScheduleDetails
 func (m SqlJob) GetScheduleDetails() *JobScheduleDetails {
 	return m.ScheduleDetails
 }
 
-// GetSubmissionErrorMessage returns SubmissionErrorMessage
+//GetSubmissionErrorMessage returns SubmissionErrorMessage
 func (m SqlJob) GetSubmissionErrorMessage() *string {
 	return m.SubmissionErrorMessage
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m SqlJob) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m SqlJob) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }

@@ -37,22 +37,22 @@ type ReviewerActivitySummary struct {
 	ReviewersRemoved []PrincipalDetails `mandatory:"true" json:"reviewersRemoved"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m ReviewerActivitySummary) GetId() *string {
 	return m.Id
 }
 
-// GetPrincipal returns Principal
+//GetPrincipal returns Principal
 func (m ReviewerActivitySummary) GetPrincipal() *PrincipalDetails {
 	return m.Principal
 }
 
-// GetPullRequestId returns PullRequestId
+//GetPullRequestId returns PullRequestId
 func (m ReviewerActivitySummary) GetPullRequestId() *string {
 	return m.PullRequestId
 }
 
-// GetTimeOccurred returns TimeOccurred
+//GetTimeOccurred returns TimeOccurred
 func (m ReviewerActivitySummary) GetTimeOccurred() *common.SDKTime {
 	return m.TimeOccurred
 }

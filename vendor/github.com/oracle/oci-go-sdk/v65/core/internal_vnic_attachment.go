@@ -82,6 +82,9 @@ type InternalVnicAttachment struct {
 
 	// The subTopic in the shard that this VNIC would be hashing to
 	SubTopicId *string `mandatory:"false" json:"subTopicId"`
+
+	// Indicates if the vnic supports encryption.
+	IsEncryptionSupported *bool `mandatory:"false" json:"isEncryptionSupported"`
 }
 
 func (m InternalVnicAttachment) String() string {

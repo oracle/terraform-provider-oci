@@ -39,7 +39,6 @@ const (
 	TechnologyTypeAmazonRdsMariadb                 TechnologyTypeEnum = "AMAZON_RDS_MARIADB"
 	TechnologyTypeAmazonRdsMysql                   TechnologyTypeEnum = "AMAZON_RDS_MYSQL"
 	TechnologyTypeAmazonRdsPostgresql              TechnologyTypeEnum = "AMAZON_RDS_POSTGRESQL"
-	TechnologyTypeApacheCassandra                  TechnologyTypeEnum = "APACHE_CASSANDRA"
 	TechnologyTypeApacheKafka                      TechnologyTypeEnum = "APACHE_KAFKA"
 	TechnologyTypeAzureCosmosDbForMongodb          TechnologyTypeEnum = "AZURE_COSMOS_DB_FOR_MONGODB"
 	TechnologyTypeAzureDataLakeStorage             TechnologyTypeEnum = "AZURE_DATA_LAKE_STORAGE"
@@ -51,7 +50,6 @@ const (
 	TechnologyTypeAzureSynapseAnalytics            TechnologyTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
 	TechnologyTypeConfluentKafka                   TechnologyTypeEnum = "CONFLUENT_KAFKA"
 	TechnologyTypeConfluentSchemaRegistry          TechnologyTypeEnum = "CONFLUENT_SCHEMA_REGISTRY"
-	TechnologyTypeDb2Zos                           TechnologyTypeEnum = "DB2_ZOS"
 	TechnologyTypeElasticsearch                    TechnologyTypeEnum = "ELASTICSEARCH"
 	TechnologyTypeGoogleBigquery                   TechnologyTypeEnum = "GOOGLE_BIGQUERY"
 	TechnologyTypeGoogleCloudStorage               TechnologyTypeEnum = "GOOGLE_CLOUD_STORAGE"
@@ -92,7 +90,6 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"AMAZON_RDS_MARIADB":                   TechnologyTypeAmazonRdsMariadb,
 	"AMAZON_RDS_MYSQL":                     TechnologyTypeAmazonRdsMysql,
 	"AMAZON_RDS_POSTGRESQL":                TechnologyTypeAmazonRdsPostgresql,
-	"APACHE_CASSANDRA":                     TechnologyTypeApacheCassandra,
 	"APACHE_KAFKA":                         TechnologyTypeApacheKafka,
 	"AZURE_COSMOS_DB_FOR_MONGODB":          TechnologyTypeAzureCosmosDbForMongodb,
 	"AZURE_DATA_LAKE_STORAGE":              TechnologyTypeAzureDataLakeStorage,
@@ -104,7 +101,6 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"AZURE_SYNAPSE_ANALYTICS":              TechnologyTypeAzureSynapseAnalytics,
 	"CONFLUENT_KAFKA":                      TechnologyTypeConfluentKafka,
 	"CONFLUENT_SCHEMA_REGISTRY":            TechnologyTypeConfluentSchemaRegistry,
-	"DB2_ZOS":                              TechnologyTypeDb2Zos,
 	"ELASTICSEARCH":                        TechnologyTypeElasticsearch,
 	"GOOGLE_BIGQUERY":                      TechnologyTypeGoogleBigquery,
 	"GOOGLE_CLOUD_STORAGE":                 TechnologyTypeGoogleCloudStorage,
@@ -145,7 +141,6 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"amazon_rds_mariadb":                   TechnologyTypeAmazonRdsMariadb,
 	"amazon_rds_mysql":                     TechnologyTypeAmazonRdsMysql,
 	"amazon_rds_postgresql":                TechnologyTypeAmazonRdsPostgresql,
-	"apache_cassandra":                     TechnologyTypeApacheCassandra,
 	"apache_kafka":                         TechnologyTypeApacheKafka,
 	"azure_cosmos_db_for_mongodb":          TechnologyTypeAzureCosmosDbForMongodb,
 	"azure_data_lake_storage":              TechnologyTypeAzureDataLakeStorage,
@@ -157,7 +152,6 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"azure_synapse_analytics":              TechnologyTypeAzureSynapseAnalytics,
 	"confluent_kafka":                      TechnologyTypeConfluentKafka,
 	"confluent_schema_registry":            TechnologyTypeConfluentSchemaRegistry,
-	"db2_zos":                              TechnologyTypeDb2Zos,
 	"elasticsearch":                        TechnologyTypeElasticsearch,
 	"google_bigquery":                      TechnologyTypeGoogleBigquery,
 	"google_cloud_storage":                 TechnologyTypeGoogleCloudStorage,
@@ -209,7 +203,6 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"AMAZON_RDS_MARIADB",
 		"AMAZON_RDS_MYSQL",
 		"AMAZON_RDS_POSTGRESQL",
-		"APACHE_CASSANDRA",
 		"APACHE_KAFKA",
 		"AZURE_COSMOS_DB_FOR_MONGODB",
 		"AZURE_DATA_LAKE_STORAGE",
@@ -221,7 +214,6 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"AZURE_SYNAPSE_ANALYTICS",
 		"CONFLUENT_KAFKA",
 		"CONFLUENT_SCHEMA_REGISTRY",
-		"DB2_ZOS",
 		"ELASTICSEARCH",
 		"GOOGLE_BIGQUERY",
 		"GOOGLE_CLOUD_STORAGE",

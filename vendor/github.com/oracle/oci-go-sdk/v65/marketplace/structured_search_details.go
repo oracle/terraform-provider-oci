@@ -27,7 +27,7 @@ type StructuredSearchDetails struct {
 	MatchingContextType MatchingContextTypeEnumEnum `mandatory:"false" json:"matchingContextType,omitempty"`
 }
 
-// GetMatchingContextType returns MatchingContextType
+//GetMatchingContextType returns MatchingContextType
 func (m StructuredSearchDetails) GetMatchingContextType() MatchingContextTypeEnumEnum {
 	return m.MatchingContextType
 }

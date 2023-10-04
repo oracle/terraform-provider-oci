@@ -31,7 +31,7 @@ type CreateComputeCapacityTopologyDetails struct {
 
 	CapacitySource CreateCapacitySourceDetails `mandatory:"true" json:"capacitySource"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing this compute capacity topology.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains this compute capacity topology.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

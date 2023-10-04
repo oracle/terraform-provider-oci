@@ -53,12 +53,22 @@ type VirtualCircuitDrgAttachmentNetworkDetails struct {
 	// The Oracle Cloud Infrastructure region name.
 	RegionName *string `mandatory:"false" json:"regionName"`
 
+	// Common Export route target to use for the DRG Attachment instead of per-attachment route target.
+	// This is applicable to DRG Attachments that are assigned to a DRG Route Table which is whitelisted for high
+	// throughput mode.
+	CommonExportRT *string `mandatory:"false" json:"commonExportRT"`
+
+	// Common Import route target to use for the DRG Attachment instead of per-attachment import route target.
+	// This is applicable to DRG Attachments that are assigned to a DRG Route Table which is whitelisted for high
+	// throughput mode.
+	CommonImportRT *string `mandatory:"false" json:"commonImportRT"`
+
 	// Boolean flag that determines wether all traffic over the virtual circuits is encrypted.
 	// Example: `true`
 	TransportOnlyMode *bool `mandatory:"false" json:"transportOnlyMode"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m VirtualCircuitDrgAttachmentNetworkDetails) GetId() *string {
 	return m.Id
 }

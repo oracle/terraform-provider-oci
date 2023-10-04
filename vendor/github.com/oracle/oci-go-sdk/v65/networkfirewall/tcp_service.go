@@ -29,12 +29,12 @@ type TcpService struct {
 	PortRanges []PortRange `mandatory:"true" json:"portRanges"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m TcpService) GetName() *string {
 	return m.Name
 }
 
-// GetParentResourceId returns ParentResourceId
+//GetParentResourceId returns ParentResourceId
 func (m TcpService) GetParentResourceId() *string {
 	return m.ParentResourceId
 }

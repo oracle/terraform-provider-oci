@@ -18,13 +18,13 @@ import (
 
 // UserExtSecQuestions The schema used to mnage security question and answers provided by a user for account recovery and/or MFA. While setting up security questions, a user can also provide a hint for the answer.
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [value]
-//   - multiValued: true
-//   - mutability: readWrite
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCompositeKey: [value]
+//  - multiValued: true
+//  - mutability: readWrite
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type UserExtSecQuestions struct {
 
 	// The identifier of the question selected by the user when setting up a security question.

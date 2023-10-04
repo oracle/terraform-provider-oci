@@ -17,6 +17,9 @@ type CreateMlApplicationInstanceRequest struct {
 	// Details for the new MlApplicationInstance.
 	CreateMlApplicationInstanceDetails `contributesTo:"body"`
 
+	// Proof of Stripe Ownership Access Token, this is mandatory if type in authConfiguration is IDCS. The token validity is checked by the service.
+	PsoAt *string `mandatory:"false" contributesTo:"header" name:"pso-at"`
+
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again. Retry tokens expire after 24 hours, but can be invalidated before then due to conflicting operations. For example, if a resource has been deleted and purged from the system, then a retry of the original creation request might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 

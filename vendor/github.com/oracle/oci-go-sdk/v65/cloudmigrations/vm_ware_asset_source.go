@@ -79,72 +79,72 @@ type VmWareAssetSource struct {
 	LifecycleState AssetSourceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m VmWareAssetSource) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m VmWareAssetSource) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m VmWareAssetSource) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetEnvironmentId returns EnvironmentId
+//GetEnvironmentId returns EnvironmentId
 func (m VmWareAssetSource) GetEnvironmentId() *string {
 	return m.EnvironmentId
 }
 
-// GetInventoryId returns InventoryId
+//GetInventoryId returns InventoryId
 func (m VmWareAssetSource) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-// GetAssetsCompartmentId returns AssetsCompartmentId
+//GetAssetsCompartmentId returns AssetsCompartmentId
 func (m VmWareAssetSource) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
 }
 
-// GetDiscoveryScheduleId returns DiscoveryScheduleId
+//GetDiscoveryScheduleId returns DiscoveryScheduleId
 func (m VmWareAssetSource) GetDiscoveryScheduleId() *string {
 	return m.DiscoveryScheduleId
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m VmWareAssetSource) GetLifecycleState() AssetSourceLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m VmWareAssetSource) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m VmWareAssetSource) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m VmWareAssetSource) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m VmWareAssetSource) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m VmWareAssetSource) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m VmWareAssetSource) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

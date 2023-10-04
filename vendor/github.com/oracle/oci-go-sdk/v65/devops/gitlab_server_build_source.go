@@ -32,17 +32,17 @@ type GitlabServerBuildSource struct {
 	ConnectionId *string `mandatory:"true" json:"connectionId"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m GitlabServerBuildSource) GetName() *string {
 	return m.Name
 }
 
-// GetRepositoryUrl returns RepositoryUrl
+//GetRepositoryUrl returns RepositoryUrl
 func (m GitlabServerBuildSource) GetRepositoryUrl() *string {
 	return m.RepositoryUrl
 }
 
-// GetBranch returns Branch
+//GetBranch returns Branch
 func (m GitlabServerBuildSource) GetBranch() *string {
 	return m.Branch
 }

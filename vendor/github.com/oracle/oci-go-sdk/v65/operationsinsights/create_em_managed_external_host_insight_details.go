@@ -45,17 +45,17 @@ type CreateEmManagedExternalHostInsightDetails struct {
 	ExadataInsightId *string `mandatory:"false" json:"exadataInsightId"`
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateEmManagedExternalHostInsightDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateEmManagedExternalHostInsightDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateEmManagedExternalHostInsightDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

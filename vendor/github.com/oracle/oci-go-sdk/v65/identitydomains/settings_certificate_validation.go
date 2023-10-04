@@ -19,13 +19,13 @@ import (
 // SettingsCertificateValidation Certificate Validation Config
 // **Added In:** 2010242156
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type SettingsCertificateValidation struct {
 
 	// CRL is enabled Configuration

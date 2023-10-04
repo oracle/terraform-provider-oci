@@ -55,6 +55,9 @@ type TaskSummaryFromIntegrationTask struct {
 
 	ConfigProviderDelegate *ConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
 	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
@@ -63,77 +66,82 @@ type TaskSummaryFromIntegrationTask struct {
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m TaskSummaryFromIntegrationTask) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m TaskSummaryFromIntegrationTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m TaskSummaryFromIntegrationTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m TaskSummaryFromIntegrationTask) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m TaskSummaryFromIntegrationTask) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m TaskSummaryFromIntegrationTask) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m TaskSummaryFromIntegrationTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m TaskSummaryFromIntegrationTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m TaskSummaryFromIntegrationTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m TaskSummaryFromIntegrationTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m TaskSummaryFromIntegrationTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m TaskSummaryFromIntegrationTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m TaskSummaryFromIntegrationTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetMetadata returns Metadata
+//GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m TaskSummaryFromIntegrationTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
+}
+
+//GetMetadata returns Metadata
 func (m TaskSummaryFromIntegrationTask) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-// GetKeyMap returns KeyMap
+//GetKeyMap returns KeyMap
 func (m TaskSummaryFromIntegrationTask) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

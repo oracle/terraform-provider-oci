@@ -37,17 +37,17 @@ type AwrDatabaseWaitEventBucketCollection struct {
 	Items []AwrDatabaseWaitEventBucketSummary `mandatory:"false" json:"items"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m AwrDatabaseWaitEventBucketCollection) GetName() *string {
 	return m.Name
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m AwrDatabaseWaitEventBucketCollection) GetVersion() *string {
 	return m.Version
 }
 
-// GetDbQueryTimeInSecs returns DbQueryTimeInSecs
+//GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m AwrDatabaseWaitEventBucketCollection) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
 }

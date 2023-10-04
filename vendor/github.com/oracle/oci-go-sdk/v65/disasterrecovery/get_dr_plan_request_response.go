@@ -14,8 +14,8 @@ import (
 // GetDrPlanRequest wrapper for the GetDrPlan operation
 type GetDrPlanRequest struct {
 
-	// The OCID of the DR Plan.
-	// Example: `ocid1.drplan.oc1.iad.exampleocid`
+	// The OCID of the DR plan.
+	// Example: `ocid1.drplan.oc1..uniqueID`
 	DrPlanId *string `mandatory:"true" contributesTo:"path" name:"drPlanId"`
 
 	// The client request ID for tracing.

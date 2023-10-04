@@ -29,7 +29,7 @@ type CreateIcmp6ApplicationDetails struct {
 	IcmpCode *int `mandatory:"false" json:"icmpCode"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateIcmp6ApplicationDetails) GetName() *string {
 	return m.Name
 }

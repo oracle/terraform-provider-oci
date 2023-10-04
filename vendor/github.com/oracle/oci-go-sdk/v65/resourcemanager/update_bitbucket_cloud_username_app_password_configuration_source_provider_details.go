@@ -52,27 +52,27 @@ type UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails s
 	SecretId *string `mandatory:"false" json:"secretId"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

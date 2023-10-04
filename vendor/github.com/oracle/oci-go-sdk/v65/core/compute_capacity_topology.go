@@ -22,7 +22,7 @@ import (
 	"strings"
 )
 
-// ComputeCapacityTopology A compute capacity topology allows you to query your bare metal hosts and their RDMA network topology.
+// ComputeCapacityTopology A compute capacity topology that allows you to query your bare metal hosts and their RDMA network topology.
 type ComputeCapacityTopology struct {
 
 	// The availability domain of the compute capacity topology.
@@ -31,7 +31,7 @@ type ComputeCapacityTopology struct {
 
 	CapacitySource CapacitySource `mandatory:"true" json:"capacitySource"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the compute capacity topology.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the compute capacity topology.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity topology.
@@ -40,11 +40,11 @@ type ComputeCapacityTopology struct {
 	// The current state of the compute capacity topology.
 	LifecycleState ComputeCapacityTopologyLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time the compute capacity topology was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time that the compute capacity topology was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time the compute capacity topology was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time that the compute capacity topology was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 

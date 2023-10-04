@@ -19,11 +19,11 @@ import (
 // IdentitySettingsPosixGid A list of Posix Gid settings.
 // **Added In:** 17.4.6
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - multiValued: false
-//   - required: false
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - multiValued: false
+//  - required: false
+//  - type: complex
+//  - uniqueness: none
 type IdentitySettingsPosixGid struct {
 
 	// The number from which the Posix Gid Manual assignment starts.

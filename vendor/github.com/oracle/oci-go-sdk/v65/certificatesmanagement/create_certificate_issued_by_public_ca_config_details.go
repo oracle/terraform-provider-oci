@@ -38,7 +38,7 @@ type CreateCertificateIssuedByPublicCaConfigDetails struct {
 	KeyAlgorithm KeyAlgorithmEnum `mandatory:"true" json:"keyAlgorithm"`
 }
 
-// GetVersionName returns VersionName
+//GetVersionName returns VersionName
 func (m CreateCertificateIssuedByPublicCaConfigDetails) GetVersionName() *string {
 	return m.VersionName
 }

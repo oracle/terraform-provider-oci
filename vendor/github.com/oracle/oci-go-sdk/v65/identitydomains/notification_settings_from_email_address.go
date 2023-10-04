@@ -18,13 +18,13 @@ import (
 
 // NotificationSettingsFromEmailAddress From email address to be used in the notification emails
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: true
-//   - returned: always
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: true
+//  - returned: always
+//  - type: complex
+//  - uniqueness: none
 type NotificationSettingsFromEmailAddress struct {
 
 	// Value of the From email address

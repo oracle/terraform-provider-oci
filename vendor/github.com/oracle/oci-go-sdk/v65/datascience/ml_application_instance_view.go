@@ -56,6 +56,7 @@ type MlApplicationInstanceView struct {
 	LifecycleState MlApplicationInstanceViewLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The current substate of the MlApplicationInstance(View). The substate has MlApplicationInstance(View) specific values in comparison with lifecycleState which has standard values common for all OCI resources.
+	// The NEEDS_ATTENTION and FAILED substates are deprecated in favor of (NON_)?RECOVERABLE_(PROVIDER|SERVICE)_ISSUE and will be removed in next release.
 	LifecycleSubstate MlApplicationInstanceViewLifecycleSubstateEnum `mandatory:"true" json:"lifecycleSubstate"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
@@ -77,8 +78,7 @@ type MlApplicationInstanceView struct {
 	// References (Identifiers) for components dedicated to this instance.
 	InstanceComponents []InstanceComponent `mandatory:"false" json:"instanceComponents"`
 
-	// Array of all prediction URIs per use-case.
-	PredictionUris []PredictionUri `mandatory:"false" json:"predictionUris"`
+	PredictionEndpointDetails *PredictionEndpointDetails `mandatory:"false" json:"predictionEndpointDetails"`
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
@@ -113,7 +113,7 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 		AuthConfiguration                    authconfiguration                              `json:"authConfiguration"`
 		Configuration                        []ConfigurationProperty                        `json:"configuration"`
 		InstanceComponents                   []instancecomponent                            `json:"instanceComponents"`
-		PredictionUris                       []PredictionUri                                `json:"predictionUris"`
+		PredictionEndpointDetails            *PredictionEndpointDetails                     `json:"predictionEndpointDetails"`
 		SystemTags                           map[string]map[string]interface{}              `json:"systemTags"`
 		Id                                   *string                                        `json:"id"`
 		DisplayName                          *string                                        `json:"displayName"`
@@ -162,8 +162,8 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 			m.InstanceComponents[i] = nil
 		}
 	}
-	m.PredictionUris = make([]PredictionUri, len(model.PredictionUris))
-	copy(m.PredictionUris, model.PredictionUris)
+	m.PredictionEndpointDetails = model.PredictionEndpointDetails
+
 	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id
@@ -272,39 +272,51 @@ type MlApplicationInstanceViewLifecycleSubstateEnum string
 
 // Set of constants representing the allowable values for MlApplicationInstanceViewLifecycleSubstateEnum
 const (
-	MlApplicationInstanceViewLifecycleSubstateCreating       MlApplicationInstanceViewLifecycleSubstateEnum = "CREATING"
-	MlApplicationInstanceViewLifecycleSubstateUpdating       MlApplicationInstanceViewLifecycleSubstateEnum = "UPDATING"
-	MlApplicationInstanceViewLifecycleSubstateUpgrading      MlApplicationInstanceViewLifecycleSubstateEnum = "UPGRADING"
-	MlApplicationInstanceViewLifecycleSubstateActive         MlApplicationInstanceViewLifecycleSubstateEnum = "ACTIVE"
-	MlApplicationInstanceViewLifecycleSubstateInactive       MlApplicationInstanceViewLifecycleSubstateEnum = "INACTIVE"
-	MlApplicationInstanceViewLifecycleSubstateDeleting       MlApplicationInstanceViewLifecycleSubstateEnum = "DELETING"
-	MlApplicationInstanceViewLifecycleSubstateDeleted        MlApplicationInstanceViewLifecycleSubstateEnum = "DELETED"
-	MlApplicationInstanceViewLifecycleSubstateNeedsAttention MlApplicationInstanceViewLifecycleSubstateEnum = "NEEDS_ATTENTION"
-	MlApplicationInstanceViewLifecycleSubstateFailed         MlApplicationInstanceViewLifecycleSubstateEnum = "FAILED"
+	MlApplicationInstanceViewLifecycleSubstateCreating                    MlApplicationInstanceViewLifecycleSubstateEnum = "CREATING"
+	MlApplicationInstanceViewLifecycleSubstateUpdating                    MlApplicationInstanceViewLifecycleSubstateEnum = "UPDATING"
+	MlApplicationInstanceViewLifecycleSubstateUpgrading                   MlApplicationInstanceViewLifecycleSubstateEnum = "UPGRADING"
+	MlApplicationInstanceViewLifecycleSubstateActive                      MlApplicationInstanceViewLifecycleSubstateEnum = "ACTIVE"
+	MlApplicationInstanceViewLifecycleSubstateInactive                    MlApplicationInstanceViewLifecycleSubstateEnum = "INACTIVE"
+	MlApplicationInstanceViewLifecycleSubstateDeleting                    MlApplicationInstanceViewLifecycleSubstateEnum = "DELETING"
+	MlApplicationInstanceViewLifecycleSubstateDeleted                     MlApplicationInstanceViewLifecycleSubstateEnum = "DELETED"
+	MlApplicationInstanceViewLifecycleSubstateNeedsAttention              MlApplicationInstanceViewLifecycleSubstateEnum = "NEEDS_ATTENTION"
+	MlApplicationInstanceViewLifecycleSubstateFailed                      MlApplicationInstanceViewLifecycleSubstateEnum = "FAILED"
+	MlApplicationInstanceViewLifecycleSubstateNonRecoverableProviderIssue MlApplicationInstanceViewLifecycleSubstateEnum = "NON_RECOVERABLE_PROVIDER_ISSUE"
+	MlApplicationInstanceViewLifecycleSubstateRecoverableProviderIssue    MlApplicationInstanceViewLifecycleSubstateEnum = "RECOVERABLE_PROVIDER_ISSUE"
+	MlApplicationInstanceViewLifecycleSubstateNonRecoverableServiceIssue  MlApplicationInstanceViewLifecycleSubstateEnum = "NON_RECOVERABLE_SERVICE_ISSUE"
+	MlApplicationInstanceViewLifecycleSubstateRecoverableServiceIssue     MlApplicationInstanceViewLifecycleSubstateEnum = "RECOVERABLE_SERVICE_ISSUE"
 )
 
 var mappingMlApplicationInstanceViewLifecycleSubstateEnum = map[string]MlApplicationInstanceViewLifecycleSubstateEnum{
-	"CREATING":        MlApplicationInstanceViewLifecycleSubstateCreating,
-	"UPDATING":        MlApplicationInstanceViewLifecycleSubstateUpdating,
-	"UPGRADING":       MlApplicationInstanceViewLifecycleSubstateUpgrading,
-	"ACTIVE":          MlApplicationInstanceViewLifecycleSubstateActive,
-	"INACTIVE":        MlApplicationInstanceViewLifecycleSubstateInactive,
-	"DELETING":        MlApplicationInstanceViewLifecycleSubstateDeleting,
-	"DELETED":         MlApplicationInstanceViewLifecycleSubstateDeleted,
-	"NEEDS_ATTENTION": MlApplicationInstanceViewLifecycleSubstateNeedsAttention,
-	"FAILED":          MlApplicationInstanceViewLifecycleSubstateFailed,
+	"CREATING":                       MlApplicationInstanceViewLifecycleSubstateCreating,
+	"UPDATING":                       MlApplicationInstanceViewLifecycleSubstateUpdating,
+	"UPGRADING":                      MlApplicationInstanceViewLifecycleSubstateUpgrading,
+	"ACTIVE":                         MlApplicationInstanceViewLifecycleSubstateActive,
+	"INACTIVE":                       MlApplicationInstanceViewLifecycleSubstateInactive,
+	"DELETING":                       MlApplicationInstanceViewLifecycleSubstateDeleting,
+	"DELETED":                        MlApplicationInstanceViewLifecycleSubstateDeleted,
+	"NEEDS_ATTENTION":                MlApplicationInstanceViewLifecycleSubstateNeedsAttention,
+	"FAILED":                         MlApplicationInstanceViewLifecycleSubstateFailed,
+	"NON_RECOVERABLE_PROVIDER_ISSUE": MlApplicationInstanceViewLifecycleSubstateNonRecoverableProviderIssue,
+	"RECOVERABLE_PROVIDER_ISSUE":     MlApplicationInstanceViewLifecycleSubstateRecoverableProviderIssue,
+	"NON_RECOVERABLE_SERVICE_ISSUE":  MlApplicationInstanceViewLifecycleSubstateNonRecoverableServiceIssue,
+	"RECOVERABLE_SERVICE_ISSUE":      MlApplicationInstanceViewLifecycleSubstateRecoverableServiceIssue,
 }
 
 var mappingMlApplicationInstanceViewLifecycleSubstateEnumLowerCase = map[string]MlApplicationInstanceViewLifecycleSubstateEnum{
-	"creating":        MlApplicationInstanceViewLifecycleSubstateCreating,
-	"updating":        MlApplicationInstanceViewLifecycleSubstateUpdating,
-	"upgrading":       MlApplicationInstanceViewLifecycleSubstateUpgrading,
-	"active":          MlApplicationInstanceViewLifecycleSubstateActive,
-	"inactive":        MlApplicationInstanceViewLifecycleSubstateInactive,
-	"deleting":        MlApplicationInstanceViewLifecycleSubstateDeleting,
-	"deleted":         MlApplicationInstanceViewLifecycleSubstateDeleted,
-	"needs_attention": MlApplicationInstanceViewLifecycleSubstateNeedsAttention,
-	"failed":          MlApplicationInstanceViewLifecycleSubstateFailed,
+	"creating":                       MlApplicationInstanceViewLifecycleSubstateCreating,
+	"updating":                       MlApplicationInstanceViewLifecycleSubstateUpdating,
+	"upgrading":                      MlApplicationInstanceViewLifecycleSubstateUpgrading,
+	"active":                         MlApplicationInstanceViewLifecycleSubstateActive,
+	"inactive":                       MlApplicationInstanceViewLifecycleSubstateInactive,
+	"deleting":                       MlApplicationInstanceViewLifecycleSubstateDeleting,
+	"deleted":                        MlApplicationInstanceViewLifecycleSubstateDeleted,
+	"needs_attention":                MlApplicationInstanceViewLifecycleSubstateNeedsAttention,
+	"failed":                         MlApplicationInstanceViewLifecycleSubstateFailed,
+	"non_recoverable_provider_issue": MlApplicationInstanceViewLifecycleSubstateNonRecoverableProviderIssue,
+	"recoverable_provider_issue":     MlApplicationInstanceViewLifecycleSubstateRecoverableProviderIssue,
+	"non_recoverable_service_issue":  MlApplicationInstanceViewLifecycleSubstateNonRecoverableServiceIssue,
+	"recoverable_service_issue":      MlApplicationInstanceViewLifecycleSubstateRecoverableServiceIssue,
 }
 
 // GetMlApplicationInstanceViewLifecycleSubstateEnumValues Enumerates the set of values for MlApplicationInstanceViewLifecycleSubstateEnum
@@ -328,6 +340,10 @@ func GetMlApplicationInstanceViewLifecycleSubstateEnumStringValues() []string {
 		"DELETED",
 		"NEEDS_ATTENTION",
 		"FAILED",
+		"NON_RECOVERABLE_PROVIDER_ISSUE",
+		"RECOVERABLE_PROVIDER_ISSUE",
+		"NON_RECOVERABLE_SERVICE_ISSUE",
+		"RECOVERABLE_SERVICE_ISSUE",
 	}
 }
 

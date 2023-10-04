@@ -21,7 +21,7 @@ type ConfigurationPropertySchema struct {
 	// Name of key (parameter name)
 	KeyName *string `mandatory:"true" json:"keyName"`
 
-	// Type of vaule
+	// Type of value
 	ValueType ConfigurationPropertySchemaValueTypeEnum `mandatory:"true" json:"valueType"`
 
 	// Description of this configuration property
@@ -64,18 +64,21 @@ type ConfigurationPropertySchemaValueTypeEnum string
 
 // Set of constants representing the allowable values for ConfigurationPropertySchemaValueTypeEnum
 const (
-	ConfigurationPropertySchemaValueTypeString ConfigurationPropertySchemaValueTypeEnum = "STRING"
-	ConfigurationPropertySchemaValueTypeSecret ConfigurationPropertySchemaValueTypeEnum = "SECRET"
+	ConfigurationPropertySchemaValueTypeString        ConfigurationPropertySchemaValueTypeEnum = "STRING"
+	ConfigurationPropertySchemaValueTypeSecret        ConfigurationPropertySchemaValueTypeEnum = "SECRET"
+	ConfigurationPropertySchemaValueTypeVaultSecretId ConfigurationPropertySchemaValueTypeEnum = "VAULT_SECRET_ID"
 )
 
 var mappingConfigurationPropertySchemaValueTypeEnum = map[string]ConfigurationPropertySchemaValueTypeEnum{
-	"STRING": ConfigurationPropertySchemaValueTypeString,
-	"SECRET": ConfigurationPropertySchemaValueTypeSecret,
+	"STRING":          ConfigurationPropertySchemaValueTypeString,
+	"SECRET":          ConfigurationPropertySchemaValueTypeSecret,
+	"VAULT_SECRET_ID": ConfigurationPropertySchemaValueTypeVaultSecretId,
 }
 
 var mappingConfigurationPropertySchemaValueTypeEnumLowerCase = map[string]ConfigurationPropertySchemaValueTypeEnum{
-	"string": ConfigurationPropertySchemaValueTypeString,
-	"secret": ConfigurationPropertySchemaValueTypeSecret,
+	"string":          ConfigurationPropertySchemaValueTypeString,
+	"secret":          ConfigurationPropertySchemaValueTypeSecret,
+	"vault_secret_id": ConfigurationPropertySchemaValueTypeVaultSecretId,
 }
 
 // GetConfigurationPropertySchemaValueTypeEnumValues Enumerates the set of values for ConfigurationPropertySchemaValueTypeEnum
@@ -92,6 +95,7 @@ func GetConfigurationPropertySchemaValueTypeEnumStringValues() []string {
 	return []string{
 		"STRING",
 		"SECRET",
+		"VAULT_SECRET_ID",
 	}
 }
 

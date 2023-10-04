@@ -14,7 +14,7 @@ import (
 // CreateDrPlanRequest wrapper for the CreateDrPlan operation
 type CreateDrPlanRequest struct {
 
-	// Details for creating the new DR Plan.
+	// Details for creating the new DR plan.
 	CreateDrPlanDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -38,22 +38,22 @@ type UpdateOracleDbAssetDetails struct {
 	OracleDbProperties *OracleDbProperties `mandatory:"false" json:"oracleDbProperties"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateOracleDbAssetDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetAssetSourceIds returns AssetSourceIds
+//GetAssetSourceIds returns AssetSourceIds
 func (m UpdateOracleDbAssetDetails) GetAssetSourceIds() []string {
 	return m.AssetSourceIds
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateOracleDbAssetDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateOracleDbAssetDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

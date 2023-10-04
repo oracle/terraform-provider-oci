@@ -56,32 +56,32 @@ type UpdateSensitiveTypePatternDetails struct {
 	SearchType SensitiveTypePatternSearchTypeEnum `mandatory:"false" json:"searchType,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateSensitiveTypePatternDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetShortName returns ShortName
+//GetShortName returns ShortName
 func (m UpdateSensitiveTypePatternDetails) GetShortName() *string {
 	return m.ShortName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateSensitiveTypePatternDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetParentCategoryId returns ParentCategoryId
+//GetParentCategoryId returns ParentCategoryId
 func (m UpdateSensitiveTypePatternDetails) GetParentCategoryId() *string {
 	return m.ParentCategoryId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateSensitiveTypePatternDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateSensitiveTypePatternDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

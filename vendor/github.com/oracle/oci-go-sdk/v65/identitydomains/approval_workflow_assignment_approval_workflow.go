@@ -18,14 +18,14 @@ import (
 
 // ApprovalWorkflowAssignmentApprovalWorkflow Details of the Approval Workflow
 // **SCIM++ Properties:**
-//   - caseExact: true
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: true
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: true
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type ApprovalWorkflowAssignmentApprovalWorkflow struct {
 
 	// Identifier of the approval workflow

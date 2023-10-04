@@ -160,8 +160,8 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := PostgresqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DB2":
-		mm := Db2Connection{}
+	case "JAVA_MESSAGE_SERVICE":
+		mm := JavaMessageServiceConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ELASTICSEARCH":
@@ -170,42 +170,6 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "AMAZON_REDSHIFT":
 		mm := AmazonRedshiftConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "AMAZON_S3":
-		mm := AmazonS3Connection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MONGODB":
-		mm := MongoDbConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "CASSANDRA":
-		mm := CassandraConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "HDFS":
-		mm := HdfsConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "OCI_OBJECT_STORAGE":
-		mm := OciObjectStorageConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MICROSOFT_SQLSERVER":
-		mm := MicrosoftSqlserverConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "GENERIC":
-		mm := GenericConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "AZURE_SYNAPSE_ANALYTICS":
-		mm := AzureSynapseConnection{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "JAVA_MESSAGE_SERVICE":
-		mm := JavaMessageServiceConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "SNOWFLAKE":
@@ -220,6 +184,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := MysqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_S3":
+		mm := AmazonS3Connection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GOOGLE_BIGQUERY":
 		mm := GoogleBigQueryConnection{}
 		err = json.Unmarshal(data, &mm)
@@ -232,20 +200,44 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := AzureDataLakeStorageConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MONGODB":
+		mm := MongoDbConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HDFS":
+		mm := HdfsConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GOOGLE_CLOUD_STORAGE":
 		mm := GoogleCloudStorageConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_OBJECT_STORAGE":
+		mm := OciObjectStorageConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "KAFKA_SCHEMA_REGISTRY":
 		mm := KafkaSchemaRegistryConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MICROSOFT_SQLSERVER":
+		mm := MicrosoftSqlserverConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AMAZON_KINESIS":
 		mm := AmazonKinesisConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GENERIC":
+		mm := GenericConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_NOSQL":
 		mm := OracleNosqlConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_SYNAPSE_ANALYTICS":
+		mm := AzureSynapseConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "REDIS":

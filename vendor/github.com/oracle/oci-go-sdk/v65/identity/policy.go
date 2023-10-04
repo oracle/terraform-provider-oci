@@ -20,10 +20,9 @@ import (
 // Overview of IAM (https://docs.cloud.oracle.com/Content/Identity/getstarted/identity-domains.htm). If you're new to policies, see
 // Get Started with Policies (https://docs.cloud.oracle.com/Content/Identity/policiesgs/get-started-with-policies.htm).
 // The word "policy" is used by people in different ways:
-//   - An individual statement written in the policy language
-//   - A collection of statements in a single, named "policy" document (which has an Oracle Cloud ID (OCID) assigned to it)
-//   - The overall body of policies your organization uses to control access to resources
-//
+//   * An individual statement written in the policy language
+//   * A collection of statements in a single, named "policy" document (which has an Oracle Cloud ID (OCID) assigned to it)
+//   * The overall body of policies your organization uses to control access to resources
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values

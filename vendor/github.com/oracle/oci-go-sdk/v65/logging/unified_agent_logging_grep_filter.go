@@ -32,7 +32,7 @@ type UnifiedAgentLoggingGrepFilter struct {
 	DenyList []GrepFilterDenyRule `mandatory:"false" json:"denyList"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UnifiedAgentLoggingGrepFilter) GetName() *string {
 	return m.Name
 }

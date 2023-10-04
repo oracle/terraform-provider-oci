@@ -514,9 +514,8 @@ func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx cont
 	return response, err
 }
 
-// ChangeComputeCapacityTopologyCompartment Moves a compute capacity topology into a different compartment. For information about
-// moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeComputeCapacityTopologyCompartment Moves a compute capacity topology into a different compartment. For information about moving resources between
+// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeComputeCapacityTopologyCompartment()
 func (client ComputeClient) ChangeComputeCapacityTopologyCompartment(ctx context.Context, request ChangeComputeCapacityTopologyCompartmentRequest) (response ChangeComputeCapacityTopologyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -638,9 +637,7 @@ func (client ComputeClient) changeComputeClusterCompartment(ctx context.Context,
 
 // ChangeComputeImageCapabilitySchemaCompartment Moves a compute image capability schema into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-//
-//	Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-//
+//         Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeComputeImageCapabilitySchemaCompartment()
 func (client ComputeClient) ChangeComputeImageCapabilitySchemaCompartment(ctx context.Context, request ChangeComputeImageCapabilitySchemaCompartmentRequest) (response ChangeComputeImageCapabilitySchemaCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1126,7 +1123,7 @@ func (client ComputeClient) createComputeCapacityReservation(ctx context.Context
 // CreateComputeCapacityTopology Creates a new compute capacity topology in the specified compartment and availability domain.
 // Compute capacity topologies provide the RDMA network topology of your bare metal hosts so that you can launch
 // instances on your bare metal hosts with targeted network locations.
-// Compute capacity topologies also report the health status of your bare metal hosts.
+// Compute capacity topologies report the health status of your bare metal hosts.
 // A default retry strategy applies to this operation CreateComputeCapacityTopology()
 func (client ComputeClient) CreateComputeCapacityTopology(ctx context.Context, request CreateComputeCapacityTopologyRequest) (response CreateComputeCapacityTopologyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3876,9 +3873,9 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // crash dump file when it crashes. The crash dump captures information about the state of the OS at the time of
 // the crash. After the OS restarts, you can analyze the crash dump to diagnose the issue. For more information, see
 // Sending a Diagnostic Interrupt (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/sendingdiagnosticinterrupt.htm).
-//   - **EXTENDSCHEDULEDSTOP** - Extends the scheduled stop time of instance.
-//   - **VALIDATELIVEMIGRATE** - Live migrate the instance to validate impact on the customer workload.
-//     Live migrating an instance moves it to a different physical host while the instance is running.
+// - **EXTENDSCHEDULEDSTOP** - Extends the scheduled stop time of instance.
+// - **VALIDATELIVEMIGRATE** - Live migrate the instance to validate impact on the customer workload.
+//                             Live migrating an instance moves it to a different physical host while the instance is running.
 //
 // - **DIAGNOSTICREBOOT** - Powers off the instance, rebuilds it, and then powers it back on.
 // Before you send a diagnostic reboot, restart the instance's OS, confirm that the instance and networking settings are configured
@@ -4471,8 +4468,8 @@ func (client ComputeClient) listComputeCapacityReservations(ctx context.Context,
 	return response, err
 }
 
-// ListComputeCapacityTopologies Lists the compute capacity topologies in the specified compartment. You can filter the list by specifying
-// a compute capacity topology display name.
+// ListComputeCapacityTopologies Lists the compute capacity topologies in the specified compartment. You can filter the list by a compute
+// capacity topology display name.
 // A default retry strategy applies to this operation ListComputeCapacityTopologies()
 func (client ComputeClient) ListComputeCapacityTopologies(ctx context.Context, request ListComputeCapacityTopologiesRequest) (response ListComputeCapacityTopologiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4526,7 +4523,7 @@ func (client ComputeClient) listComputeCapacityTopologies(ctx context.Context, r
 	return response, err
 }
 
-// ListComputeCapacityTopologyComputeBareMetalHosts List compute bare metal hosts in the specified compute capacity topology.
+// ListComputeCapacityTopologyComputeBareMetalHosts Lists compute bare metal hosts in the specified compute capacity topology.
 // A default retry strategy applies to this operation ListComputeCapacityTopologyComputeBareMetalHosts()
 func (client ComputeClient) ListComputeCapacityTopologyComputeBareMetalHosts(ctx context.Context, request ListComputeCapacityTopologyComputeBareMetalHostsRequest) (response ListComputeCapacityTopologyComputeBareMetalHostsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4580,7 +4577,7 @@ func (client ComputeClient) listComputeCapacityTopologyComputeBareMetalHosts(ctx
 	return response, err
 }
 
-// ListComputeCapacityTopologyComputeHpcIslands List compute HPC islands in the specified compute capacity topology.
+// ListComputeCapacityTopologyComputeHpcIslands Lists compute HPC islands in the specified compute capacity topology.
 // A default retry strategy applies to this operation ListComputeCapacityTopologyComputeHpcIslands()
 func (client ComputeClient) ListComputeCapacityTopologyComputeHpcIslands(ctx context.Context, request ListComputeCapacityTopologyComputeHpcIslandsRequest) (response ListComputeCapacityTopologyComputeHpcIslandsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4634,7 +4631,7 @@ func (client ComputeClient) listComputeCapacityTopologyComputeHpcIslands(ctx con
 	return response, err
 }
 
-// ListComputeCapacityTopologyComputeNetworkBlocks List compute network blocks in the specified compute capacity topology.
+// ListComputeCapacityTopologyComputeNetworkBlocks Lists compute network blocks in the specified compute capacity topology.
 // A default retry strategy applies to this operation ListComputeCapacityTopologyComputeNetworkBlocks()
 func (client ComputeClient) ListComputeCapacityTopologyComputeNetworkBlocks(ctx context.Context, request ListComputeCapacityTopologyComputeNetworkBlocksRequest) (response ListComputeCapacityTopologyComputeNetworkBlocksResponse, err error) {
 	var ociResponse common.OCIResponse

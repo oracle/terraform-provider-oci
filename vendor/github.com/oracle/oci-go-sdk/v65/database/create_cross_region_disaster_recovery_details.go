@@ -21,10 +21,8 @@ import (
 // For creating a standby databases in a cross-region DR association:
 //   - To create the standby database in a remote region, use the API endpoint in the region where the standby is located. For example, if the primary database is in the IAD region and the standby is in the PHX region, make the API call using the PHX endpoint (https://database.us-phoenix-1.oraclecloud.com). See API Endpoints for the list of Database Service API endpoints.
 //   - To create the request in the standby database, the sourceId value must be the OCID of the primary database.
-//
 // The following parameters are required for the cross-region standby database and must contain the same values as the source Autonomous Database:
 //   - remoteDisasterRecoveryType
-//
 // The following parameters are optional for the cross-region standby database. If included in the request, these parameters must contain the same values as the source Autonomous Database:
 //   - dbName
 //   - dbVersion
@@ -38,31 +36,27 @@ import (
 //   - licenseModel
 //   - whitelistedIps
 //   - isMtlsConnectionRequired
-//
 // Example I - Creating a cross-region standby with required parameters only:
-//
-//	`{
-//	  "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
-//	  "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
-//	  "source": "CROSS_REGION_DISASTER_RECOVERY",
-//	  "remoteDisasterRecoveryType": "BACKUP_BASED"
-//	}`
-//
+//     `{
+//       "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
+//       "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
+//       "source": "CROSS_REGION_DISASTER_RECOVERY",
+//       "remoteDisasterRecoveryType": "BACKUP_BASED"
+//     }`
 // Example II - Creating a cross-region standby that specifies optional parameters in addition to the required parameters:
-//
-//	`{
-//	  "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
-//	  "ecpuCount": 2,
-//	  "dbName": "adatabasedb1",
-//	  "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
-//	  "dataStorageSizeInTBs": 1,
-//	  "source": "CROSS_REGION_DISASTER_RECOVERY",
-//	  "adminPassword" : "<var>&lt;password&gt;</var>",
-//	  "dbVersion": "19c",
-//	  "licenseModel": "LICENSE_INCLUDED",
-//	  "isAutoScalingForStorageEnabled": "true",
-//	  "remoteDisasterRecoveryType": "BACKUP_BASED"
-//	}`
+//     `{
+//       "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
+//       "ecpuCount": 2,
+//       "dbName": "adatabasedb1",
+//       "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
+//       "dataStorageSizeInTBs": 1,
+//       "source": "CROSS_REGION_DISASTER_RECOVERY",
+//       "adminPassword" : "<var>&lt;password&gt;</var>",
+//       "dbVersion": "19c",
+//       "licenseModel": "LICENSE_INCLUDED",
+//       "isAutoScalingForStorageEnabled": "true",
+//       "remoteDisasterRecoveryType": "BACKUP_BASED"
+//     }`
 type CreateCrossRegionDisasterRecoveryDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
@@ -297,247 +291,247 @@ type CreateCrossRegionDisasterRecoveryDetails struct {
 	RemoteDisasterRecoveryType DisasterRecoveryConfigurationDisasterRecoveryTypeEnum `mandatory:"true" json:"remoteDisasterRecoveryType"`
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateCrossRegionDisasterRecoveryDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetCharacterSet returns CharacterSet
+//GetCharacterSet returns CharacterSet
 func (m CreateCrossRegionDisasterRecoveryDetails) GetCharacterSet() *string {
 	return m.CharacterSet
 }
 
-// GetNcharacterSet returns NcharacterSet
+//GetNcharacterSet returns NcharacterSet
 func (m CreateCrossRegionDisasterRecoveryDetails) GetNcharacterSet() *string {
 	return m.NcharacterSet
 }
 
-// GetDbName returns DbName
+//GetDbName returns DbName
 func (m CreateCrossRegionDisasterRecoveryDetails) GetDbName() *string {
 	return m.DbName
 }
 
-// GetCpuCoreCount returns CpuCoreCount
+//GetCpuCoreCount returns CpuCoreCount
 func (m CreateCrossRegionDisasterRecoveryDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
-// GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
+//GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
 func (m CreateCrossRegionDisasterRecoveryDetails) GetBackupRetentionPeriodInDays() *int {
 	return m.BackupRetentionPeriodInDays
 }
 
-// GetComputeModel returns ComputeModel
+//GetComputeModel returns ComputeModel
 func (m CreateCrossRegionDisasterRecoveryDetails) GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum {
 	return m.ComputeModel
 }
 
-// GetComputeCount returns ComputeCount
+//GetComputeCount returns ComputeCount
 func (m CreateCrossRegionDisasterRecoveryDetails) GetComputeCount() *float32 {
 	return m.ComputeCount
 }
 
-// GetOcpuCount returns OcpuCount
+//GetOcpuCount returns OcpuCount
 func (m CreateCrossRegionDisasterRecoveryDetails) GetOcpuCount() *float32 {
 	return m.OcpuCount
 }
 
-// GetDbWorkload returns DbWorkload
+//GetDbWorkload returns DbWorkload
 func (m CreateCrossRegionDisasterRecoveryDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
 }
 
-// GetDataStorageSizeInTBs returns DataStorageSizeInTBs
+//GetDataStorageSizeInTBs returns DataStorageSizeInTBs
 func (m CreateCrossRegionDisasterRecoveryDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
 }
 
-// GetDataStorageSizeInGBs returns DataStorageSizeInGBs
+//GetDataStorageSizeInGBs returns DataStorageSizeInGBs
 func (m CreateCrossRegionDisasterRecoveryDetails) GetDataStorageSizeInGBs() *int {
 	return m.DataStorageSizeInGBs
 }
 
-// GetIsFreeTier returns IsFreeTier
+//GetIsFreeTier returns IsFreeTier
 func (m CreateCrossRegionDisasterRecoveryDetails) GetIsFreeTier() *bool {
 	return m.IsFreeTier
 }
 
-// GetKmsKeyId returns KmsKeyId
+//GetKmsKeyId returns KmsKeyId
 func (m CreateCrossRegionDisasterRecoveryDetails) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m CreateCrossRegionDisasterRecoveryDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetAdminPassword returns AdminPassword
+//GetAdminPassword returns AdminPassword
 func (m CreateCrossRegionDisasterRecoveryDetails) GetAdminPassword() *string {
 	return m.AdminPassword
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateCrossRegionDisasterRecoveryDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetLicenseModel returns LicenseModel
+//GetLicenseModel returns LicenseModel
 func (m CreateCrossRegionDisasterRecoveryDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
 }
 
-// GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
+//GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
 func (m CreateCrossRegionDisasterRecoveryDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
 	return m.IsPreviewVersionWithServiceTermsAccepted
 }
 
-// GetIsAutoScalingEnabled returns IsAutoScalingEnabled
+//GetIsAutoScalingEnabled returns IsAutoScalingEnabled
 func (m CreateCrossRegionDisasterRecoveryDetails) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
 }
 
-// GetIsDedicated returns IsDedicated
+//GetIsDedicated returns IsDedicated
 func (m CreateCrossRegionDisasterRecoveryDetails) GetIsDedicated() *bool {
 	return m.IsDedicated
 }
 
-// GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
+//GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
 func (m CreateCrossRegionDisasterRecoveryDetails) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
 }
 
-// GetInMemoryPercentage returns InMemoryPercentage
+//GetInMemoryPercentage returns InMemoryPercentage
 func (m CreateCrossRegionDisasterRecoveryDetails) GetInMemoryPercentage() *int {
 	return m.InMemoryPercentage
 }
 
-// GetIsAccessControlEnabled returns IsAccessControlEnabled
+//GetIsAccessControlEnabled returns IsAccessControlEnabled
 func (m CreateCrossRegionDisasterRecoveryDetails) GetIsAccessControlEnabled() *bool {
 	return m.IsAccessControlEnabled
 }
 
-// GetWhitelistedIps returns WhitelistedIps
+//GetWhitelistedIps returns WhitelistedIps
 func (m CreateCrossRegionDisasterRecoveryDetails) GetWhitelistedIps() []string {
 	return m.WhitelistedIps
 }
 
-// GetArePrimaryWhitelistedIpsUsed returns ArePrimaryWhitelistedIpsUsed
+//GetArePrimaryWhitelistedIpsUsed returns ArePrimaryWhitelistedIpsUsed
 func (m CreateCrossRegionDisasterRecoveryDetails) GetArePrimaryWhitelistedIpsUsed() *bool {
 	return m.ArePrimaryWhitelistedIpsUsed
 }
 
-// GetStandbyWhitelistedIps returns StandbyWhitelistedIps
+//GetStandbyWhitelistedIps returns StandbyWhitelistedIps
 func (m CreateCrossRegionDisasterRecoveryDetails) GetStandbyWhitelistedIps() []string {
 	return m.StandbyWhitelistedIps
 }
 
-// GetIsDataGuardEnabled returns IsDataGuardEnabled
+//GetIsDataGuardEnabled returns IsDataGuardEnabled
 func (m CreateCrossRegionDisasterRecoveryDetails) GetIsDataGuardEnabled() *bool {
 	return m.IsDataGuardEnabled
 }
 
-// GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
+//GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
 func (m CreateCrossRegionDisasterRecoveryDetails) GetIsLocalDataGuardEnabled() *bool {
 	return m.IsLocalDataGuardEnabled
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m CreateCrossRegionDisasterRecoveryDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m CreateCrossRegionDisasterRecoveryDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-// GetPrivateEndpointLabel returns PrivateEndpointLabel
+//GetPrivateEndpointLabel returns PrivateEndpointLabel
 func (m CreateCrossRegionDisasterRecoveryDetails) GetPrivateEndpointLabel() *string {
 	return m.PrivateEndpointLabel
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateCrossRegionDisasterRecoveryDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateCrossRegionDisasterRecoveryDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetPrivateEndpointIp returns PrivateEndpointIp
+//GetPrivateEndpointIp returns PrivateEndpointIp
 func (m CreateCrossRegionDisasterRecoveryDetails) GetPrivateEndpointIp() *string {
 	return m.PrivateEndpointIp
 }
 
-// GetDbVersion returns DbVersion
+//GetDbVersion returns DbVersion
 func (m CreateCrossRegionDisasterRecoveryDetails) GetDbVersion() *string {
 	return m.DbVersion
 }
 
-// GetCustomerContacts returns CustomerContacts
+//GetCustomerContacts returns CustomerContacts
 func (m CreateCrossRegionDisasterRecoveryDetails) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
 }
 
-// GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
+//GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
 func (m CreateCrossRegionDisasterRecoveryDetails) GetIsMtlsConnectionRequired() *bool {
 	return m.IsMtlsConnectionRequired
 }
 
-// GetResourcePoolLeaderId returns ResourcePoolLeaderId
+//GetResourcePoolLeaderId returns ResourcePoolLeaderId
 func (m CreateCrossRegionDisasterRecoveryDetails) GetResourcePoolLeaderId() *string {
 	return m.ResourcePoolLeaderId
 }
 
-// GetResourcePoolSummary returns ResourcePoolSummary
+//GetResourcePoolSummary returns ResourcePoolSummary
 func (m CreateCrossRegionDisasterRecoveryDetails) GetResourcePoolSummary() *ResourcePoolSummary {
 	return m.ResourcePoolSummary
 }
 
-// GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
+//GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
 func (m CreateCrossRegionDisasterRecoveryDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	return m.AutonomousMaintenanceScheduleType
 }
 
-// GetIsOracleServiceGatewayAllowed returns IsOracleServiceGatewayAllowed
+//GetIsOracleServiceGatewayAllowed returns IsOracleServiceGatewayAllowed
 func (m CreateCrossRegionDisasterRecoveryDetails) GetIsOracleServiceGatewayAllowed() *bool {
 	return m.IsOracleServiceGatewayAllowed
 }
 
-// GetScheduledOperations returns ScheduledOperations
+//GetScheduledOperations returns ScheduledOperations
 func (m CreateCrossRegionDisasterRecoveryDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
 }
 
-// GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
+//GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
 func (m CreateCrossRegionDisasterRecoveryDetails) GetIsAutoScalingForStorageEnabled() *bool {
 	return m.IsAutoScalingForStorageEnabled
 }
 
-// GetMaxCpuCoreCount returns MaxCpuCoreCount
+//GetMaxCpuCoreCount returns MaxCpuCoreCount
 func (m CreateCrossRegionDisasterRecoveryDetails) GetMaxCpuCoreCount() *int {
 	return m.MaxCpuCoreCount
 }
 
-// GetDatabaseEdition returns DatabaseEdition
+//GetDatabaseEdition returns DatabaseEdition
 func (m CreateCrossRegionDisasterRecoveryDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
 }
 
-// GetDbToolsDetails returns DbToolsDetails
+//GetDbToolsDetails returns DbToolsDetails
 func (m CreateCrossRegionDisasterRecoveryDetails) GetDbToolsDetails() []DatabaseTool {
 	return m.DbToolsDetails
 }
 
-// GetSecretId returns SecretId
+//GetSecretId returns SecretId
 func (m CreateCrossRegionDisasterRecoveryDetails) GetSecretId() *string {
 	return m.SecretId
 }
 
-// GetSecretVersionNumber returns SecretVersionNumber
+//GetSecretVersionNumber returns SecretVersionNumber
 func (m CreateCrossRegionDisasterRecoveryDetails) GetSecretVersionNumber() *int {
 	return m.SecretVersionNumber
 }

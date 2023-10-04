@@ -44,42 +44,42 @@ type KubernetesListingPackage struct {
 	Regions []Region `mandatory:"false" json:"regions"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m KubernetesListingPackage) GetDescription() *string {
 	return m.Description
 }
 
-// GetListingId returns ListingId
+//GetListingId returns ListingId
 func (m KubernetesListingPackage) GetListingId() *string {
 	return m.ListingId
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m KubernetesListingPackage) GetVersion() *string {
 	return m.Version
 }
 
-// GetPricing returns Pricing
+//GetPricing returns Pricing
 func (m KubernetesListingPackage) GetPricing() *PricingModel {
 	return m.Pricing
 }
 
-// GetResourceId returns ResourceId
+//GetResourceId returns ResourceId
 func (m KubernetesListingPackage) GetResourceId() *string {
 	return m.ResourceId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m KubernetesListingPackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetOperatingSystem returns OperatingSystem
+//GetOperatingSystem returns OperatingSystem
 func (m KubernetesListingPackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
 }
 
-// GetRegions returns Regions
+//GetRegions returns Regions
 func (m KubernetesListingPackage) GetRegions() []Region {
 	return m.Regions
 }

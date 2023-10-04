@@ -54,6 +54,9 @@ type CreateTaskFromRestTask struct {
 
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	AuthDetails *AuthDetails `mandatory:"false" json:"authDetails"`
 
 	AuthConfig AuthConfig `mandatory:"false" json:"authConfig"`
@@ -87,67 +90,72 @@ type CreateTaskFromRestTask struct {
 	CancelMethodType CreateTaskFromRestTaskCancelMethodTypeEnum `mandatory:"false" json:"cancelMethodType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateTaskFromRestTask) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateTaskFromRestTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m CreateTaskFromRestTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateTaskFromRestTask) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateTaskFromRestTask) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateTaskFromRestTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateTaskFromRestTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m CreateTaskFromRestTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m CreateTaskFromRestTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m CreateTaskFromRestTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m CreateTaskFromRestTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m CreateTaskFromRestTask) GetConfigProviderDelegate() *CreateConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m CreateTaskFromRestTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
+}
+
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateTaskFromRestTask) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }
@@ -204,6 +212,7 @@ func (m *CreateTaskFromRestTask) UnmarshalJSON(data []byte) (e error) {
 		Parameters             []Parameter                                `json:"parameters"`
 		OpConfigValues         *ConfigValues                              `json:"opConfigValues"`
 		ConfigProviderDelegate *CreateConfigProvider                      `json:"configProviderDelegate"`
+		IsConcurrentAllowed    *bool                                      `json:"isConcurrentAllowed"`
 		AuthDetails            *AuthDetails                               `json:"authDetails"`
 		AuthConfig             authconfig                                 `json:"authConfig"`
 		Endpoint               *Expression                                `json:"endpoint"`
@@ -246,6 +255,8 @@ func (m *CreateTaskFromRestTask) UnmarshalJSON(data []byte) (e error) {
 	m.OpConfigValues = model.OpConfigValues
 
 	m.ConfigProviderDelegate = model.ConfigProviderDelegate
+
+	m.IsConcurrentAllowed = model.IsConcurrentAllowed
 
 	m.AuthDetails = model.AuthDetails
 

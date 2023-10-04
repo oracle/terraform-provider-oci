@@ -26,7 +26,7 @@ type ListMlApplicationImplementationsRequest struct {
 	// unique MlApplication identifier
 	MlApplicationId *string `mandatory:"false" contributesTo:"query" name:"mlApplicationId"`
 
-	// If it is true search must include all results from descendant compartments. Value true is allowed only if comparmentId refers to root compartment.
+	// If it is true search must include all results from descendant compartments. Value true is allowed only if compartmentId refers to root compartment.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// A filter to return only resources with lifecycleState matching the given lifecycleState.

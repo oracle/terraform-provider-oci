@@ -54,6 +54,9 @@ type CreateTaskFromDataLoaderTask struct {
 
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`
 
 	ConditionalCompositeFieldMap *ConditionalCompositeFieldMap `mandatory:"false" json:"conditionalCompositeFieldMap"`
@@ -65,67 +68,72 @@ type CreateTaskFromDataLoaderTask struct {
 	ParallelLoadLimit *int `mandatory:"false" json:"parallelLoadLimit"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateTaskFromDataLoaderTask) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateTaskFromDataLoaderTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m CreateTaskFromDataLoaderTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateTaskFromDataLoaderTask) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateTaskFromDataLoaderTask) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateTaskFromDataLoaderTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateTaskFromDataLoaderTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m CreateTaskFromDataLoaderTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m CreateTaskFromDataLoaderTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m CreateTaskFromDataLoaderTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m CreateTaskFromDataLoaderTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m CreateTaskFromDataLoaderTask) GetConfigProviderDelegate() *CreateConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m CreateTaskFromDataLoaderTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
+}
+
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateTaskFromDataLoaderTask) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

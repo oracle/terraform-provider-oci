@@ -18,13 +18,13 @@ import (
 
 // MyAppUserWalletArtifact The UserWalletArtifact that contains the credentials that the system will use in performing Secure Form-Fill to log the User into this application.
 // **SCIM++ Properties:**
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type MyAppUserWalletArtifact struct {
 
 	// UserWalletArtifact identifier

@@ -14,11 +14,11 @@ import (
 // UpdateDrProtectionGroupRoleRequest wrapper for the UpdateDrProtectionGroupRole operation
 type UpdateDrProtectionGroupRoleRequest struct {
 
-	// The role details for the DR Protection Group.
+	// The role details for the DR protection group to be updated.
 	UpdateDrProtectionGroupRoleDetails `contributesTo:"body"`
 
-	// The OCID of the DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid`
+	// The OCID of the DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" contributesTo:"path" name:"drProtectionGroupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

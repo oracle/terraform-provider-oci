@@ -14,11 +14,11 @@ import (
 // DisassociateDrProtectionGroupRequest wrapper for the DisassociateDrProtectionGroup operation
 type DisassociateDrProtectionGroupRequest struct {
 
-	// Details for removing an association between two DR Protection Groups.
+	// Details for deleting the association between two DR protection groups.
 	DisassociateDrProtectionGroupDetails `contributesTo:"body"`
 
-	// The OCID of the DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid`
+	// The OCID of the DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" contributesTo:"path" name:"drProtectionGroupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

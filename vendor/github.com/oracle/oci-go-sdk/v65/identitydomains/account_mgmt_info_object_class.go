@@ -18,13 +18,13 @@ import (
 
 // AccountMgmtInfoObjectClass Object-class of the Account
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AccountMgmtInfoObjectClass struct {
 
 	// Object-class Identifier

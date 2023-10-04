@@ -14,7 +14,7 @@ import (
 // CreateDrPlanExecutionRequest wrapper for the CreateDrPlanExecution operation
 type CreateDrPlanExecutionRequest struct {
 
-	// Details for the new DR Plan Execution.
+	// Details for creating the DR plan execution.
 	CreateDrPlanExecutionDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

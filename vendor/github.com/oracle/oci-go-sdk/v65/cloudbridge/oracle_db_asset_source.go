@@ -89,72 +89,72 @@ type OracleDbAssetSource struct {
 	Protocol DatabaseNetworkProtocolEnum `mandatory:"true" json:"protocol"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m OracleDbAssetSource) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m OracleDbAssetSource) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m OracleDbAssetSource) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetEnvironmentId returns EnvironmentId
+//GetEnvironmentId returns EnvironmentId
 func (m OracleDbAssetSource) GetEnvironmentId() *string {
 	return m.EnvironmentId
 }
 
-// GetInventoryId returns InventoryId
+//GetInventoryId returns InventoryId
 func (m OracleDbAssetSource) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-// GetAssetsCompartmentId returns AssetsCompartmentId
+//GetAssetsCompartmentId returns AssetsCompartmentId
 func (m OracleDbAssetSource) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
 }
 
-// GetDiscoveryScheduleId returns DiscoveryScheduleId
+//GetDiscoveryScheduleId returns DiscoveryScheduleId
 func (m OracleDbAssetSource) GetDiscoveryScheduleId() *string {
 	return m.DiscoveryScheduleId
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m OracleDbAssetSource) GetLifecycleState() AssetSourceLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m OracleDbAssetSource) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m OracleDbAssetSource) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m OracleDbAssetSource) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m OracleDbAssetSource) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m OracleDbAssetSource) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m OracleDbAssetSource) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

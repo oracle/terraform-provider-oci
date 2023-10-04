@@ -36,12 +36,12 @@ type InlineDetectAnomaliesRequest struct {
 	Sensitivity *float32 `mandatory:"false" json:"sensitivity"`
 }
 
-// GetModelId returns ModelId
+//GetModelId returns ModelId
 func (m InlineDetectAnomaliesRequest) GetModelId() *string {
 	return m.ModelId
 }
 
-// GetSensitivity returns Sensitivity
+//GetSensitivity returns Sensitivity
 func (m InlineDetectAnomaliesRequest) GetSensitivity() *float32 {
 	return m.Sensitivity
 }

@@ -328,9 +328,9 @@ func (client AIServiceLanguageClient) batchDetectLanguagePiiEntities(ctx context
 // For sentiment analysis, confidence scores are provided for each of the classes (positive, negative, neutral and mixed).
 // Learn more about sentiment analysis here (https://docs.cloud.oracle.com/iaas/language/using/pretrain-models.htm#sentiment).
 // Limitations:
-//   - A batch may have up to 100 records.
-//   - A record may be up to 5000 characters long.
-//   - The total of characters to process in a request can be up to 20,000 characters.
+//  - A batch may have up to 100 records.
+//  - A record may be up to 5000 characters long.
+//  - The total of characters to process in a request can be up to 20,000 characters.
 func (client AIServiceLanguageClient) BatchDetectLanguageSentiments(ctx context.Context, request BatchDetectLanguageSentimentsRequest) (response BatchDetectLanguageSentimentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1425,7 +1425,7 @@ func (client AIServiceLanguageClient) detectLanguageKeyPhrases(ctx context.Conte
 // For sentiment analysis, confidence scores are provided for each of the classes (positive, negative, neutral).
 // Learn more about sentiment analysis here (https://docs.cloud.oracle.com/iaas/language/using/pretrain-models.htm#sentiment).
 // Limitations:
-//   - A record may be up to 1000 characters long.
+//  - A record may be up to 1000 characters long.
 func (client AIServiceLanguageClient) DetectLanguageSentiments(ctx context.Context, request DetectLanguageSentimentsRequest) (response DetectLanguageSentimentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

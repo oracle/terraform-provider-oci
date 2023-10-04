@@ -14,11 +14,11 @@ import (
 // UpdateDrPlanRequest wrapper for the UpdateDrPlan operation
 type UpdateDrPlanRequest struct {
 
-	// Details of DR Plan to update.
+	// Details for updating the DR plan.
 	UpdateDrPlanDetails `contributesTo:"body"`
 
-	// The OCID of the DR Plan.
-	// Example: `ocid1.drplan.oc1.iad.exampleocid`
+	// The OCID of the DR plan.
+	// Example: `ocid1.drplan.oc1..uniqueID`
 	DrPlanId *string `mandatory:"true" contributesTo:"path" name:"drPlanId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

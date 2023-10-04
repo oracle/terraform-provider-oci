@@ -18,13 +18,13 @@ import (
 
 // AuthenticationFactorSettingsClientAppSettings Settings related to compliance, Personal Identification Number (PIN) policy, and so on
 // **SCIM++ Properties:**
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: true
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AuthenticationFactorSettingsClientAppSettings struct {
 
 	// Minimum length of the Personal Identification Number (PIN)

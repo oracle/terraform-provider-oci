@@ -27,7 +27,7 @@ type ListMonitorsRequest struct {
 	VantagePoint *string `mandatory:"false" contributesTo:"query" name:"vantagePoint"`
 
 	// A filter to return only monitors that match the given monitor type.
-	// Supported values are SCRIPTED_BROWSER, BROWSER, SCRIPTED_REST and REST.
+	// Supported values are SCRIPTED_BROWSER, BROWSER, SCRIPTED_REST, REST and NETWORK.
 	MonitorType *string `mandatory:"false" contributesTo:"query" name:"monitorType"`
 
 	// A filter to return only monitors that match the status given.

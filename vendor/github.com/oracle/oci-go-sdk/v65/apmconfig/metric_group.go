@@ -69,42 +69,42 @@ type MetricGroup struct {
 	Metrics []Metric `mandatory:"false" json:"metrics"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m MetricGroup) GetId() *string {
 	return m.Id
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m MetricGroup) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m MetricGroup) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetCreatedBy returns CreatedBy
+//GetCreatedBy returns CreatedBy
 func (m MetricGroup) GetCreatedBy() *string {
 	return m.CreatedBy
 }
 
-// GetUpdatedBy returns UpdatedBy
+//GetUpdatedBy returns UpdatedBy
 func (m MetricGroup) GetUpdatedBy() *string {
 	return m.UpdatedBy
 }
 
-// GetEtag returns Etag
+//GetEtag returns Etag
 func (m MetricGroup) GetEtag() *string {
 	return m.Etag
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m MetricGroup) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m MetricGroup) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

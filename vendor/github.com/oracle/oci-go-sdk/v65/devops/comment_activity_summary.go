@@ -34,22 +34,22 @@ type CommentActivitySummary struct {
 	CommentId *string `mandatory:"true" json:"commentId"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m CommentActivitySummary) GetId() *string {
 	return m.Id
 }
 
-// GetPrincipal returns Principal
+//GetPrincipal returns Principal
 func (m CommentActivitySummary) GetPrincipal() *PrincipalDetails {
 	return m.Principal
 }
 
-// GetPullRequestId returns PullRequestId
+//GetPullRequestId returns PullRequestId
 func (m CommentActivitySummary) GetPullRequestId() *string {
 	return m.PullRequestId
 }
 
-// GetTimeOccurred returns TimeOccurred
+//GetTimeOccurred returns TimeOccurred
 func (m CommentActivitySummary) GetTimeOccurred() *common.SDKTime {
 	return m.TimeOccurred
 }

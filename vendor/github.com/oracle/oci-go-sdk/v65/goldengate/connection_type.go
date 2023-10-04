@@ -36,8 +36,6 @@ const (
 	ConnectionTypeMongodb               ConnectionTypeEnum = "MONGODB"
 	ConnectionTypeAmazonKinesis         ConnectionTypeEnum = "AMAZON_KINESIS"
 	ConnectionTypeAmazonRedshift        ConnectionTypeEnum = "AMAZON_REDSHIFT"
-	ConnectionTypeCassandra             ConnectionTypeEnum = "CASSANDRA"
-	ConnectionTypeDb2                   ConnectionTypeEnum = "DB2"
 	ConnectionTypeRedis                 ConnectionTypeEnum = "REDIS"
 	ConnectionTypeElasticsearch         ConnectionTypeEnum = "ELASTICSEARCH"
 	ConnectionTypeGeneric               ConnectionTypeEnum = "GENERIC"
@@ -64,8 +62,6 @@ var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
 	"MONGODB":                 ConnectionTypeMongodb,
 	"AMAZON_KINESIS":          ConnectionTypeAmazonKinesis,
 	"AMAZON_REDSHIFT":         ConnectionTypeAmazonRedshift,
-	"CASSANDRA":               ConnectionTypeCassandra,
-	"DB2":                     ConnectionTypeDb2,
 	"REDIS":                   ConnectionTypeRedis,
 	"ELASTICSEARCH":           ConnectionTypeElasticsearch,
 	"GENERIC":                 ConnectionTypeGeneric,
@@ -92,8 +88,6 @@ var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
 	"mongodb":                 ConnectionTypeMongodb,
 	"amazon_kinesis":          ConnectionTypeAmazonKinesis,
 	"amazon_redshift":         ConnectionTypeAmazonRedshift,
-	"cassandra":               ConnectionTypeCassandra,
-	"db2":                     ConnectionTypeDb2,
 	"redis":                   ConnectionTypeRedis,
 	"elasticsearch":           ConnectionTypeElasticsearch,
 	"generic":                 ConnectionTypeGeneric,
@@ -131,8 +125,6 @@ func GetConnectionTypeEnumStringValues() []string {
 		"MONGODB",
 		"AMAZON_KINESIS",
 		"AMAZON_REDSHIFT",
-		"CASSANDRA",
-		"DB2",
 		"REDIS",
 		"ELASTICSEARCH",
 		"GENERIC",

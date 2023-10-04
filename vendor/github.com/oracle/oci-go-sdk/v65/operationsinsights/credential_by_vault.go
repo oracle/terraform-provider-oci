@@ -37,7 +37,7 @@ type CredentialByVault struct {
 	Role CredentialByVaultRoleEnum `mandatory:"false" json:"role,omitempty"`
 }
 
-// GetCredentialSourceName returns CredentialSourceName
+//GetCredentialSourceName returns CredentialSourceName
 func (m CredentialByVault) GetCredentialSourceName() *string {
 	return m.CredentialSourceName
 }

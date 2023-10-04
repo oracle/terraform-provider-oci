@@ -59,8 +59,20 @@ func (m *monitorconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{
 
 	var err error
 	switch m.ConfigType {
+	case "DNSSEC_CONFIG":
+		mm := DnsSecMonitorConfiguration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DNS_TRACE_CONFIG":
+		mm := DnsTraceMonitorConfiguration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SCRIPTED_REST_CONFIG":
 		mm := ScriptedRestMonitorConfiguration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DNS_SERVER_CONFIG":
+		mm := DnsServerMonitorConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "SCRIPTED_BROWSER_CONFIG":
@@ -121,6 +133,9 @@ const (
 	MonitorConfigurationConfigTypeRestConfig            MonitorConfigurationConfigTypeEnum = "REST_CONFIG"
 	MonitorConfigurationConfigTypeScriptedRestConfig    MonitorConfigurationConfigTypeEnum = "SCRIPTED_REST_CONFIG"
 	MonitorConfigurationConfigTypeNetworkConfig         MonitorConfigurationConfigTypeEnum = "NETWORK_CONFIG"
+	MonitorConfigurationConfigTypeDnsServerConfig       MonitorConfigurationConfigTypeEnum = "DNS_SERVER_CONFIG"
+	MonitorConfigurationConfigTypeDnsTraceConfig        MonitorConfigurationConfigTypeEnum = "DNS_TRACE_CONFIG"
+	MonitorConfigurationConfigTypeDnssecConfig          MonitorConfigurationConfigTypeEnum = "DNSSEC_CONFIG"
 )
 
 var mappingMonitorConfigurationConfigTypeEnum = map[string]MonitorConfigurationConfigTypeEnum{
@@ -129,6 +144,9 @@ var mappingMonitorConfigurationConfigTypeEnum = map[string]MonitorConfigurationC
 	"REST_CONFIG":             MonitorConfigurationConfigTypeRestConfig,
 	"SCRIPTED_REST_CONFIG":    MonitorConfigurationConfigTypeScriptedRestConfig,
 	"NETWORK_CONFIG":          MonitorConfigurationConfigTypeNetworkConfig,
+	"DNS_SERVER_CONFIG":       MonitorConfigurationConfigTypeDnsServerConfig,
+	"DNS_TRACE_CONFIG":        MonitorConfigurationConfigTypeDnsTraceConfig,
+	"DNSSEC_CONFIG":           MonitorConfigurationConfigTypeDnssecConfig,
 }
 
 var mappingMonitorConfigurationConfigTypeEnumLowerCase = map[string]MonitorConfigurationConfigTypeEnum{
@@ -137,6 +155,9 @@ var mappingMonitorConfigurationConfigTypeEnumLowerCase = map[string]MonitorConfi
 	"rest_config":             MonitorConfigurationConfigTypeRestConfig,
 	"scripted_rest_config":    MonitorConfigurationConfigTypeScriptedRestConfig,
 	"network_config":          MonitorConfigurationConfigTypeNetworkConfig,
+	"dns_server_config":       MonitorConfigurationConfigTypeDnsServerConfig,
+	"dns_trace_config":        MonitorConfigurationConfigTypeDnsTraceConfig,
+	"dnssec_config":           MonitorConfigurationConfigTypeDnssecConfig,
 }
 
 // GetMonitorConfigurationConfigTypeEnumValues Enumerates the set of values for MonitorConfigurationConfigTypeEnum
@@ -156,6 +177,9 @@ func GetMonitorConfigurationConfigTypeEnumStringValues() []string {
 		"REST_CONFIG",
 		"SCRIPTED_REST_CONFIG",
 		"NETWORK_CONFIG",
+		"DNS_SERVER_CONFIG",
+		"DNS_TRACE_CONFIG",
+		"DNSSEC_CONFIG",
 	}
 }
 

@@ -36,17 +36,17 @@ type UpdateScheduledPolicyDetails struct {
 	ResourceAction ResourceAction `mandatory:"false" json:"resourceAction"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateScheduledPolicyDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCapacity returns Capacity
+//GetCapacity returns Capacity
 func (m UpdateScheduledPolicyDetails) GetCapacity() *Capacity {
 	return m.Capacity
 }
 
-// GetIsEnabled returns IsEnabled
+//GetIsEnabled returns IsEnabled
 func (m UpdateScheduledPolicyDetails) GetIsEnabled() *bool {
 	return m.IsEnabled
 }

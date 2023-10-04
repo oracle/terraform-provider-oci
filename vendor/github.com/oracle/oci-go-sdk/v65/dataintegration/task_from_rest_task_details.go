@@ -55,6 +55,9 @@ type TaskFromRestTaskDetails struct {
 
 	ConfigProviderDelegate *ConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
 	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
@@ -95,82 +98,87 @@ type TaskFromRestTaskDetails struct {
 	CancelMethodType TaskFromRestTaskDetailsCancelMethodTypeEnum `mandatory:"false" json:"cancelMethodType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m TaskFromRestTaskDetails) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m TaskFromRestTaskDetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m TaskFromRestTaskDetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m TaskFromRestTaskDetails) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m TaskFromRestTaskDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m TaskFromRestTaskDetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m TaskFromRestTaskDetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m TaskFromRestTaskDetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m TaskFromRestTaskDetails) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m TaskFromRestTaskDetails) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m TaskFromRestTaskDetails) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m TaskFromRestTaskDetails) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m TaskFromRestTaskDetails) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetMetadata returns Metadata
+//GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m TaskFromRestTaskDetails) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
+}
+
+//GetMetadata returns Metadata
 func (m TaskFromRestTaskDetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-// GetKeyMap returns KeyMap
+//GetKeyMap returns KeyMap
 func (m TaskFromRestTaskDetails) GetKeyMap() map[string]string {
 	return m.KeyMap
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m TaskFromRestTaskDetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }
@@ -230,6 +238,7 @@ func (m *TaskFromRestTaskDetails) UnmarshalJSON(data []byte) (e error) {
 		Parameters             []Parameter                                 `json:"parameters"`
 		OpConfigValues         *ConfigValues                               `json:"opConfigValues"`
 		ConfigProviderDelegate *ConfigProvider                             `json:"configProviderDelegate"`
+		IsConcurrentAllowed    *bool                                       `json:"isConcurrentAllowed"`
 		Metadata               *ObjectMetadata                             `json:"metadata"`
 		KeyMap                 map[string]string                           `json:"keyMap"`
 		RegistryMetadata       *RegistryMetadata                           `json:"registryMetadata"`
@@ -278,6 +287,8 @@ func (m *TaskFromRestTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	m.OpConfigValues = model.OpConfigValues
 
 	m.ConfigProviderDelegate = model.ConfigProviderDelegate
+
+	m.IsConcurrentAllowed = model.IsConcurrentAllowed
 
 	m.Metadata = model.Metadata
 

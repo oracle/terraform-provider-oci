@@ -22,7 +22,7 @@ import (
 	"strings"
 )
 
-// DedicatedCapacitySource A capacity source of bare metal hosts that is dedicated to a customer.
+// DedicatedCapacitySource A capacity source of bare metal hosts that is dedicated to a user.
 type DedicatedCapacitySource struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment of this capacity source.

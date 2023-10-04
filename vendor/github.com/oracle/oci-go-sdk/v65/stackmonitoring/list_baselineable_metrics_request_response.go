@@ -14,12 +14,12 @@ import (
 // ListBaselineableMetricsRequest wrapper for the ListBaselineableMetrics operation
 type ListBaselineableMetricsRequest struct {
 
-	// Resource Group
-	ResourceGroup *string `mandatory:"true" contributesTo:"query" name:"resourceGroup"`
-
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Resource Group
+	ResourceGroup *string `mandatory:"false" contributesTo:"query" name:"resourceGroup"`
 
 	// Metric Name
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
@@ -39,6 +39,9 @@ type ListBaselineableMetricsRequest struct {
 
 	// The ID of the compartment in which data is listed.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
+	// Identifier for the metric
+	BaselineableMetricId *string `mandatory:"false" contributesTo:"query" name:"baselineableMetricId"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListBaselineableMetricsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`

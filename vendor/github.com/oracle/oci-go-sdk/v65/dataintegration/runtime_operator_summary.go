@@ -31,7 +31,7 @@ type RuntimeOperatorSummary struct {
 	// The runtime operator end time.
 	EndTimeInMillis *int64 `mandatory:"false" json:"endTimeInMillis"`
 
-	// status
+	// Status of RuntimeOperator. This field is deprecated, use RuntimeOperator's executionState field instead.
 	Status RuntimeOperatorSummaryStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	// The type of the object.

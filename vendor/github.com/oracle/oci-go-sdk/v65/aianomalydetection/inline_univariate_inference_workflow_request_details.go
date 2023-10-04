@@ -33,17 +33,17 @@ type InlineUnivariateInferenceWorkflowRequestDetails struct {
 	SignalData []UnivariateInlineSignalRequestData `mandatory:"false" json:"signalData"`
 }
 
-// GetAreAllDataPointsRequired returns AreAllDataPointsRequired
+//GetAreAllDataPointsRequired returns AreAllDataPointsRequired
 func (m InlineUnivariateInferenceWorkflowRequestDetails) GetAreAllDataPointsRequired() *bool {
 	return m.AreAllDataPointsRequired
 }
 
-// GetTrainingRequestDetails returns TrainingRequestDetails
+//GetTrainingRequestDetails returns TrainingRequestDetails
 func (m InlineUnivariateInferenceWorkflowRequestDetails) GetTrainingRequestDetails() *UnivariateModelTrainingRequestDetails {
 	return m.TrainingRequestDetails
 }
 
-// GetSensitivity returns Sensitivity
+//GetSensitivity returns Sensitivity
 func (m InlineUnivariateInferenceWorkflowRequestDetails) GetSensitivity() *float32 {
 	return m.Sensitivity
 }

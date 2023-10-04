@@ -28,7 +28,7 @@ type UnifiedAgentCustomPluginLogSource struct {
 	CustomPlugin *string `mandatory:"true" json:"customPlugin"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UnifiedAgentCustomPluginLogSource) GetName() *string {
 	return m.Name
 }

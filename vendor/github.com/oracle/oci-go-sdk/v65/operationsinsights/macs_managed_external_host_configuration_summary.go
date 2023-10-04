@@ -90,97 +90,97 @@ type MacsManagedExternalHostConfigurationSummary struct {
 	PlatformType HostConfigurationSummaryPlatformTypeEnum `mandatory:"true" json:"platformType"`
 }
 
-// GetHostInsightId returns HostInsightId
+//GetHostInsightId returns HostInsightId
 func (m MacsManagedExternalHostConfigurationSummary) GetHostInsightId() *string {
 	return m.HostInsightId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m MacsManagedExternalHostConfigurationSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetHostName returns HostName
+//GetHostName returns HostName
 func (m MacsManagedExternalHostConfigurationSummary) GetHostName() *string {
 	return m.HostName
 }
 
-// GetPlatformType returns PlatformType
+//GetPlatformType returns PlatformType
 func (m MacsManagedExternalHostConfigurationSummary) GetPlatformType() HostConfigurationSummaryPlatformTypeEnum {
 	return m.PlatformType
 }
 
-// GetPlatformVersion returns PlatformVersion
+//GetPlatformVersion returns PlatformVersion
 func (m MacsManagedExternalHostConfigurationSummary) GetPlatformVersion() *string {
 	return m.PlatformVersion
 }
 
-// GetPlatformVendor returns PlatformVendor
+//GetPlatformVendor returns PlatformVendor
 func (m MacsManagedExternalHostConfigurationSummary) GetPlatformVendor() *string {
 	return m.PlatformVendor
 }
 
-// GetTotalCpus returns TotalCpus
+//GetTotalCpus returns TotalCpus
 func (m MacsManagedExternalHostConfigurationSummary) GetTotalCpus() *int {
 	return m.TotalCpus
 }
 
-// GetTotalMemoryInGBs returns TotalMemoryInGBs
+//GetTotalMemoryInGBs returns TotalMemoryInGBs
 func (m MacsManagedExternalHostConfigurationSummary) GetTotalMemoryInGBs() *float64 {
 	return m.TotalMemoryInGBs
 }
 
-// GetCpuArchitecture returns CpuArchitecture
+//GetCpuArchitecture returns CpuArchitecture
 func (m MacsManagedExternalHostConfigurationSummary) GetCpuArchitecture() *string {
 	return m.CpuArchitecture
 }
 
-// GetCpuCacheInMBs returns CpuCacheInMBs
+//GetCpuCacheInMBs returns CpuCacheInMBs
 func (m MacsManagedExternalHostConfigurationSummary) GetCpuCacheInMBs() *float64 {
 	return m.CpuCacheInMBs
 }
 
-// GetCpuVendor returns CpuVendor
+//GetCpuVendor returns CpuVendor
 func (m MacsManagedExternalHostConfigurationSummary) GetCpuVendor() *string {
 	return m.CpuVendor
 }
 
-// GetCpuFrequencyInMhz returns CpuFrequencyInMhz
+//GetCpuFrequencyInMhz returns CpuFrequencyInMhz
 func (m MacsManagedExternalHostConfigurationSummary) GetCpuFrequencyInMhz() *float64 {
 	return m.CpuFrequencyInMhz
 }
 
-// GetCpuImplementation returns CpuImplementation
+//GetCpuImplementation returns CpuImplementation
 func (m MacsManagedExternalHostConfigurationSummary) GetCpuImplementation() *string {
 	return m.CpuImplementation
 }
 
-// GetCoresPerSocket returns CoresPerSocket
+//GetCoresPerSocket returns CoresPerSocket
 func (m MacsManagedExternalHostConfigurationSummary) GetCoresPerSocket() *int {
 	return m.CoresPerSocket
 }
 
-// GetTotalSockets returns TotalSockets
+//GetTotalSockets returns TotalSockets
 func (m MacsManagedExternalHostConfigurationSummary) GetTotalSockets() *int {
 	return m.TotalSockets
 }
 
-// GetThreadsPerSocket returns ThreadsPerSocket
+//GetThreadsPerSocket returns ThreadsPerSocket
 func (m MacsManagedExternalHostConfigurationSummary) GetThreadsPerSocket() *int {
 	return m.ThreadsPerSocket
 }
 
-// GetIsHyperThreadingEnabled returns IsHyperThreadingEnabled
+//GetIsHyperThreadingEnabled returns IsHyperThreadingEnabled
 func (m MacsManagedExternalHostConfigurationSummary) GetIsHyperThreadingEnabled() *bool {
 	return m.IsHyperThreadingEnabled
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m MacsManagedExternalHostConfigurationSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m MacsManagedExternalHostConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }

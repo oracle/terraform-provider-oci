@@ -52,27 +52,27 @@ type InstanceConfigurationParavirtualizedAttachVolumeDetails struct {
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m InstanceConfigurationParavirtualizedAttachVolumeDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetIsReadOnly returns IsReadOnly
+//GetIsReadOnly returns IsReadOnly
 func (m InstanceConfigurationParavirtualizedAttachVolumeDetails) GetIsReadOnly() *bool {
 	return m.IsReadOnly
 }
 
-// GetDevice returns Device
+//GetDevice returns Device
 func (m InstanceConfigurationParavirtualizedAttachVolumeDetails) GetDevice() *string {
 	return m.Device
 }
 
-// GetIsShareable returns IsShareable
+//GetIsShareable returns IsShareable
 func (m InstanceConfigurationParavirtualizedAttachVolumeDetails) GetIsShareable() *bool {
 	return m.IsShareable
 }
 
-// GetImageVolumeIndex returns ImageVolumeIndex
+//GetImageVolumeIndex returns ImageVolumeIndex
 func (m InstanceConfigurationParavirtualizedAttachVolumeDetails) GetImageVolumeIndex() *int {
 	return m.ImageVolumeIndex
 }

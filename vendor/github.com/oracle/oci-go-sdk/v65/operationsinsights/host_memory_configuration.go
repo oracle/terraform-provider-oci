@@ -41,7 +41,7 @@ type HostMemoryConfiguration struct {
 	HugePagesTotal *int `mandatory:"false" json:"hugePagesTotal"`
 }
 
-// GetTimeCollected returns TimeCollected
+//GetTimeCollected returns TimeCollected
 func (m HostMemoryConfiguration) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

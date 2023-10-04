@@ -6216,9 +6216,8 @@ func (client DataScienceClient) putMlApplicationPackage(ctx context.Context, req
 	return response, err
 }
 
-// RecoverMlApplicationInstanceView When MlApplicationInstanceView is in NEEDS_ATTENTION/FAILED state, providers can initiate recovery of the resource.
-// The failed operation details(create/upgrade/update/delete) is available in 'lifecycleDetails' of the resource.
-// The optional 'If-Match' header is checked against 'ETag' values of the resource.
+// RecoverMlApplicationInstanceView Provider can initiate recovery of the resource only if MlApplicationInstanceView is in one of the recoverable sub-states (RECOVERABLE_PROVIDER_ISSUE, RECOVERABLE_SERVICE_ISSUE).
+// Provider should investigate (using MlApplicationInstanceView lifecycleDetails, relevant logs and metrics) and fix the issue before the recovery is initiated.
 // A default retry strategy applies to this operation RecoverMlApplicationInstanceView()
 func (client DataScienceClient) RecoverMlApplicationInstanceView(ctx context.Context, request RecoverMlApplicationInstanceViewRequest) (response RecoverMlApplicationInstanceViewResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -35,7 +35,7 @@ type InternetDrgAttachmentNetworkCreateDetails struct {
 	PublicCidrBlocks []string `mandatory:"false" json:"publicCidrBlocks"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m InternetDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
 }

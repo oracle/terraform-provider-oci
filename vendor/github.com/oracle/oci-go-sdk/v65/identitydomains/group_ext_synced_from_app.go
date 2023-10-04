@@ -19,14 +19,14 @@ import (
 // GroupExtSyncedFromApp The entity that created this Group.
 // **Added In:** 18.4.2
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type GroupExtSyncedFromApp struct {
 
 	// The ID of the App.

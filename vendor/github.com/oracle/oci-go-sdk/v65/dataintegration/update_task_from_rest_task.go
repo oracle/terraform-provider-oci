@@ -55,6 +55,9 @@ type UpdateTaskFromRestTask struct {
 
 	ConfigProviderDelegate *ConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 
 	AuthDetails *AuthDetails `mandatory:"false" json:"authDetails"`
@@ -93,72 +96,77 @@ type UpdateTaskFromRestTask struct {
 	CancelMethodType UpdateTaskFromRestTaskCancelMethodTypeEnum `mandatory:"false" json:"cancelMethodType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m UpdateTaskFromRestTask) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m UpdateTaskFromRestTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m UpdateTaskFromRestTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UpdateTaskFromRestTask) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateTaskFromRestTask) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m UpdateTaskFromRestTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m UpdateTaskFromRestTask) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m UpdateTaskFromRestTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m UpdateTaskFromRestTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m UpdateTaskFromRestTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m UpdateTaskFromRestTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m UpdateTaskFromRestTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m UpdateTaskFromRestTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m UpdateTaskFromRestTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
+}
+
+//GetRegistryMetadata returns RegistryMetadata
 func (m UpdateTaskFromRestTask) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }
@@ -216,6 +224,7 @@ func (m *UpdateTaskFromRestTask) UnmarshalJSON(data []byte) (e error) {
 		Parameters             []Parameter                                `json:"parameters"`
 		OpConfigValues         *ConfigValues                              `json:"opConfigValues"`
 		ConfigProviderDelegate *ConfigProvider                            `json:"configProviderDelegate"`
+		IsConcurrentAllowed    *bool                                      `json:"isConcurrentAllowed"`
 		RegistryMetadata       *RegistryMetadata                          `json:"registryMetadata"`
 		AuthDetails            *AuthDetails                               `json:"authDetails"`
 		AuthConfig             authconfig                                 `json:"authConfig"`
@@ -261,6 +270,8 @@ func (m *UpdateTaskFromRestTask) UnmarshalJSON(data []byte) (e error) {
 	m.OpConfigValues = model.OpConfigValues
 
 	m.ConfigProviderDelegate = model.ConfigProviderDelegate
+
+	m.IsConcurrentAllowed = model.IsConcurrentAllowed
 
 	m.RegistryMetadata = model.RegistryMetadata
 

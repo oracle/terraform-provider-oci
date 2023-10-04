@@ -22,7 +22,7 @@ import (
 	"strings"
 )
 
-// UpdateDedicatedCapacitySourceDetails A capacity source of bare metal hosts that is dedicated to a customer.
+// UpdateDedicatedCapacitySourceDetails A capacity source of bare metal hosts that is dedicated to a user.
 type UpdateDedicatedCapacitySourceDetails struct {
 }
 

@@ -59,10 +59,6 @@ func (m *applicationcomponent) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := DataScienceJobApplicationComponent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DATA_INTEGRATION_PIPELINE":
-		mm := DataIntegrationPipelineApplicationComponent{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DATA_SCIENCE_PIPELINE":
 		mm := DataSciencePipelineApplicationComponent{}
 		err = json.Unmarshal(data, &mm)
@@ -99,21 +95,18 @@ type ApplicationComponentTypeEnum string
 
 // Set of constants representing the allowable values for ApplicationComponentTypeEnum
 const (
-	ApplicationComponentTypeSciencePipeline     ApplicationComponentTypeEnum = "DATA_SCIENCE_PIPELINE"
-	ApplicationComponentTypeScienceJob          ApplicationComponentTypeEnum = "DATA_SCIENCE_JOB"
-	ApplicationComponentTypeIntegrationPipeline ApplicationComponentTypeEnum = "DATA_INTEGRATION_PIPELINE"
+	ApplicationComponentTypePipeline ApplicationComponentTypeEnum = "DATA_SCIENCE_PIPELINE"
+	ApplicationComponentTypeJob      ApplicationComponentTypeEnum = "DATA_SCIENCE_JOB"
 )
 
 var mappingApplicationComponentTypeEnum = map[string]ApplicationComponentTypeEnum{
-	"DATA_SCIENCE_PIPELINE":     ApplicationComponentTypeSciencePipeline,
-	"DATA_SCIENCE_JOB":          ApplicationComponentTypeScienceJob,
-	"DATA_INTEGRATION_PIPELINE": ApplicationComponentTypeIntegrationPipeline,
+	"DATA_SCIENCE_PIPELINE": ApplicationComponentTypePipeline,
+	"DATA_SCIENCE_JOB":      ApplicationComponentTypeJob,
 }
 
 var mappingApplicationComponentTypeEnumLowerCase = map[string]ApplicationComponentTypeEnum{
-	"data_science_pipeline":     ApplicationComponentTypeSciencePipeline,
-	"data_science_job":          ApplicationComponentTypeScienceJob,
-	"data_integration_pipeline": ApplicationComponentTypeIntegrationPipeline,
+	"data_science_pipeline": ApplicationComponentTypePipeline,
+	"data_science_job":      ApplicationComponentTypeJob,
 }
 
 // GetApplicationComponentTypeEnumValues Enumerates the set of values for ApplicationComponentTypeEnum
@@ -130,7 +123,6 @@ func GetApplicationComponentTypeEnumStringValues() []string {
 	return []string{
 		"DATA_SCIENCE_PIPELINE",
 		"DATA_SCIENCE_JOB",
-		"DATA_INTEGRATION_PIPELINE",
 	}
 }
 

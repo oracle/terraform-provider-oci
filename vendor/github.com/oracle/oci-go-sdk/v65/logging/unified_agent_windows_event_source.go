@@ -28,7 +28,7 @@ type UnifiedAgentWindowsEventSource struct {
 	Channels []string `mandatory:"true" json:"channels"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UnifiedAgentWindowsEventSource) GetName() *string {
 	return m.Name
 }

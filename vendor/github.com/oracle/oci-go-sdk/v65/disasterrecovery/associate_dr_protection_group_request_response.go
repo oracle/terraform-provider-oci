@@ -14,11 +14,11 @@ import (
 // AssociateDrProtectionGroupRequest wrapper for the AssociateDrProtectionGroup operation
 type AssociateDrProtectionGroupRequest struct {
 
-	// Details for creating an association between two DR Protection Groups.
+	// Details for creating an association between two DR protection groups.
 	AssociateDrProtectionGroupDetails `contributesTo:"body"`
 
-	// The OCID of the DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid`
+	// The OCID of the DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" contributesTo:"path" name:"drProtectionGroupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

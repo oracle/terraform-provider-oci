@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -17,10 +18,10 @@ import (
 	"strings"
 )
 
-// DrProtectionGroupCollection A list of DR Protection Groups.
+// DrProtectionGroupCollection A list of DR protection group summaries.
 type DrProtectionGroupCollection struct {
 
-	// A list of DR Protection Group summary objects.
+	// A list of DR protection group summaries.
 	Items []DrProtectionGroupSummary `mandatory:"true" json:"items"`
 }
 

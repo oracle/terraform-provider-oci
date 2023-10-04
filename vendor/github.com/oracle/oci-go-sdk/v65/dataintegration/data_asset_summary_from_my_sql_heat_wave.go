@@ -64,62 +64,62 @@ type DataAssetSummaryFromMySqlHeatWave struct {
 	DefaultConnection *ConnectionSummaryFromMySqlHeatWave `mandatory:"false" json:"defaultConnection"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m DataAssetSummaryFromMySqlHeatWave) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m DataAssetSummaryFromMySqlHeatWave) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m DataAssetSummaryFromMySqlHeatWave) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DataAssetSummaryFromMySqlHeatWave) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m DataAssetSummaryFromMySqlHeatWave) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m DataAssetSummaryFromMySqlHeatWave) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m DataAssetSummaryFromMySqlHeatWave) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m DataAssetSummaryFromMySqlHeatWave) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetNativeTypeSystem returns NativeTypeSystem
+//GetNativeTypeSystem returns NativeTypeSystem
 func (m DataAssetSummaryFromMySqlHeatWave) GetNativeTypeSystem() *TypeSystem {
 	return m.NativeTypeSystem
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m DataAssetSummaryFromMySqlHeatWave) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m DataAssetSummaryFromMySqlHeatWave) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m DataAssetSummaryFromMySqlHeatWave) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

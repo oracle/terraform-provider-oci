@@ -54,20 +54,8 @@ func (m *instancecomponent) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := DataScienceModelDeploymentInstanceComponent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DATA_INTEGRATION_DATA_ASSET":
-		mm := DataIntegrationDataAssetInstanceComponent{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "DATA_INTEGRATION_SCHEDULE":
-		mm := DataIntegrationScheduleInstanceComponent{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "ML_APPLICATION_INSTANCE_INTERNAL_TRIGGER":
 		mm := MlApplicationInstanceInternalTrigger{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "DATA_INTEGRATION_TASK_SCHEDULE":
-		mm := DataIntegrationTaskScheduleInstanceComponent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OBJECT_STORAGE_BUCKET":
@@ -101,27 +89,18 @@ type InstanceComponentTypeEnum string
 
 // Set of constants representing the allowable values for InstanceComponentTypeEnum
 const (
-	InstanceComponentTypeDataScienceModelDeployment  InstanceComponentTypeEnum = "DATA_SCIENCE_MODEL_DEPLOYMENT"
-	InstanceComponentTypeObjectStorageBucket         InstanceComponentTypeEnum = "OBJECT_STORAGE_BUCKET"
-	InstanceComponentTypeDataIntegrationSchedule     InstanceComponentTypeEnum = "DATA_INTEGRATION_SCHEDULE"
-	InstanceComponentTypeDataIntegrationTaskSchedule InstanceComponentTypeEnum = "DATA_INTEGRATION_TASK_SCHEDULE"
-	InstanceComponentTypeDataIntegrationDataAsset    InstanceComponentTypeEnum = "DATA_INTEGRATION_DATA_ASSET"
+	InstanceComponentTypeDataScienceModelDeployment InstanceComponentTypeEnum = "DATA_SCIENCE_MODEL_DEPLOYMENT"
+	InstanceComponentTypeObjectStorageBucket        InstanceComponentTypeEnum = "OBJECT_STORAGE_BUCKET"
 )
 
 var mappingInstanceComponentTypeEnum = map[string]InstanceComponentTypeEnum{
-	"DATA_SCIENCE_MODEL_DEPLOYMENT":  InstanceComponentTypeDataScienceModelDeployment,
-	"OBJECT_STORAGE_BUCKET":          InstanceComponentTypeObjectStorageBucket,
-	"DATA_INTEGRATION_SCHEDULE":      InstanceComponentTypeDataIntegrationSchedule,
-	"DATA_INTEGRATION_TASK_SCHEDULE": InstanceComponentTypeDataIntegrationTaskSchedule,
-	"DATA_INTEGRATION_DATA_ASSET":    InstanceComponentTypeDataIntegrationDataAsset,
+	"DATA_SCIENCE_MODEL_DEPLOYMENT": InstanceComponentTypeDataScienceModelDeployment,
+	"OBJECT_STORAGE_BUCKET":         InstanceComponentTypeObjectStorageBucket,
 }
 
 var mappingInstanceComponentTypeEnumLowerCase = map[string]InstanceComponentTypeEnum{
-	"data_science_model_deployment":  InstanceComponentTypeDataScienceModelDeployment,
-	"object_storage_bucket":          InstanceComponentTypeObjectStorageBucket,
-	"data_integration_schedule":      InstanceComponentTypeDataIntegrationSchedule,
-	"data_integration_task_schedule": InstanceComponentTypeDataIntegrationTaskSchedule,
-	"data_integration_data_asset":    InstanceComponentTypeDataIntegrationDataAsset,
+	"data_science_model_deployment": InstanceComponentTypeDataScienceModelDeployment,
+	"object_storage_bucket":         InstanceComponentTypeObjectStorageBucket,
 }
 
 // GetInstanceComponentTypeEnumValues Enumerates the set of values for InstanceComponentTypeEnum
@@ -138,9 +117,6 @@ func GetInstanceComponentTypeEnumStringValues() []string {
 	return []string{
 		"DATA_SCIENCE_MODEL_DEPLOYMENT",
 		"OBJECT_STORAGE_BUCKET",
-		"DATA_INTEGRATION_SCHEDULE",
-		"DATA_INTEGRATION_TASK_SCHEDULE",
-		"DATA_INTEGRATION_DATA_ASSET",
 	}
 }
 

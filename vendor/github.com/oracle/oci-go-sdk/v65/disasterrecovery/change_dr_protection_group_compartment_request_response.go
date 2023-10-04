@@ -14,11 +14,11 @@ import (
 // ChangeDrProtectionGroupCompartmentRequest wrapper for the ChangeDrProtectionGroupCompartment operation
 type ChangeDrProtectionGroupCompartmentRequest struct {
 
-	// Details of DR Protection Group compartment to change.
+	// Details for changing the DR protection group compartment.
 	ChangeDrProtectionGroupCompartmentDetails `contributesTo:"body"`
 
-	// The OCID of the DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid`
+	// The OCID of the DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" contributesTo:"path" name:"drProtectionGroupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

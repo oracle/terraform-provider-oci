@@ -14,8 +14,8 @@ import (
 // GetDrProtectionGroupRequest wrapper for the GetDrProtectionGroup operation
 type GetDrProtectionGroupRequest struct {
 
-	// The OCID of the DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid`
+	// The OCID of the DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" contributesTo:"path" name:"drProtectionGroupId"`
 
 	// The client request ID for tracing.

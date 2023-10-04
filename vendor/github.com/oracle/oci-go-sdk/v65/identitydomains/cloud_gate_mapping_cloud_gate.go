@@ -18,14 +18,14 @@ import (
 
 // CloudGateMappingCloudGate Reference to owning Cloud Gate
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: true
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type CloudGateMappingCloudGate struct {
 
 	// The id of the owning Cloud Gate.

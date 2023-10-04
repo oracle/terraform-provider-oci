@@ -31,17 +31,17 @@ type ResourcePrincipalAuthConfig struct {
 	ResourcePrincipalSource ResourcePrincipalAuthConfigResourcePrincipalSourceEnum `mandatory:"false" json:"resourcePrincipalSource,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m ResourcePrincipalAuthConfig) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m ResourcePrincipalAuthConfig) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m ResourcePrincipalAuthConfig) GetParentRef() *ParentReference {
 	return m.ParentRef
 }

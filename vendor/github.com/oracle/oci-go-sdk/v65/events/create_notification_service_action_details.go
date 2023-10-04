@@ -32,12 +32,12 @@ type CreateNotificationServiceActionDetails struct {
 	TopicId *string `mandatory:"false" json:"topicId"`
 }
 
-// GetIsEnabled returns IsEnabled
+//GetIsEnabled returns IsEnabled
 func (m CreateNotificationServiceActionDetails) GetIsEnabled() *bool {
 	return m.IsEnabled
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateNotificationServiceActionDetails) GetDescription() *string {
 	return m.Description
 }

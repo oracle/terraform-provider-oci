@@ -26,7 +26,7 @@ type DataScienceJobApplicationComponent struct {
 	JobId *string `mandatory:"true" json:"jobId"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m DataScienceJobApplicationComponent) GetName() *string {
 	return m.Name
 }

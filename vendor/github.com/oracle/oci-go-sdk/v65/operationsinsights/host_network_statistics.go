@@ -38,22 +38,22 @@ type HostNetworkStatistics struct {
 	NetworkWriteInMBs *float64 `mandatory:"false" json:"networkWriteInMBs"`
 }
 
-// GetUsage returns Usage
+//GetUsage returns Usage
 func (m HostNetworkStatistics) GetUsage() *float64 {
 	return m.Usage
 }
 
-// GetCapacity returns Capacity
+//GetCapacity returns Capacity
 func (m HostNetworkStatistics) GetCapacity() *float64 {
 	return m.Capacity
 }
 
-// GetUtilizationPercent returns UtilizationPercent
+//GetUtilizationPercent returns UtilizationPercent
 func (m HostNetworkStatistics) GetUtilizationPercent() *float64 {
 	return m.UtilizationPercent
 }
 
-// GetUsageChangePercent returns UsageChangePercent
+//GetUsageChangePercent returns UsageChangePercent
 func (m HostNetworkStatistics) GetUsageChangePercent() *float64 {
 	return m.UsageChangePercent
 }

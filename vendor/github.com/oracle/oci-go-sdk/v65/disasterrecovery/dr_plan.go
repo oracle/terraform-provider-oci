@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -17,53 +18,53 @@ import (
 	"strings"
 )
 
-// DrPlan The details of a DR Plan.
+// DrPlan The details of a DR plan.
 type DrPlan struct {
 
-	// The OCID of this DR Plan.
-	// Example: `ocid1.drplan.oc1.iad.&lt;unique_id&gt;`
+	// The OCID of the DR plan.
+	// Example: `ocid1.drplan.oc1..uniqueID`
 	Id *string `mandatory:"true" json:"id"`
 
-	// The display name of this DR Plan.
+	// The display name of the DR plan.
 	// Example: `EBS Switchover PHX to IAD`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the compartment containing the DR Plan.
-	// Example: `ocid1.compartment.oc1..&lt;unique_id&gt;`
+	// The OCID of the compartment containing the DR plan.
+	// Example: `ocid1.compartment.oc1..uniqueID`
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The type of this DR Plan.
+	// The type of the DR plan.
 	Type DrPlanTypeEnum `mandatory:"true" json:"type"`
 
-	// The date and time the DR Plan was created. An RFC3339 formatted datetime string.
+	// The date and time the DR plan was created. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time the DR Plan was updated. An RFC3339 formatted datetime string.
+	// The date and time the DR plan was updated. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The OCID of the DR Protection Group with which this DR Plan is associated.
-	// Example: `ocid1.drplan.oc1.iad.&lt;unique_id&gt;`
+	// The OCID of the DR protection group to which this DR plan belongs.
+	// Example: `ocid1.drplan.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" json:"drProtectionGroupId"`
 
-	// The OCID of the peer (remote) DR Protection Group associated with this plan's
-	// DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.&lt;unique_id&gt;`
+	// The OCID of the peer DR protection group associated with this plan's
+	// DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	PeerDrProtectionGroupId *string `mandatory:"true" json:"peerDrProtectionGroupId"`
 
-	// The region of the peer (remote) DR Protection Group associated with this plan's
-	// DR Protection Group.
-	// Example: `us-phoenix-1`
+	// The region of the peer DR protection group associated with this plan's
+	// DR protection group.
+	// Example: `us-ashburn-1`
 	PeerRegion *string `mandatory:"true" json:"peerRegion"`
 
-	// The list of groups in this DR Plan.
+	// The list of groups in this DR plan.
 	PlanGroups []DrPlanGroup `mandatory:"true" json:"planGroups"`
 
-	// The current state of the DR Plan.
+	// The current state of the DR plan.
 	LifecycleState DrPlanLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// A message describing the DR Plan's current state in more detail.
+	// A message describing the DR plan's current state in more detail.
 	LifeCycleDetails *string `mandatory:"false" json:"lifeCycleDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

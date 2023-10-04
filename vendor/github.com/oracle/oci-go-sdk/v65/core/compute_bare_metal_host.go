@@ -30,17 +30,17 @@ type ComputeBareMetalHost struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute bare metal host.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The shape of the compute instance running on this compute bare metal host.
+	// The shape of the compute instance that runs on the compute bare metal host.
 	InstanceShape *string `mandatory:"true" json:"instanceShape"`
 
 	// The current state of the compute bare metal host.
 	LifecycleState ComputeBareMetalHostLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time the compute bare metal host was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time that the compute bare metal host was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time the compute bare metal host was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time that the compute bare metal host was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
@@ -53,7 +53,7 @@ type ComputeBareMetalHost struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute network block.
 	ComputeNetworkBlockId *string `mandatory:"false" json:"computeNetworkBlockId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute instance running on this compute bare metal host.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute instance that runs on the compute bare metal host.
 	InstanceId *string `mandatory:"false" json:"instanceId"`
 
 	// The lifecycle state details of the compute bare metal host.

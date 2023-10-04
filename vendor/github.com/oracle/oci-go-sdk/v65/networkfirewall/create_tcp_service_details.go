@@ -26,7 +26,7 @@ type CreateTcpServiceDetails struct {
 	PortRanges []PortRange `mandatory:"true" json:"portRanges"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateTcpServiceDetails) GetName() *string {
 	return m.Name
 }

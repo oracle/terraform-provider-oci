@@ -14,7 +14,7 @@ import (
 // CreateDrProtectionGroupRequest wrapper for the CreateDrProtectionGroup operation
 type CreateDrProtectionGroupRequest struct {
 
-	// Details for the new DR Protection Group.
+	// Details for creating the DR protection group.
 	CreateDrProtectionGroupDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

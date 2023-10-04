@@ -26,7 +26,7 @@ type ParquetFormatAttribute struct {
 	Compression *string `mandatory:"false" json:"compression"`
 }
 
-// GetIsFilePattern returns IsFilePattern
+//GetIsFilePattern returns IsFilePattern
 func (m ParquetFormatAttribute) GetIsFilePattern() *bool {
 	return m.IsFilePattern
 }

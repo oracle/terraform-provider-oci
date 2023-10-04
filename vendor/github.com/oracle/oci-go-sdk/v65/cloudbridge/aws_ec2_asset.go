@@ -75,67 +75,67 @@ type AwsEc2Asset struct {
 	LifecycleState AssetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m AwsEc2Asset) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetInventoryId returns InventoryId
+//GetInventoryId returns InventoryId
 func (m AwsEc2Asset) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m AwsEc2Asset) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m AwsEc2Asset) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetSourceKey returns SourceKey
+//GetSourceKey returns SourceKey
 func (m AwsEc2Asset) GetSourceKey() *string {
 	return m.SourceKey
 }
 
-// GetExternalAssetKey returns ExternalAssetKey
+//GetExternalAssetKey returns ExternalAssetKey
 func (m AwsEc2Asset) GetExternalAssetKey() *string {
 	return m.ExternalAssetKey
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m AwsEc2Asset) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m AwsEc2Asset) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetAssetSourceIds returns AssetSourceIds
+//GetAssetSourceIds returns AssetSourceIds
 func (m AwsEc2Asset) GetAssetSourceIds() []string {
 	return m.AssetSourceIds
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m AwsEc2Asset) GetLifecycleState() AssetLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m AwsEc2Asset) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m AwsEc2Asset) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m AwsEc2Asset) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

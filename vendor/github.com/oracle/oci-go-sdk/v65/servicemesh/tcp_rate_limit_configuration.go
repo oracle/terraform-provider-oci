@@ -26,7 +26,7 @@ type TcpRateLimitConfiguration struct {
 	ConnectionsPerTarget *int `mandatory:"true" json:"connectionsPerTarget"`
 }
 
-// GetIntervalInMs returns IntervalInMs
+//GetIntervalInMs returns IntervalInMs
 func (m TcpRateLimitConfiguration) GetIntervalInMs() *int64 {
 	return m.IntervalInMs
 }

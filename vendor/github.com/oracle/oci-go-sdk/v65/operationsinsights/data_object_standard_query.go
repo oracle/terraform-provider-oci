@@ -39,12 +39,12 @@ type DataObjectStandardQuery struct {
 	TimeFilters *DataObjectQueryTimeFilters `mandatory:"false" json:"timeFilters"`
 }
 
-// GetBindParams returns BindParams
+//GetBindParams returns BindParams
 func (m DataObjectStandardQuery) GetBindParams() []DataObjectBindParameter {
 	return m.BindParams
 }
 
-// GetQueryExecutionTimeoutInSeconds returns QueryExecutionTimeoutInSeconds
+//GetQueryExecutionTimeoutInSeconds returns QueryExecutionTimeoutInSeconds
 func (m DataObjectStandardQuery) GetQueryExecutionTimeoutInSeconds() *float64 {
 	return m.QueryExecutionTimeoutInSeconds
 }
