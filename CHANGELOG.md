@@ -1,4 +1,4 @@
-## 5.15.0 (Unreleased)
+## 5.15.0 (October 04, 2023)
 
 ### Added
 - Support for [ADB-S] Elastic Resource Pools
