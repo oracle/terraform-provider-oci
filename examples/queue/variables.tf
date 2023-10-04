@@ -45,3 +45,7 @@ variable "queue_timeout_in_seconds" {
 variable "queue_visibility_in_seconds" {
   default = 10
 }
+
+variable "queue_channel_consumption_limit" {
+  default = 10
+}

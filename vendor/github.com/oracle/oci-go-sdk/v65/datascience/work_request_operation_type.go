@@ -38,6 +38,10 @@ const (
 	WorkRequestOperationTypePipelineRunCreate         WorkRequestOperationTypeEnum = "PIPELINE_RUN_CREATE"
 	WorkRequestOperationTypePipelineRunCancel         WorkRequestOperationTypeEnum = "PIPELINE_RUN_CANCEL"
 	WorkRequestOperationTypePipelineRunDelete         WorkRequestOperationTypeEnum = "PIPELINE_RUN_DELETE"
+	WorkRequestOperationTypePrivateEndpointCreate     WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_CREATE"
+	WorkRequestOperationTypePrivateEndpointDelete     WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_DELETE"
+	WorkRequestOperationTypePrivateEndpointMove       WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_MOVE"
+	WorkRequestOperationTypePrivateEndpointUpdate     WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_UPDATE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -61,6 +65,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PIPELINE_RUN_CREATE":         WorkRequestOperationTypePipelineRunCreate,
 	"PIPELINE_RUN_CANCEL":         WorkRequestOperationTypePipelineRunCancel,
 	"PIPELINE_RUN_DELETE":         WorkRequestOperationTypePipelineRunDelete,
+	"PRIVATE_ENDPOINT_CREATE":     WorkRequestOperationTypePrivateEndpointCreate,
+	"PRIVATE_ENDPOINT_DELETE":     WorkRequestOperationTypePrivateEndpointDelete,
+	"PRIVATE_ENDPOINT_MOVE":       WorkRequestOperationTypePrivateEndpointMove,
+	"PRIVATE_ENDPOINT_UPDATE":     WorkRequestOperationTypePrivateEndpointUpdate,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -84,6 +92,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"pipeline_run_create":         WorkRequestOperationTypePipelineRunCreate,
 	"pipeline_run_cancel":         WorkRequestOperationTypePipelineRunCancel,
 	"pipeline_run_delete":         WorkRequestOperationTypePipelineRunDelete,
+	"private_endpoint_create":     WorkRequestOperationTypePrivateEndpointCreate,
+	"private_endpoint_delete":     WorkRequestOperationTypePrivateEndpointDelete,
+	"private_endpoint_move":       WorkRequestOperationTypePrivateEndpointMove,
+	"private_endpoint_update":     WorkRequestOperationTypePrivateEndpointUpdate,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -118,6 +130,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PIPELINE_RUN_CREATE",
 		"PIPELINE_RUN_CANCEL",
 		"PIPELINE_RUN_DELETE",
+		"PRIVATE_ENDPOINT_CREATE",
+		"PRIVATE_ENDPOINT_DELETE",
+		"PRIVATE_ENDPOINT_MOVE",
+		"PRIVATE_ENDPOINT_UPDATE",
 	}
 }
 

@@ -27,6 +27,9 @@ type NotebookSessionConfigurationDetails struct {
 	// A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs.
 	BlockStorageSizeInGBs *int `mandatory:"false" json:"blockStorageSizeInGBs"`
 
+	// The OCID of a Data Science private endpoint.
+	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
+
 	NotebookSessionShapeConfigDetails *NotebookSessionShapeConfigDetails `mandatory:"false" json:"notebookSessionShapeConfigDetails"`
 }
 

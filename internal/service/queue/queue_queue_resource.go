@@ -41,6 +41,11 @@ func QueueQueueResource() *schema.Resource {
 			},
 
 			// Optional
+			"channel_consumption_limit": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"custom_encryption_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -212,6 +217,11 @@ func (s *QueueQueueResourceCrud) DeletedTarget() []string {
 
 func (s *QueueQueueResourceCrud) Create() error {
 	request := oci_queue.CreateQueueRequest{}
+
+	if channelConsumptionLimit, ok := s.D.GetOkExists("channel_consumption_limit"); ok {
+		tmp := channelConsumptionLimit.(int)
+		request.ChannelConsumptionLimit = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -432,6 +442,11 @@ func (s *QueueQueueResourceCrud) Update() error {
 	}
 	request := oci_queue.UpdateQueueRequest{}
 
+	if channelConsumptionLimit, ok := s.D.GetOkExists("channel_consumption_limit"); ok {
+		tmp := channelConsumptionLimit.(int)
+		request.ChannelConsumptionLimit = &tmp
+	}
+
 	if customEncryptionKeyId, ok := s.D.GetOkExists("custom_encryption_key_id"); ok {
 		tmp := customEncryptionKeyId.(string)
 		request.CustomEncryptionKeyId = &tmp
@@ -504,6 +519,10 @@ func (s *QueueQueueResourceCrud) Delete() error {
 }
 
 func (s *QueueQueueResourceCrud) SetData() error {
+	if s.Res.ChannelConsumptionLimit != nil {
+		s.D.Set("channel_consumption_limit", *s.Res.ChannelConsumptionLimit)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -566,6 +585,20 @@ func (s *QueueQueueResourceCrud) SetData() error {
 
 func (s *QueueQueueResourceCrud) PurgeQueue() error {
 	request := oci_queue.PurgeQueueRequest{}
+
+	//This is an auto generated code for channelIds, may not be used since we wont be passing channel IDs in tests
+	if channelIds, ok := s.D.GetOkExists("channel_ids"); ok {
+		interfaces := channelIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("channel_ids") {
+			request.ChannelIds = tmp
+		}
+	}
 
 	if purgeType, ok := s.D.GetOkExists("purge_type"); ok {
 		request.PurgeType, _ = oci_queue.GetMappingPurgeQueueDetailsPurgeTypeEnum(purgeType.(string))

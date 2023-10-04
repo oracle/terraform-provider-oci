@@ -66,6 +66,10 @@ func (s *QueueQueueDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.ChannelConsumptionLimit != nil {
+		s.D.Set("channel_consumption_limit", *s.Res.ChannelConsumptionLimit)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

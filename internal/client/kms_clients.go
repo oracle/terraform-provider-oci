@@ -10,9 +10,30 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_kms.EkmClient", &OracleClient{InitClientFn: initKeymanagementEkmClient})
 	RegisterOracleClient("oci_kms.KmsCryptoClient", &OracleClient{InitClientFn: initKeymanagementKmsCryptoClient})
 	RegisterOracleClient("oci_kms.KmsManagementClient", &OracleClient{InitClientFn: initKeymanagementKmsManagementClient})
 	RegisterOracleClient("oci_kms.KmsVaultClient", &OracleClient{InitClientFn: initKeymanagementKmsVaultClient})
+}
+
+func initKeymanagementEkmClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_kms.NewEkmClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) EkmClient() *oci_kms.EkmClient {
+	return m.GetClient("oci_kms.EkmClient").(*oci_kms.EkmClient)
 }
 
 func initKeymanagementKmsCryptoClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

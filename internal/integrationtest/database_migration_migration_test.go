@@ -47,15 +47,16 @@ var (
 
 	DatabaseMigrationMigrationRepresentation = map[string]interface{}{
 		"compartment_id":                          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"source_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_id}`},
-		"target_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.target_connection_id}`},
 		"type":                                    acctest.Representation{RepType: acctest.Required, Create: `ONLINE`},
+		"data_transfer_medium_details":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDataTransferMediumDetailsRepresentation},
+		"data_transfer_medium_details_v2":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationDataTransferMediumDetailsV2Representation},
+		"datapump_settings":                       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationDatapumpSettingsRepresentation},
+		"dump_transfer_details":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationDumpTransferDetailsRepresentation},
+		"source_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_id}`},
+		"target_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.target_connection_no_autonomous_id}`},
 		"advisor_settings":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationAdvisorSettingsRepresentation},
 		"exclude_objects":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationExcludeObjectsRepresentation},
-		"data_transfer_medium_details":            acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDataTransferMediumDetailsRepresentation},
-		"datapump_settings":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDatapumpSettingsRepresentation},
 		"display_name":                            acctest.Representation{RepType: acctest.Optional, Create: `TFtestOnline1`, Update: `TFtestOnline2`},
-		"dump_transfer_details":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDumpTransferRepresentation},
 		"freeform_tags":                           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"golden_gate_details":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationGoldenGateDetailsRepresentation},
 		"golden_gate_service_details":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationGoldenGateServiceDetailsRepresentation},
@@ -73,6 +74,7 @@ var (
 		"datapump_settings":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDatapumpSettingsRepresentation},
 		"display_name":                            acctest.Representation{RepType: acctest.Optional, Create: `TF_ONLINE_MIG`, Update: `TF_ONLINE_MIG`},
 		"golden_gate_details":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationGoldenGateDetailsRepresentation},
+		"golden_gate_service_details":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationGoldenGateServiceDetailsRepresentation},
 		"source_container_database_connection_id": acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_container_id}`},
 		"vault_details":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationMigrationVaultDetailsRepresentation},
 	}
@@ -101,12 +103,26 @@ var (
 		"database_link_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDataTransferMediumDetailsDatabaseLinkDetailsRepresentation},
 		"object_storage_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDataTransferMediumDetailsObjectStorageDetailsRepresentation},
 	}
+	DatabaseMigrationMigrationDataTransferMediumDetailsV2Representation = map[string]interface{}{
+		"type": acctest.Representation{RepType: acctest.Required, Create: `NFS`, Update: `OBJECT_STORAGE`},
+	}
+	DatabaseMigrationMigrationDatapumpSettingsRepresentation = map[string]interface{}{
+		"data_pump_parameters":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationDatapumpSettingsDataPumpParametersRepresentation},
+		"export_directory_object": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDatapumpSettingsExportDirectoryObjectRepresentation},
+		"import_directory_object": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDatapumpSettingsImportDirectoryObjectRepresentation},
+		"job_mode":                acctest.Representation{RepType: acctest.Optional, Create: `SCHEMA`, Update: `SCHEMA`},
+		"metadata_remaps":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDatapumpSettingsMetadataRemapsRepresentation},
+	}
+	DatabaseMigrationMigrationDumpTransferDetailsRepresentation = map[string]interface{}{
+		"source": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationSourceHostDumpTransferDetailsRepresentation},
+		"target": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationTargetHostDumpTransferDetailsRepresentation},
+	}
 	migrationDataTransferMediumDetailsRepresentationBeforeCPAT = map[string]interface{}{
 		"database_link_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDataTransferMediumDetailsDatabaseLinkDetailsRepresentation},
 		"object_storage_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDataTransferMediumDetailsObjectStorageDetailsRepresentation},
 	}
 	migrationDatapumpSettingsRepresentation = map[string]interface{}{
-		"export_directory_object": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationMigrationDatapumpSettingsExportDirectoryObjectRepresentation},
+		"export_directory_object": acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDatapumpSettingsExportDirectoryObjectRepresentation},
 		"metadata_remaps":         acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationDatapumpSettingsMetadataRemapsRepresentation},
 	}
 	migrationDatapumpSettingsNoSshRepresentation = map[string]interface{}{
@@ -172,13 +188,21 @@ var (
 		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `${var.bucket_id}`, Update: `${var.bucket_id}`},
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `ax5cpn0vohdh`, Update: `ax5cpn0vohdh`},
 	}
-	migrationDatapumpSettingsDataPumpParametersRepresentation = map[string]interface{}{
+	DatabaseMigrationMigrationDataTransferMediumDetailsV2ObjectStorageBucketRepresentation = map[string]interface{}{
+		"bucket":    acctest.Representation{RepType: acctest.Optional, Create: `${var.bucket_id}`, Update: `${var.bucket_id}`},
+		"namespace": acctest.Representation{RepType: acctest.Optional, Create: `ax5cpn0vohdh`, Update: `ax5cpn0vohdh`},
+	}
+	DatabaseMigrationMigrationDatapumpSettingsDataPumpParametersRepresentation = map[string]interface{}{
 		"estimate":                  acctest.Representation{RepType: acctest.Optional, Create: `BLOCKS`, Update: `STATISTICS`},
-		"exclude_parameters":        acctest.Representation{RepType: acctest.Optional, Create: []string{`excludeParameters`}, Update: []string{`excludeParameters2`}},
+		"exclude_parameters":        acctest.Representation{RepType: acctest.Optional, Create: [3]string{`INDEX`, `MATERIALIZED_VIEW`, `MATERIALIZED_VIEW_LOG`}, Update: [1]string{`excludeParameters2`}},
 		"export_parallelism_degree": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"import_parallelism_degree": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"is_cluster":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"table_exists_action":       acctest.Representation{RepType: acctest.Optional, Create: `TRUNCATE`, Update: `REPLACE`},
+	}
+	migrationDatapumpSettingsExportDirectoryObjectRepresentation = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `test_export_dir`, Update: `test_export_dir`},
+		"path": acctest.Representation{RepType: acctest.Required, Create: `/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log`, Update: `/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log`},
 	}
 	DatabaseMigrationMigrationDatapumpSettingsExportDirectoryObjectRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `test_export_dir`, Update: `test_export_dir`},
@@ -194,10 +218,11 @@ var (
 		"type":      acctest.Representation{RepType: acctest.Required, Create: `TABLESPACE`, Update: `TABLESPACE`},
 	}
 	migrationGoldenGateDetailsHubRepresentation = map[string]interface{}{
-		"rest_admin_credentials":                acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationGoldenGateDetailsHubRestAdminCredentialsRepresentation},
-		"source_container_db_admin_credentials": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationGoldenGateDetailsHubSourceContainerDbAdminCredentialsRepresentation},
-		"source_db_admin_credentials":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationGoldenGateDetailsHubSourceDbAdminCredentialsRepresentation},
-		"target_db_admin_credentials":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationGoldenGateDetailsHubTargetDbAdminCredentialsRepresentation},
+		"rest_admin_credentials": acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationGoldenGateDetailsHubRestAdminCredentialsRepresentation},
+
+		"source_container_db_admin_credentials": acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationGoldenGateDetailsHubSourceContainerDbAdminCredentialsRepresentation},
+		"source_db_admin_credentials":           acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationGoldenGateDetailsHubSourceDbAdminCredentialsRepresentation},
+		"target_db_admin_credentials":           acctest.RepresentationGroup{RepType: acctest.Required, Group: migrationGoldenGateDetailsHubTargetDbAdminCredentialsRepresentation},
 		"url":                                   acctest.Representation{RepType: acctest.Required, Create: `https://138.1.36.139`, Update: `https://138.1.36.139`},
 		"source_microservices_deployment_name":  acctest.Representation{RepType: acctest.Required, Create: `Marketplace`},
 		"target_microservices_deployment_name":  acctest.Representation{RepType: acctest.Required, Create: `Marketplace`},
@@ -227,11 +252,11 @@ var (
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `namespace`, Update: `namespace2`},
 	}
 	migrationGoldenGateDetailsHubRestAdminCredentialsRepresentation = map[string]interface{}{
-		"password": acctest.Representation{RepType: acctest.Required, Create: `gHxc%PX0BOiAdYsG`, Update: `gHxc%PX0BOiAdYsG`},
+		"password": acctest.Representation{RepType: acctest.Required, Create: `ytW8z_.vZMwdBk0y`, Update: `ytW8z_.vZMwdBk0y`},
 		"username": acctest.Representation{RepType: acctest.Required, Create: `oggadmin`, Update: `oggadmin`},
 	}
 	migrationGoldenGateDetailsHubSourceDbAdminCredentialsRepresentation = map[string]interface{}{
-		"password": acctest.Representation{RepType: acctest.Required, Create: `DMS-pswd-2023#-sjc`, Update: `DMS-pswd-2023#-sjc`},
+		"password": acctest.Representation{RepType: acctest.Required, Create: `DMS-pswd-2023#`, Update: `DMS-pswd-2023#`},
 		"username": acctest.Representation{RepType: acctest.Required, Create: `ggadmin`, Update: `ggadmin`},
 	}
 	DatabaseMigrationMigrationGoldenGateDetailsHubSourceContainerDbAdminCredentialsRepresentation = map[string]interface{}{
@@ -265,16 +290,16 @@ var (
 		"min_apply_parallelism": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	}
 	migrationGoldenGateDetailsHubTargetDbAdminCredentialsRepresentation = map[string]interface{}{
-		"password": acctest.Representation{RepType: acctest.Required, Create: `DMS-pswd-2023#-sjc`, Update: `DMS-pswd-2023#-sjc`},
+		"password": acctest.Representation{RepType: acctest.Required, Create: `DMS-pswd-2023#`, Update: `DMS-pswd-2023#`},
 		"username": acctest.Representation{RepType: acctest.Required, Create: `ggadmin`, Update: `ggadmin`},
 	}
 	migrationGoldenGateDetailsHubSourceContainerDbAdminCredentialsRepresentation = map[string]interface{}{
-		"password": acctest.Representation{RepType: acctest.Required, Create: `DMS-pswd-2023#-sjc`, Update: `DMS-pswd-2023#-sjc`},
+		"password": acctest.Representation{RepType: acctest.Required, Create: `DMS-pswd-2023#`, Update: `DMS-pswd-2023#`},
 		"username": acctest.Representation{RepType: acctest.Required, Create: `c##ggadmin`, Update: `c##ggadmin`},
 	}
 	migrationGoldenGateDetailsSettingsExtractRepresentation = map[string]interface{}{
 		"long_trans_duration": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"performance_profile": acctest.Representation{RepType: acctest.Optional, Create: `MEDIUM`, Update: `MEDIUM`},
+		"performance_profile": acctest.Representation{RepType: acctest.Optional, Create: `LOW`, Update: `MEDIUM`},
 	}
 	migrationGoldenGateDetailsSettingsReplicatRepresentation = map[string]interface{}{
 		"map_parallelism":       acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `0`},
@@ -297,6 +322,8 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
+	//Asigning values to variables used on representations. Environment variables are taken by tf config file and used to create resources.
+
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
@@ -314,7 +341,6 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 	databaseTargetId := utils.GetEnvSettingWithBlankDefault("target_connection_id")
 	databaseTargetStr := fmt.Sprintf("variable \"target_connection_id\" { default = \"%s\" }\n", databaseTargetId)
-
 	databaseSourceId := utils.GetEnvSettingWithBlankDefault("database_source")
 	databaseSourceStr := fmt.Sprintf("variable \"database_source\" { default = \"%s\" }\n", databaseSourceId)
 
@@ -336,6 +362,9 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	databaseTargetNoAutId := utils.GetEnvSettingWithBlankDefault("target_connection_no_autonomous_id")
 	databaseTargetNoAutStr := fmt.Sprintf("variable \"target_connection_no_autonomous_id\" { default = \"%s\" }\n", databaseTargetNoAutId)
 
+	fileStorageMountId := utils.GetEnvSettingWithBlankDefault("file_storage_mount")
+	fileStorageMountStr := fmt.Sprintf("variable \"file_storage_mount\" { default = \"%s\" }\n", fileStorageMountId)
+
 	sourceDBId := utils.GetEnvSettingWithBlankDefault("database_source_id")
 	sourceDBStr := fmt.Sprintf("variable \"database_source_id\" { default = \"%s\" }\n", sourceDBId)
 
@@ -346,10 +375,10 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	kmsVaultIdVariableStr := fmt.Sprintf("\nvariable \"kms_vault_id\" { default = \"%s\" }\n", kmsVaultId)
 
 	vcnId := utils.GetEnvSettingWithBlankDefault("vcn_id")
-	vcnIdVariableStr := fmt.Sprintf("variable \"vcnId\" { default = \"%s\" }\n", vcnId)
+	vcnIdVariableStr := fmt.Sprintf("variable \"vcn_id\" { default = \"%s\" }\n", vcnId)
 
 	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_id")
-	subnetIdStr := fmt.Sprintf("variable \"subnetId\" { default = \"%s\" }\n", subnetId)
+	subnetIdStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
 
 	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
 	KmsKeyIdVariableStr := fmt.Sprintf("\nvariable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
@@ -375,7 +404,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		// verify Create
 		{
 
-			Config: config + compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + databaseSourcePDBStr + //DatabaseMigrationMigrationResourceDependencies +
+			Config: config + compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseTargetNoSshStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + databaseSourcePDBStr + //DatabaseMigrationMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, migrationRepresentationMig),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -395,17 +424,16 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + databaseTargetNoAutStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + databaseTargetNoSshStr + databaseSourcePDBStr + databaseSourceNoSshStr + databaseSourceNoSSHDBStr + //DatabaseMigrationMigrationResourceDependencies +
+			Config: config + compartmentIdVariableStr + databaseSourceStr + databaseTargetStr + databaseTargetNoAutStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + fileStorageMountStr + databaseTargetNoSshStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + databaseSourcePDBStr + databaseSourceNoSshStr + databaseSourceNoSSHDBStr + //DatabaseMigrationMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, DatabaseMigrationMigrationRepresentation) +
 				DatabaseMigrationMigrationNoSshResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_nossh_migration", acctest.Optional, acctest.Create, migrationRepresentationNoSshMig),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.database_link_details.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details.0.object_storage_details.0.bucket"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_details.0.namespace", "ax5cpn0vohdh"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.type", "NFS"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
@@ -433,23 +461,23 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				},
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TFtestOnline1"),
-
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "gHxc%PX0BOiAdYsG"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "ytW8z_.vZMwdBk0y"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "DMS-pswd-2023#-sjc"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "DMS-pswd-2023#"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
 				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.source_microservices_deployment_name"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "DMS-pswd-2023#-sjc"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "DMS-pswd-2023#"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
 				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.target_microservices_deployment_name"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.url", "https://138.1.36.139"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.acceptable_lag", "10"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "10"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "MEDIUM"),
+
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "LOW"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_service_details.#", "1"),
 
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_service_details.0.settings.#", "1"),
@@ -457,7 +485,6 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_service_details.0.settings.0.extract.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_service_details.0.settings.0.extract.0.long_trans_duration", "10"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_service_details.0.settings.0.extract.0.performance_profile", "LOW"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "MEDIUM"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_container_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
@@ -508,7 +535,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + databaseSourceStr + databaseTargetStr + databaseTargetNoAutStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + databaseTargetNoSshStr + databaseSourcePDBStr + databaseSourceNoSshStr + databaseSourceNoSSHDBStr + //DatabaseMigrationMigrationResourceDependencies + //DatabaseMigrationMigrationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + databaseSourceStr + fileStorageMountStr + databaseTargetStr + databaseTargetNoAutStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + databaseTargetNoSshStr + databaseSourcePDBStr + databaseSourceNoSshStr + databaseSourceNoSSHDBStr + //DatabaseMigrationMigrationResourceDependencies + //DatabaseMigrationMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DatabaseMigrationMigrationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -523,6 +550,10 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.database_link_details.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details.0.object_storage_details.0.bucket"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_details.0.namespace", "ax5cpn0vohdh"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.type", "NFS"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details.0.object_storage_details.0.bucket"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_details.0.namespace", "ax5cpn0vohdh"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
@@ -553,21 +584,21 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TFtestOnline1"),
 
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "gHxc%PX0BOiAdYsG"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "ytW8z_.vZMwdBk0y"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "DMS-pswd-2023#-sjc"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "DMS-pswd-2023#"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
 				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.source_microservices_deployment_name"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "DMS-pswd-2023#-sjc"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "DMS-pswd-2023#"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
 				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.target_microservices_deployment_name"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.url", "https://138.1.36.139"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.acceptable_lag", "10"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.long_trans_duration", "10"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "MEDIUM"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "LOW"),
 
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_service_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_service_details.0.settings.#", "1"),
@@ -575,8 +606,6 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_service_details.0.settings.0.extract.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_service_details.0.settings.0.extract.0.long_trans_duration", "10"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_service_details.0.settings.0.extract.0.performance_profile", "LOW"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.settings.0.extract.0.performance_profile", "MEDIUM"),
-
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_container_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
@@ -619,6 +648,10 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details.0.object_storage_details.0.bucket"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_details.0.namespace", "ax5cpn0vohdh"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.type", "OBJECT_STORAGE"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details.0.object_storage_details.0.bucket"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_details.0.namespace", "ax5cpn0vohdh"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
@@ -635,10 +668,12 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.0.kind", "OCI_CLI"),
 				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.source.0.oci_home", "/path/to/ociCli"),
+
 				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.0.kind", "OCI_CLI"),
 				resource.TestCheckResourceAttr(resourceName, "dump_transfer_details.0.target.0.oci_home", "ociHome2"),
 				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
+
 				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.is_omit_excluded_table_from_replication", "true"),
 				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.owner", "owner2"),
@@ -650,14 +685,14 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "gHxc%PX0BOiAdYsG"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.password", "ytW8z_.vZMwdBk0y"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.rest_admin_credentials.0.username", "oggadmin"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "DMS-pswd-2023#-sjc"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.password", "DMS-pswd-2023#"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
 				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.source_microservices_deployment_name"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "DMS-pswd-2023#-sjc"),
+				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.password", "DMS-pswd-2023#"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
 				resource.TestCheckResourceAttrSet(resourceName, "golden_gate_details.0.hub.0.target_microservices_deployment_name"),
 				resource.TestCheckResourceAttr(resourceName, "golden_gate_details.0.hub.0.url", "https://138.1.36.139"),
@@ -719,7 +754,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", acctest.Optional, acctest.Update, DatabaseMigrationmigrationDataSourceRepresentation) +
 				compartmentIdVariableStr + compartmentIdUVariableStr + databaseSourceStr + databaseTargetStr + databaseTargetNoAutStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + databaseTargetNoSshStr + databaseSourcePDBStr + databaseSourceNoSshStr + databaseSourceNoSSHDBStr + // DatabaseMigrationMigrationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, migrationRepresentationMig),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -737,6 +772,20 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "credentials_secret_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details.0.object_storage_details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_transfer_medium_details.0.object_storage_details.0.bucket"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details.0.object_storage_details.0.namespace", "ax5cpn0vohdh"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details_v2.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details_v2.0.type", "OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.0.estimate", "STATISTICS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.0.export_parallelism_degree", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.0.import_parallelism_degree", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.0.is_cluster", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.0.table_exists_action", "REPLACE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.0.path", "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"),
@@ -771,7 +820,6 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.source_db_admin_credentials.0.username", "ggadmin"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.#", "1"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.target_db_admin_credentials.0.username", "ggadmin"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.hub.0.url", "https://138.1.36.139"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "golden_gate_details.0.settings.#", "1"),

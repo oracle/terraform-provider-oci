@@ -29,9 +29,17 @@ var (
 	KmsKeyResourceConfig = KmsKeyResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_key", acctest.Optional, acctest.Update, KmsKeyRepresentation)
 
+	KmsExternalKeyResourceConfig = KmsExternalKeyResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_ext_key", acctest.Optional, acctest.Update, KmsExternalKeyRepresentation)
+
 	KmsKmsKeySingularDataSourceRepresentation = map[string]interface{}{
 		"key_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_key.test_key.id}`},
 		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+	}
+
+	KmsKmsExternalKeySingularDataSourceRepresentation = map[string]interface{}{
+		"key_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_kms_key.test_ext_key.id}`},
+		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_ext_vault.management_endpoint}`},
 	}
 
 	KmsKmsKeyDataSourceRepresentation = map[string]interface{}{
@@ -46,6 +54,18 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_kms_key.test_key.id}`}},
 	}
 
+	KmsKmsExternalKeyDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_ext_vault.management_endpoint}`},
+		"protection_mode":     acctest.Representation{RepType: acctest.Optional, Create: `EXTERNAL`},
+		"algorithm":           acctest.Representation{RepType: acctest.Optional, Create: `AES`},
+		"length":              acctest.Representation{RepType: acctest.Optional, Create: `32`},
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: KmsKeyExternalDataSourceFilterRepresentation}}
+	KmsKeyExternalDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_kms_key.test_ext_key.id}`}},
+	}
+
 	deletionTime = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
 
 	KmsKeyRepresentation = map[string]interface{}{
@@ -54,13 +74,35 @@ var (
 		"key_shape":           acctest.RepresentationGroup{RepType: acctest.Required, Group: KmsKeyKeyShapeRepresentation},
 		"management_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 		"desired_state":       acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"protection_mode":     acctest.Representation{RepType: acctest.Optional, Create: `SOFTWARE`},
-		"time_of_deletion":    acctest.Representation{RepType: acctest.Required, Create: deletionTime.Format(time.RFC3339Nano)},
+		//"external_key_reference": acctest.RepresentationGroup{RepType: acctest.Optional, Group: KmsKeyExternalKeyReferenceRepresentation},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"protection_mode":  acctest.Representation{RepType: acctest.Optional, Create: `SOFTWARE`},
+		"time_of_deletion": acctest.Representation{RepType: acctest.Required, Create: deletionTime.Format(time.RFC3339Nano)},
 	}
+
+	KmsExternalKeyRepresentation = map[string]interface{}{
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `External Key C`, Update: `displayName2`},
+		"key_shape":              acctest.RepresentationGroup{RepType: acctest.Required, Group: KmsExternalKeyKeyShapeRepresentation},
+		"management_endpoint":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_kms_vault.test_ext_vault.management_endpoint}`},
+		"desired_state":          acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"external_key_reference": acctest.RepresentationGroup{RepType: acctest.Required, Group: KmsKeyExternalKeyReferenceRepresentation},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"protection_mode":        acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL`},
+		"time_of_deletion":       acctest.Representation{RepType: acctest.Required, Create: deletionTime.Format(time.RFC3339Nano)},
+	}
+
+	KmsExternalKeyKeyShapeRepresentation = map[string]interface{}{
+		"algorithm": acctest.Representation{RepType: acctest.Required, Create: `AES`},
+		"length":    acctest.Representation{RepType: acctest.Required, Create: `32`},
+	}
+
 	KmsKeyKeyShapeRepresentation = map[string]interface{}{
 		"algorithm": acctest.Representation{RepType: acctest.Required, Create: `AES`},
 		"length":    acctest.Representation{RepType: acctest.Required, Create: `16`},
+	}
+	KmsKeyExternalKeyReferenceRepresentation = map[string]interface{}{
+		"external_key_id": acctest.Representation{RepType: acctest.Required, Create: `f3cf68ae-659c-4e9e-8be7-ee39fa9ffa3c`},
 	}
 
 	kmsVaultId                = utils.GetEnvSettingWithBlankDefault("kms_vault_ocid")
@@ -73,6 +115,8 @@ var (
 
 	kmsKeyCompartmentId            = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	kmsKeyCompartmentIdVariableStr = fmt.Sprintf("variable \"kms_key_compartment_id\" { default = \"%s\" }\n", kmsKeyCompartmentId)
+	kmsExternalVaultId             = utils.GetEnvSettingWithBlankDefault("kms_external_vault_ocid")
+	KmsExternalVaultIdVariableStr  = fmt.Sprintf("variable \"kms_external_vault_id\" { default = \"%s\" }\n", kmsExternalVaultId)
 
 	// Should deprecate use of tenancy level resources
 	KmsKeyResourceDependencies = KmsVaultIdVariableStr + `
@@ -81,6 +125,13 @@ var (
 		vault_id = "${var.kms_vault_id}"
 	}
 	`
+	KmsExternalKeyResourceDependencies = KmsExternalVaultIdVariableStr + `
+	data "oci_kms_vault" "test_ext_vault" {
+		#Required
+		vault_id = "${var.kms_external_vault_id}"
+	}
+	`
+
 	KeyResourceDependencyConfig = KmsKeyResourceDependencies + `
 	data "oci_kms_keys" "test_keys_dependency" {
 		#Required
@@ -131,6 +182,156 @@ var (
 	}
 	`
 )
+
+func TestExternalKmsKeyResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestKmsExternalKeyResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_kms_key.test_ext_key"
+	datasourceName := "data.oci_kms_keys.test_ext_key"
+	singularDatasourceName := "data.oci_kms_key.test_ext_key"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+KmsExternalKeyResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_ext_key", acctest.Optional, acctest.Create, KmsExternalKeyRepresentation), "keymanagement", "key", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + KmsExternalKeyResourceDependencies + DefinedTagsDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_ext_key", acctest.Required, acctest.Create, KmsExternalKeyRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "External Key C"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "32"),
+				resource.TestCheckResourceAttr(resourceName, "external_key_reference.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + KmsExternalKeyResourceDependencies,
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + KmsExternalKeyResourceDependencies + DefinedTagsDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_ext_key", acctest.Optional, acctest.Create, KmsExternalKeyRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "External Key C"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "32"),
+				resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "EXTERNAL"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "external_key_reference.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + KmsExternalKeyResourceDependencies + DefinedTagsDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_ext_key", acctest.Optional, acctest.Update, KmsExternalKeyRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "32"),
+				resource.TestCheckResourceAttr(resourceName, "protection_mode", "EXTERNAL"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "external_key_reference.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_keys", "test_ext_key", acctest.Optional, acctest.Update, KmsKmsExternalKeyDataSourceRepresentation) +
+				compartmentIdVariableStr + KmsExternalKeyResourceDependencies + DefinedTagsDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_kms_key", "test_ext_key", acctest.Optional, acctest.Update, KmsExternalKeyRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "algorithm", "AES"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "management_endpoint"),
+				resource.TestCheckResourceAttr(datasourceName, "protection_mode", "EXTERNAL"),
+				resource.TestCheckResourceAttr(datasourceName, "length", "32"),
+
+				resource.TestCheckResourceAttr(datasourceName, "keys.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "keys.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "keys.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "keys.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "keys.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "keys.0.protection_mode", "EXTERNAL"),
+				resource.TestCheckResourceAttrSet(datasourceName, "keys.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "keys.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "keys.0.vault_id"),
+				resource.TestCheckResourceAttr(datasourceName, "external_key_reference.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_kms_key", "test_ext_key", acctest.Required, acctest.Create, KmsKmsExternalKeySingularDataSourceRepresentation) +
+				compartmentIdVariableStr + KmsExternalKeyResourceConfig + DefinedTagsDependencies,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_key_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.algorithm", "AES"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.length", "32"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "protection_mode", "EXTERNAL"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
+				resource.TestCheckResourceAttr(datasourceName, "external_key_reference.#", "1"),
+			),
+		},
+	})
+
+}
 
 // issue-routing-tag: kms/default
 func TestKmsKeyResource_basic(t *testing.T) {
@@ -277,6 +478,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "keys.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "keys.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "keys.0.display_name", "displayName2"),
+				//resource.TestCheckResourceAttr(datasourceName, "keys.0.external_key_reference_details.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "keys.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "keys.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "keys.0.protection_mode", "SOFTWARE"),
@@ -331,6 +533,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateIdFunc: keyImportId,
 			ImportStateVerifyIgnore: []string{
+				"external_key_reference",
 				"desired_state",
 				"time_of_deletion",
 				"replica_details",

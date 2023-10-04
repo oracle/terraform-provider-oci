@@ -105,6 +105,12 @@ func (s *KmsVaultsDataSourceCrud) SetData() error {
 			vault["display_name"] = *r.DisplayName
 		}
 
+		if r.ExternalKeyManagerMetadataSummary != nil {
+			vault["external_key_manager_metadata_summary"] = []interface{}{ExternalKeyManagerMetadataSummaryToMap(r.ExternalKeyManagerMetadataSummary)}
+		} else {
+			vault["external_key_manager_metadata_summary"] = nil
+		}
+
 		vault["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {

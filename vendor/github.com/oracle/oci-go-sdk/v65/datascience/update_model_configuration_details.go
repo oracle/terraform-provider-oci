@@ -26,7 +26,7 @@ type UpdateModelConfigurationDetails struct {
 
 	ScalingPolicy ScalingPolicy `mandatory:"false" json:"scalingPolicy"`
 
-	// The network bandwidth for the model.
+	// The minimum network bandwidth for the model deployment.
 	BandwidthMbps *int `mandatory:"false" json:"bandwidthMbps"`
 }
 
