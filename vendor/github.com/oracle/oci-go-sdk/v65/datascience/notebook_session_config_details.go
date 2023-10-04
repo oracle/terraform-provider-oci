@@ -27,6 +27,9 @@ type NotebookSessionConfigDetails struct {
 	// A notebook session instance is provided with a VNIC for network access.  This specifies the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// The OCID of a Data Science private endpoint.
+	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
+
 	NotebookSessionShapeConfigDetails *NotebookSessionShapeConfigDetails `mandatory:"false" json:"notebookSessionShapeConfigDetails"`
 }
 

@@ -90,6 +90,16 @@ func (s *DatabaseMigrationMigrationDataSourceCrud) SetData() error {
 		s.D.Set("data_transfer_medium_details", nil)
 	}
 
+	if s.Res.DataTransferMediumDetailsV2 != nil {
+		dataTransferMediumDetailsV2Array := []interface{}{}
+		if dataTransferMediumDetailsV2Map := DataTransferMediumDetailsV2ToMap(&s.Res.DataTransferMediumDetailsV2); dataTransferMediumDetailsV2Map != nil {
+			dataTransferMediumDetailsV2Array = append(dataTransferMediumDetailsV2Array, dataTransferMediumDetailsV2Map)
+		}
+		s.D.Set("data_transfer_medium_details_v2", dataTransferMediumDetailsV2Array)
+	} else {
+		s.D.Set("data_transfer_medium_details_v2", nil)
+	}
+
 	if s.Res.DatapumpSettings != nil {
 		s.D.Set("datapump_settings", []interface{}{DataPumpSettingsToMap(s.Res.DatapumpSettings)})
 	} else {

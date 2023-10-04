@@ -21,6 +21,9 @@ type UpdateDumpTransferDetails struct {
 	Source UpdateHostDumpTransferDetails `mandatory:"false" json:"source"`
 
 	Target UpdateHostDumpTransferDetails `mandatory:"false" json:"target"`
+
+	// OCID of the shared storage mount target
+	SharedStorageMountTargetId *string `mandatory:"false" json:"sharedStorageMountTargetId"`
 }
 
 func (m UpdateDumpTransferDetails) String() string {
@@ -42,8 +45,9 @@ func (m UpdateDumpTransferDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateDumpTransferDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Source updatehostdumptransferdetails `json:"source"`
-		Target updatehostdumptransferdetails `json:"target"`
+		Source                     updatehostdumptransferdetails `json:"source"`
+		Target                     updatehostdumptransferdetails `json:"target"`
+		SharedStorageMountTargetId *string                       `json:"sharedStorageMountTargetId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -70,6 +74,8 @@ func (m *UpdateDumpTransferDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Target = nil
 	}
+
+	m.SharedStorageMountTargetId = model.SharedStorageMountTargetId
 
 	return
 }

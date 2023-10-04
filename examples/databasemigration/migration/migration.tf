@@ -237,6 +237,9 @@ resource "oci_database_migration_migration" "test_migration" {
       namespace = "namespace"
     }
   }
+  data_transfer_medium_details_v2 {
+    type = "NFS"
+  }
   datapump_settings {
     export_directory_object {
       name = "test_export_dir"

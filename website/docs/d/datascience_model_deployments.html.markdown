@@ -78,7 +78,7 @@ The following attributes are exported:
 		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
 		* `server_port` - The port on which the web server serving the inference is running. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
 	* `model_configuration_details` - The model configuration details.
-		* `bandwidth_mbps` - The network bandwidth for the model.
+		* `bandwidth_mbps` - The minimum network bandwidth for the model deployment.
 		* `instance_configuration` - The model deployment instance configuration
 			* `instance_shape_name` - The shape used to launch the model deployment instances.
 			* `model_deployment_instance_shape_config_details` - Details for the model-deployment instance shape configuration.

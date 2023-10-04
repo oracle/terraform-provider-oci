@@ -346,6 +346,16 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("remote_disaster_recovery_configuration", nil)
 	}
 
+	if s.Res.ResourcePoolLeaderId != nil {
+		s.D.Set("resource_pool_leader_id", *s.Res.ResourcePoolLeaderId)
+	}
+
+	if s.Res.ResourcePoolSummary != nil {
+		s.D.Set("resource_pool_summary", []interface{}{ResourcePoolSummaryToMap(s.Res.ResourcePoolSummary)})
+	} else {
+		s.D.Set("resource_pool_summary", nil)
+	}
+
 	s.D.Set("role", s.Res.Role)
 
 	scheduledOperations := []interface{}{}
@@ -408,6 +418,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceEnd != nil {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
+	}
+
+	if s.Res.TimeOfJoiningResourcePool != nil {
+		s.D.Set("time_of_joining_resource_pool", s.Res.TimeOfJoiningResourcePool.String())
 	}
 
 	if s.Res.TimeOfLastFailover != nil {

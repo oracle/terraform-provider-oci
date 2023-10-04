@@ -11,10 +11,10 @@ import (
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
@@ -76,42 +76,26 @@ var (
 	}
 
 	DatascienceNotebookSessionRepresentation = map[string]interface{}{
-		"compartment_id":                          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"project_id":                              acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
-		"defined_tags":                            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":                           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"notebook_session_config_details":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: notebookSessionNotebookSessionConfigDetailsRepresentation},
-		"notebook_session_configuration_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: notebookSessionNotebookSessionConfigurationDetailsRepresentation},
-		"notebook_session_runtime_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: notebookSessionNotebookSessionRuntimeConfigDetailsRepresentation},
-		"lifecycle":                               acctest.RepresentationGroup{RepType: acctest.Optional, Group: definedTagsIgnoreRepresentation},
-	}
-	notebookSessionConfigDetailsRepresentation = map[string]interface{}{
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"project_id":                      acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"notebook_session_config_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: notebookSessionNotebookSessionConfigDetailsRepresentation},
+		"notebook_session_config_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: notebookSessionConfigDetailsRepresentation},
 		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Optional, Group: definedTagsIgnoreRepresentation},
 	}
 
-	notebookSessionNotebookSessionConfigDetailsRepresentation = map[string]interface{}{
+	notebookSessionConfigDetailsRepresentation = map[string]interface{}{
 		"shape":                                 acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
 		"block_storage_size_in_gbs":             acctest.Representation{RepType: acctest.Optional, Create: `100`},
-		"notebook_session_shape_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: notebookSessionNotebookSessionConfigDetailsNotebookSessionShapeConfigDetailsRepresentation},
-	}
-
-	notebookSessionNotebookSessionConfigurationDetailsRepresentation = map[string]interface{}{
-		"shape":                                 acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"notebook_session_shape_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: notebookSessionConfigDetailsShapeConfigDetailsRepresentation},
+		"private_endpoint_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_private_endpoint.test_data_science_private_endpoint.id}`},
 		"subnet_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"block_storage_size_in_gbs":             acctest.Representation{RepType: acctest.Optional, Create: `100`},
-		"notebook_session_shape_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: notebookSessionNotebookSessionConfigurationDetailsNotebookSessionShapeConfigDetailsRepresentation},
 	}
 
 	notebookSessionConfigurationDetailsRepresentation = map[string]interface{}{
 		"compartment_id":                         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"notebook_session_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceNotebookSessionNotebookSessionConfigurationDetailsRepresentation},
+		"notebook_session_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceNotebookSessionConfigurationDetailsRepresentation},
 		"project_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -119,37 +103,30 @@ var (
 		"lifecycle":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: definedTagsIgnoreRepresentation},
 	}
 
-	DatascienceNotebookSessionNotebookSessionConfigurationDetailsRepresentation = map[string]interface{}{
+	DatascienceNotebookSessionConfigurationDetailsRepresentation = map[string]interface{}{
 		"shape":                     acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `100`},
+		"private_endpoint_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_private_endpoint.test_data_science_private_endpoint.id}`},
 	}
-	notebookSessionNotebookSessionRuntimeConfigDetailsRepresentation = map[string]interface{}{
-		"custom_environment_variables":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"customEnvironmentVariablesKey1": "customEnvironmentVariablesValue1"}, Update: map[string]string{"customEnvironmentVariablesKey2": "customEnvironmentVariablesValue2"}},
-		"notebook_session_git_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: notebookSessionNotebookSessionRuntimeConfigDetailsNotebookSessionGitConfigDetailsRepresentation},
-	}
-	notebookSessionNotebookSessionConfigDetailsNotebookSessionShapeConfigDetailsRepresentation = map[string]interface{}{
+
+	notebookSessionConfigDetailsShapeConfigDetailsRepresentation = map[string]interface{}{
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
 		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
 	}
-	notebookSessionNotebookSessionConfigurationDetailsNotebookSessionShapeConfigDetailsRepresentation = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
-		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
-	}
+
 	definedTagsIgnoreRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `compartment_id`}},
-	}
-	notebookSessionNotebookSessionRuntimeConfigDetailsNotebookSessionGitConfigDetailsRepresentation = map[string]interface{}{
-		"notebook_session_git_repo_config_collection": acctest.RepresentationGroup{RepType: acctest.Optional, Group: notebookSessionNotebookSessionRuntimeConfigDetailsNotebookSessionGitConfigDetailsNotebookSessionGitRepoConfigCollectionRepresentation},
-	}
-	notebookSessionNotebookSessionRuntimeConfigDetailsNotebookSessionGitConfigDetailsNotebookSessionGitRepoConfigCollectionRepresentation = map[string]interface{}{
-		"url": acctest.Representation{RepType: acctest.Required, Create: `url1`, Update: `url2`},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `compartment_id`, `lifecycle_details`, `notebook_session_configuration_details[0].notebook_session_shape_config_details`, `notebook_session_config_details[0].notebook_session_shape_config_details`, `notebook_session_runtime_config_details`}},
 	}
 
-	DatascienceNotebookSessionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
+	DatascienceNotebookSessionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_private_endpoint", acctest.Required, acctest.Create, DataSciencePrivateEndpointRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		DefinedTagsDependencies
 
-	NotebookSessionConfigurationDetailsResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+	NotebookSessionConfigurationDetailsResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_private_endpoint", acctest.Required, acctest.Create, DataSciencePrivateEndpointRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		DefinedTagsDependencies
@@ -169,7 +146,6 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_datascience_notebook_session.test_notebook_session"
-	// datasourceName := "data.oci_datascience_notebook_sessions.test_notebook_session"
 	singularDatasourceName := "data.oci_datascience_notebook_session.test_notebook_session"
 
 	var resId, resId2 string
@@ -209,7 +185,7 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.0.block_storage_size_in_gbs", "100"),
-				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.0.notebook_session_shape_config_details.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "notebook_session_config_details.0.private_endpoint_id"),
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.0.shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -231,7 +207,6 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 			Config: config + compartmentIdVariableStr + DatascienceNotebookSessionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datascience_notebook_session", "test_notebook_session", acctest.Optional, acctest.Create, DatascienceNotebookSessionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -260,7 +235,7 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -268,6 +243,7 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.0.block_storage_size_in_gbs", "100"),
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.0.notebook_session_shape_config_details.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "notebook_session_config_details.0.private_endpoint_id"),
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.0.shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -296,6 +272,7 @@ func TestDatascienceNotebookSessionWithConfigDetailsResource_basic(t *testing.T)
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.0.block_storage_size_in_gbs", "100"),
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.0.notebook_session_shape_config_details.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "notebook_session_config_details.0.private_endpoint_id"),
 				resource.TestCheckResourceAttr(resourceName, "notebook_session_config_details.0.shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -417,7 +394,7 @@ func TestDatascienceNotebookSessionWithConfigurationDetailsResource_basic(t *tes
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -477,6 +454,8 @@ func TestDatascienceNotebookSessionWithConfigurationDetailsResource_basic(t *tes
 				resource.TestCheckResourceAttr(datasourceName, "notebook_sessions.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "notebook_sessions.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "notebook_sessions.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "notebook_sessions.0.notebook_session_config_details.0.block_storage_size_in_gbs", "100"),
+				resource.TestCheckResourceAttr(datasourceName, "notebook_sessions.0.notebook_session_config_details.0.shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "notebook_sessions.0.notebook_session_url"),
 				resource.TestCheckResourceAttrSet(datasourceName, "notebook_sessions.0.project_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "notebook_sessions.0.state"),

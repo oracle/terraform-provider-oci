@@ -358,6 +358,14 @@ type AutonomousDatabaseSummary struct {
 	// How do I make this change? Using either OCI SDKs or command line tools, update your custom scripts to explicitly set the isMTLSConnectionRequired attribute to true.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 
+	// The time the member joined the resource pool.
+	TimeOfJoiningResourcePool *common.SDKTime `mandatory:"false" json:"timeOfJoiningResourcePool"`
+
+	// The unique identifier for leader autonomous database OCID OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	ResourcePoolLeaderId *string `mandatory:"false" json:"resourcePoolLeaderId"`
+
+	ResourcePoolSummary *ResourcePoolSummary `mandatory:"false" json:"resourcePoolSummary"`
+
 	// Indicates if the refreshable clone can be reconnected to its source database.
 	IsReconnectCloneEnabled *bool `mandatory:"false" json:"isReconnectCloneEnabled"`
 

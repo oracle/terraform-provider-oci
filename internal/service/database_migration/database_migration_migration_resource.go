@@ -175,6 +175,79 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 					},
 				},
 			},
+			"data_transfer_medium_details_v2": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"AWS_S3",
+								"DBLINK",
+								"NFS",
+								"OBJECT_STORAGE",
+							}, true),
+						},
+
+						// Optional
+						"access_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"object_storage_bucket": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"bucket": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"namespace": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"region": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"secret_access_key": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"datapump_settings": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -345,6 +418,11 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"shared_storage_mount_target_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"source": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -1113,6 +1191,17 @@ func (s *DatabaseMigrationMigrationResourceCrud) Create() error {
 		}
 	}
 
+	if dataTransferMediumDetailsV2, ok := s.D.GetOkExists("data_transfer_medium_details_v2"); ok {
+		if tmpList := dataTransferMediumDetailsV2.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_transfer_medium_details_v2", 0)
+			tmp, err := s.mapToDataTransferMediumDetailsV2(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DataTransferMediumDetailsV2 = tmp
+		}
+	}
+
 	if datapumpSettings, ok := s.D.GetOkExists("datapump_settings"); ok {
 		if tmpList := datapumpSettings.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "datapump_settings", 0)
@@ -1423,7 +1512,18 @@ func (s *DatabaseMigrationMigrationResourceCrud) Update() error {
 		}
 	}
 
-	if datapumpSettings, ok := s.D.GetOkExists("datapump_settings"); ok && s.D.HasChange("datapump_settings") {
+	if dataTransferMediumDetailsV2, ok := s.D.GetOkExists("data_transfer_medium_details_v2"); ok {
+		if tmpList := dataTransferMediumDetailsV2.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_transfer_medium_details_v2", 0)
+			tmp, err := s.mapToDataTransferMediumDetailsV2(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DataTransferMediumDetailsV2 = tmp
+		}
+	}
+
+	if datapumpSettings, ok := s.D.GetOkExists("datapump_settings"); ok {
 		if tmpList := datapumpSettings.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "datapump_settings", 0)
 			tmp, err := s.mapToUpdateDataPumpSettings(fieldKeyFormat)
@@ -1606,6 +1706,16 @@ func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
 		s.D.Set("data_transfer_medium_details", nil)
 	}
 
+	if s.Res.DataTransferMediumDetailsV2 != nil {
+		dataTransferMediumDetailsV2Array := []interface{}{}
+		if dataTransferMediumDetailsV2Map := DataTransferMediumDetailsV2ToMap(&s.Res.DataTransferMediumDetailsV2); dataTransferMediumDetailsV2Map != nil {
+			dataTransferMediumDetailsV2Array = append(dataTransferMediumDetailsV2Array, dataTransferMediumDetailsV2Map)
+		}
+		s.D.Set("data_transfer_medium_details_v2", dataTransferMediumDetailsV2Array)
+	} else {
+		s.D.Set("data_transfer_medium_details_v2", nil)
+	}
+
 	if s.Res.DatapumpSettings != nil {
 		s.D.Set("datapump_settings", []interface{}{DataPumpSettingsToMap(s.Res.DatapumpSettings)})
 	} else {
@@ -1735,34 +1845,6 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateAdvisorSettings(fiel
 	return result, nil
 }
 
-func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateDumpTransferDetails(fieldKeyFormat string) (oci_database_migration.UpdateDumpTransferDetails, error) {
-	result := oci_database_migration.UpdateDumpTransferDetails{}
-
-	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
-		if tmpList := source.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source"), 0)
-			tmp, err := s.mapToUpdateHostDumpTransferDetails(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert source, encountered error: %v", err)
-			}
-			result.Source = tmp
-		}
-	}
-
-	if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
-		if tmpList := target.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "target"), 0)
-			tmp, err := s.mapToUpdateHostDumpTransferDetails(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert target, encountered error: %v", err)
-			}
-			result.Target = tmp
-		}
-	}
-
-	return result, nil
-}
-
 func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateAdminCredentials(fieldKeyFormat string) (oci_database_migration.UpdateAdminCredentials, error) {
 	result := oci_database_migration.UpdateAdminCredentials{}
 
@@ -1778,22 +1860,6 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateAdminCredentials(fie
 
 	return result, nil
 }
-
-/*func AdminCredentialsToMap(obj *oci_database_migration.AdminCredentials) map[string]interface{} {
-	result := map[string]interface{}{}
-
-
-		if obj.Password != nil {
-			result["password"] = string(*obj.Password)
-		}
-
-
-	if obj.Username != nil {
-		result["username"] = string(*obj.Username)
-	}
-
-	return result
-}*/
 
 func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateAdvisorSettings(fieldKeyFormat string) (oci_database_migration.CreateAdvisorSettings, error) {
 	result := oci_database_migration.CreateAdvisorSettings{}
@@ -2257,6 +2323,11 @@ func DirectoryObjectToMap(obj *oci_database_migration.DirectoryObject) map[strin
 func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateDumpTransferDetails(fieldKeyFormat string) (oci_database_migration.CreateDumpTransferDetails, error) {
 	result := oci_database_migration.CreateDumpTransferDetails{}
 
+	if sharedStorageMountTargetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shared_storage_mount_target_id")); ok {
+		tmp := sharedStorageMountTargetId.(string)
+		result.SharedStorageMountTargetId = &tmp
+	}
+
 	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
 		if tmpList := source.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source"), 0)
@@ -2282,8 +2353,40 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateDumpTransferDetails(
 	return result, nil
 }
 
+func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateDumpTransferDetails(fieldKeyFormat string) (oci_database_migration.UpdateDumpTransferDetails, error) {
+	result := oci_database_migration.UpdateDumpTransferDetails{}
+
+	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
+		if tmpList := source.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source"), 0)
+			tmp, err := s.mapToUpdateHostDumpTransferDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source, encountered error: %v", err)
+			}
+			result.Source = tmp
+		}
+	}
+
+	if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
+		if tmpList := target.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "target"), 0)
+			tmp, err := s.mapToUpdateHostDumpTransferDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert target, encountered error: %v", err)
+			}
+			result.Target = tmp
+		}
+	}
+
+	return result, nil
+}
+
 func DumpTransferDetailsToMap(obj *oci_database_migration.DumpTransferDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.SharedStorageMountTargetId != nil {
+		result["shared_storage_mount_target_id"] = string(*obj.SharedStorageMountTargetId)
+	}
 
 	if obj.Source != nil {
 		sourceArray := []interface{}{}
@@ -3126,24 +3229,6 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateVaultDetails(fieldKe
 	return result, nil
 }
 
-/*func VaultDetailsToMap(obj *oci_database_migration.VaultDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.KeyId != nil {
-		result["key_id"] = string(*obj.KeyId)
-	}
-
-	if obj.VaultId != nil {
-		result["vault_id"] = string(*obj.VaultId)
-	}
-
-	return result
-}*/
-
 func (s *DatabaseMigrationMigrationResourceCrud) mapToDataPumpExcludeParameters(fieldKeyFormat string) (oci_database_migration.DataPumpExcludeParametersEnum, error) {
 	//result := make([]oci_database_migration.DataPumpExcludeParametersEnum, 3)
 	result := oci_database_migration.DataPumpExcludeParametersIndex
@@ -3181,6 +3266,121 @@ func DatabaseCredentialsToMap(obj *oci_database_migration.DatabaseCredentials) m
 
 	if obj.Username != nil {
 		result["username"] = string(*obj.Username)
+	}
+	return result
+}
+
+func (s *DatabaseMigrationMigrationResourceCrud) mapToDataTransferMediumDetailsV2(fieldKeyFormat string) (oci_database_migration.DataTransferMediumDetailsV2, error) {
+	var baseObject oci_database_migration.DataTransferMediumDetailsV2
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("AWS_S3"):
+		details := oci_database_migration.AwsS3DataTransferMediumDetails{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if secretAccessKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := secretAccessKey.(string)
+			details.SecretAccessKey = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DBLINK"):
+		details := oci_database_migration.DbLinkDataTransferMediumDetails{}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if objectStorageBucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object_storage_bucket")); ok {
+			if tmpList := objectStorageBucket.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "object_storage_bucket"), 0)
+				tmp, err := s.mapToObjectStoreBucket(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert object_storage_bucket, encountered error: %v", err)
+				}
+				details.ObjectStorageBucket = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("NFS"):
+		details := oci_database_migration.NfsDataTransferMediumDetails{}
+		baseObject = details
+	case strings.ToLower("OBJECT_STORAGE"):
+		details := oci_database_migration.ObjectStorageDataTransferMediumDetails{}
+		if objectStorageBucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object_storage_bucket")); ok {
+			if tmpList := objectStorageBucket.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "object_storage_bucket"), 0)
+				tmp, err := s.mapToObjectStoreBucket(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert object_storage_bucket, encountered error: %v", err)
+				}
+				details.ObjectStorageBucket = &tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func DataTransferMediumDetailsV2ToMap(obj *oci_database_migration.DataTransferMediumDetailsV2) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_migration.AwsS3DataTransferMediumDetails:
+		result["type"] = "AWS_S3"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+	case oci_database_migration.DbLinkDataTransferMediumDetails:
+		result["type"] = "DBLINK"
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+
+		if v.ObjectStorageBucket != nil {
+			result["object_storage_bucket"] = []interface{}{ObjectStoreBucketToMap(v.ObjectStorageBucket)}
+		}
+	case oci_database_migration.NfsDataTransferMediumDetails:
+		result["type"] = "NFS"
+	case oci_database_migration.ObjectStorageDataTransferMediumDetails:
+		result["type"] = "OBJECT_STORAGE"
+
+		if v.ObjectStorageBucket != nil {
+			result["object_storage_bucket"] = []interface{}{ObjectStoreBucketToMap(v.ObjectStorageBucket)}
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
@@ -3354,23 +3554,21 @@ func MigrationSummaryToMap(obj oci_database_migration.MigrationSummary) map[stri
 	return result
 }
 
-/*func VaultDetailsToMap(obj *oci_database_migration.VaultDetails) map[string]interface{} {
-	result := map[string]interface{}{}
+func (s *DatabaseMigrationMigrationResourceCrud) mapToObjectStoreBucket(fieldKeyFormat string) (oci_database_migration.ObjectStoreBucket, error) {
+	result := oci_database_migration.ObjectStoreBucket{}
 
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
+	if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		tmp := bucket.(string)
+		result.BucketName = &tmp
 	}
 
-	if obj.KeyId != nil {
-		result["key_id"] = string(*obj.KeyId)
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.NamespaceName = &tmp
 	}
 
-	if obj.VaultId != nil {
-		result["vault_id"] = string(*obj.VaultId)
-	}
-
-	return result
-}*/
+	return result, nil
+}
 
 func metadataRemapsHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer

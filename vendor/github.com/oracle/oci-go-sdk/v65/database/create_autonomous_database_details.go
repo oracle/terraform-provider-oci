@@ -185,6 +185,11 @@ type CreateAutonomousDatabaseDetails struct {
 	// How do I make this change? Using either OCI SDKs or command line tools, update your custom scripts to explicitly set the isMTLSConnectionRequired attribute to true.
 	IsMtlsConnectionRequired *bool `mandatory:"false" json:"isMtlsConnectionRequired"`
 
+	// The unique identifier for leader autonomous database OCID OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	ResourcePoolLeaderId *string `mandatory:"false" json:"resourcePoolLeaderId"`
+
+	ResourcePoolSummary *ResourcePoolSummary `mandatory:"false" json:"resourcePoolSummary"`
+
 	// The list of scheduled operations.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
@@ -420,6 +425,16 @@ func (m CreateAutonomousDatabaseDetails) GetCustomerContacts() []CustomerContact
 // GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
 func (m CreateAutonomousDatabaseDetails) GetIsMtlsConnectionRequired() *bool {
 	return m.IsMtlsConnectionRequired
+}
+
+// GetResourcePoolLeaderId returns ResourcePoolLeaderId
+func (m CreateAutonomousDatabaseDetails) GetResourcePoolLeaderId() *string {
+	return m.ResourcePoolLeaderId
+}
+
+// GetResourcePoolSummary returns ResourcePoolSummary
+func (m CreateAutonomousDatabaseDetails) GetResourcePoolSummary() *ResourcePoolSummary {
+	return m.ResourcePoolSummary
 }
 
 // GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType

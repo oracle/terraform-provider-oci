@@ -143,6 +143,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `cloud_bridge` - Discovers cloud_bridge resources within the specified compartment
     * `cloud_guard` - Discovers cloud guard resources within the specified compartment
     * `cloud_migrations` - Discovers cloud_migrations resources within the specified compartment
+    * `compute_cloud_at_customer` - Discovers compute_cloud_at_customer resources within the specified compartment
     * `container_instances` - Discovers container_instances resources within the specified compartment
     * `containerengine` - Discovers containerengine resources within the specified compartment
     * `core` - Discovers compute, block storage, and networking resources within the specified compartment
@@ -471,6 +472,11 @@ cloud_migrations
 * oci\_cloud\_migrations\_migration
 * oci\_cloud\_migrations\_replication\_schedule
 
+compute_cloud_at_customer
+    
+* oci\_compute\_cloud\_at\_customer\_ccc\_upgrade\_schedule
+* oci\_compute\_cloud\_at\_customer\_ccc\_infrastructure
+
 container_instances
 
 * oci\_container\_instances\_container\_instance
@@ -642,6 +648,7 @@ datascience
 * oci\_datascience\_job\_run
 * oci\_datascience\_pipeline\_run
 * oci\_datascience\_pipeline
+* oci\_datascience\_data\_science\_private\_endpoint
 * oci\_datascience\_model\_version\_set
 
 devops
@@ -804,6 +811,7 @@ kms
 * oci\_kms\_vault
 * oci\_kms\_sign
 * oci\_kms\_verify
+* oci\_kms\_ekms\_private\_endpoint
 
 license_manager
 

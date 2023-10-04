@@ -159,6 +159,10 @@ const (
 	ListWorkRequestsOperationTypePipelineRunCreate         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_CREATE"
 	ListWorkRequestsOperationTypePipelineRunCancel         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_CANCEL"
 	ListWorkRequestsOperationTypePipelineRunDelete         ListWorkRequestsOperationTypeEnum = "PIPELINE_RUN_DELETE"
+	ListWorkRequestsOperationTypePrivateEndpointCreate     ListWorkRequestsOperationTypeEnum = "PRIVATE_ENDPOINT_CREATE"
+	ListWorkRequestsOperationTypePrivateEndpointDelete     ListWorkRequestsOperationTypeEnum = "PRIVATE_ENDPOINT_DELETE"
+	ListWorkRequestsOperationTypePrivateEndpointMove       ListWorkRequestsOperationTypeEnum = "PRIVATE_ENDPOINT_MOVE"
+	ListWorkRequestsOperationTypePrivateEndpointUpdate     ListWorkRequestsOperationTypeEnum = "PRIVATE_ENDPOINT_UPDATE"
 )
 
 var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperationTypeEnum{
@@ -182,6 +186,10 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"PIPELINE_RUN_CREATE":         ListWorkRequestsOperationTypePipelineRunCreate,
 	"PIPELINE_RUN_CANCEL":         ListWorkRequestsOperationTypePipelineRunCancel,
 	"PIPELINE_RUN_DELETE":         ListWorkRequestsOperationTypePipelineRunDelete,
+	"PRIVATE_ENDPOINT_CREATE":     ListWorkRequestsOperationTypePrivateEndpointCreate,
+	"PRIVATE_ENDPOINT_DELETE":     ListWorkRequestsOperationTypePrivateEndpointDelete,
+	"PRIVATE_ENDPOINT_MOVE":       ListWorkRequestsOperationTypePrivateEndpointMove,
+	"PRIVATE_ENDPOINT_UPDATE":     ListWorkRequestsOperationTypePrivateEndpointUpdate,
 }
 
 var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkRequestsOperationTypeEnum{
@@ -205,6 +213,10 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"pipeline_run_create":         ListWorkRequestsOperationTypePipelineRunCreate,
 	"pipeline_run_cancel":         ListWorkRequestsOperationTypePipelineRunCancel,
 	"pipeline_run_delete":         ListWorkRequestsOperationTypePipelineRunDelete,
+	"private_endpoint_create":     ListWorkRequestsOperationTypePrivateEndpointCreate,
+	"private_endpoint_delete":     ListWorkRequestsOperationTypePrivateEndpointDelete,
+	"private_endpoint_move":       ListWorkRequestsOperationTypePrivateEndpointMove,
+	"private_endpoint_update":     ListWorkRequestsOperationTypePrivateEndpointUpdate,
 }
 
 // GetListWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListWorkRequestsOperationTypeEnum
@@ -239,6 +251,10 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"PIPELINE_RUN_CREATE",
 		"PIPELINE_RUN_CANCEL",
 		"PIPELINE_RUN_DELETE",
+		"PRIVATE_ENDPOINT_CREATE",
+		"PRIVATE_ENDPOINT_DELETE",
+		"PRIVATE_ENDPOINT_MOVE",
+		"PRIVATE_ENDPOINT_UPDATE",
 	}
 }
 

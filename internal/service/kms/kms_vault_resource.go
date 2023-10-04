@@ -58,6 +58,64 @@ func KmsVaultResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"external_key_manager_metadata": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"external_vault_endpoint_url": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"oauth_metadata": {
+							Type:     schema.TypeList,
+							Required: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"client_app_id": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"client_app_secret": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"idcs_account_name_url": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"private_endpoint_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -149,6 +207,52 @@ func KmsVaultResource() *schema.Resource {
 			"crypto_endpoint": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"external_key_manager_metadata_summary": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"external_vault_endpoint_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"oauth_metadata_summary": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"client_app_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"idcs_account_name_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"private_endpoint_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vendor": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"is_primary": {
 				Type:     schema.TypeBool,
@@ -299,6 +403,17 @@ func (s *KmsVaultResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if externalKeyManagerMetadata, ok := s.D.GetOkExists("external_key_manager_metadata"); ok {
+		if tmpList := externalKeyManagerMetadata.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "external_key_manager_metadata", 0)
+			tmp, err := s.mapToExternalKeyManagerMetadata(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ExternalKeyManagerMetadata = &tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -428,6 +543,12 @@ func (s *KmsVaultResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExternalKeyManagerMetadataSummary != nil {
+		s.D.Set("external_key_manager_metadata_summary", []interface{}{ExternalKeyManagerMetadataSummaryToMap(s.Res.ExternalKeyManagerMetadataSummary)})
+	} else {
+		s.D.Set("external_key_manager_metadata_summary", nil)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsPrimary != nil {
@@ -461,6 +582,126 @@ func (s *KmsVaultResourceCrud) SetData() error {
 	s.D.Set("vault_type", s.Res.VaultType)
 
 	return nil
+}
+
+func (s *KmsVaultResourceCrud) mapToExternalKeyManagerMetadata(fieldKeyFormat string) (oci_kms.ExternalKeyManagerMetadata, error) {
+	result := oci_kms.ExternalKeyManagerMetadata{}
+
+	if externalVaultEndpointUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "external_vault_endpoint_url")); ok {
+		tmp := externalVaultEndpointUrl.(string)
+		result.ExternalVaultEndpointUrl = &tmp
+	}
+
+	if oauthMetadata, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oauth_metadata")); ok {
+		if tmpList := oauthMetadata.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "oauth_metadata"), 0)
+			tmp, err := s.mapToOauthMetadata(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert oauth_metadata, encountered error: %v", err)
+			}
+			result.OauthMetadata = &tmp
+		}
+	}
+
+	if privateEndpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_endpoint_id")); ok {
+		tmp := privateEndpointId.(string)
+		result.PrivateEndpointId = &tmp
+	}
+
+	return result, nil
+}
+
+func ExternalKeyManagerMetadataToMap(obj *oci_kms.ExternalKeyManagerMetadata) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ExternalVaultEndpointUrl != nil {
+		result["external_vault_endpoint_url"] = string(*obj.ExternalVaultEndpointUrl)
+	}
+
+	if obj.OauthMetadata != nil {
+		result["oauth_metadata"] = []interface{}{OauthMetadataToMap(obj.OauthMetadata)}
+	}
+
+	if obj.PrivateEndpointId != nil {
+		result["private_endpoint_id"] = string(*obj.PrivateEndpointId)
+	}
+
+	return result
+}
+
+func ExternalKeyManagerMetadataSummaryToMap(obj *oci_kms.ExternalKeyManagerMetadataSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ExternalVaultEndpointUrl != nil {
+		result["external_vault_endpoint_url"] = string(*obj.ExternalVaultEndpointUrl)
+	}
+
+	if obj.OauthMetadataSummary != nil {
+		result["oauth_metadata_summary"] = []interface{}{OauthMetadataSummaryToMap(obj.OauthMetadataSummary)}
+	}
+
+	if obj.PrivateEndpointId != nil {
+		result["private_endpoint_id"] = string(*obj.PrivateEndpointId)
+	}
+
+	if obj.Vendor != nil {
+		result["vendor"] = string(*obj.Vendor)
+	}
+
+	return result
+}
+
+func (s *KmsVaultResourceCrud) mapToOauthMetadata(fieldKeyFormat string) (oci_kms.OauthMetadata, error) {
+	result := oci_kms.OauthMetadata{}
+
+	if clientAppId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_app_id")); ok {
+		tmp := clientAppId.(string)
+		result.ClientAppId = &tmp
+	}
+
+	if clientAppSecret, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_app_secret")); ok {
+		tmp := clientAppSecret.(string)
+		result.ClientAppSecret = &tmp
+	}
+
+	if idcsAccountNameUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idcs_account_name_url")); ok {
+		tmp := idcsAccountNameUrl.(string)
+		result.IdcsAccountNameUrl = &tmp
+	}
+
+	return result, nil
+}
+
+func OauthMetadataToMap(obj *oci_kms.OauthMetadata) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ClientAppId != nil {
+		result["client_app_id"] = string(*obj.ClientAppId)
+	}
+
+	if obj.ClientAppSecret != nil {
+		result["client_app_secret"] = string(*obj.ClientAppSecret)
+	}
+
+	if obj.IdcsAccountNameUrl != nil {
+		result["idcs_account_name_url"] = string(*obj.IdcsAccountNameUrl)
+	}
+
+	return result
+}
+
+func OauthMetadataSummaryToMap(obj *oci_kms.OauthMetadataSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ClientAppId != nil {
+		result["client_app_id"] = string(*obj.ClientAppId)
+	}
+
+	if obj.IdcsAccountNameUrl != nil {
+		result["idcs_account_name_url"] = string(*obj.IdcsAccountNameUrl)
+	}
+
+	return result
 }
 
 func VaultReplicaDetailsToMap(obj *oci_kms.VaultReplicaDetails) map[string]interface{} {

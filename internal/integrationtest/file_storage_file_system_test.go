@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strconv"
 	"testing"
 	"time"
@@ -125,6 +126,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
 				resource.TestCheckResourceAttrSet(resourceName, "filesystem_snapshot_policy_id"),
+				resource.TestMatchResourceAttr(resourceName, "filesystem_snapshot_policy_id", regexp.MustCompile("ocid*")),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -157,6 +159,36 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
 				resource.TestCheckResourceAttrSet(resourceName, "filesystem_snapshot_policy_id"),
+				resource.TestMatchResourceAttr(resourceName, "filesystem_snapshot_policy_id", regexp.MustCompile("ocid*")),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// Detach policy from FS (policy will get attached back to FS in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileStorageFileSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(FileStorageFileSystemRepresentation, map[string]interface{}{
+						"filesystem_snapshot_policy_id": acctest.Representation{RepType: acctest.Optional, Create: ""},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
+				resource.TestCheckResourceAttr(resourceName, "filesystem_snapshot_policy_id", ""),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -176,6 +208,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 		},
 
 		// verify updates to updatable parameters
+		// Includes attach policy to FS
 		{
 			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Update, FileStorageFileSystemRepresentation),
@@ -184,6 +217,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "filesystem_snapshot_policy_id"),
+				resource.TestMatchResourceAttr(resourceName, "filesystem_snapshot_policy_id", regexp.MustCompile("ocid*")),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -212,6 +246,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "filesystem_snapshot_policy_id"),
+				resource.TestMatchResourceAttr(datasourceName, "filesystem_snapshot_policy_id", regexp.MustCompile("ocid*")),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "parent_file_system_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "source_snapshot_id"),
