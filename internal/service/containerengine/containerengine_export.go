@@ -116,11 +116,64 @@ var exportContainerengineClusterWorkloadMappingHints = &tf_export.TerraformResou
 	},
 }
 
+var exportContainerengineClusterNamespaceProfileVersionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_containerengine_cluster_namespace_profile_version",
+	DatasourceClass:        "oci_containerengine_cluster_namespace_profile_versions",
+	DatasourceItemsAttr:    "cluster_namespace_profile_version_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "cluster_namespace_profile_version",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_containerengine.ClusterNamespaceProfileVersionLifecycleStateActive),
+	},
+}
+
+var exportContainerengineClusterNamespaceProfileHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_containerengine_cluster_namespace_profile",
+	DatasourceClass:        "oci_containerengine_cluster_namespace_profiles",
+	DatasourceItemsAttr:    "cluster_namespace_profile_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "cluster_namespace_profile",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_containerengine.ClusterNamespaceProfileLifecycleStateActive),
+	},
+}
+
+var exportContainerengineClusterAttachmentHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_containerengine_cluster_attachment",
+	DatasourceClass:        "oci_containerengine_cluster_attachments",
+	DatasourceItemsAttr:    "cluster_attachment_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "cluster_attachment",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_containerengine.ClusterAttachmentLifecycleStateNeedsAttention),
+		string(oci_containerengine.ClusterAttachmentLifecycleStateActive),
+	},
+}
+
+var exportContainerengineClusterNamespaceHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_containerengine_cluster_namespace",
+	DatasourceClass:        "oci_containerengine_cluster_namespaces",
+	DatasourceItemsAttr:    "cluster_namespace_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "cluster_namespace",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_containerengine.ClusterNamespaceLifecycleStateActive),
+	},
+}
+
 var containerengineResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportContainerengineClusterHints},
 		{TerraformResourceHints: exportContainerengineNodePoolHints},
 		{TerraformResourceHints: exportContainerengineVirtualNodePoolHints},
+		{TerraformResourceHints: exportContainerengineClusterNamespaceProfileVersionHints},
+		{TerraformResourceHints: exportContainerengineClusterNamespaceProfileHints},
+		{TerraformResourceHints: exportContainerengineClusterAttachmentHints},
+		{TerraformResourceHints: exportContainerengineClusterNamespaceHints},
 	},
 	"oci_containerengine_cluster": {
 		{

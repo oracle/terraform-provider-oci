@@ -117,6 +117,10 @@ func (s *ContainerengineClusterWorkloadMappingsDataSourceCrud) SetData() error {
 
 		clusterWorkloadMapping["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			clusterWorkloadMapping["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			clusterWorkloadMapping["time_created"] = r.TimeCreated.String()
 		}

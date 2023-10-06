@@ -488,6 +488,10 @@ containerengine
 * oci\_containerengine\_virtual\_node\_pool
 * oci\_containerengine\_addon
 * oci\_containerengine\_cluster\_workload\_mapping
+* oci\_containerengine\_cluster\_namespace\_profile\_version
+* oci\_containerengine\_cluster\_namespace\_profile
+* oci\_containerengine\_cluster\_attachment
+* oci\_containerengine\_cluster\_namespace
 
 core
 
