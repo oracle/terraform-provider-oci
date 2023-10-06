@@ -640,6 +640,8 @@ dataintegration
 * oci\_dataintegration\_workspace\_project
 * oci\_dataintegration\_workspace\_folder
 * oci\_dataintegration\_workspace\_application
+* oci\_dataintegration\_workspace\_import\_request
+* oci\_dataintegration\_workspace\_export\_request
 
 datascience
 
