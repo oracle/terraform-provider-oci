@@ -93,7 +93,7 @@ func (client *RedirectClient) ConfigurationProvider() *common.ConfigurationProvi
 
 // ChangeHttpRedirectCompartment Moves HTTP Redirect into a different compartment. When provided, If-Match is checked against ETag values of the WAAS policy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ChangeHttpRedirectCompartment.go.html to see an example of how to use ChangeHttpRedirectCompartment API.
 func (client RedirectClient) ChangeHttpRedirectCompartment(ctx context.Context, request ChangeHttpRedirectCompartmentRequest) (response ChangeHttpRedirectCompartmentResponse, err error) {
@@ -155,7 +155,7 @@ func (client RedirectClient) changeHttpRedirectCompartment(ctx context.Context, 
 
 // CreateHttpRedirect Creates a new HTTP Redirect on the WAF edge.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/CreateHttpRedirect.go.html to see an example of how to use CreateHttpRedirect API.
 func (client RedirectClient) CreateHttpRedirect(ctx context.Context, request CreateHttpRedirectRequest) (response CreateHttpRedirectResponse, err error) {
@@ -217,7 +217,7 @@ func (client RedirectClient) createHttpRedirect(ctx context.Context, request com
 
 // DeleteHttpRedirect Deletes a redirect.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/DeleteHttpRedirect.go.html to see an example of how to use DeleteHttpRedirect API.
 func (client RedirectClient) DeleteHttpRedirect(ctx context.Context, request DeleteHttpRedirectRequest) (response DeleteHttpRedirectResponse, err error) {
@@ -279,7 +279,7 @@ func (client RedirectClient) deleteHttpRedirect(ctx context.Context, request com
 
 // GetHttpRedirect Gets the details of a HTTP Redirect.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/GetHttpRedirect.go.html to see an example of how to use GetHttpRedirect API.
 // A default retry strategy applies to this operation GetHttpRedirect()
@@ -337,7 +337,7 @@ func (client RedirectClient) getHttpRedirect(ctx context.Context, request common
 
 // ListHttpRedirects Gets a list of HTTP Redirects.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/ListHttpRedirects.go.html to see an example of how to use ListHttpRedirects API.
 // A default retry strategy applies to this operation ListHttpRedirects()
@@ -395,7 +395,7 @@ func (client RedirectClient) listHttpRedirects(ctx context.Context, request comm
 
 // UpdateHttpRedirect Updates the details of a HTTP Redirect, including target and tags. Only the fields specified in the request body will be updated; all other properties will remain unchanged.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateHttpRedirect.go.html to see an example of how to use UpdateHttpRedirect API.
 func (client RedirectClient) UpdateHttpRedirect(ctx context.Context, request UpdateHttpRedirectRequest) (response UpdateHttpRedirectResponse, err error) {

@@ -43,37 +43,37 @@ type OkeCanaryApprovalDeployStageExecutionProgress struct {
 	Status DeployStageExecutionProgressStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 
-// GetDeployStageDisplayName returns DeployStageDisplayName
+//GetDeployStageDisplayName returns DeployStageDisplayName
 func (m OkeCanaryApprovalDeployStageExecutionProgress) GetDeployStageDisplayName() *string {
 	return m.DeployStageDisplayName
 }
 
-// GetDeployStageId returns DeployStageId
+//GetDeployStageId returns DeployStageId
 func (m OkeCanaryApprovalDeployStageExecutionProgress) GetDeployStageId() *string {
 	return m.DeployStageId
 }
 
-// GetTimeStarted returns TimeStarted
+//GetTimeStarted returns TimeStarted
 func (m OkeCanaryApprovalDeployStageExecutionProgress) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-// GetTimeFinished returns TimeFinished
+//GetTimeFinished returns TimeFinished
 func (m OkeCanaryApprovalDeployStageExecutionProgress) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-// GetStatus returns Status
+//GetStatus returns Status
 func (m OkeCanaryApprovalDeployStageExecutionProgress) GetStatus() DeployStageExecutionProgressStatusEnum {
 	return m.Status
 }
 
-// GetDeployStagePredecessors returns DeployStagePredecessors
+//GetDeployStagePredecessors returns DeployStagePredecessors
 func (m OkeCanaryApprovalDeployStageExecutionProgress) GetDeployStagePredecessors() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessors
 }
 
-// GetDeployStageExecutionProgressDetails returns DeployStageExecutionProgressDetails
+//GetDeployStageExecutionProgressDetails returns DeployStageExecutionProgressDetails
 func (m OkeCanaryApprovalDeployStageExecutionProgress) GetDeployStageExecutionProgressDetails() []DeployStageExecutionProgressDetails {
 	return m.DeployStageExecutionProgressDetails
 }

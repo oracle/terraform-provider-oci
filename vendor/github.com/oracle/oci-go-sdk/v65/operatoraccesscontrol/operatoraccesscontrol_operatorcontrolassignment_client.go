@@ -95,7 +95,7 @@ func (client *OperatorControlAssignmentClient) ConfigurationProvider() *common.C
 
 // ChangeOperatorControlAssignmentCompartment Changes the compartment of the specified Operator Control assignment ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ChangeOperatorControlAssignmentCompartment.go.html to see an example of how to use ChangeOperatorControlAssignmentCompartment API.
 // A default retry strategy applies to this operation ChangeOperatorControlAssignmentCompartment()
@@ -158,7 +158,7 @@ func (client OperatorControlAssignmentClient) changeOperatorControlAssignmentCom
 
 // CreateOperatorControlAssignment Creates an Operator Control Assignment resource. In effect, this brings the target resource under the governance of the Operator Control for specified time duration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControlAssignment.go.html to see an example of how to use CreateOperatorControlAssignment API.
 // A default retry strategy applies to this operation CreateOperatorControlAssignment()
@@ -221,7 +221,7 @@ func (client OperatorControlAssignmentClient) createOperatorControlAssignment(ct
 
 // DeleteOperatorControlAssignment Deletes the specified Operator Control Assignment. This has the effect of unassigning the specific Operator Control from the target resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/DeleteOperatorControlAssignment.go.html to see an example of how to use DeleteOperatorControlAssignment API.
 // A default retry strategy applies to this operation DeleteOperatorControlAssignment()
@@ -279,7 +279,7 @@ func (client OperatorControlAssignmentClient) deleteOperatorControlAssignment(ct
 
 // GetOperatorControlAssignment Gets the details of an Operator Control Assignment of the specified ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorControlAssignment.go.html to see an example of how to use GetOperatorControlAssignment API.
 // A default retry strategy applies to this operation GetOperatorControlAssignment()
@@ -337,7 +337,7 @@ func (client OperatorControlAssignmentClient) getOperatorControlAssignment(ctx c
 
 // ListOperatorControlAssignments Lists all Operator Control Assignments.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListOperatorControlAssignments.go.html to see an example of how to use ListOperatorControlAssignments API.
 // A default retry strategy applies to this operation ListOperatorControlAssignments()
@@ -395,7 +395,7 @@ func (client OperatorControlAssignmentClient) listOperatorControlAssignments(ctx
 
 // UpdateOperatorControlAssignment Modifies the existing Operator Control assignment of the specified Operator Control assignment ID. Modifying the assignment does not change the Operator Control assignment ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/UpdateOperatorControlAssignment.go.html to see an example of how to use UpdateOperatorControlAssignment API.
 // A default retry strategy applies to this operation UpdateOperatorControlAssignment()

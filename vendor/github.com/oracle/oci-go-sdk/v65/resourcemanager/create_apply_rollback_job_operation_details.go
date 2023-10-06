@@ -41,7 +41,7 @@ type CreateApplyRollbackJobOperationDetails struct {
 	ExecutionPlanRollbackStrategy ApplyRollbackJobOperationDetailsExecutionPlanRollbackStrategyEnum `mandatory:"true" json:"executionPlanRollbackStrategy"`
 }
 
-// GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
 func (m CreateApplyRollbackJobOperationDetails) GetIsProviderUpgradeRequired() *bool {
 	return m.IsProviderUpgradeRequired
 }

@@ -19,12 +19,12 @@ import (
 // AppDenyAuthzPolicy Deny Authz Policy.
 // **Added In:** 19.2.1
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
 type AppDenyAuthzPolicy struct {
 
 	// Identifier of the Policy.

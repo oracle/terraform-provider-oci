@@ -68,57 +68,57 @@ type TimeStatsDataColumn struct {
 	ValueType ValueTypeEnum `mandatory:"false" json:"valueType,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m TimeStatsDataColumn) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetSubSystem returns SubSystem
+//GetSubSystem returns SubSystem
 func (m TimeStatsDataColumn) GetSubSystem() SubSystemNameEnum {
 	return m.SubSystem
 }
 
-// GetValues returns Values
+//GetValues returns Values
 func (m TimeStatsDataColumn) GetValues() []FieldValue {
 	return m.Values
 }
 
-// GetIsListOfValues returns IsListOfValues
+//GetIsListOfValues returns IsListOfValues
 func (m TimeStatsDataColumn) GetIsListOfValues() *bool {
 	return m.IsListOfValues
 }
 
-// GetIsMultiValued returns IsMultiValued
+//GetIsMultiValued returns IsMultiValued
 func (m TimeStatsDataColumn) GetIsMultiValued() *bool {
 	return m.IsMultiValued
 }
 
-// GetIsCaseSensitive returns IsCaseSensitive
+//GetIsCaseSensitive returns IsCaseSensitive
 func (m TimeStatsDataColumn) GetIsCaseSensitive() *bool {
 	return m.IsCaseSensitive
 }
 
-// GetIsGroupable returns IsGroupable
+//GetIsGroupable returns IsGroupable
 func (m TimeStatsDataColumn) GetIsGroupable() *bool {
 	return m.IsGroupable
 }
 
-// GetIsEvaluable returns IsEvaluable
+//GetIsEvaluable returns IsEvaluable
 func (m TimeStatsDataColumn) GetIsEvaluable() *bool {
 	return m.IsEvaluable
 }
 
-// GetValueType returns ValueType
+//GetValueType returns ValueType
 func (m TimeStatsDataColumn) GetValueType() ValueTypeEnum {
 	return m.ValueType
 }
 
-// GetOriginalDisplayName returns OriginalDisplayName
+//GetOriginalDisplayName returns OriginalDisplayName
 func (m TimeStatsDataColumn) GetOriginalDisplayName() *string {
 	return m.OriginalDisplayName
 }
 
-// GetInternalName returns InternalName
+//GetInternalName returns InternalName
 func (m TimeStatsDataColumn) GetInternalName() *string {
 	return m.InternalName
 }

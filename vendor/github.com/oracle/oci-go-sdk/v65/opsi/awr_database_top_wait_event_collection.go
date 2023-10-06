@@ -34,17 +34,17 @@ type AwrDatabaseTopWaitEventCollection struct {
 	Items []AwrDatabaseTopWaitEventSummary `mandatory:"false" json:"items"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m AwrDatabaseTopWaitEventCollection) GetName() *string {
 	return m.Name
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m AwrDatabaseTopWaitEventCollection) GetVersion() *string {
 	return m.Version
 }
 
-// GetDbQueryTimeInSecs returns DbQueryTimeInSecs
+//GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m AwrDatabaseTopWaitEventCollection) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
 }

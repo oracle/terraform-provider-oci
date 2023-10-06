@@ -94,7 +94,7 @@ func (client *RatecardClient) ConfigurationProvider() *common.ConfigurationProvi
 // ListRateCards List API that returns all ratecards for given Subscription Id and Account ID (if provided) and
 // for a particular date range
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubsubscription/ListRateCards.go.html to see an example of how to use ListRateCards API.
 func (client RatecardClient) ListRateCards(ctx context.Context, request ListRateCardsRequest) (response ListRateCardsResponse, err error) {

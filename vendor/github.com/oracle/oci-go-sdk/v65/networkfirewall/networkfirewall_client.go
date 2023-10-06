@@ -93,7 +93,7 @@ func (client *NetworkFirewallClient) ConfigurationProvider() *common.Configurati
 
 // CancelWorkRequest Cancel work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
@@ -151,7 +151,7 @@ func (client NetworkFirewallClient) cancelWorkRequest(ctx context.Context, reque
 
 // ChangeNetworkFirewallCompartment Moves a NetworkFirewall resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ChangeNetworkFirewallCompartment.go.html to see an example of how to use ChangeNetworkFirewallCompartment API.
 // A default retry strategy applies to this operation ChangeNetworkFirewallCompartment()
@@ -209,7 +209,7 @@ func (client NetworkFirewallClient) changeNetworkFirewallCompartment(ctx context
 
 // ChangeNetworkFirewallPolicyCompartment Moves a NetworkFirewallPolicy resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ChangeNetworkFirewallPolicyCompartment.go.html to see an example of how to use ChangeNetworkFirewallPolicyCompartment API.
 // A default retry strategy applies to this operation ChangeNetworkFirewallPolicyCompartment()
@@ -272,7 +272,7 @@ func (client NetworkFirewallClient) changeNetworkFirewallPolicyCompartment(ctx c
 
 // CreateNetworkFirewall Creates a new NetworkFirewall.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateNetworkFirewall.go.html to see an example of how to use CreateNetworkFirewall API.
 // A default retry strategy applies to this operation CreateNetworkFirewall()
@@ -335,7 +335,7 @@ func (client NetworkFirewallClient) createNetworkFirewall(ctx context.Context, r
 
 // CreateNetworkFirewallPolicy Creates a new Network Firewall Policy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateNetworkFirewallPolicy.go.html to see an example of how to use CreateNetworkFirewallPolicy API.
 // A default retry strategy applies to this operation CreateNetworkFirewallPolicy()
@@ -398,7 +398,7 @@ func (client NetworkFirewallClient) createNetworkFirewallPolicy(ctx context.Cont
 
 // DeleteNetworkFirewall Deletes a NetworkFirewall resource by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteNetworkFirewall.go.html to see an example of how to use DeleteNetworkFirewall API.
 // A default retry strategy applies to this operation DeleteNetworkFirewall()
@@ -456,7 +456,7 @@ func (client NetworkFirewallClient) deleteNetworkFirewall(ctx context.Context, r
 
 // DeleteNetworkFirewallPolicy Deletes a NetworkFirewallPolicy resource with the given identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteNetworkFirewallPolicy.go.html to see an example of how to use DeleteNetworkFirewallPolicy API.
 // A default retry strategy applies to this operation DeleteNetworkFirewallPolicy()
@@ -514,7 +514,7 @@ func (client NetworkFirewallClient) deleteNetworkFirewallPolicy(ctx context.Cont
 
 // GetNetworkFirewall Gets a NetworkFirewall by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetNetworkFirewall.go.html to see an example of how to use GetNetworkFirewall API.
 // A default retry strategy applies to this operation GetNetworkFirewall()
@@ -572,7 +572,7 @@ func (client NetworkFirewallClient) getNetworkFirewall(ctx context.Context, requ
 
 // GetNetworkFirewallPolicy Gets a NetworkFirewallPolicy given the network firewall policy identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetNetworkFirewallPolicy.go.html to see an example of how to use GetNetworkFirewallPolicy API.
 // A default retry strategy applies to this operation GetNetworkFirewallPolicy()
@@ -630,7 +630,7 @@ func (client NetworkFirewallClient) getNetworkFirewallPolicy(ctx context.Context
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -688,7 +688,7 @@ func (client NetworkFirewallClient) getWorkRequest(ctx context.Context, request 
 
 // ListNetworkFirewallPolicies Returns a list of Network Firewall Policies.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListNetworkFirewallPolicies.go.html to see an example of how to use ListNetworkFirewallPolicies API.
 // A default retry strategy applies to this operation ListNetworkFirewallPolicies()
@@ -746,7 +746,7 @@ func (client NetworkFirewallClient) listNetworkFirewallPolicies(ctx context.Cont
 
 // ListNetworkFirewalls Returns a list of NetworkFirewalls.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListNetworkFirewalls.go.html to see an example of how to use ListNetworkFirewalls API.
 // A default retry strategy applies to this operation ListNetworkFirewalls()
@@ -804,7 +804,7 @@ func (client NetworkFirewallClient) listNetworkFirewalls(ctx context.Context, re
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -862,7 +862,7 @@ func (client NetworkFirewallClient) listWorkRequestErrors(ctx context.Context, r
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -920,7 +920,7 @@ func (client NetworkFirewallClient) listWorkRequestLogs(ctx context.Context, req
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -978,7 +978,7 @@ func (client NetworkFirewallClient) listWorkRequests(ctx context.Context, reques
 
 // UpdateNetworkFirewall Updates the NetworkFirewall
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/UpdateNetworkFirewall.go.html to see an example of how to use UpdateNetworkFirewall API.
 // A default retry strategy applies to this operation UpdateNetworkFirewall()
@@ -1036,7 +1036,7 @@ func (client NetworkFirewallClient) updateNetworkFirewall(ctx context.Context, r
 
 // UpdateNetworkFirewallPolicy Updates the NetworkFirewallPolicy
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/UpdateNetworkFirewallPolicy.go.html to see an example of how to use UpdateNetworkFirewallPolicy API.
 // A default retry strategy applies to this operation UpdateNetworkFirewallPolicy()

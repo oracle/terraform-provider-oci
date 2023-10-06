@@ -45,7 +45,7 @@ type CreateCompartmentConfigSourceDetails struct {
 	ServicesToDiscover []string `mandatory:"false" json:"servicesToDiscover"`
 }
 
-// GetWorkingDirectory returns WorkingDirectory
+//GetWorkingDirectory returns WorkingDirectory
 func (m CreateCompartmentConfigSourceDetails) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

@@ -71,7 +71,7 @@ type EntityShapeFromFile struct {
 	EntityType EntityShapeFromFileEntityTypeEnum `mandatory:"false" json:"entityType,omitempty"`
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m EntityShapeFromFile) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

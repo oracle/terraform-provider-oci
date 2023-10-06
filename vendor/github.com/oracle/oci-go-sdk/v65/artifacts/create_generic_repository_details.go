@@ -43,32 +43,32 @@ type CreateGenericRepositoryDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateGenericRepositoryDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateGenericRepositoryDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateGenericRepositoryDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetIsImmutable returns IsImmutable
+//GetIsImmutable returns IsImmutable
 func (m CreateGenericRepositoryDetails) GetIsImmutable() *bool {
 	return m.IsImmutable
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateGenericRepositoryDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateGenericRepositoryDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

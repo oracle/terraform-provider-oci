@@ -59,12 +59,12 @@ type RestMonitorConfiguration struct {
 	ReqAuthenticationScheme RequestAuthenticationSchemesEnum `mandatory:"false" json:"reqAuthenticationScheme,omitempty"`
 }
 
-// GetIsFailureRetried returns IsFailureRetried
+//GetIsFailureRetried returns IsFailureRetried
 func (m RestMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
 }
 
-// GetDnsConfiguration returns DnsConfiguration
+//GetDnsConfiguration returns DnsConfiguration
 func (m RestMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
 	return m.DnsConfiguration
 }

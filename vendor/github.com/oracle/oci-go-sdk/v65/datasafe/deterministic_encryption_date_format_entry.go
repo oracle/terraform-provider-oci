@@ -45,7 +45,7 @@ type DeterministicEncryptionDateFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DeterministicEncryptionDateFormatEntry) GetDescription() *string {
 	return m.Description
 }

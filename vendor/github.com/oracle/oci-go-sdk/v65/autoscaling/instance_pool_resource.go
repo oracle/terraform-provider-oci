@@ -27,7 +27,7 @@ type InstancePoolResource struct {
 	Id *string `mandatory:"true" json:"id"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m InstancePoolResource) GetId() *string {
 	return m.Id
 }

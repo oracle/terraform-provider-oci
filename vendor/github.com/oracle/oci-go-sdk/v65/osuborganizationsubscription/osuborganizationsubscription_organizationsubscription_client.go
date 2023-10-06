@@ -93,7 +93,7 @@ func (client *OrganizationSubscriptionClient) ConfigurationProvider() *common.Co
 
 // ListOrganizationSubscriptions API that returns data for the list of subscription ids returned from Organizations API
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osuborganizationsubscription/ListOrganizationSubscriptions.go.html to see an example of how to use ListOrganizationSubscriptions API.
 func (client OrganizationSubscriptionClient) ListOrganizationSubscriptions(ctx context.Context, request ListOrganizationSubscriptionsRequest) (response ListOrganizationSubscriptionsResponse, err error) {

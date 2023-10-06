@@ -27,7 +27,7 @@ type FixedStringFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m FixedStringFormatEntry) GetDescription() *string {
 	return m.Description
 }

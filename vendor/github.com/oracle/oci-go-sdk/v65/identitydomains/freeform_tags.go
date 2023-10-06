@@ -19,13 +19,13 @@ import (
 // FreeformTags OCI Freeform Tags
 // **Added In:** 2011192329
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [key, value]
-//   - idcsSearchable: true
-//   - type: complex
-//   - required: false
-//   - mutability: readWrite
-//   - returned: default
-//   - multiValued: true
+//  - idcsCompositeKey: [key, value]
+//  - idcsSearchable: true
+//  - type: complex
+//  - required: false
+//  - mutability: readWrite
+//  - returned: default
+//  - multiValued: true
 type FreeformTags struct {
 
 	// OCI Tag key

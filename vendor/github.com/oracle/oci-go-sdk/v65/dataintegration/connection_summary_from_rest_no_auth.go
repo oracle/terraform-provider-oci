@@ -56,67 +56,67 @@ type ConnectionSummaryFromRestNoAuth struct {
 	KeyMap map[string]string `mandatory:"false" json:"keyMap"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m ConnectionSummaryFromRestNoAuth) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m ConnectionSummaryFromRestNoAuth) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m ConnectionSummaryFromRestNoAuth) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m ConnectionSummaryFromRestNoAuth) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ConnectionSummaryFromRestNoAuth) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m ConnectionSummaryFromRestNoAuth) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m ConnectionSummaryFromRestNoAuth) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m ConnectionSummaryFromRestNoAuth) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetPrimarySchema returns PrimarySchema
+//GetPrimarySchema returns PrimarySchema
 func (m ConnectionSummaryFromRestNoAuth) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m ConnectionSummaryFromRestNoAuth) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetIsDefault returns IsDefault
+//GetIsDefault returns IsDefault
 func (m ConnectionSummaryFromRestNoAuth) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m ConnectionSummaryFromRestNoAuth) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-// GetKeyMap returns KeyMap
+//GetKeyMap returns KeyMap
 func (m ConnectionSummaryFromRestNoAuth) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

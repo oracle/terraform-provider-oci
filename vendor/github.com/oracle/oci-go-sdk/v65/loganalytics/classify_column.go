@@ -74,57 +74,57 @@ type ClassifyColumn struct {
 	ValueType ValueTypeEnum `mandatory:"false" json:"valueType,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m ClassifyColumn) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetSubSystem returns SubSystem
+//GetSubSystem returns SubSystem
 func (m ClassifyColumn) GetSubSystem() SubSystemNameEnum {
 	return m.SubSystem
 }
 
-// GetValues returns Values
+//GetValues returns Values
 func (m ClassifyColumn) GetValues() []FieldValue {
 	return m.Values
 }
 
-// GetIsListOfValues returns IsListOfValues
+//GetIsListOfValues returns IsListOfValues
 func (m ClassifyColumn) GetIsListOfValues() *bool {
 	return m.IsListOfValues
 }
 
-// GetIsMultiValued returns IsMultiValued
+//GetIsMultiValued returns IsMultiValued
 func (m ClassifyColumn) GetIsMultiValued() *bool {
 	return m.IsMultiValued
 }
 
-// GetIsCaseSensitive returns IsCaseSensitive
+//GetIsCaseSensitive returns IsCaseSensitive
 func (m ClassifyColumn) GetIsCaseSensitive() *bool {
 	return m.IsCaseSensitive
 }
 
-// GetIsGroupable returns IsGroupable
+//GetIsGroupable returns IsGroupable
 func (m ClassifyColumn) GetIsGroupable() *bool {
 	return m.IsGroupable
 }
 
-// GetIsEvaluable returns IsEvaluable
+//GetIsEvaluable returns IsEvaluable
 func (m ClassifyColumn) GetIsEvaluable() *bool {
 	return m.IsEvaluable
 }
 
-// GetValueType returns ValueType
+//GetValueType returns ValueType
 func (m ClassifyColumn) GetValueType() ValueTypeEnum {
 	return m.ValueType
 }
 
-// GetOriginalDisplayName returns OriginalDisplayName
+//GetOriginalDisplayName returns OriginalDisplayName
 func (m ClassifyColumn) GetOriginalDisplayName() *string {
 	return m.OriginalDisplayName
 }
 
-// GetInternalName returns InternalName
+//GetInternalName returns InternalName
 func (m ClassifyColumn) GetInternalName() *string {
 	return m.InternalName
 }

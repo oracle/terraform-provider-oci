@@ -95,7 +95,7 @@ func (client *AppmgmtControlClient) ConfigurationProvider() *common.Configuratio
 // Stores monitored instances Id and its state. Tries to enable Resource Monitoring plugin by making
 // remote calls to Oracle Cloud Agent and Management Agent Cloud Service.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/ActivateMonitoringPlugin.go.html to see an example of how to use ActivateMonitoringPlugin API.
 func (client AppmgmtControlClient) ActivateMonitoringPlugin(ctx context.Context, request ActivateMonitoringPluginRequest) (response ActivateMonitoringPluginResponse, err error) {
@@ -152,7 +152,7 @@ func (client AppmgmtControlClient) activateMonitoringPlugin(ctx context.Context,
 
 // GetMonitoredInstance Gets a monitored instance by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/GetMonitoredInstance.go.html to see an example of how to use GetMonitoredInstance API.
 // A default retry strategy applies to this operation GetMonitoredInstance()
@@ -210,7 +210,7 @@ func (client AppmgmtControlClient) getMonitoredInstance(ctx context.Context, req
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -268,7 +268,7 @@ func (client AppmgmtControlClient) getWorkRequest(ctx context.Context, request c
 
 // ListMonitoredInstances Returns a list of monitored instances.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/ListMonitoredInstances.go.html to see an example of how to use ListMonitoredInstances API.
 // A default retry strategy applies to this operation ListMonitoredInstances()
@@ -326,7 +326,7 @@ func (client AppmgmtControlClient) listMonitoredInstances(ctx context.Context, r
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -384,7 +384,7 @@ func (client AppmgmtControlClient) listWorkRequestErrors(ctx context.Context, re
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -442,7 +442,7 @@ func (client AppmgmtControlClient) listWorkRequestLogs(ctx context.Context, requ
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -500,7 +500,7 @@ func (client AppmgmtControlClient) listWorkRequests(ctx context.Context, request
 
 // PublishTopProcessesMetrics Starts cpu and memory top processes collection.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/PublishTopProcessesMetrics.go.html to see an example of how to use PublishTopProcessesMetrics API.
 func (client AppmgmtControlClient) PublishTopProcessesMetrics(ctx context.Context, request PublishTopProcessesMetricsRequest) (response PublishTopProcessesMetricsResponse, err error) {

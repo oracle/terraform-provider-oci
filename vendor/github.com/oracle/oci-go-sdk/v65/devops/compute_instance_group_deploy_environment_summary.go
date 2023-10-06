@@ -58,62 +58,62 @@ type ComputeInstanceGroupDeployEnvironmentSummary struct {
 	LifecycleState DeployEnvironmentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetLifecycleState() DeployEnvironmentLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m ComputeInstanceGroupDeployEnvironmentSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

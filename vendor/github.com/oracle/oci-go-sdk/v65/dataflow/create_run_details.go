@@ -34,7 +34,6 @@ import (
 //   - parameters
 //   - sparkVersion
 //   - warehouseBucketUri
-//
 // It is expected that either the applicationId or the execute parameter is specified; but not both.
 // If both or none are set, a Bad Request (HTTP 400) status will be sent as the response.
 // If an appicationId is not specified, then a value for the execute parameter is expected.

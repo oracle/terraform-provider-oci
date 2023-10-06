@@ -93,7 +93,7 @@ func (client *EkmClient) ConfigurationProvider() *common.ConfigurationProvider {
 
 // CreateEkmsPrivateEndpoint Create a new EKMS private endpoint used to connect to external key manager system
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateEkmsPrivateEndpoint.go.html to see an example of how to use CreateEkmsPrivateEndpoint API.
 func (client EkmClient) CreateEkmsPrivateEndpoint(ctx context.Context, request CreateEkmsPrivateEndpointRequest) (response CreateEkmsPrivateEndpointResponse, err error) {
@@ -155,7 +155,7 @@ func (client EkmClient) createEkmsPrivateEndpoint(ctx context.Context, request c
 
 // DeleteEkmsPrivateEndpoint Deletes EKMS private endpoint by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DeleteEkmsPrivateEndpoint.go.html to see an example of how to use DeleteEkmsPrivateEndpoint API.
 func (client EkmClient) DeleteEkmsPrivateEndpoint(ctx context.Context, request DeleteEkmsPrivateEndpointRequest) (response DeleteEkmsPrivateEndpointResponse, err error) {
@@ -212,7 +212,7 @@ func (client EkmClient) deleteEkmsPrivateEndpoint(ctx context.Context, request c
 
 // GetEkmsPrivateEndpoint Gets a specific EKMS private by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetEkmsPrivateEndpoint.go.html to see an example of how to use GetEkmsPrivateEndpoint API.
 func (client EkmClient) GetEkmsPrivateEndpoint(ctx context.Context, request GetEkmsPrivateEndpointRequest) (response GetEkmsPrivateEndpointResponse, err error) {
@@ -269,7 +269,7 @@ func (client EkmClient) getEkmsPrivateEndpoint(ctx context.Context, request comm
 
 // ListEkmsPrivateEndpoints Returns a list of all the EKMS private endpoints in the specified compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListEkmsPrivateEndpoints.go.html to see an example of how to use ListEkmsPrivateEndpoints API.
 func (client EkmClient) ListEkmsPrivateEndpoints(ctx context.Context, request ListEkmsPrivateEndpointsRequest) (response ListEkmsPrivateEndpointsResponse, err error) {
@@ -326,7 +326,7 @@ func (client EkmClient) listEkmsPrivateEndpoints(ctx context.Context, request co
 
 // UpdateEkmsPrivateEndpoint Updates EKMS private endpoint.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateEkmsPrivateEndpoint.go.html to see an example of how to use UpdateEkmsPrivateEndpoint API.
 func (client EkmClient) UpdateEkmsPrivateEndpoint(ctx context.Context, request UpdateEkmsPrivateEndpointRequest) (response UpdateEkmsPrivateEndpointResponse, err error) {

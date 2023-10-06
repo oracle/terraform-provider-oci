@@ -48,7 +48,7 @@ type UpdateDrProtectionGroupMemberComputeInstanceMovableDetails struct {
 	DestinationDedicatedVmHostId *string `mandatory:"false" json:"destinationDedicatedVmHostId"`
 }
 
-// GetMemberId returns MemberId
+//GetMemberId returns MemberId
 func (m UpdateDrProtectionGroupMemberComputeInstanceMovableDetails) GetMemberId() *string {
 	return m.MemberId
 }

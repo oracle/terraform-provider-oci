@@ -39,7 +39,7 @@ type CompositeFieldMap struct {
 	FieldMaps []FieldMap `mandatory:"false" json:"fieldMaps"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CompositeFieldMap) GetDescription() *string {
 	return m.Description
 }

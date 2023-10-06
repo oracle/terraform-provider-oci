@@ -19,11 +19,11 @@ import (
 // IdentitySettingsPosixUid A list of Posix Uid settings.
 // **Added In:** 17.4.6
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - multiValued: false
-//   - required: false
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - multiValued: false
+//  - required: false
+//  - type: complex
+//  - uniqueness: none
 type IdentitySettingsPosixUid struct {
 
 	// The number from which the Posix Uid Manual assignment starts.

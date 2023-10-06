@@ -19,13 +19,13 @@ import (
 // GrantAppEntitlementCollection Application-Entitlement-Collection that is being granted. Each Grant must grant either an App or an App-Entitlement-Collection.
 // **Added In:** 18.2.4
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type GrantAppEntitlementCollection struct {
 
 	// Application Entitlement Collection identifier

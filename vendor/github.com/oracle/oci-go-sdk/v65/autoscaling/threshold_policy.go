@@ -42,27 +42,27 @@ type ThresholdPolicy struct {
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 }
 
-// GetCapacity returns Capacity
+//GetCapacity returns Capacity
 func (m ThresholdPolicy) GetCapacity() *Capacity {
 	return m.Capacity
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m ThresholdPolicy) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m ThresholdPolicy) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m ThresholdPolicy) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetIsEnabled returns IsEnabled
+//GetIsEnabled returns IsEnabled
 func (m ThresholdPolicy) GetIsEnabled() *bool {
 	return m.IsEnabled
 }

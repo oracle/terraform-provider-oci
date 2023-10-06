@@ -101,7 +101,7 @@ func (client *AutoScalingClient) ConfigurationProvider() *common.ConfigurationPr
 // When you move an autoscaling configuration to a different compartment, associated resources such as instance
 // pools are not moved.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/ChangeAutoScalingConfigurationCompartment.go.html to see an example of how to use ChangeAutoScalingConfigurationCompartment API.
 func (client AutoScalingClient) ChangeAutoScalingConfigurationCompartment(ctx context.Context, request ChangeAutoScalingConfigurationCompartmentRequest) (response ChangeAutoScalingConfigurationCompartmentResponse, err error) {
@@ -163,7 +163,7 @@ func (client AutoScalingClient) changeAutoScalingConfigurationCompartment(ctx co
 
 // CreateAutoScalingConfiguration Creates an autoscaling configuration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/CreateAutoScalingConfiguration.go.html to see an example of how to use CreateAutoScalingConfiguration API.
 func (client AutoScalingClient) CreateAutoScalingConfiguration(ctx context.Context, request CreateAutoScalingConfigurationRequest) (response CreateAutoScalingConfigurationResponse, err error) {
@@ -230,7 +230,7 @@ func (client AutoScalingClient) createAutoScalingConfiguration(ctx context.Conte
 // An autoscaling configuration can either have multiple schedule-based autoscaling policies, or one
 // threshold-based autoscaling policy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/CreateAutoScalingPolicy.go.html to see an example of how to use CreateAutoScalingPolicy API.
 func (client AutoScalingClient) CreateAutoScalingPolicy(ctx context.Context, request CreateAutoScalingPolicyRequest) (response CreateAutoScalingPolicyResponse, err error) {
@@ -292,7 +292,7 @@ func (client AutoScalingClient) createAutoScalingPolicy(ctx context.Context, req
 
 // DeleteAutoScalingConfiguration Deletes an autoscaling configuration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/DeleteAutoScalingConfiguration.go.html to see an example of how to use DeleteAutoScalingConfiguration API.
 func (client AutoScalingClient) DeleteAutoScalingConfiguration(ctx context.Context, request DeleteAutoScalingConfigurationRequest) (response DeleteAutoScalingConfigurationResponse, err error) {
@@ -349,7 +349,7 @@ func (client AutoScalingClient) deleteAutoScalingConfiguration(ctx context.Conte
 
 // DeleteAutoScalingPolicy Deletes an autoscaling policy for the specified autoscaling configuration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/DeleteAutoScalingPolicy.go.html to see an example of how to use DeleteAutoScalingPolicy API.
 func (client AutoScalingClient) DeleteAutoScalingPolicy(ctx context.Context, request DeleteAutoScalingPolicyRequest) (response DeleteAutoScalingPolicyResponse, err error) {
@@ -406,7 +406,7 @@ func (client AutoScalingClient) deleteAutoScalingPolicy(ctx context.Context, req
 
 // GetAutoScalingConfiguration Gets information about the specified autoscaling configuration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/GetAutoScalingConfiguration.go.html to see an example of how to use GetAutoScalingConfiguration API.
 func (client AutoScalingClient) GetAutoScalingConfiguration(ctx context.Context, request GetAutoScalingConfigurationRequest) (response GetAutoScalingConfigurationResponse, err error) {
@@ -463,7 +463,7 @@ func (client AutoScalingClient) getAutoScalingConfiguration(ctx context.Context,
 
 // GetAutoScalingPolicy Gets information about the specified autoscaling policy in the specified autoscaling configuration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/GetAutoScalingPolicy.go.html to see an example of how to use GetAutoScalingPolicy API.
 func (client AutoScalingClient) GetAutoScalingPolicy(ctx context.Context, request GetAutoScalingPolicyRequest) (response GetAutoScalingPolicyResponse, err error) {
@@ -520,7 +520,7 @@ func (client AutoScalingClient) getAutoScalingPolicy(ctx context.Context, reques
 
 // ListAutoScalingConfigurations Lists autoscaling configurations in the specifed compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/ListAutoScalingConfigurations.go.html to see an example of how to use ListAutoScalingConfigurations API.
 func (client AutoScalingClient) ListAutoScalingConfigurations(ctx context.Context, request ListAutoScalingConfigurationsRequest) (response ListAutoScalingConfigurationsResponse, err error) {
@@ -577,7 +577,7 @@ func (client AutoScalingClient) listAutoScalingConfigurations(ctx context.Contex
 
 // ListAutoScalingPolicies Lists the autoscaling policies in the specified autoscaling configuration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/ListAutoScalingPolicies.go.html to see an example of how to use ListAutoScalingPolicies API.
 func (client AutoScalingClient) ListAutoScalingPolicies(ctx context.Context, request ListAutoScalingPoliciesRequest) (response ListAutoScalingPoliciesResponse, err error) {
@@ -635,7 +635,7 @@ func (client AutoScalingClient) listAutoScalingPolicies(ctx context.Context, req
 // UpdateAutoScalingConfiguration Updates certain fields on the specified autoscaling configuration, such as the name, the cooldown period,
 // and whether the autoscaling configuration is enabled.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/UpdateAutoScalingConfiguration.go.html to see an example of how to use UpdateAutoScalingConfiguration API.
 func (client AutoScalingClient) UpdateAutoScalingConfiguration(ctx context.Context, request UpdateAutoScalingConfigurationRequest) (response UpdateAutoScalingConfigurationResponse, err error) {
@@ -697,7 +697,7 @@ func (client AutoScalingClient) updateAutoScalingConfiguration(ctx context.Conte
 
 // UpdateAutoScalingPolicy Updates an autoscaling policy in the specified autoscaling configuration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/UpdateAutoScalingPolicy.go.html to see an example of how to use UpdateAutoScalingPolicy API.
 func (client AutoScalingClient) UpdateAutoScalingPolicy(ctx context.Context, request UpdateAutoScalingPolicyRequest) (response UpdateAutoScalingPolicyResponse, err error) {

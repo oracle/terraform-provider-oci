@@ -95,7 +95,7 @@ func (client *UsagePlansClient) ConfigurationProvider() *common.ConfigurationPro
 
 // ChangeUsagePlanCompartment Changes the usage plan compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeUsagePlanCompartment.go.html to see an example of how to use ChangeUsagePlanCompartment API.
 func (client UsagePlansClient) ChangeUsagePlanCompartment(ctx context.Context, request ChangeUsagePlanCompartmentRequest) (response ChangeUsagePlanCompartmentResponse, err error) {
@@ -157,7 +157,7 @@ func (client UsagePlansClient) changeUsagePlanCompartment(ctx context.Context, r
 
 // CreateUsagePlan Creates a new usage plan.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateUsagePlan.go.html to see an example of how to use CreateUsagePlan API.
 // A default retry strategy applies to this operation CreateUsagePlan()
@@ -220,7 +220,7 @@ func (client UsagePlansClient) createUsagePlan(ctx context.Context, request comm
 
 // DeleteUsagePlan Deletes the usage plan with the given identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteUsagePlan.go.html to see an example of how to use DeleteUsagePlan API.
 func (client UsagePlansClient) DeleteUsagePlan(ctx context.Context, request DeleteUsagePlanRequest) (response DeleteUsagePlanResponse, err error) {
@@ -277,7 +277,7 @@ func (client UsagePlansClient) deleteUsagePlan(ctx context.Context, request comm
 
 // GetUsagePlan Gets a usage plan by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetUsagePlan.go.html to see an example of how to use GetUsagePlan API.
 // A default retry strategy applies to this operation GetUsagePlan()
@@ -335,7 +335,7 @@ func (client UsagePlansClient) getUsagePlan(ctx context.Context, request common.
 
 // ListUsagePlans Returns a list of usage plans.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListUsagePlans.go.html to see an example of how to use ListUsagePlans API.
 // A default retry strategy applies to this operation ListUsagePlans()
@@ -393,7 +393,7 @@ func (client UsagePlansClient) listUsagePlans(ctx context.Context, request commo
 
 // UpdateUsagePlan Updates the usage plan with the given identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateUsagePlan.go.html to see an example of how to use UpdateUsagePlan API.
 func (client UsagePlansClient) UpdateUsagePlan(ctx context.Context, request UpdateUsagePlanRequest) (response UpdateUsagePlanResponse, err error) {

@@ -68,42 +68,42 @@ type LdapBindAccount struct {
 	LifecycleState OutboundConnectorLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetAvailabilityDomain returns AvailabilityDomain
+//GetAvailabilityDomain returns AvailabilityDomain
 func (m LdapBindAccount) GetAvailabilityDomain() *string {
 	return m.AvailabilityDomain
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m LdapBindAccount) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m LdapBindAccount) GetId() *string {
 	return m.Id
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m LdapBindAccount) GetLifecycleState() OutboundConnectorLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m LdapBindAccount) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m LdapBindAccount) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m LdapBindAccount) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m LdapBindAccount) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

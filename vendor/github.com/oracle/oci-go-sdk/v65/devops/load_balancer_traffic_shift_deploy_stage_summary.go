@@ -74,72 +74,72 @@ type LoadBalancerTrafficShiftDeployStageSummary struct {
 	TrafficShiftTarget LoadBalancerTrafficShiftDeployStageTrafficShiftTargetEnum `mandatory:"true" json:"trafficShiftTarget"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetDeployPipelineId returns DeployPipelineId
+//GetDeployPipelineId returns DeployPipelineId
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetLifecycleState() DeployStageLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m LoadBalancerTrafficShiftDeployStageSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

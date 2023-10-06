@@ -93,97 +93,97 @@ type MacsManagedCloudHostConfigurationSummary struct {
 	PlatformType HostConfigurationSummaryPlatformTypeEnum `mandatory:"true" json:"platformType"`
 }
 
-// GetHostInsightId returns HostInsightId
+//GetHostInsightId returns HostInsightId
 func (m MacsManagedCloudHostConfigurationSummary) GetHostInsightId() *string {
 	return m.HostInsightId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m MacsManagedCloudHostConfigurationSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetHostName returns HostName
+//GetHostName returns HostName
 func (m MacsManagedCloudHostConfigurationSummary) GetHostName() *string {
 	return m.HostName
 }
 
-// GetPlatformType returns PlatformType
+//GetPlatformType returns PlatformType
 func (m MacsManagedCloudHostConfigurationSummary) GetPlatformType() HostConfigurationSummaryPlatformTypeEnum {
 	return m.PlatformType
 }
 
-// GetPlatformVersion returns PlatformVersion
+//GetPlatformVersion returns PlatformVersion
 func (m MacsManagedCloudHostConfigurationSummary) GetPlatformVersion() *string {
 	return m.PlatformVersion
 }
 
-// GetPlatformVendor returns PlatformVendor
+//GetPlatformVendor returns PlatformVendor
 func (m MacsManagedCloudHostConfigurationSummary) GetPlatformVendor() *string {
 	return m.PlatformVendor
 }
 
-// GetTotalCpus returns TotalCpus
+//GetTotalCpus returns TotalCpus
 func (m MacsManagedCloudHostConfigurationSummary) GetTotalCpus() *int {
 	return m.TotalCpus
 }
 
-// GetTotalMemoryInGBs returns TotalMemoryInGBs
+//GetTotalMemoryInGBs returns TotalMemoryInGBs
 func (m MacsManagedCloudHostConfigurationSummary) GetTotalMemoryInGBs() *float64 {
 	return m.TotalMemoryInGBs
 }
 
-// GetCpuArchitecture returns CpuArchitecture
+//GetCpuArchitecture returns CpuArchitecture
 func (m MacsManagedCloudHostConfigurationSummary) GetCpuArchitecture() *string {
 	return m.CpuArchitecture
 }
 
-// GetCpuCacheInMBs returns CpuCacheInMBs
+//GetCpuCacheInMBs returns CpuCacheInMBs
 func (m MacsManagedCloudHostConfigurationSummary) GetCpuCacheInMBs() *float64 {
 	return m.CpuCacheInMBs
 }
 
-// GetCpuVendor returns CpuVendor
+//GetCpuVendor returns CpuVendor
 func (m MacsManagedCloudHostConfigurationSummary) GetCpuVendor() *string {
 	return m.CpuVendor
 }
 
-// GetCpuFrequencyInMhz returns CpuFrequencyInMhz
+//GetCpuFrequencyInMhz returns CpuFrequencyInMhz
 func (m MacsManagedCloudHostConfigurationSummary) GetCpuFrequencyInMhz() *float64 {
 	return m.CpuFrequencyInMhz
 }
 
-// GetCpuImplementation returns CpuImplementation
+//GetCpuImplementation returns CpuImplementation
 func (m MacsManagedCloudHostConfigurationSummary) GetCpuImplementation() *string {
 	return m.CpuImplementation
 }
 
-// GetCoresPerSocket returns CoresPerSocket
+//GetCoresPerSocket returns CoresPerSocket
 func (m MacsManagedCloudHostConfigurationSummary) GetCoresPerSocket() *int {
 	return m.CoresPerSocket
 }
 
-// GetTotalSockets returns TotalSockets
+//GetTotalSockets returns TotalSockets
 func (m MacsManagedCloudHostConfigurationSummary) GetTotalSockets() *int {
 	return m.TotalSockets
 }
 
-// GetThreadsPerSocket returns ThreadsPerSocket
+//GetThreadsPerSocket returns ThreadsPerSocket
 func (m MacsManagedCloudHostConfigurationSummary) GetThreadsPerSocket() *int {
 	return m.ThreadsPerSocket
 }
 
-// GetIsHyperThreadingEnabled returns IsHyperThreadingEnabled
+//GetIsHyperThreadingEnabled returns IsHyperThreadingEnabled
 func (m MacsManagedCloudHostConfigurationSummary) GetIsHyperThreadingEnabled() *bool {
 	return m.IsHyperThreadingEnabled
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m MacsManagedCloudHostConfigurationSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m MacsManagedCloudHostConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }

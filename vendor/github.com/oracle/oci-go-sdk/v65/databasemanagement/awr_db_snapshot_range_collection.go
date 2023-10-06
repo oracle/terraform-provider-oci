@@ -37,22 +37,22 @@ type AwrDbSnapshotRangeCollection struct {
 	Items []AwrDbSnapshotRangeSummary `mandatory:"false" json:"items"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m AwrDbSnapshotRangeCollection) GetName() *string {
 	return m.Name
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m AwrDbSnapshotRangeCollection) GetVersion() *string {
 	return m.Version
 }
 
-// GetQueryKey returns QueryKey
+//GetQueryKey returns QueryKey
 func (m AwrDbSnapshotRangeCollection) GetQueryKey() *string {
 	return m.QueryKey
 }
 
-// GetDbQueryTimeInSecs returns DbQueryTimeInSecs
+//GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m AwrDbSnapshotRangeCollection) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
 }

@@ -33,12 +33,12 @@ type UpdateApdexRulesDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateApdexRulesDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateApdexRulesDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

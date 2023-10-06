@@ -18,13 +18,13 @@ import (
 
 // AccountMgmtInfoApp Application on which the account is based
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: true
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AccountMgmtInfoApp struct {
 
 	// Application identifier

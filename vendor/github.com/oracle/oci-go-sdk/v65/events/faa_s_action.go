@@ -41,27 +41,27 @@ type FaaSAction struct {
 	LifecycleState ActionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m FaaSAction) GetId() *string {
 	return m.Id
 }
 
-// GetLifecycleMessage returns LifecycleMessage
+//GetLifecycleMessage returns LifecycleMessage
 func (m FaaSAction) GetLifecycleMessage() *string {
 	return m.LifecycleMessage
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m FaaSAction) GetLifecycleState() ActionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetIsEnabled returns IsEnabled
+//GetIsEnabled returns IsEnabled
 func (m FaaSAction) GetIsEnabled() *bool {
 	return m.IsEnabled
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m FaaSAction) GetDescription() *string {
 	return m.Description
 }

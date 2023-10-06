@@ -19,8 +19,8 @@ import (
 
 // ProtectionRule Rule that represents Request/Response Protection.
 // Only actions of the following types are allowed to be referenced in this rule:
-//   - CHECK
-//   - RETURN_HTTP_RESPONSE
+//  * CHECK
+//  * RETURN_HTTP_RESPONSE
 type ProtectionRule struct {
 
 	// Rule name. Must be unique within the module.
@@ -50,22 +50,22 @@ type ProtectionRule struct {
 	ConditionLanguage WebAppFirewallPolicyRuleConditionLanguageEnum `mandatory:"false" json:"conditionLanguage,omitempty"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m ProtectionRule) GetName() *string {
 	return m.Name
 }
 
-// GetConditionLanguage returns ConditionLanguage
+//GetConditionLanguage returns ConditionLanguage
 func (m ProtectionRule) GetConditionLanguage() WebAppFirewallPolicyRuleConditionLanguageEnum {
 	return m.ConditionLanguage
 }
 
-// GetCondition returns Condition
+//GetCondition returns Condition
 func (m ProtectionRule) GetCondition() *string {
 	return m.Condition
 }
 
-// GetActionName returns ActionName
+//GetActionName returns ActionName
 func (m ProtectionRule) GetActionName() *string {
 	return m.ActionName
 }

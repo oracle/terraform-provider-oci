@@ -31,7 +31,7 @@ type VaultMappedSecret struct {
 	Type MappedSecretTypeEnum `mandatory:"true" json:"type"`
 }
 
-// GetType returns Type
+//GetType returns Type
 func (m VaultMappedSecret) GetType() MappedSecretTypeEnum {
 	return m.Type
 }

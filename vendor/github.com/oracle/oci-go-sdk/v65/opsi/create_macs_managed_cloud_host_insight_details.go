@@ -36,17 +36,17 @@ type CreateMacsManagedCloudHostInsightDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateMacsManagedCloudHostInsightDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateMacsManagedCloudHostInsightDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateMacsManagedCloudHostInsightDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

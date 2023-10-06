@@ -71,92 +71,92 @@ type DeployPipelineRedeployment struct {
 	LifecycleState DeploymentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetDeployPipelineArtifacts returns DeployPipelineArtifacts
+//GetDeployPipelineArtifacts returns DeployPipelineArtifacts
 func (m DeployPipelineRedeployment) GetDeployPipelineArtifacts() *DeployPipelineArtifactCollection {
 	return m.DeployPipelineArtifacts
 }
 
-// GetDeployPipelineEnvironments returns DeployPipelineEnvironments
+//GetDeployPipelineEnvironments returns DeployPipelineEnvironments
 func (m DeployPipelineRedeployment) GetDeployPipelineEnvironments() *DeployPipelineEnvironmentCollection {
 	return m.DeployPipelineEnvironments
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m DeployPipelineRedeployment) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m DeployPipelineRedeployment) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m DeployPipelineRedeployment) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetDeployPipelineId returns DeployPipelineId
+//GetDeployPipelineId returns DeployPipelineId
 func (m DeployPipelineRedeployment) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m DeployPipelineRedeployment) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m DeployPipelineRedeployment) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m DeployPipelineRedeployment) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m DeployPipelineRedeployment) GetLifecycleState() DeploymentLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m DeployPipelineRedeployment) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetDeploymentArguments returns DeploymentArguments
+//GetDeploymentArguments returns DeploymentArguments
 func (m DeployPipelineRedeployment) GetDeploymentArguments() *DeploymentArgumentCollection {
 	return m.DeploymentArguments
 }
 
-// GetDeployStageOverrideArguments returns DeployStageOverrideArguments
+//GetDeployStageOverrideArguments returns DeployStageOverrideArguments
 func (m DeployPipelineRedeployment) GetDeployStageOverrideArguments() *DeployStageOverrideArgumentCollection {
 	return m.DeployStageOverrideArguments
 }
 
-// GetDeployArtifactOverrideArguments returns DeployArtifactOverrideArguments
+//GetDeployArtifactOverrideArguments returns DeployArtifactOverrideArguments
 func (m DeployPipelineRedeployment) GetDeployArtifactOverrideArguments() *DeployArtifactOverrideArgumentCollection {
 	return m.DeployArtifactOverrideArguments
 }
 
-// GetDeploymentExecutionProgress returns DeploymentExecutionProgress
+//GetDeploymentExecutionProgress returns DeploymentExecutionProgress
 func (m DeployPipelineRedeployment) GetDeploymentExecutionProgress() *DeploymentExecutionProgress {
 	return m.DeploymentExecutionProgress
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m DeployPipelineRedeployment) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m DeployPipelineRedeployment) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m DeployPipelineRedeployment) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

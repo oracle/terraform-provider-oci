@@ -19,13 +19,13 @@ import (
 // UserExtDevices A list of devices enrolled by the user.
 // **Added In:** 18.3.6
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [value]
-//   - multiValued: true
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCompositeKey: [value]
+//  - multiValued: true
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type UserExtDevices struct {
 
 	// The user's device identifier.

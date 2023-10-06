@@ -19,12 +19,12 @@ import (
 // AppAsOpcService OPCService facet of the application.
 // **Deprecated Since: 17.3.4**
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
 type AppAsOpcService struct {
 
 	// Identifier of the OPCService facet.

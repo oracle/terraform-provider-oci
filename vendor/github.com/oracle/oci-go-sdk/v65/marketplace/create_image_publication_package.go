@@ -31,17 +31,17 @@ type CreateImagePublicationPackage struct {
 	ImageId *string `mandatory:"false" json:"imageId"`
 }
 
-// GetPackageVersion returns PackageVersion
+//GetPackageVersion returns PackageVersion
 func (m CreateImagePublicationPackage) GetPackageVersion() *string {
 	return m.PackageVersion
 }
 
-// GetOperatingSystem returns OperatingSystem
+//GetOperatingSystem returns OperatingSystem
 func (m CreateImagePublicationPackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
 }
 
-// GetEula returns Eula
+//GetEula returns Eula
 func (m CreateImagePublicationPackage) GetEula() []Eula {
 	return m.Eula
 }

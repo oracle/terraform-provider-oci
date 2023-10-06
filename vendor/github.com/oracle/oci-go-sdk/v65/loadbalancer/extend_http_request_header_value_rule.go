@@ -20,12 +20,12 @@ import (
 // ExtendHttpRequestHeaderValueRule An object that represents the action of modifying a request header value. This rule applies only to HTTP listeners.
 // This rule adds a prefix, a suffix, or both to the header value.
 // **NOTES:**
-//   - This rule requires a value for a prefix, suffix, or both.
-//   - The system does not support this rule for headers with multiple values.
-//   - The system does not distinquish between underscore and dash characters in headers. That is, it treats
-//     `example_header_name` and `example-header-name` as identical.  If two such headers appear in a request, the system
-//     applies the action to the first header it finds. The affected header cannot be determined in advance. Oracle
-//     recommends that you do not rely on underscore or dash characters to uniquely distinguish header names.
+// *  This rule requires a value for a prefix, suffix, or both.
+// *  The system does not support this rule for headers with multiple values.
+// *  The system does not distinquish between underscore and dash characters in headers. That is, it treats
+//    `example_header_name` and `example-header-name` as identical.  If two such headers appear in a request, the system
+//    applies the action to the first header it finds. The affected header cannot be determined in advance. Oracle
+//    recommends that you do not rely on underscore or dash characters to uniquely distinguish header names.
 type ExtendHttpRequestHeaderValueRule struct {
 
 	// A header name that conforms to RFC 7230.

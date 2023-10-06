@@ -19,15 +19,15 @@ import (
 // GroupExtPasswordPolicy Password Policy associated with this Group.
 // **Added In:** 20.1.3
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type GroupExtPasswordPolicy struct {
 
 	// The ID of the PasswordPolicy.

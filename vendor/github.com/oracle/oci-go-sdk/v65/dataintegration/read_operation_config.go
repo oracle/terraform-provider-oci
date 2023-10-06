@@ -48,17 +48,17 @@ type ReadOperationConfig struct {
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 }
 
-// GetMetadataConfigProperties returns MetadataConfigProperties
+//GetMetadataConfigProperties returns MetadataConfigProperties
 func (m ReadOperationConfig) GetMetadataConfigProperties() map[string]string {
 	return m.MetadataConfigProperties
 }
 
-// GetDerivedAttributes returns DerivedAttributes
+//GetDerivedAttributes returns DerivedAttributes
 func (m ReadOperationConfig) GetDerivedAttributes() map[string]string {
 	return m.DerivedAttributes
 }
 
-// GetCallAttribute returns CallAttribute
+//GetCallAttribute returns CallAttribute
 func (m ReadOperationConfig) GetCallAttribute() *BipCallAttribute {
 	return m.CallAttribute
 }

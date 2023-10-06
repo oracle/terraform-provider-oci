@@ -48,42 +48,42 @@ type HostInsightsDataObject struct {
 	SupportedQueryParams []OpsiDataObjectSupportedQueryParam `mandatory:"false" json:"supportedQueryParams"`
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m HostInsightsDataObject) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m HostInsightsDataObject) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m HostInsightsDataObject) GetDescription() *string {
 	return m.Description
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m HostInsightsDataObject) GetName() *string {
 	return m.Name
 }
 
-// GetGroupNames returns GroupNames
+//GetGroupNames returns GroupNames
 func (m HostInsightsDataObject) GetGroupNames() []string {
 	return m.GroupNames
 }
 
-// GetSupportedQueryTimePeriod returns SupportedQueryTimePeriod
+//GetSupportedQueryTimePeriod returns SupportedQueryTimePeriod
 func (m HostInsightsDataObject) GetSupportedQueryTimePeriod() *string {
 	return m.SupportedQueryTimePeriod
 }
 
-// GetColumnsMetadata returns ColumnsMetadata
+//GetColumnsMetadata returns ColumnsMetadata
 func (m HostInsightsDataObject) GetColumnsMetadata() []DataObjectColumnMetadata {
 	return m.ColumnsMetadata
 }
 
-// GetSupportedQueryParams returns SupportedQueryParams
+//GetSupportedQueryParams returns SupportedQueryParams
 func (m HostInsightsDataObject) GetSupportedQueryParams() []OpsiDataObjectSupportedQueryParam {
 	return m.SupportedQueryParams
 }

@@ -56,7 +56,7 @@ type DbExternalProperties struct {
 	Created *common.SDKTime `mandatory:"false" json:"created"`
 }
 
-// GetTimeCollected returns TimeCollected
+//GetTimeCollected returns TimeCollected
 func (m DbExternalProperties) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }
