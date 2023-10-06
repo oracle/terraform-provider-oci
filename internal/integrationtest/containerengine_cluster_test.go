@@ -26,6 +26,19 @@ import (
 )
 
 var (
+	ContainerengineNativeVCNMigrationClusterRepresentation = map[string]interface{}{
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"kubernetes_version": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-1]}`},
+		"name":               acctest.Representation{RepType: acctest.Required, Create: `test_cluster`},
+		"vcn_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"endpoint_config":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineNativeVCNMIgrationClusterEndpointConfigRepresentation},
+	}
+
+	ContainerengineNativeVCNMIgrationClusterEndpointConfigRepresentation = map[string]interface{}{
+		"nsg_ids":   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`, Update: `${oci_core_subnet.test_subnet2.id}`},
+	}
+
 	ContainerengineClusterRequiredOnlyResource = ContainerengineClusterResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, ContainerengineClusterRepresentation)
 
@@ -96,6 +109,7 @@ var (
 		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, ContainerengineContainerengineClusterOptionSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.22.0/24`}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
@@ -409,4 +423,115 @@ func ContainerengineClusterSweepResponseFetchOperation(client *tf_client.OracleC
 		},
 	})
 	return err
+}
+
+// issue-routing-tag: containerengine/default
+func TestContainerengineNativeVcnMigration_test(t *testing.T) {
+	httpreplay.SetScenario("TestContainerengineNativeVcnMigration_test")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_containerengine_cluster.test_cluster"
+	singularDatasourceName := "data.oci_containerengine_migrate_to_native_vcn_status.test_migrate_to_native_vcn_status"
+
+	var resId, resId2 string
+
+	acctest.SaveConfigContent("", "", "", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// Create V1h Cluster
+		{
+			Config: config + compartmentIdVariableStr + ContainerengineClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, ContainerengineNativeVCNMigrationClusterRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_cluster"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify V1h Cluster migrates to V2
+		{
+			Config: config + compartmentIdVariableStr + ContainerengineClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Update, ContainerengineNativeVCNMigrationClusterRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config + compartmentIdVariableStr + ContainerengineClusterResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Update, ContainerengineNativeVCNMigrationClusterRepresentation) + acctest.GenerateDataSourceFromRepresentationMap(
+				"oci_containerengine_migrate_to_native_vcn_status", "test_migrate_to_native_vcn_status",
+				acctest.Optional, acctest.Create, ContainerengineContainerengineMigrateToNativeVcnStatuSingularDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_decommission_scheduled"),
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + ContainerengineClusterResourceDependencies,
+		},
+		// create v2 cluster
+		{
+			Config: config + compartmentIdVariableStr + ContainerengineClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Create, ContainerengineNativeVCNMigrationClusterRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(resourceName, "name", "test_cluster"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//verify recreation when changing endpointconfig.subnetId
+		{
+			Config: config + compartmentIdVariableStr + ContainerengineClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Update, ContainerengineNativeVCNMigrationClusterRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "endpoint_config.0.is_public_ip_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "endpoint_config.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId == resId2 {
+						return fmt.Errorf("resource is supposed to be recreated when endpoint_config.subnet_id updated")
+					}
+					return err
+				},
+			),
+		},
+	})
 }
