@@ -31,12 +31,12 @@ type AnyOfSelectionKey struct {
 	Values []string `mandatory:"false" json:"values"`
 }
 
-// GetIsDefault returns IsDefault
+//GetIsDefault returns IsDefault
 func (m AnyOfSelectionKey) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m AnyOfSelectionKey) GetName() *string {
 	return m.Name
 }

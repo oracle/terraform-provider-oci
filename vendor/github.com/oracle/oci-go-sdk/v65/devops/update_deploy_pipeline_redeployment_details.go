@@ -29,17 +29,17 @@ type UpdateDeployPipelineRedeploymentDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateDeployPipelineRedeploymentDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateDeployPipelineRedeploymentDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateDeployPipelineRedeploymentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

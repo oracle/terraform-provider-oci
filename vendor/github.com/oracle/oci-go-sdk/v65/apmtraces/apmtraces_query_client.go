@@ -94,7 +94,7 @@ func (client *QueryClient) ConfigurationProvider() *common.ConfigurationProvider
 // ListQuickPicks Returns a list of predefined Quick Pick queries intended to assist the user
 // to choose a query to run.  There is no sorting applied on the results.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/ListQuickPicks.go.html to see an example of how to use ListQuickPicks API.
 func (client QueryClient) ListQuickPicks(ctx context.Context, request ListQuickPicksRequest) (response ListQuickPicksResponse, err error) {
@@ -154,7 +154,7 @@ func (client QueryClient) listQuickPicks(ctx context.Context, request common.OCI
 // Further query results are grouped by the attributes specified in the group by clause.  Finally,
 // ordering (asc/desc) is done by the specified attributes in the order by clause.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/Query.go.html to see an example of how to use Query API.
 func (client QueryClient) Query(ctx context.Context, request QueryRequest) (response QueryResponse, err error) {

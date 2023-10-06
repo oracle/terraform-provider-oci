@@ -47,37 +47,37 @@ type ConditionalOutputPort struct {
 	PortType ConditionalOutputPortPortTypeEnum `mandatory:"false" json:"portType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m ConditionalOutputPort) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m ConditionalOutputPort) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m ConditionalOutputPort) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetConfigValues returns ConfigValues
+//GetConfigValues returns ConfigValues
 func (m ConditionalOutputPort) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m ConditionalOutputPort) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m ConditionalOutputPort) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ConditionalOutputPort) GetDescription() *string {
 	return m.Description
 }

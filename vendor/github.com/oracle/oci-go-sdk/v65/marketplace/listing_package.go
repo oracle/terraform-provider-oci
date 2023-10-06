@@ -90,12 +90,20 @@ func (m *listingpackage) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 
 	var err error
 	switch m.PackageType {
+	case "CONTAINER":
+		mm := ContainerListingPackage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORCHESTRATION":
 		mm := OrchestrationListingPackage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "IMAGE":
 		mm := ImageListingPackage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "KUBERNETES":
+		mm := KubernetesListingPackage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

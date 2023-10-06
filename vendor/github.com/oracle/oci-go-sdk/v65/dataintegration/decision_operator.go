@@ -62,62 +62,62 @@ type DecisionOperator struct {
 	TriggerRule DecisionOperatorTriggerRuleEnum `mandatory:"false" json:"triggerRule,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m DecisionOperator) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m DecisionOperator) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m DecisionOperator) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m DecisionOperator) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DecisionOperator) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m DecisionOperator) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m DecisionOperator) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m DecisionOperator) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m DecisionOperator) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m DecisionOperator) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m DecisionOperator) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m DecisionOperator) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }

@@ -26,7 +26,7 @@ type PreserveOriginalDataFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m PreserveOriginalDataFormatEntry) GetDescription() *string {
 	return m.Description
 }

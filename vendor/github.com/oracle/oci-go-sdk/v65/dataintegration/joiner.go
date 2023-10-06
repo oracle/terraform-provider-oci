@@ -59,62 +59,62 @@ type Joiner struct {
 	JoinType JoinerJoinTypeEnum `mandatory:"false" json:"joinType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m Joiner) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m Joiner) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m Joiner) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m Joiner) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m Joiner) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m Joiner) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m Joiner) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m Joiner) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m Joiner) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m Joiner) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m Joiner) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m Joiner) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }

@@ -51,37 +51,37 @@ type MacroField struct {
 	Labels []string `mandatory:"false" json:"labels"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m MacroField) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m MacroField) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m MacroField) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetConfigValues returns ConfigValues
+//GetConfigValues returns ConfigValues
 func (m MacroField) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m MacroField) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m MacroField) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m MacroField) GetDescription() *string {
 	return m.Description
 }

@@ -29,7 +29,7 @@ type PreTrainedKeyPhraseExtractionModelDetails struct {
 	Version *string `mandatory:"false" json:"version"`
 }
 
-// GetLanguageCode returns LanguageCode
+//GetLanguageCode returns LanguageCode
 func (m PreTrainedKeyPhraseExtractionModelDetails) GetLanguageCode() *string {
 	return m.LanguageCode
 }

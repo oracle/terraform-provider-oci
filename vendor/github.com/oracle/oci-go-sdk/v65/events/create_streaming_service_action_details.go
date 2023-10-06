@@ -32,12 +32,12 @@ type CreateStreamingServiceActionDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetIsEnabled returns IsEnabled
+//GetIsEnabled returns IsEnabled
 func (m CreateStreamingServiceActionDetails) GetIsEnabled() *bool {
 	return m.IsEnabled
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateStreamingServiceActionDetails) GetDescription() *string {
 	return m.Description
 }

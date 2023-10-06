@@ -46,22 +46,22 @@ type CreateExternalMacsConnectorDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateExternalMacsConnectorDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateExternalMacsConnectorDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateExternalMacsConnectorDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetExternalDatabaseId returns ExternalDatabaseId
+//GetExternalDatabaseId returns ExternalDatabaseId
 func (m CreateExternalMacsConnectorDetails) GetExternalDatabaseId() *string {
 	return m.ExternalDatabaseId
 }

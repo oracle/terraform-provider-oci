@@ -93,7 +93,7 @@ func (client *DiscoveryClient) ConfigurationProvider() *common.ConfigurationProv
 
 // ChangeAssetSourceCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeAssetSourceCompartment.go.html to see an example of how to use ChangeAssetSourceCompartment API.
 // A default retry strategy applies to this operation ChangeAssetSourceCompartment()
@@ -156,7 +156,7 @@ func (client DiscoveryClient) changeAssetSourceCompartment(ctx context.Context, 
 
 // ChangeDiscoveryScheduleCompartment Moves the specified discovery schedule into a different compartment. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeDiscoveryScheduleCompartment.go.html to see an example of how to use ChangeDiscoveryScheduleCompartment API.
 // A default retry strategy applies to this operation ChangeDiscoveryScheduleCompartment()
@@ -219,7 +219,7 @@ func (client DiscoveryClient) changeDiscoveryScheduleCompartment(ctx context.Con
 
 // CreateAssetSource Creates an asset source.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateAssetSource.go.html to see an example of how to use CreateAssetSource API.
 // A default retry strategy applies to this operation CreateAssetSource()
@@ -282,7 +282,7 @@ func (client DiscoveryClient) createAssetSource(ctx context.Context, request com
 
 // CreateDiscoverySchedule Creates the discovery schedule.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateDiscoverySchedule.go.html to see an example of how to use CreateDiscoverySchedule API.
 // A default retry strategy applies to this operation CreateDiscoverySchedule()
@@ -345,7 +345,7 @@ func (client DiscoveryClient) createDiscoverySchedule(ctx context.Context, reque
 
 // DeleteAssetSource Deletes the asset source by ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteAssetSource.go.html to see an example of how to use DeleteAssetSource API.
 // A default retry strategy applies to this operation DeleteAssetSource()
@@ -403,7 +403,7 @@ func (client DiscoveryClient) deleteAssetSource(ctx context.Context, request com
 
 // DeleteDiscoverySchedule Deletes the specified discovery schedule.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteDiscoverySchedule.go.html to see an example of how to use DeleteDiscoverySchedule API.
 // A default retry strategy applies to this operation DeleteDiscoverySchedule()
@@ -461,7 +461,7 @@ func (client DiscoveryClient) deleteDiscoverySchedule(ctx context.Context, reque
 
 // GetAssetSource Gets the asset source by ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetAssetSource.go.html to see an example of how to use GetAssetSource API.
 // A default retry strategy applies to this operation GetAssetSource()
@@ -519,7 +519,7 @@ func (client DiscoveryClient) getAssetSource(ctx context.Context, request common
 
 // GetDiscoverySchedule Reads information about the specified discovery schedule.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetDiscoverySchedule.go.html to see an example of how to use GetDiscoverySchedule API.
 // A default retry strategy applies to this operation GetDiscoverySchedule()
@@ -577,7 +577,7 @@ func (client DiscoveryClient) getDiscoverySchedule(ctx context.Context, request 
 
 // ListAssetSourceConnections Gets known connections to the asset source by the asset source ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAssetSourceConnections.go.html to see an example of how to use ListAssetSourceConnections API.
 // A default retry strategy applies to this operation ListAssetSourceConnections()
@@ -635,7 +635,7 @@ func (client DiscoveryClient) listAssetSourceConnections(ctx context.Context, re
 
 // ListAssetSources Returns a list of asset sources.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAssetSources.go.html to see an example of how to use ListAssetSources API.
 // A default retry strategy applies to this operation ListAssetSources()
@@ -693,7 +693,7 @@ func (client DiscoveryClient) listAssetSources(ctx context.Context, request comm
 
 // ListDiscoverySchedules Lists discovery schedules.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListDiscoverySchedules.go.html to see an example of how to use ListDiscoverySchedules API.
 // A default retry strategy applies to this operation ListDiscoverySchedules()
@@ -751,7 +751,7 @@ func (client DiscoveryClient) listDiscoverySchedules(ctx context.Context, reques
 
 // RefreshAssetSource Initiates the process of asset metadata synchronization with the related asset source.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/RefreshAssetSource.go.html to see an example of how to use RefreshAssetSource API.
 // A default retry strategy applies to this operation RefreshAssetSource()
@@ -814,7 +814,7 @@ func (client DiscoveryClient) refreshAssetSource(ctx context.Context, request co
 
 // UpdateAssetSource Updates the asset source.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdateAssetSource.go.html to see an example of how to use UpdateAssetSource API.
 // A default retry strategy applies to this operation UpdateAssetSource()
@@ -872,7 +872,7 @@ func (client DiscoveryClient) updateAssetSource(ctx context.Context, request com
 
 // UpdateDiscoverySchedule Updates the specified discovery schedule.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdateDiscoverySchedule.go.html to see an example of how to use UpdateDiscoverySchedule API.
 // A default retry strategy applies to this operation UpdateDiscoverySchedule()

@@ -46,32 +46,32 @@ type MapType struct {
 	ContainsNull *bool `mandatory:"false" json:"containsNull"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m MapType) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m MapType) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m MapType) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m MapType) GetName() *string {
 	return m.Name
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m MapType) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m MapType) GetDescription() *string {
 	return m.Description
 }

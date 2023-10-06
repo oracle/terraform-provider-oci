@@ -35,22 +35,22 @@ type PathTopology struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 }
 
-// GetEntities returns Entities
+//GetEntities returns Entities
 func (m PathTopology) GetEntities() []interface{} {
 	return m.Entities
 }
 
-// GetRelationships returns Relationships
+//GetRelationships returns Relationships
 func (m PathTopology) GetRelationships() []TopologyEntityRelationship {
 	return m.Relationships
 }
 
-// GetLimitedEntities returns LimitedEntities
+//GetLimitedEntities returns LimitedEntities
 func (m PathTopology) GetLimitedEntities() []string {
 	return m.LimitedEntities
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m PathTopology) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }

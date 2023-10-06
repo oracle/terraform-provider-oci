@@ -45,47 +45,47 @@ type CreateConnectionFromRestNoAuth struct {
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateConnectionFromRestNoAuth) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateConnectionFromRestNoAuth) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m CreateConnectionFromRestNoAuth) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateConnectionFromRestNoAuth) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateConnectionFromRestNoAuth) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateConnectionFromRestNoAuth) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateConnectionFromRestNoAuth) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m CreateConnectionFromRestNoAuth) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateConnectionFromRestNoAuth) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

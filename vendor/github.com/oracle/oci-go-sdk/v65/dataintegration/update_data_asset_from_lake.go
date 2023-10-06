@@ -60,52 +60,52 @@ type UpdateDataAssetFromLake struct {
 	LakeProxyEndpoint *string `mandatory:"false" json:"lakeProxyEndpoint"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m UpdateDataAssetFromLake) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m UpdateDataAssetFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UpdateDataAssetFromLake) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateDataAssetFromLake) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m UpdateDataAssetFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m UpdateDataAssetFromLake) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m UpdateDataAssetFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m UpdateDataAssetFromLake) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m UpdateDataAssetFromLake) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m UpdateDataAssetFromLake) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

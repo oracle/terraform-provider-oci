@@ -28,7 +28,7 @@ type ExternalListenerIpcEndpoint struct {
 	Services []string `mandatory:"false" json:"services"`
 }
 
-// GetServices returns Services
+//GetServices returns Services
 func (m ExternalListenerIpcEndpoint) GetServices() []string {
 	return m.Services
 }

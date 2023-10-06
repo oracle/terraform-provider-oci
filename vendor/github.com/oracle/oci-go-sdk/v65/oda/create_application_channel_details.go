@@ -43,27 +43,27 @@ type CreateApplicationChannelDetails struct {
 	OutboundUrl *string `mandatory:"false" json:"outboundUrl"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateApplicationChannelDetails) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateApplicationChannelDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m CreateApplicationChannelDetails) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateApplicationChannelDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateApplicationChannelDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

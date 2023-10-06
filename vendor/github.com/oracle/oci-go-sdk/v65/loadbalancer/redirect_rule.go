@@ -21,12 +21,12 @@ import (
 // object is configured for a particular listener and a designated path.
 // The default response code is `302 Found`.
 // **NOTES:**
-//   - This rule applies only to HTTP listeners.
-//   - You can specify this rule only with the RuleCondition
-//     type `PATH`.
-//   - A listener can have only one RedirectRule object for a given original path. The
-//     PathMatchCondition `attributeValue` specifies the
-//     original path.
+// *  This rule applies only to HTTP listeners.
+// *  You can specify this rule only with the RuleCondition
+//    type `PATH`.
+// *  A listener can have only one RedirectRule object for a given original path. The
+//   PathMatchCondition `attributeValue` specifies the
+//   original path.
 type RedirectRule struct {
 	Conditions []RuleCondition `mandatory:"true" json:"conditions"`
 

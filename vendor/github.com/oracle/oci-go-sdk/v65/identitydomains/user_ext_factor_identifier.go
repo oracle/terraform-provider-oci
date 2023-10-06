@@ -19,14 +19,14 @@ import (
 // UserExtFactorIdentifier Factor Identifier ID
 // **Added In:** 20.1.3
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type UserExtFactorIdentifier struct {
 
 	// The identifier of the User's preferred device

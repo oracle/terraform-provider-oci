@@ -88,72 +88,72 @@ type EmManagedExternalDatabaseInsight struct {
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m EmManagedExternalDatabaseInsight) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m EmManagedExternalDatabaseInsight) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetStatus returns Status
+//GetStatus returns Status
 func (m EmManagedExternalDatabaseInsight) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-// GetDatabaseType returns DatabaseType
+//GetDatabaseType returns DatabaseType
 func (m EmManagedExternalDatabaseInsight) GetDatabaseType() *string {
 	return m.DatabaseType
 }
 
-// GetDatabaseVersion returns DatabaseVersion
+//GetDatabaseVersion returns DatabaseVersion
 func (m EmManagedExternalDatabaseInsight) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
 }
 
-// GetProcessorCount returns ProcessorCount
+//GetProcessorCount returns ProcessorCount
 func (m EmManagedExternalDatabaseInsight) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m EmManagedExternalDatabaseInsight) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m EmManagedExternalDatabaseInsight) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m EmManagedExternalDatabaseInsight) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m EmManagedExternalDatabaseInsight) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m EmManagedExternalDatabaseInsight) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m EmManagedExternalDatabaseInsight) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m EmManagedExternalDatabaseInsight) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
 func (m EmManagedExternalDatabaseInsight) GetDatabaseConnectionStatusDetails() *string {
 	return m.DatabaseConnectionStatusDetails
 }

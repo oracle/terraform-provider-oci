@@ -43,7 +43,7 @@ type CreateBitbucketCloudConfigSourceDetails struct {
 	BranchName *string `mandatory:"false" json:"branchName"`
 }
 
-// GetWorkingDirectory returns WorkingDirectory
+//GetWorkingDirectory returns WorkingDirectory
 func (m CreateBitbucketCloudConfigSourceDetails) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

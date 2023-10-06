@@ -64,47 +64,47 @@ type BitbucketServerAccessTokenConfigurationSourceProviderSummary struct {
 	LifecycleState ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m BitbucketServerAccessTokenConfigurationSourceProviderSummary) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m BitbucketServerAccessTokenConfigurationSourceProviderSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m BitbucketServerAccessTokenConfigurationSourceProviderSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m BitbucketServerAccessTokenConfigurationSourceProviderSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m BitbucketServerAccessTokenConfigurationSourceProviderSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m BitbucketServerAccessTokenConfigurationSourceProviderSummary) GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m BitbucketServerAccessTokenConfigurationSourceProviderSummary) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m BitbucketServerAccessTokenConfigurationSourceProviderSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m BitbucketServerAccessTokenConfigurationSourceProviderSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

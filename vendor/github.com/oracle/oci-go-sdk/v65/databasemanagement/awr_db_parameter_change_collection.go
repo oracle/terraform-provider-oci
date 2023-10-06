@@ -37,22 +37,22 @@ type AwrDbParameterChangeCollection struct {
 	Items []AwrDbParameterChangeSummary `mandatory:"false" json:"items"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m AwrDbParameterChangeCollection) GetName() *string {
 	return m.Name
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m AwrDbParameterChangeCollection) GetVersion() *string {
 	return m.Version
 }
 
-// GetQueryKey returns QueryKey
+//GetQueryKey returns QueryKey
 func (m AwrDbParameterChangeCollection) GetQueryKey() *string {
 	return m.QueryKey
 }
 
-// GetDbQueryTimeInSecs returns DbQueryTimeInSecs
+//GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m AwrDbParameterChangeCollection) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
 }

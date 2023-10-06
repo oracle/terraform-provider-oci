@@ -70,57 +70,57 @@ type KernelCrashEvent struct {
 	System *CrashEventSystemInformation `mandatory:"false" json:"system"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m KernelCrashEvent) GetId() *string {
 	return m.Id
 }
 
-// GetInstanceId returns InstanceId
+//GetInstanceId returns InstanceId
 func (m KernelCrashEvent) GetInstanceId() *string {
 	return m.InstanceId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m KernelCrashEvent) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTenancyId returns TenancyId
+//GetTenancyId returns TenancyId
 func (m KernelCrashEvent) GetTenancyId() *string {
 	return m.TenancyId
 }
 
-// GetSummary returns Summary
+//GetSummary returns Summary
 func (m KernelCrashEvent) GetSummary() *string {
 	return m.Summary
 }
 
-// GetTimestamp returns Timestamp
+//GetTimestamp returns Timestamp
 func (m KernelCrashEvent) GetTimestamp() *common.SDKTime {
 	return m.Timestamp
 }
 
-// GetEventFingerprint returns EventFingerprint
+//GetEventFingerprint returns EventFingerprint
 func (m KernelCrashEvent) GetEventFingerprint() *string {
 	return m.EventFingerprint
 }
 
-// GetCount returns Count
+//GetCount returns Count
 func (m KernelCrashEvent) GetCount() *int {
 	return m.Count
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m KernelCrashEvent) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m KernelCrashEvent) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m KernelCrashEvent) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

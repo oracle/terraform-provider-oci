@@ -64,42 +64,42 @@ type OptionsSummary struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m OptionsSummary) GetId() *string {
 	return m.Id
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m OptionsSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m OptionsSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetCreatedBy returns CreatedBy
+//GetCreatedBy returns CreatedBy
 func (m OptionsSummary) GetCreatedBy() *string {
 	return m.CreatedBy
 }
 
-// GetUpdatedBy returns UpdatedBy
+//GetUpdatedBy returns UpdatedBy
 func (m OptionsSummary) GetUpdatedBy() *string {
 	return m.UpdatedBy
 }
 
-// GetEtag returns Etag
+//GetEtag returns Etag
 func (m OptionsSummary) GetEtag() *string {
 	return m.Etag
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m OptionsSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m OptionsSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

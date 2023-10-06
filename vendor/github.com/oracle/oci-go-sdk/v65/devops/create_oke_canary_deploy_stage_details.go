@@ -45,32 +45,32 @@ type CreateOkeCanaryDeployStageDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateOkeCanaryDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateOkeCanaryDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDeployPipelineId returns DeployPipelineId
+//GetDeployPipelineId returns DeployPipelineId
 func (m CreateOkeCanaryDeployStageDetails) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m CreateOkeCanaryDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateOkeCanaryDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateOkeCanaryDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

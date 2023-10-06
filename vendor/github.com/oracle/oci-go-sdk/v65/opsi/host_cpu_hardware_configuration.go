@@ -56,7 +56,7 @@ type HostCpuHardwareConfiguration struct {
 	HyperThreadingEnabled *string `mandatory:"false" json:"hyperThreadingEnabled"`
 }
 
-// GetTimeCollected returns TimeCollected
+//GetTimeCollected returns TimeCollected
 func (m HostCpuHardwareConfiguration) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

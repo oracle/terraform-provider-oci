@@ -48,37 +48,37 @@ type DecisionOutputPort struct {
 	DecisionOutputPortType DecisionOutputPortDecisionOutputPortTypeEnum `mandatory:"true" json:"decisionOutputPortType"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m DecisionOutputPort) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m DecisionOutputPort) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m DecisionOutputPort) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetConfigValues returns ConfigValues
+//GetConfigValues returns ConfigValues
 func (m DecisionOutputPort) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m DecisionOutputPort) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m DecisionOutputPort) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DecisionOutputPort) GetDescription() *string {
 	return m.Description
 }

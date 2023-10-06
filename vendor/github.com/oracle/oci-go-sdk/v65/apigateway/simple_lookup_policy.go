@@ -35,12 +35,12 @@ type SimpleLookupPolicy struct {
 	CacheKeyAdditions []string `mandatory:"false" json:"cacheKeyAdditions"`
 }
 
-// GetIsEnabled returns IsEnabled
+//GetIsEnabled returns IsEnabled
 func (m SimpleLookupPolicy) GetIsEnabled() *bool {
 	return m.IsEnabled
 }
 
-// GetIsPrivateCachingEnabled returns IsPrivateCachingEnabled
+//GetIsPrivateCachingEnabled returns IsPrivateCachingEnabled
 func (m SimpleLookupPolicy) GetIsPrivateCachingEnabled() *bool {
 	return m.IsPrivateCachingEnabled
 }

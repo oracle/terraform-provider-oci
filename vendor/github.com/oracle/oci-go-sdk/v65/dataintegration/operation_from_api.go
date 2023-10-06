@@ -49,7 +49,7 @@ type OperationFromApi struct {
 	OperationAttributes *GenericRestApiAttributes `mandatory:"false" json:"operationAttributes"`
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m OperationFromApi) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

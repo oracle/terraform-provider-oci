@@ -19,16 +19,16 @@ import (
 // AppUserAssertionAttributes Each value of this attribute describes an attribute of User that will be sent in a Security Assertion Markup Language (SAML) assertion.
 // **Deprecated Since: 18.2.2**
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsCompositeKey: [name]
-//   - idcsSearchable: false
-//   - idcsValuePersistedInOtherAttribute: true
-//   - multiValued: true
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsCompositeKey: [name]
+//  - idcsSearchable: false
+//  - idcsValuePersistedInOtherAttribute: true
+//  - multiValued: true
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AppUserAssertionAttributes struct {
 
 	// The attribute represents the name of the attribute that will be used in the Security Assertion Markup Language (SAML) assertion

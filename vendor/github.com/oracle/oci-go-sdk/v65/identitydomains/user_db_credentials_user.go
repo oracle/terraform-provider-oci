@@ -18,15 +18,15 @@ import (
 
 // UserDbCredentialsUser The user linked to the database credential.
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type UserDbCredentialsUser struct {
 
 	// The user's identifier.

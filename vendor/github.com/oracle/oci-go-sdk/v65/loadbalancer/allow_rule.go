@@ -24,9 +24,9 @@ import (
 // *  If you add access control rules, the load balancer denies any traffic that does not match the rules.
 // *  Maximum of two match conditions can be specified in a rule.
 // *  You can specify this rule only with the following `RuleCondition` combinations:
-//   - `SOURCE_IP_ADDRESS`
-//   - `SOURCE_VCN_ID`
-//   - `SOURCE_VCN_ID", "SOURCE_VCN_IP_ADDRESS`
+//     *  `SOURCE_IP_ADDRESS`
+//     *  `SOURCE_VCN_ID`
+//     *  `SOURCE_VCN_ID", "SOURCE_VCN_IP_ADDRESS`
 type AllowRule struct {
 	Conditions []RuleCondition `mandatory:"true" json:"conditions"`
 

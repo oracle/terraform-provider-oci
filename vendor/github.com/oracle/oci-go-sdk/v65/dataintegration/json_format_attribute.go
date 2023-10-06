@@ -26,7 +26,7 @@ type JsonFormatAttribute struct {
 	Encoding *string `mandatory:"false" json:"encoding"`
 }
 
-// GetIsFilePattern returns IsFilePattern
+//GetIsFilePattern returns IsFilePattern
 func (m JsonFormatAttribute) GetIsFilePattern() *bool {
 	return m.IsFilePattern
 }

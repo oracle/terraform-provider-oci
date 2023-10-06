@@ -36,7 +36,7 @@ type RandomDecimalNumberFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m RandomDecimalNumberFormatEntry) GetDescription() *string {
 	return m.Description
 }

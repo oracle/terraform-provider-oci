@@ -18,12 +18,12 @@ import (
 
 // IdcsCreatedBy The User or App who created the Resource
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: true
-//   - returned: default
-//   - type: complex
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: true
+//  - returned: default
+//  - type: complex
 type IdcsCreatedBy struct {
 
 	// The ID of the SCIM resource that represents the User or App who created this Resource

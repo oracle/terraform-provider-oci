@@ -28,22 +28,22 @@ type AccessDeniedTrafficNode struct {
 	IngressSecurityAction SecurityAction `mandatory:"false" json:"ingressSecurityAction"`
 }
 
-// GetEgressTraffic returns EgressTraffic
+//GetEgressTraffic returns EgressTraffic
 func (m AccessDeniedTrafficNode) GetEgressTraffic() *EgressTrafficSpec {
 	return m.EgressTraffic
 }
 
-// GetNextHopRoutingAction returns NextHopRoutingAction
+//GetNextHopRoutingAction returns NextHopRoutingAction
 func (m AccessDeniedTrafficNode) GetNextHopRoutingAction() RoutingAction {
 	return m.NextHopRoutingAction
 }
 
-// GetEgressSecurityAction returns EgressSecurityAction
+//GetEgressSecurityAction returns EgressSecurityAction
 func (m AccessDeniedTrafficNode) GetEgressSecurityAction() SecurityAction {
 	return m.EgressSecurityAction
 }
 
-// GetIngressSecurityAction returns IngressSecurityAction
+//GetIngressSecurityAction returns IngressSecurityAction
 func (m AccessDeniedTrafficNode) GetIngressSecurityAction() SecurityAction {
 	return m.IngressSecurityAction
 }

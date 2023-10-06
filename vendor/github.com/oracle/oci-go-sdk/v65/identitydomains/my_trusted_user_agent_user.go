@@ -18,14 +18,14 @@ import (
 
 // MyTrustedUserAgentUser user for whom the trust-token was issued
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: true
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type MyTrustedUserAgentUser struct {
 
 	// The SCIM ID of the user for whom the trust-token was issued.

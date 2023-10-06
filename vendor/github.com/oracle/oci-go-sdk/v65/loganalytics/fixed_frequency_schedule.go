@@ -38,12 +38,12 @@ type FixedFrequencySchedule struct {
 	MisfirePolicy ScheduleMisfirePolicyEnum `mandatory:"false" json:"misfirePolicy,omitempty"`
 }
 
-// GetMisfirePolicy returns MisfirePolicy
+//GetMisfirePolicy returns MisfirePolicy
 func (m FixedFrequencySchedule) GetMisfirePolicy() ScheduleMisfirePolicyEnum {
 	return m.MisfirePolicy
 }
 
-// GetTimeOfFirstExecution returns TimeOfFirstExecution
+//GetTimeOfFirstExecution returns TimeOfFirstExecution
 func (m FixedFrequencySchedule) GetTimeOfFirstExecution() *common.SDKTime {
 	return m.TimeOfFirstExecution
 }

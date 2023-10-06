@@ -36,27 +36,27 @@ type UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails struct {
 	ApprovalPolicy ApprovalPolicy `mandatory:"false" json:"approvalPolicy"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateComputeInstanceGroupCanaryApprovalDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

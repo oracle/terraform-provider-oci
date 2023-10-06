@@ -92,11 +92,11 @@ func (client *LimitsClient) ConfigurationProvider() *common.ConfigurationProvide
 }
 
 // GetResourceAvailability For a given compartmentId, resource limit name, and scope, returns the following:
-//   - The number of available resources associated with the given limit.
-//   - The usage in the selected compartment for the given limit.
-//     Note that not all resource limits support this API. If the value is not available, the API returns a 404 response.
+//   * The number of available resources associated with the given limit.
+//   * The usage in the selected compartment for the given limit.
+//   Note that not all resource limits support this API. If the value is not available, the API returns a 404 response.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/GetResourceAvailability.go.html to see an example of how to use GetResourceAvailability API.
 // A default retry strategy applies to this operation GetResourceAvailability()
@@ -156,7 +156,7 @@ func (client LimitsClient) getResourceAvailability(ctx context.Context, request 
 // If the 'areQuotasSupported' property is true, you can create quota policies on top of this limit at the
 // compartment level.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/ListLimitDefinitions.go.html to see an example of how to use ListLimitDefinitions API.
 // A default retry strategy applies to this operation ListLimitDefinitions()
@@ -214,7 +214,7 @@ func (client LimitsClient) listLimitDefinitions(ctx context.Context, request com
 
 // ListLimitValues Includes a full list of resource limits belonging to a given service.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/ListLimitValues.go.html to see an example of how to use ListLimitValues API.
 // A default retry strategy applies to this operation ListLimitValues()
@@ -273,7 +273,7 @@ func (client LimitsClient) listLimitValues(ctx context.Context, request common.O
 // ListServices Returns the list of supported services.
 // This includes the programmatic service name, along with the friendly service name.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/ListServices.go.html to see an example of how to use ListServices API.
 // A default retry strategy applies to this operation ListServices()

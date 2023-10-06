@@ -31,7 +31,7 @@ type CreateImportTfStateJobOperationDetails struct {
 	IsProviderUpgradeRequired *bool `mandatory:"false" json:"isProviderUpgradeRequired"`
 }
 
-// GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
+//GetIsProviderUpgradeRequired returns IsProviderUpgradeRequired
 func (m CreateImportTfStateJobOperationDetails) GetIsProviderUpgradeRequired() *bool {
 	return m.IsProviderUpgradeRequired
 }

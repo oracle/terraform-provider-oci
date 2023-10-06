@@ -96,7 +96,7 @@ func (client *SubscriptionClient) ConfigurationProvider() *common.ConfigurationP
 // This API expects exactly one of the above mentioned parameters as input. If more than one parameters are provided the API will throw
 // a 400 - invalid parameters exception and if no parameters are provided it will throw a 400 - missing parameter exception
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osubsubscription/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
 func (client SubscriptionClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {

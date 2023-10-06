@@ -67,7 +67,7 @@ type DataEntityFromObject struct {
 	EntityType DataEntityFromObjectEntityTypeEnum `mandatory:"false" json:"entityType,omitempty"`
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m DataEntityFromObject) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

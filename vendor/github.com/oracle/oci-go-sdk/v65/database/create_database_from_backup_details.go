@@ -35,6 +35,9 @@ type CreateDatabaseFromBackupDetails struct {
 
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
+
+	// The list of pluggable databases that needs to be restored into new database.
+	PluggableDatabases []string `mandatory:"false" json:"pluggableDatabases"`
 }
 
 func (m CreateDatabaseFromBackupDetails) String() string {

@@ -69,52 +69,52 @@ type CreateWebhookChannelResult struct {
 	PayloadVersion WebhookPayloadVersionEnum `mandatory:"true" json:"payloadVersion"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m CreateWebhookChannelResult) GetId() *string {
 	return m.Id
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateWebhookChannelResult) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateWebhookChannelResult) GetDescription() *string {
 	return m.Description
 }
 
-// GetCategory returns Category
+//GetCategory returns Category
 func (m CreateWebhookChannelResult) GetCategory() ChannelCategoryEnum {
 	return m.Category
 }
 
-// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m CreateWebhookChannelResult) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m CreateWebhookChannelResult) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m CreateWebhookChannelResult) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m CreateWebhookChannelResult) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateWebhookChannelResult) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateWebhookChannelResult) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

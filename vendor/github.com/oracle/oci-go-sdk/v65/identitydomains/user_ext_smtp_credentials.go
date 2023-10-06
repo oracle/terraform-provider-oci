@@ -19,14 +19,14 @@ import (
 // UserExtSmtpCredentials A list of SMTP credentials corresponding to user.
 // **Added In:** 2012271618
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type UserExtSmtpCredentials struct {
 
 	// The user's SMTP credential identifier.

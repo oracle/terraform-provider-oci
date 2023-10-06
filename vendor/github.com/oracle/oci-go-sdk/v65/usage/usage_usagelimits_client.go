@@ -93,7 +93,7 @@ func (client *UsagelimitsClient) ConfigurationProvider() *common.ConfigurationPr
 
 // ListUsageLimits Returns the list of usage limit for the subscription ID and tenant ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListUsageLimits.go.html to see an example of how to use ListUsageLimits API.
 // A default retry strategy applies to this operation ListUsageLimits()

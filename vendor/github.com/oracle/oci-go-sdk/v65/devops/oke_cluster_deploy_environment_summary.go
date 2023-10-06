@@ -61,62 +61,62 @@ type OkeClusterDeployEnvironmentSummary struct {
 	LifecycleState DeployEnvironmentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m OkeClusterDeployEnvironmentSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m OkeClusterDeployEnvironmentSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m OkeClusterDeployEnvironmentSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m OkeClusterDeployEnvironmentSummary) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m OkeClusterDeployEnvironmentSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m OkeClusterDeployEnvironmentSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m OkeClusterDeployEnvironmentSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m OkeClusterDeployEnvironmentSummary) GetLifecycleState() DeployEnvironmentLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m OkeClusterDeployEnvironmentSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m OkeClusterDeployEnvironmentSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m OkeClusterDeployEnvironmentSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m OkeClusterDeployEnvironmentSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

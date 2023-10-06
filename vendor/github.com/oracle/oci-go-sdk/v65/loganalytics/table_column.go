@@ -59,57 +59,57 @@ type TableColumn struct {
 	ValueType ValueTypeEnum `mandatory:"false" json:"valueType,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m TableColumn) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetSubSystem returns SubSystem
+//GetSubSystem returns SubSystem
 func (m TableColumn) GetSubSystem() SubSystemNameEnum {
 	return m.SubSystem
 }
 
-// GetValues returns Values
+//GetValues returns Values
 func (m TableColumn) GetValues() []FieldValue {
 	return m.Values
 }
 
-// GetIsListOfValues returns IsListOfValues
+//GetIsListOfValues returns IsListOfValues
 func (m TableColumn) GetIsListOfValues() *bool {
 	return m.IsListOfValues
 }
 
-// GetIsMultiValued returns IsMultiValued
+//GetIsMultiValued returns IsMultiValued
 func (m TableColumn) GetIsMultiValued() *bool {
 	return m.IsMultiValued
 }
 
-// GetIsCaseSensitive returns IsCaseSensitive
+//GetIsCaseSensitive returns IsCaseSensitive
 func (m TableColumn) GetIsCaseSensitive() *bool {
 	return m.IsCaseSensitive
 }
 
-// GetIsGroupable returns IsGroupable
+//GetIsGroupable returns IsGroupable
 func (m TableColumn) GetIsGroupable() *bool {
 	return m.IsGroupable
 }
 
-// GetIsEvaluable returns IsEvaluable
+//GetIsEvaluable returns IsEvaluable
 func (m TableColumn) GetIsEvaluable() *bool {
 	return m.IsEvaluable
 }
 
-// GetValueType returns ValueType
+//GetValueType returns ValueType
 func (m TableColumn) GetValueType() ValueTypeEnum {
 	return m.ValueType
 }
 
-// GetOriginalDisplayName returns OriginalDisplayName
+//GetOriginalDisplayName returns OriginalDisplayName
 func (m TableColumn) GetOriginalDisplayName() *string {
 	return m.OriginalDisplayName
 }
 
-// GetInternalName returns InternalName
+//GetInternalName returns InternalName
 func (m TableColumn) GetInternalName() *string {
 	return m.InternalName
 }

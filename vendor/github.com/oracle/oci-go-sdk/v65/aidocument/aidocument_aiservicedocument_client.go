@@ -93,7 +93,7 @@ func (client *AIServiceDocumentClient) ConfigurationProvider() *common.Configura
 
 // AnalyzeDocument Perform different types of document analysis.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/AnalyzeDocument.go.html to see an example of how to use AnalyzeDocument API.
 // A default retry strategy applies to this operation AnalyzeDocument()
@@ -151,7 +151,7 @@ func (client AIServiceDocumentClient) analyzeDocument(ctx context.Context, reque
 
 // CancelProcessorJob Cancel a processor job.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CancelProcessorJob.go.html to see an example of how to use CancelProcessorJob API.
 func (client AIServiceDocumentClient) CancelProcessorJob(ctx context.Context, request CancelProcessorJobRequest) (response CancelProcessorJobResponse, err error) {
@@ -208,7 +208,7 @@ func (client AIServiceDocumentClient) cancelProcessorJob(ctx context.Context, re
 
 // CancelWorkRequest Cancel the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 func (client AIServiceDocumentClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
@@ -265,7 +265,7 @@ func (client AIServiceDocumentClient) cancelWorkRequest(ctx context.Context, req
 
 // ChangeModelCompartment Moves a model from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
 func (client AIServiceDocumentClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
@@ -322,7 +322,7 @@ func (client AIServiceDocumentClient) changeModelCompartment(ctx context.Context
 
 // ChangeProjectCompartment Move a project from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
 func (client AIServiceDocumentClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
@@ -379,7 +379,7 @@ func (client AIServiceDocumentClient) changeProjectCompartment(ctx context.Conte
 
 // CreateModel Create a new model.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CreateModel.go.html to see an example of how to use CreateModel API.
 // A default retry strategy applies to this operation CreateModel()
@@ -442,7 +442,7 @@ func (client AIServiceDocumentClient) createModel(ctx context.Context, request c
 
 // CreateProcessorJob Create a processor job for document analysis.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CreateProcessorJob.go.html to see an example of how to use CreateProcessorJob API.
 // A default retry strategy applies to this operation CreateProcessorJob()
@@ -505,7 +505,7 @@ func (client AIServiceDocumentClient) createProcessorJob(ctx context.Context, re
 
 // CreateProject Create a new project.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CreateProject.go.html to see an example of how to use CreateProject API.
 // A default retry strategy applies to this operation CreateProject()
@@ -568,7 +568,7 @@ func (client AIServiceDocumentClient) createProject(ctx context.Context, request
 
 // DeleteModel Delete a model by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/DeleteModel.go.html to see an example of how to use DeleteModel API.
 func (client AIServiceDocumentClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
@@ -625,7 +625,7 @@ func (client AIServiceDocumentClient) deleteModel(ctx context.Context, request c
 
 // DeleteProject Delete a project by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/DeleteProject.go.html to see an example of how to use DeleteProject API.
 func (client AIServiceDocumentClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
@@ -682,7 +682,7 @@ func (client AIServiceDocumentClient) deleteProject(ctx context.Context, request
 
 // GetModel Get a model by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/GetModel.go.html to see an example of how to use GetModel API.
 // A default retry strategy applies to this operation GetModel()
@@ -740,7 +740,7 @@ func (client AIServiceDocumentClient) getModel(ctx context.Context, request comm
 
 // GetProcessorJob Get the details of a processor job.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/GetProcessorJob.go.html to see an example of how to use GetProcessorJob API.
 // A default retry strategy applies to this operation GetProcessorJob()
@@ -798,7 +798,7 @@ func (client AIServiceDocumentClient) getProcessorJob(ctx context.Context, reque
 
 // GetProject Get a project by identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/GetProject.go.html to see an example of how to use GetProject API.
 // A default retry strategy applies to this operation GetProject()
@@ -856,7 +856,7 @@ func (client AIServiceDocumentClient) getProject(ctx context.Context, request co
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -914,7 +914,7 @@ func (client AIServiceDocumentClient) getWorkRequest(ctx context.Context, reques
 
 // ListModels Returns a list of models in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListModels.go.html to see an example of how to use ListModels API.
 // A default retry strategy applies to this operation ListModels()
@@ -972,7 +972,7 @@ func (client AIServiceDocumentClient) listModels(ctx context.Context, request co
 
 // ListProjects Returns a list of projects.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListProjects.go.html to see an example of how to use ListProjects API.
 // A default retry strategy applies to this operation ListProjects()
@@ -1030,7 +1030,7 @@ func (client AIServiceDocumentClient) listProjects(ctx context.Context, request 
 
 // ListWorkRequestErrors Returns a (paginated) list of errors for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -1088,7 +1088,7 @@ func (client AIServiceDocumentClient) listWorkRequestErrors(ctx context.Context,
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -1146,7 +1146,7 @@ func (client AIServiceDocumentClient) listWorkRequestLogs(ctx context.Context, r
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -1204,7 +1204,7 @@ func (client AIServiceDocumentClient) listWorkRequests(ctx context.Context, requ
 
 // PatchModel Updates the model metadata only selected path parameter.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/PatchModel.go.html to see an example of how to use PatchModel API.
 func (client AIServiceDocumentClient) PatchModel(ctx context.Context, request PatchModelRequest) (response PatchModelResponse, err error) {
@@ -1261,7 +1261,7 @@ func (client AIServiceDocumentClient) patchModel(ctx context.Context, request co
 
 // UpdateModel Updates the model metadata.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/UpdateModel.go.html to see an example of how to use UpdateModel API.
 func (client AIServiceDocumentClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
@@ -1318,7 +1318,7 @@ func (client AIServiceDocumentClient) updateModel(ctx context.Context, request c
 
 // UpdateProject Update the project metadata.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/UpdateProject.go.html to see an example of how to use UpdateProject API.
 func (client AIServiceDocumentClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {

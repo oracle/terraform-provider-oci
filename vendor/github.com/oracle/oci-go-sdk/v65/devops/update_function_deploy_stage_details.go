@@ -49,27 +49,27 @@ type UpdateFunctionDeployStageDetails struct {
 	FunctionTimeoutInSeconds *int `mandatory:"false" json:"functionTimeoutInSeconds"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateFunctionDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateFunctionDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m UpdateFunctionDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateFunctionDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateFunctionDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

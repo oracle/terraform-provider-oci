@@ -95,7 +95,7 @@ func (client *VaultsClient) ConfigurationProvider() *common.ConfigurationProvide
 // a scheduled deletion restores the secret's lifecycle state to what
 // it was before you scheduled the secret for deletion.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CancelSecretDeletion.go.html to see an example of how to use CancelSecretDeletion API.
 func (client VaultsClient) CancelSecretDeletion(ctx context.Context, request CancelSecretDeletionRequest) (response CancelSecretDeletionResponse, err error) {
@@ -152,7 +152,7 @@ func (client VaultsClient) cancelSecretDeletion(ctx context.Context, request com
 
 // CancelSecretVersionDeletion Cancels the scheduled deletion of a secret version.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CancelSecretVersionDeletion.go.html to see an example of how to use CancelSecretVersionDeletion API.
 func (client VaultsClient) CancelSecretVersionDeletion(ctx context.Context, request CancelSecretVersionDeletionRequest) (response CancelSecretVersionDeletionResponse, err error) {
@@ -211,7 +211,7 @@ func (client VaultsClient) cancelSecretVersionDeletion(ctx context.Context, requ
 // moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, if-match is checked against the ETag values of the secret.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ChangeSecretCompartment.go.html to see an example of how to use ChangeSecretCompartment API.
 func (client VaultsClient) ChangeSecretCompartment(ctx context.Context, request ChangeSecretCompartmentRequest) (response ChangeSecretCompartmentResponse, err error) {
@@ -274,7 +274,7 @@ func (client VaultsClient) changeSecretCompartment(ctx context.Context, request 
 // CreateSecret Creates a new secret according to the details of the request.
 // This operation is not supported by the Oracle Cloud Infrastructure Terraform Provider.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CreateSecret.go.html to see an example of how to use CreateSecret API.
 // A default retry strategy applies to this operation CreateSecret()
@@ -337,7 +337,7 @@ func (client VaultsClient) createSecret(ctx context.Context, request common.OCIR
 
 // GetSecret Gets information about the specified secret.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/GetSecret.go.html to see an example of how to use GetSecret API.
 // A default retry strategy applies to this operation GetSecret()
@@ -395,7 +395,7 @@ func (client VaultsClient) getSecret(ctx context.Context, request common.OCIRequ
 
 // GetSecretVersion Gets information about the specified version of a secret.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/GetSecretVersion.go.html to see an example of how to use GetSecretVersion API.
 // A default retry strategy applies to this operation GetSecretVersion()
@@ -453,7 +453,7 @@ func (client VaultsClient) getSecretVersion(ctx context.Context, request common.
 
 // ListSecretVersions Lists all secret versions for the specified secret.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ListSecretVersions.go.html to see an example of how to use ListSecretVersions API.
 // A default retry strategy applies to this operation ListSecretVersions()
@@ -511,7 +511,7 @@ func (client VaultsClient) listSecretVersions(ctx context.Context, request commo
 
 // ListSecrets Lists all secrets in the specified vault and compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ListSecrets.go.html to see an example of how to use ListSecrets API.
 // A default retry strategy applies to this operation ListSecrets()
@@ -570,7 +570,7 @@ func (client VaultsClient) listSecrets(ctx context.Context, request common.OCIRe
 // ScheduleSecretDeletion Schedules the deletion of the specified secret. This sets the lifecycle state of the secret
 // to `PENDING_DELETION` and then deletes it after the specified retention period ends.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ScheduleSecretDeletion.go.html to see an example of how to use ScheduleSecretDeletion API.
 func (client VaultsClient) ScheduleSecretDeletion(ctx context.Context, request ScheduleSecretDeletionRequest) (response ScheduleSecretDeletionResponse, err error) {
@@ -628,7 +628,7 @@ func (client VaultsClient) scheduleSecretDeletion(ctx context.Context, request c
 // ScheduleSecretVersionDeletion Schedules the deletion of the specified secret version. This deletes it after the specified retention period ends. You can only
 // delete a secret version if the secret version rotation state is marked as `DEPRECATED`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/ScheduleSecretVersionDeletion.go.html to see an example of how to use ScheduleSecretVersionDeletion API.
 func (client VaultsClient) ScheduleSecretVersionDeletion(ctx context.Context, request ScheduleSecretVersionDeletionRequest) (response ScheduleSecretVersionDeletionResponse, err error) {
@@ -689,7 +689,7 @@ func (client VaultsClient) scheduleSecretVersionDeletion(ctx context.Context, re
 // same time. Furthermore, the secret must in an `ACTIVE` lifecycle state to be updated.
 // This operation is not supported by the Oracle Cloud Infrastructure Terraform Provider.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/UpdateSecret.go.html to see an example of how to use UpdateSecret API.
 func (client VaultsClient) UpdateSecret(ctx context.Context, request UpdateSecretRequest) (response UpdateSecretResponse, err error) {

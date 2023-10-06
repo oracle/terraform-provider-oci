@@ -42,32 +42,32 @@ type InputLink struct {
 	FieldMap FieldMap `mandatory:"false" json:"fieldMap"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m InputLink) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m InputLink) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m InputLink) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m InputLink) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m InputLink) GetDescription() *string {
 	return m.Description
 }
 
-// GetPort returns Port
+//GetPort returns Port
 func (m InputLink) GetPort() *string {
 	return m.Port
 }

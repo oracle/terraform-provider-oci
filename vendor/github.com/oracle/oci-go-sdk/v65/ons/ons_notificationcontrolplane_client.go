@@ -97,7 +97,7 @@ func (client *NotificationControlPlaneClient) ConfigurationProvider() *common.Co
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ChangeTopicCompartment.go.html to see an example of how to use ChangeTopicCompartment API.
 func (client NotificationControlPlaneClient) ChangeTopicCompartment(ctx context.Context, request ChangeTopicCompartmentRequest) (response ChangeTopicCompartmentResponse, err error) {
@@ -168,7 +168,7 @@ func (client NotificationControlPlaneClient) changeTopicCompartment(ctx context.
 // Console. For more information, see Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/CreateTopic.go.html to see an example of how to use CreateTopic API.
 func (client NotificationControlPlaneClient) CreateTopic(ctx context.Context, request CreateTopicRequest) (response CreateTopicResponse, err error) {
@@ -231,7 +231,7 @@ func (client NotificationControlPlaneClient) createTopic(ctx context.Context, re
 // DeleteTopic Deletes the specified topic.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/DeleteTopic.go.html to see an example of how to use DeleteTopic API.
 func (client NotificationControlPlaneClient) DeleteTopic(ctx context.Context, request DeleteTopicRequest) (response DeleteTopicResponse, err error) {
@@ -288,7 +288,7 @@ func (client NotificationControlPlaneClient) deleteTopic(ctx context.Context, re
 
 // GetTopic Gets the specified topic's configuration information.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetTopic.go.html to see an example of how to use GetTopic API.
 func (client NotificationControlPlaneClient) GetTopic(ctx context.Context, request GetTopicRequest) (response GetTopicResponse, err error) {
@@ -346,7 +346,7 @@ func (client NotificationControlPlaneClient) getTopic(ctx context.Context, reque
 // ListTopics Lists topics in the specified compartment.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 120.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/ListTopics.go.html to see an example of how to use ListTopics API.
 func (client NotificationControlPlaneClient) ListTopics(ctx context.Context, request ListTopicsRequest) (response ListTopicsResponse, err error) {
@@ -404,7 +404,7 @@ func (client NotificationControlPlaneClient) listTopics(ctx context.Context, req
 // UpdateTopic Updates the specified topic's configuration.
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/UpdateTopic.go.html to see an example of how to use UpdateTopic API.
 func (client NotificationControlPlaneClient) UpdateTopic(ctx context.Context, request UpdateTopicRequest) (response UpdateTopicResponse, err error) {

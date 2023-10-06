@@ -43,22 +43,22 @@ type ExternalDbSystemDiscoveryMacsConnector struct {
 	ConnectionInfo ExternalDbSystemConnectionInfo `mandatory:"false" json:"connectionInfo"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m ExternalDbSystemDiscoveryMacsConnector) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetConnectionStatus returns ConnectionStatus
+//GetConnectionStatus returns ConnectionStatus
 func (m ExternalDbSystemDiscoveryMacsConnector) GetConnectionStatus() *string {
 	return m.ConnectionStatus
 }
 
-// GetConnectionFailureMessage returns ConnectionFailureMessage
+//GetConnectionFailureMessage returns ConnectionFailureMessage
 func (m ExternalDbSystemDiscoveryMacsConnector) GetConnectionFailureMessage() *string {
 	return m.ConnectionFailureMessage
 }
 
-// GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
+//GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
 func (m ExternalDbSystemDiscoveryMacsConnector) GetTimeConnectionStatusLastUpdated() *common.SDKTime {
 	return m.TimeConnectionStatusLastUpdated
 }

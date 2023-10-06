@@ -33,12 +33,12 @@ type ScriptedRestMonitorConfiguration struct {
 	ReqAuthenticationScheme RequestAuthenticationSchemesForScriptedRestEnum `mandatory:"false" json:"reqAuthenticationScheme,omitempty"`
 }
 
-// GetIsFailureRetried returns IsFailureRetried
+//GetIsFailureRetried returns IsFailureRetried
 func (m ScriptedRestMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
 }
 
-// GetDnsConfiguration returns DnsConfiguration
+//GetDnsConfiguration returns DnsConfiguration
 func (m ScriptedRestMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
 	return m.DnsConfiguration
 }

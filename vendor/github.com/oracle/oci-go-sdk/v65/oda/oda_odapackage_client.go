@@ -95,7 +95,7 @@ func (client *OdapackageClient) ConfigurationProvider() *common.ConfigurationPro
 // To monitor the status of the job, take the `opc-work-request-id` response
 // header value and use it to call `GET /workRequests/{workRequestId}`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateImportedPackage.go.html to see an example of how to use CreateImportedPackage API.
 // A default retry strategy applies to this operation CreateImportedPackage()
@@ -160,7 +160,7 @@ func (client OdapackageClient) createImportedPackage(ctx context.Context, reques
 // To monitor the status of the job, take the `opc-work-request-id` response
 // header value and use it to call `GET /workRequests/{workRequestId}`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteImportedPackage.go.html to see an example of how to use DeleteImportedPackage API.
 // A default retry strategy applies to this operation DeleteImportedPackage()
@@ -223,7 +223,7 @@ func (client OdapackageClient) deleteImportedPackage(ctx context.Context, reques
 
 // GetImportedPackage Returns a list of summaries for imported packages in the instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetImportedPackage.go.html to see an example of how to use GetImportedPackage API.
 // A default retry strategy applies to this operation GetImportedPackage()
@@ -281,7 +281,7 @@ func (client OdapackageClient) getImportedPackage(ctx context.Context, request c
 
 // GetPackage Returns details about a package, and how to import it.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetPackage.go.html to see an example of how to use GetPackage API.
 // A default retry strategy applies to this operation GetPackage()
@@ -339,7 +339,7 @@ func (client OdapackageClient) getPackage(ctx context.Context, request common.OC
 
 // ListImportedPackages Returns a list of summaries for imported packages in the instance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListImportedPackages.go.html to see an example of how to use ListImportedPackages API.
 // A default retry strategy applies to this operation ListImportedPackages()
@@ -409,7 +409,7 @@ func (client OdapackageClient) listImportedPackages(ctx context.Context, request
 // there are more items to retrieve. To get the next page in the subsequent
 // GET request, include the header's value as the `page` query parameter.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListPackages.go.html to see an example of how to use ListPackages API.
 // A default retry strategy applies to this operation ListPackages()
@@ -469,7 +469,7 @@ func (client OdapackageClient) listPackages(ctx context.Context, request common.
 // To monitor the status of the job, take the `opc-work-request-id` response
 // header value and use it to call `GET /workRequests/{workRequestId}`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateImportedPackage.go.html to see an example of how to use UpdateImportedPackage API.
 // A default retry strategy applies to this operation UpdateImportedPackage()

@@ -40,27 +40,27 @@ type UpdateTriggerDeploymentStageDetails struct {
 	IsPassAllParametersEnabled *bool `mandatory:"false" json:"isPassAllParametersEnabled"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateTriggerDeploymentStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateTriggerDeploymentStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
+//GetBuildPipelineStagePredecessorCollection returns BuildPipelineStagePredecessorCollection
 func (m UpdateTriggerDeploymentStageDetails) GetBuildPipelineStagePredecessorCollection() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateTriggerDeploymentStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateTriggerDeploymentStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

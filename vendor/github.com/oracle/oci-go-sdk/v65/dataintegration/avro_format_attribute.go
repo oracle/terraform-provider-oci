@@ -26,7 +26,7 @@ type AvroFormatAttribute struct {
 	Compression *string `mandatory:"false" json:"compression"`
 }
 
-// GetIsFilePattern returns IsFilePattern
+//GetIsFilePattern returns IsFilePattern
 func (m AvroFormatAttribute) GetIsFilePattern() *bool {
 	return m.IsFilePattern
 }

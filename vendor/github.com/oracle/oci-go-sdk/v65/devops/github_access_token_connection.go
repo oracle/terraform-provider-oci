@@ -62,67 +62,67 @@ type GithubAccessTokenConnection struct {
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m GithubAccessTokenConnection) GetId() *string {
 	return m.Id
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m GithubAccessTokenConnection) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m GithubAccessTokenConnection) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m GithubAccessTokenConnection) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m GithubAccessTokenConnection) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m GithubAccessTokenConnection) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m GithubAccessTokenConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLastConnectionValidationResult returns LastConnectionValidationResult
+//GetLastConnectionValidationResult returns LastConnectionValidationResult
 func (m GithubAccessTokenConnection) GetLastConnectionValidationResult() *ConnectionValidationResult {
 	return m.LastConnectionValidationResult
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m GithubAccessTokenConnection) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m GithubAccessTokenConnection) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m GithubAccessTokenConnection) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m GithubAccessTokenConnection) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m GithubAccessTokenConnection) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

@@ -18,14 +18,14 @@ import (
 
 // GrantApp Application that is being granted. Each Grant must grant either an App or an App-Entitlement-Collection.
 // **SCIM++ Properties:**
-//   - idcsCsvAttributeNameMappings: [[columnHeaderName:App Name, defaultValue:jobParam:appDisplayName, mapsTo:app.value]]
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCsvAttributeNameMappings: [[columnHeaderName:App Name, defaultValue:jobParam:appDisplayName, mapsTo:app.value]]
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type GrantApp struct {
 
 	// Application identifier

@@ -41,7 +41,7 @@ type VcnDrgAttachmentNetworkCreateDetails struct {
 	VcnRouteType VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum `mandatory:"false" json:"vcnRouteType,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m VcnDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
 }
