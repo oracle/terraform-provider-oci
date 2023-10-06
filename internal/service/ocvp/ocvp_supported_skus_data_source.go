@@ -44,6 +44,7 @@ func OcvpSupportedSkusDataSource() *schema.Resource {
 				},
 			},
 		},
+		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_ocvp_supported_skus", "oci_ocvp_supported_commitments"),
 	}
 }
 
