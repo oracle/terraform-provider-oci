@@ -1,3 +1,14 @@
+## 5.16.0 (Unreleased)
+
+### Added
+- Support for DIS: Import / Export
+- Support for Marketplace Publisher Service, enhance Marketplace and Marketplace Publishing Services
+- Support for Cluster Namespace features
+### Deprecation
+- OCVS v20200501 API support
+### Bug Fix
+- Only trigger recreation while change subnet_id for endpoint config on native vcn cluster
+
 ## 5.15.0 (Unreleased)
 
 ### Added
