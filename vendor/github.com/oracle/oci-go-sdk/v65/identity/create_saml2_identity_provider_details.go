@@ -59,32 +59,32 @@ type CreateSaml2IdentityProviderDetails struct {
 	ProductType CreateIdentityProviderDetailsProductTypeEnum `mandatory:"true" json:"productType"`
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateSaml2IdentityProviderDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateSaml2IdentityProviderDetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateSaml2IdentityProviderDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetProductType returns ProductType
+// GetProductType returns ProductType
 func (m CreateSaml2IdentityProviderDetails) GetProductType() CreateIdentityProviderDetailsProductTypeEnum {
 	return m.ProductType
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateSaml2IdentityProviderDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateSaml2IdentityProviderDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

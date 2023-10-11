@@ -65,67 +65,67 @@ type BitbucketCloudAppPasswordConnection struct {
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m BitbucketCloudAppPasswordConnection) GetId() *string {
 	return m.Id
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m BitbucketCloudAppPasswordConnection) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m BitbucketCloudAppPasswordConnection) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m BitbucketCloudAppPasswordConnection) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetProjectId returns ProjectId
+// GetProjectId returns ProjectId
 func (m BitbucketCloudAppPasswordConnection) GetProjectId() *string {
 	return m.ProjectId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m BitbucketCloudAppPasswordConnection) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m BitbucketCloudAppPasswordConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLastConnectionValidationResult returns LastConnectionValidationResult
+// GetLastConnectionValidationResult returns LastConnectionValidationResult
 func (m BitbucketCloudAppPasswordConnection) GetLastConnectionValidationResult() *ConnectionValidationResult {
 	return m.LastConnectionValidationResult
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m BitbucketCloudAppPasswordConnection) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m BitbucketCloudAppPasswordConnection) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m BitbucketCloudAppPasswordConnection) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m BitbucketCloudAppPasswordConnection) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m BitbucketCloudAppPasswordConnection) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

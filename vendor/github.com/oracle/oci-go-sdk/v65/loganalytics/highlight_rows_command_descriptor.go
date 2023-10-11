@@ -44,32 +44,32 @@ type HighlightRowsCommandDescriptor struct {
 	Keywords []string `mandatory:"false" json:"keywords"`
 }
 
-//GetDisplayQueryString returns DisplayQueryString
+// GetDisplayQueryString returns DisplayQueryString
 func (m HighlightRowsCommandDescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-//GetInternalQueryString returns InternalQueryString
+// GetInternalQueryString returns InternalQueryString
 func (m HighlightRowsCommandDescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m HighlightRowsCommandDescriptor) GetCategory() *string {
 	return m.Category
 }
 
-//GetReferencedFields returns ReferencedFields
+// GetReferencedFields returns ReferencedFields
 func (m HighlightRowsCommandDescriptor) GetReferencedFields() []AbstractField {
 	return m.ReferencedFields
 }
 
-//GetDeclaredFields returns DeclaredFields
+// GetDeclaredFields returns DeclaredFields
 func (m HighlightRowsCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
-//GetIsHidden returns IsHidden
+// GetIsHidden returns IsHidden
 func (m HighlightRowsCommandDescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }

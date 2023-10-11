@@ -58,27 +58,27 @@ type UpdateVmWareAssetSourceDetails struct {
 	DiscoveryScheduleId *string `mandatory:"false" json:"discoveryScheduleId"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateVmWareAssetSourceDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetAssetsCompartmentId returns AssetsCompartmentId
+// GetAssetsCompartmentId returns AssetsCompartmentId
 func (m UpdateVmWareAssetSourceDetails) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateVmWareAssetSourceDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateVmWareAssetSourceDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m UpdateVmWareAssetSourceDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

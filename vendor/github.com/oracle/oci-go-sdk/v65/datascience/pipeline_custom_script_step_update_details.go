@@ -28,17 +28,17 @@ type PipelineCustomScriptStepUpdateDetails struct {
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
 }
 
-//GetStepName returns StepName
+// GetStepName returns StepName
 func (m PipelineCustomScriptStepUpdateDetails) GetStepName() *string {
 	return m.StepName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m PipelineCustomScriptStepUpdateDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetStepConfigurationDetails returns StepConfigurationDetails
+// GetStepConfigurationDetails returns StepConfigurationDetails
 func (m PipelineCustomScriptStepUpdateDetails) GetStepConfigurationDetails() *PipelineStepConfigurationDetails {
 	return m.StepConfigurationDetails
 }

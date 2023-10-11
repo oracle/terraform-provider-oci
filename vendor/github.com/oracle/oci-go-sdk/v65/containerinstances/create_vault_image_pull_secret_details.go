@@ -19,10 +19,12 @@ import (
 // CreateVaultImagePullSecretDetails A CreateVaultImagePullSecretDetails is a ImagePullSecret which accepts secretId as credentials information.
 // **Sample Format for username and password in Vault Secret**
 // ```
-// {
-//   "username": "this-is-not-the-secret",
-//   "password": "example-password"
-// }
+//
+//	{
+//	  "username": "this-is-not-the-secret",
+//	  "password": "example-password"
+//	}
+//
 // ```
 type CreateVaultImagePullSecretDetails struct {
 
@@ -33,7 +35,7 @@ type CreateVaultImagePullSecretDetails struct {
 	SecretId *string `mandatory:"true" json:"secretId"`
 }
 
-//GetRegistryEndpoint returns RegistryEndpoint
+// GetRegistryEndpoint returns RegistryEndpoint
 func (m CreateVaultImagePullSecretDetails) GetRegistryEndpoint() *string {
 	return m.RegistryEndpoint
 }

@@ -94,7 +94,7 @@ func (client *SddcClient) ConfigurationProvider() *common.ConfigurationProvider 
 
 // CancelDowngradeHcx Cancel the pending SDDC downgrade from HCX Enterprise to HCX Advanced.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CancelDowngradeHcx.go.html to see an example of how to use CancelDowngradeHcx API.
 // A default retry strategy applies to this operation CancelDowngradeHcx()
@@ -159,7 +159,7 @@ func (client SddcClient) cancelDowngradeHcx(ctx context.Context, request common.
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ChangeSddcCompartment.go.html to see an example of how to use ChangeSddcCompartment API.
 // A default retry strategy applies to this operation ChangeSddcCompartment()
@@ -225,7 +225,7 @@ func (client SddcClient) changeSddcCompartment(ctx context.Context, request comm
 // creation of the SDDC.
 // **Important:** You must configure the SDDC's networking resources with the security rules detailed in Security Rules for Oracle Cloud VMware Solution SDDCs (https://docs.cloud.oracle.com/iaas/Content/VMware/Reference/ocvssecurityrules.htm). Otherwise, provisioning the SDDC will fail. The rules are based on the requirements set by VMware.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CreateSddc.go.html to see an example of how to use CreateSddc API.
 // A default retry strategy applies to this operation CreateSddc()
@@ -292,7 +292,7 @@ func (client SddcClient) createSddc(ctx context.Context, request common.OCIReque
 // Use the WorkRequest operations to track the
 // deletion of the SDDC.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DeleteSddc.go.html to see an example of how to use DeleteSddc API.
 // A default retry strategy applies to this operation DeleteSddc()
@@ -354,7 +354,7 @@ func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIReque
 // Downgrade remains in a `PENDING` state until the end of the current billing cycle. You can use CancelDowngradeHcx
 // to cancel the downgrade while it's still in a `PENDING` state.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DowngradeHcx.go.html to see an example of how to use DowngradeHcx API.
 // A default retry strategy applies to this operation DowngradeHcx()
@@ -417,7 +417,7 @@ func (client SddcClient) downgradeHcx(ctx context.Context, request common.OCIReq
 
 // GetSddc Gets the specified SDDC's information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/GetSddc.go.html to see an example of how to use GetSddc API.
 // A default retry strategy applies to this operation GetSddc()
@@ -476,7 +476,7 @@ func (client SddcClient) getSddc(ctx context.Context, request common.OCIRequest,
 // ListSddcs Lists the SDDCs in the specified compartment. The list can be
 // filtered by display name or availability domain.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSddcs.go.html to see an example of how to use ListSddcs API.
 // A default retry strategy applies to this operation ListSddcs()
@@ -534,7 +534,7 @@ func (client SddcClient) listSddcs(ctx context.Context, request common.OCIReques
 
 // ListSupportedHostShapes Lists supported compute shapes for ESXi hosts.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedHostShapes.go.html to see an example of how to use ListSupportedHostShapes API.
 // A default retry strategy applies to this operation ListSupportedHostShapes()
@@ -592,7 +592,7 @@ func (client SddcClient) listSupportedHostShapes(ctx context.Context, request co
 
 // ListSupportedSkus Lists supported SKUs.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedSkus.go.html to see an example of how to use ListSupportedSkus API.
 // A default retry strategy applies to this operation ListSupportedSkus()
@@ -651,7 +651,7 @@ func (client SddcClient) listSupportedSkus(ctx context.Context, request common.O
 // ListSupportedVmwareSoftwareVersions Lists the versions of bundled VMware software supported by the Oracle Cloud
 // VMware Solution.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedVmwareSoftwareVersions.go.html to see an example of how to use ListSupportedVmwareSoftwareVersions API.
 // A default retry strategy applies to this operation ListSupportedVmwareSoftwareVersions()
@@ -709,7 +709,7 @@ func (client SddcClient) listSupportedVmwareSoftwareVersions(ctx context.Context
 
 // RefreshHcxLicenseStatus Refresh HCX on-premise licenses status of the specified SDDC.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/RefreshHcxLicenseStatus.go.html to see an example of how to use RefreshHcxLicenseStatus API.
 // A default retry strategy applies to this operation RefreshHcxLicenseStatus()
@@ -776,7 +776,7 @@ func (client SddcClient) refreshHcxLicenseStatus(ctx context.Context, request co
 // the SDDC. For more information, see
 // UpdateSddcDetails.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpdateSddc.go.html to see an example of how to use UpdateSddc API.
 // A default retry strategy applies to this operation UpdateSddc()
@@ -834,7 +834,7 @@ func (client SddcClient) updateSddc(ctx context.Context, request common.OCIReque
 
 // UpgradeHcx Upgrade the specified SDDC from HCX Advanced to HCX Enterprise.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpgradeHcx.go.html to see an example of how to use UpgradeHcx API.
 // A default retry strategy applies to this operation UpgradeHcx()

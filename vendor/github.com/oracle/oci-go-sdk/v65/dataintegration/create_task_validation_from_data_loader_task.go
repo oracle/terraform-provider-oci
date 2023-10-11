@@ -60,72 +60,72 @@ type CreateTaskValidationFromDataLoaderTask struct {
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m CreateTaskValidationFromDataLoaderTask) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m CreateTaskValidationFromDataLoaderTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m CreateTaskValidationFromDataLoaderTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateTaskValidationFromDataLoaderTask) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateTaskValidationFromDataLoaderTask) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m CreateTaskValidationFromDataLoaderTask) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m CreateTaskValidationFromDataLoaderTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m CreateTaskValidationFromDataLoaderTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m CreateTaskValidationFromDataLoaderTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m CreateTaskValidationFromDataLoaderTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m CreateTaskValidationFromDataLoaderTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m CreateTaskValidationFromDataLoaderTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-//GetConfigProviderDelegate returns ConfigProviderDelegate
+// GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m CreateTaskValidationFromDataLoaderTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m CreateTaskValidationFromDataLoaderTask) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

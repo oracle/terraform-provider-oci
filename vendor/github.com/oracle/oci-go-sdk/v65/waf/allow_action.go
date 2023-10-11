@@ -24,7 +24,7 @@ type AllowAction struct {
 	Name *string `mandatory:"true" json:"name"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m AllowAction) GetName() *string {
 	return m.Name
 }

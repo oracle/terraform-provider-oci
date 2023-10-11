@@ -81,7 +81,7 @@ func (client *KmsCryptoClient) ConfigurationProvider() *common.ConfigurationProv
 
 // Decrypt Decrypts data using the given DecryptDataDetails (https://docs.cloud.oracle.com/api/#/en/key/latest/datatypes/DecryptDataDetails) resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Decrypt.go.html to see an example of how to use Decrypt API.
 func (client KmsCryptoClient) Decrypt(ctx context.Context, request DecryptRequest) (response DecryptResponse, err error) {
@@ -139,7 +139,7 @@ func (client KmsCryptoClient) decrypt(ctx context.Context, request common.OCIReq
 // Encrypt Encrypts data using the given EncryptDataDetails (https://docs.cloud.oracle.com/api/#/en/key/latest/datatypes/EncryptDataDetails) resource.
 // Plaintext included in the example request is a base64-encoded value of a UTF-8 string.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Encrypt.go.html to see an example of how to use Encrypt API.
 func (client KmsCryptoClient) Encrypt(ctx context.Context, request EncryptRequest) (response EncryptResponse, err error) {
@@ -199,7 +199,7 @@ func (client KmsCryptoClient) encrypt(ctx context.Context, request common.OCIReq
 // stored on the server. For export, the key version is encrypted by an RSA public key that you provide.
 // This operation is not supported for keys having protection mode `EXTERNAL`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ExportKey.go.html to see an example of how to use ExportKey API.
 func (client KmsCryptoClient) ExportKey(ctx context.Context, request ExportKeyRequest) (response ExportKeyResponse, err error) {
@@ -256,7 +256,7 @@ func (client KmsCryptoClient) exportKey(ctx context.Context, request common.OCIR
 
 // GenerateDataEncryptionKey Generates a key that you can use to encrypt or decrypt data.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GenerateDataEncryptionKey.go.html to see an example of how to use GenerateDataEncryptionKey API.
 func (client KmsCryptoClient) GenerateDataEncryptionKey(ctx context.Context, request GenerateDataEncryptionKeyRequest) (response GenerateDataEncryptionKeyResponse, err error) {
@@ -316,7 +316,7 @@ func (client KmsCryptoClient) generateDataEncryptionKey(ctx context.Context, req
 // operation. Or, if you want to validate the signature outside of the service, you can do so by using the public key of the same asymmetric key.
 // This operation is not supported for keys having protection mode `EXTERNAL`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Sign.go.html to see an example of how to use Sign API.
 func (client KmsCryptoClient) Sign(ctx context.Context, request SignRequest) (response SignResponse, err error) {
@@ -376,7 +376,7 @@ func (client KmsCryptoClient) sign(ctx context.Context, request common.OCIReques
 // digital signature outside of the service, you can do so by using the public key of the asymmetric key.
 // This operation is not supported for keys having protection mode `EXTERNAL`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Verify.go.html to see an example of how to use Verify API.
 func (client KmsCryptoClient) Verify(ctx context.Context, request VerifyRequest) (response VerifyResponse, err error) {

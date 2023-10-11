@@ -43,37 +43,37 @@ type OkeBlueGreenTrafficShiftDeployStageExecutionProgress struct {
 	Status DeployStageExecutionProgressStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 
-//GetDeployStageDisplayName returns DeployStageDisplayName
+// GetDeployStageDisplayName returns DeployStageDisplayName
 func (m OkeBlueGreenTrafficShiftDeployStageExecutionProgress) GetDeployStageDisplayName() *string {
 	return m.DeployStageDisplayName
 }
 
-//GetDeployStageId returns DeployStageId
+// GetDeployStageId returns DeployStageId
 func (m OkeBlueGreenTrafficShiftDeployStageExecutionProgress) GetDeployStageId() *string {
 	return m.DeployStageId
 }
 
-//GetTimeStarted returns TimeStarted
+// GetTimeStarted returns TimeStarted
 func (m OkeBlueGreenTrafficShiftDeployStageExecutionProgress) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-//GetTimeFinished returns TimeFinished
+// GetTimeFinished returns TimeFinished
 func (m OkeBlueGreenTrafficShiftDeployStageExecutionProgress) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m OkeBlueGreenTrafficShiftDeployStageExecutionProgress) GetStatus() DeployStageExecutionProgressStatusEnum {
 	return m.Status
 }
 
-//GetDeployStagePredecessors returns DeployStagePredecessors
+// GetDeployStagePredecessors returns DeployStagePredecessors
 func (m OkeBlueGreenTrafficShiftDeployStageExecutionProgress) GetDeployStagePredecessors() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessors
 }
 
-//GetDeployStageExecutionProgressDetails returns DeployStageExecutionProgressDetails
+// GetDeployStageExecutionProgressDetails returns DeployStageExecutionProgressDetails
 func (m OkeBlueGreenTrafficShiftDeployStageExecutionProgress) GetDeployStageExecutionProgressDetails() []DeployStageExecutionProgressDetails {
 	return m.DeployStageExecutionProgressDetails
 }

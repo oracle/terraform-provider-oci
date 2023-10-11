@@ -44,32 +44,32 @@ type ConfiguredType struct {
 	ConfigDefinition *ConfigDefinition `mandatory:"false" json:"configDefinition"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m ConfiguredType) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m ConfiguredType) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m ConfiguredType) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ConfiguredType) GetName() *string {
 	return m.Name
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m ConfiguredType) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ConfiguredType) GetDescription() *string {
 	return m.Description
 }

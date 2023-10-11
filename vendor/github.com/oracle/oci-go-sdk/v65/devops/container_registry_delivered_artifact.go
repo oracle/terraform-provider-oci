@@ -32,12 +32,12 @@ type ContainerRegistryDeliveredArtifact struct {
 	ImageUri *string `mandatory:"false" json:"imageUri"`
 }
 
-//GetDeployArtifactId returns DeployArtifactId
+// GetDeployArtifactId returns DeployArtifactId
 func (m ContainerRegistryDeliveredArtifact) GetDeployArtifactId() *string {
 	return m.DeployArtifactId
 }
 
-//GetOutputArtifactName returns OutputArtifactName
+// GetOutputArtifactName returns OutputArtifactName
 func (m ContainerRegistryDeliveredArtifact) GetOutputArtifactName() *string {
 	return m.OutputArtifactName
 }

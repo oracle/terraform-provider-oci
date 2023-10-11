@@ -35,7 +35,7 @@ type CreateCertificateByImportingConfigDetails struct {
 	PrivateKeyPemPassphrase *string `mandatory:"false" json:"privateKeyPemPassphrase"`
 }
 
-//GetVersionName returns VersionName
+// GetVersionName returns VersionName
 func (m CreateCertificateByImportingConfigDetails) GetVersionName() *string {
 	return m.VersionName
 }

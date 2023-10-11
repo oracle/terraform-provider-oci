@@ -93,7 +93,7 @@ func (client *AddressServiceClient) ConfigurationProvider() *common.Configuratio
 
 // GetAddress Get the address by id for the compartment
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetAddress.go.html to see an example of how to use GetAddress API.
 // A default retry strategy applies to this operation GetAddress()
@@ -151,7 +151,7 @@ func (client AddressServiceClient) getAddress(ctx context.Context, request commo
 
 // VerifyAddress Verify address
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/VerifyAddress.go.html to see an example of how to use VerifyAddress API.
 // A default retry strategy applies to this operation VerifyAddress()

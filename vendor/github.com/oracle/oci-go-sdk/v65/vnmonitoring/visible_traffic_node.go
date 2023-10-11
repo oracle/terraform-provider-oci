@@ -36,22 +36,22 @@ type VisibleTrafficNode struct {
 	TransformationDescription *string `mandatory:"false" json:"transformationDescription"`
 }
 
-//GetEgressTraffic returns EgressTraffic
+// GetEgressTraffic returns EgressTraffic
 func (m VisibleTrafficNode) GetEgressTraffic() *EgressTrafficSpec {
 	return m.EgressTraffic
 }
 
-//GetNextHopRoutingAction returns NextHopRoutingAction
+// GetNextHopRoutingAction returns NextHopRoutingAction
 func (m VisibleTrafficNode) GetNextHopRoutingAction() RoutingAction {
 	return m.NextHopRoutingAction
 }
 
-//GetEgressSecurityAction returns EgressSecurityAction
+// GetEgressSecurityAction returns EgressSecurityAction
 func (m VisibleTrafficNode) GetEgressSecurityAction() SecurityAction {
 	return m.EgressSecurityAction
 }
 
-//GetIngressSecurityAction returns IngressSecurityAction
+// GetIngressSecurityAction returns IngressSecurityAction
 func (m VisibleTrafficNode) GetIngressSecurityAction() SecurityAction {
 	return m.IngressSecurityAction
 }

@@ -101,7 +101,7 @@ func (client *EmailClient) ConfigurationProvider() *common.ConfigurationProvider
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // **Note:** All Dkim objects associated with this email domain will also be moved into the provided compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ChangeEmailDomainCompartment.go.html to see an example of how to use ChangeEmailDomainCompartment API.
 func (client EmailClient) ChangeEmailDomainCompartment(ctx context.Context, request ChangeEmailDomainCompartmentRequest) (response ChangeEmailDomainCompartmentResponse, err error) {
@@ -163,7 +163,7 @@ func (client EmailClient) changeEmailDomainCompartment(ctx context.Context, requ
 
 // ChangeSenderCompartment Moves a sender into a different compartment. When provided, If-Match is checked against ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ChangeSenderCompartment.go.html to see an example of how to use ChangeSenderCompartment API.
 func (client EmailClient) ChangeSenderCompartment(ctx context.Context, request ChangeSenderCompartmentRequest) (response ChangeSenderCompartmentResponse, err error) {
@@ -224,7 +224,7 @@ func (client EmailClient) changeSenderCompartment(ctx context.Context, request c
 // When a second DKIM is applied, all senders will seamlessly pick up the new key
 // without interruption in signing.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateDkim.go.html to see an example of how to use CreateDkim API.
 func (client EmailClient) CreateDkim(ctx context.Context, request CreateDkimRequest) (response CreateDkimResponse, err error) {
@@ -286,7 +286,7 @@ func (client EmailClient) createDkim(ctx context.Context, request common.OCIRequ
 
 // CreateEmailDomain Creates a new email domain. Avoid entering confidential information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateEmailDomain.go.html to see an example of how to use CreateEmailDomain API.
 func (client EmailClient) CreateEmailDomain(ctx context.Context, request CreateEmailDomainRequest) (response CreateEmailDomainResponse, err error) {
@@ -348,7 +348,7 @@ func (client EmailClient) createEmailDomain(ctx context.Context, request common.
 
 // CreateSender Creates a sender for a tenancy in a given compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateSender.go.html to see an example of how to use CreateSender API.
 func (client EmailClient) CreateSender(ctx context.Context, request CreateSenderRequest) (response CreateSenderResponse, err error) {
@@ -408,7 +408,7 @@ func (client EmailClient) createSender(ctx context.Context, request common.OCIRe
 // "MANUAL" in the `reason` field. *Note:* All email addresses added to the
 // suppression list are normalized to include only lowercase letters.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateSuppression.go.html to see an example of how to use CreateSuppression API.
 func (client EmailClient) CreateSuppression(ctx context.Context, request CreateSuppressionRequest) (response CreateSuppressionResponse, err error) {
@@ -470,7 +470,7 @@ func (client EmailClient) createSuppression(ctx context.Context, request common.
 // in-transit mail to be validated.
 // Consider instead of deletion creating a new DKIM for this domain so the signing can be rotated to it.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteDkim.go.html to see an example of how to use DeleteDkim API.
 func (client EmailClient) DeleteDkim(ctx context.Context, request DeleteDkimRequest) (response DeleteDkimResponse, err error) {
@@ -527,7 +527,7 @@ func (client EmailClient) deleteDkim(ctx context.Context, request common.OCIRequ
 
 // DeleteEmailDomain Deletes a email domain.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteEmailDomain.go.html to see an example of how to use DeleteEmailDomain API.
 func (client EmailClient) DeleteEmailDomain(ctx context.Context, request DeleteEmailDomainRequest) (response DeleteEmailDomainResponse, err error) {
@@ -585,7 +585,7 @@ func (client EmailClient) deleteEmailDomain(ctx context.Context, request common.
 // DeleteSender Deletes an approved sender for a tenancy in a given compartment for a
 // provided `senderId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteSender.go.html to see an example of how to use DeleteSender API.
 func (client EmailClient) DeleteSender(ctx context.Context, request DeleteSenderRequest) (response DeleteSenderResponse, err error) {
@@ -643,7 +643,7 @@ func (client EmailClient) deleteSender(ctx context.Context, request common.OCIRe
 // DeleteSuppression Removes a suppressed recipient email address from the suppression list
 // for a tenancy in a given compartment for a provided `suppressionId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteSuppression.go.html to see an example of how to use DeleteSuppression API.
 func (client EmailClient) DeleteSuppression(ctx context.Context, request DeleteSuppressionRequest) (response DeleteSuppressionResponse, err error) {
@@ -700,7 +700,7 @@ func (client EmailClient) deleteSuppression(ctx context.Context, request common.
 
 // GetDkim Retrieves the specified DKIM.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetDkim.go.html to see an example of how to use GetDkim API.
 func (client EmailClient) GetDkim(ctx context.Context, request GetDkimRequest) (response GetDkimResponse, err error) {
@@ -757,7 +757,7 @@ func (client EmailClient) getDkim(ctx context.Context, request common.OCIRequest
 
 // GetEmailDomain Retrieves the specified email domain.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetEmailDomain.go.html to see an example of how to use GetEmailDomain API.
 func (client EmailClient) GetEmailDomain(ctx context.Context, request GetEmailDomainRequest) (response GetEmailDomainResponse, err error) {
@@ -814,7 +814,7 @@ func (client EmailClient) getEmailDomain(ctx context.Context, request common.OCI
 
 // GetSender Gets an approved sender for a given `senderId`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetSender.go.html to see an example of how to use GetSender API.
 func (client EmailClient) GetSender(ctx context.Context, request GetSenderRequest) (response GetSenderResponse, err error) {
@@ -872,7 +872,7 @@ func (client EmailClient) getSender(ctx context.Context, request common.OCIReque
 // GetSuppression Gets the details of a suppressed recipient email address for a given
 // `suppressionId`. Each suppression is given a unique OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetSuppression.go.html to see an example of how to use GetSuppression API.
 func (client EmailClient) GetSuppression(ctx context.Context, request GetSuppressionRequest) (response GetSuppressionResponse, err error) {
@@ -929,7 +929,7 @@ func (client EmailClient) getSuppression(ctx context.Context, request common.OCI
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client EmailClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
@@ -986,7 +986,7 @@ func (client EmailClient) getWorkRequest(ctx context.Context, request common.OCI
 
 // ListDkims Lists DKIMs for a email domain.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListDkims.go.html to see an example of how to use ListDkims API.
 func (client EmailClient) ListDkims(ctx context.Context, request ListDkimsRequest) (response ListDkimsResponse, err error) {
@@ -1043,7 +1043,7 @@ func (client EmailClient) listDkims(ctx context.Context, request common.OCIReque
 
 // ListEmailDomains Lists email domains in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListEmailDomains.go.html to see an example of how to use ListEmailDomains API.
 func (client EmailClient) ListEmailDomains(ctx context.Context, request ListEmailDomainsRequest) (response ListEmailDomainsResponse, err error) {
@@ -1100,7 +1100,7 @@ func (client EmailClient) listEmailDomains(ctx context.Context, request common.O
 
 // ListSenders Gets a collection of approved sender email addresses and sender IDs.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListSenders.go.html to see an example of how to use ListSenders API.
 func (client EmailClient) ListSenders(ctx context.Context, request ListSendersRequest) (response ListSendersResponse, err error) {
@@ -1159,7 +1159,7 @@ func (client EmailClient) listSenders(ctx context.Context, request common.OCIReq
 // `compartmentId` for suppressions must be a tenancy OCID. The returned list
 // is sorted by creation time in descending order.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListSuppressions.go.html to see an example of how to use ListSuppressions API.
 func (client EmailClient) ListSuppressions(ctx context.Context, request ListSuppressionsRequest) (response ListSuppressionsResponse, err error) {
@@ -1216,7 +1216,7 @@ func (client EmailClient) listSuppressions(ctx context.Context, request common.O
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client EmailClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
@@ -1273,7 +1273,7 @@ func (client EmailClient) listWorkRequestErrors(ctx context.Context, request com
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client EmailClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
@@ -1330,7 +1330,7 @@ func (client EmailClient) listWorkRequestLogs(ctx context.Context, request commo
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client EmailClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
@@ -1387,7 +1387,7 @@ func (client EmailClient) listWorkRequests(ctx context.Context, request common.O
 
 // UpdateDkim Modifies a DKIM.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/UpdateDkim.go.html to see an example of how to use UpdateDkim API.
 func (client EmailClient) UpdateDkim(ctx context.Context, request UpdateDkimRequest) (response UpdateDkimResponse, err error) {
@@ -1444,7 +1444,7 @@ func (client EmailClient) updateDkim(ctx context.Context, request common.OCIRequ
 
 // UpdateEmailDomain Modifies a email domain.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/UpdateEmailDomain.go.html to see an example of how to use UpdateEmailDomain API.
 func (client EmailClient) UpdateEmailDomain(ctx context.Context, request UpdateEmailDomainRequest) (response UpdateEmailDomainResponse, err error) {
@@ -1504,7 +1504,7 @@ func (client EmailClient) updateEmailDomain(ctx context.Context, request common.
 // include the full set of tags for the sender, partial updates are not permitted.
 // For more information about tagging, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/UpdateSender.go.html to see an example of how to use UpdateSender API.
 func (client EmailClient) UpdateSender(ctx context.Context, request UpdateSenderRequest) (response UpdateSenderResponse, err error) {

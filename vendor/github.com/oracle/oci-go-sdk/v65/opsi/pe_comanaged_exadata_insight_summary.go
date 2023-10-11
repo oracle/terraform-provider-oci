@@ -76,72 +76,72 @@ type PeComanagedExadataInsightSummary struct {
 	ExadataInfraResourceType ExadataResourceTypeEnum `mandatory:"true" json:"exadataInfraResourceType"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m PeComanagedExadataInsightSummary) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m PeComanagedExadataInsightSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetExadataName returns ExadataName
+// GetExadataName returns ExadataName
 func (m PeComanagedExadataInsightSummary) GetExadataName() *string {
 	return m.ExadataName
 }
 
-//GetExadataDisplayName returns ExadataDisplayName
+// GetExadataDisplayName returns ExadataDisplayName
 func (m PeComanagedExadataInsightSummary) GetExadataDisplayName() *string {
 	return m.ExadataDisplayName
 }
 
-//GetExadataType returns ExadataType
+// GetExadataType returns ExadataType
 func (m PeComanagedExadataInsightSummary) GetExadataType() ExadataTypeEnum {
 	return m.ExadataType
 }
 
-//GetExadataRackType returns ExadataRackType
+// GetExadataRackType returns ExadataRackType
 func (m PeComanagedExadataInsightSummary) GetExadataRackType() ExadataRackTypeEnum {
 	return m.ExadataRackType
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m PeComanagedExadataInsightSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m PeComanagedExadataInsightSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m PeComanagedExadataInsightSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m PeComanagedExadataInsightSummary) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m PeComanagedExadataInsightSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m PeComanagedExadataInsightSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m PeComanagedExadataInsightSummary) GetLifecycleState() ExadataInsightLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m PeComanagedExadataInsightSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }

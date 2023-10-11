@@ -33,12 +33,12 @@ type CronSchedule struct {
 	MisfirePolicy ScheduleMisfirePolicyEnum `mandatory:"false" json:"misfirePolicy,omitempty"`
 }
 
-//GetMisfirePolicy returns MisfirePolicy
+// GetMisfirePolicy returns MisfirePolicy
 func (m CronSchedule) GetMisfirePolicy() ScheduleMisfirePolicyEnum {
 	return m.MisfirePolicy
 }
 
-//GetTimeOfFirstExecution returns TimeOfFirstExecution
+// GetTimeOfFirstExecution returns TimeOfFirstExecution
 func (m CronSchedule) GetTimeOfFirstExecution() *common.SDKTime {
 	return m.TimeOfFirstExecution
 }

@@ -40,22 +40,22 @@ type EncryptedCredentials struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-//GetSource returns Source
+// GetSource returns Source
 func (m EncryptedCredentials) GetSource() *string {
 	return m.Source
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m EncryptedCredentials) GetName() *string {
 	return m.Name
 }
 
-//GetType returns Type
+// GetType returns Type
 func (m EncryptedCredentials) GetType() *string {
 	return m.Type
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m EncryptedCredentials) GetDescription() *string {
 	return m.Description
 }

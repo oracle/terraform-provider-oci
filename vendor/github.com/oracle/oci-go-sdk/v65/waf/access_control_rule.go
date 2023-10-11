@@ -19,9 +19,9 @@ import (
 
 // AccessControlRule Rule that represents Request/Response Access Control.
 // Only actions of the following types are allowed to be referenced in this rule:
-//  * CHECK
-//  * ALLOW
-//  * RETURN_HTTP_RESPONSE
+//   - CHECK
+//   - ALLOW
+//   - RETURN_HTTP_RESPONSE
 type AccessControlRule struct {
 
 	// Rule name. Must be unique within the module.
@@ -38,22 +38,22 @@ type AccessControlRule struct {
 	ConditionLanguage WebAppFirewallPolicyRuleConditionLanguageEnum `mandatory:"false" json:"conditionLanguage,omitempty"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m AccessControlRule) GetName() *string {
 	return m.Name
 }
 
-//GetConditionLanguage returns ConditionLanguage
+// GetConditionLanguage returns ConditionLanguage
 func (m AccessControlRule) GetConditionLanguage() WebAppFirewallPolicyRuleConditionLanguageEnum {
 	return m.ConditionLanguage
 }
 
-//GetCondition returns Condition
+// GetCondition returns Condition
 func (m AccessControlRule) GetCondition() *string {
 	return m.Condition
 }
 
-//GetActionName returns ActionName
+// GetActionName returns ActionName
 func (m AccessControlRule) GetActionName() *string {
 	return m.ActionName
 }

@@ -96,7 +96,7 @@ func (client *DnsClient) ConfigurationProvider() *common.ConfigurationProvider {
 // Zones in the default view are not moved. VCN-dedicated resolvers are initially created in the same compartment
 // as their corresponding VCN, but can then be moved to a different compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeResolverCompartment.go.html to see an example of how to use ChangeResolverCompartment API.
 // A default retry strategy applies to this operation ChangeResolverCompartment()
@@ -159,7 +159,7 @@ func (client DnsClient) changeResolverCompartment(ctx context.Context, request c
 
 // ChangeSteeringPolicyCompartment Moves a steering policy into a different compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeSteeringPolicyCompartment.go.html to see an example of how to use ChangeSteeringPolicyCompartment API.
 // A default retry strategy applies to this operation ChangeSteeringPolicyCompartment()
@@ -222,7 +222,7 @@ func (client DnsClient) changeSteeringPolicyCompartment(ctx context.Context, req
 
 // ChangeTsigKeyCompartment Moves a TSIG key into a different compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeTsigKeyCompartment.go.html to see an example of how to use ChangeTsigKeyCompartment API.
 // A default retry strategy applies to this operation ChangeTsigKeyCompartment()
@@ -286,7 +286,7 @@ func (client DnsClient) changeTsigKeyCompartment(ctx context.Context, request co
 // ChangeViewCompartment Moves a view into a different compartment.
 // To change the compartment of a protected view, change the compartment of its corresponding resolver.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeViewCompartment.go.html to see an example of how to use ChangeViewCompartment API.
 // A default retry strategy applies to this operation ChangeViewCompartment()
@@ -354,7 +354,7 @@ func (client DnsClient) changeViewCompartment(ctx context.Context, request commo
 // **Note:** All SteeringPolicyAttachment objects associated with this zone will also be moved into
 // the provided compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ChangeZoneCompartment.go.html to see an example of how to use ChangeZoneCompartment API.
 // A default retry strategy applies to this operation ChangeZoneCompartment()
@@ -417,7 +417,7 @@ func (client DnsClient) changeZoneCompartment(ctx context.Context, request commo
 
 // CreateResolverEndpoint Creates a new resolver endpoint in the same compartment as the resolver.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateResolverEndpoint.go.html to see an example of how to use CreateResolverEndpoint API.
 // A default retry strategy applies to this operation CreateResolverEndpoint()
@@ -481,7 +481,7 @@ func (client DnsClient) createResolverEndpoint(ctx context.Context, request comm
 // CreateSteeringPolicy Creates a new steering policy in the specified compartment. For more information on
 // creating policies with templates, see Traffic Management API Guide (https://docs.cloud.oracle.com/iaas/Content/TrafficManagement/Concepts/trafficmanagementapi.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateSteeringPolicy.go.html to see an example of how to use CreateSteeringPolicy API.
 // A default retry strategy applies to this operation CreateSteeringPolicy()
@@ -548,7 +548,7 @@ func (client DnsClient) createSteeringPolicy(ctx context.Context, request common
 // For the purposes of access control, the attachment is automatically placed
 // into the same compartment as the domain's zone.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateSteeringPolicyAttachment.go.html to see an example of how to use CreateSteeringPolicyAttachment API.
 // A default retry strategy applies to this operation CreateSteeringPolicyAttachment()
@@ -612,7 +612,7 @@ func (client DnsClient) createSteeringPolicyAttachment(ctx context.Context, requ
 // CreateTsigKey Creates a new TSIG key in the specified compartment. There is no
 // `opc-retry-token` header since TSIG key names must be globally unique.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateTsigKey.go.html to see an example of how to use CreateTsigKey API.
 // A default retry strategy applies to this operation CreateTsigKey()
@@ -670,7 +670,7 @@ func (client DnsClient) createTsigKey(ctx context.Context, request common.OCIReq
 
 // CreateView Creates a new view in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateView.go.html to see an example of how to use CreateView API.
 // A default retry strategy applies to this operation CreateView()
@@ -735,7 +735,7 @@ func (client DnsClient) createView(ctx context.Context, request common.OCIReques
 // Private zones must have a zone type of `PRIMARY`. Creating a private zone at or under `oraclevcn.com`
 // within the default protected view of a VCN-dedicated resolver is not permitted.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateZone.go.html to see an example of how to use CreateZone API.
 func (client DnsClient) CreateZone(ctx context.Context, request CreateZoneRequest) (response CreateZoneResponse, err error) {
@@ -792,7 +792,7 @@ func (client DnsClient) createZone(ctx context.Context, request common.OCIReques
 
 // CreateZoneFromZoneFile Creates a new zone from a zone file in the specified compartment. Not supported for private zones.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateZoneFromZoneFile.go.html to see an example of how to use CreateZoneFromZoneFile API.
 func (client DnsClient) CreateZoneFromZoneFile(ctx context.Context, request CreateZoneFromZoneFileRequest) (response CreateZoneFromZoneFileResponse, err error) {
@@ -851,7 +851,7 @@ func (client DnsClient) createZoneFromZoneFile(ctx context.Context, request comm
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query parameter
 // then the viewId query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteDomainRecords.go.html to see an example of how to use DeleteDomainRecords API.
 // A default retry strategy applies to this operation DeleteDomainRecords()
@@ -911,7 +911,7 @@ func (client DnsClient) deleteDomainRecords(ctx context.Context, request common.
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope
 // query parameter then the viewId query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteRRSet.go.html to see an example of how to use DeleteRRSet API.
 // A default retry strategy applies to this operation DeleteRRSet()
@@ -972,7 +972,7 @@ func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIReque
 // a `404` response to be consistent with other operations of the API. Resolver endpoints may not
 // be deleted if they are referenced by a resolver rule.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteResolverEndpoint.go.html to see an example of how to use DeleteResolverEndpoint API.
 // A default retry strategy applies to this operation DeleteResolverEndpoint()
@@ -1033,7 +1033,7 @@ func (client DnsClient) deleteResolverEndpoint(ctx context.Context, request comm
 // Deletion will fail if the policy is attached to any zones. To detach a
 // policy from a zone, see `DeleteSteeringPolicyAttachment`.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteSteeringPolicy.go.html to see an example of how to use DeleteSteeringPolicy API.
 // A default retry strategy applies to this operation DeleteSteeringPolicy()
@@ -1092,7 +1092,7 @@ func (client DnsClient) deleteSteeringPolicy(ctx context.Context, request common
 // DeleteSteeringPolicyAttachment Deletes the specified steering policy attachment.
 // A `204` response indicates that the delete has been successful.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteSteeringPolicyAttachment.go.html to see an example of how to use DeleteSteeringPolicyAttachment API.
 // A default retry strategy applies to this operation DeleteSteeringPolicyAttachment()
@@ -1150,7 +1150,7 @@ func (client DnsClient) deleteSteeringPolicyAttachment(ctx context.Context, requ
 
 // DeleteTsigKey Deletes the specified TSIG key.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteTsigKey.go.html to see an example of how to use DeleteTsigKey API.
 // A default retry strategy applies to this operation DeleteTsigKey()
@@ -1212,7 +1212,7 @@ func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIReq
 // deleted if they are referenced by non-deleted zones or resolvers.
 // Protected views cannot be deleted.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteView.go.html to see an example of how to use DeleteView API.
 // A default retry strategy applies to this operation DeleteView()
@@ -1273,7 +1273,7 @@ func (client DnsClient) deleteView(ctx context.Context, request common.OCIReques
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query parameter
 // then the viewId query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteZone.go.html to see an example of how to use DeleteZone API.
 func (client DnsClient) DeleteZone(ctx context.Context, request DeleteZoneRequest) (response DeleteZoneResponse, err error) {
@@ -1333,7 +1333,7 @@ func (client DnsClient) deleteZone(ctx context.Context, request common.OCIReques
 // the results using the listed parameters. When the zone name is provided as a path parameter and `PRIVATE`
 // is used for the scope query parameter then the viewId query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetDomainRecords.go.html to see an example of how to use GetDomainRecords API.
 // A default retry strategy applies to this operation GetDomainRecords()
@@ -1393,7 +1393,7 @@ func (client DnsClient) getDomainRecords(ctx context.Context, request common.OCI
 // The results are sorted by `recordHash` by default. When the zone name is provided as a path parameter
 // and `PRIVATE` is used for the scope query parameter then the viewId query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetRRSet.go.html to see an example of how to use GetRRSet API.
 // A default retry strategy applies to this operation GetRRSet()
@@ -1453,7 +1453,7 @@ func (client DnsClient) getRRSet(ctx context.Context, request common.OCIRequest,
 // Note that attempting to get a resolver in the DELETED lifecycleState will result in a `404`
 // response to be consistent with other operations of the API.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetResolver.go.html to see an example of how to use GetResolver API.
 // A default retry strategy applies to this operation GetResolver()
@@ -1513,7 +1513,7 @@ func (client DnsClient) getResolver(ctx context.Context, request common.OCIReque
 // Note that attempting to get a resolver endpoint in the DELETED lifecycle state will result
 // in a `404` response to be consistent with other operations of the API.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetResolverEndpoint.go.html to see an example of how to use GetResolverEndpoint API.
 // A default retry strategy applies to this operation GetResolverEndpoint()
@@ -1571,7 +1571,7 @@ func (client DnsClient) getResolverEndpoint(ctx context.Context, request common.
 
 // GetSteeringPolicy Gets information about the specified steering policy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetSteeringPolicy.go.html to see an example of how to use GetSteeringPolicy API.
 // A default retry strategy applies to this operation GetSteeringPolicy()
@@ -1629,7 +1629,7 @@ func (client DnsClient) getSteeringPolicy(ctx context.Context, request common.OC
 
 // GetSteeringPolicyAttachment Gets information about the specified steering policy attachment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetSteeringPolicyAttachment.go.html to see an example of how to use GetSteeringPolicyAttachment API.
 // A default retry strategy applies to this operation GetSteeringPolicyAttachment()
@@ -1687,7 +1687,7 @@ func (client DnsClient) getSteeringPolicyAttachment(ctx context.Context, request
 
 // GetTsigKey Gets information about the specified TSIG key.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetTsigKey.go.html to see an example of how to use GetTsigKey API.
 // A default retry strategy applies to this operation GetTsigKey()
@@ -1748,7 +1748,7 @@ func (client DnsClient) getTsigKey(ctx context.Context, request common.OCIReques
 // view in the DELETED lifecycleState will result in a `404` response to be
 // consistent with other operations of the API.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetView.go.html to see an example of how to use GetView API.
 // A default retry strategy applies to this operation GetView()
@@ -1808,7 +1808,7 @@ func (client DnsClient) getView(ctx context.Context, request common.OCIRequest, 
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query
 // parameter then the viewId query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetZone.go.html to see an example of how to use GetZone API.
 // A default retry strategy applies to this operation GetZone()
@@ -1866,7 +1866,7 @@ func (client DnsClient) getZone(ctx context.Context, request common.OCIRequest, 
 
 // GetZoneContent Gets the requested zone's zone file.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetZoneContent.go.html to see an example of how to use GetZoneContent API.
 // A default retry strategy applies to this operation GetZoneContent()
@@ -1927,7 +1927,7 @@ func (client DnsClient) getZoneContent(ctx context.Context, request common.OCIRe
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query parameter
 // then the viewId query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/GetZoneRecords.go.html to see an example of how to use GetZoneRecords API.
 // A default retry strategy applies to this operation GetZoneRecords()
@@ -2004,7 +2004,7 @@ func (m *listresolverendpointsummary) UnmarshalPolymorphicJSON(data []byte) (int
 // query parameter is provided, the collection does not include resolver endpoints in the DELETED
 // lifecycle state to be consistent with other operations of the API.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListResolverEndpoints.go.html to see an example of how to use ListResolverEndpoints API.
 // A default retry strategy applies to this operation ListResolverEndpoints()
@@ -2066,7 +2066,7 @@ func (client DnsClient) listResolverEndpoints(ctx context.Context, request commo
 // query parameter is provided, the collection does not include resolvers in the DELETED
 // lifecycleState to be consistent with other operations of the API.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListResolvers.go.html to see an example of how to use ListResolvers API.
 // A default retry strategy applies to this operation ListResolvers()
@@ -2124,7 +2124,7 @@ func (client DnsClient) listResolvers(ctx context.Context, request common.OCIReq
 
 // ListSteeringPolicies Gets a list of all steering policies in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListSteeringPolicies.go.html to see an example of how to use ListSteeringPolicies API.
 // A default retry strategy applies to this operation ListSteeringPolicies()
@@ -2182,7 +2182,7 @@ func (client DnsClient) listSteeringPolicies(ctx context.Context, request common
 
 // ListSteeringPolicyAttachments Lists the steering policy attachments in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListSteeringPolicyAttachments.go.html to see an example of how to use ListSteeringPolicyAttachments API.
 // A default retry strategy applies to this operation ListSteeringPolicyAttachments()
@@ -2240,7 +2240,7 @@ func (client DnsClient) listSteeringPolicyAttachments(ctx context.Context, reque
 
 // ListTsigKeys Gets a list of all TSIG keys in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListTsigKeys.go.html to see an example of how to use ListTsigKeys API.
 // A default retry strategy applies to this operation ListTsigKeys()
@@ -2302,7 +2302,7 @@ func (client DnsClient) listTsigKeys(ctx context.Context, request common.OCIRequ
 // query parameter is provided, the collection does not include views in the DELETED
 // lifecycleState to be consistent with other operations of the API.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListViews.go.html to see an example of how to use ListViews API.
 // A default retry strategy applies to this operation ListViews()
@@ -2362,7 +2362,7 @@ func (client DnsClient) listViews(ctx context.Context, request common.OCIRequest
 // compartment (which must be the root compartment of a tenancy) that transfer zone data with external master or
 // downstream nameservers.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListZoneTransferServers.go.html to see an example of how to use ListZoneTransferServers API.
 // A default retry strategy applies to this operation ListZoneTransferServers()
@@ -2422,7 +2422,7 @@ func (client DnsClient) listZoneTransferServers(ctx context.Context, request com
 // The collection can be filtered by name, time created, scope, associated view, and zone type.
 // Filtering by view is only supported for private zones.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListZones.go.html to see an example of how to use ListZones API.
 // A default retry strategy applies to this operation ListZones()
@@ -2484,7 +2484,7 @@ func (client DnsClient) listZones(ctx context.Context, request common.OCIRequest
 // a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query parameter is
 // required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/PatchDomainRecords.go.html to see an example of how to use PatchDomainRecords API.
 // A default retry strategy applies to this operation PatchDomainRecords()
@@ -2544,7 +2544,7 @@ func (client DnsClient) patchDomainRecords(ctx context.Context, request common.O
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope query
 // parameter then the viewId query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/PatchRRSet.go.html to see an example of how to use PatchRRSet API.
 // A default retry strategy applies to this operation PatchRRSet()
@@ -2606,7 +2606,7 @@ func (client DnsClient) patchRRSet(ctx context.Context, request common.OCIReques
 // a path parameter and `PRIVATE` is used for the scope query parameter then the viewId query parameter is
 // required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/PatchZoneRecords.go.html to see an example of how to use PatchZoneRecords API.
 // A default retry strategy applies to this operation PatchZoneRecords()
@@ -2668,7 +2668,7 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 // the record will be removed from the zone. When the zone name is provided as a path parameter and `PRIVATE`
 // is used for the scope query parameter then the viewId query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateDomainRecords.go.html to see an example of how to use UpdateDomainRecords API.
 // A default retry strategy applies to this operation UpdateDomainRecords()
@@ -2728,7 +2728,7 @@ func (client DnsClient) updateDomainRecords(ctx context.Context, request common.
 // When the zone name is provided as a path parameter and `PRIVATE` is used for the scope
 // query parameter then the viewId query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateRRSet.go.html to see an example of how to use UpdateRRSet API.
 // A default retry strategy applies to this operation UpdateRRSet()
@@ -2786,7 +2786,7 @@ func (client DnsClient) updateRRSet(ctx context.Context, request common.OCIReque
 
 // UpdateResolver Updates the specified resolver with your new information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateResolver.go.html to see an example of how to use UpdateResolver API.
 // A default retry strategy applies to this operation UpdateResolver()
@@ -2844,7 +2844,7 @@ func (client DnsClient) updateResolver(ctx context.Context, request common.OCIRe
 
 // UpdateResolverEndpoint Updates the specified resolver endpoint with your new information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateResolverEndpoint.go.html to see an example of how to use UpdateResolverEndpoint API.
 // A default retry strategy applies to this operation UpdateResolverEndpoint()
@@ -2902,7 +2902,7 @@ func (client DnsClient) updateResolverEndpoint(ctx context.Context, request comm
 
 // UpdateSteeringPolicy Updates the configuration of the specified steering policy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateSteeringPolicy.go.html to see an example of how to use UpdateSteeringPolicy API.
 // A default retry strategy applies to this operation UpdateSteeringPolicy()
@@ -2960,7 +2960,7 @@ func (client DnsClient) updateSteeringPolicy(ctx context.Context, request common
 
 // UpdateSteeringPolicyAttachment Updates the specified steering policy attachment with your new information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateSteeringPolicyAttachment.go.html to see an example of how to use UpdateSteeringPolicyAttachment API.
 // A default retry strategy applies to this operation UpdateSteeringPolicyAttachment()
@@ -3018,7 +3018,7 @@ func (client DnsClient) updateSteeringPolicyAttachment(ctx context.Context, requ
 
 // UpdateTsigKey Updates the specified TSIG key.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateTsigKey.go.html to see an example of how to use UpdateTsigKey API.
 // A default retry strategy applies to this operation UpdateTsigKey()
@@ -3076,7 +3076,7 @@ func (client DnsClient) updateTsigKey(ctx context.Context, request common.OCIReq
 
 // UpdateView Updates the specified view with your new information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateView.go.html to see an example of how to use UpdateView API.
 // A default retry strategy applies to this operation UpdateView()
@@ -3138,7 +3138,7 @@ func (client DnsClient) updateView(ctx context.Context, request common.OCIReques
 // is provided as a path parameter and `PRIVATE` is used for the scope query parameter then the viewId
 // query parameter is required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateZone.go.html to see an example of how to use UpdateZone API.
 // A default retry strategy applies to this operation UpdateZone()
@@ -3201,7 +3201,7 @@ func (client DnsClient) updateZone(ctx context.Context, request common.OCIReques
 // parameter and `PRIVATE` is used for the scope query parameter then the viewId query parameter is
 // required.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/UpdateZoneRecords.go.html to see an example of how to use UpdateZoneRecords API.
 // A default retry strategy applies to this operation UpdateZoneRecords()

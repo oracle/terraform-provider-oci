@@ -67,57 +67,57 @@ type ExternalMacsConnector struct {
 	LifecycleState ExternalDatabaseConnectorLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m ExternalMacsConnector) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m ExternalMacsConnector) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m ExternalMacsConnector) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m ExternalMacsConnector) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m ExternalMacsConnector) GetId() *string {
 	return m.Id
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m ExternalMacsConnector) GetLifecycleState() ExternalDatabaseConnectorLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m ExternalMacsConnector) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m ExternalMacsConnector) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetExternalDatabaseId returns ExternalDatabaseId
+// GetExternalDatabaseId returns ExternalDatabaseId
 func (m ExternalMacsConnector) GetExternalDatabaseId() *string {
 	return m.ExternalDatabaseId
 }
 
-//GetConnectionStatus returns ConnectionStatus
+// GetConnectionStatus returns ConnectionStatus
 func (m ExternalMacsConnector) GetConnectionStatus() *string {
 	return m.ConnectionStatus
 }
 
-//GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
+// GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
 func (m ExternalMacsConnector) GetTimeConnectionStatusLastUpdated() *common.SDKTime {
 	return m.TimeConnectionStatusLastUpdated
 }

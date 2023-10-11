@@ -55,52 +55,52 @@ type ExternalStorageGridDiscoverySummary struct {
 	DiscoverStatus EntityDiscoveredDiscoverStatusEnum `mandatory:"false" json:"discoverStatus,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m ExternalStorageGridDiscoverySummary) GetId() *string {
 	return m.Id
 }
 
-//GetAgentId returns AgentId
+// GetAgentId returns AgentId
 func (m ExternalStorageGridDiscoverySummary) GetAgentId() *string {
 	return m.AgentId
 }
 
-//GetConnectorId returns ConnectorId
+// GetConnectorId returns ConnectorId
 func (m ExternalStorageGridDiscoverySummary) GetConnectorId() *string {
 	return m.ConnectorId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m ExternalStorageGridDiscoverySummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m ExternalStorageGridDiscoverySummary) GetVersion() *string {
 	return m.Version
 }
 
-//GetInternalId returns InternalId
+// GetInternalId returns InternalId
 func (m ExternalStorageGridDiscoverySummary) GetInternalId() *string {
 	return m.InternalId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m ExternalStorageGridDiscoverySummary) GetStatus() *string {
 	return m.Status
 }
 
-//GetDiscoverStatus returns DiscoverStatus
+// GetDiscoverStatus returns DiscoverStatus
 func (m ExternalStorageGridDiscoverySummary) GetDiscoverStatus() EntityDiscoveredDiscoverStatusEnum {
 	return m.DiscoverStatus
 }
 
-//GetDiscoverErrorCode returns DiscoverErrorCode
+// GetDiscoverErrorCode returns DiscoverErrorCode
 func (m ExternalStorageGridDiscoverySummary) GetDiscoverErrorCode() *string {
 	return m.DiscoverErrorCode
 }
 
-//GetDiscoverErrorMsg returns DiscoverErrorMsg
+// GetDiscoverErrorMsg returns DiscoverErrorMsg
 func (m ExternalStorageGridDiscoverySummary) GetDiscoverErrorMsg() *string {
 	return m.DiscoverErrorMsg
 }

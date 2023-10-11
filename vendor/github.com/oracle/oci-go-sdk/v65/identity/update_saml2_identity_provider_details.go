@@ -45,17 +45,17 @@ type UpdateSaml2IdentityProviderDetails struct {
 	FreeformAttributes map[string]string `mandatory:"false" json:"freeformAttributes"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateSaml2IdentityProviderDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateSaml2IdentityProviderDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateSaml2IdentityProviderDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

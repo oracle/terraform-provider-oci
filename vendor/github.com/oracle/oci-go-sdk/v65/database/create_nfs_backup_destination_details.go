@@ -41,22 +41,22 @@ type CreateNfsBackupDestinationDetails struct {
 	MountTypeDetails MountTypeDetails `mandatory:"false" json:"mountTypeDetails"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateNfsBackupDestinationDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateNfsBackupDestinationDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateNfsBackupDestinationDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateNfsBackupDestinationDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

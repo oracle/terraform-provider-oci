@@ -48,7 +48,7 @@ type RuleBasedEntityMap struct {
 	MapType RuleBasedEntityMapMapTypeEnum `mandatory:"false" json:"mapType,omitempty"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m RuleBasedEntityMap) GetDescription() *string {
 	return m.Description
 }

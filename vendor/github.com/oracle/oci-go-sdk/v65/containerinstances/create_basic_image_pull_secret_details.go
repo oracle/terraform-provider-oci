@@ -29,7 +29,7 @@ type CreateBasicImagePullSecretDetails struct {
 	Password *string `mandatory:"true" json:"password"`
 }
 
-//GetRegistryEndpoint returns RegistryEndpoint
+// GetRegistryEndpoint returns RegistryEndpoint
 func (m CreateBasicImagePullSecretDetails) GetRegistryEndpoint() *string {
 	return m.RegistryEndpoint
 }

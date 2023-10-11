@@ -28,7 +28,7 @@ type HourlyFrequencyDetails struct {
 	Frequency AbstractFrequencyDetailsFrequencyEnum `mandatory:"false" json:"frequency,omitempty"`
 }
 
-//GetFrequency returns Frequency
+// GetFrequency returns Frequency
 func (m HourlyFrequencyDetails) GetFrequency() AbstractFrequencyDetailsFrequencyEnum {
 	return m.Frequency
 }

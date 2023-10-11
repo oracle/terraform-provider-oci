@@ -95,7 +95,7 @@ func (client *OptimizerClient) ConfigurationProvider() *common.ConfigurationProv
 
 // BulkApplyRecommendations Applies the specified recommendations to the resources.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/BulkApplyRecommendations.go.html to see an example of how to use BulkApplyRecommendations API.
 func (client OptimizerClient) BulkApplyRecommendations(ctx context.Context, request BulkApplyRecommendationsRequest) (response BulkApplyRecommendationsResponse, err error) {
@@ -157,7 +157,7 @@ func (client OptimizerClient) bulkApplyRecommendations(ctx context.Context, requ
 
 // CreateProfile Creates a new profile.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/CreateProfile.go.html to see an example of how to use CreateProfile API.
 func (client OptimizerClient) CreateProfile(ctx context.Context, request CreateProfileRequest) (response CreateProfileResponse, err error) {
@@ -219,7 +219,7 @@ func (client OptimizerClient) createProfile(ctx context.Context, request common.
 
 // DeleteProfile Deletes the specified profile. Uses the profile's OCID to determine which profile to delete.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/DeleteProfile.go.html to see an example of how to use DeleteProfile API.
 func (client OptimizerClient) DeleteProfile(ctx context.Context, request DeleteProfileRequest) (response DeleteProfileResponse, err error) {
@@ -276,7 +276,7 @@ func (client OptimizerClient) deleteProfile(ctx context.Context, request common.
 
 // FilterResourceActions Queries the Cloud Advisor resource actions that are supported.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/FilterResourceActions.go.html to see an example of how to use FilterResourceActions API.
 func (client OptimizerClient) FilterResourceActions(ctx context.Context, request FilterResourceActionsRequest) (response FilterResourceActionsResponse, err error) {
@@ -333,7 +333,7 @@ func (client OptimizerClient) filterResourceActions(ctx context.Context, request
 
 // GetCategory Gets the category that corresponds to the specified OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/GetCategory.go.html to see an example of how to use GetCategory API.
 func (client OptimizerClient) GetCategory(ctx context.Context, request GetCategoryRequest) (response GetCategoryResponse, err error) {
@@ -390,7 +390,7 @@ func (client OptimizerClient) getCategory(ctx context.Context, request common.OC
 
 // GetEnrollmentStatus Gets the Cloud Advisor enrollment status.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/GetEnrollmentStatus.go.html to see an example of how to use GetEnrollmentStatus API.
 func (client OptimizerClient) GetEnrollmentStatus(ctx context.Context, request GetEnrollmentStatusRequest) (response GetEnrollmentStatusResponse, err error) {
@@ -447,7 +447,7 @@ func (client OptimizerClient) getEnrollmentStatus(ctx context.Context, request c
 
 // GetProfile Gets the specified profile's information. Uses the profile's OCID to determine which profile to retrieve.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/GetProfile.go.html to see an example of how to use GetProfile API.
 func (client OptimizerClient) GetProfile(ctx context.Context, request GetProfileRequest) (response GetProfileResponse, err error) {
@@ -504,7 +504,7 @@ func (client OptimizerClient) getProfile(ctx context.Context, request common.OCI
 
 // GetRecommendation Gets the recommendation for the specified OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/GetRecommendation.go.html to see an example of how to use GetRecommendation API.
 func (client OptimizerClient) GetRecommendation(ctx context.Context, request GetRecommendationRequest) (response GetRecommendationResponse, err error) {
@@ -561,7 +561,7 @@ func (client OptimizerClient) getRecommendation(ctx context.Context, request com
 
 // GetResourceAction Gets the resource action that corresponds to the specified OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/GetResourceAction.go.html to see an example of how to use GetResourceAction API.
 func (client OptimizerClient) GetResourceAction(ctx context.Context, request GetResourceActionRequest) (response GetResourceActionResponse, err error) {
@@ -618,7 +618,7 @@ func (client OptimizerClient) getResourceAction(ctx context.Context, request com
 
 // GetWorkRequest Gets the status of the work request associated with the specified ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client OptimizerClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
@@ -675,7 +675,7 @@ func (client OptimizerClient) getWorkRequest(ctx context.Context, request common
 
 // ListCategories Lists the supported Cloud Advisor categories.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListCategories.go.html to see an example of how to use ListCategories API.
 func (client OptimizerClient) ListCategories(ctx context.Context, request ListCategoriesRequest) (response ListCategoriesResponse, err error) {
@@ -732,7 +732,7 @@ func (client OptimizerClient) listCategories(ctx context.Context, request common
 
 // ListEnrollmentStatuses Lists the Cloud Advisor enrollment statuses.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListEnrollmentStatuses.go.html to see an example of how to use ListEnrollmentStatuses API.
 func (client OptimizerClient) ListEnrollmentStatuses(ctx context.Context, request ListEnrollmentStatusesRequest) (response ListEnrollmentStatusesResponse, err error) {
@@ -790,7 +790,7 @@ func (client OptimizerClient) listEnrollmentStatuses(ctx context.Context, reques
 // ListHistories Lists changes to the recommendations based on user activity.
 // For example, lists when recommendations have been implemented, dismissed, postponed, or reactivated.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListHistories.go.html to see an example of how to use ListHistories API.
 func (client OptimizerClient) ListHistories(ctx context.Context, request ListHistoriesRequest) (response ListHistoriesResponse, err error) {
@@ -847,7 +847,7 @@ func (client OptimizerClient) listHistories(ctx context.Context, request common.
 
 // ListProfileLevels Lists the existing profile levels.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListProfileLevels.go.html to see an example of how to use ListProfileLevels API.
 func (client OptimizerClient) ListProfileLevels(ctx context.Context, request ListProfileLevelsRequest) (response ListProfileLevelsResponse, err error) {
@@ -904,7 +904,7 @@ func (client OptimizerClient) listProfileLevels(ctx context.Context, request com
 
 // ListProfiles Lists the existing profiles.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListProfiles.go.html to see an example of how to use ListProfiles API.
 func (client OptimizerClient) ListProfiles(ctx context.Context, request ListProfilesRequest) (response ListProfilesResponse, err error) {
@@ -961,7 +961,7 @@ func (client OptimizerClient) listProfiles(ctx context.Context, request common.O
 
 // ListRecommendationStrategies Lists the existing strategies.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListRecommendationStrategies.go.html to see an example of how to use ListRecommendationStrategies API.
 func (client OptimizerClient) ListRecommendationStrategies(ctx context.Context, request ListRecommendationStrategiesRequest) (response ListRecommendationStrategiesResponse, err error) {
@@ -1018,7 +1018,7 @@ func (client OptimizerClient) listRecommendationStrategies(ctx context.Context, 
 
 // ListRecommendations Lists the Cloud Advisor recommendations that are currently supported.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListRecommendations.go.html to see an example of how to use ListRecommendations API.
 func (client OptimizerClient) ListRecommendations(ctx context.Context, request ListRecommendationsRequest) (response ListRecommendationsResponse, err error) {
@@ -1075,7 +1075,7 @@ func (client OptimizerClient) listRecommendations(ctx context.Context, request c
 
 // ListResourceActionQueryableFields Lists the fields that are indexed for querying and their associated value types.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListResourceActionQueryableFields.go.html to see an example of how to use ListResourceActionQueryableFields API.
 func (client OptimizerClient) ListResourceActionQueryableFields(ctx context.Context, request ListResourceActionQueryableFieldsRequest) (response ListResourceActionQueryableFieldsResponse, err error) {
@@ -1132,7 +1132,7 @@ func (client OptimizerClient) listResourceActionQueryableFields(ctx context.Cont
 
 // ListResourceActions Lists the Cloud Advisor resource actions that are supported.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListResourceActions.go.html to see an example of how to use ListResourceActions API.
 func (client OptimizerClient) ListResourceActions(ctx context.Context, request ListResourceActionsRequest) (response ListResourceActionsResponse, err error) {
@@ -1189,7 +1189,7 @@ func (client OptimizerClient) listResourceActions(ctx context.Context, request c
 
 // ListWorkRequestErrors Lists errors associated with the specified work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client OptimizerClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
@@ -1246,7 +1246,7 @@ func (client OptimizerClient) listWorkRequestErrors(ctx context.Context, request
 
 // ListWorkRequestLogs Lists the logs associated with the specified work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client OptimizerClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
@@ -1303,7 +1303,7 @@ func (client OptimizerClient) listWorkRequestLogs(ctx context.Context, request c
 
 // ListWorkRequests Lists the work requests in the tenancy. The tenancy is the root compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client OptimizerClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
@@ -1360,7 +1360,7 @@ func (client OptimizerClient) listWorkRequests(ctx context.Context, request comm
 
 // UpdateEnrollmentStatus Updates the enrollment status of the tenancy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/UpdateEnrollmentStatus.go.html to see an example of how to use UpdateEnrollmentStatus API.
 func (client OptimizerClient) UpdateEnrollmentStatus(ctx context.Context, request UpdateEnrollmentStatusRequest) (response UpdateEnrollmentStatusResponse, err error) {
@@ -1417,7 +1417,7 @@ func (client OptimizerClient) updateEnrollmentStatus(ctx context.Context, reques
 
 // UpdateProfile Updates the specified profile. Uses the profile's OCID to determine which profile to update.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/UpdateProfile.go.html to see an example of how to use UpdateProfile API.
 func (client OptimizerClient) UpdateProfile(ctx context.Context, request UpdateProfileRequest) (response UpdateProfileResponse, err error) {
@@ -1474,11 +1474,11 @@ func (client OptimizerClient) updateProfile(ctx context.Context, request common.
 
 // UpdateRecommendation Updates the recommendation that corresponds to the specified OCID.
 // Use this operation to implement the following actions:
-//   * Postpone recommendation
-//   * Dismiss recommendation
-//   * Reactivate recommendation
+//   - Postpone recommendation
+//   - Dismiss recommendation
+//   - Reactivate recommendation
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/UpdateRecommendation.go.html to see an example of how to use UpdateRecommendation API.
 func (client OptimizerClient) UpdateRecommendation(ctx context.Context, request UpdateRecommendationRequest) (response UpdateRecommendationResponse, err error) {
@@ -1535,11 +1535,11 @@ func (client OptimizerClient) updateRecommendation(ctx context.Context, request 
 
 // UpdateResourceAction Updates the resource action that corresponds to the specified OCID.
 // Use this operation to implement the following actions:
-//   * Postpone resource action
-//   * Ignore resource action
-//   * Reactivate resource action
+//   - Postpone resource action
+//   - Ignore resource action
+//   - Reactivate resource action
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/UpdateResourceAction.go.html to see an example of how to use UpdateResourceAction API.
 func (client OptimizerClient) UpdateResourceAction(ctx context.Context, request UpdateResourceActionRequest) (response UpdateResourceActionResponse, err error) {

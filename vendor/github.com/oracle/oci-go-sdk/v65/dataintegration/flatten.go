@@ -60,62 +60,62 @@ type Flatten struct {
 	MaterializedFlattenField *MaterializedDynamicField `mandatory:"false" json:"materializedFlattenField"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m Flatten) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m Flatten) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m Flatten) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m Flatten) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m Flatten) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m Flatten) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m Flatten) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m Flatten) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m Flatten) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m Flatten) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m Flatten) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m Flatten) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }

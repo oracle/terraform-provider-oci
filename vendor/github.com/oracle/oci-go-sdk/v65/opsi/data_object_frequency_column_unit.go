@@ -28,7 +28,7 @@ type DataObjectFrequencyColumnUnit struct {
 	Unit DataObjectFrequencyColumnUnitUnitEnum `mandatory:"false" json:"unit,omitempty"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m DataObjectFrequencyColumnUnit) GetDisplayName() *string {
 	return m.DisplayName
 }

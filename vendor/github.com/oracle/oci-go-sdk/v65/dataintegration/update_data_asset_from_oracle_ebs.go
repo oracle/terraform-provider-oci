@@ -70,52 +70,52 @@ type UpdateDataAssetFromOracleEbs struct {
 	WalletPasswordSecret *SensitiveAttribute `mandatory:"false" json:"walletPasswordSecret"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m UpdateDataAssetFromOracleEbs) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m UpdateDataAssetFromOracleEbs) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UpdateDataAssetFromOracleEbs) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateDataAssetFromOracleEbs) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m UpdateDataAssetFromOracleEbs) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m UpdateDataAssetFromOracleEbs) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m UpdateDataAssetFromOracleEbs) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m UpdateDataAssetFromOracleEbs) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m UpdateDataAssetFromOracleEbs) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m UpdateDataAssetFromOracleEbs) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

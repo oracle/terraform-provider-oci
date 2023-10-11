@@ -18,9 +18,9 @@ import (
 // Quota Quotas are applied on top of the service limits and inherited through the nested compartment hierarchy.
 // Quotas allow compartment admins to limit resource consumption and set boundaries around acceptable resource use.
 // The term "quota" can be interpreted as the following:
-//   * An individual statement written in the declarative language.
-//   * A collection of statements in a single, named "quota" object (which has an Oracle Cloud ID (OCID) assigned to it).
-//   * The overall body of quotas your organization uses to control access to resources.
+//   - An individual statement written in the declarative language.
+//   - A collection of statements in a single, named "quota" object (which has an Oracle Cloud ID (OCID) assigned to it).
+//   - The overall body of quotas your organization uses to control access to resources.
 type Quota struct {
 
 	// The OCID of the quota.

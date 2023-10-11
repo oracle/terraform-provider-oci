@@ -29,7 +29,7 @@ type OpsiDataObjectTypeOpsiDataObjectDetailsInQuery struct {
 	DataObjectType OpsiDataObjectTypeEnum `mandatory:"true" json:"dataObjectType"`
 }
 
-//GetQueryParams returns QueryParams
+// GetQueryParams returns QueryParams
 func (m OpsiDataObjectTypeOpsiDataObjectDetailsInQuery) GetQueryParams() []OpsiDataObjectQueryParam {
 	return m.QueryParams
 }

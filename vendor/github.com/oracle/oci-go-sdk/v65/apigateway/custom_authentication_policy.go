@@ -45,7 +45,7 @@ type CustomAuthenticationPolicy struct {
 	ValidationFailurePolicy ValidationFailurePolicy `mandatory:"false" json:"validationFailurePolicy"`
 }
 
-//GetIsAnonymousAccessAllowed returns IsAnonymousAccessAllowed
+// GetIsAnonymousAccessAllowed returns IsAnonymousAccessAllowed
 func (m CustomAuthenticationPolicy) GetIsAnonymousAccessAllowed() *bool {
 	return m.IsAnonymousAccessAllowed
 }
