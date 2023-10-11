@@ -8,10 +8,6 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_containerengine_addon", ContainerengineAddonResource())
 	tfresource.RegisterResource("oci_containerengine_cluster", ContainerengineClusterResource())
-	tfresource.RegisterResource("oci_containerengine_cluster_attachment", ContainerengineClusterAttachmentResource())
-	tfresource.RegisterResource("oci_containerengine_cluster_namespace", ContainerengineClusterNamespaceResource())
-	tfresource.RegisterResource("oci_containerengine_cluster_namespace_profile", ContainerengineClusterNamespaceProfileResource())
-	tfresource.RegisterResource("oci_containerengine_cluster_namespace_profile_version", ContainerengineClusterNamespaceProfileVersionResource())
 	tfresource.RegisterResource("oci_containerengine_cluster_workload_mapping", ContainerengineClusterWorkloadMappingResource())
 	tfresource.RegisterResource("oci_containerengine_cluster_complete_credential_rotation_management", ContainerengineClusterCompleteCredentialRotationManagementResource())
 	tfresource.RegisterResource("oci_containerengine_cluster_start_credential_rotation_management", ContainerengineClusterStartCredentialRotationManagementResource())

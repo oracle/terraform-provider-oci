@@ -56,7 +56,7 @@ var (
 
 	//ignore Defined tag change because we have default tag in the test tenancy
 	ContainerengineClusterWorkloadMappingIgnoreDefinedTagsRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
 	ContainerengineClusterWorkloadMappingResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, ContainerengineClusterRepresentation) +

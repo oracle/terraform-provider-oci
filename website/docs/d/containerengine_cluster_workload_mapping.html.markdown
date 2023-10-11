@@ -42,6 +42,5 @@ The following attributes are exported:
 * `mapped_tenancy_id` - The OCID of the mapped customer tenancy.
 * `namespace` - The namespace of the workloadMapping.
 * `state` - The state of the workloadMapping.
-* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the cluster was created.
 
