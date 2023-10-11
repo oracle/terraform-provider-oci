@@ -29,7 +29,7 @@ type PreTrainedSummarization struct {
 	Version *string `mandatory:"false" json:"version"`
 }
 
-//GetLanguageCode returns LanguageCode
+// GetLanguageCode returns LanguageCode
 func (m PreTrainedSummarization) GetLanguageCode() *string {
 	return m.LanguageCode
 }

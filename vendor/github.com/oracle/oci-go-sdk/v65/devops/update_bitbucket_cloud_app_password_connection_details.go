@@ -39,22 +39,22 @@ type UpdateBitbucketCloudAppPasswordConnectionDetails struct {
 	AppPassword *string `mandatory:"false" json:"appPassword"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateBitbucketCloudAppPasswordConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateBitbucketCloudAppPasswordConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateBitbucketCloudAppPasswordConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateBitbucketCloudAppPasswordConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

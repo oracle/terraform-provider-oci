@@ -42,22 +42,22 @@ type CreateMigratedDynectZoneDetails struct {
 	DynectMigrationDetails *DynectMigrationDetails `mandatory:"false" json:"dynectMigrationDetails"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateMigratedDynectZoneDetails) GetName() *string {
 	return m.Name
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateMigratedDynectZoneDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateMigratedDynectZoneDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateMigratedDynectZoneDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

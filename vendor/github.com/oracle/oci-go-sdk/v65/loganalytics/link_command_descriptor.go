@@ -47,32 +47,32 @@ type LinkCommandDescriptor struct {
 	Span *string `mandatory:"false" json:"span"`
 }
 
-//GetDisplayQueryString returns DisplayQueryString
+// GetDisplayQueryString returns DisplayQueryString
 func (m LinkCommandDescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-//GetInternalQueryString returns InternalQueryString
+// GetInternalQueryString returns InternalQueryString
 func (m LinkCommandDescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m LinkCommandDescriptor) GetCategory() *string {
 	return m.Category
 }
 
-//GetReferencedFields returns ReferencedFields
+// GetReferencedFields returns ReferencedFields
 func (m LinkCommandDescriptor) GetReferencedFields() []AbstractField {
 	return m.ReferencedFields
 }
 
-//GetDeclaredFields returns DeclaredFields
+// GetDeclaredFields returns DeclaredFields
 func (m LinkCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
-//GetIsHidden returns IsHidden
+// GetIsHidden returns IsHidden
 func (m LinkCommandDescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }

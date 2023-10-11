@@ -44,42 +44,42 @@ type ContainerListingPackage struct {
 	Regions []Region `mandatory:"false" json:"regions"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ContainerListingPackage) GetDescription() *string {
 	return m.Description
 }
 
-//GetListingId returns ListingId
+// GetListingId returns ListingId
 func (m ContainerListingPackage) GetListingId() *string {
 	return m.ListingId
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m ContainerListingPackage) GetVersion() *string {
 	return m.Version
 }
 
-//GetPricing returns Pricing
+// GetPricing returns Pricing
 func (m ContainerListingPackage) GetPricing() *PricingModel {
 	return m.Pricing
 }
 
-//GetResourceId returns ResourceId
+// GetResourceId returns ResourceId
 func (m ContainerListingPackage) GetResourceId() *string {
 	return m.ResourceId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m ContainerListingPackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetOperatingSystem returns OperatingSystem
+// GetOperatingSystem returns OperatingSystem
 func (m ContainerListingPackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
 }
 
-//GetRegions returns Regions
+// GetRegions returns Regions
 func (m ContainerListingPackage) GetRegions() []Region {
 	return m.Regions
 }

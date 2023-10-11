@@ -59,52 +59,52 @@ type ExternalExadataDatabaseSystemSummary struct {
 	LifecycleState DbmResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m ExternalExadataDatabaseSystemSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m ExternalExadataDatabaseSystemSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m ExternalExadataDatabaseSystemSummary) GetVersion() *string {
 	return m.Version
 }
 
-//GetInternalId returns InternalId
+// GetInternalId returns InternalId
 func (m ExternalExadataDatabaseSystemSummary) GetInternalId() *string {
 	return m.InternalId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m ExternalExadataDatabaseSystemSummary) GetStatus() *string {
 	return m.Status
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m ExternalExadataDatabaseSystemSummary) GetLifecycleState() DbmResourceLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m ExternalExadataDatabaseSystemSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m ExternalExadataDatabaseSystemSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m ExternalExadataDatabaseSystemSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetAdditionalDetails returns AdditionalDetails
+// GetAdditionalDetails returns AdditionalDetails
 func (m ExternalExadataDatabaseSystemSummary) GetAdditionalDetails() map[string]string {
 	return m.AdditionalDetails
 }

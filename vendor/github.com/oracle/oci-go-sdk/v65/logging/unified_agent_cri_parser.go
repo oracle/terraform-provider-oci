@@ -67,37 +67,37 @@ type UnifiedAgentCriParser struct {
 	NestedParser *UnifiedJsonParser `mandatory:"false" json:"nestedParser"`
 }
 
-//GetFieldTimeKey returns FieldTimeKey
+// GetFieldTimeKey returns FieldTimeKey
 func (m UnifiedAgentCriParser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
-//GetTypes returns Types
+// GetTypes returns Types
 func (m UnifiedAgentCriParser) GetTypes() map[string]string {
 	return m.Types
 }
 
-//GetNullValuePattern returns NullValuePattern
+// GetNullValuePattern returns NullValuePattern
 func (m UnifiedAgentCriParser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
-//GetIsNullEmptyString returns IsNullEmptyString
+// GetIsNullEmptyString returns IsNullEmptyString
 func (m UnifiedAgentCriParser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
-//GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
+// GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
 func (m UnifiedAgentCriParser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
-//GetIsKeepTimeKey returns IsKeepTimeKey
+// GetIsKeepTimeKey returns IsKeepTimeKey
 func (m UnifiedAgentCriParser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
-//GetTimeoutInMilliseconds returns TimeoutInMilliseconds
+// GetTimeoutInMilliseconds returns TimeoutInMilliseconds
 func (m UnifiedAgentCriParser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }

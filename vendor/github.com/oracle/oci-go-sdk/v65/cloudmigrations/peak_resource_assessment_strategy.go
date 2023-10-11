@@ -32,7 +32,7 @@ type PeakResourceAssessmentStrategy struct {
 	MetricTimeWindow MetricTimeWindowEnum `mandatory:"false" json:"metricTimeWindow,omitempty"`
 }
 
-//GetResourceType returns ResourceType
+// GetResourceType returns ResourceType
 func (m PeakResourceAssessmentStrategy) GetResourceType() ResourceAssessmentStrategyResourceTypeEnum {
 	return m.ResourceType
 }

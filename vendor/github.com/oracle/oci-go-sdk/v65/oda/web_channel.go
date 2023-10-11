@@ -70,52 +70,52 @@ type WebChannel struct {
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m WebChannel) GetId() *string {
 	return m.Id
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m WebChannel) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m WebChannel) GetDescription() *string {
 	return m.Description
 }
 
-//GetCategory returns Category
+// GetCategory returns Category
 func (m WebChannel) GetCategory() ChannelCategoryEnum {
 	return m.Category
 }
 
-//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m WebChannel) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m WebChannel) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m WebChannel) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m WebChannel) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m WebChannel) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m WebChannel) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

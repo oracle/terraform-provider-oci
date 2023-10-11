@@ -26,7 +26,7 @@ type ContainerEmptyDirVolume struct {
 	BackingStore ContainerEmptyDirVolumeBackingStoreEnum `mandatory:"false" json:"backingStore,omitempty"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ContainerEmptyDirVolume) GetName() *string {
 	return m.Name
 }

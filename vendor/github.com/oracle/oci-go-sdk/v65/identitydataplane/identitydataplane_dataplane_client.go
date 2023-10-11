@@ -93,7 +93,7 @@ func (client *DataplaneClient) ConfigurationProvider() *common.ConfigurationProv
 
 // GenerateScopedAccessToken Based on the calling Principal and the input payload, derive the claims, and generate a scoped-access token for specific resources. For example, set scope to urn:oracle:db::id::<compartment-id> for access to a database in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateScopedAccessToken.go.html to see an example of how to use GenerateScopedAccessToken API.
 func (client DataplaneClient) GenerateScopedAccessToken(ctx context.Context, request GenerateScopedAccessTokenRequest) (response GenerateScopedAccessTokenResponse, err error) {
@@ -152,7 +152,7 @@ func (client DataplaneClient) generateScopedAccessToken(ctx context.Context, req
 // user principal. When not specified, the user session duration is set to a default of 60 minutes in all realms. Resulting UPSTs
 // are refreshable while the user session has not expired.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateUserSecurityToken.go.html to see an example of how to use GenerateUserSecurityToken API.
 func (client DataplaneClient) GenerateUserSecurityToken(ctx context.Context, request GenerateUserSecurityTokenRequest) (response GenerateUserSecurityTokenResponse, err error) {

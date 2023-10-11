@@ -19,12 +19,12 @@ import (
 // AppIdpPolicy IDP Policy.
 // **Added In:** 18.1.2
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
 type AppIdpPolicy struct {
 
 	// Identifier of the Policy.

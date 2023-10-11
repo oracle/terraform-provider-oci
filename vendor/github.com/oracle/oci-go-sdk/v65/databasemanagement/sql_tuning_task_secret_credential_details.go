@@ -32,12 +32,12 @@ type SqlTuningTaskSecretCredentialDetails struct {
 	Role SqlTuningTaskCredentialDetailsRoleEnum `mandatory:"true" json:"role"`
 }
 
-//GetUsername returns Username
+// GetUsername returns Username
 func (m SqlTuningTaskSecretCredentialDetails) GetUsername() *string {
 	return m.Username
 }
 
-//GetRole returns Role
+// GetRole returns Role
 func (m SqlTuningTaskSecretCredentialDetails) GetRole() SqlTuningTaskCredentialDetailsRoleEnum {
 	return m.Role
 }

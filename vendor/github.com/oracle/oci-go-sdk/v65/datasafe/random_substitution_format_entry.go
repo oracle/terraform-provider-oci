@@ -40,7 +40,7 @@ type RandomSubstitutionFormatEntry struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m RandomSubstitutionFormatEntry) GetDescription() *string {
 	return m.Description
 }

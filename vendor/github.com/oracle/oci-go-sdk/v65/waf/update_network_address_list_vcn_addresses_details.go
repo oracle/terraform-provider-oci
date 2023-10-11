@@ -40,22 +40,22 @@ type UpdateNetworkAddressListVcnAddressesDetails struct {
 	VcnAddresses []PrivateAddresses `mandatory:"false" json:"vcnAddresses"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateNetworkAddressListVcnAddressesDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateNetworkAddressListVcnAddressesDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateNetworkAddressListVcnAddressesDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m UpdateNetworkAddressListVcnAddressesDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

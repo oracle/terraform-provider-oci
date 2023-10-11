@@ -43,32 +43,32 @@ type ConditionalInputLink struct {
 	Condition *Expression `mandatory:"false" json:"condition"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m ConditionalInputLink) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m ConditionalInputLink) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m ConditionalInputLink) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m ConditionalInputLink) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ConditionalInputLink) GetDescription() *string {
 	return m.Description
 }
 
-//GetPort returns Port
+// GetPort returns Port
 func (m ConditionalInputLink) GetPort() *string {
 	return m.Port
 }

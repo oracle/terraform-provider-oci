@@ -56,32 +56,32 @@ type CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails s
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

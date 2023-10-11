@@ -45,32 +45,32 @@ type CreateWebAppFirewallLoadBalancerDetails struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateWebAppFirewallLoadBalancerDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateWebAppFirewallLoadBalancerDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
+// GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
 func (m CreateWebAppFirewallLoadBalancerDetails) GetWebAppFirewallPolicyId() *string {
 	return m.WebAppFirewallPolicyId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateWebAppFirewallLoadBalancerDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateWebAppFirewallLoadBalancerDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m CreateWebAppFirewallLoadBalancerDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

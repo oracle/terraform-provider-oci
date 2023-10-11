@@ -44,32 +44,32 @@ type CompositeType struct {
 	ConfigDefinition *ConfigDefinition `mandatory:"false" json:"configDefinition"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m CompositeType) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m CompositeType) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m CompositeType) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CompositeType) GetName() *string {
 	return m.Name
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m CompositeType) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CompositeType) GetDescription() *string {
 	return m.Description
 }

@@ -54,22 +54,22 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }

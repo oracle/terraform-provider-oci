@@ -52,7 +52,7 @@ type JwtAuthenticationPolicy struct {
 	VerifyClaims []JsonWebTokenClaim `mandatory:"false" json:"verifyClaims"`
 }
 
-//GetIsAnonymousAccessAllowed returns IsAnonymousAccessAllowed
+// GetIsAnonymousAccessAllowed returns IsAnonymousAccessAllowed
 func (m JwtAuthenticationPolicy) GetIsAnonymousAccessAllowed() *bool {
 	return m.IsAnonymousAccessAllowed
 }

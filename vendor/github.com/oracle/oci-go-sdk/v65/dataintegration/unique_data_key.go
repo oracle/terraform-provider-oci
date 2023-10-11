@@ -37,32 +37,32 @@ type UniqueDataKey struct {
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m UniqueDataKey) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m UniqueDataKey) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m UniqueDataKey) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UniqueDataKey) GetName() *string {
 	return m.Name
 }
 
-//GetAttributeRefs returns AttributeRefs
+// GetAttributeRefs returns AttributeRefs
 func (m UniqueDataKey) GetAttributeRefs() []KeyAttribute {
 	return m.AttributeRefs
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m UniqueDataKey) GetObjectStatus() *int {
 	return m.ObjectStatus
 }

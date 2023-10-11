@@ -19,14 +19,14 @@ import (
 // UserExtPasswordVerifiers Password Verifiers for DB User.
 // **Added In:** 18.2.2
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [type]
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readOnly
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [type]
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readOnly
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type UserExtPasswordVerifiers struct {
 
 	// Type of database password verifier (for example, MR-SHA512 or SSHA).

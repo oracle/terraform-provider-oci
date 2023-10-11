@@ -93,7 +93,7 @@ func (client *AIServiceVisionClient) ConfigurationProvider() *common.Configurati
 
 // AnalyzeDocument Perform different types of image analysis.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/AnalyzeDocument.go.html to see an example of how to use AnalyzeDocument API.
 // A default retry strategy applies to this operation AnalyzeDocument()
@@ -151,7 +151,7 @@ func (client AIServiceVisionClient) analyzeDocument(ctx context.Context, request
 
 // AnalyzeImage Perform different types of image analysis.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/AnalyzeImage.go.html to see an example of how to use AnalyzeImage API.
 // A default retry strategy applies to this operation AnalyzeImage()
@@ -209,7 +209,7 @@ func (client AIServiceVisionClient) analyzeImage(ctx context.Context, request co
 
 // CancelDocumentJob Cancel a document batch job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelDocumentJob.go.html to see an example of how to use CancelDocumentJob API.
 func (client AIServiceVisionClient) CancelDocumentJob(ctx context.Context, request CancelDocumentJobRequest) (response CancelDocumentJobResponse, err error) {
@@ -266,7 +266,7 @@ func (client AIServiceVisionClient) cancelDocumentJob(ctx context.Context, reque
 
 // CancelImageJob Cancel an image batch job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelImageJob.go.html to see an example of how to use CancelImageJob API.
 func (client AIServiceVisionClient) CancelImageJob(ctx context.Context, request CancelImageJobRequest) (response CancelImageJobResponse, err error) {
@@ -323,7 +323,7 @@ func (client AIServiceVisionClient) cancelImageJob(ctx context.Context, request 
 
 // CancelWorkRequest Cancel the work request with the given ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 func (client AIServiceVisionClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
@@ -380,7 +380,7 @@ func (client AIServiceVisionClient) cancelWorkRequest(ctx context.Context, reque
 
 // ChangeModelCompartment Moves a model from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
 func (client AIServiceVisionClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
@@ -437,7 +437,7 @@ func (client AIServiceVisionClient) changeModelCompartment(ctx context.Context, 
 
 // ChangeProjectCompartment Move a project from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
 func (client AIServiceVisionClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
@@ -494,7 +494,7 @@ func (client AIServiceVisionClient) changeProjectCompartment(ctx context.Context
 
 // CreateDocumentJob Create a document analysis batch job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateDocumentJob.go.html to see an example of how to use CreateDocumentJob API.
 func (client AIServiceVisionClient) CreateDocumentJob(ctx context.Context, request CreateDocumentJobRequest) (response CreateDocumentJobResponse, err error) {
@@ -556,7 +556,7 @@ func (client AIServiceVisionClient) createDocumentJob(ctx context.Context, reque
 
 // CreateImageJob Create an image analysis batch job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateImageJob.go.html to see an example of how to use CreateImageJob API.
 func (client AIServiceVisionClient) CreateImageJob(ctx context.Context, request CreateImageJobRequest) (response CreateImageJobResponse, err error) {
@@ -618,7 +618,7 @@ func (client AIServiceVisionClient) createImageJob(ctx context.Context, request 
 
 // CreateModel Create a new model.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateModel.go.html to see an example of how to use CreateModel API.
 func (client AIServiceVisionClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
@@ -680,7 +680,7 @@ func (client AIServiceVisionClient) createModel(ctx context.Context, request com
 
 // CreateProject Create a new project.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateProject.go.html to see an example of how to use CreateProject API.
 func (client AIServiceVisionClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
@@ -742,7 +742,7 @@ func (client AIServiceVisionClient) createProject(ctx context.Context, request c
 
 // DeleteModel Delete a model by identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/DeleteModel.go.html to see an example of how to use DeleteModel API.
 func (client AIServiceVisionClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
@@ -799,7 +799,7 @@ func (client AIServiceVisionClient) deleteModel(ctx context.Context, request com
 
 // DeleteProject Delete a project by identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/DeleteProject.go.html to see an example of how to use DeleteProject API.
 func (client AIServiceVisionClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
@@ -856,7 +856,7 @@ func (client AIServiceVisionClient) deleteProject(ctx context.Context, request c
 
 // GetDocumentJob Get details of a document batch job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetDocumentJob.go.html to see an example of how to use GetDocumentJob API.
 func (client AIServiceVisionClient) GetDocumentJob(ctx context.Context, request GetDocumentJobRequest) (response GetDocumentJobResponse, err error) {
@@ -913,7 +913,7 @@ func (client AIServiceVisionClient) getDocumentJob(ctx context.Context, request 
 
 // GetImageJob Get details of an image batch job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetImageJob.go.html to see an example of how to use GetImageJob API.
 func (client AIServiceVisionClient) GetImageJob(ctx context.Context, request GetImageJobRequest) (response GetImageJobResponse, err error) {
@@ -970,7 +970,7 @@ func (client AIServiceVisionClient) getImageJob(ctx context.Context, request com
 
 // GetModel Get a model by identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetModel.go.html to see an example of how to use GetModel API.
 func (client AIServiceVisionClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
@@ -1027,7 +1027,7 @@ func (client AIServiceVisionClient) getModel(ctx context.Context, request common
 
 // GetProject Get a project by identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetProject.go.html to see an example of how to use GetProject API.
 func (client AIServiceVisionClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
@@ -1084,7 +1084,7 @@ func (client AIServiceVisionClient) getProject(ctx context.Context, request comm
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client AIServiceVisionClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
@@ -1141,7 +1141,7 @@ func (client AIServiceVisionClient) getWorkRequest(ctx context.Context, request 
 
 // ListModels Returns a list of models in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ListModels.go.html to see an example of how to use ListModels API.
 func (client AIServiceVisionClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
@@ -1198,7 +1198,7 @@ func (client AIServiceVisionClient) listModels(ctx context.Context, request comm
 
 // ListProjects Returns a list of projects.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ListProjects.go.html to see an example of how to use ListProjects API.
 func (client AIServiceVisionClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
@@ -1255,7 +1255,7 @@ func (client AIServiceVisionClient) listProjects(ctx context.Context, request co
 
 // ListWorkRequestErrors Returns a (paginated) list of errors for a given work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client AIServiceVisionClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
@@ -1312,7 +1312,7 @@ func (client AIServiceVisionClient) listWorkRequestErrors(ctx context.Context, r
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client AIServiceVisionClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
@@ -1369,7 +1369,7 @@ func (client AIServiceVisionClient) listWorkRequestLogs(ctx context.Context, req
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client AIServiceVisionClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
@@ -1426,7 +1426,7 @@ func (client AIServiceVisionClient) listWorkRequests(ctx context.Context, reques
 
 // UpdateModel Updates the model metadata.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/UpdateModel.go.html to see an example of how to use UpdateModel API.
 func (client AIServiceVisionClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
@@ -1483,7 +1483,7 @@ func (client AIServiceVisionClient) updateModel(ctx context.Context, request com
 
 // UpdateProject Update the project metadata.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/UpdateProject.go.html to see an example of how to use UpdateProject API.
 func (client AIServiceVisionClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {

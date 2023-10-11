@@ -34,17 +34,17 @@ type AwrDatabaseSysstatCollection struct {
 	Items []AwrDatabaseSysstatSummary `mandatory:"false" json:"items"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m AwrDatabaseSysstatCollection) GetName() *string {
 	return m.Name
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m AwrDatabaseSysstatCollection) GetVersion() *string {
 	return m.Version
 }
 
-//GetDbQueryTimeInSecs returns DbQueryTimeInSecs
+// GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m AwrDatabaseSysstatCollection) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
 }

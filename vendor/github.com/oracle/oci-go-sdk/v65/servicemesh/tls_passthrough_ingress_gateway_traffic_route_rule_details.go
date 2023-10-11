@@ -25,12 +25,12 @@ type TlsPassthroughIngressGatewayTrafficRouteRuleDetails struct {
 	IngressGatewayHost *IngressGatewayHostRef `mandatory:"false" json:"ingressGatewayHost"`
 }
 
-//GetIngressGatewayHost returns IngressGatewayHost
+// GetIngressGatewayHost returns IngressGatewayHost
 func (m TlsPassthroughIngressGatewayTrafficRouteRuleDetails) GetIngressGatewayHost() *IngressGatewayHostRef {
 	return m.IngressGatewayHost
 }
 
-//GetDestinations returns Destinations
+// GetDestinations returns Destinations
 func (m TlsPassthroughIngressGatewayTrafficRouteRuleDetails) GetDestinations() []VirtualServiceTrafficRuleTargetDetails {
 	return m.Destinations
 }

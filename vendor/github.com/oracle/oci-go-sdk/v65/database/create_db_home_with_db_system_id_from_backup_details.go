@@ -49,37 +49,37 @@ type CreateDbHomeWithDbSystemIdFromBackupDetails struct {
 	IsDesupportedVersion *bool `mandatory:"false" json:"isDesupportedVersion"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetKmsKeyId returns KmsKeyId
+// GetKmsKeyId returns KmsKeyId
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
-//GetKmsKeyVersionId returns KmsKeyVersionId
+// GetKmsKeyVersionId returns KmsKeyVersionId
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetKmsKeyVersionId() *string {
 	return m.KmsKeyVersionId
 }
 
-//GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
+// GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetIsDesupportedVersion returns IsDesupportedVersion
+// GetIsDesupportedVersion returns IsDesupportedVersion
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetIsDesupportedVersion() *bool {
 	return m.IsDesupportedVersion
 }
