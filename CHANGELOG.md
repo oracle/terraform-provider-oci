@@ -1,17 +1,16 @@
 ## 5.16.0 (Unreleased)
 
 ### Added
-- Support for [ADB-S] Elastic Resource Pools
-- Support for Private Cloud at Customer
-- Support for External KMS
-- Support for Support FSS as transfer medium for Datapump export/import
-- Support for Update Replica in MySQL Heatwave Service
-- Support for Private Endpoints in Data Science Notebook Sessions
-- queue API changes for queue channels
+- Support for Resource Usage Tracking Enhancement | ADB-C@C
+- Support for PDB Mgmt v2
+- Support for VCN Flow Logs for Telesis - Network command center
+- Support for DIS: Import / Export
+- Support for Marketplace Publisher Service, enhance Marketplace and Marketplace Publishing Services
 ### Bug Fix
-- Unset policy field from filesystem changes
+- Deprecating OCVS v20200501 API support
+- Only trigger recreation while change subnet_id for endpoint config on native vcn cluster
 
-## 5.15.0 (Unreleased)
+## 5.15.0 (October 04, 2023)
 
 ### Added
 - Support for [ADB-S] Elastic Resource Pools
