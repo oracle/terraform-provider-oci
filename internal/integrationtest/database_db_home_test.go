@@ -64,7 +64,7 @@ var (
 		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `tfDbNam`},
 	}
 	DatabaseDbHomeRepresentationBase = map[string]interface{}{
-		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_system.test_db_system.id}`},
+		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 	}
 	dbHomeRepresentationSourceNone = acctest.RepresentationCopyWithNewProperties(DatabaseDbHomeRepresentationBase, map[string]interface{}{
 		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: dbHomeDatabaseRepresentationSourceNone},
@@ -217,6 +217,8 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, DatabaseVmClusterRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkValidateRepresentation)
 
+	//DbHomeResourceVmClusterDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig
+
 	DbHomeResourceVmClusterDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseCloudVmClusterRepresentation) +
 		AvailabilityDomainConfig + DatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies
 )
@@ -243,7 +245,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify Create
 			{
-				Config: config + compartmentIdVariableStr + DatabaseDbHomeResourceDependencies +
+				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", acctest.Required, acctest.Create, dbHomeRepresentationSourceNoneRequiredOnly),
 
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -257,11 +259,11 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 
 			// delete before next Create
 			{
-				Config: config + compartmentIdVariableStr + DatabaseDbHomeResourceDependencies,
+				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies,
 			},
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + DatabaseDbHomeResourceDependencies +
+				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", acctest.Optional, acctest.Create, dbHomeRepresentationSourceNone),
 
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -292,7 +294,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 			},
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + DatabaseDbHomeResourceDependencies +
+				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", acctest.Optional, acctest.Update, dbHomeRepresentationSourceNone),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
@@ -422,7 +424,6 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", acctest.Optional, acctest.Create, dbHomeRepresentationSourceDatabase),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-
 				//resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -515,6 +516,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", acctest.Optional, acctest.Update, dbHomeRepresentationSourceVmClusterNew) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", acctest.Optional, acctest.Update, dbHomeRepresentationSourceDatabase),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+
 				//resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -713,7 +715,6 @@ func TestDatabaseDbHomeResource_exacs(t *testing.T) {
 					resource.TestCheckNoResourceAttr(resourceName+"_vm_cluster_no_db", "database"),
 				),
 			},
-
 			// Create DB inside of dbHome
 			{
 				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +

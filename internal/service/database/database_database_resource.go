@@ -227,6 +227,15 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"pluggable_databases": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"sid_prefix": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -1009,6 +1018,19 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fiel
 	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
 		tmp := dbUniqueName.(string)
 		result.DbUniqueName = &tmp
+	}
+
+	if pluggableDatabases, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pluggable_databases")); ok {
+		interfaces := pluggableDatabases.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "pluggable_databases")) {
+			result.PluggableDatabases = tmp
+		}
 	}
 
 	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {

@@ -27,8 +27,9 @@ func OcvpSupportedHostShapesDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"sddc_type": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("sddc_type", "is_single_host_sddc_supported"),
 			},
 			"items": {
 				Type:     schema.TypeList,
@@ -85,6 +86,7 @@ func OcvpSupportedHostShapesDataSource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+							Deprecated: tfresource.FieldDeprecatedForAnother("supported_sddc_types", "is_single_host_sddc_supported"),
 						},
 						"supported_vmware_software_versions": {
 							Type:     schema.TypeList,

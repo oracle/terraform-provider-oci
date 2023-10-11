@@ -48,11 +48,12 @@ var (
 	CoreCaptureFilterRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"filter_type":               acctest.Representation{RepType: acctest.Required, Create: `VTAP`},
+		"vtap_capture_filter_rules": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreCaptureFilterVtapCaptureFilterRulesRepresentation},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `MyCaptureFilter`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"vtap_capture_filter_rules": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreCaptureFilterVtapCaptureFilterRulesRepresentation},
 	}
+
 	CoreCaptureFilterVtapCaptureFilterRulesRepresentation = map[string]interface{}{
 		"traffic_direction": acctest.Representation{RepType: acctest.Required, Create: `INGRESS`, Update: `EGRESS`},
 		"destination_cidr":  acctest.Representation{RepType: acctest.Optional, Create: `10.3.0.0/16`, Update: `10.4.0.0/16`},
@@ -61,9 +62,40 @@ var (
 		"rule_action":       acctest.Representation{RepType: acctest.Optional, Create: `INCLUDE`, Update: `EXCLUDE`},
 		"source_cidr":       acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.1/32`, Update: `10.0.0.2/32`},
 	}
+
 	CoreCaptureFilterVtapCaptureFilterRulesIcmpOptionsRepresentation = map[string]interface{}{
 		"type": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"code": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+	}
+
+	CoreCaptureFilterVtapCaptureFilterRulesTcpOptionsRepresentation = map[string]interface{}{
+		"destination_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCaptureFilterVtapCaptureFilterRulesTcpOptionsDestinationPortRangeRepresentation},
+		"source_port_range":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCaptureFilterVtapCaptureFilterRulesTcpOptionsSourcePortRangeRepresentation},
+	}
+
+	CoreCaptureFilterVtapCaptureFilterRulesUdpOptionsRepresentation = map[string]interface{}{
+		"destination_port_range": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCaptureFilterVtapCaptureFilterRulesUdpOptionsDestinationPortRangeRepresentation},
+		"source_port_range":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCaptureFilterVtapCaptureFilterRulesUdpOptionsSourcePortRangeRepresentation},
+	}
+
+	CoreCaptureFilterVtapCaptureFilterRulesTcpOptionsDestinationPortRangeRepresentation = map[string]interface{}{
+		"max": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"min": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+	}
+
+	CoreCaptureFilterVtapCaptureFilterRulesTcpOptionsSourcePortRangeRepresentation = map[string]interface{}{
+		"max": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"min": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+	}
+
+	CoreCaptureFilterVtapCaptureFilterRulesUdpOptionsDestinationPortRangeRepresentation = map[string]interface{}{
+		"max": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"min": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+	}
+
+	CoreCaptureFilterVtapCaptureFilterRulesUdpOptionsSourcePortRangeRepresentation = map[string]interface{}{
+		"max": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"min": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	}
 
 	/*

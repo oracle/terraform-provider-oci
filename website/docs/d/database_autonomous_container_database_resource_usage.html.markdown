@@ -50,5 +50,5 @@ The following attributes are exported:
 * `provisioned_cpus` - CPUs / cores assigned to ADBs in the Autonomous Container Database.
 * `reclaimable_cpus` - CPUs / cores reclaimable or released to cluster on Autonomous Container Database restart.
 * `reserved_cpus` - CPUs / cores reserved for scalability, resilliency and other overheads. This includes failover, autoscaling and idle instance overhead. 
-* `used_cpus` - CPUs / cores assigned to the Autonomous Container Database. Sum of provisioned, reserved and reclaimable CPUs/ cores. 
+* `used_cpus` - CPUs / cores assigned to the Autonomous Container Database. Sum of provisioned, reserved and reclaimable CPUs/ cores.
 

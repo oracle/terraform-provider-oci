@@ -24,3 +24,16 @@ data "oci_database_autonomous_virtual_machines" "test_autonomous_virtual_machine
   #Optional
   state = var.autonomous_virtual_machine_state
 }
+
+data "oci_database_autonomous_vm_cluster_acd_resource_usages" "test_autonomous_vm_cluster_acd_resource_usages" {
+  #Required
+  autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
+
+  #Optional
+  compartment_id = var.compartment_ocid
+}
+
+data "oci_database_autonomous_vm_cluster_resource_usage" "test_autonomous_vm_cluster_resource_usages" {
+  #Required
+  autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
+}

@@ -155,10 +155,22 @@ func (s *DatabasePluggableDatabasesDataSourceCrud) SetData() error {
 			pluggableDatabase["pdb_name"] = *r.PdbName
 		}
 
+		pdbNodeLevelDetails := []interface{}{}
+		for _, item := range r.PdbNodeLevelDetails {
+			pdbNodeLevelDetails = append(pdbNodeLevelDetails, PluggableDatabaseNodeLevelDetailsToMap(item))
+		}
+		pluggableDatabase["pdb_node_level_details"] = pdbNodeLevelDetails
+
 		if r.PluggableDatabaseManagementConfig != nil {
 			pluggableDatabase["pluggable_database_management_config"] = []interface{}{PluggableDatabaseManagementConfigToMap(r.PluggableDatabaseManagementConfig)}
 		} else {
 			pluggableDatabase["pluggable_database_management_config"] = nil
+		}
+
+		if r.RefreshableCloneConfig != nil {
+			pluggableDatabase["refreshable_clone_config"] = []interface{}{PluggableDatabaseRefreshableCloneConfigToMap(r.RefreshableCloneConfig)}
+		} else {
+			pluggableDatabase["refreshable_clone_config"] = nil
 		}
 
 		pluggableDatabase["state"] = r.LifecycleState

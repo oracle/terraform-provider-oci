@@ -103,7 +103,7 @@ var (
 			node_count = "1"
 			fault_domains = ["FAULT-DOMAIN-1"]
 			db_home {
-				db_version = "19.11.0.0"
+				db_version = "21.8.0.0"
 				display_name = "-tf-db-home-clone"
 				database {
 					admin_password = "BEstrO0ng_#11"

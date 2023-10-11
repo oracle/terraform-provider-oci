@@ -59,6 +59,96 @@ var (
 		"depends_on":                         acctest.Representation{RepType: acctest.Required, Create: []string{"oci_database_db_system.t"}},
 	}
 
+	DatabasePluggableDatabaseLocalCloneRepresentation = map[string]interface{}{
+		"container_database_id":              acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_database.t.id}`},
+		"pdb_admin_password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"pdb_name":                           acctest.Representation{RepType: acctest.Required, Create: `LocalClonePdb`},
+		"tde_wallet_password":                acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		//"container_database_admin_password":  acctest.Representation{RepType: acctest.Optional, Create: `containerDatabaseAdminPassword`},
+		"pdb_creation_type_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabasePluggableDatabasePdbCreationTypeDetailsLocalCloneRepresentation},
+		"should_create_pdb_backup":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
+		"depends_on":                acctest.Representation{RepType: acctest.Required, Create: []string{"oci_database_db_system.t"}},
+	}
+
+	DatabasePluggableDatabasePdbCreationTypeDetailsLocalCloneRepresentation = map[string]interface{}{
+		"creation_type":                            acctest.Representation{RepType: acctest.Required, Create: `LOCAL_CLONE_PDB`},
+		"source_pluggable_database_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
+		"source_container_database_admin_password": acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
+	}
+
+	DatabasePluggableDatabaseRemoteCloneRepresentation = map[string]interface{}{
+		"container_database_id":              acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_database.t.id}`},
+		"pdb_admin_password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"pdb_name":                           acctest.Representation{RepType: acctest.Required, Create: `RemoteClonePdb`},
+		"tde_wallet_password":                acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		//"container_database_admin_password":  acctest.Representation{RepType: acctest.Optional, Create: `containerDatabaseAdminPassword`},
+		"pdb_creation_type_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabasePluggableDatabasePdbCreationTypeDetailsRemoteCloneRepresentation},
+		"should_create_pdb_backup":  acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
+		"depends_on":                acctest.Representation{RepType: acctest.Required, Create: []string{"oci_database_db_system.t"}},
+	}
+
+	DatabasePluggableDatabasePdbCreationTypeDetailsRemoteCloneRepresentation = map[string]interface{}{
+		"creation_type":                            acctest.Representation{RepType: acctest.Required, Create: `REMOTE_CLONE_PDB`},
+		"source_pluggable_database_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
+		"source_container_database_admin_password": acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
+	}
+
+	DatabasePluggableDatabaseRelocateRepresentation = map[string]interface{}{
+		"container_database_id":              acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_database.t.id}`},
+		"pdb_admin_password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"pdb_name":                           acctest.Representation{RepType: acctest.Required, Create: `RelocatePdb`},
+		"tde_wallet_password":                acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		//"container_database_admin_password":  acctest.Representation{RepType: acctest.Optional, Create: `containerDatabaseAdminPassword`},
+		"pdb_creation_type_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabasePluggableDatabasePdbCreationTypeDetailsRelocateRepresentation},
+		"should_create_pdb_backup":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
+		"depends_on":                acctest.Representation{RepType: acctest.Required, Create: []string{"oci_database_db_system.t"}},
+	}
+
+	DatabasePluggableDatabasePdbCreationTypeDetailsRelocateRepresentation = map[string]interface{}{
+		"creation_type":                            acctest.Representation{RepType: acctest.Required, Create: `RELOCATE_PDB`},
+		"source_pluggable_database_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
+		"source_container_database_admin_password": acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
+	}
+
+	DatabasePluggableDatabaseRefreshableCloneRepresentation = map[string]interface{}{
+		"container_database_id":              acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_database.t.id}`},
+		"pdb_admin_password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"pdb_name":                           acctest.Representation{RepType: acctest.Required, Create: `RefreshablePdb`},
+		"tde_wallet_password":                acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"should_pdb_admin_account_be_locked": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		//"container_database_admin_password":  acctest.Representation{RepType: acctest.Optional, Create: `containerDatabaseAdminPassword`},
+		"pdb_creation_type_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabasePluggableDatabasePdbCreationTypeDetailsRelocateRepresentation},
+		"should_create_pdb_backup":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"lifecycle":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
+		"depends_on":                acctest.Representation{RepType: acctest.Required, Create: []string{"oci_database_db_system.t"}},
+	}
+
+	DatabasePluggableDatabasePdbCreationTypeDetailsRefreshableCloneRepresentation = map[string]interface{}{
+		"creation_type":                            acctest.Representation{RepType: acctest.Required, Create: `REMOTE_CLONE`},
+		"source_pluggable_database_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_database_pluggable_database.test_pluggable_database.id}`},
+		"dblink_user_password":                     acctest.Representation{RepType: acctest.Optional, Create: `DBLINKPWD`},
+		"dblink_username":                          acctest.Representation{RepType: acctest.Optional, Create: `DBLINKUSER`},
+		"refreshable_clone_details":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabasePluggableDatabasePdbCreationTypeDetailsRefreshableCloneDetailsRepresentation},
+		"source_container_database_admin_password": acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
+	}
+	DatabasePluggableDatabasePdbCreationTypeDetailsRefreshableCloneDetailsRepresentation = map[string]interface{}{
+		"is_refreshable_clone": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+
 	ResourcePluggableDatabaseBaseConfig = `
 
 	data "oci_identity_availability_domains" "ADs" {
@@ -126,7 +216,7 @@ var (
 			database_edition = "ENTERPRISE_EDITION"
 			availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 			disk_redundancy = "NORMAL"
-			shape = "VM.Standard2.8"
+			shape = "VM.Standard2.1"
 			ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
 			display_name = "-tf-dbSystem-001"
 			domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
@@ -134,6 +224,7 @@ var (
 			data_storage_size_in_gb = "256"
 			license_model = "LICENSE_INCLUDED"
 			node_count = "1"
+			cpu_core_count = "1"
 			fault_domains = ["FAULT-DOMAIN-1"]
 			db_home {
 				db_version = "21.8.0.0"
@@ -195,6 +286,8 @@ var (
 
 	DatabasePluggableDatabaseResourceDependencies = AvailabilityDomainConfig + ResourcePluggableDatabaseBaseConfig +
 		DefinedTagsDependencies + dbSystemForPluggableDbRepresentation
+
+	DatabasePluggableDatabaseResourceDependeciesExacc = DatabaseExaccPluggableDatabaseResourceDependencies
 )
 
 // issue-routing-tag: database/default
@@ -208,6 +301,10 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_pluggable_database.test_pluggable_database"
+	localCloneResourceName := "oci_database_pluggable_database.test_pluggable_databases_local_clone"
+	remoteCloneResourceName := "oci_database_pluggable_database.test_pluggable_databases_remote_clone"
+	relocateResourceName := "oci_database_pluggable_database.test_pluggable_databases_relocate"
+	refreshableCloneResourceName := "oci_database_pluggable_database.test_pluggable_databases_refreshable_clone"
 	datasourceName := "data.oci_database_pluggable_databases.test_pluggable_databases"
 	singularDatasourceName := "data.oci_database_pluggable_database.test_pluggable_database"
 
@@ -244,12 +341,16 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				//resource.TestCheckResourceAttr(resourceName, "container_database_admin_password", "containerDatabaseAdminPassword"),
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+
 				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+
 				resource.TestCheckResourceAttr(resourceName, "pdb_name", "SalesPdb"),
+				//resource.TestCheckResourceAttr(resourceName, "should_create_pdb_backup", "true"),
 				resource.TestCheckResourceAttr(resourceName, "should_pdb_admin_account_be_locked", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "tde_wallet_password", "BEstrO0ng_#11"),
@@ -274,12 +375,16 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, DatabasePluggableDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				//resource.TestCheckResourceAttr(resourceName, "container_database_admin_password", "containerDatabaseAdminPassword"),
 				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+
 				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+
 				resource.TestCheckResourceAttr(resourceName, "pdb_name", "SalesPdb"),
+				//resource.TestCheckResourceAttr(resourceName, "should_create_pdb_backup", "true"),
 				resource.TestCheckResourceAttr(resourceName, "should_pdb_admin_account_be_locked", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "tde_wallet_password", "BEstrO0ng_#11"),
@@ -294,6 +399,103 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
+
+		// delete before local clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies,
+		},
+
+		// verify local clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_local_clone", acctest.Optional, acctest.Create, DatabasePluggableDatabaseLocalCloneRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(localCloneResourceName, "pdb_name", "LocalClonePdb"),
+				resource.TestCheckResourceAttrSet(localCloneResourceName, "id"),
+				resource.TestCheckResourceAttr(localCloneResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
+		// delete before remote clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies,
+		},
+
+		// verify remote clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_remote_clone", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRemoteCloneRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(remoteCloneResourceName, "pdb_name", "RemoteClonePdb"),
+				resource.TestCheckResourceAttrSet(remoteCloneResourceName, "id"),
+				resource.TestCheckResourceAttr(remoteCloneResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
+		// delete before relocate
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies,
+		},
+
+		// verify relocate
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_relocate", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRelocateRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(relocateResourceName, "pdb_name", "RelocatePdb"),
+				resource.TestCheckResourceAttrSet(relocateResourceName, "id"),
+				resource.TestCheckResourceAttr(relocateResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
+		// delete before refreshable clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies,
+		},
+
+		// verify create refreshable clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_refreshable_clone", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRefreshableCloneRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_name", "RefreshablePdb"),
+				resource.TestCheckResourceAttrSet(refreshableCloneResourceName, "id"),
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
+		// verify refresh
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_refreshable_clone", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabasePluggableDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+					"refresh_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_name", "RefreshablePdb"),
+				resource.TestCheckResourceAttrSet(refreshableCloneResourceName, "id"),
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
+		// verify convert to regular
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_refreshable_clone", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabasePluggableDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+					"convert_to_regular_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_name", "RefreshablePdb"),
+				resource.TestCheckResourceAttrSet(refreshableCloneResourceName, "id"),
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
 		// verify datasource
 		{
 			Config: config +
@@ -329,6 +531,7 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "pdb_name", "SalesPdb"),
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
@@ -339,12 +542,222 @@ func TestDatabasePluggableDatabaseResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
+				//"container_database_admin_password",
 				"pdb_admin_password",
+				//"pdb_creation_type_details",
+				//"should_create_pdb_backup",
 				"should_pdb_admin_account_be_locked",
 				"tde_wallet_password",
 				"rotate_key_trigger",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+func TestDatabasePluggableDatabaseResourceExacc_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabasePluggableDatabaseResourceExacc_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_pluggable_database.test_pluggable_database"
+	localCloneResourceName := "oci_database_pluggable_database.test_pluggable_databases_local_clone"
+	remoteCloneResourceName := "oci_database_pluggable_database.test_pluggable_databases_remote_clone"
+	relocateResourceName := "oci_database_pluggable_database.test_pluggable_databases_relocate"
+	refreshableCloneResourceName := "oci_database_pluggable_database.test_pluggable_databases_refreshable_clone"
+	//datasourceName := "data.oci_database_pluggable_databases.test_pluggable_databases"
+	//singularDatasourceName := "data.oci_database_pluggable_database.test_pluggable_database"
+
+	var resId, resId2, compId string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabasePluggableDatabaseResourceDependeciesExacc+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRepresentation), "database", "pluggableDatabase", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabasePluggableDatabaseDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "pdb_name", "SalesPdb"),
+				resource.TestCheckResourceAttr(resourceName, "tde_wallet_password", "BEstrO0ng_#11"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				//resource.TestCheckResourceAttr(resourceName, "container_database_admin_password", "containerDatabaseAdminPassword"),
+				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+
+				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+
+				resource.TestCheckResourceAttr(resourceName, "pdb_name", "SalesPdb"),
+				//resource.TestCheckResourceAttr(resourceName, "should_create_pdb_backup", "true"),
+				resource.TestCheckResourceAttr(resourceName, "should_pdb_admin_account_be_locked", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "tde_wallet_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					compId = "oci_database_pluggable_database:" + resId
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&compId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Optional, acctest.Update, DatabasePluggableDatabaseRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				//resource.TestCheckResourceAttr(resourceName, "container_database_admin_password", "containerDatabaseAdminPassword"),
+				resource.TestCheckResourceAttrSet(resourceName, "container_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+
+				resource.TestCheckResourceAttr(resourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+
+				resource.TestCheckResourceAttr(resourceName, "pdb_name", "SalesPdb"),
+				//resource.TestCheckResourceAttr(resourceName, "should_create_pdb_backup", "true"),
+				resource.TestCheckResourceAttr(resourceName, "should_pdb_admin_account_be_locked", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "tde_wallet_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		// delete before local clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc,
+		},
+
+		// verify local clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_local_clone", acctest.Optional, acctest.Create, DatabasePluggableDatabaseLocalCloneRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(localCloneResourceName, "pdb_name", "LocalClonePdb"),
+				resource.TestCheckResourceAttrSet(localCloneResourceName, "id"),
+				resource.TestCheckResourceAttr(localCloneResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
+		// delete before remote clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc,
+		},
+
+		// verify remote clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_remote_clone", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRemoteCloneRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(remoteCloneResourceName, "pdb_name", "RemoteClonePdb"),
+				resource.TestCheckResourceAttrSet(remoteCloneResourceName, "id"),
+				resource.TestCheckResourceAttr(remoteCloneResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
+		// delete before relocate
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc,
+		},
+
+		// verify relocate
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_relocate", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRelocateRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(relocateResourceName, "pdb_name", "RelocatePdb"),
+				resource.TestCheckResourceAttrSet(relocateResourceName, "id"),
+				resource.TestCheckResourceAttr(relocateResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
+		// delete before refreshable clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc,
+		},
+
+		// verify create refreshable clone
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_refreshable_clone", acctest.Optional, acctest.Create, DatabasePluggableDatabaseRefreshableCloneRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_name", "RefreshablePdb"),
+				resource.TestCheckResourceAttrSet(refreshableCloneResourceName, "id"),
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
+		// verify refresh
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_refreshable_clone", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabasePluggableDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+					"refresh_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_name", "RefreshablePdb"),
+				resource.TestCheckResourceAttrSet(refreshableCloneResourceName, "id"),
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
+		},
+
+		// verify convert to regular
+		{
+			Config: config + compartmentIdVariableStr + DatabasePluggableDatabaseResourceDependeciesExacc +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_database", acctest.Required, acctest.Create, DatabasePluggableDatabaseRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_pluggable_database", "test_pluggable_databases_refreshable_clone", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabasePluggableDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+					"convert_to_regular_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_name", "RefreshablePdb"),
+				resource.TestCheckResourceAttrSet(refreshableCloneResourceName, "id"),
+				resource.TestCheckResourceAttr(refreshableCloneResourceName, "pdb_admin_password", "BEstrO0ng_#11"),
+			),
 		},
 	})
 }
