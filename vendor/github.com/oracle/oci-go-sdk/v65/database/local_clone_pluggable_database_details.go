@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// LocalClonePluggableDatabaseDetails Parameters for cloning a pluggable database (PDB) within the same database (CDB).
+// LocalClonePluggableDatabaseDetails **Deprecated.** Use CreatePluggableDatabaseDetails for Pluggable Database LocalClone Operation.
+// Parameters for cloning a pluggable database (PDB) within the same database (CDB).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type LocalClonePluggableDatabaseDetails struct {
 

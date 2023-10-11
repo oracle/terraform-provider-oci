@@ -1,3 +1,5 @@
+
+
 ---
 subcategory: "Database"
 layout: "oci"
@@ -191,7 +193,7 @@ The following attributes are exported:
 * `next_long_term_backup_time_stamp` - The date and time when the next long-term backup would be created.
 * `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
 	* A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
-* `ocpu_count` - The number of OCPU cores to be made available to the database. 
+* `ocpu_count` - The number of OCPU cores to be made available to the database.
 
 	The following points apply:
 	* For Autonomous Databases on dedicated Exadata infrastructure, to provision less than 1 core, enter a fractional value in an increment of 0.1. For example, you can provision 0.3 or 0.4 cores, but not 0.35 cores. (Note that fractional OCPU values are not supported for Autonomous Databasese on shared Exadata infrastructure.)

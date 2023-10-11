@@ -186,6 +186,8 @@ type ListingPackageTypeEnum = PackageTypeEnumEnum
 const (
 	ListingPackageTypeOrchestration PackageTypeEnumEnum = "ORCHESTRATION"
 	ListingPackageTypeImage         PackageTypeEnumEnum = "IMAGE"
+	ListingPackageTypeContainer     PackageTypeEnumEnum = "CONTAINER"
+	ListingPackageTypeKubernetes    PackageTypeEnumEnum = "KUBERNETES"
 )
 
 // GetListingPackageTypeEnumValues Enumerates the set of values for PackageTypeEnumEnum

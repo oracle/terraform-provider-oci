@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `name` - (Optional) A filter to return only resources that match the given name exactly.
-* `sddc_type` - (Optional) A filter to return only resources that match the given SDDC type exactly.
+* `sddc_type` - (**Deprecated**) (Optional) A filter to return only resources that match the given SDDC type exactly.
 
 
 ## Attributes Reference

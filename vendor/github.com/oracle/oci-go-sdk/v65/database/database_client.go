@@ -2031,6 +2031,69 @@ func (client DatabaseClient) convertToPdb(ctx context.Context, request common.OC
 	return response, err
 }
 
+// ConvertToRegularPluggableDatabase Converts a Refreshable clone to Regular pluggable database (PDB).
+// Pluggable Database will be in `READ_WRITE` openmode after conversion.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ConvertToRegularPluggableDatabase.go.html to see an example of how to use ConvertToRegularPluggableDatabase API.
+func (client DatabaseClient) ConvertToRegularPluggableDatabase(ctx context.Context, request ConvertToRegularPluggableDatabaseRequest) (response ConvertToRegularPluggableDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.convertToRegularPluggableDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConvertToRegularPluggableDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConvertToRegularPluggableDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConvertToRegularPluggableDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConvertToRegularPluggableDatabaseResponse")
+	}
+	return
+}
+
+// convertToRegularPluggableDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) convertToRegularPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/convertToRegular", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConvertToRegularPluggableDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/ConvertToRegularPluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "ConvertToRegularPluggableDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateApplicationVip Creates a new application virtual IP (VIP) address in the specified cloud VM cluster based on the request parameters you provide.
 //
 // # See also
@@ -3469,6 +3532,7 @@ func (client DatabaseClient) createOneoffPatch(ctx context.Context, request comm
 }
 
 // CreatePluggableDatabase Creates and starts a pluggable database in the specified container database.
+// Pluggable Database can be created using different operations (e.g. LocalClone, RemoteClone, Relocate ) with this API.
 // Use the StartPluggableDatabase and StopPluggableDatabase APIs to start and stop the pluggable database.
 //
 // # See also
@@ -7872,6 +7936,63 @@ func (client DatabaseClient) getAutonomousVmCluster(ctx context.Context, request
 	return response, err
 }
 
+// GetAutonomousVmClusterResourceUsage Get the resource usage details for the specified Autonomous Exadata VM cluster.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousVmClusterResourceUsage.go.html to see an example of how to use GetAutonomousVmClusterResourceUsage API.
+func (client DatabaseClient) GetAutonomousVmClusterResourceUsage(ctx context.Context, request GetAutonomousVmClusterResourceUsageRequest) (response GetAutonomousVmClusterResourceUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutonomousVmClusterResourceUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAutonomousVmClusterResourceUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAutonomousVmClusterResourceUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutonomousVmClusterResourceUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutonomousVmClusterResourceUsageResponse")
+	}
+	return
+}
+
+// getAutonomousVmClusterResourceUsage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAutonomousVmClusterResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousVmClusters/{autonomousVmClusterId}/resourceUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutonomousVmClusterResourceUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/GetAutonomousVmClusterResourceUsage"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousVmClusterResourceUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetBackup Gets information about the specified backup.
 //
 // # See also
@@ -11493,6 +11614,63 @@ func (client DatabaseClient) listAutonomousVirtualMachines(ctx context.Context, 
 	return response, err
 }
 
+// ListAutonomousVmClusterAcdResourceUsage Gets the list of resource usage details for all the Autonomous Container Database in the specified Autonomous Exadata VM cluster.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousVmClusterAcdResourceUsage.go.html to see an example of how to use ListAutonomousVmClusterAcdResourceUsage API.
+func (client DatabaseClient) ListAutonomousVmClusterAcdResourceUsage(ctx context.Context, request ListAutonomousVmClusterAcdResourceUsageRequest) (response ListAutonomousVmClusterAcdResourceUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousVmClusterAcdResourceUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAutonomousVmClusterAcdResourceUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAutonomousVmClusterAcdResourceUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousVmClusterAcdResourceUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousVmClusterAcdResourceUsageResponse")
+	}
+	return
+}
+
+// listAutonomousVmClusterAcdResourceUsage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousVmClusterAcdResourceUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousVmClusters/{autonomousVmClusterId}/acdResourceUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousVmClusterAcdResourceUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/ListAutonomousVmClusterAcdResourceUsage"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousVmClusterAcdResourceUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAutonomousVmClusters Gets a list of Exadata Cloud@Customer Autonomous VM clusters in the specified compartment. To list Autonomous VM Clusters in the Oracle Cloud, see ListCloudAutonomousVmClusters.
 //
 // # See also
@@ -14194,7 +14372,8 @@ func (client DatabaseClient) listVmClusters(ctx context.Context, request common.
 	return response, err
 }
 
-// LocalClonePluggableDatabase Clones and starts a pluggable database (PDB) in the same database (CDB) as the source PDB. The source PDB must be in the `READ_WRITE` openMode to perform the clone operation.
+// LocalClonePluggableDatabase **Deprecated.** Use CreatePluggableDatabase for Pluggable Database LocalClone Operation.
+// Clones and starts a pluggable database (PDB) in the same database (CDB) as the source PDB. The source PDB must be in the `READ_WRITE` openMode to perform the clone operation.
 //
 // # See also
 //
@@ -14505,6 +14684,68 @@ func (client DatabaseClient) modifyPluggableDatabaseManagement(ctx context.Conte
 	return response, err
 }
 
+// RefreshPluggableDatabase Refreshes a pluggable database (PDB) Refreshable clone.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RefreshPluggableDatabase.go.html to see an example of how to use RefreshPluggableDatabase API.
+func (client DatabaseClient) RefreshPluggableDatabase(ctx context.Context, request RefreshPluggableDatabaseRequest) (response RefreshPluggableDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshPluggableDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshPluggableDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshPluggableDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshPluggableDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshPluggableDatabaseResponse")
+	}
+	return
+}
+
+// refreshPluggableDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) refreshPluggableDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshPluggableDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/RefreshPluggableDatabase"
+		err = common.PostProcessServiceError(err, "Database", "RefreshPluggableDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RegisterAutonomousDatabaseDataSafe Asynchronously registers this Autonomous Database with Data Safe.
 //
 // # See also
@@ -14676,7 +14917,8 @@ func (client DatabaseClient) reinstateDataGuardAssociation(ctx context.Context, 
 	return response, err
 }
 
-// RemoteClonePluggableDatabase Clones a pluggable database (PDB) to a different database from the source PDB. The cloned PDB will be started upon completion of the clone operation. The source PDB must be in the `READ_WRITE` openMode when performing the clone.
+// RemoteClonePluggableDatabase **Deprecated.** Use CreatePluggableDatabase for Pluggable Database RemoteClone Operation.
+// Clones a pluggable database (PDB) to a different database from the source PDB. The cloned PDB will be started upon completion of the clone operation. The source PDB must be in the `READ_WRITE` openMode when performing the clone.
 // For Exadata Cloud@Customer instances, the source pluggable database (PDB) must be on the same Exadata Infrastructure as the target container database (CDB) to create a remote clone.
 //
 // # See also

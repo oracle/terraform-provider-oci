@@ -26,3 +26,8 @@ resource "oci_database_autonomous_container_database" "autonomous_container_data
   service_level_agreement_type = "STANDARD"
   version_preference = "LATEST_RELEASE_UPDATE"
 }
+
+data "oci_database_autonomous_container_database_resource_usage" "test_autonomous_container_database_resource_usages" {
+  #Required
+  autonomous_container_database_id = oci_database_autonomous_container_database.autonomous_container_database.id
+}

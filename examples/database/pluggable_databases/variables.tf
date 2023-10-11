@@ -23,3 +23,7 @@ variable "fingerprint" {
 variable defined_tag_namespace_name {
     default = ""
 }
+
+variable "cpu_core_count" {
+    default = "2"
+}

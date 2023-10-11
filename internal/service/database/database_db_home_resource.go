@@ -223,6 +223,15 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"pluggable_databases": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"tde_wallet_password": {
 							Type:      schema.TypeString,
 							Optional:  true,
@@ -1011,6 +1020,19 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseFromAnotherDatabaseDetai
 		result.DbUniqueName = &tmp
 	}
 
+	if pluggableDatabases, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pluggable_databases")); ok {
+		interfaces := pluggableDatabases.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "pluggable_databases")) {
+			result.PluggableDatabases = tmp
+		}
+	}
+
 	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_stamp_for_point_in_time_recovery")); ok {
 		tmp, err := time.Parse(time.RFC3339, timeStampForPointInTimeRecovery.(string))
 		if err != nil {
@@ -1045,6 +1067,28 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldK
 		result.DbName = &tmp
 	}
 
+	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
+		tmp := dbUniqueName.(string)
+		result.DbUniqueName = &tmp
+	}
+
+	if pluggableDatabases, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pluggable_databases")); ok {
+		interfaces := pluggableDatabases.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "pluggable_databases")) {
+			result.PluggableDatabases = tmp
+		}
+	}
+
+	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {
+		tmp := sidPrefix.(string)
+		result.SidPrefix = &tmp
+	}
 	return result, nil
 }
 
@@ -1557,10 +1601,6 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 
 	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf("database.0.time_stamp_for_point_in_time_recovery")); ok {
 		result["time_stamp_for_point_in_time_recovery"] = timeStampForPointInTimeRecovery
-	}
-
-	if obj.SidPrefix != nil {
-		result["sid_prefix"] = string(*obj.SidPrefix)
 	}
 
 	return result

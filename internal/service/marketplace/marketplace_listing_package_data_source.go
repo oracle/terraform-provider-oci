@@ -275,6 +275,40 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("MarketplaceListingPackageDataSource-", MarketplaceListingPackageDataSource(), s.D))
 	switch v := (s.Res.ListingPackage).(type) {
+	case oci_marketplace.ContainerListingPackage:
+		s.D.Set("package_type", "CONTAINER")
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.ListingId != nil {
+			s.D.Set("listing_id", *v.ListingId)
+		}
+
+		if v.OperatingSystem != nil {
+			s.D.Set("operating_system", []interface{}{MarketplaceListingPackageOperatingSystemToMap(v.OperatingSystem)})
+		} else {
+			s.D.Set("operating_system", nil)
+		}
+
+		if v.Pricing != nil {
+			s.D.Set("pricing", []interface{}{MarketplaceListingPackagePricingModelToMap(v.Pricing)})
+		} else {
+			s.D.Set("pricing", nil)
+		}
+
+		if v.ResourceId != nil {
+			s.D.Set("resource_id", *v.ResourceId)
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.Version != nil {
+			s.D.Set("version", *v.Version)
+		}
 	case oci_marketplace.ImageListingPackage:
 		s.D.Set("package_type", "IMAGE")
 
@@ -327,6 +361,46 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		if v.Version != nil {
 			s.D.Set("version", *v.Version)
 		}
+	case oci_marketplace.KubernetesListingPackage:
+		s.D.Set("package_type", "KUBERNETES")
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.ListingId != nil {
+			s.D.Set("listing_id", *v.ListingId)
+		}
+
+		if v.OperatingSystem != nil {
+			s.D.Set("operating_system", []interface{}{MarketplaceListingPackageOperatingSystemToMap(v.OperatingSystem)})
+		} else {
+			s.D.Set("operating_system", nil)
+		}
+
+		if v.Pricing != nil {
+			s.D.Set("pricing", []interface{}{MarketplaceListingPackagePricingModelToMap(v.Pricing)})
+		} else {
+			s.D.Set("pricing", nil)
+		}
+
+		regions := []interface{}{}
+		for _, item := range v.Regions {
+			regions = append(regions, MarketplaceListingPackageRegionToMap(item))
+		}
+		s.D.Set("regions", regions)
+
+		if v.ResourceId != nil {
+			s.D.Set("resource_id", *v.ResourceId)
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.Version != nil {
+			s.D.Set("version", *v.Version)
+		}
 	case oci_marketplace.OrchestrationListingPackage:
 		s.D.Set("package_type", "ORCHESTRATION")
 
@@ -359,6 +433,12 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 		} else {
 			s.D.Set("pricing", nil)
 		}
+
+		regions := []interface{}{}
+		for _, item := range v.Regions {
+			regions = append(regions, MarketplaceListingPackageRegionToMap(item))
+		}
+		s.D.Set("regions", regions)
 
 		if v.ResourceId != nil {
 			s.D.Set("resource_id", *v.ResourceId)
