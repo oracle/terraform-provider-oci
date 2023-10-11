@@ -25,7 +25,7 @@ type AllowedSecurityAction struct {
 	ActionType SecurityActionActionTypeEnum `mandatory:"true" json:"actionType"`
 }
 
-//GetActionType returns ActionType
+// GetActionType returns ActionType
 func (m AllowedSecurityAction) GetActionType() SecurityActionActionTypeEnum {
 	return m.ActionType
 }

@@ -29,7 +29,7 @@ type BytesGenerationContext struct {
 	GenerationTemplate BytesGenerationContextGenerationTemplateEnum `mandatory:"true" json:"generationTemplate"`
 }
 
-//GetSecretTemplate returns SecretTemplate
+// GetSecretTemplate returns SecretTemplate
 func (m BytesGenerationContext) GetSecretTemplate() *string {
 	return m.SecretTemplate
 }

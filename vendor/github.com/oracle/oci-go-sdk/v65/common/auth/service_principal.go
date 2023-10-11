@@ -7,7 +7,9 @@ import (
 	"crypto/rsa"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path"
+	"time"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
 )
@@ -32,7 +34,7 @@ func newServicePrincipalKeyProvider(tenancyID, region string, cert, key []byte, 
 		intermediateCertificateRetrievers, true, *clientModifier, defaultTokenPurpose)
 
 	if err != nil {
-		err = fmt.Errorf("failed to create federation client: %s", err.Error())
+		err = fmt.Errorf("failed to create federation client: %w", err)
 		return nil, err
 	}
 
@@ -42,7 +44,7 @@ func newServicePrincipalKeyProvider(tenancyID, region string, cert, key []byte, 
 
 func (p *servicePrincipalKeyProvider) PrivateRSAKey() (privateKey *rsa.PrivateKey, err error) {
 	if privateKey, err = p.federationClient.PrivateKey(); err != nil {
-		err = fmt.Errorf("failed to get private key: %s", err.Error())
+		err = fmt.Errorf("failed to get private key: %w", err)
 		return nil, err
 	}
 	return privateKey, nil
@@ -52,7 +54,7 @@ func (p *servicePrincipalKeyProvider) KeyID() (string, error) {
 	var securityToken string
 	var err error
 	if securityToken, err = p.federationClient.SecurityToken(); err != nil {
-		return "", fmt.Errorf("failed to get security token: %s", err.Error())
+		return "", fmt.Errorf("failed to get security token: %w", err)
 	}
 
 	return fmt.Sprintf("ST$%s", securityToken), nil
@@ -78,7 +80,7 @@ func NewServicePrincipalConfigurationProviderWithCustomClient(modifier func(comm
 	var err error
 	var keyProvider *servicePrincipalKeyProvider
 	if keyProvider, err = newServicePrincipalKeyProvider(tenancyID, region, cert, key, intermediates, passphrase, modifier); err != nil {
-		return nil, fmt.Errorf("failed to create a new key provider: %s", err.Error())
+		return nil, fmt.Errorf("failed to create a new key provider: %w", err)
 	}
 	return servicePrincipalConfigurationProvider{keyProvider: keyProvider, region: region, tenancyID: tenancyID}, nil
 }
@@ -117,15 +119,15 @@ func NewServicePrincipalConfigurationProviderFromHostCerts(region common.Region,
 	// Read certs from substrate host.
 	leafKey, err := ioutil.ReadFile(path.Join(certDir, "key.pem"))
 	if err != nil {
-		return nil, fmt.Errorf("error reading leafPrivateKey")
+		return nil, fmt.Errorf("reading leafPrivateKey :%w", err)
 	}
 	leafCert, err := ioutil.ReadFile(path.Join(certDir, "cert.pem"))
 	if err != nil {
-		return nil, fmt.Errorf("error reading leafCertificate")
+		return nil, fmt.Errorf("reading leafCertificate :%w", err)
 	}
 	interCert, err := ioutil.ReadFile(path.Join(certDir, "intermediates.pem"))
 	if err != nil {
-		return nil, fmt.Errorf("error reading intermediateCertificate")
+		return nil, fmt.Errorf("reading intermediateCertificate :%w", err)
 	}
 	var interCerts [][]byte
 	interCerts = append(interCerts, interCert)
@@ -161,4 +163,56 @@ func (p servicePrincipalConfigurationProvider) AuthType() (common.AuthConfig, er
 	return common.AuthConfig{common.UnknownAuthenticationType, false, nil},
 		fmt.Errorf("unsupported, keep the interface")
 
+}
+
+// NewServicePrincipalConfigurationWithDynamicCertsRefresh returns a configuration for service principals with a given region and certificates which are dynamically refreshed in lieu of metadata service certs
+func NewServicePrincipalConfigurationWithDynamicCertsRefresh(region common.Region, leafCertPath, leafKeyPath, interCertPath string) (common.ConfigurationProvider, error) {
+	var leafPassphrase = []byte("")
+	var refreshRate = common.GetCustomCertRefreshInterval()
+	leafCertificateRetriever := &fileBasedCertificateRetriever{Passphrase: leafPassphrase, CertificatePemPath: leafCertPath, PrivateKeyPemPath: leafKeyPath, RefreshRate: time.Duration(refreshRate) * time.Minute}
+
+	//The .Refresh() call actually reads the certificates from the inputs
+	err := leafCertificateRetriever.Refresh()
+	if err != nil {
+		return nil, fmt.Errorf("refreshing leafCertificateRetriever: %w", err)
+	}
+	certificate := leafCertificateRetriever.Certificate()
+	tenancyID := extractTenancyIDFromCertificate(certificate)
+	intermediateRetrievers := make([]x509CertificateRetriever, 1)
+	intermediateRetrievers[0] = &fileBasedCertificateRetriever{Passphrase: []byte(""), CertificatePemPath: interCertPath, PrivateKeyPemPath: "", RefreshRate: time.Duration(refreshRate) * time.Minute}
+	fedClient, err := newX509FederationClientWithURLOrFileBasedCerts(region, tenancyID, leafCertificateRetriever, intermediateRetrievers, *newDispatcherModifier(nil), "")
+	if err != nil {
+		return nil, fmt.Errorf("creating federation client: %w", err)
+	}
+	keyProvider := servicePrincipalKeyProvider{federationClient: fedClient}
+	return servicePrincipalConfigurationProvider{keyProvider: &keyProvider, region: string(region), tenancyID: tenancyID}, nil
+}
+
+// NewServicePrincipalConfigurationProviderFromHostCertsWithDynamicRefresh returns a configuration for service principals,
+// given the region and a pathname to the host's service principal certificate directory. It also refreshes these certs on
+// the configured refresh interval given these have been changed.
+// The pathname generally follows the pattern "/var/certs/hostclass/${hostclass}/${servicePrincipalName}-identity"
+func NewServicePrincipalConfigurationProviderFromHostCertsWithDynamicRefresh(region common.Region, certDir string) (common.ConfigurationProvider, error) {
+	if certDir == "" {
+		return nil, fmt.Errorf("empty input string")
+	}
+	// Check certs from substrate host exist
+	leafKeyPath := path.Join(certDir, "key.pem")
+	_, err := os.Stat(leafKeyPath)
+	if err != nil {
+		return nil, fmt.Errorf("reading leafPrivateKey :%w", err)
+	}
+
+	leafCertPath := path.Join(certDir, "cert.pem")
+	_, err = os.Stat(leafCertPath)
+	if err != nil {
+		return nil, fmt.Errorf("reading leafCertificate: %w", err)
+	}
+
+	interCertPath := path.Join(certDir, "intermediates.pem")
+	_, err = os.Stat(interCertPath)
+	if err != nil {
+		return nil, fmt.Errorf("reading intermediateCertificate :%w", err)
+	}
+	return NewServicePrincipalConfigurationWithDynamicCertsRefresh(region, leafCertPath, leafKeyPath, interCertPath)
 }

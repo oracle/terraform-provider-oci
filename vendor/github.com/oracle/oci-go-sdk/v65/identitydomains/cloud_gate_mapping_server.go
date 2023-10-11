@@ -18,14 +18,14 @@ import (
 
 // CloudGateMappingServer Reference to server block for this mapping
 // **SCIM++ Properties:**
-//  - caseExact: false
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: true
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - caseExact: false
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: true
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type CloudGateMappingServer struct {
 
 	// The id of the server block entry.

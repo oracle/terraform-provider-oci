@@ -19,14 +19,14 @@ import (
 // UserExtDelegatedAuthenticationTargetApp If set, indicates the user's preferred authentication target app. If not set and the user's \"syncedFromApp\" is set and is enabled for delegated authentication, it is used. Otherwise, the user authenticates locally to Oracle Identity Cloud Service.
 // **Added In:** 17.4.6
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [value]
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [value]
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type UserExtDelegatedAuthenticationTargetApp struct {
 
 	// App identifier

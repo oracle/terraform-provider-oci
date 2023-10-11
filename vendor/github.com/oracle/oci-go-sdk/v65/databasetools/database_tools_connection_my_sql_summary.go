@@ -79,62 +79,62 @@ type DatabaseToolsConnectionMySqlSummary struct {
 	RuntimeSupport RuntimeSupportEnum `mandatory:"true" json:"runtimeSupport"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m DatabaseToolsConnectionMySqlSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m DatabaseToolsConnectionMySqlSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m DatabaseToolsConnectionMySqlSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m DatabaseToolsConnectionMySqlSummary) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m DatabaseToolsConnectionMySqlSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m DatabaseToolsConnectionMySqlSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m DatabaseToolsConnectionMySqlSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m DatabaseToolsConnectionMySqlSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m DatabaseToolsConnectionMySqlSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m DatabaseToolsConnectionMySqlSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetLocks returns Locks
+// GetLocks returns Locks
 func (m DatabaseToolsConnectionMySqlSummary) GetLocks() []ResourceLock {
 	return m.Locks
 }
 
-//GetRuntimeSupport returns RuntimeSupport
+// GetRuntimeSupport returns RuntimeSupport
 func (m DatabaseToolsConnectionMySqlSummary) GetRuntimeSupport() RuntimeSupportEnum {
 	return m.RuntimeSupport
 }

@@ -18,14 +18,14 @@ import (
 
 // AppObjectClasses Object classes
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [value]
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readOnly
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [value]
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readOnly
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AppObjectClasses struct {
 
 	// Object class template identifier

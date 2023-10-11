@@ -58,32 +58,32 @@ type UpdateAwsAssetSourceDetails struct {
 	IsCostInformationCollected *bool `mandatory:"false" json:"isCostInformationCollected"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateAwsAssetSourceDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetAssetsCompartmentId returns AssetsCompartmentId
+// GetAssetsCompartmentId returns AssetsCompartmentId
 func (m UpdateAwsAssetSourceDetails) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
 }
 
-//GetDiscoveryScheduleId returns DiscoveryScheduleId
+// GetDiscoveryScheduleId returns DiscoveryScheduleId
 func (m UpdateAwsAssetSourceDetails) GetDiscoveryScheduleId() *string {
 	return m.DiscoveryScheduleId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateAwsAssetSourceDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateAwsAssetSourceDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m UpdateAwsAssetSourceDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

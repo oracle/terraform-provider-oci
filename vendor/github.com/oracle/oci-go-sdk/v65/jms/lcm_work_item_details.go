@@ -24,7 +24,7 @@ type LcmWorkItemDetails struct {
 	WorkItemType WorkItemTypeEnum `mandatory:"false" json:"workItemType,omitempty"`
 }
 
-//GetWorkItemType returns WorkItemType
+// GetWorkItemType returns WorkItemType
 func (m LcmWorkItemDetails) GetWorkItemType() WorkItemTypeEnum {
 	return m.WorkItemType
 }

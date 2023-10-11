@@ -87,47 +87,47 @@ type UpdateAzureDataLakeStorageConnectionDetails struct {
 	AuthenticationType AzureDataLakeStorageConnectionAuthenticationTypeEnum `mandatory:"false" json:"authenticationType,omitempty"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateAzureDataLakeStorageConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateAzureDataLakeStorageConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateAzureDataLakeStorageConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateAzureDataLakeStorageConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m UpdateAzureDataLakeStorageConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m UpdateAzureDataLakeStorageConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m UpdateAzureDataLakeStorageConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m UpdateAzureDataLakeStorageConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetRoutingMethod returns RoutingMethod
+// GetRoutingMethod returns RoutingMethod
 func (m UpdateAzureDataLakeStorageConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

@@ -26,7 +26,7 @@ type CreateOrUpdateGitTagDetails struct {
 	ObjectId *string `mandatory:"true" json:"objectId"`
 }
 
-//GetRefName returns RefName
+// GetRefName returns RefName
 func (m CreateOrUpdateGitTagDetails) GetRefName() *string {
 	return m.RefName
 }

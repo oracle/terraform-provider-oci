@@ -34,7 +34,7 @@ type UnifiedAgentCustomFilter struct {
 	CustomSections []UnifiedAgentCustomSection `mandatory:"false" json:"customSections"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UnifiedAgentCustomFilter) GetName() *string {
 	return m.Name
 }

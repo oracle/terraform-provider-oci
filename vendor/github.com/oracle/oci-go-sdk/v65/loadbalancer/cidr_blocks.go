@@ -20,8 +20,10 @@ import (
 // CidrBlocks contains a name and list of CIDR block. Each of the CidrBlocks should have unique name
 // within the load balancer. CidrBlocks resource name can be used in rule conditions.
 // Example:
-//  "name" : `ClientRealIpCidrBlocks`
-//  "items" : `["129.213.176.0/24","150.136.187.0/24", "2002::1234:abcd:ffff:c0a8:101/64"]`
+//
+//	"name" : `ClientRealIpCidrBlocks`
+//	"items" : `["129.213.176.0/24","150.136.187.0/24", "2002::1234:abcd:ffff:c0a8:101/64"]`
+//
 // **Warning:** No confidential information should be passed in this API.
 type CidrBlocks struct {
 

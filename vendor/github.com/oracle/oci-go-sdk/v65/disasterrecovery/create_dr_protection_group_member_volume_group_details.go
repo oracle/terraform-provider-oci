@@ -27,7 +27,7 @@ type CreateDrProtectionGroupMemberVolumeGroupDetails struct {
 	MemberId *string `mandatory:"true" json:"memberId"`
 }
 
-//GetMemberId returns MemberId
+// GetMemberId returns MemberId
 func (m CreateDrProtectionGroupMemberVolumeGroupDetails) GetMemberId() *string {
 	return m.MemberId
 }

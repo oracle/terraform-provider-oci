@@ -230,7 +230,7 @@ func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) B
 
 func defaultHTTPDispatcher() http.Client {
 	var httpClient http.Client
-	refreshInterval := getCustomCertRefreshInterval()
+	refreshInterval := GetCustomCertRefreshInterval()
 	if refreshInterval <= 0 {
 		Debug("Custom cert refresh has been disabled")
 	}
@@ -734,7 +734,8 @@ func (client BaseClient) IsOciRealmSpecificServiceEndpointTemplateEnabled() bool
 	return IsEnvVarTrue(OciRealmSpecificServiceEndpointTemplateEnabledEnvVar)
 }
 
-func getCustomCertRefreshInterval() int {
+// GetCustomCertRefreshInterval returns the refresh interval in minutes to use for custom certs
+func GetCustomCertRefreshInterval() int {
 	if OciGlobalRefreshIntervalForCustomCerts >= 0 {
 		Debugf("Setting refresh interval as %d for custom certs via OciGlobalRefreshIntervalForCustomCerts", OciGlobalRefreshIntervalForCustomCerts)
 		return OciGlobalRefreshIntervalForCustomCerts

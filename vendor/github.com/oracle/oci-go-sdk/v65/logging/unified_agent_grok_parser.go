@@ -69,37 +69,37 @@ type UnifiedAgentGrokParser struct {
 	GrokFailureKey *string `mandatory:"false" json:"grokFailureKey"`
 }
 
-//GetFieldTimeKey returns FieldTimeKey
+// GetFieldTimeKey returns FieldTimeKey
 func (m UnifiedAgentGrokParser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
-//GetTypes returns Types
+// GetTypes returns Types
 func (m UnifiedAgentGrokParser) GetTypes() map[string]string {
 	return m.Types
 }
 
-//GetNullValuePattern returns NullValuePattern
+// GetNullValuePattern returns NullValuePattern
 func (m UnifiedAgentGrokParser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
-//GetIsNullEmptyString returns IsNullEmptyString
+// GetIsNullEmptyString returns IsNullEmptyString
 func (m UnifiedAgentGrokParser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
-//GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
+// GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
 func (m UnifiedAgentGrokParser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
-//GetIsKeepTimeKey returns IsKeepTimeKey
+// GetIsKeepTimeKey returns IsKeepTimeKey
 func (m UnifiedAgentGrokParser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
-//GetTimeoutInMilliseconds returns TimeoutInMilliseconds
+// GetTimeoutInMilliseconds returns TimeoutInMilliseconds
 func (m UnifiedAgentGrokParser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }

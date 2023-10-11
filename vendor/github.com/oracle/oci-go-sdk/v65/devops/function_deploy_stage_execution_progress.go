@@ -40,37 +40,37 @@ type FunctionDeployStageExecutionProgress struct {
 	Status DeployStageExecutionProgressStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 
-//GetDeployStageDisplayName returns DeployStageDisplayName
+// GetDeployStageDisplayName returns DeployStageDisplayName
 func (m FunctionDeployStageExecutionProgress) GetDeployStageDisplayName() *string {
 	return m.DeployStageDisplayName
 }
 
-//GetDeployStageId returns DeployStageId
+// GetDeployStageId returns DeployStageId
 func (m FunctionDeployStageExecutionProgress) GetDeployStageId() *string {
 	return m.DeployStageId
 }
 
-//GetTimeStarted returns TimeStarted
+// GetTimeStarted returns TimeStarted
 func (m FunctionDeployStageExecutionProgress) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-//GetTimeFinished returns TimeFinished
+// GetTimeFinished returns TimeFinished
 func (m FunctionDeployStageExecutionProgress) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m FunctionDeployStageExecutionProgress) GetStatus() DeployStageExecutionProgressStatusEnum {
 	return m.Status
 }
 
-//GetDeployStagePredecessors returns DeployStagePredecessors
+// GetDeployStagePredecessors returns DeployStagePredecessors
 func (m FunctionDeployStageExecutionProgress) GetDeployStagePredecessors() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessors
 }
 
-//GetDeployStageExecutionProgressDetails returns DeployStageExecutionProgressDetails
+// GetDeployStageExecutionProgressDetails returns DeployStageExecutionProgressDetails
 func (m FunctionDeployStageExecutionProgress) GetDeployStageExecutionProgressDetails() []DeployStageExecutionProgressDetails {
 	return m.DeployStageExecutionProgressDetails
 }

@@ -35,7 +35,7 @@ type ApplicationWorkItemDetails struct {
 	WorkItemType WorkItemTypeEnum `mandatory:"false" json:"workItemType,omitempty"`
 }
 
-//GetWorkItemType returns WorkItemType
+// GetWorkItemType returns WorkItemType
 func (m ApplicationWorkItemDetails) GetWorkItemType() WorkItemTypeEnum {
 	return m.WorkItemType
 }

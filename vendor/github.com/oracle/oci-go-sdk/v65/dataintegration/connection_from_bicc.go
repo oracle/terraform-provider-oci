@@ -63,67 +63,67 @@ type ConnectionFromBicc struct {
 	DefaultExternalStorage *ExternalStorage `mandatory:"false" json:"defaultExternalStorage"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m ConnectionFromBicc) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m ConnectionFromBicc) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m ConnectionFromBicc) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ConnectionFromBicc) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ConnectionFromBicc) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m ConnectionFromBicc) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m ConnectionFromBicc) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m ConnectionFromBicc) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetPrimarySchema returns PrimarySchema
+// GetPrimarySchema returns PrimarySchema
 func (m ConnectionFromBicc) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
-//GetConnectionProperties returns ConnectionProperties
+// GetConnectionProperties returns ConnectionProperties
 func (m ConnectionFromBicc) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetIsDefault returns IsDefault
+// GetIsDefault returns IsDefault
 func (m ConnectionFromBicc) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m ConnectionFromBicc) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-//GetKeyMap returns KeyMap
+// GetKeyMap returns KeyMap
 func (m ConnectionFromBicc) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

@@ -37,27 +37,27 @@ type DatabaseInsightsDataObjectSummary struct {
 	GroupNames []string `mandatory:"false" json:"groupNames"`
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m DatabaseInsightsDataObjectSummary) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m DatabaseInsightsDataObjectSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DatabaseInsightsDataObjectSummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m DatabaseInsightsDataObjectSummary) GetName() *string {
 	return m.Name
 }
 
-//GetGroupNames returns GroupNames
+// GetGroupNames returns GroupNames
 func (m DatabaseInsightsDataObjectSummary) GetGroupNames() []string {
 	return m.GroupNames
 }

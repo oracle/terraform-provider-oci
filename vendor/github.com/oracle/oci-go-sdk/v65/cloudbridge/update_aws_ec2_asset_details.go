@@ -46,22 +46,22 @@ type UpdateAwsEc2AssetDetails struct {
 	AttachedEbsVolumesCost *MonthlyCostSummary `mandatory:"false" json:"attachedEbsVolumesCost"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateAwsEc2AssetDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetAssetSourceIds returns AssetSourceIds
+// GetAssetSourceIds returns AssetSourceIds
 func (m UpdateAwsEc2AssetDetails) GetAssetSourceIds() []string {
 	return m.AssetSourceIds
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateAwsEc2AssetDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateAwsEc2AssetDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

@@ -35,7 +35,7 @@ type RemotePeeringConnectionDrgAttachmentNetworkCreateDetails struct {
 	IsGlobalFastConnect *bool `mandatory:"false" json:"isGlobalFastConnect"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m RemotePeeringConnectionDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
 }

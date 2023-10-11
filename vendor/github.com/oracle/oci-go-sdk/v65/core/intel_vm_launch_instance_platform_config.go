@@ -46,22 +46,22 @@ type IntelVmLaunchInstancePlatformConfig struct {
 	IsSymmetricMultiThreadingEnabled *bool `mandatory:"false" json:"isSymmetricMultiThreadingEnabled"`
 }
 
-//GetIsSecureBootEnabled returns IsSecureBootEnabled
+// GetIsSecureBootEnabled returns IsSecureBootEnabled
 func (m IntelVmLaunchInstancePlatformConfig) GetIsSecureBootEnabled() *bool {
 	return m.IsSecureBootEnabled
 }
 
-//GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
+// GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
 func (m IntelVmLaunchInstancePlatformConfig) GetIsTrustedPlatformModuleEnabled() *bool {
 	return m.IsTrustedPlatformModuleEnabled
 }
 
-//GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
+// GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
 func (m IntelVmLaunchInstancePlatformConfig) GetIsMeasuredBootEnabled() *bool {
 	return m.IsMeasuredBootEnabled
 }
 
-//GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
+// GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
 func (m IntelVmLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
 	return m.IsMemoryEncryptionEnabled
 }

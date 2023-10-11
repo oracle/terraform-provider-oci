@@ -34,17 +34,17 @@ type CreateThresholdPolicyDetails struct {
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 }
 
-//GetCapacity returns Capacity
+// GetCapacity returns Capacity
 func (m CreateThresholdPolicyDetails) GetCapacity() *Capacity {
 	return m.Capacity
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateThresholdPolicyDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetIsEnabled returns IsEnabled
+// GetIsEnabled returns IsEnabled
 func (m CreateThresholdPolicyDetails) GetIsEnabled() *bool {
 	return m.IsEnabled
 }

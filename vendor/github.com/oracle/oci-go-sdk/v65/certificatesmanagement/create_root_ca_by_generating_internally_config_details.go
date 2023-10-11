@@ -29,7 +29,7 @@ type CreateRootCaByGeneratingInternallyConfigDetails struct {
 	SigningAlgorithm SignatureAlgorithmEnum `mandatory:"false" json:"signingAlgorithm,omitempty"`
 }
 
-//GetVersionName returns VersionName
+// GetVersionName returns VersionName
 func (m CreateRootCaByGeneratingInternallyConfigDetails) GetVersionName() *string {
 	return m.VersionName
 }

@@ -23,7 +23,7 @@ type GenericRestCallAttribute struct {
 	FetchSize *int `mandatory:"false" json:"fetchSize"`
 }
 
-//GetFetchSize returns FetchSize
+// GetFetchSize returns FetchSize
 func (m GenericRestCallAttribute) GetFetchSize() *int {
 	return m.FetchSize
 }

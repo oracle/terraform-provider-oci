@@ -117,87 +117,87 @@ type OracleConnectionSummary struct {
 	SessionMode OracleConnectionSessionModeEnum `mandatory:"false" json:"sessionMode,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m OracleConnectionSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m OracleConnectionSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m OracleConnectionSummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m OracleConnectionSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m OracleConnectionSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m OracleConnectionSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m OracleConnectionSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m OracleConnectionSummary) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m OracleConnectionSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m OracleConnectionSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m OracleConnectionSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m OracleConnectionSummary) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m OracleConnectionSummary) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetIngressIps returns IngressIps
+// GetIngressIps returns IngressIps
 func (m OracleConnectionSummary) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m OracleConnectionSummary) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m OracleConnectionSummary) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetRoutingMethod returns RoutingMethod
+// GetRoutingMethod returns RoutingMethod
 func (m OracleConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

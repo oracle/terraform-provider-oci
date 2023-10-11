@@ -27,7 +27,7 @@ type DrProtectionGroupMemberAutonomousDatabase struct {
 	MemberId *string `mandatory:"true" json:"memberId"`
 }
 
-//GetMemberId returns MemberId
+// GetMemberId returns MemberId
 func (m DrProtectionGroupMemberAutonomousDatabase) GetMemberId() *string {
 	return m.MemberId
 }

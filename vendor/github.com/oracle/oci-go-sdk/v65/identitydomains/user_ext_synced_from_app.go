@@ -19,14 +19,14 @@ import (
 // UserExtSyncedFromApp Managed App or an Identity Source from where the user is synced. If enabled, this Managed App or Identity Source can be used for performing delegated authentication.
 // **Added In:** 18.2.6
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [value]
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readOnly
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [value]
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readOnly
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type UserExtSyncedFromApp struct {
 
 	// App identifier

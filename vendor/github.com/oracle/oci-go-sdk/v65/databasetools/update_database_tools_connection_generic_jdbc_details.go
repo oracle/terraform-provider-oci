@@ -46,17 +46,17 @@ type UpdateDatabaseToolsConnectionGenericJdbcDetails struct {
 	KeyStores []DatabaseToolsKeyStoreGenericJdbcDetails `mandatory:"false" json:"keyStores"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateDatabaseToolsConnectionGenericJdbcDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateDatabaseToolsConnectionGenericJdbcDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateDatabaseToolsConnectionGenericJdbcDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }

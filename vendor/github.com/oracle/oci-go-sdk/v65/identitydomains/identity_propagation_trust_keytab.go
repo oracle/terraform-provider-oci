@@ -18,14 +18,14 @@ import (
 
 // IdentityPropagationTrustKeytab Keytab stored in customer tenancy's Vault. This is required if identity propagation type is SPNEGO
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [secretOcid]
-//  - idcsSearchable: false
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [secretOcid]
+//   - idcsSearchable: false
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type IdentityPropagationTrustKeytab struct {
 
 	// The OCID of the secret. Secret content corresponding to the ocid is expected to be in Base64 encoded content type

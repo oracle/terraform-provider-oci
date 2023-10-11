@@ -60,72 +60,72 @@ type CreateTaskFromPipelineTask struct {
 	Pipeline *Pipeline `mandatory:"false" json:"pipeline"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m CreateTaskFromPipelineTask) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m CreateTaskFromPipelineTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m CreateTaskFromPipelineTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateTaskFromPipelineTask) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateTaskFromPipelineTask) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m CreateTaskFromPipelineTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m CreateTaskFromPipelineTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m CreateTaskFromPipelineTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m CreateTaskFromPipelineTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m CreateTaskFromPipelineTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m CreateTaskFromPipelineTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-//GetConfigProviderDelegate returns ConfigProviderDelegate
+// GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m CreateTaskFromPipelineTask) GetConfigProviderDelegate() *CreateConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-//GetIsConcurrentAllowed returns IsConcurrentAllowed
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
 func (m CreateTaskFromPipelineTask) GetIsConcurrentAllowed() *bool {
 	return m.IsConcurrentAllowed
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m CreateTaskFromPipelineTask) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

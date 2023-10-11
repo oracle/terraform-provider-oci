@@ -22,8 +22,10 @@ import (
 //   - To create the standby database in different tenancy, use the compartment OCID in the tenancy where the standby is located.
 //   - To create the request in the standby database, the sourceId value must be the OCID of the primary database.
 //   - Creating a ADG DR in the same tenancy and region is not allowed. Use changeDisasterRecoveryConfiguration instead.
+//
 // The following parameters are required for the cross-tenancy standby database
 //   - disasterRecoveryType
+//
 // The following parameters are optional for the cross-tenancy standby database. If included in the request, these parameters must contain the same values as the source Autonomous Database:
 //   - dbName
 //   - dbVersion
@@ -271,247 +273,247 @@ type CreateCrossTenancyDisasterRecoveryDetails struct {
 	DisasterRecoveryType DisasterRecoveryConfigurationDisasterRecoveryTypeEnum `mandatory:"true" json:"disasterRecoveryType"`
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetCharacterSet returns CharacterSet
+// GetCharacterSet returns CharacterSet
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetCharacterSet() *string {
 	return m.CharacterSet
 }
 
-//GetNcharacterSet returns NcharacterSet
+// GetNcharacterSet returns NcharacterSet
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetNcharacterSet() *string {
 	return m.NcharacterSet
 }
 
-//GetDbName returns DbName
+// GetDbName returns DbName
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetDbName() *string {
 	return m.DbName
 }
 
-//GetCpuCoreCount returns CpuCoreCount
+// GetCpuCoreCount returns CpuCoreCount
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
-//GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
+// GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetBackupRetentionPeriodInDays() *int {
 	return m.BackupRetentionPeriodInDays
 }
 
-//GetComputeModel returns ComputeModel
+// GetComputeModel returns ComputeModel
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum {
 	return m.ComputeModel
 }
 
-//GetComputeCount returns ComputeCount
+// GetComputeCount returns ComputeCount
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetComputeCount() *float32 {
 	return m.ComputeCount
 }
 
-//GetOcpuCount returns OcpuCount
+// GetOcpuCount returns OcpuCount
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetOcpuCount() *float32 {
 	return m.OcpuCount
 }
 
-//GetDbWorkload returns DbWorkload
+// GetDbWorkload returns DbWorkload
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
 }
 
-//GetDataStorageSizeInTBs returns DataStorageSizeInTBs
+// GetDataStorageSizeInTBs returns DataStorageSizeInTBs
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
 }
 
-//GetDataStorageSizeInGBs returns DataStorageSizeInGBs
+// GetDataStorageSizeInGBs returns DataStorageSizeInGBs
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetDataStorageSizeInGBs() *int {
 	return m.DataStorageSizeInGBs
 }
 
-//GetIsFreeTier returns IsFreeTier
+// GetIsFreeTier returns IsFreeTier
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsFreeTier() *bool {
 	return m.IsFreeTier
 }
 
-//GetKmsKeyId returns KmsKeyId
+// GetKmsKeyId returns KmsKeyId
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetAdminPassword returns AdminPassword
+// GetAdminPassword returns AdminPassword
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetAdminPassword() *string {
 	return m.AdminPassword
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetLicenseModel returns LicenseModel
+// GetLicenseModel returns LicenseModel
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
 }
 
-//GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
+// GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
 	return m.IsPreviewVersionWithServiceTermsAccepted
 }
 
-//GetIsAutoScalingEnabled returns IsAutoScalingEnabled
+// GetIsAutoScalingEnabled returns IsAutoScalingEnabled
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
 }
 
-//GetIsDedicated returns IsDedicated
+// GetIsDedicated returns IsDedicated
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsDedicated() *bool {
 	return m.IsDedicated
 }
 
-//GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
+// GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
 }
 
-//GetInMemoryPercentage returns InMemoryPercentage
+// GetInMemoryPercentage returns InMemoryPercentage
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetInMemoryPercentage() *int {
 	return m.InMemoryPercentage
 }
 
-//GetIsAccessControlEnabled returns IsAccessControlEnabled
+// GetIsAccessControlEnabled returns IsAccessControlEnabled
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsAccessControlEnabled() *bool {
 	return m.IsAccessControlEnabled
 }
 
-//GetWhitelistedIps returns WhitelistedIps
+// GetWhitelistedIps returns WhitelistedIps
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetWhitelistedIps() []string {
 	return m.WhitelistedIps
 }
 
-//GetArePrimaryWhitelistedIpsUsed returns ArePrimaryWhitelistedIpsUsed
+// GetArePrimaryWhitelistedIpsUsed returns ArePrimaryWhitelistedIpsUsed
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetArePrimaryWhitelistedIpsUsed() *bool {
 	return m.ArePrimaryWhitelistedIpsUsed
 }
 
-//GetStandbyWhitelistedIps returns StandbyWhitelistedIps
+// GetStandbyWhitelistedIps returns StandbyWhitelistedIps
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetStandbyWhitelistedIps() []string {
 	return m.StandbyWhitelistedIps
 }
 
-//GetIsDataGuardEnabled returns IsDataGuardEnabled
+// GetIsDataGuardEnabled returns IsDataGuardEnabled
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsDataGuardEnabled() *bool {
 	return m.IsDataGuardEnabled
 }
 
-//GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
+// GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsLocalDataGuardEnabled() *bool {
 	return m.IsLocalDataGuardEnabled
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetPrivateEndpointLabel returns PrivateEndpointLabel
+// GetPrivateEndpointLabel returns PrivateEndpointLabel
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetPrivateEndpointLabel() *string {
 	return m.PrivateEndpointLabel
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetPrivateEndpointIp returns PrivateEndpointIp
+// GetPrivateEndpointIp returns PrivateEndpointIp
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetPrivateEndpointIp() *string {
 	return m.PrivateEndpointIp
 }
 
-//GetDbVersion returns DbVersion
+// GetDbVersion returns DbVersion
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetDbVersion() *string {
 	return m.DbVersion
 }
 
-//GetCustomerContacts returns CustomerContacts
+// GetCustomerContacts returns CustomerContacts
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
 }
 
-//GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
+// GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsMtlsConnectionRequired() *bool {
 	return m.IsMtlsConnectionRequired
 }
 
-//GetResourcePoolLeaderId returns ResourcePoolLeaderId
+// GetResourcePoolLeaderId returns ResourcePoolLeaderId
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetResourcePoolLeaderId() *string {
 	return m.ResourcePoolLeaderId
 }
 
-//GetResourcePoolSummary returns ResourcePoolSummary
+// GetResourcePoolSummary returns ResourcePoolSummary
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetResourcePoolSummary() *ResourcePoolSummary {
 	return m.ResourcePoolSummary
 }
 
-//GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
+// GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	return m.AutonomousMaintenanceScheduleType
 }
 
-//GetIsOracleServiceGatewayAllowed returns IsOracleServiceGatewayAllowed
+// GetIsOracleServiceGatewayAllowed returns IsOracleServiceGatewayAllowed
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsOracleServiceGatewayAllowed() *bool {
 	return m.IsOracleServiceGatewayAllowed
 }
 
-//GetScheduledOperations returns ScheduledOperations
+// GetScheduledOperations returns ScheduledOperations
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
 }
 
-//GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
+// GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetIsAutoScalingForStorageEnabled() *bool {
 	return m.IsAutoScalingForStorageEnabled
 }
 
-//GetMaxCpuCoreCount returns MaxCpuCoreCount
+// GetMaxCpuCoreCount returns MaxCpuCoreCount
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetMaxCpuCoreCount() *int {
 	return m.MaxCpuCoreCount
 }
 
-//GetDatabaseEdition returns DatabaseEdition
+// GetDatabaseEdition returns DatabaseEdition
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
 }
 
-//GetDbToolsDetails returns DbToolsDetails
+// GetDbToolsDetails returns DbToolsDetails
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetDbToolsDetails() []DatabaseTool {
 	return m.DbToolsDetails
 }
 
-//GetSecretId returns SecretId
+// GetSecretId returns SecretId
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetSecretId() *string {
 	return m.SecretId
 }
 
-//GetSecretVersionNumber returns SecretVersionNumber
+// GetSecretVersionNumber returns SecretVersionNumber
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetSecretVersionNumber() *int {
 	return m.SecretVersionNumber
 }

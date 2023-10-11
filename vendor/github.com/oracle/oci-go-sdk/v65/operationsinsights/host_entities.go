@@ -32,7 +32,7 @@ type HostEntities struct {
 	EntityType *string `mandatory:"true" json:"entityType"`
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m HostEntities) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

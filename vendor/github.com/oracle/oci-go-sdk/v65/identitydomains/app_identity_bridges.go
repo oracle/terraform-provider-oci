@@ -19,13 +19,13 @@ import (
 // AppIdentityBridges IdentityBridges associated with this App
 // **Added In:** 19.1.4
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readOnly
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readOnly
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type AppIdentityBridges struct {
 
 	// The Id of the IdentityBridge associated with the App.

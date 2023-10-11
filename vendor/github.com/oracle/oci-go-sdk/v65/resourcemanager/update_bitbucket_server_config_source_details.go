@@ -47,7 +47,7 @@ type UpdateBitbucketServerConfigSourceDetails struct {
 	RepositoryId *string `mandatory:"false" json:"repositoryId"`
 }
 
-//GetWorkingDirectory returns WorkingDirectory
+// GetWorkingDirectory returns WorkingDirectory
 func (m UpdateBitbucketServerConfigSourceDetails) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

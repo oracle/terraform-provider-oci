@@ -35,7 +35,7 @@ type LoopBackDrgAttachmentNetworkCreateDetails struct {
 	Id *string `mandatory:"false" json:"id"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m LoopBackDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
 }

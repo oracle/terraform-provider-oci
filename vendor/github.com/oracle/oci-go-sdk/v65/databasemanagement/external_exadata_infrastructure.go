@@ -80,52 +80,52 @@ type ExternalExadataInfrastructure struct {
 	LifecycleState DbmResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m ExternalExadataInfrastructure) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m ExternalExadataInfrastructure) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m ExternalExadataInfrastructure) GetVersion() *string {
 	return m.Version
 }
 
-//GetInternalId returns InternalId
+// GetInternalId returns InternalId
 func (m ExternalExadataInfrastructure) GetInternalId() *string {
 	return m.InternalId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m ExternalExadataInfrastructure) GetStatus() *string {
 	return m.Status
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m ExternalExadataInfrastructure) GetLifecycleState() DbmResourceLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m ExternalExadataInfrastructure) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m ExternalExadataInfrastructure) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m ExternalExadataInfrastructure) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetAdditionalDetails returns AdditionalDetails
+// GetAdditionalDetails returns AdditionalDetails
 func (m ExternalExadataInfrastructure) GetAdditionalDetails() map[string]string {
 	return m.AdditionalDetails
 }

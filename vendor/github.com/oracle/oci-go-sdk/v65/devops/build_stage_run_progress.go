@@ -62,32 +62,32 @@ type BuildStageRunProgress struct {
 	Status BuildPipelineStageRunProgressStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 
-//GetStageDisplayName returns StageDisplayName
+// GetStageDisplayName returns StageDisplayName
 func (m BuildStageRunProgress) GetStageDisplayName() *string {
 	return m.StageDisplayName
 }
 
-//GetBuildPipelineStageId returns BuildPipelineStageId
+// GetBuildPipelineStageId returns BuildPipelineStageId
 func (m BuildStageRunProgress) GetBuildPipelineStageId() *string {
 	return m.BuildPipelineStageId
 }
 
-//GetTimeStarted returns TimeStarted
+// GetTimeStarted returns TimeStarted
 func (m BuildStageRunProgress) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-//GetTimeFinished returns TimeFinished
+// GetTimeFinished returns TimeFinished
 func (m BuildStageRunProgress) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m BuildStageRunProgress) GetStatus() BuildPipelineStageRunProgressStatusEnum {
 	return m.Status
 }
 
-//GetBuildPipelineStagePredecessors returns BuildPipelineStagePredecessors
+// GetBuildPipelineStagePredecessors returns BuildPipelineStagePredecessors
 func (m BuildStageRunProgress) GetBuildPipelineStagePredecessors() *BuildPipelineStagePredecessorCollection {
 	return m.BuildPipelineStagePredecessors
 }

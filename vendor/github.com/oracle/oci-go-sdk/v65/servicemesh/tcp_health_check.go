@@ -43,22 +43,22 @@ type TcpHealthCheck struct {
 	Receive [][]byte `mandatory:"false" json:"receive"`
 }
 
-//GetTimeoutInMs returns TimeoutInMs
+// GetTimeoutInMs returns TimeoutInMs
 func (m TcpHealthCheck) GetTimeoutInMs() *int64 {
 	return m.TimeoutInMs
 }
 
-//GetIntervalInMs returns IntervalInMs
+// GetIntervalInMs returns IntervalInMs
 func (m TcpHealthCheck) GetIntervalInMs() *int64 {
 	return m.IntervalInMs
 }
 
-//GetUnhealthyThreshold returns UnhealthyThreshold
+// GetUnhealthyThreshold returns UnhealthyThreshold
 func (m TcpHealthCheck) GetUnhealthyThreshold() *int {
 	return m.UnhealthyThreshold
 }
 
-//GetHealthyThreshold returns HealthyThreshold
+// GetHealthyThreshold returns HealthyThreshold
 func (m TcpHealthCheck) GetHealthyThreshold() *int {
 	return m.HealthyThreshold
 }

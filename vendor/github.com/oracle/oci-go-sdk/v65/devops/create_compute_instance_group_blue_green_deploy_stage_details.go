@@ -57,32 +57,32 @@ type CreateComputeInstanceGroupBlueGreenDeployStageDetails struct {
 	TestLoadBalancerConfig *LoadBalancerConfig `mandatory:"false" json:"testLoadBalancerConfig"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDeployPipelineId returns DeployPipelineId
+// GetDeployPipelineId returns DeployPipelineId
 func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateComputeInstanceGroupBlueGreenDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

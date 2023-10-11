@@ -169,6 +169,28 @@ func newX509FederationClientWithPurpose(region common.Region, tenancyID string, 
 	return client, nil
 }
 
+func newX509FederationClientWithURLOrFileBasedCerts(region common.Region, tenancyID string, leafCertificateRetriever x509CertificateRetriever,
+	intermediateRetrievers []x509CertificateRetriever, modifier dispatcherModifier, purpose string) (federationClient, error) {
+	client := &x509FederationClient{
+		tenancyID:                         tenancyID,
+		leafCertificateRetriever:          leafCertificateRetriever,
+		intermediateCertificateRetrievers: intermediateRetrievers,
+		tokenPurpose:                      purpose,
+	}
+	client.sessionKeySupplier = newSessionKeySupplier()
+	authClient := newAuthClient(region, client)
+
+	var err error
+
+	if authClient.HTTPClient, err = modifier.Modify(authClient.HTTPClient); err != nil {
+		err = fmt.Errorf("failed to modify client: %s", err.Error())
+		return nil, err
+	}
+
+	client.authClient = authClient
+	return client, nil
+}
+
 func newX509FederationClientWithCerts(region common.Region, tenancyID string, leafCertificate, leafPassphrase, leafPrivateKey []byte,
 	intermediateCertificates [][]byte, modifier dispatcherModifier, purpose string) (federationClient, error) {
 	intermediateRetrievers := make([]x509CertificateRetriever, len(intermediateCertificates))

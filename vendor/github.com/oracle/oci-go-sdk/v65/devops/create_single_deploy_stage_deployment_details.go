@@ -41,22 +41,22 @@ type CreateSingleDeployStageDeploymentDetails struct {
 	DeployArtifactOverrideArguments *DeployArtifactOverrideArgumentCollection `mandatory:"false" json:"deployArtifactOverrideArguments"`
 }
 
-//GetDeployPipelineId returns DeployPipelineId
+// GetDeployPipelineId returns DeployPipelineId
 func (m CreateSingleDeployStageDeploymentDetails) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateSingleDeployStageDeploymentDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateSingleDeployStageDeploymentDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateSingleDeployStageDeploymentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

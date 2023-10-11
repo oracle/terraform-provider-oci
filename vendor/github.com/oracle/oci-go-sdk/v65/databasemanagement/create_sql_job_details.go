@@ -88,52 +88,52 @@ type CreateSqlJobDetails struct {
 	Role SqlJobRoleEnum `mandatory:"false" json:"role,omitempty"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateSqlJobDetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateSqlJobDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateSqlJobDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetManagedDatabaseGroupId returns ManagedDatabaseGroupId
+// GetManagedDatabaseGroupId returns ManagedDatabaseGroupId
 func (m CreateSqlJobDetails) GetManagedDatabaseGroupId() *string {
 	return m.ManagedDatabaseGroupId
 }
 
-//GetManagedDatabaseId returns ManagedDatabaseId
+// GetManagedDatabaseId returns ManagedDatabaseId
 func (m CreateSqlJobDetails) GetManagedDatabaseId() *string {
 	return m.ManagedDatabaseId
 }
 
-//GetDatabaseSubType returns DatabaseSubType
+// GetDatabaseSubType returns DatabaseSubType
 func (m CreateSqlJobDetails) GetDatabaseSubType() DatabaseSubTypeEnum {
 	return m.DatabaseSubType
 }
 
-//GetScheduleType returns ScheduleType
+// GetScheduleType returns ScheduleType
 func (m CreateSqlJobDetails) GetScheduleType() JobScheduleTypeEnum {
 	return m.ScheduleType
 }
 
-//GetTimeout returns Timeout
+// GetTimeout returns Timeout
 func (m CreateSqlJobDetails) GetTimeout() *string {
 	return m.Timeout
 }
 
-//GetResultLocation returns ResultLocation
+// GetResultLocation returns ResultLocation
 func (m CreateSqlJobDetails) GetResultLocation() JobExecutionResultLocation {
 	return m.ResultLocation
 }
 
-//GetScheduleDetails returns ScheduleDetails
+// GetScheduleDetails returns ScheduleDetails
 func (m CreateSqlJobDetails) GetScheduleDetails() *JobScheduleDetails {
 	return m.ScheduleDetails
 }

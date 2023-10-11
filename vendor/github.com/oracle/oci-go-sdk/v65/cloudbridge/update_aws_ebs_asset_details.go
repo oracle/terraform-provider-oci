@@ -38,22 +38,22 @@ type UpdateAwsEbsAssetDetails struct {
 	AwsEbs *AwsEbsProperties `mandatory:"false" json:"awsEbs"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateAwsEbsAssetDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetAssetSourceIds returns AssetSourceIds
+// GetAssetSourceIds returns AssetSourceIds
 func (m UpdateAwsEbsAssetDetails) GetAssetSourceIds() []string {
 	return m.AssetSourceIds
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateAwsEbsAssetDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateAwsEbsAssetDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

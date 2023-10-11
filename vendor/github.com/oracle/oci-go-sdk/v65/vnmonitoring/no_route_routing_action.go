@@ -25,7 +25,7 @@ type NoRouteRoutingAction struct {
 	ActionType RoutingActionActionTypeEnum `mandatory:"true" json:"actionType"`
 }
 
-//GetActionType returns ActionType
+// GetActionType returns ActionType
 func (m NoRouteRoutingAction) GetActionType() RoutingActionActionTypeEnum {
 	return m.ActionType
 }

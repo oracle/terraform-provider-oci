@@ -1402,9 +1402,9 @@ func (client OptimizerClient) updateProfile(ctx context.Context, request common.
 
 // UpdateRecommendation Updates the recommendation that corresponds to the specified OCID.
 // Use this operation to implement the following actions:
-//   * Postpone recommendation
-//   * Dismiss recommendation
-//   * Reactivate recommendation
+//   - Postpone recommendation
+//   - Dismiss recommendation
+//   - Reactivate recommendation
 func (client OptimizerClient) UpdateRecommendation(ctx context.Context, request UpdateRecommendationRequest) (response UpdateRecommendationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1459,9 +1459,10 @@ func (client OptimizerClient) updateRecommendation(ctx context.Context, request 
 
 // UpdateResourceAction Updates the resource action that corresponds to the specified OCID.
 // Use this operation to implement the following actions:
-//   * Postpone resource action
-//   * Ignore resource action
-//   * Reactivate resource action
+//   - Postpone resource action
+//   - Ignore resource action
+//   - Reactivate resource action
+//
 // A default retry strategy applies to this operation UpdateResourceAction()
 func (client OptimizerClient) UpdateResourceAction(ctx context.Context, request UpdateResourceActionRequest) (response UpdateResourceActionResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -32,12 +32,12 @@ type FileStorageMountConfigurationDetails struct {
 	DestinationPath *string `mandatory:"false" json:"destinationPath"`
 }
 
-//GetDestinationDirectoryName returns DestinationDirectoryName
+// GetDestinationDirectoryName returns DestinationDirectoryName
 func (m FileStorageMountConfigurationDetails) GetDestinationDirectoryName() *string {
 	return m.DestinationDirectoryName
 }
 
-//GetDestinationPath returns DestinationPath
+// GetDestinationPath returns DestinationPath
 func (m FileStorageMountConfigurationDetails) GetDestinationPath() *string {
 	return m.DestinationPath
 }

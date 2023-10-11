@@ -47,37 +47,37 @@ type InputProxyField struct {
 	Labels []string `mandatory:"false" json:"labels"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m InputProxyField) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m InputProxyField) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m InputProxyField) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetConfigValues returns ConfigValues
+// GetConfigValues returns ConfigValues
 func (m InputProxyField) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m InputProxyField) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m InputProxyField) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m InputProxyField) GetDescription() *string {
 	return m.Description
 }

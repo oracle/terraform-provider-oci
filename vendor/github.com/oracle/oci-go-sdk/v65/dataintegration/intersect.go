@@ -60,62 +60,62 @@ type Intersect struct {
 	IntersectType IntersectIntersectTypeEnum `mandatory:"false" json:"intersectType,omitempty"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m Intersect) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m Intersect) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m Intersect) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m Intersect) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m Intersect) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m Intersect) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m Intersect) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m Intersect) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m Intersect) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m Intersect) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m Intersect) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m Intersect) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }

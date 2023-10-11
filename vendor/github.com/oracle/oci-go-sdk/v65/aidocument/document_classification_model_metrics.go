@@ -27,7 +27,7 @@ type DocumentClassificationModelMetrics struct {
 	DatasetSummary *DatasetSummary `mandatory:"false" json:"datasetSummary"`
 }
 
-//GetDatasetSummary returns DatasetSummary
+// GetDatasetSummary returns DatasetSummary
 func (m DocumentClassificationModelMetrics) GetDatasetSummary() *DatasetSummary {
 	return m.DatasetSummary
 }

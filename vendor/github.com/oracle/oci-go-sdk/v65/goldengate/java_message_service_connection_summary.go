@@ -141,87 +141,87 @@ type JavaMessageServiceConnectionSummary struct {
 	AuthenticationType JavaMessageServiceConnectionAuthenticationTypeEnum `mandatory:"false" json:"authenticationType,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m JavaMessageServiceConnectionSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m JavaMessageServiceConnectionSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m JavaMessageServiceConnectionSummary) GetDescription() *string {
 	return m.Description
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m JavaMessageServiceConnectionSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m JavaMessageServiceConnectionSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m JavaMessageServiceConnectionSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m JavaMessageServiceConnectionSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m JavaMessageServiceConnectionSummary) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m JavaMessageServiceConnectionSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m JavaMessageServiceConnectionSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m JavaMessageServiceConnectionSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m JavaMessageServiceConnectionSummary) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m JavaMessageServiceConnectionSummary) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetIngressIps returns IngressIps
+// GetIngressIps returns IngressIps
 func (m JavaMessageServiceConnectionSummary) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m JavaMessageServiceConnectionSummary) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m JavaMessageServiceConnectionSummary) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetRoutingMethod returns RoutingMethod
+// GetRoutingMethod returns RoutingMethod
 func (m JavaMessageServiceConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

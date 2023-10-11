@@ -53,17 +53,17 @@ type UpdateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	ProxyClient DatabaseToolsConnectionOracleDatabaseProxyClientDetails `mandatory:"false" json:"proxyClient"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateDatabaseToolsConnectionOracleDatabaseDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateDatabaseToolsConnectionOracleDatabaseDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateDatabaseToolsConnectionOracleDatabaseDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }

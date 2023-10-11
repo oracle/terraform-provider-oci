@@ -88,72 +88,72 @@ type AwsAssetSource struct {
 	LifecycleState AssetSourceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m AwsAssetSource) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m AwsAssetSource) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m AwsAssetSource) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetEnvironmentId returns EnvironmentId
+// GetEnvironmentId returns EnvironmentId
 func (m AwsAssetSource) GetEnvironmentId() *string {
 	return m.EnvironmentId
 }
 
-//GetInventoryId returns InventoryId
+// GetInventoryId returns InventoryId
 func (m AwsAssetSource) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-//GetAssetsCompartmentId returns AssetsCompartmentId
+// GetAssetsCompartmentId returns AssetsCompartmentId
 func (m AwsAssetSource) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
 }
 
-//GetDiscoveryScheduleId returns DiscoveryScheduleId
+// GetDiscoveryScheduleId returns DiscoveryScheduleId
 func (m AwsAssetSource) GetDiscoveryScheduleId() *string {
 	return m.DiscoveryScheduleId
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m AwsAssetSource) GetLifecycleState() AssetSourceLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m AwsAssetSource) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m AwsAssetSource) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m AwsAssetSource) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m AwsAssetSource) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m AwsAssetSource) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m AwsAssetSource) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
