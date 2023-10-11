@@ -15,6 +15,7 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -96,9 +97,7 @@ func ContainerengineClusterResource() *schema.Resource {
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
-
 						// Optional
 						"is_public_ip_enabled": {
 							Type:     schema.TypeBool,
@@ -437,6 +436,16 @@ func ContainerengineClusterResource() *schema.Resource {
 				Computed: true,
 			},
 		},
+		CustomizeDiff: customdiff.All(
+			customdiff.ForceNewIfChange("endpoint_config.0.subnet_id", func(ctx context.Context, old, new, meta interface{}) bool {
+				oldSubnetId := old.(string)
+				if len(oldSubnetId) > 0 {
+					// OKE do not allow customer to change endpointConfig.subnetId once it is configured. Once the oldSubnetId exist, we need to force a recreation.
+					return true
+				}
+				return false
+			}),
+		),
 	}
 }
 

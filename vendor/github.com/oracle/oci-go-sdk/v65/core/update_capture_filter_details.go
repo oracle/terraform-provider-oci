@@ -36,6 +36,9 @@ type UpdateCaptureFilterDetails struct {
 	// The set of rules governing what traffic a VTAP mirrors.
 	VtapCaptureFilterRules []VtapCaptureFilterRuleDetails `mandatory:"false" json:"vtapCaptureFilterRules"`
 
+	// The set of rules governing what traffic the VCN flow log collects.
+	FlowLogCaptureFilterRules []FlowLogCaptureFilterRuleDetails `mandatory:"false" json:"flowLogCaptureFilterRules"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

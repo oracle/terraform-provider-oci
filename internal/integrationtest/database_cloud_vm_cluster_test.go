@@ -51,7 +51,7 @@ var (
 	}
 
 	DatabaseCloudVmClusterRepresentation = map[string]interface{}{
-		"backup_subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet_backup.id}`},
+		"backup_subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.t2.id}`},
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"cpu_core_count":                  acctest.Representation{RepType: acctest.Required, Create: `4`, Update: `6`},
@@ -59,8 +59,8 @@ var (
 		"gi_version":                      acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
 		"hostname":                        acctest.Representation{RepType: acctest.Required, Create: `apollo`},
 		"ssh_public_keys":                 acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
-		"subnet_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet1.id}`},
-		"domain":                          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet1.subnet_domain_name}`},
+		"subnet_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.t.id}`},
+		"domain":                          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.t.subnet_domain_name}`},
 		"backup_network_nsg_ids":          acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group_backup.id}`}},
 		"cluster_name":                    acctest.Representation{RepType: acctest.Optional, Create: `clusterName`},
 		"data_collection_options":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: cloudVmClusterDataCollectionOptionsRepresentation},

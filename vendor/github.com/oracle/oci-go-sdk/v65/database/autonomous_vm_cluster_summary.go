@@ -80,6 +80,30 @@ type AutonomousVmClusterSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 	NextMaintenanceRunId *string `mandatory:"false" json:"nextMaintenanceRunId"`
 
+	// The percentage of total number of CPUs used in an Autonomous VM Cluster.
+	CpuPercentage *float32 `mandatory:"false" json:"cpuPercentage"`
+
+	// The percentage of the data storage used for the Autonomous Databases in an Autonomous VM Cluster.
+	AutonomousDataStoragePercentage *float32 `mandatory:"false" json:"autonomousDataStoragePercentage"`
+
+	// The number of CPUs provisioned in an Autonomous VM Cluster.
+	ProvisionedCpus *float32 `mandatory:"false" json:"provisionedCpus"`
+
+	// The total data disk group size for Autonomous Databases, in TBs.
+	TotalAutonomousDataStorageInTBs *float32 `mandatory:"false" json:"totalAutonomousDataStorageInTBs"`
+
+	// The number of CPUs reserved in an Autonomous VM Cluster.
+	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
+
+	// The number of provisionable Autonomous Container Databases in an Autonomous VM Cluster.
+	ProvisionableAutonomousContainerDatabases *int `mandatory:"false" json:"provisionableAutonomousContainerDatabases"`
+
+	// The number of provisioned Autonomous Container Databases in an Autonomous VM Cluster.
+	ProvisionedAutonomousContainerDatabases *int `mandatory:"false" json:"provisionedAutonomousContainerDatabases"`
+
+	// The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
+	NonProvisionableAutonomousContainerDatabases *int `mandatory:"false" json:"nonProvisionableAutonomousContainerDatabases"`
+
 	// The memory allocated in GBs.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
 
