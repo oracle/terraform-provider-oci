@@ -100,10 +100,22 @@ func (s *DatabasePluggableDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("pdb_name", *s.Res.PdbName)
 	}
 
+	pdbNodeLevelDetails := []interface{}{}
+	for _, item := range s.Res.PdbNodeLevelDetails {
+		pdbNodeLevelDetails = append(pdbNodeLevelDetails, PluggableDatabaseNodeLevelDetailsToMap(item))
+	}
+	s.D.Set("pdb_node_level_details", pdbNodeLevelDetails)
+
 	if s.Res.PluggableDatabaseManagementConfig != nil {
 		s.D.Set("pluggable_database_management_config", []interface{}{PluggableDatabaseManagementConfigToMap(s.Res.PluggableDatabaseManagementConfig)})
 	} else {
 		s.D.Set("pluggable_database_management_config", nil)
+	}
+
+	if s.Res.RefreshableCloneConfig != nil {
+		s.D.Set("refreshable_clone_config", []interface{}{PluggableDatabaseRefreshableCloneConfigToMap(s.Res.RefreshableCloneConfig)})
+	} else {
+		s.D.Set("refreshable_clone_config", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

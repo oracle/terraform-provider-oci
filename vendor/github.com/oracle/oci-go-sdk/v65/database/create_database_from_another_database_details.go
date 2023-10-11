@@ -35,6 +35,9 @@ type CreateDatabaseFromAnotherDatabaseDetails struct {
 
 	// The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
 	TimeStampForPointInTimeRecovery *common.SDKTime `mandatory:"false" json:"timeStampForPointInTimeRecovery"`
+
+	// The list of pluggable databases that needs to be restored into new database.
+	PluggableDatabases []string `mandatory:"false" json:"pluggableDatabases"`
 }
 
 func (m CreateDatabaseFromAnotherDatabaseDetails) String() string {

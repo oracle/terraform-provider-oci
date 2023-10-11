@@ -116,6 +116,27 @@ func DatabasePluggableDatabasesLocalCloneResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"pdb_node_level_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"node_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"open_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"pluggable_database_management_config": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -128,6 +149,23 @@ func DatabasePluggableDatabasesLocalCloneResource() *schema.Resource {
 						// Computed
 						"management_status": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"refreshable_clone_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_refreshable_clone": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 					},
@@ -187,6 +225,7 @@ func (s *DatabasePluggableDatabasesLocalCloneResourceCrud) CreatedTarget() []str
 func (s *DatabasePluggableDatabasesLocalCloneResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.PluggableDatabaseLifecycleStateTerminating),
+		string(oci_database.PluggableDatabaseLifecycleStateDisabled),
 	}
 }
 
@@ -270,10 +309,22 @@ func (s *DatabasePluggableDatabasesLocalCloneResourceCrud) SetData() error {
 		s.D.Set("pdb_name", *s.Res.PdbName)
 	}
 
+	pdbNodeLevelDetails := []interface{}{}
+	for _, item := range s.Res.PdbNodeLevelDetails {
+		pdbNodeLevelDetails = append(pdbNodeLevelDetails, PluggableDatabaseNodeLevelDetailsToMap(item))
+	}
+	s.D.Set("pdb_node_level_details", pdbNodeLevelDetails)
+
 	if s.Res.PluggableDatabaseManagementConfig != nil {
 		s.D.Set("pluggable_database_management_config", []interface{}{PluggableDatabaseManagementConfigToMap(s.Res.PluggableDatabaseManagementConfig)})
 	} else {
 		s.D.Set("pluggable_database_management_config", nil)
+	}
+
+	if s.Res.RefreshableCloneConfig != nil {
+		s.D.Set("refreshable_clone_config", []interface{}{PluggableDatabaseRefreshableCloneConfigToMap(s.Res.RefreshableCloneConfig)})
+	} else {
+		s.D.Set("refreshable_clone_config", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

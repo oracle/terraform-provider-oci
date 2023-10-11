@@ -1,3 +1,15 @@
+## 5.16.0 (October 11, 2023)
+
+### Added
+- Support for Resource Usage Tracking Enhancement | ADB-C@C
+- Support for PDB Mgmt v2
+- Support for VCN Flow Logs for Telesis - Network command center
+- Support for DIS: Import / Export
+- Support for Marketplace Publisher Service, enhance Marketplace and Marketplace Publishing Services
+### Bug Fix
+- Deprecating OCVS v20200501 API support
+- Only trigger recreation while change subnet_id for endpoint config on native vcn cluster
+
 ## 5.15.0 (October 04, 2023)
 
 ### Added

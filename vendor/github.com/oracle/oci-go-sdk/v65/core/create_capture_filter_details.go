@@ -46,6 +46,9 @@ type CreateCaptureFilterDetails struct {
 
 	// The set of rules governing what traffic a VTAP mirrors.
 	VtapCaptureFilterRules []VtapCaptureFilterRuleDetails `mandatory:"false" json:"vtapCaptureFilterRules"`
+
+	// The set of rules governing what traffic the VCN flow log collects.
+	FlowLogCaptureFilterRules []FlowLogCaptureFilterRuleDetails `mandatory:"false" json:"flowLogCaptureFilterRules"`
 }
 
 func (m CreateCaptureFilterDetails) String() string {
@@ -72,15 +75,18 @@ type CreateCaptureFilterDetailsFilterTypeEnum string
 
 // Set of constants representing the allowable values for CreateCaptureFilterDetailsFilterTypeEnum
 const (
-	CreateCaptureFilterDetailsFilterTypeVtap CreateCaptureFilterDetailsFilterTypeEnum = "VTAP"
+	CreateCaptureFilterDetailsFilterTypeVtap    CreateCaptureFilterDetailsFilterTypeEnum = "VTAP"
+	CreateCaptureFilterDetailsFilterTypeFlowlog CreateCaptureFilterDetailsFilterTypeEnum = "FLOWLOG"
 )
 
 var mappingCreateCaptureFilterDetailsFilterTypeEnum = map[string]CreateCaptureFilterDetailsFilterTypeEnum{
-	"VTAP": CreateCaptureFilterDetailsFilterTypeVtap,
+	"VTAP":    CreateCaptureFilterDetailsFilterTypeVtap,
+	"FLOWLOG": CreateCaptureFilterDetailsFilterTypeFlowlog,
 }
 
 var mappingCreateCaptureFilterDetailsFilterTypeEnumLowerCase = map[string]CreateCaptureFilterDetailsFilterTypeEnum{
-	"vtap": CreateCaptureFilterDetailsFilterTypeVtap,
+	"vtap":    CreateCaptureFilterDetailsFilterTypeVtap,
+	"flowlog": CreateCaptureFilterDetailsFilterTypeFlowlog,
 }
 
 // GetCreateCaptureFilterDetailsFilterTypeEnumValues Enumerates the set of values for CreateCaptureFilterDetailsFilterTypeEnum
@@ -96,6 +102,7 @@ func GetCreateCaptureFilterDetailsFilterTypeEnumValues() []CreateCaptureFilterDe
 func GetCreateCaptureFilterDetailsFilterTypeEnumStringValues() []string {
 	return []string{
 		"VTAP",
+		"FLOWLOG",
 	}
 }
 

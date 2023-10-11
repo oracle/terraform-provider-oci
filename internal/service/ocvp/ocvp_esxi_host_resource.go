@@ -33,17 +33,19 @@ func OcvpEsxiHostResource() *schema.Resource {
 		Delete: deleteOcvpEsxiHost,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"sddc_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
+			"sddc_id": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				ForceNew:   true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("sddc_id", "cluster_id"),
+			},
 			"billing_donor_host_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				Deprecated: "This 'billing_donor_host_id' argument has been deprecated and will be computed only.",
 			},
 			"capacity_reservation_id": {
 				Type:     schema.TypeString,
@@ -62,13 +64,14 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
-				// API may update currect_sku in the backend, so need to suppress the diff if any change is made to current_sku after esxi_host creation
+				// API may update current_sku in the backend, so need to suppress the diff if any change is made to current_sku after esxi_host creation
 				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
 					if old == "" && new != "" {
 						return false
 					}
 					return true
 				},
+				Deprecated: tfresource.FieldDeprecated("current_sku"),
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -83,10 +86,11 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Computed: true,
 			},
 			"failed_esxi_host_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Deprecated: "This 'failed_esxi_host_id' argument has been deprecated and will be computed only.",
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -107,15 +111,17 @@ func OcvpEsxiHostResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"next_sku": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				Deprecated: tfresource.FieldDeprecated("next_sku"),
 			},
 			"non_upgraded_esxi_host_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Deprecated: "This 'non_upgraded_esxi_host_id' argument has been deprecated and will be computed only.",
 			},
 			"swap_billing_host_id": {
 				Type:     schema.TypeString,
