@@ -75,6 +75,15 @@ The following attributes are exported:
 	* `enable_logging` - If customer logging is enabled for job runs.
 	* `log_group_id` - The log group id for where log objects are for job runs. 
 	* `log_id` - The log id the job run will push logs too. 
+* `job_storage_mount_configuration_details_list` - Collection of JobStorageMountConfigurationDetails.
+	* `bucket` - The object storage bucket
+	* `destination_directory_name` - The local directory name to be mounted
+	* `destination_path` - The local path of the mounted directory, excluding directory name.
+	* `export_id` - OCID of the export
+	* `mount_target_id` - OCID of the mount target
+	* `namespace` - The object storage namespace
+	* `prefix` - Prefix in the bucket to mount
+	* `storage_type` - The type of storage.
 * `lifecycle_details` - Details of the state of the job run.
 * `log_details` - Customer logging details for job run. 
 	* `log_group_id` - The log group id for where log objects will be for job runs. 

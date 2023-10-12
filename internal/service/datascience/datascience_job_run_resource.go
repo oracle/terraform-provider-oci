@@ -214,6 +214,51 @@ func DatascienceJobRunResource() *schema.Resource {
 					},
 				},
 			},
+			"job_storage_mount_configuration_details_list": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"bucket": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"destination_directory_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"destination_path": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"export_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"mount_target_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"prefix": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"storage_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -537,6 +582,12 @@ func (s *DatascienceJobRunResourceCrud) SetData() error {
 	} else {
 		s.D.Set("job_log_configuration_override_details", nil)
 	}
+
+	jobStorageMountConfigurationDetailsList := []interface{}{}
+	for _, item := range s.Res.JobStorageMountConfigurationDetailsList {
+		jobStorageMountConfigurationDetailsList = append(jobStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
+	}
+	s.D.Set("job_storage_mount_configuration_details_list", jobStorageMountConfigurationDetailsList)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
