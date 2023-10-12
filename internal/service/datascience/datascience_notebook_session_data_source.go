@@ -106,6 +106,12 @@ func (s *DatascienceNotebookSessionDataSourceCrud) SetData() error {
 		s.D.Set("notebook_session_runtime_config_details", nil)
 	}
 
+	notebookSessionStorageMountConfigurationDetailsList := []interface{}{}
+	for _, item := range s.Res.NotebookSessionStorageMountConfigurationDetailsList {
+		notebookSessionStorageMountConfigurationDetailsList = append(notebookSessionStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
+	}
+	s.D.Set("notebook_session_storage_mount_configuration_details_list", notebookSessionStorageMountConfigurationDetailsList)
+
 	if s.Res.NotebookSessionUrl != nil {
 		s.D.Set("notebook_session_url", *s.Res.NotebookSessionUrl)
 	}

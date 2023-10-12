@@ -57,6 +57,19 @@ resource "oci_datascience_job" "test_job" {
 		log_group_id = oci_logging_log_group.test_log_group.id
 		log_id = oci_logging_log.test_log.id
 	}
+	job_storage_mount_configuration_details_list {
+		#Required
+		destination_directory_name = var.job_job_storage_mount_configuration_details_list_destination_directory_name
+		storage_type = var.job_job_storage_mount_configuration_details_list_storage_type
+
+		#Optional
+		bucket = var.job_job_storage_mount_configuration_details_list_bucket
+		destination_path = var.job_job_storage_mount_configuration_details_list_destination_path
+		export_id = oci_file_storage_export.test_export.id
+		mount_target_id = oci_file_storage_mount_target.test_mount_target.id
+		namespace = var.job_job_storage_mount_configuration_details_list_namespace
+		prefix = var.job_job_storage_mount_configuration_details_list_prefix
+	}
 }
 ```
 
@@ -88,6 +101,15 @@ The following arguments are supported:
 	* `enable_logging` - (Optional) If customer logging is enabled for job runs.
 	* `log_group_id` - (Optional) The log group id for where log objects are for job runs. 
 	* `log_id` - (Optional) The log id the job run will push logs too. 
+* `job_storage_mount_configuration_details_list` - (Optional) (Updatable) Collection of JobStorageMountConfigurationDetails.
+	* `bucket` - (Required when storage_type=OBJECT_STORAGE) (Updatable) The object storage bucket
+	* `destination_directory_name` - (Required) (Updatable) The local directory name to be mounted
+	* `destination_path` - (Optional) (Updatable) The local path of the mounted directory, excluding directory name.
+	* `export_id` - (Required when storage_type=FILE_STORAGE) (Updatable) OCID of the export
+	* `mount_target_id` - (Required when storage_type=FILE_STORAGE) (Updatable) OCID of the mount target
+	* `namespace` - (Required when storage_type=OBJECT_STORAGE) (Updatable) The object storage namespace
+	* `prefix` - (Applicable when storage_type=OBJECT_STORAGE) (Updatable) Prefix in the bucket to mount
+	* `storage_type` - (Required) (Updatable) The type of storage.
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the job with.
 * `job_artifact` - (Optional) The job artifact to upload. This can be done in a separate step or from cli/sdk. The Job will remain in "Creating" state until its artifact is uploaded.
 * `artifact_content_disposition` - (Optional, Required if `job_artifact` is set) This header allows you to specify a filename during upload. This file name is used to dispose of the file contents while downloading the file. Example: `attachment; filename=job-artifact.py`
@@ -126,6 +148,15 @@ The following attributes are exported:
 	* `enable_logging` - If customer logging is enabled for job runs.
 	* `log_group_id` - The log group id for where log objects are for job runs. 
 	* `log_id` - The log id the job run will push logs too. 
+* `job_storage_mount_configuration_details_list` - Collection of JobStorageMountConfigurationDetails.
+	* `bucket` - The object storage bucket
+	* `destination_directory_name` - The local directory name to be mounted
+	* `destination_path` - The local path of the mounted directory, excluding directory name.
+	* `export_id` - OCID of the export
+	* `mount_target_id` - OCID of the mount target
+	* `namespace` - The object storage namespace
+	* `prefix` - Prefix in the bucket to mount
+	* `storage_type` - The type of storage.
 * `lifecycle_details` - The state of the job.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the job with.
 * `state` - The state of the job.
