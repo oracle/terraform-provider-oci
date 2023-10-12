@@ -191,6 +191,18 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
     destination {
       #Required field for destination
       log_object_id = var.test_log_id
+      operational_metrics_configuration {
+        destination {
+          compartment_id = var.compartment_id
+        }
+        source {
+          type = "UMA_METRICS"
+          record_input {
+            namespace = "tf-test-namespace"
+            resource_group = "tf-test-resource-group"
+          }
+        }
+      }
     }
     sources {
       #Required
