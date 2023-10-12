@@ -1,9 +1,11 @@
 ## 5.16.0 (Unreleased)
 
 ### Added
+- Support for Resource Usage Tracking Enhancement | ADB-C@C
+- Support for PDB Mgmt v2
+- Support for VCN Flow Logs for Telesis - Network command center
 - Support for DIS: Import / Export
 - Support for Marketplace Publisher Service, enhance Marketplace and Marketplace Publishing Services
-- Support for Cluster Namespace features
 ### Deprecation
 - OCVS v20200501 API support
 ### Bug Fix
