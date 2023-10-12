@@ -70,6 +70,94 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 									},
 
 									// Optional
+									"operational_metrics_configuration": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"destination": {
+													Type:     schema.TypeList,
+													Required: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"compartment_id": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+												"source": {
+													Type:     schema.TypeList,
+													Required: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"type": {
+																Type:     schema.TypeString,
+																Required: true,
+															},
+
+															// Optional
+															"metrics": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+
+															// Required
+															"record_input": {
+																Type:     schema.TypeList,
+																Required: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"namespace": {
+																			Type:     schema.TypeString,
+																			Required: true,
+																		},
+
+																		// Optional
+																		"resource_group": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+
+															// Computed
+														},
+													},
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
 
 									// Computed
 								},
@@ -951,6 +1039,148 @@ func GroupAssociationDetailsToMap(obj *oci_logging.GroupAssociationDetails) map[
 	return result
 }
 
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToOperationalMetricsConfiguration(fieldKeyFormat string) (oci_logging.OperationalMetricsConfiguration, error) {
+	result := oci_logging.OperationalMetricsConfiguration{}
+
+	if destination, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination")); ok {
+		if tmpList := destination.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "destination"), 0)
+			tmp, err := s.mapToOperationalMetricsDestination(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert destination, encountered error: %v", err)
+			}
+			result.Destination = &tmp
+		}
+	}
+
+	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
+		if tmpList := source.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source"), 0)
+			tmp, err := s.mapToOperationalMetricsSource(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source, encountered error: %v", err)
+			}
+			result.Source = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func OperationalMetricsConfigurationToMap(obj *oci_logging.OperationalMetricsConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Destination != nil {
+		result["destination"] = []interface{}{OperationalMetricsDestinationToMap(obj.Destination)}
+	}
+
+	if obj.Source != nil {
+		result["source"] = []interface{}{OperationalMetricsSourceToMap(obj.Source)}
+	}
+
+	return result
+}
+
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToOperationalMetricsDestination(fieldKeyFormat string) (oci_logging.OperationalMetricsDestination, error) {
+	result := oci_logging.OperationalMetricsDestination{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	return result, nil
+}
+
+func OperationalMetricsDestinationToMap(obj *oci_logging.OperationalMetricsDestination) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	return result
+}
+
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToOperationalMetricsRecordInput(fieldKeyFormat string) (oci_logging.OperationalMetricsRecordInput, error) {
+	result := oci_logging.OperationalMetricsRecordInput{}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.Namespace = &tmp
+	}
+
+	if resourceGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_group")); ok {
+		tmp := resourceGroup.(string)
+		result.ResourceGroup = &tmp
+	}
+
+	return result, nil
+}
+
+func OperationalMetricsRecordInputToMap(obj *oci_logging.OperationalMetricsRecordInput) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Namespace != nil {
+		result["namespace"] = string(*obj.Namespace)
+	}
+
+	if obj.ResourceGroup != nil {
+		result["resource_group"] = string(*obj.ResourceGroup)
+	}
+
+	return result
+}
+
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToOperationalMetricsSource(fieldKeyFormat string) (oci_logging.OperationalMetricsSource, error) {
+	result := oci_logging.OperationalMetricsSource{}
+
+	if metrics, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metrics")); ok {
+		interfaces := metrics.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "metrics")) {
+			result.Metrics = tmp
+		}
+	}
+
+	if recordInput, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "record_input")); ok {
+		if tmpList := recordInput.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "record_input"), 0)
+			tmp, err := s.mapToOperationalMetricsRecordInput(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert record_input, encountered error: %v", err)
+			}
+			result.RecordInput = &tmp
+		}
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_logging.OperationalMetricsSourceTypeEnum(type_.(string))
+	}
+
+	return result, nil
+}
+
+func OperationalMetricsSourceToMap(obj *oci_logging.OperationalMetricsSource) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["metrics"] = obj.Metrics
+	result["metrics"] = obj.Metrics
+
+	if obj.RecordInput != nil {
+		result["record_input"] = []interface{}{OperationalMetricsRecordInputToMap(obj.RecordInput)}
+	}
+
+	result["type"] = string(obj.Type)
+
+	return result
+}
+
 func UnifiedAgentConfigurationSummaryToMap(obj oci_logging.UnifiedAgentConfigurationSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1005,6 +1235,17 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentLoggingD
 		result.LogObjectId = &tmp
 	}
 
+	if operationalMetricsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operational_metrics_configuration")); ok {
+		if tmpList := operationalMetricsConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "operational_metrics_configuration"), 0)
+			tmp, err := s.mapToOperationalMetricsConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert operational_metrics_configuration, encountered error: %v", err)
+			}
+			result.OperationalMetricsConfiguration = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -1013,6 +1254,10 @@ func UnifiedAgentLoggingDestinationToMap(obj *oci_logging.UnifiedAgentLoggingDes
 
 	if obj.LogObjectId != nil {
 		result["log_object_id"] = string(*obj.LogObjectId)
+	}
+
+	if obj.OperationalMetricsConfiguration != nil {
+		result["operational_metrics_configuration"] = []interface{}{OperationalMetricsConfigurationToMap(obj.OperationalMetricsConfiguration)}
 	}
 
 	return result
