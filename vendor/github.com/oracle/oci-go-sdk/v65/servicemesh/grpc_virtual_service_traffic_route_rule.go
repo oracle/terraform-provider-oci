@@ -34,7 +34,7 @@ type GrpcVirtualServiceTrafficRouteRule struct {
 	RetryConfiguration *GrpcRetryConfiguration `mandatory:"false" json:"retryConfiguration"`
 }
 
-// GetDestinations returns Destinations
+//GetDestinations returns Destinations
 func (m GrpcVirtualServiceTrafficRouteRule) GetDestinations() []VirtualDeploymentTrafficRuleTarget {
 	return m.Destinations
 }

@@ -38,32 +38,32 @@ type ClusterDetailsCommandDescriptor struct {
 	IsHidden *bool `mandatory:"false" json:"isHidden"`
 }
 
-// GetDisplayQueryString returns DisplayQueryString
+//GetDisplayQueryString returns DisplayQueryString
 func (m ClusterDetailsCommandDescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-// GetInternalQueryString returns InternalQueryString
+//GetInternalQueryString returns InternalQueryString
 func (m ClusterDetailsCommandDescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }
 
-// GetCategory returns Category
+//GetCategory returns Category
 func (m ClusterDetailsCommandDescriptor) GetCategory() *string {
 	return m.Category
 }
 
-// GetReferencedFields returns ReferencedFields
+//GetReferencedFields returns ReferencedFields
 func (m ClusterDetailsCommandDescriptor) GetReferencedFields() []AbstractField {
 	return m.ReferencedFields
 }
 
-// GetDeclaredFields returns DeclaredFields
+//GetDeclaredFields returns DeclaredFields
 func (m ClusterDetailsCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
-// GetIsHidden returns IsHidden
+//GetIsHidden returns IsHidden
 func (m ClusterDetailsCommandDescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }

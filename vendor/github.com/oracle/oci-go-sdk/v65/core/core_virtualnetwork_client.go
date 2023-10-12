@@ -4886,9 +4886,8 @@ func (client VirtualNetworkClient) createFlowLogConfigAttachment(ctx context.Con
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // After creating the IPSec connection, you need to configure your on-premises router
 // with tunnel-specific information. For tunnel status and the required configuration information, see:
-//   - IPSecConnectionTunnel
-//   - IPSecConnectionTunnelSharedSecret
-//
+//   * IPSecConnectionTunnel
+//   * IPSecConnectionTunnelSharedSecret
 // For each tunnel, you need the IP address of Oracle's VPN headend and the shared secret
 // (that is, the pre-shared key). For more information, see
 // CPE Configuration (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
@@ -12501,11 +12500,10 @@ func (client VirtualNetworkClient) getCpe(ctx context.Context, request common.OC
 // The operation returns configuration information for *all* of the
 // IPSecConnection objects that use the specified CPE.
 // Here are similar operations:
-//   - GetIpsecCpeDeviceConfigContent
-//     returns CPE configuration content for all IPSec tunnels in a single IPSec connection.
-//   - GetTunnelCpeDeviceConfigContent
-//     returns CPE configuration content for a specific IPSec tunnel in an IPSec connection.
-//
+//   * GetIpsecCpeDeviceConfigContent
+//   returns CPE configuration content for all IPSec tunnels in a single IPSec connection.
+//   * GetTunnelCpeDeviceConfigContent
+//   returns CPE configuration content for a specific IPSec tunnel in an IPSec connection.
 // A default retry strategy applies to this operation GetCpeDeviceConfigContent()
 func (client VirtualNetworkClient) GetCpeDeviceConfigContent(ctx context.Context, request GetCpeDeviceConfigContentRequest) (response GetCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12563,10 +12561,9 @@ func (client VirtualNetworkClient) getCpeDeviceConfigContent(ctx context.Context
 // (see UpdateTunnelCpeDeviceConfig).
 // The service merges the answers with a template of other information for the CPE device type. The following
 // operations return the merged content:
-//   - GetCpeDeviceConfigContent
-//   - GetIpsecCpeDeviceConfigContent
-//   - GetTunnelCpeDeviceConfigContent
-//
+//   * GetCpeDeviceConfigContent
+//   * GetIpsecCpeDeviceConfigContent
+//   * GetTunnelCpeDeviceConfigContent
 // A default retry strategy applies to this operation GetCpeDeviceShape()
 func (client VirtualNetworkClient) GetCpeDeviceShape(ctx context.Context, request GetCpeDeviceShapeRequest) (response GetCpeDeviceShapeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15032,11 +15029,10 @@ func (client VirtualNetworkClient) getInternetGateway(ctx context.Context, reque
 // The operation returns configuration information for all tunnels in the single specified
 // IPSecConnection object. Here are other similar
 // operations:
-//   - GetTunnelCpeDeviceConfigContent
-//     returns CPE configuration content for a specific tunnel within an IPSec connection.
-//   - GetCpeDeviceConfigContent
-//     returns CPE configuration content for *all* IPSec connections that use a specific CPE.
-//
+//   * GetTunnelCpeDeviceConfigContent
+//   returns CPE configuration content for a specific tunnel within an IPSec connection.
+//   * GetCpeDeviceConfigContent
+//   returns CPE configuration content for *all* IPSec connections that use a specific CPE.
 // A default retry strategy applies to this operation GetIpsecCpeDeviceConfigContent()
 func (client VirtualNetworkClient) GetIpsecCpeDeviceConfigContent(ctx context.Context, request GetIpsecCpeDeviceConfigContentRequest) (response GetIpsecCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -16580,11 +16576,10 @@ func (client VirtualNetworkClient) getTunnelCpeDeviceConfig(ctx context.Context,
 // merged with a template of other information specific to the CPE device type.
 // The operation returns configuration information for only the specified IPSec tunnel.
 // Here are other similar operations:
-//   - GetIpsecCpeDeviceConfigContent
-//     returns CPE configuration content for all tunnels in a single IPSec connection.
-//   - GetCpeDeviceConfigContent
-//     returns CPE configuration content for *all* IPSec connections that use a specific CPE.
-//
+//   * GetIpsecCpeDeviceConfigContent
+//   returns CPE configuration content for all tunnels in a single IPSec connection.
+//   * GetCpeDeviceConfigContent
+//   returns CPE configuration content for *all* IPSec connections that use a specific CPE.
 // A default retry strategy applies to this operation GetTunnelCpeDeviceConfigContent()
 func (client VirtualNetworkClient) GetTunnelCpeDeviceConfigContent(ctx context.Context, request GetTunnelCpeDeviceConfigContentRequest) (response GetTunnelCpeDeviceConfigContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -18106,10 +18101,9 @@ func (client VirtualNetworkClient) listClientVpns(ctx context.Context, request c
 // ensure that the Cpe object's `cpeDeviceShapeId` attribute is set
 // to the CPE device type's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (returned by this operation).
 // For information about generating CPE configuration content, see these operations:
-//   - GetCpeDeviceConfigContent
-//   - GetIpsecCpeDeviceConfigContent
-//   - GetTunnelCpeDeviceConfigContent
-//
+//   * GetCpeDeviceConfigContent
+//   * GetIpsecCpeDeviceConfigContent
+//   * GetTunnelCpeDeviceConfigContent
 // A default retry strategy applies to this operation ListCpeDeviceShapes()
 func (client VirtualNetworkClient) ListCpeDeviceShapes(ctx context.Context, request ListCpeDeviceShapesRequest) (response ListCpeDeviceShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -19973,20 +19967,17 @@ func (client VirtualNetworkClient) listInternalPrivateIps(ctx context.Context, r
 // ListInternalPublicIps Lists the InternalPublicIp Objects
 // in the specified compartment. You can filter the list by using query parameters.
 // To list your reserved public IPs:
-//   - Set `scope` = `REGION`  (required)
-//   - Leave the `availabilityDomain` parameter empty
-//   - Set `lifetime` = `RESERVED`
-//
+//   * Set `scope` = `REGION`  (required)
+//   * Leave the `availabilityDomain` parameter empty
+//   * Set `lifetime` = `RESERVED`
 // To list the ephemeral public IPs assigned to a regional entity such as a NAT gateway:
-//   - Set `scope` = `REGION`  (required)
-//   - Leave the `availabilityDomain` parameter empty
-//   - Set `lifetime` = `EPHEMERAL`
-//
+//   * Set `scope` = `REGION`  (required)
+//   * Leave the `availabilityDomain` parameter empty
+//   * Set `lifetime` = `EPHEMERAL`
 // To list the ephemeral public IPs assigned to private IPs:
-//   - Set `scope` = `AVAILABILITY_DOMAIN` (required)
-//   - Set the `availabilityDomain` parameter to the desired availability domain (required)
-//   - Set `lifetime` = `EPHEMERAL`
-//
+//   * Set `scope` = `AVAILABILITY_DOMAIN` (required)
+//   * Set the `availabilityDomain` parameter to the desired availability domain (required)
+//   * Set `lifetime` = `EPHEMERAL`
 // **Note:** An ephemeral public IP assigned to a private IP
 // is always in the same availability domain and compartment as the private IP.
 func (client VirtualNetworkClient) ListInternalPublicIps(ctx context.Context, request ListInternalPublicIpsRequest) (response ListInternalPublicIpsResponse, err error) {
@@ -20203,11 +20194,11 @@ func (client VirtualNetworkClient) listInternetGateways(ctx context.Context, req
 
 // ListIpv6s Lists the Ipv6 objects based
 // on one of these filters:
-//   - Subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//   - VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//   - Both IPv6 address and subnet OCID: This lets you get an `Ipv6` object based on its private
-//     IPv6 address (for example, 2001:0db8:0123:1111:abcd:ef01:2345:6789) and not its OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For comparison,
-//     GetIpv6 requires the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   * Subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   * VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   * Both IPv6 address and subnet OCID: This lets you get an `Ipv6` object based on its private
+//   IPv6 address (for example, 2001:0db8:0123:1111:abcd:ef01:2345:6789) and not its OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For comparison,
+//   GetIpv6 requires the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) ListIpv6s(ctx context.Context, request ListIpv6sRequest) (response ListIpv6sResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20803,11 +20794,10 @@ func (client VirtualNetworkClient) listPrivateEndpoints(ctx context.Context, req
 //   - Subnet OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //   - VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //   - Both private IP address and subnet OCID: This lets
-//     you get a `privateIP` object based on its private IP
-//     address (for example, 10.0.3.3) and not its OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For comparison,
-//     GetPrivateIp
-//     requires the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//
+//   you get a `privateIP` object based on its private IP
+//   address (for example, 10.0.3.3) and not its OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). For comparison,
+//   GetPrivateIp
+//   requires the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // If you're listing all the private IPs associated with a given subnet
 // or VNIC, the response includes both primary and secondary private IPs.
 // If you are an Oracle Cloud VMware Solution customer and have VLANs
@@ -20980,20 +20970,17 @@ func (client VirtualNetworkClient) listPublicIpPools(ctx context.Context, reques
 // ListPublicIps Lists the PublicIp objects
 // in the specified compartment. You can filter the list by using query parameters.
 // To list your reserved public IPs:
-//   - Set `scope` = `REGION`  (required)
-//   - Leave the `availabilityDomain` parameter empty
-//   - Set `lifetime` = `RESERVED`
-//
+//   * Set `scope` = `REGION`  (required)
+//   * Leave the `availabilityDomain` parameter empty
+//   * Set `lifetime` = `RESERVED`
 // To list the ephemeral public IPs assigned to a regional entity such as a NAT gateway:
-//   - Set `scope` = `REGION`  (required)
-//   - Leave the `availabilityDomain` parameter empty
-//   - Set `lifetime` = `EPHEMERAL`
-//
+//   * Set `scope` = `REGION`  (required)
+//   * Leave the `availabilityDomain` parameter empty
+//   * Set `lifetime` = `EPHEMERAL`
 // To list the ephemeral public IPs assigned to private IPs:
-//   - Set `scope` = `AVAILABILITY_DOMAIN` (required)
-//   - Set the `availabilityDomain` parameter to the desired availability domain (required)
-//   - Set `lifetime` = `EPHEMERAL`
-//
+//   * Set `scope` = `AVAILABILITY_DOMAIN` (required)
+//   * Set the `availabilityDomain` parameter to the desired availability domain (required)
+//   * Set `lifetime` = `EPHEMERAL`
 // **Note:** An ephemeral public IP assigned to a private IP
 // is always in the same availability domain and compartment as the private IP.
 func (client VirtualNetworkClient) ListPublicIps(ctx context.Context, request ListPublicIpsRequest) (response ListPublicIpsResponse, err error) {
@@ -22027,8 +22014,8 @@ func (client VirtualNetworkClient) listVlans(ctx context.Context, request common
 }
 
 // ListVnicWorkers Lists the vnicWorkers based on one of these filters:
-//   - Service VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//   - Instance OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   * Service VNIC OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//   * Instance OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) ListVnicWorkers(ctx context.Context, request ListVnicWorkersRequest) (response ListVnicWorkersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -25681,14 +25668,13 @@ func (client VirtualNetworkClient) updateIPSecConnection(ctx context.Context, re
 
 // UpdateIPSecConnectionTunnel Updates the specified tunnel. This operation lets you change tunnel attributes such as the
 // routing type (BGP dynamic routing or static routing). Here are some important notes:
-//   - If you change the tunnel's routing type or BGP session configuration, the tunnel will go
+//   * If you change the tunnel's routing type or BGP session configuration, the tunnel will go
 //     down while it's reprovisioned.
-//   - If you want to switch the tunnel's `routing` from `STATIC` to `BGP`, make sure the tunnel's
+//   * If you want to switch the tunnel's `routing` from `STATIC` to `BGP`, make sure the tunnel's
 //     BGP session configuration attributes have been set (BgpSessionInfo).
-//   - If you want to switch the tunnel's `routing` from `BGP` to `STATIC`, make sure the
+//   * If you want to switch the tunnel's `routing` from `BGP` to `STATIC`, make sure the
 //     IPSecConnection already has at least one valid CIDR
 //     static route.
-//
 // A default retry strategy applies to this operation UpdateIPSecConnectionTunnel()
 func (client VirtualNetworkClient) UpdateIPSecConnectionTunnel(ctx context.Context, request UpdateIPSecConnectionTunnelRequest) (response UpdateIPSecConnectionTunnelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -26008,10 +25994,10 @@ func (client VirtualNetworkClient) updateInternalGenericGateway(ctx context.Cont
 
 // UpdateInternalIpv6 Updates the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Use this operation if you want to:
-//   - Move an IPv6 to a different VNIC in the same subnet.
-//   - Enable/disable internet access for an IPv6.
-//   - Change the display name for an IPv6.
-//   - Update resource tags for an IPv6.
+//   * Move an IPv6 to a different VNIC in the same subnet.
+//   * Enable/disable internet access for an IPv6.
+//   * Change the display name for an IPv6.
+//   * Update resource tags for an IPv6.
 func (client VirtualNetworkClient) UpdateInternalIpv6(ctx context.Context, request UpdateInternalIpv6Request) (response UpdateInternalIpv6Response, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -26374,10 +26360,10 @@ func (client VirtualNetworkClient) updateInternetGateway(ctx context.Context, re
 
 // UpdateIpv6 Updates the specified IPv6. You must specify the object's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // Use this operation if you want to:
-//   - Move an IPv6 to a different VNIC in the same subnet.
-//   - Enable/disable internet access for an IPv6.
-//   - Change the display name for an IPv6.
-//   - Update resource tags for an IPv6.
+//   * Move an IPv6 to a different VNIC in the same subnet.
+//   * Enable/disable internet access for an IPv6.
+//   * Change the display name for an IPv6.
+//   * Update resource tags for an IPv6.
 func (client VirtualNetworkClient) UpdateIpv6(ctx context.Context, request UpdateIpv6Request) (response UpdateIpv6Response, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -26816,7 +26802,6 @@ func (client VirtualNetworkClient) updatePrivateEndpoint(ctx context.Context, re
 //   - Move a secondary private IP to a different VNIC in the same subnet.
 //   - Change the display name for a secondary private IP.
 //   - Change the hostname for a secondary private IP.
-//
 // This operation cannot be used with primary private IPs.
 // To update the hostname for the primary IP on a VNIC, use
 // UpdateVnic.

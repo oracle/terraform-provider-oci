@@ -38,32 +38,32 @@ type JsonExtractCommandDescriptor struct {
 	IsHidden *bool `mandatory:"false" json:"isHidden"`
 }
 
-// GetDisplayQueryString returns DisplayQueryString
+//GetDisplayQueryString returns DisplayQueryString
 func (m JsonExtractCommandDescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-// GetInternalQueryString returns InternalQueryString
+//GetInternalQueryString returns InternalQueryString
 func (m JsonExtractCommandDescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }
 
-// GetCategory returns Category
+//GetCategory returns Category
 func (m JsonExtractCommandDescriptor) GetCategory() *string {
 	return m.Category
 }
 
-// GetReferencedFields returns ReferencedFields
+//GetReferencedFields returns ReferencedFields
 func (m JsonExtractCommandDescriptor) GetReferencedFields() []AbstractField {
 	return m.ReferencedFields
 }
 
-// GetDeclaredFields returns DeclaredFields
+//GetDeclaredFields returns DeclaredFields
 func (m JsonExtractCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
-// GetIsHidden returns IsHidden
+//GetIsHidden returns IsHidden
 func (m JsonExtractCommandDescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }

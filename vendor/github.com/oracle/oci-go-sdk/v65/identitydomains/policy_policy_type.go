@@ -18,13 +18,13 @@ import (
 
 // PolicyPolicyType PolicyType on which the policy is based
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: true
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type PolicyPolicyType struct {
 
 	// PolicyType identifier

@@ -34,7 +34,7 @@ type CreateDrProtectionGroupMemberFileSystemDetails struct {
 	ExportMappings []FileSystemExportMappingDetails `mandatory:"false" json:"exportMappings"`
 }
 
-// GetMemberId returns MemberId
+//GetMemberId returns MemberId
 func (m CreateDrProtectionGroupMemberFileSystemDetails) GetMemberId() *string {
 	return m.MemberId
 }

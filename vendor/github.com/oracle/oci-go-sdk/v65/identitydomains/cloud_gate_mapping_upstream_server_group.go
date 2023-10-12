@@ -19,13 +19,13 @@ import (
 // CloudGateMappingUpstreamServerGroup Reference to upstream block for this mapping
 // **Added In:** 20.1.3
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type CloudGateMappingUpstreamServerGroup struct {
 
 	// The id of the upstream block entry.

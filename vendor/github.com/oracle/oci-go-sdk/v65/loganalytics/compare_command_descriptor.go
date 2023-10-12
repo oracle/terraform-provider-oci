@@ -38,32 +38,32 @@ type CompareCommandDescriptor struct {
 	IsHidden *bool `mandatory:"false" json:"isHidden"`
 }
 
-// GetDisplayQueryString returns DisplayQueryString
+//GetDisplayQueryString returns DisplayQueryString
 func (m CompareCommandDescriptor) GetDisplayQueryString() *string {
 	return m.DisplayQueryString
 }
 
-// GetInternalQueryString returns InternalQueryString
+//GetInternalQueryString returns InternalQueryString
 func (m CompareCommandDescriptor) GetInternalQueryString() *string {
 	return m.InternalQueryString
 }
 
-// GetCategory returns Category
+//GetCategory returns Category
 func (m CompareCommandDescriptor) GetCategory() *string {
 	return m.Category
 }
 
-// GetReferencedFields returns ReferencedFields
+//GetReferencedFields returns ReferencedFields
 func (m CompareCommandDescriptor) GetReferencedFields() []AbstractField {
 	return m.ReferencedFields
 }
 
-// GetDeclaredFields returns DeclaredFields
+//GetDeclaredFields returns DeclaredFields
 func (m CompareCommandDescriptor) GetDeclaredFields() []AbstractField {
 	return m.DeclaredFields
 }
 
-// GetIsHidden returns IsHidden
+//GetIsHidden returns IsHidden
 func (m CompareCommandDescriptor) GetIsHidden() *bool {
 	return m.IsHidden
 }

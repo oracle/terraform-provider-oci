@@ -73,67 +73,67 @@ type DataAssetFromAtpDetails struct {
 	BucketSchema *Schema `mandatory:"false" json:"bucketSchema"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m DataAssetFromAtpDetails) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m DataAssetFromAtpDetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m DataAssetFromAtpDetails) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DataAssetFromAtpDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m DataAssetFromAtpDetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m DataAssetFromAtpDetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m DataAssetFromAtpDetails) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m DataAssetFromAtpDetails) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetNativeTypeSystem returns NativeTypeSystem
+//GetNativeTypeSystem returns NativeTypeSystem
 func (m DataAssetFromAtpDetails) GetNativeTypeSystem() *TypeSystem {
 	return m.NativeTypeSystem
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m DataAssetFromAtpDetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m DataAssetFromAtpDetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m DataAssetFromAtpDetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-// GetKeyMap returns KeyMap
+//GetKeyMap returns KeyMap
 func (m DataAssetFromAtpDetails) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

@@ -44,27 +44,27 @@ type CreateGitlabServerAccessTokenConnectionDetails struct {
 	TlsVerifyConfig TlsVerifyConfig `mandatory:"false" json:"tlsVerifyConfig"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateGitlabServerAccessTokenConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateGitlabServerAccessTokenConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m CreateGitlabServerAccessTokenConnectionDetails) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateGitlabServerAccessTokenConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateGitlabServerAccessTokenConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

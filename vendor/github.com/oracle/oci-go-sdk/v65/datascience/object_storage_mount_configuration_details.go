@@ -35,12 +35,12 @@ type ObjectStorageMountConfigurationDetails struct {
 	Prefix *string `mandatory:"false" json:"prefix"`
 }
 
-// GetDestinationDirectoryName returns DestinationDirectoryName
+//GetDestinationDirectoryName returns DestinationDirectoryName
 func (m ObjectStorageMountConfigurationDetails) GetDestinationDirectoryName() *string {
 	return m.DestinationDirectoryName
 }
 
-// GetDestinationPath returns DestinationPath
+//GetDestinationPath returns DestinationPath
 func (m ObjectStorageMountConfigurationDetails) GetDestinationPath() *string {
 	return m.DestinationPath
 }

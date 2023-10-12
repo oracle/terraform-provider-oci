@@ -35,22 +35,22 @@ type UpdateFunctionDeployEnvironmentDetails struct {
 	FunctionId *string `mandatory:"false" json:"functionId"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateFunctionDeployEnvironmentDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateFunctionDeployEnvironmentDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateFunctionDeployEnvironmentDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateFunctionDeployEnvironmentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

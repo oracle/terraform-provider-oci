@@ -35,12 +35,12 @@ type SslInboundInspectionProfile struct {
 	IsOutOfCapacityBlocked *bool `mandatory:"false" json:"isOutOfCapacityBlocked"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m SslInboundInspectionProfile) GetName() *string {
 	return m.Name
 }
 
-// GetParentResourceId returns ParentResourceId
+//GetParentResourceId returns ParentResourceId
 func (m SslInboundInspectionProfile) GetParentResourceId() *string {
 	return m.ParentResourceId
 }

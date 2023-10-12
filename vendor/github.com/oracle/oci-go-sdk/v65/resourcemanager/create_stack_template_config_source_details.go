@@ -32,7 +32,7 @@ type CreateStackTemplateConfigSourceDetails struct {
 	WorkingDirectory *string `mandatory:"false" json:"workingDirectory"`
 }
 
-// GetWorkingDirectory returns WorkingDirectory
+//GetWorkingDirectory returns WorkingDirectory
 func (m CreateStackTemplateConfigSourceDetails) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

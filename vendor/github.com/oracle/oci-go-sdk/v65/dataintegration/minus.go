@@ -60,62 +60,62 @@ type Minus struct {
 	MinusType MinusMinusTypeEnum `mandatory:"false" json:"minusType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m Minus) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m Minus) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m Minus) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m Minus) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m Minus) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m Minus) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m Minus) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m Minus) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m Minus) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m Minus) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m Minus) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m Minus) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }

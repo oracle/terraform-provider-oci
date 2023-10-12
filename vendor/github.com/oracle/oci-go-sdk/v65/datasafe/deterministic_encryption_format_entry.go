@@ -48,7 +48,7 @@ type DeterministicEncryptionFormatEntry struct {
 	RegularExpression *string `mandatory:"false" json:"regularExpression"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DeterministicEncryptionFormatEntry) GetDescription() *string {
 	return m.Description
 }

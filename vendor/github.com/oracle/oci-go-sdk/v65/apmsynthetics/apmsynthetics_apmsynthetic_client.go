@@ -91,67 +91,6 @@ func (client *ApmSyntheticClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// AddResourcePrincipalTokenPublicKey Adds a new resource principal public key.
-// This operation is intended for key rotation, and will no more than two keys may exist at any point in time.
-// The previous key will be retired after successful use of the new key.
-// A default retry strategy applies to this operation AddResourcePrincipalTokenPublicKey()
-func (client ApmSyntheticClient) AddResourcePrincipalTokenPublicKey(ctx context.Context, request AddResourcePrincipalTokenPublicKeyRequest) (response AddResourcePrincipalTokenPublicKeyResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.addResourcePrincipalTokenPublicKey, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = AddResourcePrincipalTokenPublicKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = AddResourcePrincipalTokenPublicKeyResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(AddResourcePrincipalTokenPublicKeyResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into AddResourcePrincipalTokenPublicKeyResponse")
-	}
-	return
-}
-
-// addResourcePrincipalTokenPublicKey implements the OCIOperation interface (enables retrying operations)
-func (client ApmSyntheticClient) addResourcePrincipalTokenPublicKey(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onPremiseVantagePoints/{onPremiseVantagePointId}/workers/{workerId}/actions/addResourcePrincipalTokenPublicKey", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response AddResourcePrincipalTokenPublicKeyResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Worker/AddResourcePrincipalTokenPublicKey"
-		err = common.PostProcessServiceError(err, "ApmSynthetic", "AddResourcePrincipalTokenPublicKey", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // AggregateNetworkData Gets aggregated network data for given executions.
 // A default retry strategy applies to this operation AggregateNetworkData()
 func (client ApmSyntheticClient) AggregateNetworkData(ctx context.Context, request AggregateNetworkDataRequest) (response AggregateNetworkDataResponse, err error) {

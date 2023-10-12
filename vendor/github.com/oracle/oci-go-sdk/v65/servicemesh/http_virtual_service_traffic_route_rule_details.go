@@ -54,7 +54,7 @@ type HttpVirtualServiceTrafficRouteRuleDetails struct {
 	PathType HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum `mandatory:"false" json:"pathType,omitempty"`
 }
 
-// GetDestinations returns Destinations
+//GetDestinations returns Destinations
 func (m HttpVirtualServiceTrafficRouteRuleDetails) GetDestinations() []VirtualDeploymentTrafficRuleTargetDetails {
 	return m.Destinations
 }

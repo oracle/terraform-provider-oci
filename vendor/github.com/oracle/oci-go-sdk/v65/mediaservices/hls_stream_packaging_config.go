@@ -55,68 +55,76 @@ type HlsStreamPackagingConfig struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The current state of the Packaging Configuration.
 	LifecycleState StreamPackagingConfigLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m HlsStreamPackagingConfig) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m HlsStreamPackagingConfig) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDistributionChannelId returns DistributionChannelId
+//GetDistributionChannelId returns DistributionChannelId
 func (m HlsStreamPackagingConfig) GetDistributionChannelId() *string {
 	return m.DistributionChannelId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m HlsStreamPackagingConfig) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetSegmentTimeInSeconds returns SegmentTimeInSeconds
+//GetSegmentTimeInSeconds returns SegmentTimeInSeconds
 func (m HlsStreamPackagingConfig) GetSegmentTimeInSeconds() *int {
 	return m.SegmentTimeInSeconds
 }
 
-// GetEncryption returns Encryption
+//GetEncryption returns Encryption
 func (m HlsStreamPackagingConfig) GetEncryption() StreamPackagingConfigEncryption {
 	return m.Encryption
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m HlsStreamPackagingConfig) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m HlsStreamPackagingConfig) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m HlsStreamPackagingConfig) GetLifecycleState() StreamPackagingConfigLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m HlsStreamPackagingConfig) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m HlsStreamPackagingConfig) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m HlsStreamPackagingConfig) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+//GetLocks returns Locks
+func (m HlsStreamPackagingConfig) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m HlsStreamPackagingConfig) String() string {
@@ -162,6 +170,7 @@ func (m *HlsStreamPackagingConfig) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags          map[string]string                       `json:"freeformTags"`
 		DefinedTags           map[string]map[string]interface{}       `json:"definedTags"`
 		SystemTags            map[string]map[string]interface{}       `json:"systemTags"`
+		Locks                 []ResourceLock                          `json:"locks"`
 		Id                    *string                                 `json:"id"`
 		CompartmentId         *string                                 `json:"compartmentId"`
 		DistributionChannelId *string                                 `json:"distributionChannelId"`
@@ -196,6 +205,8 @@ func (m *HlsStreamPackagingConfig) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemTags = model.SystemTags
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.Id = model.Id
 
 	m.CompartmentId = model.CompartmentId

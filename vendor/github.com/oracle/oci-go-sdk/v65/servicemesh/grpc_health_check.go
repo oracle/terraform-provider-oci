@@ -43,22 +43,22 @@ type GrpcHealthCheck struct {
 	Metadata []HttpHeader `mandatory:"false" json:"metadata"`
 }
 
-// GetTimeoutInMs returns TimeoutInMs
+//GetTimeoutInMs returns TimeoutInMs
 func (m GrpcHealthCheck) GetTimeoutInMs() *int64 {
 	return m.TimeoutInMs
 }
 
-// GetIntervalInMs returns IntervalInMs
+//GetIntervalInMs returns IntervalInMs
 func (m GrpcHealthCheck) GetIntervalInMs() *int64 {
 	return m.IntervalInMs
 }
 
-// GetUnhealthyThreshold returns UnhealthyThreshold
+//GetUnhealthyThreshold returns UnhealthyThreshold
 func (m GrpcHealthCheck) GetUnhealthyThreshold() *int {
 	return m.UnhealthyThreshold
 }
 
-// GetHealthyThreshold returns HealthyThreshold
+//GetHealthyThreshold returns HealthyThreshold
 func (m GrpcHealthCheck) GetHealthyThreshold() *int {
 	return m.HealthyThreshold
 }

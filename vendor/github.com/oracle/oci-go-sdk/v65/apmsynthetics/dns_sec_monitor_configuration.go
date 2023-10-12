@@ -32,12 +32,12 @@ type DnsSecMonitorConfiguration struct {
 	RecordType DnsRecordTypeEnum `mandatory:"false" json:"recordType,omitempty"`
 }
 
-// GetIsFailureRetried returns IsFailureRetried
+//GetIsFailureRetried returns IsFailureRetried
 func (m DnsSecMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
 }
 
-// GetDnsConfiguration returns DnsConfiguration
+//GetDnsConfiguration returns DnsConfiguration
 func (m DnsSecMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
 	return m.DnsConfiguration
 }

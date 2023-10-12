@@ -40,7 +40,7 @@ type SteeringPolicyLimitRule struct {
 	DefaultCount *int `mandatory:"false" json:"defaultCount"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m SteeringPolicyLimitRule) GetDescription() *string {
 	return m.Description
 }

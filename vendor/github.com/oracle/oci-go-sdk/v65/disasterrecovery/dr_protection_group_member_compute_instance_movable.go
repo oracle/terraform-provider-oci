@@ -54,7 +54,7 @@ type DrProtectionGroupMemberComputeInstanceMovable struct {
 	FileSystemOperations []ComputeInstanceMovableFileSystemOperation `mandatory:"false" json:"fileSystemOperations"`
 }
 
-// GetMemberId returns MemberId
+//GetMemberId returns MemberId
 func (m DrProtectionGroupMemberComputeInstanceMovable) GetMemberId() *string {
 	return m.MemberId
 }

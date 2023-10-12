@@ -74,62 +74,62 @@ type DatabaseToolsConnectionGenericJdbcSummary struct {
 	RuntimeSupport RuntimeSupportEnum `mandatory:"true" json:"runtimeSupport"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetLocks returns Locks
+//GetLocks returns Locks
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetLocks() []ResourceLock {
 	return m.Locks
 }
 
-// GetRuntimeSupport returns RuntimeSupport
+//GetRuntimeSupport returns RuntimeSupport
 func (m DatabaseToolsConnectionGenericJdbcSummary) GetRuntimeSupport() RuntimeSupportEnum {
 	return m.RuntimeSupport
 }

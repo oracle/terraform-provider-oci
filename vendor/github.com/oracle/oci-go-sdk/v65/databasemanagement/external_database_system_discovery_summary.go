@@ -64,52 +64,52 @@ type ExternalDatabaseSystemDiscoverySummary struct {
 	DiscoverStatus EntityDiscoveredDiscoverStatusEnum `mandatory:"false" json:"discoverStatus,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m ExternalDatabaseSystemDiscoverySummary) GetId() *string {
 	return m.Id
 }
 
-// GetAgentId returns AgentId
+//GetAgentId returns AgentId
 func (m ExternalDatabaseSystemDiscoverySummary) GetAgentId() *string {
 	return m.AgentId
 }
 
-// GetConnectorId returns ConnectorId
+//GetConnectorId returns ConnectorId
 func (m ExternalDatabaseSystemDiscoverySummary) GetConnectorId() *string {
 	return m.ConnectorId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m ExternalDatabaseSystemDiscoverySummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m ExternalDatabaseSystemDiscoverySummary) GetVersion() *string {
 	return m.Version
 }
 
-// GetInternalId returns InternalId
+//GetInternalId returns InternalId
 func (m ExternalDatabaseSystemDiscoverySummary) GetInternalId() *string {
 	return m.InternalId
 }
 
-// GetStatus returns Status
+//GetStatus returns Status
 func (m ExternalDatabaseSystemDiscoverySummary) GetStatus() *string {
 	return m.Status
 }
 
-// GetDiscoverStatus returns DiscoverStatus
+//GetDiscoverStatus returns DiscoverStatus
 func (m ExternalDatabaseSystemDiscoverySummary) GetDiscoverStatus() EntityDiscoveredDiscoverStatusEnum {
 	return m.DiscoverStatus
 }
 
-// GetDiscoverErrorCode returns DiscoverErrorCode
+//GetDiscoverErrorCode returns DiscoverErrorCode
 func (m ExternalDatabaseSystemDiscoverySummary) GetDiscoverErrorCode() *string {
 	return m.DiscoverErrorCode
 }
 
-// GetDiscoverErrorMsg returns DiscoverErrorMsg
+//GetDiscoverErrorMsg returns DiscoverErrorMsg
 func (m ExternalDatabaseSystemDiscoverySummary) GetDiscoverErrorMsg() *string {
 	return m.DiscoverErrorMsg
 }

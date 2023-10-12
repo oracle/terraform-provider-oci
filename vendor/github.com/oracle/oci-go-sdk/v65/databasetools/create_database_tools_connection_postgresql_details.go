@@ -60,32 +60,32 @@ type CreateDatabaseToolsConnectionPostgresqlDetails struct {
 	RuntimeSupport RuntimeSupportEnum `mandatory:"false" json:"runtimeSupport,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateDatabaseToolsConnectionPostgresqlDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateDatabaseToolsConnectionPostgresqlDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateDatabaseToolsConnectionPostgresqlDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateDatabaseToolsConnectionPostgresqlDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetLocks returns Locks
+//GetLocks returns Locks
 func (m CreateDatabaseToolsConnectionPostgresqlDetails) GetLocks() []ResourceLock {
 	return m.Locks
 }
 
-// GetRuntimeSupport returns RuntimeSupport
+//GetRuntimeSupport returns RuntimeSupport
 func (m CreateDatabaseToolsConnectionPostgresqlDetails) GetRuntimeSupport() RuntimeSupportEnum {
 	return m.RuntimeSupport
 }

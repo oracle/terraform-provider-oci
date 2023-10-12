@@ -55,7 +55,7 @@ type CreateCompartmentConfigSourceDetails struct {
 	VariablesResourceLevel []string `mandatory:"false" json:"variablesResourceLevel"`
 }
 
-// GetWorkingDirectory returns WorkingDirectory
+//GetWorkingDirectory returns WorkingDirectory
 func (m CreateCompartmentConfigSourceDetails) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

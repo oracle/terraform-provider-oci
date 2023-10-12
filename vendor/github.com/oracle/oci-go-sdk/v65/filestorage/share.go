@@ -25,15 +25,13 @@ import (
 // The following special characters are not supported for share name:
 // / \ [ ]: | < > + = ; , ? *
 // For example, the following are acceptable:
-//   - example and path
-//   - example1 and example2
-//   - example and example1
-//
+//   * example and path
+//   * example1 and example2
+//   * example and example1
 // The following examples are not acceptable:
-//   - example and example/path
-//   - / and /example
-//   - my@ and my*
-//
+//   * example and example/path
+//   * / and /example
+//   * my@ and my*
 // Each share has a share comment. This is the description of the share
 // when SMB clients list the SMB server's shares.
 // Use `shareOptions` to control access to a share.

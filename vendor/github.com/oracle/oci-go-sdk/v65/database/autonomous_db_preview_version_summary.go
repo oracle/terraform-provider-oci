@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AutonomousDbPreviewVersionSummary The Autonomous Database preview version. Note that preview version software is only available for Autonomous Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/shared/index.html).
+// AutonomousDbPreviewVersionSummary The Autonomous Database preview version. Note that preview version software is only available for Autonomous Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/).
 type AutonomousDbPreviewVersionSummary struct {
 
 	// A valid Autonomous Database preview version.

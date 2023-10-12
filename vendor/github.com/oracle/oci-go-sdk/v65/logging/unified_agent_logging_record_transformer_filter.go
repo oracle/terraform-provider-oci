@@ -47,7 +47,7 @@ type UnifiedAgentLoggingRecordTransformerFilter struct {
 	RemoveKeys []string `mandatory:"false" json:"removeKeys"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UnifiedAgentLoggingRecordTransformerFilter) GetName() *string {
 	return m.Name
 }

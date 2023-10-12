@@ -18,14 +18,14 @@ import (
 
 // MyAuthenticationFactorsRemoverUser User for whom the authentication factors need to be deleted
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: true
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type MyAuthenticationFactorsRemoverUser struct {
 
 	// The identifier of the user

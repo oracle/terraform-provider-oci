@@ -46,27 +46,27 @@ type UpdateMsTeamsChannelDetails struct {
 	BotId *string `mandatory:"false" json:"botId"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UpdateMsTeamsChannelDetails) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateMsTeamsChannelDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m UpdateMsTeamsChannelDetails) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateMsTeamsChannelDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateMsTeamsChannelDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

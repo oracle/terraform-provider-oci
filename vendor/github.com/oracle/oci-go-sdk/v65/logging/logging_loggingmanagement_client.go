@@ -2392,8 +2392,7 @@ func (client LoggingManagementClient) updateContinuousQuery(ctx context.Context,
 }
 
 // UpdateLog Updates the existing log object with the associated configuration. This call
-//
-//	fails if the log object does not exist.
+//       fails if the log object does not exist.
 func (client LoggingManagementClient) UpdateLog(ctx context.Context, request UpdateLogRequest) (response UpdateLogResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2500,8 +2499,7 @@ func (client LoggingManagementClient) updateLogDataModel(ctx context.Context, re
 }
 
 // UpdateLogGroup Updates the existing log group with the associated configuration. This call
-//
-//	fails if the log group does not exist.
+//       fails if the log group does not exist.
 func (client LoggingManagementClient) UpdateLogGroup(ctx context.Context, request UpdateLogGroupRequest) (response UpdateLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2661,8 +2659,7 @@ func (client LoggingManagementClient) updateLogSavedSearch(ctx context.Context, 
 }
 
 // UpdateUnifiedAgentConfiguration Update an existing unified agent configuration. This call
-//
-//	fails if the log group does not exist.
+//       fails if the log group does not exist.
 func (client LoggingManagementClient) UpdateUnifiedAgentConfiguration(ctx context.Context, request UpdateUnifiedAgentConfigurationRequest) (response UpdateUnifiedAgentConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

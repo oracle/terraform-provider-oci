@@ -31,7 +31,7 @@ type PatchReplaceInstruction struct {
 	Value *interface{} `mandatory:"true" json:"value"`
 }
 
-// GetSelection returns Selection
+//GetSelection returns Selection
 func (m PatchReplaceInstruction) GetSelection() *string {
 	return m.Selection
 }

@@ -45,6 +45,9 @@ type CreateExadbVmClusterDetails struct {
 	// The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
 
+	// The shape of the Exadata VM cluster on Exascale Infrastructure resource
+	Shape *string `mandatory:"true" json:"shape"`
+
 	// The number of nodes in the Exadata VM cluster on Exascale Infrastructure.
 	NodeCount *int `mandatory:"true" json:"nodeCount"`
 

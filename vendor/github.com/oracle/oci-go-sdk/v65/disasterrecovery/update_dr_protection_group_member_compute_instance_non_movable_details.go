@@ -37,7 +37,7 @@ type UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails struct {
 	BlockVolumeOperations []UpdateComputeInstanceNonMovableBlockVolumeOperationDetails `mandatory:"false" json:"blockVolumeOperations"`
 }
 
-// GetMemberId returns MemberId
+//GetMemberId returns MemberId
 func (m UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails) GetMemberId() *string {
 	return m.MemberId
 }

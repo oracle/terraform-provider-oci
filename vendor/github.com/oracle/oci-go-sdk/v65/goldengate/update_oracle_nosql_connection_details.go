@@ -77,47 +77,47 @@ type UpdateOracleNosqlConnectionDetails struct {
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateOracleNosqlConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateOracleNosqlConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateOracleNosqlConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateOracleNosqlConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m UpdateOracleNosqlConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m UpdateOracleNosqlConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m UpdateOracleNosqlConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m UpdateOracleNosqlConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetRoutingMethod returns RoutingMethod
+//GetRoutingMethod returns RoutingMethod
 func (m UpdateOracleNosqlConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

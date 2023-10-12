@@ -49,42 +49,42 @@ type RecommendStage struct {
 	NextStageType RemediationRunStageTypeEnum `mandatory:"false" json:"nextStageType,omitempty"`
 }
 
-// GetStatus returns Status
+//GetStatus returns Status
 func (m RecommendStage) GetStatus() RemediationRunStageStatusEnum {
 	return m.Status
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m RecommendStage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeStarted returns TimeStarted
+//GetTimeStarted returns TimeStarted
 func (m RecommendStage) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-// GetTimeFinished returns TimeFinished
+//GetTimeFinished returns TimeFinished
 func (m RecommendStage) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-// GetSummary returns Summary
+//GetSummary returns Summary
 func (m RecommendStage) GetSummary() *string {
 	return m.Summary
 }
 
-// GetRemediationRunId returns RemediationRunId
+//GetRemediationRunId returns RemediationRunId
 func (m RecommendStage) GetRemediationRunId() *string {
 	return m.RemediationRunId
 }
 
-// GetPreviousStageType returns PreviousStageType
+//GetPreviousStageType returns PreviousStageType
 func (m RecommendStage) GetPreviousStageType() RemediationRunStageTypeEnum {
 	return m.PreviousStageType
 }
 
-// GetNextStageType returns NextStageType
+//GetNextStageType returns NextStageType
 func (m RecommendStage) GetNextStageType() RemediationRunStageTypeEnum {
 	return m.NextStageType
 }

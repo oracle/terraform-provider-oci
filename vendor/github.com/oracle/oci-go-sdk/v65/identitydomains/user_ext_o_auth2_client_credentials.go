@@ -19,14 +19,14 @@ import (
 // UserExtOAuth2ClientCredentials A list of OAuth2 client credentials corresponding to a user.
 // **Added In:** 2012271618
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type UserExtOAuth2ClientCredentials struct {
 
 	// The user's OAuth2 client credential identifier.

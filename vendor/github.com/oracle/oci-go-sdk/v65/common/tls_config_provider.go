@@ -8,6 +8,7 @@ import (
 	"crypto/x509"
 	"fmt"
 	"os"
+	"sync"
 )
 
 // GetTLSConfigTemplateForTransport returns the TLSConfigTemplate to used depending on whether any additional
@@ -38,6 +39,7 @@ type TLSConfigProvider interface {
 // DefaultTLSConfigProvider is a provider that provides a TLS tls.config for the HTTPTransport
 type DefaultTLSConfigProvider struct {
 	caBundlePath string
+	mux          sync.Mutex
 	currentStat  os.FileInfo
 }
 
@@ -54,6 +56,8 @@ func (t *DefaultTLSConfigProvider) NewOrDefault() (*tls.Config, error) {
 	if err != nil {
 		return nil, err
 	}
+	t.mux.Lock()
+	defer t.mux.Unlock()
 	t.currentStat = caBundleStat
 
 	rootCAs, err := CertPoolFrom(t.caBundlePath)
@@ -73,6 +77,8 @@ func (t *DefaultTLSConfigProvider) WatchedFilesModified() bool {
 		if err == nil && (t.currentStat.Size() != newStat.Size() || t.currentStat.ModTime() != newStat.ModTime()) {
 			Logf("Modification detected in cert/ca-bundle file: %s", t.caBundlePath)
 			modified = true
+			t.mux.Lock()
+			defer t.mux.Unlock()
 			t.currentStat = newStat
 		}
 	}
@@ -84,6 +90,7 @@ type DefaultMTLSConfigProvider struct {
 	caBundlePath         string
 	clientCertPath       string
 	clientKeyPath        string
+	mux                  sync.Mutex
 	watchedFilesStatsMap map[string]os.FileInfo
 }
 
@@ -101,6 +108,8 @@ func (t *DefaultMTLSConfigProvider) NewOrDefault() (*tls.Config, error) {
 	}
 
 	// Configure the initial certs file stats, error skipped because we error out before this if the files don't exist
+	t.mux.Lock()
+	defer t.mux.Unlock()
 	t.watchedFilesStatsMap[t.caBundlePath], _ = os.Stat(t.caBundlePath)
 	t.watchedFilesStatsMap[t.clientCertPath], _ = os.Stat(t.clientCertPath)
 	t.watchedFilesStatsMap[t.clientKeyPath], _ = os.Stat(t.clientKeyPath)
@@ -115,6 +124,8 @@ func (t *DefaultMTLSConfigProvider) NewOrDefault() (*tls.Config, error) {
 func (t *DefaultMTLSConfigProvider) WatchedFilesModified() bool {
 	modified := false
 
+	t.mux.Lock()
+	defer t.mux.Unlock()
 	for k, v := range t.watchedFilesStatsMap {
 		if k != "" {
 			currentStat, err := os.Stat(k)

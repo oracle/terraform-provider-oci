@@ -65,37 +65,37 @@ type CreateDataGuardAssociationToExistingVmClusterDetails struct {
 	TransportType CreateDataGuardAssociationDetailsTransportTypeEnum `mandatory:"true" json:"transportType"`
 }
 
-// GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
+//GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
 }
 
-// GetDatabaseAdminPassword returns DatabaseAdminPassword
+//GetDatabaseAdminPassword returns DatabaseAdminPassword
 func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetDatabaseAdminPassword() *string {
 	return m.DatabaseAdminPassword
 }
 
-// GetProtectionMode returns ProtectionMode
+//GetProtectionMode returns ProtectionMode
 func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetProtectionMode() CreateDataGuardAssociationDetailsProtectionModeEnum {
 	return m.ProtectionMode
 }
 
-// GetTransportType returns TransportType
+//GetTransportType returns TransportType
 func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetTransportType() CreateDataGuardAssociationDetailsTransportTypeEnum {
 	return m.TransportType
 }
 
-// GetIsActiveDataGuardEnabled returns IsActiveDataGuardEnabled
+//GetIsActiveDataGuardEnabled returns IsActiveDataGuardEnabled
 func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetIsActiveDataGuardEnabled() *bool {
 	return m.IsActiveDataGuardEnabled
 }
 
-// GetPeerDbUniqueName returns PeerDbUniqueName
+//GetPeerDbUniqueName returns PeerDbUniqueName
 func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetPeerDbUniqueName() *string {
 	return m.PeerDbUniqueName
 }
 
-// GetPeerSidPrefix returns PeerSidPrefix
+//GetPeerSidPrefix returns PeerSidPrefix
 func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetPeerSidPrefix() *string {
 	return m.PeerSidPrefix
 }

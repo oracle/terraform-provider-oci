@@ -40,22 +40,22 @@ type UpdateNetworkAddressListAddressesDetails struct {
 	Addresses []string `mandatory:"false" json:"addresses"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateNetworkAddressListAddressesDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateNetworkAddressListAddressesDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateNetworkAddressListAddressesDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m UpdateNetworkAddressListAddressesDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

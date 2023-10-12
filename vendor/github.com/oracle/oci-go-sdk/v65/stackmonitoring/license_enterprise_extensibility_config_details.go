@@ -54,47 +54,47 @@ type LicenseEnterpriseExtensibilityConfigDetails struct {
 	LifecycleState ConfigLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m LicenseEnterpriseExtensibilityConfigDetails) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m LicenseEnterpriseExtensibilityConfigDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m LicenseEnterpriseExtensibilityConfigDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m LicenseEnterpriseExtensibilityConfigDetails) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m LicenseEnterpriseExtensibilityConfigDetails) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m LicenseEnterpriseExtensibilityConfigDetails) GetLifecycleState() ConfigLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m LicenseEnterpriseExtensibilityConfigDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m LicenseEnterpriseExtensibilityConfigDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m LicenseEnterpriseExtensibilityConfigDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

@@ -44,38 +44,46 @@ type CreateMediaWorkflowJobByIdDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// OCID of the MediaWorkflow that should be run.
 	MediaWorkflowId *string `mandatory:"false" json:"mediaWorkflowId"`
 }
 
-// GetMediaWorkflowConfigurationIds returns MediaWorkflowConfigurationIds
+//GetMediaWorkflowConfigurationIds returns MediaWorkflowConfigurationIds
 func (m CreateMediaWorkflowJobByIdDetails) GetMediaWorkflowConfigurationIds() []string {
 	return m.MediaWorkflowConfigurationIds
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateMediaWorkflowJobByIdDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateMediaWorkflowJobByIdDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m CreateMediaWorkflowJobByIdDetails) GetParameters() map[string]interface{} {
 	return m.Parameters
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateMediaWorkflowJobByIdDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateMediaWorkflowJobByIdDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetLocks returns Locks
+func (m CreateMediaWorkflowJobByIdDetails) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m CreateMediaWorkflowJobByIdDetails) String() string {

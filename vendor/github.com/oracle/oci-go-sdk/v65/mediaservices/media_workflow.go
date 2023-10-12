@@ -59,6 +59,9 @@ type MediaWorkflow struct {
 	// The version of the MediaWorkflow.
 	Version *int64 `mandatory:"false" json:"version"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

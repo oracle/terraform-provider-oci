@@ -100,87 +100,87 @@ type AmazonRedshiftConnectionSummary struct {
 	TechnologyType AmazonRedshiftConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m AmazonRedshiftConnectionSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m AmazonRedshiftConnectionSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m AmazonRedshiftConnectionSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m AmazonRedshiftConnectionSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m AmazonRedshiftConnectionSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m AmazonRedshiftConnectionSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m AmazonRedshiftConnectionSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m AmazonRedshiftConnectionSummary) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m AmazonRedshiftConnectionSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m AmazonRedshiftConnectionSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m AmazonRedshiftConnectionSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m AmazonRedshiftConnectionSummary) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m AmazonRedshiftConnectionSummary) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetIngressIps returns IngressIps
+//GetIngressIps returns IngressIps
 func (m AmazonRedshiftConnectionSummary) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m AmazonRedshiftConnectionSummary) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m AmazonRedshiftConnectionSummary) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetRoutingMethod returns RoutingMethod
+//GetRoutingMethod returns RoutingMethod
 func (m AmazonRedshiftConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

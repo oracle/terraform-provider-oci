@@ -45,37 +45,37 @@ type TypedExpression struct {
 	Type *string `mandatory:"false" json:"type"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m TypedExpression) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m TypedExpression) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m TypedExpression) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetConfigValues returns ConfigValues
+//GetConfigValues returns ConfigValues
 func (m TypedExpression) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m TypedExpression) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m TypedExpression) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m TypedExpression) GetDescription() *string {
 	return m.Description
 }

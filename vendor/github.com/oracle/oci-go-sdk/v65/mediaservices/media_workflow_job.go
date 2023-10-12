@@ -69,6 +69,9 @@ type MediaWorkflowJob struct {
 	// Time when the job finished. An RFC3339 formatted datetime string.
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

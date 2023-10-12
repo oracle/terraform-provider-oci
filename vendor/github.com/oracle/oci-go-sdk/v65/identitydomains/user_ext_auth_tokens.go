@@ -19,14 +19,14 @@ import (
 // UserExtAuthTokens A list of Auth tokens corresponding to user.
 // **Added In:** 2012271618
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type UserExtAuthTokens struct {
 
 	// The user's Auth token identifier.

@@ -38,22 +38,22 @@ type ValidateDatabaseToolsConnectionMySqlResult struct {
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
 }
 
-// GetCode returns Code
+//GetCode returns Code
 func (m ValidateDatabaseToolsConnectionMySqlResult) GetCode() *string {
 	return m.Code
 }
 
-// GetMessage returns Message
+//GetMessage returns Message
 func (m ValidateDatabaseToolsConnectionMySqlResult) GetMessage() *string {
 	return m.Message
 }
 
-// GetCause returns Cause
+//GetCause returns Cause
 func (m ValidateDatabaseToolsConnectionMySqlResult) GetCause() *string {
 	return m.Cause
 }
 
-// GetAction returns Action
+//GetAction returns Action
 func (m ValidateDatabaseToolsConnectionMySqlResult) GetAction() *string {
 	return m.Action
 }

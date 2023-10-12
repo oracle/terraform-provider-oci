@@ -42,22 +42,22 @@ type CreateAccelerationTaskDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateAccelerationTaskDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateAccelerationTaskDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateAccelerationTaskDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateAccelerationTaskDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

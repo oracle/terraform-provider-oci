@@ -33,12 +33,12 @@ type UpdateCertificateIssuedByPublicCaConfigDetails struct {
 	PublicCertificateAuthority PublicCertificateAuthorityEnum `mandatory:"false" json:"publicCertificateAuthority,omitempty"`
 }
 
-// GetVersionName returns VersionName
+//GetVersionName returns VersionName
 func (m UpdateCertificateIssuedByPublicCaConfigDetails) GetVersionName() *string {
 	return m.VersionName
 }
 
-// GetStage returns Stage
+//GetStage returns Stage
 func (m UpdateCertificateIssuedByPublicCaConfigDetails) GetStage() UpdateCertificateConfigDetailsStageEnum {
 	return m.Stage
 }

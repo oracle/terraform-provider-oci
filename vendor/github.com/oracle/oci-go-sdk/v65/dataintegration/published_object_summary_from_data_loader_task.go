@@ -60,47 +60,47 @@ type PublishedObjectSummaryFromDataLoaderTask struct {
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m PublishedObjectSummaryFromDataLoaderTask) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m PublishedObjectSummaryFromDataLoaderTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m PublishedObjectSummaryFromDataLoaderTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m PublishedObjectSummaryFromDataLoaderTask) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m PublishedObjectSummaryFromDataLoaderTask) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m PublishedObjectSummaryFromDataLoaderTask) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m PublishedObjectSummaryFromDataLoaderTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m PublishedObjectSummaryFromDataLoaderTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m PublishedObjectSummaryFromDataLoaderTask) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

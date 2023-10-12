@@ -19,14 +19,14 @@ import (
 // SettingsCloudGateCorsSettings A complex attribute that specifies the Cloud Gate cross origin resource sharing settings.
 // **Added In:** 2011192329
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type SettingsCloudGateCorsSettings struct {
 
 	// Allow Null Origin (CORS) for this tenant.

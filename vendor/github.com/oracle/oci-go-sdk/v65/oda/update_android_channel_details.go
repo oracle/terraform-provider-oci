@@ -46,27 +46,27 @@ type UpdateAndroidChannelDetails struct {
 	BotId *string `mandatory:"false" json:"botId"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UpdateAndroidChannelDetails) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateAndroidChannelDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m UpdateAndroidChannelDetails) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateAndroidChannelDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateAndroidChannelDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

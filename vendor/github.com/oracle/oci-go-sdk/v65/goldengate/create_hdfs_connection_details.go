@@ -65,52 +65,52 @@ type CreateHdfsConnectionDetails struct {
 	TechnologyType HdfsConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateHdfsConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateHdfsConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateHdfsConnectionDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateHdfsConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateHdfsConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m CreateHdfsConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m CreateHdfsConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m CreateHdfsConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m CreateHdfsConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetRoutingMethod returns RoutingMethod
+//GetRoutingMethod returns RoutingMethod
 func (m CreateHdfsConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

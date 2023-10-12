@@ -58,42 +58,42 @@ type CreateAwsEc2AssetDetails struct {
 	AttachedEbsVolumesCost *MonthlyCostSummary `mandatory:"false" json:"attachedEbsVolumesCost"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateAwsEc2AssetDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetInventoryId returns InventoryId
+//GetInventoryId returns InventoryId
 func (m CreateAwsEc2AssetDetails) GetInventoryId() *string {
 	return m.InventoryId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateAwsEc2AssetDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetSourceKey returns SourceKey
+//GetSourceKey returns SourceKey
 func (m CreateAwsEc2AssetDetails) GetSourceKey() *string {
 	return m.SourceKey
 }
 
-// GetExternalAssetKey returns ExternalAssetKey
+//GetExternalAssetKey returns ExternalAssetKey
 func (m CreateAwsEc2AssetDetails) GetExternalAssetKey() *string {
 	return m.ExternalAssetKey
 }
 
-// GetAssetSourceIds returns AssetSourceIds
+//GetAssetSourceIds returns AssetSourceIds
 func (m CreateAwsEc2AssetDetails) GetAssetSourceIds() []string {
 	return m.AssetSourceIds
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateAwsEc2AssetDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateAwsEc2AssetDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

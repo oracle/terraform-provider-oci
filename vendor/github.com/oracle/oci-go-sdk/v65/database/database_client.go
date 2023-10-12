@@ -10031,6 +10031,112 @@ func (client DatabaseClient) getExadbVmCluster(ctx context.Context, request comm
 	return response, err
 }
 
+// GetExadbVmClusterUpdate Gets information about a specified maintenance update package for a Exadata VM cluster on Exascale Infrastructure.
+func (client DatabaseClient) GetExadbVmClusterUpdate(ctx context.Context, request GetExadbVmClusterUpdateRequest) (response GetExadbVmClusterUpdateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getExadbVmClusterUpdate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetExadbVmClusterUpdateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetExadbVmClusterUpdateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetExadbVmClusterUpdateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetExadbVmClusterUpdateResponse")
+	}
+	return
+}
+
+// getExadbVmClusterUpdate implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getExadbVmClusterUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadbVmClusters/{exadbVmClusterId}/updates/{updateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetExadbVmClusterUpdateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmClusterUpdate/GetExadbVmClusterUpdate"
+		err = common.PostProcessServiceError(err, "Database", "GetExadbVmClusterUpdate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetExadbVmClusterUpdateHistoryEntry Gets the maintenance update history details for the specified update history entry.
+func (client DatabaseClient) GetExadbVmClusterUpdateHistoryEntry(ctx context.Context, request GetExadbVmClusterUpdateHistoryEntryRequest) (response GetExadbVmClusterUpdateHistoryEntryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getExadbVmClusterUpdateHistoryEntry, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetExadbVmClusterUpdateHistoryEntryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetExadbVmClusterUpdateHistoryEntryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetExadbVmClusterUpdateHistoryEntryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetExadbVmClusterUpdateHistoryEntryResponse")
+	}
+	return
+}
+
+// getExadbVmClusterUpdateHistoryEntry implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getExadbVmClusterUpdateHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadbVmClusters/{exadbVmClusterId}/updateHistoryEntries/{updateHistoryEntryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetExadbVmClusterUpdateHistoryEntryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmClusterUpdateHistoryEntry/GetExadbVmClusterUpdateHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetExadbVmClusterUpdateHistoryEntry", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetExascaleDbStorageVault Gets information about the specified Exadata Database Storage Vaults in the specified compartment.
 func (client DatabaseClient) GetExascaleDbStorageVault(ctx context.Context, request GetExascaleDbStorageVaultRequest) (response GetExascaleDbStorageVaultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13817,6 +13923,112 @@ func (client DatabaseClient) listExadataInfrastructures(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/ListExadataInfrastructures"
 		err = common.PostProcessServiceError(err, "Database", "ListExadataInfrastructures", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListExadbVmClusterUpdateHistoryEntries Gets the history of the maintenance update actions performed on the specified Exadata VM cluster on Exascale Infrastructure.
+func (client DatabaseClient) ListExadbVmClusterUpdateHistoryEntries(ctx context.Context, request ListExadbVmClusterUpdateHistoryEntriesRequest) (response ListExadbVmClusterUpdateHistoryEntriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listExadbVmClusterUpdateHistoryEntries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListExadbVmClusterUpdateHistoryEntriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListExadbVmClusterUpdateHistoryEntriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListExadbVmClusterUpdateHistoryEntriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListExadbVmClusterUpdateHistoryEntriesResponse")
+	}
+	return
+}
+
+// listExadbVmClusterUpdateHistoryEntries implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listExadbVmClusterUpdateHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadbVmClusters/{exadbVmClusterId}/updateHistoryEntries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListExadbVmClusterUpdateHistoryEntriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmClusterUpdateHistoryEntry/ListExadbVmClusterUpdateHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListExadbVmClusterUpdateHistoryEntries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListExadbVmClusterUpdates Lists the maintenance updates that can be applied to the specified Exadata VM cluster on Exascale Infrastructure.
+func (client DatabaseClient) ListExadbVmClusterUpdates(ctx context.Context, request ListExadbVmClusterUpdatesRequest) (response ListExadbVmClusterUpdatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listExadbVmClusterUpdates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListExadbVmClusterUpdatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListExadbVmClusterUpdatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListExadbVmClusterUpdatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListExadbVmClusterUpdatesResponse")
+	}
+	return
+}
+
+// listExadbVmClusterUpdates implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listExadbVmClusterUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/exadbVmClusters/{exadbVmClusterId}/updates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListExadbVmClusterUpdatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmClusterUpdate/ListExadbVmClusterUpdates"
+		err = common.PostProcessServiceError(err, "Database", "ListExadbVmClusterUpdates", apiReferenceLink)
 		return response, err
 	}
 

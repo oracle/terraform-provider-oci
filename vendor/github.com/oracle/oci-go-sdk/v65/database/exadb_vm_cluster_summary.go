@@ -39,6 +39,9 @@ type ExadbVmClusterSummary struct {
 	// The number of nodes in the Exadata VM cluster on Exascale Infrastructure.
 	NodeCount *int `mandatory:"true" json:"nodeCount"`
 
+	// The shape of the Exadata VM cluster on Exascale Infrastructure resource
+	Shape *string `mandatory:"true" json:"shape"`
+
 	// The user-friendly name for the Exadata VM cluster on Exascale Infrastructure. The name does not need to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 

@@ -19,11 +19,11 @@ import (
 // IdentitySettingsMyProfile Whether to allow users to update their own profile.
 // **Added In:** 2207040824
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - multiValued: false
-//   - required: false
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - multiValued: false
+//  - required: false
+//  - type: complex
+//  - uniqueness: none
 type IdentitySettingsMyProfile struct {
 
 	// Whether to allow users to change their own password.

@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ComputeInstanceVnicMapping Source VNIC to destination subnet mapping for a compute instance (deprecated).
+// ComputeInstanceVnicMapping Deprecated. Source VNIC to destination subnet mapping for a compute instance.
 type ComputeInstanceVnicMapping struct {
 
 	// The OCID of the VNIC.

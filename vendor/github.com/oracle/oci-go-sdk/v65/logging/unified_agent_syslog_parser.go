@@ -78,37 +78,37 @@ type UnifiedAgentSyslogParser struct {
 	SyslogParserType UnifiedAgentSyslogParserSyslogParserTypeEnum `mandatory:"false" json:"syslogParserType,omitempty"`
 }
 
-// GetFieldTimeKey returns FieldTimeKey
+//GetFieldTimeKey returns FieldTimeKey
 func (m UnifiedAgentSyslogParser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
-// GetTypes returns Types
+//GetTypes returns Types
 func (m UnifiedAgentSyslogParser) GetTypes() map[string]string {
 	return m.Types
 }
 
-// GetNullValuePattern returns NullValuePattern
+//GetNullValuePattern returns NullValuePattern
 func (m UnifiedAgentSyslogParser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
-// GetIsNullEmptyString returns IsNullEmptyString
+//GetIsNullEmptyString returns IsNullEmptyString
 func (m UnifiedAgentSyslogParser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
-// GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
+//GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
 func (m UnifiedAgentSyslogParser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
-// GetIsKeepTimeKey returns IsKeepTimeKey
+//GetIsKeepTimeKey returns IsKeepTimeKey
 func (m UnifiedAgentSyslogParser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
-// GetTimeoutInMilliseconds returns TimeoutInMilliseconds
+//GetTimeoutInMilliseconds returns TimeoutInMilliseconds
 func (m UnifiedAgentSyslogParser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }

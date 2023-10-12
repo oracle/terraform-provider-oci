@@ -60,32 +60,32 @@ type CreateDatabaseToolsConnectionMySqlDetails struct {
 	RuntimeSupport RuntimeSupportEnum `mandatory:"false" json:"runtimeSupport,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateDatabaseToolsConnectionMySqlDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateDatabaseToolsConnectionMySqlDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateDatabaseToolsConnectionMySqlDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateDatabaseToolsConnectionMySqlDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetLocks returns Locks
+//GetLocks returns Locks
 func (m CreateDatabaseToolsConnectionMySqlDetails) GetLocks() []ResourceLock {
 	return m.Locks
 }
 
-// GetRuntimeSupport returns RuntimeSupport
+//GetRuntimeSupport returns RuntimeSupport
 func (m CreateDatabaseToolsConnectionMySqlDetails) GetRuntimeSupport() RuntimeSupportEnum {
 	return m.RuntimeSupport
 }

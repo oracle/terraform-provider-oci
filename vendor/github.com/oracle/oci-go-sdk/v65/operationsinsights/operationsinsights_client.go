@@ -5291,10 +5291,9 @@ func (client OperationsInsightsClient) listHostedEntities(ctx context.Context, r
 
 // ListImportableAgentEntities Gets a list of agent entities available to add a new hostInsight.  An agent entity is "available"
 // and will be shown if all the following conditions are true:
-//  1. The agent OCID is not already being used for an existing hostInsight.
-//  2. The agent availabilityStatus = 'ACTIVE'
-//  3. The agent lifecycleState = 'ACTIVE'
-//
+//    1.  The agent OCID is not already being used for an existing hostInsight.
+//    2.  The agent availabilityStatus = 'ACTIVE'
+//    3.  The agent lifecycleState = 'ACTIVE'
 // A default retry strategy applies to this operation ListImportableAgentEntities()
 func (client OperationsInsightsClient) ListImportableAgentEntities(ctx context.Context, request ListImportableAgentEntitiesRequest) (response ListImportableAgentEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5350,12 +5349,11 @@ func (client OperationsInsightsClient) listImportableAgentEntities(ctx context.C
 
 // ListImportableComputeEntities Gets a list of available compute intances running cloud agent to add a new hostInsight.  An Compute entity is "available"
 // and will be shown if all the following conditions are true:
-//  1. Compute is running OCA
-//  2. OCI Management Agent is not enabled or If OCI Management Agent is enabled
-//     2.1 The agent OCID is not already being used for an existing hostInsight.
-//     2.2 The agent availabilityStatus = 'ACTIVE'
-//     2.3 The agent lifecycleState = 'ACTIVE'
-//
+//    1. Compute is running OCA
+//    2. OCI Management Agent is not enabled or If OCI Management Agent is enabled
+//       2.1 The agent OCID is not already being used for an existing hostInsight.
+//       2.2 The agent availabilityStatus = 'ACTIVE'
+//       2.3 The agent lifecycleState = 'ACTIVE'
 // A default retry strategy applies to this operation ListImportableComputeEntities()
 func (client OperationsInsightsClient) ListImportableComputeEntities(ctx context.Context, request ListImportableComputeEntitiesRequest) (response ListImportableComputeEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse

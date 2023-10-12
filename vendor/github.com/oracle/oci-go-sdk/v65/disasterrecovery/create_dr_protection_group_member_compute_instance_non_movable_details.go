@@ -37,7 +37,7 @@ type CreateDrProtectionGroupMemberComputeInstanceNonMovableDetails struct {
 	BlockVolumeOperations []CreateComputeInstanceNonMovableBlockVolumeOperationDetails `mandatory:"false" json:"blockVolumeOperations"`
 }
 
-// GetMemberId returns MemberId
+//GetMemberId returns MemberId
 func (m CreateDrProtectionGroupMemberComputeInstanceNonMovableDetails) GetMemberId() *string {
 	return m.MemberId
 }

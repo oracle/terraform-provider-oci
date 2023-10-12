@@ -34,7 +34,7 @@ type UpdateDrProtectionGroupMemberLoadBalancerDetails struct {
 	BackendSetMappings []LoadBalancerBackendSetMappingDetails `mandatory:"false" json:"backendSetMappings"`
 }
 
-// GetMemberId returns MemberId
+//GetMemberId returns MemberId
 func (m UpdateDrProtectionGroupMemberLoadBalancerDetails) GetMemberId() *string {
 	return m.MemberId
 }

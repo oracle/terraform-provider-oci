@@ -40,32 +40,32 @@ type ValueInteger struct {
 	NormalizedConfidence *float32 `mandatory:"false" json:"normalizedConfidence"`
 }
 
-// GetText returns Text
+//GetText returns Text
 func (m ValueInteger) GetText() *string {
 	return m.Text
 }
 
-// GetConfidence returns Confidence
+//GetConfidence returns Confidence
 func (m ValueInteger) GetConfidence() *float32 {
 	return m.Confidence
 }
 
-// GetBoundingPolygon returns BoundingPolygon
+//GetBoundingPolygon returns BoundingPolygon
 func (m ValueInteger) GetBoundingPolygon() *BoundingPolygon {
 	return m.BoundingPolygon
 }
 
-// GetWordIndexes returns WordIndexes
+//GetWordIndexes returns WordIndexes
 func (m ValueInteger) GetWordIndexes() []int {
 	return m.WordIndexes
 }
 
-// GetNormalizedValue returns NormalizedValue
+//GetNormalizedValue returns NormalizedValue
 func (m ValueInteger) GetNormalizedValue() *string {
 	return m.NormalizedValue
 }
 
-// GetNormalizedConfidence returns NormalizedConfidence
+//GetNormalizedConfidence returns NormalizedConfidence
 func (m ValueInteger) GetNormalizedConfidence() *float32 {
 	return m.NormalizedConfidence
 }

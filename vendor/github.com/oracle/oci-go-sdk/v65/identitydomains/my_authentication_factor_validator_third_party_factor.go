@@ -18,14 +18,14 @@ import (
 
 // MyAuthenticationFactorValidatorThirdPartyFactor User's third-party authentication factor details
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type MyAuthenticationFactorValidatorThirdPartyFactor struct {
 
 	// The vendor name of the third party factor

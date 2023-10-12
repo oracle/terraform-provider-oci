@@ -36,17 +36,17 @@ type EmbeddedUnivariateInferenceWorkflowRequestDetails struct {
 	ContentType EmbeddedUnivariateInferenceWorkflowRequestDetailsContentTypeEnum `mandatory:"false" json:"contentType,omitempty"`
 }
 
-// GetAreAllDataPointsRequired returns AreAllDataPointsRequired
+//GetAreAllDataPointsRequired returns AreAllDataPointsRequired
 func (m EmbeddedUnivariateInferenceWorkflowRequestDetails) GetAreAllDataPointsRequired() *bool {
 	return m.AreAllDataPointsRequired
 }
 
-// GetTrainingRequestDetails returns TrainingRequestDetails
+//GetTrainingRequestDetails returns TrainingRequestDetails
 func (m EmbeddedUnivariateInferenceWorkflowRequestDetails) GetTrainingRequestDetails() *UnivariateModelTrainingRequestDetails {
 	return m.TrainingRequestDetails
 }
 
-// GetSensitivity returns Sensitivity
+//GetSensitivity returns Sensitivity
 func (m EmbeddedUnivariateInferenceWorkflowRequestDetails) GetSensitivity() *float32 {
 	return m.Sensitivity
 }

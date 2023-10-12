@@ -48,17 +48,17 @@ type ExternalScmConfiguration struct {
 	ExternalScmType ExternalScmConfigurationExternalScmTypeEnum `mandatory:"true" json:"externalScmType"`
 }
 
-// GetBranch returns Branch
+//GetBranch returns Branch
 func (m ExternalScmConfiguration) GetBranch() *string {
 	return m.Branch
 }
 
-// GetBuildFileLocation returns BuildFileLocation
+//GetBuildFileLocation returns BuildFileLocation
 func (m ExternalScmConfiguration) GetBuildFileLocation() *string {
 	return m.BuildFileLocation
 }
 
-// GetIsAutomergeEnabled returns IsAutomergeEnabled
+//GetIsAutomergeEnabled returns IsAutomergeEnabled
 func (m ExternalScmConfiguration) GetIsAutomergeEnabled() *bool {
 	return m.IsAutomergeEnabled
 }

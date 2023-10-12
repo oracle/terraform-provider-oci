@@ -35,12 +35,12 @@ type DnsTraceMonitorConfiguration struct {
 	Protocol DnsTransportProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 }
 
-// GetIsFailureRetried returns IsFailureRetried
+//GetIsFailureRetried returns IsFailureRetried
 func (m DnsTraceMonitorConfiguration) GetIsFailureRetried() *bool {
 	return m.IsFailureRetried
 }
 
-// GetDnsConfiguration returns DnsConfiguration
+//GetDnsConfiguration returns DnsConfiguration
 func (m DnsTraceMonitorConfiguration) GetDnsConfiguration() *DnsConfiguration {
 	return m.DnsConfiguration
 }

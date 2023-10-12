@@ -19,14 +19,14 @@ import (
 // AppGroupMembershipToReturn In a successful authentication response, Oracle Identity Cloud Service will pass user's group information restricted to groups persisted in this attribute, in the specified RADIUS attribute.
 // **Added In:** 20.1.3
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readWrite
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readWrite
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type AppGroupMembershipToReturn struct {
 
 	// The identifier of the User's group.

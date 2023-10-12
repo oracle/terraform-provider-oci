@@ -104,7 +104,7 @@ type CreateAutonomousDatabaseBase interface {
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum
 
-	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for Autonomous Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/shared/index.html).
+	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for Autonomous Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/).
 	GetIsPreviewVersionWithServiceTermsAccepted() *bool
 
 	// Indicates if auto scaling is enabled for the Autonomous Database OCPU core count. The default value is `FALSE`.

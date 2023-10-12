@@ -37,17 +37,17 @@ type VaultMappedSecret struct {
 	Type InspectionTypeEnum `mandatory:"true" json:"type"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m VaultMappedSecret) GetName() *string {
 	return m.Name
 }
 
-// GetType returns Type
+//GetType returns Type
 func (m VaultMappedSecret) GetType() InspectionTypeEnum {
 	return m.Type
 }
 
-// GetParentResourceId returns ParentResourceId
+//GetParentResourceId returns ParentResourceId
 func (m VaultMappedSecret) GetParentResourceId() *string {
 	return m.ParentResourceId
 }

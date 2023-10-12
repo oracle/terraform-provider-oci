@@ -68,7 +68,7 @@ type HostMemoryUsage struct {
 	HugePagesSurplus *int `mandatory:"false" json:"hugePagesSurplus"`
 }
 
-// GetTimeCollected returns TimeCollected
+//GetTimeCollected returns TimeCollected
 func (m HostMemoryUsage) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

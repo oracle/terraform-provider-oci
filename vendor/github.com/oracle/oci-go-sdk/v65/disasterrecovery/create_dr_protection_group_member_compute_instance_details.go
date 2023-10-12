@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// CreateDrProtectionGroupMemberComputeInstanceDetails Create properties for a compute instance (deprecated) member.
+// CreateDrProtectionGroupMemberComputeInstanceDetails Deprecated. Create properties for a compute instance member.
 type CreateDrProtectionGroupMemberComputeInstanceDetails struct {
 
 	// The OCID of the member.
@@ -44,7 +44,7 @@ type CreateDrProtectionGroupMemberComputeInstanceDetails struct {
 	DestinationDedicatedVmHostId *string `mandatory:"false" json:"destinationDedicatedVmHostId"`
 }
 
-// GetMemberId returns MemberId
+//GetMemberId returns MemberId
 func (m CreateDrProtectionGroupMemberComputeInstanceDetails) GetMemberId() *string {
 	return m.MemberId
 }

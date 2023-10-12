@@ -43,37 +43,37 @@ type CreateSensitiveCategoryDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateSensitiveCategoryDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateSensitiveCategoryDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetShortName returns ShortName
+//GetShortName returns ShortName
 func (m CreateSensitiveCategoryDetails) GetShortName() *string {
 	return m.ShortName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateSensitiveCategoryDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetParentCategoryId returns ParentCategoryId
+//GetParentCategoryId returns ParentCategoryId
 func (m CreateSensitiveCategoryDetails) GetParentCategoryId() *string {
 	return m.ParentCategoryId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateSensitiveCategoryDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateSensitiveCategoryDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

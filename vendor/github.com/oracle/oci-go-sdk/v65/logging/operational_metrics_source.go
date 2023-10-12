@@ -23,10 +23,10 @@ type OperationalMetricsSource struct {
 	// Type of the unified monitoring agent operational metrics source object.
 	Type OperationalMetricsSourceTypeEnum `mandatory:"true" json:"type"`
 
+	RecordInput *OperationalMetricsRecordInput `mandatory:"true" json:"recordInput"`
+
 	// List of unified monitoring agent operational metrics.
 	Metrics []string `mandatory:"false" json:"metrics"`
-
-	RecordInput *OperationalMetricsRecordInput `mandatory:"false" json:"recordInput"`
 }
 
 func (m OperationalMetricsSource) String() string {

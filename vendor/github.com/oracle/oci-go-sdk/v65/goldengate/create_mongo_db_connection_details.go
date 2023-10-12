@@ -76,52 +76,52 @@ type CreateMongoDbConnectionDetails struct {
 	TechnologyType MongoDbConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateMongoDbConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateMongoDbConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateMongoDbConnectionDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateMongoDbConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateMongoDbConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m CreateMongoDbConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m CreateMongoDbConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m CreateMongoDbConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m CreateMongoDbConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetRoutingMethod returns RoutingMethod
+//GetRoutingMethod returns RoutingMethod
 func (m CreateMongoDbConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

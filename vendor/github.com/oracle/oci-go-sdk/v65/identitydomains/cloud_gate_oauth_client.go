@@ -18,14 +18,14 @@ import (
 
 // CloudGateOauthClient A reference to the OAuth client App used by this Cloud Gate instance.
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type CloudGateOauthClient struct {
 
 	// The id of the OAuth app for this CloudGate.

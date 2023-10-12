@@ -26,7 +26,7 @@ type DataSciencePipelineApplicationComponent struct {
 	PipelineId *string `mandatory:"true" json:"pipelineId"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m DataSciencePipelineApplicationComponent) GetName() *string {
 	return m.Name
 }

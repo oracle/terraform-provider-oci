@@ -19,13 +19,13 @@ import (
 // UserExtBypassCodes A list of bypass codes that belongs to the user.
 // **Added In:** 18.3.6
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [value]
-//   - multiValued: true
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCompositeKey: [value]
+//  - multiValued: true
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type UserExtBypassCodes struct {
 
 	// The user's bypass code identifier.

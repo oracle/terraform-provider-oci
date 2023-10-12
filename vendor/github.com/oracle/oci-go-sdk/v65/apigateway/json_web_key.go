@@ -46,7 +46,7 @@ type JsonWebKey struct {
 	KeyOps []JsonWebKeyKeyOpsEnum `mandatory:"false" json:"key_ops,omitempty"`
 }
 
-// GetKid returns Kid
+//GetKid returns Kid
 func (m JsonWebKey) GetKid() *string {
 	return m.Kid
 }

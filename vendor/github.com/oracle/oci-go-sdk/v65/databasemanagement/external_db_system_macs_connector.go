@@ -74,57 +74,57 @@ type ExternalDbSystemMacsConnector struct {
 	LifecycleState ExternalDbSystemConnectorLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m ExternalDbSystemMacsConnector) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m ExternalDbSystemMacsConnector) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m ExternalDbSystemMacsConnector) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetExternalDbSystemId returns ExternalDbSystemId
+//GetExternalDbSystemId returns ExternalDbSystemId
 func (m ExternalDbSystemMacsConnector) GetExternalDbSystemId() *string {
 	return m.ExternalDbSystemId
 }
 
-// GetConnectionStatus returns ConnectionStatus
+//GetConnectionStatus returns ConnectionStatus
 func (m ExternalDbSystemMacsConnector) GetConnectionStatus() *string {
 	return m.ConnectionStatus
 }
 
-// GetConnectionFailureMessage returns ConnectionFailureMessage
+//GetConnectionFailureMessage returns ConnectionFailureMessage
 func (m ExternalDbSystemMacsConnector) GetConnectionFailureMessage() *string {
 	return m.ConnectionFailureMessage
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m ExternalDbSystemMacsConnector) GetLifecycleState() ExternalDbSystemConnectorLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m ExternalDbSystemMacsConnector) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
+//GetTimeConnectionStatusLastUpdated returns TimeConnectionStatusLastUpdated
 func (m ExternalDbSystemMacsConnector) GetTimeConnectionStatusLastUpdated() *common.SDKTime {
 	return m.TimeConnectionStatusLastUpdated
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m ExternalDbSystemMacsConnector) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m ExternalDbSystemMacsConnector) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }

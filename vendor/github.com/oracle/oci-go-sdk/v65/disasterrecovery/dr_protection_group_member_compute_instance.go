@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// DrProtectionGroupMemberComputeInstance Properties for a compute instance (deprecated) member of a DR protection group.
+// DrProtectionGroupMemberComputeInstance Deprecated. Properties for a compute instance member of a DR protection group.
 type DrProtectionGroupMemberComputeInstance struct {
 
 	// The OCID of the member.
@@ -44,7 +44,7 @@ type DrProtectionGroupMemberComputeInstance struct {
 	DestinationDedicatedVmHostId *string `mandatory:"false" json:"destinationDedicatedVmHostId"`
 }
 
-// GetMemberId returns MemberId
+//GetMemberId returns MemberId
 func (m DrProtectionGroupMemberComputeInstance) GetMemberId() *string {
 	return m.MemberId
 }

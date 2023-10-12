@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// UpdateDrProtectionGroupMemberComputeInstanceDetails Update properties for a compute instance (deprecated) member.
+// UpdateDrProtectionGroupMemberComputeInstanceDetails Deprecated. Update properties for a compute instance member.
 type UpdateDrProtectionGroupMemberComputeInstanceDetails struct {
 
 	// The OCID of the member.
@@ -44,7 +44,7 @@ type UpdateDrProtectionGroupMemberComputeInstanceDetails struct {
 	DestinationDedicatedVmHostId *string `mandatory:"false" json:"destinationDedicatedVmHostId"`
 }
 
-// GetMemberId returns MemberId
+//GetMemberId returns MemberId
 func (m UpdateDrProtectionGroupMemberComputeInstanceDetails) GetMemberId() *string {
 	return m.MemberId
 }

@@ -52,7 +52,7 @@ type RemotePeeringConnectionDrgAttachmentNetworkDetails struct {
 	IngressVip *string `mandatory:"false" json:"ingressVip"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m RemotePeeringConnectionDrgAttachmentNetworkDetails) GetId() *string {
 	return m.Id
 }

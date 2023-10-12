@@ -18,13 +18,13 @@ import (
 
 // UserExtGrants Grants to this User. Each value of this attribute refers to a Grant to this User of some App (and optionally of some entitlement). Therefore, this attribute is a convenience that allows one to see on each User all of the Grants to that User.
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type UserExtGrants struct {
 
 	// The ID of this Grant to this User.

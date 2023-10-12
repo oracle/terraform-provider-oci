@@ -91,87 +91,87 @@ type GoogleBigQueryConnection struct {
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m GoogleBigQueryConnection) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m GoogleBigQueryConnection) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m GoogleBigQueryConnection) GetDescription() *string {
 	return m.Description
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m GoogleBigQueryConnection) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m GoogleBigQueryConnection) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m GoogleBigQueryConnection) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m GoogleBigQueryConnection) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m GoogleBigQueryConnection) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m GoogleBigQueryConnection) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m GoogleBigQueryConnection) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m GoogleBigQueryConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m GoogleBigQueryConnection) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m GoogleBigQueryConnection) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetIngressIps returns IngressIps
+//GetIngressIps returns IngressIps
 func (m GoogleBigQueryConnection) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m GoogleBigQueryConnection) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m GoogleBigQueryConnection) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetRoutingMethod returns RoutingMethod
+//GetRoutingMethod returns RoutingMethod
 func (m GoogleBigQueryConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

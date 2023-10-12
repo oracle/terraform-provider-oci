@@ -35,7 +35,7 @@ type DrProtectionGroupMemberNetworkLoadBalancer struct {
 	BackendSetMappings []NetworkLoadBalancerBackendSetMapping `mandatory:"false" json:"backendSetMappings"`
 }
 
-// GetMemberId returns MemberId
+//GetMemberId returns MemberId
 func (m DrProtectionGroupMemberNetworkLoadBalancer) GetMemberId() *string {
 	return m.MemberId
 }

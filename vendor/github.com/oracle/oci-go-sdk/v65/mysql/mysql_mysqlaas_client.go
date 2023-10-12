@@ -264,7 +264,6 @@ func (client MysqlaasClient) getConfiguration(ctx context.Context, request commo
 //   - shapeName, ascending
 //   - DEFAULT-before-CUSTOM
 //   - displayName ascending
-//
 // A default retry strategy applies to this operation ListConfigurations()
 func (client MysqlaasClient) ListConfigurations(ctx context.Context, request ListConfigurationsRequest) (response ListConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse

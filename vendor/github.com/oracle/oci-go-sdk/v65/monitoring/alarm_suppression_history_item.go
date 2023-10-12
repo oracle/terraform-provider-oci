@@ -52,7 +52,7 @@ type AlarmSuppressionHistoryItem struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// Configured dimension filter for suppressing alarm state entries that include the set of specified dimension key-value pairs.
-	// Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`
+	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
 	Dimensions map[string]string `mandatory:"false" json:"dimensions"`
 }
 

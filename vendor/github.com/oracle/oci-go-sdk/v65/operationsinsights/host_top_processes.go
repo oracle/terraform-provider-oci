@@ -57,7 +57,7 @@ type HostTopProcesses struct {
 	TotalProcesses *float32 `mandatory:"false" json:"totalProcesses"`
 }
 
-// GetTimeCollected returns TimeCollected
+//GetTimeCollected returns TimeCollected
 func (m HostTopProcesses) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

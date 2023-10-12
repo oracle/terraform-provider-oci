@@ -118,52 +118,52 @@ type CreateMysqlConnectionDetails struct {
 	SslMode MysqlConnectionSslModeEnum `mandatory:"false" json:"sslMode,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateMysqlConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateMysqlConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateMysqlConnectionDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateMysqlConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateMysqlConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m CreateMysqlConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m CreateMysqlConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m CreateMysqlConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m CreateMysqlConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetRoutingMethod returns RoutingMethod
+//GetRoutingMethod returns RoutingMethod
 func (m CreateMysqlConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

@@ -100,6 +100,9 @@ type DbNodeSummary struct {
 	// The allocated local node storage in GBs on the Db node.
 	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
 
+	// The total number of CPU cores reserved on the Db node.
+	TotalCpuCoreCount *int `mandatory:"false" json:"totalCpuCoreCount"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exacc Db server associated with the database node.
 	DbServerId *string `mandatory:"false" json:"dbServerId"`
 }

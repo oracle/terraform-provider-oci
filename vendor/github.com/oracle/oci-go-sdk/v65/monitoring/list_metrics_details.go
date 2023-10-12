@@ -39,7 +39,7 @@ type ListMetricsDetails struct {
 
 	// Qualifiers that you want to use when searching for metric definitions.
 	// Available dimensions vary by metric namespace. Each dimension takes the form of a key-value pair.
-	// Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`
+	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
 	DimensionFilters map[string]string `mandatory:"false" json:"dimensionFilters"`
 
 	// Group metrics by these fields in the response. For example, to list all metric namespaces available

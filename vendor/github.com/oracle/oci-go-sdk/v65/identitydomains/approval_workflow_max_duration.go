@@ -18,14 +18,14 @@ import (
 
 // ApprovalWorkflowMaxDuration Max duration of the ApprovalWorkflow must be acted at all levels.
 // **SCIM++ Properties:**
-//   - caseExact: true
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: true
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: true
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type ApprovalWorkflowMaxDuration struct {
 
 	// The value of the max duration.

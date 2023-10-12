@@ -25,7 +25,7 @@ type SummarizeAlarmSuppressionHistoryDetails struct {
 	// If you specify {"availabilityDomain": "phx-ad-1"}
 	// and the alarm state entry corresponds to the set {"availabilityDomain": "phx-ad-1" and "resourceId": "ocid1.instance.region1.phx.exampleuniqueID"},
 	// then this alarm will be included for suppression.
-	// Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`
+	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
 	Dimensions map[string]string `mandatory:"false" json:"dimensions"`
 
 	// A filter to return only entries with "timeSuppressFrom" time occurring on or after the specified time.

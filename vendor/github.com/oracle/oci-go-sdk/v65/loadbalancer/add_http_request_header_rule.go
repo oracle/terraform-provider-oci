@@ -21,11 +21,11 @@ import (
 // conditions can be specified to add header conditionally.`SOURCE_IP_ADDRESS` and `REAL_IP_ADDRESS` are the only rule condition supported.
 // This rule applies only to HTTP listeners.
 // **NOTES:**
-//   - If a matching header already exists in the request, the system removes all of its occurrences, and then adds the
-//     new header.
-//   - The system does not distinquish between underscore and dash characters in headers. That is, it treats
-//     `example_header_name` and `example-header-name` as identical. Oracle recommends that you do not rely on underscore
-//     or dash characters to uniquely distinguish header names.
+// *  If a matching header already exists in the request, the system removes all of its occurrences, and then adds the
+//    new header.
+// *  The system does not distinquish between underscore and dash characters in headers. That is, it treats
+//   `example_header_name` and `example-header-name` as identical. Oracle recommends that you do not rely on underscore
+//   or dash characters to uniquely distinguish header names.
 type AddHttpRequestHeaderRule struct {
 
 	// A header name that conforms to RFC 7230.

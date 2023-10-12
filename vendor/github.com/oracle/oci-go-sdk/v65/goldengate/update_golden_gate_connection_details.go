@@ -80,47 +80,47 @@ type UpdateGoldenGateConnectionDetails struct {
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateGoldenGateConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateGoldenGateConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateGoldenGateConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateGoldenGateConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m UpdateGoldenGateConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetKeyId returns KeyId
+//GetKeyId returns KeyId
 func (m UpdateGoldenGateConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m UpdateGoldenGateConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m UpdateGoldenGateConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetRoutingMethod returns RoutingMethod
+//GetRoutingMethod returns RoutingMethod
 func (m UpdateGoldenGateConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

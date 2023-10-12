@@ -41,7 +41,7 @@ type MetricDataDetails struct {
 	// A valid dimension key includes only printable ASCII, excluding spaces. The character limit for a dimension key is 256.
 	// A valid dimension value includes only Unicode characters. The character limit for a dimension value is 512.
 	// Empty strings are not allowed for keys or values. Avoid entering confidential information.
-	// Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`
+	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
 	Dimensions map[string]string `mandatory:"true" json:"dimensions"`
 
 	// A list of metric values with timestamps. At least one data point is required per call.

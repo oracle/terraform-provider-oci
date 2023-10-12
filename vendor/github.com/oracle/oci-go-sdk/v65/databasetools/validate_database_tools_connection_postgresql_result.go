@@ -38,22 +38,22 @@ type ValidateDatabaseToolsConnectionPostgresqlResult struct {
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
 }
 
-// GetCode returns Code
+//GetCode returns Code
 func (m ValidateDatabaseToolsConnectionPostgresqlResult) GetCode() *string {
 	return m.Code
 }
 
-// GetMessage returns Message
+//GetMessage returns Message
 func (m ValidateDatabaseToolsConnectionPostgresqlResult) GetMessage() *string {
 	return m.Message
 }
 
-// GetCause returns Cause
+//GetCause returns Cause
 func (m ValidateDatabaseToolsConnectionPostgresqlResult) GetCause() *string {
 	return m.Cause
 }
 
-// GetAction returns Action
+//GetAction returns Action
 func (m ValidateDatabaseToolsConnectionPostgresqlResult) GetAction() *string {
 	return m.Action
 }

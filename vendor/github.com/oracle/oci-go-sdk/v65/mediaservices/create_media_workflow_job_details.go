@@ -43,6 +43,9 @@ type CreateMediaWorkflowJobDetails interface {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// Locks associated with this resource.
+	GetLocks() []ResourceLock
 }
 
 type createmediaworkflowjobdetails struct {
@@ -52,6 +55,7 @@ type createmediaworkflowjobdetails struct {
 	Parameters                    map[string]interface{}            `mandatory:"false" json:"parameters"`
 	FreeformTags                  map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                   map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Locks                         []ResourceLock                    `mandatory:"false" json:"locks"`
 	CompartmentId                 *string                           `mandatory:"true" json:"compartmentId"`
 	WorkflowIdentifierType        string                            `json:"workflowIdentifierType"`
 }
@@ -73,6 +77,7 @@ func (m *createmediaworkflowjobdetails) UnmarshalJSON(data []byte) error {
 	m.Parameters = s.Model.Parameters
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.Locks = s.Model.Locks
 	m.WorkflowIdentifierType = s.Model.WorkflowIdentifierType
 
 	return err
@@ -124,6 +129,11 @@ func (m createmediaworkflowjobdetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m createmediaworkflowjobdetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetLocks returns Locks
+func (m createmediaworkflowjobdetails) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetCompartmentId returns CompartmentId

@@ -30,13 +30,15 @@ type SummarizeMetricsDataDetails struct {
 	// aggregate. The query must specify a metric, statistic, and interval.
 	// Supported values for interval depend on the specified time range. More interval values are supported for smaller time ranges.
 	// You can optionally specify dimensions and grouping functions.
+	// When specifying a dimension value, surround it with double quotes, and escape each double quote with a backslash (`\`) character.
 	// Supported grouping functions: `grouping()`, `groupBy()`.
 	// Construct your query to avoid exceeding limits on returned data. See MetricData.
 	// For details about Monitoring Query Language (MQL), see
 	// Monitoring Query Language (MQL) Reference (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm).
 	// For available dimensions, review the metric definition for the supported service. See
 	// Supported Services (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices).
-	// Example: `CpuUtilization[1m].sum()`
+	// Example 1: `CpuUtilization[1m].sum()`
+	// Example 2 (escaped double quotes for value string): `CpuUtilization[1m]{resourceId = \"<var>&lt;instance_OCID&gt;</var>\"}.max()`
 	Query *string `mandatory:"true" json:"query"`
 
 	// Resource group that you want to match. A null value returns only metric data that has no resource groups. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric.

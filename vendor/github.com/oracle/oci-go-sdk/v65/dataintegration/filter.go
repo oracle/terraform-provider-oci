@@ -56,62 +56,62 @@ type Filter struct {
 	FilterCondition *Expression `mandatory:"false" json:"filterCondition"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m Filter) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m Filter) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m Filter) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m Filter) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m Filter) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m Filter) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m Filter) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m Filter) GetOutputPorts() []TypedObject {
 	return m.OutputPorts
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m Filter) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m Filter) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m Filter) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m Filter) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }

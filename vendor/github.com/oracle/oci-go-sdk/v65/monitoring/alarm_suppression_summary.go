@@ -34,7 +34,7 @@ type AlarmSuppressionSummary struct {
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Configured dimension filter for suppressing alarm state entries that include the set of specified dimension key-value pairs.
-	// Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`
+	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
 	Dimensions map[string]string `mandatory:"true" json:"dimensions"`
 
 	// The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.

@@ -19,13 +19,13 @@ import (
 // GroupExtInstanceLevelSchemaNames DBCS instance-level schema-names. Each schema-name is specific to a DB Instance.
 // **Added In:** 18.2.4
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [dbInstanceId, schemaName]
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
+//  - idcsCompositeKey: [dbInstanceId, schemaName]
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
 type GroupExtInstanceLevelSchemaNames struct {
 
 	// App Id of DBCS App instance

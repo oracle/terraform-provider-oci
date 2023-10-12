@@ -63,77 +63,77 @@ type UpdateTaskFromIntegrationTask struct {
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m UpdateTaskFromIntegrationTask) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m UpdateTaskFromIntegrationTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m UpdateTaskFromIntegrationTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UpdateTaskFromIntegrationTask) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateTaskFromIntegrationTask) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m UpdateTaskFromIntegrationTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m UpdateTaskFromIntegrationTask) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m UpdateTaskFromIntegrationTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m UpdateTaskFromIntegrationTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m UpdateTaskFromIntegrationTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m UpdateTaskFromIntegrationTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m UpdateTaskFromIntegrationTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m UpdateTaskFromIntegrationTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetIsConcurrentAllowed returns IsConcurrentAllowed
+//GetIsConcurrentAllowed returns IsConcurrentAllowed
 func (m UpdateTaskFromIntegrationTask) GetIsConcurrentAllowed() *bool {
 	return m.IsConcurrentAllowed
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m UpdateTaskFromIntegrationTask) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }
