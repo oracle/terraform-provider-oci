@@ -243,6 +243,63 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 					},
 				},
 			},
+			"notebook_session_storage_mount_configuration_details_list": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"destination_directory_name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"storage_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"FILE_STORAGE",
+								"OBJECT_STORAGE",
+							}, true),
+						},
+
+						// Optional
+						"bucket": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"destination_path": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"export_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"mount_target_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"prefix": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"state": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -452,6 +509,23 @@ func (s *DatascienceNotebookSessionResourceCrud) Create() error {
 		}
 	}
 
+	if notebookSessionStorageMountConfigurationDetailsList, ok := s.D.GetOkExists("notebook_session_storage_mount_configuration_details_list"); ok {
+		interfaces := notebookSessionStorageMountConfigurationDetailsList.([]interface{})
+		tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "notebook_session_storage_mount_configuration_details_list", stateDataIndex)
+			converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("notebook_session_storage_mount_configuration_details_list") {
+			request.NotebookSessionStorageMountConfigurationDetailsList = tmp
+		}
+	}
+
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
 		tmp := projectId.(string)
 		request.ProjectId = &tmp
@@ -539,6 +613,23 @@ func (s *DatascienceNotebookSessionResourceCrud) Update() error {
 		}
 	}
 
+	if notebookSessionStorageMountConfigurationDetailsList, ok := s.D.GetOkExists("notebook_session_storage_mount_configuration_details_list"); ok {
+		interfaces := notebookSessionStorageMountConfigurationDetailsList.([]interface{})
+		tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "notebook_session_storage_mount_configuration_details_list", stateDataIndex)
+			converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("notebook_session_storage_mount_configuration_details_list") {
+			request.NotebookSessionStorageMountConfigurationDetailsList = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdateNotebookSession(context.Background(), request)
@@ -602,6 +693,12 @@ func (s *DatascienceNotebookSessionResourceCrud) SetData() error {
 	} else {
 		s.D.Set("notebook_session_runtime_config_details", nil)
 	}
+
+	notebookSessionStorageMountConfigurationDetailsList := []interface{}{}
+	for _, item := range s.Res.NotebookSessionStorageMountConfigurationDetailsList {
+		notebookSessionStorageMountConfigurationDetailsList = append(notebookSessionStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
+	}
+	s.D.Set("notebook_session_storage_mount_configuration_details_list", notebookSessionStorageMountConfigurationDetailsList)
 
 	if s.Res.NotebookSessionUrl != nil {
 		s.D.Set("notebook_session_url", *s.Res.NotebookSessionUrl)
@@ -863,6 +960,65 @@ func NotebookSessionShapeConfigDetailsToMap(obj *oci_datascience.NotebookSession
 	}
 
 	return result
+}
+
+func (s *DatascienceNotebookSessionResourceCrud) mapToStorageMountConfigurationDetails(fieldKeyFormat string) (oci_datascience.StorageMountConfigurationDetails, error) {
+	var baseObject oci_datascience.StorageMountConfigurationDetails
+	//discriminator
+	storageTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_type"))
+	var storageType string
+	if ok {
+		storageType = storageTypeRaw.(string)
+	} else {
+		storageType = "" // default value
+	}
+	switch strings.ToLower(storageType) {
+	case strings.ToLower("FILE_STORAGE"):
+		details := oci_datascience.FileStorageMountConfigurationDetails{}
+		if exportId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_id")); ok {
+			tmp := exportId.(string)
+			details.ExportId = &tmp
+		}
+		if mountTargetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_target_id")); ok {
+			tmp := mountTargetId.(string)
+			details.MountTargetId = &tmp
+		}
+		if destinationDirectoryName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_directory_name")); ok {
+			tmp := destinationDirectoryName.(string)
+			details.DestinationDirectoryName = &tmp
+		}
+		if destinationPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_path")); ok {
+			tmp := destinationPath.(string)
+			details.DestinationPath = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OBJECT_STORAGE"):
+		details := oci_datascience.ObjectStorageMountConfigurationDetails{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if prefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "prefix")); ok {
+			tmp := prefix.(string)
+			details.Prefix = &tmp
+		}
+		if destinationDirectoryName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_directory_name")); ok {
+			tmp := destinationDirectoryName.(string)
+			details.DestinationDirectoryName = &tmp
+		}
+		if destinationPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_path")); ok {
+			tmp := destinationPath.(string)
+			details.DestinationPath = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
+	}
+	return baseObject, nil
 }
 
 func (s *DatascienceNotebookSessionResourceCrud) updateCompartment(compartment interface{}) error {

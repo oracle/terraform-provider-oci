@@ -74,9 +74,9 @@ var (
 	}
 	DatascienceJobJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`, Update: `100`},
-		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `ME_STANDALONE`},
-		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`},
-		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: jobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
+		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `STANDALONE`},
+		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 
 	ignoreMlJobDefinedTagsChangesRepresentation = map[string]interface{}{
@@ -94,12 +94,10 @@ var (
 		"artifact_content_disposition":             acctest.Representation{RepType: acctest.Required, Create: `attachment; filename=job-artifact.py`},
 		"lifecycle":                                acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMlJobDefinedTagsChangesRepresentation},
 	}
-	jobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
-		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `2.0`},
-	}
 
-	DatascienceJobResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentation) +
+	DatascienceJobResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		DefinedTagsDependencies
 )
@@ -264,7 +262,6 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 					resource.TestCheckResourceAttr(datasourceName, "jobs.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "jobs.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "jobs.0.display_name", "displayName2"),
