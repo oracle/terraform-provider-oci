@@ -46,42 +46,51 @@ The following attributes are exported:
 	* `configuration_type` - Type of Unified Agent service configuration.
 	* `destination` - Logging destination object.
 		* `log_object_id` - The OCID of the resource.
+		* `operational_metrics_configuration` - Unified monitoring agent operational metrics configuration object.
+			* `destination` - Unified monitoring agent operational metrics destination object.
+				* `compartment_id` - The OCID of the compartment that the resource belongs to.
+			* `source` - Unified monitoring agent operational metrics source object.
+				* `metrics` - List of unified monitoring agent operational metrics.
+				* `record_input` - Record section of OperationalMetricsSource object.
+					* `namespace` - Namespace to emit the operational metrics.
+					* `resource_group` - Resource group to emit the operational metrics.
+				* `type` - Type of the unified monitoring agent operational metrics source object.
 	* `sources` - Logging source object.
 		* `channels` - Windows event log channels.
-		* `name` - unique name for the source
-		* `parser` - source parser object.
-			* `delimiter` - csv delimiter.
+		* `name` - Unique name for the source.
+		* `parser` - Source parser object.
+			* `delimiter` - CSV delimiter.
 			* `expression` - Regex pattern.
-			* `field_time_key` - Specify time field for the event time. If the event doesn't have this field, the current time is used.
+			* `field_time_key` - Specifies the time field for the event time. If the event doesn't have this field, the current time is used.
 			* `format` - Mutiline pattern format.
 			* `format_firstline` - First line pattern format.
-			* `grok_failure_key` - grok failure key.
-			* `grok_name_key` - grok name key.
-			* `is_estimate_current_event` - If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
-			* `is_keep_time_key` - If true, keep time field in the record.
-			* `is_merge_cri_fields` - If you don't need stream/logtag fields, set this to false for CRI parser.
-			* `is_null_empty_string` - If true, an empty string field is replaced with nil.
-			* `is_support_colonless_ident` - Support colonless ident or not.
-			* `is_with_priority` - With priority or not.
-			* `keys` - csv keys.
-			* `message_format` - Message format of syslog.
+			* `grok_failure_key` - Grok failure key.
+			* `grok_name_key` - Grok name key.
+			* `is_estimate_current_event` - If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.
+			* `is_keep_time_key` - If true, keep the time field in the record.
+			* `is_merge_cri_fields` - If you don't need stream or logtag fields, set this to false.
+			* `is_null_empty_string` - If true, an empty string field is replaced with a null value.
+			* `is_support_colonless_ident` - Specifies whether or not to support colonless ident. Corresponds to the Fluentd support_colonless_ident parameter.
+			* `is_with_priority` - Specifies with priority or not. Corresponds to the Fluentd with_priority parameter.
+			* `keys` - CSV keys.
+			* `message_format` - Syslog message format.
 			* `message_key` - Specifies the field name to contain logs.
 			* `multi_line_start_regexp` - Multiline start regexp pattern.
-			* `nested_parser` - Optional nested JSON Parser for CRI Parser. Supported fields are fieldTimeKey, timeFormat, and isKeepTimeKey.
+			* `nested_parser` - Optional nested JSON Parser for CRI. Supported fields are fieldTimeKey, timeFormat, and isKeepTimeKey.
 				* `time_format` - Process time value using the specified format.
-				* `time_type` - Time type of JSON parser.
+				* `time_type` - JSON parser time type.
 			* `null_value_pattern` - Specify the null value pattern.
 			* `parser_type` - Type of fluent parser.
-			* `patterns` - grok pattern object.
+			* `patterns` - Grok pattern object.
 				* `field_time_format` - Process value using the specified format. This is available only when time_type is a string.
 				* `field_time_key` - Specify the time field for the event time. If the event doesn't have this field, the current time is used.
 				* `field_time_zone` - Use the specified time zone. The time value can be parsed or formatted in the specified time zone.
-				* `name` - The name key to tag this grok pattern.
-				* `pattern` - The grok pattern.
-			* `rfc5424time_format` - rfc5424 time format.
+				* `name` - The name key to tag this Grok pattern.
+				* `pattern` - The Grok pattern.
+			* `rfc5424time_format` - RFC 5424 time format.
 			* `syslog_parser_type` - Syslog parser type.
 			* `time_format` - Process time value using the specified format.
-			* `time_type` - Time type of JSON parser.
+			* `time_type` - JSON parser time type.
 			* `timeout_in_milliseconds` - Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 			* `types` - Specify types for converting a field into another type. For example, With this configuration: <parse> @type csv keys time,host,req_id,user time_key time </parse>
 
@@ -90,7 +99,7 @@ The following attributes are exported:
 				is parsed as: 1362020400 (2013/02/28/ 12:00:00)
 
 				record: { "host"   : "192.168.0.1", "req_id" : "111", "user"   : "-" } 
-		* `paths` - Absolute paths for log source files. Wildcard can be used.
+		* `paths` - Absolute paths for log source files. Wildcards can be used.
 		* `source_type` - Unified schema logging source type.
 * `state` - The pipeline state.
 * `time_created` - Time the resource was created.
