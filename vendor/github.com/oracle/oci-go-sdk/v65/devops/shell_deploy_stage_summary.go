@@ -69,72 +69,72 @@ type ShellDeployStageSummary struct {
 	LifecycleState DeployStageLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m ShellDeployStageSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ShellDeployStageSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m ShellDeployStageSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m ShellDeployStageSummary) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetDeployPipelineId returns DeployPipelineId
+//GetDeployPipelineId returns DeployPipelineId
 func (m ShellDeployStageSummary) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m ShellDeployStageSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m ShellDeployStageSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m ShellDeployStageSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m ShellDeployStageSummary) GetLifecycleState() DeployStageLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m ShellDeployStageSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m ShellDeployStageSummary) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m ShellDeployStageSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m ShellDeployStageSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m ShellDeployStageSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

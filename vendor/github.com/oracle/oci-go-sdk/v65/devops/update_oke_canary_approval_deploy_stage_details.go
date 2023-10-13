@@ -36,27 +36,27 @@ type UpdateOkeCanaryApprovalDeployStageDetails struct {
 	ApprovalPolicy ApprovalPolicy `mandatory:"false" json:"approvalPolicy"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateOkeCanaryApprovalDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateOkeCanaryApprovalDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m UpdateOkeCanaryApprovalDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateOkeCanaryApprovalDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateOkeCanaryApprovalDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

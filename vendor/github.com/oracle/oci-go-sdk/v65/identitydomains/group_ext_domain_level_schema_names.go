@@ -19,13 +19,13 @@ import (
 // GroupExtDomainLevelSchemaNames DBCS Domain-level schema-names. Each value is specific to a DB Domain.
 // **Added In:** 18.2.4
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [domainName, schemaName]
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
+//  - idcsCompositeKey: [domainName, schemaName]
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
 type GroupExtDomainLevelSchemaNames struct {
 
 	// DBCS Domain Name

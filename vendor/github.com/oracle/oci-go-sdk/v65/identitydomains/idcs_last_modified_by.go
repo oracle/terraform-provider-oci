@@ -18,12 +18,12 @@ import (
 
 // IdcsLastModifiedBy The User or App who modified the Resource
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: false
-//   - returned: default
-//   - type: complex
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: false
+//  - returned: default
+//  - type: complex
 type IdcsLastModifiedBy struct {
 
 	// The ID of the SCIM resource that represents the User or App who modified this Resource

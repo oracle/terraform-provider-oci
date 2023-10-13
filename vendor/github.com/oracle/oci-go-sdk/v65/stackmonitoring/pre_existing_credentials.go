@@ -33,22 +33,22 @@ type PreExistingCredentials struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetSource returns Source
+//GetSource returns Source
 func (m PreExistingCredentials) GetSource() *string {
 	return m.Source
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m PreExistingCredentials) GetName() *string {
 	return m.Name
 }
 
-// GetType returns Type
+//GetType returns Type
 func (m PreExistingCredentials) GetType() *string {
 	return m.Type
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m PreExistingCredentials) GetDescription() *string {
 	return m.Description
 }

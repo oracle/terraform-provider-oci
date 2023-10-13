@@ -94,7 +94,7 @@ func (client *ResourcesClient) ConfigurationProvider() *common.ConfigurationProv
 // ListResourceQuota Returns the resource quota details under a tenancy
 // > **Important**: Calls to this API will only succeed against the endpoint in the home region.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListResourceQuota.go.html to see an example of how to use ListResourceQuota API.
 // A default retry strategy applies to this operation ListResourceQuota()
@@ -153,7 +153,7 @@ func (client ResourcesClient) listResourceQuota(ctx context.Context, request com
 // ListResources Returns the resource details for a service
 // > **Important**: Calls to this API will only succeed against the endpoint in the home region.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListResources.go.html to see an example of how to use ListResources API.
 // A default retry strategy applies to this operation ListResources()

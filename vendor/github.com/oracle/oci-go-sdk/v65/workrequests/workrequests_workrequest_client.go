@@ -97,7 +97,7 @@ func (client *WorkRequestClient) ConfigurationProvider() *common.ConfigurationPr
 
 // GetWorkRequest Gets the details of a work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/workrequests/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client WorkRequestClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
@@ -154,7 +154,7 @@ func (client WorkRequestClient) getWorkRequest(ctx context.Context, request comm
 
 // ListWorkRequestErrors Gets the errors for a work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/workrequests/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client WorkRequestClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
@@ -211,7 +211,7 @@ func (client WorkRequestClient) listWorkRequestErrors(ctx context.Context, reque
 
 // ListWorkRequestLogs Gets the logs for a work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/workrequests/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client WorkRequestClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
@@ -268,7 +268,7 @@ func (client WorkRequestClient) listWorkRequestLogs(ctx context.Context, request
 
 // ListWorkRequests Lists the work requests in a compartment or for a specified resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/workrequests/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client WorkRequestClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {

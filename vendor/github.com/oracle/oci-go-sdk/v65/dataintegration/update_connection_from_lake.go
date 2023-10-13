@@ -48,52 +48,52 @@ type UpdateConnectionFromLake struct {
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m UpdateConnectionFromLake) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m UpdateConnectionFromLake) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m UpdateConnectionFromLake) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UpdateConnectionFromLake) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateConnectionFromLake) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m UpdateConnectionFromLake) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m UpdateConnectionFromLake) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m UpdateConnectionFromLake) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m UpdateConnectionFromLake) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m UpdateConnectionFromLake) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

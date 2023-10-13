@@ -26,7 +26,7 @@ type AsIsResourceAssessmentStrategy struct {
 	ResourceType ResourceAssessmentStrategyResourceTypeEnum `mandatory:"true" json:"resourceType"`
 }
 
-// GetResourceType returns ResourceType
+//GetResourceType returns ResourceType
 func (m AsIsResourceAssessmentStrategy) GetResourceType() ResourceAssessmentStrategyResourceTypeEnum {
 	return m.ResourceType
 }

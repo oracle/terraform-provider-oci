@@ -18,13 +18,13 @@ import (
 
 // UserPasswordResetterUserToken The user token returned if userFlowControlledByExternalClient is set to true.
 // **SCIM++ Properties:**
-//   - type: complex
-//   - multiValued: false
-//   - required: false
-//   - caseExact: false
-//   - mutability: readOnly
-//   - returned: default
-//   - uniqueness: none
+//  - type: complex
+//  - multiValued: false
+//  - required: false
+//  - caseExact: false
+//  - mutability: readOnly
+//  - returned: default
+//  - uniqueness: none
 type UserPasswordResetterUserToken struct {
 
 	// The user token identifier.

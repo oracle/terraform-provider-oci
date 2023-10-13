@@ -39,12 +39,12 @@ type TextClassificationModelEvaluationResult struct {
 	PredictedLabels []string `mandatory:"false" json:"predictedLabels"`
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m TextClassificationModelEvaluationResult) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m TextClassificationModelEvaluationResult) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

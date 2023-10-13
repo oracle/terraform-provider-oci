@@ -57,47 +57,47 @@ type ExadataDatabaseMachineConfigurationSummary struct {
 	ExadataRackType ExadataRackTypeEnum `mandatory:"true" json:"exadataRackType"`
 }
 
-// GetExadataInsightId returns ExadataInsightId
+//GetExadataInsightId returns ExadataInsightId
 func (m ExadataDatabaseMachineConfigurationSummary) GetExadataInsightId() *string {
 	return m.ExadataInsightId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m ExadataDatabaseMachineConfigurationSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetExadataName returns ExadataName
+//GetExadataName returns ExadataName
 func (m ExadataDatabaseMachineConfigurationSummary) GetExadataName() *string {
 	return m.ExadataName
 }
 
-// GetExadataDisplayName returns ExadataDisplayName
+//GetExadataDisplayName returns ExadataDisplayName
 func (m ExadataDatabaseMachineConfigurationSummary) GetExadataDisplayName() *string {
 	return m.ExadataDisplayName
 }
 
-// GetExadataType returns ExadataType
+//GetExadataType returns ExadataType
 func (m ExadataDatabaseMachineConfigurationSummary) GetExadataType() ExadataTypeEnum {
 	return m.ExadataType
 }
 
-// GetExadataRackType returns ExadataRackType
+//GetExadataRackType returns ExadataRackType
 func (m ExadataDatabaseMachineConfigurationSummary) GetExadataRackType() ExadataRackTypeEnum {
 	return m.ExadataRackType
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m ExadataDatabaseMachineConfigurationSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m ExadataDatabaseMachineConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetVmclusterDetails returns VmclusterDetails
+//GetVmclusterDetails returns VmclusterDetails
 func (m ExadataDatabaseMachineConfigurationSummary) GetVmclusterDetails() []VmClusterSummary {
 	return m.VmclusterDetails
 }

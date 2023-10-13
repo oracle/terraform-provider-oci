@@ -35,12 +35,12 @@ type CreateExternalDbSystemMacsConnectorDetails struct {
 	ConnectionInfo ExternalDbSystemConnectionInfo `mandatory:"false" json:"connectionInfo"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateExternalDbSystemMacsConnectorDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetExternalDbSystemId returns ExternalDbSystemId
+//GetExternalDbSystemId returns ExternalDbSystemId
 func (m CreateExternalDbSystemMacsConnectorDetails) GetExternalDbSystemId() *string {
 	return m.ExternalDbSystemId
 }

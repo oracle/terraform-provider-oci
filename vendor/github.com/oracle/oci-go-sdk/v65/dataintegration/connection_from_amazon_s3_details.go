@@ -57,62 +57,62 @@ type ConnectionFromAmazonS3Details struct {
 	SecretKey *SensitiveAttribute `mandatory:"false" json:"secretKey"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m ConnectionFromAmazonS3Details) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m ConnectionFromAmazonS3Details) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m ConnectionFromAmazonS3Details) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m ConnectionFromAmazonS3Details) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ConnectionFromAmazonS3Details) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m ConnectionFromAmazonS3Details) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m ConnectionFromAmazonS3Details) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m ConnectionFromAmazonS3Details) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetPrimarySchema returns PrimarySchema
+//GetPrimarySchema returns PrimarySchema
 func (m ConnectionFromAmazonS3Details) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m ConnectionFromAmazonS3Details) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetIsDefault returns IsDefault
+//GetIsDefault returns IsDefault
 func (m ConnectionFromAmazonS3Details) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m ConnectionFromAmazonS3Details) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

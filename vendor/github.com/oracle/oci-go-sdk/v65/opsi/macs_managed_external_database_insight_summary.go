@@ -88,92 +88,92 @@ type MacsManagedExternalDatabaseInsightSummary struct {
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m MacsManagedExternalDatabaseInsightSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDatabaseId returns DatabaseId
+//GetDatabaseId returns DatabaseId
 func (m MacsManagedExternalDatabaseInsightSummary) GetDatabaseId() *string {
 	return m.DatabaseId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m MacsManagedExternalDatabaseInsightSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDatabaseName returns DatabaseName
+//GetDatabaseName returns DatabaseName
 func (m MacsManagedExternalDatabaseInsightSummary) GetDatabaseName() *string {
 	return m.DatabaseName
 }
 
-// GetDatabaseDisplayName returns DatabaseDisplayName
+//GetDatabaseDisplayName returns DatabaseDisplayName
 func (m MacsManagedExternalDatabaseInsightSummary) GetDatabaseDisplayName() *string {
 	return m.DatabaseDisplayName
 }
 
-// GetDatabaseType returns DatabaseType
+//GetDatabaseType returns DatabaseType
 func (m MacsManagedExternalDatabaseInsightSummary) GetDatabaseType() *string {
 	return m.DatabaseType
 }
 
-// GetDatabaseVersion returns DatabaseVersion
+//GetDatabaseVersion returns DatabaseVersion
 func (m MacsManagedExternalDatabaseInsightSummary) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
 }
 
-// GetDatabaseHostNames returns DatabaseHostNames
+//GetDatabaseHostNames returns DatabaseHostNames
 func (m MacsManagedExternalDatabaseInsightSummary) GetDatabaseHostNames() []string {
 	return m.DatabaseHostNames
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m MacsManagedExternalDatabaseInsightSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m MacsManagedExternalDatabaseInsightSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m MacsManagedExternalDatabaseInsightSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetProcessorCount returns ProcessorCount
+//GetProcessorCount returns ProcessorCount
 func (m MacsManagedExternalDatabaseInsightSummary) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-// GetStatus returns Status
+//GetStatus returns Status
 func (m MacsManagedExternalDatabaseInsightSummary) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m MacsManagedExternalDatabaseInsightSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m MacsManagedExternalDatabaseInsightSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m MacsManagedExternalDatabaseInsightSummary) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m MacsManagedExternalDatabaseInsightSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
 func (m MacsManagedExternalDatabaseInsightSummary) GetDatabaseConnectionStatusDetails() *string {
 	return m.DatabaseConnectionStatusDetails
 }

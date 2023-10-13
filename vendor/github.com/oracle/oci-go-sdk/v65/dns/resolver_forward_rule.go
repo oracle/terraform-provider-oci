@@ -35,12 +35,12 @@ type ResolverForwardRule struct {
 	SourceEndpointName *string `mandatory:"false" json:"sourceEndpointName"`
 }
 
-// GetClientAddressConditions returns ClientAddressConditions
+//GetClientAddressConditions returns ClientAddressConditions
 func (m ResolverForwardRule) GetClientAddressConditions() []string {
 	return m.ClientAddressConditions
 }
 
-// GetQnameCoverConditions returns QnameCoverConditions
+//GetQnameCoverConditions returns QnameCoverConditions
 func (m ResolverForwardRule) GetQnameCoverConditions() []string {
 	return m.QnameCoverConditions
 }

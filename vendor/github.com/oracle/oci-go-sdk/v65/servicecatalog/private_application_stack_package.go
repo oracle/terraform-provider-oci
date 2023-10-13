@@ -43,27 +43,27 @@ type PrivateApplicationStackPackage struct {
 	MimeType *string `mandatory:"false" json:"mimeType"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m PrivateApplicationStackPackage) GetId() *string {
 	return m.Id
 }
 
-// GetPrivateApplicationId returns PrivateApplicationId
+//GetPrivateApplicationId returns PrivateApplicationId
 func (m PrivateApplicationStackPackage) GetPrivateApplicationId() *string {
 	return m.PrivateApplicationId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m PrivateApplicationStackPackage) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m PrivateApplicationStackPackage) GetVersion() *string {
 	return m.Version
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m PrivateApplicationStackPackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }

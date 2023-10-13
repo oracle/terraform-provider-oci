@@ -53,47 +53,47 @@ type CreateConnectionFromOracle struct {
 	PasswordSecret *SensitiveAttribute `mandatory:"false" json:"passwordSecret"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateConnectionFromOracle) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateConnectionFromOracle) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m CreateConnectionFromOracle) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateConnectionFromOracle) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateConnectionFromOracle) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateConnectionFromOracle) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateConnectionFromOracle) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m CreateConnectionFromOracle) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateConnectionFromOracle) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

@@ -79,77 +79,77 @@ type MacsManagedExternalHostInsightSummary struct {
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m MacsManagedExternalHostInsightSummary) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m MacsManagedExternalHostInsightSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetHostName returns HostName
+//GetHostName returns HostName
 func (m MacsManagedExternalHostInsightSummary) GetHostName() *string {
 	return m.HostName
 }
 
-// GetHostDisplayName returns HostDisplayName
+//GetHostDisplayName returns HostDisplayName
 func (m MacsManagedExternalHostInsightSummary) GetHostDisplayName() *string {
 	return m.HostDisplayName
 }
 
-// GetHostType returns HostType
+//GetHostType returns HostType
 func (m MacsManagedExternalHostInsightSummary) GetHostType() *string {
 	return m.HostType
 }
 
-// GetProcessorCount returns ProcessorCount
+//GetProcessorCount returns ProcessorCount
 func (m MacsManagedExternalHostInsightSummary) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m MacsManagedExternalHostInsightSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m MacsManagedExternalHostInsightSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m MacsManagedExternalHostInsightSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetOpsiPrivateEndpointId returns OpsiPrivateEndpointId
+//GetOpsiPrivateEndpointId returns OpsiPrivateEndpointId
 func (m MacsManagedExternalHostInsightSummary) GetOpsiPrivateEndpointId() *string {
 	return m.OpsiPrivateEndpointId
 }
 
-// GetStatus returns Status
+//GetStatus returns Status
 func (m MacsManagedExternalHostInsightSummary) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m MacsManagedExternalHostInsightSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m MacsManagedExternalHostInsightSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m MacsManagedExternalHostInsightSummary) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m MacsManagedExternalHostInsightSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }

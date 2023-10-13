@@ -58,42 +58,42 @@ type ApdexRules struct {
 	Rules []Apdex `mandatory:"false" json:"rules"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m ApdexRules) GetId() *string {
 	return m.Id
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m ApdexRules) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m ApdexRules) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetCreatedBy returns CreatedBy
+//GetCreatedBy returns CreatedBy
 func (m ApdexRules) GetCreatedBy() *string {
 	return m.CreatedBy
 }
 
-// GetUpdatedBy returns UpdatedBy
+//GetUpdatedBy returns UpdatedBy
 func (m ApdexRules) GetUpdatedBy() *string {
 	return m.UpdatedBy
 }
 
-// GetEtag returns Etag
+//GetEtag returns Etag
 func (m ApdexRules) GetEtag() *string {
 	return m.Etag
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m ApdexRules) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m ApdexRules) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

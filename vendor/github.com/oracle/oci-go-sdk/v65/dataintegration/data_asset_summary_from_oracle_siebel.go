@@ -74,62 +74,62 @@ type DataAssetSummaryFromOracleSiebel struct {
 	WalletPasswordSecret *SensitiveAttribute `mandatory:"false" json:"walletPasswordSecret"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m DataAssetSummaryFromOracleSiebel) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m DataAssetSummaryFromOracleSiebel) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m DataAssetSummaryFromOracleSiebel) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m DataAssetSummaryFromOracleSiebel) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m DataAssetSummaryFromOracleSiebel) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m DataAssetSummaryFromOracleSiebel) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m DataAssetSummaryFromOracleSiebel) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m DataAssetSummaryFromOracleSiebel) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetNativeTypeSystem returns NativeTypeSystem
+//GetNativeTypeSystem returns NativeTypeSystem
 func (m DataAssetSummaryFromOracleSiebel) GetNativeTypeSystem() *TypeSystem {
 	return m.NativeTypeSystem
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m DataAssetSummaryFromOracleSiebel) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m DataAssetSummaryFromOracleSiebel) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m DataAssetSummaryFromOracleSiebel) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

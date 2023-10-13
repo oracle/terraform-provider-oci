@@ -57,47 +57,47 @@ type CreateConnectionFromObjectStorage struct {
 	PassPhrase *string `mandatory:"false" json:"passPhrase"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateConnectionFromObjectStorage) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateConnectionFromObjectStorage) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m CreateConnectionFromObjectStorage) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateConnectionFromObjectStorage) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateConnectionFromObjectStorage) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateConnectionFromObjectStorage) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateConnectionFromObjectStorage) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m CreateConnectionFromObjectStorage) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateConnectionFromObjectStorage) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

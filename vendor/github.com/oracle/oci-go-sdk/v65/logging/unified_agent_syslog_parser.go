@@ -5,8 +5,7 @@
 // Logging Management API
 //
 // Use the Logging Management API to create, read, list, update, move and delete
-// log groups, log objects, log saved searches, agent configurations, log data models,
-// continuous queries, and managed continuous queries.
+// log groups, log objects, log saved searches, and agent configurations.
 // For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
@@ -22,7 +21,7 @@ import (
 // UnifiedAgentSyslogParser Syslog Parser.
 type UnifiedAgentSyslogParser struct {
 
-	// Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// Specifies the time field for the event time. If the event doesn't have this field, the current time is used.
 	FieldTimeKey *string `mandatory:"false" json:"fieldTimeKey"`
 
 	// Specify types for converting a field into another type.
@@ -48,13 +47,13 @@ type UnifiedAgentSyslogParser struct {
 	// Specify the null value pattern.
 	NullValuePattern *string `mandatory:"false" json:"nullValuePattern"`
 
-	// If true, an empty string field is replaced with nil.
+	// If true, an empty string field is replaced with a null value.
 	IsNullEmptyString *bool `mandatory:"false" json:"isNullEmptyString"`
 
-	// If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	// If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.
 	IsEstimateCurrentEvent *bool `mandatory:"false" json:"isEstimateCurrentEvent"`
 
-	// If true, keep time field in the record.
+	// If true, keep the time field in the record.
 	IsKeepTimeKey *bool `mandatory:"false" json:"isKeepTimeKey"`
 
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
@@ -63,53 +62,53 @@ type UnifiedAgentSyslogParser struct {
 	// Time format.
 	TimeFormat *string `mandatory:"false" json:"timeFormat"`
 
-	// rfc5424 time format.
+	// RFC 5424 time format.
 	Rfc5424TimeFormat *string `mandatory:"false" json:"rfc5424TimeFormat"`
 
-	// With priority or not.
+	// Specifies with priority or not. Corresponds to the Fluentd with_priority parameter.
 	IsWithPriority *bool `mandatory:"false" json:"isWithPriority"`
 
-	// Support colonless ident or not.
+	// Specifies whether or not to support colonless ident. Corresponds to the Fluentd support_colonless_ident parameter.
 	IsSupportColonlessIdent *bool `mandatory:"false" json:"isSupportColonlessIdent"`
 
-	// Message format of syslog.
+	// Syslog message format.
 	MessageFormat UnifiedAgentSyslogParserMessageFormatEnum `mandatory:"false" json:"messageFormat,omitempty"`
 
 	// Syslog parser type.
 	SyslogParserType UnifiedAgentSyslogParserSyslogParserTypeEnum `mandatory:"false" json:"syslogParserType,omitempty"`
 }
 
-// GetFieldTimeKey returns FieldTimeKey
+//GetFieldTimeKey returns FieldTimeKey
 func (m UnifiedAgentSyslogParser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
-// GetTypes returns Types
+//GetTypes returns Types
 func (m UnifiedAgentSyslogParser) GetTypes() map[string]string {
 	return m.Types
 }
 
-// GetNullValuePattern returns NullValuePattern
+//GetNullValuePattern returns NullValuePattern
 func (m UnifiedAgentSyslogParser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
-// GetIsNullEmptyString returns IsNullEmptyString
+//GetIsNullEmptyString returns IsNullEmptyString
 func (m UnifiedAgentSyslogParser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
-// GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
+//GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
 func (m UnifiedAgentSyslogParser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
-// GetIsKeepTimeKey returns IsKeepTimeKey
+//GetIsKeepTimeKey returns IsKeepTimeKey
 func (m UnifiedAgentSyslogParser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
-// GetTimeoutInMilliseconds returns TimeoutInMilliseconds
+//GetTimeoutInMilliseconds returns TimeoutInMilliseconds
 func (m UnifiedAgentSyslogParser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }

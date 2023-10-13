@@ -68,57 +68,57 @@ type GithubAccessTokenConfigurationSourceProvider struct {
 	LifecycleState ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m GithubAccessTokenConfigurationSourceProvider) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m GithubAccessTokenConfigurationSourceProvider) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m GithubAccessTokenConfigurationSourceProvider) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m GithubAccessTokenConfigurationSourceProvider) GetDescription() *string {
 	return m.Description
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m GithubAccessTokenConfigurationSourceProvider) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m GithubAccessTokenConfigurationSourceProvider) GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m GithubAccessTokenConfigurationSourceProvider) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-// GetUsername returns Username
+//GetUsername returns Username
 func (m GithubAccessTokenConfigurationSourceProvider) GetUsername() *string {
 	return m.Username
 }
 
-// GetSecretId returns SecretId
+//GetSecretId returns SecretId
 func (m GithubAccessTokenConfigurationSourceProvider) GetSecretId() *string {
 	return m.SecretId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m GithubAccessTokenConfigurationSourceProvider) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m GithubAccessTokenConfigurationSourceProvider) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

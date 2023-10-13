@@ -50,32 +50,32 @@ type CreateInvokeFunctionDeployStageDetails struct {
 	DeployArtifactId *string `mandatory:"false" json:"deployArtifactId"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateInvokeFunctionDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateInvokeFunctionDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDeployPipelineId returns DeployPipelineId
+//GetDeployPipelineId returns DeployPipelineId
 func (m CreateInvokeFunctionDeployStageDetails) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m CreateInvokeFunctionDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateInvokeFunctionDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateInvokeFunctionDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

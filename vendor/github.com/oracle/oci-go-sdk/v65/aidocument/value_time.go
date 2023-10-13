@@ -34,22 +34,22 @@ type ValueTime struct {
 	Text *string `mandatory:"false" json:"text"`
 }
 
-// GetText returns Text
+//GetText returns Text
 func (m ValueTime) GetText() *string {
 	return m.Text
 }
 
-// GetConfidence returns Confidence
+//GetConfidence returns Confidence
 func (m ValueTime) GetConfidence() *float32 {
 	return m.Confidence
 }
 
-// GetBoundingPolygon returns BoundingPolygon
+//GetBoundingPolygon returns BoundingPolygon
 func (m ValueTime) GetBoundingPolygon() *BoundingPolygon {
 	return m.BoundingPolygon
 }
 
-// GetWordIndexes returns WordIndexes
+//GetWordIndexes returns WordIndexes
 func (m ValueTime) GetWordIndexes() []int {
 	return m.WordIndexes
 }

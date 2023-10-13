@@ -93,7 +93,7 @@ func (client *UsageapiClient) ConfigurationProvider() *common.ConfigurationProvi
 
 // CreateCustomTable Returns the created custom table.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/CreateCustomTable.go.html to see an example of how to use CreateCustomTable API.
 func (client UsageapiClient) CreateCustomTable(ctx context.Context, request CreateCustomTableRequest) (response CreateCustomTableResponse, err error) {
@@ -155,7 +155,7 @@ func (client UsageapiClient) createCustomTable(ctx context.Context, request comm
 
 // CreateQuery Returns the created query.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/CreateQuery.go.html to see an example of how to use CreateQuery API.
 func (client UsageapiClient) CreateQuery(ctx context.Context, request CreateQueryRequest) (response CreateQueryResponse, err error) {
@@ -217,7 +217,7 @@ func (client UsageapiClient) createQuery(ctx context.Context, request common.OCI
 
 // CreateSchedule Returns the created schedule.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/CreateSchedule.go.html to see an example of how to use CreateSchedule API.
 func (client UsageapiClient) CreateSchedule(ctx context.Context, request CreateScheduleRequest) (response CreateScheduleResponse, err error) {
@@ -279,7 +279,7 @@ func (client UsageapiClient) createSchedule(ctx context.Context, request common.
 
 // DeleteCustomTable Delete a saved custom table by the OCID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/DeleteCustomTable.go.html to see an example of how to use DeleteCustomTable API.
 func (client UsageapiClient) DeleteCustomTable(ctx context.Context, request DeleteCustomTableRequest) (response DeleteCustomTableResponse, err error) {
@@ -336,7 +336,7 @@ func (client UsageapiClient) deleteCustomTable(ctx context.Context, request comm
 
 // DeleteQuery Delete a saved query by the OCID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/DeleteQuery.go.html to see an example of how to use DeleteQuery API.
 func (client UsageapiClient) DeleteQuery(ctx context.Context, request DeleteQueryRequest) (response DeleteQueryResponse, err error) {
@@ -393,7 +393,7 @@ func (client UsageapiClient) deleteQuery(ctx context.Context, request common.OCI
 
 // DeleteSchedule Delete a saved scheduled report by the OCID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/DeleteSchedule.go.html to see an example of how to use DeleteSchedule API.
 func (client UsageapiClient) DeleteSchedule(ctx context.Context, request DeleteScheduleRequest) (response DeleteScheduleResponse, err error) {
@@ -450,7 +450,7 @@ func (client UsageapiClient) deleteSchedule(ctx context.Context, request common.
 
 // GetCustomTable Returns the saved custom table.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetCustomTable.go.html to see an example of how to use GetCustomTable API.
 func (client UsageapiClient) GetCustomTable(ctx context.Context, request GetCustomTableRequest) (response GetCustomTableResponse, err error) {
@@ -507,7 +507,7 @@ func (client UsageapiClient) getCustomTable(ctx context.Context, request common.
 
 // GetQuery Returns the saved query.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetQuery.go.html to see an example of how to use GetQuery API.
 func (client UsageapiClient) GetQuery(ctx context.Context, request GetQueryRequest) (response GetQueryResponse, err error) {
@@ -564,7 +564,7 @@ func (client UsageapiClient) getQuery(ctx context.Context, request common.OCIReq
 
 // GetSchedule Returns the saved schedule.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetSchedule.go.html to see an example of how to use GetSchedule API.
 func (client UsageapiClient) GetSchedule(ctx context.Context, request GetScheduleRequest) (response GetScheduleResponse, err error) {
@@ -621,7 +621,7 @@ func (client UsageapiClient) getSchedule(ctx context.Context, request common.OCI
 
 // GetScheduledRun Returns the saved schedule run.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetScheduledRun.go.html to see an example of how to use GetScheduledRun API.
 func (client UsageapiClient) GetScheduledRun(ctx context.Context, request GetScheduledRunRequest) (response GetScheduledRunResponse, err error) {
@@ -678,7 +678,7 @@ func (client UsageapiClient) getScheduledRun(ctx context.Context, request common
 
 // ListCustomTables Returns the saved custom table list.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/ListCustomTables.go.html to see an example of how to use ListCustomTables API.
 func (client UsageapiClient) ListCustomTables(ctx context.Context, request ListCustomTablesRequest) (response ListCustomTablesResponse, err error) {
@@ -735,7 +735,7 @@ func (client UsageapiClient) listCustomTables(ctx context.Context, request commo
 
 // ListQueries Returns the saved query list.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/ListQueries.go.html to see an example of how to use ListQueries API.
 func (client UsageapiClient) ListQueries(ctx context.Context, request ListQueriesRequest) (response ListQueriesResponse, err error) {
@@ -792,7 +792,7 @@ func (client UsageapiClient) listQueries(ctx context.Context, request common.OCI
 
 // ListScheduledRuns Returns schedule history list.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/ListScheduledRuns.go.html to see an example of how to use ListScheduledRuns API.
 func (client UsageapiClient) ListScheduledRuns(ctx context.Context, request ListScheduledRunsRequest) (response ListScheduledRunsResponse, err error) {
@@ -849,7 +849,7 @@ func (client UsageapiClient) listScheduledRuns(ctx context.Context, request comm
 
 // ListSchedules Returns the saved schedule list.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/ListSchedules.go.html to see an example of how to use ListSchedules API.
 func (client UsageapiClient) ListSchedules(ctx context.Context, request ListSchedulesRequest) (response ListSchedulesResponse, err error) {
@@ -906,7 +906,7 @@ func (client UsageapiClient) listSchedules(ctx context.Context, request common.O
 
 // RequestSummarizedConfigurations Returns the configurations list for the UI drop-down list.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/RequestSummarizedConfigurations.go.html to see an example of how to use RequestSummarizedConfigurations API.
 func (client UsageapiClient) RequestSummarizedConfigurations(ctx context.Context, request RequestSummarizedConfigurationsRequest) (response RequestSummarizedConfigurationsResponse, err error) {
@@ -963,7 +963,7 @@ func (client UsageapiClient) requestSummarizedConfigurations(ctx context.Context
 
 // RequestSummarizedUsages Returns usage for the given account.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/RequestSummarizedUsages.go.html to see an example of how to use RequestSummarizedUsages API.
 func (client UsageapiClient) RequestSummarizedUsages(ctx context.Context, request RequestSummarizedUsagesRequest) (response RequestSummarizedUsagesResponse, err error) {
@@ -1020,7 +1020,7 @@ func (client UsageapiClient) requestSummarizedUsages(ctx context.Context, reques
 
 // UpdateCustomTable Update a saved custom table by table id.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/UpdateCustomTable.go.html to see an example of how to use UpdateCustomTable API.
 func (client UsageapiClient) UpdateCustomTable(ctx context.Context, request UpdateCustomTableRequest) (response UpdateCustomTableResponse, err error) {
@@ -1077,7 +1077,7 @@ func (client UsageapiClient) updateCustomTable(ctx context.Context, request comm
 
 // UpdateQuery Update a saved query by the OCID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/UpdateQuery.go.html to see an example of how to use UpdateQuery API.
 func (client UsageapiClient) UpdateQuery(ctx context.Context, request UpdateQueryRequest) (response UpdateQueryResponse, err error) {
@@ -1134,7 +1134,7 @@ func (client UsageapiClient) updateQuery(ctx context.Context, request common.OCI
 
 // UpdateSchedule Update a saved schedule
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/UpdateSchedule.go.html to see an example of how to use UpdateSchedule API.
 func (client UsageapiClient) UpdateSchedule(ctx context.Context, request UpdateScheduleRequest) (response UpdateScheduleResponse, err error) {

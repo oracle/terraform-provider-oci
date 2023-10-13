@@ -45,32 +45,32 @@ type OrchestrationPublicationPackage struct {
 	Variables []OrchestrationVariable `mandatory:"false" json:"variables"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m OrchestrationPublicationPackage) GetDescription() *string {
 	return m.Description
 }
 
-// GetListingId returns ListingId
+//GetListingId returns ListingId
 func (m OrchestrationPublicationPackage) GetListingId() *string {
 	return m.ListingId
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m OrchestrationPublicationPackage) GetVersion() *string {
 	return m.Version
 }
 
-// GetResourceId returns ResourceId
+//GetResourceId returns ResourceId
 func (m OrchestrationPublicationPackage) GetResourceId() *string {
 	return m.ResourceId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m OrchestrationPublicationPackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetOperatingSystem returns OperatingSystem
+//GetOperatingSystem returns OperatingSystem
 func (m OrchestrationPublicationPackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
 }

@@ -19,13 +19,13 @@ import (
 // AuthenticationFactorSettingsEmailSettings Settings related to Email Factor, such as enabled email magic link factor, custom url for Email Link
 // **Added In:** 20.1.3
 // **SCIM++ Properties:**
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AuthenticationFactorSettingsEmailSettings struct {
 
 	// Specifies whether Email link is enabled or not.

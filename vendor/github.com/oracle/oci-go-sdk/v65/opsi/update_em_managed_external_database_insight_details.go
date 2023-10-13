@@ -30,12 +30,12 @@ type UpdateEmManagedExternalDatabaseInsightDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateEmManagedExternalDatabaseInsightDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateEmManagedExternalDatabaseInsightDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

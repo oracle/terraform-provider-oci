@@ -9,7 +9,6 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
-	"io/ioutil"
 	"net/textproto"
 	"os"
 	"reflect"
@@ -295,13 +294,4 @@ func IsEnvVarFalse(envVarKey string) bool {
 func IsEnvVarTrue(envVarKey string) bool {
 	val, existed := os.LookupEnv(envVarKey)
 	return existed && strings.ToLower(val) == "true"
-}
-
-// Reads the certs from pem file pointed by the R1_CERT_PEM env variable
-func readCertPem(path string) []byte {
-	pem, err := ioutil.ReadFile(path)
-	if err != nil {
-		panic("can not read cert " + err.Error())
-	}
-	return pem
 }

@@ -43,37 +43,37 @@ type AnnouncementsPreferences struct {
 	PreferenceType BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum `mandatory:"false" json:"preferenceType,omitempty"`
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m AnnouncementsPreferences) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m AnnouncementsPreferences) GetId() *string {
 	return m.Id
 }
 
-// GetIsUnsubscribed returns IsUnsubscribed
+//GetIsUnsubscribed returns IsUnsubscribed
 func (m AnnouncementsPreferences) GetIsUnsubscribed() *bool {
 	return m.IsUnsubscribed
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m AnnouncementsPreferences) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m AnnouncementsPreferences) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetPreferenceType returns PreferenceType
+//GetPreferenceType returns PreferenceType
 func (m AnnouncementsPreferences) GetPreferenceType() BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum {
 	return m.PreferenceType
 }
 
-// GetPreferredTimeZone returns PreferredTimeZone
+//GetPreferredTimeZone returns PreferredTimeZone
 func (m AnnouncementsPreferences) GetPreferredTimeZone() *string {
 	return m.PreferredTimeZone
 }

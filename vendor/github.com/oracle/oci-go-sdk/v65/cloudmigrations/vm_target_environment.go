@@ -44,7 +44,7 @@ type VmTargetEnvironment struct {
 	PreferredShapeType VmTargetAssetPreferredShapeTypeEnum `mandatory:"false" json:"preferredShapeType,omitempty"`
 }
 
-// GetTargetCompartmentId returns TargetCompartmentId
+//GetTargetCompartmentId returns TargetCompartmentId
 func (m VmTargetEnvironment) GetTargetCompartmentId() *string {
 	return m.TargetCompartmentId
 }

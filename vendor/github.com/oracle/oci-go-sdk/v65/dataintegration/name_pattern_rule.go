@@ -60,37 +60,37 @@ type NamePatternRule struct {
 	RuleType NamePatternRuleRuleTypeEnum `mandatory:"false" json:"ruleType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m NamePatternRule) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m NamePatternRule) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m NamePatternRule) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetIsJavaRegexSyntax returns IsJavaRegexSyntax
+//GetIsJavaRegexSyntax returns IsJavaRegexSyntax
 func (m NamePatternRule) GetIsJavaRegexSyntax() *bool {
 	return m.IsJavaRegexSyntax
 }
 
-// GetConfigValues returns ConfigValues
+//GetConfigValues returns ConfigValues
 func (m NamePatternRule) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m NamePatternRule) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m NamePatternRule) GetDescription() *string {
 	return m.Description
 }

@@ -19,15 +19,15 @@ import (
 // UserExtApplicablePasswordPolicy Applicable Password Policy
 // **Added In:** 20.1.3
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type UserExtApplicablePasswordPolicy struct {
 
 	// The identifier of the password policy.

@@ -95,7 +95,7 @@ func (client *ContainerEngineClient) ConfigurationProvider() *common.Configurati
 
 // ClusterMigrateToNativeVcn Initiates cluster migration to use native VCN.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ClusterMigrateToNativeVcn.go.html to see an example of how to use ClusterMigrateToNativeVcn API.
 // A default retry strategy applies to this operation ClusterMigrateToNativeVcn()
@@ -153,7 +153,7 @@ func (client ContainerEngineClient) clusterMigrateToNativeVcn(ctx context.Contex
 
 // CompleteCredentialRotation Complete cluster credential rotation. Retire old credentials from kubernetes components.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CompleteCredentialRotation.go.html to see an example of how to use CompleteCredentialRotation API.
 // A default retry strategy applies to this operation CompleteCredentialRotation()
@@ -216,7 +216,7 @@ func (client ContainerEngineClient) completeCredentialRotation(ctx context.Conte
 
 // CreateCluster Create a new cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CreateCluster.go.html to see an example of how to use CreateCluster API.
 // A default retry strategy applies to this operation CreateCluster()
@@ -279,7 +279,7 @@ func (client ContainerEngineClient) createCluster(ctx context.Context, request c
 
 // CreateKubeconfig Create the Kubeconfig YAML for a cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CreateKubeconfig.go.html to see an example of how to use CreateKubeconfig API.
 // A default retry strategy applies to this operation CreateKubeconfig()
@@ -336,7 +336,7 @@ func (client ContainerEngineClient) createKubeconfig(ctx context.Context, reques
 
 // CreateNodePool Create a new node pool.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CreateNodePool.go.html to see an example of how to use CreateNodePool API.
 // A default retry strategy applies to this operation CreateNodePool()
@@ -399,7 +399,7 @@ func (client ContainerEngineClient) createNodePool(ctx context.Context, request 
 
 // CreateVirtualNodePool Create a new virtual node pool.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CreateVirtualNodePool.go.html to see an example of how to use CreateVirtualNodePool API.
 // A default retry strategy applies to this operation CreateVirtualNodePool()
@@ -462,7 +462,7 @@ func (client ContainerEngineClient) createVirtualNodePool(ctx context.Context, r
 
 // CreateWorkloadMapping Create the specified workloadMapping for a cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CreateWorkloadMapping.go.html to see an example of how to use CreateWorkloadMapping API.
 // A default retry strategy applies to this operation CreateWorkloadMapping()
@@ -525,7 +525,7 @@ func (client ContainerEngineClient) createWorkloadMapping(ctx context.Context, r
 
 // DeleteCluster Delete a cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/DeleteCluster.go.html to see an example of how to use DeleteCluster API.
 // A default retry strategy applies to this operation DeleteCluster()
@@ -583,7 +583,7 @@ func (client ContainerEngineClient) deleteCluster(ctx context.Context, request c
 
 // DeleteNode Delete node.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/DeleteNode.go.html to see an example of how to use DeleteNode API.
 // A default retry strategy applies to this operation DeleteNode()
@@ -641,7 +641,7 @@ func (client ContainerEngineClient) deleteNode(ctx context.Context, request comm
 
 // DeleteNodePool Delete a node pool.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/DeleteNodePool.go.html to see an example of how to use DeleteNodePool API.
 // A default retry strategy applies to this operation DeleteNodePool()
@@ -699,7 +699,7 @@ func (client ContainerEngineClient) deleteNodePool(ctx context.Context, request 
 
 // DeleteVirtualNodePool Delete a virtual node pool.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/DeleteVirtualNodePool.go.html to see an example of how to use DeleteVirtualNodePool API.
 // A default retry strategy applies to this operation DeleteVirtualNodePool()
@@ -757,7 +757,7 @@ func (client ContainerEngineClient) deleteVirtualNodePool(ctx context.Context, r
 
 // DeleteWorkRequest Cancel a work request that has not started.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/DeleteWorkRequest.go.html to see an example of how to use DeleteWorkRequest API.
 // A default retry strategy applies to this operation DeleteWorkRequest()
@@ -815,7 +815,7 @@ func (client ContainerEngineClient) deleteWorkRequest(ctx context.Context, reque
 
 // DeleteWorkloadMapping Delete workloadMapping for a provisioned cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/DeleteWorkloadMapping.go.html to see an example of how to use DeleteWorkloadMapping API.
 // A default retry strategy applies to this operation DeleteWorkloadMapping()
@@ -873,7 +873,7 @@ func (client ContainerEngineClient) deleteWorkloadMapping(ctx context.Context, r
 
 // DisableAddon Disable addon for a provisioned cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/DisableAddon.go.html to see an example of how to use DisableAddon API.
 // A default retry strategy applies to this operation DisableAddon()
@@ -931,7 +931,7 @@ func (client ContainerEngineClient) disableAddon(ctx context.Context, request co
 
 // GetAddon Get the specified addon for a cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetAddon.go.html to see an example of how to use GetAddon API.
 // A default retry strategy applies to this operation GetAddon()
@@ -989,7 +989,7 @@ func (client ContainerEngineClient) getAddon(ctx context.Context, request common
 
 // GetCluster Get the details of a cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetCluster.go.html to see an example of how to use GetCluster API.
 // A default retry strategy applies to this operation GetCluster()
@@ -1047,7 +1047,7 @@ func (client ContainerEngineClient) getCluster(ctx context.Context, request comm
 
 // GetClusterMigrateToNativeVcnStatus Get details on a cluster's migration to native VCN.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetClusterMigrateToNativeVcnStatus.go.html to see an example of how to use GetClusterMigrateToNativeVcnStatus API.
 // A default retry strategy applies to this operation GetClusterMigrateToNativeVcnStatus()
@@ -1105,7 +1105,7 @@ func (client ContainerEngineClient) getClusterMigrateToNativeVcnStatus(ctx conte
 
 // GetClusterOptions Get options available for clusters.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetClusterOptions.go.html to see an example of how to use GetClusterOptions API.
 // A default retry strategy applies to this operation GetClusterOptions()
@@ -1163,7 +1163,7 @@ func (client ContainerEngineClient) getClusterOptions(ctx context.Context, reque
 
 // GetCredentialRotationStatus Get cluster credential rotation status.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetCredentialRotationStatus.go.html to see an example of how to use GetCredentialRotationStatus API.
 // A default retry strategy applies to this operation GetCredentialRotationStatus()
@@ -1221,7 +1221,7 @@ func (client ContainerEngineClient) getCredentialRotationStatus(ctx context.Cont
 
 // GetNodePool Get the details of a node pool.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetNodePool.go.html to see an example of how to use GetNodePool API.
 // A default retry strategy applies to this operation GetNodePool()
@@ -1279,7 +1279,7 @@ func (client ContainerEngineClient) getNodePool(ctx context.Context, request com
 
 // GetNodePoolOptions Get options available for node pools.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetNodePoolOptions.go.html to see an example of how to use GetNodePoolOptions API.
 // A default retry strategy applies to this operation GetNodePoolOptions()
@@ -1337,7 +1337,7 @@ func (client ContainerEngineClient) getNodePoolOptions(ctx context.Context, requ
 
 // GetVirtualNode Get the details of a virtual node.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetVirtualNode.go.html to see an example of how to use GetVirtualNode API.
 // A default retry strategy applies to this operation GetVirtualNode()
@@ -1395,7 +1395,7 @@ func (client ContainerEngineClient) getVirtualNode(ctx context.Context, request 
 
 // GetVirtualNodePool Get the details of a virtual node pool.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetVirtualNodePool.go.html to see an example of how to use GetVirtualNodePool API.
 // A default retry strategy applies to this operation GetVirtualNodePool()
@@ -1453,7 +1453,7 @@ func (client ContainerEngineClient) getVirtualNodePool(ctx context.Context, requ
 
 // GetWorkRequest Get the details of a work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -1511,7 +1511,7 @@ func (client ContainerEngineClient) getWorkRequest(ctx context.Context, request 
 
 // GetWorkloadMapping Get the specified workloadMapping for a cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetWorkloadMapping.go.html to see an example of how to use GetWorkloadMapping API.
 // A default retry strategy applies to this operation GetWorkloadMapping()
@@ -1569,7 +1569,7 @@ func (client ContainerEngineClient) getWorkloadMapping(ctx context.Context, requ
 
 // InstallAddon Install the specified addon for a cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/InstallAddon.go.html to see an example of how to use InstallAddon API.
 // A default retry strategy applies to this operation InstallAddon()
@@ -1632,7 +1632,7 @@ func (client ContainerEngineClient) installAddon(ctx context.Context, request co
 
 // ListAddonOptions Get list of supported addons for a specific kubernetes version.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListAddonOptions.go.html to see an example of how to use ListAddonOptions API.
 // A default retry strategy applies to this operation ListAddonOptions()
@@ -1690,7 +1690,7 @@ func (client ContainerEngineClient) listAddonOptions(ctx context.Context, reques
 
 // ListAddons List addon for a provisioned cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListAddons.go.html to see an example of how to use ListAddons API.
 // A default retry strategy applies to this operation ListAddons()
@@ -1748,7 +1748,7 @@ func (client ContainerEngineClient) listAddons(ctx context.Context, request comm
 
 // ListClusters List all the cluster objects in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListClusters.go.html to see an example of how to use ListClusters API.
 // A default retry strategy applies to this operation ListClusters()
@@ -1806,7 +1806,7 @@ func (client ContainerEngineClient) listClusters(ctx context.Context, request co
 
 // ListNodePools List all the node pools in a compartment, and optionally filter by cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListNodePools.go.html to see an example of how to use ListNodePools API.
 // A default retry strategy applies to this operation ListNodePools()
@@ -1864,7 +1864,7 @@ func (client ContainerEngineClient) listNodePools(ctx context.Context, request c
 
 // ListPodShapes List all the Pod Shapes in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListPodShapes.go.html to see an example of how to use ListPodShapes API.
 // A default retry strategy applies to this operation ListPodShapes()
@@ -1922,7 +1922,7 @@ func (client ContainerEngineClient) listPodShapes(ctx context.Context, request c
 
 // ListVirtualNodePools List all the virtual node pools in a compartment, and optionally filter by cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListVirtualNodePools.go.html to see an example of how to use ListVirtualNodePools API.
 // A default retry strategy applies to this operation ListVirtualNodePools()
@@ -1980,7 +1980,7 @@ func (client ContainerEngineClient) listVirtualNodePools(ctx context.Context, re
 
 // ListVirtualNodes List virtual nodes in a virtual node pool.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListVirtualNodes.go.html to see an example of how to use ListVirtualNodes API.
 // A default retry strategy applies to this operation ListVirtualNodes()
@@ -2038,7 +2038,7 @@ func (client ContainerEngineClient) listVirtualNodes(ctx context.Context, reques
 
 // ListWorkRequestErrors Get the errors of a work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -2096,7 +2096,7 @@ func (client ContainerEngineClient) listWorkRequestErrors(ctx context.Context, r
 
 // ListWorkRequestLogs Get the logs of a work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -2154,7 +2154,7 @@ func (client ContainerEngineClient) listWorkRequestLogs(ctx context.Context, req
 
 // ListWorkRequests List all work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -2212,7 +2212,7 @@ func (client ContainerEngineClient) listWorkRequests(ctx context.Context, reques
 
 // ListWorkloadMappings List workloadMappings for a provisioned cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListWorkloadMappings.go.html to see an example of how to use ListWorkloadMappings API.
 // A default retry strategy applies to this operation ListWorkloadMappings()
@@ -2270,7 +2270,7 @@ func (client ContainerEngineClient) listWorkloadMappings(ctx context.Context, re
 
 // StartCredentialRotation Start cluster credential rotation by adding new credentials, old credentials will still work after this operation.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/StartCredentialRotation.go.html to see an example of how to use StartCredentialRotation API.
 // A default retry strategy applies to this operation StartCredentialRotation()
@@ -2333,7 +2333,7 @@ func (client ContainerEngineClient) startCredentialRotation(ctx context.Context,
 
 // UpdateAddon Update addon details for a cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateAddon.go.html to see an example of how to use UpdateAddon API.
 // A default retry strategy applies to this operation UpdateAddon()
@@ -2391,7 +2391,7 @@ func (client ContainerEngineClient) updateAddon(ctx context.Context, request com
 
 // UpdateCluster Update the details of a cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateCluster.go.html to see an example of how to use UpdateCluster API.
 // A default retry strategy applies to this operation UpdateCluster()
@@ -2449,7 +2449,7 @@ func (client ContainerEngineClient) updateCluster(ctx context.Context, request c
 
 // UpdateClusterEndpointConfig Update the details of the cluster endpoint configuration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateClusterEndpointConfig.go.html to see an example of how to use UpdateClusterEndpointConfig API.
 // A default retry strategy applies to this operation UpdateClusterEndpointConfig()
@@ -2507,7 +2507,7 @@ func (client ContainerEngineClient) updateClusterEndpointConfig(ctx context.Cont
 
 // UpdateNodePool Update the details of a node pool.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateNodePool.go.html to see an example of how to use UpdateNodePool API.
 // A default retry strategy applies to this operation UpdateNodePool()
@@ -2565,7 +2565,7 @@ func (client ContainerEngineClient) updateNodePool(ctx context.Context, request 
 
 // UpdateVirtualNodePool Update the details of a virtual node pool.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateVirtualNodePool.go.html to see an example of how to use UpdateVirtualNodePool API.
 // A default retry strategy applies to this operation UpdateVirtualNodePool()
@@ -2623,7 +2623,7 @@ func (client ContainerEngineClient) updateVirtualNodePool(ctx context.Context, r
 
 // UpdateWorkloadMapping Update workloadMapping details for a cluster.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateWorkloadMapping.go.html to see an example of how to use UpdateWorkloadMapping API.
 // A default retry strategy applies to this operation UpdateWorkloadMapping()

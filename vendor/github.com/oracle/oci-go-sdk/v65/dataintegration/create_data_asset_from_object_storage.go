@@ -60,47 +60,47 @@ type CreateDataAssetFromObjectStorage struct {
 	DefaultConnection *CreateConnectionFromObjectStorage `mandatory:"false" json:"defaultConnection"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateDataAssetFromObjectStorage) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateDataAssetFromObjectStorage) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateDataAssetFromObjectStorage) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateDataAssetFromObjectStorage) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateDataAssetFromObjectStorage) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateDataAssetFromObjectStorage) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m CreateDataAssetFromObjectStorage) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m CreateDataAssetFromObjectStorage) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateDataAssetFromObjectStorage) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

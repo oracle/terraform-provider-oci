@@ -18,13 +18,13 @@ import (
 
 // AppBundlePoolConfiguration Configurable options maintaining a pool of ICF connector instances. Values for sub attributes can be set only if the ConnectorBundle referenced in the App has connectorPoolingSupported set to true
 // **SCIM++ Properties:**
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AppBundlePoolConfiguration struct {
 
 	// Maximum number of connector instances in the pool that are idle and active.

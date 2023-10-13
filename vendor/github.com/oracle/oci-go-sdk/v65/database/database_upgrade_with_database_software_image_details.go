@@ -27,7 +27,7 @@ type DatabaseUpgradeWithDatabaseSoftwareImageDetails struct {
 	Options *string `mandatory:"false" json:"options"`
 }
 
-// GetOptions returns Options
+//GetOptions returns Options
 func (m DatabaseUpgradeWithDatabaseSoftwareImageDetails) GetOptions() *string {
 	return m.Options
 }

@@ -18,13 +18,13 @@ import (
 
 // MyRequestRequestor Requesting User
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type MyRequestRequestor struct {
 
 	// User identifier

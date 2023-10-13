@@ -64,47 +64,47 @@ type GithubAccessTokenConfigurationSourceProviderSummary struct {
 	LifecycleState ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetId() *string {
 	return m.Id
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetLifecycleState() ConfigurationSourceProviderLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

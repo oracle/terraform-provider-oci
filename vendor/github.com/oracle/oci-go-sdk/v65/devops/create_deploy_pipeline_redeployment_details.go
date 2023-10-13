@@ -35,22 +35,22 @@ type CreateDeployPipelineRedeploymentDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetDeployPipelineId returns DeployPipelineId
+//GetDeployPipelineId returns DeployPipelineId
 func (m CreateDeployPipelineRedeploymentDetails) GetDeployPipelineId() *string {
 	return m.DeployPipelineId
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateDeployPipelineRedeploymentDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateDeployPipelineRedeploymentDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateDeployPipelineRedeploymentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

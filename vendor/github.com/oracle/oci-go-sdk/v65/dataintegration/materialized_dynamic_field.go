@@ -44,37 +44,37 @@ type MaterializedDynamicField struct {
 	Type *MaterializedCompositeType `mandatory:"false" json:"type"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m MaterializedDynamicField) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m MaterializedDynamicField) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m MaterializedDynamicField) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetConfigValues returns ConfigValues
+//GetConfigValues returns ConfigValues
 func (m MaterializedDynamicField) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m MaterializedDynamicField) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m MaterializedDynamicField) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m MaterializedDynamicField) GetDescription() *string {
 	return m.Description
 }

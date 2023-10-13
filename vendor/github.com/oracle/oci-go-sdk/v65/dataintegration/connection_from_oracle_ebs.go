@@ -64,67 +64,67 @@ type ConnectionFromOracleEbs struct {
 	PasswordSecret *SensitiveAttribute `mandatory:"false" json:"passwordSecret"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m ConnectionFromOracleEbs) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m ConnectionFromOracleEbs) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m ConnectionFromOracleEbs) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m ConnectionFromOracleEbs) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ConnectionFromOracleEbs) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m ConnectionFromOracleEbs) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m ConnectionFromOracleEbs) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m ConnectionFromOracleEbs) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetPrimarySchema returns PrimarySchema
+//GetPrimarySchema returns PrimarySchema
 func (m ConnectionFromOracleEbs) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m ConnectionFromOracleEbs) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetIsDefault returns IsDefault
+//GetIsDefault returns IsDefault
 func (m ConnectionFromOracleEbs) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m ConnectionFromOracleEbs) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-// GetKeyMap returns KeyMap
+//GetKeyMap returns KeyMap
 func (m ConnectionFromOracleEbs) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

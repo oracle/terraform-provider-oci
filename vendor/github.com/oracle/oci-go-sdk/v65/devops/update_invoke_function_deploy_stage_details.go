@@ -47,27 +47,27 @@ type UpdateInvokeFunctionDeployStageDetails struct {
 	IsValidationEnabled *bool `mandatory:"false" json:"isValidationEnabled"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateInvokeFunctionDeployStageDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateInvokeFunctionDeployStageDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
+//GetDeployStagePredecessorCollection returns DeployStagePredecessorCollection
 func (m UpdateInvokeFunctionDeployStageDetails) GetDeployStagePredecessorCollection() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessorCollection
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateInvokeFunctionDeployStageDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateInvokeFunctionDeployStageDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

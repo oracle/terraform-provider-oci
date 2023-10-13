@@ -38,27 +38,27 @@ type UpdateBitbucketCloudTriggerDetails struct {
 	ConnectionId *string `mandatory:"false" json:"connectionId"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateBitbucketCloudTriggerDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateBitbucketCloudTriggerDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetActions returns Actions
+//GetActions returns Actions
 func (m UpdateBitbucketCloudTriggerDetails) GetActions() []TriggerAction {
 	return m.Actions
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateBitbucketCloudTriggerDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateBitbucketCloudTriggerDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

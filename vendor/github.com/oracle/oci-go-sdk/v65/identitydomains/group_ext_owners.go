@@ -18,15 +18,15 @@ import (
 
 // GroupExtOwners Group owners
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsCompositeKey: [value, type]
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readWrite
-//   - required: false
-//   - returned: request
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsCompositeKey: [value, type]
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readWrite
+//  - required: false
+//  - returned: request
+//  - type: complex
+//  - uniqueness: none
 type GroupExtOwners struct {
 
 	// ID of the owner of this Group

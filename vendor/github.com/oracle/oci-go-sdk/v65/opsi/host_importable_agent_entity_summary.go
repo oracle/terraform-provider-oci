@@ -37,12 +37,12 @@ type HostImportableAgentEntitySummary struct {
 	PlatformType HostImportableAgentEntitySummaryPlatformTypeEnum `mandatory:"true" json:"platformType"`
 }
 
-// GetManagementAgentId returns ManagementAgentId
+//GetManagementAgentId returns ManagementAgentId
 func (m HostImportableAgentEntitySummary) GetManagementAgentId() *string {
 	return m.ManagementAgentId
 }
 
-// GetManagementAgentDisplayName returns ManagementAgentDisplayName
+//GetManagementAgentDisplayName returns ManagementAgentDisplayName
 func (m HostImportableAgentEntitySummary) GetManagementAgentDisplayName() *string {
 	return m.ManagementAgentDisplayName
 }

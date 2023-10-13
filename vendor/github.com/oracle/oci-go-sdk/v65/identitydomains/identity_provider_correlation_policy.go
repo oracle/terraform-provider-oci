@@ -19,14 +19,14 @@ import (
 // IdentityProviderCorrelationPolicy Correlation policy
 // **Added In:** 20.1.3
 // **SCIM++ Properties:**
-//   - caseExact: true
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: true
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type IdentityProviderCorrelationPolicy struct {
 
 	// A label that indicates the type that this references.

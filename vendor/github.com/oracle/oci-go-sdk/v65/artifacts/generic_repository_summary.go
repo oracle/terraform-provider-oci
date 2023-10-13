@@ -53,47 +53,47 @@ type GenericRepositorySummary struct {
 	LifecycleState RepositoryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m GenericRepositorySummary) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m GenericRepositorySummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m GenericRepositorySummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m GenericRepositorySummary) GetDescription() *string {
 	return m.Description
 }
 
-// GetIsImmutable returns IsImmutable
+//GetIsImmutable returns IsImmutable
 func (m GenericRepositorySummary) GetIsImmutable() *bool {
 	return m.IsImmutable
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m GenericRepositorySummary) GetLifecycleState() RepositoryLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m GenericRepositorySummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m GenericRepositorySummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m GenericRepositorySummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }

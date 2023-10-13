@@ -93,7 +93,7 @@ func (client *VbsInstanceClient) ConfigurationProvider() *common.ConfigurationPr
 
 // ChangeVbsInstanceCompartment Moves a VbsInstance resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/ChangeVbsInstanceCompartment.go.html to see an example of how to use ChangeVbsInstanceCompartment API.
 func (client VbsInstanceClient) ChangeVbsInstanceCompartment(ctx context.Context, request ChangeVbsInstanceCompartmentRequest) (response ChangeVbsInstanceCompartmentResponse, err error) {
@@ -150,7 +150,7 @@ func (client VbsInstanceClient) changeVbsInstanceCompartment(ctx context.Context
 
 // CreateVbsInstance Creates a new VbsInstance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/CreateVbsInstance.go.html to see an example of how to use CreateVbsInstance API.
 func (client VbsInstanceClient) CreateVbsInstance(ctx context.Context, request CreateVbsInstanceRequest) (response CreateVbsInstanceResponse, err error) {
@@ -212,7 +212,7 @@ func (client VbsInstanceClient) createVbsInstance(ctx context.Context, request c
 
 // DeleteVbsInstance Deletes a VbsInstance resource by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/DeleteVbsInstance.go.html to see an example of how to use DeleteVbsInstance API.
 func (client VbsInstanceClient) DeleteVbsInstance(ctx context.Context, request DeleteVbsInstanceRequest) (response DeleteVbsInstanceResponse, err error) {
@@ -269,7 +269,7 @@ func (client VbsInstanceClient) deleteVbsInstance(ctx context.Context, request c
 
 // GetVbsInstance Gets a VbsInstance by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/GetVbsInstance.go.html to see an example of how to use GetVbsInstance API.
 func (client VbsInstanceClient) GetVbsInstance(ctx context.Context, request GetVbsInstanceRequest) (response GetVbsInstanceResponse, err error) {
@@ -326,7 +326,7 @@ func (client VbsInstanceClient) getVbsInstance(ctx context.Context, request comm
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client VbsInstanceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
@@ -383,7 +383,7 @@ func (client VbsInstanceClient) getWorkRequest(ctx context.Context, request comm
 
 // ListVbsInstances Returns a list of VbsInstances.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/ListVbsInstances.go.html to see an example of how to use ListVbsInstances API.
 func (client VbsInstanceClient) ListVbsInstances(ctx context.Context, request ListVbsInstancesRequest) (response ListVbsInstancesResponse, err error) {
@@ -440,7 +440,7 @@ func (client VbsInstanceClient) listVbsInstances(ctx context.Context, request co
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client VbsInstanceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
@@ -497,7 +497,7 @@ func (client VbsInstanceClient) listWorkRequestErrors(ctx context.Context, reque
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client VbsInstanceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
@@ -554,7 +554,7 @@ func (client VbsInstanceClient) listWorkRequestLogs(ctx context.Context, request
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client VbsInstanceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
@@ -611,7 +611,7 @@ func (client VbsInstanceClient) listWorkRequests(ctx context.Context, request co
 
 // UpdateVbsInstance Updates the VbsInstance
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/UpdateVbsInstance.go.html to see an example of how to use UpdateVbsInstance API.
 func (client VbsInstanceClient) UpdateVbsInstance(ctx context.Context, request UpdateVbsInstanceRequest) (response UpdateVbsInstanceResponse, err error) {

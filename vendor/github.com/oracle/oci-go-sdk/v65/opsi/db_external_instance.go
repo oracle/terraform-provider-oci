@@ -62,7 +62,7 @@ type DbExternalInstance struct {
 	StartupTime *common.SDKTime `mandatory:"false" json:"startupTime"`
 }
 
-// GetTimeCollected returns TimeCollected
+//GetTimeCollected returns TimeCollected
 func (m DbExternalInstance) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

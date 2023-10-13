@@ -41,32 +41,32 @@ type CreateBitbucketCloudTriggerDetails struct {
 	ConnectionId *string `mandatory:"false" json:"connectionId"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateBitbucketCloudTriggerDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateBitbucketCloudTriggerDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m CreateBitbucketCloudTriggerDetails) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetActions returns Actions
+//GetActions returns Actions
 func (m CreateBitbucketCloudTriggerDetails) GetActions() []TriggerAction {
 	return m.Actions
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateBitbucketCloudTriggerDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateBitbucketCloudTriggerDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

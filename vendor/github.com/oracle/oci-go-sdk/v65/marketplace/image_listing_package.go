@@ -53,42 +53,42 @@ type ImageListingPackage struct {
 	ImageId *string `mandatory:"false" json:"imageId"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ImageListingPackage) GetDescription() *string {
 	return m.Description
 }
 
-// GetListingId returns ListingId
+//GetListingId returns ListingId
 func (m ImageListingPackage) GetListingId() *string {
 	return m.ListingId
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m ImageListingPackage) GetVersion() *string {
 	return m.Version
 }
 
-// GetPricing returns Pricing
+//GetPricing returns Pricing
 func (m ImageListingPackage) GetPricing() *PricingModel {
 	return m.Pricing
 }
 
-// GetResourceId returns ResourceId
+//GetResourceId returns ResourceId
 func (m ImageListingPackage) GetResourceId() *string {
 	return m.ResourceId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m ImageListingPackage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetOperatingSystem returns OperatingSystem
+//GetOperatingSystem returns OperatingSystem
 func (m ImageListingPackage) GetOperatingSystem() *OperatingSystem {
 	return m.OperatingSystem
 }
 
-// GetRegions returns Regions
+//GetRegions returns Regions
 func (m ImageListingPackage) GetRegions() []Region {
 	return m.Regions
 }

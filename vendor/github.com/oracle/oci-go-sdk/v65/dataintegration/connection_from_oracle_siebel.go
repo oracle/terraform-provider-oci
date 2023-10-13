@@ -64,67 +64,67 @@ type ConnectionFromOracleSiebel struct {
 	PasswordSecret *SensitiveAttribute `mandatory:"false" json:"passwordSecret"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m ConnectionFromOracleSiebel) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m ConnectionFromOracleSiebel) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m ConnectionFromOracleSiebel) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m ConnectionFromOracleSiebel) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ConnectionFromOracleSiebel) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m ConnectionFromOracleSiebel) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m ConnectionFromOracleSiebel) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m ConnectionFromOracleSiebel) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetPrimarySchema returns PrimarySchema
+//GetPrimarySchema returns PrimarySchema
 func (m ConnectionFromOracleSiebel) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m ConnectionFromOracleSiebel) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetIsDefault returns IsDefault
+//GetIsDefault returns IsDefault
 func (m ConnectionFromOracleSiebel) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m ConnectionFromOracleSiebel) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-// GetKeyMap returns KeyMap
+//GetKeyMap returns KeyMap
 func (m ConnectionFromOracleSiebel) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

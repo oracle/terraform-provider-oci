@@ -65,67 +65,67 @@ type BitbucketCloudTriggerCreateResult struct {
 	LifecycleState TriggerLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m BitbucketCloudTriggerCreateResult) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m BitbucketCloudTriggerCreateResult) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m BitbucketCloudTriggerCreateResult) GetDescription() *string {
 	return m.Description
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m BitbucketCloudTriggerCreateResult) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m BitbucketCloudTriggerCreateResult) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m BitbucketCloudTriggerCreateResult) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m BitbucketCloudTriggerCreateResult) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m BitbucketCloudTriggerCreateResult) GetLifecycleState() TriggerLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m BitbucketCloudTriggerCreateResult) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetActions returns Actions
+//GetActions returns Actions
 func (m BitbucketCloudTriggerCreateResult) GetActions() []TriggerAction {
 	return m.Actions
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m BitbucketCloudTriggerCreateResult) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m BitbucketCloudTriggerCreateResult) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m BitbucketCloudTriggerCreateResult) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

@@ -40,7 +40,7 @@ type DevOpsConfigSource struct {
 	BranchName *string `mandatory:"false" json:"branchName"`
 }
 
-// GetWorkingDirectory returns WorkingDirectory
+//GetWorkingDirectory returns WorkingDirectory
 func (m DevOpsConfigSource) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

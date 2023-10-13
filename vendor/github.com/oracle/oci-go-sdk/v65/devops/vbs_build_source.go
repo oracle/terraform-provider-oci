@@ -32,17 +32,17 @@ type VbsBuildSource struct {
 	ConnectionId *string `mandatory:"true" json:"connectionId"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m VbsBuildSource) GetName() *string {
 	return m.Name
 }
 
-// GetRepositoryUrl returns RepositoryUrl
+//GetRepositoryUrl returns RepositoryUrl
 func (m VbsBuildSource) GetRepositoryUrl() *string {
 	return m.RepositoryUrl
 }
 
-// GetBranch returns Branch
+//GetBranch returns Branch
 func (m VbsBuildSource) GetBranch() *string {
 	return m.Branch
 }

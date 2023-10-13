@@ -42,7 +42,7 @@ type ConditionalCompositeFieldMap struct {
 	FieldMaps []FieldMap `mandatory:"false" json:"fieldMaps"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ConditionalCompositeFieldMap) GetDescription() *string {
 	return m.Description
 }

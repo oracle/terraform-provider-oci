@@ -37,27 +37,27 @@ type CreateComputeInstanceGroupDeployEnvironmentDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateComputeInstanceGroupDeployEnvironmentDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateComputeInstanceGroupDeployEnvironmentDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m CreateComputeInstanceGroupDeployEnvironmentDetails) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateComputeInstanceGroupDeployEnvironmentDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateComputeInstanceGroupDeployEnvironmentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

@@ -37,17 +37,17 @@ type AwrDatabaseReport struct {
 	Format AwrDatabaseReportFormatEnum `mandatory:"false" json:"format,omitempty"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m AwrDatabaseReport) GetName() *string {
 	return m.Name
 }
 
-// GetVersion returns Version
+//GetVersion returns Version
 func (m AwrDatabaseReport) GetVersion() *string {
 	return m.Version
 }
 
-// GetDbQueryTimeInSecs returns DbQueryTimeInSecs
+//GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m AwrDatabaseReport) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
 }

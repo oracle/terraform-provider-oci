@@ -16,8 +16,7 @@ import (
 )
 
 // AddLockDetails Request payload to add lock to the resource. The FULL lock type allows no modifications (delete, create, update).
-//
-//	The DELETE lock type allows all modifications, but delete is not allowed.
+//   The DELETE lock type allows all modifications, but delete is not allowed.
 type AddLockDetails struct {
 
 	// Lock type.

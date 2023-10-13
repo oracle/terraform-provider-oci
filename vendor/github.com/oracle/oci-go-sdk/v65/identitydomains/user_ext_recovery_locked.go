@@ -19,13 +19,13 @@ import (
 // UserExtRecoveryLocked A complex attribute that indicates a password recovery is locked (blocking any new sessions).
 // **Added In:** 19.1.4
 // **SCIM++ Properties:**
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type UserExtRecoveryLocked struct {
 
 	// Indicates that the recovery is locked.

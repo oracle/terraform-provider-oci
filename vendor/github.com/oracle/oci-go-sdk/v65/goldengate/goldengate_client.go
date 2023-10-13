@@ -93,7 +93,7 @@ func (client *GoldenGateClient) ConfigurationProvider() *common.ConfigurationPro
 
 // CancelDeploymentBackup Cancels a Deployment Backup creation process.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelDeploymentBackup.go.html to see an example of how to use CancelDeploymentBackup API.
 // A default retry strategy applies to this operation CancelDeploymentBackup()
@@ -156,7 +156,7 @@ func (client GoldenGateClient) cancelDeploymentBackup(ctx context.Context, reque
 
 // CancelDeploymentUpgrade Cancels a DeploymentUpgrade, applicable only for DeploymentUpgrade in Waiting state. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelDeploymentUpgrade.go.html to see an example of how to use CancelDeploymentUpgrade API.
 // A default retry strategy applies to this operation CancelDeploymentUpgrade()
@@ -219,7 +219,7 @@ func (client GoldenGateClient) cancelDeploymentUpgrade(ctx context.Context, requ
 
 // CancelSnoozeDeploymentUpgrade Cancel snooze of a DeploymentUpgrade. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelSnoozeDeploymentUpgrade.go.html to see an example of how to use CancelSnoozeDeploymentUpgrade API.
 // A default retry strategy applies to this operation CancelSnoozeDeploymentUpgrade()
@@ -285,7 +285,7 @@ func (client GoldenGateClient) cancelSnoozeDeploymentUpgrade(ctx context.Context
 // moving resources between compartments, see Moving Resources Between
 // Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeConnectionCompartment.go.html to see an example of how to use ChangeConnectionCompartment API.
 // A default retry strategy applies to this operation ChangeConnectionCompartment()
@@ -347,7 +347,7 @@ func (client GoldenGateClient) changeConnectionCompartment(ctx context.Context, 
 // moving resources between compartments, see Moving Resources Between
 // Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeDatabaseRegistrationCompartment.go.html to see an example of how to use ChangeDatabaseRegistrationCompartment API.
 // A default retry strategy applies to this operation ChangeDatabaseRegistrationCompartment()
@@ -413,7 +413,7 @@ func (client GoldenGateClient) changeDatabaseRegistrationCompartment(ctx context
 // resources between compartments, see Moving Resources Between
 // Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeDeploymentBackupCompartment.go.html to see an example of how to use ChangeDeploymentBackupCompartment API.
 // A default retry strategy applies to this operation ChangeDeploymentBackupCompartment()
@@ -479,7 +479,7 @@ func (client GoldenGateClient) changeDeploymentBackupCompartment(ctx context.Con
 // resources between compartments, see Moving Resources Between
 // Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeDeploymentCompartment.go.html to see an example of how to use ChangeDeploymentCompartment API.
 // A default retry strategy applies to this operation ChangeDeploymentCompartment()
@@ -542,7 +542,7 @@ func (client GoldenGateClient) changeDeploymentCompartment(ctx context.Context, 
 
 // CollectDeploymentDiagnostic Collects the diagnostic of a Deployment. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CollectDeploymentDiagnostic.go.html to see an example of how to use CollectDeploymentDiagnostic API.
 // A default retry strategy applies to this operation CollectDeploymentDiagnostic()
@@ -605,7 +605,7 @@ func (client GoldenGateClient) collectDeploymentDiagnostic(ctx context.Context, 
 
 // CopyDeploymentBackup Creates a copy of a Deployment Backup.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CopyDeploymentBackup.go.html to see an example of how to use CopyDeploymentBackup API.
 // A default retry strategy applies to this operation CopyDeploymentBackup()
@@ -668,7 +668,7 @@ func (client GoldenGateClient) copyDeploymentBackup(ctx context.Context, request
 
 // CreateConnection Creates a new Connection.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateConnection.go.html to see an example of how to use CreateConnection API.
 // A default retry strategy applies to this operation CreateConnection()
@@ -731,7 +731,7 @@ func (client GoldenGateClient) createConnection(ctx context.Context, request com
 
 // CreateConnectionAssignment Creates a new Connection Assignment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateConnectionAssignment.go.html to see an example of how to use CreateConnectionAssignment API.
 // A default retry strategy applies to this operation CreateConnectionAssignment()
@@ -795,7 +795,7 @@ func (client GoldenGateClient) createConnectionAssignment(ctx context.Context, r
 // CreateDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Creates a new DatabaseRegistration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDatabaseRegistration.go.html to see an example of how to use CreateDatabaseRegistration API.
 // A default retry strategy applies to this operation CreateDatabaseRegistration()
@@ -858,7 +858,7 @@ func (client GoldenGateClient) createDatabaseRegistration(ctx context.Context, r
 
 // CreateDeployment Creates a new Deployment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDeployment.go.html to see an example of how to use CreateDeployment API.
 // A default retry strategy applies to this operation CreateDeployment()
@@ -921,7 +921,7 @@ func (client GoldenGateClient) createDeployment(ctx context.Context, request com
 
 // CreateDeploymentBackup Creates a new DeploymentBackup.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDeploymentBackup.go.html to see an example of how to use CreateDeploymentBackup API.
 // A default retry strategy applies to this operation CreateDeploymentBackup()
@@ -984,7 +984,7 @@ func (client GoldenGateClient) createDeploymentBackup(ctx context.Context, reque
 
 // DeleteConnection Deletes a Connection.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteConnection.go.html to see an example of how to use DeleteConnection API.
 // A default retry strategy applies to this operation DeleteConnection()
@@ -1042,7 +1042,7 @@ func (client GoldenGateClient) deleteConnection(ctx context.Context, request com
 
 // DeleteConnectionAssignment Deletes a Connection Assignment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteConnectionAssignment.go.html to see an example of how to use DeleteConnectionAssignment API.
 // A default retry strategy applies to this operation DeleteConnectionAssignment()
@@ -1101,7 +1101,7 @@ func (client GoldenGateClient) deleteConnectionAssignment(ctx context.Context, r
 // DeleteDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Deletes a DatabaseRegistration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteDatabaseRegistration.go.html to see an example of how to use DeleteDatabaseRegistration API.
 // A default retry strategy applies to this operation DeleteDatabaseRegistration()
@@ -1159,7 +1159,7 @@ func (client GoldenGateClient) deleteDatabaseRegistration(ctx context.Context, r
 
 // DeleteDeployment Deletes the Deployment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteDeployment.go.html to see an example of how to use DeleteDeployment API.
 // A default retry strategy applies to this operation DeleteDeployment()
@@ -1217,7 +1217,7 @@ func (client GoldenGateClient) deleteDeployment(ctx context.Context, request com
 
 // DeleteDeploymentBackup Deletes a DeploymentBackup.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteDeploymentBackup.go.html to see an example of how to use DeleteDeploymentBackup API.
 // A default retry strategy applies to this operation DeleteDeploymentBackup()
@@ -1275,7 +1275,7 @@ func (client GoldenGateClient) deleteDeploymentBackup(ctx context.Context, reque
 
 // DeploymentWalletExists Checks if a wallet is already present in the deployment. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeploymentWalletExists.go.html to see an example of how to use DeploymentWalletExists API.
 // A default retry strategy applies to this operation DeploymentWalletExists()
@@ -1338,7 +1338,7 @@ func (client GoldenGateClient) deploymentWalletExists(ctx context.Context, reque
 
 // ExportDeploymentWallet Export the OGG wallet from the deployment to OCI vault. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ExportDeploymentWallet.go.html to see an example of how to use ExportDeploymentWallet API.
 // A default retry strategy applies to this operation ExportDeploymentWallet()
@@ -1401,7 +1401,7 @@ func (client GoldenGateClient) exportDeploymentWallet(ctx context.Context, reque
 
 // GetConnection Retrieves a Connection.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetConnection.go.html to see an example of how to use GetConnection API.
 // A default retry strategy applies to this operation GetConnection()
@@ -1459,7 +1459,7 @@ func (client GoldenGateClient) getConnection(ctx context.Context, request common
 
 // GetConnectionAssignment Retrieves a Connection Assignment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetConnectionAssignment.go.html to see an example of how to use GetConnectionAssignment API.
 // A default retry strategy applies to this operation GetConnectionAssignment()
@@ -1518,7 +1518,7 @@ func (client GoldenGateClient) getConnectionAssignment(ctx context.Context, requ
 // GetDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Retrieves a DatabaseRegistration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDatabaseRegistration.go.html to see an example of how to use GetDatabaseRegistration API.
 // A default retry strategy applies to this operation GetDatabaseRegistration()
@@ -1576,7 +1576,7 @@ func (client GoldenGateClient) getDatabaseRegistration(ctx context.Context, requ
 
 // GetDeployment Retrieves a deployment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeployment.go.html to see an example of how to use GetDeployment API.
 // A default retry strategy applies to this operation GetDeployment()
@@ -1634,7 +1634,7 @@ func (client GoldenGateClient) getDeployment(ctx context.Context, request common
 
 // GetDeploymentBackup Retrieves a DeploymentBackup.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeploymentBackup.go.html to see an example of how to use GetDeploymentBackup API.
 // A default retry strategy applies to this operation GetDeploymentBackup()
@@ -1692,7 +1692,7 @@ func (client GoldenGateClient) getDeploymentBackup(ctx context.Context, request 
 
 // GetDeploymentUpgrade Retrieves a deployment upgrade.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeploymentUpgrade.go.html to see an example of how to use GetDeploymentUpgrade API.
 // A default retry strategy applies to this operation GetDeploymentUpgrade()
@@ -1750,7 +1750,7 @@ func (client GoldenGateClient) getDeploymentUpgrade(ctx context.Context, request
 
 // GetWorkRequest Retrieve the WorkRequest identified by the given OCID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -1808,7 +1808,7 @@ func (client GoldenGateClient) getWorkRequest(ctx context.Context, request commo
 
 // ImportDeploymentWallet Imports an OGG wallet from the OCI Vault to the Deployment. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ImportDeploymentWallet.go.html to see an example of how to use ImportDeploymentWallet API.
 // A default retry strategy applies to this operation ImportDeploymentWallet()
@@ -1871,7 +1871,7 @@ func (client GoldenGateClient) importDeploymentWallet(ctx context.Context, reque
 
 // ListConnectionAssignments Lists the Connection Assignments in the compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListConnectionAssignments.go.html to see an example of how to use ListConnectionAssignments API.
 // A default retry strategy applies to this operation ListConnectionAssignments()
@@ -1929,7 +1929,7 @@ func (client GoldenGateClient) listConnectionAssignments(ctx context.Context, re
 
 // ListConnections Lists the Connections in the compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListConnections.go.html to see an example of how to use ListConnections API.
 // A default retry strategy applies to this operation ListConnections()
@@ -1988,7 +1988,7 @@ func (client GoldenGateClient) listConnections(ctx context.Context, request comm
 // ListDatabaseRegistrations Note: Deprecated. Use the /connections API instead.
 // Lists the DatabaseRegistrations in the compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDatabaseRegistrations.go.html to see an example of how to use ListDatabaseRegistrations API.
 // A default retry strategy applies to this operation ListDatabaseRegistrations()
@@ -2046,7 +2046,7 @@ func (client GoldenGateClient) listDatabaseRegistrations(ctx context.Context, re
 
 // ListDeploymentBackups Lists the Backups in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentBackups.go.html to see an example of how to use ListDeploymentBackups API.
 // A default retry strategy applies to this operation ListDeploymentBackups()
@@ -2104,7 +2104,7 @@ func (client GoldenGateClient) listDeploymentBackups(ctx context.Context, reques
 
 // ListDeploymentTypes Returns an array of DeploymentTypeDescriptor
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentTypes.go.html to see an example of how to use ListDeploymentTypes API.
 // A default retry strategy applies to this operation ListDeploymentTypes()
@@ -2162,7 +2162,7 @@ func (client GoldenGateClient) listDeploymentTypes(ctx context.Context, request 
 
 // ListDeploymentUpgrades Lists the Deployment Upgrades in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentUpgrades.go.html to see an example of how to use ListDeploymentUpgrades API.
 // A default retry strategy applies to this operation ListDeploymentUpgrades()
@@ -2220,7 +2220,7 @@ func (client GoldenGateClient) listDeploymentUpgrades(ctx context.Context, reque
 
 // ListDeploymentVersions Returns the list of available deployment versions.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentVersions.go.html to see an example of how to use ListDeploymentVersions API.
 // A default retry strategy applies to this operation ListDeploymentVersions()
@@ -2278,7 +2278,7 @@ func (client GoldenGateClient) listDeploymentVersions(ctx context.Context, reque
 
 // ListDeploymentWalletsOperations Lists the wallets export/import operations to/from a deployment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentWalletsOperations.go.html to see an example of how to use ListDeploymentWalletsOperations API.
 // A default retry strategy applies to this operation ListDeploymentWalletsOperations()
@@ -2336,7 +2336,7 @@ func (client GoldenGateClient) listDeploymentWalletsOperations(ctx context.Conte
 
 // ListDeployments Lists the Deployments in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeployments.go.html to see an example of how to use ListDeployments API.
 // A default retry strategy applies to this operation ListDeployments()
@@ -2394,7 +2394,7 @@ func (client GoldenGateClient) listDeployments(ctx context.Context, request comm
 
 // ListMessages Lists the DeploymentMessages for a deployment. The sorting order is not important. By default first will be Upgrade message, next Exception message and then Storage Utilization message.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListMessages.go.html to see an example of how to use ListMessages API.
 // A default retry strategy applies to this operation ListMessages()
@@ -2452,7 +2452,7 @@ func (client GoldenGateClient) listMessages(ctx context.Context, request common.
 
 // ListTrailFiles Lists the TrailFiles for a deployment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListTrailFiles.go.html to see an example of how to use ListTrailFiles API.
 // A default retry strategy applies to this operation ListTrailFiles()
@@ -2510,7 +2510,7 @@ func (client GoldenGateClient) listTrailFiles(ctx context.Context, request commo
 
 // ListTrailSequences Lists the Trail Sequences for a TrailFile in a given deployment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListTrailSequences.go.html to see an example of how to use ListTrailSequences API.
 // A default retry strategy applies to this operation ListTrailSequences()
@@ -2568,7 +2568,7 @@ func (client GoldenGateClient) listTrailSequences(ctx context.Context, request c
 
 // ListWorkRequestErrors Lists work request errors.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -2626,7 +2626,7 @@ func (client GoldenGateClient) listWorkRequestErrors(ctx context.Context, reques
 
 // ListWorkRequestLogs Lists work request logs.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -2684,7 +2684,7 @@ func (client GoldenGateClient) listWorkRequestLogs(ctx context.Context, request 
 
 // ListWorkRequests Lists the work requests in the compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -2742,7 +2742,7 @@ func (client GoldenGateClient) listWorkRequests(ctx context.Context, request com
 
 // RescheduleDeploymentUpgrade Reschedules a DeploymentUpgrade, applicable only for DeploymentUpgrade in Waiting state. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RescheduleDeploymentUpgrade.go.html to see an example of how to use RescheduleDeploymentUpgrade API.
 // A default retry strategy applies to this operation RescheduleDeploymentUpgrade()
@@ -2805,7 +2805,7 @@ func (client GoldenGateClient) rescheduleDeploymentUpgrade(ctx context.Context, 
 
 // RestoreDeployment Restores a Deployment from a Deployment Backup created from the same Deployment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RestoreDeployment.go.html to see an example of how to use RestoreDeployment API.
 // A default retry strategy applies to this operation RestoreDeployment()
@@ -2868,7 +2868,7 @@ func (client GoldenGateClient) restoreDeployment(ctx context.Context, request co
 
 // RollbackDeploymentUpgrade Rollback a deployment to it's previous version. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RollbackDeploymentUpgrade.go.html to see an example of how to use RollbackDeploymentUpgrade API.
 // A default retry strategy applies to this operation RollbackDeploymentUpgrade()
@@ -2931,7 +2931,7 @@ func (client GoldenGateClient) rollbackDeploymentUpgrade(ctx context.Context, re
 
 // SnoozeDeploymentUpgrade Snooze a DeploymentUpgrade. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/SnoozeDeploymentUpgrade.go.html to see an example of how to use SnoozeDeploymentUpgrade API.
 // A default retry strategy applies to this operation SnoozeDeploymentUpgrade()
@@ -2994,7 +2994,7 @@ func (client GoldenGateClient) snoozeDeploymentUpgrade(ctx context.Context, requ
 
 // StartDeployment Starts a Deployment. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/StartDeployment.go.html to see an example of how to use StartDeployment API.
 // A default retry strategy applies to this operation StartDeployment()
@@ -3057,7 +3057,7 @@ func (client GoldenGateClient) startDeployment(ctx context.Context, request comm
 
 // StopDeployment Stops a Deployment. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/StopDeployment.go.html to see an example of how to use StopDeployment API.
 // A default retry strategy applies to this operation StopDeployment()
@@ -3121,7 +3121,7 @@ func (client GoldenGateClient) stopDeployment(ctx context.Context, request commo
 // TestConnectionAssignment Tests the connectivity between given GoldenGate deployment and one of the associated database / service.
 // When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/TestConnectionAssignment.go.html to see an example of how to use TestConnectionAssignment API.
 // A default retry strategy applies to this operation TestConnectionAssignment()
@@ -3184,7 +3184,7 @@ func (client GoldenGateClient) testConnectionAssignment(ctx context.Context, req
 
 // UpdateConnection Updates the Connection.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateConnection.go.html to see an example of how to use UpdateConnection API.
 // A default retry strategy applies to this operation UpdateConnection()
@@ -3243,7 +3243,7 @@ func (client GoldenGateClient) updateConnection(ctx context.Context, request com
 // UpdateDatabaseRegistration Note: Deprecated. Use the /connections API instead.
 // Updates the DatabaseRegistration.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDatabaseRegistration.go.html to see an example of how to use UpdateDatabaseRegistration API.
 // A default retry strategy applies to this operation UpdateDatabaseRegistration()
@@ -3301,7 +3301,7 @@ func (client GoldenGateClient) updateDatabaseRegistration(ctx context.Context, r
 
 // UpdateDeployment Modifies a Deployment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDeployment.go.html to see an example of how to use UpdateDeployment API.
 // A default retry strategy applies to this operation UpdateDeployment()
@@ -3359,7 +3359,7 @@ func (client GoldenGateClient) updateDeployment(ctx context.Context, request com
 
 // UpdateDeploymentBackup Modifies a Deployment Backup.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDeploymentBackup.go.html to see an example of how to use UpdateDeploymentBackup API.
 // A default retry strategy applies to this operation UpdateDeploymentBackup()
@@ -3417,7 +3417,7 @@ func (client GoldenGateClient) updateDeploymentBackup(ctx context.Context, reque
 
 // UpgradeDeployment Upgrade a Deployment. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpgradeDeployment.go.html to see an example of how to use UpgradeDeployment API.
 // A default retry strategy applies to this operation UpgradeDeployment()
@@ -3480,7 +3480,7 @@ func (client GoldenGateClient) upgradeDeployment(ctx context.Context, request co
 
 // UpgradeDeploymentUpgrade Upgrade a deployment. When provided, If-Match is checked against ETag values of the resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpgradeDeploymentUpgrade.go.html to see an example of how to use UpgradeDeploymentUpgrade API.
 // A default retry strategy applies to this operation UpgradeDeploymentUpgrade()

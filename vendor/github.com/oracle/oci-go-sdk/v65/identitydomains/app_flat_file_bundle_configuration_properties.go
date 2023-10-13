@@ -18,14 +18,14 @@ import (
 
 // AppFlatFileBundleConfigurationProperties Flat file connector bundle configuration properties
 // **SCIM++ Properties:**
-//   - idcsCompositeKey: [name]
-//   - idcsSearchable: true
-//   - multiValued: true
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsCompositeKey: [name]
+//  - idcsSearchable: true
+//  - multiValued: true
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AppFlatFileBundleConfigurationProperties struct {
 
 	// Name of the flatfile bundle configuration property. This attribute maps to \"name\" attribute in \"ConfigurationProperty\" in ICF.

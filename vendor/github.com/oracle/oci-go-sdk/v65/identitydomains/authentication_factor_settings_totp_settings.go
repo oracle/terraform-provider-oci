@@ -18,13 +18,13 @@ import (
 
 // AuthenticationFactorSettingsTotpSettings Settings related to Time-Based One-Time Passcodes (TOTP), such as hashing algo, totp time step, passcode length, and so on
 // **SCIM++ Properties:**
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: true
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AuthenticationFactorSettingsTotpSettings struct {
 
 	// The hashing algorithm to be used to calculate a One-Time Passcode. By default, the system uses SHA1.

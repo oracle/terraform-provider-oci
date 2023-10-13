@@ -49,27 +49,27 @@ type UpdateGithubAccessTokenConfigurationSourceProviderDetails struct {
 	AccessToken *string `mandatory:"false" json:"accessToken"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateGithubAccessTokenConfigurationSourceProviderDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateGithubAccessTokenConfigurationSourceProviderDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m UpdateGithubAccessTokenConfigurationSourceProviderDetails) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateGithubAccessTokenConfigurationSourceProviderDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateGithubAccessTokenConfigurationSourceProviderDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

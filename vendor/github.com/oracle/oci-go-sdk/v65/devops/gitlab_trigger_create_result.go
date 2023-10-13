@@ -68,67 +68,67 @@ type GitlabTriggerCreateResult struct {
 	LifecycleState TriggerLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m GitlabTriggerCreateResult) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m GitlabTriggerCreateResult) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m GitlabTriggerCreateResult) GetDescription() *string {
 	return m.Description
 }
 
-// GetProjectId returns ProjectId
+//GetProjectId returns ProjectId
 func (m GitlabTriggerCreateResult) GetProjectId() *string {
 	return m.ProjectId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m GitlabTriggerCreateResult) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m GitlabTriggerCreateResult) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m GitlabTriggerCreateResult) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m GitlabTriggerCreateResult) GetLifecycleState() TriggerLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m GitlabTriggerCreateResult) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetActions returns Actions
+//GetActions returns Actions
 func (m GitlabTriggerCreateResult) GetActions() []TriggerAction {
 	return m.Actions
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m GitlabTriggerCreateResult) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m GitlabTriggerCreateResult) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m GitlabTriggerCreateResult) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

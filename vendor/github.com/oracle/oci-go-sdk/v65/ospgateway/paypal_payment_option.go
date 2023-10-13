@@ -38,12 +38,12 @@ type PaypalPaymentOption struct {
 	ExtBillingAgreementId *string `mandatory:"false" json:"extBillingAgreementId"`
 }
 
-// GetWalletInstrumentId returns WalletInstrumentId
+//GetWalletInstrumentId returns WalletInstrumentId
 func (m PaypalPaymentOption) GetWalletInstrumentId() *string {
 	return m.WalletInstrumentId
 }
 
-// GetWalletTransactionId returns WalletTransactionId
+//GetWalletTransactionId returns WalletTransactionId
 func (m PaypalPaymentOption) GetWalletTransactionId() *string {
 	return m.WalletTransactionId
 }

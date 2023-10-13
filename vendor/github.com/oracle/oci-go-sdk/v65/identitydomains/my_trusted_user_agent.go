@@ -17,9 +17,8 @@ import (
 )
 
 // MyTrustedUserAgent This schema defines the attributes of Trusted User Agents owned by users. Multi-Factor Authentication uses Trusted User Agents to authenticate users.  A User Agent is software application that a user uses to issue requests.
-//
-//	For example, a User Agent could be a particular browser (possibly one of several executing on a desktop or laptop) or a particular mobile application (again, one of several executing on a particular mobile device).
-//	A User Agent is trusted once the Multi-Factor Authentication has verified it in some way.
+//    For example, a User Agent could be a particular browser (possibly one of several executing on a desktop or laptop) or a particular mobile application (again, one of several executing on a particular mobile device).
+//    A User Agent is trusted once the Multi-Factor Authentication has verified it in some way.
 type MyTrustedUserAgent struct {
 
 	// REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \"enterprise\" extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.

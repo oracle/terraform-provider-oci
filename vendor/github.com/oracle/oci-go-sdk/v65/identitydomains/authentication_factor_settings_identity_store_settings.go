@@ -18,13 +18,13 @@ import (
 
 // AuthenticationFactorSettingsIdentityStoreSettings Settings related to the use of a user's profile details from the identity store
 // **SCIM++ Properties:**
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AuthenticationFactorSettingsIdentityStoreSettings struct {
 
 	// If true, indicates that Multi-Factor Authentication should use the mobile number in the identity store

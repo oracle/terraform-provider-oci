@@ -49,27 +49,27 @@ type UpdateBitbucketServerAccessTokenConfigurationSourceProviderDetails struct {
 	ApiEndpoint *string `mandatory:"false" json:"apiEndpoint"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateBitbucketServerAccessTokenConfigurationSourceProviderDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateBitbucketServerAccessTokenConfigurationSourceProviderDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetPrivateServerConfigDetails returns PrivateServerConfigDetails
+//GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m UpdateBitbucketServerAccessTokenConfigurationSourceProviderDetails) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateBitbucketServerAccessTokenConfigurationSourceProviderDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateBitbucketServerAccessTokenConfigurationSourceProviderDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
