@@ -1,3 +1,14 @@
+## 5.17.0 (Unreleased)
+
+### Added
+- Support for OCI Caching Service with Redis
+- Support for Higher Limits for Network Firewall - Network Firewall Scalability
+- Support for Unified agent operational metrics
+- Support for Mount File System in Data Science Jobs and Notebooks
+- Support for Resource Usage Tracking Enhancement | ADB-C@C
+- Support for PDB Mgmt v2
+- Support for VCN Flow Logs for Telesis - Network command center
+
 ## 5.16.0 (Unreleased)
 
 ### Added
