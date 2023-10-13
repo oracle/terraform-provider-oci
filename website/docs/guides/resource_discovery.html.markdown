@@ -897,6 +897,16 @@ network_firewall
 
 * oci\_network\_firewall\_network\_firewall\_policy
 * oci\_network\_firewall\_network\_firewall
+* oci\_network\_firewall\_network\_firewall\_policy\_address\_list
+* oci\_network\_firewall\_network\_firewall\_policy\_url\_list
+* oci\_network\_firewall\_network\_firewall\_policy\_mapped\_secret
+* oci\_network\_firewall\_network\_firewall\_policy\_application\_group
+* oci\_network\_firewall\_network\_firewall\_policy\_decryption\_rule
+* oci\_network\_firewall\_network\_firewall\_policy\_security\_rule
+* oci\_network\_firewall\_network\_firewall\_policy\_application
+* oci\_network\_firewall\_network\_firewall\_policy\_service\_list
+* oci\_network\_firewall\_network\_firewall\_policy\_service
+* oci\_network\_firewall\_network\_firewall\_policy\_decryption\_profile
 
 network_load_balancer
 

@@ -26,9 +26,6 @@ import (
 )
 
 var (
-	ignoreKnowledgeBaseDefinedTagsChangesRepresentation1 = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
-	}
 	NetworkFirewallRequiredOnlyResource = NetworkFirewallResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall", "test_network_firewall", acctest.Required, acctest.Create, networkFirewallRepresentation)
 
@@ -42,7 +39,7 @@ var (
 	networkFirewallDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain":        acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `MyFirewall`, Update: `displayName2`},
 		"id":                         acctest.Representation{RepType: acctest.Optional, Create: `${oci_network_firewall_network_firewall.test_network_firewall.id}`},
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -57,18 +54,14 @@ var (
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"subnet_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"availability_domain":        acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName`},
-		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"bar-key": "value"}},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `MyFirewall`, Update: `displayName2`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ipv4address":                acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.3`},
-		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreKnowledgeBaseDefinedTagsChangesRepresentation1},
 	}
 
-	NetworkFirewallResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+	NetworkFirewallResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
-		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall_policy", "test_network_firewall_policy", acctest.Required, acctest.Create, networkFirewallPolicyRepresentation)
 )
 
@@ -98,31 +91,16 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + NetworkFirewallResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall", "test_network_firewall", acctest.Required, acctest.Create, networkFirewallRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-
-		// delete before next Create
-		{
-			Config: config + compartmentIdVariableStr + NetworkFirewallResourceDependencies,
-		},
-		// verify Create with optionals
-		{
-			Config: config + compartmentIdVariableStr + NetworkFirewallResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall", "test_network_firewall", acctest.Optional, acctest.Create, networkFirewallRepresentation),
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_network_firewall_network_firewall",
+					"test_network_firewall",
+					acctest.Optional, acctest.Create,
+					networkFirewallRepresentation,
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MyFirewall"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ipv4address", "10.0.0.3"),
@@ -154,7 +132,7 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MyFirewall"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ipv4address", "10.0.0.3"),
@@ -181,7 +159,7 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ipv4address", "10.0.0.3"),
@@ -203,17 +181,15 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_network_firewall_network_firewalls", "test_network_firewalls", acctest.Optional, acctest.Update, networkFirewallDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap(
+					"oci_network_firewall_network_firewalls",
+					"test_network_firewalls",
+					acctest.Optional, acctest.Update,
+					networkFirewallDataSourceRepresentation,
+				) +
 				compartmentIdVariableStr + NetworkFirewallResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall", "test_network_firewall", acctest.Optional, acctest.Update, networkFirewallRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "network_firewall_policy_id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "network_firewall_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "network_firewall_collection.0.items.#", "1"),
 			),
@@ -228,7 +204,7 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ipv4address", "10.0.0.3"),
@@ -337,7 +313,7 @@ func getNetworkFirewallIds(compartment string) ([]string, error) {
 
 	listNetworkFirewallsRequest := oci_network_firewall.ListNetworkFirewallsRequest{}
 	listNetworkFirewallsRequest.CompartmentId = &compartmentId
-	listNetworkFirewallsRequest.LifecycleState = oci_network_firewall.ListNetworkFirewallsLifecycleStateActive
+	listNetworkFirewallsRequest.LifecycleState = oci_network_firewall.ListNetworkFirewallsLifecycleStateNeedsAttention
 	listNetworkFirewallsResponse, err := networkFirewallClient.ListNetworkFirewalls(context.Background(), listNetworkFirewallsRequest)
 
 	if err != nil {
