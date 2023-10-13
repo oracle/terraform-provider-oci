@@ -201,6 +201,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
     * `recovery` - Discovers recovery resources within the specified compartment
+    * `redis` - Discovers redis resources within the specified compartment
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     *`service_mesh` - Discovers service_mesh resources within the specified compartment
@@ -1002,6 +1003,10 @@ recovery
 * oci\_recovery\_recovery\_service\_subnet
 * oci\_recovery\_protected\_database
 * oci\_recovery\_protection\_policy
+
+redis
+    
+* oci\_redis\_redis\_cluster
 
 resourcemanager
 
