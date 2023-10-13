@@ -1,4 +1,4 @@
-## 5.16.0 (Unreleased)
+## 5.16.0 (October 11, 2023)
 
 ### Added
 - Support for Resource Usage Tracking Enhancement | ADB-C@C
